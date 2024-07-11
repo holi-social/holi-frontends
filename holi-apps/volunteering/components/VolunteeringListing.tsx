@@ -163,7 +163,7 @@ const VolunteeringListing = ({
               <HoliGridCell key={engagement.id}>
                 <HoliLink href={`/volunteering/${engagement.id}`} label={engagement.title}>
                   <HoliCard
-                    imageUrl={engagement.imageUrl ?? ''}
+                    imageUri={engagement.imageUrl}
                     imageLabel={engagement.title ?? ''}
                     imageWidth={imageWidth}
                     testID="btn-to-volunteering-engagement"

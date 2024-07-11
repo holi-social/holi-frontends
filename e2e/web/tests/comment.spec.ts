@@ -4,9 +4,6 @@ import { Page, expect } from '@playwright/test'
 import { byTestId, clickElementByTestId, clickElementByTestIdAndWaitForToast, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.describe('@Comment', () => {
   // TODO: Commenting has been briefly removed from the insight detail page and should be back once HOLI-7390 is finished
   test.skip('creates a comment and displays it in the post page.', async ({ userHandler }) => {

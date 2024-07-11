@@ -33,7 +33,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={styles.container} testID="post-content-container">
         {showVisibilityBadge && (
           <View style={styles.badgeContainer}>
             <HoliIcon

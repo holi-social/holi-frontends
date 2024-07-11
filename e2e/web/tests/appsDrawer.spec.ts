@@ -4,7 +4,6 @@ import {
   byTestId,
   clickElementByTestId,
   donationsRequestTimeout,
-  goodnewsRequestTimeout,
   proceedAsGuest,
   volunteeringRequestTimeout,
   waitForAnimationEnd,
@@ -17,7 +16,6 @@ test.describe('@AppsDrawer', () => {
     await proceedAsGuest(page)
 
     await openAppAndReturn(page, 'volunteering', volunteeringRequestTimeout)
-    await openAppAndReturn(page, 'goodnews', goodnewsRequestTimeout)
     await openAppAndReturn(page, 'donations', donationsRequestTimeout)
   })
 })
@@ -36,7 +34,7 @@ const openAppAndReturn = async (page: Page, appName: string, appTimeout: number)
 
   // app is open
   await page.waitForSelector(byTestId(`${appName}-list-container`), { timeout: appTimeout })
-  expect(page.url()).toContain(`/apps/${appName}`)
+  expect(page.url()).toContain(`/${appName}`)
 
   // go back home
   await clickElementByTestId(page, 'nav-button-back')

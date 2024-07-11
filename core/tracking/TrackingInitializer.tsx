@@ -184,7 +184,7 @@ export const updateConsentState = (newConsentState: ConsentState) => {
 
 export const useConsentState = (): [ConsentState, { loading: boolean }] => useReactiveVar(consentStateVar)
 
-export const getConsentState = (): ConsentState => consentStateVar()
+export const getConsentState = (): ConsentState => consentStateVar()[0]
 
 export interface TrackingInitializerProps extends TrackingInitializerInnerProps {
   enableTracking?: boolean

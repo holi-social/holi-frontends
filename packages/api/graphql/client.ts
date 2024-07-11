@@ -186,7 +186,6 @@ export const createCache = () =>
           userByName: pagedPolicy(),
           spacesByName: pagedPolicy(),
           connectedUsers: pagedPolicy(),
-          inspirationPosts: pagedPolicy(),
           favorites: pagedPolicy(),
           myPosts: pagedPolicy(),
           feedPosts: pagedPolicy(),

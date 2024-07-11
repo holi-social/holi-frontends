@@ -1,10 +1,7 @@
 import { Page, expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, locateElementByTestId } from './helpers'
-import { test } from './testmaster'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
+import { byTestId, clickElementByTestId, locateElementByTestId } from '../tests/helpers'
+import { test } from '../tests/testmaster'
 
 test.describe('@Reactions', () => {
   test('user story', async ({ userHandler }) => {

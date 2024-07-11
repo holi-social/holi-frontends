@@ -7,7 +7,7 @@ import { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 type CardAspectRatio = 1 | 1.5 | 1.75
 
 export interface ImageProps {
-  imageUrl: string
+  imageUri?: string
   imageLabel: string
   imageWidth: number
   imageBlurhash?: string
@@ -19,7 +19,7 @@ export interface ImageProps {
 }
 
 export const Image = ({
-  imageUrl,
+  imageUri,
   imageLabel,
   imageBlurhash,
   imageWidth,
@@ -31,7 +31,7 @@ export const Image = ({
   return (
     <HoliImage
       testID={`${testID}-card-image`}
-      source={{ uri: imageUrl, width: imageWidth, height: imageHeight }}
+      source={{ uri: imageUri, width: imageWidth, height: imageHeight }}
       blurhash={imageBlurhash}
       label={imageLabel}
       style={StyleSheet.flatten([styles.image, { aspectRatio: imageAspectRatio, borderRadius }])}

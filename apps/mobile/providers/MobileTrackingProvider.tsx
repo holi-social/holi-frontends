@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
-import { featureFlagBootstrapValues } from '@holi/core/helpers/usePosthogFeatureFlag.common'
+import { featureFlagBootstrapValues } from '@holi/core/helpers/useFeatureFlag.common'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { trackingEnabled } from '@holi/core/tracking/config'
 import { ConsentState } from '@holi/core/tracking/types'

@@ -5,6 +5,7 @@ import {
   Keyboard,
   LayoutChangeEvent,
   Platform,
+  ScrollView,
   type StyleProp,
   StyleSheet,
   type TextInputProps,
@@ -42,6 +43,7 @@ export interface HoliSelectProps {
   multiSelect?: boolean
   multiSelectionLabel?: string
   isRequired?: boolean
+  virtualized?: boolean
 }
 
 const HoliSelect = ({
@@ -59,6 +61,7 @@ const HoliSelect = ({
   id,
   testID,
   isRequired,
+  virtualized,
 }: HoliSelectProps) => {
   const { t } = useTranslation()
   options = options.map((option) => (!option.title ? { ...option, title: t(option.keyPrefix + option.id) } : option))
@@ -269,7 +272,6 @@ const HoliSelect = ({
         ariaHasPopup="menu"
         trailingComponent={trailingComponent}
         inputProps={{ ...inputProps, placeholderTextColor }}
-        inputStyle={isOpened ? styles.textInputOpened : {}}
         labelStyle={isOpened ? styles.textInputLabelOpened : {}}
         onChange={onChangeText}
         onBlur={() => clearFocus('input')}
@@ -277,48 +279,63 @@ const HoliSelect = ({
         isRequired={isRequired}
         testID={testID}
       />
-      {isOpened && (
-        <FlatList
-          bounces={false}
-          ListEmptyComponent={noOptions}
-          data={filteredOptions}
-          renderItem={renderItem}
-          keyExtractor={(option) => option.id}
-          style={styles.optionsMenu}
-          id={`${id}-options`}
-          role="menu"
-          keyboardShouldPersistTaps="always"
-          persistentScrollbar={true}
-          scrollEventThrottle={50}
-          aria-label={t('multiselect.options')}
-          accessibilityState={{ expanded: true }}
-          onMomentumScrollBegin={setIsScrolling(true)}
-          onMomentumScrollEnd={setIsScrolling(false)}
-        />
-      )}
+      {isOpened &&
+        (virtualized ? (
+          <FlatList
+            bounces={false}
+            ListEmptyComponent={noOptions}
+            data={filteredOptions}
+            renderItem={renderItem}
+            keyExtractor={(option) => option.id}
+            style={styles.optionsMenu}
+            id={`${id}-options`}
+            role="menu"
+            keyboardShouldPersistTaps="always"
+            persistentScrollbar={true}
+            scrollEventThrottle={50}
+            aria-label={t('multiselect.options')}
+            accessibilityState={{ expanded: true }}
+            onMomentumScrollBegin={setIsScrolling(true)}
+            onMomentumScrollEnd={setIsScrolling(false)}
+          />
+        ) : (
+          <ScrollView
+            bounces={false}
+            style={styles.optionsMenu}
+            id={`${id}-options`}
+            role="menu"
+            keyboardShouldPersistTaps="always"
+            persistentScrollbar={true}
+            scrollEventThrottle={50}
+            aria-label={t('multiselect.options')}
+            accessibilityState={{ expanded: true }}
+            onMomentumScrollBegin={setIsScrolling(true)}
+            onMomentumScrollEnd={setIsScrolling(false)}
+          >
+            {filteredOptions.length
+              ? filteredOptions.map((filterOption) => renderItem({ item: filterOption }))
+              : noOptions}
+          </ScrollView>
+        ))}
     </View>
   )
 }
 
 export default memo(HoliSelect)
 
-const LIST_ITEM_HEIGHT = 48
+export const LIST_ITEM_HEIGHT = 48
+export const LIST_ITEMS_COUNT = 4
 
 const getStyles = (textInputHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     selectedOptionsPreview: {
       marginBottom: 6,
     },
-    textInputOpened: {
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-      borderColor: theme.colors.brandColorB30,
-    },
     textInputLabelOpened: {
       color: theme.colors.brandColorB30,
     },
     optionsMenu: {
-      maxHeight: LIST_ITEM_HEIGHT * 4,
+      maxHeight: LIST_ITEM_HEIGHT * LIST_ITEMS_COUNT,
       borderColor: theme.colors.brandColorB30,
       borderWidth: 2,
       borderTopWidth: 0,

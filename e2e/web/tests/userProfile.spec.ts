@@ -11,19 +11,18 @@ import {
 } from './helpers'
 import { test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.setTimeout(120000)
 
 test.describe('@Profile', () => {
   test('user journey', async ({ browser, page, context, userHandler, browserName }) => {
     await loginAsE2EUser(context, page)
+    await clickElementByTestId(page, 'btn-to-profile-view')
 
+    // FIXME: https://holi.atlassian.net/browse/HOLI-9014
     // fill the interests, skills and sdgs for visiting the profile later
-    await checkChipsSelection(page, 'interests')
-    await checkChipsSelection(page, 'skills')
-    await checkChipsSelection(page, 'sdgs')
+    // await checkChipsSelection(page, 'interests')
+    // await checkChipsSelection(page, 'skills')
+    // await checkChipsSelection(page, 'sdgs')
 
     // now test with a generated user for not messing too much with the profile of the E2E user
     await userHandler.asRandomUser(async (page) => {

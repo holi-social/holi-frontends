@@ -4,7 +4,7 @@ import React from 'react'
 import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import { FeatureToggleStatus, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
@@ -54,7 +54,7 @@ const createMocksForSpace = (spaceById = space) => {
       data: {
         featureToggles: [
           {
-            name: FeatureToggleName.STORAGE,
+            name: 'STORAGE',
             status: FeatureToggleStatus.PRODUCTION,
             __typename: 'FeatureToggle',
           },
@@ -86,6 +86,11 @@ const createMocksForSpace = (spaceById = space) => {
   return [spaceByIdRequest, spacePostsRequest, featureTogglesRequest, appointmentsRequest]
 }
 
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+  useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
+}))
+
 jest.useFakeTimers()
 
 jest.mock('@holi/core/navigation/hooks/useParam')
@@ -95,6 +100,10 @@ describe('SpaceDetails', () => {
     ...space,
     connectionStatusToMyself: [SpaceConnectionType.MEMBER],
   }
+
+  beforeEach(() => {
+    mockUseFeatureFlag.mockReturnValue(['on', undefined])
+  })
 
   it('selects info tab for non-members', async () => {
     const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })

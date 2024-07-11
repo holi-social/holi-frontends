@@ -1,10 +1,16 @@
+import { QueryHookOptions } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 
-import { SpaceCardFragment, useSpaceRecommendationQuery } from '@holi/api/graphql/graphql-codegen'
+import {
+  SpaceCardFragment,
+  SpaceRecommendationDocument,
+  useSpaceRecommendationQuery,
+} from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
+import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -33,7 +39,7 @@ const SpaceRecommendation = ({ space, trackingEvent }: SpaceRecommendationProps)
           hasBorder
           key={space.id}
           imageLabel={space.title}
-          imageUrl={space.cover}
+          imageUri={space.cover}
           imageWidth={IMAGE_WIDTH}
           imageHeight={IMAGE_HEIGHT}
           caption={
@@ -73,19 +79,17 @@ const SpaceRecommendations = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const {
-    data: spaceData,
-    loading: isLoadingSpace,
-    error: spaceError,
-  } = useSpaceRecommendationQuery({
+  const queryOptions: QueryHookOptions = {
     variables: { limit: 5 },
-  })
+  }
+  const { data: spaceData, loading: isLoadingSpace, error: spaceError } = useSpaceRecommendationQuery(queryOptions)
+  const isReloadingSpace = useRefetchOnClientSideForLoggedInWebUser(SpaceRecommendationDocument, queryOptions)
 
   if (spaceError) {
     logError('Recommended Spaces rendering error', spaceError.message, { location: 'SpaceRecommendations' })
   }
 
-  if (!spaceData || isLoadingSpace) return null
+  if (!spaceData || isLoadingSpace || isReloadingSpace) return null
 
   const spaces = spaceData.recommendedSpaces.data
   const seeMoreText = t('recommendations.spaces.seeMore')

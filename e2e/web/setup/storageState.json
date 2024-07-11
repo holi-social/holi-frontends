@@ -1,0 +1,22 @@
+{
+  "origins": [
+    {
+      "origin": "http://localhost:3000",
+      "localStorage": [
+        {
+          "name": "HOLI_TRACKING_CONSENT",
+          "value": "{\"ANALYTICS\":\"denied\",\"PERSONALIZATION\":\"denied\"}"
+        }
+      ]
+    },
+    {
+      "origin": "https://staging.dev.holi.social",
+      "localStorage": [
+        {
+          "name": "HOLI_TRACKING_CONSENT",
+          "value": "{\"ANALYTICS\":\"denied\",\"PERSONALIZATION\":\"denied\"}"
+        }
+      ]
+    }
+  ]
+}

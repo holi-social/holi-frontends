@@ -1,7 +1,7 @@
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 
 export interface SpaceFilter {
-  locationSearchQuery?: string
+  locationSearchQuery: string
   location?: GeolocationSuggestion
   topicSlugs: string[]
   skillSlugs: string[]

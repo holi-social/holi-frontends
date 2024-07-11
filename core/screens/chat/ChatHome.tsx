@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next'
 import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -14,7 +15,6 @@ import ChatMaintenance from '@holi/core/screens/chat/ChatMaintenance'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
 
 const ChatHome = () => {
@@ -25,9 +25,10 @@ const ChatHome = () => {
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const { ftLoading, ftEnabled, ftMaintenance } = useFeatureToggle(FeatureToggleName.CHAT)
 
-  useToastForNotAvailableFeature(!ftLoading && !ftEnabled && !ftMaintenance)
+  const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
+
+  useToastForNotAvailableFeature(chatFeatureFlag.isOff && !chatFeatureFlag.isUnknown)
 
   useEffect(() => {
     setScreenOptions({
@@ -44,11 +45,9 @@ const ChatHome = () => {
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
   }, [navigate, setScreenOptions, t, title, colors.background20])
-  if (ftLoading) {
-    return <HoliLoader style={{ backgroundColor: colors.background20 }} />
-  } else if (ftMaintenance) {
+  if (chatFeatureFlag.inMaintenance) {
     return <ChatMaintenance />
-  } else if (!ftLoading && ftEnabled) {
+  } else if (chatFeatureFlag.isOn) {
     return <ChatHomeContent />
   } else {
     // unknown status (= missing feature toggle) || disabled

@@ -261,6 +261,8 @@ export type AuthenticatedUser = {
   /** 255 characters or fewer. Must start with a lowercase letter and contain lowercase letters, digits, '_', '-' and '.' only. */
   identity?: Maybe<Scalars['String']['output']>
   interests: Array<Maybe<Topic>>
+  /** Designates whether the user is an employee. */
+  isEmployee: Scalars['Boolean']['output']
   lastName?: Maybe<Scalars['String']['output']>
   location?: Maybe<Scalars['String']['output']>
   pronouns?: Maybe<Scalars['String']['output']>
@@ -285,7 +287,7 @@ export enum BookmarkType {
   Recommendation = 'RECOMMENDATION',
 }
 
-/** Choice(id, poll, choice_text, votes) */
+/** Choice(id, poll, choice_text, votes, _order) */
 export type Choice = {
   __typename?: 'Choice'
   choiceText: Scalars['String']['output']
@@ -684,22 +686,6 @@ export type InsightPaged = {
 
 export type InsightQuoteRecommendationInitiative = Initiative | Insight | Quote | Recommendation
 
-/** Inspiration Posts have an assigned category that is displayed above the post. */
-export type InspirationPostCategory = {
-  __typename?: 'InspirationPostCategory'
-  id: Scalars['UUID']['output']
-  slug: Scalars['String']['output']
-  title: Scalars['String']['output']
-}
-
-export type InspirationPostCategoryPaged = {
-  __typename?: 'InspirationPostCategoryPaged'
-  /** The list of items in this pagination window. */
-  data: Array<Maybe<InspirationPostCategory>>
-  /** Total number of items in the filtered dataset. */
-  totalResults: Scalars['Int']['output']
-}
-
 /** LinkPreview(id, requested_url, url, title, description, type, image, site_name, icon, fetched_at) */
 export type LinkPreview = {
   __typename?: 'LinkPreview'
@@ -781,7 +767,6 @@ export type Mutation = {
   removeInsightBookmark: Result
   removeReactionFromComment: Comment
   reportContent: Result
-  trackingEndpoint_trackEvent: Scalars['Boolean']['output']
   /** @deprecated This has been renamed. Keep for <= 1.14.5 */
   unbookmark: Result
   unfavorite: Result
@@ -946,10 +931,6 @@ export type MutationReportContentArgs = {
   contentType: ContentType
   description?: InputMaybe<Scalars['String']['input']>
   objectId: Scalars['UUID']['input']
-}
-
-export type MutationTrackingEndpoint_TrackEventArgs = {
-  data: Scalars['String']['input']
 }
 
 export type MutationUnbookmarkArgs = {
@@ -1208,7 +1189,7 @@ export type Poll = {
   questionText: Scalars['String']['output']
 }
 
-/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public, inspiration_post_category) */
+/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public) */
 export type Post = {
   __typename?: 'Post'
   commenters: UserPaged
@@ -1218,7 +1199,6 @@ export type Post = {
   creator: User
   id: Scalars['UUID']['output']
   image?: Maybe<PostImage>
-  inspirationPostCategory?: Maybe<InspirationPostCategory>
   /** A list of all users involved. Author of the post plus all commenters */
   involvedUsers: UserPaged
   isPublic: Scalars['Boolean']['output']
@@ -1234,13 +1214,13 @@ export type Post = {
   title?: Maybe<Scalars['String']['output']>
 }
 
-/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public, inspiration_post_category) */
+/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public) */
 export type PostCommentersArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
-/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public, inspiration_post_category) */
+/** Post(id, title, text, created, modified, creator, comments_enabled, public_reactions, community, language, is_edited, is_closed, is_deleted, status, is_public) */
 export type PostInvolvedUsersArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
@@ -1316,8 +1296,6 @@ export type Query = {
   insightAuthors: UserPaged
   insightById?: Maybe<Insight>
   insightsByUserId: InsightPaged
-  inspirationPostCategories: InspirationPostCategoryPaged
-  inspirationPosts: PostPaged
   lastInsights: InsightPaged
   myPosts: FeedPostPaged
   mySpaces: Array<Maybe<MySpaces>>
@@ -1337,7 +1315,6 @@ export type Query = {
   taskById?: Maybe<Task>
   tasksBySpaceId: TaskPaged
   topics: TopicPaged
-  trackingEndpoint_dummy: Scalars['Boolean']['output']
   userById?: Maybe<User>
   userByName: UserPaged
   userHasVotedByPollId: Scalars['Boolean']['output']
@@ -1470,16 +1447,6 @@ export type QueryInsightByIdArgs = {
 
 export type QueryInsightsByUserIdArgs = {
   id: Scalars['UUID']['input']
-  limit?: Scalars['Int']['input']
-  offset?: Scalars['Int']['input']
-}
-
-export type QueryInspirationPostCategoriesArgs = {
-  limit?: Scalars['Int']['input']
-  offset?: Scalars['Int']['input']
-}
-
-export type QueryInspirationPostsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
@@ -1727,7 +1694,7 @@ export type Space = {
   onboarding?: Maybe<Onboarding>
   posts: PostPaged
   sdgs: Array<Maybe<Sdg>>
-  tasks: Array<Maybe<Task>>
+  tasks: Array<Task>
   title: Scalars['String']['output']
   topics: Array<Maybe<Topic>>
 }
@@ -1844,7 +1811,7 @@ export enum StatusType {
   Upcoming = 'UPCOMING',
 }
 
-/** Task(id, name, description, community, creator, created, slots_available, slots_taken, visibility, location_type, location, geolocation, regularity, thumbnail, thumbnail_blurhash, contact_email, contact_phone) */
+/** Task(id, name, description, community, creator, created, slots_available, slots_taken, visibility, location_type, location, geolocation, regularity, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
 export type Task = {
   __typename?: 'Task'
   contactEmail: Scalars['String']['output']

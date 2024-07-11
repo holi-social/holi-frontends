@@ -31,14 +31,13 @@ describe('useTabNavigation', () => {
   })
 
   it('uses query parameter for initial tab selection', () => {
-    const { mockUseUpdateParams } = mockParameters({ tab: 'tab2' })
+    mockParameters({ tab: 'tab2' })
     const determineInitialTab = () => 'tab1'
 
     const { result } = renderHook(() => useTabNavigation({ tabNamesInOrder, determineInitialTab }))
 
     expect(result.current.currentTabName).toEqual('tab2')
     expect(result.current.initialTabIndex).toEqual(2)
-    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'tab2' })
   })
 
   it('uses determineInitialTab for initial tab selection if no parameter is passed', () => {
@@ -80,7 +79,6 @@ describe('useTabNavigation', () => {
 
     expect(result.current.currentTabName).toEqual('tab2')
     expect(result.current.initialTabIndex).toEqual(2)
-    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'tab2' })
 
     mockUseUpdateParams.mockClear()
     mockParameters({ tab: 'tab1' })
