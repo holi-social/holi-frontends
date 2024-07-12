@@ -4,7 +4,6 @@ import { DimensionValue, Platform, SafeAreaView, ScrollView, StyleSheet, View } 
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -172,7 +171,6 @@ const SpaceRolesPermissions = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { theme } = useTheme()
   const { colors } = theme
@@ -251,7 +249,6 @@ const SpaceRolesPermissions = () => {
           <HoliTabs
             id="collaborator-tabs"
             style={styles.tabWrapper}
-            tabBarStyle={tabBarStyle}
             tabs={[
               {
                 title: t('spaces.rolesAndPermissions.tabs.admin'),
