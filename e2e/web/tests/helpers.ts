@@ -7,7 +7,7 @@ import { test } from './testmaster'
 // sometimes requests to the app backends take a little longer (10s < response latency < 40s)
 export const donationsRequestTimeout = 40_000
 export const goodnewsRequestTimeout = 20_000
-export const volunteeringRequestTimeout = 20_000
+export const volunteeringRequestTimeout = 40_000
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid='${testId}']${nth ? ` >> nth=${nth}` : ''}`
@@ -35,9 +35,12 @@ export const clickButtonByText = async (page: Page, buttonText: string): Promise
   await page.click(`button:has-text("${buttonText}")`)
 }
 
+const declineDataProcessingConsent = async (page: Page) => await page.getByRole('button', { name: 'Decline all' })
+
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
   await page.goto('/profile')
+  await declineDataProcessingConsent(page)
 }
 
 export const gotoFillAndSubmitLogin = async (
@@ -162,7 +165,7 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),
-    page.getByRole('button', { name: 'Decline all' }),
+    declineDataProcessingConsent(page),
   ])
 }
 
