@@ -28,7 +28,7 @@ default:
   script:
     - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     - terraform/environments/web/scripts/create-or-update-env.sh $ENVIRONMENT_ID $CI_COMMIT_SHA
-    - echo "$(terraform/environments/web/scripts/get-app-domain.sh)" > $UI_DOMAIN_PATH
+    - echo "$(terraform/environments/web/scripts/get-output.sh app_domain)" > $UI_DOMAIN_PATH
   resource_group: $ENVIRONMENT_ID # never execute terraform in parallel on the same environment
   interruptible: false
 
