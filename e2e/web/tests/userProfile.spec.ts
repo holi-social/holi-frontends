@@ -26,6 +26,7 @@ test.describe('@Profile', () => {
 
     // now test with a generated user for not messing too much with the profile of the E2E user
     const { page: otherPage } = await sessions.signUp()
+    await otherPage.goto('/profile')
 
     await testDisplaysProfileDetails(otherPage)
 
