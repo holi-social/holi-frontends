@@ -162,6 +162,7 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),
+    page.getByRole('button', { name: 'Decline all' }),
   ])
 }
 
