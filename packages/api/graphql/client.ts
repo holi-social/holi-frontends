@@ -1,7 +1,7 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
-import { createUploadLink } from 'apollo-upload-client'
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import crossFetch from 'cross-fetch'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 
@@ -40,7 +40,7 @@ const setOperationNameParam = (uri: string, operationName: string): RequestInfo 
   }
 }
 
-const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
+const customFetch = (uri: RequestInfo | URL, options: RequestInit | undefined) => {
   if (typeof uri === 'string' && typeof options?.body === 'string') {
     const body = JSON.parse(options.body)
     const operationName: string | undefined =
@@ -59,14 +59,29 @@ const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
   }
 }
 
-// types don't match unfortunately, this seems to be a minor issue with the library
-// the library includes its own node_modules with a dependency to apollo/client ^3.7.0
+// Copied from from https://github.com/jaydenseric/apollo-upload-client/issues/331#issuecomment-2068428496 as it was removed from 'apollo-upload-client'
+export class ReactNativeFile {
+  uri: string
+  name: string
+  type: string
+  constructor({ uri, name, type }: { uri: string; name: string; type: string }) {
+    this.uri = uri
+    this.name = name
+    this.type = type
+  }
+}
+
+function customIsExtractableFile(value: unknown): value is ReactNativeFile | File {
+  return value instanceof ReactNativeFile || value instanceof File
+}
+
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
 const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
   uri: holiApiUrl,
   credentials: 'include',
   fetch: customFetch,
+  isExtractableFile: customIsExtractableFile,
 })
 
 export const createCache = () =>
@@ -98,7 +113,10 @@ export const createCache = () =>
         fields: {
           articles: {
             merge: (existing = [], incoming = []) =>
-              pipe<unknown[][], unknown[], unknown[]>(concat, uniqBy(pick(['__ref'])))(existing, incoming),
+              pipe<Record<'__ref', unknown>[][], Record<'__ref', unknown>[], Record<'__ref', unknown>[]>(
+                concat,
+                uniqBy(pick(['__ref']))
+              )(existing, incoming),
             read: (existing) => existing,
           },
         },

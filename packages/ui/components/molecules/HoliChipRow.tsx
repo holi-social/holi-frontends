@@ -51,7 +51,7 @@ const HoliChipRow = ({
             onPress={onPressEdit}
             testID={[testID, 'edit'].filter((e) => e).join('-')}
           >
-            <HoliText selectable={false} size="small" bold style={styles.editButton}>
+            <HoliText selectable={false} size="small" bold style={styles.editButtonText}>
               {editButtonText || t('global.edit')}
             </HoliText>
           </HoliButton>
@@ -76,7 +76,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       justifyContent: 'space-between',
     },
-    editButton: {
+    editButtonText: {
       color: theme.colors.foreground20,
     },
     chipsContainer: {

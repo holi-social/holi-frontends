@@ -27,7 +27,7 @@ export const HoliLink = ({
 
   return (
     <Link
-      href={href}
+      href={href || ''}
       aria-label={label}
       title={label}
       target={external ? '_blank' : undefined}

@@ -103,12 +103,10 @@ export const BasicExample: ComponentStory<typeof HoliWizard> = Template.bind({})
 
 BasicExample.argTypes = {
   isBackButtonAvailable: { description: 'Back button status', type: 'boolean', control: { type: 'boolean' } },
-  submitButtonLabel: { description: 'Button Name', type: 'string', control: { type: 'text' } },
 }
 
 BasicExample.args = {
   isBackButtonAvailable: true,
-  submitButtonLabel: 'Submit',
 }
 
 const styles = StyleSheet.create({

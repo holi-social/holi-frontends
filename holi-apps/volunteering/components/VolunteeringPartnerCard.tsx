@@ -31,7 +31,7 @@ const VolunteeringPartnerCard: React.FC<VolunteeringPartnerContainerProps> = ({
         headline={headline}
         rowText={name}
         linkTitle={t('volunteering:shared.partner.link.title', { source: name })}
-        partners={[partner]}
+        partners={{ [name]: partner }}
         onPress={() => (partner?.url ? Linking.openURL(partner?.url) : null)}
       />
     </View>

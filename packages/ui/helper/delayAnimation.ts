@@ -37,4 +37,6 @@ export function delayAnimation(fn: CallableFunction | undefined, props: unknown,
   }
 
   rAF = requestAnimationFrame(loop)
+
+  return () => cancelAnimationFrame(rAF)
 }
