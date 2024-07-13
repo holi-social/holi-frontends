@@ -35,12 +35,17 @@ export const clickButtonByText = async (page: Page, buttonText: string): Promise
   await page.click(`button:has-text("${buttonText}")`)
 }
 
-const declineDataProcessingConsent = (page: Page) => page.getByRole('button', { name: 'Decline all' }).click()
+export const denyConsentDialog = (page: Page) => page.getByRole('button', { name: 'Decline all' }).click()
+
+export const denyConsent = (page: Page) =>
+  page.evaluate(() => {
+    localStorage.setItem('HOLI_TRACKING_CONSENT', '{"ANALYTICS":"denied","PERSONALIZATION":"denied"}')
+  })
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
   await page.goto('/profile')
-  await declineDataProcessingConsent(page)
+  await denyConsent(page)
 }
 
 export const gotoFillAndSubmitLogin = async (
@@ -162,7 +167,7 @@ export const finishAccountSetup = async (
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/')
-  await declineDataProcessingConsent(page)
+  await denyConsent(page)
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),

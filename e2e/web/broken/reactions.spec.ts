@@ -5,8 +5,6 @@ import { test } from '../tests/testmaster'
 
 test.describe('@Reactions', () => {
   test('user story', async ({ authenticatedSession: { page } }) => {
-    await page.goto('/')
-
     // click first insight image link
     await clickElementByTestId(page, 'feed-insight-image-link')
     await page.waitForSelector(byTestId('insight-headline'))

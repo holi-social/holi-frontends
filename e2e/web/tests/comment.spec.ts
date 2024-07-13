@@ -7,8 +7,6 @@ import { test } from './testmaster'
 test.describe('@Comment', () => {
   // TODO: Commenting has been briefly removed from the insight detail page and should be back once HOLI-7390 is finished
   test.skip('creates a comment and displays it in the post page.', async ({ authenticatedSession: { page } }) => {
-    await page.goto('/')
-
     await goToPost(page)
     await clickElementByTestId(page, 'post-detail-footer')
 

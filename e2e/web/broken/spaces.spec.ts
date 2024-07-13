@@ -168,7 +168,6 @@ const initialGoal = 'e2e space goal'
 
 const testCreatingEditingDeletingASpace = async (browser: Browser, sessions: SessionHandler) => {
   const { page } = await sessions.signUp()
-  await page.goto('/')
 
   await createSpace(page, numberOfInitialTerms, initialName, initialGoal)
 

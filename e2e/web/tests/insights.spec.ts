@@ -5,8 +5,6 @@ import { test } from './testmaster'
 
 test.describe('@Insights', () => {
   test('Favorites work', async ({ authenticatedSession: { page } }) => {
-    await page.goto('/')
-
     await goToFirstInsight(page)
     const insightHeadline = await page.getByTestId('insight-headline').innerText()
 

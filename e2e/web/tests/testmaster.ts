@@ -1,6 +1,6 @@
 import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/test'
 
-import { withRandomUserSession } from './helpers'
+import { denyConsent, withRandomUserSession } from './helpers'
 import { User, deleteAuthenticatedAccount, signUp } from './helpers/api'
 
 type Session = {
@@ -45,6 +45,8 @@ export class SessionHandler {
     this.signInContexts.push(context)
 
     const newPage = await context.newPage()
+    await newPage.goto('/')
+    await denyConsent(newPage)
 
     return {
       user,
