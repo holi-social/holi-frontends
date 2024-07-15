@@ -25,7 +25,7 @@ const static_urls: Path[] = [
   '/profile',
 ]
 
-const topicSlugsQuery = gql`
+export const topicSlugsQuery = gql`
   query Topics {
     topics {
       data {
