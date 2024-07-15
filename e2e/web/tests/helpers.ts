@@ -35,7 +35,7 @@ export const clickButtonByText = async (page: Page, buttonText: string): Promise
   await page.click(`button:has-text("${buttonText}")`)
 }
 
-export const denyConsentDialog = (page: Page) => page.getByRole('button', { name: 'Decline all' }).click()
+export const dismissConsentDialog = (page: Page) => page.getByRole('button', { name: 'Decline all' }).click()
 
 export const denyConsent = (page: Page) =>
   page.evaluate(() => {
@@ -45,7 +45,7 @@ export const denyConsent = (page: Page) =>
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
   await page.goto('/profile')
-  await denyConsent(page)
+  await dismissConsentDialog(page)
 }
 
 export const gotoFillAndSubmitLogin = async (
@@ -167,7 +167,7 @@ export const finishAccountSetup = async (
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/')
-  await denyConsent(page)
+  await dismissConsentDialog(page)
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),
