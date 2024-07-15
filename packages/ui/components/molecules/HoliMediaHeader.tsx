@@ -13,6 +13,7 @@ interface Props {
   titleLabel: string
   titleBold?: boolean
   date?: string
+  datePrefix?: string
   onAvatarPressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   onTitlePressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   style?: StyleProp<ViewStyle>
@@ -28,6 +29,7 @@ const HoliMediaHeader = ({
   titleBold,
   avatarProps,
   date,
+  datePrefix,
   onAvatarPressed,
   onTitlePressed,
   style,
@@ -62,6 +64,16 @@ const HoliMediaHeader = ({
         </HoliButton>
 
         <View style={styles.row}>
+          {!!datePrefix && (
+            <>
+              <HoliText size="small" style={styles.datePrefix}>
+                {datePrefix}
+              </HoliText>
+              <HoliText size="large" style={styles.dot}>
+                &middot;
+              </HoliText>
+            </>
+          )}
           {!!date && (
             <HoliText size="small" style={styles.date}>
               {date}
@@ -84,9 +96,17 @@ const getStyles = (theme: HoliTheme) =>
       marginLeft: 16,
       flex: 1,
     },
+    datePrefix: {
+      marginTop: 4,
+    },
     date: {
       marginTop: 4,
       color: theme.colors.foreground20,
+    },
+    dot: {
+      color: theme.colors.brandB300,
+      marginRight: 4,
+      marginLeft: 4,
     },
   })
 

@@ -36,6 +36,7 @@ export interface Link {
 }
 
 export interface Post {
+  __typename: string
   id: string
   text: string
   creator: User

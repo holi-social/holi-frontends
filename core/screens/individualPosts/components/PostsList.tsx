@@ -13,13 +13,13 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type PostsListProps = {
   paginationOptions: PaginationQueryHookOptions
-  feedPostsQuery: DocumentNode
+  postsQuery: DocumentNode
   emptyMessage?: ReactNode
   showVisibilityBadge?: boolean
 }
 
 const PostsList = ({
-  feedPostsQuery,
+  postsQuery: allPostsQuery,
   paginationOptions,
   emptyMessage,
   showVisibilityBadge = false,
@@ -32,8 +32,8 @@ const PostsList = ({
     ...{
       fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
       onError: (error: ApolloError) => {
-        displayError(error, 'Failed to query feed posts', {
-          location: 'feedPostsQuery',
+        displayError(error, 'Failed to query posts', {
+          location: 'allPostsQuery',
         })
       },
     },
@@ -43,7 +43,7 @@ const PostsList = ({
   return (
     <SpaceTermContextProvider>
       <Pagination
-        query={feedPostsQuery}
+        query={allPostsQuery}
         queryOptions={queryOptions}
         fetchMoreButtonProps={{
           type: 'secondary',
