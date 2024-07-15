@@ -8,13 +8,13 @@ const SiteMap = () => {
   // Content is written to response in getServerSideProps
 }
 
-const sitemapIndexUrls = ['/sitemap/static.xml', '/sitemap/insights.xml']
+const sitemapIndexUrls = ['/sitemap/static', '/sitemap/insights']
 
 export const getServerSideProps = async ({ req, res }: NextPageContext) => {
   const origin = getOrigin(req)
   const sitemap = generateSitemapIndex(
     origin,
-    locales.map((locale) => sitemapIndexUrls.map((url) => `${locale}${url}`)).flat()
+    locales.map((locale) => sitemapIndexUrls.map((url) => `/${locale}${url}`)).flat()
   )
 
   if (res) {
