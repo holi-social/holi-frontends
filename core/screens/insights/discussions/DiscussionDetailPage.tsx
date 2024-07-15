@@ -180,7 +180,6 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
       }),
     },
     commentButton: {
-      paddingTop: 18,
       flex: 1,
     },
   })

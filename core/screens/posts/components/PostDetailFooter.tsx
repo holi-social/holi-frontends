@@ -43,7 +43,6 @@ const getStyles = (theme: HoliTheme) =>
       }),
     },
     text: {
-      paddingTop: 9,
       color: theme.colors.foreground20,
     },
   })
