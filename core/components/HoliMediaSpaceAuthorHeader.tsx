@@ -2,6 +2,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native'
 
+import { getInitials } from '@holi/core/helpers'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -58,7 +59,7 @@ const HoliMediaAuthorHeader = ({
       />
     )
   }
-
+  const initials = getInitials(space.title)
   const formattedDate = getFormattedDate(date, i18n.language)
   return (
     <HoliMediaHeader
@@ -69,7 +70,7 @@ const HoliMediaAuthorHeader = ({
         imageSrc: space.avatar || '',
         imageBlurhash: space.avatarBlurhash || '',
         label: space.title,
-        initials: space.title,
+        initials,
         defaultColor: space.avatarDefaultColor,
         size: avatarSize,
         shape: 'square',
