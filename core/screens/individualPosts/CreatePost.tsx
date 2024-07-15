@@ -13,7 +13,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
 import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
@@ -67,7 +67,7 @@ const CreatePost = () => {
       track(TrackingEvent.FeedPosts.created)
       navigateBack()
     },
-    refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],
+    refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
   })
 
   const createPost = () => {

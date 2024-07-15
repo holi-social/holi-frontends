@@ -124,10 +124,10 @@ const PostDetailsPage = () => {
   const currentLanguage = getLocale(i18n.language || '')
 
   const headerTitle =
-    loginState.isLoggedIn && loginState.userId === post?.creator.id
+    loginState.isLoggedIn && loginState.userId === post?.author.id
       ? t('individuals.post.details.title.personal')
       : generatePostTitle({
-          name: post?.creator.firstName || '',
+          name: post?.author.firstName || '',
           currentLanguage,
           t,
         })
@@ -203,11 +203,11 @@ const PostDetailsPage = () => {
   return (
     <>
       <HoliHead
-        title={`${post?.title} | ${post?.creator.fullName}`}
+        title={`${post?.title} | ${post?.author.fullName}`}
         description={post?.description}
-        ogTitle={`${post?.title} | ${post?.creator.fullName}`}
+        ogTitle={`${post?.title} | ${post?.author.fullName}`}
         ogDescription={post?.description}
-        ogImage={post?.image}
+        ogImage={post?.imageUrl}
       />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
@@ -228,7 +228,7 @@ const PostDetailsPage = () => {
               <>
                 <PostContent
                   post={post}
-                  showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.creator.id}
+                  showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
                   aggregatedTopics={aggregatedTopics}
                 />
                 <View style={styles.commentsContainer}>

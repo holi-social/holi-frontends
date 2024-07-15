@@ -14,7 +14,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { PostQueryResponse, feedPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
+import { PostQueryResponse, allPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
@@ -78,7 +78,7 @@ const EditPost = () => {
       navigateBack()
     },
 
-    refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],
+    refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
   })
 
   const editPost = () => {
@@ -113,7 +113,7 @@ const EditPost = () => {
     if (post) {
       setTitle(post.title)
       setDescription(post.description)
-      setCurrentImage(post.image)
+      setCurrentImage(post.imageUrl)
       setSelectedCategoryId(post.category.id)
       setSelectedVisibility(Visibility[post.visibility])
       setSelectedTopics(post.topics)
@@ -149,7 +149,7 @@ const EditPost = () => {
   }
 
   return (
-    <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.creator.id}>
+    <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.author.id}>
       <SpaceTermContextProvider>
         <View style={styles.grayExtendingBackground}>
           {categoriesLoading ? (
@@ -171,7 +171,7 @@ const EditPost = () => {
                 setImage(value)
                 setCurrentImage(undefined)
               }}
-              mentions={post?.mentions}
+              mentions={post?.mentionedUsers}
               selectedCategoryId={selectedCategoryId}
               onChangeSelectedCategoryId={setSelectedCategoryId}
               selectedVisibility={selectedVisibility}

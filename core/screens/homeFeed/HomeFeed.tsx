@@ -20,7 +20,7 @@ import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggesti
 import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { allPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
@@ -72,7 +72,7 @@ const HomeFeed = () => {
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
-        feedPostsQuery,
+        allPostsQuery,
         lastInsightsQuery,
         donationsEnabled ? donationProjectsQuery : undefined,
         goodnewsEnabled ? goodNewsArticlesQuery : undefined,

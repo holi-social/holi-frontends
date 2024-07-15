@@ -10,7 +10,7 @@ import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -54,7 +54,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
     setShowDeleteConfirmationModal(false)
     deleteFeedPost({
       variables: { postId: post.id },
-      refetchQueries: [{ query: feedPostsQuery }, { query: myPostsQuery }],
+      refetchQueries: [{ query: allPostsQuery }, { query: myPostsQuery }],
     }).then(() => {
       openToast(t('individuals.post.delete.success'), HoliToastType.SUCCESS)
     })
@@ -90,7 +90,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
           handleAction={onShare}
         />
 
-        {loginState.isLoggedIn && loginState.userId === post.creator.id ? (
+        {loginState.isLoggedIn && loginState.userId === post.author.id ? (
           <>
             <HoliActionDrawer.Action
               icon={Edit2}

@@ -20,6 +20,7 @@ export const UserAvatarFragment = gql`
     avatarBlurhash
     avatarLabel
     avatarDefaultColor
+    firstName
     fullName
   }
 `
