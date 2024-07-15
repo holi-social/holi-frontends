@@ -5,12 +5,9 @@ import { useTranslation } from 'react-i18next'
 import type { ChatRoom } from '@holi/chat/src/client/types'
 import { roomAtomsRecordAtom, spaceRoomIdToChildRoomsAtom, spaceRoomIdsAtom } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { Tab } from '@holi/ui/components/organisms/HoliTabBar'
 import HoliTabBar from '@holi/ui/components/organisms/HoliTabBar'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export const DEFAULT_TAB_ID = 'all' as const
 
@@ -46,8 +43,6 @@ const ChatTabBar = ({ selectedTabId }: Props) => {
   const { setParams, replaceRoute } = useRouting()
   const { t } = useTranslation()
 
-  const mixins = useStyleMixins()
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const roomTabs = useAtomValue(roomTabsAtom)
   const defaultTab: Tab = {
     id: DEFAULT_TAB_ID,
@@ -61,7 +56,6 @@ const ChatTabBar = ({ selectedTabId }: Props) => {
       tabs={tabs}
       selectedTabId={selectedTabId}
       onPress={(tabId) => (isWeb ? replaceRoute('/chat?activeTab=' + tabId) : setParams({ activeTab: tabId }))}
-      tabBarStyle={isWeb && tabBarStyle}
     />
   )
 }
