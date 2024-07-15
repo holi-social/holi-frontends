@@ -5,10 +5,12 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   avatarProps: AvatarProps
+  secondaryAvatarProps?: AvatarProps
   title: string
   titleLabel: string
   titleBold?: boolean
@@ -28,6 +30,7 @@ const HoliMediaHeader = ({
   titleLabel,
   titleBold,
   avatarProps,
+  secondaryAvatarProps,
   date,
   datePrefix,
   onAvatarPressed,
@@ -53,8 +56,16 @@ const HoliMediaHeader = ({
 
   return (
     <View style={[styles.row, style]} testID={testID}>
-      <HoliButton inline transparent label={avatarProps.label} onPress={onAvatarPressed}>
+      <HoliButton inline transparent label={avatarProps.label} onPress={onAvatarPressed} style={styles.avatarButton}>
         <HoliAvatar {...avatarProps} size={avatarProps.size || 'small'} />
+        {!!secondaryAvatarProps && (
+          <HoliAvatar
+            {...secondaryAvatarProps}
+            size={secondaryAvatarProps?.size || 'micro'}
+            label={''}
+            style={styles.secondaryAvatar}
+          />
+        )}
       </HoliButton>
       <View style={[styles.titleContainer]}>
         <HoliButton inline transparent label={titleLabel} onPress={onTitlePressed}>
@@ -66,7 +77,7 @@ const HoliMediaHeader = ({
         <View style={styles.row}>
           {!!datePrefix && (
             <>
-              <HoliText size="small" style={styles.datePrefix}>
+              <HoliText size="small" style={styles.datePrefix} ellipsizeMode="tail" numberOfLines={1}>
                 {datePrefix}
               </HoliText>
               <HoliText size="large" style={styles.dot}>
@@ -75,7 +86,7 @@ const HoliMediaHeader = ({
             </>
           )}
           {!!date && (
-            <HoliText size="small" style={styles.date}>
+            <HoliText size="small" style={styles.date} numberOfLines={1}>
               {date}
             </HoliText>
           )}
@@ -89,24 +100,36 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     row: {
       flexDirection: 'row',
+      alignItems: 'center',
+    },
+    avatarButton: {
+      position: 'relative',
+    },
+    secondaryAvatar: {
+      position: 'absolute',
+      right: -Spacing['4xs'],
+      bottom: -Spacing['4xs'],
+      borderWidth: 2,
+      borderColor: theme.colors.background10,
     },
     titleContainer: {
       flexDirection: 'column',
-      marginRight: 32,
-      marginLeft: 16,
+      marginRight: Spacing.lg,
+      marginLeft: Spacing.xs,
       flex: 1,
     },
     datePrefix: {
-      marginTop: 4,
+      marginTop: Spacing['4xs'],
+      flex: 1,
     },
     date: {
-      marginTop: 4,
+      marginTop: Spacing['4xs'],
       color: theme.colors.foreground20,
+      flex: 1,
     },
     dot: {
       color: theme.colors.brandB300,
-      marginRight: 4,
-      marginLeft: 4,
+      marginHorizontal: Spacing['4xs'],
     },
   })
 

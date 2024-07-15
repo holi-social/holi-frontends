@@ -76,10 +76,18 @@ const HoliMediaAuthorHeader = ({
         shape: 'square',
         style: {},
       }}
+      secondaryAvatarProps={{
+        imageSrc: author.avatar,
+        imageBlurhash: author.avatarBlurhash,
+        label: author.fullName,
+        initials: author.avatarLabel,
+        defaultColor: author.avatarDefaultColor,
+        size: avatarSize,
+      }}
       datePrefix={author.fullName}
       date={formattedDate}
-      onAvatarPressed={onAvatarPressed ?? (() => navigate(`/space/${space?.name}`))}
-      onTitlePressed={onTitlePressed ?? (() => navigate(`/space/${space?.name}`))}
+      onAvatarPressed={onAvatarPressed ?? (() => navigate(`/spaces/${space?.name}`))}
+      onTitlePressed={onTitlePressed ?? (() => navigate(`/spaces/${space?.name}`))}
       style={style}
       testID={testID}
     />
