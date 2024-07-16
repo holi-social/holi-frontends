@@ -65,7 +65,7 @@ export const registerUserAccount = async (
   page: Page,
   email: string,
   password: string
-): Promise<{ id: string; fullName: string }> => {
+): Promise<{ fullName: string }> => {
   await page.goto('/profile')
   dismissConsentDialog(page)
   await registerUser(context, page, email, password)
@@ -112,24 +112,7 @@ export const finishAccountSetup = async (
     firstName?: string
     lastName?: string
   } = {}
-): Promise<{ id: string; fullName: string }> => {
-  let id
-  await page.route(
-    `${process.env.BASE_URL}/api/graphql?op=AuthenticatedUser`,
-    async (route) => {
-      try {
-        const response = await route.fetch()
-        const result = await response.json()
-        id = result.data.authenticatedUserV2.id
-      } finally {
-        await route.continue()
-      }
-    },
-    // as this route is called by a lot of the tested components
-    // only intercept the route once
-    { times: 1 }
-  )
-
+): Promise<{ fullName: string }> => {
   // go through account setup
   // provide user names
   const firstNameInput = await locateElementByTestId(page, 'first-name-input')
@@ -153,9 +136,7 @@ export const finishAccountSetup = async (
   await page.waitForSelector(byTestId('account-setup-success-step'))
   await clickElementByTestId(page, 'holi-wizard-save-btn')
 
-  if (!id) throw new Error("Wasn't able to intercept user id while finishing account setup flow")
   return {
-    id,
     fullName: firstName + ' ' + lastName,
   }
 }
@@ -192,7 +173,7 @@ export const registerNewUserAccount = async (
   page: Page,
   email?: string,
   password?: string
-): Promise<{ id: string; fullName: string }> => {
+): Promise<{ fullName: string }> => {
   const emailToUse = email || newUserEmail()
   const passwordToUse = password || newUserPassword
   const newAccount = await registerUserAccount(context, page, emailToUse, passwordToUse)
@@ -255,7 +236,7 @@ export const newUserPassword = 'TheSamePassword4A11E2eUsers'
 
 export const withRandomUserSession = async (
   browser: Browser,
-  actions: (page: Page, userId: string, userFullName: string) => Promise<void>,
+  actions: (page: Page, userFullName: string) => Promise<void>,
   email: string = newUserEmail(),
   password: string = randomPassword()
 ): Promise<() => Promise<void>> => {
@@ -267,7 +248,7 @@ export const withRandomUserSession = async (
   await page.goto('/profile')
   await page.waitForSelector(byTestId('user-profile-full-name'))
 
-  await actions(page, newAccount.id, newAccount.fullName)
+  await actions(page, newAccount.fullName)
 
   return async () => {
     await deleteUser(page)

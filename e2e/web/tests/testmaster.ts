@@ -18,7 +18,7 @@ export class UserHandler {
   }
 
   public async asRandomUser(
-    actions: (page: Page, userId: string, userFullName: string) => Promise<void>,
+    actions: (page: Page, userFullName: string) => Promise<void>,
     email?: string,
     password?: string
   ) {
