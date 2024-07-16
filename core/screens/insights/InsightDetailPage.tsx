@@ -78,7 +78,8 @@ const InsightDetailPage = () => {
     skip: !insightId,
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
-      if (isNotFoundError(error)) {
+      // if the insight is not found, or the id is not a valid UUID, redirect to 404
+      if (isNotFoundError(error) || error.message.includes('badly formed hexadecimal UUID string')) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId })
