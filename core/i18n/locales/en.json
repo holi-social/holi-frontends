@@ -202,15 +202,7 @@
   "confirmation.delete": "Delete",
   "confirmation.dismiss": "No, go back",
   "date": "{{date, MMM, D}}",
-  "dayNames": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-  ],
+  "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
   "error.errorBoundary.retry": "Try again?",
   "favorites.noResults.description": "Tap the bookmark icon on content you like to add them to your favourites.",
   "favorites.noResults.title": "No favourites saved yet",
