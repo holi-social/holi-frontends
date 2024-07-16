@@ -3,6 +3,10 @@ import { NextPageContext } from 'next'
 import { createPageContextMock } from '@holi/web/__tests__/helpers'
 import { getServerSideProps } from '@holi/web/pages/sitemap.xml'
 
+jest.mock('@holi/core/helpers/isSSR', () => ({
+  isSSR: true,
+}))
+
 describe('Root sitemap', () => {
   it('should render root sitemap index', async () => {
     const { context, writeMock } = createPageContextMock()

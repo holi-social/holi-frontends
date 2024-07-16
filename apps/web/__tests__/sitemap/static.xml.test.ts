@@ -5,6 +5,10 @@ import { NextPageContext } from 'next'
 import { createPageContextMock, graphqlLink } from '@holi/web/__tests__/helpers'
 import { getServerSideProps, topicSlugsQuery } from '@holi/web/pages/sitemap/static.xml'
 
+jest.mock('@holi/core/helpers/isSSR', () => ({
+  isSSR: true,
+}))
+
 const server = setupServer(
   graphqlLink.query(topicSlugsQuery, () => {
     return HttpResponse.json({
@@ -72,7 +76,7 @@ describe('Static sitemap index', () => {
   })
 
   it('should render sitemap index with static urls for german locale', async () => {
-    const { context, writeMock } = createPageContextMock('de')
+    const { context, writeMock } = createPageContextMock({ locale: 'de' })
 
     await getServerSideProps(context as NextPageContext)
 

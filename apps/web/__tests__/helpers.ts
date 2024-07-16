@@ -4,7 +4,7 @@ import type { NextPageContext } from 'next'
 
 export const graphqlLink = graphql.link('http://localhost:3000/api/graphql')
 
-export const createPageContextMock = (locale = 'en') => {
+export const createPageContextMock = ({ locale = 'en', ...overrides }: Partial<NextPageContext> = {}) => {
   const writeMock = jest.fn()
   const setHeaderMock = jest.fn()
   // @ts-ignore
@@ -14,7 +14,7 @@ export const createPageContextMock = (locale = 'en') => {
     end: jest.fn(),
   }
 
-  const context = { res, locale } as NextPageContext
+  const context = { res, locale, ...overrides } as NextPageContext
 
   return { context, writeMock, setHeaderMock }
 }
