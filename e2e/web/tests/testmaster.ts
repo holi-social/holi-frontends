@@ -1,10 +1,11 @@
 import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/test'
 
-import { newUserEmail, randomPassword, withRandomUserSession } from './helpers'
-import { deleteAuthenticatedAccount, signUp } from './helpers/api'
+import { denyConsent, withRandomUserSession } from './helpers'
+import { User, deleteAuthenticatedAccount, signUp } from './helpers/api'
 
 type Session = {
   page: Page
+  user: User
   //api: { createSpace: () => void }
 }
 
@@ -37,15 +38,18 @@ export class SessionHandler {
     this.browser = browser
   }
 
-  public async signUp(email: string = newUserEmail(), password: string = randomPassword()): Promise<Session> {
+  public async signUp(email?: string, password?: string): Promise<Session> {
     const context = await this.browser.newContext()
 
-    await signUp(context, email, password)
+    const user = await signUp(context, email, password)
     this.signInContexts.push(context)
 
     const newPage = await context.newPage()
+    await newPage.goto('/')
+    await denyConsent(newPage)
 
     return {
+      user,
       page: newPage,
       // TODO: expand to enable setting up data for test runs, without having to drive the UI (slow)
       // api: {
