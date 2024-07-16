@@ -8,7 +8,6 @@ import FilterModal from '@holi/core/components/FIlterModal'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useTabNavigation from '@holi/core/hooks/useTabNavigation'
@@ -30,9 +29,7 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export enum Tab {
   MINE = 'mine',
@@ -41,7 +38,6 @@ export enum Tab {
 
 const Spaces = () => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { navigate } = useRouting()
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<ScrollView>(null)
@@ -77,8 +73,6 @@ const Spaces = () => {
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
   }, [isLoggedIn, navigate, openLoginModal, t])
-
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
   useIsomorphicLayoutEffect(() => {
     const title = t('spaces.title')
@@ -164,7 +158,6 @@ const Spaces = () => {
             id="space-tabs"
             onChangeTab={onChangeTab}
             style={styles.holiTabs}
-            tabBarStyle={tabBarStyle}
             backgroundColor={colors.background20}
             scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
             initialStep={initialTabIndex}

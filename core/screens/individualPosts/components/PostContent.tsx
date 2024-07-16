@@ -48,7 +48,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             </HoliText>
           </View>
         )}
-        <HoliMediaAuthorHeader author={post.creator} authorBold date={post.createdAt} />
+        <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} />
         <View style={styles.pillContainer}>
           <View style={[styles.pill, styles.categoryPill]}>
             <HoliText size="small" numberOfLines={1}>
@@ -67,14 +67,14 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
           <HoliHeading level="1" size="m" numberOfLines={3}>
             {post.title}
           </HoliHeading>
-          <HoliRichTextOutput text={post.description} allowAllLinks users={post.mentions || []} />
+          <HoliRichTextOutput text={post.description} allowAllLinks users={post.mentionedUsers || []} />
         </View>
-        {!!post.image && (
+        {!!post.imageUrl && (
           <View style={[styles.imageContainer, styles.blockContainer]}>
             <HoliImage
               label={post.title}
               source={{
-                uri: post.image,
+                uri: post.imageUrl,
               }}
               blurhash={post.imageBlurhash}
               resizeMode="cover"

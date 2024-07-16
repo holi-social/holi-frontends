@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
+import { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
 export interface InputProps {
@@ -24,9 +25,10 @@ export interface InputProps {
   value: any
   disabled?: boolean
   textInputOverride?: TextInputOverride
+  role?: AccessibilityRoleWeb
 }
 
-interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | 'value'> {
+interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | 'value' | 'role'> {
   node: UiNode
   attributes: UiNodeInputAttributes
   autofocus: boolean
@@ -119,6 +121,7 @@ const FormInputField = React.forwardRef<View, Props>(
       translationPrefix,
       isSignin,
       style,
+      role,
       ...restProps
     },
     ref
@@ -178,6 +181,7 @@ const FormInputField = React.forwardRef<View, Props>(
         }}
         style={style}
         testID={`ory-${fieldName.replace(/\./gi, '-')}`}
+        role={role}
         {...restProps}
         ref={ref}
       />

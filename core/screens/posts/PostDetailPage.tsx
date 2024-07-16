@@ -242,7 +242,6 @@ const getStyles = (theme: HoliTheme) =>
       }),
     },
     postCommentButton: {
-      paddingTop: 18,
       flex: 1,
     },
   })

@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import Constants from 'expo-constants'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
@@ -25,7 +24,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -47,7 +46,7 @@ const DonationsAppProjectDetail = () => {
   const [projectId] = useParam('projectId')
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
-  const statusBarHeight = Constants.statusBarHeight
+  const statusBarHeight = constants.statusBarHeight
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(statusBarHeight, theme), [statusBarHeight, theme])

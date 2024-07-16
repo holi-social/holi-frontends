@@ -4,7 +4,6 @@ import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
 import colorsLight from '@holi/ui/styles/globalVars/colors.light'
 import defaultTheme, { HoliTheme, ThemeContext } from '@holi/ui/styles/theme'
 import { getColorScheme, setColorScheme } from '@holi/ui/styles/theme/colors'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type ModalState = { [key: string]: boolean }
 
@@ -30,7 +29,6 @@ export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWit
 
   const [modalCurrentStatus, setModalCurrentStatus] = React.useState<ModalState>({})
   const anyModalOpen = useMemo(() => Object.values(modalCurrentStatus).some((value) => value), [modalCurrentStatus])
-  const mixins = useStyleMixins()
 
   const setModalIsOpen = useCallback((modalId: string, isOpen: boolean) => {
     setModalCurrentStatus((currentMap: ModalState) => {
@@ -46,7 +44,7 @@ export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWit
   return (
     <ThemeContext.Provider
       value={{
-        theme: { ...theme, dark: isDark, mixins, colors },
+        theme: { ...theme, dark: isDark, colors },
         toggleDarkMode,
         modalIsOpen: anyModalOpen,
         setModalIsOpen,

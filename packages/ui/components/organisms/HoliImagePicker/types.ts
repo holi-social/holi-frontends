@@ -1,8 +1,9 @@
+import { ReactNativeFile } from '@holi/api/graphql/client'
 import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 
 export interface HoliImageInfo {
   uri: string
-  blob: File
+  blob: ReactNativeFile | File
   base64?: string | null
   height: number
   width: number

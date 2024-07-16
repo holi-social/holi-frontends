@@ -147,6 +147,7 @@ const getStyles = (checked = false, theme: HoliTheme) =>
       borderRadius: 8,
       ...Platform.select({
         web: {
+          outlineColor: theme.colors.brandColorB30,
           boxShadow: `0px 0px 0.7px 0.7px ${checked ? theme.colors.brandColorB30 : theme.colors.background20}`,
         },
       }),

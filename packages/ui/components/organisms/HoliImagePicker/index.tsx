@@ -1,7 +1,7 @@
-import { ReactNativeFile } from 'apollo-upload-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { ReactNativeFile } from '@holi/api/graphql/client'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
