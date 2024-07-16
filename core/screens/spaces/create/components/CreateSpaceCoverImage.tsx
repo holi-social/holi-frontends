@@ -8,8 +8,8 @@ import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface CreateSpaceCoverImageProps {
-  onUploadImage: (image: HoliImageInfo | null) => void
-  coverImage: HoliImageInfo | undefined
+  onUploadImage: (image: HoliImageInfo) => void
+  coverImage: HoliImageInfo
 }
 
 const CreateSpaceCoverImage: React.FC<CreateSpaceCoverImageProps> = ({
