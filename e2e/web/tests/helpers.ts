@@ -45,17 +45,10 @@ export const denyConsent = (page: Page) =>
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
   await page.goto('/profile')
-  await dismissConsentDialog(page)
 }
 
-export const gotoFillAndSubmitLogin = async (
-  context: BrowserContext,
-  page: Page,
-  email: string,
-  password: string
-): Promise<void> => {
+export const login = async (context: BrowserContext, page: Page, email: string, password: string): Promise<void> => {
   await prepareForLoginOrRegistration(context, page)
-
   await clickElementByTestId(page, 'anonymous-profile-login-btn')
 
   const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
@@ -73,6 +66,8 @@ export const registerUserAccount = async (
   email: string,
   password: string
 ): Promise<{ id: string; fullName: string }> => {
+  await page.goto('/profile')
+  dismissConsentDialog(page)
   await registerUser(context, page, email, password)
   return await finishAccountSetup(page)
 }
@@ -187,12 +182,7 @@ export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promi
       'The environment variable E2E_USER_PASSWORD is not set up correctly, please set it up.'
     )
     .toBeTruthy()
-  await gotoFillAndSubmitLogin(
-    context,
-    page,
-    process.env.E2E_USER_USERNAME as string,
-    process.env.E2E_USER_PASSWORD as string
-  )
+  await login(context, page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
   // wait for profile - login succeeded
   await page.waitForSelector(byTestId('home-feed-insights-heading'))
 }

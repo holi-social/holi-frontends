@@ -1,10 +1,20 @@
-import { byTestId, checkAccessibility, clickElementByTestId, gotoFillAndSubmitLogin, loginAsE2EUser } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  dismissConsentDialog,
+  login,
+  loginAsE2EUser,
+} from './helpers'
 import { test } from './testmaster'
 
 test.describe('@Login', () => {
   test('Login - Logout', async ({ context, page }) => {
+    await page.goto('/')
+    await dismissConsentDialog(page)
+
     // should not work with invalid credentials
-    await gotoFillAndSubmitLogin(context, page, 'asfd@asdf.de', '1234')
+    await login(context, page, 'asfd@asdf.de', '1234')
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
     // for more ory error codes
     await page.waitForSelector(byTestId('toast-message-4000006'))
