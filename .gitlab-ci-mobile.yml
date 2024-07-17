@@ -285,6 +285,21 @@ mobile_production_publish_release-candidate_channel:
   only:
     - production
 
+# this job always publishes the latest build on the production branch to the release-candidate channel for internal use with development builds
+mobile_production_publish_release-candidate-staging_channel:
+  extends: .mobile_publish
+  needs: ['lint_compile_test']
+  allow_failure: false
+  environment:
+    name: mobile-release-candidate-staging
+    deployment_tier: production
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=release-candidate-staging
+  variables:
+    ENVIRONMENT_FILE: .env.staging
+    EXPO_PUBLISH_RELEASE_CHANNEL: release-candidate-staging
+  only:
+    - production
+
 # this job always publishes the latest production release to the production channel for internal use with development builds
 mobile_production_publish_production_channel:
   extends: .mobile_publish
