@@ -260,7 +260,7 @@ mobile_production_publish_release_channel:
   needs: ['lint_compile_test']
   allow_failure: false
   environment:
-    name: mobile-production
+    name: mobile-production-release
     deployment_tier: production
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
   variables:
@@ -270,18 +270,18 @@ mobile_production_publish_release_channel:
     - production
   when: manual
 
-# this job always publishes the latest build on the production branch to the pre-production channel for internal use with development builds
-mobile_production_publish_pre-production_channel:
+# this job always publishes the latest build on the production branch to the release-candidate channel for internal use with development builds
+mobile_production_publish_release-candidate_channel:
   extends: .mobile_publish
   needs: ['lint_compile_test']
   allow_failure: false
   environment:
-    name: mobile-production
+    name: mobile-release-candidate
     deployment_tier: production
-    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=pre-production
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=release-candidate
   variables:
     ENVIRONMENT_FILE: .env.production
-    EXPO_PUBLISH_RELEASE_CHANNEL: pre-production
+    EXPO_PUBLISH_RELEASE_CHANNEL: release-candidate
   only:
     - production
 
