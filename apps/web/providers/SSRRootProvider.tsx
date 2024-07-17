@@ -28,7 +28,7 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
 
   return (
     <ThemeProvider theme={defaultHoliTheme}>
-      <ErrorBoundary>
+      <ErrorBoundary showErrorMsg allowReload>
         <ApolloProvider client={apolloWebClient}>
           <TrackingInitializer />
           <ToastProvider>

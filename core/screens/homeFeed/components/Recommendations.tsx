@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
@@ -28,13 +29,17 @@ const Recommendations = () => {
         <HoliHeading size="l">{t('recommendations.title')}</HoliHeading>
       </HoliContainer>
 
-      <HoliContainer>
-        <SpaceRecommendations />
-      </HoliContainer>
+      <ErrorBoundary>
+        <HoliContainer>
+          <SpaceRecommendations />
+        </HoliContainer>
+      </ErrorBoundary>
 
-      <HoliContainer>
-        <TaskRecommendations />
-      </HoliContainer>
+      <ErrorBoundary>
+        <HoliContainer>
+          <TaskRecommendations />
+        </HoliContainer>
+      </ErrorBoundary>
 
       {displayDonations && (
         <HoliContainer>
