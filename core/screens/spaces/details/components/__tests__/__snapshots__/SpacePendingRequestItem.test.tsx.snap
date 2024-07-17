@@ -988,7 +988,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
   <Modal
     accessibilityLabel="spaces.collaborators.permissions.label"
     accessibilityViewIsModal={true}
-    animationType="fade"
+    animationType="none"
     hardwareAccelerated={false}
     onRequestClose={[Function]}
     testID="space-collaborators-permissions-modal"

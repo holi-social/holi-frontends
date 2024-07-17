@@ -4,6 +4,9 @@ import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 
 import i18n from '@holi/core/i18n'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('react-native-reanimated/src/reanimated2/jestUtils').setUpTests()
+
 global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()
 
