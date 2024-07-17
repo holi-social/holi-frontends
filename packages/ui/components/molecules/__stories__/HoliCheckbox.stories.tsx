@@ -1,6 +1,5 @@
-import { useState } from '@storybook/client-api'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import React from 'react'
+import React, { useState } from 'react'
 
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 

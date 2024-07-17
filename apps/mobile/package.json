@@ -58,7 +58,6 @@
     "react-native": "0.73.6",
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-calendars": "^1.1303.0",
-    "react-native-card-stack-swiper": "^1.2.5",
     "react-native-controlled-mentions": "^2.2.5",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-image-pan-zoom": "^2.1.12",

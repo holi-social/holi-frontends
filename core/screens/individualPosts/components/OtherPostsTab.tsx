@@ -25,7 +25,7 @@ const OtherPostsTab = ({ userId, userFirstName }: PostsTabProps) => {
               text={t('individuals.post.emptyTitleOther', { name: userFirstName || t('user.profileView.anonymous') })}
             />
           }
-          feedPostsQuery={postsByUserIdQuery}
+          postsQuery={postsByUserIdQuery}
           paginationOptions={{ variables: { userId }, queryPath: 'postsByUserId', pageSize: 10 }}
         />
       </View>

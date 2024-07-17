@@ -11,5 +11,6 @@ export const getCommonStyles = (theme: HoliTheme) =>
         shadowOpacity: 0.5,
         shadowRadius: 3,
       },
+      default: {},
     }),
   })

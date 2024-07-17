@@ -84,7 +84,7 @@ const DiscussionDetailPage = () => {
     isLoggedIn
       ? replaceRoute(`/insights/${insightId}/discussions/${discussionId}/comment`)
       : openLoginModal({
-          description: t('comments.loginRedirect.text'),
+          description: t('insight.discussion.comment.loginRedirect.text'),
         })
 
   return (
@@ -180,7 +180,6 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
       }),
     },
     commentButton: {
-      paddingTop: 18,
       flex: 1,
     },
   })

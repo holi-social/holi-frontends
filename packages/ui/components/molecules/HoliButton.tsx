@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import {
   AccessibilityProps,
+  AccessibilityRole,
   AccessibilityState,
   GestureResponderEvent,
   NativeMouseEvent,
@@ -70,7 +71,7 @@ const HoliButton = ({
           'aria-checked': props.ariaChecked,
         }
       : {
-          accessibilityRole: props.role || 'button',
+          accessibilityRole: (props.role || 'button') as AccessibilityRole,
           accessibilityLabel: props.label,
         }),
     accessible: !disableFocusability,
@@ -195,8 +196,12 @@ const getStyles = (inline: boolean, isWarning: boolean, theme: HoliTheme) =>
     },
     focused: {
       outlineWidth: 2,
-      outlineColor: isWarning ? theme.colors.error30 : theme.colors.foreground30,
-      outlineStyle: 'solid',
+      ...Platform.select({
+        web: {
+          outlineColor: isWarning ? theme.colors.error30 : theme.colors.foreground30,
+          outlineStyle: 'solid',
+        },
+      }),
     },
     pressedPrimary: {
       backgroundColor: theme.colors.brandColorA30,

@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -20,7 +21,7 @@ import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggesti
 import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { allPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
@@ -72,7 +73,7 @@ const HomeFeed = () => {
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
-        feedPostsQuery,
+        allPostsQuery,
         lastInsightsQuery,
         donationsEnabled ? donationProjectsQuery : undefined,
         goodnewsEnabled ? goodNewsArticlesQuery : undefined,
@@ -94,10 +95,18 @@ const HomeFeed = () => {
         <View style={styles.sections}>
           <HomeFeedHeader />
           <AttendingChallengeEvents />
-          <AllPosts />
-          <RecommendedChallenges />
-          <InsightsOfTheWeek />
-          <Recommendations />
+          <ErrorBoundary>
+            <AllPosts />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <RecommendedChallenges />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <InsightsOfTheWeek />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Recommendations />
+          </ErrorBoundary>
           {isLoggedIn && <UserSuggestions />}
         </View>
       </ScrollHeaderLayout.Refreshable>

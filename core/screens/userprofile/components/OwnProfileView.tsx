@@ -8,7 +8,6 @@ import { StyleSheet, View } from 'react-native'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import { logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useTabNavigation from '@holi/core/hooks/useTabNavigation'
@@ -22,7 +21,6 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -54,8 +52,6 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
-
   const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
     variables: { userId: user.id },
     onError: (error) =>
@@ -86,7 +82,6 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
       </HoliContainer>
       <HoliTabs
         style={{ marginTop: 24, flex: 1 }}
-        tabBarStyle={tabBarStyle}
         backgroundColor={colors.background20}
         initialStep={initialTabIndex}
         onChangeTab={handleTabChanged}

@@ -15,7 +15,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type MouseEnterOutEvent = SyntheticEvent<Element, SyntheticEvent<Element, MouseEvent>>
+export type MouseEnterOutEvent = NativeSyntheticEvent<NativeMouseEvent>
 
 export interface HoliReactionsCountProps {
   type: 'post' | 'comment' | 'insight'

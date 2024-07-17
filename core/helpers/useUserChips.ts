@@ -28,8 +28,8 @@ export interface UseUserChipsOptions {
 }
 
 const getSortedAndFilteredTerms = (
-  availableTerms: Term[],
-  selectedTerms: Term[],
+  availableTerms: readonly Term[],
+  selectedTerms: readonly Term[],
   filterString = ''
 ): SelectableTerm[] => {
   const unselectedTerms = availableTerms.filter((term) => !selectedTerms.find((t) => t.id === term.id))

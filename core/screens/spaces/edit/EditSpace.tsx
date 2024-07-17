@@ -1,4 +1,3 @@
-import Constants from 'expo-constants'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -45,7 +44,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 enum EditFields {
@@ -131,7 +130,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
   const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
-  const statusBarHeight = Constants.statusBarHeight
+  const statusBarHeight = constants.statusBarHeight
   const windowWidth = useWindowDimensions().width
   const { theme } = useTheme()
   const { colors } = theme

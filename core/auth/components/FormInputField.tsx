@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 
 import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
+import { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
 export interface InputProps {
@@ -24,9 +25,10 @@ export interface InputProps {
   value: any
   disabled?: boolean
   textInputOverride?: TextInputOverride
+  role?: AccessibilityRoleWeb
 }
 
-interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | 'value'> {
+interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | 'value' | 'role'> {
   node: UiNode
   attributes: UiNodeInputAttributes
   autofocus: boolean
@@ -35,13 +37,13 @@ interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | '
   style?: StyleProp<ViewStyle>
 }
 
+// https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
 enum OryErrorCode {
   EMAIL_OR_PASSWORD_WRONG = 4000001,
   EMAIL_OR_PASSWORD_MISSING = 4000002,
   INVALID_PASSWORD = 4000005,
 }
-
-const ORY_SIGNIN_NODE_ID = 1070001 // https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
+const ORY_SIGNIN_NODE_ID = 1070001
 
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
 
@@ -119,6 +121,7 @@ const FormInputField = React.forwardRef<View, Props>(
       translationPrefix,
       isSignin,
       style,
+      role,
       ...restProps
     },
     ref
@@ -178,6 +181,7 @@ const FormInputField = React.forwardRef<View, Props>(
         }}
         style={style}
         testID={`ory-${fieldName.replace(/\./gi, '-')}`}
+        role={role}
         {...restProps}
         ref={ref}
       />

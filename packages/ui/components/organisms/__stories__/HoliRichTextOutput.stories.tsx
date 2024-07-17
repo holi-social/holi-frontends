@@ -15,12 +15,14 @@ const DUMMY_COMMENT = {
       fullName: 'Uschi Meyer',
       avatarLabel: '',
       avatarDefaultColor: '',
+      identity: '',
     },
     {
       id: '5dbeb15e-1fac-4292-96fc-9fbe2e6edbb4',
       fullName: 'Manni Müller',
       avatarLabel: '',
       avatarDefaultColor: '',
+      identity: '',
     },
   ],
 }

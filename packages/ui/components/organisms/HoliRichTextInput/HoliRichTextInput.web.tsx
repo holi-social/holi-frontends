@@ -8,7 +8,7 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { EditorState, LexicalEditor } from 'lexical'
 import React, { useCallback, useMemo, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
@@ -50,7 +50,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
             limit: maxSuggestionOptions,
           },
         })
-          .then((response) => resolve([...(response?.data?.userByName.data as User[])] ?? []))
+          .then((response) => resolve([...(response?.data?.userByName.data ?? [])]))
           .catch(reject)
       })
     },
@@ -151,6 +151,11 @@ const getStyles = (theme: HoliTheme) =>
       color: theme.colors.foreground20,
       overflow: 'hidden',
       position: 'absolute',
+      ...Platform.select({
+        web: {
+          textOverflow: 'ellipsis',
+        },
+      }),
       top: TEXT_INPUT_VERTICAL_PADDING,
       left: TEXT_INPUT_HORIZONTAL_PADDING,
       userSelect: 'none',

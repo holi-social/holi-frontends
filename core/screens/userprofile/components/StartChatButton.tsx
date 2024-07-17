@@ -12,6 +12,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -24,7 +25,7 @@ export function StartChatButton({
   user: User | null
   label: string
   doReplaceRoute?: boolean
-}) {
+} & HoliButtonProps) {
   const { t } = useTranslation()
   const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
   const isChatInitialized = useChatInitialized()

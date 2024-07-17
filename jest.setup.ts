@@ -13,7 +13,7 @@ global.mockOpenToast = jest.fn()
 global.TextEncoder = jest.fn()
 
 jest.mock('@react-navigation/native', () => {
-  const actualNav = jest.requireActual('@react-navigation/native')
+  const actualNav = jest.requireActual('@react-navigation/native') as object
   return {
     ...actualNav,
     useIsFocused: () => true,
@@ -37,7 +37,7 @@ jest.mock('react-native/Libraries/Linking/Linking', () => ({
 jest.mock('expo-linking', () => {
   const module: typeof import('expo-linking') = {
     ...jest.requireActual('expo-linking'),
-    createURL: jest.fn(),
+    createURL: jest.fn((path: string) => path),
   }
 
   return module
@@ -53,10 +53,12 @@ jest.mock('react-native/Libraries/Network/RCTNetworking')
 
 jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
 
+jest.mock('apollo-upload-client/createUploadLink.mjs', () => jest.fn())
+
 jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
 
 jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
-  const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider')
+  const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider') as object
   return {
     ...original,
     useToast: () => ({

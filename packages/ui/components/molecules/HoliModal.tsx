@@ -1,4 +1,3 @@
-import Constants from 'expo-constants'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -25,10 +24,11 @@ import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
+import { constants } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
-const IOS_STATUS_BAR_HEIGHT = Constants.statusBarHeight
+const IOS_STATUS_BAR_HEIGHT = constants.statusBarHeight
 
 /**
  * "relativeHeight" is a percentage value (from 0 to 1). When its value is 1 and autoHeight is false, the modal is fullscreen.
