@@ -7,7 +7,7 @@ const SvgAppsSoonFilled = (props) => (
       <Path
         fill="currentColor"
         fillRule="evenodd"
-        d="M17.998 2a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4h-12a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4h12Zm-6 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16ZM11 12V7h2v7H7v-2h4Z"
+        d="M17.999 2a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4h-12a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4zm-6 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16m-1-8V7h2v7H7v-2z"
         clipRule="evenodd"
       />
     </G>

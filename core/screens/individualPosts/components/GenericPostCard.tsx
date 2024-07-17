@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import { useLoginState } from '@holi/core/auth/loginState'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuthorHeader'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -147,6 +148,8 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={feedPost.mentionedUsers}
             />
           </HoliReadMore>
+
+          <HoliTranslate />
         </View>
 
         {!!feedPost.imageUrl && (
@@ -293,6 +296,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={spacePost.mentions}
             />
           </HoliReadMore>
+          <HoliTranslate />
         </View>
 
         {!!spacePost.image && (
@@ -312,6 +316,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         )}
         {!spacePost.image && !!spacePost.links?.[0] && (
           <HoliLinkPreview
+            style={styles.linkPreview}
             previewData={spacePost.links?.[0]}
             onPress={() => track(TrackingEvent.FeedPosts.read(spacePost.id))}
           />
@@ -377,6 +382,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       aspectRatio: 16 / 9,
       overflow: 'hidden',
+      marginTop: Spacing.xs,
     },
     image: {
       height: '100%',
@@ -404,7 +410,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     description: {
       marginTop: Spacing.xxs,
-      marginBottom: Spacing.xs,
+    },
+    linkPreview: {
+      marginTop: Spacing.xs,
     },
   })
 
