@@ -219,6 +219,8 @@ web_staging_e2e:
 
 release_production:
   needs: ['web_build_docker']
+  script:
+    - echo "deploy to web production and publish bundle to production channel"
   only:
     - production
   when: manual
