@@ -217,9 +217,15 @@ web_staging_e2e:
 
 ## production environment
 
+release_production:
+  needs: ['web_build_docker']
+  only:
+    - production
+  when: manual
+
 web_production_deploy:
   extends: .web_deploy
-  needs: ['web_build_docker']
+  needs: ['web_build_docker', 'release_production']
   allow_failure: false
   environment:
     name: web-production
@@ -229,4 +235,3 @@ web_production_deploy:
     ENVIRONMENT_ID: production
   only:
     - production
-  when: manual
