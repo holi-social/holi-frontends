@@ -1,5 +1,6 @@
-import React, { ReactNode, useContext } from 'react'
+import React, { ReactNode, useContext, useEffect, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
@@ -30,6 +31,12 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
   const numberOfColumns = useBreakpointMatcher() || 1
   const { topics: allTopics } = useContext(SpaceTermContext)
 
+  const prevCardIds = useRef(data.map((p) => p.id))
+  const newCardIds = data.filter((p) => !prevCardIds.current.includes(p.id)).map((p) => p.id)
+  useEffect(() => {
+    prevCardIds.current = data.map((p) => p.id)
+  }, [data])
+
   if (loading) return <LoadingSkeleton columns={numberOfColumns} />
   if (totalResults == 0) return emptyMessage
 
@@ -40,7 +47,14 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
       {dataByColumns.map((column, index) => (
         <View key={index} style={styles.column}>
           {column.map((p) => (
-            <GenericPostCard key={p.id} post={p} showVisibilityBadge={showVisibilityBadge} allTopics={allTopics} />
+            <Animated.View
+              key={p.id}
+              entering={
+                newCardIds.includes(p.id) ? FadeInDown.delay(Math.max(0, newCardIds.indexOf(p.id) * 150)) : undefined
+              }
+            >
+              <GenericPostCard key={p.id} post={p} showVisibilityBadge={showVisibilityBadge} allTopics={allTopics} />
+            </Animated.View>
           ))}
         </View>
       ))}
