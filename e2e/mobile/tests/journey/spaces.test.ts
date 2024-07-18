@@ -96,7 +96,7 @@ describe('@Spaces', () => {
 
     // create space - cover image
     // We mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
-    await scrollToElementWithTestId('create-space-remove-image-btn', 'down')
+    await scrollToElementWithTestId('create-space-image-container', 'down')
     await tapOnElementWithTestId('holi-wizard-save-btn')
   }
 
