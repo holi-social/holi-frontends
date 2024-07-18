@@ -10,6 +10,7 @@ import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
+import PosthogProvider from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
@@ -29,23 +30,25 @@ const SSRRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       <ErrorBoundary showErrorMsg allowReload>
-        <ApolloProvider client={apolloWebClient}>
-          <TrackingInitializer />
-          <ToastProvider>
-            <PortalProvider>
-              <SessionExpiryProtection>
-                <FeatureTogglesFetcher />
-                <LoginModalProvider>
-                  <ChatSessionInitializer>
-                    <ChatProvider>{children}</ChatProvider>
-                  </ChatSessionInitializer>
-                </LoginModalProvider>
-              </SessionExpiryProtection>
-            </PortalProvider>
-          </ToastProvider>
+        <PosthogProvider>
+          <ApolloProvider client={apolloWebClient}>
+            <TrackingInitializer />
+            <ToastProvider>
+              <PortalProvider>
+                <SessionExpiryProtection>
+                  <FeatureTogglesFetcher />
+                  <LoginModalProvider>
+                    <ChatSessionInitializer>
+                      <ChatProvider>{children}</ChatProvider>
+                    </ChatSessionInitializer>
+                  </LoginModalProvider>
+                </SessionExpiryProtection>
+              </PortalProvider>
+            </ToastProvider>
 
-          <TrackingConsentModal />
-        </ApolloProvider>
+            <TrackingConsentModal />
+          </ApolloProvider>
+        </PosthogProvider>
       </ErrorBoundary>
     </ThemeProvider>
   )

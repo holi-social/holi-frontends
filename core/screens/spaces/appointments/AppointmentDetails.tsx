@@ -93,7 +93,6 @@ const AppointmentDetails = () => {
   const appointment = appointmentData?.appointment
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isMobile = Platform.OS !== 'web'
 
   const renderActionDrawer = useCallback(
     () =>
@@ -340,13 +339,7 @@ const AppointmentDetails = () => {
           <View style={styles.card}>
             <AppointmentCalendarButton appointment={appointment} />
             <HoliGap size="s" />
-            <ShareAppointment
-              space={space}
-              appointment={appointment}
-              isMobile={isMobile}
-              date={date}
-              startTime={startTime}
-            />
+            <ShareAppointment space={space} appointment={appointment} date={date} startTime={startTime} />
           </View>
           <View style={styles.card}>
             <HoliHeading level="2" size="m">

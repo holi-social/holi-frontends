@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { isApp } from '@holi/core/helpers/isApp'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { Space } from '@holi/core/screens/spaces/types'
@@ -13,7 +14,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 type ShareAppointmentProps = {
   space: Space
   appointment: Appointment
-  isMobile: boolean
   date: string
   startTime: string
 }
@@ -21,7 +21,6 @@ type ShareAppointmentProps = {
 const ShareAppointment: React.FC<ShareAppointmentProps> = ({
   space,
   appointment,
-  isMobile,
   date,
   startTime,
 }: ShareAppointmentProps) => {
@@ -41,18 +40,14 @@ const ShareAppointment: React.FC<ShareAppointmentProps> = ({
   const [, shareLink] = useShareLink({
     link: `/spaces/${space?.name}/appointments/${appointment?.id}`,
     linkType: LinkType.UNIVERSAL,
-    message: isMobile ? message : '',
+    message: isApp ? message : '',
   })
 
   return (
-    <HoliButton
-      transparent
-      label={isMobile ? t('global.share') : t('spaces.appointments.copyLink')}
-      onPress={shareLink}
-    >
+    <HoliButton transparent label={isApp ? t('global.share') : t('spaces.appointments.copyLink')} onPress={shareLink}>
       <View style={styles.shareContainer}>
-        <HoliIcon icon={isMobile ? Share : FileCopy} size={24} style={styles.shareIcon} />
-        <HoliText bold>{isMobile ? t('global.share') : t('spaces.appointments.copyLink')}</HoliText>
+        <HoliIcon icon={isApp ? Share : FileCopy} size={24} style={styles.shareIcon} />
+        <HoliText bold>{isApp ? t('global.share') : t('spaces.appointments.copyLink')}</HoliText>
       </View>
     </HoliButton>
   )
