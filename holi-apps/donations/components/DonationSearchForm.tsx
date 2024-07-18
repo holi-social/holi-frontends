@@ -55,7 +55,7 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
           testID="donations-search-location"
           id="donations-search-location"
           onChangeText={(value) => setLocationInput(value)}
-          onSubmit={(selected: GeolocationSuggestion) => onSubmit(selected.label)}
+          onSubmit={(selected?: GeolocationSuggestion) => onSubmit(selected?.label)}
           onChange={(selected: GeolocationSuggestion) => setLocationInput(selected.label)}
         />
       </View>
