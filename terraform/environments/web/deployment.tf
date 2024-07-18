@@ -19,7 +19,6 @@ resource "google_project_service" "service" {
 
   service = each.key
 
-  project = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
   # keep this property as false. Having it true caused https://holi.atlassian.net/wiki/spaces/HOLI/pages/348258312/2023-06-27+All+services+down
   disable_dependent_services = false
   disable_on_destroy         = false
@@ -32,7 +31,6 @@ variable "image_tag" {
 }
 
 resource "google_cloud_run_service" "mvp_web" {
-  project  = data.terraform_remote_state.holi_infra_state.outputs.shared_project_id
   name     = random_id.main.hex
   location = "europe-north1" # finland, low CO2 emissions
   # https://github.com/hashicorp/terraform-provider-google/issues/5898
@@ -157,4 +155,32 @@ resource "google_cloud_run_service_iam_policy" "mvp_web" {
   service  = google_cloud_run_service.mvp_web.name
 
   policy_data = data.google_iam_policy.mvp_web.policy_data
+}
+
+# monitoring
+
+resource "google_monitoring_uptime_check_config" "mvp_web" {
+  count            = terraform.workspace == "production" ? 1 : 0 # only monitor production because of cost
+  display_name     = "Uptime Monitoring ${google_cloud_run_domain_mapping.app_web.name}"
+  timeout          = "10s"
+  period           = "900s"
+  selected_regions = ["EUROPE", "ASIA_PACIFIC", "SOUTH_AMERICA"]
+
+  http_check {
+    path         = "/"
+    port         = "443"
+    use_ssl      = true
+    validate_ssl = true
+    accepted_response_status_codes {
+      status_class = "STATUS_CLASS_2XX"
+    }
+  }
+
+  monitored_resource {
+    type = "uptime_url"
+    labels = {
+      project_id = "holi-shared"
+      host       = google_cloud_run_domain_mapping.app_web.name
+    }
+  }
 }
