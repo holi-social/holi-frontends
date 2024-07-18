@@ -3,9 +3,11 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -64,8 +66,16 @@ const HomeFeed = () => {
       headerTransparent: true,
       headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
-      headerLeft: () => <HoliLogo />,
-      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
+      headerLeft: () => (
+        <Animated.View entering={FadeInLeft}>
+          <HoliLogo />
+        </Animated.View>
+      ),
+      headerRight: (props) => (
+        <Animated.View entering={FadeInRight}>
+          <NotificationAndSearchHeader {...props} />
+        </Animated.View>
+      ),
     })
   }, [navigate, t, headerTitle, setScreenOptions, colors.background10])
 
@@ -92,12 +102,23 @@ const HomeFeed = () => {
         style={[styles.layout, { backgroundColor: colors.white200 }]}
       >
         <View style={styles.sections}>
-          <HomeFeedHeader />
+          <Animated.View entering={FadeInDown}>
+            <HomeFeedHeader />
+          </Animated.View>
+
           <AttendingChallengeEvents />
-          <AllPosts />
-          <RecommendedChallenges />
-          <InsightsOfTheWeek />
-          <Recommendations />
+          <ErrorBoundary>
+            <AllPosts />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <RecommendedChallenges />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <InsightsOfTheWeek />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Recommendations />
+          </ErrorBoundary>
           {isLoggedIn && <UserSuggestions />}
         </View>
       </ScrollHeaderLayout.Refreshable>

@@ -24,6 +24,8 @@ const posthogCrossPlatformMock = {
 } as PosthogCrossPlatform
 const usePosthogCrossPlatformMock = usePosthogCrossPlatform as jest.Mock
 
+jest.unmock('@holi/core/tracking/hooks/useTracking')
+
 beforeEach(() => {
   usePosthogCrossPlatformMock.mockReset()
   useConsentStateMock.mockReset()
@@ -48,7 +50,6 @@ describe('useTracking', () => {
 
         // WHEN
         const tracking = useTracking()
-        console.debug('tracking', tracking)
         tracking.track({
           name: 'testEvent',
           event_version__major: 1,
@@ -81,7 +82,6 @@ describe('useTracking', () => {
 
         // WHEN
         const tracking = useTracking()
-        console.debug('tracking', tracking)
         tracking.track({
           name: 'testEvent',
           event_version__major: 1,

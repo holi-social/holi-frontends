@@ -37,13 +37,13 @@ interface Props extends InputProps, Omit<Partial<TextInputProps>, 'onChange' | '
   style?: StyleProp<ViewStyle>
 }
 
+// https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
 enum OryErrorCode {
   EMAIL_OR_PASSWORD_WRONG = 4000001,
   EMAIL_OR_PASSWORD_MISSING = 4000002,
   INVALID_PASSWORD = 4000005,
 }
-
-const ORY_SIGNIN_NODE_ID = 1070001 // https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
+const ORY_SIGNIN_NODE_ID = 1070001
 
 export type TextInputOverride = (field: UiNode, props: TextInputProps) => TextInputProps
 

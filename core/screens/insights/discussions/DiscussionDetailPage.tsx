@@ -84,7 +84,7 @@ const DiscussionDetailPage = () => {
     isLoggedIn
       ? replaceRoute(`/insights/${insightId}/discussions/${discussionId}/comment`)
       : openLoginModal({
-          description: t('comments.loginRedirect.text'),
+          description: t('insight.discussion.comment.loginRedirect.text'),
         })
 
   return (

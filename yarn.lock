@@ -1137,6 +1137,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/plugin-proposal-export-namespace-from@npm:^7.18.9":
+  version: 7.18.9
+  resolution: "@babel/plugin-proposal-export-namespace-from@npm:7.18.9"
+  dependencies:
+    "@babel/helper-plugin-utils": "npm:^7.18.9"
+    "@babel/plugin-syntax-export-namespace-from": "npm:^7.8.3"
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 10c0/b90346bd3628ebd44138d0628a5aba1e6b11748893fb48e87008cac30f3bc7cd3161362e49433156737350318174164436357a66fbbfdbe952606b460bd8a0e4
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-proposal-nullish-coalescing-operator@npm:^7.13.8, @babel/plugin-proposal-nullish-coalescing-operator@npm:^7.18.0":
   version: 7.18.6
   resolution: "@babel/plugin-proposal-nullish-coalescing-operator@npm:7.18.6"
@@ -1959,6 +1971,18 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 10c0/442f40203b8acfcada342716d242518117f1b130f5f9a053aeae972939c7100b8362adaee7524f8bcc28b40a134992d5c31ac2b4d7069f96614eb583ba2b13e0
+  languageName: node
+  linkType: hard
+
+"@babel/plugin-transform-export-namespace-from@npm:^7.24.7":
+  version: 7.24.7
+  resolution: "@babel/plugin-transform-export-namespace-from@npm:7.24.7"
+  dependencies:
+    "@babel/helper-plugin-utils": "npm:^7.24.7"
+    "@babel/plugin-syntax-export-namespace-from": "npm:^7.8.3"
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 10c0/4e144d7f1c57bc63b4899dbbbdfed0880f2daa75ea9c7251c7997f106e4b390dc362175ab7830f11358cb21f6b972ca10a43a2e56cd789065f7606b082674c0c
   languageName: node
   linkType: hard
 
@@ -5943,6 +5967,7 @@ __metadata:
     expo-linking: ~6.2.2
     react: 18.2.0
     react-native: 0.73.6
+    react-native-reanimated: ~3.6.2
     react-native-svg: 14.1.0
     react-zoom-pan-pinch: ^2.1.3
   languageName: unknown
@@ -6115,6 +6140,7 @@ __metadata:
     lottie-react-native: 6.5.1
     react: 18.2.0
     react-native: 0.73.6
+    react-native-reanimated: ~3.6.2
     react-native-svg: 14.1.0
   languageName: unknown
   linkType: soft
@@ -6123,6 +6149,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@holi/web@workspace:apps/web"
   dependencies:
+    "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
+    "@babel/plugin-transform-export-namespace-from": "npm:^7.24.7"
     "@blunck/next-html": "npm:^1.0.0"
     "@emotion/react": "npm:^11.11.1"
     "@lexical/react": "npm:^0.6.0"
@@ -6145,7 +6173,7 @@ __metadata:
     next-http-proxy-middleware: "npm:^1.2.6"
     ni18n: "npm:^1.1.0"
     pino: "npm:^8.8.0"
-    posthog-js: "npm:^1.130.0"
+    posthog-js: "npm:^1.147.0"
     raf: "npm:^3.4.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -6153,6 +6181,7 @@ __metadata:
     react-intersection-observer: "npm:^9.5.2"
     react-native-gesture-handler: "npm:~2.14.0"
     react-native-media-query: "npm:^2.0.1"
+    react-native-reanimated: "npm:~3.6.2"
     react-native-svg-web: "npm:^1.0.9"
     react-native-web: "npm:^0.19.10"
     react-zoom-pan-pinch: "npm:^2.1.3"
@@ -26698,13 +26727,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.130.0":
-  version: 1.130.0
-  resolution: "posthog-js@npm:1.130.0"
+"posthog-js@npm:^1.147.0":
+  version: 1.147.0
+  resolution: "posthog-js@npm:1.147.0"
   dependencies:
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
-  checksum: 10c0/63914ab33c424d685149c54d6c06f61ee468e9b02bf980706dbe64579a4d46392ecdc54a36418d4516181e1d4b111c5bc43a6395355b24dd3dc753d51588c0f6
+    web-vitals: "npm:^4.0.1"
+  checksum: 10c0/9026caadc44dd717099716df95e8bc124aa75ae46078fa60d992f05a695e9854c4c0fd675838073dff63944aac3d0f030a8bcb3dd0d4b70fc6fe407b1b28c02d
   languageName: node
   linkType: hard
 
@@ -32410,6 +32440,13 @@ __metadata:
   version: 3.2.1
   resolution: "web-streams-polyfill@npm:3.2.1"
   checksum: 10c0/70ed6b5708e14afa2ab699221ea197d7c68ec0c8274bbe0181aecc5ba636ca27cbd383d2049f0eb9d529e738f5c088825502b317f3df24d18a278e4cc9a10e8b
+  languageName: node
+  linkType: hard
+
+"web-vitals@npm:^4.0.1":
+  version: 4.2.1
+  resolution: "web-vitals@npm:4.2.1"
+  checksum: 10c0/e31bdd5f872ed47a2eb2e0e2b69ea035effc4bb8b9df98a17a39a4e82d2bfda0e67f45a4fd8ec956714d853ba34d9a1f2bcda83617f08983dadb96ec36feb918
   languageName: node
   linkType: hard
 

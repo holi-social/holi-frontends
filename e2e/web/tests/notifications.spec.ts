@@ -2,34 +2,29 @@ import { faker } from '@faker-js/faker'
 import { BrowserContext, Page, expect } from '@playwright/test'
 
 import { byTestId, clickElementByTestId, locateElementByTestId, loginAsE2EUser, sendConnectionRequest } from './helpers'
-import { UserHandler, test } from './testmaster'
+import { SessionHandler, test } from './testmaster'
 
 test.setTimeout(180000)
 
 test.describe('@Notifications', () => {
-  test('user journey', async ({ context, page, userHandler, browserName }) => {
+  test('user journey', async ({ context, page, sessions, browserName }) => {
     // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/login" is interrupted by another navigation to "http://localhost:3000/profile"`
     test.skip(browserName === 'webkit', 'FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug')
 
-    await testIgnoringAndAcceptingConnectionRequests(context, page, userHandler)
-    await testUserMentionInPostComment(context, page, userHandler)
+    await testIgnoringAndAcceptingConnectionRequests(context, page, sessions)
+    await testUserMentionInPostComment(context, page, sessions)
   })
 })
 
 const testIgnoringAndAcceptingConnectionRequests = async (
   context: BrowserContext,
   page: Page,
-  userHandler: UserHandler
+  sessions: SessionHandler
 ) => {
-  // create two connection requests from two separate users in parallel
-  await Promise.all([
-    userHandler.asRandomUser(async (page) => {
-      await sendConnectionRequest(page)
-    }),
-    userHandler.asRandomUser(async (page) => {
-      await sendConnectionRequest(page)
-    }),
-  ])
+  // create two connection requests from two separate users
+  const { page: randomPage1 } = await sessions.signUp()
+  const { page: randomPage2 } = await sessions.signUp()
+  await Promise.all([sendConnectionRequest(randomPage1), sendConnectionRequest(randomPage2)])
 
   await loginAsE2EUser(context, page)
 
@@ -46,7 +41,7 @@ const testIgnoringAndAcceptingConnectionRequests = async (
   await clickElementByTestId(page, 'accept-connection-request-button')
 }
 
-const testUserMentionInPostComment = async (context: BrowserContext, page: Page, userHandler: UserHandler) => {
+const testUserMentionInPostComment = async (context: BrowserContext, page: Page, sessions: SessionHandler) => {
   let commentTextContent = ''
 
   const createCommentWithE2EUserMention = async (page: Page) => {
@@ -75,9 +70,8 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
     await expect(page.getByText(commentTextContent)).toBeVisible()
   }
 
-  await userHandler.asRandomUser(async (page) => {
-    await createCommentWithE2EUserMention(page)
-  })
+  const { page: mentioningPage } = await sessions.signUp()
+  await createCommentWithE2EUserMention(mentioningPage)
 
   await loginAsE2EUser(context, page)
 

@@ -111,7 +111,6 @@ const config: PlaywrightTestConfig = {
     navigationTimeout: process.env.CI ? 20_000 : 30_000,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseURL,
-    storageState: 'setup/storageState.json',
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
   },
 

@@ -1,11 +1,18 @@
 import { expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, clickElementByTestId, locateElementByTestId } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  dismissConsentDialog,
+  locateElementByTestId,
+} from './helpers'
 import { test } from './testmaster'
 
 test.describe('@ForgotPassword', () => {
   test('user journey', async ({ page }) => {
     await page.goto('/')
+    await dismissConsentDialog(page)
     await clickElementByTestId(page, 'btn-to-login-form')
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
 
