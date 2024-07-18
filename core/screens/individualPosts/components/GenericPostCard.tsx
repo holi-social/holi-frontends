@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -9,6 +9,7 @@ import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuth
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import useTranslate from '@holi/core/hooks/useTranslate'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
@@ -52,6 +53,25 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
   const { isLoggedIn } = useLoginState()
   const { user } = useLoggedInUser()
 
+  const translate = useTranslate()
+  const [translatedTitle, setTranslatedTitle] = useState(post.title)
+  const [language, setLanguage] = useState('Deutsch')
+  const [isTranslated, setIsTranslated] = useState(false)
+
+  const translateTitle = async () => {
+    if (!isTranslated) {
+      // Assuming 'translate' is a function that takes the title and language code and returns the translated title
+      const translated = await translate(translatedTitle) // Translate to German
+      setTranslatedTitle(translated) // Update the title to the translated version
+      setLanguage('English')
+      setIsTranslated(true) // Update the state to indicate the title is now translated
+    } else {
+      setTranslatedTitle(post.title) // Revert to the original title
+      setLanguage('Deutsch')
+      setIsTranslated(false) // Update the state to indicate the title is now in its original form
+    }
+  }
+
   const [isLoadingSpacePostReport, reportSpacePostContent] = useReportContent({
     id: post?.id || '',
     contentType: ContentType.POST,
@@ -68,11 +88,10 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
   }, [navigate, post])
 
   if (post.__typename === 'FeedPost') {
-    const feedPost = post as FeedPost
-
     const aggregatedTopics = allTopics?.filter((topic) =>
       feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
     )
+    const feedPost = post as FeedPost
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
@@ -125,7 +144,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             </View>
             <View style={styles.contentSection}>
               <HoliHeading level="2" size="s" numberOfLines={3}>
-                {feedPost.title}
+                {translatedTitle}
               </HoliHeading>
             </View>
           </View>
@@ -149,7 +168,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             />
           </HoliReadMore>
 
-          <HoliTranslate />
+          <HoliTranslate language={language} onTranslate={() => translateTitle()} />
         </View>
 
         {!!feedPost.imageUrl && (
@@ -273,7 +292,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           <View style={styles.clickableArea}>
             <View style={styles.contentSection}>
               <HoliHeading level="2" size="s" numberOfLines={3}>
-                {spacePost.title}
+                {translatedTitle}
               </HoliHeading>
             </View>
           </View>
@@ -296,7 +315,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={spacePost.mentions}
             />
           </HoliReadMore>
-          <HoliTranslate />
+          <HoliTranslate language={language} onTranslate={() => translateTitle()} />
         </View>
 
         {!!spacePost.image && (

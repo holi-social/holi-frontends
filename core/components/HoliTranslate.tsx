@@ -7,19 +7,20 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 
-/* export interface HoliTranslateProps {
-     isVisible: boolean
-} */
-const HoliTranslate = () => {
-  const handlePress = () => {
-    alert('Translate to [language]')
-  }
+export interface HoliTranslateProps {
+  //   isVisible: boolean
+  //   isLoading: boolean
+  language: string
+  onTranslate: () => void
+}
+
+const HoliTranslate = ({ language, onTranslate }: HoliTranslateProps) => {
   return (
-    <HoliButton transparent label={'translate'} onPress={() => handlePress()}>
+    <HoliButton transparent label={'translate'} onPress={onTranslate}>
       <View style={styles.container}>
         <HoliIcon icon={Translate} size={16} />
         <HoliText bold size="small">
-          Translate to [language]
+          Translate to {language}
         </HoliText>
       </View>
     </HoliButton>
