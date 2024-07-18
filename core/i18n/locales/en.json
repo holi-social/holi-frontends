@@ -1283,6 +1283,8 @@
   "tracking.consentModal.manageOptions.personalizationBox.title": "Allow personalization",
   "tracking.consentModal.manageOptions.productAnalyticsBox.description": "Your experience improves as we use the data to perfect the app.",
   "tracking.consentModal.manageOptions.productAnalyticsBox.title": "Allow product analytics",
+  "translation.button.label": "Translate to English",
+  "translation.button.showOriginal.label": "See original in German",
   "update.modal.MANDATORY.headline": "Update required",
   "update.modal.MANDATORY.text": "This update contains necessary optimisations for key functions to work. Please update now.",
   "update.modal.RECOMMENDED.headline": "Update available",

@@ -1283,6 +1283,8 @@
   "tracking.consentModal.manageOptions.personalizationBox.title": "Personalisierung erlauben",
   "tracking.consentModal.manageOptions.productAnalyticsBox.description": "Deine Nutzungsdaten helfen uns, das Produkterlebnis für dich und alle anderen zu verbessern",
   "tracking.consentModal.manageOptions.productAnalyticsBox.title": "Produktanalyse erlauben",
+  "translation.button.label": "Übersetzen auf Deutsch",
+  "translation.button.showOriginal.label": "Original auf englisch zeigen",
   "update.modal.MANDATORY.headline": "Update notwendig",
   "update.modal.MANDATORY.text": "Das Update enthält Optimierungen für fundamentale Funktionen. Bitte aktualisiere jetzt.",
   "update.modal.RECOMMENDED.headline": "Update verfügbar",
