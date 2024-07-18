@@ -15,6 +15,7 @@ export const FeedPostSchema = z.object({
   visibility: z.string() /* VisibilityLevel */,
   image: z.instanceof(Object).optional().nullable(),
   postId: z.string().optional(), // for edit post
+  language: z.string().optional() /* LanguageCode */,
 })
 
 export type CreateFeedPostInput = z.infer<typeof FeedPostSchema>

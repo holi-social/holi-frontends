@@ -99,3 +99,23 @@ export const insightsByUserIdTotalResultsQuery = gql`
     }
   }
 `
+
+export const translateQuery = gql`
+  query Translate($text: String!, $targetLanguage: String!) {
+    translatedText: translation_translate(text: $text, targetLanguage: $targetLanguage)
+  }
+`
+
+export type TranslateQueryRespone = {
+  translatedText: string
+}
+
+export const detectLanguageQuery = gql`
+  query DetectLanguage($text: String!) {
+    detectedLanguage: translation_detectLanguage(text: $text)
+  }
+`
+
+export type DetectLanguageQueryResponse = {
+  detectedLanguage: string
+}

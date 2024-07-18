@@ -190,6 +190,9 @@ export const createCache = () =>
           myPosts: pagedPolicy(),
           allPosts: pagedPolicy(),
           postsByUserId: pagedPolicy(),
+          translate: {
+            keyArgs: [],
+          },
         },
       },
     },

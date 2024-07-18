@@ -50,6 +50,7 @@ export const FeedPostDetailsFragment = gql`
       id
       fullName
     }
+    language
   }
 `
 

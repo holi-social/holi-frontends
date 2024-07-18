@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +10,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
@@ -36,7 +37,7 @@ const CreatePost = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigateBack } = useRouting()
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
@@ -70,8 +71,12 @@ const CreatePost = () => {
     refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
   })
 
-  const createPost = () => {
+  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
+
+  const createPost = async () => {
     setSubmitting(true)
+    const data = await detectLanguage({ variables: { text: description } })
+
     createFeedPost({
       variables: {
         input: {
@@ -81,6 +86,7 @@ const CreatePost = () => {
           categoryId: selectedCategoryId,
           image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
+          language: data.data?.detectedLanguage ?? i18n.language,
         },
       },
       onError: (error) => {

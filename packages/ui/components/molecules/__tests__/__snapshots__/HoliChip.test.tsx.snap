@@ -133,7 +133,7 @@ exports[`renders correctly renders correctly when checked 1`] = `
             }
           >
             <RNSVGPath
-              d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+              d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
               fill={
                 {
                   "type": 2,
@@ -370,7 +370,7 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
             }
           >
             <RNSVGPath
-              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"
+              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
               fill={
                 {
                   "type": 2,

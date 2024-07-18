@@ -9,7 +9,6 @@ import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuth
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
-import useTranslate from '@holi/core/hooks/useTranslate'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
@@ -45,32 +44,15 @@ type GenericPostCardProps = {
 const NUMBER_OF_LINES = 3
 
 const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCardProps) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
   const { track } = useTracking()
   const { isLoggedIn } = useLoginState()
   const { user } = useLoggedInUser()
-
-  const translate = useTranslate()
-  const [translatedTitle, setTranslatedTitle] = useState(post.title)
-  const [language, setLanguage] = useState('Deutsch')
-  const [isTranslated, setIsTranslated] = useState(false)
-
-  const translateTitle = async () => {
-    if (!isTranslated) {
-      // Assuming 'translate' is a function that takes the title and language code and returns the translated title
-      const translated = await translate(translatedTitle) // Translate to German
-      setTranslatedTitle(translated) // Update the title to the translated version
-      setLanguage('English')
-      setIsTranslated(true) // Update the state to indicate the title is now translated
-    } else {
-      setTranslatedTitle(post.title) // Revert to the original title
-      setLanguage('Deutsch')
-      setIsTranslated(false) // Update the state to indicate the title is now in its original form
-    }
-  }
+  const [description, setDescription] = useState<string>((post as Post).text ?? (post as FeedPost).description)
+  const [title, setTitle] = useState<string>(post.title)
 
   const [isLoadingSpacePostReport, reportSpacePostContent] = useReportContent({
     id: post?.id || '',
@@ -83,16 +65,17 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     (post as Post).space?.id
   )
 
+  const isTranslatable = post.language && post.language !== i18n.language
+
   const editSpacePost = useCallback(() => {
     navigate(`/spaces/${(post as Post).space?.id}/updates/${post.id}/edit`)
   }, [navigate, post])
 
   if (post.__typename === 'FeedPost') {
+    const feedPost = post as FeedPost
     const aggregatedTopics = allTopics?.filter((topic) =>
       feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
     )
-    const feedPost = post as FeedPost
-
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
       <View style={styles.container}>
@@ -120,7 +103,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         )}
         <HoliButton
           transparent
-          label={feedPost.title}
+          label={title}
           onPress={goToDetailView}
           style={styles.clickOverlay}
           testID="post-card-detail-view-btn"
@@ -144,7 +127,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             </View>
             <View style={styles.contentSection}>
               <HoliHeading level="2" size="s" numberOfLines={3}>
-                {translatedTitle}
+                {title}
               </HoliHeading>
             </View>
           </View>
@@ -158,7 +141,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
           >
             <HoliRichTextOutput
-              text={feedPost.description}
+              text={description}
               allowAllLinks
               onPressText={() => {
                 goToDetailView()
@@ -167,15 +150,21 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={feedPost.mentionedUsers}
             />
           </HoliReadMore>
-
-          <HoliTranslate language={language} onTranslate={() => translateTitle()} />
+          {isTranslatable && (
+            <HoliTranslate
+              description={description}
+              title={title}
+              setDescription={setDescription}
+              setTitle={setTitle}
+            />
+          )}
         </View>
 
         {!!feedPost.imageUrl && (
-          <HoliButton transparent label={feedPost.title} onPress={goToDetailView} style={styles.clickOverlay}>
+          <HoliButton transparent label={title} onPress={goToDetailView} style={styles.clickOverlay}>
             <View style={styles.imageContainer}>
               <HoliImage
-                label={feedPost.title}
+                label={title}
                 source={{
                   uri: feedPost.imageUrl,
                 }}
@@ -284,7 +273,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         )}
         <HoliButton
           transparent
-          label={spacePost.title}
+          label={title}
           onPress={goToDetailView}
           style={styles.clickOverlay}
           testID="post-card-detail-view-btn"
@@ -292,7 +281,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           <View style={styles.clickableArea}>
             <View style={styles.contentSection}>
               <HoliHeading level="2" size="s" numberOfLines={3}>
-                {translatedTitle}
+                {title}
               </HoliHeading>
             </View>
           </View>
@@ -306,7 +295,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(spacePost.id))}
           >
             <HoliRichTextOutput
-              text={spacePost.text}
+              text={description}
               allowAllLinks
               onPressText={() => {
                 goToDetailView()
@@ -315,14 +304,21 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={spacePost.mentions}
             />
           </HoliReadMore>
-          <HoliTranslate language={language} onTranslate={() => translateTitle()} />
+          {isTranslatable && (
+            <HoliTranslate
+              description={description}
+              title={title}
+              setDescription={setDescription}
+              setTitle={setTitle}
+            />
+          )}
         </View>
 
         {!!spacePost.image && (
-          <HoliButton transparent label={spacePost.title} onPress={goToDetailView} style={styles.clickOverlay}>
+          <HoliButton transparent label={title} onPress={goToDetailView} style={styles.clickOverlay}>
             <View style={styles.imageContainer}>
               <HoliImage
-                label={spacePost.title}
+                label={title}
                 source={{
                   uri: spacePost.image.url,
                 }}
