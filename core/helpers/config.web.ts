@@ -1,4 +1,5 @@
 import { environment } from '@holi/core/helpers/environment'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 
 export const chatServerName = (() => {
@@ -34,6 +35,6 @@ export const jitsiUrl = (() => {
   return process.env.NEXT_PUBLIC_JITSI_URL || baseUrl
 })()
 
-export const posthogKey = typeof window !== 'undefined' ? window.POSTHOG_KEY : process.env.POSTHOG_KEY
+export const posthogKey = !isSSR ? window.POSTHOG_KEY : process.env.POSTHOG_KEY
 
-export const posthogHost = typeof window !== 'undefined' ? window.POSTHOG_HOST : process.env.POSTHOG_HOST
+export const posthogHost = !isSSR ? window.POSTHOG_HOST : process.env.POSTHOG_HOST

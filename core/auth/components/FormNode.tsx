@@ -2,7 +2,7 @@
 import { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ViewStyle } from 'react-native'
+import { ViewStyle } from 'react-native'
 
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
 import {
@@ -13,6 +13,7 @@ import {
   oryNodeIsSubmit,
   oryNodeIsText,
 } from '@holi/core/auth/helpers/form'
+import { isApp } from '@holi/core/helpers/isApp'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { isWebTouchDevice } from '@holi/ui/helper'
@@ -34,8 +35,7 @@ const FormNode = (props: Props) => {
   const { node, scrollToInputWithId = () => ({}) } = props
 
   const fieldName = getNodeId(node)
-  const isMobile = Platform.OS !== 'web'
-  const isTouchDevice = isWebTouchDevice() || isMobile
+  const isTouchDevice = isWebTouchDevice() || isApp
   const mobileInputFieldScrollIntoViewProps = isTouchDevice ? scrollToInputWithId(fieldName) : {}
 
   if (oryNodeIsHiddenField(node.attributes as UiNodeAttributes & { name: string })) {
