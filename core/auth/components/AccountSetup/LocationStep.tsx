@@ -1,8 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
 
-import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, {
   GeolocationLevel,
   GeolocationSuggestion,
@@ -16,56 +15,23 @@ import { ScrollToProps, useScrollToInputOnFocus } from '@holi/ui/helper/useScrol
 import { useTheme } from '@holi/ui/styles/theme'
 
 export interface LocationStepProps
-  extends Pick<
-    PlacesAutocompleteProps,
-    'selected' | 'onChangeText' | 'onClose' | 'value' | 'validationErrorText' | 'testID'
-  > {
+  extends Pick<PlacesAutocompleteProps, 'selected' | 'onChange' | 'validationErrorText' | 'testID'> {
   scrollToInputWithId: (id: string) => ScrollToProps
 }
 
 export const useLocationStep = (user?: User | null) => {
-  const { t } = useTranslation()
-  const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
     user?.location && user?.geolocationId ? { label: user.location, id: user?.geolocationId } : undefined
-  )
-
-  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
-
-  const resetErrorsForField = useCallback(
-    (fieldName: string) =>
-      setFieldErrors((currentErrors: TranslatedFieldErrors) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { [fieldName]: _, ...otherErrors } = currentErrors
-        return otherErrors
-      }),
-    []
-  )
-
-  const onLocationClose = useCallback(
-    (selectedSuggestion?: GeolocationSuggestion) => {
-      setSelectedLocation(selectedSuggestion)
-
-      if (!selectedSuggestion && locationQuery.length) {
-        setFieldErrors({ location: [t('profile.location.validation.error')] })
-      } else {
-        resetErrorsForField('location')
-      }
-    },
-    [locationQuery, t, resetErrorsForField]
   )
 
   const locationScrollViewRef = useRef<ScrollView>(null)
   const scrollToLocationInputWithId = useScrollToInputOnFocus(locationScrollViewRef)
 
   return {
-    locationQuery,
-    onLocationQueryChange: setLocationQuery,
     selectedLocation,
-    onLocationClose,
+    setSelectedLocation,
     scrollToLocationInputWithId,
     locationScrollViewRef,
-    locationValidationErrorText: fieldErrors?.location?.join(),
   }
 }
 
@@ -90,7 +56,7 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
         id="user-location-input"
         testID="user-location"
         suggestionsStyle={{ backgroundColor: colors.background10 }}
-        helperText={placesAutocompleteProps.selected ? undefined : t('profile.location.validation.helper')}
+        helperText={t('profile.location.validation.helper')}
         fetchDetailsOnClose
         level={GeolocationLevel.CITY}
         {...placesAutocompleteProps}

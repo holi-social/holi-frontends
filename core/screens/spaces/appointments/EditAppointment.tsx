@@ -72,7 +72,6 @@ const EditAppointment = () => {
   const [url, setUrl] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
-  const [currentLocationDetails, setCurrentLocationDetails] = useState<LocationDetails | undefined>()
 
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
@@ -261,7 +260,10 @@ const EditAppointment = () => {
         }
 
         setLocationDetails(_location)
-        setCurrentLocationDetails(_location)
+        setSelectedLocation({
+          label: completeAddress || '',
+          id: '',
+        })
       }
 
       const start = new Date(appointment.startDateTime)
@@ -332,7 +334,6 @@ const EditAppointment = () => {
               url={url}
               additionalInfo={additionalInfo}
               currentThumbnail={currentThumbnail}
-              currentLocationDetails={currentLocationDetails}
               onChangeTitle={setTitle}
               onChangeDescription={setDescription}
               onChangeInviteOnly={setInviteOnly}

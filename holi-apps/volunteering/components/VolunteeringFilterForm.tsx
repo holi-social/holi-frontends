@@ -32,7 +32,6 @@ const VolunteeringFilterForm: React.FC<VolunteeringFilterFormProps> = ({
   const { t } = useTranslation()
 
   const [category, setCategory] = useState(filters.category)
-  const [locationQuery, setLocationQuery] = useState(filters.location ? initialLocationSelection?.label : '')
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
     filters.location ? initialLocationSelection : undefined
   )
@@ -57,21 +56,15 @@ const VolunteeringFilterForm: React.FC<VolunteeringFilterFormProps> = ({
     [setCategory]
   )
 
-  const toggleLocationSelection = useCallback(() => {
-    setLocationQuery(filters.location ? initialLocationSelection?.label : '')
-    setSelectedLocation(filters.location ? initialLocationSelection : undefined)
-  }, [initialLocationSelection, filters.location])
-
   const submit = useCallback(
     () => onSubmit({ location: selectedLocation, category }),
     [onSubmit, selectedLocation, category]
   )
 
   const resetForm = useCallback(() => {
-    setLocationQuery(undefined)
     setSelectedLocation(undefined)
     setCategory(undefined)
-    clearFilters && clearFilters()
+    clearFilters?.()
   }, [clearFilters])
 
   return (
@@ -96,11 +89,10 @@ const VolunteeringFilterForm: React.FC<VolunteeringFilterFormProps> = ({
         <PlacesAutocomplete
           label={t('volunteering:filter.location.label')}
           placeholder={t('volunteering:filter.location.placeholder')}
-          value={locationQuery}
+          selected={selectedLocation}
           id="volunteering-filter-location"
           testID="volunteering-filter-location"
-          onClose={setSelectedLocation}
-          onChangeText={toggleLocationSelection}
+          onChange={setSelectedLocation}
           style={[styles.filterOption, { zIndex: 1 }]}
           inputProps={{ autoFocus: true }}
           fetchDetailsOnClose

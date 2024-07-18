@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, TextInputProps, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, TextInputProps, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import {
@@ -29,10 +29,8 @@ export enum GeolocationLevel {
 
 export interface PlacesAutocompleteProps {
   selected?: GeolocationSuggestion
-  onChangeText?: (text: string) => void
-  onSubmit?: (selected?: GeolocationSuggestion) => void
-  onChange?: (selected: GeolocationSuggestion) => void
-  onClose?: (selected?: GeolocationSuggestion) => void
+  onSubmit?: () => void
+  onChange?: (selected?: GeolocationSuggestion) => void
   testID?: string
   id: string
   label: string
@@ -42,7 +40,6 @@ export interface PlacesAutocompleteProps {
   helperText?: string
   style?: StyleProp<ViewStyle>
   suggestionsStyle?: StyleProp<ViewStyle>
-  value?: string
   level?: GeolocationLevel
   fetchDetailsOnClose?: boolean
 }
@@ -52,7 +49,6 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
     {
       onSubmit,
       selected,
-      onChangeText,
       testID,
       id,
       label,
@@ -61,16 +57,17 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       validationErrorText,
       helperText,
       onChange,
-      onClose,
       style,
       suggestionsStyle,
-      value,
       level,
       fetchDetailsOnClose,
     },
     ref
   ) => {
     const { t } = useTranslation()
+
+    const [value, setValue] = useState(selected?.label || '')
+
     const [fetchSuggestions, { loading, error, data, called }] = useLazyQuery<GeoPlacesResponse>(geoPlacesQuery, {
       variables: {
         limit: PLACE_SUGGESTION_MAX_COUNT,
@@ -99,10 +96,11 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
 
     const getSuggestions = useCallback(
       (value: string) => {
+        setValue(value)
         const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.value === value)
-
-        selectedSuggestion && onChange?.(selectedSuggestion)
-        onChangeText?.(value)
+        if (selectedSuggestion) {
+          onChange?.(selectedSuggestion)
+        }
 
         if (value && !selectedSuggestion) {
           debouncedFetchSuggestions({
@@ -112,66 +110,88 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
           })
         }
       },
-      [debouncedFetchSuggestions, onChange, onChangeText, placeSuggestions]
+      [debouncedFetchSuggestions, onChange, placeSuggestions]
+    )
+
+    const enhanceWithDetails = useCallback(
+      async (selection?: GeolocationSuggestion) => {
+        if (!onChange) {
+          return
+        }
+        setValue(selection?.label || '')
+        if (!selection || !fetchDetailsOnClose) {
+          return onChange(selection)
+        }
+        return fetchPlaceDetails({ variables: { id: selection.id } })
+          .then((response) =>
+            onChange({
+              ...selection,
+              geolocation: response.data?.geo_placeDetails.geolocation,
+            })
+          )
+          .catch((error) => {
+            logError(error, 'Failed to fetch place details', {
+              location: 'PlacesAutocomplete.fetchPlaceDetails',
+              placeId: selection.id,
+            })
+            onChange(undefined)
+            setValue('')
+          })
+      },
+      [fetchDetailsOnClose, fetchPlaceDetails, onChange]
     )
 
     const onAutocompleteClose = useCallback(
       async (suggestion?: Suggestion) => {
-        if (!onClose || !suggestion) {
+        if (!onChange) {
           return
         }
 
-        const selection = placeSuggestions.find(
-          ({ label, id }) => !!suggestion?.label && (id === suggestion?.id || label.startsWith(suggestion.label))
-        )
-
-        if (selection && fetchDetailsOnClose) {
-          return fetchPlaceDetails({ variables: { id: selection.id } })
-            .then((response) =>
-              onClose({
-                ...selection,
-                geolocation: response.data?.geo_placeDetails.geolocation,
-              })
-            )
-            .catch((error) => {
-              logError(error, 'Failed to fetch place details', {
-                location: 'PlacesAutocomplete.fetchPlaceDetails',
-                placeId: selection.id,
-              })
-              return onClose(undefined)
-            })
+        if (!suggestion && !value) {
+          onChange(undefined)
+          setValue('')
+          return
         }
-        return onClose(selection)
-      },
-      [placeSuggestions, onClose, fetchDetailsOnClose, fetchPlaceDetails]
-    )
 
-    const onSubmitHandler = useCallback(
-      (value: string) => {
-        const selectedSuggestion = placeSuggestions.find(({ label }) =>
-          label.toLowerCase().startsWith(value.toLowerCase())
-        )
-        onSubmit?.(selectedSuggestion)
-        selectedSuggestion && onChangeText?.(selectedSuggestion.label)
+        // Keep previous selection if input not cleared
+        const selection = suggestion?.label
+          ? placeSuggestions.find(({ label, id }) => id === suggestion?.id || label.startsWith(suggestion?.label))
+          : selected
+
+        return enhanceWithDetails(selection)
       },
-      [onChangeText, onSubmit, placeSuggestions]
+      [onChange, value, placeSuggestions, selected, enhanceWithDetails]
     )
 
     const onBlurHandler = useCallback(
-      (value: string) => {
+      async (value: string) => {
         // check complete match
         const matchedSuggestion = placeSuggestions.find(({ label }) => label === value)
-        onSubmit?.(matchedSuggestion)
+        await enhanceWithDetails(matchedSuggestion)
+        onSubmit?.()
       },
-      [onSubmit, placeSuggestions]
+      [enhanceWithDetails, onSubmit, placeSuggestions]
+    )
+
+    const onSubmitHandler = useCallback(
+      async (value: string) => {
+        const selectedSuggestion = value && placeSuggestions.length ? placeSuggestions[0] : undefined
+        await enhanceWithDetails(selectedSuggestion)
+        onSubmit?.()
+      },
+      [enhanceWithDetails, onSubmit, placeSuggestions]
     )
 
     // Trigger loading suggestions for initial value
     useEffect(() => {
-      if (!called && (value || selected?.label)) {
-        getSuggestions(value || '')
+      if (!called && value) {
+        getSuggestions(value)
       }
-    }, [called, selected, getSuggestions, value])
+    }, [called, getSuggestions, value])
+
+    useEffect(() => {
+      setValue(selected?.label || '')
+    }, [selected?.label])
 
     const noResultsText = useMemo(() => {
       return !loading && called && data && !placeSuggestions.length && value
@@ -194,12 +214,10 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         onSubmit={onSubmitHandler}
         onSelect={onChange}
         onClose={onAutocompleteClose}
-        onBlur={onBlurHandler}
+        onBlur={Platform.OS === 'web' ? undefined : onBlurHandler}
         testID={testID}
-        validationErrorText={
-          validationErrorText ? validationErrorText : error?.message && t('location.placesAutocomplete.error')
-        }
-        helperText={noResultsText || helperText}
+        validationErrorText={validationErrorText ?? (error?.message && t('location.placesAutocomplete.error'))}
+        helperText={noResultsText ?? (selected ? undefined : helperText)}
         id={id}
         style={style}
         suggestionsStyle={suggestionsStyle}

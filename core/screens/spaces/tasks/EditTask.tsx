@@ -118,12 +118,16 @@ const EditTask = () => {
   // If locationType is REMOTE, remove location and coordinates
   // Otherwise set their values based on the selectedLocation
   useEffect(() => {
-    if (locationType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
-      setGeolocation({
-        latitude: selectedLocation.coordinates.latitude,
-        longitude: selectedLocation.coordinates.longitude,
-      })
-      setLocation(selectedLocation.label)
+    if (locationType?.id !== LocationType.REMOTE) {
+      setGeolocation(
+        selectedLocation?.coordinates
+          ? {
+              latitude: selectedLocation.coordinates.latitude,
+              longitude: selectedLocation.coordinates.longitude,
+            }
+          : undefined
+      )
+      setLocation(selectedLocation?.label || '')
     }
     if (locationType?.id === LocationType.REMOTE) {
       setGeolocation(undefined)
@@ -195,6 +199,7 @@ const EditTask = () => {
       setLocation(task.location)
       setGeolocation(task.geolocation)
       setContactPhone(task.contactPhone)
+      setSelectedLocation(task.location ? { label: task.location, id: '', coordinates: task.geolocation } : undefined)
     }
   }, [space, task, t])
 

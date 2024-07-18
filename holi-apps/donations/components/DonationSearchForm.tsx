@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -17,16 +17,16 @@ type DonationSearchFormProps = {
 
 const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps) => {
   const { t } = useTranslation()
-  const [locationInput, setLocationInput] = useState(locationQuery)
+  const [selectedLocation, setSelectedLocation] = useState(locationQuery ? { label: locationQuery, id: '' } : undefined)
 
   const reset = useCallback(() => {
-    setLocationInput('')
-  }, [setLocationInput])
+    setSelectedLocation(undefined)
+  }, [])
 
   return (
     <HoliModalContentWrapper
       actionButtonText={t('donations:search.submitButton')}
-      onActionButtonPress={() => onSubmit(locationInput)}
+      onActionButtonPress={() => onSubmit(selectedLocation?.label)}
       style={styles.modalWrapper}
       testID="donations-search-modal-content"
       keyboardShouldPersistTaps="always"
@@ -48,15 +48,13 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
           </HoliButton>
         </View>
         <PlacesAutocomplete
-          value={locationInput}
+          selected={selectedLocation}
           label={t('donations:search.location.label')}
           placeholder={t('donations:search.location.placeholder')}
           inputProps={{ autoFocus: true }}
           testID="donations-search-location"
           id="donations-search-location"
-          onChangeText={(value) => setLocationInput(value)}
-          onSubmit={(selected?: GeolocationSuggestion) => onSubmit(selected?.label)}
-          onChange={(selected: GeolocationSuggestion) => setLocationInput(selected.label)}
+          onChange={setSelectedLocation}
         />
       </View>
     </HoliModalContentWrapper>

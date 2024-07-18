@@ -558,7 +558,6 @@
   "profile.interests.edit": "Edit interests",
   "profile.interests.filter.empty": "We are sorry, no matching interests were found",
   "profile.interests.filter.placeholder": "Search for an interest…",
-  "profile.location.validation.error": "Select a valid location in the dropdown or leave empty",
   "profile.location.validation.helper": "Select a valid location in the dropdown",
   "profile.loggedOut.footer.aboutholiapp": "About the holi app",
   "profile.loggedOut.footer.imprint": "Imprint",
