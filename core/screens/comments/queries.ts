@@ -76,6 +76,7 @@ export const commentsMetadata = gql`
         }
       }
       totalComments
+      language
     }
   }
 `
