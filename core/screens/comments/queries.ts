@@ -48,6 +48,7 @@ export const CommentFragment = gql`
     replies {
       id
     }
+    language
   }
 `
 

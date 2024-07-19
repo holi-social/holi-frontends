@@ -61,4 +61,5 @@ export interface Post {
   myReaction: ReactionCounts
   reactions: ReactionCounts
   isPublic?: boolean
+  language?: string
 }
