@@ -190,6 +190,9 @@ export const createCache = () =>
           myPosts: pagedPolicy(),
           allPosts: pagedPolicy(),
           postsByUserId: pagedPolicy(),
+          translate: {
+            keyArgs: [],
+          },
         },
       },
     },
@@ -230,7 +233,10 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
 
   if (initState) {
     const { __META, ...existingCache } = client.extract()
-    client.cache.restore({ __META, ...mergeDeepLeft(existingCache, initState) })
+    client.cache.restore({
+      __META,
+      ...mergeDeepLeft(existingCache, initState),
+    })
   }
 
   // For SSG and SSR always create a new Apollo Client

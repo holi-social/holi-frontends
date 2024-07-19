@@ -53,4 +53,5 @@ export interface FeedPost {
   totalComments: number
   commenters: Paged<User>
   mentionedUsers?: User[]
+  language?: string
 }

@@ -48,6 +48,7 @@ export const CommentFragment = gql`
     replies {
       id
     }
+    language
   }
 `
 
@@ -75,6 +76,7 @@ export const commentsMetadata = gql`
         }
       }
       totalComments
+      language
     }
   }
 `

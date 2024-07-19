@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import i18n from '@holi/core/i18n'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
@@ -92,7 +94,10 @@ const PostPreview = ({
       return false
     }
   }
+  const [text, setText] = useState(post?.text || '')
+  const [title, setTitle] = useState(post?.title || '')
 
+  const isTranslatable = post?.language && post.language && post.language !== i18n.language
   if (loading) {
     return (
       <View style={styles.container}>
@@ -213,7 +218,7 @@ const PostPreview = ({
         {!!post?.title && (
           <View style={styles.postTitleLink}>
             <HoliHeading level="3" size="s">
-              {post?.title}
+              {title}
             </HoliHeading>
           </View>
         )}
@@ -221,7 +226,7 @@ const PostPreview = ({
         {hasMounted && (
           <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
             <HoliRichTextOutput
-              text={post?.text || ''}
+              text={text || ''}
               users={post?.mentions || []}
               links={post?.links || []}
               allowAllLinks
@@ -251,7 +256,9 @@ const PostPreview = ({
             </HoliBox>
           )
         })}
-
+      {isTranslatable && (
+        <HoliTranslate primaryText={{ text, setText }} secondaryText={{ text: title, setText: setTitle }} />
+      )}
       {/* Reaction bar with comments and likes */}
       <View style={styles.reactionsBar}>
         {/* Comments */}
