@@ -30,7 +30,7 @@ export enum GeolocationLevel {
 export interface PlacesAutocompleteProps {
   selected?: GeolocationSuggestion
   onChangeText?: (text: string) => void
-  onSubmit?: (selected?: GeolocationSuggestion) => void
+  onSubmit?: (selected: GeolocationSuggestion) => void
   onChange?: (selected: GeolocationSuggestion) => void
   onClose?: (selected?: GeolocationSuggestion) => void
   testID?: string
@@ -117,14 +117,10 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
 
     const onAutocompleteClose = useCallback(
       async (suggestion?: Suggestion) => {
-        if (!onClose || !suggestion) {
+        if (!onClose) {
           return
         }
-
-        const selection = placeSuggestions.find(
-          ({ label, id }) => !!suggestion?.label && (id === suggestion?.id || label.startsWith(suggestion.label))
-        )
-
+        const selection = placeSuggestions.find((s) => s.id == suggestion?.id)
         if (selection && fetchDetailsOnClose) {
           return fetchPlaceDetails({ variables: { id: selection.id } })
             .then((response) =>
@@ -146,22 +142,12 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       [placeSuggestions, onClose, fetchDetailsOnClose, fetchPlaceDetails]
     )
 
-    const onSubmitHandler = useCallback(
-      (value: string) => {
-        const selectedSuggestion = placeSuggestions.find(({ label }) =>
-          label.toLowerCase().startsWith(value.toLowerCase())
-        )
-        onSubmit?.(selectedSuggestion)
-        selectedSuggestion && onChangeText?.(selectedSuggestion.label)
-      },
-      [onChangeText, onSubmit, placeSuggestions]
-    )
-
-    const onBlurHandler = useCallback(
-      (value: string) => {
-        // check complete match
-        const matchedSuggestion = placeSuggestions.find(({ label }) => label === value)
-        onSubmit?.(matchedSuggestion)
+    const submit = useCallback(
+      (id: string) => {
+        if (onSubmit) {
+          const selectedSuggestion = placeSuggestions.find((suggestion) => suggestion.id === id)
+          selectedSuggestion && onSubmit(selectedSuggestion)
+        }
       },
       [onSubmit, placeSuggestions]
     )
@@ -191,10 +177,9 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         value={value}
         trailingIcon={Search}
         inputProps={inputProps}
-        onSubmit={onSubmitHandler}
+        onSubmit={submit}
         onSelect={onChange}
         onClose={onAutocompleteClose}
-        onBlur={onBlurHandler}
         testID={testID}
         validationErrorText={
           validationErrorText ? validationErrorText : error?.message && t('location.placesAutocomplete.error')
@@ -209,4 +194,5 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
   }
 )
 PlacesAutocomplete.displayName = 'PlacesAutocomplete'
+
 export default PlacesAutocomplete
