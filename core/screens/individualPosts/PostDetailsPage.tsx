@@ -251,7 +251,7 @@ const PostDetailsPage = () => {
             type="post"
             count={heartReactions}
             active={currentUserHasReacted}
-            fullName={post?.creator.fullName}
+            fullName={post?.author.fullName}
             testID="btn-react-to-feed-post-HEART"
             disabled={loadingReaction}
           />
