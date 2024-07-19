@@ -1,11 +1,12 @@
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuthorHeader'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -43,13 +44,15 @@ type GenericPostCardProps = {
 const NUMBER_OF_LINES = 3
 
 const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCardProps) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
   const { track } = useTracking()
   const { isLoggedIn } = useLoginState()
   const { user } = useLoggedInUser()
+  const [description, setDescription] = useState<string>((post as Post).text ?? (post as FeedPost).description)
+  const [title, setTitle] = useState<string>(post.title)
 
   const [isLoadingSpacePostReport, reportSpacePostContent] = useReportContent({
     id: post?.id || '',
@@ -62,17 +65,17 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     (post as Post).space?.id
   )
 
+  const isTranslatable = post.language && post.language !== i18n.language
+
   const editSpacePost = useCallback(() => {
     navigate(`/spaces/${(post as Post).space?.id}/updates/${post.id}/edit`)
   }, [navigate, post])
 
   if (post.__typename === 'FeedPost') {
     const feedPost = post as FeedPost
-
     const aggregatedTopics = allTopics?.filter((topic) =>
       feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
     )
-
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
       <View style={styles.container}>
@@ -100,7 +103,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         )}
         <HoliButton
           transparent
-          label={feedPost.title}
+          label={title}
           onPress={goToDetailView}
           style={styles.clickOverlay}
           testID="post-card-detail-view-btn"
@@ -124,7 +127,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             </View>
             <View style={styles.contentSection}>
               <HoliHeading level="2" size="s" numberOfLines={3}>
-                {feedPost.title}
+                {title}
               </HoliHeading>
             </View>
           </View>
@@ -138,7 +141,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
           >
             <HoliRichTextOutput
-              text={feedPost.description}
+              text={description}
               allowAllLinks
               onPressText={() => {
                 goToDetailView()
@@ -147,13 +150,19 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={feedPost.mentionedUsers}
             />
           </HoliReadMore>
+          {isTranslatable && (
+            <HoliTranslate
+              primaryText={{ text: description, setText: setDescription }}
+              secondaryText={{ text: title, setText: setTitle }}
+            />
+          )}
         </View>
 
         {!!feedPost.imageUrl && (
-          <HoliButton transparent label={feedPost.title} onPress={goToDetailView} style={styles.clickOverlay}>
+          <HoliButton transparent label={title} onPress={goToDetailView} style={styles.clickOverlay}>
             <View style={styles.imageContainer}>
               <HoliImage
-                label={feedPost.title}
+                label={title}
                 source={{
                   uri: feedPost.imageUrl,
                 }}
@@ -262,7 +271,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         )}
         <HoliButton
           transparent
-          label={spacePost.title}
+          label={title}
           onPress={goToDetailView}
           style={styles.clickOverlay}
           testID="post-card-detail-view-btn"
@@ -270,7 +279,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           <View style={styles.clickableArea}>
             <View style={styles.contentSection}>
               <HoliHeading level="2" size="s" numberOfLines={3}>
-                {spacePost.title}
+                {title}
               </HoliHeading>
             </View>
           </View>
@@ -284,7 +293,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(spacePost.id))}
           >
             <HoliRichTextOutput
-              text={spacePost.text}
+              text={description}
               allowAllLinks
               onPressText={() => {
                 goToDetailView()
@@ -293,13 +302,19 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={spacePost.mentions}
             />
           </HoliReadMore>
+          {isTranslatable && (
+            <HoliTranslate
+              primaryText={{ text: description, setText: setDescription }}
+              secondaryText={{ text: title, setText: setTitle }}
+            />
+          )}
         </View>
 
         {!!spacePost.image && (
-          <HoliButton transparent label={spacePost.title} onPress={goToDetailView} style={styles.clickOverlay}>
+          <HoliButton transparent label={title} onPress={goToDetailView} style={styles.clickOverlay}>
             <View style={styles.imageContainer}>
               <HoliImage
-                label={spacePost.title}
+                label={title}
                 source={{
                   uri: spacePost.image.url,
                 }}
@@ -312,6 +327,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         )}
         {!spacePost.image && !!spacePost.links?.[0] && (
           <HoliLinkPreview
+            style={styles.linkPreview}
             previewData={spacePost.links?.[0]}
             onPress={() => track(TrackingEvent.FeedPosts.read(spacePost.id))}
           />
@@ -377,6 +393,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       aspectRatio: 16 / 9,
       overflow: 'hidden',
+      marginTop: Spacing.xs,
     },
     image: {
       height: '100%',
@@ -404,7 +421,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     description: {
       marginTop: Spacing.xxs,
-      marginBottom: Spacing.xs,
+    },
+    linkPreview: {
+      marginTop: Spacing.xs,
     },
   })
 
