@@ -68,6 +68,7 @@ export const commentsMetadata = gql`
           id
           fullName
         }
+        language
       }
       commenters(limit: 5) {
         totalResults
@@ -76,7 +77,6 @@ export const commentsMetadata = gql`
         }
       }
       totalComments
-      language
     }
   }
 `
