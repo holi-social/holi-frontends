@@ -8,6 +8,7 @@ export type CreateCommentInput = {
   commentableType: CommentableType
   text: string
   parentCommentId?: string
+  language?: string
 }
 
 export const AddCommentMutation = gql`

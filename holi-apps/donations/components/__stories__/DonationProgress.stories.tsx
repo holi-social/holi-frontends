@@ -13,7 +13,6 @@ const Template: ComponentStory<typeof DonationProgress> = ({ ...args }) => <Dona
 export const Primary: ComponentStory<typeof DonationProgress> = Template.bind({})
 
 Primary.argTypes = {
-  donationsCount: { description: 'Number of donations', control: { type: 'number' } },
   category: { description: 'Label/tag for the donations', control: { type: 'text' } },
   progressPercentage: { description: 'Progress in %', control: { type: 'range', min: 0, max: 100, step: 0.1 } },
   openAmountInCents: { description: 'Open amount', control: { type: 'range', min: 0, max: 100000, step: 100 } },
@@ -22,7 +21,6 @@ Primary.argTypes = {
 }
 
 Primary.args = {
-  donationsCount: 10,
   category: 'Climate',
   progressPercentage: 87.4,
   openAmountInCents: 12345,

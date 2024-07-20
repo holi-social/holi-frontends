@@ -81,7 +81,7 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   const handleSelected = (selectedChoice: Choice | null) => {
     if (!user) {
       return openLoginModal({
-        description: t('individuals.post.reaction.loginRedirect.text'),
+        description: t('insight.poll.reaction.loginRedirect.text'),
       })
     }
     setSelectedAnswerOption(selectedChoice)

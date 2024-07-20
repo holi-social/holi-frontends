@@ -11,7 +11,6 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import SpacesTab from '@holi/core/components/SpacesTab'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -86,8 +85,6 @@ const UserProfile = () => {
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
   const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
-
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
   const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
   const [isLoadingReport, reportContent] = useReportContent({
@@ -191,7 +188,6 @@ const UserProfile = () => {
       </View>
       <HoliTabs
         style={{ marginTop: 24, flex: 1 }}
-        tabBarStyle={tabBarStyle}
         backgroundColor={colors.background20}
         id="profile-tabs"
         tabs={[

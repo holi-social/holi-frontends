@@ -54,7 +54,7 @@ const HoliCheckbox = ({
   style,
   testID,
 }: React.PropsWithChildren<HoliCheckboxProps>) => {
-  const checkboxRef = useRef(null)
+  const checkboxRef = useRef<View>(null)
   const scaleFactor = useRef(new Animated.Value(1)).current
   const hasError = !!errorMessage
   const { theme } = useTheme()

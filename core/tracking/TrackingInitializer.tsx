@@ -7,6 +7,8 @@ import {
   loginState,
   loginStateUnknown,
 } from '@holi/core/auth/loginState'
+import { isApp } from '@holi/core/helpers/isApp'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
   AuthenticatedUserV2Response,
@@ -18,7 +20,6 @@ import {
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import { consentStore } from '@holi/core/tracking/ConsentStore'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
-import { trackingEnabled } from '@holi/core/tracking/config'
 import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
 
 const logger = getLogger('Tracking')
@@ -184,9 +185,10 @@ export const updateConsentState = (newConsentState: ConsentState) => {
 
 export const useConsentState = (): [ConsentState, { loading: boolean }] => useReactiveVar(consentStateVar)
 
-export const getConsentState = (): ConsentState => consentStateVar()
+export const getConsentState = (): ConsentState => consentStateVar()[0]
 
 export interface TrackingInitializerProps extends TrackingInitializerInnerProps {
+  /** used for unit testing to enable tracking even though not running on client side */
   enableTracking?: boolean
 }
 
@@ -196,8 +198,8 @@ const TrackingInitializer = ({
   onUserLoggedInCompleted,
   onUserLoggedOutCompleted,
 }: TrackingInitializerProps) => {
-  // don't initialize for SSR
-  const init = enableTracking || (typeof navigator !== 'undefined' && trackingEnabled())
+  const isWebClientSide = !isSSR
+  const init = enableTracking || isApp || isWebClientSide
   return init ? (
     <TrackingInitializerInner
       onUpdateCompleted={onUpdateCompleted}

@@ -63,7 +63,7 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
           </HoliText>
         </View>
       )}
-      <HoliMediaAuthorHeader author={post.creator} authorBold date={post.createdAt} />
+      <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} />
       {isLoggedIn && (
         <View style={styles.postDrawer}>
           <PostDrawer post={post}>
@@ -71,7 +71,13 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
           </PostDrawer>
         </View>
       )}
-      <HoliButton transparent label={post.title} onPress={goToDetailView} style={styles.clickOverlay}>
+      <HoliButton
+        transparent
+        label={post.title}
+        onPress={goToDetailView}
+        style={styles.clickOverlay}
+        testID="post-card-detail-view-btn"
+      >
         <View style={styles.clickableArea}>
           <View style={styles.pillContainer}>
             <View style={[styles.pill, styles.categoryPill]}>
@@ -111,18 +117,18 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
               goToDetailView()
             }}
             color="gray300"
-            users={post.mentions}
+            users={post.mentionedUsers}
           />
         </HoliReadMore>
       </View>
 
-      {!!post.image && (
+      {!!post.imageUrl && (
         <HoliButton transparent label={post.title} onPress={goToDetailView} style={styles.clickOverlay}>
           <View style={styles.imageContainer}>
             <HoliImage
               label={post.title}
               source={{
-                uri: post.image,
+                uri: post.imageUrl,
               }}
               blurhash={post.imageBlurhash}
               resizeMode="cover"
@@ -131,7 +137,7 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
           </View>
         </HoliButton>
       )}
-      {!post.image && !!post.linkPreview && (
+      {!post.imageUrl && !!post.linkPreview && (
         <HoliLinkPreview previewData={post.linkPreview} onPress={() => track(TrackingEvent.FeedPosts.read(post.id))} />
       )}
 

@@ -19,6 +19,7 @@ export const PostFragment = gql`
   ${LinkFragment}
 
   fragment PostFragment on Post {
+    __typename
     id
     title
     text
@@ -59,6 +60,7 @@ export const PostFragment = gql`
       HEART
     }
     isPublic
+    language
   }
 `
 
@@ -68,6 +70,7 @@ export const PostDetailsFragment = gql`
   ${LinkFragment}
 
   fragment PostFull on Post {
+    __typename
     id
     title
     text
@@ -100,6 +103,7 @@ export const PostDetailsFragment = gql`
       HEART
     }
     isPublic
+    language
   }
 `
 

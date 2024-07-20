@@ -1,4 +1,5 @@
 import colors from './colors'
+import constants from './constants'
 import rawDimensions from './dimensions'
 import fonts from './fonts'
 
@@ -11,4 +12,4 @@ const dimensions = Object.entries(rawDimensions).reduce(
 )
 
 // TODO: colors will be used only based off the theme, not as a static file
-export { dimensions, colors, fonts }
+export { dimensions, colors, fonts, constants }

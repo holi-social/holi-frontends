@@ -11,9 +11,6 @@ import {
 } from './helpers'
 import { UserHandler, test } from './testmaster'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
-
 test.setTimeout(120000)
 test.describe('@Registration', () => {
   test('user journey', async ({ context, page, userHandler, browserName }) => {
@@ -28,7 +25,7 @@ const redirectsFromRegistrationToLoginAndBackToRegistration = async (page: Page)
   // redirects from Registration to Login and back to Registration
   await clickElementByTestId(page, 'btn-to-profile-view')
   // make sure we are on the login protection page before proceeding
-  await page.waitForSelector(byTestId('login-protection-heading'))
+  await page.waitForSelector(byTestId('anonymous-profile-login-btn'))
 
   // go to registration
   await clickElementByTestId(page, 'btn-to-registration-form')
@@ -82,8 +79,8 @@ const canRegisterUser = async (userHandler: UserHandler, isWebkit: boolean) => {
     // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/login" is interrupted by another navigation to "http://localhost:3000/profile"`
     if (isWebkit) return
 
-    // trying to go to login page with logged in user should show profile
+    // trying to go to login page with logged in user should show home feed
     await page.goto('/login')
-    await page.waitForSelector(byTestId('user-profile-full-name'))
+    await page.waitForSelector(byTestId('home-feed-insights-heading'))
   })
 }

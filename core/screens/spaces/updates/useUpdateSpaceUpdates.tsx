@@ -1,10 +1,11 @@
-import { ApolloError, FetchResult, useMutation, useQuery } from '@apollo/client'
+import { ApolloError, FetchResult, useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { PostImage } from '@holi/core/screens/posts/types'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
@@ -44,7 +45,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   const { displayError } = useErrorHandling()
   const { navigateBack, replaceRoute } = useRouting()
   const { openToast } = useToast()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   //input fields
   const [title, setTitle] = useState<string>('')
@@ -136,13 +137,17 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
       refetchQueries: [spacePostsQuery],
     }
   )
+  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
-  const saveSpacePost = () => {
+  const saveSpacePost = async () => {
+    const data = await detectLanguage({ variables: { text: content.trim() } })
+
     const input = {
       title: title.trim() && title.length > 0 ? title : undefined,
       text: content.trim(),
       image: image === null ? null : image?.blob, // null is to remove the image
       visibility: visibility || VisibilityType.MEMBERS,
+      language: data.data?.detectedLanguage ?? i18n.language,
     }
 
     if (postId) {

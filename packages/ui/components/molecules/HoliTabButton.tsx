@@ -5,6 +5,7 @@ import {
   LayoutChangeEvent,
   Platform,
   Pressable,
+  Role,
   StyleProp,
   StyleSheet,
   View,
@@ -42,7 +43,7 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
     const { theme } = useTheme()
     const styles = useMemo(() => getStyles(theme), [theme])
 
-    const accessibilityProps: AccessibilityPropsWeb = {
+    const accessibilityProps: AccessibilityPropsWeb & { role: Role } = {
       accessible: !disableFocusability,
       role: 'tab',
       'aria-label': props.label,

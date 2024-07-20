@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@apollo/client'
-import Constants from 'expo-constants'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -31,7 +30,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
-import dimensions from '@holi/ui/styles/globalVars/dimensions'
+import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateAppointmentParams = {
@@ -217,7 +216,7 @@ const CreateAppointment = () => {
         scrollToInput={false}
         keyboardShouldPersistTaps="handled"
         bottomBarStyle={styles.bottomBar}
-        initialOffsetTop={Platform.OS === 'ios' ? +dimensions.bottomBarHeight : undefined}
+        initialOffsetTop={Platform.OS === 'ios' ? dimensions.bottomBarHeight : undefined}
         renderProp={() => (
           <View style={styles.container}>
             <AppointmentInputForm
@@ -279,8 +278,8 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: +dimensions.topBarHeight + (Constants.statusBarHeight || 0) + 24,
-      paddingBottom: +dimensions.bottomBarHeight + 24,
+      paddingTop: dimensions.topBarHeight + (constants.statusBarHeight || 0) + 24,
+      paddingBottom: dimensions.bottomBarHeight + 24,
     },
     bottomBar: {
       backgroundColor: theme.colors.background10,

@@ -11,7 +11,7 @@ import type {
 } from 'react-native'
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import { delayAnimation, useSettle } from '@holi/ui/helper'
+import { delayAnimation } from '@holi/ui/helper'
 
 interface HoliStepperContextType {
   stepCount: number
@@ -95,7 +95,6 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
   const ref = useRef<ScrollView>(null)
   const [firstRender, setFirstRender] = useState(true)
   const renderedStepsRef = useRef<Map<number, boolean>>(new Map())
-  const scrollX = useRef(new Animated.Value(0)).current
   const { currentStep, setStep } = useStepper()
   const [stepHeight, setStepHeight] = useState<number | undefined>(undefined)
 
@@ -124,9 +123,6 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
     },
     [setStep, viewWidth]
   )
-  // For web: wait until the  scrollposition has not changed for a moment before
-  // updating the current step
-  const settledUpdate = useSettle(updateCurrentStep, 400)
 
   // Update current step after scrolling on mobile
   const onMomentumScrollEnd = useCallback(
@@ -158,27 +154,6 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep, scrollToStep])
 
-  const onScrollWeb = useCallback(
-    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      settledUpdate(event.nativeEvent.contentOffset.x)
-    },
-    [settledUpdate]
-  )
-  const onScrollMobile = Animated.event(
-    [
-      {
-        nativeEvent: {
-          contentOffset: {
-            x: scrollX,
-          },
-        },
-      },
-    ],
-    {
-      useNativeDriver: Platform.OS !== 'web',
-    }
-  )
-
   const renderStep = (step: ReactNode, stepIndex: number) => {
     if (!lazy) return step
 
@@ -207,7 +182,6 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       scrollEventThrottle={16}
       horizontal
       pagingEnabled={scrollEnabled}
-      onScroll={Platform.OS === 'web' ? onScrollWeb : onScrollMobile}
       onLayout={handleLayout}
       onMomentumScrollEnd={onMomentumScrollEnd}
       {...scrollViewProps}

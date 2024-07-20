@@ -6,7 +6,6 @@ import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
@@ -62,7 +61,6 @@ const EditSpaceCollaborators = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { user: loggedInUser } = useLoggedInUser()
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const { height: screenHeight } = useWindowDimensions()
   const { theme } = useTheme()
   const { colors } = theme
@@ -177,7 +175,7 @@ const EditSpaceCollaborators = () => {
           id="collaborator-tabs"
           testID="collaborator-tabs"
           style={styles.tabWrapper}
-          tabBarStyle={[tabBarStyle, styles.tabBar]}
+          tabBarStyle={styles.tabBar}
           initialStep={initialTab}
           tabs={[
             {

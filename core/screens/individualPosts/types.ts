@@ -35,15 +35,16 @@ interface Link {
 }
 
 export interface FeedPost {
+  __typename: string
   id: string
   slug: string
   title: string
   description: string
-  image?: string
+  imageUrl?: string
   visibility: VisibilityLevel
   topics?: Topic[]
   category: Category
-  creator: User
+  author: User
   createdAt: string
   imageBlurhash?: string
   reactions: ReactionCounts
@@ -51,5 +52,6 @@ export interface FeedPost {
   linkPreview?: Link
   totalComments: number
   commenters: Paged<User>
-  mentions?: User[]
+  mentionedUsers?: User[]
+  language?: string
 }

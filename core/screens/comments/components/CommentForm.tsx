@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -16,6 +16,7 @@ import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
+import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
 import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comments/queries'
@@ -59,7 +60,7 @@ const CommentForm = ({
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigateBack, replaceRoute } = useRouting()
   const { keyboardHeight } = useKeyboard()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { openToast } = useToast()
   const { height: screenHeight } = useWindowDimensions()
@@ -123,6 +124,8 @@ const CommentForm = ({
     },
     refetchQueries,
   })
+
+  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
   /**
    * The view should:
@@ -217,7 +220,8 @@ const CommentForm = ({
                   label={t('comments.button')}
                   variant="small"
                   inline
-                  onPress={() =>
+                  onPress={async () => {
+                    const data = await detectLanguage({ variables: { text: text.trim() } })
                     addComment({
                       variables: {
                         input: {
@@ -225,10 +229,11 @@ const CommentForm = ({
                           commentableId,
                           commentableType,
                           parentCommentId: parentComment?.id,
+                          language: data?.data?.detectedLanguage || i18n.language,
                         },
                       },
                     })
-                  }
+                  }}
                   testID="btn-submit-comment"
                 >
                   {t('comments.button')}

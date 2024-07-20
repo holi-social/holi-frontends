@@ -1,10 +1,12 @@
-import React, { ReactNode, useContext } from 'react'
+import React, { ReactNode, useContext, useEffect, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
-import PostCard from '@holi/core/screens/individualPosts/components/PostCard'
+import GenericPostCard from '@holi/core/screens/individualPosts/components/GenericPostCard'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
+import { Post } from '@holi/core/screens/posts/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -25,9 +27,15 @@ export const simpleColumnSortingByIndex = <T,>(posts: readonly T[], numberOfColu
 }
 
 const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResultsProps) => {
-  const { data, loading, totalResults } = usePaginationContext<FeedPost>()
+  const { data, loading, totalResults } = usePaginationContext<FeedPost | Post>()
   const numberOfColumns = useBreakpointMatcher() || 1
   const { topics: allTopics } = useContext(SpaceTermContext)
+
+  const prevCardIds = useRef(data.map((p) => p.id))
+  const newCardIds = data.filter((p) => !prevCardIds.current.includes(p.id)).map((p) => p.id)
+  useEffect(() => {
+    prevCardIds.current = data.map((p) => p.id)
+  }, [data])
 
   if (loading) return <LoadingSkeleton columns={numberOfColumns} />
   if (totalResults == 0) return emptyMessage
@@ -35,11 +43,18 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
   const dataByColumns = simpleColumnSortingByIndex(data, numberOfColumns)
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="posts-list-results">
       {dataByColumns.map((column, index) => (
         <View key={index} style={styles.column}>
           {column.map((p) => (
-            <PostCard post={p} showVisibilityBadge={showVisibilityBadge} key={p.id} allTopics={allTopics} />
+            <Animated.View
+              key={p.id}
+              entering={
+                newCardIds.includes(p.id) ? FadeInDown.delay(Math.max(0, newCardIds.indexOf(p.id) * 150)) : undefined
+              }
+            >
+              <GenericPostCard key={p.id} post={p} showVisibilityBadge={showVisibilityBadge} allTopics={allTopics} />
+            </Animated.View>
           ))}
         </View>
       ))}

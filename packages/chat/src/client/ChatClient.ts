@@ -25,10 +25,10 @@ import {
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { logger as matrixLogger } from 'matrix-js-sdk/lib/logger'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
+import { MsgType, RoomMessageEventContent } from 'matrix-js-sdk/lib/types'
 
 import { configurePusher } from '@holi/chat/src/client/pusher'
 import {
-  type ChatMsgTextContent,
   type ChatRoom,
   ChatRoomEvent,
   type ChatRoomMember,
@@ -373,9 +373,9 @@ export default class ChatClient {
   }
 
   public async sendTextMessage(roomId: string, text: string): Promise<string> {
-    const content: ChatMsgTextContent = {
+    const content: RoomMessageEventContent = {
       body: text,
-      msgtype: 'm.text',
+      msgtype: 'm.text' as MsgType.Text,
     }
 
     const eventIdResponse = await this.mxClient.sendEvent(roomId, EventType.RoomMessage, content)

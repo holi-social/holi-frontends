@@ -1,6 +1,6 @@
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -10,17 +10,21 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
+import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -33,7 +37,7 @@ const CreatePost = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigateBack } = useRouting()
 
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
@@ -48,8 +52,15 @@ const CreatePost = () => {
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [image, setImage] = useState<HoliImageInfo | null>(null)
-
   const [showCategories, setShowCategories] = useState(true)
+  const { visible, show, hide } = useModalState()
+  const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
+
+  useEffect(() => {
+    if (!isOnboarded) {
+      show()
+    }
+  }, [isOnboarded, show])
 
   const [createFeedPost] = useMutation<CreateFeedPostResponse>(createFeedPostMutation, {
     onCompleted: () => {
@@ -57,11 +68,15 @@ const CreatePost = () => {
       track(TrackingEvent.FeedPosts.created)
       navigateBack()
     },
-    refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],
+    refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
   })
 
-  const createPost = () => {
+  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
+
+  const createPost = async () => {
     setSubmitting(true)
+    const { data } = await detectLanguage({ variables: { text: description } })
+
     createFeedPost({
       variables: {
         input: {
@@ -71,6 +86,7 @@ const CreatePost = () => {
           categoryId: selectedCategoryId,
           image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
+          language: data?.detectedLanguage ?? i18n.language,
         },
       },
       onError: (error) => {
@@ -111,6 +127,10 @@ const CreatePost = () => {
     setShowCategories((value) => !value)
   }
 
+  const handleModalClose = () => {
+    setIsOnboarded().finally(hide)
+  }
+
   return (
     <View style={styles.grayExtendingBackground}>
       {showCategories ? (
@@ -135,6 +155,7 @@ const CreatePost = () => {
           onClickCategoriesPill={toggleShowCategories}
         />
       )}
+      <PostOnboardModal visible={visible} handleModalClose={handleModalClose} />
     </View>
   )
 }

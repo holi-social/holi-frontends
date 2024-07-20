@@ -36,6 +36,7 @@ export interface Link {
 }
 
 export interface Post {
+  __typename: string
   id: string
   text: string
   creator: User
@@ -60,4 +61,5 @@ export interface Post {
   myReaction: ReactionCounts
   reactions: ReactionCounts
   isPublic?: boolean
+  language?: string
 }

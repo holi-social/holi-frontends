@@ -83,6 +83,14 @@ const CommentView = ({
   const heartReactions = comment.reactions.HEART
   const currentUserHasReacted = !!comment.myReaction.HEART
 
+  const replyLoginModalConfig = {
+    description: t(
+      commentableType === CommentableType.DISCUSSION
+        ? 'insight.discussion.comment.loginRedirect.text'
+        : 'comments.react.loginRedirect.text'
+    ),
+  }
+
   const reactOnComment = () => {
     if (!isLoggedIn) {
       return openLoginModal({
@@ -188,7 +196,7 @@ const CommentView = ({
                 inline
                 label={t('comments.create_comment_button')}
                 contentStyle={styles.addComment}
-                onPress={() => (loggedInUser ? onPressComment() : openLoginModal())}
+                onPress={() => (loggedInUser ? onPressComment() : openLoginModal(replyLoginModalConfig))}
               >
                 {!!loggedInUser && (
                   <HoliAvatar

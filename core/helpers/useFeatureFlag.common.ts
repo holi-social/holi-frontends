@@ -25,6 +25,17 @@ export const featureFlagBootstrapValues: Record<FeatureFlagKey, string | boolean
   [FeatureFlagKey.VIDEO_CALL]: 'on',
 }
 
+export const featureFlagBootstrapPayloads: Record<FeatureFlagKey, JsonType> = {
+  [FeatureFlagKey.DONATIONS]: null,
+  [FeatureFlagKey.GOODNEWS]: null,
+  [FeatureFlagKey.VOLUNTEERING]: null,
+  [FeatureFlagKey.CHAT]: null,
+  [FeatureFlagKey.NOTIFICATIONS]: null,
+  [FeatureFlagKey.STORAGE]: null,
+  [FeatureFlagKey.THEME_TOGGLE]: null,
+  [FeatureFlagKey.VIDEO_CALL]: null,
+}
+
 export type JsonType = string | number | boolean | null | { [key: string]: JsonType } | Array<JsonType>
 
 export type FeatureFlagValue = string | boolean | undefined

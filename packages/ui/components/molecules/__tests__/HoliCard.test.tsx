@@ -7,7 +7,7 @@ import HoliCard, { HoliCardProps } from '@holi/ui/components/molecules/HoliCard'
 import { colors } from '@holi/ui/styles/globalVars'
 
 const props: HoliCardProps = {
-  imageUrl: 'https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg',
+  imageUri: 'https://login.freiwilligenarbeit.de/api/v1/content_delivery/images/4620/volunteering-michigan-teaser.jpg',
   imageLabel: 'volunteering',
   imageWidth: 1200,
   testID: 'holiCard',

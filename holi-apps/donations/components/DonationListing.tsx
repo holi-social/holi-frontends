@@ -157,7 +157,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
                 <HoliLink href={`/donations/${project.id}`} label={project.title}>
                   <HoliCard
                     imageLabel={project.title ?? ''}
-                    imageUrl={project.picture[0].url}
+                    imageUri={project.picture[0].url}
                     testID={'donations-list-item'}
                     imageWidth={0}
                   >

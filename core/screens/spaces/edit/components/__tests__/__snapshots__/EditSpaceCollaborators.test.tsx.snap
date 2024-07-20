@@ -71,46 +71,57 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
               }
             />
             <View
+              dataSet={
+                {
+                  "media": undefined,
+                }
+              }
               style={
                 [
                   {
                     "alignSelf": "center",
+                    "display": "flex",
                     "maxWidth": 840,
-                    "paddingHorizontal": 32,
+                    "paddingLeft": 32,
+                    "paddingRight": 32,
                     "width": "100%",
                   },
                   {
-                    "paddingTop": 24,
+                    "alignItems": "stretch",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "justifyContent": "flex-start",
                   },
                 ]
               }
+              testID="holi-container"
             >
-              <RCTScrollView
-                accessibilityOrientation="horizontal"
-                hideWebScrollbars={true}
-                horizontal={true}
-                role="tablist"
+              <View
+                style={
+                  {
+                    "paddingTop": 24,
+                  }
+                }
               >
-                <View>
-                  <View
-                    role="tablist"
-                    style={
-                      {
-                        "flexDirection": "row",
-                        "justifyContent": "flex-start",
-                      }
-                    }
-                  >
+                <RCTScrollView
+                  accessibilityOrientation="horizontal"
+                  hideWebScrollbars={true}
+                  horizontal={true}
+                  role="tablist"
+                >
+                  <View>
                     <View
-                      onLayout={[Function]}
+                      role="tablist"
+                      style={
+                        {
+                          "flexDirection": "row",
+                          "gap": 20,
+                          "justifyContent": "flex-start",
+                        }
+                      }
                     >
                       <View
-                        style={
-                          {
-                            "paddingLeft": 20,
-                            "paddingRight": 20,
-                          }
-                        }
+                        onLayout={[Function]}
                       >
                         <View
                           accessibilityLabel="spaces.collaborators.manage.tabs.all"
@@ -194,15 +205,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           </View>
                         </View>
                       </View>
-                    </View>
-                    <View>
-                      <View
-                        style={
-                          {
-                            "paddingRight": 20,
-                          }
-                        }
-                      >
+                      <View>
                         <View
                           accessibilityLabel="spaces.collaborators.manage.tabs.requests"
                           accessibilityState={
@@ -285,15 +288,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           </View>
                         </View>
                       </View>
-                    </View>
-                    <View>
-                      <View
-                        style={
-                          {
-                            "paddingRight": 20,
-                          }
-                        }
-                      >
+                      <View>
                         <View
                           accessibilityLabel="spaces.collaborators.manage.tabs.invites"
                           accessibilityState={
@@ -378,8 +373,8 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                       </View>
                     </View>
                   </View>
-                </View>
-              </RCTScrollView>
+                </RCTScrollView>
+              </View>
             </View>
           </View>
           <RCTScrollView
@@ -402,7 +397,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
             keyboardShouldPersistTaps="always"
             onLayout={[Function]}
             onMomentumScrollEnd={[Function]}
-            onScroll={[Function]}
             pagingEnabled={true}
             scrollEnabled={true}
             scrollEventThrottle={16}
@@ -1381,45 +1375,56 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
               }
             />
             <View
+              dataSet={
+                {
+                  "media": undefined,
+                }
+              }
               style={
                 [
                   {
                     "alignSelf": "center",
+                    "display": "flex",
                     "maxWidth": 840,
-                    "paddingHorizontal": 32,
+                    "paddingLeft": 32,
+                    "paddingRight": 32,
                     "width": "100%",
                   },
                   {
-                    "paddingTop": 24,
+                    "alignItems": "stretch",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "justifyContent": "flex-start",
                   },
                 ]
               }
+              testID="holi-container"
             >
-              <RCTScrollView
-                accessibilityOrientation="horizontal"
-                hideWebScrollbars={true}
-                horizontal={true}
-                role="tablist"
+              <View
+                style={
+                  {
+                    "paddingTop": 24,
+                  }
+                }
               >
-                <View>
-                  <View
-                    role="tablist"
-                    style={
-                      {
-                        "flexDirection": "row",
-                        "justifyContent": "flex-start",
-                      }
-                    }
-                  >
-                    <View>
-                      <View
-                        style={
-                          {
-                            "paddingLeft": 20,
-                            "paddingRight": 20,
-                          }
+                <RCTScrollView
+                  accessibilityOrientation="horizontal"
+                  hideWebScrollbars={true}
+                  horizontal={true}
+                  role="tablist"
+                >
+                  <View>
+                    <View
+                      role="tablist"
+                      style={
+                        {
+                          "flexDirection": "row",
+                          "gap": 20,
+                          "justifyContent": "flex-start",
                         }
-                      >
+                      }
+                    >
+                      <View>
                         <View
                           accessibilityLabel="spaces.collaborators.manage.tabs.all"
                           accessibilityState={
@@ -1502,16 +1507,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           </View>
                         </View>
                       </View>
-                    </View>
-                    <View
-                      onLayout={[Function]}
-                    >
                       <View
-                        style={
-                          {
-                            "paddingRight": 20,
-                          }
-                        }
+                        onLayout={[Function]}
                       >
                         <View
                           accessibilityLabel="spaces.collaborators.manage.tabs.requests"
@@ -1595,15 +1592,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           </View>
                         </View>
                       </View>
-                    </View>
-                    <View>
-                      <View
-                        style={
-                          {
-                            "paddingRight": 20,
-                          }
-                        }
-                      >
+                      <View>
                         <View
                           accessibilityLabel="spaces.collaborators.manage.tabs.invites"
                           accessibilityState={
@@ -1688,8 +1677,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       </View>
                     </View>
                   </View>
-                </View>
-              </RCTScrollView>
+                </RCTScrollView>
+              </View>
             </View>
           </View>
           <RCTScrollView
@@ -1712,7 +1701,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
             keyboardShouldPersistTaps="always"
             onLayout={[Function]}
             onMomentumScrollEnd={[Function]}
-            onScroll={[Function]}
             pagingEnabled={true}
             scrollEnabled={true}
             scrollEventThrottle={16}

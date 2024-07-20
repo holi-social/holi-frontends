@@ -18,6 +18,7 @@ import { getLogger } from '@holi/core/helpers/logging'
 
 const logger = getLogger('Other')
 const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name', 'traits.identity']
+const ORY_SIGNIN_WITH_PASSWORD_NODE_ID = 1010022
 
 export const oryNodeIsLink = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined
@@ -72,6 +73,11 @@ export const getNodeValue = ({ attributes }: UiNode) => {
 }
 
 export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
+  // If the node is a sign in node, we return a default title. Ory might send a custom title, but we ignore it. E.g "Sign in with password"
+  if (meta?.label?.id === ORY_SIGNIN_WITH_PASSWORD_NODE_ID) {
+    return 'Sign in'
+  }
+
   if (oryNodeIsInput(attributes) || oryNodeIsSubmit(attributes)) {
     if (meta?.label?.text) {
       return meta.label.text

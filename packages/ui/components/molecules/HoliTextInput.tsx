@@ -1,4 +1,4 @@
-import React, { ReactChild, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { ReactChild, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   KeyboardTypeOptions,
   LayoutChangeEvent,
@@ -114,8 +114,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
   ) => {
     const dimensions = useWindowDimensions()
 
-    const [isFocused, setFocused] = useState<boolean>(false)
-    const [isHovered, setHovered] = useState<boolean>(false)
+    const [inputState, setInputState] = useState<'inactive' | 'focused' | 'hovered'>('inactive')
     const hasValidationErrors = !!props?.validationErrorText
 
     const accessibilityProps: AccessibilityPropsWeb = {
@@ -130,17 +129,17 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
 
     const handleFocus = useCallback(
       (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        setFocused(true)
+        setInputState('focused')
         onFocus?.(event)
       },
-      [setFocused, onFocus]
+      [onFocus]
     )
     const handleBlur = useCallback(
       (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        setFocused(false)
+        setInputState('inactive')
         onBlur?.(event)
       },
-      [setFocused, onBlur]
+      [onBlur]
     )
 
     const { theme } = useTheme()
@@ -175,18 +174,28 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
 
     const hoverPropsForWeb = Platform.select({
       web: {
-        onMouseOver: () => setHovered(true),
-        onMouseOut: () => setHovered(false),
+        onMouseOver: () => setInputState((prev) => (prev === 'inactive' ? 'hovered' : prev)),
+        onMouseOut: () => setInputState((prev) => (prev === 'hovered' ? 'inactive' : prev)),
       },
     })
 
     const iconColor = (() => {
-      if (isFocused) return colors.brandColorB30
-      if (isHovered) return colors.foreground20
-      return colors.background30
+      switch (inputState) {
+        case 'focused':
+          return colors.brandColorB30
+        case 'hovered':
+          return colors.foreground20
+        default:
+          return colors.background30
+      }
     })()
 
     const multiline = maxNoOfVisibleLines > 1
+
+    const inputBorderColor = (() => {
+      if (hasValidationErrors) return theme.colors.error30
+      return iconColor
+    })()
 
     return (
       <View
@@ -204,7 +213,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
                 style={[
                   styles.label,
                   props.labelStyle,
-                  isFocused ? styles.labelFocused : {},
+                  inputState === 'focused' && styles.labelFocused,
                   hasValidationErrors ? styles.labelHasValidationErrors : {},
                 ]}
                 {...(props?.testID ? { testID: `${props?.testID}-label` } : {})}
@@ -215,20 +224,18 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
             </View>
           )}
           <View
-            style={[
-              styles.inputWrapper,
-              inline ? styles.inline : styles.block,
-              isHovered && styles.inputWrapperHovered,
-              isFocused && styles.inputWrapperFocused,
-              inputStyle,
-              props?.disabled && styles.inputWrapperDisabled,
-              hasValidationErrors && styles.inputWrapperHasValidationErrors,
-            ]}
+            style={[styles.inputWrapper, inline ? styles.inline : styles.block]}
             testID={isIOS ? `${props?.testID || 'holi-text'}-input` : 'holi-text-input-wrapper'}
           >
             <TextInput
-              value={value}
-              style={[styles.input, fontStyle, inline ? styles.inline : styles.block]}
+              value={value ?? ''}
+              style={[
+                styles.input,
+                inputStyle,
+                inline ? styles.inline : styles.block,
+                fontStyle,
+                { borderColor: inputBorderColor },
+              ]}
               numberOfLines={noOfVisibleLines}
               multiline={multiline}
               onFocus={handleFocus}
@@ -271,8 +278,8 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
               <View
                 style={[
                   styles.inputCharsTextWrapper,
-                  isHovered && styles.inputCharsTextWrapperHovered,
-                  isFocused && styles.inputCharsTextWrapperFocused,
+                  inputState === 'hovered' && styles.inputCharsTextWrapperHovered,
+                  inputState === 'focused' && styles.inputCharsTextWrapperFocused,
                   props?.disabled && styles.inputCharsTextWrapperDisabled,
                   hasValidationErrors && styles.inputCharsTextWrapperHasValidationErrors,
                 ]}
@@ -318,7 +325,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
 
 HoliTextInput.displayName = 'HoliTextInput'
 
-export default HoliTextInput
+export default memo(HoliTextInput)
 
 const FONT_SIZE = 16
 const LINE_HEIGHT = FONT_SIZE * 1.4
@@ -329,29 +336,16 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       flexDirection: 'row',
+      backgroundColor: theme.colors.background10,
     },
     inputWrapper: {
       alignItems: 'center',
       flexDirection: 'row',
-      borderWidth: 2,
-      borderColor: theme.colors.background30,
-      borderRadius: 4,
-      backgroundColor: theme.colors.background10,
-      paddingHorizontal: TEXT_INPUT_HORIZONTAL_PADDING,
-      paddingVertical: TEXT_INPUT_VERTICAL_PADDING,
-    },
-    inputWrapperFocused: {
-      borderColor: theme.colors.brandColorB30,
-    },
-    inputWrapperDisabled: {
-      borderColor: theme.colors.background30,
-      backgroundColor: theme.colors.background20,
-    },
-    inputWrapperHasValidationErrors: {
-      borderColor: theme.colors.error30,
-    },
-    inputWrapperHovered: {
-      borderColor: theme.colors.foreground20,
+      ...Platform.select({
+        web: {
+          flexDirection: 'column',
+        },
+      }),
     },
     input: {
       flex: 1,
@@ -361,6 +355,10 @@ const getStyles = (theme: HoliTheme) =>
       fontFamily: theme.fontFamily.default('Book'),
       color: theme.colors.foreground30,
       overflow: 'scroll',
+      borderWidth: 2,
+      borderRadius: 4,
+      paddingHorizontal: TEXT_INPUT_HORIZONTAL_PADDING,
+      paddingVertical: TEXT_INPUT_VERTICAL_PADDING,
       ...Platform.select({
         web: {
           overflowX: 'hidden',
@@ -430,9 +428,12 @@ const getStyles = (theme: HoliTheme) =>
       color: theme.colors.error30,
     },
     trailingIconWrapper: {
-      height: 22,
       justifyContent: 'center',
-      marginRight: 12,
+      position: 'absolute',
+      right: 12,
+      top: 0,
+      bottom: 0,
+      zIndex: -1,
     },
     descriptionContainer: {
       flexDirection: 'row',

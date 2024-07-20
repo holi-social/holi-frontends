@@ -1,7 +1,5 @@
 import React from 'react'
 
-import BubbleConnection from '@holi/ui/assets/img/icons/brand/BubbleConnection.svg'
-import Logo from '@holi/ui/assets/img/icons/brand/Logo.svg'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -21,7 +19,7 @@ export const All = () => {
               FIGMA design
             </a>
           </HoliText>
-          <HoliText style={{ display: 'block', marginTop: 10 }}>See below our</HoliText>
+          <HoliText style={{ display: 'flex', marginTop: 10 }}>See below our</HoliText>
           <ul>
             <li>
               <a href="/?path=/story/foundations-colors--colors-overview">Foundations</a>
@@ -38,8 +36,8 @@ export const All = () => {
           </ul>
         </section>
         <div className="container-logo">
-          <img src={Logo} />
-          <img src={BubbleConnection} style={{ marginTop: -1 }} />
+          <img src={require('@holi/ui/assets/img/icons/brand/Logo.svg')} />
+          <img src={require('@holi/ui/assets/img/icons/brand/BubbleConnection.svg')} style={{ marginTop: -1 }} />
         </div>
       </div>
     </div>
