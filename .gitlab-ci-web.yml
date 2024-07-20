@@ -121,8 +121,6 @@ web_build_docker:
     GCR_IMAGE: europe-north1-docker.pkg.dev/holi-shared/docker/holi-frontends-web
     # https://about.gitlab.com/blog/2019/07/31/docker-in-docker-with-docker-19-dot-03/
     DOCKER_TLS_CERTDIR: '/certs'
-  before_script:
-    - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://europe-north1-docker.pkg.dev
   script:
     - cd apps/web/
     - docker pull $GCR_IMAGE || true # Allows us to use --cache-from, we need to tag with latest in the next command for this to work
