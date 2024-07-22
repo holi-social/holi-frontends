@@ -12,6 +12,7 @@ type CommentTextProps = HoliTextProps & {
 }
 
 const CommentText = ({ comment, ...textProps }: CommentTextProps) => {
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
   const { i18n } = useTranslation()
 
   const [text, setText] = useState(comment.text)
@@ -19,13 +20,23 @@ const CommentText = ({ comment, ...textProps }: CommentTextProps) => {
 
   return (
     <>
-      <HoliRichTextOutput text={text} users={comment.mentions || []} {...textProps} allowAllLinks />
+      <HoliRichTextOutput
+        text={text}
+        users={comment.mentions || []}
+        {...textProps}
+        allowAllLinks
+        loading={loadingTranslation}
+        skeletonOptions={{ numberOfLines: 3 }}
+        style={{ width: '100%' }}
+      />
       {isTranslatable && (
         <HoliTranslate
           primaryText={{
             text,
             setText,
           }}
+          loading={loadingTranslation}
+          setLoading={setLoadingTranslation}
         />
       )}
     </>
