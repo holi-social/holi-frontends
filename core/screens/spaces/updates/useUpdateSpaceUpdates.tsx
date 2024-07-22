@@ -96,7 +96,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     createSpacePostMutation,
     {
       onCompleted: ({ createSpacePost2 }) => {
-        track(TrackingEvent.Posts.created(createSpacePost2.space?.id))
+        track(TrackingEvent.SpacePosts.created(createSpacePost2.space?.id))
         navigateBack()
       },
       onError: (error) => {

@@ -112,7 +112,7 @@ const PostDetailPage = () => {
     [setScreenOptions, title, colors.background10]
   )
 
-  useTrackOnce(post && space && TrackingEvent.Posts.read(post.id, space.id))
+  useTrackOnce(post && space && TrackingEvent.SpacePosts.read(post.id, space.id))
 
   const scrollIntoView = useCallback(
     (event: LayoutChangeEvent) => {

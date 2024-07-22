@@ -82,14 +82,14 @@ export namespace TrackingEvent {
     }),
   }
 
-  export const Posts = {
+  export const SpacePosts = {
     created: (spaceId?: string): TrackingEvent => ({
-      name: 'createdPost',
+      name: 'createdSpacePost',
       properties: { spaceId },
       ...versionOne,
     }),
     read: (postId: string, spaceId?: string): TrackingEvent => ({
-      name: 'readPost',
+      name: 'readSpacePost',
       properties: {
         spaceId,
         postId,

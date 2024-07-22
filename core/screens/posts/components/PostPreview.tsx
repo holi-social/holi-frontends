@@ -231,7 +231,7 @@ const PostPreview = ({
             numberOfLines={numberOfLines}
             color="gray300"
             bold={false}
-            onReadMoreSideEffect={() => post.space && track(TrackingEvent.Posts.read(post.id, post.space?.id))}
+            onReadMoreSideEffect={() => post.space && track(TrackingEvent.SpacePosts.read(post.id, post.space?.id))}
           >
             <HoliRichTextOutput
               text={text || ''}
