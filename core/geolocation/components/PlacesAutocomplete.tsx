@@ -41,7 +41,7 @@ export interface PlacesAutocompleteProps {
   style?: StyleProp<ViewStyle>
   suggestionsStyle?: StyleProp<ViewStyle>
   level?: GeolocationLevel
-  fetchDetailsOnClose?: boolean
+  enhanceWithDetails?: boolean
 }
 
 const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
@@ -60,7 +60,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       style,
       suggestionsStyle,
       level,
-      fetchDetailsOnClose,
+      enhanceWithDetails,
     },
     ref
   ) => {
@@ -113,13 +113,13 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       [debouncedFetchSuggestions, onChange, placeSuggestions]
     )
 
-    const enhanceWithDetails = useCallback(
+    const changeSelection = useCallback(
       async (selection?: GeolocationSuggestion) => {
         if (!onChange) {
           return
         }
         setValue(selection?.label || '')
-        if (!selection || !fetchDetailsOnClose) {
+        if (!selection || !enhanceWithDetails) {
           return onChange(selection)
         }
         return fetchPlaceDetails({ variables: { id: selection.id } })
@@ -138,10 +138,10 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
             setValue('')
           })
       },
-      [fetchDetailsOnClose, fetchPlaceDetails, onChange]
+      [enhanceWithDetails, fetchPlaceDetails, onChange]
     )
 
-    const onAutocompleteClose = useCallback(
+    const onClose = useCallback(
       async (suggestion?: Suggestion) => {
         if (!onChange) {
           return
@@ -158,28 +158,28 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
           ? placeSuggestions.find(({ label, id }) => id === suggestion?.id || label.startsWith(suggestion?.label))
           : selected
 
-        return enhanceWithDetails(selection)
+        return changeSelection(selection)
       },
-      [onChange, value, placeSuggestions, selected, enhanceWithDetails]
+      [onChange, value, placeSuggestions, selected, changeSelection]
     )
 
     const onBlurHandler = useCallback(
       async (value: string) => {
         // check complete match
         const matchedSuggestion = placeSuggestions.find(({ label }) => label === value)
-        await enhanceWithDetails(matchedSuggestion)
+        await changeSelection(matchedSuggestion)
         onSubmit?.()
       },
-      [enhanceWithDetails, onSubmit, placeSuggestions]
+      [changeSelection, onSubmit, placeSuggestions]
     )
 
     const onSubmitHandler = useCallback(
       async (value: string) => {
         const selectedSuggestion = value && placeSuggestions.length ? placeSuggestions[0] : undefined
-        await enhanceWithDetails(selectedSuggestion)
+        await changeSelection(selectedSuggestion)
         onSubmit?.()
       },
-      [enhanceWithDetails, onSubmit, placeSuggestions]
+      [changeSelection, onSubmit, placeSuggestions]
     )
 
     // Trigger loading suggestions for initial value
@@ -213,7 +213,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         inputProps={inputProps}
         onSubmit={onSubmitHandler}
         onSelect={onChange}
-        onClose={onAutocompleteClose}
+        onClose={onClose}
         onBlur={Platform.OS === 'web' ? undefined : onBlurHandler}
         testID={testID}
         validationErrorText={validationErrorText ?? (error?.message && t('location.placesAutocomplete.error'))}

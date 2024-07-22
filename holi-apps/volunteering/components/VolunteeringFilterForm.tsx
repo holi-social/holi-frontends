@@ -95,7 +95,7 @@ const VolunteeringFilterForm: React.FC<VolunteeringFilterFormProps> = ({
           onChange={setSelectedLocation}
           style={[styles.filterOption, { zIndex: 1 }]}
           inputProps={{ autoFocus: true }}
-          fetchDetailsOnClose
+          enhanceWithDetails
         />
         <HoliSelect
           options={topicOptions}

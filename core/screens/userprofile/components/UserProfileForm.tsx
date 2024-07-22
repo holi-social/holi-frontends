@@ -274,7 +274,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
             helperText={t('profile.location.validation.helper')}
             validationErrorText={fieldErrors?.location?.join()}
             level={GeolocationLevel.CITY}
-            fetchDetailsOnClose
+            enhanceWithDetails
             {...scrollToPropsFor('location')}
           />
         </View>

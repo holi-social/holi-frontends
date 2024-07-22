@@ -93,7 +93,7 @@ const EditSpaceLocation: React.FC<EditSpaceLocationProps> = ({ space, onDismiss 
             location={selectedLocation}
             validationErrorText={validationErrorText}
             onChange={selectLocation}
-            fetchDetailsOnClose
+            enhanceWithDetails
           />
         )}
       />

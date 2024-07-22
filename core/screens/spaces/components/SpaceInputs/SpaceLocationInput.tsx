@@ -34,7 +34,7 @@ const SpaceLocationInput = ({ description, validationErrorText, onChange, locati
         validationErrorText={validationErrorText}
         helperText={t('spaces.input.location.validation.helper')}
         suggestionsStyle={styles.suggestionsContainer}
-        fetchDetailsOnClose
+        enhanceWithDetails
       />
     </View>
   )

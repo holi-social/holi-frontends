@@ -91,7 +91,7 @@ const SpaceFilterForm = ({ onSubmit, ...initValues }: Props) => {
             onChange={updateLocation}
             style={[styles.filterOption, { zIndex: 2 }]}
             inputProps={{ autoFocus: true }}
-            fetchDetailsOnClose
+            enhanceWithDetails
             helperText={t('profile.location.validation.helper')}
           />
           <HoliSelect
