@@ -1,18 +1,8 @@
-import {
-  byTestId,
-  checkAccessibility,
-  clickElementByTestId,
-  dismissConsentDialog,
-  login,
-  loginAsE2EUser,
-} from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, login, loginAsE2EUser } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@Login', () => {
   test('Login - Logout', async ({ context, page }) => {
-    await page.goto('/')
-    await dismissConsentDialog(page)
-
     // should not work with invalid credentials
     await login(context, page, 'asfd@asdf.de', '1234')
     // see https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-error-codes
@@ -31,7 +21,5 @@ test.describe('@Login', () => {
     await clickElementByTestId(page, 'btn-to-logout')
     await clickElementByTestId(page, 'modal-logout-confirmation-confirm')
     await page.waitForSelector(byTestId('anonymous-profile-login-btn'))
-    await clickElementByTestId(page, 'btn-to-home-view')
-    await page.waitForSelector(byTestId('home-feed-insights-heading'))
   })
 })

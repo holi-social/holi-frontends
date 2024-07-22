@@ -49,6 +49,7 @@ export const denyConsent = async (page: Page) => {
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
   await page.goto('/profile')
+  await denyConsent(page)
 }
 
 export const login = async (context: BrowserContext, page: Page, email: string, password: string): Promise<void> => {
@@ -71,7 +72,6 @@ export const registerUserAccount = async (
   password: string
 ): Promise<{ fullName: string }> => {
   await page.goto('/profile')
-  await denyConsent(page)
   await registerUser(context, page, email, password)
   return await finishAccountSetup(page)
 }
