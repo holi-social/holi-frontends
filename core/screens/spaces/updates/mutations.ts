@@ -35,7 +35,7 @@ export const createSpacePostMutation = gql`
 `
 
 export type CreateSpacePostMutationResponse = {
-  createSpacePost: Post
+  createSpacePost2: Post
 }
 
 export const UpdatePostInputSchema = z.object({
