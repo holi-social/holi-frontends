@@ -88,9 +88,10 @@ export namespace TrackingEvent {
       properties: { spaceId },
       ...versionOne,
     }),
-    read: (postId: string): TrackingEvent => ({
+    read: (postId: string, spaceId?: string): TrackingEvent => ({
       name: 'readPost',
       properties: {
+        spaceId,
         postId,
       },
       ...versionOne,

@@ -28,6 +28,8 @@ import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -109,6 +111,8 @@ const PostDetailPage = () => {
       }),
     [setScreenOptions, title, colors.background10]
   )
+
+  useTrackOnce(post && space && TrackingEvent.Posts.read(post.id, space.id))
 
   const scrollIntoView = useCallback(
     (event: LayoutChangeEvent) => {
