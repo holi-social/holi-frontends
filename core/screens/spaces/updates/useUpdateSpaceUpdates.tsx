@@ -17,6 +17,8 @@ import {
   updateSpacePostMutation,
 } from '@holi/core/screens/spaces/updates/mutations'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
@@ -46,6 +48,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   const { navigateBack, replaceRoute } = useRouting()
   const { openToast } = useToast()
   const { t, i18n } = useTranslation()
+  const { track } = useTracking()
 
   //input fields
   const [title, setTitle] = useState<string>('')
@@ -92,7 +95,8 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   const [createSpacePost, { loading: loadingCreateMutation }] = useMutation<CreateSpacePostMutationResponse>(
     createSpacePostMutation,
     {
-      onCompleted: () => {
+      onCompleted: ({ createSpacePost2 }) => {
+        track(TrackingEvent.Posts.created(createSpacePost2.space?.id))
         navigateBack()
       },
       onError: (error) => {
