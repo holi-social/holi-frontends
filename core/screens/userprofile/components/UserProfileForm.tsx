@@ -15,7 +15,6 @@ import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserV2Response,
-  authenticatedUserV2Query,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -102,7 +101,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
     }
     await updateUser({
       variables: { input },
-      refetchQueries: [{ query: authenticatedUserV2Query, fetchPolicy: 'network-only' }],
       onCompleted: (data) => {
         if (onSubmit) {
           onSubmit(data.updateAuthenticatedUserV2)
