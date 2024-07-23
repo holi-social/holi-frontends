@@ -2,7 +2,6 @@ import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
-import crossFetch from 'cross-fetch'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -203,7 +202,7 @@ interface ApolloCreateClientOptions {
 }
 
 const API_URL = 'http://localhost:3000/api/graphql'
-const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
+const ssrHttpLink = new HttpLink({ uri: API_URL })
 
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
@@ -212,13 +211,15 @@ const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
 const clientSideLink = from([headerLink, timeoutLink, errorLink, uploadCapableTerminatingLink].filter((link) => !!link))
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
-  const clientLink = isSSR ? from([errorLink, ssrHttpLink]) : clientSideLink
+  const clientLink = ssrMode ? from([errorLink, ssrHttpLink]) : clientSideLink
 
   return new ApolloClient({
     ssrMode,
     link: clientLink,
     cache: createCache(),
     assumeImmutableResults: true,
+    // Trying to connect to apollo dev tools (browser extension) does not make sense during ssr and leads to logging noise
+    connectToDevTools: ssrMode ? false : undefined,
   })
 }
 
@@ -229,7 +230,7 @@ let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
 type SSRClientInitState = Record<string, unknown> | null
 
 export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
-  const client = apolloSSRClient ?? createApolloClient({ ssrMode: isSSR })
+  const client = apolloSSRClient ?? createApolloClient({ ssrMode: true })
 
   if (initState) {
     const { __META, ...existingCache } = client.extract()
