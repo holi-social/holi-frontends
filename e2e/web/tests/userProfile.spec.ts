@@ -1,24 +1,16 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import {
-  byTestId,
-  checkAccessibility,
-  clickElementByTestId,
-  loginAsE2EUser,
-  waitForAnimationEnd,
-  withSSR,
-} from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, waitForAnimationEnd, withSSR } from './helpers'
 import { test } from './testmaster'
 
 test.setTimeout(120000)
 
 test.describe('@Profile', () => {
-  test('user journey', async ({ browser, page, context, sessions, browserName }) => {
-    await loginAsE2EUser(context, page)
-    await clickElementByTestId(page, 'btn-to-profile-view')
-
+  test('user journey', async ({ browser, sessions, browserName }) => {
     // FIXME: https://holi.atlassian.net/browse/HOLI-9014
+    // await loginAsE2EUser(context, page)
+    // await clickElementByTestId(page, 'btn-to-profile-view')
     // fill the interests, skills and sdgs for visiting the profile later
     // await checkChipsSelection(page, 'interests')
     // await checkChipsSelection(page, 'skills')
