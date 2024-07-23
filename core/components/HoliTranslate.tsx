@@ -18,18 +18,22 @@ type Translatable = {
 interface HoliTranslateProps {
   primaryText: Translatable
   secondaryText?: Translatable
-  isTranslating?: boolean
+  loading?: boolean
+  setLoading: (_: boolean) => void
 }
 
-const HoliTranslate: React.FC<HoliTranslateProps> = ({ primaryText, secondaryText }) => {
+const HoliTranslate: React.FC<HoliTranslateProps> = ({ primaryText, secondaryText, loading, setLoading }) => {
   const { t, i18n } = useTranslation()
-  const [translate] = useLazyQuery<TranslateQueryRespone>(translateQuery)
+  const [translate] = useLazyQuery<TranslateQueryRespone>(translateQuery, {
+    onError: () => setLoading(false),
+  })
 
   const [isTranslated, setIsTranslated] = useState(false)
   const [originalPrimaryText, setOriginalPrimaryText] = useState(primaryText.text)
   const [originalSecondaryText, setOriginalSecondaryText] = useState(secondaryText?.text || '')
 
   const onTranslate = async () => {
+    setLoading(true)
     if (isTranslated) {
       primaryText.setText(originalPrimaryText)
       if (secondaryText) {
@@ -53,10 +57,11 @@ const HoliTranslate: React.FC<HoliTranslateProps> = ({ primaryText, secondaryTex
       primaryText.setText(primaryTranslation?.translatedText ?? primaryText.text)
     }
     setIsTranslated(!isTranslated)
+    setLoading(false)
   }
 
   return (
-    <HoliButton transparent label={t('translation.button.label')} onPress={onTranslate}>
+    <HoliButton transparent label={t('translation.button.label')} onPress={onTranslate} disabled={loading}>
       <View style={styles.container}>
         <HoliIcon icon={Translate} size={16} />
         <HoliText bold size="small">

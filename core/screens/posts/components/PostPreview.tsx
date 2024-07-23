@@ -50,6 +50,7 @@ const PostPreview = ({
   numberOfLines = 10,
   loading,
 }: PropsWithSkeleton<Props>) => {
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
@@ -217,14 +218,21 @@ const PostPreview = ({
         {/* Post title */}
         {!!post?.title && (
           <View style={styles.postTitleLink}>
-            <HoliHeading level="3" size="s">
+            <HoliHeading level="3" size="s" loading={loadingTranslation} skeletonOptions={{ numberOfLines: 1 }}>
               {title}
             </HoliHeading>
           </View>
         )}
         {/* Post content */}
         {hasMounted && (
-          <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
+          <HoliReadMore
+            numberOfLines={numberOfLines}
+            color="gray300"
+            bold={false}
+            style={styles.readMore}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 3 }}
+          >
             <HoliRichTextOutput
               text={text || ''}
               users={post?.mentions || []}
@@ -257,7 +265,12 @@ const PostPreview = ({
           )
         })}
       {isTranslatable && (
-        <HoliTranslate primaryText={{ text, setText }} secondaryText={{ text: title, setText: setTitle }} />
+        <HoliTranslate
+          primaryText={{ text, setText }}
+          secondaryText={{ text: title, setText: setTitle }}
+          loading={loadingTranslation}
+          setLoading={setLoadingTranslation}
+        />
       )}
       {/* Reaction bar with comments and likes */}
       <View style={styles.reactionsBar}>
@@ -301,6 +314,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     postTitleLink: {
       marginVertical: 4,
+    },
+    readMore: {
+      width: '100%',
     },
     imageContainer: {
       width: '100%',
