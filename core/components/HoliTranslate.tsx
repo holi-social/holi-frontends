@@ -8,6 +8,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Translate } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import Spacing from '@holi/ui/foundations/Spacing'
 
 type Translatable = {
@@ -24,8 +25,12 @@ interface HoliTranslateProps {
 
 const HoliTranslate: React.FC<HoliTranslateProps> = ({ primaryText, secondaryText, loading, setLoading }) => {
   const { t, i18n } = useTranslation()
+  const { openToast } = useToast()
   const [translate] = useLazyQuery<TranslateQueryRespone>(translateQuery, {
-    onError: () => setLoading(false),
+    onError: () => {
+      setLoading(false)
+      openToast(t('global.technicalError'), HoliToastType.ERROR)
+    },
   })
 
   const [isTranslated, setIsTranslated] = useState(false)
