@@ -10,7 +10,6 @@ import {
   donationsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
-  withSSR,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -25,12 +24,14 @@ test.describe('@Donations', () => {
     await testAbleToVisitDonationsApp(page)
 
     await testProjectListAndPagination(page)
-    await withSSR(browser, page.url(), testDisplaysProjectList)
+    // FIXME: Donations are not SSRed because of posthog FF https://holi.atlassian.net/browse/HOLI-9277
+    // await withSSR(browser, page.url(), testDisplaysProjectList)
 
     // click first element in list
     await clickElementByTestId(page, 'donations-list-item')
     await testDisplaysProjectDetails(context, page)
-    await withSSR(browser, page.url(), testDisplaysProjectDetailsCommon)
+    // FIXME: Donations are not SSRed because of posthog FF https://holi.atlassian.net/browse/HOLI-9277
+    // await withSSR(browser, page.url(), testDisplaysProjectDetailsCommon)
     // navigate back
     await clickElementByTestId(page, 'nav-button-back')
     await page.waitForSelector(byTestId('donations-list-container'))
@@ -151,7 +152,8 @@ const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, pag
 
   // assert results
   await testDisplaysFilterResults(page)
-  withSSR(browser, page.url(), testDisplaysFilterResults)
+  // FIXME: Donations are not SSRed because of posthog FF https://holi.atlassian.net/browse/HOLI-9277
+  // withSSR(browser, page.url(), testDisplaysFilterResults)
 
   await page.waitForSelector(byTestId('donations-list-search-reset'))
   let summary = await locateElementByTestId(page, 'donations-list-search-summary')
