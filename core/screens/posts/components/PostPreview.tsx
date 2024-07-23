@@ -17,6 +17,8 @@ import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Link, Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -55,6 +57,7 @@ const PostPreview = ({
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const commenters = post?.commenters.data
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
@@ -232,6 +235,7 @@ const PostPreview = ({
             style={styles.readMore}
             loading={loadingTranslation}
             skeletonOptions={{ numberOfLines: 3 }}
+            onReadMoreSideEffect={() => post.space && track(TrackingEvent.SpacePosts.read(post.id, post.space?.id))}
           >
             <HoliRichTextOutput
               text={text || ''}
