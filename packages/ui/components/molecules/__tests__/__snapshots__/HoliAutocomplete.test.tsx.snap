@@ -115,6 +115,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -342,6 +343,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",

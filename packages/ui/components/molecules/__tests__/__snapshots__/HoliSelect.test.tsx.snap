@@ -117,6 +117,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -1498,6 +1499,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -2813,6 +2815,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -3089,6 +3092,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -4320,6 +4324,7 @@ exports[`SingleSelect correctly filters options 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -5687,6 +5692,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -5928,6 +5934,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -6173,6 +6180,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",

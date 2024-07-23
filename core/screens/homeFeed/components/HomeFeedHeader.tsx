@@ -1,7 +1,15 @@
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated'
 
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
@@ -23,6 +31,28 @@ const HomeFeedHeader: React.FC = () => {
   const { user } = useLoggedInUser()
 
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
+
+  const rotation = useSharedValue(0)
+  const rotationStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ rotate: `${rotation.value}deg` }],
+    }),
+    [rotation]
+  )
+  useEffect(() => {
+    rotation.value = withRepeat(
+      withSequence(
+        withTiming(10, { duration: 200 }),
+        withTiming(-12, { duration: 200 }),
+        withTiming(35, { duration: 250 }),
+        withTiming(-35, { duration: 250 }),
+        withSpring(0, { damping: 5, stiffness: 100 }),
+        withTiming(0, { duration: 1000 })
+      ),
+      -1,
+      true
+    )
+  }, [rotation])
 
   return (
     <HoliContainer>
@@ -51,14 +81,17 @@ const HomeFeedHeader: React.FC = () => {
         <HoliHeading level="2" size="xl" testID="home-feed-insights-heading">
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
         </HoliHeading>
-        <HoliLocalImage
-          imageSource={Platform.OS === 'android' ? HandWaveFilledPng : HandWaveFilled}
-          width={40}
-          height={40}
-          label={''}
-          style={styles.handwaveFilled}
-          isSvg={Platform.OS !== 'android'}
-        />
+
+        <Animated.View style={[rotationStyle, { transformOrigin: 'center bottom' }]}>
+          <HoliLocalImage
+            imageSource={Platform.OS === 'android' ? HandWaveFilledPng : HandWaveFilled}
+            width={40}
+            height={40}
+            label={''}
+            style={styles.handwaveFilled}
+            isSvg={Platform.OS !== 'android'}
+          />
+        </Animated.View>
       </HoliBox>
     </HoliContainer>
   )

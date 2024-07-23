@@ -115,6 +115,7 @@ exports[`PostTopics matches snapshot 1`] = `
                 style={
                   [
                     {
+                      "backgroundColor": "#fff",
                       "color": "#262424",
                       "flex": 1,
                       "fontFamily": "Circular Std Book",

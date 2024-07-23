@@ -5,9 +5,8 @@ import React, { PropsWithChildren, useEffect } from 'react'
 
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
-import { featureFlagBootstrapValues } from '@holi/core/helpers/useFeatureFlag.common'
+import { featureFlagBootstrapPayloads, featureFlagBootstrapValues } from '@holi/core/helpers/useFeatureFlag.common'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
-import { trackingEnabled } from '@holi/core/tracking/config'
 import { ConsentState } from '@holi/core/tracking/types'
 
 // don't actually set a host. the browser knows the origin of the request.
@@ -36,9 +35,9 @@ const withoutUtmParameters = (properties: PosthogProperties) => {
   return result
 }
 
-const WebTrackingProvider = ({ children }: PropsWithChildren) => {
+const PosthogProvider = ({ children }: PropsWithChildren) => {
   // Check that PostHog is client-side (used to handle Next.js SSR)
-  if (trackingEnabled() && typeof window !== 'undefined') {
+  if (typeof window !== 'undefined') {
     posthog.init(posthogKey, {
       api_host: POSTHOG_API_HOST,
       ui_host: posthogHost,
@@ -53,6 +52,7 @@ const WebTrackingProvider = ({ children }: PropsWithChildren) => {
       },
       bootstrap: {
         featureFlags: featureFlagBootstrapValues,
+        featureFlagPayloads: featureFlagBootstrapPayloads,
       },
     })
     return <PostHogProviderWrapper>{children}</PostHogProviderWrapper>
@@ -77,4 +77,4 @@ const PostHogProviderWrapper = ({ children }: PropsWithChildren) => {
   return <PostHogProvider client={posthog}>{children}</PostHogProvider>
 }
 
-export default WebTrackingProvider
+export default PosthogProvider

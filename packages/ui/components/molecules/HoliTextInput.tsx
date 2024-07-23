@@ -360,6 +360,7 @@ const getStyles = (theme: HoliTheme) =>
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
       color: theme.colors.foreground30,
+      backgroundColor: theme.colors.background10,
       overflow: 'scroll',
       ...Platform.select({
         web: {

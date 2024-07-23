@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import { Term } from '@holi/core/screens/userprofile/types'
@@ -24,12 +25,18 @@ type PostContentProps = {
 }
 
 const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostContentProps) => {
-  const { t } = useTranslation()
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
+  const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
   const contentSpacing = screenWidth < dimensions.breakpointS ? Spacing.xs : Spacing.md
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const styles = useMemo(() => getStyles(theme, !!smStyle, contentSpacing), [theme, smStyle, contentSpacing])
+
+  const [description, setDescription] = useState(post.description)
+  const [title, setTitle] = useState(post.title)
+
+  const isTranslatable = post.language && post.language !== i18n.language
 
   return (
     <>
@@ -64,10 +71,23 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
           ))}
         </View>
         <View style={styles.contentSection}>
-          <HoliHeading level="1" size="m" numberOfLines={3}>
-            {post.title}
+          <HoliHeading
+            level="1"
+            size="m"
+            numberOfLines={3}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 1 }}
+          >
+            {title}
           </HoliHeading>
-          <HoliRichTextOutput text={post.description} allowAllLinks users={post.mentionedUsers || []} />
+          <HoliRichTextOutput
+            text={description}
+            allowAllLinks
+            users={post.mentionedUsers || []}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 3 }}
+            style={styles.description}
+          />
         </View>
         {!!post.imageUrl && (
           <View style={[styles.imageContainer, styles.blockContainer]}>
@@ -87,6 +107,14 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             <HoliLinkPreview previewData={post.linkPreview} />
           </View>
         )}
+        {isTranslatable && (
+          <HoliTranslate
+            primaryText={{ text: description, setText: setDescription }}
+            secondaryText={{ text: title, setText: setTitle }}
+            loading={loadingTranslation}
+            setLoading={setLoadingTranslation}
+          />
+        )}
       </View>
     </>
   )
@@ -105,6 +133,7 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
       gap: contentSpacing,
       marginTop: contentSpacing,
     },
+    description: { width: '100%' },
     pillContainer: {
       marginVertical: Spacing.md,
       flexDirection: 'row',

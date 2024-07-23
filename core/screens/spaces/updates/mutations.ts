@@ -11,6 +11,7 @@ export const CreateSpacePostSchema = z.object({
   text: z.string() /* Content */,
   image: z.instanceof(Object).optional(),
   visibility: z.string() /* VisibilityType */,
+  language: z.string().optional(),
 })
 
 export type CreatePostInput = z.infer<typeof CreateSpacePostSchema>
@@ -34,7 +35,7 @@ export const createSpacePostMutation = gql`
 `
 
 export type CreateSpacePostMutationResponse = {
-  createSpacePost: Post
+  createSpacePost2: Post
 }
 
 export const UpdatePostInputSchema = z.object({
@@ -43,6 +44,7 @@ export const UpdatePostInputSchema = z.object({
   text: z.string() /* Content */,
   image: z.instanceof(Object).optional(),
   visibility: z.string() /* VisibilityType */,
+  language: z.string().optional(),
 })
 
 export type UpdatePostInput = z.infer<typeof UpdatePostInputSchema>
