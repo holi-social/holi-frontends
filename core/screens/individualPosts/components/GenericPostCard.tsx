@@ -53,6 +53,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
   const { user } = useLoggedInUser()
   const [description, setDescription] = useState<string>((post as Post).text ?? (post as FeedPost).description)
   const [title, setTitle] = useState<string>(post.title)
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
 
   const [isLoadingSpacePostReport, reportSpacePostContent] = useReportContent({
     id: post?.id || '',
@@ -126,7 +127,13 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               )}
             </View>
             <View style={styles.contentSection}>
-              <HoliHeading level="2" size="s" numberOfLines={3}>
+              <HoliHeading
+                level="2"
+                size="s"
+                numberOfLines={3}
+                skeletonOptions={{ numberOfLines: 1 }}
+                loading={loadingTranslation}
+              >
                 {title}
               </HoliHeading>
             </View>
@@ -139,6 +146,9 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             color="gray300"
             bold={false}
             onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
+            style={styles.readMore}
           >
             <HoliRichTextOutput
               text={description}
@@ -154,6 +164,8 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             <HoliTranslate
               primaryText={{ text: description, setText: setDescription }}
               secondaryText={{ text: title, setText: setTitle }}
+              loading={loadingTranslation}
+              setLoading={setLoadingTranslation}
             />
           )}
         </View>
@@ -278,7 +290,13 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         >
           <View style={styles.clickableArea}>
             <View style={styles.contentSection}>
-              <HoliHeading level="2" size="s" numberOfLines={3}>
+              <HoliHeading
+                level="2"
+                size="s"
+                numberOfLines={3}
+                loading={loadingTranslation}
+                skeletonOptions={{ numberOfLines: 1 }}
+              >
                 {title}
               </HoliHeading>
             </View>
@@ -291,6 +309,9 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             color="gray300"
             bold={false}
             onReadMoreSideEffect={() => track(TrackingEvent.SpacePosts.read(spacePost.id, spacePost.space?.id))}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
+            style={styles.readMore}
           >
             <HoliRichTextOutput
               text={description}
@@ -306,6 +327,8 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             <HoliTranslate
               primaryText={{ text: description, setText: setDescription }}
               secondaryText={{ text: title, setText: setTitle }}
+              loading={loadingTranslation}
+              setLoading={setLoadingTranslation}
             />
           )}
         </View>
@@ -397,6 +420,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     image: {
       height: '100%',
+    },
+    readMore: {
+      width: '100%',
     },
     postDrawer: {
       position: 'absolute',

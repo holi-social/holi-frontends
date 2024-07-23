@@ -37,6 +37,7 @@ export type PostContentProps = {
 }
 
 const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName }: PostContentProps) => {
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
   const { t, i18n } = useTranslation()
   const commenters = post.commenters.data
   const { navigate } = useRouting()
@@ -79,7 +80,13 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                 ) : null}
 
                 {/* Post title */}
-                <HoliHeading level="1" size="m" testID="post-heading">
+                <HoliHeading
+                  level="1"
+                  size="m"
+                  testID="post-heading"
+                  loading={loadingTranslation}
+                  skeletonOptions={{ numberOfLines: 1 }}
+                >
                   {title}
                 </HoliHeading>
               </HoliColumn>
@@ -138,6 +145,8 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
           links={post?.links || []}
           style={styles.description}
           allowAllLinks
+          loading={loadingTranslation}
+          skeletonOptions={{ numberOfLines: 3 }}
         />
       </View>
 
@@ -164,7 +173,12 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
       {isTranslatable && (
         <View style={styles.paddingHorizontal}>
-          <HoliTranslate primaryText={{ text, setText }} secondaryText={{ text: title, setText: setTitle }} />
+          <HoliTranslate
+            primaryText={{ text, setText }}
+            secondaryText={{ text: title, setText: setTitle }}
+            loading={loadingTranslation}
+            setLoading={setLoadingTranslation}
+          />
         </View>
       )}
 
@@ -197,6 +211,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     description: {
       marginTop: 16,
+      width: '100%',
     },
     linkPreview: {
       marginTop: 16,

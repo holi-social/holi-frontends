@@ -25,6 +25,7 @@ type PostContentProps = {
 }
 
 const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostContentProps) => {
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
@@ -70,10 +71,23 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
           ))}
         </View>
         <View style={styles.contentSection}>
-          <HoliHeading level="1" size="m" numberOfLines={3}>
+          <HoliHeading
+            level="1"
+            size="m"
+            numberOfLines={3}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 1 }}
+          >
             {title}
           </HoliHeading>
-          <HoliRichTextOutput text={description} allowAllLinks users={post.mentionedUsers || []} />
+          <HoliRichTextOutput
+            text={description}
+            allowAllLinks
+            users={post.mentionedUsers || []}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 3 }}
+            style={styles.description}
+          />
         </View>
         {!!post.imageUrl && (
           <View style={[styles.imageContainer, styles.blockContainer]}>
@@ -97,6 +111,8 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
           <HoliTranslate
             primaryText={{ text: description, setText: setDescription }}
             secondaryText={{ text: title, setText: setTitle }}
+            loading={loadingTranslation}
+            setLoading={setLoadingTranslation}
           />
         )}
       </View>
@@ -117,6 +133,7 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
       gap: contentSpacing,
       marginTop: contentSpacing,
     },
+    description: { width: '100%' },
     pillContainer: {
       marginVertical: Spacing.md,
       flexDirection: 'row',
