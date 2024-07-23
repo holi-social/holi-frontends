@@ -88,6 +88,7 @@
   "auth.login.input.label-ID": "E-Mail",
   "auth.login.input.label-Password": "Passwort",
   "auth.login.input.label-Sign in": "Einloggen",
+  "auth.login.input.label-Sign in with password": "Einloggen",
   "auth.login.input.label-Sign up": "holi beitreten",
   "auth.login.input.label-Submit": "Passwort zurücksetzen",
   "auth.login.input.label-identifier": "E-Mail",
