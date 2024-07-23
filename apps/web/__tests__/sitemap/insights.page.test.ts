@@ -54,169 +54,169 @@ describe('Insights sitemap page', () => {
       "<?xml version="1.0" encoding="UTF-8"?>
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         <url>
-          <loc>https://app.holi.social/en/insights/200</loc>
+          <loc>https://app.holi.social/en/insights/1000</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/posts/post-200-0</loc>
+          <loc>https://app.holi.social/en/insights/1000/posts/post-1000-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/posts/post-200-1</loc>
+          <loc>https://app.holi.social/en/insights/1000/posts/post-1000-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/recommendations/reco-200-0</loc>
+          <loc>https://app.holi.social/en/insights/1000/recommendations/reco-1000-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/recommendations/reco-200-1</loc>
+          <loc>https://app.holi.social/en/insights/1000/recommendations/reco-1000-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/quotes/quote-200-0</loc>
+          <loc>https://app.holi.social/en/insights/1000/quotes/quote-1000-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/quotes/quote-200-1</loc>
+          <loc>https://app.holi.social/en/insights/1000/quotes/quote-1000-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/initiatives/initiative-200-0</loc>
+          <loc>https://app.holi.social/en/insights/1000/initiatives/initiative-1000-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/initiatives/initiative-200-1</loc>
+          <loc>https://app.holi.social/en/insights/1000/initiatives/initiative-1000-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/discussions/discussion-200-0</loc>
+          <loc>https://app.holi.social/en/insights/1000/discussions/discussion-1000-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/200/discussions/discussion-200-1</loc>
+          <loc>https://app.holi.social/en/insights/1000/discussions/discussion-1000-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201</loc>
+          <loc>https://app.holi.social/en/insights/1001</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/posts/post-201-0</loc>
+          <loc>https://app.holi.social/en/insights/1001/posts/post-1001-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/posts/post-201-1</loc>
+          <loc>https://app.holi.social/en/insights/1001/posts/post-1001-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/recommendations/reco-201-0</loc>
+          <loc>https://app.holi.social/en/insights/1001/recommendations/reco-1001-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/recommendations/reco-201-1</loc>
+          <loc>https://app.holi.social/en/insights/1001/recommendations/reco-1001-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/quotes/quote-201-0</loc>
+          <loc>https://app.holi.social/en/insights/1001/quotes/quote-1001-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/quotes/quote-201-1</loc>
+          <loc>https://app.holi.social/en/insights/1001/quotes/quote-1001-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/initiatives/initiative-201-0</loc>
+          <loc>https://app.holi.social/en/insights/1001/initiatives/initiative-1001-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/initiatives/initiative-201-1</loc>
+          <loc>https://app.holi.social/en/insights/1001/initiatives/initiative-1001-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/discussions/discussion-201-0</loc>
+          <loc>https://app.holi.social/en/insights/1001/discussions/discussion-1001-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/201/discussions/discussion-201-1</loc>
+          <loc>https://app.holi.social/en/insights/1001/discussions/discussion-1001-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202</loc>
+          <loc>https://app.holi.social/en/insights/1002</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/posts/post-202-0</loc>
+          <loc>https://app.holi.social/en/insights/1002/posts/post-1002-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/posts/post-202-1</loc>
+          <loc>https://app.holi.social/en/insights/1002/posts/post-1002-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/recommendations/reco-202-0</loc>
+          <loc>https://app.holi.social/en/insights/1002/recommendations/reco-1002-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/recommendations/reco-202-1</loc>
+          <loc>https://app.holi.social/en/insights/1002/recommendations/reco-1002-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/quotes/quote-202-0</loc>
+          <loc>https://app.holi.social/en/insights/1002/quotes/quote-1002-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/quotes/quote-202-1</loc>
+          <loc>https://app.holi.social/en/insights/1002/quotes/quote-1002-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/initiatives/initiative-202-0</loc>
+          <loc>https://app.holi.social/en/insights/1002/initiatives/initiative-1002-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/initiatives/initiative-202-1</loc>
+          <loc>https://app.holi.social/en/insights/1002/initiatives/initiative-1002-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/discussions/discussion-202-0</loc>
+          <loc>https://app.holi.social/en/insights/1002/discussions/discussion-1002-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/202/discussions/discussion-202-1</loc>
+          <loc>https://app.holi.social/en/insights/1002/discussions/discussion-1002-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203</loc>
+          <loc>https://app.holi.social/en/insights/1003</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/posts/post-203-0</loc>
+          <loc>https://app.holi.social/en/insights/1003/posts/post-1003-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/posts/post-203-1</loc>
+          <loc>https://app.holi.social/en/insights/1003/posts/post-1003-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/recommendations/reco-203-0</loc>
+          <loc>https://app.holi.social/en/insights/1003/recommendations/reco-1003-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/recommendations/reco-203-1</loc>
+          <loc>https://app.holi.social/en/insights/1003/recommendations/reco-1003-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/quotes/quote-203-0</loc>
+          <loc>https://app.holi.social/en/insights/1003/quotes/quote-1003-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/quotes/quote-203-1</loc>
+          <loc>https://app.holi.social/en/insights/1003/quotes/quote-1003-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/initiatives/initiative-203-0</loc>
+          <loc>https://app.holi.social/en/insights/1003/initiatives/initiative-1003-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/initiatives/initiative-203-1</loc>
+          <loc>https://app.holi.social/en/insights/1003/initiatives/initiative-1003-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/discussions/discussion-203-0</loc>
+          <loc>https://app.holi.social/en/insights/1003/discussions/discussion-1003-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/203/discussions/discussion-203-1</loc>
+          <loc>https://app.holi.social/en/insights/1003/discussions/discussion-1003-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204</loc>
+          <loc>https://app.holi.social/en/insights/1004</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/posts/post-204-0</loc>
+          <loc>https://app.holi.social/en/insights/1004/posts/post-1004-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/posts/post-204-1</loc>
+          <loc>https://app.holi.social/en/insights/1004/posts/post-1004-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/recommendations/reco-204-0</loc>
+          <loc>https://app.holi.social/en/insights/1004/recommendations/reco-1004-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/recommendations/reco-204-1</loc>
+          <loc>https://app.holi.social/en/insights/1004/recommendations/reco-1004-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/quotes/quote-204-0</loc>
+          <loc>https://app.holi.social/en/insights/1004/quotes/quote-1004-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/quotes/quote-204-1</loc>
+          <loc>https://app.holi.social/en/insights/1004/quotes/quote-1004-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/initiatives/initiative-204-0</loc>
+          <loc>https://app.holi.social/en/insights/1004/initiatives/initiative-1004-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/initiatives/initiative-204-1</loc>
+          <loc>https://app.holi.social/en/insights/1004/initiatives/initiative-1004-1</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/discussions/discussion-204-0</loc>
+          <loc>https://app.holi.social/en/insights/1004/discussions/discussion-1004-0</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/insights/204/discussions/discussion-204-1</loc>
+          <loc>https://app.holi.social/en/insights/1004/discussions/discussion-1004-1</loc>
         </url>
         </urlset>
       "

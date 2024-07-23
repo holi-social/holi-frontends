@@ -7,9 +7,9 @@ import { generateSitemapIndex, getUrlPrefix } from '@holi/web/helpers/sitemap'
 
 const logger = pino()
 
-// Sitemaps may not contain more than 20k entries
-// Assuming each insight won't contain more than 200 links
-export const PAGE_SIZE = 100
+// Sitemaps may not contain more than 50k entries
+// Assuming each insight won't contain more than 100 links
+export const PAGE_SIZE = 500
 
 export const insightsCountQuery = gql`
   query LastInsights {

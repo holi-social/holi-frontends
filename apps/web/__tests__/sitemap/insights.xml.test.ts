@@ -14,7 +14,7 @@ const server = setupServer(
     return HttpResponse.json({
       data: {
         lastInsights: {
-          totalResults: 123,
+          totalResults: 723,
         },
       },
     })
