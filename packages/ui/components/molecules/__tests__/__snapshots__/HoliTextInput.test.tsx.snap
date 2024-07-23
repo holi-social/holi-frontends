@@ -107,8 +107,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           [
             {
               "backgroundColor": "#fff",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -273,8 +271,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           [
             {
               "backgroundColor": "#fff",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -439,8 +435,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           [
             {
               "backgroundColor": "#fff",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -614,8 +608,6 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           [
             {
               "backgroundColor": "#fff",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -780,8 +772,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           [
             {
               "backgroundColor": "#fff",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -1019,8 +1009,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           [
             {
               "backgroundColor": "#fff",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -1157,8 +1145,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           [
             {
               "backgroundColor": "#fff",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
