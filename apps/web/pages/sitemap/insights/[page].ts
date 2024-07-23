@@ -9,6 +9,31 @@ import { PAGE_SIZE } from '@holi/web/pages/sitemap/insights.xml'
 
 const logger = pino()
 
+export const insightsWithRelatedIdsQuery = gql`
+  query LastInsights($offset: Int! = 0, $limit: Int! = 4) {
+    lastInsights(offset: $offset, limit: $limit) {
+      data {
+        id
+        posts {
+          id
+        }
+        recommendations {
+          id
+        }
+        quotes {
+          id
+        }
+        initiatives {
+          id
+        }
+        discussions {
+          id
+        }
+      }
+    }
+  }
+`
+
 const createEntriesForInsight = (insight: Insight) => {
   const insightUrl = `/insights/${insight.id}`
   return [
@@ -35,31 +60,6 @@ const InsightSiteMap = () => {
   // Content is written to response in getServerSideProps
 }
 
-// TODO(SF) requires stable sorting, possibly by creation date descending
-export const insightsWithRelatedIdsQuery = gql`
-  query LastInsights($offset: Int! = 0, $limit: Int! = 4) {
-    lastInsights(offset: $offset, limit: $limit) {
-      data {
-        id
-        posts {
-          id
-        }
-        recommendations {
-          id
-        }
-        quotes {
-          id
-        }
-        initiatives {
-          id
-        }
-        discussions {
-          id
-        }
-      }
-    }
-  }
-`
 export const getServerSideProps = async ({ req, res, query, locale }: NextPageContext) => {
   const { page } = query
   const prefix = getUrlPrefix(req, locale)

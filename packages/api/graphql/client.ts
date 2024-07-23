@@ -215,6 +215,7 @@ const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
     link: clientLink,
     cache: createCache(),
     assumeImmutableResults: true,
+    // Trying to connect to apollo dev tools (browser extension) does not make sense during ssr and leads to logging noise
     connectToDevTools: ssrMode ? false : undefined,
   })
 }
