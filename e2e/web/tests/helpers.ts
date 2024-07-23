@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker'
 import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 
+import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
+
 import { test } from './testmaster'
 
 // sometimes requests to the app backends take a little longer (10s < response latency < 40s)
@@ -225,19 +227,6 @@ export const sendConnectionRequest = async (page: Page) => {
   await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
 }
 
-export const randomSpaceName = () => {
-  return faker.animal.type() + faker.number.int()
-}
-
-export const newUserEmail = () => {
-  return `${faker.internet.userName()}${faker.string.alphanumeric(4)}@e2etest.com`
-}
-
-export const randomPassword = () => {
-  return faker.internet.password()
-}
-export const newUserPassword = 'TheSamePassword4A11E2eUsers'
-
 export const withRandomUserSession = async (
   browser: Browser,
   actions: (page: Page, userFullName: string) => Promise<void>,
@@ -255,23 +244,9 @@ export const withRandomUserSession = async (
   await actions(page, newAccount.fullName)
 
   return async () => {
-    await deleteUser(page)
+    await deleteAuthenticatedAccount(context)
     await context.close()
   }
-}
-
-const deleteUser = async (page: Page) => {
-  await retry(async () => {
-    await page.goto('/profile')
-    await clickElementByTestId(page, 'btn-to-settings')
-    await clickElementByTestId(page, 'btn-your-account')
-    await clickElementByTestId(page, 'btn-delete-account')
-    await clickElementByTestIdAndWaitForToast(
-      page,
-      'account-deletion-confirmation-confirmation-confirm',
-      'toast-SUCCESS'
-    )
-  })
 }
 
 export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId: string, toastId: string) => {

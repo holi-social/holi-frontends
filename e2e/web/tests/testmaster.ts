@@ -62,6 +62,7 @@ export class SessionHandler {
     await Promise.allSettled(
       this.signInContexts.map(async (ctx) => {
         await deleteAuthenticatedAccount(ctx)
+        await ctx.close()
       })
     )
   }
