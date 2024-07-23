@@ -2,7 +2,7 @@
 import { faker } from '@faker-js/faker'
 import { APIRequestContext, BrowserContext } from '@playwright/test'
 
-import { newUserEmail, randomPassword } from '@holi/e2e-web/tests/helpers'
+import { newUserEmail, randomPassword } from './fixtures'
 
 export type User = {
   id: string
