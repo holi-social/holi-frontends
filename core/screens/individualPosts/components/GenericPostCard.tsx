@@ -308,7 +308,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             numberOfLines={NUMBER_OF_LINES}
             color="gray300"
             bold={false}
-            onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(spacePost.id))}
+            onReadMoreSideEffect={() => track(TrackingEvent.SpacePosts.read(spacePost.id, spacePost.space?.id))}
             loading={loadingTranslation}
             skeletonOptions={{ numberOfLines: NUMBER_OF_LINES }}
             style={styles.readMore}
@@ -352,7 +352,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           <HoliLinkPreview
             style={styles.linkPreview}
             previewData={spacePost.links?.[0]}
-            onPress={() => track(TrackingEvent.FeedPosts.read(spacePost.id))}
+            onPress={() => track(TrackingEvent.SpacePosts.read(spacePost.id, spacePost.space?.id))}
           />
         )}
 
