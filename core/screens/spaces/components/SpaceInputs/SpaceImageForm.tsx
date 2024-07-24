@@ -81,7 +81,7 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
             </View>
           </>
         )) || (
-          <View style={styles.uploadButtonContainer}>
+          <View style={styles.uploadButtonContainer} testID="create-space-image-picker">
             <HoliImagePicker
               fileSizeLimitation={{
                 type: 'resize',
@@ -95,9 +95,7 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
               }}
               onPickImage={onUploadImage}
             >
-              <HoliText numberOfLines={1} testID="create-space-image-picker">
-                {t('spaces.input.coverImage.upload.button.label')}
-              </HoliText>
+              <HoliText numberOfLines={1}>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
             </HoliImagePicker>
           </View>
         )}
