@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
+import PosthogFeatureToggleGuard from '@holi/core/components/PosthogFeatureToggleGuard'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -19,16 +19,16 @@ const mockFeatureFlags = (on: FeatureFlagKey[], off: FeatureFlagKey[] = [], main
   })
 }
 
-describe('FeatureToggleGuard', () => {
+describe('PosthogFeatureToggleGuard', () => {
   it('should not render the feature component for unsupported key', async () => {
     const featureText = 'secret-feature-flag'
     mockFeatureFlags([FeatureFlagKey.DONATIONS], [], [])
     const unsupportedFeatureToggle = FeatureFlagKey.STORAGE
 
     render(
-      <PosthogFeatureFlagGuard featureFlagKey={unsupportedFeatureToggle} i18nKey={'someFeatureNameKey'}>
+      <PosthogFeatureToggleGuard featureFlagKey={unsupportedFeatureToggle} i18nKey={'someFeatureNameKey'}>
         <HoliText>{featureText}</HoliText>
-      </PosthogFeatureFlagGuard>
+      </PosthogFeatureToggleGuard>
     )
 
     await waitFor(() => expect(screen.queryByText(featureText)).not.toBeOnTheScreen())
@@ -39,9 +39,9 @@ describe('FeatureToggleGuard', () => {
     mockFeatureFlags([FeatureFlagKey.CHAT])
 
     render(
-      <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.CHAT} i18nKey={'chat.title'}>
+      <PosthogFeatureToggleGuard featureFlagKey={FeatureFlagKey.CHAT} i18nKey={'chat.title'}>
         <HoliText>{featureText}</HoliText>
-      </PosthogFeatureFlagGuard>
+      </PosthogFeatureToggleGuard>
     )
 
     await waitFor(() => expect(screen.queryByText(featureText)).toBeOnTheScreen())
@@ -52,9 +52,9 @@ describe('FeatureToggleGuard', () => {
     mockFeatureFlags([], [FeatureFlagKey.NOTIFICATIONS])
 
     render(
-      <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.NOTIFICATIONS} i18nKey={'notifications.title'}>
+      <PosthogFeatureToggleGuard featureFlagKey={FeatureFlagKey.NOTIFICATIONS} i18nKey={'notifications.title'}>
         <HoliText>{featureText}</HoliText>
-      </PosthogFeatureFlagGuard>
+      </PosthogFeatureToggleGuard>
     )
 
     await waitFor(() => {
@@ -67,9 +67,9 @@ describe('FeatureToggleGuard', () => {
     mockFeatureFlags([], [], [FeatureFlagKey.CHAT])
 
     render(
-      <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.CHAT} i18nKey={'chat.title'}>
+      <PosthogFeatureToggleGuard featureFlagKey={FeatureFlagKey.CHAT} i18nKey={'chat.title'}>
         <HoliText>{featureText}</HoliText>
-      </PosthogFeatureFlagGuard>
+      </PosthogFeatureToggleGuard>
     )
 
     expect(await screen.findByText('global.maintenance.description')).toBeOnTheScreen()

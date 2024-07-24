@@ -7,7 +7,6 @@ import { createCache } from '@holi/api/graphql/client'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
-import { FeatureToggleStatus, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetails from '@holi/core/screens/spaces/details/SpaceDetails'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
@@ -46,23 +45,6 @@ const createMocksForSpace = (spaceById = space) => {
     },
   }
 
-  const featureTogglesRequest = {
-    request: {
-      query: featureTogglesQuery,
-    },
-    result: {
-      data: {
-        featureToggles: [
-          {
-            name: 'STORAGE',
-            status: FeatureToggleStatus.PRODUCTION,
-            __typename: 'FeatureToggle',
-          },
-        ],
-      },
-    },
-  }
-
   const appointmentsRequest = {
     request: {
       query: appointmentsBySpaceIdQuery,
@@ -83,7 +65,7 @@ const createMocksForSpace = (spaceById = space) => {
     },
   }
 
-  return [spaceByIdRequest, spacePostsRequest, featureTogglesRequest, appointmentsRequest]
+  return [spaceByIdRequest, spacePostsRequest, appointmentsRequest]
 }
 
 const mockUseFeatureFlag = jest.fn()
