@@ -125,7 +125,7 @@ web_build_docker:
     - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG # just for easyly knowing which is the last image for a branch
   interruptible: true
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /^noenv\/.*|^noweb\/.*/
       when: never
     - when: on_success
 
@@ -140,7 +140,7 @@ web_review_deploy:
     on_stop: web_review_destroy
     auto_stop_in: 1 week
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
       when: never
     - when: on_success
 
@@ -150,7 +150,7 @@ web_review_e2e:
   dependencies:
     - web_review_deploy
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
       when: never
     - when: on_success
 
@@ -179,7 +179,7 @@ web_review_destroy:
   when: manual
   allow_failure: false
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
       when: never
     - when: on_success
   resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
@@ -220,7 +220,5 @@ web_production_deploy:
   variables:
     ENVIRONMENT_ID: production
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^production.*/
-      when: manual
-    - if: $CI_COMMIT_REF_NAME =~ /^hotfix.*/
+    - if: $CI_COMMIT_BRANCH =~ /^production.*|^hotfix.*/
       when: manual
