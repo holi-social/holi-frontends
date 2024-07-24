@@ -127,7 +127,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       display: 'flex',
-      flex: 1,
       backgroundColor: theme.colors.background20,
     },
     buttonContainer: {

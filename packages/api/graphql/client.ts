@@ -211,7 +211,7 @@ const ssrHttpLink = new HttpLink({ uri: API_URL })
 const clientSideLink = from([headerLink, timeoutLink, errorLink, uploadCapableTerminatingLink].filter((link) => !!link))
 
 const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
-  const clientLink = ssrMode ? from([errorLink, ssrHttpLink]) : clientSideLink
+  const clientLink = isSSR ? from([errorLink, ssrHttpLink]) : clientSideLink
 
   return new ApolloClient({
     ssrMode,

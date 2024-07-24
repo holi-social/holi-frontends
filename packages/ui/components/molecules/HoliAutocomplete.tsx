@@ -191,7 +191,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
         <View id={`${id}-suggestions`} role="menu" style={[styles.listContainer, suggestionsStyle]}>
           {
             /** FIXME convert to VirtualizedList, FlatList or SectionList */
-            isOpened ? (
+            isOpened && value ? (
               suggestions.map((suggestion, index) => (
                 <HoliAutocompleteItem
                   key={suggestion.id}
@@ -199,6 +199,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
                   isLast={index === suggestions.length - 1}
                   onFocus={() => setFocusAndOpen('suggestion-' + suggestion.id)}
                   onPress={handleItemSelection}
+                  onBlur={onBlurHandler}
                   testID={testID}
                 />
               ))

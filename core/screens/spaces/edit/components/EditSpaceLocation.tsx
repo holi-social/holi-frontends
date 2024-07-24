@@ -25,10 +25,9 @@ const EditSpaceLocation: React.FC<EditSpaceLocationProps> = ({ space, onDismiss 
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
-    space.location ? { label: space.location, id: '', coordinates: space.geolocation } : undefined
+    space.location ? { label: space.location, id: '', coordinates: space.geolocation || undefined } : undefined
   )
   const [validationErrorText, setValidationErrorText] = useState('')
-  const [locationQuery, setLocationQuery] = useState(space?.location || '')
 
   const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
@@ -47,13 +46,8 @@ const EditSpaceLocation: React.FC<EditSpaceLocationProps> = ({ space, onDismiss 
   const { t } = useTranslation()
 
   const onSave = async () => {
-    if (!selectedLocation && locationQuery.length) {
-      setValidationErrorText(t('spaces.input.location.validation.helper'))
-      return
-    }
-
     const locationUpdate =
-      !!locationQuery && locationQuery !== space.location
+      selectedLocation && selectedLocation?.label !== space.location
         ? {
             location: selectedLocation?.label,
             geolocation: {
@@ -75,18 +69,10 @@ const EditSpaceLocation: React.FC<EditSpaceLocationProps> = ({ space, onDismiss 
     })
   }
 
-  const onLocationClose = useCallback(
-    (selectedSuggestion?: GeolocationSuggestion) => {
-      setSelectedLocation(selectedSuggestion)
-
-      if (!selectedSuggestion && locationQuery.length) {
-        setValidationErrorText(t('spaces.input.location.validation.helper'))
-      } else {
-        setValidationErrorText('')
-      }
-    },
-    [locationQuery.length, t]
-  )
+  const selectLocation = useCallback((selectedSuggestion?: GeolocationSuggestion) => {
+    setSelectedLocation(selectedSuggestion)
+    setValidationErrorText('')
+  }, [])
 
   return (
     <DefaultLayout
@@ -98,19 +84,16 @@ const EditSpaceLocation: React.FC<EditSpaceLocationProps> = ({ space, onDismiss 
       <FormWrapper
         isModal={true}
         onSave={onSave}
-        saveButtonDisabled={!selectedLocation && !!locationQuery}
         keyboardShouldPersistTaps="handled"
         testID="space-edit-modal"
         showBottomBar
         renderProp={() => (
           <SpaceLocationInput
             description={t('spaces.input.location.description')}
-            onChange={setSelectedLocation}
             location={selectedLocation}
             validationErrorText={validationErrorText}
-            onLocationClose={onLocationClose}
-            onChangeText={setLocationQuery}
-            fetchDetailsOnClose
+            onChange={selectLocation}
+            enhanceWithDetails
           />
         )}
       />
