@@ -73,8 +73,10 @@ web_build:
   interruptible: true
   tags:
     - 4cpu-16gb
-  except:
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^noweb\/.*/
+      when: never
+    - when: on_success
   variables:
     WEB_BUILD: true
 
@@ -94,13 +96,12 @@ storybook_publish:
   interruptible: true
   tags:
     - 4cpu-16gb
-  only:
-    refs:
-      - main
-    changes:
-      - apps/storybook/*
-      - packages/ui/*
-      - '**/*.stories.tsx'
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - apps/storybook/*
+        - packages/ui/*
+        - '**/*.stories.tsx'
 
 web_build_docker:
   needs: ['web_build']
@@ -196,16 +197,16 @@ web_staging_deploy:
     url: https://staging.dev.holi.social
   variables:
     ENVIRONMENT_ID: staging
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 web_staging_e2e:
   extends: .web_e2e
   needs: ['web_staging_deploy']
   dependencies:
     - web_staging_deploy
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 ## production environment
 
