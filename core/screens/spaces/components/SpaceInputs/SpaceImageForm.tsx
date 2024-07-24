@@ -81,7 +81,7 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
             </View>
           </>
         )) || (
-          <View style={styles.uploadButtonContainer} testID="create-space-image-picker">
+          <View style={styles.uploadButtonContainer}>
             <HoliImagePicker
               fileSizeLimitation={{
                 type: 'resize',
