@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`HoliHead should add meta tag to block indexing by search engines 1`] = `
+<head>
+  <meta
+    content="noindex"
+    name="robots"
+  />
+</head>
+`;
+
 exports[`HoliHead should create correct url meta tags for current locale 1`] = `
 <head>
   <link

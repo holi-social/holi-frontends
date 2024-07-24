@@ -62,6 +62,7 @@ const HoliHead = ({
   ogImage,
   urls,
   origin,
+  blockIndexing,
 }: PropsWithChildren<HoliHeadProps>) => {
   const { locale: requestLocale, asPath } = useRouter()
   const linkTags = createLinkTags({ requestLocale, fullPath: asPath, origin, urls })
@@ -69,6 +70,9 @@ const HoliHead = ({
     <Head>
       {title && <title>{title}</title>}
       {description && <meta name="description" content={description} key="description" />}
+
+      {/* Search engine robots */}
+      {blockIndexing && <meta name="robots" content="noindex" key="robots" />}
 
       {/* OpenGraph */}
       {ogTitle && <meta property="og:title" content={ogTitle} key="ogTitle" />}
