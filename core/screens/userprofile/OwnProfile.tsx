@@ -30,7 +30,7 @@ import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSave
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
-import { interestsQuery, sdgsQuery, skillsQuery } from './queries'
+import { authenticatedUserV2Query, interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
 const OwnProfile = () => {
   const { theme } = useTheme()
@@ -136,11 +136,9 @@ const OwnProfile = () => {
   const onSubmit = useCallback(async () => {
     // clear store to refetch updated recommendations for the user
     await client.clearStore()
-    if (Platform.OS !== 'web') {
-      // for mobile we need to refetch data manually, web will refetch it anyway with SSR
-      // fetching all queries can take a while, so we do not await them to not block the UI
-      client.refetchQueries({ include: 'active' })
-    }
+    // for mobile we need to refetch data manually, web will refetch it anyway with SSR, except for the authenticatedUser itself
+    // fetching all queries can take a while, so we do not await them to not block the UI
+    client.refetchQueries({ include: Platform.OS !== 'web' ? 'active' : [authenticatedUserV2Query] })
 
     closeModal()
   }, [client, closeModal])

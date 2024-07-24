@@ -57,7 +57,7 @@ export interface TaskInputFormProps {
   onChangeSkills: (_: Skill[]) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeContactPhone: (_: string) => void
-  onChangeSelectedLocation: (_: GeolocationSuggestion) => void
+  onChangeSelectedLocation: (_?: GeolocationSuggestion) => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
   isAdmin?: boolean
@@ -338,14 +338,12 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
             label={t('spaces.input.location.label')}
             placeholder={t('spaces.input.location.placeholder')}
             selected={selectedLocation}
-            value={selectedLocation?.label}
             id="task-location"
             testID="task-location"
             onChange={onChangeSelectedLocation}
-            onSubmit={onChangeSelectedLocation}
             style={[styles.marginSeparator, { zIndex: 1 }]}
             inputProps={{ autoFocus: !isEdit }}
-            helperText={selectedLocation ? undefined : t('spaces.input.location.validation.helper')}
+            helperText={t('spaces.input.location.validation.helper')}
           />
         )}
       </View>

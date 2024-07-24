@@ -114,18 +114,18 @@ const getStyles = (theme: HoliTheme) =>
     },
     titleContainer: {
       flexDirection: 'column',
-      marginRight: Spacing.lg,
       marginLeft: Spacing.xs,
       flex: 1,
+      overflow: 'hidden',
     },
     datePrefix: {
       marginTop: Spacing['4xs'],
-      flex: 1,
+      maxWidth: '50%',
     },
     date: {
       marginTop: Spacing['4xs'],
       color: theme.colors.foreground20,
-      flex: 1,
+      maxWidth: '50%',
     },
     dot: {
       color: theme.colors.brandB300,

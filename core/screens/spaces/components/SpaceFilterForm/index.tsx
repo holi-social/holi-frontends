@@ -29,15 +29,8 @@ const SpaceFilterForm = ({ onSubmit, ...initValues }: Props) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const {
-    filterState,
-    resetAllFilters,
-    updateLocation,
-    updateLocationSearchQuery,
-    updateSkillSlugs,
-    updateTopicSlugs,
-  } = useSpaceFilterReducer(
-    getSpaceFilterInitialState({ ...initValues, locationSearchQuery: initValues.location?.label })
+  const { filterState, resetAllFilters, updateLocation, updateSkillSlugs, updateTopicSlugs } = useSpaceFilterReducer(
+    getSpaceFilterInitialState(initValues)
   )
 
   const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
@@ -92,22 +85,14 @@ const SpaceFilterForm = ({ onSubmit, ...initValues }: Props) => {
           <PlacesAutocomplete
             label={t('spaces.filter.location.label')}
             placeholder={t('spaces.filter.location.placeholder')}
-            value={filterState.locationSearchQuery}
             id="spaces-filter-location"
             testID="spaces-filter-location"
             selected={filterState.location}
-            onClose={updateLocation}
-            onChangeText={updateLocationSearchQuery}
-            onSubmit={updateLocation}
+            onChange={updateLocation}
             style={[styles.filterOption, { zIndex: 2 }]}
             inputProps={{ autoFocus: true }}
-            fetchDetailsOnClose
-            helperText={filterState.location ? undefined : t('profile.location.validation.helper')}
-            validationErrorText={
-              !!filterState.locationSearchQuery && !filterState.location
-                ? t('profile.location.validation.error')
-                : undefined
-            }
+            enhanceWithDetails
+            helperText={t('profile.location.validation.helper')}
           />
           <HoliSelect
             options={topicOptions}

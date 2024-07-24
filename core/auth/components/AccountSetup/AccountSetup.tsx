@@ -93,15 +93,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   } = useUserChips({ user, queryToUse: interestsQuery, keyInUserObject })
 
   // Location step logic
-  const {
-    locationQuery,
-    selectedLocation,
-    onLocationQueryChange,
-    onLocationClose,
-    scrollToLocationInputWithId,
-    locationScrollViewRef,
-    locationValidationErrorText,
-  } = useLocationStep(user)
+  const { selectedLocation, setSelectedLocation, scrollToLocationInputWithId, locationScrollViewRef } =
+    useLocationStep(user)
 
   // HoliWizard event handlers
   const handleNextPress = async ({ currentStep, goNext }: NextPressHandlerOptions) => {
@@ -144,7 +137,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.LOCATION: {
         if (selectedLocation?.geolocation) {
           const geolocation = selectedLocation?.geolocation
-          const locationLabel = selectedLocation?.label || locationQuery
+          const locationLabel = selectedLocation?.label
           updateUserQueryVariables.current = {
             ...updateUserQueryVariables.current,
             geolocation,
@@ -262,10 +255,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
               <HoliGap size="l" />
               <LocationStep
                 selected={selectedLocation}
-                value={locationQuery}
-                onClose={onLocationClose}
-                onChangeText={onLocationQueryChange}
-                validationErrorText={locationValidationErrorText}
+                onChange={setSelectedLocation}
                 scrollToInputWithId={scrollToLocationInputWithId}
               />
             </HoliContainer>
