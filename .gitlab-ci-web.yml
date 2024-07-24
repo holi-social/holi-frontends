@@ -222,5 +222,6 @@ web_production_deploy:
   variables:
     ENVIRONMENT_ID: production
   rules:
-    if: $CI_COMMIT_REF_NAME =~ /^production.*/
+    - if: $CI_COMMIT_REF_NAME =~ /^production.*/
+    - if: $CI_COMMIT_REF_NAME =~ /^hotfix.*/
   when: manual
