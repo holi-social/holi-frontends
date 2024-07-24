@@ -13,6 +13,8 @@ import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/typ
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+import ImageUpload from './ImageUpload'
+
 export const SubmitPostBar = ({
   onSubmit,
   onSetImage,
@@ -35,7 +37,7 @@ export const SubmitPostBar = ({
   return (
     <SafeArea style={styles.menuContainer} edges={['bottom']}>
       <View style={styles.items}>
-        <HoliImagePicker
+        {/* <HoliImagePicker
           fileSizeLimitation={{
             type: 'resize',
             limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
@@ -49,7 +51,8 @@ export const SubmitPostBar = ({
           onPickImage={onSetImage}
         >
           <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} style={styles.addImageIcon} />
-        </HoliImagePicker>
+        </HoliImagePicker> */}
+        {/* <ImageUpload /> */}
 
         <HoliButtonLoading
           label={isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}

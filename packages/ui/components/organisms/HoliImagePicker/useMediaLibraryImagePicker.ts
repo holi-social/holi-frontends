@@ -35,7 +35,7 @@ const resizeImage = async (asset: ImagePickerAsset, resizeWidth: number): Promis
 
 export type HoliImagePickerResult = 'missingPermissions' | 'technicalError' | 'invalidFileSize' | ImagePickerResult
 
-export const useMediaLibraryImagePicker = () => {
+export const useMediaLibraryImagePicker = (allowsMultipleSelection = false) => {
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
 
   const verifyPermissions = useCallback(async () => {
@@ -62,10 +62,10 @@ export const useMediaLibraryImagePicker = () => {
       try {
         imagePickerResult = await launchImageLibraryAsync({
           mediaTypes: MediaTypeOptions.Images,
-          allowsEditing: true,
+          // allowsEditing: true,
           quality: 1,
           base64: true,
-          allowsMultipleSelection: false,
+          allowsMultipleSelection,
         })
       } catch (error) {
         // using an older phone and a larger image, picking an image can lead to out-of-memory errors and

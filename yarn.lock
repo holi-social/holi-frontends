@@ -6059,6 +6059,7 @@ __metadata:
     expo-linking: "npm:~6.2.2"
     expo-localization: "npm:~14.8.4"
     expo-notifications: "npm:~0.27.8"
+    expo-permissions: "npm:^14.4.0"
     expo-secure-store: "npm:~12.8.1"
     expo-splash-screen: "npm:~0.26.5"
     expo-status-bar: "npm:~1.11.1"
@@ -6087,6 +6088,7 @@ __metadata:
     react-native-calendars: "npm:^1.1303.0"
     react-native-controlled-mentions: "npm:^2.2.5"
     react-native-gesture-handler: "npm:~2.14.0"
+    react-native-image-crop-picker: "npm:^0.41.2"
     react-native-image-pan-zoom: "npm:^2.1.12"
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.6.2"
@@ -18600,6 +18602,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-permissions@npm:^14.4.0":
+  version: 14.4.0
+  resolution: "expo-permissions@npm:14.4.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/05f12cc80bedfd74c3fc9979f10fa99309e781512f081565922043d232e25c13f0361c918f5896780b29fa80a9ab93a1521881e44c56a895c7129ad56ddc3264
+  languageName: node
+  linkType: hard
+
 "expo-secure-store@npm:~12.8.1":
   version: 12.8.1
   resolution: "expo-secure-store@npm:12.8.1"
@@ -27991,6 +28002,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/f8905498d18b6052b27ab54e33516aa7346d219b847a68ed4ef9ad7286865b8649aa9026b934a192f66472e8ee3efe503698762e90646e67604f9a2b8690e65d
+  languageName: node
+  linkType: hard
+
+"react-native-image-crop-picker@npm:^0.41.2":
+  version: 0.41.2
+  resolution: "react-native-image-crop-picker@npm:0.41.2"
+  peerDependencies:
+    react-native: ">=0.40.0"
+  checksum: 10c0/8df9baa7107ce5e6f1f9f84e6a0766e3019c6df3bbc95eb88a4d261065959df81c81dcb566a097ca780f8d745e489bed7e390d4fdfedde207b102080bdce81ad
   languageName: node
   linkType: hard
 

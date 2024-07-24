@@ -27,6 +27,8 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+import ImageUpload from './ImageUpload'
+
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
 const removeTitlelines = (inputString: string) => {
@@ -84,6 +86,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 }) => {
   const { theme } = useTheme()
   const { t } = useTranslation()
+  const [images, setImages] = useState<HoliImageInfo[]>([])
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -181,8 +184,19 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               isEdit={isEdit}
             />
 
+            <ImageUpload
+              onSubmit={submit}
+              onSetImage={onChangeImage}
+              hasSetImage={!!image}
+              submitting={submitting}
+              isSubmittable={isSubmittable}
+              isEdit={isEdit}
+              images={images}
+              onSetImages={setImages}
+            />
+
             <View style={styles.imageEditor}>
-              <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
+              {/* <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} /> */}
             </View>
           </View>
         </ScrollView>

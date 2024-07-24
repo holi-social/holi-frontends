@@ -5,16 +5,18 @@ import { ReactNativeFile } from '@holi/api/graphql/client'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-import { FileSizeLimitationResize, HoliImagePickerProps } from './types'
+import { FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
 import { useMediaLibraryImagePicker } from './useMediaLibraryImagePicker'
 
 const HoliImagePicker = ({
   children,
   buttonProps,
   onPickImage,
+  onPickImages,
+  allowsMultipleSelection,
   fileSizeLimitation,
 }: React.PropsWithChildren<HoliImagePickerProps>) => {
-  const { pickImages } = useMediaLibraryImagePicker()
+  const { pickImages } = useMediaLibraryImagePicker(allowsMultipleSelection)
   const { openToast } = useToast()
   const { t } = useTranslation()
 
@@ -41,6 +43,7 @@ const HoliImagePicker = ({
         else {
           // allowsMultipleSelection is false, so we can assume there should only be
           // one asset (using a for loop is the safest option though)
+          const images: HoliImageInfo[] = []
           for (const { uri, base64, height, width } of imagePickerResult.assets) {
             const response = await fetch(uri)
             const blob = await response.blob()
@@ -50,8 +53,11 @@ const HoliImagePicker = ({
               name: filename,
               type: blob.type,
             })
-
+            images.push({ uri, blob: reactNativeFile, base64, height, width })
             onPickImage({ uri, blob: reactNativeFile, base64, height, width })
+          }
+          if (onPickImages) {
+            onPickImages(images)
           }
         }
     }
