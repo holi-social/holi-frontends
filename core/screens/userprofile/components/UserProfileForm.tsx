@@ -15,7 +15,6 @@ import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
   UpdateAuthenticatedUserV2Response,
-  authenticatedUserV2Query,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
@@ -47,7 +46,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
   const [lastName, setLastName] = useState(user?.lastName ?? '')
   const [aboutMe, setAboutMe] = useState(user?.aboutMe ?? '')
   const [pronouns, setPronouns] = useState(user?.pronouns ?? '')
-  const [locationQuery, setLocationQuery] = useState(user?.location ?? '')
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
     user?.location && user?.geolocationId ? { label: user.location, id: user.geolocationId } : undefined
   )
@@ -80,9 +78,9 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
 
   const submit = async () => {
     const locationUpdate =
-      locationQuery !== user?.location
+      selectedLocation?.label !== user?.location
         ? {
-            location: selectedLocation?.label || locationQuery,
+            location: selectedLocation?.label || '',
             geolocation: selectedLocation?.geolocation,
           }
         : {}
@@ -100,13 +98,9 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
       const { fieldErrors } = resultSchema.error.flatten<FieldError>()
       setFieldErrors(translateFieldErrors(fieldErrors))
       return
-    } else if (locationQuery.length && !selectedLocation) {
-      setFieldErrors({ location: [t('profile.location.validation.error')] })
-      return
     }
     await updateUser({
       variables: { input },
-      refetchQueries: [{ query: authenticatedUserV2Query, fetchPolicy: 'network-only' }],
       onCompleted: (data) => {
         if (onSubmit) {
           onSubmit(data.updateAuthenticatedUserV2)
@@ -183,17 +177,12 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
 
   const scrollToPropsFor = (id: string) => getScrollToProps(id, onFocus)
 
-  const onLocationClose = useCallback(
+  const selectLocation = useCallback(
     (selectedSuggestion?: GeolocationSuggestion) => {
       setSelectedLocation(selectedSuggestion)
-
-      if (!selectedSuggestion && locationQuery.length) {
-        setFieldErrors({ location: [t('profile.location.validation.error')] })
-      } else {
-        resetErrorsForField('location')
-      }
+      resetErrorsForField('location')
     },
-    [resetErrorsForField, t, locationQuery]
+    [resetErrorsForField]
   )
 
   return (
@@ -277,15 +266,13 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
             id="user-location-input"
             testID="user-location"
             selected={selectedLocation}
-            value={locationQuery}
-            onClose={onLocationClose}
-            onChangeText={setLocationQuery}
+            onChange={selectLocation}
             style={styles.input}
             suggestionsStyle={{ backgroundColor: colors.background10 }}
-            helperText={selectedLocation ? undefined : t('profile.location.validation.helper')}
+            helperText={t('profile.location.validation.helper')}
             validationErrorText={fieldErrors?.location?.join()}
             level={GeolocationLevel.CITY}
-            fetchDetailsOnClose
+            enhanceWithDetails
             {...scrollToPropsFor('location')}
           />
         </View>

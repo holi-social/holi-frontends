@@ -559,7 +559,6 @@
   "profile.interests.edit": "Interessen bearbeiten",
   "profile.interests.filter.empty": "Entschuldigung, es wurden keine passenden Interessen gefunden",
   "profile.interests.filter.placeholder": "Interessen suchen…",
-  "profile.location.validation.error": "Wähle im Dropdown einen gültigen Standort aus oder lasse das Feld leer",
   "profile.location.validation.helper": "Wähle im Dropdown einen gültigen Standort aus",
   "profile.loggedOut.footer.aboutholiapp": "Über die holi App",
   "profile.loggedOut.footer.imprint": "Impressum",

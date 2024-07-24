@@ -109,12 +109,16 @@ const CreateTask = () => {
   // If locationType is REMOTE, remove location and coordinates
   // Otherwise set their values based on the selectedLocation
   useEffect(() => {
-    if (locationType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
-      setGeolocation({
-        latitude: selectedLocation.coordinates.latitude,
-        longitude: selectedLocation.coordinates.longitude,
-      })
-      setLocation(selectedLocation.label)
+    if (locationType?.id !== LocationType.REMOTE) {
+      setGeolocation(
+        selectedLocation?.coordinates
+          ? {
+              latitude: selectedLocation.coordinates.latitude,
+              longitude: selectedLocation.coordinates.longitude,
+            }
+          : undefined
+      )
+      setLocation(selectedLocation?.label)
     }
     if (locationType?.id === LocationType.REMOTE) {
       setGeolocation(undefined)
