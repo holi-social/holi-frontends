@@ -53,7 +53,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  const { customProps: { seoTitle, urls } = {}, origin } = pageProps
+  const { customProps = {}, origin } = pageProps
   return (
     <>
       <HoliHead
@@ -63,11 +63,12 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         ogDescription={t('metatags.default.og.description')}
         ogImage="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
         origin={origin}
-        urls={urls}
+        urls={customProps.urls}
+        blockIndexing={customProps.blockIndexing}
       />
       {featureFlag.enableSSR ? (
         <SSRRootProvider pageProps={pageProps}>
-          <SeoTitle seoTitle={seoTitle} />
+          <SeoTitle seoTitle={customProps.seoTitle} />
           {getLayout(<Component {...pageProps} />)}
         </SSRRootProvider>
       ) : (
