@@ -12,10 +12,8 @@ import HoliHead from '@holi/core/components/HoliHead'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
 import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
-import { featureFlag } from '@holi/web/environment'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
-import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
 import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
 import '@holi/web/styles/globals.css'
 import { NextJSPageProps } from '@holi/web/types'
@@ -65,14 +63,10 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         origin={origin}
         urls={urls}
       />
-      {featureFlag.enableSSR ? (
-        <SSRRootProvider pageProps={pageProps}>
-          <SeoTitle seoTitle={seoTitle} />
-          {getLayout(<Component {...pageProps} />)}
-        </SSRRootProvider>
-      ) : (
-        <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
-      )}
+      <SSRRootProvider pageProps={pageProps}>
+        <SeoTitle seoTitle={seoTitle} />
+        {getLayout(<Component {...pageProps} />)}
+      </SSRRootProvider>
     </>
   )
 }
