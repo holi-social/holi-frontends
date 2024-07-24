@@ -10,20 +10,11 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export interface SpaceLocationInputProps extends Partial<PlacesAutocompleteProps> {
   description: string
   validationErrorText?: string
-  onChange: (selected: GeolocationSuggestion) => void
-  onLocationClose?: () => void
-  onChangeText?: (text: string) => void
+  onChange?: (selected?: GeolocationSuggestion) => void
   location?: GeolocationSuggestion
 }
 
-const SpaceLocationInput = ({
-  description,
-  validationErrorText,
-  onChange,
-  onLocationClose,
-  onChangeText,
-  location,
-}: SpaceLocationInputProps) => {
+const SpaceLocationInput = ({ description, validationErrorText, onChange, location }: SpaceLocationInputProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -35,19 +26,15 @@ const SpaceLocationInput = ({
         label={t('spaces.input.location.label')}
         placeholder={t('spaces.input.location.placeholder')}
         selected={location}
-        value={location?.label}
         id="spaces-location-input"
         testID="spaces-location"
         onChange={onChange}
-        onSubmit={onChange}
-        onClose={onLocationClose}
-        onChangeText={onChangeText}
         style={[styles.input, { zIndex: 2 }]}
         inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
         validationErrorText={validationErrorText}
-        helperText={location ? undefined : t('spaces.input.location.validation.helper')}
+        helperText={t('spaces.input.location.validation.helper')}
         suggestionsStyle={styles.suggestionsContainer}
-        fetchDetailsOnClose
+        enhanceWithDetails
       />
     </View>
   )

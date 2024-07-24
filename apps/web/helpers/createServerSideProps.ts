@@ -3,7 +3,6 @@ import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
-import { featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
 import { getOrigin } from '@holi/web/helpers/getOrigin'
@@ -36,16 +35,10 @@ export const createServerSideProps = async (
 
   const client = initializeApolloSSRClient()
 
-  const queriesToExecute = [
-    ...queries,
-    // Reduce number of loops when awaiting renderPromises in _document.getInitialProps
-    {
-      query: featureTogglesQuery,
-    },
-  ]
+  // TODO: HOLI-9301 fetch feature toggles from posthog and pass onto pageProps
 
   const results = await Promise.allSettled(
-    queriesToExecute
+    queries
       .filter((query) => !query.skip)
       .map((query) => {
         // Filter content negotation headers except accept-language

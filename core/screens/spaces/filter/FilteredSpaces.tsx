@@ -9,11 +9,10 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
-import { SpaceFilter, isSpaceFilterEmpty } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
+import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import {
   type FilteredSpacesPageParams,
   useSpaceInitialFilters,
@@ -42,7 +41,6 @@ const FilteredSpaces = () => {
   } = useSpaceInitialFilters()
 
   const updateParams = useUpdateParams(webReplaceQueryConfig)
-  const { navigate } = useRouting()
   const client = useApolloClient()
 
   const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [spacesQuery] }))
@@ -50,15 +48,11 @@ const FilteredSpaces = () => {
   const { visible: isFilterModalShown, show: openFilterModal, hide: closeFilterModal } = useModalState()
 
   const applyFilter = (filter: SpaceFilter) => {
-    if (isSpaceFilterEmpty(filter)) {
-      navigate('/spaces')
-    } else {
-      updateParams({
-        topic: filter.topicSlugs,
-        location: filter.location?.id,
-        skill: filter.skillSlugs,
-      })
-    }
+    updateParams({
+      topic: filter.topicSlugs,
+      location: filter.location?.id,
+      skill: filter.skillSlugs,
+    })
   }
 
   const onSubmit = (filter: SpaceFilter) => {
@@ -133,7 +127,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       display: 'flex',
-      flex: 1,
       backgroundColor: theme.colors.background20,
     },
     buttonContainer: {

@@ -72,22 +72,11 @@ exports[`PostTopics matches snapshot 1`] = `
                 [
                   {
                     "alignItems": "center",
-                    "backgroundColor": "#fff",
-                    "borderColor": "#ebebeb",
-                    "borderRadius": 4,
-                    "borderWidth": 2,
                     "flexDirection": "row",
-                    "paddingHorizontal": 10,
-                    "paddingVertical": 15,
                   },
                   {
                     "width": "100%",
                   },
-                  false,
-                  false,
-                  {},
-                  undefined,
-                  false,
                 ]
               }
               testID="post-topics-search-input-input"
@@ -116,6 +105,8 @@ exports[`PostTopics matches snapshot 1`] = `
                   [
                     {
                       "backgroundColor": "#fff",
+                      "borderRadius": 4,
+                      "borderWidth": 2,
                       "color": "#262424",
                       "flex": 1,
                       "fontFamily": "Circular Std Book",
@@ -123,10 +114,16 @@ exports[`PostTopics matches snapshot 1`] = `
                       "fontWeight": "400",
                       "lineHeight": 22.4,
                       "overflow": "scroll",
+                      "paddingHorizontal": 10,
+                      "paddingVertical": 15,
                     },
                     {},
                     {
                       "width": "100%",
+                    },
+                    {},
+                    {
+                      "borderColor": "#ebebeb",
                     },
                   ]
                 }
@@ -136,9 +133,12 @@ exports[`PostTopics matches snapshot 1`] = `
               <View
                 style={
                   {
-                    "height": 22,
+                    "bottom": 0,
                     "justifyContent": "center",
-                    "marginRight": 12,
+                    "position": "absolute",
+                    "right": 12,
+                    "top": 0,
+                    "zIndex": -1,
                   }
                 }
               >

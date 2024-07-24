@@ -60,25 +60,11 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
-            "borderRadius": 4,
-            "borderWidth": 2,
             "flexDirection": "row",
-            "paddingHorizontal": 10,
-            "paddingVertical": 15,
           },
           {
             "width": "100%",
           },
-          false,
-          false,
-          {},
-          {
-            "backgroundColor": "#f5f5f5",
-            "borderColor": "#ebebeb",
-          },
-          false,
         ]
       }
       testID="holi-text-input-wrapper"
@@ -107,6 +93,8 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           [
             {
               "backgroundColor": "#fff",
+              "borderRadius": 4,
+              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -114,14 +102,21 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {},
             {
               "width": "100%",
             },
+            {},
+            {
+              "borderColor": "#ebebeb",
+            },
           ]
         }
         testID="holi-text-input"
+        value=""
       />
     </View>
     <View
@@ -227,22 +222,11 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
-            "borderRadius": 4,
-            "borderWidth": 2,
             "flexDirection": "row",
-            "paddingHorizontal": 10,
-            "paddingVertical": 15,
           },
           {
             "width": "100%",
           },
-          false,
-          false,
-          {},
-          undefined,
-          false,
         ]
       }
       testID="holi-text-input-wrapper"
@@ -271,6 +255,8 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           [
             {
               "backgroundColor": "#fff",
+              "borderRadius": 4,
+              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -278,14 +264,21 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {},
             {
               "width": "100%",
             },
+            {},
+            {
+              "borderColor": "#ebebeb",
+            },
           ]
         }
         testID="holi-text-input"
+        value=""
       />
     </View>
     <View
@@ -391,22 +384,11 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
-            "borderRadius": 4,
-            "borderWidth": 2,
             "flexDirection": "row",
-            "paddingHorizontal": 10,
-            "paddingVertical": 15,
           },
           {
             "width": "100%",
           },
-          false,
-          false,
-          {},
-          undefined,
-          false,
         ]
       }
       testID="holi-text-input-wrapper"
@@ -435,6 +417,8 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           [
             {
               "backgroundColor": "#fff",
+              "borderRadius": 4,
+              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -442,14 +426,21 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {},
             {
               "width": "100%",
             },
+            {},
+            {
+              "borderColor": "#ebebeb",
+            },
           ]
         }
         testID="holi-text-input"
+        value=""
       />
     </View>
     <View
@@ -564,22 +555,11 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
-            "borderRadius": 4,
-            "borderWidth": 2,
             "flexDirection": "row",
-            "paddingHorizontal": 10,
-            "paddingVertical": 15,
           },
           {
             "maxWidth": "100%",
           },
-          false,
-          false,
-          {},
-          undefined,
-          false,
         ]
       }
       testID="holi-text-input-wrapper"
@@ -608,6 +588,8 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           [
             {
               "backgroundColor": "#fff",
+              "borderRadius": 4,
+              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -615,14 +597,21 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {},
             {
               "maxWidth": "100%",
             },
+            {},
+            {
+              "borderColor": "#ebebeb",
+            },
           ]
         }
         testID="holi-text-input"
+        value=""
       />
     </View>
     <View
@@ -728,22 +717,11 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
-            "borderRadius": 4,
-            "borderWidth": 2,
             "flexDirection": "row",
-            "paddingHorizontal": 10,
-            "paddingVertical": 15,
           },
           {
             "width": "100%",
           },
-          false,
-          false,
-          {},
-          undefined,
-          false,
         ]
       }
       testID="holi-text-input-wrapper"
@@ -772,6 +750,8 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           [
             {
               "backgroundColor": "#fff",
+              "borderRadius": 4,
+              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -779,21 +759,31 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {},
             {
               "width": "100%",
             },
+            {},
+            {
+              "borderColor": "#ebebeb",
+            },
           ]
         }
         testID="holi-text-input"
+        value=""
       />
       <View
         style={
           {
-            "height": 22,
+            "bottom": 0,
             "justifyContent": "center",
-            "marginRight": 12,
+            "position": "absolute",
+            "right": 12,
+            "top": 0,
+            "zIndex": -1,
           }
         }
       >
@@ -965,22 +955,11 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
-            "borderRadius": 4,
-            "borderWidth": 2,
             "flexDirection": "row",
-            "paddingHorizontal": 10,
-            "paddingVertical": 15,
           },
           {
             "width": "100%",
           },
-          false,
-          false,
-          {},
-          undefined,
-          false,
         ]
       }
       testID="holi-text-input-wrapper"
@@ -1009,6 +988,8 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           [
             {
               "backgroundColor": "#fff",
+              "borderRadius": 4,
+              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -1016,15 +997,22 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {},
             {
               "width": "100%",
             },
+            {},
+            {
+              "borderColor": "#ebebeb",
+            },
           ]
         }
         testID="holi-text-input"
         textContentType="password"
+        value=""
       />
     </View>
     <View
@@ -1101,22 +1089,11 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         [
           {
             "alignItems": "center",
-            "backgroundColor": "#fff",
-            "borderColor": "#ebebeb",
-            "borderRadius": 4,
-            "borderWidth": 2,
             "flexDirection": "row",
-            "paddingHorizontal": 10,
-            "paddingVertical": 15,
           },
           {
             "width": "100%",
           },
-          false,
-          false,
-          {},
-          undefined,
-          false,
         ]
       }
       testID="holi-text-input-wrapper"
@@ -1145,6 +1122,8 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           [
             {
               "backgroundColor": "#fff",
+              "borderRadius": 4,
+              "borderWidth": 2,
               "color": "#262424",
               "flex": 1,
               "fontFamily": null,
@@ -1152,14 +1131,21 @@ exports[`HoliTextInput renders correctly without label 1`] = `
               "fontWeight": "400",
               "lineHeight": 22.4,
               "overflow": "scroll",
+              "paddingHorizontal": 10,
+              "paddingVertical": 15,
             },
             {},
             {
               "width": "100%",
             },
+            {},
+            {
+              "borderColor": "#ebebeb",
+            },
           ]
         }
         testID="holi-text-input"
+        value=""
       />
     </View>
     <View

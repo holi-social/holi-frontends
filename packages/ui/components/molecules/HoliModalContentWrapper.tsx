@@ -24,6 +24,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliModalContentWrapperProps {
   actionButtonText: string
+  actionButtonDisabled?: boolean
   headlineText?: string
   headlineAlign?: TextStyle['textAlign']
   prependChildren?: React.ReactNode
@@ -39,6 +40,7 @@ export interface HoliModalContentWrapperProps {
 const HoliModalContentWrapper = (
   {
     actionButtonText,
+    actionButtonDisabled = false,
     onActionButtonPress,
     headlineText,
     headlineAlign = 'left',
@@ -106,6 +108,7 @@ const HoliModalContentWrapper = (
           <HoliButton
             label={actionButtonText}
             onPress={onActionButtonPress}
+            disabled={actionButtonDisabled}
             style={[mixins.moreButton, styles.button]}
             testID={`${testID}-close-btn`}
           >

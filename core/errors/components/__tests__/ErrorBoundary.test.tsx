@@ -33,16 +33,43 @@ describe('ErrorBoundary', () => {
 
     expect(queryByText('Child Content')).toBeTruthy()
     expect(queryByText('global.technicalError')).toBeFalsy()
+    expect(queryByText('error.errorBoundary.retry')).toBeFalsy()
   })
 
   it('renders fallback content when rendering child content failed', () => {
     const { queryByText } = render(
-      <ErrorBoundary>
+      <ErrorBoundary allowReload>
         <ErrorComponent />
       </ErrorBoundary>
     )
 
     expect(queryByText('global.technicalError')).toBeTruthy()
+    expect(queryByText('error.errorBoundary.retry')).toBeTruthy()
+    expect(queryByText('Child Content')).toBeFalsy()
+  })
+
+  it('renders error message when showErrorMsg is true', () => {
+    const { queryByText } = render(
+      <ErrorBoundary showErrorMsg>
+        <ErrorComponent />
+      </ErrorBoundary>
+    )
+
+    expect(queryByText('global.technicalError')).toBeTruthy()
+    expect(queryByText('Test')).toBeTruthy()
+    expect(queryByText('error.errorBoundary.retry')).toBeFalsy()
+    expect(queryByText('Child Content')).toBeFalsy()
+  })
+
+  it('renders retry button when allowReload is true', () => {
+    const { queryByText } = render(
+      <ErrorBoundary allowReload>
+        <ErrorComponent />
+      </ErrorBoundary>
+    )
+
+    expect(queryByText('global.technicalError')).toBeTruthy()
+    expect(queryByText('error.errorBoundary.retry')).toBeTruthy()
     expect(queryByText('Child Content')).toBeFalsy()
   })
 

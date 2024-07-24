@@ -10,10 +10,15 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
+import HoliSelect, {
+  HoliSelectOption,
+  LIST_ITEMS_COUNT,
+  LIST_ITEM_HEIGHT,
+} from '@holi/ui/components/molecules/HoliSelect'
+import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { SpaceFilter } from './types'
+import { SpaceFilter, isSpaceFilterEmpty } from './types'
 import { getSpaceFilterInitialState, useSpaceFilterReducer } from './useSpaceFilterReducer'
 
 interface Props extends Pick<Partial<SpaceFilter>, 'location' | 'skillSlugs' | 'topicSlugs'> {
@@ -24,15 +29,8 @@ const SpaceFilterForm = ({ onSubmit, ...initValues }: Props) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const {
-    filterState,
-    resetAllFilters,
-    updateLocation,
-    updateLocationSearchQuery,
-    updateSkillSlugs,
-    updateTopicSlugs,
-  } = useSpaceFilterReducer(
-    getSpaceFilterInitialState({ ...initValues, locationSearchQuery: initValues.location?.label })
+  const { filterState, resetAllFilters, updateLocation, updateSkillSlugs, updateTopicSlugs } = useSpaceFilterReducer(
+    getSpaceFilterInitialState(initValues)
   )
 
   const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
@@ -59,68 +57,71 @@ const SpaceFilterForm = ({ onSubmit, ...initValues }: Props) => {
   }
 
   return (
-    <HoliModalContentWrapper
-      actionButtonText={t('spaces.filter.submit')}
-      onActionButtonPress={submit}
-      style={styles.modalWrapper}
-      scrollable={false}
-      loading={loadingTopics || loadingSkills}
-      hideFooterWhenKeyboardIsOpen={true}
-    >
-      <View style={[mixins.container, styles.container]}>
-        <View style={styles.header}>
-          <HoliHeading>{t('spaces.filter.heading')}</HoliHeading>
-          <HoliButton
-            label={t('global.reset')}
-            inline
-            onPress={() => resetAllFilters()}
-            type="secondary"
-            variant="small"
-          >
-            <HoliText>{t('global.reset')}</HoliText>
-            <HoliIcon icon={Close} size={20} style={styles.clearFilters} />
-          </HoliButton>
-        </View>
+    <HoliKeyboardSaveView>
+      <HoliModalContentWrapper
+        actionButtonText={t('spaces.filter.submit')}
+        actionButtonDisabled={isSpaceFilterEmpty(filterState)}
+        onActionButtonPress={submit}
+        style={styles.modalWrapper}
+        loading={loadingTopics || loadingSkills}
+        hideFooterWhenKeyboardIsOpen={true}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={[mixins.container, styles.container]}>
+          <View style={styles.header}>
+            <HoliHeading>{t('spaces.filter.heading')}</HoliHeading>
+            <HoliButton
+              label={t('global.reset')}
+              inline
+              onPress={() => resetAllFilters()}
+              type="secondary"
+              variant="small"
+            >
+              <HoliText>{t('global.reset')}</HoliText>
+              <HoliIcon icon={Close} size={20} style={styles.clearFilters} />
+            </HoliButton>
+          </View>
 
-        <PlacesAutocomplete
-          label={t('spaces.filter.location.label')}
-          placeholder={t('spaces.filter.location.placeholder')}
-          value={filterState.location?.label}
-          id="spaces-filter-location"
-          testID="spaces-filter-location"
-          selected={filterState.location}
-          onClose={updateLocation}
-          onChangeText={updateLocationSearchQuery}
-          style={[styles.filterOption, { zIndex: 2 }]}
-          inputProps={{ autoFocus: true }}
-          fetchDetailsOnClose
-          helperText={filterState.location ? undefined : t('profile.location.validation.helper')}
-        />
-        <HoliSelect
-          options={topicOptions}
-          inputLabel={t('spaces.filter.topics.label')}
-          aria-label={t('spaces.filter.topics.label')}
-          placeholder={t('spaces.filter.topics.placeholder')}
-          style={[styles.filterOption, { zIndex: 1 }]}
-          onChange={({ id }) => updateTopicSlugs(id)}
-          multiSelect
-          id="spaces-filter-interests"
-          testID="spaces-filter-interests"
-        />
-        <HoliSelect
-          options={skillOptions}
-          inputLabel={t('spaces.filter.skills.label')}
-          aria-label={t('spaces.filter.skills.label')}
-          placeholder={t('spaces.filter.skills.placeholder')}
-          style={[styles.filterOption, { zIndex: 0 }]}
-          onChange={({ id }) => updateSkillSlugs(id)}
-          id="spaces-filter-skills"
-          testID="spaces-filter-skills"
-          multiSelect={true}
-          multiSelectionLabel={t('spaces.filter.skills.multiSelectionLabel')}
-        />
-      </View>
-    </HoliModalContentWrapper>
+          <PlacesAutocomplete
+            label={t('spaces.filter.location.label')}
+            placeholder={t('spaces.filter.location.placeholder')}
+            id="spaces-filter-location"
+            testID="spaces-filter-location"
+            selected={filterState.location}
+            onChange={updateLocation}
+            style={[styles.filterOption, { zIndex: 2 }]}
+            inputProps={{ autoFocus: true }}
+            enhanceWithDetails
+            helperText={t('profile.location.validation.helper')}
+          />
+          <HoliSelect
+            options={topicOptions}
+            inputLabel={t('spaces.filter.topics.label')}
+            aria-label={t('spaces.filter.topics.label')}
+            placeholder={t('spaces.filter.topics.placeholder')}
+            style={[styles.filterOption, { zIndex: 1 }]}
+            onChange={({ id }) => updateTopicSlugs(id)}
+            multiSelect
+            id="spaces-filter-interests"
+            testID="spaces-filter-interests"
+            virtualized={false}
+          />
+          <HoliSelect
+            options={skillOptions}
+            inputLabel={t('spaces.filter.skills.label')}
+            aria-label={t('spaces.filter.skills.label')}
+            placeholder={t('spaces.filter.skills.placeholder')}
+            style={[styles.filterOption, { zIndex: 0 }]}
+            onChange={({ id }) => updateSkillSlugs(id)}
+            id="spaces-filter-skills"
+            testID="spaces-filter-skills"
+            multiSelect={true}
+            multiSelectionLabel={t('spaces.filter.skills.multiSelectionLabel')}
+            virtualized={false}
+          />
+        </View>
+      </HoliModalContentWrapper>
+    </HoliKeyboardSaveView>
   )
 }
 
@@ -139,6 +140,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     paddingTop: 32,
+    paddingBottom: LIST_ITEMS_COUNT * LIST_ITEM_HEIGHT,
   },
   modalWrapper: {
     flex: 1,
