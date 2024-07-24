@@ -7,7 +7,6 @@ import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-rean
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
 import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -107,18 +106,10 @@ const HomeFeed = () => {
           </Animated.View>
 
           <AttendingChallengeEvents />
-          <ErrorBoundary>
-            <AllPosts />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <RecommendedChallenges />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <InsightsOfTheWeek />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <Recommendations />
-          </ErrorBoundary>
+          <AllPosts />
+          <RecommendedChallenges />
+          <InsightsOfTheWeek />
+          <Recommendations />
           {isLoggedIn && <UserSuggestions />}
         </View>
       </ScrollHeaderLayout.Refreshable>

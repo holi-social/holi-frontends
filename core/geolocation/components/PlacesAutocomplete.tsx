@@ -211,7 +211,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         value={value}
         trailingIcon={Search}
         inputProps={inputProps}
-        onSubmit={onSubmitHandler}
+        onSubmit={submit}
         onSelect={onChange}
         onClose={onClose}
         onBlur={Platform.OS === 'web' ? undefined : onBlurHandler}
@@ -227,4 +227,5 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
   }
 )
 PlacesAutocomplete.displayName = 'PlacesAutocomplete'
+
 export default PlacesAutocomplete
