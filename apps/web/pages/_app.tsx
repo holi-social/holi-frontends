@@ -14,7 +14,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
-import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
+import WebRootProvider from '@holi/web/providers/WebRootProvider'
 import '@holi/web/styles/globals.css'
 import { NextJSPageProps } from '@holi/web/types'
 
@@ -53,7 +53,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   const { customProps: { seoTitle, urls } = {}, origin } = pageProps
   return (
-    <>
+    <WebRootProvider pageProps={pageProps}>
       <HoliHead
         title={t('metatags.default.title')}
         description={t('metatags.default.description')}
@@ -63,11 +63,9 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
         origin={origin}
         urls={urls}
       />
-      <SSRRootProvider pageProps={pageProps}>
-        <SeoTitle seoTitle={seoTitle} />
-        {getLayout(<Component {...pageProps} />)}
-      </SSRRootProvider>
-    </>
+      <SeoTitle seoTitle={seoTitle} />
+      {getLayout(<Component {...pageProps} />)}
+    </WebRootProvider>
   )
 }
 
