@@ -190,6 +190,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         <SubmitPostBar
           onSubmit={submit}
           onSetImage={onChangeImage}
+          onSetLocation={onSetLocation}
           hasSetImage={!!image}
           submitting={submitting}
           isSubmittable={isSubmittable}

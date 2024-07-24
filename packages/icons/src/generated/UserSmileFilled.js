@@ -6,7 +6,7 @@ const SvgUserSmileFilled = (props) => (
     <G clipPath="url(#user-smile-filled_svg__a)">
       <Path
         fill="currentColor"
-        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10ZM7 12a5 5 0 1 0 10 0h-2a3 3 0 0 1-6 0H7Z"
+        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10M7 12a5 5 0 1 0 10 0h-2a3 3 0 0 1-6 0z"
       />
     </G>
     <Defs>
