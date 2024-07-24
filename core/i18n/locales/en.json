@@ -88,6 +88,7 @@
   "auth.login.input.label-ID": "Email",
   "auth.login.input.label-Password": "Password",
   "auth.login.input.label-Sign in": "Sign in",
+  "auth.login.input.label-Sign in with password": "Sign in",
   "auth.login.input.label-Sign up": "Sign up",
   "auth.login.input.label-Submit": "Reset password",
   "auth.login.input.label-identifier": "Email",
