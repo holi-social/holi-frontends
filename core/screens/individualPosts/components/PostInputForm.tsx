@@ -91,6 +91,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
+  const { show: showLocationModal, hide: hideLocationModal, visible: visibleLocationModal } = useModalState()
 
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
@@ -190,7 +191,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         <SubmitPostBar
           onSubmit={submit}
           onSetImage={onChangeImage}
-          onSetLocation={onSetLocation}
+          showModal={showLocationModal}
           hasSetImage={!!image}
           submitting={submitting}
           isSubmittable={isSubmittable}

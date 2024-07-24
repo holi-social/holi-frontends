@@ -17,7 +17,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export const SubmitPostBar = ({
   onSubmit,
   onSetImage,
-  onSetLocation,
+  showModal,
   hasSetImage,
   submitting,
   isSubmittable,
@@ -25,7 +25,7 @@ export const SubmitPostBar = ({
 }: {
   onSubmit: () => void
   onSetImage: (image: HoliImageInfo) => void
-  onSetLocation: () => void
+  showModal: () => void
   hasSetImage: boolean
   submitting: boolean
   isSubmittable: boolean
@@ -54,7 +54,7 @@ export const SubmitPostBar = ({
           >
             <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} size={28} style={styles.addImageIcon} />
           </HoliImagePicker>
-          <HoliButton transparent inline onPress={onSetLocation} label="Add Location">
+          <HoliButton transparent inline onPress={showModal} label="Add Location">
             <HoliIcon icon={MapPinLine} size={28} />
           </HoliButton>
         </View>
