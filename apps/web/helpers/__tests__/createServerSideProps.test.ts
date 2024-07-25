@@ -4,7 +4,7 @@ import { DocumentNode } from 'graphql/language/ast'
 import type { NextPageContext } from 'next'
 
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
-import { APOLLO_STATE_PROP_NAME } from '@holi/web/helpers/useApolloSSRClient'
+import { APOLLO_STATE_PROP_NAME, NextJSPageProps, POSTHOG_BOOTSTRAP_PROP_NAME } from '@holi/web/types'
 
 const mockLoadTranslations = jest.fn()
 jest.mock('ni18n', () => ({
@@ -16,18 +16,30 @@ jest.mock('@holi/api/graphql/client', () => ({
   initializeApolloSSRClient: () => mockInitializeApolloSSRClient(),
 }))
 
+const mockAddPosthogBootstrapValues = jest.fn()
+jest.mock('@holi/web/helpers/addPosthogBootstrapValues', () => ({
+  addPosthogBootstrapValues: (props: Partial<NextJSPageProps>) => mockAddPosthogBootstrapValues(props),
+}))
+
 describe('createServerSideProps', () => {
   const origin = 'https://app.holi.social'
   const expectedHeaders = { header1: 'header1 value', 'accept-language': 'en' }
   const headers = { ...expectedHeaders, accept: 'application/json', 'accept-encoding': 'gzip' }
   const context = { req: { url: '', headers } } as unknown as NextPageContext
   const mockedTranslations = { i18n: { key: 'value' } }
+  const mockPosthogBootstrapValues = {
+    [POSTHOG_BOOTSTRAP_PROP_NAME]: {
+      featureFlags: { DONATIONS: 'on' },
+      featureFlagPayloads: {},
+    },
+  }
   const mockedCache = {
     foo: 'bar',
   }
   const expectedProps = {
     __APOLLO_STATE__: mockedCache,
     ...mockedTranslations,
+    ...mockPosthogBootstrapValues,
     locale: 'en',
     origin,
   }
@@ -68,6 +80,10 @@ describe('createServerSideProps', () => {
   beforeEach(() => {
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
     mockInitializeApolloSSRClient.mockReturnValue(mockedClient)
+    mockAddPosthogBootstrapValues.mockImplementation((props) => ({
+      ...props,
+      ...mockPosthogBootstrapValues,
+    }))
   })
 
   it('should load and add translations to page props', async () => {

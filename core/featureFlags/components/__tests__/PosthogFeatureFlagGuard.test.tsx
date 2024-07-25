@@ -6,7 +6,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 const mockUseFeatureFlag = jest.fn()
-jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
 }))
 

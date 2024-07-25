@@ -22,7 +22,7 @@ jest.mock('@holi/chat/src/client/chatState', () => ({
   useChatInitialized: () => mockUseChatInitialized(),
 }))
 
-jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
 }))
 

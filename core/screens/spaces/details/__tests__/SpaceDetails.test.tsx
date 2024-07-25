@@ -69,7 +69,7 @@ const createMocksForSpace = (spaceById = space) => {
 }
 
 const mockUseFeatureFlag = jest.fn()
-jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
 }))
 
