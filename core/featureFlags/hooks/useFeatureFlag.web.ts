@@ -1,20 +1,16 @@
-import { useFeatureFlagPayload, useFeatureFlagVariantKey } from 'posthog-js/react'
+import { useFeatureFlagPayload, useFeatureFlagVariantKey, usePostHog } from 'posthog-js/react'
 
-import { featureFlagBootstrapPayloads, featureFlagBootstrapValues } from '@holi/core/featureFlags/constants'
 import type { UseFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
-import { isSSR } from '@holi/core/helpers/isSSR'
 
 export const useFeatureFlag: UseFeatureFlag = (flag) => {
+  const posthog = usePostHog()
+  // These hooks get updated on feature flag values changes
   const state = useFeatureFlagVariantKey(flag)
   const payload = useFeatureFlagPayload(flag)
 
-  // Use bootstrapped values as fallback and during SSR
-  const fallbackState = featureFlagBootstrapValues[flag]
-  const fallbackPayload = featureFlagBootstrapPayloads[flag]
-
-  if (isSSR) {
-    return [fallbackState, fallbackPayload]
-  }
+  // Use bootstrapped values as initial fallback
+  const fallbackState = posthog.featureFlags.getFeatureFlag(flag)
+  const fallbackPayload = posthog.featureFlags.getFeatureFlagPayload(flag)
 
   return [state || fallbackState, payload || fallbackPayload]
 }

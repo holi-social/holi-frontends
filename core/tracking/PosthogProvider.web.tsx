@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router'
-import posthog, { Properties as PosthogProperties } from 'posthog-js'
+import posthog, { type BootstrapConfig, PostHog, type Properties as PosthogProperties } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import React, { PropsWithChildren, useEffect } from 'react'
 
-import { featureFlagBootstrapPayloads, featureFlagBootstrapValues } from '@holi/core/featureFlags/constants'
+import { fallbackFeatureFlags } from '@holi/core/featureFlags/fallbackFeatureFlags'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { ConsentState } from '@holi/core/tracking/types'
@@ -15,6 +16,10 @@ const POSTHOG_API_HOST = '/api/tracking'
 const isDevEnv = process.env.NODE_ENV === 'development'
 
 const debugOutput = isDevEnv && DEBUG_LOG_COMPONENTS.Tracking
+
+interface PosthogProviderProps {
+  bootstrapState: BootstrapConfig
+}
 
 const withConsentProperties = (properties: PosthogProperties) => {
   return {
@@ -35,33 +40,37 @@ const withoutUtmParameters = (properties: PosthogProperties) => {
   return result
 }
 
-const PosthogProvider = ({ children }: PropsWithChildren) => {
-  // Check that PostHog is client-side (used to handle Next.js SSR)
-  if (typeof window !== 'undefined') {
-    posthog.init(posthogKey, {
-      api_host: POSTHOG_API_HOST,
-      ui_host: posthogHost,
-      persistence: 'localStorage',
-      disable_compression: isDevEnv,
-      opt_out_capturing_by_default: true,
-      loaded: (posthog) => {
-        if (debugOutput) posthog.debug()
-      },
-      sanitize_properties: function (properties) {
-        return withoutUtmParameters(withConsentProperties(properties))
-      },
-      bootstrap: {
-        featureFlags: featureFlagBootstrapValues,
-        featureFlagPayloads: featureFlagBootstrapPayloads,
-      },
-    })
-    return <PostHogProviderWrapper>{children}</PostHogProviderWrapper>
-  } else {
-    return <>{children}</>
-  }
+const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<PosthogProviderProps>) => {
+  // Create new instances for SSR, re-use global one on the client side
+  const client = isSSR ? new PostHog() : posthog
+  client.init(posthogKey, {
+    api_host: POSTHOG_API_HOST,
+    ui_host: posthogHost,
+    persistence: 'localStorage',
+    disable_compression: isDevEnv,
+    opt_out_capturing_by_default: true,
+    loaded: (posthog) => {
+      // Suppressing logging during SSR as some browser API (localStorage, navigator) is missing and leads to error logs
+      if (debugOutput && !isSSR) {
+        posthog.debug()
+      }
+    },
+    sanitize_properties: (properties) => withoutUtmParameters(withConsentProperties(properties)),
+    bootstrap: {
+      ...fallbackFeatureFlags,
+      ...bootstrapState,
+    },
+  })
+
+  return (
+    <PostHogProvider client={client}>
+      {isSSR ? null : <RouteChangeHandler />}
+      {children}
+    </PostHogProvider>
+  )
 }
 
-const PostHogProviderWrapper = ({ children }: PropsWithChildren) => {
+const RouteChangeHandler = () => {
   const router = useRouter()
 
   useEffect(() => {
@@ -74,7 +83,7 @@ const PostHogProviderWrapper = ({ children }: PropsWithChildren) => {
     }
   }, [router.events])
 
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+  return null
 }
 
 export default PosthogProvider

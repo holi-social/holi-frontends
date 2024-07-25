@@ -14,20 +14,21 @@ import FeatureFlagsFetcher from '@holi/core/featureFlags/components/FeatureFlags
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
-import PosthogProvider from '@holi/core/tracking/PosthogProvider'
+import PosthogProvider, { PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 interface RootProviderProps {
   apolloClient: ApolloClient<object>
+  posthogBootstrapState?: PosthogProviderProps['bootstrapState']
 }
 
-const RootProvider = ({ apolloClient, children }: PropsWithChildren<RootProviderProps>) => {
+const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWithChildren<RootProviderProps>) => {
   const isWeb = Platform.OS === 'web'
   const isMobile = !isWeb
   return (
     <ErrorBoundary showErrorMsg={isWeb} allowReload={isWeb}>
-      <PosthogProvider>
+      <PosthogProvider bootstrapState={posthogBootstrapState}>
         <ApolloProvider client={apolloClient}>
           <TrackingInitializer />
           <ToastProvider>
