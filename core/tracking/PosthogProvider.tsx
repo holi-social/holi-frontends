@@ -1,8 +1,11 @@
 import { PostHog, PostHogProvider } from 'posthog-react-native'
 import React, { PropsWithChildren } from 'react'
 
+import {
+  featureFlagBootstrapPayloads,
+  featureFlagBootstrapValues,
+} from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
-import { featureFlagBootstrapPayloads, featureFlagBootstrapValues } from '@holi/core/helpers/useFeatureFlag.common'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { ConsentState } from '@holi/core/tracking/types'
 

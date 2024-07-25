@@ -1,11 +1,11 @@
 import { useFeatureFlagPayload, useFeatureFlagVariantKey } from 'posthog-js/react'
 
-import { isSSR } from '@holi/core/helpers/isSSR'
 import {
   UseFeatureFlag,
   featureFlagBootstrapPayloads,
   featureFlagBootstrapValues,
-} from '@holi/core/helpers/useFeatureFlag.common'
+} from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { isSSR } from '@holi/core/helpers/isSSR'
 
 export const useFeatureFlag: UseFeatureFlag = (flag) => {
   const state = useFeatureFlagVariantKey(flag)

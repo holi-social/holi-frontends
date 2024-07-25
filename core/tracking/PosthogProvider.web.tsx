@@ -3,9 +3,12 @@ import posthog, { Properties as PosthogProperties } from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import React, { PropsWithChildren, useEffect } from 'react'
 
+import {
+  featureFlagBootstrapPayloads,
+  featureFlagBootstrapValues,
+} from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
-import { featureFlagBootstrapPayloads, featureFlagBootstrapValues } from '@holi/core/helpers/useFeatureFlag.common'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { ConsentState } from '@holi/core/tracking/types'
 

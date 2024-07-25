@@ -2,8 +2,8 @@ import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
-import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
+import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ResourceCategoryTile, {
   ResourceCategory,

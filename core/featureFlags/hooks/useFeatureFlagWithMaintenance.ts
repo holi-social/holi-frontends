@@ -1,5 +1,5 @@
-import { useFeatureFlag } from '@holi/core/helpers/useFeatureFlag'
-import { FeatureFlagKey, FeatureFlagValue } from '@holi/core/helpers/useFeatureFlag.common'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey, FeatureFlagValue } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
 
 export type On = { isUnknown: false; isOn: true; isOff: false; inMaintenance: false }
 export type Off = { isUnknown: false; isOn: false; isOff: true; inMaintenance: false }

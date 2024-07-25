@@ -3,8 +3,8 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
-import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
+import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import NotificationSettingsMaintenance from '@holi/core/screens/notifications/components/NotificationSettingsMaintenance'
 import {
   Category,

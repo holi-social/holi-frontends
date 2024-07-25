@@ -4,7 +4,7 @@ import React from 'react'
 import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'

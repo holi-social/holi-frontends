@@ -1,8 +1,8 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
+import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'

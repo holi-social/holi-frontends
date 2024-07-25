@@ -6,11 +6,11 @@ import { Platform } from 'react-native'
 
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
-import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
 import SessionExpiryProtection from '@holi/core/components/SessionExpiryProtection'
 import TrackingConsentModal from '@holi/core/components/TrackingConsentModal'
 import UpdateAppModal from '@holi/core/components/UpdateAppModal'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
+import FeatureFlagsFetcher from '@holi/core/featureFlags/components/FeatureFlagsFetcher'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
@@ -33,7 +33,7 @@ const RootProvider = ({ apolloClient, children }: PropsWithChildren<RootProvider
           <ToastProvider>
             <PortalProvider>
               <SessionExpiryProtection>
-                <FeatureTogglesFetcher />
+                <FeatureFlagsFetcher />
                 {isMobile ? <DeviceRegistration /> : null}
                 {isMobile ? <UpdateAppModal /> : null}
                 <LoginModalProvider>
