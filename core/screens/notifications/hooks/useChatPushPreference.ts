@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import { getChatClient } from '@holi/chat/src/store'
 import { logError } from '@holi/core/errors/helpers'
-import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 
 export const useChatPushPreference = () => {

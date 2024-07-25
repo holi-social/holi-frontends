@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
-import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'

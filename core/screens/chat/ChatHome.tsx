@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'

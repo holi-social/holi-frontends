@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { startChat } from '@holi/chat/src/client/chatSession'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { useDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'

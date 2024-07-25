@@ -6,7 +6,7 @@ import type { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs'
 
 import FilterPill from '@holi/core/components/FilterPill'
 import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
-import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppTile, { HoliApp } from '@holi/core/screens/appsHub/components/AppTile'

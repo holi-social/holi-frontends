@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
-import { FeatureFlagKey } from '@holi/core/featureFlags/hooks/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 const mockUseFeatureFlag = jest.fn()
