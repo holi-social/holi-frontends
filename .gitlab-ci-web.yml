@@ -79,8 +79,11 @@ web_build:
   interruptible: true
   tags:
     - 4cpu-16gb
-  except:
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
   variables:
     WEB_BUILD: true
 
@@ -100,13 +103,12 @@ storybook_publish:
   interruptible: true
   tags:
     - 4cpu-16gb
-  only:
-    refs:
-      - main
-    changes:
-      - apps/storybook/*
-      - packages/ui/*
-      - '**/*.stories.tsx'
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - apps/storybook/*
+        - packages/ui/*
+        - '**/*.stories.tsx'
 
 web_build_docker:
   needs: ['web_build']
@@ -128,9 +130,11 @@ web_build_docker:
     - docker push $GCR_IMAGE:$CI_COMMIT_SHA # this is the tag that is used for deployment
     - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG # just for easyly knowing which is the last image for a branch
   interruptible: true
-  except:
-    - /^noenv\/.*/
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^noenv\/.*|^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
 
 ## only for review environments
 
@@ -142,22 +146,22 @@ web_review_deploy:
     url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
     on_stop: web_review_destroy
     auto_stop_in: 1 week
-  except:
-    - main
-    - production
-    - /^noenv\/.*/
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
 
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
   dependencies:
     - web_review_deploy
-  except:
-    - main
-    - production
-    - /^noenv\/.*/
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
 
 web_review_destroy:
   needs: ['web_review_deploy']
@@ -181,13 +185,12 @@ web_review_destroy:
     - cd main-clone
     - terraform/environments/web/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
-  when: manual
   allow_failure: false
-  except:
-    - main
-    - production
-    - /^noenv\/.*/
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: manual
   resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
   interruptible: false
 
@@ -202,16 +205,16 @@ web_staging_deploy:
     url: https://staging.dev.holi.social
   variables:
     ENVIRONMENT_ID: staging
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 web_staging_e2e:
   extends: .web_e2e
   needs: ['web_staging_deploy']
   dependencies:
     - web_staging_deploy
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 ## production environment
 
@@ -225,6 +228,6 @@ web_production_deploy:
     url: https://app.holi.social
   variables:
     ENVIRONMENT_ID: production
-  only:
-    - production
-  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^production.*|^hotfix.*/
+      when: manual

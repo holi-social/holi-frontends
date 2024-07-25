@@ -1,16 +1,11 @@
-import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { AppState, AppStateStatus } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
-import { FeatureTogglesResponse, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
-
 const FeatureTogglesFetcher = () => {
-  const { refetch } = useQuery<FeatureTogglesResponse>(featureTogglesQuery, {
-    onError: (error) =>
-      logError(error, 'Failed to load feature toggles', { location: 'FeatureTogglesFetcher.featureTogglesQuery' }),
-  })
+  const refetch = useCallback(() => {
+    // TODO: HOLI-9300 refetch feature toggles from posthog
+  }, [])
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
