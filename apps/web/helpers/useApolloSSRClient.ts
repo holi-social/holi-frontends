@@ -2,14 +2,12 @@ import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { useMemo } from 'react'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { APOLLO_STATE_PROP_NAME, NextJSPageProps } from '@holi/web/types'
 
-export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
-
-export interface ApolloStateProps {
-  [APOLLO_STATE_PROP_NAME]?: Record<string, unknown>
-}
-
-export const addApolloSSRState = (client: ApolloClient<NormalizedCacheObject> | undefined, props: object) => {
+export const addApolloSSRState = (
+  client: ApolloClient<NormalizedCacheObject> | undefined,
+  props: Partial<NextJSPageProps>
+) => {
   if (!client) {
     return props
   }
@@ -22,12 +20,12 @@ export const addApolloSSRState = (client: ApolloClient<NormalizedCacheObject> | 
   }
 }
 
-export const createApolloSSRClient = (props: ApolloStateProps) => {
+export const createApolloSSRClient = (props: NextJSPageProps) => {
   const state = props[APOLLO_STATE_PROP_NAME]
   return initializeApolloSSRClient(state)
 }
 
-export const useApolloSSRClient = (props: ApolloStateProps) => {
+export const useApolloSSRClient = (props: NextJSPageProps) => {
   const store = useMemo(() => createApolloSSRClient(props), [props])
 
   return store
