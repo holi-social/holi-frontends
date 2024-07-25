@@ -54,8 +54,8 @@ export const SubmitPostBar = ({
           >
             <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} size={28} style={styles.addImageIcon} />
           </HoliImagePicker>
-          <HoliButton transparent inline onPress={showModal} label="Add Location" disabled>
-            <HoliIcon icon={MapPinLine} size={28} color={theme.colors.background10} />
+          <HoliButton transparent inline onPress={showModal} label="Add Location">
+            <HoliIcon icon={MapPinLine} size={28} />
           </HoliButton>
         </View>
         <HoliButtonLoading
