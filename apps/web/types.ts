@@ -5,6 +5,7 @@ import type { ApolloStateProps } from '@holi/web/helpers/useApolloSSRClient'
 export interface CustomProps {
   seoTitle?: string
   urls?: SeoUrls
+  blockIndexing?: boolean
 }
 
 interface ServerSideCustomProps {
