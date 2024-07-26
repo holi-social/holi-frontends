@@ -1,16 +1,19 @@
 import { withProfiler } from '@sentry/react'
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { AppState, AppStateStatus } from 'react-native'
 
+import { logError } from '@holi/core/errors/helpers'
+import { useFeatureFlagRefetch } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch'
+
 const FeatureFlagsFetcher = () => {
-  const refetch = useCallback(() => {
-    // TODO: HOLI-9300 refetch feature flags from posthog
-  }, [])
+  const refetch = useFeatureFlagRefetch()
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       if (nextAppState === 'active') {
-        refetch()
+        refetch().catch((error) =>
+          logError(error, 'Failed to refetch feature flags', { location: 'FeatureFlagsFetcher.handleAppStateChange' })
+        )
       }
     }
     const appStateListener = AppState.addEventListener('change', handleAppStateChange)
