@@ -16,12 +16,6 @@ jest.mock('@holi/api/graphql/client', () => ({
   initializeApolloSSRClient: () => mockInitializeApolloSSRClient(),
 }))
 
-jest.mock('@holi/web/environment', () => ({
-  featureFlag: {
-    enableSSR: true,
-  },
-}))
-
 describe('createServerSideProps', () => {
   const origin = 'https://app.holi.social'
   const expectedHeaders = { header1: 'header1 value', 'accept-language': 'en' }

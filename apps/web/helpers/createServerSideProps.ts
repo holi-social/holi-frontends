@@ -3,7 +3,6 @@ import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
-import { featureFlag } from '@holi/web/environment'
 import { addTranslations } from '@holi/web/helpers/addTranslations'
 import { getOrigin } from '@holi/web/helpers/getOrigin'
 import { addApolloSSRState } from '@holi/web/helpers/useApolloSSRClient'
@@ -25,7 +24,7 @@ export const createServerSideProps = async (
   // rendering everything on the client and should not have any
   // performance cost when we render the site.
   const isFirstServerCall = req?.url?.indexOf('/_next/data/') === -1
-  if (!featureFlag.enableSSR || !isFirstServerCall) {
+  if (!isFirstServerCall) {
     return {
       props: initialProps,
     }
