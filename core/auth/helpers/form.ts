@@ -71,19 +71,25 @@ export const getNodeValue = ({ attributes }: UiNode) => {
   }
 }
 
-export const getNodeTitle = ({ attributes, meta }: UiNode): string => {
-  if (oryNodeIsInput(attributes) || oryNodeIsSubmit(attributes)) {
-    if (meta?.label?.text) {
-      return meta.label.text
-    }
-    return attributes.name
-  }
+// For possible Ory Field IDs
+// see: https://www.ory.sh/docs/kratos/concepts/ui-user-interface#ui-message-codes
+// and: https://github.com/ory/elements/blob/main/src/locales/en.json
+const oryFieldMapping: { [key: number]: string } = {
+  1070001: 'Password',
+  1070002: 'Email',
+  1070004: 'Email',
+  1070007: 'Email',
+  1010001: 'SignIn',
+  1010022: 'SignIn',
+  1040001: 'SignUp',
+  1070009: 'ResetPassword',
+}
 
-  if (meta?.label?.text) {
-    return meta.label.text
+export const getNodeTranslationKey = ({ meta }: UiNode) => {
+  if (meta?.label?.id && meta.label.id in oryFieldMapping) {
+    return oryFieldMapping[meta.label.id]
   }
-
-  return ''
+  return
 }
 
 export const getNodeById = (nodeName: string, flow: SettingsFlow | RecoveryFlow) => {
