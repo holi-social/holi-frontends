@@ -49,14 +49,8 @@ const ImageUpload = ({
           transparent: true,
           inline: true,
         }}
-        onPickImage={(image) => {
-          onSetImage(image)
-          //   console.log(image)
-        }}
-        onPickImages={(images) => {
-          onSetImages(images)
-          // console.log(image)
-        }}
+        onPickImage={onSetImage}
+        onPickImages={onSetImages}
       >
         <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} style={styles.addImageIcon} />
       </HoliImagePicker>
@@ -65,12 +59,13 @@ const ImageUpload = ({
           <ImageEditor
             key={index}
             onSave={(newImage: HoliImageInfo | null) => {
-              // update postImage with new image
-              if (newImage === null) {
-                const newImages = images.filter((postImage) => postImage.uri !== image.uri)
+              if (newImage !== null) {
+                const newImages = [...images]
+                newImages[index] = newImage
                 onSetImages(newImages)
               } else {
-                onSetImages((prevImages: HoliImageInfo[]) => [...prevImages, newImage])
+                const newImages = images.filter((_, i) => i !== index)
+                onSetImages(newImages)
               }
             }}
             image={image}
