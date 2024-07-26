@@ -249,5 +249,4 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
   return client
 }
 
-// Mobile
-export const initializeClientSideApolloClient = () => createApolloClient({ ssrMode: false })
+export const initializeMobileApolloClient = () => createApolloClient({ ssrMode: false })
