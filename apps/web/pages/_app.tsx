@@ -16,7 +16,7 @@ import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import WebRootProvider from '@holi/web/providers/WebRootProvider'
 import '@holi/web/styles/globals.css'
-import { type NextJSPageProps } from '@holi/web/types'
+import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 
 export interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout
@@ -33,6 +33,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
   const { t } = useTranslation()
+  const holiPageProps = new HoliPageProps(pageProps)
 
   useEffect(() => {
     // Init authentication
@@ -51,20 +52,18 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  const { customProps = {}, origin } = pageProps
   return (
-    <WebRootProvider pageProps={pageProps}>
+    <WebRootProvider pageProps={holiPageProps}>
       <HoliHead
         title={t('metatags.default.title')}
         description={t('metatags.default.description')}
         ogTitle={t('metatags.default.og.title')}
         ogDescription={t('metatags.default.og.description')}
         ogImage="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
-        origin={origin}
-        urls={customProps.urls}
-        blockIndexing={customProps.blockIndexing}
+        origin={holiPageProps.origin}
+        {...holiPageProps.customProps}
       />
-      <SeoTitle seoTitle={customProps.seoTitle} />
+      <SeoTitle seoTitle={holiPageProps.customProps?.seoTitle} />
       {getLayout(<Component {...pageProps} />)}
     </WebRootProvider>
   )

@@ -1,5 +1,4 @@
 import { createPosthogPageProps } from '@holi/web/helpers/createPosthogPageProps'
-import { POSTHOG_BOOTSTRAP_PROP_NAME } from '@holi/web/types'
 
 const mockGetAllFlagsAndPayloads = jest.fn()
 
@@ -32,8 +31,6 @@ describe('createPosthogPageProps', () => {
 
     const props = await createPosthogPageProps()
 
-    expect(props).toEqual({
-      [POSTHOG_BOOTSTRAP_PROP_NAME]: featureFlagsAndPayload,
-    })
+    expect(props).toEqual(featureFlagsAndPayload)
   })
 })

@@ -15,21 +15,7 @@ describe('createTranslationPageProps', () => {
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
     const props = await createTranslationPageProps('en')
 
-    expect(props).toEqual({
-      ...mockedTranslations,
-      locale: 'en',
-    })
-  })
-
-  it('should use en if locale is "default"', async () => {
-    const mockedTranslations = { i18n: { key: 'value' } }
-    mockLoadTranslations.mockResolvedValue(mockedTranslations)
-    const props = await createTranslationPageProps('default')
-
-    expect(props).toEqual({
-      ...mockedTranslations,
-      locale: 'en',
-    })
+    expect(props).toEqual(mockedTranslations)
   })
 
   it('should pass correct paramters to load translations', async () => {
