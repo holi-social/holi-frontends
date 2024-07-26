@@ -3,10 +3,10 @@ import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
-import { addPosthogBootstrapValues } from '@holi/web/helpers/addPosthogBootstrapValues'
-import { addTranslations } from '@holi/web/helpers/addTranslations'
+import { createPosthogPageProps } from '@holi/web/helpers/createPosthogPageProps'
+import { createTranslationPageProps } from '@holi/web/helpers/createTranslationPageProps'
 import { getOrigin } from '@holi/web/helpers/getOrigin'
-import { addApolloSSRState } from '@holi/web/helpers/useApolloSSRClient'
+import { createApolloPageProps } from '@holi/web/helpers/useApolloSSRClient'
 import type { CustomProps, NextJSPageProps } from '@holi/web/types'
 
 interface SkippableQueryOptions extends QueryOptions {
@@ -19,19 +19,17 @@ export const createServerSideProps = async (
   customProps?: Partial<CustomProps>
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
   const origin = getOrigin(req)
-  const initialProps = customProps ? { customProps, origin } : { origin }
+  const minimalProps = customProps ? { customProps, origin } : { origin }
 
-  // We do an early return with initial page props. It still leads to
+  // We do an early return with minimal page props. It still leads to
   // rendering everything on the client and should not have any
   // performance cost when we render the site.
   const isFirstServerCall = req?.url?.indexOf('/_next/data/') === -1
   if (!isFirstServerCall) {
     return {
-      props: initialProps,
+      props: minimalProps,
     }
   }
-
-  const props = await addTranslations(locale, initialProps).then(addPosthogBootstrapValues)
 
   const client = initializeApolloSSRClient()
 
@@ -64,6 +62,11 @@ export const createServerSideProps = async (
   }
 
   return {
-    props: addApolloSSRState(client, props),
+    props: {
+      ...minimalProps,
+      ...(await createTranslationPageProps(locale)),
+      ...(await createPosthogPageProps()),
+      ...createApolloPageProps(client),
+    },
   }
 }

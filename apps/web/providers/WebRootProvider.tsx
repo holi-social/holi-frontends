@@ -5,7 +5,7 @@ import React, { useContext } from 'react'
 import RootProvider from '@holi/core/providers/RootProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { useApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
-import { NextJSPageProps, POSTHOG_BOOTSTRAP_PROP_NAME } from '@holi/web/types'
+import { type NextJSPageProps, POSTHOG_BOOTSTRAP_PROP_NAME } from '@holi/web/types'
 
 interface RootProviderProps {
   pageProps: NextJSPageProps

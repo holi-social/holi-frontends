@@ -4,7 +4,7 @@ import { DocumentNode } from 'graphql/language/ast'
 import type { NextPageContext } from 'next'
 
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
-import { APOLLO_STATE_PROP_NAME, NextJSPageProps, POSTHOG_BOOTSTRAP_PROP_NAME } from '@holi/web/types'
+import { APOLLO_STATE_PROP_NAME, POSTHOG_BOOTSTRAP_PROP_NAME } from '@holi/web/types'
 
 const mockLoadTranslations = jest.fn()
 jest.mock('ni18n', () => ({
@@ -16,9 +16,9 @@ jest.mock('@holi/api/graphql/client', () => ({
   initializeApolloSSRClient: () => mockInitializeApolloSSRClient(),
 }))
 
-const mockAddPosthogBootstrapValues = jest.fn()
-jest.mock('@holi/web/helpers/addPosthogBootstrapValues', () => ({
-  addPosthogBootstrapValues: (props: Partial<NextJSPageProps>) => mockAddPosthogBootstrapValues(props),
+const mockCreatePosthogPageProps = jest.fn()
+jest.mock('@holi/web/helpers/createPosthogPageProps', () => ({
+  createPosthogPageProps: () => mockCreatePosthogPageProps(),
 }))
 
 describe('createServerSideProps', () => {
@@ -80,10 +80,7 @@ describe('createServerSideProps', () => {
   beforeEach(() => {
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
     mockInitializeApolloSSRClient.mockReturnValue(mockedClient)
-    mockAddPosthogBootstrapValues.mockImplementation((props) => ({
-      ...props,
-      ...mockPosthogBootstrapValues,
-    }))
+    mockCreatePosthogPageProps.mockReturnValue(mockPosthogBootstrapValues)
   })
 
   it('should load and add translations to page props', async () => {

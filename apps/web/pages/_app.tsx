@@ -16,7 +16,7 @@ import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import WebRootProvider from '@holi/web/providers/WebRootProvider'
 import '@holi/web/styles/globals.css'
-import { NextJSPageProps } from '@holi/web/types'
+import { type NextJSPageProps } from '@holi/web/types'
 
 export interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout

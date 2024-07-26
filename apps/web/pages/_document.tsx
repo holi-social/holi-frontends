@@ -10,8 +10,8 @@ import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 import { environmentId } from '@holi/web/environment'
-import { addApolloSSRState, createApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
-import { NextJSPageProps } from '@holi/web/types'
+import { createApolloPageProps, createApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
+import { type NextJSPageProps } from '@holi/web/types'
 
 // adapt to react-native behavior
 // Force Next-generated DOM elements to fill their parent's height
@@ -32,8 +32,11 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
   constructor(props: DocumentProps & ApolloDocumentProps) {
     super(props)
 
-    // Add apollo cache state to
-    props.__NEXT_DATA__.props.pageProps = addApolloSSRState(props.apolloClient, props.__NEXT_DATA__.props.pageProps)
+    // Update apollo cache state in page props
+    props.__NEXT_DATA__.props.pageProps = {
+      ...props.__NEXT_DATA__.props.pageProps,
+      ...createApolloPageProps(props.apolloClient),
+    }
   }
 
   static async getInitialProps(context: DocumentContext) {

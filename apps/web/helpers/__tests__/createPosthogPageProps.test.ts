@@ -1,4 +1,4 @@
-import { addPosthogBootstrapValues } from '@holi/web/helpers/addPosthogBootstrapValues'
+import { createPosthogPageProps } from '@holi/web/helpers/createPosthogPageProps'
 import { POSTHOG_BOOTSTRAP_PROP_NAME } from '@holi/web/types'
 
 const mockGetAllFlagsAndPayloads = jest.fn()
@@ -9,11 +9,11 @@ jest.mock('posthog-node', () => ({
   }),
 }))
 
-describe('addPosthogBootstrapValues', () => {
+describe('createPosthogPageProps', () => {
   it('should should fetch feature flags from posthog', async () => {
     mockGetAllFlagsAndPayloads.mockResolvedValue({})
 
-    await addPosthogBootstrapValues({})
+    await createPosthogPageProps()
 
     expect(mockGetAllFlagsAndPayloads).toHaveBeenCalledWith('')
   })
@@ -30,12 +30,9 @@ describe('addPosthogBootstrapValues', () => {
     }
     mockGetAllFlagsAndPayloads.mockResolvedValue(featureFlagsAndPayload)
 
-    const existingProps = { foo: 'bar' }
-
-    const props = await addPosthogBootstrapValues(existingProps)
+    const props = await createPosthogPageProps()
 
     expect(props).toEqual({
-      foo: 'bar',
       [POSTHOG_BOOTSTRAP_PROP_NAME]: featureFlagsAndPayload,
     })
   })
