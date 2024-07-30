@@ -1,6 +1,8 @@
 import { Page, expect } from '@playwright/test'
 
-import { clickButtonByText, clickElementByTestId, locateElementByTestId, randomSpaceName, retry } from './helpers'
+import { randomSpaceName } from '@holi/e2e-web/tests/helpers/fixtures'
+
+import { clickButtonByText, clickElementByTestId, locateElementByTestId, retry } from './helpers'
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 

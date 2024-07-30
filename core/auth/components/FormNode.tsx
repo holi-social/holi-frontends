@@ -7,7 +7,7 @@ import { ViewStyle } from 'react-native'
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
 import {
   getNodeId,
-  getNodeTitle,
+  getNodeTranslationKey,
   oryNodeIsHiddenField,
   oryNodeIsInput,
   oryNodeIsSubmit,
@@ -63,7 +63,7 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
-    const fieldLabel = t(`${props.translationPrefix}input.label-${getNodeTitle(node)}`)
+    const fieldLabel = t(`${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`)
     return (
       <HoliButtonLoading
         label={fieldLabel}

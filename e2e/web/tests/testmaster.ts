@@ -18,7 +18,7 @@ export class UserHandler {
   }
 
   public async asRandomUser(
-    actions: (page: Page, userId: string, userFullName: string) => Promise<void>,
+    actions: (page: Page, userFullName: string) => Promise<void>,
     email?: string,
     password?: string
   ) {
@@ -62,6 +62,7 @@ export class SessionHandler {
     await Promise.allSettled(
       this.signInContexts.map(async (ctx) => {
         await deleteAuthenticatedAccount(ctx)
+        await ctx.close()
       })
     )
   }
