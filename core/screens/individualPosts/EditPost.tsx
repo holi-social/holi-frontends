@@ -164,7 +164,7 @@ const EditPost = () => {
             <PostInputForm
               title={title}
               onChangeTitle={setTitle}
-              description={description}
+              description={post?.description}
               onChangeDescription={setDescription}
               image={image || null}
               onChangeImage={(value) => {

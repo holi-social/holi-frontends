@@ -188,6 +188,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               initialValue={description}
               mentions={mentions}
               isEdit={isEdit}
+              scrollEnabled={false}
             />
 
             <View style={styles.imageEditor}>

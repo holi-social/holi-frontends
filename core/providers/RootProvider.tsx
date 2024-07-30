@@ -1,10 +1,9 @@
-import { ApolloProvider } from '@apollo/client'
+import { ApolloClient, ApolloProvider } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { Platform } from 'react-native'
 
-import { initializeClientSideApolloClient } from '@holi/api/graphql/client'
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
 import FeatureTogglesFetcher from '@holi/core/components/FeatureTogglesFetcher'
@@ -19,20 +18,24 @@ import PosthogProvider from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-const client = initializeClientSideApolloClient()
+interface RootProviderProps {
+  apolloClient: ApolloClient<object>
+}
 
-const RootProvider = ({ children }: PropsWithChildren<unknown>) => {
+const RootProvider = ({ apolloClient, children }: PropsWithChildren<RootProviderProps>) => {
+  const isWeb = Platform.OS === 'web'
+  const isMobile = !isWeb
   return (
-    <ErrorBoundary>
+    <ErrorBoundary showErrorMsg={isWeb} allowReload={isWeb}>
       <PosthogProvider>
-        <ApolloProvider client={client}>
+        <ApolloProvider client={apolloClient}>
           <TrackingInitializer />
           <ToastProvider>
             <PortalProvider>
               <SessionExpiryProtection>
                 <FeatureTogglesFetcher />
-                {Platform.OS !== 'web' ? <DeviceRegistration /> : null}
-                {Platform.OS !== 'web' ? <UpdateAppModal /> : null}
+                {isMobile ? <DeviceRegistration /> : null}
+                {isMobile ? <UpdateAppModal /> : null}
                 <LoginModalProvider>
                   <ChatSessionInitializer>
                     <ChatProvider>{children}</ChatProvider>

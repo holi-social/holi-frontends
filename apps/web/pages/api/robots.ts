@@ -14,8 +14,6 @@ const robotsTxtDevelopment = `User-agent: *
 Disallow: /`
 
 const robotsTxtProduction = `User-agent: *
-Disallow: /profile/
-Disallow: /*/profile/
 
 Sitemap: https://app.holi.social/sitemap.xml`
 
