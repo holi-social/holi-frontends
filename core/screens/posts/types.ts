@@ -48,6 +48,7 @@ export interface Post {
   isEdited?: boolean
   isClosed?: boolean
   isDeleted?: boolean
+  location?: string
   space?: Space
   status?: string // 'P'
   mediaWidth?: number

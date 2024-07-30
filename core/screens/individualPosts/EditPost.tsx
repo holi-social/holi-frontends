@@ -92,6 +92,7 @@ const EditPost = () => {
           description,
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
+          // location: selectedLocation,
           postId: post?.id,
           image: image === null ? null : image?.blob,
           topicIds: selectedTopics?.map((topic) => topic.id),
@@ -119,6 +120,7 @@ const EditPost = () => {
       setSelectedCategoryId(post.category.id)
       setSelectedVisibility(Visibility[post.visibility])
       setSelectedTopics(post.topics)
+      // setSelectedLocation(post.location)
     }
   }, [post])
 

@@ -252,32 +252,31 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           isModal
           onSave={hideLocationModal}
           keyboardShouldPersistTaps="handled"
+          showCancelButton
+          onCancel={hideLocationModal}
           showBottomBar
           style={styles.locationModal}
           renderProp={() => (
             <>
               <View style={styles.locationContainer}>
                 <HoliHeading level="1" size="m">
-                  Add a location
+                  {t('individuals.post.input.location.title')}
                 </HoliHeading>
                 <HoliText color="gray300" size="small">
-                  Add a location to reach people nearby.
+                  {t('individuals.post.input.location.description')}
                 </HoliText>
               </View>
               <PlacesAutocomplete
-                label={t('spaces.input.location.label')}
+                label={t('individuals.post.input.location')}
                 placeholder={t('spaces.input.location.placeholder')}
                 selected={selectedLocation}
                 id="spaces-location-input"
                 testID="spaces-location"
                 onChange={(selected?: GeolocationSuggestion) => {
-                  if (selected) {
-                    onChangeSelectedLocation(selected)
-                  }
+                  selected && onChangeSelectedLocation(selected)
                 }}
                 style={[styles.input, { zIndex: 2 }]}
                 inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
-                helperText={t('spaces.input.location.validation.helper')}
                 suggestionsStyle={styles.suggestionsContainer}
                 enhanceWithDetails
               />
@@ -383,6 +382,11 @@ const getStyles = (theme: HoliTheme) =>
     },
     locationModal: {
       backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        web: {
+          height: '50%',
+        },
+      }),
     },
   })
 

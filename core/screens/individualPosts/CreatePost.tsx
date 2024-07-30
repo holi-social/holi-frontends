@@ -88,6 +88,7 @@ const CreatePost = () => {
           categoryId: selectedCategoryId,
           image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
+          // location: selectedLocation,
           language: data?.detectedLanguage ?? i18n.language,
         },
       },
