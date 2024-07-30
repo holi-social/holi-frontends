@@ -37,7 +37,7 @@ const CreatePost = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigateBack } = useRouting()
 
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
@@ -86,7 +86,7 @@ const CreatePost = () => {
           categoryId: selectedCategoryId,
           image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
-          language: data?.detectedLanguage ?? i18n.language,
+          language: data?.detectedLanguage,
         },
       },
       onError: (error) => {

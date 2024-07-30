@@ -47,7 +47,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
   const { displayError } = useErrorHandling()
   const { navigateBack, replaceRoute } = useRouting()
   const { openToast } = useToast()
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { track } = useTracking()
 
   //input fields
@@ -151,7 +151,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
       text: content.trim(),
       image: image === null ? null : image?.blob, // null is to remove the image
       visibility: visibility || VisibilityType.MEMBERS,
-      language: data.data?.detectedLanguage ?? i18n.language,
+      language: data.data?.detectedLanguage,
     }
 
     if (postId) {
