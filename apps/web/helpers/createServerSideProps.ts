@@ -21,7 +21,11 @@ export const createServerSideProps = async (
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
   const origin = getOrigin(req)
   const locale = getValidLocale(nextJslocale)
-  const minimalProps = HoliPageProps.from({ origin, customProps, locale })
+  const minimalProps = HoliPageProps.from({
+    ...(origin ? { origin } : {}),
+    ...(customProps ? { customProps } : {}),
+    ...(locale ? { locale } : {}),
+  })
 
   // We do an early return with minimal page props. It still leads to
   // rendering everything on the client and should not have any
@@ -37,7 +41,7 @@ export const createServerSideProps = async (
     queries
       .filter((query) => !query.skip)
       .map((query) => {
-        // Filter content negotation headers except accept-language
+        // Filter content negotiation headers except accept-language
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { accept, 'accept-encoding': acceptEncoding, ...headers } = req.headers
         const newQuery = {
