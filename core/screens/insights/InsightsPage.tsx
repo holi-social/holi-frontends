@@ -51,10 +51,9 @@ const InsightsList = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: theme.colors.background10 },
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{'Insights'}</HeaderTitle>,
     })
-  }, [navigate, setScreenOptions, t, theme.colors.background10])
+  }, [navigate, setScreenOptions, t])
 
   const { width: screenWidth } = useWindowDimensions()
   const [isWideLayout, setWideLayout] = useState<boolean>(false)
@@ -198,7 +197,7 @@ const InsightsPage = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default style={styles.layout}>
+    <ScrollHeaderLayout style={styles.layout}>
       <View style={styles.sections}>
         <HoliContainer>
           <Pagination
@@ -211,7 +210,7 @@ const InsightsPage = () => {
           </Pagination>
         </HoliContainer>
       </View>
-    </ScrollHeaderLayout.Default>
+    </ScrollHeaderLayout>
   )
 }
 

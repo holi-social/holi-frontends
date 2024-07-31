@@ -53,7 +53,6 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
           <View
             style={{
               minHeight: deviceHeight,
-              paddingTop: dimensions.topBarHeight + 40,
               paddingBottom: dimensions.bottomBarHeight + Spacing.md,
             }}
           >

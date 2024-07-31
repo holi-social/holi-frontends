@@ -1,7 +1,7 @@
 import { atom, useAtomValue } from 'jotai'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatTabBar, { DEFAULT_TAB_ID } from '@holi/chat/src/components/ChatTabsBar'
@@ -16,17 +16,12 @@ import {
   spaceRoomIdToChildRoomsAtom,
 } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { updateLayoutAnimation } from '@holi/core/helpers/updateLayoutAnimation'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -44,7 +39,7 @@ const ChatHomeNeedToLogin = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+    <ScrollView style={{ backgroundColor: colors.background20 }}>
       <View style={mixins.container}>
         <HoliNoResults
           firstText={t('loginRedirect.title')}
@@ -66,7 +61,7 @@ const ChatHomeNeedToLogin = () => {
           </HoliButton>
         </HoliNoResults>
       </View>
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 
@@ -79,7 +74,7 @@ const ChatHomeNoExistingRooms = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+    <ScrollView style={{ backgroundColor: colors.background20 }}>
       <View style={mixins.container}>
         <HoliNoResults
           firstText={t('chat.empty.tagline')}
@@ -101,7 +96,7 @@ const ChatHomeNoExistingRooms = () => {
           </HoliButton>
         </HoliNoResults>
       </View>
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 
@@ -159,7 +154,7 @@ const tabRoomAtomsRecordAtom = atom<Record<string, ChatRoomAtom[]>>((get) => {
 
 const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const [selectedTabId = DEFAULT_TAB_ID] = useParam('activeTab')
-  const { top: safeAreaInsetTop } = useSafeAreaInsets()
+
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
@@ -170,19 +165,13 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
   const tabRoomAtomsRecord = useAtomValue(tabRoomAtomsRecordAtom)
 
-  // update layout animation when `selectedTabId` or amount of items in the tab changes
-  const layoutUpdateNeeded = tabRoomAtomsRecord[selectedTabId]?.length ?? 0
-  useIsomorphicLayoutEffect(() => updateLayoutAnimation(), [selectedTabId, layoutUpdateNeeded])
-
   if (!sortedRoomAtoms.length) {
     return <ChatHomeNoExistingRooms />
   }
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <HoliBox padding={[dimensions.topBarHeight + (Platform.OS === 'android' ? safeAreaInsetTop : 0), 0, 0, 0]}>
-        <ChatTabBar selectedTabId={selectedTabId} />
-      </HoliBox>
+      <ChatTabBar selectedTabId={selectedTabId} />
 
       <RoomList roomAtoms={tabRoomAtomsRecord[selectedTabId]} loggedInUser={loggedInUser} />
 

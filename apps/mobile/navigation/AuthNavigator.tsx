@@ -2,6 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import NotificationSettings from '@holi/core/screens/notifications/NotificationSettings'
 import AboutHoliApp from '@holi/core/screens/userprofile/AboutHoliApp'
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
@@ -15,9 +16,7 @@ import LegalDocuments from '@holi/core/screens/userprofile/LegalDocuments'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import TrackingSettings from '@holi/core/screens/userprofile/TrackingSettings'
-import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type AuthStackScreensList = {
   Profile: undefined
@@ -38,17 +37,12 @@ export type AuthStackScreensList = {
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
 
 const AuthStackNavigator = () => {
-  const { theme } = useTheme()
-  const { colors } = theme
   return (
     <AuthStack.Navigator
       initialRouteName={RouteName.Profile}
       screenOptions={{
-        header: (props) => <HeaderAnimated {...props} />,
-        headerTransparent: true,
-        headerStyle: {
-          backgroundColor: colors.background10,
-        },
+        header: HeaderAnimated,
+        headerTransparent: false,
       }}
     >
       <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} />

@@ -12,14 +12,11 @@ import HoliHead from '@holi/core/components/HoliHead'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
 import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
-import { featureFlag } from '@holi/web/environment'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
-import ClientRootProvider from '@holi/web/providers/ClientRootProvider'
-import SSRRootProvider from '@holi/web/providers/SSRRootProvider'
-import WebTrackingProvider from '@holi/web/providers/WebTrackingProvider'
+import WebRootProvider from '@holi/web/providers/WebRootProvider'
 import '@holi/web/styles/globals.css'
-import { NextJSPageProps } from '@holi/web/types'
+import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 
 export interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout
@@ -36,6 +33,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
   const { defaultProps = {} } = Component
   const { t } = useTranslation()
+  const holiPageProps = new HoliPageProps(pageProps)
 
   useEffect(() => {
     // Init authentication
@@ -54,28 +52,20 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ?? ((page) => <NavigationLayoutRoot {...defaultProps}>{page}</NavigationLayoutRoot>)
 
-  const { customProps: { seoTitle, urls } = {}, origin } = pageProps
   return (
-    <WebTrackingProvider>
+    <WebRootProvider pageProps={holiPageProps}>
       <HoliHead
         title={t('metatags.default.title')}
         description={t('metatags.default.description')}
         ogTitle={t('metatags.default.og.title')}
         ogDescription={t('metatags.default.og.description')}
         ogImage="https://framerusercontent.com/images/fJSZ0w0k135AntP0ZxMNfyZSSwE.jpg"
-        origin={origin}
-        urls={urls}
+        origin={holiPageProps.origin}
+        {...holiPageProps.customProps}
       />
-
-      {featureFlag.enableSSR ? (
-        <SSRRootProvider pageProps={pageProps}>
-          <SeoTitle seoTitle={seoTitle} />
-          {getLayout(<Component {...pageProps} />)}
-        </SSRRootProvider>
-      ) : (
-        <ClientRootProvider>{getLayout(<Component {...pageProps} />)}</ClientRootProvider>
-      )}
-    </WebTrackingProvider>
+      <SeoTitle seoTitle={holiPageProps.customProps?.seoTitle} />
+      {getLayout(<Component {...pageProps} />)}
+    </WebRootProvider>
   )
 }
 

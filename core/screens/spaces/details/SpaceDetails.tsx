@@ -31,7 +31,6 @@ import { useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnbo
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
-import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -234,9 +233,8 @@ const SpaceDetails = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
       headerTintColor: colors.foreground30,
-      headerTitle: () => null,
+      headerTitle: '',
       headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
         <View style={styles.headerRight}>
@@ -300,57 +298,25 @@ const SpaceDetails = () => {
   }
 
   return (
-    <SafeAreaProvider style={styles.safeAreaProvider}>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+    <>
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
-        style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
+        backgroundColor={colors.background20}
         keyboardShouldPersistTaps="handled"
       >
-        <SpaceDetailView
-          style={styles.spaceDetailView}
-          space={space}
-          onChangeTabIndex={selectTabWithIndex}
-          initialTabIndex={initialTabIndex}
-        />
+        <SpaceDetailView space={space} onChangeTabIndex={selectTabWithIndex} initialTabIndex={initialTabIndex} />
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
       {isMember && currentTabName === SpaceDetailsTabs.INVOLVEMENT && <AddNewDrawer spaceIdOrName={space.name} />}
       {isMember && currentTabName === SpaceDetailsTabs.UPDATES && <UpdateButton />}
-    </SafeAreaProvider>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  safeAreaProvider: {
-    // styles to feel window in Web
-    flex: 1,
-    display: 'flex',
-    minHeight: '100%',
-  },
-  defaultLayout: {
-    paddingBottom: 0,
-    paddingTop: dimensions.topBarHeight,
-    minHeight: '100%',
-  },
-  contentStyle: {
-    paddingBottom: 0,
-    paddingTop: dimensions.topBarHeight,
-    minHeight: '100%',
-  },
-  spaceDetailView: {
-    flex: 1,
-    paddingTop: 0,
-    ...Platform.select({
-      web: {
-        paddingTop: 12,
-      },
-    }),
-  },
   messageContainer: {
     alignItems: 'center',
     marginTop: dimensions.topBarHeight + 50,

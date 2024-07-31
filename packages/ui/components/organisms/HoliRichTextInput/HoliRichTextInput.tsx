@@ -44,6 +44,7 @@ export type HoliRichTextInputProps = {
   initialSelectedSuggestion?: Suggestion
   mentions?: User[]
   isEdit?: boolean
+  scrollEnabled?: boolean
 }
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
@@ -60,6 +61,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   onBlur = () => null,
   initialSelectedSuggestion,
   mentions,
+  scrollEnabled = true, // default value of the scrollEnabled prop in MentionInput
   ...props
 }) => {
   const { theme } = useTheme()
@@ -225,6 +227,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
         maxLength={props.maxNoOfCharacters}
         testID={(props.testID || 'richtext-component') + '-input'}
         inputAccessoryViewID={inputAccessoryViewID}
+        scrollEnabled={scrollEnabled}
       />
       <CharactersCount />
     </View>

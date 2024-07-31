@@ -93,7 +93,6 @@ const AppointmentDetails = () => {
   const appointment = appointmentData?.appointment
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isMobile = Platform.OS !== 'web'
 
   const renderActionDrawer = useCallback(
     () =>
@@ -116,8 +115,7 @@ const AppointmentDetails = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
-      headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: false,
       headerTitle: () => <HoliText>{t('spaces.appointments.details.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,
@@ -194,11 +192,11 @@ const AppointmentDetails = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ refreshing, onRefresh }}
+      <ScrollHeaderLayout
+        refreshControlProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
+        contentContainerStyle={styles.contentStyle}
+        headerRelation="none"
       >
         <View style={[mixins.container, deviceWidth < dimensions.breakpointL ? styles.smallScreenPadding : {}]}>
           <View style={styles.imageContainer}>
@@ -340,13 +338,7 @@ const AppointmentDetails = () => {
           <View style={styles.card}>
             <AppointmentCalendarButton appointment={appointment} />
             <HoliGap size="s" />
-            <ShareAppointment
-              space={space}
-              appointment={appointment}
-              isMobile={isMobile}
-              date={date}
-              startTime={startTime}
-            />
+            <ShareAppointment space={space} appointment={appointment} date={date} startTime={startTime} />
           </View>
           <View style={styles.card}>
             <HoliHeading level="2" size="m">
@@ -386,7 +378,7 @@ const AppointmentDetails = () => {
             </View>
           </View>
         </View>
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
     </>
   )
 }
@@ -394,9 +386,6 @@ const AppointmentDetails = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     defaultLayout: {
-      paddingBottom: 120,
-      minHeight: '100%',
-      paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
       ...Platform.select({
         web: {
@@ -405,15 +394,7 @@ const getStyles = (theme: HoliTheme) =>
       }),
     },
     contentStyle: {
-      paddingBottom: 0,
-      ...Platform.select({
-        web: {
-          minHeight: '100vh' as DimensionValue,
-        },
-        native: {
-          paddingTop: dimensions.topBarHeight,
-        },
-      }),
+      paddingBottom: 120,
     },
     smallScreenPadding: {
       paddingHorizontal: 0,

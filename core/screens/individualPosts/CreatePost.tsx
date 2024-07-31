@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +10,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
@@ -70,8 +71,12 @@ const CreatePost = () => {
     refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
   })
 
-  const createPost = () => {
+  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
+
+  const createPost = async () => {
     setSubmitting(true)
+    const { data } = await detectLanguage({ variables: { text: description } })
+
     createFeedPost({
       variables: {
         input: {
@@ -81,6 +86,7 @@ const CreatePost = () => {
           categoryId: selectedCategoryId,
           image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
+          language: data?.detectedLanguage,
         },
       },
       onError: (error) => {
@@ -99,7 +105,7 @@ const CreatePost = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: true,
+      headerTransparent: false,
       headerTitle: () => (
         <HoliHeading level="1" size="s">
           {t('individuals.post.input.title')}
@@ -166,7 +172,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     grayExtendingBackground: {
       backgroundColor: theme.colors.background20,
-      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
+      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : 0,
       alignItems: 'center',
       justifyContent: 'flex-start',
       height: '100%',

@@ -60,6 +60,7 @@ export const PostFragment = gql`
       HEART
     }
     isPublic
+    language
   }
 `
 
@@ -102,6 +103,7 @@ export const PostDetailsFragment = gql`
       HEART
     }
     isPublic
+    language
   }
 `
 

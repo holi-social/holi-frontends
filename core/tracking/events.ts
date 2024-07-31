@@ -23,6 +23,12 @@ export interface TrackingEvent {
   properties?: { [key: string]: unknown }
 }
 
+const versionOne = {
+  event_version__major: 1,
+  event_version__minor: 0,
+  event_version__patch: 0,
+}
+
 /**
  * The `TrackingEvent` namespace contains all "custom tracking events" that can be sent to PostHog, thereby serving as
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
@@ -54,7 +60,7 @@ export namespace TrackingEvent {
   export const FeedPosts = {
     created: {
       name: 'createdFeedPost',
-      version: '1.0',
+      ...versionOne,
     },
     read: (postId: string): TrackingEvent => ({
       name: 'readFeedPost',
@@ -73,6 +79,22 @@ export namespace TrackingEvent {
       event_version__major: 1,
       event_version__minor: 0,
       event_version__patch: 0,
+    }),
+  }
+
+  export const SpacePosts = {
+    created: (spaceId?: string): TrackingEvent => ({
+      name: 'createdSpacePost',
+      properties: { spaceId },
+      ...versionOne,
+    }),
+    read: (postId: string, spaceId?: string): TrackingEvent => ({
+      name: 'readSpacePost',
+      properties: {
+        spaceId,
+        postId,
+      },
+      ...versionOne,
     }),
   }
 

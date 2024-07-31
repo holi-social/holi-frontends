@@ -24,7 +24,6 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type EditTaskParams = {
   spaceIdOrName: string
@@ -41,8 +40,6 @@ const EditTask = () => {
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [taskId] = useParam('taskId')
-  const { theme } = useTheme()
-  const { colors } = theme
   const { openToast } = useToast()
 
   // input fields
@@ -118,12 +115,16 @@ const EditTask = () => {
   // If locationType is REMOTE, remove location and coordinates
   // Otherwise set their values based on the selectedLocation
   useEffect(() => {
-    if (locationType?.id !== LocationType.REMOTE && selectedLocation?.coordinates) {
-      setGeolocation({
-        latitude: selectedLocation.coordinates.latitude,
-        longitude: selectedLocation.coordinates.longitude,
-      })
-      setLocation(selectedLocation.label)
+    if (locationType?.id !== LocationType.REMOTE) {
+      setGeolocation(
+        selectedLocation?.coordinates
+          ? {
+              latitude: selectedLocation.coordinates.latitude,
+              longitude: selectedLocation.coordinates.longitude,
+            }
+          : undefined
+      )
+      setLocation(selectedLocation?.label || '')
     }
     if (locationType?.id === LocationType.REMOTE) {
       setGeolocation(undefined)
@@ -195,6 +196,7 @@ const EditTask = () => {
       setLocation(task.location)
       setGeolocation(task.geolocation)
       setContactPhone(task.contactPhone)
+      setSelectedLocation(task.location ? { label: task.location, id: '', coordinates: task.geolocation } : undefined)
     }
   }, [space, task, t])
 
@@ -208,14 +210,13 @@ const EditTask = () => {
             {t('spaces.tasks.edit.title')}
           </HoliHeading>
         ),
-        headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     if (

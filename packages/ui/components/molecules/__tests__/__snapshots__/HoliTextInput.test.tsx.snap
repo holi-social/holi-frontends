@@ -5,7 +5,6 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
   style={
     [
       {
-        "backgroundColor": "#fff",
         "flexDirection": "row",
       },
       {
@@ -93,6 +92,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
         style={
           [
             {
+              "backgroundColor": "#fff",
               "borderRadius": 4,
               "borderWidth": 2,
               "color": "#262424",
@@ -167,7 +167,6 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
   style={
     [
       {
-        "backgroundColor": "#fff",
         "flexDirection": "row",
       },
       {
@@ -255,6 +254,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
         style={
           [
             {
+              "backgroundColor": "#fff",
               "borderRadius": 4,
               "borderWidth": 2,
               "color": "#262424",
@@ -329,7 +329,6 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
   style={
     [
       {
-        "backgroundColor": "#fff",
         "flexDirection": "row",
       },
       {
@@ -417,6 +416,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
         style={
           [
             {
+              "backgroundColor": "#fff",
               "borderRadius": 4,
               "borderWidth": 2,
               "color": "#262424",
@@ -491,7 +491,6 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
   style={
     [
       {
-        "backgroundColor": "#fff",
         "flexDirection": "row",
       },
       {
@@ -588,6 +587,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
         style={
           [
             {
+              "backgroundColor": "#fff",
               "borderRadius": 4,
               "borderWidth": 2,
               "color": "#262424",
@@ -662,7 +662,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
   style={
     [
       {
-        "backgroundColor": "#fff",
         "flexDirection": "row",
       },
       {
@@ -750,6 +749,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         style={
           [
             {
+              "backgroundColor": "#fff",
               "borderRadius": 4,
               "borderWidth": 2,
               "color": "#262424",
@@ -900,7 +900,6 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
   style={
     [
       {
-        "backgroundColor": "#fff",
         "flexDirection": "row",
       },
       {
@@ -988,6 +987,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
         style={
           [
             {
+              "backgroundColor": "#fff",
               "borderRadius": 4,
               "borderWidth": 2,
               "color": "#262424",
@@ -1063,7 +1063,6 @@ exports[`HoliTextInput renders correctly without label 1`] = `
   style={
     [
       {
-        "backgroundColor": "#fff",
         "flexDirection": "row",
       },
       {
@@ -1122,6 +1121,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
         style={
           [
             {
+              "backgroundColor": "#fff",
               "borderRadius": 4,
               "borderWidth": 2,
               "color": "#262424",

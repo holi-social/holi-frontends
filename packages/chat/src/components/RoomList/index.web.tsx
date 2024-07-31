@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated'
 
 import { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
 import RoomItemDeletable from '@holi/chat/src/components/RoomList/RoomItemDeletable'
@@ -17,10 +18,12 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <FlatList
+    <Animated.FlatList
       data={roomAtoms}
       renderItem={({ item: roomAtom }) => (
-        <RoomItemDeletable roomAtom={roomAtom} loggedInUser={loggedInUser} onDelete={leaveRoom} />
+        <Animated.View entering={FadeIn} exiting={FadeOut}>
+          <RoomItemDeletable roomAtom={roomAtom} loggedInUser={loggedInUser} onDelete={leaveRoom} />
+        </Animated.View>
       )}
       ListFooterComponent={() => <View style={styles.listFooterSpacer} />}
       ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
@@ -32,6 +35,7 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
       })}
       onScroll={onScreenScrollY}
       style={[mixins.container, styles.list]}
+      itemLayoutAnimation={LinearTransition}
       testID={'chat-room-list'}
     />
   )

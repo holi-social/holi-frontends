@@ -52,7 +52,6 @@ const EditAppointment = () => {
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { openToast } = useToast()
 
@@ -72,7 +71,6 @@ const EditAppointment = () => {
   const [url, setUrl] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
-  const [currentLocationDetails, setCurrentLocationDetails] = useState<LocationDetails | undefined>()
 
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
@@ -205,14 +203,13 @@ const EditAppointment = () => {
             {t('spaces.appointments.edit.button.label')}
           </HoliHeading>
         ),
-        headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     setSaveButtonDisabled(!title.length || !inputValid)
@@ -261,7 +258,10 @@ const EditAppointment = () => {
         }
 
         setLocationDetails(_location)
-        setCurrentLocationDetails(_location)
+        setSelectedLocation({
+          label: completeAddress || '',
+          id: '',
+        })
       }
 
       const start = new Date(appointment.startDateTime)
@@ -332,7 +332,6 @@ const EditAppointment = () => {
               url={url}
               additionalInfo={additionalInfo}
               currentThumbnail={currentThumbnail}
-              currentLocationDetails={currentLocationDetails}
               onChangeTitle={setTitle}
               onChangeDescription={setDescription}
               onChangeInviteOnly={setInviteOnly}

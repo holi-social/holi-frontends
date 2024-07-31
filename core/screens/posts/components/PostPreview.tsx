@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import i18n from '@holi/core/i18n'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
@@ -15,6 +17,8 @@ import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Link, Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -48,10 +52,12 @@ const PostPreview = ({
   numberOfLines = 10,
   loading,
 }: PropsWithSkeleton<Props>) => {
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const commenters = post?.commenters.data
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
@@ -92,7 +98,10 @@ const PostPreview = ({
       return false
     }
   }
+  const [text, setText] = useState(post?.text || '')
+  const [title, setTitle] = useState(post?.title || '')
 
+  const isTranslatable = post?.language && post.language && post.language !== i18n.language
   if (loading) {
     return (
       <View style={styles.container}>
@@ -212,16 +221,24 @@ const PostPreview = ({
         {/* Post title */}
         {!!post?.title && (
           <View style={styles.postTitleLink}>
-            <HoliHeading level="3" size="s">
-              {post?.title}
+            <HoliHeading level="3" size="s" loading={loadingTranslation} skeletonOptions={{ numberOfLines: 1 }}>
+              {title}
             </HoliHeading>
           </View>
         )}
         {/* Post content */}
         {hasMounted && (
-          <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
+          <HoliReadMore
+            numberOfLines={numberOfLines}
+            color="gray300"
+            bold={false}
+            style={styles.readMore}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 3 }}
+            onReadMoreSideEffect={() => post.space && track(TrackingEvent.SpacePosts.read(post.id, post.space?.id))}
+          >
             <HoliRichTextOutput
-              text={post?.text || ''}
+              text={text || ''}
               users={post?.mentions || []}
               links={post?.links || []}
               allowAllLinks
@@ -251,7 +268,14 @@ const PostPreview = ({
             </HoliBox>
           )
         })}
-
+      {isTranslatable && (
+        <HoliTranslate
+          primaryText={{ text, setText }}
+          secondaryText={{ text: title, setText: setTitle }}
+          loading={loadingTranslation}
+          setLoading={setLoadingTranslation}
+        />
+      )}
       {/* Reaction bar with comments and likes */}
       <View style={styles.reactionsBar}>
         {/* Comments */}
@@ -294,6 +318,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     postTitleLink: {
       marginVertical: 4,
+    },
+    readMore: {
+      width: '100%',
     },
     imageContainer: {
       width: '100%',

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import { ScrollView } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -22,7 +22,7 @@ const LegalDocuments = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollHeaderLayout.Default>
+    <ScrollView>
       <View style={[mixins.container, styles.wrapper]}>
         <MoreOptionItem
           label={t('profile.settings.legalDocuments.imprint')}
@@ -73,7 +73,7 @@ const LegalDocuments = () => {
           testID="btn-open-source"
         />
       </View>
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 

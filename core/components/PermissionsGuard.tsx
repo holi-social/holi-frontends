@@ -31,7 +31,7 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
 
   if (forceRestrict) {
     navigate(redirectRoute || '/')
-    return <></>
+    return null
   }
 
   if (permissionType === PermissionsType.AUTH && loginState.isUnknown) {
@@ -40,12 +40,12 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
 
   if (permissionType === PermissionsType.AUTH && loginState.isLoggedOut) {
     navigate(redirectRoute || '/')
-    return <></>
+    return null
   }
 
   if (permissionType === PermissionsType.SPACES && !space?.connectionStatusToMyself?.includes(spaceConnectionType)) {
     navigate(redirectRoute || `/spaces/${space?.name}`)
-    return <></>
+    return null
   }
 
   return children as React.ReactElement

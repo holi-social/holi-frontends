@@ -77,7 +77,6 @@ export interface AppointmentInputFormProps {
   url?: string
   additionalInfo?: string
   currentThumbnail?: string
-  currentLocationDetails?: LocationDetails
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeInviteOnly: (_: HoliModalSelectOption) => void
@@ -90,7 +89,7 @@ export interface AppointmentInputFormProps {
   onChangePermissionType: (_: HoliModalSelectOption) => void
   onChangeThumbnail: (_: HoliImageInfo | undefined | null) => void
   onChangeLocationDetails: (_: LocationDetails) => void
-  onChangeSelectedLocation: (_: GeolocationSuggestion) => void
+  onChangeSelectedLocation: (_?: GeolocationSuggestion) => void
   onChangeUrl: (_: string) => void
   onChangeAdditionalInfo: (_: string) => void
   fieldErrors?: TranslatedFieldErrors
@@ -110,7 +109,6 @@ const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
   permissionType,
   thumbnail,
   currentThumbnail,
-  currentLocationDetails,
   selectedLocation,
   url,
   additionalInfo,
@@ -331,11 +329,9 @@ const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
           label={t('spaces.input.location.label')}
           placeholder={t('spaces.input.location.placeholder')}
           selected={selectedLocation}
-          value={selectedLocation?.label || currentLocationDetails?.completeAddress}
           id="appointment-location"
           testID="appointment-location"
           onChange={onChangeSelectedLocation}
-          onSubmit={onChangeSelectedLocation}
           style={{ zIndex: 1 }}
         />
 

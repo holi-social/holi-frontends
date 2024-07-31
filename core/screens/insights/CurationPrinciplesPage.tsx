@@ -112,15 +112,14 @@ const CurationPrinciplesPage: React.FC = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: theme.colors.background10 },
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.curationPrinciples.title')}</HeaderTitle>
       ),
     })
-  }, [theme.colors.background10, t, setScreenOptions])
+  }, [t, setScreenOptions])
 
   return (
-    <ScrollHeaderLayout.Default style={styles.wrapper} headerOverlap>
+    <ScrollHeaderLayout style={styles.wrapper}>
       <HoliContainer noPadding>
         <HoliContainer>
           <View style={styles.intro}>
@@ -250,7 +249,7 @@ const CurationPrinciplesPage: React.FC = () => {
           </View>
         </View>
       </HoliContainer>
-    </ScrollHeaderLayout.Default>
+    </ScrollHeaderLayout>
   )
 }
 

@@ -3,6 +3,10 @@ import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 
 import i18n from '@holi/core/i18n'
+import { TrackingHook } from '@holi/core/tracking/types'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('react-native-reanimated/src/reanimated2/jestUtils').setUpTests()
 
 global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()
@@ -10,6 +14,8 @@ global.captureSentryException = jest.fn()
 global.mockSetOptions = jest.fn()
 global.mockOpenURL = jest.fn()
 global.mockOpenToast = jest.fn()
+global.mockTrack = jest.fn()
+
 global.TextEncoder = jest.fn()
 
 jest.mock('@react-navigation/native', () => {
@@ -103,6 +109,26 @@ i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
 
   resources: {},
+})
+
+jest.mock('@holi/core/tracking/hooks/useTracking', () => {
+  const originalModule = jest.requireActual<object>('@holi/core/tracking/hooks/useTracking')
+  return {
+    __esModule: true,
+    ...originalModule,
+    default(): TrackingHook {
+      return {
+        track: global.mockTrack,
+      }
+    },
+  }
+})
+
+jest.mock('@holi/core/helpers/useFocusEffect', () => {
+  return {
+    __esModule: true,
+    useFocusEffect: jest.fn(),
+  }
 })
 
 export default {}

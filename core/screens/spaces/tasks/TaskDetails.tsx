@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -21,8 +21,6 @@ import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskT
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type TaskDetailsParams = {
@@ -71,8 +69,7 @@ const TaskDetails = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
-      headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: false,
       headerTitle: () => <HoliText>{t('spaces.tasks.details.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,
@@ -93,7 +90,7 @@ const TaskDetails = () => {
   }
 
   return (
-    <SafeAreaProvider style={styles.safeAreaProvider}>
+    <>
       <HoliHead
         title={`${task.name} | ${space.title}`}
         description={task.description}
@@ -101,49 +98,31 @@ const TaskDetails = () => {
         ogDescription={task.description}
         ogImage={task.thumbnail || space.cover}
       />
+
       <SeoTitle seoTitle={`${task.name} | ${space.name}`.trim()} />
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ refreshing, onRefresh }}
+      <ScrollHeaderLayout
+        headerRelation="none"
+        refreshControlProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
+        contentContainerStyle={styles.contentStyle}
       >
         <HoliContainer>
           <SpaceTaskTile variant="full" task={task} space={space} />
         </HoliContainer>
-      </ScrollHeaderLayout.Refreshable>
-    </SafeAreaProvider>
+      </ScrollHeaderLayout>
+    </>
   )
 }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    safeAreaProvider: {
-      flex: 1,
-      display: 'flex',
-      minHeight: '100%',
-    },
     defaultLayout: {
-      paddingBottom: 120,
-      minHeight: '100%',
-      paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
     },
     contentStyle: {
-      paddingBottom: 0,
-      ...Platform.select({
-        web: {
-          paddingTop: 12,
-        },
-        native: {
-          paddingTop: dimensions.topBarHeight,
-        },
-      }),
+      paddingTop: 12,
+      paddingBottom: 120,
       minHeight: '100%',
-    },
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
     },
     headerRight: {
       flexDirection: 'row',

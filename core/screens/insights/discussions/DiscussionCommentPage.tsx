@@ -18,7 +18,6 @@ import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionCommentPageParams = {
   discussionId: string
@@ -36,9 +35,6 @@ const DiscussionCommentPage = () => {
   const [insightId] = useParam('insightId')
   const [commentId] = useParam('commentId')
   const { replaceRoute } = useRouting()
-
-  const { theme } = useTheme()
-  const { colors } = theme
 
   const { data: { discussionById: discussion } = {} } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
@@ -74,7 +70,6 @@ const DiscussionCommentPage = () => {
     () =>
       setScreenOptions({
         title: t('comments.title'),
-        headerStyle: { backgroundColor: colors.background10 },
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -82,7 +77,7 @@ const DiscussionCommentPage = () => {
           <HeaderBackButton onPress={() => replaceRoute(`/insights/${insightId}/discussions/${discussionId}`)} />
         ),
       }),
-    [setScreenOptions, t, colors.background10, insightId, discussionId, replaceRoute]
+    [setScreenOptions, t, insightId, discussionId, replaceRoute]
   )
 
   return (

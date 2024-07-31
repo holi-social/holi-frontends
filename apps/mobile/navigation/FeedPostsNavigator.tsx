@@ -2,10 +2,10 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import PostCommentPage, { PostCommentPageParams } from '@holi/core/screens/individualPosts/PostCommentPage'
 import PostDetailsPage, { PostDetailsPageParams } from '@holi/core/screens/individualPosts/PostDetailsPage'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export type FeedPostsScreens = {

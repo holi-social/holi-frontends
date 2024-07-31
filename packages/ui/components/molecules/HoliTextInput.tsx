@@ -336,7 +336,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       flexDirection: 'row',
-      backgroundColor: theme.colors.background10,
     },
     inputWrapper: {
       alignItems: 'center',
@@ -354,6 +353,7 @@ const getStyles = (theme: HoliTheme) =>
       fontWeight: '400',
       fontFamily: theme.fontFamily.default('Book'),
       color: theme.colors.foreground30,
+      backgroundColor: theme.colors.background10,
       overflow: 'scroll',
       borderWidth: 2,
       borderRadius: 4,

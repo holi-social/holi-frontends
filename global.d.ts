@@ -1,6 +1,7 @@
 /* eslint-disable no-var */
 import type { ScreenOptions } from '@react-navigation/native'
 
+import { TrackingEvent } from '@holi/core/tracking'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 
 declare global {
@@ -9,4 +10,5 @@ declare global {
   var mockSetOptions: (options: Partial<ScreenOptions>) => void
   var mockOpenURL: (url: string) => void
   var mockOpenToast: (text: string, type: HoliToastType, timeout: number, testID?: string) => void
+  var mockTrack: (event: TrackingEvent) => void
 }

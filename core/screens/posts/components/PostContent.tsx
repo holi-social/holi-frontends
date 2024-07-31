@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -36,12 +37,15 @@ export type PostContentProps = {
 }
 
 const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName }: PostContentProps) => {
-  const { t } = useTranslation()
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
+  const { t, i18n } = useTranslation()
   const commenters = post.commenters.data
   const { navigate } = useRouting()
   const { user } = useLoggedInUser()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const [text, setText] = useState(post.text)
+  const [title, setTitle] = useState(post.title)
 
   const editAction = useCallback(() => {
     navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
@@ -56,6 +60,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
   const visibilityIcon = post.isPublic ? GlobalFilled : LockFilled
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
   const isCurrentUserPostCreator = post.creator.id === user?.id
+  const isTranslatable = post.language && post.language !== i18n.language
 
   return (
     <View style={[styles.wrapper, style]} testID="post-content-container">
@@ -75,8 +80,14 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                 ) : null}
 
                 {/* Post title */}
-                <HoliHeading level="1" size="m" testID="post-heading">
-                  {post.title}
+                <HoliHeading
+                  level="1"
+                  size="m"
+                  testID="post-heading"
+                  loading={loadingTranslation}
+                  skeletonOptions={{ numberOfLines: 1 }}
+                >
+                  {title}
                 </HoliHeading>
               </HoliColumn>
 
@@ -129,11 +140,13 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
         {/* Post content */}
         <HoliRichTextOutput
-          text={post.text}
+          text={text}
           users={post?.mentions || []}
           links={post?.links || []}
           style={styles.description}
           allowAllLinks
+          loading={loadingTranslation}
+          skeletonOptions={{ numberOfLines: 3 }}
         />
       </View>
 
@@ -157,6 +170,17 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
             </View>
           )
         })}
+
+      {isTranslatable && (
+        <View style={styles.paddingHorizontal}>
+          <HoliTranslate
+            primaryText={{ text, setText }}
+            secondaryText={{ text: title, setText: setTitle }}
+            loading={loadingTranslation}
+            setLoading={setLoadingTranslation}
+          />
+        </View>
+      )}
 
       {/* Reaction bar with comments and likes */}
       <View style={[styles.reactionsBar]}>
@@ -187,6 +211,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     description: {
       marginTop: 16,
+      width: '100%',
     },
     linkPreview: {
       marginTop: 16,
