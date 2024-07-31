@@ -29,7 +29,6 @@ const SpaceInvitePage = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { loading, error, space } = useSpace(spaceIdOrName)
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const setScreenOptions = useSetScreenOptions()
@@ -39,13 +38,12 @@ const SpaceInvitePage = () => {
       headerBackTitleVisible: true,
       headerLeft: () => (Platform.OS === 'web' ? <HeaderBackButton /> : <HeaderBackButton icon={ArrowLeftS} />),
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => <HoliText>{t('spaces.invite.btn.invite')}</HoliText>,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t, colors.background10])
+  }, [setScreenOptions, t])
 
   if (loading) {
     return <HoliLoader />

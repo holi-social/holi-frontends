@@ -2,6 +2,7 @@ import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
+import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -170,47 +171,53 @@ const ChatRoomView = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingViewWrapper
-          renderProp={() => (
-            <View style={styles.container}>
-              <View style={styles.listContainer}>
-                {room.hasInvitation ? (
-                  <ChatProfileCard
-                    member={chatPartner}
-                    roomId={roomId}
-                    user={chatPartnerHoliUser}
-                    userIsLoading={loadingUsers}
-                  />
-                ) : (
-                  <RoomMessageList
-                    roomId={room.id}
-                    messages={messages || []}
-                    matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
-                    starter={
-                      amIRoomCreator &&
-                      chatPartnerHoliUser && (
-                        <View style={styles.listStage}>
-                          <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
-                        </View>
-                      )
-                    }
-                    onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
-                      const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
-
-                      if (needToLoad) {
-                        requestMessages(roomId, false)
+      <Animated.View entering={FadeIn} style={{ flex: 1 }}>
+        <SafeAreaView style={styles.safeArea}>
+          <KeyboardAvoidingViewWrapper
+            renderProp={() => (
+              <View style={styles.container}>
+                <View style={styles.listContainer}>
+                  {room.hasInvitation ? (
+                    <ChatProfileCard
+                      member={chatPartner}
+                      roomId={roomId}
+                      user={chatPartnerHoliUser}
+                      userIsLoading={loadingUsers}
+                    />
+                  ) : (
+                    <RoomMessageList
+                      roomId={room.id}
+                      messages={messages || []}
+                      matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
+                      starter={
+                        amIRoomCreator &&
+                        chatPartnerHoliUser && (
+                          <View style={styles.listStage}>
+                            <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+                          </View>
+                        )
                       }
-                    }}
-                  />
-                )}
-              </View>
+                      onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                        const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
 
-              <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
-            </View>
-          )}
-        />
-      </SafeAreaView>
+                        if (needToLoad) {
+                          requestMessages(roomId, false)
+                        }
+                      }}
+                    />
+                  )}
+                </View>
+
+                <ChatTextInput
+                  isVisible={!room.hasInvitation}
+                  userName={chatPartnerHoliUser?.fullName}
+                  roomId={roomId}
+                />
+              </View>
+            )}
+          />
+        </SafeAreaView>
+      </Animated.View>
     </PermissionsGuard>
   )
 }
@@ -231,7 +238,6 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       alignItems: 'center',
       minHeight: '100%',
-      paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
     },
     listContainer: {

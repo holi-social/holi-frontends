@@ -34,7 +34,6 @@ export class PosthogReactNative implements PosthogCrossPlatform {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unused-vars
 export const usePosthogCrossPlatform = (): PosthogCrossPlatform => {
   const posthog = usePostHog()
   return useMemo(() => new PosthogReactNative(posthog), [posthog])

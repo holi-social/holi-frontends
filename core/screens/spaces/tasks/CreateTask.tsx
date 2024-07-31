@@ -171,7 +171,6 @@ const CreateTask = () => {
             {t('spaces.tasks.add.title')}
           </HoliHeading>
         ),
-        headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {

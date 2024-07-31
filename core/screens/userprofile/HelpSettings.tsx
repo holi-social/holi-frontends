@@ -1,9 +1,8 @@
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { Linking, ScrollView, StyleSheet, View } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Mail, Questionnaire } from '@holi/icons/src/generated'
@@ -23,7 +22,7 @@ const HelpSettings = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollHeaderLayout.Default>
+    <ScrollView>
       <View style={[mixins.container, styles.HelpSettings]}>
         <MoreOptionItem
           label={t('profile.settings.help.faq')}
@@ -41,7 +40,7 @@ const HelpSettings = () => {
           style={styles.settingsItem}
         />
       </View>
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 

@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -43,8 +42,7 @@ const LinkHub = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       title: t('spaces.toolKit.title'),
-      headerStyle: { backgroundColor: colors.background10 },
-      headerTransparent: true,
+      headerTransparent: false,
       headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
         footerShown: false,
@@ -78,11 +76,11 @@ const LinkHub = () => {
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
     >
-      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
+      <ScrollView style={styles.defaultLayout}>
         <HoliTabs
           id="toolKit-tabs"
           centeredButtons
-          style={{ flex: 1, paddingTop: dimensions.topBarHeight + 40, backgroundColor: colors.background10 }}
+          style={styles.tabBar}
           backgroundColor={colors.background20}
           tabs={[
             {
@@ -97,7 +95,7 @@ const LinkHub = () => {
             },
           ]}
         />
-      </ScrollHeaderLayout.Default>
+      </ScrollView>
       <AddButton />
     </PermissionsGuard>
   )
@@ -108,9 +106,14 @@ export default LinkHub
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     defaultLayout: {
+      flex: 1,
       minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
       marginTop: 10,
       backgroundColor: theme.colors.background20,
+    },
+    tabBar: {
+      flex: 1,
+      backgroundColor: theme.colors.background10,
     },
     tabStyle: {
       backgroundColor: theme.colors.background20,

@@ -1,10 +1,10 @@
 import groupBy from 'lodash.groupby'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
-import { useFeatureFlagWithMaintenance } from '@holi/core/helpers/useFeatureFlagWithMaintenance'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import NotificationSettingsMaintenance from '@holi/core/screens/notifications/components/NotificationSettingsMaintenance'
 import {
   Category,
@@ -24,7 +24,6 @@ import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRoundedSection from '@holi/ui/components/molecules/HoliRoundedSection'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const CATEGORY_ILLUSTRATIONS = {
@@ -61,56 +60,58 @@ const NotificationSettingsList = () => {
 
   if (loading) {
     return (
-      <HoliContainer>
-        <HoliLoader style={[styles.loadingContainer]} />
+      <HoliContainer flex={1}>
+        <HoliLoader />
       </HoliContainer>
     )
   }
 
   return (
-    <HoliContainer noPadding>
-      {updatingPreferences && <HoliLoader />}
-      {NOTIFICATION_CATEGORIES_IN_ORDER.map((category, index) => {
-        const workflows = workflowsByCategory[category]
-        if (!workflows) {
-          return null
-        }
-        return (
-          <HoliRoundedSection
-            style={[styles.section, index === NOTIFICATION_CATEGORIES_IN_ORDER.length - 1 && styles.lastSection]}
-            first={index === 0}
-            key={category}
-          >
-            <SettingsCategoryHeading category={category} />
+    <ScrollView style={styles.scrollView}>
+      <HoliContainer noPadding>
+        {updatingPreferences && <HoliLoader />}
+        {NOTIFICATION_CATEGORIES_IN_ORDER.map((category, index) => {
+          const workflows = workflowsByCategory[category]
+          if (!workflows) {
+            return null
+          }
+          return (
+            <HoliRoundedSection
+              style={[styles.section, index === NOTIFICATION_CATEGORIES_IN_ORDER.length - 1 && styles.lastSection]}
+              first={index === 0}
+              key={category}
+            >
+              <SettingsCategoryHeading category={category} />
 
-            <HoliColumns>
-              <SettingsNameColumn />
-              <HoliColumn>
-                <HoliColumns>
-                  <HoliColumn padding={0} width={64} alignItems="center">
-                    <HoliText color="gray300">{t('profile.settings.notifications.channel.push')}</HoliText>
-                  </HoliColumn>
-                  <HoliColumn padding={0} width={64} alignItems="center">
-                    <HoliText color="gray300">{t('profile.settings.notifications.channel.email')}</HoliText>
-                  </HoliColumn>
-                </HoliColumns>
-              </HoliColumn>
-            </HoliColumns>
+              <HoliColumns>
+                <SettingsNameColumn />
+                <HoliColumn>
+                  <HoliColumns>
+                    <HoliColumn padding={0} width={64} alignItems="center">
+                      <HoliText color="gray300">{t('profile.settings.notifications.channel.push')}</HoliText>
+                    </HoliColumn>
+                    <HoliColumn padding={0} width={64} alignItems="center">
+                      <HoliText color="gray300">{t('profile.settings.notifications.channel.email')}</HoliText>
+                    </HoliColumn>
+                  </HoliColumns>
+                </HoliColumn>
+              </HoliColumns>
 
-            {workflows.map((workflow, index) => {
-              return (
-                <WorkflowSettings
-                  key={workflow.id}
-                  workflow={workflow}
-                  updatePreference={updatePreference}
-                  style={[styles.row, index === workflows.length - 1 && styles.lastRow]}
-                />
-              )
-            })}
-          </HoliRoundedSection>
-        )
-      })}
-    </HoliContainer>
+              {workflows.map((workflow, index) => {
+                return (
+                  <WorkflowSettings
+                    key={workflow.id}
+                    workflow={workflow}
+                    updatePreference={updatePreference}
+                    style={[styles.row, index === workflows.length - 1 && styles.lastRow]}
+                  />
+                )
+              })}
+            </HoliRoundedSection>
+          )
+        })}
+      </HoliContainer>
+    </ScrollView>
   )
 }
 
@@ -211,8 +212,9 @@ export default NotificationSettingsList
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    loadingContainer: {
-      marginTop: dimensions.topBarHeight,
+    scrollView: {
+      backgroundColor: theme.colors.background20,
+      flex: 1,
     },
     row: {
       borderBottomWidth: 1,

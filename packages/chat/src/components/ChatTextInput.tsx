@@ -1,6 +1,14 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Platform, StyleSheet, TextInputKeyPressEventData, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, TextInputKeyPressEventData, View } from 'react-native'
+import Animated, {
+  FadeIn,
+  FadeOut,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 
 import { sendMessage } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -8,11 +16,11 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useDebounce } from '@holi/ui/helper'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isAndroid = Platform.OS === 'android'
+const SEND_BUTTON_SIZE = 40
 
 interface TextInputKeyPressEventDataWeb extends TextInputKeyPressEventData {
   shiftKey: boolean
@@ -22,11 +30,6 @@ const isTextInputKeyPressEventDataWeb = (
   event: TextInputKeyPressEventData | TextInputKeyPressEventDataWeb
 ): event is TextInputKeyPressEventDataWeb => {
   return Platform.OS === 'web'
-}
-
-const generateContainerStyles = (value: Animated.Value, styles: ViewStyle) => {
-  const positionStyles = { transform: [{ translateY: value }] }
-  return StyleSheet.flatten([styles, positionStyles])
 }
 
 interface Props {
@@ -42,51 +45,27 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
 
   const [inputValue, setInputValue] = useState('')
   const styles = useMemo(() => getStyles(theme), [theme])
-  const positionAnimRef = useRef(new Animated.Value(100))
-  const fadeAnimRef = useRef(new Animated.Value(0))
-
   const { colors } = theme
 
-  const fadeIn = () => {
-    Animated.timing(fadeAnimRef.current, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start()
-  }
-
-  const debouncedFadeIn = useDebounce(fadeIn, 200)
-
-  const fadeOut = () => {
-    Animated.timing(fadeAnimRef.current, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start()
-  }
-
-  const handleChange = (value: string) => {
-    if (value.trim().length === 0) {
-      fadeOut()
-    } else {
-      debouncedFadeIn()
-    }
-
-    setInputValue(value)
-  }
+  const visibilityProgress = useSharedValue(0)
+  const inputAnimatedStyle = useAnimatedStyle(
+    () => ({ transform: [{ translateY: interpolate(visibilityProgress.value, [0, 1], [300, 0]) }] }),
+    [visibilityProgress]
+  )
+  useEffect(() => {
+    visibilityProgress.value = withTiming(isVisible ? 1 : 0)
+  }, [isVisible, visibilityProgress])
 
   const handleSendMessage = async () => {
     const text = inputValue.trim()
 
     if (text.length === 0) {
-      fadeOut()
       return
     }
 
     try {
       setInputValue('')
       await sendMessage({ roomId, text })
-      fadeOut()
     } catch (err) {
       setInputValue(text)
       displayError(err, 'Could not send chat message', {
@@ -95,22 +74,13 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
     }
   }
 
-  useEffect(() => {
-    if (!isVisible) return
-    Animated.timing(positionAnimRef.current, {
-      toValue: 0,
-      duration: 500,
-      useNativeDriver: true,
-    }).start()
-  }, [isVisible])
-
-  return (
-    <Animated.View style={generateContainerStyles(positionAnimRef.current, styles.container)}>
+  return isVisible ? (
+    <Animated.View style={[styles.container, inputAnimatedStyle]}>
       <HoliTextInput
         aria-label={t('chat.room.input.placeholder', { fullName: userName })}
         placeholder={t('chat.room.input.placeholder', { fullName: userName })}
         value={inputValue}
-        onChange={handleChange}
+        onChange={setInputValue}
         style={styles.textInputContainer}
         inputStyle={styles.textInput}
         maxNoOfVisibleLines={5}
@@ -128,19 +98,24 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
         }}
         testID={'chat-message-input'}
       />
-      <Animated.View style={{ opacity: fadeAnimRef.current }}>
-        <HoliButton
-          label={t('chat.room.sendButton.label')}
-          disabled={inputValue.trim().length === 0}
-          onPress={handleSendMessage}
-          inline
-          style={styles.button}
-        >
-          <HoliIcon icon={SendPlane} size={20} color={colors.foreground30} />
-        </HoliButton>
-      </Animated.View>
+
+      <View style={{ width: SEND_BUTTON_SIZE, height: SEND_BUTTON_SIZE }}>
+        {inputValue.trim().length > 0 && (
+          <Animated.View entering={FadeIn} exiting={FadeOut}>
+            <HoliButton
+              label={t('chat.room.sendButton.label')}
+              disabled={inputValue.trim().length === 0}
+              onPress={handleSendMessage}
+              inline
+              style={styles.button}
+            >
+              <HoliIcon icon={SendPlane} size={SEND_BUTTON_SIZE / 2} color={colors.foreground30} />
+            </HoliButton>
+          </Animated.View>
+        )}
+      </View>
     </Animated.View>
-  )
+  ) : null
 }
 
 const getStyles = (theme: HoliTheme) =>
@@ -159,6 +134,10 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 2,
       borderColor: theme.colors.background30,
       backgroundColor: theme.colors.white100,
+    },
+    buttonWrapper: {
+      width: SEND_BUTTON_SIZE,
+      height: SEND_BUTTON_SIZE,
     },
     button: {
       paddingVertical: 8,

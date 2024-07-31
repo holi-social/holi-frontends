@@ -25,8 +25,3 @@ export const getEnvironmentId = () => {
 }
 
 export const environmentId: EnvironmentId = getEnvironmentId()
-
-/** TODO: This is a tiny mock of a feature flag. It will be removed in HOLI-7992 */
-export const featureFlag = {
-  enableSSR: true,
-}

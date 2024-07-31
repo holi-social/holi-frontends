@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
+import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import AppsHub from '@holi/core/screens/appsHub/AppsHub'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
@@ -21,7 +22,6 @@ import GoodNewsAppNavigator from '@holi/mobile/navigation/GoodNewsAppNavigator'
 import InsightsNavigator from '@holi/mobile/navigation/InsightsNavigator'
 import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
-import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -86,9 +86,6 @@ const RootNavigator = () => {
         options={{
           headerShown: true,
           headerTransparent: true,
-          headerStyle: {
-            backgroundColor: colors.background10,
-          },
         }}
       />
 
@@ -98,9 +95,6 @@ const RootNavigator = () => {
         options={{
           headerShown: true,
           headerTransparent: true,
-          headerStyle: {
-            backgroundColor: colors.background10,
-          },
         }}
       />
       <RootStack.Screen
