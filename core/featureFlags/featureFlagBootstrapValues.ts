@@ -2,11 +2,16 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { FeatureFlagsAndPayloads } from '@holi/core/featureFlags/types'
 
 /**
- * These values are being used as fallback when bootstrapping feature flag values and payloads. When the application starts up, feature flags will
- * first be evaluated to bootstrapped values, while in the background they're being fetched from Posthog. Once available, app
- * components will re-render reactively in case a feature flag value has changed.
+ * These values are being used when bootstrapping feature flag values and payloads. When the application starts up,
+ * feature flags will first be evaluated to bootstrapped values, while in the background they're being fetched from
+ * Posthog. Once available, app components will re-render reactively in case a feature flag value has changed.
+ *
+ * Bootstrap values can come into the PostHog client in three different ways:
+ *
+ * 1. Mobile - bootstrap values are taken from these constants here
+ * 2. Web (SSR) -
  */
-export const fallbackFeatureFlags: FeatureFlagsAndPayloads = {
+export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
   featureFlags: {
     [FeatureFlagKey.DONATIONS]: 'on',
     [FeatureFlagKey.GOODNEWS]: 'on',

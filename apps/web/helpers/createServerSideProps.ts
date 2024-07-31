@@ -15,12 +15,12 @@ interface SkippableQueryOptions extends QueryOptions {
 }
 
 export const createServerSideProps = async (
-  { req, locale: nextJslocale }: NextPageContext,
+  { req, locale: nextJsLocale }: NextPageContext,
   queries: SkippableQueryOptions[] = [],
   customProps?: Partial<CustomProps>
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
   const origin = getOrigin(req)
-  const locale = getValidLocale(nextJslocale)
+  const locale = getValidLocale(nextJsLocale)
   const minimalProps = HoliPageProps.from({
     ...(origin ? { origin } : {}),
     ...(customProps ? { customProps } : {}),

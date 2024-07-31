@@ -1,7 +1,7 @@
 import { PostHog, PostHogOptions, PostHogProvider } from 'posthog-react-native'
 import React, { PropsWithChildren } from 'react'
 
-import { fallbackFeatureFlags } from '@holi/core/featureFlags/fallbackFeatureFlags'
+import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { ConsentState } from '@holi/core/tracking/types'
@@ -29,7 +29,7 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
     defaultOptIn: false,
     captureNativeAppLifecycleEvents: true,
     bootstrap: {
-      ...fallbackFeatureFlags,
+      ...featureFlagBootstrapValues,
       ...bootstrapState,
     },
   })
