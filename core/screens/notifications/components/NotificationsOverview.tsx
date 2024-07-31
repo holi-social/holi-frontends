@@ -125,7 +125,7 @@ const NotificationsOverview = () => {
       <RefreshableNotificationSectionList
         refreshableProps={{ refreshing, onRefresh }}
         webWrapperStyle={styles.webWrapperStyle}
-        headerOverlap
+        headerOverlap={false}
         notifications={groupedNotifications}
         footer={loadMoreComponent}
         style={styles.scrollView}
@@ -137,7 +137,7 @@ const NotificationsOverview = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     loader: {
-      height: 300,
+      flex: 1,
     },
     bottomLoader: {
       position: 'relative',
@@ -145,9 +145,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     scrollView: {
       ...Platform.select({
-        android: {
-          marginTop: dimensions.topBarHeight,
-        },
         web: {
           marginHorizontal: 'auto',
         },

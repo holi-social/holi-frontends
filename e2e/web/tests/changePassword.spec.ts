@@ -1,4 +1,6 @@
-import { byTestId, clickElementByTestId, locateElementByTestId, newUserEmail, randomPassword } from './helpers'
+import { newUserEmail, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
+
+import { byTestId, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@ChangePassword', () => {

@@ -101,4 +101,10 @@ describe('HoliHead', () => {
 
     expect(screen.toJSON()).toMatchSnapshot()
   })
+
+  it('should add meta tag to block indexing by search engines', () => {
+    render(<HoliHead blockIndexing />)
+
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
 })

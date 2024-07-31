@@ -1,8 +1,7 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
@@ -14,7 +13,7 @@ const ChatMaintenance = () => {
   const { colors } = theme
 
   return (
-    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+    <ScrollView style={{ backgroundColor: colors.background20 }}>
       <HoliContainer>
         <HoliNoResults
           firstText={t('chat.maintenance.tagline')}
@@ -31,7 +30,7 @@ const ChatMaintenance = () => {
           style={[styles.noResultsMessage]}
         />
       </HoliContainer>
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,6 +11,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
@@ -80,9 +81,12 @@ const EditPost = () => {
 
     refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
   })
+  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
-  const editPost = () => {
+  const editPost = async () => {
     setSubmitting(true)
+    const { data } = await detectLanguage({ variables: { text: description } })
+
     updateFeedPost({
       variables: {
         input: {
@@ -93,6 +97,7 @@ const EditPost = () => {
           postId: post?.id,
           image: image === null ? null : image?.blob,
           topicIds: selectedTopics?.map((topic) => topic.id),
+          language: data?.detectedLanguage,
         },
       },
       onError: (error) => {
@@ -164,7 +169,7 @@ const EditPost = () => {
             <PostInputForm
               title={title}
               onChangeTitle={setTitle}
-              description={description}
+              description={post?.description}
               onChangeDescription={setDescription}
               image={image || null}
               onChangeImage={(value) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { ScrollView } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import HoliHtmlView from '@holi/ui/components/molecules/HoliHtmlView'
@@ -48,9 +48,9 @@ const HtmlDocument = ({ url, onError }: HtmlDocumentProps) => {
   return (
     <>
       {document ? (
-        <ScrollHeaderLayout.Default style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }}>
+        <ScrollView style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }}>
           <HoliHtmlView html={document} />
-        </ScrollHeaderLayout.Default>
+        </ScrollView>
       ) : (
         <HoliLoader style={{ minHeight: 300 }} />
       )}

@@ -63,7 +63,7 @@ const HoliTabBar: React.FC<TabListProps> = ({
       <View style={styles.botomLineSeperator} />
       <HoliContainer>
         <View style={tabBarStyle}>
-          <HoliHorizontalScrollContainer hideWebScrollbars ref={scrollViewRef}>
+          <HoliHorizontalScrollContainer hideWebScrollbars showsHorizontalScrollIndicator={false} ref={scrollViewRef}>
             <View
               style={StyleSheet.flatten([
                 styles.tabButtonsContainer,

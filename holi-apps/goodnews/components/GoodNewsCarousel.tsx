@@ -6,12 +6,10 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliSwiper from '@holi/ui/components/molecules/HoliSwiper/index'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
 
 import {
   GoodNewsArticlesQueryArgs,
@@ -43,8 +41,6 @@ const GoodNewsCarousel = () => {
   const { i18n } = useTranslation()
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
   const setScreenOptions = useSetScreenOptions()
-  const { theme } = useTheme()
-  const { colors } = theme
 
   const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
     goodNewsArticlesQuery,
@@ -82,19 +78,10 @@ const GoodNewsCarousel = () => {
 
   useEffect(() => {
     setScreenOptions({
-      headerTitle: () => {
-        return <GoodNewsHeader formattedDate={activeArticleFormattedDate} />
-      },
-      headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
-      headerTintColor: colors.light,
-      navigationCustomOptions: {
-        headerBackgroundGradient: true,
-        footerShown: false,
-      },
-      headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
+      // override only the headerTitle
+      headerTitle: () => <GoodNewsHeader formattedDate={activeArticleFormattedDate} />,
     })
-  }, [activeArticleFormattedDate, setScreenOptions, colors.light])
+  }, [activeArticleFormattedDate, setScreenOptions])
 
   useEffect(() => {
     if (paramArticleId) {

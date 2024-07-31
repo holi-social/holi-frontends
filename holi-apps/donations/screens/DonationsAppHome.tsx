@@ -3,9 +3,9 @@ import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -18,7 +18,6 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -37,9 +36,7 @@ const DonationsAppHome = () => {
   const title = t('donations:app.name')
   const mixins = useStyleMixins()
   const { height: deviceHeight } = useWindowDimensions()
-  const statusBarHeight = constants.statusBarHeight
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const [showSearchModal, setShowSearchModal] = useState(false)
@@ -89,20 +86,18 @@ const DonationsAppHome = () => {
         </HoliHeading>
       ),
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () =>
         Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })
-  }, [navigate, setScreenOptions, t, title, colors.background10])
+  }, [navigate, setScreenOptions, t, title])
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ refreshing, onRefresh }}
-        keyboardShouldPersistTaps="always"
-        headerOverlap
+      <ScrollHeaderLayout
+        refreshControlProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
+        keyboardShouldPersistTaps="always"
       >
         <HoliModal
           show={showSearchModal}
@@ -116,13 +111,10 @@ const DonationsAppHome = () => {
         >
           <DonationSearchForm onSubmit={submitSearch} locationQuery={locationQuery} />
         </HoliModal>
-        <View
-          style={[mixins.container, { paddingTop: statusBarHeight + dimensions.topBarHeight }]}
-          testID={'donations-list-container'}
-        >
+        <View style={[mixins.container]} testID={'donations-list-container'}>
           <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
         </View>
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
     </>
   )
 }

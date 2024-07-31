@@ -4,7 +4,7 @@ import { DocumentNode } from 'graphql/language/ast'
 import type { NextPageContext } from 'next'
 
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
-import { APOLLO_STATE_PROP_NAME } from '@holi/web/helpers/useApolloSSRClient'
+import { HoliPageProps } from '@holi/web/types'
 
 const mockLoadTranslations = jest.fn()
 jest.mock('ni18n', () => ({
@@ -16,10 +16,9 @@ jest.mock('@holi/api/graphql/client', () => ({
   initializeApolloSSRClient: () => mockInitializeApolloSSRClient(),
 }))
 
-jest.mock('@holi/web/environment', () => ({
-  featureFlag: {
-    enableSSR: true,
-  },
+const mockCreatePosthogPageProps = jest.fn()
+jest.mock('@holi/web/helpers/createPosthogPageProps', () => ({
+  createPosthogPageProps: () => mockCreatePosthogPageProps(),
 }))
 
 describe('createServerSideProps', () => {
@@ -27,19 +26,24 @@ describe('createServerSideProps', () => {
   const expectedHeaders = { header1: 'header1 value', 'accept-language': 'en' }
   const headers = { ...expectedHeaders, accept: 'application/json', 'accept-encoding': 'gzip' }
   const context = { req: { url: '', headers } } as unknown as NextPageContext
-  const mockedTranslations = { i18n: { key: 'value' } }
+  const mockedTranslations = { __ni18n_server__: { resources: {}, ns: [] } }
+  const mockPosthogBootstrapValues = {
+    featureFlags: { DONATIONS: 'on' },
+    featureFlagPayloads: {},
+  }
   const mockedCache = {
     foo: 'bar',
   }
-  const expectedProps = {
-    __APOLLO_STATE__: mockedCache,
-    ...mockedTranslations,
+  const minimalProps = {
     locale: 'en',
     origin,
   }
-  const minimalProps = {
-    origin,
-  }
+  const expectedProps = HoliPageProps.from({
+    ...minimalProps,
+    translations: mockedTranslations,
+    apolloState: mockedCache,
+    posthogBootstrapValues: mockPosthogBootstrapValues,
+  }).props
   const query1 = {
     query: gql`
       query {
@@ -74,6 +78,7 @@ describe('createServerSideProps', () => {
   beforeEach(() => {
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
     mockInitializeApolloSSRClient.mockReturnValue(mockedClient)
+    mockCreatePosthogPageProps.mockReturnValue(mockPosthogBootstrapValues)
   })
 
   it('should load and add translations to page props', async () => {
@@ -85,19 +90,27 @@ describe('createServerSideProps', () => {
     })
   })
 
-  it('should execute list of queries and add apollo state to page props and transfer headers from request to context', async () => {
-    const props = await createServerSideProps(context, [query1, query2])
+  it('should add valid locale to page props', async () => {
+    const props = await createServerSideProps({
+      req: { url: '', headers: { 'accept-language': 'default' } },
+    } as unknown as NextPageContext)
+
+    expect(new HoliPageProps(props).props.locale).toEqual('en')
+  })
+
+  it('should execute list of queries and pass request headers', async () => {
+    await createServerSideProps(context, [query1, query2])
 
     expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
-    expect(mockQueryFunction).toBeCalledTimes(2 + 1) // query1, query2 and additional featureTogglesQuery inside createServerSideProps
+    expect(mockQueryFunction).toBeCalledTimes(2) // query1 + query2 inside createServerSideProps
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
-    expect(props).toEqual({
-      props: {
-        ...expectedProps,
-        [APOLLO_STATE_PROP_NAME]: mockedCache,
-      },
-    })
+  })
+
+  it('should add apollo state to page props after executing queries', async () => {
+    const props = await createServerSideProps(context, [query1, query2])
+
+    expect(new HoliPageProps(props).apolloState).toEqual(mockedCache)
   })
 
   it('should add apollo state to page props even if a query fails', async () => {
@@ -105,21 +118,16 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(2 + 1)
+    expect(mockQueryFunction).toBeCalledTimes(2)
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
-    expect(props).toEqual({
-      props: {
-        ...expectedProps,
-        [APOLLO_STATE_PROP_NAME]: mockedCache,
-      },
-    })
+    expect(new HoliPageProps(props).apolloState).toEqual(mockedCache)
   })
 
   it('should not execute queries that should be skipped', async () => {
     await createServerSideProps(context, [{ ...query1, skip: true }, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(1 + 1)
+    expect(mockQueryFunction).toBeCalledTimes(1)
     expect(mockQueryFunction).not.toBeCalledWith(query1)
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
   })
@@ -139,7 +147,7 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(2 + 1)
+    expect(mockQueryFunction).toBeCalledTimes(2)
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
@@ -151,7 +159,7 @@ describe('createServerSideProps', () => {
     // @ts-ignore
     const { props } = await createServerSideProps({ req: { url: '/_next/data/' } }, [])
 
-    expect(props).toStrictEqual(minimalProps)
+    expect(props).toEqual(minimalProps)
     expect(mockInitializeApolloSSRClient).not.toHaveBeenCalled()
     expect(mockLoadTranslations).not.toHaveBeenCalled()
   })
