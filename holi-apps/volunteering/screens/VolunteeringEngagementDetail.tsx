@@ -234,11 +234,7 @@ const VolunteeringEngagementDetail = () => {
         ogImage={engagement.imageUrl}
       />
       <View style={styles.wrapper} testID="volunteering-detailview-container">
-        <ScrollHeaderLayout.Refreshable
-          refreshableProps={{ refreshing, onRefresh }}
-          style={styles.header}
-          headerOverlap
-        >
+        <ScrollHeaderLayout refreshControlProps={{ refreshing, onRefresh }} style={styles.header}>
           {engagement && (
             <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
               <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
@@ -251,7 +247,7 @@ const VolunteeringEngagementDetail = () => {
               />
             </View>
           )}
-        </ScrollHeaderLayout.Refreshable>
+        </ScrollHeaderLayout>
 
         <View style={styles.volunteeringButton}>
           <HoliButtonLoading

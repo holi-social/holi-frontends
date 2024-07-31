@@ -23,6 +23,7 @@ import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -77,11 +78,12 @@ const FilteredSpaces = () => {
 
   return (
     <SpaceTermContextProvider>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
+        headerRelation="offset"
         style={styles.container}
         testID="filtered-spaces-container"
       >
@@ -100,7 +102,9 @@ const FilteredSpaces = () => {
             </Pagination>
           )}
         </HoliContainer>
-      </ScrollHeaderLayout.Refreshable>
+
+        <HoliGap size="xl" />
+      </ScrollHeaderLayout>
 
       <FilterModal
         label={t('spaces.filter.heading')}
@@ -126,7 +130,6 @@ export default withProfiler(memo(FilteredSpaces), { name: 'FilteredSpaces' })
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
-      display: 'flex',
       backgroundColor: theme.colors.background20,
     },
     buttonContainer: {

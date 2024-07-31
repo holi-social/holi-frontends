@@ -60,7 +60,7 @@ const CommentForm = ({
   const scrollViewRef = useRef<ScrollView>(null)
   const { navigateBack, replaceRoute } = useRouting()
   const { keyboardHeight } = useKeyboard()
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { openToast } = useToast()
   const { height: screenHeight } = useWindowDimensions()
@@ -229,7 +229,7 @@ const CommentForm = ({
                           commentableId,
                           commentableType,
                           parentCommentId: parentComment?.id,
-                          language: data?.data?.detectedLanguage || i18n.language,
+                          language: data?.data?.detectedLanguage,
                         },
                       },
                     })
@@ -255,7 +255,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     pageView: {
       backgroundColor: theme.colors.background10,
-      paddingTop: dimensions.topBarHeight + 40,
       height: '100%',
       width: '100%',
       overflow: 'hidden',

@@ -1,11 +1,10 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useLogout } from '@holi/core/helpers'
@@ -50,7 +49,7 @@ const SettingsOverview = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollHeaderLayout.Default>
+    <ScrollView>
       <LoginProtection>
         <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
@@ -142,7 +141,7 @@ const SettingsOverview = () => {
       </LoginProtection>
 
       {isLoggingOut && <HoliLoader />}
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 

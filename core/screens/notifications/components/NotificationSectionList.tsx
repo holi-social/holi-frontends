@@ -1,9 +1,9 @@
 import React from 'react'
-import { Platform, ScrollView, SectionList, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, SectionList, StyleSheet } from 'react-native'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
-import { withRefreshControl } from '@holi/core/components/ScrollHeaderLayout/withRefreshControl'
+import { withRefreshControl } from '@holi/core/helpers/withRefreshControl'
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
 import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
 import { Notification } from '@holi/core/screens/notifications/components/types'
@@ -43,7 +43,6 @@ const NotificationSectionList: React.FC<NotificationSectionListProps> = ({
       )}
       stickySectionHeadersEnabled={false}
       ListFooterComponent={footer}
-      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
       ListEmptyComponent={<NotificationsEmptyPlaceholder />}
       style={[mixins.container, styles.sectionList, style]}
       testID="notification-list"
@@ -64,9 +63,6 @@ export default RefreshableNotificationSectionList
 const styles = StyleSheet.create({
   sectionList: {
     overflow: 'visible',
-  },
-  listHeaderSpacer: {
-    height: dimensions.topBarHeight,
   },
   lastSectionFooter: {
     marginBottom: dimensions.bottomBarHeight,

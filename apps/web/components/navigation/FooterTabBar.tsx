@@ -113,7 +113,7 @@ const FooterTabBar = () => {
             ]}
           >
             <SuppressSsrHydrationWarning>
-              {isLoggedIn ? t('navigation.profile') : t('auth.login')}
+              {isLoggedIn ? t('navigation.profile') : t('navigation.login')}
             </SuppressSsrHydrationWarning>
           </HoliText>
         </LoginProfileButton>

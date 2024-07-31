@@ -3,7 +3,7 @@ import posthog, { type BootstrapConfig, PostHog, type Properties as PosthogPrope
 import { PostHogProvider } from 'posthog-js/react'
 import React, { PropsWithChildren, useEffect } from 'react'
 
-import { fallbackFeatureFlags } from '@holi/core/featureFlags/fallbackFeatureFlags'
+import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
 import { posthogHost, posthogKey } from '@holi/core/helpers/config'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
@@ -57,7 +57,7 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
     },
     sanitize_properties: (properties) => withoutUtmParameters(withConsentProperties(properties)),
     bootstrap: {
-      ...fallbackFeatureFlags,
+      ...featureFlagBootstrapValues,
       ...bootstrapState,
     },
   })

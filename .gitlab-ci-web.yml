@@ -4,7 +4,9 @@ variables:
 default:
   before_script:
     - set -ex
-    - env
+    # env -0 | sort -z | tr '\0' '\n': Sort env output alphabetically, keeping multiline variables intact
+    # egrep: Remove sensitive information from the output of env
+    - env -0 | sort -z | tr '\0' '\n' | egrep -ve '^(DOCKER_AUTH_CONFIG|GOOGLE_APPLICATION_CREDENTIALS)=.*'
 
 # job templates
 
@@ -26,7 +28,6 @@ default:
     when: always
     expire_in: 1 week
   script:
-    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     - terraform/environments/web/scripts/create-or-update-env.sh $ENVIRONMENT_ID $CI_COMMIT_SHA
     - echo "$(terraform/environments/web/scripts/get-output.sh app_domain)" > $UI_DOMAIN_PATH
   resource_group: $ENVIRONMENT_ID # never execute terraform in parallel on the same environment
@@ -179,7 +180,6 @@ web_review_destroy:
   dependencies: [] # explicitly disable artifact usage
   before_script:
   script:
-    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     # branch may have been deleted, so we clone and checkout main
     - git clone $CI_REPOSITORY_URL main-clone
     - cd main-clone

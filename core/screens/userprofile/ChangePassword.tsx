@@ -4,7 +4,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   TextInputKeyPressEventData,
@@ -211,86 +210,84 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   return (
     <KeyboardAvoidingViewWrapper
       renderProp={() => (
-        <SafeAreaView style={styles.wrapper}>
-          <ScrollView keyboardShouldPersistTaps="handled">
-            <View
-              style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}
-            >
-              <HoliBox padding={[24, 0, 0, 0]}>
-                {!((forgotPasswordFlow || reauthFlow) && settingsFlow) ? (
-                  <HoliBox padding={16}>
-                    <HoliLoader />
-                  </HoliBox>
-                ) : (
-                  <>
-                    <HoliText>
-                      <Trans
-                        t={t}
-                        i18nKey={
-                          forgotPasswordFlow
-                            ? 'auth.changePassword.description-forgotflow'
-                            : 'auth.changePassword.description'
-                        }
-                      />
-                    </HoliText>
-                    <View style={styles.inputFieldsContainer}>
-                      {!forgotPasswordFlow && (
-                        <HoliTextInput
-                          inputLabel={t('auth.changePassword.input.label-OldPassword')}
-                          aria-label={t('auth.changePassword.input.label-OldPassword')}
-                          placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
-                          validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
-                          inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
-                          maxNoOfCharacters={200}
-                          onChange={setOldPwd}
-                          type="password"
-                          testID={'old-password'}
-                        />
-                      )}
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <View
+            style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}
+          >
+            <HoliBox padding={[24, 0, 0, 0]}>
+              {!((forgotPasswordFlow || reauthFlow) && settingsFlow) ? (
+                <HoliBox padding={16}>
+                  <HoliLoader />
+                </HoliBox>
+              ) : (
+                <>
+                  <HoliText>
+                    <Trans
+                      t={t}
+                      i18nKey={
+                        forgotPasswordFlow
+                          ? 'auth.changePassword.description-forgotflow'
+                          : 'auth.changePassword.description'
+                      }
+                    />
+                  </HoliText>
+                  <View style={styles.inputFieldsContainer}>
+                    {!forgotPasswordFlow && (
                       <HoliTextInput
-                        inputLabel={t('auth.changePassword.input.label-NewPassword')}
-                        aria-label={t('auth.changePassword.input.label-NewPassword')}
-                        placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
+                        inputLabel={t('auth.changePassword.input.label-OldPassword')}
+                        aria-label={t('auth.changePassword.input.label-OldPassword')}
+                        placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
+                        validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
+                        inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
+                        maxNoOfCharacters={200}
+                        onChange={setOldPwd}
+                        type="password"
+                        testID={'old-password'}
+                      />
+                    )}
+                    <HoliTextInput
+                      inputLabel={t('auth.changePassword.input.label-NewPassword')}
+                      aria-label={t('auth.changePassword.input.label-NewPassword')}
+                      placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
+                      validationErrorText={
+                        retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
+                      }
+                      helperText={t('auth.changePassword.input.helper-NewPassword')}
+                      inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
+                      maxNoOfCharacters={200}
+                      onChange={setNewPwd}
+                      type="password"
+                      testID={'new-password'}
+                    />
+                    {!!forgotPasswordFlow && (
+                      <HoliTextInput
+                        inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
+                        aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
+                        placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
                         validationErrorText={
                           retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
                         }
-                        helperText={t('auth.changePassword.input.helper-NewPassword')}
                         inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
                         maxNoOfCharacters={200}
-                        onChange={setNewPwd}
+                        onChange={setNewPwdRetype}
                         type="password"
-                        testID={'new-password'}
+                        testID={'new-password-retype'}
                       />
-                      {!!forgotPasswordFlow && (
-                        <HoliTextInput
-                          inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
-                          aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
-                          placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
-                          validationErrorText={
-                            retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
-                          }
-                          inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
-                          maxNoOfCharacters={200}
-                          onChange={setNewPwdRetype}
-                          type="password"
-                          testID={'new-password-retype'}
-                        />
-                      )}
-                    </View>
-                    <HoliButtonLoading
-                      label={t('auth.changePassword.input.label-Save')}
-                      onPress={performPasswordChange}
-                      style={mixins.moreButton}
-                      testID={'btn-submit-change-password'}
-                    >
-                      {t('auth.changePassword.input.label-Save')}
-                    </HoliButtonLoading>
-                  </>
-                )}
-              </HoliBox>
-            </View>
-          </ScrollView>
-        </SafeAreaView>
+                    )}
+                  </View>
+                  <HoliButtonLoading
+                    label={t('auth.changePassword.input.label-Save')}
+                    onPress={performPasswordChange}
+                    style={mixins.moreButton}
+                    testID={'btn-submit-change-password'}
+                  >
+                    {t('auth.changePassword.input.label-Save')}
+                  </HoliButtonLoading>
+                </>
+              )}
+            </HoliBox>
+          </View>
+        </ScrollView>
       )}
     />
   )
@@ -300,22 +297,13 @@ export default ChangePassword
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    wrapper: {
-      backgroundColor: theme.colors.background20,
-      flex: 1,
-      ...Platform.select({
-        web: {
-          minHeight: '100%',
-        },
-      }),
-    },
     inner: {
       flex: 1,
-      // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-      marginTop: dimensions.topBarHeight,
+      backgroundColor: theme.colors.background20,
       ...Platform.select({
         web: {
           paddingBottom: dimensions.bottomBarHeight,
+          minHeight: '100%',
         },
         android: {
           paddingBottom: dimensions.bottomBarHeight,

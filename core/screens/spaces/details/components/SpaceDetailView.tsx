@@ -32,7 +32,7 @@ type SpaceDetailViewProps = {
   onChangeTabIndex: (index: number) => void
 }
 
-const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: SpaceDetailViewProps) => {
+const SpaceDetailView = ({ space, initialTabIndex, onChangeTabIndex }: SpaceDetailViewProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -48,7 +48,7 @@ const SpaceDetailView = ({ space, style, initialTabIndex, onChangeTabIndex }: Sp
         ogDescription={space.description}
         ogImage={space.cover}
       />
-      <View style={[styles.wrapper, style]} testID="space-details-container">
+      <View style={styles.wrapper} testID="space-details-container">
         <View style={styles.header}>
           <SpaceHeader space={space} style={mixins.container} />
         </View>
@@ -93,6 +93,7 @@ const getStyles = (theme: HoliTheme) =>
     wrapper: {
       justifyContent: 'center',
       paddingTop: 12,
+      backgroundColor: theme.colors.background10,
     },
     header: {
       backgroundColor: theme.colors.background10,

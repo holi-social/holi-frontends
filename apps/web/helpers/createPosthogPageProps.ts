@@ -7,6 +7,7 @@ export const createPosthogPageProps = async () => {
 
   const client = new PostHog(process.env.POSTHOG_KEY, { host: process.env.POSTHOG_HOST })
 
+  // TODO HOLI-9368 this must use the distinct ID of the actual user
   const featureFlagsAndPayloads = await client.getAllFlagsAndPayloads('')
 
   return featureFlagsAndPayloads
