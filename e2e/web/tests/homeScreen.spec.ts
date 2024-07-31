@@ -45,10 +45,9 @@ const testDisplaysHomeScreenContent = async (page: Page) => {
   await page.waitForSelector(byTestId('home-feed-insights-heading'), { state: 'attached' })
   await page.waitForSelector(byTestId('posts-list-results'))
   await page.waitForSelector(byTestId('btn-navigate-to-insights'))
-  // FIXME: Donations, Volunteering, Goodnews are not SSRed because of posthog FF https://holi.atlassian.net/browse/HOLI-9277
-  //await page.waitForSelector(byTestId('donations-app-updates-list'))
-  //await page.waitForSelector(byTestId('volunteering-app-updates-list'))
-  //await page.waitForSelector(byTestId('goodnews-app-updates-list'))
+  await page.waitForSelector(byTestId('donations-app-updates-list'))
+  await page.waitForSelector(byTestId('volunteering-app-updates-list'))
+  await page.waitForSelector(byTestId('goodnews-app-updates-list'))
 }
 
 const testDisplaysInsightDetails = async (page: Page) => {

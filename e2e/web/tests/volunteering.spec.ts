@@ -8,6 +8,7 @@ import {
   locateElementByTestId,
   proceedAsGuest,
   volunteeringRequestTimeout,
+  withSSR,
 } from './helpers'
 import { test } from './testmaster'
 
@@ -22,14 +23,12 @@ test.describe('@Volunteering', () => {
     await testIsAccessibleFromHomeScreen(page)
 
     await testAllowsPagination(page)
-    // FIXME: Volunteering are not SSRed because of posthog FF https://holi.atlassian.net/browse/HOLI-9277
-    // await withSSR(browser, page.url(), testDisplaysList)
+    await withSSR(browser, page.url(), testDisplaysList)
 
     // click first element in list
     await clickElementByTestId(page, 'btn-to-volunteering-engagement')
     await testDisplaysEngagementDetails(context, page)
-    // FIXME: Volunteering are not SSRed because of posthog FF https://holi.atlassian.net/browse/HOLI-9277
-    // await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
+    await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
     // navigate back
     await clickElementByTestId(page, 'nav-button-back')
     await page.waitForSelector(byTestId('volunteering-list-container'))
