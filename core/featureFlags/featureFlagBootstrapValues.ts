@@ -9,7 +9,9 @@ import { FeatureFlagsAndPayloads } from '@holi/core/featureFlags/types'
  * Bootstrap values can come into the PostHog client in three different ways:
  *
  * 1. Mobile - bootstrap values are taken from these constants here
- * 2. Web (SSR) -
+ * 2. Web (SSR) - actual feature flag values are being requested from PostHog, used on server-side page rendering,
+ *                included in page props and the used in bootstrapping the PostHog client in the Browser
+ * 3. Web (CSR) - bootstrap values are taken from these constants here (if not present in page props from SSR rendering)
  */
 export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
   featureFlags: {
