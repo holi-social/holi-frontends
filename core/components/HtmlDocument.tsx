@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, ScrollView, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import HoliWebView from '@holi/core/components/HoliWebView'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -76,9 +75,9 @@ const HtmlDocument = ({ url, onError, fallbackToWebView }: HtmlDocumentProps) =>
     // so we don't need to change all usages of HtmlDocument
     // (unwrapping scroll views)
     return document.length < 1_048_576 ? (
-      <ScrollHeaderLayout.Default style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }}>
+      <ScrollView style={mixins.container} contentContainerStyle={{ maxWidth: '100%' }}>
         <HoliHtmlView html={document} />
-      </ScrollHeaderLayout.Default>
+      </ScrollView>
     ) : (
       <HoliWebView
         webViewProps={{ source: { uri: url ? url.toString() : '' } }}

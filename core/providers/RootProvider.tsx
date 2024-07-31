@@ -16,6 +16,7 @@ import PortalProvider from '@holi/core/providers/PortalProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
 import PosthogProvider from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
+import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 interface RootProviderProps {
@@ -28,25 +29,27 @@ const RootProvider = ({ apolloClient, children }: PropsWithChildren<RootProvider
   return (
     <ErrorBoundary showErrorMsg={isWeb} allowReload={isWeb}>
       <PosthogProvider>
-        <ApolloProvider client={apolloClient}>
-          <TrackingInitializer />
-          <ToastProvider>
-            <PortalProvider>
-              <SessionExpiryProtection>
-                <FeatureTogglesFetcher />
-                {isMobile ? <DeviceRegistration /> : null}
-                {isMobile ? <UpdateAppModal /> : null}
-                <LoginModalProvider>
-                  <ChatSessionInitializer>
-                    <ChatProvider>{children}</ChatProvider>
-                  </ChatSessionInitializer>
-                </LoginModalProvider>
-              </SessionExpiryProtection>
-            </PortalProvider>
-          </ToastProvider>
+        <SafeAreaProvider>
+          <ApolloProvider client={apolloClient}>
+            <TrackingInitializer />
+            <ToastProvider>
+              <PortalProvider>
+                <SessionExpiryProtection>
+                  <FeatureTogglesFetcher />
+                  {isMobile ? <DeviceRegistration /> : null}
+                  {isMobile ? <UpdateAppModal /> : null}
+                  <LoginModalProvider>
+                    <ChatSessionInitializer>
+                      <ChatProvider>{children}</ChatProvider>
+                    </ChatSessionInitializer>
+                  </LoginModalProvider>
+                </SessionExpiryProtection>
+              </PortalProvider>
+            </ToastProvider>
 
-          <TrackingConsentModal />
-        </ApolloProvider>
+            <TrackingConsentModal />
+          </ApolloProvider>
+        </SafeAreaProvider>
       </PosthogProvider>
     </ErrorBoundary>
   )

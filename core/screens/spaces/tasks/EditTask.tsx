@@ -24,7 +24,6 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type EditTaskParams = {
   spaceIdOrName: string
@@ -41,8 +40,6 @@ const EditTask = () => {
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [taskId] = useParam('taskId')
-  const { theme } = useTheme()
-  const { colors } = theme
   const { openToast } = useToast()
 
   // input fields
@@ -213,14 +210,13 @@ const EditTask = () => {
             {t('spaces.tasks.edit.title')}
           </HoliHeading>
         ),
-        headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     if (

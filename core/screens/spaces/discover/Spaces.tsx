@@ -2,11 +2,13 @@ import { DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, ViewStyle } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
+import Animated from 'react-native-reanimated'
 
 import FilterModal from '@holi/core/components/FIlterModal'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -40,7 +42,7 @@ const Spaces = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { user, isLoggedIn } = useLoggedInUser()
-  const pageViewRef = useRef<ScrollView>(null)
+  const pageViewRef = useRef<Animated.ScrollView>(null)
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
@@ -48,6 +50,8 @@ const Spaces = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const client = useApolloClient()
+
+  const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
@@ -81,7 +85,6 @@ const Spaces = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
@@ -95,7 +98,7 @@ const Spaces = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions, colors.background10])
+  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions])
 
   const onChangeTab = (tabIndex: number) => {
     selectTabWithIndex(tabIndex)
@@ -139,13 +142,14 @@ const Spaces = () => {
         ogTitle={t('metatags.spaces.og.title')}
         ogDescription={t('metatags.spaces.og.description')}
       />
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
         ref={pageViewRef}
         style={styles.layout}
+        onScroll={onScreenScroll}
       >
         {!hasOwnSpaces ? (
           /* User has NO spaces => show discover view */
@@ -184,7 +188,7 @@ const Spaces = () => {
             testID="spaces-tab-navigation"
           />
         )}
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
 
       {(!hasOwnSpaces || currentTabName === Tab.DISCOVER) && (
         <FilterModal
@@ -204,14 +208,6 @@ const Spaces = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
-      ...(Platform.select({
-        web: {
-          minHeight: '100vh',
-        },
-        native: {
-          minHeight: '100%',
-        },
-      }) as ViewStyle),
       backgroundColor: theme.colors.background20,
     },
     holiTabs: {

@@ -124,4 +124,11 @@ jest.mock('@holi/core/tracking/hooks/useTracking', () => {
   }
 })
 
+jest.mock('@holi/core/helpers/useFocusEffect', () => {
+  return {
+    __esModule: true,
+    useFocusEffect: jest.fn(),
+  }
+})
+
 export default {}

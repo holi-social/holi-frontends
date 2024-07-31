@@ -58,7 +58,6 @@ const CreateSpace = () => {
   hasOwnSpaces = isLoggedIn && !!(mySpaces.length > 0)
 
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { openToast } = useToast()
 
@@ -106,14 +105,13 @@ const CreateSpace = () => {
           {t('spaces.create.title')}
         </HoliHeading>
       ),
-      headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t, colors.background10])
+  }, [setScreenOptions, t])
 
   const handleNextButtonPress = async (currentStep: number) => {
     const result = await validateSpace({

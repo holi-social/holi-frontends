@@ -25,10 +25,9 @@ const GoodNewsAppHome = () => {
       headerTitle: () => <GoodNewsHeader />,
       headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
       headerTransparent: true,
-      headerStyle: { backgroundColor: 'transparent' },
       headerTintColor: colors.light,
       navigationCustomOptions: {
-        headerBackgroundGradient: true,
+        background: { type: 'gradient' },
         footerShown: false,
       },
     })
@@ -39,15 +38,13 @@ const GoodNewsAppHome = () => {
       <View testID={'goodnews-app-home'}>
         <StatusBar style="light" animated />
 
-        <ScrollHeaderLayout.Default
+        <ScrollHeaderLayout
           bounces={false}
-          headerOverlap
-          hasFooterTabBar={false}
-          style={{ paddingBottom: 0, height: '100%', backgroundColor: colors.background30 }}
-          contentStyle={{ height: '100%' }}
+          headerRelation="overlap"
+          style={{ paddingBottom: 0, backgroundColor: colors.background30 }}
         >
           <GoodNewsCarousel />
-        </ScrollHeaderLayout.Default>
+        </ScrollHeaderLayout>
       </View>
     </PosthogFeatureFlagGuard>
   )

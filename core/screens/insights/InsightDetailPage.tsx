@@ -95,7 +95,7 @@ const InsightDetailPage = () => {
       headerTintColor: colors.light,
       title: '',
       navigationCustomOptions: {
-        headerBackgroundGradient: true,
+        background: { type: 'gradient' },
       },
       headerRight: () => {
         return (
@@ -219,13 +219,13 @@ const InsightDetailPage = () => {
       />
       <StatusBar style="light" animated />
 
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
+        headerRelation="overlap"
         style={styles.wrapper}
-        headerOverlap
       >
         {insight && !loading ? (
           <>
@@ -387,7 +387,7 @@ const InsightDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
     </>
   )
 }

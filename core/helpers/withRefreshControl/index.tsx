@@ -1,5 +1,5 @@
 import React from 'react'
-import { RefreshControl } from 'react-native'
+import { RefreshControl, ScrollView, ScrollViewProps } from 'react-native'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import {
@@ -23,8 +23,8 @@ export function withRefreshControl<P extends LayoutProps, T>(
       }: RefreshableScrollHeaderLayoutProps<P>,
       ref: React.ForwardedRef<T>
     ) => {
-      const { top } = useSafeAreaInsets()
-      const additionalOffset = (headerOverlap ? top : 0) + dimensions.topBarHeight
+      const { top: safeAreaTop } = useSafeAreaInsets()
+      const additionalOffset = headerOverlap ? safeAreaTop + dimensions.topBarHeight : 0
 
       const refreshControl = (
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressViewOffset={additionalOffset} />
@@ -39,3 +39,7 @@ export function withRefreshControl<P extends LayoutProps, T>(
 
   return WithRefreshControl
 }
+
+export const ScrollViewRefreshable = withRefreshControl<ScrollViewProps, ScrollView>((props) => (
+  <ScrollView {...props} />
+))
