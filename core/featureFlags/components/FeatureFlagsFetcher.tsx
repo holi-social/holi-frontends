@@ -2,9 +2,9 @@ import { withProfiler } from '@sentry/react'
 import { useCallback, useEffect } from 'react'
 import { AppState, AppStateStatus } from 'react-native'
 
-const FeatureTogglesFetcher = () => {
+const FeatureFlagsFetcher = () => {
   const refetch = useCallback(() => {
-    // TODO: HOLI-9300 refetch feature toggles from posthog
+    // TODO: HOLI-9300 refetch feature flags from posthog
   }, [])
 
   useEffect(() => {
@@ -23,4 +23,4 @@ const FeatureTogglesFetcher = () => {
   return null
 }
 
-export default withProfiler(FeatureTogglesFetcher, { name: 'FeatureTogglesFetcher' })
+export default withProfiler(FeatureFlagsFetcher, { name: 'FeatureFlagsFetcher' })

@@ -5,10 +5,10 @@ import React, { useContext } from 'react'
 import RootProvider from '@holi/core/providers/RootProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { useApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
-import { NextJSPageProps } from '@holi/web/types'
+import type { HoliPageProps } from '@holi/web/types'
 
 interface RootProviderProps {
-  pageProps: NextJSPageProps
+  pageProps: HoliPageProps
 }
 
 const WebRootProvider = ({ children, pageProps }: PropsWithChildren<RootProviderProps>) => {
@@ -19,7 +19,9 @@ const WebRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
 
   return (
     <ThemeProvider theme={defaultHoliTheme}>
-      <RootProvider apolloClient={apolloClient}>{children}</RootProvider>
+      <RootProvider apolloClient={apolloClient} posthogBootstrapState={pageProps.posthogBootstrapValues}>
+        {children}
+      </RootProvider>
     </ThemeProvider>
   )
 }
