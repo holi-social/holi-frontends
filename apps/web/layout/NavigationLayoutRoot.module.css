@@ -16,7 +16,6 @@
 
 .main {
   width: 100%;
-  min-height: 100%;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -24,6 +23,14 @@
 }
 
 .footer {
+  height: var(--bottom-bar-height);
+  max-height: var(--bottom-bar-height);
+  flex-shrink: 0;
+  z-index: 10;
+  width: 100%;
+}
+
+.footerContent {
   width: 100%;
   position: fixed;
   bottom: 0;

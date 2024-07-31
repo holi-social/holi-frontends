@@ -231,7 +231,6 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       alignItems: 'center',
       minHeight: '100%',
-      paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
     },
     listContainer: {

@@ -2,13 +2,11 @@ import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -27,15 +25,11 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { authenticatedUserV2Query, interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
 const OwnProfile = () => {
-  const { theme } = useTheme()
-  const { colors } = theme
-
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.PROFILE)
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
@@ -44,11 +38,12 @@ const OwnProfile = () => {
   }, [])
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
+  const { theme } = useTheme()
+  const { colors } = theme
 
-  const { user, isLoggedIn, refetch: refetchAuthenticatedUser } = useLoggedInUser()
+  const { user, isLoggedIn } = useLoggedInUser()
   const storedOnboardingState = useStoredOnboardingState()
   const isOnboardingFinished = storedOnboardingState === 'finished'
-  const { refreshing, onRefresh } = useOnRefresh(refetchAuthenticatedUser)
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -83,7 +78,6 @@ const OwnProfile = () => {
       headerShown: true,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
@@ -129,7 +123,6 @@ const OwnProfile = () => {
     isOnboardingFinished,
     setScreenOptions,
     user,
-    colors.background10,
   ])
 
   const client = useApolloClient()
@@ -145,15 +138,7 @@ const OwnProfile = () => {
 
   return (
     <LoginProtection>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
-          refreshing,
-          onRefresh,
-        }}
-        keyboardShouldPersistTaps="handled"
-        style={styles.layout}
-        contentStyle={styles.content}
-      >
+      <ScrollView keyboardShouldPersistTaps="handled" style={{ backgroundColor: colors.background20 }}>
         {user ? (
           <>
             {editMode && (
@@ -204,20 +189,10 @@ const OwnProfile = () => {
         ) : (
           <HoliLoader />
         )}
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollView>
       {currentTab === Tab.POSTS && <CreatePostButton />}
     </LoginProtection>
   )
 }
-const styles = StyleSheet.create({
-  layout: {
-    minHeight: '100%',
-  },
-  content: {
-    minHeight: '100%',
-    paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
-    paddingBottom: Platform.OS === 'web' ? dimensions.bottomBarHeight : 0,
-  },
-})
 
 export default withProfiler(memo(OwnProfile), { name: 'OwnProfile' })

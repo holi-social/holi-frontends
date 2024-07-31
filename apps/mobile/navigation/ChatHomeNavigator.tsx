@@ -2,10 +2,9 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import ChatHome from '@holi/core/screens/chat/ChatHome'
-import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type ChatStackScreensList = {
   ChatHome: undefined
@@ -14,17 +13,12 @@ export type ChatStackScreensList = {
 const ChatStack = createNativeStackNavigator<ChatStackScreensList>()
 
 const ChatHomeStackNavigator = () => {
-  const { theme } = useTheme()
-  const { colors } = theme
   return (
     <ChatStack.Navigator
       initialRouteName={RouteName.ChatHome}
       screenOptions={{
         header: HeaderAnimated,
-        headerTransparent: true,
-        headerStyle: {
-          backgroundColor: colors.background10,
-        },
+        headerTransparent: false,
       }}
     >
       <ChatStack.Screen name={RouteName.ChatHome} component={ChatHome} />

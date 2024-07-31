@@ -35,10 +35,15 @@ body {
 }
 
 html,
-body,
-body > div:first-child,
-div#__next,
-div#__next > main {
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+div#__next {
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 

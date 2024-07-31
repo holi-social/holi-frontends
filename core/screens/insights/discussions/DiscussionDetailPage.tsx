@@ -2,8 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -41,13 +40,12 @@ const DiscussionDetailPage = () => {
   const { replaceRoute } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
-  const insets = useSafeAreaInsets()
 
   const [discussionId] = useParam('discussionId')
   const [insightId] = useParam('insightId')
   const [commentId] = useParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
 
-  const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { data: { discussionById: discussion } = {}, refetch } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
@@ -69,8 +67,6 @@ const DiscussionDetailPage = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
-      headerStyle: { backgroundColor: theme.colors.background10 },
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -78,7 +74,7 @@ const DiscussionDetailPage = () => {
         <HeaderTitle tintColor={tintColor}>{t('insights.discussions.pageTitle')}</HeaderTitle>
       ),
     })
-  }, [theme.colors.background10, t, setScreenOptions])
+  }, [t, setScreenOptions])
 
   const onPressCreateComment = () =>
     isLoggedIn
@@ -91,34 +87,29 @@ const DiscussionDetailPage = () => {
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
         style={styles.wrapper}
-        headerOverlap
-        scrollEnabled={false}
-        scrollable={false}
-        contentStyle={styles.wrapperContent}
+        contentContainerStyle={styles.wrapperContent}
       >
         <HoliContainer noPadding>
-          <ScrollView style={styles.scrollView}>
-            {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
-            {discussionId && (
-              <View style={styles.commentsContainer}>
-                <Comments
-                  commentableType={CommentableType.DISCUSSION}
-                  commentableId={discussionId}
-                  replyRoute={`/insights/${insightId}/discussions/${discussionId}/comment`}
-                  onPressCreateComment={onPressCreateComment}
-                  initialOpenThread={commentId}
-                />
-              </View>
-            )}
-          </ScrollView>
+          {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
+          {discussionId && (
+            <View style={styles.commentsContainer}>
+              <Comments
+                commentableType={CommentableType.DISCUSSION}
+                commentableId={discussionId}
+                replyRoute={`/insights/${insightId}/discussions/${discussionId}/comment`}
+                onPressCreateComment={onPressCreateComment}
+                initialOpenThread={commentId}
+              />
+            </View>
+          )}
         </HoliContainer>
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
 
       <SafeAreaView>
         <View style={styles.commentWrapper}>
@@ -133,10 +124,9 @@ const DiscussionDetailPage = () => {
 
 const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRadius={0} />
 
-const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
+const getStyles = ({ colors }: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      height: '100%',
       flex: 1,
       backgroundColor: colors.background20,
       ...Platform.select({
@@ -145,19 +135,10 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
           paddingTop: dimensions.topBarHeight,
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
-        ios: {
-          paddingTop: dimensions.topBarHeight + insets.top - Spacing['3xs'],
-        },
-        android: {
-          paddingTop: dimensions.topBarHeight + Spacing.xl,
-        },
       }),
     },
     wrapperContent: {
-      paddingBottom: 0,
-    },
-    scrollView: {
-      height: '100%',
+      paddingBottom: 64,
     },
     commentsContainer: {
       paddingHorizontal: Spacing.xs,

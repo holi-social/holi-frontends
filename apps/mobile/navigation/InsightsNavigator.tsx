@@ -2,6 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import CurationPrinciplesPage from '@holi/core/screens/insights/CurationPrinciplesPage'
 import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import InsightsPage from '@holi/core/screens/insights/InsightsPage'
@@ -20,7 +21,6 @@ import RecommendationDetailPage, {
 } from '@holi/core/screens/insights/recommendations/RecommendationDetailPage'
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
-import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export type InsightsScreens = {

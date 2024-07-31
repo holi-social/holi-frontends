@@ -1,11 +1,10 @@
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -29,7 +28,7 @@ const AccountSettings = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
-      <ScrollHeaderLayout.Default>
+      <ScrollView>
         <LoginProtection>
           <View style={[mixins.container, styles.accountSettings]}>
             <MoreOptionItem
@@ -52,7 +51,7 @@ const AccountSettings = () => {
             <DeleteAccountButton style={styles.settingsItem} />
           </View>
         </LoginProtection>
-      </ScrollHeaderLayout.Default>
+      </ScrollView>
     </PermissionsGuard>
   )
 }

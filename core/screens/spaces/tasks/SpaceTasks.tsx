@@ -49,7 +49,6 @@ const SpaceTasks = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.rolesAndPermissions.tasks.title'),
-      headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
       headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
@@ -59,7 +58,7 @@ const SpaceTasks = () => {
   }, [setScreenOptions, t, colors.background10])
 
   if (!space) {
-    return <></>
+    return null
   }
 
   return (
@@ -75,7 +74,7 @@ const SpaceTasks = () => {
           <HoliIcon icon={Add} size={24} />
         </HoliButton>
       )}
-      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
+      <ScrollHeaderLayout style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
           <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
@@ -83,7 +82,7 @@ const SpaceTasks = () => {
             </HoliBox>
           </HoliContainer>
         </HoliBox>
-      </ScrollHeaderLayout.Default>
+      </ScrollHeaderLayout>
     </>
   )
 }
@@ -97,10 +96,12 @@ const getStyles = (theme: HoliTheme) =>
       paddingBottom: 0,
     },
     defaultLayout: {
-      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
-      marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
+      ...Platform.select({
+        web: {
+          minHeight: '100vh' as DimensionValue,
+        },
+      }),
       backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.topBarHeight,
     },
     overlayButton: {
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',

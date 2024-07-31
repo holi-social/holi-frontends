@@ -64,11 +64,11 @@ const HomeFeed = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
-      headerLeft: () => (
+      headerTintColor: colors.black300,
+      headerLeft: ({ tintColor }) => (
         <Animated.View entering={FadeInLeft}>
-          <HoliLogo />
+          <HoliLogo color={tintColor} />
         </Animated.View>
       ),
       headerRight: (props) => (
@@ -77,7 +77,7 @@ const HomeFeed = () => {
         </Animated.View>
       ),
     })
-  }, [navigate, t, headerTitle, setScreenOptions, colors.background10])
+  }, [navigate, t, headerTitle, setScreenOptions, colors.black300])
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
@@ -94,12 +94,13 @@ const HomeFeed = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
-        style={[styles.layout, { backgroundColor: colors.white200 }]}
+        style={{ backgroundColor: colors.white200 }}
+        contentContainerStyle={styles.layout}
       >
         <View style={styles.sections}>
           <Animated.View entering={FadeInDown}>
@@ -121,7 +122,7 @@ const HomeFeed = () => {
           </ErrorBoundary>
           {isLoggedIn && <UserSuggestions />}
         </View>
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
 
       {/* Floating CreatePostButton need to be outside the Layout */}
       <CreatePostButton />

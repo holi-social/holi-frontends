@@ -1,9 +1,9 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ScrollView } from 'react-native'
 
 import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
@@ -52,14 +52,14 @@ const ChatHome = () => {
   } else {
     // unknown status (= missing feature toggle) || disabled
     return (
-      <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+      <ScrollView style={{ backgroundColor: colors.background20 }}>
         <HoliContainer>
           <HoliHeading level="2" size="xl">
             {' '}
           </HoliHeading>
           <HoliText style={{ color: colors.foreground20 }}>{`${t('global.comingSoon')}...`}</HoliText>
         </HoliContainer>
-      </ScrollHeaderLayout.Default>
+      </ScrollView>
     )
   }
 }

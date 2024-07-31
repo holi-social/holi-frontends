@@ -97,21 +97,18 @@ const InitiativeDetailPage = () => {
       },
       headerShown: true,
       headerTransparent: true,
-      headerStyle: {
-        backgroundColor: theme.colors.background10,
-      },
     })
-  }, [t, setScreenOptions, shareLink, theme.colors.black300, theme.colors.background10])
+  }, [t, setScreenOptions, shareLink, theme.colors.black300])
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
         style={styles.layout}
-        contentStyle={[mixins.container, styles.container]}
+        contentContainerStyle={[mixins.container, styles.container]}
       >
         {initiative && !loading ? (
           <>
@@ -151,7 +148,8 @@ const InitiativeDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
+
       {initiative && !loading && (
         <View style={styles.footer}>
           <HoliButtonLoading

@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -71,6 +71,11 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
   const editSpacePost = useCallback(() => {
     navigate(`/spaces/${(post as Post).space?.id}/updates/${post.id}/edit`)
   }, [navigate, post])
+
+  useEffect(() => {
+    setTitle(post.title)
+    setDescription((post as Post).text ?? (post as FeedPost).description)
+  }, [post])
 
   if (post.__typename === 'FeedPost') {
     const feedPost = post as FeedPost
