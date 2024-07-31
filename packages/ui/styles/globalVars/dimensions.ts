@@ -1,7 +1,7 @@
 export default {
   maxScreenWidth: '840',
   maxButtonWidth: '400',
-  topBarHeight: '52',
+  topBarHeight: '56',
   bottomBarHeight: '62',
   bottomBarMobile: '92',
   loaderHeight: '66',

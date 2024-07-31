@@ -85,6 +85,7 @@ const RoomMessageList = ({
       inverted={true}
       contentContainerStyle={styles.list}
       onScroll={onScroll}
+      keyboardDismissMode="on-drag"
     />
   )
 }

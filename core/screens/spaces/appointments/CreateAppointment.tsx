@@ -45,7 +45,6 @@ const CreateAppointment = () => {
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { openToast } = useToast()
 
@@ -178,14 +177,13 @@ const CreateAppointment = () => {
             {t('spaces.appointments.add.button.label')}
           </HoliHeading>
         ),
-        headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     setSaveButtonDisabled(!title.length || !inputValid)

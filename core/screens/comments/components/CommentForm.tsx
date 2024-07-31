@@ -255,7 +255,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     pageView: {
       backgroundColor: theme.colors.background10,
-      paddingTop: dimensions.topBarHeight + 40,
       height: '100%',
       width: '100%',
       overflow: 'hidden',

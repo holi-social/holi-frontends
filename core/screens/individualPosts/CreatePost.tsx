@@ -105,7 +105,7 @@ const CreatePost = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: true,
+      headerTransparent: false,
       headerTitle: () => (
         <HoliHeading level="1" size="s">
           {t('individuals.post.input.title')}
@@ -172,7 +172,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     grayExtendingBackground: {
       backgroundColor: theme.colors.background20,
-      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
+      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : 0,
       alignItems: 'center',
       justifyContent: 'flex-start',
       height: '100%',

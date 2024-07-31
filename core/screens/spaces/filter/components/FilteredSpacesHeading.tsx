@@ -34,7 +34,7 @@ const FilteredSpacesHeading = ({ locationId, topicSlugs = [], skillSlugs = [] }:
   const title = useFallbackTitle ? fallbackTitle : titles[0]
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title })
+    setScreenOptions({ title, headerTransparent: true })
   }, [setScreenOptions, title])
 
   return <></>

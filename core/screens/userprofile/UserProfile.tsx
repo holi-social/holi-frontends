@@ -107,8 +107,7 @@ const UserProfile = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('profile.title'),
-      headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: false,
       headerRight: () => (
         <HoliActionDrawer.Drawer label="user-profile-drawer">
           <HoliActionDrawer.Action icon={Flag} isLoading={isLoadingReport} title={t('global.report')} showConfirmation>
@@ -137,16 +136,7 @@ const UserProfile = () => {
         </HoliActionDrawer.Drawer>
       ),
     })
-  }, [
-    isLoadingBlockUser,
-    t,
-    userFullName,
-    blockUser,
-    reportContent,
-    isLoadingReport,
-    setScreenOptions,
-    colors.background10,
-  ])
+  }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
 
   if (!userId || (loading && !user)) {
     // TODO: replace with proper loading indicator
@@ -175,19 +165,20 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <ScrollHeaderLayout.Refreshable
-      refreshableProps={{
+    <ScrollHeaderLayout
+      refreshControlProps={{
         refreshing,
         onRefresh,
       }}
+      headerRelation="none"
       style={styles.layout}
-      contentStyle={styles.content}
+      contentContainerStyle={styles.content}
     >
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
       <HoliTabs
-        style={{ marginTop: 24, flex: 1 }}
+        style={{ flex: 1 }}
         backgroundColor={colors.background20}
         id="profile-tabs"
         tabs={[
@@ -254,7 +245,7 @@ const UserProfile = () => {
           },
         ]}
       />
-    </ScrollHeaderLayout.Refreshable>
+    </ScrollHeaderLayout>
   )
 }
 
@@ -262,13 +253,15 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
       minHeight: '100%',
+      backgroundColor: theme.colors.background20,
     },
     content: {
       minHeight: '100%',
-      paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
     },
     container: {
       alignItems: 'baseline',
+      backgroundColor: theme.colors.background10,
+      paddingBottom: 24,
     },
     messageContainer: {
       alignItems: 'center',
