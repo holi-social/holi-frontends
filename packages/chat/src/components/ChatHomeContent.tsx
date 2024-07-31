@@ -16,8 +16,6 @@ import {
   spaceRoomIdToChildRoomsAtom,
 } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
-import { updateLayoutAnimation } from '@holi/core/helpers/updateLayoutAnimation'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
@@ -166,10 +164,6 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
   const tabRoomAtomsRecord = useAtomValue(tabRoomAtomsRecordAtom)
-
-  // update layout animation when `selectedTabId` or amount of items in the tab changes
-  const layoutUpdateNeeded = tabRoomAtomsRecord[selectedTabId]?.length ?? 0
-  useIsomorphicLayoutEffect(() => updateLayoutAnimation(), [selectedTabId, layoutUpdateNeeded])
 
   if (!sortedRoomAtoms.length) {
     return <ChatHomeNoExistingRooms />

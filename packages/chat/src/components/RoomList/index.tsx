@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated'
 
 import RoomItemDeletable from '@holi/chat/src/components/RoomList/RoomItemDeletable'
 import { leaveRoom } from '@holi/chat/src/store'
@@ -14,13 +15,16 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
 
   return (
     <GestureHandlerRootView style={styles.wrapper}>
-      <FlatList
+      <Animated.FlatList
         data={roomAtoms}
-        renderItem={({ item: roomAtom }) => (
-          <RoomItemDeletable roomAtom={roomAtom} loggedInUser={loggedInUser} onDelete={leaveRoom} />
+        renderItem={({ item: roomAtom, index }) => (
+          <Animated.View entering={FadeIn.delay(index * 60)} exiting={FadeOut}>
+            <RoomItemDeletable roomAtom={roomAtom} loggedInUser={loggedInUser} onDelete={leaveRoom} />
+          </Animated.View>
         )}
         keyExtractor={(item) => item.toString()}
         ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}
+        itemLayoutAnimation={LinearTransition.springify().damping(14).stiffness(90)}
         testID={'chat-room-list'}
       />
     </GestureHandlerRootView>

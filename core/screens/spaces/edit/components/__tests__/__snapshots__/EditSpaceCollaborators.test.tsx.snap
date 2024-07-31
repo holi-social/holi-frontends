@@ -65,6 +65,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
             hideWebScrollbars={true}
             horizontal={true}
             role="tablist"
+            showsHorizontalScrollIndicator={false}
           >
             <View>
               <View
@@ -1354,6 +1355,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
             hideWebScrollbars={true}
             horizontal={true}
             role="tablist"
+            showsHorizontalScrollIndicator={false}
           >
             <View>
               <View
