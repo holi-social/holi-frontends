@@ -140,6 +140,14 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
     categories?.find((category) => category.id === selectedCategoryId)?.description ??
     t('individuals.post.input.category.input.description')
 
+  const handleLocationChange = (selected?: GeolocationSuggestion) => {
+    selected ? onChangeSelectedLocation(selected) : onChangeSelectedLocation(null)
+  }
+
+  const onSafeLocation = () => {
+    handleLocationChange(selectedLocation)
+    hideLocationModal()
+  }
   return (
     <>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.layout}>
@@ -250,11 +258,12 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         <FormWrapper
           headlineText={t('individuals.post.input.topics.title')}
           isModal
-          onSave={hideLocationModal}
+          onSave={onSafeLocation}
           keyboardShouldPersistTaps="handled"
           showCancelButton
           onCancel={hideLocationModal}
           showBottomBar
+          saveButtonDisabled={!selectedLocation}
           style={styles.locationModal}
           renderProp={() => (
             <>
@@ -272,9 +281,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                 selected={selectedLocation}
                 id="spaces-location-input"
                 testID="spaces-location"
-                onChange={(selected?: GeolocationSuggestion) => {
-                  selected && onChangeSelectedLocation(selected)
-                }}
+                onChange={handleLocationChange}
                 style={[styles.input, { zIndex: 2 }]}
                 inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
                 suggestionsStyle={styles.suggestionsContainer}
