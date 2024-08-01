@@ -56,8 +56,7 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
 
     // go to some post and mention the test user
     await clickElementByTestId(page, 'btn-to-home-view')
-    await clickElementByTestId(page, 'feed-insight-image-link')
-    await clickElementByTestId(page, 'btn-to-post')
+    await page.getByRole('button', { name: 'btn-comment-to-feed-post' }).first().click()
     // after clicking on notification we should go to post detail page and scroll to the comment
     // notifications currently can take a while to load, therefore we're setting a long timeout here
     await expect(page.getByTestId('post-detail-footer')).toBeVisible({ timeout: 60000 })
