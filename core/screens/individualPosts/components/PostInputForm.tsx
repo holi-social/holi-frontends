@@ -9,6 +9,7 @@ import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocatio
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
 import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
+import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
 import {
@@ -198,6 +199,15 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               isEdit={isEdit}
               scrollEnabled={false}
             />
+            {selectedLocation && (
+              <View style={styles.locationCard}>
+                <PostLocationCard
+                  location={selectedLocation}
+                  editLocation={showLocationModal}
+                  removeLocation={() => onChangeSelectedLocation(null)}
+                />
+              </View>
+            )}
 
             <View style={styles.imageEditor}>
               <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
@@ -279,8 +289,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                 label={t('individuals.post.input.location')}
                 placeholder={t('spaces.input.location.placeholder')}
                 selected={selectedLocation}
-                id="spaces-location-input"
-                testID="spaces-location"
+                id="post-location-input"
+                testID="post-location-input"
                 onChange={handleLocationChange}
                 style={[styles.input, { zIndex: 2 }]}
                 inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
@@ -394,6 +404,10 @@ const getStyles = (theme: HoliTheme) =>
           height: '50%',
         },
       }),
+    },
+    locationCard: {
+      padding: 8,
+      paddingTop: 24,
     },
   })
 
