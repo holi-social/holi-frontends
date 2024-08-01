@@ -22,15 +22,15 @@ const PostLocationCard = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.label}>
+      <View style={styles.labelContainer}>
         <HoliIcon icon={MapPinLine} size={24} />
-        <Text style={{ alignSelf: 'center' }}>{location.label}</Text>
+        <Text style={styles.label}>{location.label}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <HoliButton transparent onPress={removeLocation} label={''} style={styles.button}>
+        <HoliButton transparent onPress={removeLocation} label={'remove-location'} style={styles.button}>
           <HoliIcon icon={Delete} size={16} />
         </HoliButton>
-        <HoliButton transparent onPress={editLocation} label={''} style={styles.button}>
+        <HoliButton transparent onPress={editLocation} label={'edit-location'} style={styles.button}>
           <HoliIcon icon={Pencil} size={16} />
         </HoliButton>
       </View>
@@ -53,6 +53,10 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: 'white',
     },
     label: {
+      alignSelf: 'center',
+    },
+
+    labelContainer: {
       flexDirection: 'row',
       gap: Spacing['3xs'],
       flex: 1,
