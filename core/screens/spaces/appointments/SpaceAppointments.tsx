@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -69,7 +69,7 @@ const SpaceAppointments = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.appointments.title'),
-      headerTransparent: true,
+      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -103,61 +103,60 @@ const SpaceAppointments = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable
-        headerOverlap
-        keyboardShouldPersistTaps="handled"
-        style={styles.wrapper}
-        refreshableProps={{
-          refreshing,
-          onRefresh,
-        }}
-      >
-        <HoliTabs
-          id="appointments-tabs"
-          testID="appointments-tabs"
-          style={styles.tabWrapper}
-          tabBarStyle={styles.tabBar}
-          initialStep={initialTab}
-          tabs={[
-            {
-              title: t('spaces.appointments.tabs.upcoming'),
-              style: styles.tabStyle,
-              children: (
-                <View style={[mixins.container, styles.all]}>
-                  <Pagination
-                    query={appointmentsBySpaceIdQuery}
-                    queryOptions={{
-                      ...queryOptions,
-                      variables: { ...queryOptions.variables, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
-                    }}
-                    loadMoreOnScroll
-                  >
-                    {space && <AppointmentsList space={space} />}
-                  </Pagination>
-                </View>
-              ),
-            },
-            {
-              title: t('spaces.appointments.tabs.past'),
-              style: styles.tabStyle,
-              children: (
-                <View style={[mixins.container, styles.all]}>
-                  <Pagination
-                    query={appointmentsBySpaceIdQuery}
-                    queryOptions={{
-                      ...queryOptions,
-                      variables: { ...queryOptions.variables, statusType: APPOINTMENT_STATUS_TYPE.PAST },
-                    }}
-                    loadMoreOnScroll
-                  >
-                    {space && <AppointmentsList space={space} pastAppointments={true} />}
-                  </Pagination>
-                </View>
-              ),
-            },
-          ]}
-        />
-      </ScrollHeaderLayout.Refreshable>
+      <HoliTabs
+        id="appointments-tabs"
+        testID="appointments-tabs"
+        style={styles.tabWrapper}
+        initialStep={initialTab}
+        backgroundColor={colors.background20}
+        tabs={[
+          {
+            title: t('spaces.appointments.tabs.upcoming'),
+            style: styles.tabStyle,
+            children: (
+              <ScrollViewRefreshable
+                refreshableProps={{ refreshing, onRefresh }}
+                style={[mixins.container, styles.all, { minHeight: '100%' }]}
+                webWrapperStyle={{ justifyContent: 'center' }}
+              >
+                <Pagination
+                  query={appointmentsBySpaceIdQuery}
+                  queryOptions={{
+                    ...queryOptions,
+                    variables: { ...queryOptions.variables, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
+                  }}
+                  loadMoreOnScroll
+                >
+                  {space && <AppointmentsList space={space} />}
+                </Pagination>
+              </ScrollViewRefreshable>
+            ),
+          },
+          {
+            title: t('spaces.appointments.tabs.past'),
+            style: styles.tabStyle,
+            children: (
+              <ScrollViewRefreshable
+                refreshableProps={{ refreshing, onRefresh }}
+                style={[mixins.container, styles.all]}
+                webWrapperStyle={{ justifyContent: 'center' }}
+              >
+                <Pagination
+                  query={appointmentsBySpaceIdQuery}
+                  queryOptions={{
+                    ...queryOptions,
+                    variables: { ...queryOptions.variables, statusType: APPOINTMENT_STATUS_TYPE.PAST },
+                  }}
+                  loadMoreOnScroll
+                >
+                  {space && <AppointmentsList space={space} pastAppointments={true} />}
+                </Pagination>
+              </ScrollViewRefreshable>
+            ),
+          },
+        ]}
+      />
+
       {isMember && (
         <HoliButton
           label={t('spaces.appointments.add.button.label')}
@@ -175,23 +174,8 @@ const SpaceAppointments = () => {
 
 const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
-    wrapper: {
-      minHeight: '100%',
-      ...Platform.select({
-        native: {
-          paddingTop: dimensions.topBarHeight + 24,
-        },
-        web: {
-          paddingTop: dimensions.topBarHeight,
-          minHeight: '100vh' as DimensionValue,
-        },
-      }),
-    },
     tabWrapper: {
       height: '100%',
-    },
-    tabBar: {
-      paddingTop: 24,
     },
     tabStyle: {
       flex: 1,

@@ -67,6 +67,10 @@ const HoliReadMore = ({
     }
   }
 
+  if (textProps.loading) {
+    return <HoliText loading skeletonOptions={textProps.skeletonOptions} style={{ width: '100%' }} />
+  }
+
   return (
     <>
       <Text

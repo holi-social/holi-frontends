@@ -26,7 +26,6 @@ import TrackingInitializer, {
   exportedForTesting as trackingInitializerTesting,
   updateConsentState,
 } from '@holi/core/tracking/TrackingInitializer'
-import { trackingEnabled } from '@holi/core/tracking/config'
 import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
 import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 
@@ -34,9 +33,6 @@ Object.defineProperty(window, 'navigator', {
   value: {},
   writable: true,
 })
-
-jest.mock('@holi/core/tracking/config')
-const trackingEnabledMock = trackingEnabled as jest.Mock
 
 jest.mock('@holi/core/tracking/PosthogCrossPlatform')
 const posthogCrossPlatformMock = {
@@ -61,7 +57,7 @@ jest.mock('next/router', () => ({
 const mockUser = (consentState: ConsentState): AuthenticatedUser => {
   return {
     ...getRandomUser(true),
-    id: '123',
+    id: 'some-user-identity-id',
     trackingConsentAnalytics: Consent.toBooleanOrNull(consentState[TrackingPurpose.Analytics]),
     trackingConsentPersonalization: Consent.toBooleanOrNull(consentState[TrackingPurpose.Personalization]),
     isEmployee: faker.datatype.boolean(),
@@ -118,6 +114,9 @@ const mockAuthenticatedUserResponse = (
 ): MockedResponse<AuthenticatedUserV2Response, AuthenticatedUserV2Variables> => ({
   request: {
     query: authenticatedUserV2Query,
+    variables: {
+      userId: 'some-user-identity-id',
+    },
   },
   result: {
     data: {
@@ -155,7 +154,6 @@ const mockUpdateAuthenticatedUserResponse = (user: AuthenticatedUser, consentSta
 }
 
 const mockEnv = () => {
-  trackingEnabledMock.mockReturnValue(true)
   usePosthogCrossPlatformMock.mockReturnValue(posthogCrossPlatformMock)
 }
 

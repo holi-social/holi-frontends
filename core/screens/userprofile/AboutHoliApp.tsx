@@ -2,9 +2,8 @@ import Constants from 'expo-constants'
 import * as Updates from 'expo-updates'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -41,7 +40,7 @@ const AboutHoliApp = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollHeaderLayout.Default>
+    <ScrollView>
       <View style={[mixins.container, styles.wrapper]}>
         {Constants.expoConfig?.version && <HoliText>App Version: {Constants.expoConfig?.version}</HoliText>}
         {Updates.isEmergencyLaunch && <HoliText>This is an emergency launch</HoliText>}
@@ -71,7 +70,7 @@ const AboutHoliApp = () => {
         {Updates.runtimeVersion && <HoliText>Updates.runtimeVersion: {Updates.runtimeVersion}</HoliText>}
         {Updates.updateId && <HoliText>Updates.updateId: {Updates.updateId}</HoliText>}
       </View>
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 

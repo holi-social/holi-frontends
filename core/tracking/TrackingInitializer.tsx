@@ -7,6 +7,8 @@ import {
   loginState,
   loginStateUnknown,
 } from '@holi/core/auth/loginState'
+import { isApp } from '@holi/core/helpers/isApp'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
   AuthenticatedUserV2Response,
@@ -18,7 +20,6 @@ import {
 import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import { consentStore } from '@holi/core/tracking/ConsentStore'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
-import { trackingEnabled } from '@holi/core/tracking/config'
 import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
 
 const logger = getLogger('Tracking')
@@ -86,10 +87,12 @@ class Tracking {
     return consentState
   }
 
-  public async fetchAuthenticatedUser(): Promise<AuthenticatedUser> {
+  public async fetchAuthenticatedUser(userId: string): Promise<AuthenticatedUser> {
     const response = await this.apollo.query<AuthenticatedUserV2Response>({
       query: authenticatedUserV2Query,
-      fetchPolicy: 'network-only',
+      variables: {
+        userId,
+      },
     })
     logger.debug('TrackingInitializer.fetchAuthenticatedUser', 'fetched authenticated user')
     return response.data.authenticatedUserV2
@@ -159,6 +162,7 @@ interface InitializerState {
         trigger: 'consentUpdatedByUser'
         newConsentState: ConsentState
       } /* transition triggered when user updates their consent */
+  userId?: undefined | string
 }
 
 /** internal use only! only exported for reset in testing */
@@ -187,6 +191,7 @@ export const useConsentState = (): [ConsentState, { loading: boolean }] => useRe
 export const getConsentState = (): ConsentState => consentStateVar()[0]
 
 export interface TrackingInitializerProps extends TrackingInitializerInnerProps {
+  /** used for unit testing to enable tracking even though not running on client side */
   enableTracking?: boolean
 }
 
@@ -196,8 +201,8 @@ const TrackingInitializer = ({
   onUserLoggedInCompleted,
   onUserLoggedOutCompleted,
 }: TrackingInitializerProps) => {
-  // don't initialize for SSR
-  const init = enableTracking || (typeof navigator !== 'undefined' && trackingEnabled())
+  const isWebClientSide = !isSSR
+  const init = enableTracking || isApp || isWebClientSide
   return init ? (
     <TrackingInitializerInner
       onUpdateCompleted={onUpdateCompleted}
@@ -231,6 +236,7 @@ const TrackingInitializerInner = ({
         initializerStateVar({
           state: currentState.state,
           processing: { trigger: 'userLoggedIn' },
+          userId: curState.userId,
         })
       } else if (curState.isLoggedOut && prevState?.isLoggedOut === false) {
         logger.debug('TrackingInitializer', 'detected user logout')
@@ -257,19 +263,20 @@ const TrackingInitializerInner = ({
         case 'initializing':
           switch (state.processing.trigger) {
             case 'userLoggedIn':
-              tracking
-                .fetchAuthenticatedUser()
-                .then((au) => {
-                  tracking.initWithLoggedInUser(au)
-                  consentStateVar([ConsentState.fromUser(au), { loading: false }])
-                })
-                .then(() => {
-                  initializerStateVar({
-                    state: 'loggedIn',
-                    processing: null,
+              state.userId &&
+                tracking
+                  .fetchAuthenticatedUser(state.userId)
+                  .then((au) => {
+                    tracking.initWithLoggedInUser(au)
+                    consentStateVar([ConsentState.fromUser(au), { loading: false }])
                   })
-                  onUserLoggedInCompleted?.()
-                })
+                  .then(() => {
+                    initializerStateVar({
+                      state: 'loggedIn',
+                      processing: null,
+                    })
+                    onUserLoggedInCompleted?.()
+                  })
               break
             case 'userLoggedOut':
               tracking
@@ -333,27 +340,28 @@ const TrackingInitializerInner = ({
         case 'loggedOut':
           switch (state.processing.trigger) {
             case 'userLoggedIn':
-              tracking.fetchAuthenticatedUser().then((authenticatedUser) => {
-                const consentStateFromUserProfile = ConsentState.fromUser(authenticatedUser)
-                const maybeMigrateConsentStateToUserProfile = ConsentState.isUnknown(consentStateFromUserProfile)
-                  ? tracking.loadConsentStateFromLocalStorage().then((csls) => {
-                      logger.debug('TrackingInitializer.userLoggedIn', 'migrating local consent to user profile')
-                      return tracking.updateConsentOnUserProfile(csls)
+              state.userId &&
+                tracking.fetchAuthenticatedUser(state.userId).then((authenticatedUser) => {
+                  const consentStateFromUserProfile = ConsentState.fromUser(authenticatedUser)
+                  const maybeMigrateConsentStateToUserProfile = ConsentState.isUnknown(consentStateFromUserProfile)
+                    ? tracking.loadConsentStateFromLocalStorage().then((csls) => {
+                        logger.debug('TrackingInitializer.userLoggedIn', 'migrating local consent to user profile')
+                        return tracking.updateConsentOnUserProfile(csls)
+                      })
+                    : Promise.resolve(authenticatedUser)
+                  maybeMigrateConsentStateToUserProfile
+                    .then((maybeMigratedUser) => {
+                      tracking.initWithLoggedInUser(maybeMigratedUser)
+                      consentStateVar([ConsentState.fromUser(maybeMigratedUser), { loading: false }])
                     })
-                  : Promise.resolve(authenticatedUser)
-                maybeMigrateConsentStateToUserProfile
-                  .then((maybeMigratedUser) => {
-                    tracking.initWithLoggedInUser(maybeMigratedUser)
-                    consentStateVar([ConsentState.fromUser(maybeMigratedUser), { loading: false }])
-                  })
-                  .then(() => {
-                    initializerStateVar({
-                      state: 'loggedIn',
-                      processing: null,
+                    .then(() => {
+                      initializerStateVar({
+                        state: 'loggedIn',
+                        processing: null,
+                      })
+                      onUserLoggedInCompleted?.()
                     })
-                    onUserLoggedInCompleted?.()
-                  })
-              })
+                })
               break
             case 'userLoggedOut':
               initializerStateVar({

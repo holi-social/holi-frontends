@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -15,7 +14,6 @@ import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -182,8 +180,7 @@ const SpaceRolesPermissions = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       title: t('spaces.rolesAndPermissions.title'),
-      headerStyle: { backgroundColor: colors.background10 },
-      headerTransparent: true,
+      headerTransparent: false,
       headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? ArrowLeft : ArrowDownS} />,
       navigationCustomOptions: {
         footerShown: false,
@@ -244,49 +241,32 @@ const SpaceRolesPermissions = () => {
       space={space}
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
     >
-      <SafeAreaView>
-        <ScrollHeaderLayout.Default headerOverlap style={[styles.wrapper, styles.container]}>
-          <HoliTabs
-            id="collaborator-tabs"
-            style={styles.tabWrapper}
-            tabs={[
-              {
-                title: t('spaces.rolesAndPermissions.tabs.admin'),
-                style: styles.tabStyle,
-                children: <AdminTab />,
-              },
-              {
-                title: t('spaces.rolesAndPermissions.tabs.collaborators'),
-                style: styles.tabStyle,
-                children: <CollaboratorTab />,
-              },
-            ]}
-          />
-        </ScrollHeaderLayout.Default>
-      </SafeAreaView>
+      <HoliTabs
+        id="collaborator-tabs"
+        style={styles.tabWrapper}
+        tabs={[
+          {
+            title: t('spaces.rolesAndPermissions.tabs.admin'),
+            style: styles.tabStyle,
+            children: <AdminTab />,
+          },
+          {
+            title: t('spaces.rolesAndPermissions.tabs.collaborators'),
+            style: styles.tabStyle,
+            children: <CollaboratorTab />,
+          },
+        ]}
+      />
     </PermissionsGuard>
   )
 }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    container: {
-      ...Platform.select({
-        android: {
-          paddingTop: dimensions.topBarHeight,
-        },
-      }),
-    },
     wrapper: {
       backgroundColor: theme.colors.background20,
-      ...Platform.select({
-        native: {
-          height: '100%',
-        },
-      }),
     },
     tabWrapper: {
-      paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background10,
       ...Platform.select({
         native: {

@@ -33,7 +33,9 @@ export const Primary = ({ ...args }) => {
   const [loading, setLoading] = useState(false)
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [helperText, setHelperText] = useState('')
+  const [location, setLocation] = useState('')
   const onChange = (input: string) => {
+    setLocation(input)
     setLoading(true)
     setTimeout(() => {
       setSuggestions(input ? allSuggestions.slice(0, input.length % (allSuggestions.length + 1)) : [])
@@ -52,6 +54,7 @@ export const Primary = ({ ...args }) => {
       loading={loading}
       helperText={helperText}
       trailingIcon={Discord}
+      value={location}
     />
   )
 }

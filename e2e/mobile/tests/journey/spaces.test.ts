@@ -96,13 +96,13 @@ describe('@Spaces', () => {
 
     // create space - cover image
     // We mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
-    await scrollToElementWithTestId('create-space-remove-image-btn', 'down')
+    await waitForElementWithTestId('space-upload-image-btn')
     await tapOnElementWithTestId('holi-wizard-save-btn')
   }
 
   const assertEditingSpace = async () => {
     // check if edit space page has correct information
-    await seeTextWithTestId(initialName, 'space-edit-title')
+    await seeTextWithTestId(initialName, 'space-edit-title', 30000)
     await scrollToElementWithTestId('space-edit-goal', 'down', { maxAttempts: 2 })
     await seeTextWithTestId(initialGoal, 'space-edit-goal')
 

@@ -77,11 +77,13 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
 
   return (
     <>
-      <HoliContainer>
-        <UserProfileView user={user} contactPossible={false} />
-      </HoliContainer>
+      <View style={{ backgroundColor: colors.background10 }}>
+        <HoliContainer>
+          <UserProfileView user={user} contactPossible={false} />
+        </HoliContainer>
+      </View>
       <HoliTabs
-        style={{ marginTop: 24, flex: 1 }}
+        style={{ paddingTop: 24, flex: 1 }}
         backgroundColor={colors.background20}
         initialStep={initialTabIndex}
         onChangeTab={handleTabChanged}

@@ -1,7 +1,7 @@
 # job templates
 
 .mobile_publish:
-  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_FILE: '' # must be overriden by jobs extending .mobile_publish
     EXPO_PUBLISH_RELEASE_CHANNEL: $CI_COMMIT_REF_SLUG
@@ -23,7 +23,7 @@
     - 4cpu-16gb
 
 .mobile_build:
-  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
   variables:
     ENVIRONMENT_FILE: '' # must be overridden by jobs extending .mobile_build
     BUILD_PROFILE: preview
@@ -62,7 +62,7 @@
   allow_failure: false
 
 .mobile_e2e:
-  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
   dependencies: [] # explicitly disable artifact usage
   variables:
     BUILD_PLATFORM: changeme
@@ -121,7 +121,7 @@ mobile_review_publish:
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
-  image: 'alpine'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/alpine'
   variables:
     # has to be set to none for auto stop
     GIT_STRATEGY: none
@@ -353,7 +353,7 @@ mobile_production_build_ios:
 
 mobile_production_submit_android:
   needs: ['mobile_production_build_android']
-  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
@@ -368,7 +368,7 @@ mobile_production_submit_android:
 
 mobile_production_submit_ios:
   needs: ['mobile_production_build_ios']
-  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:

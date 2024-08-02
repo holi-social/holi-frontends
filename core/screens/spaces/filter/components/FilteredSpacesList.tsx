@@ -39,26 +39,26 @@ const FilteredSpacesList: React.FC<Props> = ({ pageSize }) => {
     return <SpacesGrid style={styles.grid} loading={true} pageSize={pageSize} />
   }
 
-  if (spaces.length > 0) {
-    return <SpacesGrid style={styles.grid} spaces={[...spaces]} />
+  if (spaces.length === 0) {
+    return (
+      <HoliNoResults
+        firstText={t('spaces.filter.notFound.title')}
+        secondText={t('spaces.filter.notFound.description')}
+        style={styles.noResults}
+      >
+        <HoliButton
+          label={t('search.filter.reset')}
+          onPress={() => navigate('/spaces')}
+          inline
+          testID="spaces-filter-reset"
+        >
+          {t('search.filter.reset')}
+        </HoliButton>
+      </HoliNoResults>
+    )
   }
 
-  return (
-    <HoliNoResults
-      firstText={t('spaces.filter.notFound.title')}
-      secondText={t('spaces.filter.notFound.description')}
-      style={styles.noResults}
-    >
-      <HoliButton
-        label={t('search.filter.reset')}
-        onPress={() => navigate('/spaces')}
-        inline
-        testID="spaces-filter-reset"
-      >
-        {t('search.filter.reset')}
-      </HoliButton>
-    </HoliNoResults>
-  )
+  return <SpacesGrid style={styles.grid} spaces={[...spaces]} />
 }
 
 const styles = StyleSheet.create({

@@ -4,13 +4,15 @@ variables:
 default:
   before_script:
     - set -ex
-    - env
+    # env -0 | sort -z | tr '\0' '\n': Sort env output alphabetically, keeping multiline variables intact
+    # egrep: Remove sensitive information from the output of env
+    - env -0 | sort -z | tr '\0' '\n' | egrep -ve '^(DOCKER_AUTH_CONFIG|GOOGLE_APPLICATION_CREDENTIALS)=.*'
 
 # job templates
 
 .web_deploy:
   image:
-    name: 'hashicorp/terraform:1.6.1'
+    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.6.6'
     # default entrypoint is terraform command, but we want to run shell scripts
     entrypoint: ['/bin/sh', '-c']
   variables:
@@ -26,7 +28,6 @@ default:
     when: always
     expire_in: 1 week
   script:
-    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     - terraform/environments/web/scripts/create-or-update-env.sh $ENVIRONMENT_ID $CI_COMMIT_SHA
     - echo "$(terraform/environments/web/scripts/get-output.sh app_domain)" > $UI_DOMAIN_PATH
   resource_group: $ENVIRONMENT_ID # never execute terraform in parallel on the same environment
@@ -62,7 +63,7 @@ default:
 
 web_build:
   needs: ['lint_compile_test']
-  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
   script:
     - yarn web:build
     - ./scripts/generate-license-documents.sh
@@ -79,8 +80,11 @@ web_build:
   interruptible: true
   tags:
     - 4cpu-16gb
-  except:
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
   variables:
     WEB_BUILD: true
 
@@ -90,7 +94,7 @@ storybook_publish:
     name: storybook-main
     url: https://main--63846e9768032326df3b0c75.chromatic.com
     deployment_tier: staging
-  image: 'gitlab.holi.team:5050/app/holi-docker/alpine-node-expo-eas' # too much, but since it is there...
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas' # too much, but since it is there...
   script:
     - yarn storybook:publish
   artifacts:
@@ -100,17 +104,16 @@ storybook_publish:
   interruptible: true
   tags:
     - 4cpu-16gb
-  only:
-    refs:
-      - main
-    changes:
-      - apps/storybook/*
-      - packages/ui/*
-      - '**/*.stories.tsx'
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - apps/storybook/*
+        - packages/ui/*
+        - '**/*.stories.tsx'
 
 web_build_docker:
   needs: ['web_build']
-  image: docker:20.10
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:20.10'
   services:
     - docker:20.10-dind
   cache: [] # explicitly disable caching
@@ -121,8 +124,6 @@ web_build_docker:
     GCR_IMAGE: europe-north1-docker.pkg.dev/holi-shared/docker/holi-frontends-web
     # https://about.gitlab.com/blog/2019/07/31/docker-in-docker-with-docker-19-dot-03/
     DOCKER_TLS_CERTDIR: '/certs'
-  before_script:
-    - cat $GOOGLE_CLOUD_SERVICE_ACCOUNT | docker login -u _json_key --password-stdin https://europe-north1-docker.pkg.dev
   script:
     - cd apps/web/
     - docker pull $GCR_IMAGE || true # Allows us to use --cache-from, we need to tag with latest in the next command for this to work
@@ -130,9 +131,11 @@ web_build_docker:
     - docker push $GCR_IMAGE:$CI_COMMIT_SHA # this is the tag that is used for deployment
     - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG # just for easyly knowing which is the last image for a branch
   interruptible: true
-  except:
-    - /^noenv\/.*/
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^noenv\/.*|^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
 
 ## only for review environments
 
@@ -144,27 +147,27 @@ web_review_deploy:
     url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
     on_stop: web_review_destroy
     auto_stop_in: 1 week
-  except:
-    - main
-    - production
-    - /^noenv\/.*/
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
 
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
   dependencies:
     - web_review_deploy
-  except:
-    - main
-    - production
-    - /^noenv\/.*/
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: on_success
 
 web_review_destroy:
   needs: ['web_review_deploy']
   image:
-    name: 'hashicorp/terraform:1.6.1'
+    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.6.6'
     # default entrypoint is terraform command, but we want to run shell scripts
     entrypoint: ['/bin/sh', '-c']
   variables:
@@ -177,19 +180,17 @@ web_review_destroy:
   dependencies: [] # explicitly disable artifact usage
   before_script:
   script:
-    - export GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_CLOUD_SERVICE_ACCOUNT}
     # branch may have been deleted, so we clone and checkout main
     - git clone $CI_REPOSITORY_URL main-clone
     - cd main-clone
     - terraform/environments/web/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
   # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
-  when: manual
   allow_failure: false
-  except:
-    - main
-    - production
-    - /^noenv\/.*/
-    - /^noweb\/.*/
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      when: manual
   resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
   interruptible: false
 
@@ -204,16 +205,16 @@ web_staging_deploy:
     url: https://staging.dev.holi.social
   variables:
     ENVIRONMENT_ID: staging
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 web_staging_e2e:
   extends: .web_e2e
   needs: ['web_staging_deploy']
   dependencies:
     - web_staging_deploy
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 ## production environment
 
@@ -235,5 +236,5 @@ web_production_deploy:
     url: https://app.holi.social
   variables:
     ENVIRONMENT_ID: production
-  only:
-    - production
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^production.*|^hotfix.*/

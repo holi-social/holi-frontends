@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useChatPushPreference } from '@holi/core/screens/notifications/hooks/useChatPushPreference'
 
 const mockGetChatClient = jest.fn()
@@ -22,7 +22,7 @@ jest.mock('@holi/chat/src/client/chatState', () => ({
   useChatInitialized: () => mockUseChatInitialized(),
 }))
 
-jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
 }))
 

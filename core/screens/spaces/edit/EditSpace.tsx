@@ -1,12 +1,11 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StatusBar, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import InfoModal, { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -165,6 +164,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
+      headerTransparent: false,
       headerTitle: () => <HoliText>{t('spaces.edit.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton icon={Close} />,
       navigationCustomOptions: {
@@ -200,7 +200,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
     >
       <SpaceTermContextProvider>
-        <ScrollHeaderLayout.Default style={styles.defaultLayout} contentStyle={styles.contentStyle} headerOverlap>
+        <ScrollView contentContainerStyle={styles.contentStyle}>
           <View style={styles.wrapper} testID="space-edit-container">
             {/* Header */}
             <View style={styles.header} testID="space-edit-header">
@@ -366,7 +366,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
               </HoliContainer>
             </View>
           </View>
-        </ScrollHeaderLayout.Default>
+        </ScrollView>
 
         <View style={styles.overlayContainer}>
           <HoliButton
@@ -431,10 +431,8 @@ const EditSpace: React.FC<ScreenProps> = () => {
 
 const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliTheme) =>
   StyleSheet.create({
-    defaultLayout: {
-      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 16,
-    },
     contentStyle: {
+      paddingTop: 16,
       paddingBottom: 0,
     },
     contactIcon: {
@@ -447,7 +445,6 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
     },
     wrapper: {
       justifyContent: 'center',
-      paddingTop: dimensions.topBarHeight + statusBarHeight,
     },
     modalHeader: {
       backgroundColor: theme.colors.background20,

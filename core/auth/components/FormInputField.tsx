@@ -12,7 +12,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
-import { getNodeId, getNodeTitle, oryNodeIsInput } from '@holi/core/auth/helpers/form'
+import { getNodeId, getNodeTranslationKey, oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import { AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
 
@@ -145,7 +145,7 @@ const FormInputField = React.forwardRef<View, Props>(
     })()
 
     const fieldName = getNodeId(node)
-    const fieldLabel = getNodeTitle(node)
+    const fieldLabel = getNodeTranslationKey(node)
     const handleKeyDown = (event: NativeSyntheticEvent<TextInputKeyPressEventData | TextInputProps>) => {
       const nativeElement = event.nativeEvent as TextInputKeyPressEventData
       if (nativeElement.key === 'Enter') {

@@ -164,8 +164,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   )
 
   const isFullscreen = height === 100
-  const isMobile = Platform.OS !== 'web'
-  const isTouchDevice = isWebTouchDevice() || isMobile
+  const isTouchDevice = isWebTouchDevice() || Platform.OS !== 'web'
 
   let header: React.ReactNode = null
   if (isFullscreen || heading || !isTouchDevice) {

@@ -12,12 +12,13 @@ global.console.error = mockConsoleError
 
 describe('logError', () => {
   const setContextMock = jest.fn()
-  const mockScope = { setContext: setContextMock }
+  const setTagMock = jest.fn()
+  const mockScope = { setContext: setContextMock, setTag: setTagMock }
 
   it('should track errors in sentry', () => {
     logError(new HoliError('Test'), 'some message', { location: 'Component.method' })
 
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'), expect.any(Function))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('some message'), expect.any(Function))
 
     const scopeFunction = captureSentryException.mock.calls[0][1]
     scopeFunction(mockScope)
@@ -30,7 +31,9 @@ describe('logError', () => {
   it('should add context to sentry expection if given', () => {
     logError(new HoliError('Test'), 'some message', { location: 'Component.method', stack: 'some stack', test: 1 })
 
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'), expect.any(Function))
+    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('some message'), expect.any(Function))
+    // sadly, we cannot test if the cause is sent to sentry, because the matcher does not deep match Errors
+    // https://jestjs.io/docs/expect#toequalvalue
 
     const scopeFunction = captureSentryException.mock.calls[0][1]
     scopeFunction(mockScope)

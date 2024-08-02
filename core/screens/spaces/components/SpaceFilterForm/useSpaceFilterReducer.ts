@@ -5,7 +5,6 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import type { SpaceFilter } from './types'
 
 export const getSpaceFilterInitialState = (initFilter: Partial<SpaceFilter> = {}): SpaceFilter => ({
-  locationSearchQuery: '',
   location: undefined,
   topicSlugs: [],
   skillSlugs: [],
@@ -55,16 +54,9 @@ const spaceFilterReducer = (state: SpaceFilter, action: SpaceFilterAction): Spac
         ...Object.fromEntries(action.filterKeys.map((key) => [key, getSpaceFilterInitialState()[key]])),
       }
 
-    case 'LOCATION_SEARCH_QUERY_UPDATE':
-      return {
-        ...state,
-        locationSearchQuery: action.value,
-      }
-
     case 'LOCATION_UPDATE':
       return {
         ...state,
-        locationSearchQuery: action.value?.label ?? state.locationSearchQuery,
         location: action.value,
       }
 

@@ -6,7 +6,6 @@ import { useNotificationService } from '@holi/core/screens/notifications/hooks/u
 const mockInitializeSession = jest.fn()
 const mockSetAuthorizationToken = jest.fn()
 const mockUseLoggedInUser = jest.fn()
-const mockUseFeatureToggle = jest.fn()
 
 jest.mock('@holi/core/screens/notifications/config', () => ({
   novuApplicationIdentifier: 'testApplicationIdentifier',
@@ -39,7 +38,6 @@ describe('useNotificationService', () => {
 
   beforeEach(() => {
     mockUseLoggedInUser.mockReturnValue({ user: { id: subscriberId } })
-    mockUseFeatureToggle.mockReturnValue({ ftEnabled: true })
     mockInitializeSession.mockResolvedValue({ token: 'someToken' })
   })
 

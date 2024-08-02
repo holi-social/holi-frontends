@@ -56,10 +56,17 @@ const nextConfig = {
     },
   ],
   rewrites: async () => [
+    // Required for .txt ending
     {
       source: '/robots.txt',
       destination: '/api/robots',
     },
+    // Required for combination of dynamic page parameters and .xml ending
+    {
+      source: '/sitemap/insights/:page.xml',
+      destination: '/sitemap/insights/:page',
+    },
+    // Locale specific route variants
     {
       source: '/spenden',
       destination: '/donations',

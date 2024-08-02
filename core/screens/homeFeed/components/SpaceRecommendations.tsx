@@ -86,7 +86,7 @@ const SpaceRecommendations = () => {
   const isReloadingSpace = useRefetchOnClientSideForLoggedInWebUser(SpaceRecommendationDocument, queryOptions)
 
   if (spaceError) {
-    logError('Recommended Spaces rendering error', spaceError.message, { location: 'SpaceRecommendations' })
+    logError(spaceError, 'Recommended Spaces rendering error', { location: 'SpaceRecommendations' })
   }
 
   if (!spaceData || isLoadingSpace || isReloadingSpace) return null

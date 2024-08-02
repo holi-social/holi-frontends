@@ -211,52 +211,49 @@ const PostDetailsPage = () => {
       />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
-        style={styles.wrapper}
-        headerOverlap
-        scrollEnabled={false}
-        scrollable={false}
-        contentStyle={styles.wrapperContent}
       >
-        <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
-          <ScrollView style={styles.scrollView}>
-            {post && !loading ? (
-              <>
-                <PostContent
-                  post={post}
-                  showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
-                  aggregatedTopics={aggregatedTopics}
-                />
-                <View style={styles.commentsContainer}>
-                  <Comments
-                    commentableType={CommentableType.FEED_POST}
-                    commentableId={post.id}
-                    replyRoute={`/feed-posts/${post.slug}/comment`}
-                    initialOpenThread={commentId}
-                    reactionButton={<FeedPostReactions post={post} />}
-                    isDiscussion={false}
+        <View style={[styles.wrapper, styles.wrapperContent]}>
+          <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
+            <ScrollView style={styles.scrollView}>
+              {post && !loading ? (
+                <>
+                  <PostContent
+                    post={post}
+                    showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
+                    aggregatedTopics={aggregatedTopics}
                   />
-                </View>
-              </>
-            ) : (
-              <LoadingSkeleton />
-            )}
-          </ScrollView>
-          <HoliReactionsCount
-            onPress={reactOnPost}
-            type="post"
-            count={heartReactions}
-            active={currentUserHasReacted}
-            fullName={post?.creator.fullName}
-            testID="btn-react-to-feed-post-HEART"
-            disabled={loadingReaction}
-          />
-        </HoliContainer>
-      </ScrollHeaderLayout.Refreshable>
+                  <View style={styles.commentsContainer}>
+                    <Comments
+                      commentableType={CommentableType.FEED_POST}
+                      commentableId={post.id}
+                      replyRoute={`/feed-posts/${post.slug}/comment`}
+                      initialOpenThread={commentId}
+                      reactionButton={<FeedPostReactions post={post} />}
+                      isDiscussion={false}
+                    />
+                  </View>
+                </>
+              ) : (
+                <LoadingSkeleton />
+              )}
+            </ScrollView>
+            <HoliReactionsCount
+              onPress={reactOnPost}
+              type="post"
+              count={heartReactions}
+              active={currentUserHasReacted}
+              fullName={post?.author.fullName}
+              testID="btn-react-to-feed-post-HEART"
+              disabled={loadingReaction}
+            />
+          </HoliContainer>
+        </View>
+      </ScrollHeaderLayout>
 
       <SafeAreaView>
         <View style={styles.commentWrapper}>
@@ -310,12 +307,6 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isS
           minHeight: '100%',
           paddingTop: dimensions.topBarHeight + Spacing.md,
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
-        },
-        ios: {
-          paddingTop: dimensions.topBarHeight + insets.top,
-        },
-        android: {
-          paddingTop: dimensions.topBarHeight + Spacing.xl,
         },
       }),
     },
