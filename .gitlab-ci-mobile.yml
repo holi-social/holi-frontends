@@ -292,7 +292,7 @@ mobile_production_publish_release-candidate-staging_channel:
   allow_failure: false
   environment:
     name: mobile-release-candidate-staging
-    deployment_tier: production
+    deployment_tier: staging
     url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=release-candidate-staging
   variables:
     ENVIRONMENT_FILE: .env.staging
