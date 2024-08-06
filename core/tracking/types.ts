@@ -86,4 +86,5 @@ export interface PosthogCrossPlatform {
   reset: () => void
   capture: (event: string, properties?: Properties) => void
   identify: (distinctId: string, properties?: Properties) => void
+  distinctId: () => string
 }
