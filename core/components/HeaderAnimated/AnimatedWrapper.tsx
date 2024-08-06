@@ -3,7 +3,7 @@ import { ImageBackground, Platform, StatusBar, StyleSheet, View } from 'react-na
 import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
 
-import { useHeaderProgress } from '@holi/core/helpers'
+import { useHeaderAnimationProgress } from '@holi/core/helpers'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HeaderBackgroundOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -20,14 +20,14 @@ const useHeaderAnimationStyles = ({
   headerHeight = dimensions.topBarHeight,
   animatable = false,
 }: UseHeaderAnimationStylesArgs) => {
-  const headerProgress = useHeaderProgress()
+  const headerAnimatedProgress = useHeaderAnimationProgress()
 
   const animatedStyle = useAnimatedStyle(
     () => ({
-      transform: [{ translateY: interpolate(headerProgress.value, [0, 1], [-headerHeight, 0]) }],
-      opacity: headerProgress.value,
+      transform: [{ translateY: interpolate(headerAnimatedProgress.value, [0, 1], [-headerHeight, 0]) }],
+      opacity: headerAnimatedProgress.value,
     }),
-    [headerProgress]
+    [headerAnimatedProgress]
   )
 
   return animatable ? animatedStyle : styles.nonAnimatedHeader
