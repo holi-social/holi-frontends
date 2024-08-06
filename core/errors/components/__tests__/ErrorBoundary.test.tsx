@@ -85,7 +85,10 @@ describe('ErrorBoundary', () => {
       new HoliError('Test'),
       { componentStack: expect.any(String) }
     )
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'), expect.any(Function))
+    expect(captureSentryException).toHaveBeenCalledWith(
+      new HoliError('Failed to render component'),
+      expect.any(Function)
+    )
   })
 
   it('logs and tracks error with sentry', () => {
@@ -102,6 +105,9 @@ describe('ErrorBoundary', () => {
       new HoliError('Test'),
       { componentStack: expect.any(String) }
     )
-    expect(captureSentryException).toHaveBeenCalledWith(new HoliError('Test'), expect.any(Function))
+    expect(captureSentryException).toHaveBeenCalledWith(
+      new HoliError('Failed to render component'),
+      expect.any(Function)
+    )
   })
 })

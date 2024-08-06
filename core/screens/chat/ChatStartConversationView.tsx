@@ -20,7 +20,6 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { isWebTouchDevice, useDebounce } from '@holi/ui/helper'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -165,6 +164,7 @@ const ChatStartConversationView = () => {
                   ItemSeparatorComponent={() => <View style={{ height: USER_ITEM_GAP }} />}
                   style={[mixins.container, styles.list]}
                   keyboardShouldPersistTaps="handled"
+                  keyboardDismissMode="on-drag"
                 />
               ) : (
                 <View style={[mixins.container, styles.listDescription]}>
@@ -200,9 +200,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     inner: {
       flex: 1,
-      // 16 is space between the header and the input
-      // we do not use `paddingTop` for this spacing, because it will be overriden with `safeAreaInsetTop` for Android
-      marginTop: dimensions.topBarHeight + 16,
+      marginTop: 16,
     },
     list: {
       flex: 1,

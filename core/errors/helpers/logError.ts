@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/react-native'
 
+import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 
 export type LogFunction = (error: unknown, logMessage: string, context: ErrorContext) => void
@@ -26,7 +27,13 @@ export const logInfoMsg = (message: string) => {
 export const logError: LogFunction = (error: unknown, logMessage: string, context: ErrorContext) => {
   if (isNetworkConnectionError(error)) return
   logErrorLocal(error, logMessage, context)
-  Sentry.captureException(error, (scope) => {
+  // actually have the logMessage as the main message in sentry
+  const holiError = new HoliError(logMessage)
+  // attach the original error as a cause
+  holiError.cause = error
+  Sentry.captureException(holiError, (scope) => {
+    // allow more searching with the location
+    scope.setTag('Location', context.location)
     scope.setContext('Error Context', context)
     return scope
   })

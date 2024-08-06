@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { ScrollView, ScrollViewProps } from 'react-native'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import {
@@ -125,3 +126,7 @@ export function withRefreshControl<P extends LayoutProps, T>(
 
   return WithRefreshControl
 }
+
+export const ScrollViewRefreshable = withRefreshControl<ScrollViewProps, ScrollView>((props) => (
+  <ScrollView {...props} />
+))

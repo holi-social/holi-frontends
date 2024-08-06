@@ -57,7 +57,7 @@ jest.mock('next/router', () => ({
 const mockUser = (consentState: ConsentState): AuthenticatedUser => {
   return {
     ...getRandomUser(true),
-    id: '123',
+    id: 'some-user-identity-id',
     trackingConsentAnalytics: Consent.toBooleanOrNull(consentState[TrackingPurpose.Analytics]),
     trackingConsentPersonalization: Consent.toBooleanOrNull(consentState[TrackingPurpose.Personalization]),
     isEmployee: faker.datatype.boolean(),
@@ -114,6 +114,9 @@ const mockAuthenticatedUserResponse = (
 ): MockedResponse<AuthenticatedUserV2Response, AuthenticatedUserV2Variables> => ({
   request: {
     query: authenticatedUserV2Query,
+    variables: {
+      userId: 'some-user-identity-id',
+    },
   },
   result: {
     data: {

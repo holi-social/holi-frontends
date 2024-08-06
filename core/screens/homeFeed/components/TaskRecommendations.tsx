@@ -31,7 +31,7 @@ const TaskRecommendations = () => {
   const isReloadingTasks = useRefetchOnClientSideForLoggedInWebUser(recommendedTasksQuery, { variables: { limit: 5 } })
 
   if (tasksError) {
-    logError('Could not query tasks', tasksError.message, { location: 'TaskRecommendations' })
+    logError(tasksError, 'Could not query tasks', { location: 'TaskRecommendations' })
   }
 
   if (!taskData || isLoadingTasks || isReloadingTasks) return null

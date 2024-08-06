@@ -144,7 +144,7 @@ const BottomTabsNavigator = () => {
               style={[{ color: iconColor(focused) }, styles.label]}
               testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
             >
-              {isLoggedIn ? t('navigation.profile') : t('auth.login')}
+              {isLoggedIn ? t('navigation.profile') : t('navigation.login')}
             </HoliText>
           ),
           tabBarLabelPosition: 'below-icon',

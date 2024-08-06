@@ -4,6 +4,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import HoliTabBar, { type Tab, TabListProps } from '@holi/ui/components/organisms/HoliTabBar'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface TabItem extends Tab {
   children: React.ReactNode
@@ -44,6 +45,9 @@ const HoliTabs = ({
   scrollEnabled = true,
   lazy = false,
 }: Props) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
   const renderedTabContents = useMemo(
     () =>
       tabs.map((tab, i) => (
@@ -77,16 +81,19 @@ const HoliTabs = ({
   )
 }
 
-const styles = StyleSheet.create({
-  holiTabs: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    alignContent: 'center',
-    width: '100%',
-  },
-  stepperStyle: {
-    alignItems: 'flex-start',
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    holiTabs: {
+      backgroundColor: theme.colors.background10,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      alignContent: 'center',
+      width: '100%',
+    },
+    stepperStyle: {
+      alignItems: 'flex-start',
+      backgroundColor: 'blue',
+    },
+  })
 
 export default HoliTabs

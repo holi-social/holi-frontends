@@ -38,7 +38,7 @@ const CreatePost = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigateBack } = useRouting()
 
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
@@ -88,8 +88,7 @@ const CreatePost = () => {
           categoryId: selectedCategoryId,
           image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
-          // location: selectedLocation,
-          language: data?.detectedLanguage ?? i18n.language,
+          language: data?.detectedLanguage,
         },
       },
       onError: (error) => {
@@ -108,7 +107,7 @@ const CreatePost = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: true,
+      headerTransparent: false,
       headerTitle: () => (
         <HoliHeading level="1" size="s">
           {t('individuals.post.input.title')}
@@ -177,7 +176,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     grayExtendingBackground: {
       backgroundColor: theme.colors.background20,
-      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
+      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : 0,
       alignItems: 'center',
       justifyContent: 'flex-start',
       height: '100%',

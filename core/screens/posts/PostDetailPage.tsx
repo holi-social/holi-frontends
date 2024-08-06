@@ -3,7 +3,8 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { LayoutChangeEvent, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -65,10 +66,9 @@ const PostDetailPage = () => {
   const mixins = useStyleMixins()
   const { width: screenWidth } = useClientWindowDimensions()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollViewRef = useRef<Animated.ScrollView>(null)
 
   const isWeb = Platform.OS === 'web'
 
@@ -104,12 +104,11 @@ const PostDetailPage = () => {
     () =>
       setScreenOptions({
         title,
-        headerStyle: { backgroundColor: colors.background10 },
         navigationCustomOptions: {
           footerShown: false,
         },
       }),
-    [setScreenOptions, title, colors.background10]
+    [setScreenOptions, title]
   )
 
   useTrackOnce(post && space && TrackingEvent.SpacePosts.read(post.id, space.id))
@@ -155,8 +154,8 @@ const PostDetailPage = () => {
       />
       <StatusBar animated />
 
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
@@ -193,7 +192,7 @@ const PostDetailPage = () => {
             </View>
           )}
         </View>
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
 
       <SafeAreaView>
         <View style={styles.postCommentWrapper}>

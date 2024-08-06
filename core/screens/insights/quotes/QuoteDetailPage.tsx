@@ -83,7 +83,7 @@ const QuoteDetailPage = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerStyle: { backgroundColor: theme.colors.background10 },
+      headerTransparent: true,
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,
       headerRight: () => {
         return (
@@ -105,7 +105,11 @@ const QuoteDetailPage = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable refreshableProps={{ refreshing, onRefresh }} style={styles.wrapper} headerOverlap>
+      <ScrollHeaderLayout
+        refreshControlProps={{ refreshing, onRefresh }}
+        contentContainerStyle={styles.wrapper}
+        backgroundColor={theme.colors.background20}
+      >
         {quote && !loading ? (
           <>
             {quote.linkPreview.image && (
@@ -151,7 +155,8 @@ const QuoteDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
+
       <View style={[mixins.container, styles.openLinkButton]}>
         {(!quote || loading) && <HoliButtonLoading loading loadingLabel={t('global.loading')} label="" />}
         {quote && !loading && (
@@ -188,9 +193,7 @@ const Skeleton = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: theme.colors.background20,
       paddingBottom: 124,
-      ...(Platform.OS !== 'web' && { paddingTop: dimensions.topBarHeight + Spacing.xxl }),
     },
     header: {
       marginBottom: 2,
