@@ -68,7 +68,7 @@ export const useLoggedInUser = (): LoggedInState => {
     loading: isLoadingAuthenticatedUser,
     refetch,
   } = useQuery<AuthenticatedUserV2Response, AuthenticatedUserV2Variables>(authenticatedUserV2Query, {
-    skip: loginState.isUnknown || loginState.isLoggedOut,
+    skip: !loginState.isLoggedIn,
     onError: (error) => {
       displayError(error, 'Failed to load authenticated user', {
         location: 'useLoggedInUser.authenticatedUserQuery',

@@ -29,10 +29,9 @@ test.describe('@HomeScreen', () => {
 
     await testPostScreen(browser, page)
 
+    page.goto('/')
     await testAppUpdatesVisible(page, 'donations', donationsRequestTimeout)
-
     await testAppUpdatesVisible(page, 'goodnews', goodnewsRequestTimeout)
-
     await testAppUpdatesVisible(page, 'volunteering', volunteeringRequestTimeout)
 
     // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/profile/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0" is interrupted by another navigation to "http://localhost:3000/profile"`
@@ -42,7 +41,8 @@ test.describe('@HomeScreen', () => {
 })
 
 const testDisplaysHomeScreenContent = async (page: Page) => {
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  // Heading is initially hidden, so it can animate in
+  await page.waitForSelector(byTestId('home-feed-insights-heading'), { state: 'attached' })
   await page.waitForSelector(byTestId('posts-list-results'))
   await page.waitForSelector(byTestId('btn-navigate-to-insights'))
   await page.waitForSelector(byTestId('donations-app-updates-list'))
@@ -115,8 +115,4 @@ const testPostScreen = async (browser: Browser, page: Page) => {
 
   await testDisplaysPostDetails(page)
   await withSSR(browser, page.url(), testDisplaysPostDetails)
-
-  // navigate back
-  await page.locator(byTestId('nav-button-back')).click()
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
 }
