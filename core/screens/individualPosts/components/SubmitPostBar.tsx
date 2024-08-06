@@ -4,9 +4,10 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ImageAdd, ImageEdit } from '@holi/icons/src/generated'
+import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -16,6 +17,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export const SubmitPostBar = ({
   onSubmit,
   onSetImage,
+  showModal,
   hasSetImage,
   submitting,
   isSubmittable,
@@ -23,6 +25,7 @@ export const SubmitPostBar = ({
 }: {
   onSubmit: () => void
   onSetImage: (image: HoliImageInfo) => void
+  showModal: () => void
   hasSetImage: boolean
   submitting: boolean
   isSubmittable: boolean
@@ -35,22 +38,26 @@ export const SubmitPostBar = ({
   return (
     <SafeArea style={styles.menuContainer} edges={['bottom']}>
       <View style={styles.items}>
-        <HoliImagePicker
-          fileSizeLimitation={{
-            type: 'resize',
-            limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
-            resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
-          }}
-          buttonProps={{
-            label: t('individuals.post.image.add'),
-            transparent: true,
-            inline: true,
-          }}
-          onPickImage={onSetImage}
-        >
-          <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} style={styles.addImageIcon} />
-        </HoliImagePicker>
-
+        <View style={styles.iconContainer}>
+          <HoliImagePicker
+            fileSizeLimitation={{
+              type: 'resize',
+              limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+              resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+            }}
+            buttonProps={{
+              label: t('individuals.post.image.add'),
+              transparent: true,
+              inline: true,
+            }}
+            onPickImage={onSetImage}
+          >
+            <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} size={28} style={styles.addImageIcon} />
+          </HoliImagePicker>
+          <HoliButton transparent inline onPress={showModal} label="Add Location" disabled>
+            <HoliIcon icon={MapPinLine} size={28} color={theme.colors.background10} />
+          </HoliButton>
+        </View>
         <HoliButtonLoading
           label={isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}
           inline
@@ -109,5 +116,10 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
           padding: 12,
         },
       }),
+    },
+    iconContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 20,
     },
   })
