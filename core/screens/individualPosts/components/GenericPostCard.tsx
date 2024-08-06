@@ -192,6 +192,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         )}
         {!feedPost.imageUrl && !!feedPost.linkPreview && (
           <HoliLinkPreview
+            style={styles.linkPreview}
             previewData={feedPost.linkPreview}
             onPress={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
           />

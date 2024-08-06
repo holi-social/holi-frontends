@@ -23,7 +23,7 @@ const Notifications = () => {
       setScreenOptions({
         title,
         headerStyle: { backgroundColor: colors.background30 },
-        headerTransparent: true,
+        headerTransparent: false,
         headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
         headerRight: ({ tintColor }) =>
           Platform.OS === 'web' ? <HeaderBackButton icon={Close} tintColor={tintColor} /> : undefined,

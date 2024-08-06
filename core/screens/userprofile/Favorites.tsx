@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet } from 'react-native'
+import { DimensionValue, Platform, ScrollView, StyleSheet } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -44,7 +43,7 @@ const Favorites = () => {
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
       <LoginProtection>
-        <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
+        <ScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
           <HoliBox padding={[24, 0]}>
             <HoliContainer>
               <Pagination
@@ -58,7 +57,7 @@ const Favorites = () => {
               </Pagination>
             </HoliContainer>
           </HoliBox>
-        </ScrollHeaderLayout.Default>
+        </ScrollView>
       </LoginProtection>
     </PermissionsGuard>
   )
@@ -71,7 +70,7 @@ const getStyles = (theme: HoliTheme) =>
       paddingBottom: 0,
     },
     defaultLayout: {
-      marginTop: Platform.OS === 'web' ? 10 : 56,
+      marginTop: Platform.OS === 'web' ? 10 : 0,
       minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
       backgroundColor: theme.colors.background20,
       paddingTop: dimensions.topBarHeight,

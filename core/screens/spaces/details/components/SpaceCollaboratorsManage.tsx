@@ -1,9 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -14,7 +13,6 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, ArrowRightS, Contacts, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -38,9 +36,8 @@ const SpaceCollaboratorsManage = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       title: t('spaces.collaborators.manage.modal.title'),
-      headerStyle: { backgroundColor: colors.background10 },
-      headerTransparent: true,
       headerLeft: () => <HeaderBackButton icon={ArrowLeft} />,
+      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -57,47 +54,39 @@ const SpaceCollaboratorsManage = () => {
       space={space}
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
     >
-      <SafeAreaView>
-        <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap>
-          <View style={[mixins.container, styles.container]}>
-            <HoliLink label={t('spaces.collaborators')} href={`/spaces/${spaceIdOrName}/collaborators/manage`}>
-              <View style={styles.link}>
-                <View style={styles.wrapper}>
-                  <HoliIcon icon={Team} style={styles.icon} />
-                  <HoliText>{t('spaces.collaborators')}</HoliText>
-                </View>
-                <HoliIcon icon={ArrowRightS} />
+      <ScrollView style={styles.flex1}>
+        <View style={[mixins.container]}>
+          <HoliLink label={t('spaces.collaborators')} href={`/spaces/${spaceIdOrName}/collaborators/manage`}>
+            <View style={styles.link}>
+              <View style={styles.wrapper}>
+                <HoliIcon icon={Team} style={styles.icon} />
+                <HoliText>{t('spaces.collaborators')}</HoliText>
               </View>
-            </HoliLink>
-            <HoliLink
-              label={t('spaces.collaborators.manage.permissions')}
-              href={`/spaces/${spaceIdOrName}/collaborators/rolesAndPermissions`}
-            >
-              <View style={styles.link}>
-                <View style={styles.wrapper}>
-                  <HoliIcon icon={Contacts} style={styles.icon} />
-                  <HoliText>{t('spaces.collaborators.manage.permissions')}</HoliText>
-                </View>
-                <HoliIcon icon={ArrowRightS} />
+              <HoliIcon icon={ArrowRightS} />
+            </View>
+          </HoliLink>
+
+          <HoliLink
+            label={t('spaces.collaborators.manage.permissions')}
+            href={`/spaces/${spaceIdOrName}/collaborators/rolesAndPermissions`}
+          >
+            <View style={styles.link}>
+              <View style={styles.wrapper}>
+                <HoliIcon icon={Contacts} style={styles.icon} />
+                <HoliText>{t('spaces.collaborators.manage.permissions')}</HoliText>
               </View>
-            </HoliLink>
-          </View>
-        </ScrollHeaderLayout.Default>
-      </SafeAreaView>
+              <HoliIcon icon={ArrowRightS} />
+            </View>
+          </HoliLink>
+        </View>
+      </ScrollView>
     </PermissionsGuard>
   )
 }
 
 const styles = StyleSheet.create({
-  defaultLayout: {
-    paddingTop: dimensions.topBarHeight,
-  },
-  container: {
-    ...Platform.select({
-      android: {
-        paddingTop: dimensions.topBarHeight,
-      },
-    }),
+  flex1: {
+    flex: 1,
   },
   link: {
     flexDirection: 'row',

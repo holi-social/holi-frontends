@@ -9,7 +9,7 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 jest.useFakeTimers()
 
 const mockUseFeatureFlag = jest.fn()
-jest.mock('@holi/core/helpers/useFeatureFlag', () => ({
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: () => mockUseFeatureFlag(),
 }))
 

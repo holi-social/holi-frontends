@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
-import PosthogFeatureFlagGuard from '@holi/core/components/PosthogFeatureToggleGuard'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -98,10 +98,9 @@ const DonationsAppProjectDetail = () => {
         style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
         testID="donations-detailview-container"
       >
-        <ScrollHeaderLayout.Refreshable
-          refreshableProps={{ refreshing, onRefresh }}
+        <ScrollHeaderLayout
+          refreshControlProps={{ refreshing, onRefresh }}
           style={{ backgroundColor: colors.background30 }}
-          headerOverlap
         >
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
@@ -138,7 +137,7 @@ const DonationsAppProjectDetail = () => {
               />
             )}
           </View>
-        </ScrollHeaderLayout.Refreshable>
+        </ScrollHeaderLayout>
 
         <View style={[mixins.container, styles.donateButtonContainer]}>
           <HoliLink
@@ -173,17 +172,12 @@ export default withProfiler(memo(WrappedDonationsAppProjectDetail), { name: 'Don
 
 const getStyles = (statusBarHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
-    },
     container: {
       paddingBottom: 132,
       paddingHorizontal: 0,
       ...Platform.select({
         native: {
           maxWidth: '100%',
-          paddingTop: dimensions.topBarHeight + 40,
         },
         web: {
           paddingTop: statusBarHeight + dimensions.topBarHeight,
@@ -204,7 +198,11 @@ const getStyles = (statusBarHeight: number, theme: HoliTheme) =>
         },
       }),
     },
-    donateButtonContent: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+    donateButtonContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+    },
     image: {
       // image with is determined by the window with, source material is 2:1
       // if we use lower pixel ratios than 2, we would zoom in into the image and cause blurriness

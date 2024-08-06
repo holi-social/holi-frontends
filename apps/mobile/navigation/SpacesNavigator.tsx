@@ -2,6 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
@@ -36,9 +37,7 @@ import SpaceTasks, { SpaceTasksParams } from '@holi/core/screens/spaces/tasks/Sp
 import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
 import CreateSpaceUpdate, { CreateUpdateParams } from '@holi/core/screens/spaces/updates/CreateUpdate'
 import SpaceVideoCallList, { SpaceVideoCallListParams } from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
-import HeaderAnimated from '@holi/mobile/navigation/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
@@ -77,8 +76,6 @@ export type SpacesScreens = {
 const SpacesStack = createNativeStackNavigator<SpacesScreens>()
 
 const SpacesNavigator = () => {
-  const { theme } = useTheme()
-  const { colors } = theme
   return (
     <SpacesStack.Navigator
       initialRouteName={RouteName.SpaceDetails}
@@ -87,9 +84,6 @@ const SpacesNavigator = () => {
         headerShadowVisible: false,
         headerTransparent: true,
         headerShown: true,
-        headerStyle: {
-          backgroundColor: colors.background10,
-        },
       }}
     >
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />

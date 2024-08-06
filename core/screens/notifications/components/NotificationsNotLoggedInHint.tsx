@@ -27,7 +27,7 @@ export const NotificationsNotLoggedInHint: React.FC<{
   })
 
   return (
-    <ScrollHeaderLayout.Default backgroundColor={colors.background30}>
+    <ScrollHeaderLayout backgroundColor={colors.background30}>
       <HoliContainer>
         <HoliNoResults
           firstText={firstText}
@@ -48,6 +48,6 @@ export const NotificationsNotLoggedInHint: React.FC<{
           </HoliButton>
         </HoliNoResults>
       </HoliContainer>
-    </ScrollHeaderLayout.Default>
+    </ScrollHeaderLayout>
   )
 }

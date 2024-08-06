@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 import Animated, {
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -11,6 +12,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
+import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -27,8 +29,9 @@ import { useTheme } from '@holi/ui/styles/theme'
 const HomeFeedHeader: React.FC = () => {
   const { t } = useTranslation()
   const { theme } = useTheme()
+  const isFocused = useIsFocused()
 
-  const { user } = useLoggedInUser()
+  const { user, state } = useLoggedInUser()
 
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
 
@@ -42,14 +45,22 @@ const HomeFeedHeader: React.FC = () => {
   useEffect(() => {
     rotation.value = withRepeat(
       withSequence(
-        withTiming(10, { duration: 200 }),
-        withTiming(-12, { duration: 200 }),
-        withTiming(35, { duration: 250 }),
-        withTiming(-35, { duration: 250 }),
-        withSpring(0, { damping: 5, stiffness: 100 }),
-        withTiming(0, { duration: 1000 })
+        // delay
+        withTiming(0, { duration: 1500 }),
+        // waving
+        withTiming(20, { easing: Easing.inOut(Easing.sin) }),
+        withTiming(-20, { easing: Easing.inOut(Easing.sin) }),
+        withTiming(26, { easing: Easing.inOut(Easing.sin) }),
+        withTiming(-26, { easing: Easing.inOut(Easing.sin) }),
+        withTiming(26, { easing: Easing.inOut(Easing.sin) }),
+        withTiming(-26, { easing: Easing.inOut(Easing.sin) }),
+        withTiming(20, { easing: Easing.inOut(Easing.sin) }),
+        withTiming(-20, { easing: Easing.inOut(Easing.sin) }),
+        withSpring(0, { damping: 8, stiffness: 70 }),
+        // delay
+        withTiming(0, { duration: 15000 })
       ),
-      -1,
+      3,
       true
     )
   }, [rotation])
@@ -82,7 +93,10 @@ const HomeFeedHeader: React.FC = () => {
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
         </HoliHeading>
 
-        <Animated.View style={[rotationStyle, { transformOrigin: 'center bottom' }]}>
+        {/* start waving animation after user state has been loaded and the screen is focused/active */}
+        <Animated.View
+          style={[state !== 'loading' && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}
+        >
           <HoliLocalImage
             imageSource={Platform.OS === 'android' ? HandWaveFilledPng : HandWaveFilled}
             width={40}

@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -17,6 +16,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceOnboardingParams = {
@@ -37,16 +37,26 @@ const SpaceOnboarding = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.onboarding.title'),
+      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },
+      headerStyle: { backgroundColor: theme.colors.background20 },
     })
-  }, [setScreenOptions, t])
+  }, [setScreenOptions, t, theme.colors.background20])
 
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
-  if (loading || error || !space) {
-    return <></>
+  if (loading) {
+    return (
+      <View style={styles.loaderWrapper}>
+        <HoliLoader />
+      </View>
+    )
+  }
+
+  if (error || !space) {
+    return null
   }
 
   return (
@@ -55,60 +65,63 @@ const SpaceOnboarding = () => {
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
       permissionType={PermissionsType.SPACES}
     >
-      <SafeAreaView style={styles.safeArea}>
-        <ScrollHeaderLayout.Default style={styles.layout}>
-          <HoliContainer>
-            <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
-            <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
-            <HoliLink
-              label={t('spaces.onboarding.setup.nextSteps.title')}
-              href={`/spaces/${spaceIdOrName}/onboarding/steps`}
-            >
-              <View style={styles.link}>
-                <View style={styles.row}>
-                  <HoliIcon icon={Team} style={styles.icon} />
-                  <View style={styles.textWrapper}>
-                    <HoliText>{t('spaces.onboarding.setup.nextSteps.title')}</HoliText>
-                    <HoliText size="small" style={styles.text}>
-                      {t('spaces.onboarding.setup.nextSteps.text')}
-                    </HoliText>
-                  </View>
+      <ScrollView style={styles.layout}>
+        <HoliContainer>
+          <HoliHeading level="2">{t('spaces.onboarding.setup.title')}</HoliHeading>
+          <HoliText style={styles.desc}>{t('spaces.onboarding.setup.text')}</HoliText>
+          <HoliLink
+            label={t('spaces.onboarding.setup.nextSteps.title')}
+            href={`/spaces/${spaceIdOrName}/onboarding/steps`}
+          >
+            <View style={styles.link}>
+              <View style={styles.row}>
+                <HoliIcon icon={Team} style={styles.icon} />
+                <View style={styles.textWrapper}>
+                  <HoliText>{t('spaces.onboarding.setup.nextSteps.title')}</HoliText>
+                  <HoliText size="small" style={styles.text}>
+                    {t('spaces.onboarding.setup.nextSteps.text')}
+                  </HoliText>
                 </View>
-                <HoliIcon icon={ArrowRightS} />
               </View>
-            </HoliLink>
-            <HoliButton
-              label={t('spaces.onboarding.setup.checklist.title')}
-              transparent
-              onPress={showFeatureNotImplementedToast}
-            >
-              <View style={styles.link}>
-                <View style={styles.row}>
-                  <HoliIcon icon={Checkbox} style={styles.icon} />
-                  <View style={styles.textWrapper}>
-                    <HoliText>{t('spaces.onboarding.setup.checklist.title')}</HoliText>
-                    <HoliText size="small" style={styles.text}>
-                      {t('spaces.onboarding.setup.checklist.text')}
-                    </HoliText>
-                  </View>
+              <HoliIcon icon={ArrowRightS} />
+            </View>
+          </HoliLink>
+          <HoliButton
+            label={t('spaces.onboarding.setup.checklist.title')}
+            transparent
+            onPress={showFeatureNotImplementedToast}
+          >
+            <View style={styles.link}>
+              <View style={styles.row}>
+                <HoliIcon icon={Checkbox} style={styles.icon} />
+                <View style={styles.textWrapper}>
+                  <HoliText>{t('spaces.onboarding.setup.checklist.title')}</HoliText>
+                  <HoliText size="small" style={styles.text}>
+                    {t('spaces.onboarding.setup.checklist.text')}
+                  </HoliText>
                 </View>
-                <HoliIcon icon={ArrowRightS} />
               </View>
-            </HoliButton>
-          </HoliContainer>
-        </ScrollHeaderLayout.Default>
-      </SafeAreaView>
+              <HoliIcon icon={ArrowRightS} />
+            </View>
+          </HoliButton>
+        </HoliContainer>
+      </ScrollView>
     </PermissionsGuard>
   )
 }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    loaderWrapper: {
+      flex: 1,
+      backgroundColor: theme.colors.background20,
+    },
     layout: {
       backgroundColor: theme.colors.background20,
       ...Platform.select({
         native: {
-          height: '100%' as DimensionValue,
+          flex: 1,
+          minHeight: '100%',
         },
         web: {
           minHeight: '100vh' as DimensionValue,
@@ -146,10 +159,6 @@ const getStyles = (theme: HoliTheme) =>
       color: theme.colors.foreground20,
       marginTop: 4,
       marginRight: 20,
-    },
-    safeArea: {
-      flex: 1,
-      backgroundColor: theme.colors.background20,
     },
   })
 

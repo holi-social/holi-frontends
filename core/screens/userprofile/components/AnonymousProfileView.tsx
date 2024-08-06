@@ -1,13 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useFeatureFlag } from '@holi/core/helpers/useFeatureFlag'
-import { FeatureFlagKey } from '@holi/core/helpers/useFeatureFlag.common'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -46,7 +45,7 @@ const AnonymousProfileView = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+    <ScrollView style={{ backgroundColor: colors.background20 }}>
       {/* Header */}
       <View style={styles.headerSection}>
         <HoliContainer>
@@ -136,7 +135,7 @@ const AnonymousProfileView = () => {
           />
         )}
       </HoliContainer>
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 
