@@ -223,6 +223,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           submitting={submitting}
           isSubmittable={isSubmittable}
           isEdit={isEdit}
+          showModal={showLocationModal}
         />
       </KeyboardAvoidingView>
 
