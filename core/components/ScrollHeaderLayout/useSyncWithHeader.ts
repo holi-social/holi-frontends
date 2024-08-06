@@ -11,7 +11,7 @@ import Animated, {
 } from 'react-native-reanimated'
 
 import { isWeb } from '@holi/chat/src/utils'
-import { setScreenScrollY, useFocusEffect, useHeaderProgress } from '@holi/core/helpers'
+import { setScreenScrollY, useFocusEffect, useHeaderAnimationProgress } from '@holi/core/helpers'
 import { throttleDebounce } from '@holi/ui/helper/throttleDebounce'
 
 export const useSyncWithHeader = (): AnimatedRef<Animated.ScrollView> => {
@@ -19,7 +19,7 @@ export const useSyncWithHeader = (): AnimatedRef<Animated.ScrollView> => {
   const currentScrollViewOffsetY = useScrollViewOffset(scrollViewRef)
   // represents the scrollY value when the scroll direction changes
   const changeScrollStartingPoint = useSharedValue(0)
-  const headerProgress = useHeaderProgress()
+  const headerAnimationProgress = useHeaderAnimationProgress()
 
   const { height: screenHeight } = useWindowDimensions()
   const SCROLL_THRESHOLD = screenHeight * 0.25
@@ -41,14 +41,14 @@ export const useSyncWithHeader = (): AnimatedRef<Animated.ScrollView> => {
       const changeScrollStartingPointValue = Math.max(changeScrollStartingPoint.value, 0)
 
       if (currentScrollY > 0 && currentScrollY > changeScrollStartingPoint.value) {
-        headerProgress.value = interpolate(
+        headerAnimationProgress.value = interpolate(
           currentScrollY,
           [changeScrollStartingPointValue, changeScrollStartingPointValue + SCROLL_THRESHOLD],
           [1, 0],
           'clamp'
         )
       } else {
-        headerProgress.value = withTiming(1)
+        headerAnimationProgress.value = withTiming(1)
       }
     }
   )
@@ -58,9 +58,9 @@ export const useSyncWithHeader = (): AnimatedRef<Animated.ScrollView> => {
     useCallback(() => {
       if (isWeb) return
 
-      headerProgress.value = withTiming(1)
+      headerAnimationProgress.value = withTiming(1)
       changeScrollStartingPoint.value = currentScrollViewOffsetY.value
-    }, [changeScrollStartingPoint, headerProgress, currentScrollViewOffsetY])
+    }, [changeScrollStartingPoint, headerAnimationProgress, currentScrollViewOffsetY])
   )
   // WEB: add `scroll` event listener on `<html>` element and update `currentScrollViewOffsetY` value
   useEffect(() => {
