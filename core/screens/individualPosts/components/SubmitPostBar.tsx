@@ -17,19 +17,19 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export const SubmitPostBar = ({
   onSubmit,
   onSetImage,
+  showModal,
   hasSetImage,
   submitting,
   isSubmittable,
   isEdit,
-  showModal,
 }: {
   onSubmit: () => void
   onSetImage: (image: HoliImageInfo) => void
+  showModal: () => void
   hasSetImage: boolean
   submitting: boolean
   isSubmittable: boolean
   isEdit: boolean
-  showModal: () => void
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -54,8 +54,8 @@ export const SubmitPostBar = ({
           >
             <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} size={28} style={styles.addImageIcon} />
           </HoliImagePicker>
-          <HoliButton transparent inline onPress={showModal} label="Add Location" disabled>
-            <HoliIcon icon={MapPinLine} size={28} color={theme.colors.background10} />
+          <HoliButton transparent inline onPress={showModal} label="Add Location">
+            <HoliIcon icon={MapPinLine} size={28} />
           </HoliButton>
         </View>
         <HoliButtonLoading

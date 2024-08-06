@@ -6,7 +6,7 @@ const SvgZzzFilled = (props) => (
     <G clipPath="url(#zzz-filled_svg__a)">
       <Path
         fill="currentColor"
-        d="M11 11v2l-5.327 6H11v2H3v-2l5.326-6H3v-2h8Zm10-8v2l-5.327 6H21v2h-8v-2l5.326-6H13V3h8Z"
+        d="M11 11v2l-5.327 6H11v2H3v-2l5.326-6H3v-2zm10-8v2l-5.327 6H21v2h-8v-2l5.326-6H13V3z"
       />
     </G>
     <Defs>

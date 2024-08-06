@@ -42,6 +42,7 @@ export interface FeedPost {
   description: string
   imageUrl?: string
   visibility: VisibilityLevel
+  location?: string
   topics?: Topic[]
   category: Category
   author: User
