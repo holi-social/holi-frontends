@@ -14080,7 +14080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:^9.0.0":
+"babel-loader@npm:^9.0.0, babel-loader@npm:^9.1.2":
   version: 9.1.3
   resolution: "babel-loader@npm:9.1.3"
   dependencies:
@@ -14090,19 +14090,6 @@ __metadata:
     "@babel/core": ^7.12.0
     webpack: ">=5"
   checksum: 10c0/e3fc3c9e02bd908b37e8e8cd4f3d7280cf6ac45e33fc203aedbb615135a0fecc33bf92573b71a166a827af029d302c0b060354985cd91d510320bd70a2f949eb
-  languageName: node
-  linkType: hard
-
-"babel-loader@npm:^9.1.2":
-  version: 9.1.2
-  resolution: "babel-loader@npm:9.1.2"
-  dependencies:
-    find-cache-dir: "npm:^3.3.2"
-    schema-utils: "npm:^4.0.0"
-  peerDependencies:
-    "@babel/core": ^7.12.0
-    webpack: ">=5"
-  checksum: 10c0/e62ca6af7dec5e9138908ca23f0f29b0865f733d76680b0b0ebc97b1ae18dc6e9cf887c02439ee0634a16eaaef0dc000d78d20c30c348f651a55f50aea5a62ff
   languageName: node
   linkType: hard
 
@@ -19246,7 +19233,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-cache-dir@npm:^3.0.0, find-cache-dir@npm:^3.3.1, find-cache-dir@npm:^3.3.2":
+"find-cache-dir@npm:^3.0.0, find-cache-dir@npm:^3.3.1":
   version: 3.3.2
   resolution: "find-cache-dir@npm:3.3.2"
   dependencies:
