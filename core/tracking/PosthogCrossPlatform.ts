@@ -8,6 +8,10 @@ export class PosthogReactNative implements PosthogCrossPlatform {
     if (this.posthog === null || this.posthog === undefined) throw new Error('posthog instance is null or undefined')
   }
 
+  distinctId() {
+    return this.posthog.getDistinctId()
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   capture(event: string, properties: { [p: string]: any } | undefined): void {
     this.posthog.capture(event, properties)
