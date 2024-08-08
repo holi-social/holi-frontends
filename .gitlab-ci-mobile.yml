@@ -335,3 +335,19 @@ mobile_production_submit_ios:
   only:
     - production
   interruptible: false
+
+mobile_release_publish:
+  extends: .mobile_publish
+  needs: ['lint_compile_test']
+  allow_failure: false
+  environment:
+    name: mobile-release-$CI_COMMIT_REF_SLUG
+    deployment_tier: production
+    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
+  variables:
+    ENVIRONMENT_FILE: .env.production
+    USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON: 'true'
+  only:
+    - /^release\/.*/
+  when: manual
+
