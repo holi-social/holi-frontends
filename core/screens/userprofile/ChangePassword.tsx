@@ -241,6 +241,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
                         inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
                         maxNoOfCharacters={200}
                         onChange={setOldPwd}
+                        value={oldPwd}
                         type="password"
                         testID={'old-password'}
                       />
@@ -256,6 +257,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
                       inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
                       maxNoOfCharacters={200}
                       onChange={setNewPwd}
+                      value={newPwd}
                       type="password"
                       testID={'new-password'}
                     />
@@ -270,6 +272,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
                         inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
                         maxNoOfCharacters={200}
                         onChange={setNewPwdRetype}
+                        value={newPwdRetype}
                         type="password"
                         testID={'new-password-retype'}
                       />

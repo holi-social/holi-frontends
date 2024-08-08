@@ -210,6 +210,7 @@ const ChangeEmail = () => {
                       onChange={setOldPwd}
                       type="password"
                       testID={'old-password'}
+                      value={oldPwd}
                     />
                     <HoliTextInput
                       inputLabel={t('auth.changeEmail.input.label-NewEmail')}
@@ -223,6 +224,7 @@ const ChangeEmail = () => {
                       onChange={setNewEmail}
                       type="email"
                       testID={'new-email'}
+                      value={newEmail}
                     />
                     <HoliTextInput
                       inputLabel={t('auth.changeEmail.input.label-NewEmail-retype')}
@@ -234,6 +236,7 @@ const ChangeEmail = () => {
                       inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
                       maxNoOfCharacters={200}
                       onChange={setNewEmailRetype}
+                      value={newEmailRetype}
                       type="email"
                       testID={'new-email-retype'}
                     />
