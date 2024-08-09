@@ -15901,13 +15901,13 @@ __metadata:
   linkType: hard
 
 "cookies-next@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "cookies-next@npm:2.1.1"
+  version: 2.1.2
+  resolution: "cookies-next@npm:2.1.2"
   dependencies:
     "@types/cookie": "npm:^0.4.1"
     "@types/node": "npm:^16.10.2"
     cookie: "npm:^0.4.0"
-  checksum: 10c0/6fccfe491f713c404f26e123d38217a88012963bc168666f5200af1535cf3f9fdae743652d011af3e9cef8a1710843bcf66a29a2fb9e043e4471b8c1cf3580a0
+  checksum: 10c0/9be3a8d7bcc6400c35f86a9b07e6f0ee297ee7af08b4e8470f5b52a79c11bcf8d525b01c71dd2c0e073765b54c05554341d4c846126a1213566d57d405615eec
   languageName: node
   linkType: hard
 
