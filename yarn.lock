@@ -14221,9 +14221,9 @@ __metadata:
   linkType: hard
 
 "babel-plugin-react-native-web@npm:^0.19.10":
-  version: 0.19.10
-  resolution: "babel-plugin-react-native-web@npm:0.19.10"
-  checksum: 10c0/c9599c8d5348f903ece5a720dd6bd4464ce04f7ccbb2e5a8faa64aa6531815d6691e7715dfa8f141e3ad2a470a4094a5c6e27dc8fa45c17277ee7d794fca13a1
+  version: 0.19.12
+  resolution: "babel-plugin-react-native-web@npm:0.19.12"
+  checksum: 10c0/5d06fd2e211ee99ac90dd03e99e6bba58a1d967e8de0ff9bd576db5b0e2c723252d35e742635517d5c80ba53dd1e46297894291109278db6bfa322245c247aa5
   languageName: node
   linkType: hard
 
