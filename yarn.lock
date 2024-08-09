@@ -11973,11 +11973,11 @@ __metadata:
   linkType: hard
 
 "@types/lodash.partition@npm:^4.6.7":
-  version: 4.6.7
-  resolution: "@types/lodash.partition@npm:4.6.7"
+  version: 4.6.9
+  resolution: "@types/lodash.partition@npm:4.6.9"
   dependencies:
     "@types/lodash": "npm:*"
-  checksum: 10c0/0f6e3bdf4845aa76cb33f2eb687bd015587fee785d69b6421d6b5e9849625e5be8ee7fb1665bc96224eec05cd282f0250737d86c7dbb99b720f22f35b2427f98
+  checksum: 10c0/69addb453c4e85757ae337ed312848602206ac323995ef8655eab724a367086d70ee836560d9975adce33ca4e48e8b5476943ac11db2742666ab07114b6d9eec
   languageName: node
   linkType: hard
 
