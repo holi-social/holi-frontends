@@ -22499,14 +22499,14 @@ __metadata:
   linkType: hard
 
 "jest-mock-extended@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "jest-mock-extended@npm:3.0.5"
+  version: 3.0.7
+  resolution: "jest-mock-extended@npm:3.0.7"
   dependencies:
-    ts-essentials: "npm:^7.0.3"
+    ts-essentials: "npm:^10.0.0"
   peerDependencies:
     jest: ^24.0.0 || ^25.0.0 || ^26.0.0 || ^27.0.0 || ^28.0.0 || ^29.0.0
     typescript: ^3.0.0 || ^4.0.0 || ^5.0.0
-  checksum: 10c0/cbe46aa7bb05c4d57ba82d09003359071e3794ef9ad2835192bec605d78e1d3cc0a7252dcc6db1004a8377be167f05e16795c67edf6d5c9b5a8544ccd3e92ac5
+  checksum: 10c0/17d2e816eae8e95933817102987ba9f700890c4b1223495012bca2ec76644cd203336843a4c381a662e03bde0b637767ad8e2c13b490e9a5eaeb87d211994647
   languageName: node
   linkType: hard
 
@@ -31590,12 +31590,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-essentials@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "ts-essentials@npm:7.0.3"
+"ts-essentials@npm:^10.0.0":
+  version: 10.0.1
+  resolution: "ts-essentials@npm:10.0.1"
   peerDependencies:
-    typescript: ">=3.7.0"
-  checksum: 10c0/ea1919534ec6ce4ca4d9cb0ff1ab8e053509237da8d4298762ab3bfba4e78ca5649a599ce78a5c7c2624f3a7a971f62b265b7b0c3c881336e4fa6acaf6f37544
+    typescript: ">=4.5.0"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 10c0/bc412ae9dafc97a7ab51c63743628d58cc9e7f4f7449d8c89ccb04f50502d04c3dd35a6dea94dbaab2845b856f198a8eb2e8d93e897218d1eb810ca826c1b080
   languageName: node
   linkType: hard
 
