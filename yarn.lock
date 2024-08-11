@@ -3611,6 +3611,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@bundled-es-modules/tough-cookie@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "@bundled-es-modules/tough-cookie@npm:0.1.6"
+  dependencies:
+    "@types/tough-cookie": "npm:^4.0.5"
+    tough-cookie: "npm:^4.1.4"
+  checksum: 10c0/28bcac878bff6b34719ba3aa8341e9924772ee55de5487680ebe784981ec9fccb70ed5d46f563e2404855a04de606f9e56aa4202842d4f5835bc04a4fe820571
+  languageName: node
+  linkType: hard
+
 "@callstack/react-theme-provider@npm:3.0.3":
   version: 3.0.3
   resolution: "@callstack/react-theme-provider@npm:3.0.3"
@@ -7409,13 +7419,6 @@ __metadata:
   peerDependencies:
     react: ">=16"
   checksum: 10c0/6d647115703dbe258f7fe372499fa8c6fe17a053ff0f2a208111c9973a71ae738a0ed376770445d39194d217e00e1a015644b24f32c2f7cb4f57988de0649b15
-  languageName: node
-  linkType: hard
-
-"@mswjs/cookies@npm:^1.1.0":
-  version: 1.1.1
-  resolution: "@mswjs/cookies@npm:1.1.1"
-  checksum: 10c0/75d3fdb0b5941ff473776b25869e4e7d1aeae872107c8cd12f1ebd89e1a9fb39473c9fbd1278aec91f40c991cd9fe98533863ef3a3906ca060532ce49acf86a5
   languageName: node
   linkType: hard
 
@@ -12305,6 +12308,13 @@ __metadata:
   version: 4.0.2
   resolution: "@types/tough-cookie@npm:4.0.2"
   checksum: 10c0/38d01fc79a9a87166253b8c548bb401599424c57a818bea1b47a68be6dcd37fc3bff381f978354e00221f284937d5066bb92d58bf79952f9d21deb934e8ec9a7
+  languageName: node
+  linkType: hard
+
+"@types/tough-cookie@npm:^4.0.5":
+  version: 4.0.5
+  resolution: "@types/tough-cookie@npm:4.0.5"
+  checksum: 10c0/68c6921721a3dcb40451543db2174a145ef915bc8bcbe7ad4e59194a0238e776e782b896c7a59f4b93ac6acefca9161fccb31d1ce3b3445cb6faa467297fb473
   languageName: node
   linkType: hard
 
@@ -25310,13 +25320,13 @@ __metadata:
   linkType: hard
 
 "msw@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "msw@npm:2.3.1"
+  version: 2.3.5
+  resolution: "msw@npm:2.3.5"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.0"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
+    "@bundled-es-modules/tough-cookie": "npm:^0.1.6"
     "@inquirer/confirm": "npm:^3.0.0"
-    "@mswjs/cookies": "npm:^1.1.0"
     "@mswjs/interceptors": "npm:^0.29.0"
     "@open-draft/until": "npm:^2.1.0"
     "@types/cookie": "npm:^0.6.0"
@@ -25337,7 +25347,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/2f8bb3cce72a37ed7014b2ef18e45b64a617c6d1ebcb871fe43184d0759fa595bcd88cbc3865c668bda5a9482e259cb13aa07c482c7d977e4975ff3708162ea0
+  checksum: 10c0/f944d8eb67ccdcf74aba0ce433395a9616420b8b36d43f033635817ef7535553c7bf6854392a95b093546e3481ca99e9017525b6c0bd02f51528b669e672214d
   languageName: node
   linkType: hard
 
@@ -31524,6 +31534,18 @@ __metadata:
     universalify: "npm:^0.2.0"
     url-parse: "npm:^1.5.3"
   checksum: 10c0/4fc0433a0cba370d57c4b240f30440c848906dee3180bb6e85033143c2726d322e7e4614abb51d42d111ebec119c4876ed8d7247d4113563033eebbc1739c831
+  languageName: node
+  linkType: hard
+
+"tough-cookie@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "tough-cookie@npm:4.1.4"
+  dependencies:
+    psl: "npm:^1.1.33"
+    punycode: "npm:^2.1.1"
+    universalify: "npm:^0.2.0"
+    url-parse: "npm:^1.5.3"
+  checksum: 10c0/aca7ff96054f367d53d1e813e62ceb7dd2eda25d7752058a74d64b7266fd07be75908f3753a32ccf866a2f997604b414cfb1916d6e7f69bc64d9d9939b0d6c45
   languageName: node
   linkType: hard
 
