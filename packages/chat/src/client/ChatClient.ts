@@ -51,6 +51,8 @@ import {
   filterMessagesChunk,
   hasRoomUpdatesType,
   isJoinOrLeaveEvent,
+  isMembershipAvatarUpdate,
+  isMembershipDisplaynameUpdate,
   isMembershipEvent,
   isMessageEvent,
   isSharedDataChildContent,
@@ -542,6 +544,12 @@ export default class ChatClient {
       if (room.roomId !== event.getRoomId()) return
       if (!isMessageEvent(event) && !isMembershipEvent(event)) return
       if (isMembershipEvent(event) && !isJoinOrLeaveEvent(event)) return
+      // when user updates 'avatar' or 'displayname' a new 'm.room.member' event is triggered for all rooms
+      // where only 'content' changes, but 'membership' remains the same
+      // we don't want to show these events
+      if (isMembershipAvatarUpdate(event) || isMembershipDisplaynameUpdate(event)) return
+
+      event.getPrevContent()
 
       callback(room.roomId, createChatMessage(room.roomId, event.getEffectiveEvent()))
     }
