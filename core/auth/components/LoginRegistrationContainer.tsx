@@ -20,7 +20,7 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
   const redirect = useRedirect('/')
 
   useIsomorphicLayoutEffect(() => {
-    isLoggedIn && redirect()
+    isLoggedIn && redirect(true)
   }, [isLoggedIn, redirect])
 
   if (isLoading) return <HoliLoader />

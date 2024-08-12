@@ -9,7 +9,7 @@ export const usePathToRedirect = () => useReactiveVar(pathToRedirect)
 
 export const useRedirect = (fallback?: string) => {
   const pathToRedirect = usePathToRedirect() ?? fallback
-  const { navigate } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
 
   // Reset `pathToRedirect` on component destroy
   useEffect(() => {
@@ -18,7 +18,10 @@ export const useRedirect = (fallback?: string) => {
     }
   }, [])
 
-  return useCallback(() => {
-    if (pathToRedirect) navigate(pathToRedirect)
-  }, [navigate, pathToRedirect])
+  return useCallback(
+    (replace?: boolean) => {
+      if (pathToRedirect) replace ? replaceRoute(pathToRedirect) : navigate(pathToRedirect)
+    },
+    [navigate, pathToRedirect, replaceRoute]
+  )
 }
