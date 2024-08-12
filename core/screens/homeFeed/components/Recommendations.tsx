@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
@@ -14,6 +15,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
+import VolunteeringRecosV1 from '@holi-apps/volunteering/components/VolunteeringRecosV1'
 import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
 
 const Recommendations = () => {
@@ -21,7 +23,9 @@ const Recommendations = () => {
 
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayGoodNews = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
-  const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
+  const displayVolunteeringRecosV1 = useFeatureFlagToggle(FeatureFlagKey.VOLUNTEERING_RECOS_V1)
+  const displayVolunteering =
+    useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn && !displayVolunteeringRecosV1
 
   return (
     <View style={styles.container}>
@@ -55,13 +59,13 @@ const Recommendations = () => {
 
       {displayVolunteering && (
         <HoliContainer>
-          <PosthogFeatureFlagGuard
-            featureFlagKey={FeatureFlagKey.VOLUNTEERING}
-            i18nKey="volunteering:maintenance.feature"
-            noLayout
-          >
-            <VolunteeringUpdates style={styles.updatesContainer} />
-          </PosthogFeatureFlagGuard>
+          <VolunteeringUpdates style={styles.updatesContainer} />
+        </HoliContainer>
+      )}
+
+      {displayVolunteeringRecosV1 && (
+        <HoliContainer>
+          <VolunteeringRecosV1 style={styles.updatesContainer} />
         </HoliContainer>
       )}
 
