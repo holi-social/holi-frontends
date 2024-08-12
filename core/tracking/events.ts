@@ -82,6 +82,22 @@ export namespace TrackingEvent {
     }),
   }
 
+  export const Donations = {
+    pressed: (projectId: number): TrackingEvent => ({
+      name: 'pressedDonateButton',
+      properties: { projectId },
+      ...versionOne,
+    }),
+  }
+
+  export const Volunteering = {
+    pressed: (engagementId: number): TrackingEvent => ({
+      name: 'pressedVolunteeringEngagementButton',
+      properties: { engagementId },
+      ...versionOne,
+    }),
+  }
+
   export const SpacePosts = {
     created: (spaceId?: string): TrackingEvent => ({
       name: 'createdSpacePost',

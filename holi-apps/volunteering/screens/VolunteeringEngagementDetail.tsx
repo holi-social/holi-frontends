@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
+import { HoliButtonLoadingTracked } from '@holi/core/components/HoliButtonLoadingTracked'
 import HoliHead from '@holi/core/components/HoliHead'
 import { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -17,11 +18,11 @@ import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { TrackingEvent } from '@holi/core/tracking'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -250,11 +251,12 @@ const VolunteeringEngagementDetail = () => {
         </ScrollHeaderLayout>
 
         <View style={styles.volunteeringButton}>
-          <HoliButtonLoading
+          <HoliButtonLoadingTracked
             icon={ShareBox}
             label={t('volunteering:engagementDetail.getInTouch')}
             onPress={() => Linking.openURL(engagement.url)}
             testID="volunteering-engagement-get-in-touch-btn"
+            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId)}
           />
         </View>
       </View>
