@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
@@ -22,7 +22,6 @@ import {
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
 import { getChatInitials, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
-import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { getInitials } from '@holi/core/helpers'
@@ -34,6 +33,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -175,57 +175,55 @@ const ChatRoomView = () => {
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
 
   return (
-    <View style={styles.layoutWarpper}>
-      <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-        <Animated.View entering={FadeIn} style={{ flex: 1 }}>
-          <SafeAreaView style={styles.safeArea}>
-            <KeyboardAvoidingViewWrapper
-              renderProp={() => (
-                <View style={styles.container}>
-                  <View style={styles.listContainer}>
-                    {room.hasInvitation ? (
-                      <ChatProfileCard
-                        member={chatPartner}
-                        roomId={roomId}
-                        user={chatPartnerHoliUser}
-                        userIsLoading={loadingUsers}
-                      />
-                    ) : (
-                      <RoomMessageList
-                        roomId={room.id}
-                        messages={messages || []}
-                        matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
-                        starter={
-                          amIRoomCreator &&
-                          chatPartnerHoliUser && (
-                            <View style={styles.listStage}>
-                              <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
-                            </View>
-                          )
+    <HoliKeyboardSafeAreaView>
+      <View style={styles.layoutWarpper}>
+        <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
+          <Animated.View entering={FadeIn} style={{ flex: 1 }}>
+            <SafeAreaView style={styles.safeArea}>
+              <View style={styles.container}>
+                <View style={styles.listContainer}>
+                  {room.hasInvitation ? (
+                    <ChatProfileCard
+                      member={chatPartner}
+                      roomId={roomId}
+                      user={chatPartnerHoliUser}
+                      userIsLoading={loadingUsers}
+                    />
+                  ) : (
+                    <RoomMessageList
+                      roomId={room.id}
+                      messages={messages || []}
+                      matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
+                      starter={
+                        amIRoomCreator &&
+                        chatPartnerHoliUser && (
+                          <View style={styles.listStage}>
+                            <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+                          </View>
+                        )
+                      }
+                      onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                        const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
+
+                        if (needToLoad) {
+                          requestMessages(roomId, false)
                         }
-                        onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
-                          const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
-
-                          if (needToLoad) {
-                            requestMessages(roomId, false)
-                          }
-                        }}
-                      />
-                    )}
-                  </View>
-
-                  <ChatTextInput
-                    isVisible={!room.hasInvitation}
-                    userName={chatPartnerHoliUser?.fullName}
-                    roomId={roomId}
-                  />
+                      }}
+                    />
+                  )}
                 </View>
-              )}
-            />
-          </SafeAreaView>
-        </Animated.View>
-      </PermissionsGuard>
-    </View>
+
+                <ChatTextInput
+                  isVisible={!room.hasInvitation}
+                  userName={chatPartnerHoliUser?.fullName}
+                  roomId={roomId}
+                />
+              </View>
+            </SafeAreaView>
+          </Animated.View>
+        </PermissionsGuard>
+      </View>
+    </HoliKeyboardSafeAreaView>
   )
 }
 
@@ -236,7 +234,7 @@ const getStyles = (theme: HoliTheme) =>
     layoutWarpper: {
       ...Platform.select({
         web: {
-          height: '100vh' as DimensionValue,
+          height: '100%',
         },
         native: {
           flex: 1,
@@ -254,7 +252,6 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       flex: 1,
       alignItems: 'center',
-      minHeight: '100%',
       backgroundColor: theme.colors.background20,
     },
     listContainer: {
