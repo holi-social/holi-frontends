@@ -46,6 +46,37 @@ export const volunteeringEngagementsQuery = gql`
   }
 `
 
+export type VolunteeringRecosV1QueryVariables = {
+  limit?: number
+  offset?: number
+  topics?: string[]
+  skills?: string[]
+}
+export type VolunteeringRecosV1QueryResponse = {
+  appVolunteering_engagementRecommendations: {
+    totalResults: number
+    data: VolunteeringEngagement[]
+  }
+}
+
+export const volunteeringRecosV1Query = gql`
+  ${fullEngagementFragment}
+
+  query VolunteeringRecommendations(
+    $limit: Int! = 10
+    $offset: Int! = 0
+    $topics: [String!] = []
+    $skills: [String!] = []
+  ) {
+    appVolunteering_engagementRecommendations(limit: $limit, offset: $offset, topics: $topics, skills: $skills) {
+      totalResults
+      data {
+        ...FullEngagement
+      }
+    }
+  }
+`
+
 export const engagementByIdQuery = gql`
   ${fullEngagementFragment}
 

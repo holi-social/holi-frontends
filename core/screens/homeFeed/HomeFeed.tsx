@@ -9,6 +9,7 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
@@ -32,7 +33,7 @@ import AttendingChallengeEvents from '@holi-apps/challenges/components/Attending
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
+import { volunteeringEngagementsQuery, volunteeringRecosV1Query } from '@holi-apps/volunteering/queries'
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -55,7 +56,9 @@ const HomeFeed = () => {
 
   const donationsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const goodnewsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
-  const volunteeringEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
+  const volunteeringRecosV1Enabled = useFeatureFlagToggle(FeatureFlagKey.VOLUNTEERING_RECOS_V1)
+  const volunteeringEnabled =
+    useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn && !volunteeringRecosV1Enabled
 
   // TODO: when SSR is enabled we need to lazy load the header because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -87,6 +90,7 @@ const HomeFeed = () => {
         donationsEnabled ? donationProjectsQuery : undefined,
         goodnewsEnabled ? goodNewsArticlesQuery : undefined,
         volunteeringEnabled ? volunteeringEngagementsQuery : undefined,
+        volunteeringRecosV1Enabled ? volunteeringRecosV1Query : undefined,
         isLoggedIn ? userSuggestionsQuery : undefined,
       ].filter((q) => q !== undefined) as DocumentNode[],
     })

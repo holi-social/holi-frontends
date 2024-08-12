@@ -1,20 +1,13 @@
 import { QueryHookOptions, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
-import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
-import { TrackingEvent } from '@holi/core/tracking'
-import { HeartsFilled } from '@holi/icons/src/generated'
 
+import VolunteeringUpdatesList from '@holi-apps/volunteering/components/VolunteeringUpdatesList'
 import { VolunteeringEngagementsQueryResponse, volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 export const ENGAGEMENT_PAGE_SIZE = 5
 
@@ -24,9 +17,6 @@ type VolunteeringUpdatesProps = {
 }
 
 const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: VolunteeringUpdatesProps) => {
-  const { t } = useTranslation()
-  const { navigate } = useRouting()
-
   const queryOptions: QueryHookOptions = {
     variables: {
       offset: 0,
@@ -38,48 +28,13 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
       }),
   }
   const { data, loading } = useQuery<VolunteeringEngagementsQueryResponse>(volunteeringEngagementsQuery, queryOptions)
-  const isReloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringEngagementsQuery, queryOptions)
+  const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringEngagementsQuery, queryOptions)
 
   const { data: engagements = [] } = data?.appVolunteering_engagementOpportunities || {}
 
   const engagementsToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE)
 
-  const renderItem = ({ item, index }: { item: VolunteeringEngagement; index: number }) => {
-    const { organizer } = item
-    const title = organizer?.name
-      ? t('volunteering:engagement.title', {
-          title: item.title,
-          organization: organizer?.name,
-          interpolation: { escapeValue: false },
-        })
-      : item.title
-
-    return (
-      <AppUpdatesItem
-        appName={HOLI_APPS.VOLUNTEERING}
-        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path}/${item.id}`}
-        title={title}
-        imageSourceUri={item.imageUrl}
-        footer={item.source}
-        trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', item.id, index)}
-      />
-    )
-  }
-
-  return (
-    <AppUpdatesList
-      appName={HOLI_APPS.VOLUNTEERING}
-      renderItem={renderItem}
-      data={engagementsToRender}
-      appIcon={HeartsFilled}
-      heading={t('volunteering:app.name')}
-      subline={t('volunteering:app.subline')}
-      onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path)}
-      labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
-      loading={loading || isReloading}
-      style={style}
-    />
-  )
+  return <VolunteeringUpdatesList engagements={engagementsToRender} loading={loading || reloading} style={style} />
 }
 
 export default withProfiler(VolunteeringUpdates, { name: 'VolunteeringUpdates' })
