@@ -3,10 +3,10 @@ import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated'
 
-import RoomItemDeletable from '@holi/chat/src/components/RoomList/RoomItemDeletable'
 import { leaveRoom } from '@holi/chat/src/store'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+import RoomItemDeletable from './RoomItemDeletable'
 import type { RoomListProps } from './types'
 
 const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
