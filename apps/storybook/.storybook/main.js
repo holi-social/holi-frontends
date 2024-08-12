@@ -7,10 +7,10 @@ module.exports = {
   staticDirs: ['../../web/public'],
 
   stories: [
-    `${uiPackageDir}/**/__stories__/**/*.stories.mdx`,
-    `${uiPackageDir}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
-    `${iconsPackageDir}/**/__stories__/**/*.stories.mdx`,
-    `${iconsPackageDir}/**/__stories__/**/*.stories.@(js|jsx|ts|tsx)`,
+    `${uiPackageDir}/**/*.stories.mdx`,
+    `${uiPackageDir}/**/*.stories.@(js|jsx|ts|tsx)`,
+    `${iconsPackageDir}/**/*.stories.mdx`,
+    `${iconsPackageDir}/**/*.stories.@(js|jsx|ts|tsx)`,
     /*
      * Object path declarations
      */
@@ -18,8 +18,8 @@ module.exports = {
       directory: uiPackageDir,
       files: '*.stories.*',
     },
-    '../../../holi-apps/donations/**/__stories__/*.stories.mdx',
-    '../../../holi-apps/donations/**/__stories__/*.stories.@(js|jsx|ts|tsx)',
+    '../../../holi-apps/donations/**/*.stories.mdx',
+    '../../../holi-apps/donations/**/*.stories.@(js|jsx|ts|tsx)',
   ],
 
   addons: [
