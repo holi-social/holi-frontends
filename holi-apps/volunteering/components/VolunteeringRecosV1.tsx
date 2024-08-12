@@ -37,16 +37,15 @@ const useDefaultTopics = (): { defaultTopics: Topic[]; defaultTopicsLoading: boo
   }
 }
 
-const ForTopicsAndSkills: React.FC<VolunteeringRecosV1Props & { topics: Topic[]; skills: Skill[] }> = ({
-  style,
-  topics,
-  skills,
-}) => {
+const ForTopicsAndSkills: React.FC<
+  VolunteeringRecosV1Props & { topics: Topic[]; skills: Skill[]; geolocationId?: string }
+> = ({ style, topics, skills, geolocationId }) => {
   const queryVariables: VolunteeringRecosV1QueryVariables = {
     offset: 0,
     limit: ENGAGEMENT_PAGE_SIZE,
     topics: topics?.map((term: Term) => term.slug),
     skills: skills?.map((term: Term) => term.slug),
+    geolocationId: geolocationId,
   }
   const { data, loading } = useQuery<VolunteeringRecosV1QueryResponse, VolunteeringRecosV1QueryVariables>(
     volunteeringRecosV1Query,
@@ -73,12 +72,15 @@ const ForTopicsAndSkills: React.FC<VolunteeringRecosV1Props & { topics: Topic[];
   return <VolunteeringUpdatesList engagements={engagementsToRender} loading={loading || reloading} style={style} />
 }
 
-const ForDefaultTopics: React.FC<VolunteeringRecosV1Props> = ({ style }) => {
+const ForDefaultTopics: React.FC<VolunteeringRecosV1Props & { geolocationId?: string }> = ({
+  style,
+  geolocationId,
+}) => {
   const { defaultTopics, defaultTopicsLoading } = useDefaultTopics()
   if (defaultTopicsLoading) {
     return <VolunteeringUpdatesList loading={true} style={style} engagements={[]} />
   }
-  return <ForTopicsAndSkills topics={defaultTopics} skills={[]} style={style} />
+  return <ForTopicsAndSkills topics={defaultTopics} skills={[]} geolocationId={geolocationId} style={style} />
 }
 
 const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ style }: VolunteeringRecosV1Props) => {
@@ -93,9 +95,16 @@ const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ style }: Volu
       const hasInterests = user.interests !== undefined && user.interests?.length > 0
       const hasSkills = user.skills !== undefined && user?.skills?.length > 0
       if (hasInterests || hasSkills) {
-        return <ForTopicsAndSkills topics={user.interests || []} skills={user.skills || []} style={style} />
+        return (
+          <ForTopicsAndSkills
+            topics={user.interests || []}
+            skills={user.skills || []}
+            geolocationId={user.geolocationId}
+            style={style}
+          />
+        )
       } else {
-        return <ForDefaultTopics />
+        return <ForDefaultTopics geolocationId={user.geolocationId} />
       }
     }
   }
