@@ -17,6 +17,7 @@ import {
 } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -56,7 +57,13 @@ const ChatHomeNeedToLogin = () => {
           style={[styles.noResultsMessage]}
           testID="chat-login"
         >
-          <HoliButton label={t('loginRedirect.btnConfirm')} onPress={() => navigate('/login')}>
+          <HoliButton
+            label={t('loginRedirect.btnConfirm')}
+            onPress={() => {
+              setPathToRedirect('/chat')
+              navigate('/login')
+            }}
+          >
             {t('loginRedirect.btnConfirm')}
           </HoliButton>
         </HoliNoResults>
