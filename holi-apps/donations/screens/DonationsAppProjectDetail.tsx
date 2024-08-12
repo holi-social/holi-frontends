@@ -4,6 +4,7 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
+import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError } from '@holi/core/errors/helpers'
@@ -16,12 +17,12 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, ShareBox } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 import { constants, dimensions } from '@holi/ui/styles/globalVars'
@@ -146,15 +147,16 @@ const DonationsAppProjectDetail = () => {
             testID="donations-project-detail-donate-btn"
             external
           >
-            <HoliButton
+            <HoliButtonTracked
               label={t('donations:projectDetail.donate')}
               onPress={() => Linking.openURL(`${project?.donationUrl}${UTM_PARAMS}`)}
+              trackingEvent={TrackingEvent.Donations.pressed(project.id)}
             >
               <View style={styles.donateButtonContent}>
                 <HoliText>{t('donations:projectDetail.donate')}</HoliText>
                 <HoliIcon icon={ShareBox} size={16} />
               </View>
-            </HoliButton>
+            </HoliButtonTracked>
           </HoliLink>
         </View>
       </View>
