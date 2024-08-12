@@ -283,6 +283,28 @@ export const isMemberEventWithState = (event: IRoomEvent): event is IStateEvent 
   return event?.type === EventType.RoomMember && 'prev_content' in event
 }
 
+export const isMembershipAvatarUpdate = (event: MatrixEvent): boolean => {
+  if (!isMembershipEvent(event)) return false
+
+  const currentContent = event.getContent()
+  const previousContent = event.getPrevContent()
+
+  return (
+    currentContent.membership === previousContent?.membership && // membership did not change
+    currentContent.avatar_url !== previousContent?.avatar_url // avatar did change
+  )
+}
+
+export const isMembershipDisplaynameUpdate = (event: MatrixEvent): boolean => {
+  const currentContent = event.getContent()
+  const previousContent = event.getPrevContent()
+
+  return (
+    currentContent.membership === previousContent?.membership && // membership did not change
+    currentContent.displayname !== previousContent?.displayname // displayname did change
+  )
+}
+
 /**
  * @description Whenever a room member changes their avatar or other member
  * information, we receive timeline events for the message thread
@@ -374,7 +396,16 @@ export const getLastMessageEvent = (room: Room, roomType: ChatRoomType): IRoomEv
 
   const timelineEvents = room.getLiveTimeline().getEvents()
   const event = timelineEvents.findLast((event) => {
-    return isMessageEvent(event) || (isMembershipEvent(event) && isJoinOrLeaveEvent(event))
+    return (
+      isMessageEvent(event) ||
+      (isMembershipEvent(event) &&
+        isJoinOrLeaveEvent(event) &&
+        // when user updates 'avatar' or 'displayname' a new 'm.room.member' event is triggered for all rooms
+        // where only 'content' changes, but 'membership' remains the same
+        // we don't want to show these events
+        !isMembershipAvatarUpdate(event) &&
+        !isMembershipDisplaynameUpdate(event))
+    )
   })?.event
 
   return event && isIRoomEvent(event) ? event : undefined
