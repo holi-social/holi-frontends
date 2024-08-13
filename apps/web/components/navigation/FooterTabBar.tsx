@@ -14,6 +14,7 @@ import { HomeSmile2, HomeSmile2Filled, Megaphone, Spaces, SpacesFilled } from '@
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -136,8 +137,8 @@ const getStyles = (theme: HoliTheme) =>
       maxHeight: dimensions.bottomBarHeight,
     },
     button: {
-      paddingHorizontal: 20,
-      paddingVertical: 10,
+      paddingHorizontal: Spacing.xxs,
+      paddingVertical: Spacing['3xs'],
       alignItems: 'center',
     },
     activeTintColor: {
@@ -147,6 +148,6 @@ const getStyles = (theme: HoliTheme) =>
       color: theme.colors.foreground20,
     },
     buttonLabel: {
-      paddingTop: 8,
+      paddingTop: Spacing['3xs'],
     },
   })
