@@ -72,7 +72,7 @@ web_build:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - node_modules/
-      - .next/cache/
+      - apps/web/.next/cache/
   artifacts:
     paths:
       - apps/web/.next
