@@ -6,6 +6,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import GeneralContent from './GeneralContent'
@@ -36,7 +37,7 @@ export const TrackingConsentModalDesktop = () => {
     <HoliModal label="" show={visible} style={styles.modal} desktop>
       <ScrollView>
         <HoliBox padding={32}>
-          <GeneralContent />
+          <GeneralContent hideDescription />
 
           <HoliGap size="ml" />
 
@@ -87,6 +88,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     modal: {
       backgroundColor: theme.colors.gray100,
+      maxWidth: dimensions.maxScreenWidth,
     },
     buttonsSection: {
       backgroundColor: theme.colors.background10,
