@@ -11,6 +11,7 @@ import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
 import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
+import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
@@ -53,6 +54,8 @@ export type RootStackScreens = {
   [RouteName.CreatePost]: undefined
   [RouteName.EditPost]: undefined
   [RouteName.FeedPosts]: undefined
+
+  [RouteName.CreateSpace]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -189,6 +192,13 @@ const RootNavigator = () => {
           headerStyle: {
             backgroundColor: colors.background20,
           },
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.CreateSpace}
+        component={CreateSpace}
+        options={{
+          animation: 'slide_from_bottom',
         }}
       />
     </RootStack.Navigator>

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
+import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 
 export type LoginModalProps = {
@@ -10,6 +11,7 @@ export type LoginModalProps = {
   description?: string
   confirmText?: string
   dismissText?: string
+  redirectPath?: string
 }
 
 export interface LoginModalContext {
@@ -25,7 +27,11 @@ export const LoginModalProvider = ({ children }: React.PropsWithChildren<unknown
   const { t } = useTranslation()
 
   const [customProps, setCustomProps] = useState<LoginModalProps>({})
-  const { setShow: setShowLoginGuard, props: loginGuardModalProps } = useConfirmationState()
+  const { setShow: setShowLoginGuard, props: loginGuardModalProps } = useConfirmationState({
+    onConfirm: () => {
+      setPathToRedirect(customProps.redirectPath)
+    },
+  })
 
   const openLoginModal = (props: LoginModalProps = {}) => {
     // setting the defaults if nothing is set

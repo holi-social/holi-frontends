@@ -67,7 +67,9 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
   )
 
   const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
+    isLoggedIn
+      ? navigate('/spaces/create')
+      : openLoginModal({ description: t('spaces.create.loginRedirect.text'), redirectPath: '/spaces/create' })
   }, [isLoggedIn, navigate, openLoginModal, t])
 
   const aspectRatio = 188 / 324

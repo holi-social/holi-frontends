@@ -48,7 +48,7 @@ const FilteredSpacesList: React.FC<Props> = ({ pageSize }) => {
       >
         <HoliButton
           label={t('search.filter.reset')}
-          onPress={() => navigate('/spaces')}
+          onPress={() => navigate('/spaces?tab=discover')}
           inline
           testID="spaces-filter-reset"
         >

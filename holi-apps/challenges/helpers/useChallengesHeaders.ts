@@ -32,7 +32,7 @@ export const useChallengesHeaders = () => {
       ...anonymousTrackingHeader,
       'X-Client-Platform': 'holi',
       'X-Client-Platform-Version': Constants.expoConfig?.version || '',
-      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
+      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
       'X-Client-Platform-User-Consent': `${consentState.ANALYTICS === Consent.Given}`,
     }
   }, [authHeaders, consentState.ANALYTICS, posthog, isLoggedIn])
