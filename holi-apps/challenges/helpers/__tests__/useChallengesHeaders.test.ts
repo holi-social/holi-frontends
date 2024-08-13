@@ -82,7 +82,7 @@ describe('useChallengesHeaders', () => {
       Authorization: 'Bearer testSessionToken',
       'X-Session-Token': 'testSessionToken',
       'X-Client-Platform': 'holi',
-      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
+      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
       'X-Client-Platform-User-Consent': 'true',
       'X-Client-Platform-Version': '',
     })
@@ -93,7 +93,7 @@ describe('useChallengesHeaders', () => {
 
     expect(result.current).toEqual({
       'X-Client-Platform': 'holi',
-      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start',
+      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
       'X-Client-Platform-User-Consent': 'true',
       'X-Client-Platform-Anonymous-Tracking-Id': '1234',
       'X-Client-Platform-Version': '',
