@@ -18,7 +18,6 @@ test.setTimeout(120000)
 
 test.describe('@Donations', () => {
   test('user journey', async ({ browser, browserName, context, page }) => {
-    test.skip(browserName === 'firefox', 'Waiting for fix to HOLI-3640')
     // prepare
     await proceedAsGuest(page)
 
