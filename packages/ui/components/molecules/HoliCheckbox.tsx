@@ -54,7 +54,7 @@ const HoliCheckbox = ({
   style,
   testID,
 }: React.PropsWithChildren<HoliCheckboxProps>) => {
-  const checkboxRef = useRef(null)
+  const checkboxRef = useRef<View>(null)
   const scaleFactor = useRef(new Animated.Value(1)).current
   const hasError = !!errorMessage
   const { theme } = useTheme()
@@ -157,8 +157,8 @@ const getStyles = (theme: HoliTheme) =>
       height: 24,
       borderRadius: 5,
       borderWidth: 1,
-      backgroundColor: theme.colors.background10,
-      borderColor: theme.colors.background30,
+      backgroundColor: theme.dark ? theme.colors.foreground30 : theme.colors.background10,
+      borderColor: theme.dark ? theme.colors.foreground10 : theme.colors.background30,
       alignItems: 'center',
       justifyContent: 'center',
     },

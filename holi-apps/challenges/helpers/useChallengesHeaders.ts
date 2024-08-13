@@ -2,14 +2,16 @@ import Constants from 'expo-constants'
 import { useEffect, useMemo, useState } from 'react'
 
 import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
+import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { Consent } from '@holi/core/tracking/types'
 
 export const useChallengesHeaders = () => {
-  const useConsent = useConsentState()
+  const [consentState] = useConsentState()
   const [authHeaders, setAuthHeaders] = useState<AuthorizationHeaders | undefined>(undefined)
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
+  const posthog = usePosthogCrossPlatform()
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -20,14 +22,21 @@ export const useChallengesHeaders = () => {
   }, [isLoggedIn])
 
   const headers = useMemo(() => {
+    const anonymousTrackingHeader =
+      !isLoggedIn && consentState.ANALYTICS === Consent.Given
+        ? { 'X-Client-Platform-Anonymous-Tracking-Id': posthog.distinctId() }
+        : {}
+
     return {
       ...authHeaders,
+      ...anonymousTrackingHeader,
       'X-Client-Platform': 'holi',
       'X-Client-Platform-Version': Constants.expoConfig?.version || '',
       'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
-      'X-Client-Platform-User-Consent': `${useConsent.ANALYTICS === Consent.Given}`,
+      'X-Client-Platform-User-Consent': `${consentState.ANALYTICS === Consent.Given}`,
     }
-  }, [authHeaders, useConsent.ANALYTICS])
+  }, [authHeaders, consentState.ANALYTICS, posthog, isLoggedIn])
 
+  if (isLoggedIn && (!authHeaders || !authHeaders.Authorization)) return undefined
   return headers
 }

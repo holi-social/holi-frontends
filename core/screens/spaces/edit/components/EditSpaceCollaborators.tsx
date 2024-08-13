@@ -4,11 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -62,7 +61,6 @@ const EditSpaceCollaborators = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { user: loggedInUser } = useLoggedInUser()
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
   const { height: screenHeight } = useWindowDimensions()
   const { theme } = useTheme()
   const { colors } = theme
@@ -97,7 +95,7 @@ const EditSpaceCollaborators = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.collaborators'),
-      headerTransparent: true,
+      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -164,98 +162,97 @@ const EditSpaceCollaborators = () => {
       space={space}
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
     >
-      <ScrollHeaderLayout.Refreshable
-        headerOverlap
-        keyboardShouldPersistTaps="handled"
-        style={styles.wrapper}
-        refreshableProps={{
-          refreshing,
-          onRefresh,
-        }}
-      >
-        <HoliTabs
-          id="collaborator-tabs"
-          testID="collaborator-tabs"
-          style={styles.tabWrapper}
-          tabBarStyle={[tabBarStyle, styles.tabBar]}
-          initialStep={initialTab}
-          tabs={[
-            {
-              title: t('spaces.collaborators.manage.tabs.all'),
-              style: styles.tabStyle,
-              children: (
-                <View style={[mixins.container, styles.all]}>
-                  <Pagination
-                    query={spaceMembersQuery}
-                    queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
-                    fetchMoreButtonProps={{ style: styles.buttonContainer }}
-                    fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
-                    loadMoreOnScroll
-                  >
-                    {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
-                  </Pagination>
-                </View>
-              ),
-            },
-            {
-              title: t('spaces.collaborators.manage.tabs.requests'),
-              style: styles.tabStyle,
-              children: (
-                <View style={[mixins.container, styles.all]}>
-                  <Pagination
-                    query={spaceMembershipRequestsQuery}
-                    queryOptions={{
-                      ...queryOptions,
-                      queryPath: 'spaceById.membershipRequests',
-                      fetchPolicy: 'cache-and-network',
-                    }}
-                    fetchMoreButtonProps={{ style: styles.buttonContainer }}
-                    fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
-                    loadMoreOnScroll
-                  >
-                    {!!space && (
-                      <SpacePendingRequestsList
-                        space={space}
-                        initiallySelectedUserId={selectedUserId}
-                        spaceMembers={spaceMembers}
-                      />
-                    )}
-                  </Pagination>
-                </View>
-              ),
-            },
-            {
-              title: t('spaces.collaborators.manage.tabs.invites'),
-              style: styles.tabStyle,
-              children: (
-                <View style={[mixins.container, styles.all]}>
-                  <Pagination
-                    query={spaceInvitesQuery}
-                    queryOptions={{ ...queryOptions, queryPath: 'spaceById.invites', fetchPolicy: 'cache-and-network' }}
-                    fetchMoreButtonProps={{ style: styles.buttonContainer }}
-                    fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
-                    loadMoreOnScroll
-                  >
-                    {!!space && <SpaceInvitesList space={space} />}
-                  </Pagination>
-                </View>
-              ),
-            },
-          ]}
-        />
+      <HoliTabs
+        id="collaborator-tabs"
+        testID="collaborator-tabs"
+        style={styles.tabWrapper}
+        initialStep={initialTab}
+        tabs={[
+          {
+            title: t('spaces.collaborators.manage.tabs.all'),
+            style: styles.tabStyle,
+            children: (
+              <ScrollViewRefreshable
+                refreshableProps={{ refreshing, onRefresh }}
+                style={[mixins.container, styles.all]}
+              >
+                <Pagination
+                  query={spaceMembersQuery}
+                  queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
+                  fetchMoreButtonProps={{ style: styles.buttonContainer }}
+                  fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
+                >
+                  {!!space && <SpaceCollaboratorList space={space} onSelectMember={onSelectMember} />}
+                </Pagination>
+              </ScrollViewRefreshable>
+            ),
+          },
+          {
+            title: t('spaces.collaborators.manage.tabs.requests'),
+            style: styles.tabStyle,
+            children: (
+              <ScrollViewRefreshable
+                refreshableProps={{ refreshing, onRefresh }}
+                style={[mixins.container, styles.all]}
+              >
+                <Pagination
+                  query={spaceMembershipRequestsQuery}
+                  queryOptions={{
+                    ...queryOptions,
+                    queryPath: 'spaceById.membershipRequests',
+                    fetchPolicy: 'cache-and-network',
+                  }}
+                  fetchMoreButtonProps={{ style: styles.buttonContainer }}
+                  fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
+                >
+                  {!!space && (
+                    <SpacePendingRequestsList
+                      space={space}
+                      initiallySelectedUserId={selectedUserId}
+                      spaceMembers={spaceMembers}
+                    />
+                  )}
+                </Pagination>
+              </ScrollViewRefreshable>
+            ),
+          },
+          {
+            title: t('spaces.collaborators.manage.tabs.invites'),
+            style: styles.tabStyle,
+            children: (
+              <ScrollViewRefreshable
+                refreshableProps={{ refreshing, onRefresh }}
+                style={[mixins.container, styles.all]}
+              >
+                <Pagination
+                  query={spaceInvitesQuery}
+                  queryOptions={{ ...queryOptions, queryPath: 'spaceById.invites', fetchPolicy: 'cache-and-network' }}
+                  fetchMoreButtonProps={{ style: styles.buttonContainer }}
+                  fetchMoreButtonLabel={t('spaces.collaborators.loadMoreButton')}
+                  loadMoreOnScroll
+                >
+                  {!!space && <SpaceInvitesList space={space} />}
+                </Pagination>
+              </ScrollViewRefreshable>
+            ),
+          },
+        ]}
+      />
 
-        {selectedMember && !!space && (
-          <SpacePermissions
-            space={space}
-            user={selectedMember.user}
-            isMember
-            isAdministrator={selectedMember.isAdministrator}
-            handleNavigation={handleNavigation}
-            permissionsVisible={permissionsVisible}
-            hidePermissions={hidePermissions}
-          />
-        )}
-      </ScrollHeaderLayout.Refreshable>
+      {selectedMember && !!space && (
+        <SpacePermissions
+          space={space}
+          user={selectedMember.user}
+          isMember
+          isAdministrator={selectedMember.isAdministrator}
+          handleNavigation={handleNavigation}
+          permissionsVisible={permissionsVisible}
+          hidePermissions={hidePermissions}
+        />
+      )}
+
       <View style={[styles.overlayButtonWrapper]}>
         <HoliButton
           label={t('spaces.members.invite')}
@@ -279,9 +276,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
     wrapper: {
       minHeight: '100%',
       ...Platform.select({
-        native: {
-          paddingTop: dimensions.topBarHeight + 24,
-        },
         web: {
           paddingTop: dimensions.topBarHeight,
           minHeight: '100vh' as DimensionValue,
@@ -290,9 +284,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
     },
     tabWrapper: {
       height: '100%',
-    },
-    tabBar: {
-      paddingTop: 24,
     },
     tabStyle: {
       flex: 1,

@@ -95,20 +95,15 @@ const spaceMemberShipUrlFrom = (notification: SpaceMembershipPushNotification) =
   }
 }
 
-const toPostCommentUrl = (notification: PostCommentPushNotification): string => {
-  const parsedData =
-    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
-  const { post, comment } = parsedData
-  return `holi://posts/${post.id}?commentId=${comment.id}`
-}
-
-const postCommentUrlFrom = (notification: PostCommentPushNotification) => {
+const commentUrlFrom = (notification: PostCommentPushNotification) => {
   try {
-    switch (notification.notificationType) {
-      case NovuNotificationType.POST_COMMENT_MENTION:
-      case NovuNotificationType.POST_COMMENT_AUTHOR:
-        return toPostCommentUrl(notification)
+    const parsedData =
+      typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+    let commentLink = parsedData.commentLink
+    if (commentLink.startsWith('/')) {
+      commentLink = commentLink.substring(1, commentLink.length)
     }
+    return 'holi://' + commentLink
   } catch (error) {
     logError(error, 'Failed to create url for post comment notification', {
       location: 'notifications.postCommentUrlFrom',
@@ -203,7 +198,7 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
         return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
       case NovuNotificationType.POST_COMMENT_MENTION:
       case NovuNotificationType.POST_COMMENT_AUTHOR:
-        return postCommentUrlFrom(payload as unknown as PostCommentPushNotification)
+        return commentUrlFrom(payload as unknown as PostCommentPushNotification)
       case NovuNotificationType.SPACE_NEW_POST:
         return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
       case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
@@ -214,6 +209,7 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
         return spaceUrl(payload, 'involvement')
       case NovuNotificationType.CHALLENGE_APPROVAL:
       case NovuNotificationType.CHALLENGE_NEW_COMMENT:
+      case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
       case NovuNotificationType.CHALLENGE_KEEP_STREAK:
         return challengeUrl(payload)
       default:

@@ -220,10 +220,11 @@ describe('transformPushInteractionToUrl', () => {
           user: { id: 'user_id' },
           post: { id: 'post_id', title: 'post title' },
           comment: { id: 'comment_id', text: 'comment text' },
+          commentLink: '/spacePostCommentMentionLink',
         }),
       })
     )
-    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+    expect(url).toEqual('holi://spacePostCommentMentionLink')
   })
 
   it('should create correct url for post comment mention notification on iOS', () => {
@@ -234,10 +235,11 @@ describe('transformPushInteractionToUrl', () => {
           user: { id: 'user_id' },
           post: { id: 'post_id', title: 'post title' },
           comment: { id: 'comment_id', text: 'comment text' },
+          commentLink: '/spacePostCommentLink',
         }),
       })
     )
-    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+    expect(url).toEqual('holi://spacePostCommentLink')
   })
 
   it('should create correct url for post comment author notification on Android', () => {
@@ -248,10 +250,11 @@ describe('transformPushInteractionToUrl', () => {
           user: { id: 'user_id' },
           post: { id: 'post_id', title: 'post title' },
           comment: { id: 'comment_id', text: 'comment text' },
+          commentLink: '/spacePostCommentLink',
         }),
       })
     )
-    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+    expect(url).toEqual('holi://spacePostCommentLink')
   })
 
   it('should create correct url for post comment author notification on iOS', () => {
@@ -262,10 +265,11 @@ describe('transformPushInteractionToUrl', () => {
           user: { id: 'user_id' },
           post: { id: 'post_id', title: 'post title' },
           comment: { id: 'comment_id', text: 'comment text' },
+          commentLink: '/spacePostCommentLink',
         }),
       })
     )
-    expect(url).toEqual('holi://posts/post_id?commentId=comment_id')
+    expect(url).toEqual('holi://spacePostCommentLink')
   })
 
   it('should create correct url for space new post notification on Android', () => {
@@ -338,10 +342,11 @@ describe('transformPushInteractionToUrl', () => {
 
   describe('Challenge notifications', () => {
     it.each`
-      type                                          | data                                         | expectedUrl
-      ${NovuNotificationType.CHALLENGE_APPROVAL}    | ${{ link: '/video/someUuid?refererPath=/' }} | ${'holi://apps/challenges?path=%2Fvideo%2FsomeUuid%3FrefererPath%3D%2F'}
-      ${NovuNotificationType.CHALLENGE_KEEP_STREAK} | ${{ link: '/keepStreak' }}                   | ${'holi://apps/challenges?path=%2FkeepStreak'}
-      ${NovuNotificationType.CHALLENGE_NEW_COMMENT} | ${{ link: '/comment' }}                      | ${'holi://apps/challenges?path=%2Fcomment'}
+      type                                                  | data                                         | expectedUrl
+      ${NovuNotificationType.CHALLENGE_APPROVAL}            | ${{ link: '/video/someUuid?refererPath=/' }} | ${'holi://apps/challenges?path=%2Fvideo%2FsomeUuid%3FrefererPath%3D%2F'}
+      ${NovuNotificationType.CHALLENGE_KEEP_STREAK}         | ${{ link: '/keepStreak' }}                   | ${'holi://apps/challenges?path=%2FkeepStreak'}
+      ${NovuNotificationType.CHALLENGE_NEW_COMMENT}         | ${{ link: '/comment' }}                      | ${'holi://apps/challenges?path=%2Fcomment'}
+      ${NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST} | ${{ link: '/quest?overlay=false' }}          | ${'holi://apps/challenges?path=%2Fquest%3Foverlay%3Dfalse'}
     `('should route to the correct URL for $notificationType notifications', ({ type, data, expectedUrl }) => {
       const url = transformPushInteractionToUrl(
         createIOSNotificationResponse({

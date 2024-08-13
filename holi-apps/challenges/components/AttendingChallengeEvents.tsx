@@ -2,7 +2,7 @@ import { withProfiler } from '@sentry/react'
 import React, { useEffect, useState } from 'react'
 import { FlatList, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -24,7 +24,7 @@ const AttendingChallengeEvents = () => {
   const cardWidth = calculateCardWidth(screenWidth)
   const styles = getStyles(cardWidth)
   const headers = useChallengesHeaders()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
 
   useEffect(() => {
     // Events are only available to logged in users

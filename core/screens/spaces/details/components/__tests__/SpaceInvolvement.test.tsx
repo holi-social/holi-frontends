@@ -2,37 +2,24 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
-import { FeatureToggleStatus, featureTogglesQuery } from '@holi/core/screens/homeFeed/queries'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 
 jest.useFakeTimers()
 
-const mocks = [
-  {
-    request: {
-      query: featureTogglesQuery,
-    },
-    result: {
-      data: {
-        featureToggles: [
-          {
-            name: FeatureToggleName.STORAGE,
-            status: FeatureToggleStatus.PRODUCTION,
-            __typename: 'FeatureToggle',
-          },
-        ],
-      },
-    },
-  },
-]
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
+}))
 
 describe('SpaceInvolvement', () => {
+  beforeEach(() => {
+    mockUseFeatureFlag.mockReturnValue(['on', undefined])
+  })
   it('renders correctly for the public', () => {
     render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider>
         <SpaceInvolvement space={space} />
       </MockedProvider>
     )
@@ -45,7 +32,7 @@ describe('SpaceInvolvement', () => {
       connectionStatusToMyself: [SpaceConnectionType.MEMBER],
     }
     render(
-      <MockedProvider mocks={mocks}>
+      <MockedProvider>
         <SpaceInvolvement space={spaceForMember} />
       </MockedProvider>
     )

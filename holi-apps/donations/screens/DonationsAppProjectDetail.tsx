@@ -1,16 +1,15 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import Constants from 'expo-constants'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -25,7 +24,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -47,7 +46,7 @@ const DonationsAppProjectDetail = () => {
   const [projectId] = useParam('projectId')
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
-  const statusBarHeight = Constants.statusBarHeight
+  const statusBarHeight = constants.statusBarHeight
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(statusBarHeight, theme), [statusBarHeight, theme])
@@ -99,10 +98,9 @@ const DonationsAppProjectDetail = () => {
         style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
         testID="donations-detailview-container"
       >
-        <ScrollHeaderLayout.Refreshable
-          refreshableProps={{ refreshing, onRefresh }}
+        <ScrollHeaderLayout
+          refreshControlProps={{ refreshing, onRefresh }}
           style={{ backgroundColor: colors.background30 }}
-          headerOverlap
         >
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
@@ -139,7 +137,7 @@ const DonationsAppProjectDetail = () => {
               />
             )}
           </View>
-        </ScrollHeaderLayout.Refreshable>
+        </ScrollHeaderLayout>
 
         <View style={[mixins.container, styles.donateButtonContainer]}>
           <HoliLink
@@ -148,7 +146,10 @@ const DonationsAppProjectDetail = () => {
             testID="donations-project-detail-donate-btn"
             external
           >
-            <HoliButton label={t('donations:projectDetail.donate')}>
+            <HoliButton
+              label={t('donations:projectDetail.donate')}
+              onPress={() => Linking.openURL(`${project?.donationUrl}${UTM_PARAMS}`)}
+            >
               <View style={styles.donateButtonContent}>
                 <HoliText>{t('donations:projectDetail.donate')}</HoliText>
                 <HoliIcon icon={ShareBox} size={16} />
@@ -162,26 +163,21 @@ const DonationsAppProjectDetail = () => {
 }
 
 const WrappedDonationsAppProjectDetail = () => (
-  <FeatureToggleGuard toggleName={FeatureToggleName.APPS_DONATIONS} featureNameKey="donations:maintenance.feature">
+  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.DONATIONS} i18nKey="donations:maintenance.feature">
     <DonationsAppProjectDetail />
-  </FeatureToggleGuard>
+  </PosthogFeatureFlagGuard>
 )
 
 export default withProfiler(memo(WrappedDonationsAppProjectDetail), { name: 'DonationsAppProjectDetail' })
 
 const getStyles = (statusBarHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
-    },
     container: {
       paddingBottom: 132,
       paddingHorizontal: 0,
       ...Platform.select({
         native: {
           maxWidth: '100%',
-          paddingTop: dimensions.topBarHeight + 40,
         },
         web: {
           paddingTop: statusBarHeight + dimensions.topBarHeight,
@@ -202,7 +198,11 @@ const getStyles = (statusBarHeight: number, theme: HoliTheme) =>
         },
       }),
     },
-    donateButtonContent: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+    donateButtonContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+    },
     image: {
       // image with is determined by the window with, source material is 2:1
       // if we use lower pixel ratios than 2, we would zoom in into the image and cause blurriness

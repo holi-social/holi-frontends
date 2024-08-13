@@ -5,7 +5,6 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import {
   APPOINTMENT_STATUS_TYPE,
@@ -19,8 +18,7 @@ import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubW
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
 import StorageWidget from '@holi/core/screens/spaces/linkHub/components/StorageWidget'
 import TaskCollaborationCard from '@holi/core/screens/spaces/tasks/components/TaskCollaborationCard'
-import { Space } from '@holi/core/screens/spaces/types'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, OpenArm } from '@holi/icons/src/generated'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
@@ -38,7 +36,6 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { ftEnabled: appointmentsFtEnabled } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
@@ -54,7 +51,6 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         location: 'AppointmentWidget.appointmentsBySpaceIdQuery',
         spaceIdOrName: space.name,
       }),
-    skip: !appointmentsFtEnabled,
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   })
 
@@ -89,7 +85,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
             </View>
           )}
 
-        {appointmentsFtEnabled && (!loadingAppointments || appointmentsResult?.appointments) && !errorAppointments && (
+        {(!loadingAppointments || appointmentsResult?.appointments) && !errorAppointments && (
           <AppointmentsWidget
             space={space}
             style={styles.card}

@@ -1,73 +1,62 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import {
-  byTestId,
-  checkAccessibility,
-  clickElementByTestId,
-  loginAsE2EUser,
-  waitForAnimationEnd,
-  withSSR,
-} from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, waitForAnimationEnd, withSSR } from './helpers'
 import { test } from './testmaster'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
 
 test.setTimeout(120000)
 
 test.describe('@Profile', () => {
-  test('user journey', async ({ browser, page, context, userHandler, browserName }) => {
-    await loginAsE2EUser(context, page)
-
+  test('user journey', async ({ browser, sessions, browserName }) => {
+    // FIXME: https://holi.atlassian.net/browse/HOLI-9014
+    // await loginAsE2EUser(context, page)
+    // await clickElementByTestId(page, 'btn-to-profile-view')
     // fill the interests, skills and sdgs for visiting the profile later
-    await checkChipsSelection(page, 'interests')
-    await checkChipsSelection(page, 'skills')
-    await checkChipsSelection(page, 'sdgs')
+    // await checkChipsSelection(page, 'interests')
+    // await checkChipsSelection(page, 'skills')
+    // await checkChipsSelection(page, 'sdgs')
 
     // now test with a generated user for not messing too much with the profile of the E2E user
-    await userHandler.asRandomUser(async (page) => {
-      await testDisplaysProfileDetails(page)
+    const { page: otherPage } = await sessions.signUp()
+    await otherPage.goto('/profile')
 
-      await checkAccessibility(page)
-      await clickElementByTestId(page, 'btn-open-profile-edit-view')
-      // wait until modal is opened
-      await page.locator('[role="dialog"]').waitFor()
-      await checkAccessibility(page)
+    await testDisplaysProfileDetails(otherPage)
 
-      // validation should block save
-      await page.locator(byTestId('first-name-input')).fill('a')
-      await clickElementByTestId(page, 'user-profile-edit-form-close-btn')
-      await page.locator(byTestId('first-name-input-error-message')).waitFor()
-      await checkAccessibility(page)
+    await checkAccessibility(otherPage)
+    await clickElementByTestId(otherPage, 'btn-open-profile-edit-view')
+    // wait until modal is opened
+    await otherPage.locator('[role="dialog"]').waitFor()
+    await checkAccessibility(otherPage)
 
-      // edit firstName should work
-      const firstNameEdited = faker.person.firstName()
-      const lastNameEdited = faker.person.lastName()
-      await page.locator(byTestId('first-name-input')).fill(firstNameEdited)
-      await page.locator(byTestId('last-name-input')).fill(lastNameEdited)
-      await Promise.all([
-        page.waitForSelector(byTestId('user-profile-edit-form-loader'), { state: 'detached' }),
-        clickElementByTestId(page, 'user-profile-edit-form-close-btn'),
-      ])
+    // validation should block save
+    await otherPage.locator(byTestId('first-name-input')).fill('a')
+    await clickElementByTestId(otherPage, 'user-profile-edit-form-close-btn')
+    await otherPage.locator(byTestId('first-name-input-error-message')).waitFor()
+    await checkAccessibility(otherPage)
 
-      await expect
-        .poll(async () => await page.textContent(byTestId('user-profile-full-name')))
-        .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
+    // edit firstName should work
+    const firstNameEdited = faker.person.firstName()
+    const lastNameEdited = faker.person.lastName()
+    await otherPage.locator(byTestId('first-name-input')).fill(firstNameEdited)
+    await otherPage.locator(byTestId('last-name-input')).fill(lastNameEdited)
+    await Promise.all([
+      otherPage.waitForSelector(byTestId('user-profile-edit-form-loader'), { state: 'detached' }),
+      clickElementByTestId(otherPage, 'user-profile-edit-form-close-btn'),
+    ])
 
-      // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/profile/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0" is interrupted by another navigation to "http://localhost:3000/profile"`
-      if (browserName === 'webkit') return
+    await expect
+      .poll(async () => await otherPage.textContent(byTestId('user-profile-full-name')))
+      .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
 
-      // visiting another user's profile should show the correct information
-      const userId = process.env.E2E_USER_ID || 'empty'
-      await page.goto('/profile/' + userId)
+    // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/profile/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0" is interrupted by another navigation to "http://localhost:3000/profile"`
+    if (browserName === 'webkit') return
 
-      await testDisplaysProfileDetails(page)
-      await withSSR(browser, page.url(), testDisplaysProfileDetails)
+    // visiting another user's profile should show the correct information
+    const userId = process.env.E2E_USER_ID || 'empty'
+    await otherPage.goto('/profile/' + userId)
 
-      // FIXME: Currently the a11y rule "scrollable-region-focusable" is violated by the HoliStepper, see https://holi.atlassian.net/browse/HOLI-4295
-      // await checkAccessibility(page)
-    })
+    await testDisplaysProfileDetails(otherPage)
+    await withSSR(browser, otherPage.url(), testDisplaysProfileDetails)
   })
 })
 

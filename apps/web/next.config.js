@@ -3,6 +3,7 @@ const withHtml = require('@blunck/next-html')()
 const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
 const { locales } = require('../../core/i18n/locales.cjs')
+const webpack = require('webpack')
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
@@ -15,6 +16,8 @@ const nextConfig = {
       'react-native-svg': 'react-native-svg-web',
     }
     config.resolve.extensions = ['.web.js', '.web.ts', '.web.tsx', '.web.jsx', ...config.resolve.extensions]
+    // Global __DEV__ only set by react-native on mobile
+    config.plugins.push(new webpack.DefinePlugin({ __DEV__: process.env.NODE_ENV !== 'production' }))
     return config
   },
   sassOptions: {
@@ -53,10 +56,17 @@ const nextConfig = {
     },
   ],
   rewrites: async () => [
+    // Required for .txt ending
     {
       source: '/robots.txt',
       destination: '/api/robots',
     },
+    // Required for combination of dynamic page parameters and .xml ending
+    {
+      source: '/sitemap/insights/:page.xml',
+      destination: '/sitemap/insights/:page',
+    },
+    // Locale specific route variants
     {
       source: '/spenden',
       destination: '/donations',

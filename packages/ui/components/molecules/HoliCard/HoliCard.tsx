@@ -20,7 +20,7 @@ export interface HoliCardProps extends CardContainerProps, ImageContainerProps, 
 }
 
 const HoliCard = ({
-  imageUrl,
+  imageUri,
   imageLabel,
   imageBlurhash,
   imageWidth,
@@ -66,7 +66,7 @@ const HoliCard = ({
           />
         ) : (
           <Image
-            imageUrl={imageUrl}
+            imageUri={imageUri}
             imageLabel={imageLabel}
             imageBlurhash={imageBlurhash}
             imageHeight={imageHeight}

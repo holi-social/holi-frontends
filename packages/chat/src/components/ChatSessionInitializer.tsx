@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 
 import { startChat } from '@holi/chat/src/client/chatSession'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { useDeviceToken } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
@@ -14,10 +15,10 @@ const ChatSessionInitializer = ({ children }: PropsWithChildren) => {
 
   const identity = user?.identity
   const { displayError } = useErrorHandling()
-  const { ftLoading, ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
+  const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
 
   useEffect(() => {
-    if (!ftLoading && ftEnabled) {
+    if (chatFeatureFlag.isOn) {
       if (identity && deviceTokenInitialized) {
         startChat(t, deviceToken).catch((error) =>
           displayError(error, 'Failed to start chat', {
@@ -26,7 +27,7 @@ const ChatSessionInitializer = ({ children }: PropsWithChildren) => {
         )
       }
     }
-  }, [displayError, identity, ftLoading, ftEnabled, deviceTokenInitialized, deviceToken, t])
+  }, [displayError, identity, chatFeatureFlag.isOn, deviceTokenInitialized, deviceToken, t])
 
   return <>{children}</>
 }

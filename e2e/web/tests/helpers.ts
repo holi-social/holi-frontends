@@ -2,12 +2,15 @@ import { faker } from '@faker-js/faker'
 import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 
+import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
+import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
+
 import { test } from './testmaster'
 
 // sometimes requests to the app backends take a little longer (10s < response latency < 40s)
 export const donationsRequestTimeout = 40_000
 export const goodnewsRequestTimeout = 20_000
-export const volunteeringRequestTimeout = 20_000
+export const volunteeringRequestTimeout = 40_000
 
 // see https://playwright.dev/docs/selectors#id-data-testid-data-test-id-data-test-selectors
 export const byTestId = (testId: string, nth?: number) => `[data-testid='${testId}']${nth ? ` >> nth=${nth}` : ''}`
@@ -35,20 +38,26 @@ export const clickButtonByText = async (page: Page, buttonText: string): Promise
   await page.click(`button:has-text("${buttonText}")`)
 }
 
+export const dismissConsentDialog = (page: Page) => page.getByRole('button', { name: 'Decline all' }).click()
+
+export const denyConsent = async (page: Page) => {
+  // Store the denial in local storage
+  await page.evaluate(() => {
+    localStorage.setItem('HOLI_TRACKING_CONSENT', '{"ANALYTICS":"denied","PERSONALIZATION":"denied"}')
+  })
+  // Now reload the page - the consent logic will read what's in local storage and not show the dialog
+  await page.reload()
+}
+
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
   await page.goto('/profile')
+  await denyConsent(page)
 }
 
-export const gotoFillAndSubmitLogin = async (
-  context: BrowserContext,
-  page: Page,
-  email: string,
-  password: string
-): Promise<void> => {
+export const login = async (context: BrowserContext, page: Page, email: string, password: string): Promise<void> => {
   await prepareForLoginOrRegistration(context, page)
-
-  await clickElementByTestId(page, 'btn-to-login-form')
+  await clickElementByTestId(page, 'anonymous-profile-login-btn')
 
   const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
   await emailInput.fill(email)
@@ -64,7 +73,8 @@ export const registerUserAccount = async (
   page: Page,
   email: string,
   password: string
-): Promise<{ id: string; fullName: string }> => {
+): Promise<{ fullName: string }> => {
+  await page.goto('/profile')
   await registerUser(context, page, email, password)
   return await finishAccountSetup(page)
 }
@@ -109,24 +119,7 @@ export const finishAccountSetup = async (
     firstName?: string
     lastName?: string
   } = {}
-): Promise<{ id: string; fullName: string }> => {
-  let id
-  await page.route(
-    `${process.env.BASE_URL}/api/graphql?op=AuthenticatedUser`,
-    async (route) => {
-      try {
-        const response = await route.fetch()
-        const result = await response.json()
-        id = result.data.authenticatedUserV2.id
-      } finally {
-        await route.continue()
-      }
-    },
-    // as this route is called by a lot of the tested components
-    // only intercept the route once
-    { times: 1 }
-  )
-
+): Promise<{ fullName: string }> => {
   // go through account setup
   // provide user names
   const firstNameInput = await locateElementByTestId(page, 'first-name-input')
@@ -150,15 +143,14 @@ export const finishAccountSetup = async (
   await page.waitForSelector(byTestId('account-setup-success-step'))
   await clickElementByTestId(page, 'holi-wizard-save-btn')
 
-  if (!id) throw new Error("Wasn't able to intercept user id while finishing account setup flow")
   return {
-    id,
     fullName: firstName + ' ' + lastName,
   }
 }
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/')
+  await denyConsent(page)
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
     clickElementByTestId(page, 'btn-to-continue-as-guest'),
@@ -178,14 +170,9 @@ export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promi
       'The environment variable E2E_USER_PASSWORD is not set up correctly, please set it up.'
     )
     .toBeTruthy()
-  await gotoFillAndSubmitLogin(
-    context,
-    page,
-    process.env.E2E_USER_USERNAME as string,
-    process.env.E2E_USER_PASSWORD as string
-  )
+  await login(context, page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
   // wait for profile - login succeeded
-  await page.waitForSelector(byTestId('user-profile-full-name'))
+  await page.waitForSelector(byTestId('home-feed-insights-heading'))
 }
 
 export const registerNewUserAccount = async (
@@ -193,7 +180,7 @@ export const registerNewUserAccount = async (
   page: Page,
   email?: string,
   password?: string
-): Promise<{ id: string; fullName: string }> => {
+): Promise<{ fullName: string }> => {
   const emailToUse = email || newUserEmail()
   const passwordToUse = password || newUserPassword
   const newAccount = await registerUserAccount(context, page, emailToUse, passwordToUse)
@@ -202,7 +189,7 @@ export const registerNewUserAccount = async (
   return newAccount
 }
 
-export const checkAccessibility = async (page: Page) => {
+export const checkAccessibility = async (page: Page, failOnError = true) => {
   console.debug('check accessibility for', page.url())
   await injectAxe(page)
   const axeOptions = {
@@ -221,7 +208,7 @@ export const checkAccessibility = async (page: Page) => {
       { id: 'duplicate-id', enabled: false }, // svg icon components rendered in lists have duplicated ids for their shape masks
     ],
   })
-  await checkA11y(page, undefined, axeOptions, false)
+  await checkA11y(page, undefined, axeOptions, !failOnError)
 }
 
 export const sendConnectionRequest = async (page: Page) => {
@@ -241,22 +228,9 @@ export const sendConnectionRequest = async (page: Page) => {
   await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
 }
 
-export const randomSpaceName = () => {
-  return faker.animal.type() + faker.number.int()
-}
-
-export const newUserEmail = () => {
-  return `${faker.internet.userName()}${faker.string.alphanumeric(4)}@e2etest.com`
-}
-
-export const randomPassword = () => {
-  return faker.internet.password()
-}
-export const newUserPassword = 'TheSamePassword4A11E2eUsers'
-
 export const withRandomUserSession = async (
   browser: Browser,
-  actions: (page: Page, userId: string, userFullName: string) => Promise<void>,
+  actions: (page: Page, userFullName: string) => Promise<void>,
   email: string = newUserEmail(),
   password: string = randomPassword()
 ): Promise<() => Promise<void>> => {
@@ -268,26 +242,12 @@ export const withRandomUserSession = async (
   await page.goto('/profile')
   await page.waitForSelector(byTestId('user-profile-full-name'))
 
-  await actions(page, newAccount.id, newAccount.fullName)
+  await actions(page, newAccount.fullName)
 
   return async () => {
-    await deleteUser(page)
+    await deleteAuthenticatedAccount(context)
     await context.close()
   }
-}
-
-const deleteUser = async (page: Page) => {
-  await retry(async () => {
-    await page.goto('/profile')
-    await clickElementByTestId(page, 'btn-to-settings')
-    await clickElementByTestId(page, 'btn-your-account')
-    await clickElementByTestId(page, 'btn-delete-account')
-    await clickElementByTestIdAndWaitForToast(
-      page,
-      'account-deletion-confirmation-confirmation-confirm',
-      'toast-SUCCESS'
-    )
-  })
 }
 
 export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId: string, toastId: string) => {

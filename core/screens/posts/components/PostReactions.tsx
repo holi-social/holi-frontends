@@ -8,6 +8,8 @@ import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { UpdatePostReactionMutation, UpdatePostReactionResponse } from '@holi/core/screens/posts/queries'
 import { Post, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 
 export interface PostReactionsProps {
@@ -21,6 +23,7 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
   const { user } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const { displayError } = useErrorHandling()
+  const { track } = useTracking()
 
   const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
@@ -45,6 +48,9 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
         id: post.id,
         reactionType: ReactionType.HEART,
         reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
+      },
+      onCompleted: () => {
+        !currentUserHasReacted && track(TrackingEvent.Engaging.reacted('Post', post.id))
       },
     })
   }

@@ -4,16 +4,14 @@ import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import SpacesTab from '@holi/core/components/SpacesTab'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
@@ -55,9 +53,8 @@ const UserProfile = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
 
-  const loginState = useAuth()
+  const loginState = useLoginState()
   const [userId = ''] = useParam('userId')
 
   useEffect(() => {
@@ -89,8 +86,6 @@ const UserProfile = () => {
   const userFullName = user?.fullName || t('user.profileView.anonymous')
   const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
 
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
-
   const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
   const [isLoadingReport, reportContent] = useReportContent({
     id: userId,
@@ -112,8 +107,7 @@ const UserProfile = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('profile.title'),
-      headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: false,
       headerRight: () => (
         <HoliActionDrawer.Drawer label="user-profile-drawer">
           <HoliActionDrawer.Action icon={Flag} isLoading={isLoadingReport} title={t('global.report')} showConfirmation>
@@ -142,16 +136,7 @@ const UserProfile = () => {
         </HoliActionDrawer.Drawer>
       ),
     })
-  }, [
-    isLoadingBlockUser,
-    t,
-    userFullName,
-    blockUser,
-    reportContent,
-    isLoadingReport,
-    setScreenOptions,
-    colors.background10,
-  ])
+  }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
 
   if (!userId || (loading && !user)) {
     // TODO: replace with proper loading indicator
@@ -180,20 +165,20 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <ScrollHeaderLayout.Refreshable
-      refreshableProps={{
+    <ScrollHeaderLayout
+      refreshControlProps={{
         refreshing,
         onRefresh,
       }}
+      headerRelation="none"
       style={styles.layout}
-      contentStyle={styles.content}
+      contentContainerStyle={styles.content}
     >
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
       <HoliTabs
-        style={{ marginTop: 24, flex: 1 }}
-        tabBarStyle={tabBarStyle}
+        style={{ flex: 1 }}
         backgroundColor={colors.background20}
         id="profile-tabs"
         tabs={[
@@ -237,14 +222,10 @@ const UserProfile = () => {
               </View>
             ),
           },
-          ...(ftEnabledPosts
-            ? [
-                {
-                  title: t('individuals.post.name'),
-                  children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
-                },
-              ]
-            : []),
+          {
+            title: t('individuals.post.name'),
+            children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
+          },
           ...(hasInsights
             ? [
                 {
@@ -264,7 +245,7 @@ const UserProfile = () => {
           },
         ]}
       />
-    </ScrollHeaderLayout.Refreshable>
+    </ScrollHeaderLayout>
   )
 }
 
@@ -272,13 +253,15 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
       minHeight: '100%',
+      backgroundColor: theme.colors.background20,
     },
     content: {
       minHeight: '100%',
-      paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? -8 : 0),
     },
     container: {
       alignItems: 'baseline',
+      backgroundColor: theme.colors.background10,
+      paddingBottom: 24,
     },
     messageContainer: {
       alignItems: 'center',

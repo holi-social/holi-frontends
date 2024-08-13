@@ -2,7 +2,7 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { useEffect } from 'react'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 
 export const SPACE_ONBOARDING_STATE_STORAGE_NAME = 'space_onboarding_state_value'
 
@@ -16,7 +16,7 @@ export type SpaceOnboardingStateValue = (typeof spaceOnboardingValues)[keyof typ
 const spaceOnboardingStateVar = makeVar<boolean | null>(null)
 
 export const useSpaceOnboarding = (onboarding_type: string) => {
-  const loginState = useAuth()
+  const loginState = useLoginState()
 
   useEffect(() => {
     if (loginState.isUnknown) return

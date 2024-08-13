@@ -2,6 +2,7 @@ import React from 'react'
 
 import { NotificationChallengesItem } from '@holi/core/screens/notifications/components/NotificationChallengesItem'
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
+import NotificationPollUpdatesItem from '@holi/core/screens/notifications/components/NotificationPollUpdatesItem'
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
 import NotificationSpaceAppointmentDeletionItem from '@holi/core/screens/notifications/components/NotificationSpaceAppointmentDeletionItem'
@@ -51,6 +52,8 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.CHALLENGE_APPROVAL,
   NovuNotificationType.CHALLENGE_NEW_COMMENT,
   NovuNotificationType.CHALLENGE_KEEP_STREAK,
+  NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST,
+  NovuNotificationType.POLL_UPDATES,
 ]
 
 const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props }) => {
@@ -98,8 +101,11 @@ const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props 
       )
     case NovuNotificationType.CHALLENGE_NEW_COMMENT:
     case NovuNotificationType.CHALLENGE_KEEP_STREAK:
+    case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
     case NovuNotificationType.CHALLENGE_APPROVAL:
       return <NotificationChallengesItem notification={notification} {...props} />
+    case NovuNotificationType.POLL_UPDATES:
+      return <NotificationPollUpdatesItem notification={notification} {...props} />
     default:
       return null
   }

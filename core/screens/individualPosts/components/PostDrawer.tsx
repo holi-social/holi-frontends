@@ -3,14 +3,14 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { feedPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -30,7 +30,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
-  const auth = useAuth()
+  const loginState = useLoginState()
   const { navigate } = useRouting()
   const { track } = useTracking()
 
@@ -54,7 +54,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
     setShowDeleteConfirmationModal(false)
     deleteFeedPost({
       variables: { postId: post.id },
-      refetchQueries: [{ query: feedPostsQuery }, { query: myPostsQuery }],
+      refetchQueries: [{ query: allPostsQuery }, { query: myPostsQuery }],
     }).then(() => {
       openToast(t('individuals.post.delete.success'), HoliToastType.SUCCESS)
     })
@@ -75,26 +75,14 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   })
 
   const onShare = async () => {
-    track(TrackingEvent.PostShare.Pressed(post.id))
-    switch (await shareLink()) {
-      case 'shared':
-        track(TrackingEvent.PostShare.Shared(post.id))
-        break
-      case 'dismissed':
-        track(TrackingEvent.PostShare.Dismissed(post.id))
-        break
+    if ((await shareLink()) === 'shared') {
+      track(TrackingEvent.FeedPosts.shared(post.id))
     }
   }
 
   return (
     <>
-      <HoliActionDrawer.Drawer
-        label={t('global.moreOptions')}
-        testID="btn-post-more-options"
-        buttonElement={children}
-        onShow={() => track(TrackingEvent.PostActionDrawer.Opened(post.id))}
-        onHide={() => track(TrackingEvent.PostActionDrawer.Closed(post.id))}
-      >
+      <HoliActionDrawer.Drawer label={t('global.moreOptions')} testID="btn-post-more-options" buttonElement={children}>
         <HoliActionDrawer.Action
           icon={Share}
           title={t('global.share')}
@@ -102,7 +90,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
           handleAction={onShare}
         />
 
-        {auth.isLoggedIn && auth.userId === post.creator.id ? (
+        {loginState.isLoggedIn && loginState.userId === post.author.id ? (
           <>
             <HoliActionDrawer.Action
               icon={Edit2}

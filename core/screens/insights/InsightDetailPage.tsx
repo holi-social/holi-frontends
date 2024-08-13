@@ -5,12 +5,11 @@ import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
+import { Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getLocale, getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
@@ -19,12 +18,13 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
+import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
 import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
 import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
 import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import QuotesCarousel from '@holi/core/screens/insights/quotes/QuotesCarousel'
 import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
-import { Discussion, Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
+import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PollComponent from '@holi/core/screens/polls/PollComponent'
 import { Poll } from '@holi/core/screens/polls/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
@@ -78,7 +78,8 @@ const InsightDetailPage = () => {
     skip: !insightId,
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
-      if (isNotFoundError(error)) {
+      // if the insight is not found, or the id is not a valid UUID, redirect to 404
+      if (isNotFoundError(error) || error.message.includes('badly formed hexadecimal UUID string')) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId })
@@ -94,16 +95,14 @@ const InsightDetailPage = () => {
       headerTintColor: colors.light,
       title: '',
       navigationCustomOptions: {
-        headerBackgroundGradient: true,
+        background: { type: 'gradient' },
       },
       headerRight: () => {
         return (
           insight && (
-            <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
-              <InsightDrawer insight={insight}>
-                <HoliIcon icon={MoreFilled} color={colors.light} />
-              </InsightDrawer>
-            </FeatureToggleGuard>
+            <InsightDrawer insight={insight}>
+              <HoliIcon icon={MoreFilled} color={colors.light} />
+            </InsightDrawer>
           )
         )
       },
@@ -112,10 +111,10 @@ const InsightDetailPage = () => {
 
   const posts: Post[] = insight?.posts || []
   const polls: Poll[] = insight?.polls || []
+  const discussions: Discussion[] = insight?.discussions || []
   const recommendations: Recommendation[] = insight?.recommendations || []
   const quotes: Quote[] = insight?.quotes || []
   const initiatives: Initiative[] = insight?.initiatives || []
-  const discussions: Discussion[] = insight?.discussions || []
   const creator = insight?.creator
   const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
   const cardWidth = 330
@@ -220,13 +219,13 @@ const InsightDetailPage = () => {
       />
       <StatusBar style="light" animated />
 
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
+        headerRelation="overlap"
         style={styles.wrapper}
-        headerOverlap
       >
         {insight && !loading ? (
           <>
@@ -360,19 +359,19 @@ const InsightDetailPage = () => {
                 />
               </InsightCarouselSection>
             )}
-            {(discussions.length > 0 || polls.length > 0) && (
+            {(polls.length > 0 || discussions.length > 0) && (
               <DiscussionsSection>
-                {polls.length > 0 && (
-                  <View>
-                    {polls.map((poll) => (
-                      <View key={poll.id} style={[styles.section, styles.pollContainer]}>
-                        <PollComponent poll={poll} />
-                      </View>
-                    ))}
+                {polls.map((poll) => (
+                  <View key={poll.id} style={[styles.section, styles.pollContainer]}>
+                    <PollComponent poll={poll} />
                   </View>
-                )}
+                ))}
+                {discussions.map((d) => (
+                  <DiscussionCard key={d.id} insightId={insight.id} discussion={d} />
+                ))}
               </DiscussionsSection>
             )}
+
             {posts.length > 0 && (
               <View style={[styles.section, styles.posts]}>
                 <HoliGridWrapper>
@@ -388,7 +387,7 @@ const InsightDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
     </>
   )
 }
@@ -553,7 +552,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
     },
     pollContainer: {
-      marginBottom: Spacing.sm,
+      marginBottom: 0,
     },
     postCard: {
       width: 304,

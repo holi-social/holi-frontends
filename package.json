@@ -30,6 +30,7 @@
     "web:dev": "yarn workspace @holi/web dev",
     "web:build": "yarn workspace @holi/web build",
     "web:start": "yarn workspace @holi/web start",
+    "check-types": "tsc --noemit",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "clean": "yarn workspaces foreach -A run clean",
@@ -50,7 +51,7 @@
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-operations": "^4.2.0",
-    "@graphql-codegen/typescript-react-apollo": "^3.0.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@parcel/watcher": "^2.4.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/jest-native": "^5.4.1",
@@ -76,7 +77,8 @@
     "jest-when": "^3.6.0",
     "prettier": "^2.8.3",
     "react-test-renderer": "18.2.0",
-    "turbo": "^1.7.2"
+    "turbo": "^1.7.2",
+    "typescript": "^5.3.0"
   },
   "packageManager": "yarn@4.1.1",
   "expo-yarn-workspaces": {

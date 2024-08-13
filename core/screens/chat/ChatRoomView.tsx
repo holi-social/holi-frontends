@@ -1,7 +1,8 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { DimensionValue, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -25,6 +26,7 @@ import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingV
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { getInitials } from '@holi/core/helpers'
+import { useShowHeaderOnScreenFocus } from '@holi/core/helpers/useShowHeaderOnScreenFocus'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -76,6 +78,7 @@ const ChatRoomView = () => {
 
   useEffect(() => {
     setScreenOptions({
+      headerTransparent: true,
       headerRight: () =>
         !!chatPartner &&
         !isSpaceRoom && (
@@ -165,53 +168,64 @@ const ChatRoomView = () => {
     requestMessages(roomId, false)
   }, [requestMessages, roomId, room?.id, room?.hasInvitation])
 
+  // reset header when screen is focused
+  useShowHeaderOnScreenFocus()
+
   // TODO: provide skeleton instead of HoliLoader
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
 
   return (
-    <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-      <SafeAreaView style={styles.safeArea}>
-        <KeyboardAvoidingViewWrapper
-          renderProp={() => (
-            <View style={styles.container}>
-              <View style={styles.listContainer}>
-                {room.hasInvitation ? (
-                  <ChatProfileCard
-                    member={chatPartner}
+    <View style={styles.layoutWarpper}>
+      <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
+        <Animated.View entering={FadeIn} style={{ flex: 1 }}>
+          <SafeAreaView style={styles.safeArea}>
+            <KeyboardAvoidingViewWrapper
+              renderProp={() => (
+                <View style={styles.container}>
+                  <View style={styles.listContainer}>
+                    {room.hasInvitation ? (
+                      <ChatProfileCard
+                        member={chatPartner}
+                        roomId={roomId}
+                        user={chatPartnerHoliUser}
+                        userIsLoading={loadingUsers}
+                      />
+                    ) : (
+                      <RoomMessageList
+                        roomId={room.id}
+                        messages={messages || []}
+                        matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
+                        starter={
+                          amIRoomCreator &&
+                          chatPartnerHoliUser && (
+                            <View style={styles.listStage}>
+                              <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+                            </View>
+                          )
+                        }
+                        onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+                          const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
+
+                          if (needToLoad) {
+                            requestMessages(roomId, false)
+                          }
+                        }}
+                      />
+                    )}
+                  </View>
+
+                  <ChatTextInput
+                    isVisible={!room.hasInvitation}
+                    userName={chatPartnerHoliUser?.fullName}
                     roomId={roomId}
-                    user={chatPartnerHoliUser}
-                    userIsLoading={loadingUsers}
                   />
-                ) : (
-                  <RoomMessageList
-                    roomId={room.id}
-                    messages={messages || []}
-                    matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
-                    starter={
-                      amIRoomCreator &&
-                      chatPartnerHoliUser && (
-                        <View style={styles.listStage}>
-                          <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
-                        </View>
-                      )
-                    }
-                    onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
-                      const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
-
-                      if (needToLoad) {
-                        requestMessages(roomId, false)
-                      }
-                    }}
-                  />
-                )}
-              </View>
-
-              <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
-            </View>
-          )}
-        />
-      </SafeAreaView>
-    </PermissionsGuard>
+                </View>
+              )}
+            />
+          </SafeAreaView>
+        </Animated.View>
+      </PermissionsGuard>
+    </View>
   )
 }
 
@@ -219,6 +233,16 @@ export default ChatRoomView
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    layoutWarpper: {
+      ...Platform.select({
+        web: {
+          height: '100vh' as DimensionValue,
+        },
+        native: {
+          flex: 1,
+        },
+      }),
+    },
     safeArea: {
       flex: 1,
     },
@@ -231,7 +255,6 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       alignItems: 'center',
       minHeight: '100%',
-      paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
     },
     listContainer: {

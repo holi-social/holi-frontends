@@ -13,7 +13,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
 
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
+import { createExternalChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
 
@@ -90,10 +90,7 @@ const ChallengesAppHome = () => {
     return <HoliLoader />
   }
 
-  let uri = challengeAppBaseUrl
-  if (pathQueryParam) {
-    uri += decodeURIComponent(pathQueryParam)
-  }
+  const uri = createExternalChallengesPath(pathQueryParam)
 
   return (
     <HoliWebView

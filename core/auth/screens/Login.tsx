@@ -10,10 +10,9 @@ import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/helpers/form'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { setUserLoggedIn, useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
-import { resetUserVisitedScreensCount } from '@holi/core/components/TrackingConsentModal/userVisitedScreensCount'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -32,11 +31,11 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 
 const Login = () => {
-  const { isLoggedOut } = useAuth()
+  const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
-  const { navigate, navigateBack } = useRouting()
+  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const setScreenOptions = useSetScreenOptions()
@@ -85,25 +84,16 @@ const Login = () => {
     try {
       const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
-      await setUserLoggedIn(data)
+      await setLoginStateLoggedIn(data)
       await storeOnboardingState('finished')
 
-      resetUserVisitedScreensCount()
       redirect()
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)
         await storeOnboardingState('emailVerification')
 
-        if (isWeb) {
-          navigate('/onboarding/registration')
-        } else {
-          // for Mobile we need first to close Loing modal
-          navigateBack()
-          // and then navigate to onboarding
-          // timeout is used for correct animation of closing modal and navigating
-          setTimeout(() => navigate('/onboarding/registration'), 300)
-        }
+        navigate('/onboarding/registration')
       } else {
         handleFormSubmitError(
           safeSetFlow,

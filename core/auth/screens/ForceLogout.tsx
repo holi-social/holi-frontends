@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { clearProcessingUnauthorizedLogout } from '@holi/core/components/SessionExpiryProtection'
 import { useLogout } from '@holi/core/helpers'
@@ -16,7 +16,7 @@ const ForceLogout = () => {
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
   const { logout, isLoggingOut } = useLogout()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
 
   useEffect(() => {
     if (isLoggedIn && !isLoggingOut) {

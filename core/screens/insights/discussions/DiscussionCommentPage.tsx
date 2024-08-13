@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -17,7 +18,6 @@ import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionCommentPageParams = {
   discussionId: string
@@ -35,9 +35,6 @@ const DiscussionCommentPage = () => {
   const [insightId] = useParam('insightId')
   const [commentId] = useParam('commentId')
   const { replaceRoute } = useRouting()
-
-  const { theme } = useTheme()
-  const { colors } = theme
 
   const { data: { discussionById: discussion } = {} } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
@@ -73,12 +70,14 @@ const DiscussionCommentPage = () => {
     () =>
       setScreenOptions({
         title: t('comments.title'),
-        headerStyle: { backgroundColor: colors.background10 },
         navigationCustomOptions: {
           footerShown: false,
         },
+        headerLeft: () => (
+          <HeaderBackButton onPress={() => replaceRoute(`/insights/${insightId}/discussions/${discussionId}`)} />
+        ),
       }),
-    [setScreenOptions, t, colors.background10]
+    [setScreenOptions, t, insightId, discussionId, replaceRoute]
   )
 
   return (

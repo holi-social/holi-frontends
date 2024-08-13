@@ -1,6 +1,5 @@
 import type { Space } from '@holi/core/screens/spaces/types'
 import type { User } from '@holi/core/screens/userprofile/types'
-import { Term } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
 export enum ReactionType {
@@ -15,8 +14,6 @@ export enum ReactionAction {
 export interface ReactionCounts {
   HEART: number
 }
-
-export type InspirationPostCategory = Term
 
 export interface PostImage {
   id: string
@@ -39,10 +36,10 @@ export interface Link {
 }
 
 export interface Post {
+  __typename: string
   id: string
   text: string
   creator: User
-  inspirationPostCategory?: InspirationPostCategory
   title: string
   created?: string // "2022-10-06T17:50:41.661594+00:00"
   modified?: string // "2022-10-06T17:50:41.661594+00:00"
@@ -64,4 +61,5 @@ export interface Post {
   myReaction: ReactionCounts
   reactions: ReactionCounts
   isPublic?: boolean
+  language?: string
 }

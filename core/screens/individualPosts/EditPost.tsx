@@ -1,23 +1,24 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { PostQueryResponse, feedPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
+import { PostQueryResponse, allPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -40,12 +41,11 @@ const EditPost = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { colors } = theme
-  const { navigateBack, navigate, replaceRoute } = useRouting()
+  const { navigateBack, replaceRoute } = useRouting()
   const { user } = useLoggedInUser()
 
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
-  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
   const [submitting, setSubmitting] = useState<boolean>(false)
   const { openToast } = useToast()
 
@@ -54,11 +54,11 @@ const EditPost = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
 
-  const [description, setDescription] = useState<string>('')
+  const [description, setDescription] = useState<string>()
   const [title, setTitle] = useState<string>('')
   const [image, setImage] = useState<HoliImageInfo | null>()
   const [currentImage, setCurrentImage] = useState<string>()
-
+  const [selectedTopics, setSelectedTopics] = useState<Term[] | []>()
   const [showCategories, setShowCategories] = useState(false)
 
   const { data: { post } = {}, loading: loadingPost } = useQuery<PostQueryResponse>(postQuery, {
@@ -79,11 +79,14 @@ const EditPost = () => {
       navigateBack()
     },
 
-    refetchQueries: [{ query: myPostsQuery }, { query: feedPostsQuery }],
+    refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
   })
+  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
-  const editPost = () => {
+  const editPost = async () => {
     setSubmitting(true)
+    const { data } = await detectLanguage({ variables: { text: description } })
+
     updateFeedPost({
       variables: {
         input: {
@@ -93,6 +96,8 @@ const EditPost = () => {
           categoryId: selectedCategoryId,
           postId: post?.id,
           image: image === null ? null : image?.blob,
+          topicIds: selectedTopics?.map((topic) => topic.id),
+          language: data?.detectedLanguage,
         },
       },
       onError: (error) => {
@@ -113,9 +118,10 @@ const EditPost = () => {
     if (post) {
       setTitle(post.title)
       setDescription(post.description)
-      setCurrentImage(post.image)
+      setCurrentImage(post.imageUrl)
       setSelectedCategoryId(post.category.id)
       setSelectedVisibility(Visibility[post.visibility])
+      setSelectedTopics(post.topics)
     }
   }, [post])
 
@@ -143,17 +149,13 @@ const EditPost = () => {
     setShowCategories((value) => !value)
   }
 
-  if (!ftLoading && !ftEnabled) {
-    navigate('/404')
-  }
-
-  if (ftLoading || loadingPost) {
+  if (loadingPost) {
     return <HoliLoader />
   }
 
   return (
-    <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.creator.id}>
-      <FeatureToggleGuard toggleName={FeatureToggleName.INDIVIDUALS_POST} featureNameKey="individual_posts" noLayout>
+    <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.author.id}>
+      <SpaceTermContextProvider>
         <View style={styles.grayExtendingBackground}>
           {categoriesLoading ? (
             <HoliLoader />
@@ -167,17 +169,20 @@ const EditPost = () => {
             <PostInputForm
               title={title}
               onChangeTitle={setTitle}
-              description={description}
+              description={post?.description}
               onChangeDescription={setDescription}
               image={image || null}
               onChangeImage={(value) => {
                 setImage(value)
                 setCurrentImage(undefined)
               }}
+              mentions={post?.mentionedUsers}
               selectedCategoryId={selectedCategoryId}
               onChangeSelectedCategoryId={setSelectedCategoryId}
               selectedVisibility={selectedVisibility}
               onChangeSelectedVisibility={setSelectedVisibility}
+              selectedTopics={selectedTopics}
+              onChangeSelectedTopics={setSelectedTopics}
               onSubmit={editPost}
               submitting={submitting}
               currentImage={currentImage}
@@ -187,7 +192,7 @@ const EditPost = () => {
             />
           )}
         </View>
-      </FeatureToggleGuard>
+      </SpaceTermContextProvider>
     </PermissionsGuard>
   )
 }

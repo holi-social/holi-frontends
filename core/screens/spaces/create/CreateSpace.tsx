@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
@@ -44,7 +44,7 @@ const CreateSpace = () => {
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
   const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
-  const [spaceCoverImage, setSpaceCoverImage] = useState<HoliImageInfo | undefined>()
+  const [spaceCoverImage, setSpaceCoverImage] = useState<HoliImageInfo>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const exitConfirmationTitle = t('spaces.create.close.dialog.title')
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
@@ -58,12 +58,11 @@ const CreateSpace = () => {
   hasOwnSpaces = isLoggedIn && !!(mySpaces.length > 0)
 
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { openToast } = useToast()
 
   // FIXME: this is a dirty hack to circumvent using the file picker dialog in mobile e2e tests
-  const loginState = useAuth()
+  const loginState = useLoginState()
   useEffect(() => {
     if (loginState.isLoggedIn) {
       mockImageUploadForE2E(loginState.userId).then((spaceCoverImage) => {
@@ -106,14 +105,13 @@ const CreateSpace = () => {
           {t('spaces.create.title')}
         </HoliHeading>
       ),
-      headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t, colors.background10])
+  }, [setScreenOptions, t])
 
   const handleNextButtonPress = async (currentStep: number) => {
     const result = await validateSpace({
@@ -206,7 +204,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     container: {
       flex: 1,
-      paddingTop: dimensions.topBarHeight,
+      paddingTop: dimensions.topBarHeight + 24,
       width: '100%',
       paddingHorizontal: 0,
       ...Platform.select({

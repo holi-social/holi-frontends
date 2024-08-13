@@ -1,72 +1,102 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useContext, useEffect, useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
+import { useBreakpointMatcher } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
-import PostCard from '@holi/core/screens/individualPosts/components/PostCard'
+import GenericPostCard from '@holi/core/screens/individualPosts/components/GenericPostCard'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
-import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
-import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
+import { Post } from '@holi/core/screens/posts/types'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
-
-const HALF_PADDING = Spacing.xs / 2
 
 export type PostsListResultsProps = {
   emptyMessage?: ReactNode
   showVisibilityBadge?: boolean
 }
 
-const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResultsProps) => {
-  const { data, loading, totalResults } = usePaginationContext<FeedPost>()
+export const simpleColumnSortingByIndex = <T,>(posts: readonly T[], numberOfColumns: number): T[][] => {
+  if (numberOfColumns === 0) return new Array<T[]>()
 
+  return posts.reduce((previous, p, index) => {
+    const mod = index % numberOfColumns
+    previous[mod] = previous[mod].concat(p)
+    return previous
+  }, new Array<T[]>(numberOfColumns).fill(new Array<T>()))
+}
+
+const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResultsProps) => {
+  const { data, loading, totalResults } = usePaginationContext<FeedPost | Post>()
+  const numberOfColumns = useBreakpointMatcher() || 1
+  const { topics: allTopics } = useContext(SpaceTermContext)
+
+  const prevCardIds = useRef(data.map((p) => p.id))
+  const newCardIds = data.filter((p) => !prevCardIds.current.includes(p.id)).map((p) => p.id)
+  useEffect(() => {
+    prevCardIds.current = data.map((p) => p.id)
+  }, [data])
+
+  if (loading) return <LoadingSkeleton columns={numberOfColumns} />
   if (totalResults == 0) return emptyMessage
-  if (loading) return <LoadingSkeleton />
+
+  const dataByColumns = simpleColumnSortingByIndex(data, numberOfColumns)
 
   return (
-    <HoliGridWrapper gap={Spacing.xxs}>
-      {loading ? (
-        <LoadingSkeleton />
-      ) : totalResults === 0 ? (
-        emptyMessage
-      ) : (
-        data.map((p) => (
-          <HoliGridCell key={p.id}>
-            <PostCard post={p} key={p.id} showVisibilityBadge={showVisibilityBadge} />
-          </HoliGridCell>
-        ))
-      )}
-    </HoliGridWrapper>
+    <View style={styles.container} testID="posts-list-results">
+      {dataByColumns.map((column, index) => (
+        <View key={index} style={styles.column}>
+          {column.map((p) => (
+            <Animated.View
+              key={p.id}
+              entering={
+                newCardIds.includes(p.id) ? FadeInDown.delay(Math.max(0, newCardIds.indexOf(p.id) * 150)) : undefined
+              }
+            >
+              <GenericPostCard key={p.id} post={p} showVisibilityBadge={showVisibilityBadge} allTopics={allTopics} />
+            </Animated.View>
+          ))}
+        </View>
+      ))}
+    </View>
   )
 }
 
 const PostSkeleton = () => (
-  <HoliGridCell>
-    <View style={styles.skeletonPost}>
-      <View style={styles.skeletonUserContainer}>
-        <HoliSkeleton height={44} width={44} borderRadius={80} />
-        <View style={styles.skeletonMetadata}>
-          <HoliSkeleton height={22} width={120} borderRadius={10} />
-          <HoliSkeleton height={14} width={80} borderRadius={10} />
-        </View>
+  <View style={styles.skeletonPost}>
+    <View style={styles.skeletonUserContainer}>
+      <HoliSkeleton height={44} width={44} borderRadius={80} />
+      <View style={styles.skeletonMetadata}>
+        <HoliSkeleton height={22} width={120} borderRadius={10} />
+        <HoliSkeleton height={14} width={80} borderRadius={10} />
       </View>
-      <HoliSkeleton height={22} width={200} borderRadius={20} />
-      <HoliSkeleton height={60} width="100%" borderRadius={10} />
-      <HoliSkeleton height={160} width="100%" borderRadius={20} />
     </View>
-  </HoliGridCell>
+    <HoliSkeleton height={22} width={200} borderRadius={20} />
+    <HoliSkeleton height={60} width="100%" borderRadius={10} />
+    <HoliSkeleton height={160} width="100%" borderRadius={20} />
+  </View>
 )
 
-const LoadingSkeleton = () => (
-  <HoliGridWrapper gap={Spacing.xs}>
-    <PostSkeleton />
-    <PostSkeleton />
-  </HoliGridWrapper>
+const LoadingSkeleton = ({ columns }: { columns: number }) => (
+  <View style={styles.container}>
+    {new Array(columns).fill(0).map((_, index) => (
+      <View style={styles.column} key={index}>
+        <PostSkeleton />
+        <PostSkeleton />
+      </View>
+    ))}
+  </View>
 )
 
 const styles = StyleSheet.create({
   container: {
-    margin: -HALF_PADDING,
-    minHeight: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: Spacing.xs,
+  },
+  column: {
+    flex: 1,
+    gap: Spacing.xs,
   },
   skeletonPost: {
     gap: 10,

@@ -1,14 +1,24 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { StyleProp, StyleSheet, TextInput, View, ViewStyle } from 'react-native'
-import { MentionInput, MentionSuggestionsProps, Suggestion } from 'react-native-controlled-mentions'
+import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  NativeSyntheticEvent,
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  TextInputFocusEventData,
+  View,
+  ViewStyle,
+} from 'react-native'
+import { MentionInput, MentionSuggestionsProps, PartType, Suggestion } from 'react-native-controlled-mentions'
 
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/providers/PortalProvider'
 import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { TEXT_INPUT_HORIZONTAL_PADDING, TEXT_INPUT_VERTICAL_PADDING } from '@holi/ui/components/molecules/HoliTextInput'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
+import { transformStringWithMentions } from '@holi/ui/components/organisms/HoliRichTextInput/helper/transformStringWithMentions'
 import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -21,8 +31,8 @@ export type HoliRichTextInputProps = {
   maxSuggestionOptions?: number
   debounceDelay?: number
   onChange?: (text: string) => void
-  onFocus?: (event: FocusEvent) => void
-  onBlur?: (event: FocusEvent) => void
+  onFocus?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void
+  onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void
   onSelectSuggestion?: (suggestion: User) => void
   style?: StyleProp<ViewStyle>
   inputStyle?: StyleProp<ViewStyle>
@@ -32,6 +42,9 @@ export type HoliRichTextInputProps = {
   inputAccessoryViewID?: string
   placeholderTextColor?: string
   initialSelectedSuggestion?: Suggestion
+  mentions?: User[]
+  isEdit?: boolean
+  scrollEnabled?: boolean
 }
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
@@ -47,6 +60,8 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   onFocus = () => null,
   onBlur = () => null,
   initialSelectedSuggestion,
+  mentions,
+  scrollEnabled = true, // default value of the scrollEnabled prop in MentionInput
   ...props
 }) => {
   const { theme } = useTheme()
@@ -70,6 +85,14 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
 
   const [characterCount, setCharacterCount] = useState(0)
   const [disabled] = useState(false)
+
+  useEffect(() => {
+    // only run the transformation when initialValue and mentions changes AND the value is the same as initialValue
+    // this is to avoid the transformation when the user is typing, which can break the mentioning logic
+    if (initialValue === value) {
+      return setValue(transformStringWithMentions(initialValue, mentions || []))
+    }
+  }, [mentions, initialValue, value])
 
   // on mount / unmount
   useEffect(() => {
@@ -156,23 +179,17 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
     ({ keyword, onSuggestionPress }: MentionSuggestionsProps) => {
       requestAnimationFrame(() => setSafeKeyword(!keyword ? '' : keyword))
       onChooseOptionRef.current = onSuggestionPress
+      return null
     },
     [setSafeKeyword]
   )
 
-  const suggestionConfig = []
+  const suggestionConfig: PartType[] = []
   suggestionConfig.push({
     trigger: '@',
-    renderSuggestions: renderUserSuggestions,
+    renderSuggestions: renderUserSuggestions as (props: MentionSuggestionsProps) => ReactNode,
     textStyle: styles.inlineMention,
   })
-
-  // TODO: for later usage
-  // suggestionConfig.push({
-  //   trigger: '#',
-  //   renderSuggestions: renderHashtagSuggestions,
-  //   textStyle: styles.inlineHashtag,
-  // })
 
   // Nice to have: url highlighting
   suggestionConfig.push({
@@ -210,6 +227,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
         maxLength={props.maxNoOfCharacters}
         testID={(props.testID || 'richtext-component') + '-input'}
         inputAccessoryViewID={inputAccessoryViewID}
+        scrollEnabled={scrollEnabled}
       />
       <CharactersCount />
     </View>
@@ -228,7 +246,8 @@ const getStyles = (theme: HoliTheme) =>
     },
     input: {
       width: '100%',
-      paddingVertical: 10,
+      paddingVertical: TEXT_INPUT_VERTICAL_PADDING,
+      paddingHorizontal: TEXT_INPUT_HORIZONTAL_PADDING,
       color: theme.colors.foreground30,
       fontSize: 16,
     },

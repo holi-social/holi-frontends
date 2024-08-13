@@ -1,6 +1,5 @@
 import { defaultAuthSteps, logout } from '../../helpers/auth'
 import { waitForHomeScreen } from '../../helpers/navigation'
-import { itif } from '../../helpers/platform'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
@@ -24,21 +23,23 @@ describe('@Spaces', () => {
   afterEach(async () => {
     // Speeds up local execution
     if (target === 'local') {
-      await tapOnElementWithTestId('btn-to-home-view', 0)
       await logout()
+      await tapOnElementWithTestId('btn-to-home-view', 100)
     }
   })
 
-  itif(platform === 'ios', 'should support the user journey', async () => {
+  it('should support the user journey', async () => {
     // preparation of test
     await navigateToSpaces()
 
     await assertMultipleGroupsDisplayed()
     await assertSpaceDetailsDisplayed()
-    await assertCreatingSpace()
-    await assertEditingSpace()
-    await assertCreateDeleteSpaceUpdatePost()
-    await assertDeletingSpace()
+    if (platform === 'ios') {
+      await assertCreatingSpace()
+      await assertEditingSpace()
+      await assertCreateDeleteSpaceUpdatePost()
+      await assertDeletingSpace()
+    }
   })
 
   const assertMultipleGroupsDisplayed = async () => {
@@ -95,13 +96,13 @@ describe('@Spaces', () => {
 
     // create space - cover image
     // We mock the image upload for this test to circumvent using the native file picker, so there already is an image preselected and we can directly continue
-    await scrollToElementWithTestId('create-space-remove-image-btn', 'down')
+    await waitForElementWithTestId('space-upload-image-btn')
     await tapOnElementWithTestId('holi-wizard-save-btn')
   }
 
   const assertEditingSpace = async () => {
     // check if edit space page has correct information
-    await seeTextWithTestId(initialName, 'space-edit-title')
+    await seeTextWithTestId(initialName, 'space-edit-title', 30000)
     await scrollToElementWithTestId('space-edit-goal', 'down', { maxAttempts: 2 })
     await seeTextWithTestId(initialGoal, 'space-edit-goal')
 
@@ -135,7 +136,7 @@ describe('@Spaces', () => {
     await fillFieldByTestId('update-content-input-input', postDescription)
 
     await tapOnElementWithTestId('update-content-input-label')
-    await tapOnElementWithTestId('form-modal-save-btn')
+    await tapOnElementWithTestId('form-wrapper-save-btn')
 
     // check update post to be shown
     await seeTextWithTestId(postTitle, 'btn-to-post')

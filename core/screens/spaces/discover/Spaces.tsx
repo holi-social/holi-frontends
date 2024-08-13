@@ -1,14 +1,15 @@
-import { DocumentNode, useQuery } from '@apollo/client'
-import { useApolloClient } from '@apollo/client'
+import { DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, ViewStyle } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
+import Animated from 'react-native-reanimated'
 
+import FilterModal from '@holi/core/components/FIlterModal'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useTabNavigation from '@holi/core/hooks/useTabNavigation'
@@ -18,7 +19,8 @@ import NotificationAndSearchHeader from '@holi/core/navigation/components/header
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
-import SpaceFilterModal, { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
+import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
+import { type SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 import { MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
@@ -27,10 +29,9 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export enum Tab {
   MINE = 'mine',
@@ -39,10 +40,9 @@ export enum Tab {
 
 const Spaces = () => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { navigate } = useRouting()
   const { user, isLoggedIn } = useLoggedInUser()
-  const pageViewRef = useRef<ScrollView>(null)
+  const pageViewRef = useRef<Animated.ScrollView>(null)
   const { openLoginModal } = useLoginModal()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
@@ -50,6 +50,8 @@ const Spaces = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const client = useApolloClient()
+
+  const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
   let hasOwnSpaces = false
   // For now every pageview triggers a new fetch since business requirements of signup process are still in flux
@@ -76,8 +78,6 @@ const Spaces = () => {
     isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
   }, [isLoggedIn, navigate, openLoginModal, t])
 
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
-
   useIsomorphicLayoutEffect(() => {
     const title = t('spaces.title')
     setScreenOptions({
@@ -85,7 +85,6 @@ const Spaces = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
@@ -99,33 +98,37 @@ const Spaces = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions, colors.background10])
+  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions])
 
   const onChangeTab = (tabIndex: number) => {
     selectTabWithIndex(tabIndex)
     pageViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
   }
 
-  const applyFilters = useCallback(
-    (filters: SpaceFilter) => {
-      const params = new URLSearchParams()
+  const { visible: isFilterModalShown, show: openFilterModal, hide: closeFilterModal } = useModalState()
 
-      if (filters.location?.id) {
-        params.set('location', filters.location.id)
-      }
+  const applyFilters = (filters: SpaceFilter) => {
+    const params = new URLSearchParams()
 
-      filters.topicSlugs?.forEach((topic) => {
-        params.append('topic', topic)
-      })
+    if (filters.location?.id) {
+      params.set('location', filters.location.id)
+    }
 
-      filters.skillSlugs?.forEach((skill) => {
-        params.append('skill', skill)
-      })
-      const paramsString = params.toString()
-      paramsString && navigate('/spaces/filter?' + paramsString)
-    },
-    [navigate]
-  )
+    filters.topicSlugs?.forEach((topic) => {
+      params.append('topic', topic)
+    })
+
+    filters.skillSlugs?.forEach((skill) => {
+      params.append('skill', skill)
+    })
+    const paramsString = params.toString()
+    paramsString && navigate('/spaces/filter?' + paramsString)
+  }
+
+  const onSubmit = (filters: SpaceFilter) => {
+    applyFilters(filters)
+    closeFilterModal()
+  }
 
   if (loading || (isLoggedIn && !mySpacesData)) {
     return <HoliLoader style={{ backgroundColor: colors.background20 }} />
@@ -139,13 +142,14 @@ const Spaces = () => {
         ogTitle={t('metatags.spaces.og.title')}
         ogDescription={t('metatags.spaces.og.description')}
       />
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
         ref={pageViewRef}
         style={styles.layout}
+        onScroll={onScreenScroll}
       >
         {!hasOwnSpaces ? (
           /* User has NO spaces => show discover view */
@@ -158,7 +162,6 @@ const Spaces = () => {
             id="space-tabs"
             onChangeTab={onChangeTab}
             style={styles.holiTabs}
-            tabBarStyle={tabBarStyle}
             backgroundColor={colors.background20}
             scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
             initialStep={initialTabIndex}
@@ -185,9 +188,19 @@ const Spaces = () => {
             testID="spaces-tab-navigation"
           />
         )}
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
 
-      {(!hasOwnSpaces || currentTabName === Tab.DISCOVER) && <SpaceFilterModal applyFilters={applyFilters} />}
+      {(!hasOwnSpaces || currentTabName === Tab.DISCOVER) && (
+        <FilterModal
+          label={t('spaces.filter.heading')}
+          buttonLabel={t('spaces.filter.button.label')}
+          show={isFilterModalShown}
+          open={openFilterModal}
+          onDismiss={closeFilterModal}
+        >
+          <SpaceFilterForm onSubmit={onSubmit} />
+        </FilterModal>
+      )}
     </SpaceTermContextProvider>
   )
 }
@@ -195,14 +208,6 @@ const Spaces = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
-      ...(Platform.select({
-        web: {
-          minHeight: '100vh',
-        },
-        native: {
-          minHeight: '100%',
-        },
-      }) as ViewStyle),
       backgroundColor: theme.colors.background20,
     },
     holiTabs: {

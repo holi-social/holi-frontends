@@ -84,7 +84,6 @@ const RecommendationDetailPage = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerStyle: { backgroundColor: theme.colors.background10 },
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.recommendations.title')}</HeaderTitle>
       ),
@@ -104,17 +103,17 @@ const RecommendationDetailPage = () => {
         )
       },
     })
-  }, [t, setScreenOptions, shareLink, colors.black300, theme.colors.background10])
+  }, [t, setScreenOptions, shareLink, colors.black300])
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
         style={styles.layout}
-        contentStyle={[mixins.container, styles.container]}
+        contentContainerStyle={[mixins.container, styles.container]}
       >
         {recommendation && !loading ? (
           <View style={styles.content}>
@@ -152,7 +151,8 @@ const RecommendationDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
+
       {recommendation && !loading && (
         <View style={styles.footer}>
           <HoliButtonLoading
@@ -195,7 +195,6 @@ const Skeleton = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
-      minHeight: '100%',
       ...Platform.select({
         web: {
           minHeight: '100vh' as DimensionValue,
@@ -206,10 +205,8 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       paddingHorizontal: 0,
       paddingBottom: dimensions.bottomBarHeight + 100,
-      paddingTop: dimensions.topBarHeight - Spacing['3xs'],
     },
     content: {
-      minHeight: '100%',
       backgroundColor: theme.colors.background20,
     },
     header: {

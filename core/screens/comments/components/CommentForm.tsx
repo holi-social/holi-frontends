@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -16,14 +16,16 @@ import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
+import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
 import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { Comment, CommentableType } from '@holi/core/screens/comments/types'
-import { inspirationPostsQuery } from '@holi/core/screens/homeFeed/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { User } from '@holi/core/screens/userprofile/types'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -63,6 +65,7 @@ const CommentForm = ({
   const { openToast } = useToast()
   const { height: screenHeight } = useWindowDimensions()
   const { displayError } = useErrorHandling()
+  const { track } = useTracking()
 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
@@ -83,7 +86,6 @@ const CommentForm = ({
   const refetchQueriesMap = {
     [CommentableType.POST]: [
       { query: lastInsightsQuery },
-      { query: inspirationPostsQuery },
       {
         query: PostById,
         variables: { id: commentableId },
@@ -100,6 +102,7 @@ const CommentForm = ({
   const [addComment, { loading: createCommentLoading }] = useMutation<CreateCommentResponse>(AddCommentMutation, {
     onCompleted: () => {
       openToast(t('comments.success'), HoliToastType.SUCCESS)
+      track(TrackingEvent.Engaging.commented(commentableType, commentableId))
       if (redirectRoute) {
         replaceRoute(redirectRoute)
       } else {
@@ -121,6 +124,8 @@ const CommentForm = ({
     },
     refetchQueries,
   })
+
+  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
   /**
    * The view should:
@@ -207,7 +212,7 @@ const CommentForm = ({
             {/* Bottom Bar */}
             <View style={[styles.bottomBar]}>
               {/* Suggestions*/}
-              <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
+              <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
 
               <View style={[styles.buttonContainer, mixins.container]}>
                 <HoliButton
@@ -215,7 +220,8 @@ const CommentForm = ({
                   label={t('comments.button')}
                   variant="small"
                   inline
-                  onPress={() =>
+                  onPress={async () => {
+                    const data = await detectLanguage({ variables: { text: text.trim() } })
                     addComment({
                       variables: {
                         input: {
@@ -223,10 +229,11 @@ const CommentForm = ({
                           commentableId,
                           commentableType,
                           parentCommentId: parentComment?.id,
+                          language: data?.data?.detectedLanguage,
                         },
                       },
                     })
-                  }
+                  }}
                   testID="btn-submit-comment"
                 >
                   {t('comments.button')}
@@ -248,7 +255,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
   StyleSheet.create({
     pageView: {
       backgroundColor: theme.colors.background10,
-      paddingTop: dimensions.topBarHeight + 40,
       height: '100%',
       width: '100%',
       overflow: 'hidden',
@@ -297,28 +303,25 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
     },
     suggestionsScrollView: {
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
-      width: '100%',
       height: SUGGESTIONS_DROPDOWN_HEIGHT,
       maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
       paddingTop: 10,
       marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
       paddingBottom: 10,
       backgroundColor: theme.colors.background10,
-      shadowColor: theme.colors.foreground30,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowOpacity: 0.4,
-      shadowRadius: 6,
       borderRadius: 12,
       elevation: 4,
-      borderTopWidth: 1,
-      borderTopColor: theme.colors.background30,
+      borderTopColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderRightColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderLeftColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderWidth: 1,
+      borderBottomWidth: 0,
+      width: '100%',
       ...Platform.select({
         web: {
           maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
+          width: '98%',
         },
       }),
       position: 'absolute',

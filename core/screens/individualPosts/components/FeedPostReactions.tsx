@@ -45,29 +45,20 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
 
   const reactOnPost = () => {
     if (!isLoggedIn) {
-      track(
-        TrackingEvent.PostReactions.ReactionPressed(post.id, {
-          loggedIn: false,
-        })
-      )
       openLoginModal({
         description: t('individuals.post.reaction.loginRedirect.text'),
       })
     } else {
       const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET
       const reactionType = ReactionType.HEART
-      track(
-        TrackingEvent.PostReactions.ReactionPressed(post.id, {
-          loggedIn: true,
-          reactionType: reactionType,
-          reactionAction: reactionAction,
-        })
-      )
       updateFeedPostReaction({
         variables: {
           postId: post.id,
           reactionType: reactionType,
           reactionAction: reactionAction,
+        },
+        onCompleted: () => {
+          reactionAction === ReactionAction.SET && track(TrackingEvent.Engaging.reacted('FeedPost', post.id))
         },
       })
     }
@@ -79,7 +70,7 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
       type="post"
       count={heartReactions}
       active={currentUserHasReacted}
-      fullName={post.creator.fullName}
+      fullName={post.author.fullName}
       style={style}
       testID="btn-react-to-feed-post-HEART"
       disabled={loading}

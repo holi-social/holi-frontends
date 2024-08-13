@@ -2,17 +2,18 @@
 import { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ViewStyle } from 'react-native'
+import { ViewStyle } from 'react-native'
 
 import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
 import {
   getNodeId,
-  getNodeTitle,
+  getNodeTranslationKey,
   oryNodeIsHiddenField,
   oryNodeIsInput,
   oryNodeIsSubmit,
   oryNodeIsText,
 } from '@holi/core/auth/helpers/form'
+import { isApp } from '@holi/core/helpers/isApp'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { isWebTouchDevice } from '@holi/ui/helper'
@@ -24,7 +25,7 @@ interface Props extends InputProps {
   translationPrefix: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmitPress: () => void
-  isSignin?: BooleanSupportOption
+  isSignin?: boolean
   scrollToInputWithId?: (id: string) => ScrollToProps
   style?: ViewStyle | Record<string, unknown>
 }
@@ -34,8 +35,7 @@ const FormNode = (props: Props) => {
   const { node, scrollToInputWithId = () => ({}) } = props
 
   const fieldName = getNodeId(node)
-  const isMobile = Platform.OS !== 'web'
-  const isTouchDevice = isWebTouchDevice() || isMobile
+  const isTouchDevice = isWebTouchDevice() || isApp
   const mobileInputFieldScrollIntoViewProps = isTouchDevice ? scrollToInputWithId(fieldName) : {}
 
   if (oryNodeIsHiddenField(node.attributes as UiNodeAttributes & { name: string })) {
@@ -63,7 +63,7 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
-    const fieldLabel = t(`${props.translationPrefix}input.label-${getNodeTitle(node)}`)
+    const fieldLabel = t(`${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`)
     return (
       <HoliButtonLoading
         label={fieldLabel}

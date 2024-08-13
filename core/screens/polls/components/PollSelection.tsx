@@ -1,114 +1,82 @@
-/* eslint-disable no-console */
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { FlatList, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import React, { useCallback, useMemo, useState } from 'react'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { Choice } from '@holi/core/screens/polls/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
-// import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { colors } from '@holi/ui/styles/globalVars'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const ANSWEROPTION_ITEM_HEIGHT = 48
-const ANSWEROPTION_ITEM_GAP = 16
-
-interface BaseProps {
-  style?: StyleProp<ViewStyle>
-}
-interface Props extends BaseProps {
+export type PollSelectionProps = {
   answerOptions: Choice[]
-  onSelected?: (selectedAnswerOption: Choice | null) => void
+  onSelected?: (selectedAnswer: Choice | null) => void
 }
-export type PollSelectionProps = Props
 
 const PollSelection = ({ answerOptions, onSelected }: PollSelectionProps) => {
-  const { t } = useTranslation()
+  const [selectedAnswer, setSelectedAnswer] = useState<Choice | null>(null)
+  const { theme } = useTheme()
+  const gap = Platform.OS !== 'web' ? 12 : 16
+  const styles = useMemo(() => getStyles(gap, theme), [gap, theme])
 
-  const [selectedAnsweroption, setSelectedAnsweroption] = useState<Choice | null>(null)
-
-  const onAnsweroptionSelect = (answeroption: Choice) => {
-    setSelectedAnsweroption((prevSelectedAnsweroption) => {
-      const newSelectedAnsweroption = answeroption.id !== prevSelectedAnsweroption?.id ? answeroption : null
-      if (onSelected) onSelected(newSelectedAnsweroption)
-      return newSelectedAnsweroption
-    })
-  }
-
-  return (
-    <View>
-      <FlatList
-        data={answerOptions}
-        renderItem={({ item: answeroption }) => {
-          return (
-            <HoliButton
-              transparent={true}
-              onPress={() => onAnsweroptionSelect(answeroption)}
-              label={'answerOption'}
-              contentStyle={[
-                styles.flexRow,
-                styles.container,
-                answeroption.id == selectedAnsweroption?.id ? styles.selected : null,
-              ]}
-            >
-              <HoliBox padding={[0, 20, 0, 0]}>
-                <HoliCheckbox
-                  shape="round"
-                  checked={answeroption.id === selectedAnsweroption?.id}
-                  autofocus={false}
-                  aria-label={t('chat.start.answeroptionItem.checkbox.label', {
-                    answeroption: answeroption.choiceText,
-                  })}
-                  onSelect={() => onAnsweroptionSelect(answeroption)}
-                />
-              </HoliBox>
-              <View style={[styles.userItemContent]}>
-                <HoliRichTextOutput
-                  text={answeroption.choiceText}
-                  users={[]}
-                  links={[]}
-                  allowAllLinks
-                  size="default"
-                  color="gray300"
-                />
-              </View>
-            </HoliButton>
-          )
-        }}
-        getItemLayout={(_, index) => ({
-          length: ANSWEROPTION_ITEM_HEIGHT,
-          offset: ANSWEROPTION_ITEM_HEIGHT * index,
-          index,
-        })}
-        ItemSeparatorComponent={() => <View style={{ height: ANSWEROPTION_ITEM_GAP }} />}
-        keyboardShouldPersistTaps="handled"
-      />
-    </View>
+  const onAnswerSelect = useCallback(
+    (answerOption: Choice) => {
+      setSelectedAnswer((prevSelectedAnswer) => {
+        const newSelectedAnswer = answerOption.id !== prevSelectedAnswer?.id ? answerOption : null
+        if (onSelected) onSelected(newSelectedAnswer)
+        return newSelectedAnswer
+      })
+    },
+    [onSelected]
   )
+
+  return answerOptions.map((answer) => {
+    return (
+      <View style={styles.container} key={answer.id}>
+        <HoliButton
+          transparent={true}
+          onPress={() => onAnswerSelect(answer)}
+          label={answer.choiceText}
+          contentStyle={[styles.answerOptionItem, answer.id == selectedAnswer?.id ? styles.selected : null]}
+        >
+          <HoliBox padding={[0, gap, 0, 0]}>
+            <HoliCheckbox
+              shape="round"
+              checked={answer.id === selectedAnswer?.id}
+              autofocus={false}
+              aria-label={answer.choiceText}
+              onSelect={() => onAnswerSelect(answer)}
+            />
+          </HoliBox>
+          <View style={[styles.userItemContent]}>
+            <HoliRichTextOutput text={answer.choiceText} users={[]} links={[]} allowAllLinks size="small" />
+          </View>
+        </HoliButton>
+      </View>
+    )
+  })
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.foreground10,
-    borderRadius: 12,
-    backgroundColor: colors.background10,
-  },
-  flexRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  answeroptionItem: {
-    justifyContent: 'space-between',
-  },
-  selected: {
-    borderColor: 'black',
-  },
-  userItemContent: {
-    flexShrink: 1,
-  },
-})
+const getStyles = (gap: number, theme: HoliTheme) =>
+  StyleSheet.create({
+    container: {
+      marginBottom: 12,
+    },
+    answerOptionItem: {
+      padding: gap,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      borderRadius: 8,
+      backgroundColor: theme.colors.background10,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    selected: {
+      borderColor: theme.colors.black300,
+    },
+    userItemContent: {
+      flexShrink: 1,
+    },
+  })
 
 export default PollSelection

@@ -4,12 +4,11 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import { LoginState, useAuth } from '@holi/core/auth/helpers/useAuth'
+import { LoginState, useLoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
 
 const loggedIn = (): LoginState => {
   return {
-    loginState: 'loggedIn',
     isUnknown: false,
     isLoggedOut: false,
     isLoggedIn: true,
@@ -17,27 +16,24 @@ const loggedIn = (): LoginState => {
   }
 }
 const loggedOut = (): LoginState => ({
-  loginState: 'loggedOut',
   isUnknown: false,
   isLoggedOut: true,
   isLoggedIn: false,
 })
-const useAuthMock = useAuth as jest.Mock
+const useLoginStateMock = useLoginState as jest.Mock
 
-jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: jest.fn(),
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: jest.fn(),
   setUserLoggedOut: jest.fn(),
 }))
 
 jest.mock('@holi/core/helpers/useDocumentURL', () => ({
   useDocumentURL: () => new URL('https://localhost:3000').href,
 }))
-const mockUseFeatureToggle = jest.fn()
-jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
-  useFeatureToggle: () => mockUseFeatureToggle(),
-  FeatureToggleName: {
-    THEME_TOGGLE: 'THEME_TOGGLE',
-  },
+
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
 }))
 
 const authenticatedUserRequest = {
@@ -63,11 +59,11 @@ const authenticatedUserRequest = {
 
 describe('LoginProtection', () => {
   beforeEach(() => {
-    mockUseFeatureToggle.mockReturnValue({ ftEnabled: false })
+    mockUseFeatureFlag.mockReturnValue([false, undefined])
   })
 
   it('renders protected content when logged in', async () => {
-    useAuthMock.mockImplementation(loggedIn)
+    useLoginStateMock.mockImplementation(loggedIn)
 
     render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
@@ -84,7 +80,7 @@ describe('LoginProtection', () => {
   })
 
   it('renders AnonymousProfileView when logged out', async () => {
-    useAuthMock.mockImplementation(loggedOut)
+    useLoginStateMock.mockImplementation(loggedOut)
 
     const { queryByText } = render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
@@ -100,7 +96,7 @@ describe('LoginProtection', () => {
 
   describe('navigates to', () => {
     it('registration', async () => {
-      useAuthMock.mockImplementation(loggedOut)
+      useLoginStateMock.mockImplementation(loggedOut)
 
       render(
         <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
@@ -114,7 +110,7 @@ describe('LoginProtection', () => {
     })
 
     it('login', async () => {
-      useAuthMock.mockImplementation(loggedOut)
+      useLoginStateMock.mockImplementation(loggedOut)
 
       render(
         <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>

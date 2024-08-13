@@ -1,8 +1,8 @@
-import { FlashList } from '@shopify/flash-list'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native'
+import Animated, { LayoutAnimationConfig, LinearTransition, ZoomInEasyDown } from 'react-native-reanimated'
 
 import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
@@ -55,40 +55,45 @@ const RoomMessageList = ({
   const groupedMessages = groupByDate(messages, i18n.language)
 
   return (
-    <FlashList
-      data={groupedMessages}
-      getItemType={(item) => (isMessageSection(item) ? 'sectionHeader' : 'row')}
-      renderItem={({ item: message, index }) => {
-        if (isMessageSection(message)) return <RoomMessageSection messageSection={message} />
+    // skip entering animation for the first render
+    <LayoutAnimationConfig skipEntering>
+      <Animated.FlatList
+        data={groupedMessages}
+        renderItem={({ item: message, index }) => {
+          if (isMessageSection(message)) return <RoomMessageSection messageSection={message} />
 
-        const isFirstMessageInSection = index === 0
-        const prevMessage = groupedMessages[index + 1]
-        const isPrevMessageFromSameUser =
-          !!prevMessage && isTextMessageItem(prevMessage) && prevMessage?.sender === message.sender
-        const nextMessage = groupedMessages[index - 1]
-        const isNextMessageFromSameUser =
-          !!nextMessage && isTextMessageItem(nextMessage) && nextMessage?.sender === message.sender
+          const isFirstMessageInSection = index === 0
+          const prevMessage = groupedMessages[index + 1]
+          const isPrevMessageFromSameUser =
+            !!prevMessage && isTextMessageItem(prevMessage) && prevMessage?.sender === message.sender
+          const nextMessage = groupedMessages[index - 1]
+          const isNextMessageFromSameUser =
+            !!nextMessage && isTextMessageItem(nextMessage) && nextMessage?.sender === message.sender
 
-        return (
-          <RoomMessage
-            roomId={roomId}
-            message={message}
-            holiUser={matrixIdToHoliUserRecord[message.sender ?? '']}
-            showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
-            isPrevMessageFromSameUser={isPrevMessageFromSameUser}
-            isNextMessageFromSameUser={isNextMessageFromSameUser}
-          />
-        )
-      }}
-      // BE CAREFUL: this section list is inverted! So, ListHeaderComponent is shown bellow and ListFooterComponent above in the list
-      // use ListFooterComponent to add padding bottom for HeaderAnimated
-      ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
-      ListFooterComponent={() => <View style={styles.listFooterSpacer}>{starter}</View>}
-      inverted={true}
-      estimatedItemSize={80}
-      contentContainerStyle={styles.list}
-      onScroll={onScroll}
-    />
+          return (
+            <Animated.View entering={ZoomInEasyDown}>
+              <RoomMessage
+                roomId={roomId}
+                message={message}
+                holiUser={matrixIdToHoliUserRecord[message.sender ?? '']}
+                showAvatar={isFirstMessageInSection || !isNextMessageFromSameUser}
+                isPrevMessageFromSameUser={isPrevMessageFromSameUser}
+                isNextMessageFromSameUser={isNextMessageFromSameUser}
+              />
+            </Animated.View>
+          )
+        }}
+        // BE CAREFUL: this section list is inverted! So, ListHeaderComponent is shown bellow and ListFooterComponent above in the list
+        // use ListFooterComponent to add padding bottom for HeaderAnimated
+        ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
+        ListFooterComponent={() => <View style={styles.listFooterSpacer}>{starter}</View>}
+        inverted={true}
+        itemLayoutAnimation={LinearTransition.springify().damping(14).stiffness(90)}
+        contentContainerStyle={styles.list}
+        onScroll={onScroll}
+        keyboardDismissMode="on-drag"
+      />
+    </LayoutAnimationConfig>
   )
 }
 

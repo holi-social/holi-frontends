@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@apollo/client'
-import Constants from 'expo-constants'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -9,7 +8,6 @@ import PermissionsGuard, { PermissionsType } from '@holi/core/components/Permiss
 import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -32,7 +30,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
-import dimensions from '@holi/ui/styles/globalVars/dimensions'
+import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateAppointmentParams = {
@@ -45,10 +43,8 @@ const CreateAppointment = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { openToast } = useToast()
 
@@ -181,20 +177,19 @@ const CreateAppointment = () => {
             {t('spaces.appointments.add.button.label')}
           </HoliHeading>
         ),
-        headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     setSaveButtonDisabled(!title.length || !inputValid)
   }, [title, inputValid])
 
-  if (loadingSpace || ftLoading) {
+  if (loadingSpace) {
     return <HoliLoader />
   }
 
@@ -208,7 +203,6 @@ const CreateAppointment = () => {
       permissionType={PermissionsType.SPACES}
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
-      forceRestrict={!ftEnabled && !ftLoading}
       redirectRoute={`/spaces/${spaceIdOrName}`}
     >
       <FormWrapper
@@ -220,7 +214,7 @@ const CreateAppointment = () => {
         scrollToInput={false}
         keyboardShouldPersistTaps="handled"
         bottomBarStyle={styles.bottomBar}
-        initialOffsetTop={Platform.OS === 'ios' ? +dimensions.bottomBarHeight : undefined}
+        initialOffsetTop={Platform.OS === 'ios' ? dimensions.bottomBarHeight : undefined}
         renderProp={() => (
           <View style={styles.container}>
             <AppointmentInputForm
@@ -282,8 +276,8 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: +dimensions.topBarHeight + (Constants.statusBarHeight || 0) + 24,
-      paddingBottom: +dimensions.bottomBarHeight + 24,
+      paddingTop: dimensions.topBarHeight + (constants.statusBarHeight || 0) + 24,
+      paddingBottom: dimensions.bottomBarHeight + 24,
     },
     bottomBar: {
       backgroundColor: theme.colors.background10,

@@ -207,8 +207,8 @@ const locateMultipleElements = async (elementSelector: string): Promise<ElementA
 
 export const locateMultipleElementsWithTestId = async (testId: string) => locateMultipleElements(byTestId(testId))
 
-export const seeTextWithTestId = async (expectedText: string, testId: string) => {
-  const element = await waitForElementWithTestId(testId)
+export const seeTextWithTestId = async (expectedText: string, testId: string, timeout?: number) => {
+  const element = await waitForElementWithTestId(testId, timeout)
   // https://webdriver.io/docs/api/element/getText
   const text = await element.getText()
   expect(text).toMatch(expectedText)

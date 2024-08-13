@@ -1,11 +1,15 @@
 import { PostHog, usePostHog } from 'posthog-react-native'
 import { useMemo } from 'react'
 
-import { PosthogCrossPlatform } from '@holi/core/tracking/types'
+import { PosthogCrossPlatform, Properties } from '@holi/core/tracking/types'
 
 export class PosthogReactNative implements PosthogCrossPlatform {
   constructor(private posthog: PostHog) {
     if (this.posthog === null || this.posthog === undefined) throw new Error('posthog instance is null or undefined')
+  }
+
+  distinctId() {
+    return this.posthog.getDistinctId()
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,8 +17,8 @@ export class PosthogReactNative implements PosthogCrossPlatform {
     this.posthog.capture(event, properties)
   }
 
-  identify(distinctId: string | undefined): void {
-    this.posthog.identify(distinctId)
+  identify(distinctId: string, properties?: Properties): void {
+    this.posthog.identify(distinctId, properties)
   }
 
   optedIn(): boolean {
@@ -34,7 +38,6 @@ export class PosthogReactNative implements PosthogCrossPlatform {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unused-vars
 export const usePosthogCrossPlatform = (): PosthogCrossPlatform => {
   const posthog = usePostHog()
   return useMemo(() => new PosthogReactNative(posthog), [posthog])

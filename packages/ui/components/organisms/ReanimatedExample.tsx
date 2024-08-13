@@ -14,7 +14,7 @@ const ReanimatedExample = () => {
     return {
       transform: [{ translateX: withSpring(offset.value * 255) }],
     }
-  })
+  }, [offset])
 
   const customSpringStyles = useAnimatedStyle(() => {
     return {
@@ -27,7 +27,7 @@ const ReanimatedExample = () => {
         },
       ],
     }
-  })
+  }, [offset])
 
   const cancel = () => {
     cancelAnimation(offset)

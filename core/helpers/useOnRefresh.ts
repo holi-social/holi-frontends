@@ -8,8 +8,11 @@ export const useOnRefresh = <P, R>(callback: (...args: P[]) => Promise<R>) => {
     onRefresh: useCallback(
       async (...args: P[]) => {
         setRefreshing(true)
-        await callback(...args)
-        setRefreshing(false)
+        try {
+          await callback(...args)
+        } finally {
+          setRefreshing(false)
+        }
       },
       [callback]
     ),

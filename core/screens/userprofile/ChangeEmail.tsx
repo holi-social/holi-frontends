@@ -4,7 +4,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import {
   NativeSyntheticEvent,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   TextInputKeyPressEventData,
@@ -22,8 +21,8 @@ import {
   submitSettingsFlowProfile,
 } from '@holi/core/auth/helpers/auth'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { useLoginState } from '@holi/core/auth/loginState'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -50,7 +49,7 @@ const ChangeEmail = () => {
   const [newEmail, setNewEmail] = useState<string>('')
   const [newEmailRetype, setNewEmailRetype] = useState<string>('')
   const [retypeError, setRetypeError] = useState<string>()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
@@ -186,76 +185,75 @@ const ChangeEmail = () => {
   return (
     <KeyboardAvoidingViewWrapper
       renderProp={() => (
-        <SafeAreaView style={styles.wrapper}>
-          <ScrollView keyboardShouldPersistTaps="handled">
-            <View
-              style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}
-            >
-              <HoliBox padding={[24, 0, 0, 0]}>
-                {!(reauthFlow && settingsFlow) ? (
-                  <HoliBox padding={16}>
-                    <HoliLoader />
-                  </HoliBox>
-                ) : (
-                  <>
-                    <HoliText>
-                      <Trans t={t} i18nKey="auth.changeEmail.description" values={{ email }}>
-                        <HoliText bold />
-                      </Trans>
-                    </HoliText>
-                    <View style={styles.inputFieldsContainer}>
-                      <HoliTextInput
-                        inputLabel={t('auth.changeEmail.input.label-OldPassword')}
-                        aria-label={t('auth.changeEmail.input.label-OldPassword')}
-                        placeholder={t('auth.changeEmail.input.placeholder-OldPassword')}
-                        validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
-                        inputProps={{ onKeyPress: handleKeyDown, autoFocus: true, autoComplete: 'password' }}
-                        maxNoOfCharacters={200}
-                        onChange={setOldPwd}
-                        type="password"
-                        testID={'old-password'}
-                      />
-                      <HoliTextInput
-                        inputLabel={t('auth.changeEmail.input.label-NewEmail')}
-                        aria-label={t('auth.changeEmail.input.label-NewEmail')}
-                        placeholder={t('auth.changeEmail.input.placeholder-NewEmail')}
-                        validationErrorText={
-                          retypeError ? retypeError : newEmailNode && getValidationErrorText(newEmailNode, i18n)
-                        }
-                        inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
-                        maxNoOfCharacters={200}
-                        onChange={setNewEmail}
-                        type="email"
-                        testID={'new-email'}
-                      />
-                      <HoliTextInput
-                        inputLabel={t('auth.changeEmail.input.label-NewEmail-retype')}
-                        aria-label={t('auth.changeEmail.input.label-NewEmail-retype')}
-                        placeholder={t('auth.changeEmail.input.placeholder-NewEmail-retype')}
-                        validationErrorText={
-                          retypeError ? retypeError : newEmailNode && getValidationErrorText(newEmailNode, i18n)
-                        }
-                        inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
-                        maxNoOfCharacters={200}
-                        onChange={setNewEmailRetype}
-                        type="email"
-                        testID={'new-email-retype'}
-                      />
-                    </View>
-                    <HoliButtonLoading
-                      label={t('auth.changeEmail.input.label-Save')}
-                      onPress={performEmailChange}
-                      style={mixins.moreButton}
-                      testID={'btn-submit-change-email'}
-                    >
-                      {t('auth.changeEmail.input.label-Save')}
-                    </HoliButtonLoading>
-                  </>
-                )}
-              </HoliBox>
-            </View>
-          </ScrollView>
-        </SafeAreaView>
+        <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="handled">
+          <View style={[mixins.container, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
+            <HoliBox padding={[24, 0, 0, 0]}>
+              {!(reauthFlow && settingsFlow) ? (
+                <HoliBox padding={16}>
+                  <HoliLoader />
+                </HoliBox>
+              ) : (
+                <>
+                  <HoliText>
+                    <Trans t={t} i18nKey="auth.changeEmail.description" values={{ email }}>
+                      <HoliText bold />
+                    </Trans>
+                  </HoliText>
+                  <View style={styles.inputFieldsContainer}>
+                    <HoliTextInput
+                      inputLabel={t('auth.changeEmail.input.label-OldPassword')}
+                      aria-label={t('auth.changeEmail.input.label-OldPassword')}
+                      placeholder={t('auth.changeEmail.input.placeholder-OldPassword')}
+                      validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
+                      inputProps={{ onKeyPress: handleKeyDown, autoFocus: true, autoComplete: 'password' }}
+                      maxNoOfCharacters={200}
+                      onChange={setOldPwd}
+                      type="password"
+                      testID={'old-password'}
+                      value={oldPwd}
+                    />
+                    <HoliTextInput
+                      inputLabel={t('auth.changeEmail.input.label-NewEmail')}
+                      aria-label={t('auth.changeEmail.input.label-NewEmail')}
+                      placeholder={t('auth.changeEmail.input.placeholder-NewEmail')}
+                      validationErrorText={
+                        retypeError ? retypeError : newEmailNode && getValidationErrorText(newEmailNode, i18n)
+                      }
+                      inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
+                      maxNoOfCharacters={200}
+                      onChange={setNewEmail}
+                      type="email"
+                      testID={'new-email'}
+                      value={newEmail}
+                    />
+                    <HoliTextInput
+                      inputLabel={t('auth.changeEmail.input.label-NewEmail-retype')}
+                      aria-label={t('auth.changeEmail.input.label-NewEmail-retype')}
+                      placeholder={t('auth.changeEmail.input.placeholder-NewEmail-retype')}
+                      validationErrorText={
+                        retypeError ? retypeError : newEmailNode && getValidationErrorText(newEmailNode, i18n)
+                      }
+                      inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
+                      maxNoOfCharacters={200}
+                      onChange={setNewEmailRetype}
+                      value={newEmailRetype}
+                      type="email"
+                      testID={'new-email-retype'}
+                    />
+                  </View>
+                  <HoliButtonLoading
+                    label={t('auth.changeEmail.input.label-Save')}
+                    onPress={performEmailChange}
+                    style={mixins.moreButton}
+                    testID={'btn-submit-change-email'}
+                  >
+                    {t('auth.changeEmail.input.label-Save')}
+                  </HoliButtonLoading>
+                </>
+              )}
+            </HoliBox>
+          </View>
+        </ScrollView>
       )}
     />
   )
@@ -266,20 +264,11 @@ export default ChangeEmail
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      backgroundColor: theme.colors.background20,
       flex: 1,
+      backgroundColor: theme.colors.background20,
       ...Platform.select({
         web: {
           minHeight: '100%',
-        },
-      }),
-    },
-    inner: {
-      flex: 1,
-      // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-      marginTop: dimensions.topBarHeight,
-      ...Platform.select({
-        web: {
           paddingBottom: dimensions.bottomBarHeight,
         },
         android: {

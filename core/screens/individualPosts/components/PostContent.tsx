@@ -1,10 +1,12 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import { Term } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -19,19 +21,26 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type PostContentProps = {
   post: FeedPost
   showVisibilityBadge?: boolean
+  aggregatedTopics?: Term[]
 }
 
-const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
-  const { t } = useTranslation()
+const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostContentProps) => {
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
+  const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
   const contentSpacing = screenWidth < dimensions.breakpointS ? Spacing.xs : Spacing.md
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const styles = useMemo(() => getStyles(theme, !!smStyle, contentSpacing), [theme, smStyle, contentSpacing])
 
+  const [description, setDescription] = useState(post.description)
+  const [title, setTitle] = useState(post.title)
+
+  const isTranslatable = post.language && post.language !== i18n.language
+
   return (
     <>
-      <View style={styles.container}>
+      <View style={styles.container} testID="post-content-container">
         {showVisibilityBadge && (
           <View style={styles.badgeContainer}>
             <HoliIcon
@@ -46,26 +55,46 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
             </HoliText>
           </View>
         )}
-        <HoliMediaAuthorHeader author={post.creator} authorBold date={post.createdAt} />
-        <View>
+        <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} />
+        <View style={styles.pillContainer}>
           <View style={[styles.pill, styles.categoryPill]}>
             <HoliText size="small" numberOfLines={1}>
               {post.category.label}
             </HoliText>
           </View>
+          {aggregatedTopics?.map((topic) => (
+            <View style={[styles.pill, styles.topicPill]} key={topic.id}>
+              <HoliText size="small" numberOfLines={1}>
+                {topic.title}
+              </HoliText>
+            </View>
+          ))}
         </View>
         <View style={styles.contentSection}>
-          <HoliHeading level="1" size="m" numberOfLines={3}>
-            {post.title}
+          <HoliHeading
+            level="1"
+            size="m"
+            numberOfLines={3}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 1 }}
+          >
+            {title}
           </HoliHeading>
-          <HoliRichTextOutput text={post.description} allowAllLinks users={post.mentions || []} />
+          <HoliRichTextOutput
+            text={description}
+            allowAllLinks
+            users={post.mentionedUsers || []}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 3 }}
+            style={styles.description}
+          />
         </View>
-        {!!post.image && (
+        {!!post.imageUrl && (
           <View style={[styles.imageContainer, styles.blockContainer]}>
             <HoliImage
               label={post.title}
               source={{
-                uri: post.image,
+                uri: post.imageUrl,
               }}
               blurhash={post.imageBlurhash}
               resizeMode="cover"
@@ -77,6 +106,14 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
           <View style={styles.blockContainer}>
             <HoliLinkPreview previewData={post.linkPreview} />
           </View>
+        )}
+        {isTranslatable && (
+          <HoliTranslate
+            primaryText={{ text: description, setText: setDescription }}
+            secondaryText={{ text: title, setText: setTitle }}
+            loading={loadingTranslation}
+            setLoading={setLoadingTranslation}
+          />
         )}
       </View>
     </>
@@ -96,8 +133,14 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
       gap: contentSpacing,
       marginTop: contentSpacing,
     },
+    description: { width: '100%' },
+    pillContainer: {
+      marginVertical: Spacing.md,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: Spacing['3xs'],
+    },
     pill: {
-      marginTop: Spacing.md,
       borderRadius: Spacing.xxl,
       paddingVertical: Spacing['4xs'],
       paddingHorizontal: Spacing['3xs'],
@@ -106,12 +149,17 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
     categoryPill: {
       backgroundColor: theme.dark ? theme.colors.brandA300 : theme.colors.brandA100,
     },
+    topicPill: {
+      backgroundColor: theme.dark ? theme.colors.brandC300 : theme.colors.brandC100,
+    },
     badgeContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
+      paddingBottom: Spacing.xs,
     },
     blockContainer: {
+      marginTop: Spacing.md,
       paddingHorizontal: sm ? Spacing.md : 0,
       width: '100%',
     },

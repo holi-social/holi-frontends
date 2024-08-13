@@ -16,7 +16,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const logger = getLogger('NavigationProvider')
 
-export const navigationRef = createNavigationContainerRef()
+export const navigationRef = createNavigationContainerRef<RootStackScreens>()
 
 const getNavigationTheme = (currentTheme: HoliTheme): Theme => ({
   ...DefaultTheme,

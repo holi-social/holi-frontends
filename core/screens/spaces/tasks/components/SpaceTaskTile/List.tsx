@@ -63,9 +63,11 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
 
       <HoliCardComponent.ContentContainer>
         <View style={styles.detailContainer}>
-          <HoliText ellipsizeMode="tail" bold numberOfLines={2} testID="task-title">
-            {task.name}
-          </HoliText>
+          <View style={{ flex: 1 }}>
+            <HoliText ellipsizeMode="tail" bold numberOfLines={2} testID="task-title">
+              {task.name}
+            </HoliText>
+          </View>
 
           {hiddenLink}
           <TaskDrawer task={task} space={space} />
@@ -84,9 +86,10 @@ const getStyles = (theme: HoliTheme) =>
     detailContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       flex: 1,
       zIndex: 2,
+      gap: 8,
     },
     imageCaption: {
       padding: 4,

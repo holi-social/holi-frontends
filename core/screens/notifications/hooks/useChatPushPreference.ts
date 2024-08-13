@@ -3,16 +3,17 @@ import { useCallback, useEffect, useState } from 'react'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import { getChatClient } from '@holi/chat/src/store'
 import { logError } from '@holi/core/errors/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 
 export const useChatPushPreference = () => {
   const [chatPushEnabled, setChatPushEnabled] = useState<boolean>()
   const [loadingChatPushPreference, setLoadingChatPushPreference] = useState(true)
-  const { ftLoading, ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
+  const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
   const chatInitialized = useChatInitialized()
 
   useEffect(() => {
-    if (!ftLoading && ftEnabled && chatInitialized) {
+    if (chatFeatureFlag.isOn && chatInitialized) {
       getChatClient()
         .getPushNotificationEnabledState()
         .then(setChatPushEnabled)
@@ -23,11 +24,11 @@ export const useChatPushPreference = () => {
         )
         .finally(() => setLoadingChatPushPreference(false))
     }
-  }, [ftEnabled, ftLoading, chatInitialized])
+  }, [chatFeatureFlag.isOn, chatInitialized])
 
   const updateChatPushPreference = useCallback(
     async (enabled: boolean) => {
-      if (!ftEnabled) {
+      if (!chatFeatureFlag.isOn) {
         return
       }
       return getChatClient()
@@ -39,13 +40,13 @@ export const useChatPushPreference = () => {
           })
         )
     },
-    [ftEnabled]
+    [chatFeatureFlag.isOn]
   )
 
   return {
-    chatEnabled: ftEnabled,
+    chatEnabled: chatFeatureFlag.isOn,
     chatPushEnabled,
     updateChatPushPreference,
-    loadingChatPushPreference: ftLoading || (ftEnabled && (!chatInitialized || loadingChatPushPreference)),
+    loadingChatPushPreference: chatFeatureFlag.isOn && (!chatInitialized || loadingChatPushPreference),
   }
 }

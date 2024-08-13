@@ -1,8 +1,7 @@
 import React, { memo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { TrackingGeneralContentDescription } from '@holi/core/components/TrackingConsentModal'
 import { getLogger } from '@holi/core/helpers/logging'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -49,7 +48,7 @@ const TrackingSettings = () => {
     setScreenOptions({ title: t('profile.settings.tracking.title') })
   }, [setScreenOptions, t])
 
-  const consentState = useConsentState()
+  const [consentState] = useConsentState()
 
   if (!consentState) return <HoliLoader />
 
@@ -74,7 +73,7 @@ const TrackingSettings = () => {
   }
 
   return (
-    <ScrollHeaderLayout.Default backgroundColor={colors.background20}>
+    <ScrollView style={{ backgroundColor: colors.background20 }}>
       <View style={[styles.section, styles.borderRadiusBottom]}>
         <HoliContainer>
           <HoliGap size="s" />
@@ -142,7 +141,7 @@ const TrackingSettings = () => {
       </View>
 
       <HoliGap size="l" />
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 

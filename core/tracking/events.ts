@@ -8,11 +8,25 @@ export interface TrackingEvent {
   /** The event name */
   name: string
 
-  /** The events version (must use semantic versioning) */
-  version: string
+  /**
+   * The events version (must use semantic versioning).
+   *
+   * As filtering by version in PostHog is not easily done based on a string, we're adopting the approach of the
+   * semver-flattener plugin (https://github.com/PostHog/semver-flattener-plugin/) that splits the string up in multiple
+   * number-based fields. These can be filtered and compared for using <, >, =, ... operators.
+   */
+  event_version__major: number
+  event_version__minor: number
+  event_version__patch: number
 
   /** Additional properties that can be added to the event payload */
   properties?: { [key: string]: unknown }
+}
+
+const versionOne = {
+  event_version__major: 1,
+  event_version__minor: 0,
+  event_version__patch: 0,
 }
 
 /**
@@ -20,146 +34,94 @@ export interface TrackingEvent {
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
  */
 export namespace TrackingEvent {
-  export namespace PostCard {
-    export const TitlePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
+  export const Engaging = {
+    reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
+      name: 'reacted',
       properties: {
-        element: 'title',
-        postId,
+        reactableType,
+        reactableId,
       },
-    })
-    export const TextPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
+    }),
+    commented: (commentableType: string, commentableId: string): TrackingEvent => ({
+      name: 'commented',
       properties: {
-        element: 'text',
-        postId,
+        commentableType,
+        commentableId,
       },
-    })
-    export const AuthorPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'author',
-        postId,
-      },
-    })
-    export const ImagePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'image',
-        postId,
-      },
-    })
-    export const CommentNowPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'commentNow',
-        postId,
-      },
-    })
-    export const ReadMorePressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'readMore',
-        postId,
-      },
-    })
-    export const ReadLessPressed = (postId: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'readLess',
-        postId,
-      },
-    })
-    export const LinkPressed = (postId: string, url: string): TrackingEvent => ({
-      name: 'postCard_pressed',
-      version: '1.0',
-      properties: {
-        element: 'link',
-        postId,
-        url,
-      },
-    })
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
+    }),
   }
 
-  export namespace PostActionDrawer {
-    export const Opened = (postId: string): TrackingEvent => ({
-      name: 'postActionDrawer_opened',
-      version: '1.0',
+  export const FeedPosts = {
+    created: {
+      name: 'createdFeedPost',
+      ...versionOne,
+    },
+    read: (postId: string): TrackingEvent => ({
+      name: 'readFeedPost',
       properties: {
         postId,
       },
-    })
-    export const Closed = (postId: string): TrackingEvent => ({
-      name: 'postActionDrawer_closed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
+    }),
+    shared: (postId: string): TrackingEvent => ({
+      name: 'sharedFeedPost',
       properties: {
         postId,
       },
-    })
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
+    }),
   }
 
-  export namespace PostShare {
-    export const Pressed = (postId: string): TrackingEvent => ({
-      name: 'postShare_pressed',
-      version: '1.0',
+  export const SpacePosts = {
+    created: (spaceId?: string): TrackingEvent => ({
+      name: 'createdSpacePost',
+      properties: { spaceId },
+      ...versionOne,
+    }),
+    read: (postId: string, spaceId?: string): TrackingEvent => ({
+      name: 'readSpacePost',
       properties: {
+        spaceId,
         postId,
       },
-    })
-    export const Shared = (postId: string): TrackingEvent => ({
-      name: 'postShare_shared',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-    export const Dismissed = (postId: string): TrackingEvent => ({
-      name: 'postShare_dismissed',
-      version: '1.0',
-      properties: {
-        postId,
-      },
-    })
-  }
-
-  export namespace PostReactions {
-    export const ReactionPressed = (
-      postId: string,
-      props: { loggedIn: false } | { loggedIn: true; reactionType: string; reactionAction: string }
-    ): TrackingEvent => ({
-      name: 'postReaction_pressed',
-      version: '1.0',
-      properties: {
-        postId: postId,
-        reactionType: props.loggedIn ? props.reactionType : undefined,
-        reactionAction: props.loggedIn ? props.reactionAction : undefined,
-      },
-    })
+      ...versionOne,
+    }),
   }
 
   export namespace Auth {
     export const RegisterButtonPressed: TrackingEvent = {
       name: 'registerButton_pressed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
     }
     export const LoginButtonPressed: TrackingEvent = {
       name: 'loginButton_pressed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
     }
     export const ContinueAsGuestButtonPressed: TrackingEvent = {
       name: 'continueAsGuestButton_pressed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
     }
     export const ForgotPasswordButtonPressed: TrackingEvent = {
       name: 'forgotPasswordButton_pressed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
     }
   }
 
@@ -169,7 +131,9 @@ export namespace TrackingEvent {
     index: number
   ): TrackingEvent => ({
     name: 'recommendation_pressed',
-    version: '1.0',
+    event_version__major: 1,
+    event_version__minor: 0,
+    event_version__patch: 0,
     properties: {
       type: type,
       itemId: itemId,
@@ -180,7 +144,9 @@ export namespace TrackingEvent {
   export namespace InsightCard {
     export const CardPressed = (insightId: string): TrackingEvent => ({
       name: 'insightCard_pressed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
       properties: {
         insightId: insightId,
       },
@@ -190,7 +156,9 @@ export namespace TrackingEvent {
   export namespace ChallengeCard {
     export const CardPressed = (challengeId: string, index: number): TrackingEvent => ({
       name: 'challengeCard_pressed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
       properties: {
         challengeId: challengeId,
         index: index,
@@ -203,7 +171,9 @@ export namespace TrackingEvent {
       submissionIndex: number
     ): TrackingEvent => ({
       name: 'challengeCardSubmission_pressed',
-      version: '1.0',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
       properties: {
         challengeId: challengeId,
         submissionId: submissionId,

@@ -64,25 +64,11 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#ebebeb",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "flexDirection": "row",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "width": "100%",
             },
-            false,
-            false,
-            [
-              {},
-              {},
-            ],
-            undefined,
-            false,
           ]
         }
         testID="holi-text-input"
@@ -115,6 +101,9 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
+                "borderRadius": 4,
+                "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -122,10 +111,16 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
+                "paddingHorizontal": 10,
+                "paddingVertical": 15,
               },
               {},
               {
                 "width": "100%",
+              },
+              {},
+              {
+                "borderColor": "#ebebeb",
               },
             ]
           }
@@ -135,9 +130,12 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
         <View
           style={
             {
-              "height": 22,
+              "bottom": 0,
               "justifyContent": "center",
-              "marginRight": 12,
+              "position": "absolute",
+              "right": 12,
+              "top": 0,
+              "zIndex": -1,
             }
           }
         >
@@ -220,7 +218,15 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
   <View
     id="autocomplete-primary-suggestions"
     role="menu"
-    style={{}}
+    style={
+      [
+        {
+          "backgroundColor": "#fff",
+          "top": -3,
+        },
+        {},
+      ]
+    }
   />
 </View>
 `;
@@ -289,26 +295,10 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#fff",
-              "borderColor": "#ebebeb",
-              "borderRadius": 4,
-              "borderWidth": 2,
               "flexDirection": "row",
-              "paddingHorizontal": 10,
-              "paddingVertical": 15,
             },
             {
               "width": "100%",
-            },
-            false,
-            false,
-            [
-              {},
-              {},
-            ],
-            undefined,
-            {
-              "borderColor": "#cc1820",
             },
           ]
         }
@@ -342,6 +332,9 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           style={
             [
               {
+                "backgroundColor": "#fff",
+                "borderRadius": 4,
+                "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
                 "fontFamily": "Circular Std Book",
@@ -349,10 +342,16 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
                 "fontWeight": "400",
                 "lineHeight": 22.4,
                 "overflow": "scroll",
+                "paddingHorizontal": 10,
+                "paddingVertical": 15,
               },
               {},
               {
                 "width": "100%",
+              },
+              {},
+              {
+                "borderColor": "#cc1820",
               },
             ]
           }
@@ -362,9 +361,12 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         <View
           style={
             {
-              "height": 22,
+              "bottom": 0,
               "justifyContent": "center",
-              "marginRight": 12,
+              "position": "absolute",
+              "right": 12,
+              "top": 0,
+              "zIndex": -1,
             }
           }
         >
@@ -470,7 +472,15 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
   <View
     id="autocomplete-error-suggestions"
     role="menu"
-    style={{}}
+    style={
+      [
+        {
+          "backgroundColor": "#fff",
+          "top": -3,
+        },
+        {},
+      ]
+    }
   />
 </View>
 `;

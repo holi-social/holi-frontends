@@ -2,8 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -20,11 +19,8 @@ import DiscussionHeader from '@holi/core/screens/insights/discussions/Discussion
 import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -41,22 +37,17 @@ const DiscussionDetailPage = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
-  const { replaceRoute, navigate } = useRouting()
+  const { replaceRoute } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
-  const insets = useSafeAreaInsets()
 
   const [discussionId] = useParam('discussionId')
   const [insightId] = useParam('insightId')
   const [commentId] = useParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
 
-  const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
+  const styles = useMemo(() => getStyles(theme), [theme])
 
-  const {
-    data: { discussionById: discussion } = {},
-    refetch,
-    loading,
-  } = useQuery<DiscussionResponse>(discussionById, {
+  const { data: { discussionById: discussion } = {}, refetch } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
     skip: !discussionId,
     onError: (error) => {
@@ -76,65 +67,49 @@ const DiscussionDetailPage = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
-      headerStyle: { backgroundColor: theme.colors.background10 },
       navigationCustomOptions: {
         footerShown: false,
       },
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.discussions.pageTitle')}</HeaderTitle>
       ),
-      headerLeft: () => (
-        <HoliButton
-          onPress={() => navigate(`/insights/${insightId}`)}
-          transparent
-          label={t('navigation.headerLeft.back')}
-        >
-          <HoliIcon icon={ArrowLeft} />
-        </HoliButton>
-      ),
     })
-  }, [theme.colors.background10, t, setScreenOptions, navigate, insightId])
+  }, [t, setScreenOptions])
 
   const onPressCreateComment = () =>
     isLoggedIn
-      ? navigate(`/insights/${insightId}/discussions/${discussionId}/comment`)
+      ? replaceRoute(`/insights/${insightId}/discussions/${discussionId}/comment`)
       : openLoginModal({
-          description: t('comments.loginRedirect.text'),
+          description: t('insight.discussion.comment.loginRedirect.text'),
         })
 
   return (
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
         style={styles.wrapper}
-        headerOverlap
-        scrollEnabled={false}
-        scrollable={false}
-        contentStyle={styles.wrapperContent}
+        contentContainerStyle={styles.wrapperContent}
       >
         <HoliContainer noPadding>
-          <ScrollView style={styles.scrollView}>
-            {discussion && !loading ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
-            {discussionId && (
-              <View style={styles.commentsContainer}>
-                <Comments
-                  commentableType={CommentableType.DISCUSSION}
-                  commentableId={discussionId}
-                  replyRoute={`/insights/${insightId}/discussions/${discussionId}/comment`}
-                  onPressCreateComment={onPressCreateComment}
-                  initialOpenThread={commentId}
-                />
-              </View>
-            )}
-          </ScrollView>
+          {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
+          {discussionId && (
+            <View style={styles.commentsContainer}>
+              <Comments
+                commentableType={CommentableType.DISCUSSION}
+                commentableId={discussionId}
+                replyRoute={`/insights/${insightId}/discussions/${discussionId}/comment`}
+                onPressCreateComment={onPressCreateComment}
+                initialOpenThread={commentId}
+              />
+            </View>
+          )}
         </HoliContainer>
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
 
       <SafeAreaView>
         <View style={styles.commentWrapper}>
@@ -149,10 +124,9 @@ const DiscussionDetailPage = () => {
 
 const LoadingSkeleton = () => <HoliSkeleton height={100} width={'100%'} borderRadius={0} />
 
-const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
+const getStyles = ({ colors }: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      height: '100%',
       flex: 1,
       backgroundColor: colors.background20,
       ...Platform.select({
@@ -161,19 +135,10 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
           paddingTop: dimensions.topBarHeight,
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
-        ios: {
-          paddingTop: dimensions.topBarHeight + insets.top - Spacing['3xs'],
-        },
-        android: {
-          paddingTop: dimensions.topBarHeight + Spacing.xl,
-        },
       }),
     },
     wrapperContent: {
-      paddingBottom: 0,
-    },
-    scrollView: {
-      height: '100%',
+      paddingBottom: 64,
     },
     commentsContainer: {
       paddingHorizontal: Spacing.xs,
@@ -196,7 +161,6 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets) =>
       }),
     },
     commentButton: {
-      paddingTop: 18,
       flex: 1,
     },
   })

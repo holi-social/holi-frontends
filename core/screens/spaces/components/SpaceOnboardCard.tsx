@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
-import { Dimensions, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, StyleSheet, View } from 'react-native'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
@@ -12,7 +12,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type OnboardingCard = {
   image: StaticImageData
   description: string
-  instruction: string
+  instruction?: string
 }
 
 type OnboardCardProps = {
@@ -45,9 +45,11 @@ const SpaceOnboardCard = ({ content, imgWidth, imgHeight }: OnboardCardProps) =>
           <HoliText bold />
         </Trans>
       </HoliText>
-      <HoliText bold style={styles.onboardingInstruction}>
-        {t(content.instruction)}
-      </HoliText>
+      {content.instruction && (
+        <HoliText bold style={styles.onboardingInstruction}>
+          {t(content.instruction)}
+        </HoliText>
+      )}
     </View>
   )
 }
@@ -61,7 +63,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     onboardCardContainer: {
       padding: 24,
-      paddingBottom: 8,
       borderWidth: 1,
       borderRadius: 16,
       borderColor: theme.colors.foreground30,
@@ -70,6 +71,7 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background20,
       height: '100%',
       flex: 1,
+      ...(Platform.OS !== 'web' && { paddingBottom: 8 }),
     },
     onboardingDescription: {
       marginTop: 24,

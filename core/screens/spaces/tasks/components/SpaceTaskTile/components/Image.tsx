@@ -14,7 +14,13 @@ export interface Props extends Pick<ImageProps, 'imageAspectRatio' | 'imageBlurh
   captionPosition?: ImageCaptionProps['position']
 }
 
-export const Image = (props: PropsWithChildren<Props>) => {
+export const Image = ({
+  imageUrl,
+  imageWidth,
+  imageHeight,
+  imageAspectRatio = 1.5,
+  ...props
+}: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
 
@@ -23,21 +29,24 @@ export const Image = (props: PropsWithChildren<Props>) => {
 
   return (
     <HoliCardComponent.ImageContainer>
-      {!!props.imageUrl && !imageError ? (
+      {!!imageUrl && !imageError ? (
         <HoliCardComponent.Image
           {...props}
-          imageUrl={props.imageUrl}
+          imageUri={imageUrl}
+          imageWidth={imageWidth}
+          imageHeight={imageHeight}
+          imageAspectRatio={imageAspectRatio}
           imageLabel={t('spaces.tasks.thumbnail.label')}
           onError={() => setImageError(true)}
         />
       ) : (
-        <View style={[styles.image, styles.fallbackImage]}>
+        <View style={[styles.image, styles.fallbackImage, { aspectRatio: imageAspectRatio }]}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
             label={t('spaces.tasks.thumbnail.label')}
             isSvg
-            height={props.imageHeight}
-            width={props.imageWidth}
+            height={imageHeight}
+            width={imageWidth}
             style={styles.image}
           />
         </View>

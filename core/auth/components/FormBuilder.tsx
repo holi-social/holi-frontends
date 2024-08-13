@@ -5,6 +5,7 @@ import {
   RegistrationFlow,
   SettingsFlow,
   UiNode,
+  UiNodeInputAttributes,
   UpdateLoginFlowBody,
   UpdateRegistrationFlowBody,
   UpdateSettingsFlowBody,
@@ -64,7 +65,7 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
   const hasAutofocus = (node: UiNode) => {
     const name = getNodeId(node)
     const hasFocus = autofocusField === name || isEmailField(name)
-    return hasFocus && !node.attributes.disabled
+    return hasFocus && !(node.attributes as UiNodeInputAttributes).disabled
   }
 
   useEffect(() => {

@@ -1,8 +1,7 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
-import { createUploadLink } from 'apollo-upload-client'
-import crossFetch from 'cross-fetch'
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 
 import { holiApiUrl } from '@holi/api/config'
@@ -40,7 +39,7 @@ const setOperationNameParam = (uri: string, operationName: string): RequestInfo 
   }
 }
 
-const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
+const customFetch = (uri: RequestInfo | URL, options: RequestInit | undefined) => {
   if (typeof uri === 'string' && typeof options?.body === 'string') {
     const body = JSON.parse(options.body)
     const operationName: string | undefined =
@@ -59,14 +58,29 @@ const customFetch = (uri: RequestInfo, options: RequestInit | undefined) => {
   }
 }
 
-// types don't match unfortunately, this seems to be a minor issue with the library
-// the library includes its own node_modules with a dependency to apollo/client ^3.7.0
+// Copied from from https://github.com/jaydenseric/apollo-upload-client/issues/331#issuecomment-2068428496 as it was removed from 'apollo-upload-client'
+export class ReactNativeFile {
+  uri: string
+  name: string
+  type: string
+  constructor({ uri, name, type }: { uri: string; name: string; type: string }) {
+    this.uri = uri
+    this.name = name
+    this.type = type
+  }
+}
+
+function customIsExtractableFile(value: unknown): value is ReactNativeFile | File {
+  return value instanceof ReactNativeFile || value instanceof File
+}
+
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
 const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
   uri: holiApiUrl,
   credentials: 'include',
   fetch: customFetch,
+  isExtractableFile: customIsExtractableFile,
 })
 
 export const createCache = () =>
@@ -74,6 +88,13 @@ export const createCache = () =>
     // eslint-disable-next-line prettier/prettier
     typePolicies: {
       User: {
+        fields: {
+          interests: alwaysReplacePolicy,
+          skills: alwaysReplacePolicy,
+          sdgs: alwaysReplacePolicy,
+        },
+      },
+      AuthenticatedUser: {
         fields: {
           interests: alwaysReplacePolicy,
           skills: alwaysReplacePolicy,
@@ -91,7 +112,10 @@ export const createCache = () =>
         fields: {
           articles: {
             merge: (existing = [], incoming = []) =>
-              pipe<unknown[][], unknown[], unknown[]>(concat, uniqBy(pick(['__ref'])))(existing, incoming),
+              pipe<Record<'__ref', unknown>[][], Record<'__ref', unknown>[], Record<'__ref', unknown>[]>(
+                concat,
+                uniqBy(pick(['__ref']))
+              )(existing, incoming),
             read: (existing) => existing,
           },
         },
@@ -161,11 +185,13 @@ export const createCache = () =>
           userByName: pagedPolicy(),
           spacesByName: pagedPolicy(),
           connectedUsers: pagedPolicy(),
-          inspirationPosts: pagedPolicy(),
           favorites: pagedPolicy(),
           myPosts: pagedPolicy(),
-          feedPosts: pagedPolicy(),
+          allPosts: pagedPolicy(),
           postsByUserId: pagedPolicy(),
+          translate: {
+            keyArgs: [],
+          },
         },
       },
     },
@@ -176,9 +202,7 @@ interface ApolloCreateClientOptions {
 }
 
 const API_URL = 'http://localhost:3000/api/graphql'
-const ssrHttpLink = new HttpLink({ uri: API_URL, fetch: crossFetch })
-
-const cache = createCache()
+const ssrHttpLink = new HttpLink({ uri: API_URL })
 
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
@@ -192,8 +216,10 @@ const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
   return new ApolloClient({
     ssrMode,
     link: clientLink,
-    cache,
+    cache: createCache(),
     assumeImmutableResults: true,
+    // Trying to connect to apollo dev tools (browser extension) does not make sense during ssr and leads to logging noise
+    connectToDevTools: ssrMode ? false : undefined,
   })
 }
 
@@ -204,11 +230,14 @@ let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
 type SSRClientInitState = Record<string, unknown> | null
 
 export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
-  const client = apolloSSRClient ?? createApolloClient({ ssrMode: isSSR })
+  const client = apolloSSRClient ?? createApolloClient({ ssrMode: true })
 
   if (initState) {
     const { __META, ...existingCache } = client.extract()
-    client.cache.restore({ __META, ...mergeDeepLeft(existingCache, initState) })
+    client.cache.restore({
+      __META,
+      ...mergeDeepLeft(existingCache, initState),
+    })
   }
 
   // For SSG and SSR always create a new Apollo Client
@@ -220,5 +249,4 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
   return client
 }
 
-// Mobile
-export const initializeClientSideApolloClient = () => createApolloClient({ ssrMode: false })
+export const initializeMobileApolloClient = () => createApolloClient({ ssrMode: false })

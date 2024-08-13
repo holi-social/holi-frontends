@@ -46,11 +46,13 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
           </View>
         </SpaceSection>
       )}
-      {!!space.location && (
+
+      {space.location && (
         <SpaceSection title={t('spaces.spaceDetails.location')}>
           <HoliText>{space.location}</HoliText>
         </SpaceSection>
       )}
+
       {!!sdgs.length && (
         <SpaceSection title={t('spaces.spaceDetails.sdgs')} infoIcon onPressInfo={showInfoModal}>
           <View style={styles.listContainer}>

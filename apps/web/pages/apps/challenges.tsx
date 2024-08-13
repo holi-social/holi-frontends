@@ -1,7 +1,7 @@
 import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
+import { createExternalChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import ChallengesAppHome from '@holi-apps/challenges/screens/ChallengesAppHome'
 
 const ChallengesAppHomePage: NextPage = () => <ChallengesAppHome />
@@ -17,15 +17,12 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const { path } = context.query
   const singlePath = getSinglePath(path)
 
-  const uri = new URL(challengeAppBaseUrl)
-  if (singlePath) {
-    uri.pathname = decodeURIComponent(singlePath)
-  }
+  const uri = createExternalChallengesPath(singlePath)
 
   return {
     redirect: {
       permanent: false,
-      destination: uri.toString(),
+      destination: uri,
     },
   }
 }

@@ -176,33 +176,42 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           <View
             style={
               {
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "flex": 1,
                 "flexDirection": "row",
+                "gap": 8,
                 "justifyContent": "space-between",
                 "zIndex": 2,
               }
             }
           >
-            <Text
-              accessible={false}
-              ellipsizeMode="tail"
-              numberOfLines={2}
-              selectable={true}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
-                  "fontSize": 16,
-                  "fontWeight": "500",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
+                  "flex": 1,
                 }
               }
-              testID="task-title"
             >
-              Task title
-            </Text>
+              <Text
+                accessible={false}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
+                }
+                testID="task-title"
+              >
+                Task title
+              </Text>
+            </View>
             <View
               style={
                 {
@@ -520,7 +529,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               {
                 "flexDirection": "row",
                 "flexWrap": "wrap",
-                "marginTop": 12,
+                "gap": 6,
+                "marginTop": 16,
               }
             }
           >
@@ -541,8 +551,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                   {
                     "flexShrink": 1,
-                    "marginRight": 6,
-                    "marginTop": 4,
                   },
                 ]
               }
@@ -582,8 +590,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                   {
                     "flexShrink": 1,
-                    "marginRight": 6,
-                    "marginTop": 4,
                   },
                 ]
               }
@@ -610,28 +616,27 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           <View
             style={
               {
-                "marginVertical": 16,
+                "height": 16,
               }
             }
-          >
-            <Text
-              accessible={false}
-              selectable={true}
-              style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "userSelect": "auto",
-                }
+          />
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
               }
-              testID="task-description"
-            >
-              Task description
-            </Text>
-          </View>
+            }
+            testID="task-description"
+          >
+            Task description
+          </Text>
           <View
             style={
               {
@@ -843,33 +848,42 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           <View
             style={
               {
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "flex": 1,
                 "flexDirection": "row",
+                "gap": 8,
                 "justifyContent": "space-between",
                 "zIndex": 2,
               }
             }
           >
-            <Text
-              accessible={false}
-              ellipsizeMode="tail"
-              numberOfLines={2}
-              selectable={true}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
-                  "fontSize": 16,
-                  "fontWeight": "500",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
+                  "flex": 1,
                 }
               }
-              testID="task-title"
             >
-              Task title
-            </Text>
+              <Text
+                accessible={false}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
+                }
+                testID="task-title"
+              >
+                Task title
+              </Text>
+            </View>
             <View
               style={
                 {
@@ -1187,7 +1201,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               {
                 "flexDirection": "row",
                 "flexWrap": "wrap",
-                "marginTop": 12,
+                "gap": 6,
+                "marginTop": 16,
               }
             }
           >
@@ -1208,8 +1223,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                   {
                     "flexShrink": 1,
-                    "marginRight": 6,
-                    "marginTop": 4,
                   },
                 ]
               }
@@ -1249,8 +1262,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                   {
                     "flexShrink": 1,
-                    "marginRight": 6,
-                    "marginTop": 4,
                   },
                 ]
               }
@@ -1277,28 +1288,27 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           <View
             style={
               {
-                "marginVertical": 16,
+                "height": 16,
               }
             }
-          >
-            <Text
-              accessible={false}
-              selectable={true}
-              style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "userSelect": "auto",
-                }
+          />
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
               }
-              testID="task-description"
-            >
-              Task description
-            </Text>
-          </View>
+            }
+            testID="task-description"
+          >
+            Task description
+          </Text>
           <View
             style={
               {
@@ -1510,33 +1520,42 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           <View
             style={
               {
-                "alignItems": "center",
+                "alignItems": "flex-start",
                 "flex": 1,
                 "flexDirection": "row",
+                "gap": 8,
                 "justifyContent": "space-between",
                 "zIndex": 2,
               }
             }
           >
-            <Text
-              accessible={false}
-              ellipsizeMode="tail"
-              numberOfLines={2}
-              selectable={true}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
-                  "fontSize": 16,
-                  "fontWeight": "500",
-                  "lineHeight": 22.4,
-                  "userSelect": "auto",
+                  "flex": 1,
                 }
               }
-              testID="task-title"
             >
-              Task title
-            </Text>
+              <Text
+                accessible={false}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "Circular Std Medium",
+                    "fontSize": 16,
+                    "fontWeight": "500",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
+                  }
+                }
+                testID="task-title"
+              >
+                Task title
+              </Text>
+            </View>
             <View
               style={
                 {
@@ -1854,7 +1873,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               {
                 "flexDirection": "row",
                 "flexWrap": "wrap",
-                "marginTop": 12,
+                "gap": 6,
+                "marginTop": 16,
               }
             }
           >
@@ -1875,8 +1895,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                   {
                     "flexShrink": 1,
-                    "marginRight": 6,
-                    "marginTop": 4,
                   },
                 ]
               }
@@ -1916,8 +1934,6 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   },
                   {
                     "flexShrink": 1,
-                    "marginRight": 6,
-                    "marginTop": 4,
                   },
                 ]
               }
@@ -1944,28 +1960,27 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           <View
             style={
               {
-                "marginVertical": 16,
+                "height": 16,
               }
             }
-          >
-            <Text
-              accessible={false}
-              selectable={true}
-              style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "Circular Std Book",
-                  "fontSize": 14,
-                  "fontWeight": "400",
-                  "lineHeight": 19.599999999999998,
-                  "userSelect": "auto",
-                }
+          />
+          <Text
+            accessible={false}
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "Circular Std Book",
+                "fontSize": 14,
+                "fontWeight": "400",
+                "lineHeight": 19.599999999999998,
+                "userSelect": "auto",
               }
-              testID="task-description"
-            >
-              Task description
-            </Text>
-          </View>
+            }
+            testID="task-description"
+          >
+            Task description
+          </Text>
           <View
             style={
               {

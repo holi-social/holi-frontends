@@ -6,7 +6,7 @@ import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
@@ -49,7 +49,7 @@ const BottomTabsNavigator = () => {
 
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
 
   return (
@@ -144,7 +144,7 @@ const BottomTabsNavigator = () => {
               style={[{ color: iconColor(focused) }, styles.label]}
               testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
             >
-              {isLoggedIn ? t('navigation.profile') : t('auth.login')}
+              {isLoggedIn ? t('navigation.profile') : t('navigation.login')}
             </HoliText>
           ),
           tabBarLabelPosition: 'below-icon',

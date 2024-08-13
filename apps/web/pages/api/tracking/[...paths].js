@@ -1,7 +1,6 @@
 import httpProxy from 'http-proxy'
 
 import { posthogHost } from '@holi/core/helpers/config'
-import { trackingEnabled } from '@holi/core/tracking/config'
 
 const proxy = httpProxy.createProxyServer()
 
@@ -13,11 +12,6 @@ export const config = {
 }
 
 const handler = (req, res) => {
-  if (!trackingEnabled()) {
-    res.status(404).json({ error: 'Tracking is not enabled' })
-    return
-  }
-
   req.url = req.url.replace('/api/tracking', '')
 
   // we don't want to send our cookies to posthog, so we strip them all

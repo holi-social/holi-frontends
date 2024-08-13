@@ -1,17 +1,15 @@
+import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
-import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
-import HoliLinkPreviewTracked from '@holi/core/components/HoliLinkPreviewTracked'
-import { HoliMediaAuthorHeaderTracked } from '@holi/core/components/HoliMediaAuthorHeaderTracked'
-import HoliReadMoreTracked from '@holi/core/components/HoliReadMoreTracked'
+import { useLoginState } from '@holi/core/auth/loginState'
+import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
-import type { User } from '@holi/core/screens/userprofile/types'
+import type { Term, User } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -19,6 +17,9 @@ import { GlobalFilled, HoliLogoFilled, MoreFilled } from '@holi/icons/src/genera
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
+import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -28,20 +29,24 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type PostCardProps = {
   post: FeedPost
   showVisibilityBadge?: boolean
+  allTopics?: Term[]
 }
 
 const NUMBER_OF_LINES = 3
 
-const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
+const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
   const { track } = useTracking()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
+
+  const aggregatedTopics = allTopics?.filter((topic) =>
+    post.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
+  )
 
   const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
-
   return (
     <View style={styles.container}>
       {showVisibilityBadge && (
@@ -58,12 +63,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           </HoliText>
         </View>
       )}
-      <HoliMediaAuthorHeaderTracked
-        author={post.creator}
-        authorBold
-        date={post.createdAt}
-        trackingEvent={TrackingEvent.PostCard.AuthorPressed(post.id)}
-      />
+      <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} />
       {isLoggedIn && (
         <View style={styles.postDrawer}>
           <PostDrawer post={post}>
@@ -71,18 +71,29 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           </PostDrawer>
         </View>
       )}
-      <HoliButtonTracked
+      <HoliButton
         transparent
         label={post.title}
         onPress={goToDetailView}
         style={styles.clickOverlay}
-        trackingEvent={TrackingEvent.PostCard.TitlePressed(post.id)}
+        testID="post-card-detail-view-btn"
       >
         <View style={styles.clickableArea}>
-          <View style={[styles.pill, styles.categoryPill]}>
-            <HoliText size="small" numberOfLines={1}>
-              {post.category.label}
-            </HoliText>
+          <View style={styles.pillContainer}>
+            <View style={[styles.pill, styles.categoryPill]}>
+              <HoliText size="small" numberOfLines={1}>
+                {post.category.label}
+              </HoliText>
+            </View>
+            {aggregatedTopics && aggregatedTopics?.length > 0 && (
+              <View style={[styles.pill, styles.topicPill]}>
+                <HoliText size="small" numberOfLines={1}>
+                  {`${aggregatedTopics[0]?.title} ${
+                    aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
+                  }`}
+                </HoliText>
+              </View>
+            )}
           </View>
           <View style={styles.contentSection}>
             <HoliHeading level="2" size="s" numberOfLines={3}>
@@ -90,66 +101,48 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
             </HoliHeading>
           </View>
         </View>
-      </HoliButtonTracked>
+      </HoliButton>
 
-      {/* not clickable */}
       <View style={styles.description}>
-        <HoliReadMoreTracked
+        <HoliReadMore
           numberOfLines={NUMBER_OF_LINES}
           color="gray300"
           bold={false}
-          readMoreTrackingEvent={TrackingEvent.PostCard.ReadMorePressed(post.id)}
-          readLessTrackingEvent={TrackingEvent.PostCard.ReadLessPressed(post.id)}
+          onReadMoreSideEffect={() => track(TrackingEvent.FeedPosts.read(post.id))}
         >
           <HoliRichTextOutput
             text={post.description}
             allowAllLinks
             onPressText={() => {
-              track(TrackingEvent.PostCard.TextPressed(post.id))
               goToDetailView()
             }}
             color="gray300"
-            users={post.mentions || []}
+            users={post.mentionedUsers}
           />
-        </HoliReadMoreTracked>
+        </HoliReadMore>
       </View>
 
-      {!!post.image && (
-        <HoliButtonTracked
-          transparent
-          label={post.title}
-          onPress={goToDetailView}
-          style={styles.clickOverlay}
-          trackingEvent={TrackingEvent.PostCard.ImagePressed(post.id)}
-        >
+      {!!post.imageUrl && (
+        <HoliButton transparent label={post.title} onPress={goToDetailView} style={styles.clickOverlay}>
           <View style={styles.imageContainer}>
             <HoliImage
               label={post.title}
               source={{
-                uri: post.image,
+                uri: post.imageUrl,
               }}
               blurhash={post.imageBlurhash}
               resizeMode="cover"
               style={styles.image}
             />
           </View>
-        </HoliButtonTracked>
+        </HoliButton>
       )}
-      {!post.image && !!post.linkPreview && (
-        <HoliLinkPreviewTracked
-          previewData={post.linkPreview}
-          trackingEvent={TrackingEvent.PostCard.LinkPressed(post.id, post.linkPreview.url)}
-        />
+      {!post.imageUrl && !!post.linkPreview && (
+        <HoliLinkPreview previewData={post.linkPreview} onPress={() => track(TrackingEvent.FeedPosts.read(post.id))} />
       )}
 
       <View style={styles.reactionsBar}>
-        <HoliButtonTracked
-          transparent
-          inline
-          onPress={goToDetailView}
-          label="btn-comment-to-feed-post"
-          trackingEvent={TrackingEvent.PostCard.CommentNowPressed(post.id)}
-        >
+        <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
           {post.totalComments > 0 ? (
             <HoliUserAvatarPile users={post.commenters.data as User[]} usersToShow={5} collapse>
               {t('comments.response', { count: post.totalComments })}
@@ -157,7 +150,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
           ) : (
             <HoliText color="gray300">{t('individuals.post.card.firstComment')}</HoliText>
           )}
-        </HoliButtonTracked>
+        </HoliButton>
         <FeedPostReactions post={post} />
       </View>
     </View>
@@ -179,6 +172,11 @@ const getStyles = (theme: HoliTheme) =>
     contentSection: {
       gap: Spacing['4xs'],
     },
+    pillContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: Spacing['3xs'],
+    },
     pill: {
       borderRadius: Spacing.xxl,
       paddingVertical: Spacing['4xs'],
@@ -188,10 +186,14 @@ const getStyles = (theme: HoliTheme) =>
     categoryPill: {
       backgroundColor: theme.dark ? theme.colors.brandA300 : theme.colors.brandA100,
     },
+    topicPill: {
+      backgroundColor: theme.dark ? theme.colors.brandC300 : theme.colors.brandC100,
+    },
     badgeContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
+      paddingBottom: Spacing.xs,
     },
     imageContainer: {
       borderRadius: Spacing.xxs,
@@ -229,4 +231,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default PostCard
+export default withProfiler(PostCard, { name: 'PostCard' })

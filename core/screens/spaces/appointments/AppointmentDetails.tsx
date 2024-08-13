@@ -1,12 +1,14 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Linking, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { DimensionValue, Linking, Platform, StyleSheet, View } from 'react-native'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
@@ -53,8 +55,8 @@ const AppointmentDetails = () => {
   const [imageError, setImageError] = useState(false)
   const setScreenOptions = useSetScreenOptions()
   const { navigateBack, replaceRoute, navigate } = useRouting()
-  const loginState = useAuth()
-  const { width: deviceWidth } = useWindowDimensions()
+  const loginState = useLoginState()
+  const { width: deviceWidth } = useClientWindowDimensions()
 
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
@@ -62,10 +64,9 @@ const AppointmentDetails = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { loading: loadingSpace, error: errorSpace, space, refetch: refetchSpace } = useSpace(spaceIdOrName)
+  const { error: errorSpace, space, refetch: refetchSpace } = useSpace(spaceIdOrName)
 
   const {
-    loading: loadingAppointment,
     error: errorAppointment,
     data: appointmentData,
     refetch: refetchAppointment,
@@ -92,7 +93,6 @@ const AppointmentDetails = () => {
   const appointment = appointmentData?.appointment
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isMobile = Platform.OS !== 'web'
 
   const renderActionDrawer = useCallback(
     () =>
@@ -115,8 +115,7 @@ const AppointmentDetails = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
-      headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
+      headerTransparent: false,
       headerTitle: () => <HoliText>{t('spaces.appointments.details.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,
@@ -126,7 +125,7 @@ const AppointmentDetails = () => {
     })
   }, [setScreenOptions, t, renderActionDrawer, colors.background10, styles.headerRight])
 
-  if ((loadingAppointment && !appointment) || (loadingSpace && !space) || refreshing) {
+  if (!appointment || !space || refreshing) {
     return <HoliLoader />
   }
 
@@ -193,11 +192,11 @@ const AppointmentDetails = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{ refreshing, onRefresh }}
+      <ScrollHeaderLayout
+        refreshControlProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
-        contentStyle={styles.contentStyle}
-        headerOverlap
+        contentContainerStyle={styles.contentStyle}
+        headerRelation="none"
       >
         <View style={[mixins.container, deviceWidth < dimensions.breakpointL ? styles.smallScreenPadding : {}]}>
           <View style={styles.imageContainer}>
@@ -228,8 +227,10 @@ const AppointmentDetails = () => {
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={Time} size={24} style={styles.iconGroupIcon} />
                 <HoliText bold style={styles.infoText}>
-                  {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
-                  {endTime}
+                  <SuppressSsrHydrationWarning>
+                    {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+                    {endTime}
+                  </SuppressSsrHydrationWarning>
                 </HoliText>
               </View>
             </View>
@@ -337,13 +338,7 @@ const AppointmentDetails = () => {
           <View style={styles.card}>
             <AppointmentCalendarButton appointment={appointment} />
             <HoliGap size="s" />
-            <ShareAppointment
-              space={space}
-              appointment={appointment}
-              isMobile={isMobile}
-              date={date}
-              startTime={startTime}
-            />
+            <ShareAppointment space={space} appointment={appointment} date={date} startTime={startTime} />
           </View>
           <View style={styles.card}>
             <HoliHeading level="2" size="m">
@@ -383,7 +378,7 @@ const AppointmentDetails = () => {
             </View>
           </View>
         </View>
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
     </>
   )
 }
@@ -391,9 +386,6 @@ const AppointmentDetails = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     defaultLayout: {
-      paddingBottom: 120,
-      minHeight: '100%',
-      paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
       ...Platform.select({
         web: {
@@ -402,15 +394,7 @@ const getStyles = (theme: HoliTheme) =>
       }),
     },
     contentStyle: {
-      paddingBottom: 0,
-      ...Platform.select({
-        web: {
-          minHeight: '100vh' as DimensionValue,
-        },
-        native: {
-          paddingTop: dimensions.topBarHeight,
-        },
-      }),
+      paddingBottom: 120,
     },
     smallScreenPadding: {
       paddingHorizontal: 0,

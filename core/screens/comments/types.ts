@@ -24,6 +24,7 @@ export interface Comment {
   parentCommentId?: string
   replies: Comment[]
   totalReplies: number
+  language?: string
 }
 
 export enum CommentableType {

@@ -14,7 +14,7 @@ const MyPostsTab = () => {
         <PostsList
           emptyMessage={<EmptyPosts />}
           showVisibilityBadge
-          feedPostsQuery={myPostsQuery}
+          postsQuery={myPostsQuery}
           paginationOptions={{ queryPath: 'myPosts', pageSize: 10 }}
         />
       </View>

@@ -20,6 +20,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
     const { t } = useTranslation()
     const [currentStep, setCurrentStep] = useState(0)
     const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
+    const [isSaveButtonLoading, setSaveButtonLoading] = useState(false)
     const mixins = useStyleMixins()
     const { theme } = useTheme()
     const { colors } = theme
@@ -44,6 +45,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
         }
       } else {
         await onSubmit()
+        setSaveButtonLoading(true)
       }
     }
 
@@ -70,6 +72,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
         onBack={handleBackButtonPress}
         onSave={handleNextButtonPress}
         saveButtonDisabled={!isNextButtonEnabled}
+        saveButtonLoading={isSaveButtonLoading}
         showBackButton={isBackButtonAvailable && currentStep > 0}
         buttonLabel={currentStep === stepCount - 1 ? t('global.save') : t('global.next')}
         scrollToInput={false}

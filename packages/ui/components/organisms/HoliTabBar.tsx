@@ -5,7 +5,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliHorizontalScrollContainer from '@holi/ui/components/atoms/HoliHorizontalScrollContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
@@ -61,21 +61,21 @@ const HoliTabBar: React.FC<TabListProps> = ({
   return (
     <View style={{ width: '100%' }}>
       <View style={styles.botomLineSeperator} />
-      <View style={tabBarStyle}>
-        <HoliHorizontalScrollContainer hideWebScrollbars ref={scrollViewRef}>
-          <View
-            style={StyleSheet.flatten([
-              styles.tabButtonsContainer,
-              { justifyContent: centeredButtons ? 'center' : 'flex-start' },
-            ])}
-            role="tablist"
-          >
-            {tabs.map((tab, index) => {
-              const tabId = tab.id ?? index
-              const isActive = selectedTabId === tabId
-              return (
-                <View onLayout={isActive ? scrollIntoView : undefined} key={tabId}>
-                  <HoliBox padding={[0, TAB_SPACING, 0, index === 0 ? TAB_SPACING : 0]}>
+      <HoliContainer>
+        <View style={tabBarStyle}>
+          <HoliHorizontalScrollContainer hideWebScrollbars showsHorizontalScrollIndicator={false} ref={scrollViewRef}>
+            <View
+              style={StyleSheet.flatten([
+                styles.tabButtonsContainer,
+                { justifyContent: centeredButtons ? 'center' : 'flex-start' },
+              ])}
+              role="tablist"
+            >
+              {tabs.map((tab, index) => {
+                const tabId = tab.id ?? index
+                const isActive = selectedTabId === tabId
+                return (
+                  <View onLayout={isActive ? scrollIntoView : undefined} key={tabId}>
                     <HoliTabButton
                       label={tab.title}
                       id={`${id}-tab-${tabId}`}
@@ -106,13 +106,13 @@ const HoliTabBar: React.FC<TabListProps> = ({
                         {tab.title}
                       </HoliText>
                     </HoliTabButton>
-                  </HoliBox>
-                </View>
-              )
-            })}
-          </View>
-        </HoliHorizontalScrollContainer>
-      </View>
+                  </View>
+                )
+              })}
+            </View>
+          </HoliHorizontalScrollContainer>
+        </View>
+      </HoliContainer>
     </View>
   )
 }
@@ -128,6 +128,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     tabButtonsContainer: {
       flexDirection: 'row',
+      gap: TAB_SPACING,
     },
     tabButton: {
       paddingVertical: 12,

@@ -3,19 +3,22 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
+import i18n from '@holi/core/i18n'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
-import InspirationPostMediaHeader from '@holi/core/screens/posts/components/InspirationPostMediaHeader'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Link, Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -49,10 +52,12 @@ const PostPreview = ({
   numberOfLines = 10,
   loading,
 }: PropsWithSkeleton<Props>) => {
+  const [loadingTranslation, setLoadingTranslation] = useState(false)
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const commenters = post?.commenters.data
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
@@ -93,7 +98,10 @@ const PostPreview = ({
       return false
     }
   }
+  const [text, setText] = useState(post?.text || '')
+  const [title, setTitle] = useState(post?.title || '')
 
+  const isTranslatable = post?.language && post.language && post.language !== i18n.language
   if (loading) {
     return (
       <View style={styles.container}>
@@ -139,96 +147,98 @@ const PostPreview = ({
       ) : null}
 
       {/* Author row with author, post date and three dot menu */}
-      {/* As of v1.10.0: We don't show the author row when it is a daily inspiration post */}
-      {!post?.inspirationPostCategory?.title && (
-        <HoliColumns>
-          {/* Author */}
-          <HoliColumn flex={2}>
-            <HoliLink
-              href={`/profile/${post?.creator.id}`}
-              label={post?.creator.fullName || ''}
-              testID="btn-to-post-creator-profile"
-            >
-              <HoliMediaAuthorHeader author={post?.creator || ({} as User)} authorBold date={post?.created} />
-            </HoliLink>
-          </HoliColumn>
-          {/* Action drawer (three dot menu) */}
-          <HoliColumn>
-            <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-              {/* Report Action */}
-              {/* reporting own content makes no sense, so we hide this option */}
-              {!isCurrentUserPostCreator && (
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingReport}
-                  icon={Flag}
-                  title={t('global.report')}
-                  testID="report-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('insights.post.report.confirmation.title')}
-                    description={t('insights.post.report.confirmation.description')}
-                    handleConfirmation={reportContent}
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
-              {/* Edit Action */}
-              {/* editing only allowed for own content */}
-              {spaceIdOrName && isCurrentUserPostCreator && (
-                <HoliActionDrawer.Action
-                  icon={Edit2}
-                  title={t('spaces.updates.edit')}
-                  testID="edit-update"
-                  handleAction={editAction}
+      <HoliColumns>
+        {/* Author */}
+        <HoliColumn flex={2}>
+          <HoliLink
+            href={`/profile/${post?.creator.id}`}
+            label={post?.creator.fullName || ''}
+            testID="btn-to-post-creator-profile"
+          >
+            <HoliMediaAuthorHeader author={post?.creator || ({} as User)} authorBold date={post?.created} />
+          </HoliLink>
+        </HoliColumn>
+        {/* Action drawer (three dot menu) */}
+        <HoliColumn>
+          <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+            {/* Report Action */}
+            {/* reporting own content makes no sense, so we hide this option */}
+            {!isCurrentUserPostCreator && (
+              <HoliActionDrawer.Action
+                isLoading={isLoadingReport}
+                icon={Flag}
+                title={t('global.report')}
+                testID="report-comment-button"
+                showConfirmation
+              >
+                <HoliActionDrawer.Confirmation
+                  title={t('insights.post.report.confirmation.title')}
+                  description={t('insights.post.report.confirmation.description')}
+                  handleConfirmation={reportContent}
+                  hasDismissBtn
+                  requireLogin
                 />
-              )}
-              {/* Delete Action */}
-              {/* deleting only allowed for own content */}
-              {isCurrentUserPostCreator && (
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingPostDeletion}
-                  icon={Delete}
+              </HoliActionDrawer.Action>
+            )}
+            {/* Edit Action */}
+            {/* editing only allowed for own content */}
+            {spaceIdOrName && isCurrentUserPostCreator && (
+              <HoliActionDrawer.Action
+                icon={Edit2}
+                title={t('spaces.updates.edit')}
+                testID="edit-update"
+                handleAction={editAction}
+              />
+            )}
+            {/* Delete Action */}
+            {/* deleting only allowed for own content */}
+            {isCurrentUserPostCreator && (
+              <HoliActionDrawer.Action
+                isLoading={isLoadingPostDeletion}
+                icon={Delete}
+                title={t('insights.post.delete.confirmation.title')}
+                testID="delete-post-button"
+                showConfirmation
+                variant="danger"
+              >
+                <HoliActionDrawer.Confirmation
                   title={t('insights.post.delete.confirmation.title')}
-                  testID="delete-post-button"
-                  showConfirmation
-                  variant="danger"
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('insights.post.delete.confirmation.title')}
-                    description={t('insights.post.delete.confirmation.description')}
-                    confirmText={t('confirmation.delete')}
-                    dismissText={t('global.dismiss')}
-                    handleConfirmation={deletePost}
-                    buttonType="warning"
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
-            </HoliActionDrawer.Drawer>
-          </HoliColumn>
-        </HoliColumns>
-      )}
-
-      {/* Inspiration posts media header */}
-      <InspirationPostMediaHeader post={post} />
+                  description={t('insights.post.delete.confirmation.description')}
+                  confirmText={t('confirmation.delete')}
+                  dismissText={t('global.dismiss')}
+                  handleConfirmation={deletePost}
+                  buttonType="warning"
+                  hasDismissBtn
+                  requireLogin
+                />
+              </HoliActionDrawer.Action>
+            )}
+          </HoliActionDrawer.Drawer>
+        </HoliColumn>
+      </HoliColumns>
 
       <HoliLink href={getPostUrl(post?.id, insightId, spaceIdOrName)} label={post?.title || ''} testID="btn-to-post">
         {/* Post title */}
         {!!post?.title && (
           <View style={styles.postTitleLink}>
-            <HoliHeading level="3" size="s">
-              {post?.title}
+            <HoliHeading level="3" size="s" loading={loadingTranslation} skeletonOptions={{ numberOfLines: 1 }}>
+              {title}
             </HoliHeading>
           </View>
         )}
         {/* Post content */}
         {hasMounted && (
-          <HoliReadMore numberOfLines={numberOfLines} color="gray300" bold={false}>
+          <HoliReadMore
+            numberOfLines={numberOfLines}
+            color="gray300"
+            bold={false}
+            style={styles.readMore}
+            loading={loadingTranslation}
+            skeletonOptions={{ numberOfLines: 3 }}
+            onReadMoreSideEffect={() => post.space && track(TrackingEvent.SpacePosts.read(post.id, post.space?.id))}
+          >
             <HoliRichTextOutput
-              text={post?.text || ''}
+              text={text || ''}
               users={post?.mentions || []}
               links={post?.links || []}
               allowAllLinks
@@ -258,7 +268,14 @@ const PostPreview = ({
             </HoliBox>
           )
         })}
-
+      {isTranslatable && (
+        <HoliTranslate
+          primaryText={{ text, setText }}
+          secondaryText={{ text: title, setText: setTitle }}
+          loading={loadingTranslation}
+          setLoading={setLoadingTranslation}
+        />
+      )}
       {/* Reaction bar with comments and likes */}
       <View style={styles.reactionsBar}>
         {/* Comments */}
@@ -301,6 +318,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     postTitleLink: {
       marginVertical: 4,
+    },
+    readMore: {
+      width: '100%',
     },
     imageContainer: {
       width: '100%',

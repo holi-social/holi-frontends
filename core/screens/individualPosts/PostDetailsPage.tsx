@@ -1,19 +1,21 @@
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useUserVisitedScreensCount } from '@holi/core/components/TrackingConsentModal'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
+import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -24,14 +26,26 @@ import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
+import {
+  UpdateFeedPostReactionMutation,
+  UpdateFeedPostReactionResponse,
+} from '@holi/core/screens/individualPosts/mutations'
 import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
+import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
+import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { Term } from '@holi/core/screens/userprofile/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -48,21 +62,23 @@ const { useParam } = createParamHooks<PostDetailsPageParams>()
 const PostDetailsPage = () => {
   const [idOrSlug] = useParam('idOrSlug')
   const [commentId] = useParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { replaceRoute, navigate, navigateBack } = useRouting()
-  const auth = useAuth()
+  const loginState = useLoginState()
   const { openLoginModal } = useLoginModal()
   const insets = useSafeAreaInsets()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
-
-  const visitedScreensCount = useUserVisitedScreensCount()
+  const { topics: allTopics } = useContext(SpaceTermContext)
+  const { isLoggedIn } = useLoggedInUser()
+  const { displayError } = useErrorHandling()
+  const { track } = useTracking()
 
   const headerLeft = useMemo(() => {
-    const directPageVisit = visitedScreensCount <= 1
+    const directPageVisit = Platform.OS === 'web' // TODO: Implement a useUserVisitedScreenCount hook in order to know the number of visited screens
     return directPageVisit ? (
       <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
         <HoliLogo />
@@ -70,7 +86,7 @@ const PostDetailsPage = () => {
     ) : (
       <HeaderBackButton icon={ArrowLeft} />
     )
-  }, [navigate, t, visitedScreensCount])
+  }, [navigate, t])
 
   const {
     data: { post } = {},
@@ -90,6 +106,13 @@ const PostDetailsPage = () => {
     },
   })
 
+  let aggregatedTopics: Term[] = []
+  if (post?.topics) {
+    aggregatedTopics = allTopics?.filter((topic) => {
+      return post.topics?.some((selectedTopic: Term) => selectedTopic.id === topic.id)
+    })
+  }
+
   const { refreshing, onRefresh } = useOnRefresh(refetch)
 
   const [, shareLink] = useShareLink({
@@ -98,10 +121,16 @@ const PostDetailsPage = () => {
     message: post?.title ?? '',
   })
 
+  const currentLanguage = getLocale(i18n.language || '')
+
   const headerTitle =
-    auth.isLoggedIn && auth.userId === post?.creator.id
+    loginState.isLoggedIn && loginState.userId === post?.author.id
       ? t('individuals.post.details.title.personal')
-      : t('individuals.post.details.title', { name: post?.creator.firstName })
+      : generatePostTitle({
+          name: post?.author.firstName || '',
+          currentLanguage,
+          t,
+        })
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -127,57 +156,104 @@ const PostDetailsPage = () => {
     })
   }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
 
+  useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
+
   const onPressCreateComment = () =>
-    auth.isLoggedIn
+    loginState.isLoggedIn
       ? navigate(`/feed-posts/${idOrSlug}/comment`)
       : openLoginModal({
           description: t('comments.loginRedirect.text'),
         })
 
+  const heartReactions = post?.reactions.HEART
+  const currentUserHasReacted = !!post?.myReaction.HEART
+
+  const [updateFeedPostReaction, { loading: loadingReaction }] = useMutation<UpdateFeedPostReactionResponse>(
+    UpdateFeedPostReactionMutation,
+    {
+      onError: (error) =>
+        displayError(error, 'Failed to update feed post reaction', {
+          location: 'FeedPostReactions.updateFeedPostReaction',
+          postId: post?.id,
+        }),
+    }
+  )
+
+  const reactOnPost = () => {
+    if (!isLoggedIn) {
+      openLoginModal({
+        description: t('individuals.post.reaction.loginRedirect.text'),
+      })
+    } else {
+      const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET
+      const reactionType = ReactionType.HEART
+      updateFeedPostReaction({
+        variables: {
+          postId: post?.id,
+          reactionType: reactionType,
+          reactionAction: reactionAction,
+        },
+        onCompleted: () => {
+          reactionAction === ReactionAction.SET && track(TrackingEvent.Engaging.reacted('FeedPost', post?.id || ''))
+        },
+      })
+    }
+  }
+
   return (
     <>
       <HoliHead
-        title={`${post?.title} | ${post?.creator.fullName}`}
+        title={`${post?.title} | ${post?.author.fullName}`}
         description={post?.description}
-        ogTitle={`${post?.title} | ${post?.creator.fullName}`}
+        ogTitle={`${post?.title} | ${post?.author.fullName}`}
         ogDescription={post?.description}
-        ogImage={post?.image}
+        ogImage={post?.imageUrl}
       />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
-        style={styles.wrapper}
-        headerOverlap
-        scrollEnabled={false}
-        scrollable={false}
-        contentStyle={styles.wrapperContent}
       >
-        <HoliContainer noPadding={loading && !isWeb}>
-          <ScrollView style={styles.scrollView}>
-            {post && !loading ? (
-              <>
-                <PostContent post={post} showVisibilityBadge={auth.isLoggedIn && auth.userId === post.creator.id} />
-                <View style={styles.commentsContainer}>
-                  <Comments
-                    commentableType={CommentableType.FEED_POST}
-                    commentableId={post.id}
-                    replyRoute={`/feed-posts/${post.slug}/comment`}
-                    initialOpenThread={commentId}
-                    reactionButton={<FeedPostReactions post={post} />}
-                    isDiscussion={false}
+        <View style={[styles.wrapper, styles.wrapperContent]}>
+          <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
+            <ScrollView style={styles.scrollView}>
+              {post && !loading ? (
+                <>
+                  <PostContent
+                    post={post}
+                    showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
+                    aggregatedTopics={aggregatedTopics}
                   />
-                </View>
-              </>
-            ) : (
-              <LoadingSkeleton />
-            )}
-          </ScrollView>
-        </HoliContainer>
-      </ScrollHeaderLayout.Refreshable>
+                  <View style={styles.commentsContainer}>
+                    <Comments
+                      commentableType={CommentableType.FEED_POST}
+                      commentableId={post.id}
+                      replyRoute={`/feed-posts/${post.slug}/comment`}
+                      initialOpenThread={commentId}
+                      reactionButton={<FeedPostReactions post={post} />}
+                      isDiscussion={false}
+                    />
+                  </View>
+                </>
+              ) : (
+                <LoadingSkeleton />
+              )}
+            </ScrollView>
+            <HoliReactionsCount
+              onPress={reactOnPost}
+              type="post"
+              count={heartReactions}
+              active={currentUserHasReacted}
+              fullName={post?.author.fullName}
+              testID="btn-react-to-feed-post-HEART"
+              disabled={loadingReaction}
+            />
+          </HoliContainer>
+        </View>
+      </ScrollHeaderLayout>
 
       <SafeAreaView>
         <View style={styles.commentWrapper}>
@@ -232,12 +308,6 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isS
           paddingTop: dimensions.topBarHeight + Spacing.md,
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
-        ios: {
-          paddingTop: dimensions.topBarHeight + insets.top,
-        },
-        android: {
-          paddingTop: dimensions.topBarHeight + Spacing.xl,
-        },
       }),
     },
     wrapperContent: {
@@ -267,7 +337,6 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isS
       }),
     },
     commentButton: {
-      paddingTop: 18,
       flex: 1,
     },
     headerRight: {

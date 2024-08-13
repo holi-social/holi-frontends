@@ -15,7 +15,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { ChallengeEvent } from '@holi-apps/challenges/components/types'
-import { createChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 
 export interface AttendingChallengeEventsCardProps {
   challengeEvent: ChallengeEvent
@@ -39,13 +39,13 @@ const AttendingChallengeEventsCard = ({
     getFormattedDateAbs(challengeEvent?.endDate, i18n.language)
 
   return (
-    <HoliLink label={challengeEvent.title} href={createChallengesPath(challengeEvent.link)}>
+    <HoliLink label={challengeEvent.title} href={createInAppChallengesPath(challengeEvent.link)}>
       <HoliCard
         hasBorder
         testID={testID}
         direction="horizontal"
         borderRadius={8}
-        imageUrl={challengeEvent.teaserImageUrl}
+        imageUri={challengeEvent.teaserImageUrl}
         imageLabel={challengeEvent.title}
         imageHeight={imageHeight}
         imageWidth={imageWidth}

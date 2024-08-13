@@ -18,7 +18,7 @@ const config: CodegenConfig = {
         withHooks: true,
         withMutationFn: true,
         withRefetchFn: false,
-        avoidOptionals: true,
+        avoidOptionals: false,
         reactApolloVersion: 3,
       },
     },

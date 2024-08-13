@@ -3,6 +3,8 @@ import { FetchResult, useMutation } from '@apollo/client'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { AddReactionToCommentMutation, RemoveReactionFromCommentMutation } from '@holi/core/screens/comments/mutations'
 import { ReactionType } from '@holi/core/screens/comments/types'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 type ReactionFunction = (options?: {
   variables: {
@@ -17,6 +19,7 @@ type UseReactOnComment = [ReactionFunction, ReactionFunction, boolean, boolean]
 
 const useReactOnComment = (id: string, reactionType: ReactionType): UseReactOnComment => {
   const { displayError } = useErrorHandling()
+  const { track } = useTracking()
 
   const [addReaction, { loading: loadingAddReaction }] = useMutation(AddReactionToCommentMutation, {
     variables: {
@@ -24,6 +27,9 @@ const useReactOnComment = (id: string, reactionType: ReactionType): UseReactOnCo
         commentId: id,
         reactionType,
       },
+    },
+    onCompleted: () => {
+      track(TrackingEvent.Engaging.reacted('Comment', id))
     },
     onError: (error) =>
       displayError(error, 'Failed to add comment reaction', {

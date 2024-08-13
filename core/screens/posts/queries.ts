@@ -19,15 +19,12 @@ export const PostFragment = gql`
   ${LinkFragment}
 
   fragment PostFragment on Post {
+    __typename
     id
     title
     text
     created
     modified
-    inspirationPostCategory {
-      slug
-      title
-    }
     creator {
       ...UserAvatar
     }
@@ -37,6 +34,14 @@ export const PostFragment = gql`
       data {
         ...UserAvatar
       }
+    }
+    space {
+      id
+      title
+      name
+      avatar
+      avatarBlurhash
+      avatarDefaultColor
     }
     image {
       ...PostImageData
@@ -55,6 +60,7 @@ export const PostFragment = gql`
       HEART
     }
     isPublic
+    language
   }
 `
 
@@ -64,15 +70,12 @@ export const PostDetailsFragment = gql`
   ${LinkFragment}
 
   fragment PostFull on Post {
+    __typename
     id
     title
     text
     created
     modified
-    inspirationPostCategory {
-      slug
-      title
-    }
     creator {
       ...UserAvatar
     }
@@ -100,6 +103,7 @@ export const PostDetailsFragment = gql`
       HEART
     }
     isPublic
+    language
   }
 `
 

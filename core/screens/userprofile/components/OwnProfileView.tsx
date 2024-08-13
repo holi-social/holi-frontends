@@ -8,9 +8,7 @@ import { StyleSheet, View } from 'react-native'
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
 import { logError } from '@holi/core/errors/helpers'
-import { useBreakpointMatcher } from '@holi/core/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
@@ -23,7 +21,6 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -54,9 +51,6 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
-
-  const tabBarStyle = useBreakpointMatcher([[dimensions.breakpointS, mixins.container]])
 
   const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
     variables: { userId: user.id },
@@ -68,8 +62,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
 
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
-  const tabNamesInOrder = [Tab.PROFILE]
-  ftEnabledPosts && tabNamesInOrder.push(Tab.POSTS)
+  const tabNamesInOrder = [Tab.PROFILE, Tab.POSTS]
   hasInsights && tabNamesInOrder.push(Tab.INSIGHTS)
   tabNamesInOrder.push(Tab.SPACES)
 
@@ -84,12 +77,13 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
 
   return (
     <>
-      <HoliContainer>
-        <UserProfileView user={user} contactPossible={false} />
-      </HoliContainer>
+      <View style={{ backgroundColor: colors.background10 }}>
+        <HoliContainer>
+          <UserProfileView user={user} contactPossible={false} />
+        </HoliContainer>
+      </View>
       <HoliTabs
-        style={{ marginTop: 24, flex: 1 }}
-        tabBarStyle={tabBarStyle}
+        style={{ paddingTop: 24, flex: 1 }}
         backgroundColor={colors.background20}
         initialStep={initialTabIndex}
         onChangeTab={handleTabChanged}
@@ -151,18 +145,14 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
               </View>
             ),
           },
-          ...(ftEnabledPosts
-            ? [
-                {
-                  title: t('individuals.post.name'),
-                  children: (
-                    <Suspense fallback={<HoliLoader />}>
-                      <MyPostsTab />
-                    </Suspense>
-                  ),
-                },
-              ]
-            : []),
+          {
+            title: t('individuals.post.name'),
+            children: (
+              <Suspense fallback={<HoliLoader />}>
+                <MyPostsTab />
+              </Suspense>
+            ),
+          },
           ...(hasInsights
             ? [
                 {

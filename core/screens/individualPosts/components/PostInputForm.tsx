@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
+import { PortalGate } from '@holi/core/providers/PortalProvider'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
 import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
+import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
 import {
   FEED_POST_DESCRIPTION_MAX_CHARACTERS,
@@ -13,8 +15,10 @@ import {
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import { Term, User } from '@holi/core/screens/userprofile/types'
 import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
@@ -37,15 +41,17 @@ export enum Visibility {
 
 export interface PostInputFormProps {
   title: string
-  description: string
+  description?: string
   image: HoliImageInfo | null
   selectedVisibility: Visibility
   selectedCategoryId: string | null
   currentImage?: string
+  selectedTopics?: Term[]
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
   onChangeImage: (image: HoliImageInfo | null) => void
+  onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
   onSubmit: () => void
   isEdit?: boolean
@@ -53,19 +59,23 @@ export interface PostInputFormProps {
   submitting: boolean
   categories: FeedPostCategories | null
   onClickCategoriesPill: () => void
+  mentions?: User[]
 }
 
 const PostInputForm: React.FC<PostInputFormProps> = ({
   title,
   description,
   image,
+  mentions = [],
   selectedVisibility,
   selectedCategoryId,
   currentImage,
+  selectedTopics,
   onChangeTitle,
   onChangeDescription,
   onChangeSelectedVisibility,
   onChangeImage,
+  onChangeSelectedTopics,
   onSubmit,
   isEdit = false,
   submitting,
@@ -78,9 +88,9 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const [isSubmittable, setIsSubmittable] = useState<boolean>(false)
-  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
+  const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
 
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
@@ -90,12 +100,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       ...(description ? { description } : {}),
     })
     setIsSubmittable(formDataParseResult.success)
-
-    if (!formDataParseResult.success) {
-      setFieldErrors(formDataParseResult.error.flatten().fieldErrors)
-    } else {
-      setFieldErrors({})
-    }
   }, [title, description, selectedVisibility, selectedCategoryId])
 
   const visibilityOptions: HoliModalSelectOption<Visibility>[] = [
@@ -138,6 +142,17 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               onPress={showVisibility}
             />
             <FeedPostPill label={categoryLabel} setting={'category'} onPress={onClickCategoriesPill} />
+
+            {selectedTopics &&
+              (selectedTopics?.length < 1 ? (
+                <FeedPostPill setting={'topic'} onPress={showTopicsModal} />
+              ) : (
+                <FeedPostPill
+                  label={`${selectedTopics.length} ${selectedTopics.length > 1 ? ' Topics' : 'Topic'}`}
+                  setting={'topic'}
+                  onPress={showTopicsModal}
+                />
+              ))}
           </View>
           <View style={styles.inputContainer}>
             <HoliTextInput
@@ -151,8 +166,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               maxNoOfCharacters={FEED_POST_TITLE_MAX_CHARACTERS}
               maxNoOfVisibleLines={3}
               noOfVisibleLines={2}
-              validationErrorText={title && fieldErrors?.title?.length ? fieldErrors.title[0] : undefined}
             />
+
             <HoliRichTextInput
               placeholder={descriptionPlaceholder}
               inputStyle={styles.descriptionInput}
@@ -161,7 +176,12 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               placeholderTextColor={theme.colors.gray300}
               showCharacterCount
               maxNoOfCharacters={FEED_POST_DESCRIPTION_MAX_CHARACTERS}
+              initialValue={description}
+              mentions={mentions}
+              isEdit={isEdit}
+              scrollEnabled={false}
             />
+
             <View style={styles.imageEditor}>
               <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
             </View>
@@ -177,6 +197,10 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           isEdit={isEdit}
         />
       </KeyboardAvoidingView>
+
+      {/* Suggestions*/}
+      <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
+
       <HoliModalSelect
         options={visibilityOptions}
         title={t('individuals.post.input.visibility.title')}
@@ -190,6 +214,22 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         hide={hideVisibility}
         visible={visibleVisibility}
       />
+      <HoliModal
+        label={t('individuals.post.input.topics.title')}
+        autoHeight={true}
+        show={visibleTopicsModal}
+        onDismiss={hideTopicsModal}
+        testID="post-selectedTopics-input"
+      >
+        <HoliModalContentWrapper
+          actionButtonText={t('global.save')}
+          onActionButtonPress={hideTopicsModal}
+          headlineText={t('individuals.post.input.topics.title')}
+          testID="post-selectedTopics-input-content"
+        >
+          <PostTopics onChangeSelectedTopics={onChangeSelectedTopics} selectedTopicsIds={selectedTopics || []} />
+        </HoliModalContentWrapper>
+      </HoliModal>
     </>
   )
 }
@@ -214,7 +254,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     descriptionInput: {
       backgroundColor: 'transparent',
-      borderColor: 'transparent',
       borderWidth: 0,
       paddingTop: 6,
       paddingHorizontal: 10,
@@ -247,6 +286,33 @@ const getStyles = (theme: HoliTheme) =>
       zIndex: 1,
       gap: 8,
       paddingHorizontal: 16,
+    },
+    suggestionsScrollView: {
+      zIndex: 1,
+      width: '100%',
+      height: 150,
+      maxHeight: 150,
+      paddingTop: 10,
+      paddingBottom: 10,
+      backgroundColor: theme.colors.background10,
+      borderTopColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderRightColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderLeftColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
+      borderWidth: 1,
+      borderBottomWidth: 0,
+      borderRadius: 12,
+      elevation: 4,
+      borderTopWidth: 1,
+      ...Platform.select({
+        web: {
+          maxWidth: dimensions.maxScreenWidth,
+          marginHorizontal: 'auto',
+        },
+      }),
+      position: 'absolute',
+      bottom: Platform.OS === 'web' ? 64 : 96,
+      left: 0,
+      right: 0,
     },
   })
 

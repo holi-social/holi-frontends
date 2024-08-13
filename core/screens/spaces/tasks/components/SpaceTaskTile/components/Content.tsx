@@ -14,6 +14,7 @@ import {
   RefreshFilled,
   TimeFilled,
 } from '@holi/icons/src/generated'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText, { type HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -24,9 +25,15 @@ export interface Props {
   task: Task
   richTextOutputColor?: HoliTextProps['color']
   descriptionWithDetails?: boolean
+  recommendation?: boolean
 }
 
-const Content = ({ task, richTextOutputColor = 'black300', descriptionWithDetails = false }: Props) => {
+const Content = ({
+  task,
+  richTextOutputColor = 'black300',
+  descriptionWithDetails = false,
+  recommendation: recommendation = false,
+}: Props) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
@@ -57,83 +64,87 @@ const Content = ({ task, richTextOutputColor = 'black300', descriptionWithDetail
 
       {task.skills.length > 0 && (
         <View style={styles.skillsContainer}>
-          {task.skills.map((skill) => (
-            <FilterPill small key={skill.id} label={skill.title} filterType="skill" style={styles.pill} />
-          ))}
+          {recommendation ? (
+            <>
+              <FilterPill small label={task.skills[0].title} filterType="skill" style={styles.pill} />
+              {task.skills.length > 1 && <FilterPill small label={'+' + (task.skills.length - 1)} filterType="skill" />}
+            </>
+          ) : (
+            <>
+              {task.skills.map((skill) => (
+                <FilterPill small key={skill.id} label={skill.title} filterType="skill" style={styles.pill} />
+              ))}
+            </>
+          )}
         </View>
       )}
 
-      <View style={styles.descriptionContainer}>
-        <HoliRichTextOutput
-          text={task.description}
-          color={richTextOutputColor}
-          size="small"
-          allowAllLinks
-          testID="task-description"
-        />
+      <HoliGap size="s" />
+      <HoliRichTextOutput
+        {...(recommendation ? { numberOfLines: 2 } : {})}
+        text={task.description}
+        color={richTextOutputColor}
+        size="small"
+        allowAllLinks
+        testID="task-description"
+      />
 
-        {descriptionWithDetails && (
-          <>
-            <HoliText bold style={styles.publishedByTitle}>
-              {t('spaces.tasks.published.by.title')}
-            </HoliText>
+      {descriptionWithDetails && (
+        <>
+          <HoliText bold style={styles.publishedByTitle}>
+            {t('spaces.tasks.published.by.title')}
+          </HoliText>
 
-            <View style={styles.avatar}>
-              <HoliAvatar
-                imageSrc={task.creator.avatar}
-                imageBlurhash={task.creator.avatarBlurhash}
-                label={task.creator?.fullName || t('user.profileView.anonymous')}
-                initials={task.creator.avatarLabel || ''}
-                defaultColor={task.creator.avatarDefaultColor || ''}
-                size="medium"
-                testID="task-contact-avatar"
-              />
-              <HoliText>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
-            </View>
+          <View style={styles.avatar}>
+            <HoliAvatar
+              imageSrc={task.creator.avatar}
+              imageBlurhash={task.creator.avatarBlurhash}
+              label={task.creator?.fullName || t('user.profileView.anonymous')}
+              initials={task.creator.avatarLabel || ''}
+              defaultColor={task.creator.avatarDefaultColor || ''}
+              size="medium"
+              testID="task-contact-avatar"
+            />
+            <HoliText>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
+          </View>
 
-            <HoliText bold style={styles.contactInformationTitle}>
-              {t('spaces.tasks.contact.title')}
-            </HoliText>
+          <HoliText bold style={styles.contactInformationTitle}>
+            {t('spaces.tasks.contact.title')}
+          </HoliText>
 
+          <View style={styles.contactContainer}>
+            <HoliIcon icon={AtFilled} color={colors.foreground20} />
+            <HoliButton
+              inline
+              transparent
+              label={task.contactEmail}
+              onPress={() => Linking.openURL(`mailto:${task.contactEmail}`)}
+            >
+              <HoliText size="small">{task.contactEmail}</HoliText>
+            </HoliButton>
+          </View>
+
+          {!!task.contactPhone && (
             <View style={styles.contactContainer}>
-              <HoliIcon icon={AtFilled} color={colors.foreground20} />
+              <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
               <HoliButton
                 inline
                 transparent
-                label={task.contactEmail}
-                onPress={() => Linking.openURL(`mailto:${task.contactEmail}`)}
+                label={task.contactPhone}
+                onPress={() => Linking.openURL(`tel:${task.contactPhone}`)}
               >
-                <HoliText size="small">{task.contactEmail}</HoliText>
+                <HoliText size="small">{task.contactPhone}</HoliText>
               </HoliButton>
             </View>
-
-            {!!task.contactPhone && (
-              <View style={styles.contactContainer}>
-                <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
-                <HoliButton
-                  inline
-                  transparent
-                  label={task.contactPhone}
-                  onPress={() => Linking.openURL(`tel:${task.contactPhone}`)}
-                >
-                  <HoliText size="small">{task.contactPhone}</HoliText>
-                </HoliButton>
-              </View>
-            )}
-          </>
-        )}
-      </View>
+          )}
+        </>
+      )}
     </>
   )
 }
 
 export const styles = StyleSheet.create({
-  descriptionContainer: {
-    marginVertical: 16,
-  },
   pill: {
-    marginRight: 6,
-    marginTop: 4,
     flexShrink: 1,
   },
   iconsContainer: {
@@ -155,7 +166,8 @@ export const styles = StyleSheet.create({
   skillsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 12,
+    marginTop: 16,
+    gap: 6,
   },
   publishedByTitle: {
     marginTop: 32,

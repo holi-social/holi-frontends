@@ -1,16 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client'
-import Constants from 'expo-constants'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -38,7 +35,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
-import dimensions from '@holi/ui/styles/globalVars/dimensions'
+import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type EditAppointmentParams = {
@@ -53,10 +50,8 @@ const EditAppointment = () => {
   const [idOrSlug] = useParam('idOrSlug')
   const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const { ftEnabled, ftLoading } = useFeatureToggle(FeatureToggleName.APPOINTMENTS)
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { openToast } = useToast()
 
@@ -76,7 +71,6 @@ const EditAppointment = () => {
   const [url, setUrl] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
-  const [currentLocationDetails, setCurrentLocationDetails] = useState<LocationDetails | undefined>()
 
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
@@ -209,14 +203,13 @@ const EditAppointment = () => {
             {t('spaces.appointments.edit.button.label')}
           </HoliHeading>
         ),
-        headerStyle: { backgroundColor: colors.background10 },
         headerTransparent: true,
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
-  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
+  }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
     setSaveButtonDisabled(!title.length || !inputValid)
@@ -265,7 +258,10 @@ const EditAppointment = () => {
         }
 
         setLocationDetails(_location)
-        setCurrentLocationDetails(_location)
+        setSelectedLocation({
+          label: completeAddress || '',
+          id: '',
+        })
       }
 
       const start = new Date(appointment.startDateTime)
@@ -293,7 +289,7 @@ const EditAppointment = () => {
     }
   }, [thumbnail, setCurrentThumbnail])
 
-  if (loadingSpace || ftLoading || loadingAppointment) {
+  if (loadingSpace || loadingAppointment) {
     return <HoliLoader />
   }
 
@@ -306,7 +302,6 @@ const EditAppointment = () => {
       permissionType={PermissionsType.SPACES}
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
-      forceRestrict={!ftEnabled && !ftLoading}
       redirectRoute={`/spaces/${spaceIdOrName}`}
     >
       <FormWrapper
@@ -337,7 +332,6 @@ const EditAppointment = () => {
               url={url}
               additionalInfo={additionalInfo}
               currentThumbnail={currentThumbnail}
-              currentLocationDetails={currentLocationDetails}
               onChangeTitle={setTitle}
               onChangeDescription={setDescription}
               onChangeInviteOnly={setInviteOnly}
@@ -381,8 +375,8 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: +dimensions.topBarHeight + (Constants.statusBarHeight || 0) + 24,
-      paddingBottom: +dimensions.bottomBarHeight + 24,
+      paddingTop: dimensions.topBarHeight + (constants.statusBarHeight || 0) + 24,
+      paddingBottom: dimensions.bottomBarHeight + 24,
     },
     bottomBar: {
       backgroundColor: theme.colors.background10,

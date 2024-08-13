@@ -4,8 +4,9 @@ import React from 'react'
 
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { locationId } from '@holi/core/screens/spaces/__tests__/testData'
-import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterModal'
-import FilteredSpacesHeading from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
+import FilteredSpacesHeading, {
+  FilteredSpacesHeadingProps,
+} from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
 import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
@@ -36,7 +37,7 @@ const spaceTermContext: SpaceTermContextResult = {
   sdgs,
 }
 
-const renderHeading = (props: SpaceFilter, contextProps: Partial<SpaceTermContextResult> = {}) =>
+const renderHeading = (props: FilteredSpacesHeadingProps, contextProps: Partial<SpaceTermContextResult> = {}) =>
   render(
     <MockedProvider mocks={[locationDetailsMock]} addTypename={false}>
       <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
@@ -50,44 +51,44 @@ describe('FilteredSpacesHeading', () => {
     renderHeading({ locationId })
 
     await waitFor(() => expect(mockSetOptions).toHaveBeenCalledTimes(2))
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Hamburg, Germany' })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered', headerTransparent: true })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Hamburg, Germany', headerTransparent: true })
   })
 
   it('applies correct title when filtering for topic only', () => {
     renderHeading({ topicSlugs: ['topic-1'] })
 
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Topic 1' })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Topic 1', headerTransparent: true })
   })
 
   it('applies correct title when filtering for single skill', () => {
     renderHeading({ skillSlugs: ['skill-1'] })
 
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Skill 1' })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'Skill 1', headerTransparent: true })
   })
 
   it('applies generic title when filtering for multiple skills', () => {
     renderHeading({ skillSlugs: ['skill-1', 'skill-2'] })
 
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered', headerTransparent: true })
   })
 
   it('applies generic title when applying multiple filters', () => {
     renderHeading({ topicSlugs: ['topic-1'], locationId: '123' })
 
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered', headerTransparent: true })
   })
 
   it('applies generic title while loading terms', () => {
     renderHeading({ topicSlugs: ['topic-1'] }, { loadingTopics: true })
 
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered', headerTransparent: true })
   })
 
   it('applies generic title when loading of terms failed', () => {
     renderHeading({ topicSlugs: ['topic-1'] }, { failedTopics: true })
 
-    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered' })
+    expect(mockSetOptions).toHaveBeenCalledWith({ title: 'spaces.title.filtered', headerTransparent: true })
   })
 
   // solve act() wrap warning

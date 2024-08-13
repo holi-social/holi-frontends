@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
+import { FeedPostDetailsFragment, GenericPostPagedFragment } from '@holi/core/screens/individualPosts/fragments'
 import { Category, FeedPost } from '@holi/core/screens/individualPosts/types'
 import { Paged } from '@holi/core/types'
 
@@ -54,19 +54,6 @@ export type PostsByUserIdQueryResponse = {
   postsByUserId: Paged<FeedPost>
 }
 
-export const feedPostsQuery = gql`
-  ${FeedPostDetailsFragment}
-
-  query FeedPosts($offset: Int! = 0, $limit: Int! = 2) {
-    feedPosts(offset: $offset, limit: $limit) {
-      data {
-        ...FeedPostFull
-      }
-      totalResults
-    }
-  }
-`
-
 export const postQuery = gql`
   ${FeedPostDetailsFragment}
 
@@ -80,3 +67,13 @@ export const postQuery = gql`
 export type PostQueryResponse = {
   post: FeedPost
 }
+
+export const allPostsQuery = gql`
+  ${GenericPostPagedFragment}
+
+  query allPosts($offset: Int! = 0, $limit: Int! = 2) {
+    allPosts(offset: $offset, limit: $limit) {
+      ...GenericPostPagedFragment
+    }
+  }
+`

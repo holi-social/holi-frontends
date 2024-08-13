@@ -1,11 +1,10 @@
 import React, { useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { FeatureToggleName } from '@holi/core/helpers/useFeatureToggle'
+import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -18,7 +17,6 @@ import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceVideoCallListParams = {
@@ -41,8 +39,7 @@ const SpaceVideoCallList = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.videocall.header'),
-      headerStyle: { backgroundColor: colors.background10 },
-      headerTransparent: true,
+      headerTransparent: false,
       headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
         footerShown: false,
@@ -60,7 +57,7 @@ const SpaceVideoCallList = () => {
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
     >
-      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
+      <ScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
           <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
@@ -83,15 +80,15 @@ const SpaceVideoCallList = () => {
             </HoliBox>
           </HoliContainer>
         </HoliBox>
-      </ScrollHeaderLayout.Default>
+      </ScrollView>
     </PermissionsGuard>
   )
 }
 
 const WrappedSpaceVideoCallList = () => (
-  <FeatureToggleGuard toggleName={FeatureToggleName.VIDEOCALL} featureNameKey="spaces.videocall.maintenance.feature">
+  <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VIDEO_CALL} i18nKey="spaces.videocall.maintenance.feature">
     <SpaceVideoCallList />
-  </FeatureToggleGuard>
+  </PosthogFeatureFlagGuard>
 )
 
 export default WrappedSpaceVideoCallList
@@ -103,9 +100,6 @@ const getStyles = (theme: HoliTheme) =>
       paddingBottom: 0,
     },
     defaultLayout: {
-      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
-      marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.topBarHeight,
     },
   })

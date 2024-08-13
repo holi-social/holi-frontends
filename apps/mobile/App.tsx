@@ -3,6 +3,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
+import { initializeMobileApolloClient } from '@holi/api/graphql/client'
 import { initAuth } from '@holi/core/auth/helpers/init'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -16,7 +17,6 @@ import {
   initNotifications,
   registerHandleNotificationsWhenAppIsInBackground,
 } from '@holi/mobile/notifications/initNotifications'
-import { TrackingProvider } from '@holi/mobile/providers/TrackingProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const logger = getLogger('AppInit')
@@ -30,6 +30,8 @@ registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
 )
 
 logger.debug('App', 'starting app with config', config)
+
+const apolloClient = initializeMobileApolloClient()
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
@@ -83,11 +85,9 @@ const App = () => {
   return (
     <ThemeProvider theme={defaultHoliTheme}>
       <NavigationProvider>
-        <TrackingProvider>
-          <RootProvider>
-            <RootNavigator />
-          </RootProvider>
-        </TrackingProvider>
+        <RootProvider apolloClient={apolloClient}>
+          <RootNavigator />
+        </RootProvider>
       </NavigationProvider>
     </ThemeProvider>
   )

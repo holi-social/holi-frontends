@@ -101,7 +101,7 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
         inputLabel={t('user.profileForm.firstName')}
         aria-label={t('user.profileForm.firstName')}
         placeholder={t('user.profileForm.firstNamePlaceholder')}
-        maxNoOfCharacters={192}
+        maxNoOfCharacters={100}
         onChange={(value: string) => onChange('firstName', replaceSpecialChars(value))}
         validationErrorText={fieldErrors?.firstName?.join()}
         {...scrollToInputWithId('firstName')}
@@ -115,7 +115,7 @@ const NamesStep = ({ names, onChange, scrollToInputWithId, fieldErrors }: React.
         inputLabel={t('user.profileForm.lastName')}
         aria-label={t('user.profileForm.lastName')}
         placeholder={t('user.profileForm.lastNamePlaceholder')}
-        maxNoOfCharacters={192}
+        maxNoOfCharacters={100}
         onChange={(value: string) => onChange('lastName', replaceSpecialChars(value))}
         validationErrorText={fieldErrors?.lastName?.join()}
         {...scrollToInputWithId('lastName')}

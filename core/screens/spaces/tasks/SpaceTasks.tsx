@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, StyleSheet } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -29,10 +30,10 @@ const SpaceTasks = () => {
   const { navigate } = useRouting()
 
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
-  const { loading, space } = useSpace(spaceIdOrName)
+  const { space } = useSpace(spaceIdOrName)
 
   const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
@@ -48,7 +49,6 @@ const SpaceTasks = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.rolesAndPermissions.tasks.title'),
-      headerStyle: { backgroundColor: colors.background10 },
       headerTransparent: true,
       headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
@@ -57,8 +57,8 @@ const SpaceTasks = () => {
     })
   }, [setScreenOptions, t, colors.background10])
 
-  if (loading || !space) {
-    return <></>
+  if (!space) {
+    return null
   }
 
   return (
@@ -74,7 +74,7 @@ const SpaceTasks = () => {
           <HoliIcon icon={Add} size={24} />
         </HoliButton>
       )}
-      <ScrollHeaderLayout.Default style={styles.defaultLayout} headerOverlap keyboardShouldPersistTaps="handled">
+      <ScrollHeaderLayout style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
           <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
@@ -82,7 +82,7 @@ const SpaceTasks = () => {
             </HoliBox>
           </HoliContainer>
         </HoliBox>
-      </ScrollHeaderLayout.Default>
+      </ScrollHeaderLayout>
     </>
   )
 }
@@ -96,10 +96,12 @@ const getStyles = (theme: HoliTheme) =>
       paddingBottom: 0,
     },
     defaultLayout: {
-      minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
-      marginTop: Platform.OS === 'web' ? 10 : dimensions.topBarHeight,
+      ...Platform.select({
+        web: {
+          minHeight: '100vh' as DimensionValue,
+        },
+      }),
       backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.topBarHeight,
     },
     overlayButton: {
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',

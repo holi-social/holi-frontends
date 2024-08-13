@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -39,17 +39,19 @@ const HoliChipRow = ({
             label={editButtonLabel || editButtonText || t('global.edit')}
             transparent
             inline
-            style={{
-              ...Platform.select({
-                web: {
-                  width: 'fit-content',
-                },
-              }),
-            }}
+            style={
+              {
+                ...Platform.select({
+                  web: {
+                    width: 'fit-content',
+                  },
+                }),
+              } as StyleProp<ViewStyle>
+            }
             onPress={onPressEdit}
             testID={[testID, 'edit'].filter((e) => e).join('-')}
           >
-            <HoliText selectable={false} size="small" bold style={styles.editButton}>
+            <HoliText selectable={false} size="small" bold style={styles.editButtonText}>
               {editButtonText || t('global.edit')}
             </HoliText>
           </HoliButton>
@@ -74,7 +76,7 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       justifyContent: 'space-between',
     },
-    editButton: {
+    editButtonText: {
       color: theme.colors.foreground20,
     },
     chipsContainer: {

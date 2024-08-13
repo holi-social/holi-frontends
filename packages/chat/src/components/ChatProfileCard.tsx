@@ -38,7 +38,7 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
     try {
       await joinRoom(roomId)
     } catch (e) {
-      openToast(t('global.offline.description'), HoliToastType.SUCCESS)
+      openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
     }
   }
 

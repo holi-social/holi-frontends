@@ -2,10 +2,9 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
-import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
+import HoliMediaAuthorHeader, { Author } from '@holi/core/components/HoliMediaAuthorHeader'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -27,7 +26,7 @@ const DonationNews: React.FC<DonationNewsProps> = ({ totalEntries, news, ...prop
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const author: User | undefined = useMemo(() => {
+  const author: Author | undefined = useMemo(() => {
     if (!mainNews || !mainNews.author) return undefined
     const { name, picture } = mainNews.author
     return {

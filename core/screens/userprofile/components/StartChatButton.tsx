@@ -5,12 +5,14 @@ import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import { getOrCreateRoom } from '@holi/chat/src/store'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { chatServerName } from '@holi/core/helpers/config'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -23,9 +25,9 @@ export function StartChatButton({
   user: User | null
   label: string
   doReplaceRoute?: boolean
-}) {
+} & HoliButtonProps) {
   const { t } = useTranslation()
-  const { ftLoading, ftEnabled } = useFeatureToggle(FeatureToggleName.CHAT)
+  const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
   const isChatInitialized = useChatInitialized()
 
   const { isLoggedIn } = useLoggedInUser()
@@ -56,7 +58,7 @@ export function StartChatButton({
       const { room_id } = await getOrCreateRoom([fullIdentity])
 
       if (!room_id) {
-        openToast(t('global.offline.description'), HoliToastType.SUCCESS)
+        openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
         return
       }
       if (doReplaceRoute) {
@@ -65,13 +67,13 @@ export function StartChatButton({
         navigate('/chat/rooms/' + room_id)
       }
     } catch (e) {
-      openToast(t('global.offline.description'), HoliToastType.SUCCESS)
+      openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
     }
   }
 
   return (
     <HoliButtonLoading
-      disabled={ftLoading || !ftEnabled || !isChatInitialized || !identity}
+      disabled={!chatFeatureFlag.isOn || !isChatInitialized || !identity}
       label={label}
       onPress={handleChat}
       testID="user-profile-open-chat"

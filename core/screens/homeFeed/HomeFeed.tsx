@@ -3,12 +3,13 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-
-import { useAuth } from '@holi/core/auth/helpers/useAuth'
+import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
+import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -16,16 +17,14 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
-import InspirationPosts from '@holi/core/screens/homeFeed/components/InspirationPosts'
 import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
-import { inspirationPostsQuery, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
+import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import { feedPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { allPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
-import type { BottomTabsScreens } from '@holi/mobile/navigation/BottomTabsNavigator'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -34,8 +33,6 @@ import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedC
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
-
-export type HomeFeedProps = Partial<NativeStackScreenProps<BottomTabsScreens>>
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -46,7 +43,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed = () => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useLoginState()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
@@ -56,43 +53,40 @@ const HomeFeed = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
 
-  const { ftEnabled: ftEnabledDonations, ftPreview: ftPreviewDonations } = useFeatureToggle(
-    FeatureToggleName.APPS_DONATIONS
-  )
-  const { ftEnabled: ftEnabledGoodnews, ftPreview: ftPreviewGoodnews } = useFeatureToggle(
-    FeatureToggleName.APPS_GOODNEWS
-  )
-  const { ftEnabled: ftEnabledVolunteering, ftPreview: ftPreviewVolunteering } = useFeatureToggle(
-    FeatureToggleName.APPS_VOLUNTEERING
-  )
-  const { ftEnabled: ftEnabledChallenges } = useFeatureToggle(FeatureToggleName.CHALLENGES)
+  const donationsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
+  const goodnewsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
+  const volunteeringEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
 
-  const { ftEnabled: ftEnabledPosts } = useFeatureToggle(FeatureToggleName.INDIVIDUALS_POST)
-
-  // TODO: when SSR is enabled we need to lazy load the header
-  // because it can only be rendered on the client.
+  // TODO: when SSR is enabled we need to lazy load the header because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: headerTitle,
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
-      headerStyle: { backgroundColor: colors.background10 },
       headerTitle: () => null,
-      headerLeft: () => <HoliLogo />,
-      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
+      headerTintColor: colors.black300,
+      headerLeft: ({ tintColor }) => (
+        <Animated.View entering={FadeInLeft}>
+          <HoliLogo color={tintColor} />
+        </Animated.View>
+      ),
+      headerRight: (props) => (
+        <Animated.View entering={FadeInRight}>
+          <NotificationAndSearchHeader {...props} />
+        </Animated.View>
+      ),
     })
-  }, [navigate, t, headerTitle, setScreenOptions, colors.background10])
+  }, [navigate, t, headerTitle, setScreenOptions, colors.black300])
 
   const { refreshing, onRefresh } = useOnRefresh(() =>
     client.refetchQueries({
       include: [
-        ftEnabledPosts ? feedPostsQuery : undefined,
-        inspirationPostsQuery,
+        allPostsQuery,
         lastInsightsQuery,
-        ftEnabledDonations || ftPreviewDonations ? donationProjectsQuery : undefined,
-        ftEnabledGoodnews || ftPreviewGoodnews ? goodNewsArticlesQuery : undefined,
-        ftEnabledVolunteering || ftPreviewVolunteering ? volunteeringEngagementsQuery : undefined,
+        donationsEnabled ? donationProjectsQuery : undefined,
+        goodnewsEnabled ? goodNewsArticlesQuery : undefined,
+        volunteeringEnabled ? volunteeringEngagementsQuery : undefined,
         isLoggedIn ? userSuggestionsQuery : undefined,
       ].filter((q) => q !== undefined) as DocumentNode[],
     })
@@ -100,28 +94,38 @@ const HomeFeed = () => {
 
   return (
     <>
-      <ScrollHeaderLayout.Refreshable
-        refreshableProps={{
+      <ScrollHeaderLayout
+        refreshControlProps={{
           refreshing,
           onRefresh,
         }}
-        style={[styles.layout, { backgroundColor: colors.white200 }]}
+        style={{ backgroundColor: colors.white200 }}
+        contentContainerStyle={styles.layout}
       >
         <View style={styles.sections}>
-          <HomeFeedHeader />
-          {ftEnabledChallenges && <AttendingChallengeEvents />}
-          {ftEnabledPosts && <AllPosts />}
-          <RecommendedChallenges />
-          <InspirationPosts />
+          <Animated.View entering={FadeInDown}>
+            <HomeFeedHeader />
+          </Animated.View>
 
-          <InsightsOfTheWeek />
-          <Recommendations />
+          <AttendingChallengeEvents />
+          <ErrorBoundary>
+            <AllPosts />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <RecommendedChallenges />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <InsightsOfTheWeek />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Recommendations />
+          </ErrorBoundary>
           {isLoggedIn && <UserSuggestions />}
         </View>
-      </ScrollHeaderLayout.Refreshable>
+      </ScrollHeaderLayout>
 
-      {/* Floating CreatePostButton need to be outside of the Layout */}
-      {ftEnabledPosts && <CreatePostButton />}
+      {/* Floating CreatePostButton need to be outside the Layout */}
+      <CreatePostButton />
 
       <OnboardingInitializer />
     </>

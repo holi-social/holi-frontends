@@ -1,14 +1,13 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import FeatureToggleGuard from '@holi/core/components/FeatureToggleGuard'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { useLogout } from '@holi/core/helpers'
-import { FeatureToggleName, useFeatureToggle } from '@holi/core/helpers/useFeatureToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -34,7 +33,7 @@ const SettingsOverview = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
-  const { ftEnabled } = useFeatureToggle(FeatureToggleName.THEME_TOGGLE)
+  const [themeToggleEnabled] = useFeatureFlag(FeatureFlagKey.THEME_TOGGLE)
   const { logout, isLoggingOut } = useLogout()
   const { theme, toggleDarkMode } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -50,7 +49,7 @@ const SettingsOverview = () => {
   }, [setScreenOptions, t])
 
   return (
-    <ScrollHeaderLayout.Default>
+    <ScrollView>
       <LoginProtection>
         <View style={[mixins.container, styles.settingsOverview]}>
           <MoreOptionItem
@@ -75,15 +74,13 @@ const SettingsOverview = () => {
             onPress={() => navigate('/profile/settings/tracking')}
             style={styles.settingsItem}
           />
-          <FeatureToggleGuard toggleName={FeatureToggleName.FAVORITES} featureNameKey="favorites" noLayout>
-            <MoreOptionItem
-              label={t('profile.settings.favorites.title')}
-              icon={Bookmark3Line}
-              iconRightStyle="arrow"
-              onPress={() => navigate('/profile/settings/favorites')}
-              style={styles.settingsItem}
-            />
-          </FeatureToggleGuard>
+          <MoreOptionItem
+            label={t('profile.settings.favorites.title')}
+            icon={Bookmark3Line}
+            iconRightStyle="arrow"
+            onPress={() => navigate('/profile/settings/favorites')}
+            style={styles.settingsItem}
+          />
           <MoreOptionItem
             label={t('profile.settings.help.title')}
             icon={Help}
@@ -109,7 +106,7 @@ const SettingsOverview = () => {
               testID="btn-about"
             />
           )}
-          {ftEnabled && (
+          {themeToggleEnabled && (
             <MoreOptionItem
               label={t('global.theme.toggle')}
               icon={theme.dark ? Sun : SunFilled}
@@ -144,7 +141,7 @@ const SettingsOverview = () => {
       </LoginProtection>
 
       {isLoggingOut && <HoliLoader />}
-    </ScrollHeaderLayout.Default>
+    </ScrollView>
   )
 }
 

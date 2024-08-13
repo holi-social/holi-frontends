@@ -5,9 +5,9 @@ import React from 'react'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 
-const mockUseAuth = jest.fn()
-jest.mock('@holi/core/auth/helpers/useAuth', () => ({
-  useAuth: () => mockUseAuth(),
+const mockUseLoginState = jest.fn()
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: () => mockUseLoginState(),
 }))
 
 const mockUseLoggedInUser = jest.fn()
@@ -15,12 +15,9 @@ jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 
-const mockUseFeatureToggle = jest.fn()
-jest.mock('@holi/core/helpers/useFeatureToggle', () => ({
-  useFeatureToggle: () => mockUseFeatureToggle(),
-  FeatureToggleName: {
-    THEME_TOGGLE: 'THEME_TOGGLE',
-  },
+const mockUseFeatureFlag = jest.fn()
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: () => mockUseFeatureFlag(),
 }))
 
 const insightsCountRequest = {
@@ -39,7 +36,7 @@ const insightsCountRequest = {
 
 describe('OwnProfile', () => {
   beforeEach(() => {
-    mockUseFeatureToggle.mockReturnValue({ ftEnabled: false })
+    mockUseFeatureFlag.mockReturnValue([false, undefined])
   })
 
   it('renders profile when logged in', () => {
@@ -47,7 +44,7 @@ describe('OwnProfile', () => {
       isLoggedIn: true,
       user: { id: '123', fullName: 'Test User' },
     })
-    mockUseAuth.mockReturnValue({
+    mockUseLoginState.mockReturnValue({
       loginState: 'loggedIn',
     })
 
@@ -68,11 +65,15 @@ describe('OwnProfile', () => {
       isLoggedIn: false,
       isLoading: false,
     })
-    mockUseAuth.mockReturnValue({
+    mockUseLoginState.mockReturnValue({
       loginState: 'loggedOut',
     })
 
-    render(<OwnProfile />)
+    render(
+      <MockedProvider addTypename={false}>
+        <OwnProfile />
+      </MockedProvider>
+    )
 
     expect(screen.queryByText('profile.anonymous.you')).toBeTruthy()
     expect(screen.queryByText('auth.loginProtection.registration')).toBeTruthy()

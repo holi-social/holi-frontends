@@ -34,11 +34,11 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
 
   const selectTabWithIndex = useCallback(
     (tabIndex: number) => {
-      if (tabIndex >= 0 && tabIndex < tabNamesInOrder.length) {
+      if (tabIndex >= 0 && tabIndex < tabNamesInOrder.length && currentTabName != tabNamesInOrder[tabIndex]) {
         updateParams({ tab: tabNamesInOrder[tabIndex] })
       }
     },
-    [tabNamesInOrder, updateParams]
+    [tabNamesInOrder, updateParams, currentTabName]
   )
 
   useEffect(() => {
@@ -50,7 +50,9 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
     if (initialTabName) {
       const tabIndex = getTabIndexForName(initialTabName)
       if (tabIndex !== undefined && tabIndex >= 0) {
-        updateParams({ tab: initialTabName })
+        if (initialTabName != currentTabName) {
+          updateParams({ tab: initialTabName })
+        }
         setInitialTabIndex(tabIndex)
       }
     }
