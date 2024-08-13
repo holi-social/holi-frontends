@@ -129,7 +129,7 @@ const ColorBlock = ({ name, code, description, cssClass, isGradient = false }: C
 }
 
 export default {
-  title: 'Foundations/Colors',
+  title: 'Foundations/Legacy Colors',
   parameters: {
     docs: {
       description: {
