@@ -2,6 +2,7 @@ import { PostHog } from 'posthog-js'
 import { usePostHog } from 'posthog-js/react'
 import { useMemo } from 'react'
 
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { PosthogCrossPlatform, Properties } from '@holi/core/tracking/types'
 
 export class PosthogWeb implements PosthogCrossPlatform {
@@ -10,7 +11,7 @@ export class PosthogWeb implements PosthogCrossPlatform {
   }
 
   distinctId() {
-    return this.posthog.get_distinct_id()
+    return isSSR ? '' : this.posthog.get_distinct_id()
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
