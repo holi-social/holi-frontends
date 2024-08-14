@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliConfirmation, { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -25,14 +27,16 @@ export const LoginGuardModal = ({
   const { navigate } = useRouting()
   const { props } = useConfirmationState()
   const pathname = usePathname()
+  const { track } = useTracking()
 
   const confirmHandler = useCallback(() => {
+    track(TrackingEvent.Auth.LoginButtonPressed)
     setPathToRedirect(pathname)
     navigate('/login')
 
     const confirmPropagation = onConfirm?.()
     if (confirmPropagation !== false) props.onConfirm?.()
-  }, [navigate, onConfirm, pathname, props])
+  }, [navigate, onConfirm, pathname, props, track])
 
   const dismissHandler = useCallback(() => {
     const dismissPropagation = onDismiss?.()
