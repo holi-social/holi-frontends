@@ -1,6 +1,6 @@
 import { Term, Topic } from '@holi/core/screens/userprofile/types'
 import type { User } from '@holi/core/screens/userprofile/types'
-import type { Paged } from '@holi/core/types'
+import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export enum VisibilityLevel {
   PUBLIC = 'PUBLIC',
@@ -42,6 +42,8 @@ export interface FeedPost {
   description: string
   imageUrl?: string
   visibility: VisibilityLevel
+  location?: string
+  geolocation?: GeolocationPoint
   topics?: Topic[]
   category: Category
   author: User

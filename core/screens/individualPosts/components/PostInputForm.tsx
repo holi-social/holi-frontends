@@ -3,10 +3,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
+import FormWrapper from '@holi/core/components/FormWrapper'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
 import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
+import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
 import {
@@ -17,6 +20,8 @@ import {
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Term, User } from '@holi/core/screens/userprofile/types'
 import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -47,12 +52,14 @@ export interface PostInputFormProps {
   selectedCategoryId: string | null
   currentImage?: string
   selectedTopics?: Term[]
+  selectedLocation?: GeolocationSuggestion
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
   onChangeImage: (image: HoliImageInfo | null) => void
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
+  onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   onSubmit: () => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
@@ -69,6 +76,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   mentions = [],
   selectedVisibility,
   selectedCategoryId,
+  selectedLocation,
   currentImage,
   selectedTopics,
   onChangeTitle,
@@ -76,6 +84,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   onChangeSelectedVisibility,
   onChangeImage,
   onChangeSelectedTopics,
+  onChangeSelectedLocation,
   onSubmit,
   isEdit = false,
   submitting,
@@ -91,6 +100,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
+  const { show: showLocationModal, hide: hideLocationModal, visible: visibleLocationModal } = useModalState()
 
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
@@ -130,6 +140,15 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const descriptionPlaceholder =
     categories?.find((category) => category.id === selectedCategoryId)?.description ??
     t('individuals.post.input.category.input.description')
+
+  const handleLocationChange = (selected?: GeolocationSuggestion) => {
+    selected ? onChangeSelectedLocation(selected) : onChangeSelectedLocation(null)
+  }
+
+  const onSafeLocation = () => {
+    handleLocationChange(selectedLocation)
+    hideLocationModal()
+  }
 
   return (
     <>
@@ -181,6 +200,15 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               isEdit={isEdit}
               scrollEnabled={false}
             />
+            {selectedLocation?.label && (
+              <View style={styles.locationCard}>
+                <PostLocationCard
+                  location={selectedLocation.label}
+                  editLocation={showLocationModal}
+                  removeLocation={() => onChangeSelectedLocation(null)}
+                />
+              </View>
+            )}
 
             <View style={styles.imageEditor}>
               <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
@@ -191,6 +219,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         <SubmitPostBar
           onSubmit={submit}
           onSetImage={onChangeImage}
+          showModal={showLocationModal}
           hasSetImage={!!image}
           submitting={submitting}
           isSubmittable={isSubmittable}
@@ -229,6 +258,49 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         >
           <PostTopics onChangeSelectedTopics={onChangeSelectedTopics} selectedTopicsIds={selectedTopics || []} />
         </HoliModalContentWrapper>
+      </HoliModal>
+      <HoliModal
+        label={t('individuals.post.input.topics.title')}
+        show={visibleLocationModal}
+        onDismiss={hideLocationModal}
+        testID="post-location-input"
+        style={styles.locationModal}
+      >
+        <FormWrapper
+          headlineText={t('individuals.post.input.topics.title')}
+          isModal
+          onSave={onSafeLocation}
+          keyboardShouldPersistTaps="handled"
+          showCancelButton
+          onCancel={hideLocationModal}
+          showBottomBar
+          saveButtonDisabled={!selectedLocation}
+          style={styles.locationModal}
+          renderProp={() => (
+            <>
+              <View style={styles.locationContainer}>
+                <HoliHeading level="1" size="m">
+                  {t('individuals.post.input.location.title')}
+                </HoliHeading>
+                <HoliText color="gray300" size="small">
+                  {t('individuals.post.input.location.description')}
+                </HoliText>
+              </View>
+              <PlacesAutocomplete
+                label={t('individuals.post.input.location')}
+                placeholder={t('spaces.input.location.placeholder')}
+                selected={selectedLocation}
+                id="post-location-input"
+                testID="post-location-input"
+                onChange={handleLocationChange}
+                style={[styles.input, { zIndex: 2 }]}
+                inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
+                suggestionsStyle={styles.suggestionsContainer}
+                enhanceWithDetails
+              />
+            </>
+          )}
+        />
       </HoliModal>
     </>
   )
@@ -313,6 +385,30 @@ const getStyles = (theme: HoliTheme) =>
       bottom: Platform.OS === 'web' ? 64 : 96,
       left: 0,
       right: 0,
+    },
+    input: {
+      marginBottom: 16,
+    },
+    suggestionsContainer: {
+      backgroundColor: theme.colors.background10,
+    },
+
+    locationContainer: {
+      width: '100%',
+      gap: 8,
+      paddingBottom: 24,
+    },
+    locationModal: {
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        web: {
+          height: '50%',
+        },
+      }),
+    },
+    locationCard: {
+      padding: 8,
+      paddingTop: 24,
     },
   })
 
