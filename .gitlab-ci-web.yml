@@ -53,7 +53,28 @@ default:
     - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
   tags:
-    - 4cpu-16gb
+    - 4cpu-
+    
+.web_destroy:
+  image:
+    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.6.6'
+    # default entrypoint is terraform command, but we want to run shell scripts
+    entrypoint: ['/bin/sh', '-c']
+  variables:
+    # has to be set to none for auto stop
+    GIT_STRATEGY: none
+  cache: [] # explicitly disable caching
+  dependencies: [] # explicitly disable artifact usage
+  before_script:
+  script:
+    # branch may have been deleted, so we clone and checkout main
+    - git clone $CI_REPOSITORY_URL main-clone
+    - cd main-clone
+    - terraform/environments/web/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
+  # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
+  allow_failure: false
+  resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
+  interruptible: false
 
 # end job templates
 
@@ -148,7 +169,7 @@ web_review_deploy:
     on_stop: web_review_destroy
     auto_stop_in: 1 week
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /^main|^production.*|^release/.*|^noenv\/.*|^noweb\/.*/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: on_success
@@ -165,34 +186,16 @@ web_review_e2e:
       when: on_success
 
 web_review_destroy:
+  extends: ['.web_destroy']
   needs: ['web_review_deploy']
-  image:
-    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.6.6'
-    # default entrypoint is terraform command, but we want to run shell scripts
-    entrypoint: ['/bin/sh', '-c']
-  variables:
-    # has to be set to none for auto stop
-    GIT_STRATEGY: none
   environment:
     name: review/$CI_COMMIT_REF_SLUG-web
     action: stop
-  cache: [] # explicitly disable caching
-  dependencies: [] # explicitly disable artifact usage
-  before_script:
-  script:
-    # branch may have been deleted, so we clone and checkout main
-    - git clone $CI_REPOSITORY_URL main-clone
-    - cd main-clone
-    - terraform/environments/web/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
-  # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
-  allow_failure: false
   rules:
     - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: manual
-  resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
-  interruptible: false
 
 ## staging environment
 
@@ -230,4 +233,36 @@ web_production_deploy:
     ENVIRONMENT_ID: production
   rules:
     - if: $CI_COMMIT_BRANCH =~ /^production.*|^hotfix.*/
+      when: manual
+
+## release environments
+
+web_release_candidate_deploy:
+  extends: .web_deploy
+  needs: ['web_build_docker']
+  environment:
+    name: release/$CI_COMMIT_REF_SLUG-web
+    url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
+    on_stop: web_release_candidate_destroy
+    auto_stop_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release/*/
+      when: on_success
+
+web_release_candidate_e2e:
+  extends: .web_e2e
+  needs: ['web_release_candidate_deploy']
+  dependencies:
+    - web_release_candidate_deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release/*/
+
+web_release_candidate_destroy:
+  extends: ['.web_destroy']
+  needs: ['web_release_candidate_deploy']
+  environment:
+    name: release/$CI_COMMIT_REF_SLUG-web
+    action: stop
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release/*/
       when: manual
