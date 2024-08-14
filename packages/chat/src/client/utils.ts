@@ -234,8 +234,15 @@ export function createBaseChatRoom(
   homeserverUrl: string,
   hasInvitation = false
 ): BaseChatRoom {
-  const lastMessageEvent = getLastMessageEvent(room, roomType)
-  const lastMessage = lastMessageEvent && createChatMessage(room.roomId, lastMessageEvent)
+  // Valid events are 'm.room.message' and 'm.room.member' events
+  // where 'membership' was changed and not 'content' (when user updates 'avatar' or 'displayname')
+  const lastValidEvent = getLastMessageEvent(room, roomType) ?? getLastMembershipEvent(room, roomType)
+  const lastMessage = lastValidEvent && createChatMessage(room.roomId, lastValidEvent)
+  const timestamp =
+    lastMessage?.timestamp ?? // try to get directly timestamp from the last message first
+    // do not use `room.getLastActiveTimestamp()` because it can return Membership 'm.room.member' events
+    // where only content (user avatar or displayname) was updated, but membership remains the same.
+    room.getLiveTimeline().getState(EventTimeline.BACKWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs() // as fallback use room creation timestamp
 
   const roomMxCreatorId = room.getCreator()
   const roomMxCreator = roomMxCreatorId ? room.getMember(roomMxCreatorId) : null
@@ -255,10 +262,7 @@ export function createBaseChatRoom(
     members: room
       .getMembers()
       .map((member) => createChatMember(member, member.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true))),
-    timestamp:
-      room.getLastActiveTimestamp() > 0
-        ? room.getLastActiveTimestamp()
-        : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
+    timestamp,
   }
 }
 
@@ -395,18 +399,7 @@ export const getLastMessageEvent = (room: Room, roomType: ChatRoomType): IRoomEv
   if (roomType === 'space') return undefined
 
   const timelineEvents = room.getLiveTimeline().getEvents()
-  const event = timelineEvents.findLast((event) => {
-    return (
-      isMessageEvent(event) ||
-      (isMembershipEvent(event) &&
-        isJoinOrLeaveEvent(event) &&
-        // when user updates 'avatar' or 'displayname' a new 'm.room.member' event is triggered for all rooms
-        // where only 'content' changes, but 'membership' remains the same
-        // we don't want to show these events
-        !isMembershipAvatarUpdate(event) &&
-        !isMembershipDisplaynameUpdate(event))
-    )
-  })?.event
+  const event = timelineEvents.findLast((event) => isMessageEvent(event))?.event
 
   return event && isIRoomEvent(event) ? event : undefined
 }
@@ -415,6 +408,32 @@ export const isMessageEvent = (event: MatrixEvent) => event.getType() === EventT
 
 export const isRoomMessageEvent = (event: IRoomEvent | Partial<IEvent> | undefined): event is IRoomEvent => {
   return event?.type === EventType.RoomMessage
+}
+
+/**
+ * @description return an optional IRoomEvent for last supported message of the room.
+ * for rooms of type:
+ * - 'space' returns undefined, because we do not show rooms of this type
+ * - 'space.child' supports 'm.room.message' and 'm.room.membership' events
+ * - 'private' supports only 'm.room.message' events
+ */
+export const getLastMembershipEvent = (room: Room, roomType: ChatRoomType): IRoomEvent | undefined => {
+  if (roomType === 'space') return undefined
+
+  const timelineEvents = room.getLiveTimeline().getEvents()
+  const event = timelineEvents.findLast((event) => {
+    return (
+      isMembershipEvent(event) &&
+      isJoinOrLeaveEvent(event) &&
+      // when user updates 'avatar' or 'displayname' a new 'm.room.member' event is triggered for all rooms
+      // where only 'content' changes, but 'membership' remains the same
+      // we don't want to show these events
+      !isMembershipAvatarUpdate(event) &&
+      !isMembershipDisplaynameUpdate(event)
+    )
+  })?.event
+
+  return event && isIRoomEvent(event) ? event : undefined
 }
 
 /**
