@@ -309,8 +309,12 @@ export default class ChatClient {
     return await this.mxClient.createRoom({ ...options, invite: userIds })
   }
 
-  public async createMessagesRequest(roomId: string, fromToken: string | null = null): Promise<MxMessagesResponse> {
-    const { chunk, ...rest } = await this.mxClient.createMessagesRequest(roomId, fromToken, 40, Direction.Backward)
+  public async createMessagesRequest(
+    roomId: string,
+    fromToken: string | null = null,
+    limit = 40
+  ): Promise<MxMessagesResponse> {
+    const { chunk, ...rest } = await this.mxClient.createMessagesRequest(roomId, fromToken, limit, Direction.Backward)
 
     return { ...rest, chunk: filterMessagesChunk(chunk) }
   }
