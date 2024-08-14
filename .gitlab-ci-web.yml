@@ -102,7 +102,7 @@ web_build:
   tags:
     - 4cpu-16gb
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /^noweb\/.*$/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: on_success
@@ -153,7 +153,7 @@ web_build_docker:
     - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG # just for easyly knowing which is the last image for a branch
   interruptible: true
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /^noenv\/.*$|^noweb\/.*$/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: on_success
@@ -232,7 +232,7 @@ web_production_deploy:
   variables:
     ENVIRONMENT_ID: production
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^production.*|^hotfix.*/
+    - if: $CI_COMMIT_BRANCH =~ /^production.*$|^hotfix.*$/ # why hotfix here? review pipeline builds this as well
       when: manual
 
 ## release environments
@@ -246,7 +246,7 @@ web_release_candidate_deploy:
     on_stop: web_release_candidate_destroy
     auto_stop_in: 1 week
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^release/*/
+    - if: $CI_COMMIT_BRANCH =~ /^release\/.*$/
       when: on_success
 
 web_release_candidate_e2e:
@@ -255,7 +255,7 @@ web_release_candidate_e2e:
   dependencies:
     - web_release_candidate_deploy
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^release/*/
+    - if: $CI_COMMIT_BRANCH =~ /^release\/.*$/
 
 web_release_candidate_destroy:
   extends: ['.web_destroy']
@@ -264,5 +264,5 @@ web_release_candidate_destroy:
     name: release/$CI_COMMIT_REF_SLUG-web
     action: stop
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^release/*/
+    - if: $CI_COMMIT_BRANCH =~ /^release\/.*$/
       when: manual
