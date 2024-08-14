@@ -169,7 +169,7 @@ web_review_deploy:
     on_stop: web_review_destroy
     auto_stop_in: 1 week
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^main|^production.*|^release/.*|^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^release/.*|^noenv\/.*|^noweb\/.*/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: on_success
@@ -180,7 +180,7 @@ web_review_e2e:
   dependencies:
     - web_review_deploy
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^release/.*|^noenv\/.*|^noweb\/.*/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: on_success
@@ -192,7 +192,7 @@ web_review_destroy:
     name: review/$CI_COMMIT_REF_SLUG-web
     action: stop
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^noenv\/.*|^noweb\/.*/
+    - if: $CI_COMMIT_BRANCH =~ /main|^production.*|^release/.*|^noenv\/.*|^noweb\/.*/
       when: never
     - if: $CI_COMMIT_BRANCH
       when: manual
