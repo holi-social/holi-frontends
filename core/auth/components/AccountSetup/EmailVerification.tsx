@@ -9,12 +9,13 @@ import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFl
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
+import { HoliButtonLoadingTracked } from '@holi/core/components/HoliButtonLoadingTracked'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
-import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
+import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -193,30 +194,32 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
         />
 
         <HoliBox padding={[16, 0, 0, 0]}>
-          <HoliTextLink
+          <HoliTextLinkTracked
             label={t('registration.emailVerification.resendEmail')}
             href=""
             onPress={resendEmail}
             size="small"
+            trackingEvent={TrackingEvent.Auth.ResendEmailButtonPressed}
           >
             {t('registration.emailVerification.resendEmail')}
-          </HoliTextLink>
+          </HoliTextLinkTracked>
         </HoliBox>
 
         <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-          <HoliButtonLoading
+          <HoliButtonLoadingTracked
             label={t('registration.emailVerification.activateAccount')}
             disabled={code.length !== CODE_MAX_COUNT}
             onPress={verifyEmail}
             type="primary"
             testID="btn-submit-code"
+            trackingEvent={TrackingEvent.Auth.ActivateAccountButtonPressed}
           >
             {t('registration.emailVerification.activateAccount')}
-          </HoliButtonLoading>
+          </HoliButtonLoadingTracked>
         </HoliBox>
 
         <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-          <HoliButtonLoading
+          <HoliButtonLoadingTracked
             label={t('auth.loginProtection.continueAsGuest')}
             onPress={async () => {
               isLoggedIn && (await logout({ redirectPath: '/', showToastAfter: false }).catch(() => null)) // ignore logout error
@@ -226,9 +229,10 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
             }}
             type="secondary"
             testID="btn-to-continue-as-guest"
+            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
           >
             {t('auth.loginProtection.continueAsGuest')}
-          </HoliButtonLoading>
+          </HoliButtonLoadingTracked>
         </HoliBox>
 
         {isLoaderShown && <HoliLoader />}
