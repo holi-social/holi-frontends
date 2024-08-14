@@ -4,6 +4,7 @@ import React from 'react'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
 import { logError } from '@holi/core/errors/helpers'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries'
 import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
@@ -21,11 +22,12 @@ export interface SpacesTabProps {
 }
 
 const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) => {
-  const { data } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
+  const { data, refetch } = useQuery<SpacesByMemberIdResponse>(spacesByMemberIdQuery, {
     variables: { memberId },
     onError: (error) =>
       logError(error, 'Failed to load spaces for user', { location: 'SpacesTab.spacesByMemberIdQuery' }),
   })
+  useOnRefresh(refetch)
 
   if (!data) return null
   const spaces = data.spaces

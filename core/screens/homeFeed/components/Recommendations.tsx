@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
@@ -47,13 +46,7 @@ const Recommendations = () => {
 
       {displayDonations && (
         <HoliContainer>
-          <PosthogFeatureFlagGuard
-            featureFlagKey={FeatureFlagKey.DONATIONS}
-            i18nKey="donations:maintenance.feature"
-            noLayout
-          >
-            <DonationUpdates style={styles.updatesContainer} />
-          </PosthogFeatureFlagGuard>
+          <DonationUpdates style={styles.updatesContainer} />
         </HoliContainer>
       )}
 
@@ -71,13 +64,7 @@ const Recommendations = () => {
 
       {displayGoodNews && (
         <HoliContainer>
-          <PosthogFeatureFlagGuard
-            featureFlagKey={FeatureFlagKey.GOODNEWS}
-            i18nKey="goodnews:maintenance.feature"
-            noLayout
-          >
-            <GoodNewsUpdates style={styles.updatesContainer} />
-          </PosthogFeatureFlagGuard>
+          <GoodNewsUpdates style={styles.updatesContainer} />
         </HoliContainer>
       )}
     </View>

@@ -1,11 +1,10 @@
 import { useQuery } from '@apollo/client'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -91,8 +90,9 @@ const SpaceAppointments = () => {
     },
   }
 
-  const { refreshing, onRefresh } = useOnRefresh(() =>
-    Promise.all([refetchUpcomingAppointments(), refetchPastAppointments()])
+  const onRefresh = useCallback(
+    () => Promise.all([refetchUpcomingAppointments(), refetchPastAppointments()]),
+    [refetchPastAppointments, refetchUpcomingAppointments]
   )
 
   useRefreshOnNavigation({ initialized: called, onRefresh })
@@ -115,7 +115,6 @@ const SpaceAppointments = () => {
             style: styles.tabStyle,
             children: (
               <ScrollViewRefreshable
-                refreshableProps={{ refreshing, onRefresh }}
                 style={[mixins.container, styles.all, { minHeight: '100%' }]}
                 webWrapperStyle={{ justifyContent: 'center' }}
               >
@@ -137,7 +136,6 @@ const SpaceAppointments = () => {
             style: styles.tabStyle,
             children: (
               <ScrollViewRefreshable
-                refreshableProps={{ refreshing, onRefresh }}
                 style={[mixins.container, styles.all]}
                 webWrapperStyle={{ justifyContent: 'center' }}
               >

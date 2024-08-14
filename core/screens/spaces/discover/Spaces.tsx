@@ -11,7 +11,6 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -19,6 +18,7 @@ import NotificationAndSearchHeader from '@holi/core/navigation/components/header
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
 import { type SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
@@ -68,7 +68,7 @@ const Spaces = () => {
     tabNamesInOrder,
   })
 
-  const { refreshing, onRefresh } = useOnRefresh(() =>
+  useOnRefresh(() =>
     client.refetchQueries({
       include: [isLoggedIn ? mySpaceQuery : undefined, discoverSpacesQuery].filter((q) => !!q) as DocumentNode[],
     })
@@ -144,15 +144,7 @@ const Spaces = () => {
         ogTitle={t('metatags.spaces.og.title')}
         ogDescription={t('metatags.spaces.og.description')}
       />
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        ref={pageViewRef}
-        style={styles.layout}
-        onScroll={onScreenScroll}
-      >
+      <ScrollHeaderLayout ref={pageViewRef} style={styles.layout} onScroll={onScreenScroll}>
         {!hasOwnSpaces ? (
           /* User has NO spaces => show discover view */
           <HoliContainer flex={1}>

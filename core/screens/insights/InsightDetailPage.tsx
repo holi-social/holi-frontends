@@ -11,12 +11,12 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { getLocale, getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import generateRecommendationTitle from '@holi/core/i18n/helpers/generateRecommendationTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
 import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
@@ -87,7 +87,7 @@ const InsightDetailPage = () => {
   })
   const setScreenOptions = useSetScreenOptions()
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -219,14 +219,7 @@ const InsightDetailPage = () => {
       />
       <StatusBar style="light" animated />
 
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        headerRelation="overlap"
-        style={styles.wrapper}
-      >
+      <ScrollHeaderLayout headerRelation="overlap" style={styles.wrapper}>
         {insight && !loading ? (
           <>
             <HoliImageBackground

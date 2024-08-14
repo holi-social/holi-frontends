@@ -6,7 +6,6 @@ import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -140,8 +139,9 @@ const EditSpaceCollaborators = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  const { refreshing, onRefresh } = useOnRefresh(() =>
-    Promise.all([refetchMembers(), refetchPendingRequests(), refetchPendingInvites()])
+  const onRefresh = useCallback(
+    () => Promise.all([refetchMembers(), refetchPendingRequests(), refetchPendingInvites()]),
+    [refetchMembers, refetchPendingInvites, refetchPendingRequests]
   )
 
   useRefreshOnNavigation({ initialized: called, onRefresh })
@@ -172,10 +172,7 @@ const EditSpaceCollaborators = () => {
             title: t('spaces.collaborators.manage.tabs.all'),
             style: styles.tabStyle,
             children: (
-              <ScrollViewRefreshable
-                refreshableProps={{ refreshing, onRefresh }}
-                style={[mixins.container, styles.all]}
-              >
+              <ScrollViewRefreshable style={[mixins.container, styles.all]}>
                 <Pagination
                   query={spaceMembersQuery}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
@@ -192,10 +189,7 @@ const EditSpaceCollaborators = () => {
             title: t('spaces.collaborators.manage.tabs.requests'),
             style: styles.tabStyle,
             children: (
-              <ScrollViewRefreshable
-                refreshableProps={{ refreshing, onRefresh }}
-                style={[mixins.container, styles.all]}
-              >
+              <ScrollViewRefreshable style={[mixins.container, styles.all]}>
                 <Pagination
                   query={spaceMembershipRequestsQuery}
                   queryOptions={{
@@ -222,10 +216,7 @@ const EditSpaceCollaborators = () => {
             title: t('spaces.collaborators.manage.tabs.invites'),
             style: styles.tabStyle,
             children: (
-              <ScrollViewRefreshable
-                refreshableProps={{ refreshing, onRefresh }}
-                style={[mixins.container, styles.all]}
-              >
+              <ScrollViewRefreshable style={[mixins.container, styles.all]}>
                 <Pagination
                   query={spaceInvitesQuery}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.invites', fetchPolicy: 'cache-and-network' }}

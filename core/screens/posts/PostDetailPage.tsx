@@ -11,12 +11,12 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { ContentType } from '@holi/core/queries'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
@@ -72,7 +72,12 @@ const PostDetailPage = () => {
 
   const isWeb = Platform.OS === 'web'
 
-  const { loading, error, data } = useQuery<PostByIdResponse>(PostById, {
+  const {
+    loading,
+    error,
+    data,
+    refetch: refetchPost,
+  } = useQuery<PostByIdResponse>(PostById, {
     variables: { id: postId },
     skip: !postId,
     onError: (error) => {
@@ -83,7 +88,7 @@ const PostDetailPage = () => {
     },
   })
 
-  const { data: { commentable } = {}, refetch } = useQuery<CommentsResponse>(commentsByCommentable, {
+  const { data: { commentable } = {}, refetch: refetchComments } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId: postId, commentableType: CommentableType.POST },
     skip: !postId,
     fetchPolicy: 'cache-and-network',
@@ -94,7 +99,8 @@ const PostDetailPage = () => {
       })
     },
   })
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetchPost)
+  useOnRefresh(refetchComments)
 
   const post = data?.postById
   const title = post?.title
@@ -154,13 +160,7 @@ const PostDetailPage = () => {
       />
       <StatusBar animated />
 
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        ref={scrollViewRef}
-      >
+      <ScrollHeaderLayout ref={scrollViewRef}>
         <View style={screenWidth > dimensions.breakpointXl && mixins.container} testID="post-detail-view">
           <PostContent
             hasVisibilityIcon={hasVisibilityIcon}
