@@ -16,6 +16,13 @@ export const FeedPostSchema = z.object({
   image: z.instanceof(Object).optional().nullable(),
   postId: z.string().optional(), // for edit post
   language: z.string().optional(),
+  location: z.string().optional(),
+  geolocation: z
+    .object({
+      latitude: z.number().optional(),
+      longitude: z.number().optional(),
+    })
+    .optional(),
 })
 
 export type CreateFeedPostInput = z.infer<typeof FeedPostSchema>

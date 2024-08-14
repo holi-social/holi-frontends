@@ -6,6 +6,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -60,6 +61,7 @@ const EditPost = () => {
   const [currentImage, setCurrentImage] = useState<string>()
   const [selectedTopics, setSelectedTopics] = useState<Term[] | []>()
   const [showCategories, setShowCategories] = useState(false)
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
   const { data: { post } = {}, loading: loadingPost } = useQuery<PostQueryResponse>(postQuery, {
     variables: { idOrSlug },
@@ -98,6 +100,11 @@ const EditPost = () => {
           image: image === null ? null : image?.blob,
           topicIds: selectedTopics?.map((topic) => topic.id),
           language: data?.detectedLanguage,
+          location: selectedLocation?.label || '',
+          geolocation: {
+            latitude: selectedLocation?.coordinates?.latitude || 0,
+            longitude: selectedLocation?.coordinates?.longitude || 0,
+          },
         },
       },
       onError: (error) => {
@@ -122,6 +129,7 @@ const EditPost = () => {
       setSelectedCategoryId(post.category.id)
       setSelectedVisibility(Visibility[post.visibility])
       setSelectedTopics(post.topics)
+      setSelectedLocation({ label: post.location, id: '', coordinates: post.geolocation || undefined })
     }
   }, [post])
 
@@ -183,6 +191,8 @@ const EditPost = () => {
               onChangeSelectedVisibility={setSelectedVisibility}
               selectedTopics={selectedTopics}
               onChangeSelectedTopics={setSelectedTopics}
+              selectedLocation={selectedLocation}
+              onChangeSelectedLocation={setSelectedLocation}
               onSubmit={editPost}
               submitting={submitting}
               currentImage={currentImage}

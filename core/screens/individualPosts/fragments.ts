@@ -51,6 +51,11 @@ export const FeedPostDetailsFragment = gql`
       fullName
     }
     language
+    location
+    geolocation {
+      latitude
+      longitude
+    }
   }
 `
 
