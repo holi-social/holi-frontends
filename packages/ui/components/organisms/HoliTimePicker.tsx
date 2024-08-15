@@ -1,5 +1,5 @@
 import DateTimePicker, { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -7,7 +7,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { numberToStringWithPad } from '@holi/ui/helper/date'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliTimePickerProps {
@@ -32,27 +31,44 @@ const HoliTimePicker = ({
   isRequired,
 }: HoliTimePickerProps) => {
   const [showPickerIOS, setShowPickerIOS] = useState(false)
+
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  // the datetimepicker package works with timestamps and thus we create a date and ignore the month, day and year later
-  const date = new Date()
-  date.setHours(+(valueHours || 0))
-  date.setMinutes(+(valueMinutes || 0))
+  const assembleDate = (hours?: string, minutes?: string) => {
+    const date = new Date()
+    date.setHours(Number(hours ?? 0))
+    date.setMinutes(Number(minutes ?? 0))
 
-  const onChange = (event: DateTimePickerEvent) => {
+    return date
+  }
+
+  // the datetimepicker package works with timestamps and thus we create a date and ignore the month, day and year later
+  const date = assembleDate(valueHours, valueMinutes)
+
+  const [newValueIOS, setNewValueIOS] = useState<Date>(date)
+
+  useEffect(() => {
+    setNewValueIOS(assembleDate(valueHours, valueMinutes))
+  }, [valueHours, valueMinutes])
+
+  const onChange = (chosenDate: Date) => {
+    onChangeHours(chosenDate.getHours().toString().padStart(2, '0'))
+    onChangeMinutes(chosenDate.getMinutes().toString().padStart(2, '0'))
+  }
+
+  const onChangeEvent = (event: DateTimePickerEvent) => {
     const chosenDate = new Date(event.nativeEvent.timestamp || 0)
-    onChangeHours(numberToStringWithPad(chosenDate.getHours()) + '')
-    onChangeMinutes(numberToStringWithPad(chosenDate.getMinutes()) + '')
+    onChange(chosenDate)
   }
 
   const showPicker = () => {
     if (Platform.OS === 'android') {
       DateTimePickerAndroid.open({
         value: date, // YYYY-MM-DDTHH:mm:ss.sssZ
-        onChange,
+        onChange: onChangeEvent,
         mode: 'time',
         is24Hour: true,
         display: 'clock',
@@ -96,15 +112,21 @@ const HoliTimePicker = ({
           show={showPickerIOS}
           label={t('global.time')}
           autoHeight
-          onDismiss={() => setShowPickerIOS(false)}
+          onDismiss={() => {
+            setShowPickerIOS(false)
+            if (!newValueIOS) return
+            onChange(newValueIOS)
+          }}
           style={styles.modal}
         >
           <DateTimePicker
             testID={testID}
-            value={date}
+            value={newValueIOS}
             mode="time"
             is24Hour={true}
-            onChange={onChange}
+            onChange={(event) =>
+              event.nativeEvent?.timestamp && setNewValueIOS(new Date(event.nativeEvent.timestamp ?? 0))
+            }
             locale="de_DE" // necessary in order to force military time (not AM/PM)
             display="spinner"
             textColor={colors.foreground30}
