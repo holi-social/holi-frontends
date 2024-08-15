@@ -11,6 +11,7 @@ fragment FullUser on User {
   aboutMe
   pronouns
   location
+
   geolocationId
   engagementLevel
   interests {
