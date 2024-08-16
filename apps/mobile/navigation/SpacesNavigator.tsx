@@ -11,6 +11,7 @@ import AppointmentDetails, { AppointmentDetailsParams } from '@holi/core/screens
 import CreateAppointment, { CreateAppointmentParams } from '@holi/core/screens/spaces/appointments/CreateAppointment'
 import EditAppointment, { EditAppointmentParams } from '@holi/core/screens/spaces/appointments/EditAppointment'
 import SpaceAppointments, { SpaceAppointmentsParams } from '@holi/core/screens/spaces/appointments/SpaceAppointments'
+import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import SpaceCollaboratorsManage, {
   SpaceCollaboratorsManageParams,
@@ -86,6 +87,7 @@ const SpacesNavigator = () => {
       }}
     >
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />
+      <SpacesStack.Screen name={RouteName.CreateSpace} component={CreateSpace} />
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
       <SpacesStack.Screen name={RouteName.CreateDigitalTool} component={CreateDigitalTool} />
       <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />
