@@ -35,44 +35,23 @@ const ImageUpload = ({
   const { t } = useTranslation()
 
   return (
-    <>
-      {/* <Button title="Pick Image" onPress={pickImage} /> */}
-      <HoliImagePicker
-        allowsMultipleSelection
-        fileSizeLimitation={{
-          type: 'resize',
-          limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
-          resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
-        }}
-        buttonProps={{
-          label: t('individuals.post.image.add'),
-          transparent: true,
-          inline: true,
-        }}
-        onPickImage={onSetImage}
-        onPickImages={onSetImages}
-      >
-        <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} style={styles.addImageIcon} />
-      </HoliImagePicker>
-      <View style={{ gap: 12 }}>
-        {images.map((image: any, index) => (
-          <ImageEditor
-            key={index}
-            onSave={(newImage: HoliImageInfo | null) => {
-              if (newImage !== null) {
-                const newImages = [...images]
-                newImages[index] = newImage
-                onSetImages(newImages)
-              } else {
-                const newImages = images.filter((_, i) => i !== index)
-                onSetImages(newImages)
-              }
-            }}
-            image={image}
-          />
-        ))}
-      </View>
-    </>
+    <HoliImagePicker
+      allowsMultipleSelection
+      fileSizeLimitation={{
+        type: 'resize',
+        limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+        resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+      }}
+      buttonProps={{
+        label: t('individuals.post.image.add'),
+        transparent: true,
+        inline: true,
+      }}
+      onPickImage={onSetImage}
+      onPickImages={onSetImages}
+    >
+      <HoliIcon icon={images.length > 0 ? ImageEdit : ImageAdd} style={styles.addImageIcon} />
+    </HoliImagePicker>
   )
 }
 

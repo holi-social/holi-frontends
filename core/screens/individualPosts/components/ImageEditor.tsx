@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: 'absolute',
     right: 0,
-    bottom: 0,
+    top: 0,
     padding: Spacing.xxs,
     flexDirection: 'row',
     gap: Spacing['3xs'],

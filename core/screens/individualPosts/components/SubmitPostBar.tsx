@@ -22,6 +22,8 @@ export const SubmitPostBar = ({
   submitting,
   isSubmittable,
   isEdit,
+  images,
+  setImages,
 }: {
   onSubmit: () => void
   onSetImage: (image: HoliImageInfo) => void
@@ -29,6 +31,8 @@ export const SubmitPostBar = ({
   submitting: boolean
   isSubmittable: boolean
   isEdit: boolean
+  images: HoliImageInfo[]
+  setImages: (images: HoliImageInfo[]) => void
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -37,22 +41,16 @@ export const SubmitPostBar = ({
   return (
     <SafeArea style={styles.menuContainer} edges={['bottom']}>
       <View style={styles.items}>
-        {/* <HoliImagePicker
-          fileSizeLimitation={{
-            type: 'resize',
-            limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
-            resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
-          }}
-          buttonProps={{
-            label: t('individuals.post.image.add'),
-            transparent: true,
-            inline: true,
-          }}
-          onPickImage={onSetImage}
-        >
-          <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} style={styles.addImageIcon} />
-        </HoliImagePicker> */}
-        {/* <ImageUpload /> */}
+        <ImageUpload
+          onSubmit={onSubmit}
+          onSetImage={onSetImage}
+          hasSetImage={hasSetImage}
+          submitting={submitting}
+          isSubmittable={isSubmittable}
+          isEdit={isEdit}
+          images={images}
+          onSetImages={setImages}
+        />
 
         <HoliButtonLoading
           label={isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}

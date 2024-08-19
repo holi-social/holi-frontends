@@ -20,6 +20,7 @@ import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
@@ -185,7 +186,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               scrollEnabled={false}
             />
 
-            <ImageUpload
+            {/* <ImageUpload
               onSubmit={submit}
               onSetImage={onChangeImage}
               hasSetImage={!!image}
@@ -194,10 +195,32 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               isEdit={isEdit}
               images={images}
               onSetImages={setImages}
-            />
+            /> */}
 
             <View style={styles.imageEditor}>
-              {/* <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} /> */}
+              <HoliCarousel
+                marginHorizontal={Spacing.sm}
+                slides={images.map((image: any, index) => ({
+                  children: (
+                    <View style={{ marginLeft: index === 0 ? -Spacing.xxs : 0 }}>
+                      <ImageEditor
+                        key={index}
+                        onSave={(newImage: HoliImageInfo | null) => {
+                          if (newImage !== null) {
+                            const newImages = [...images]
+                            newImages[index] = newImage
+                            setImages(newImages)
+                          } else {
+                            const newImages = images.filter((_, i) => i !== index)
+                            setImages(newImages)
+                          }
+                        }}
+                        image={image}
+                      />
+                    </View>
+                  ),
+                }))}
+              />
             </View>
           </View>
         </ScrollView>
@@ -209,6 +232,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           submitting={submitting}
           isSubmittable={isSubmittable}
           isEdit={isEdit}
+          images={images}
+          setImages={setImages}
         />
       </KeyboardAvoidingView>
 

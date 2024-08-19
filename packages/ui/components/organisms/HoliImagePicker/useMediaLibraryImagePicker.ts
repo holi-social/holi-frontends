@@ -66,6 +66,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false) => {
           quality: 1,
           base64: true,
           allowsMultipleSelection,
+          aspect: [16, 9],
         })
       } catch (error) {
         // using an older phone and a larger image, picking an image can lead to out-of-memory errors and
