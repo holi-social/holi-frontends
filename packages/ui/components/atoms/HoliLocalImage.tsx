@@ -10,7 +10,7 @@ import { HoliLocalImageProps } from '@holi/ui/components/atoms/HoliLocalImage.sh
 // <HoliLocalImage imageSource={PngLogo} width={30} height={30} label="some alt text" />
 // <HoliLocalImage imageSource={require('@holi/ui/assets/img/logo/logo.svg')} isSvg={true} width={30} height={30} label="some alt text" />
 
-const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
+const HoliLocalImage = ({
   imageSource,
   isSvg = false,
   label,
@@ -42,7 +42,7 @@ const HoliLocalImage: React.VoidFunctionComponent<HoliLocalImageProps> = ({
       asset={imageSource}
       width={width}
       height={height}
-      style={[{ resizeMode: resizeMode }, style]}
+      style={[{ resizeMode }, style]}
     />
   ) : (
     <Image

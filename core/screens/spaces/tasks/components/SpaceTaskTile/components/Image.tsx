@@ -45,7 +45,7 @@ export const Image = ({
             imageSource={require('@holi/ui/assets/img/illustrations/illustration_task.svg')}
             label={t('spaces.tasks.thumbnail.label')}
             isSvg
-            height={imageHeight}
+            height={'100%'}
             width={imageWidth}
             style={styles.image}
           />
