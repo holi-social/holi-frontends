@@ -49,6 +49,7 @@ const LinkHub = () => {
       },
     })
   }, [setScreenOptions, t, colors.background10])
+
   const onAddButtonPress = () => {
     navigate(`/spaces/${spaceIdOrName}/linkhub/tools/create`)
   }
