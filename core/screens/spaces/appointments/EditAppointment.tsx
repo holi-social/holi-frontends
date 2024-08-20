@@ -34,7 +34,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
+import { transformToUTC } from '@holi/ui/helper/date'
 import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -59,12 +59,8 @@ const EditAppointment = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [inviteOnly, setInviteOnly] = useState<HoliModalSelectOption | undefined>()
-  const [startDate, setStartDate] = useState<string>(formatDateToYYYMMDD(new Date()))
-  const [endDate, setEndDate] = useState<string>(formatDateToYYYMMDD(new Date()))
-  const [startHours, setStartHours] = useState<string>(numberToStringWithPad(new Date().getHours()))
-  const [endHours, setEndHours] = useState<string>(numberToStringWithPad(new Date().getHours()))
-  const [startMinutes, setStartMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
-  const [endMinutes, setEndMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
+  const [startDate, setStartDate] = useState<Date>(new Date())
+  const [endDate, setEndDate] = useState<Date>(new Date())
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined | null>()
   const [locationDetails, setLocationDetails] = useState<LocationDetails | undefined>()
@@ -150,8 +146,8 @@ const EditAppointment = () => {
             inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
           permission: permissionType?.id,
           thumbnail: thumbnail === null ? null : thumbnail?.blob, // null is used to inform the backend that the thumbnail has been deleted
-          startDateTime: transformToUTC(`${startDate}T${startHours}:${startMinutes}` || ''),
-          endDateTime: transformToUTC(`${endDate}T${endHours}:${endMinutes}` || ''),
+          startDateTime: transformToUTC(startDate),
+          endDateTime: transformToUTC(endDate),
           locationDetails: locationDetails,
           videoCallLink: url,
           videoCallInfo: additionalInfo,
@@ -270,12 +266,8 @@ const EditAppointment = () => {
       // set all other fields accordingly
       setTitle(appointment.title)
       setDescription(appointment.description)
-      setStartDate(formatDateToYYYMMDD(start))
-      setEndDate(formatDateToYYYMMDD(end))
-      setStartHours(numberToStringWithPad(start.getHours()))
-      setStartMinutes(numberToStringWithPad(start.getMinutes()))
-      setEndHours(numberToStringWithPad(end.getHours()))
-      setEndMinutes(numberToStringWithPad(end.getMinutes()))
+      setStartDate(start)
+      setEndDate(end)
       setCurrentThumbnail(appointment.thumbnail)
       setUrl(appointment.videoCallLink?.url || '')
       setAdditionalInfo(appointment.videoCallLink?.additionalInfo || '')
@@ -321,10 +313,6 @@ const EditAppointment = () => {
               inviteOnly={inviteOnly}
               startDate={startDate}
               endDate={endDate}
-              startHours={startHours}
-              endHours={endHours}
-              startMinutes={startMinutes}
-              endMinutes={endMinutes}
               permissionType={permissionType}
               thumbnail={thumbnail}
               locationDetails={locationDetails}
@@ -341,10 +329,6 @@ const EditAppointment = () => {
               onChangeSelectedLocation={setSelectedLocation}
               onChangeStartDate={setStartDate}
               onChangeEndDate={setEndDate}
-              onChangeStartHours={setStartHours}
-              onChangeEndHours={setEndHours}
-              onChangeStartMinutes={setStartMinutes}
-              onChangeEndMinutes={setEndMinutes}
               onChangeUrl={setUrl}
               onChangeAdditionalInfo={setAdditionalInfo}
               fieldErrors={fieldErrors}

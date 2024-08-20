@@ -55,9 +55,7 @@ export const numberToStringWithPad = (num: number) => {
   return numStr
 }
 
-export const transformToUTC = (dateString: string) => {
-  const date = new Date(dateString)
-
+export const transformToUTC = (date: Date) => {
   // Get individual date components
   const year = date.getUTCFullYear()
   const month = `0${date.getUTCMonth() + 1}`.slice(-2)
