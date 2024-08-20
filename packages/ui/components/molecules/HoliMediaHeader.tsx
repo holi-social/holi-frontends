@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { VerifiedExternal, VerifiedInternal } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -16,6 +19,7 @@ interface Props {
   titleBold?: boolean
   date?: string
   datePrefix?: string
+  role?: string
   onAvatarPressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   onTitlePressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   style?: StyleProp<ViewStyle>
@@ -33,6 +37,7 @@ const HoliMediaHeader = ({
   secondaryAvatarProps,
   date,
   datePrefix,
+  role,
   onAvatarPressed,
   onTitlePressed,
   style,
@@ -40,6 +45,16 @@ const HoliMediaHeader = ({
 }: HoliMediaHeaderProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { t } = useTranslation()
+
+  const roleMapping: { [key: string]: string } = {
+    EDITOR: 'user.profileView.role.editor',
+    JOURNALIST: 'user.profileView.role.journalist',
+    CO_FOUNDER: 'user.profileView.role.co_founder',
+    COMMUNITY_MANAGER: 'user.profileView.role.community_manager',
+  }
+
+  const badge = role !== 'JOURNALIST' ? VerifiedInternal : VerifiedExternal
 
   if (loading) {
     return (
@@ -75,6 +90,14 @@ const HoliMediaHeader = ({
         </HoliButton>
 
         <View style={styles.row}>
+          {!!role && role !== 'INTERNAL' && role !== 'REGULAR' && (
+            <View style={styles.role}>
+              <HoliText size="small" style={{ color: theme.colors.foreground20 }}>
+                {t(roleMapping[role])}
+              </HoliText>
+              <HoliIcon icon={badge} size={16} style={styles.verified} />
+            </View>
+          )}
           {!!datePrefix && (
             <>
               <HoliText size="small" style={styles.datePrefix} ellipsizeMode="tail" numberOfLines={1}>
@@ -119,17 +142,26 @@ const getStyles = (theme: HoliTheme) =>
       overflow: 'hidden',
     },
     datePrefix: {
-      marginTop: Spacing['4xs'],
+      marginTop: 2,
       maxWidth: '50%',
     },
     date: {
-      marginTop: Spacing['4xs'],
+      marginTop: 2,
       color: theme.colors.foreground20,
       maxWidth: '50%',
     },
     dot: {
       color: theme.colors.brandB300,
       marginHorizontal: Spacing['4xs'],
+    },
+    role: {
+      marginTop: 2,
+      marginRight: Spacing['3xs'],
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    verified: {
+      marginLeft: 4,
     },
   })
 

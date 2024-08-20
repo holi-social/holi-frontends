@@ -83,6 +83,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     const aggregatedTopics = allTopics?.filter((topic) =>
       feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
     )
+
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
       <View style={styles.container}>
@@ -100,7 +101,13 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             </HoliText>
           </View>
         )}
-        <HoliMediaAuthorHeader author={feedPost.author} authorBold date={feedPost.createdAt} />
+
+        <HoliMediaAuthorHeader
+          author={feedPost.author}
+          authorBold
+          date={feedPost.createdAt}
+          role={feedPost.author.role}
+        />
         {isLoggedIn && (
           <View style={styles.postDrawer}>
             <PostDrawer post={feedPost}>

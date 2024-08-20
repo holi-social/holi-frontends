@@ -11,12 +11,16 @@ import { PropsWithSkeleton } from '@holi/ui/components/types'
 
 type OnPressHandler = (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
 
-export type Author = Pick<User, 'id' | 'fullName' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel'>
+export type Author = Pick<
+  User,
+  'id' | 'fullName' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'role'
+>
 interface Props {
   style?: StyleProp<ViewStyle>
   testID?: string
   avatarSize?: AvatarSize
   author: Author
+  role?: string
   authorBold?: boolean
   date?: string
   onAvatarPressed?: OnPressHandler
@@ -30,6 +34,7 @@ const HoliMediaAuthorHeader = ({
   author,
   authorBold,
   avatarSize,
+  role,
   loading,
   style,
   testID,
@@ -74,6 +79,7 @@ const HoliMediaAuthorHeader = ({
         defaultColor: author.avatarDefaultColor,
         size: avatarSize,
       }}
+      role={role}
       date={formattedDate}
       onAvatarPressed={onAvatarPressed ?? (() => navigate(`/profile/${author?.id}`))}
       onTitlePressed={onTitlePressed ?? (() => navigate(`/profile/${author?.id}`))}
