@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
@@ -23,10 +24,11 @@ import {
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateDigitalToolParams = {
   spaceIdOrName: string
@@ -36,7 +38,7 @@ const { useParam } = createParamHooks<CreateDigitalToolParams>()
 
 const CreateDigitalTool = () => {
   const { theme } = useTheme()
-  const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -97,19 +99,17 @@ const CreateDigitalTool = () => {
   }, [t, url])
 
   useIsomorphicLayoutEffect(() => {
-    !loadingSpace &&
-      isMember &&
-      setScreenOptions({
-        animation: 'slide_from_bottom',
-        title: '',
-        headerStyle: { backgroundColor: colors.background20 },
-        headerTransparent: true,
-        headerLeft: () => <HeaderBackButton icon={ArrowDownS} onPress={() => setShowConfirmationModal(true)} />,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      })
-  }, [t, loadingSpace, isMember, setScreenOptions, colors.background20])
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      title: '',
+      headerStyle: styles.background,
+      headerTransparent: false,
+      headerLeft: () => <HeaderBackButton icon={ArrowDownS} onPress={() => setShowConfirmationModal(true)} />,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [t, loadingSpace, isMember, setScreenOptions, styles.background])
 
   useEffect(() => {
     if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {
@@ -136,7 +136,11 @@ const CreateDigitalTool = () => {
 
   // Error and loading states are handled the same way and just hide the component
   if (loadingSpace || errorSpace || !space) {
-    return <></>
+    return (
+      <View style={[styles.flex1, styles.background]}>
+        <HoliLoader />
+      </View>
+    )
   }
 
   return (
@@ -172,3 +176,13 @@ const CreateDigitalTool = () => {
 }
 
 export default CreateDigitalTool
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    flex1: {
+      flex: 1,
+    },
+    background: {
+      backgroundColor: theme.colors.background20,
+    },
+  })

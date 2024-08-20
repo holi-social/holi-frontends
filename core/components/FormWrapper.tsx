@@ -14,7 +14,7 @@ import {
 } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft } from '@holi/icons/src/generated'
+import { ArrowLeft, Close } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
@@ -28,12 +28,14 @@ export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
   onSave: () => Promise<unknown>
   onBack?: () => void
+  onCancel?: () => void
   backButtonLabel?: string
   scrollToInput?: boolean
   initialOffsetTop?: number
   saveButtonDisabled?: boolean
   saveButtonLoading?: boolean
   showBackButton?: boolean
+  showCancelButton?: boolean
   isModal?: boolean
   buttonLabel?: string
   showBottomBar?: boolean
@@ -50,11 +52,13 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
       renderProp,
       onSave,
       onBack,
+      onCancel,
       backButtonLabel,
       initialOffsetTop,
       saveButtonDisabled,
       saveButtonLoading = false,
       showBackButton,
+      showCancelButton,
       isModal = false,
       buttonLabel,
       showBottomBar = false,
@@ -151,6 +155,19 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
                   onPress={onBack}
                 >
                   <HoliIcon icon={ArrowLeft} color={colors.foreground30} />
+                </HoliButton>
+              )}
+              {showCancelButton && (
+                <HoliButton
+                  type="secondary"
+                  variant="medium"
+                  label={backButtonLabel || t('global.back')}
+                  testID={`${testID}-back-btn`}
+                  inline
+                  style={styles.backButton}
+                  onPress={onCancel}
+                >
+                  <HoliIcon icon={Close} color={colors.foreground30} />
                 </HoliButton>
               )}
               <HoliButtonLoading

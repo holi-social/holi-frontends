@@ -74,6 +74,7 @@ export const FullAuthenticatedUserFragment = gql`
     aboutMe
     pronouns
     location
+    role
     geolocationId
     engagementLevel
     interests {
