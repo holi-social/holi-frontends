@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 
@@ -14,7 +14,6 @@ import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import AppointmentsList from '@holi/core/screens/appointments/components/AppointmentsList'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
-import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -55,16 +54,6 @@ const SpaceAppointments = () => {
     variables: { idOrName: spaceIdOrName },
   })
 
-  const { refetch: refetchUpcomingAppointments } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    skip: !spaceIdOrName,
-    variables: { idOrName: spaceIdOrName },
-  })
-
-  const { refetch: refetchPastAppointments } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
-    skip: !spaceIdOrName,
-    variables: { idOrName: spaceIdOrName },
-  })
-
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.appointments.title'),
@@ -90,12 +79,7 @@ const SpaceAppointments = () => {
     },
   }
 
-  const onRefresh = useCallback(
-    () => Promise.all([refetchUpcomingAppointments(), refetchPastAppointments()]),
-    [refetchPastAppointments, refetchUpcomingAppointments]
-  )
-
-  useRefreshOnNavigation({ initialized: called, onRefresh })
+  useRefreshOnNavigation({ initialized: called })
 
   if (loading || !space) {
     return <HoliLoader />

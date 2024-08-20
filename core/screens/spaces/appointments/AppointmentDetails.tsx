@@ -85,10 +85,8 @@ const AppointmentDetails = () => {
     skip: !idOrSlug,
   })
 
-  const onRefresh = useOnRefresh(() => {
-    return Promise.all([refetchAppointment(), refetchSpace()])
-  })
-  useRefreshOnNavigation({ initialized: calledAppointment, onRefresh })
+  useOnRefresh(() => Promise.all([refetchAppointment(), refetchSpace()]))
+  useRefreshOnNavigation({ initialized: calledAppointment })
 
   const appointment = appointmentData?.appointment
 

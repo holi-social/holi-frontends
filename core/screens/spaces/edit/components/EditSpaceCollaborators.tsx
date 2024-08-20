@@ -78,15 +78,7 @@ const EditSpaceCollaborators = () => {
       })
     },
   })
-  const { refetch: refetchMembers, data: membersData } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    skip: !spaceIdOrName,
-    variables: { idOrName: spaceIdOrName },
-  })
-  const { refetch: refetchPendingRequests } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
-    skip: !spaceIdOrName,
-    variables: { idOrName: spaceIdOrName },
-  })
-  const { refetch: refetchPendingInvites } = useQuery<SpaceByIdResponse>(spaceInvitesQuery, {
+  const { data: membersData } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
     skip: !spaceIdOrName,
     variables: { idOrName: spaceIdOrName },
   })
@@ -139,12 +131,7 @@ const EditSpaceCollaborators = () => {
     [handleNavigation, isSpaceAdmin, loggedInUser?.id, showPermissions]
   )
 
-  const onRefresh = useCallback(
-    () => Promise.all([refetchMembers(), refetchPendingRequests(), refetchPendingInvites()]),
-    [refetchMembers, refetchPendingInvites, refetchPendingRequests]
-  )
-
-  useRefreshOnNavigation({ initialized: called, onRefresh })
+  useRefreshOnNavigation({ initialized: called })
 
   if (loading) {
     return <HoliLoader />
