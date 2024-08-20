@@ -33,6 +33,7 @@ export interface User {
   firstName?: string
   lastName?: string
   fullName: string
+  role: string
   aboutMe?: string
   pronouns?: string
   location?: string

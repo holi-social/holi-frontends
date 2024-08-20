@@ -20,6 +20,8 @@ import {
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -28,6 +30,7 @@ import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizar
 import HoliWizard, {
   HoliWizardCurrentStepOptions,
   NextPressHandlerOptions,
+  SkipPressHandlerOptions,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
 
 export enum AccountSetupStep {
@@ -71,6 +74,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { displayError } = useErrorHandling()
   const { isLoggedOut } = useLoginState()
   const { user, isLoading } = useLoggedInUser()
+  const { track } = useTracking()
 
   const [updateUser] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
   const updateUserQueryVariables = useRef<Partial<UpdateAuthenticatedUserInput>>({})
@@ -99,6 +103,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   // HoliWizard event handlers
   const handleNextPress = async ({ currentStep, goNext }: NextPressHandlerOptions) => {
     switch (currentStep) {
+      // next press is tracked on the API side
       case AccountSetupStep.NAMES: {
         await registerUserNames({
           variables: { input: parseRegisterUserNamesInput(names) },
@@ -108,10 +113,12 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         break
       }
 
+      // next press tracking is not needed
       case AccountSetupStep.PRE_SUCCESS:
         goNext()
         break
 
+      // next press is tracked on the API side
       case AccountSetupStep.INTERESTS: {
         const selectedInterestIds = terms.reduce(
           (acc: string[], { id, selected }) => (selected ? [...acc, id] : acc),
@@ -134,6 +141,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         break
       }
 
+      // next press is tracked on the API side
       case AccountSetupStep.LOCATION: {
         if (selectedLocation?.geolocation) {
           const geolocation = selectedLocation?.geolocation
@@ -162,7 +170,29 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.SUCCESS:
         // wait for AsyncStorage to be set
         await onFinish()
+        track(TrackingEvent.Auth.SuccessOnboardingStepCompleted)
         navigate('/')
+        break
+
+      default:
+        return
+    }
+  }
+
+  const handleSkipPress = ({ currentStep }: SkipPressHandlerOptions): void => {
+    switch (currentStep) {
+      case AccountSetupStep.LOCATION:
+        track(TrackingEvent.Auth.LocationOnboardingStepSkipped)
+        break
+
+      case AccountSetupStep.INTERESTS:
+        track(TrackingEvent.Auth.InterestsOnboardingStepSkipped)
+        break
+
+      // not skippable steps
+      case AccountSetupStep.PRE_SUCCESS:
+      case AccountSetupStep.NAMES:
+      case AccountSetupStep.SUCCESS:
         break
 
       default:
@@ -282,6 +312,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         isNextButtonEnabled={nameStepIsValid}
         scrollEnabled={false}
         handleNextPress={handleNextPress}
+        handleSkipPress={handleSkipPress}
       />
     </HoliKeyboardSaveView>
   )

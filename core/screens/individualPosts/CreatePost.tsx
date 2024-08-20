@@ -6,6 +6,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
+import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -48,6 +49,7 @@ const CreatePost = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
   const [selectedTopics, setSelectedTopics] = useState<Term[]>([])
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | null>(null)
 
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
@@ -87,6 +89,13 @@ const CreatePost = () => {
           image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
           language: data?.detectedLanguage,
+          location: selectedLocation?.label,
+          geolocation: selectedLocation
+            ? {
+                latitude: selectedLocation.coordinates?.latitude,
+                longitude: selectedLocation.coordinates?.longitude,
+              }
+            : undefined,
         },
       },
       onError: (error) => {
@@ -149,6 +158,8 @@ const CreatePost = () => {
           onChangeSelectedVisibility={setSelectedVisibility}
           selectedTopics={selectedTopics}
           onChangeSelectedTopics={setSelectedTopics}
+          selectedLocation={selectedLocation}
+          onChangeSelectedLocation={setSelectedLocation}
           onSubmit={createPost}
           submitting={submitting}
           categories={categories}

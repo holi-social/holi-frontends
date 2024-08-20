@@ -18,6 +18,8 @@ import {
   useStoredOnboardingState,
 } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
@@ -45,6 +47,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   afterAccountCreated,
 }) => {
   const { theme } = useTheme()
+  const { track } = useTracking()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { currentStep, goNext, goBack } = useStepper()
   const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
@@ -86,10 +89,16 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
   const goToNextStep = useCallback(async () => {
     switch (currentStep) {
       case RegistrationStep.COMMUNITY_GUIDELINES:
-        communityGuidelines && goNext()
+        if (communityGuidelines) {
+          track(TrackingEvent.Auth.CommunityGuidelinesOnboardingStepCompleted)
+          goNext()
+        }
         break
       case RegistrationStep.PRIVACY_POLICY:
-        privacyPolicy && goNext()
+        if (privacyPolicy) {
+          track(TrackingEvent.Auth.PrivacyPolicyOnboardingStepCompleted)
+          goNext()
+        }
         break
       case RegistrationStep.CREATE_ACCOUNT:
         goNext()
@@ -103,7 +112,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
       default:
         return
     }
-  }, [afterAccountCreated, communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy])
+  }, [afterAccountCreated, communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy, track])
 
   return (
     <View style={[styles.container, style]}>

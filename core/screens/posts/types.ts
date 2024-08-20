@@ -48,6 +48,8 @@ export interface Post {
   isEdited?: boolean
   isClosed?: boolean
   isDeleted?: boolean
+  location?: string
+  geolocation?: { latitude: number; longitude: number }
   space?: Space
   status?: string // 'P'
   mediaWidth?: number
