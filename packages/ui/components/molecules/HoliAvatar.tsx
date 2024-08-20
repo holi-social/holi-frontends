@@ -79,7 +79,7 @@ const HoliAvatar = ({
           borderRadius: shape === 'circle' ? width / 2 : width * 0.15,
           backgroundColor: hasImage ? colors.background20 : defaultColor || colors.background10,
           borderColor: ['large', 'extralarge'].includes(size) ? colors.foreground30 : undefined,
-          borderWidth: ['large', 'extralarge'].includes(size) ? 2 : size === 'medium' ? 1 : 0,
+          borderWidth: ['medium', 'large'].includes(size) ? 1 : size === 'extralarge' ? 2 : 0,
           width,
           height: width,
         },
