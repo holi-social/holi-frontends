@@ -18,7 +18,6 @@ import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
@@ -39,7 +38,6 @@ const Login = () => {
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const setScreenOptions = useSetScreenOptions()
-  const redirect = useRedirect('/')
   const client = useApolloClient()
   const { track } = useTracking()
 
@@ -86,8 +84,6 @@ const Login = () => {
       await client.clearStore()
       await setLoginStateLoggedIn(data)
       await storeOnboardingState('finished')
-
-      redirect()
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)

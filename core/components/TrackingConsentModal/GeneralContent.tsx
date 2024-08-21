@@ -4,13 +4,15 @@ import { Platform } from 'react-native'
 
 import UserPrivacyPng from '@holi/ui/assets/img/icons/user-privacy.png'
 import UserPrivacy from '@holi/ui/assets/img/icons/user-privacy.svg'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 import TrackingGeneralContentDescription from './TrackingGeneralContentDescription'
 
-const GeneralContent = () => {
+const GeneralContent = ({ hideDescription = false }) => {
   const { t } = useTranslation()
 
   return (
@@ -29,9 +31,11 @@ const GeneralContent = () => {
         {t('tracking.consentModal.general.headline')}
       </HoliHeading>
 
-      <HoliGap size="s" />
-
-      <TrackingGeneralContentDescription />
+      {!hideDescription && (
+        <HoliBox padding={[dimensions.spacingS, 0, 0, 0]}>
+          <TrackingGeneralContentDescription />
+        </HoliBox>
+      )}
     </>
   )
 }

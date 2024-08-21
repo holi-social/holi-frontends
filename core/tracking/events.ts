@@ -82,6 +82,22 @@ export namespace TrackingEvent {
     }),
   }
 
+  export const Donations = {
+    pressed: (projectId: number): TrackingEvent => ({
+      name: 'pressedDonateButton',
+      properties: { projectId },
+      ...versionOne,
+    }),
+  }
+
+  export const Volunteering = {
+    pressed: (engagementId: number): TrackingEvent => ({
+      name: 'pressedVolunteeringEngagementButton',
+      properties: { engagementId },
+      ...versionOne,
+    }),
+  }
+
   export const SpacePosts = {
     created: (spaceId?: string): TrackingEvent => ({
       name: 'createdSpacePost',
@@ -100,28 +116,48 @@ export namespace TrackingEvent {
 
   export namespace Auth {
     export const RegisterButtonPressed: TrackingEvent = {
-      name: 'registerButton_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      name: 'registerButtonPressed',
+      ...versionOne,
     }
     export const LoginButtonPressed: TrackingEvent = {
-      name: 'loginButton_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      name: 'loginButtonPressed',
+      ...versionOne,
     }
     export const ContinueAsGuestButtonPressed: TrackingEvent = {
-      name: 'continueAsGuestButton_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      name: 'continueAsGuestButtonPressed',
+      ...versionOne,
     }
     export const ForgotPasswordButtonPressed: TrackingEvent = {
-      name: 'forgotPasswordButton_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      name: 'forgotPasswordButtonPressed',
+      ...versionOne,
+    }
+    export const ActivateAccountButtonPressed: TrackingEvent = {
+      name: 'activateAccountButtonPressed',
+      ...versionOne,
+    }
+    export const ResendEmailButtonPressed: TrackingEvent = {
+      name: 'resendEmailButtonPressed',
+      ...versionOne,
+    }
+    export const CommunityGuidelinesOnboardingStepCompleted: TrackingEvent = {
+      name: 'communityGuidelinesOnboardingStepCompleted',
+      ...versionOne,
+    }
+    export const InterestsOnboardingStepSkipped: TrackingEvent = {
+      name: 'interestsOnboardingStepSkipped',
+      ...versionOne,
+    }
+    export const LocationOnboardingStepSkipped: TrackingEvent = {
+      name: 'locationOnboardingStepSkipped',
+      ...versionOne,
+    }
+    export const PrivacyPolicyOnboardingStepCompleted: TrackingEvent = {
+      name: 'privacyPolicyOnboardingStepCompleted',
+      ...versionOne,
+    }
+    export const SuccessOnboardingStepCompleted: TrackingEvent = {
+      name: 'successOnboardingStepCompleted',
+      ...versionOne,
     }
   }
 

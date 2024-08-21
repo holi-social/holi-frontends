@@ -54,7 +54,9 @@ const HoliImagePicker = ({
               type: blob.type,
             })
             images.push({ uri, blob: reactNativeFile, base64, height, width })
-            onPickImage({ uri, blob: reactNativeFile, base64, height, width })
+            if (onPickImage) {
+              onPickImage({ uri, blob: reactNativeFile, base64, height, width })
+            }
           }
           if (onPickImages) {
             onPickImages(images)

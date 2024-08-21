@@ -3,10 +3,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
+import FormWrapper from '@holi/core/components/FormWrapper'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
+import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
-import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
+import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
+import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
 import {
@@ -16,7 +20,11 @@ import {
 } from '@holi/core/screens/individualPosts/mutations'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Term, User } from '@holi/core/screens/userprofile/types'
-import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Edit2, Global, HoliLogoFilled } from '@holi/icons/src/generated'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -27,8 +35,6 @@ import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-
-import ImageUpload from './ImageUpload'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -46,16 +52,20 @@ export interface PostInputFormProps {
   title: string
   description?: string
   image: HoliImageInfo | null
+  images: HoliImageInfo[]
   selectedVisibility: Visibility
   selectedCategoryId: string | null
   currentImage?: string
   selectedTopics?: Term[]
+  selectedLocation?: GeolocationSuggestion
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
   onChangeImage: (image: HoliImageInfo | null) => void
+  onChangeImages: any
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
+  onChangeSelectedLocation: (_: GeolocationSuggestion) => void
   onSubmit: () => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
@@ -69,16 +79,20 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   title,
   description,
   image,
+  images,
   mentions = [],
   selectedVisibility,
   selectedCategoryId,
+  selectedLocation,
   currentImage,
   selectedTopics,
   onChangeTitle,
   onChangeDescription,
   onChangeSelectedVisibility,
   onChangeImage,
+  onChangeImages,
   onChangeSelectedTopics,
+  onChangeSelectedLocation,
   onSubmit,
   isEdit = false,
   submitting,
@@ -87,7 +101,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 }) => {
   const { theme } = useTheme()
   const { t } = useTranslation()
-  const [images, setImages] = useState<HoliImageInfo[]>([])
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -95,6 +108,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
+  const { show: showLocationModal, hide: hideLocationModal, visible: visibleLocationModal } = useModalState()
+  const { show: showEditImagesModal, hide: hideEditImagesModal, visible: visibleEditImagesModal } = useModalState()
 
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
@@ -134,6 +149,15 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const descriptionPlaceholder =
     categories?.find((category) => category.id === selectedCategoryId)?.description ??
     t('individuals.post.input.category.input.description')
+
+  const handleLocationChange = (selected?: GeolocationSuggestion) => {
+    selected ? onChangeSelectedLocation(selected) : onChangeSelectedLocation(null)
+  }
+
+  const onSaveLocation = () => {
+    handleLocationChange(selectedLocation)
+    hideLocationModal()
+  }
 
   return (
     <>
@@ -185,55 +209,52 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               isEdit={isEdit}
               scrollEnabled={false}
             />
+            {selectedLocation?.label && (
+              <View style={styles.locationCard}>
+                <PostLocationCard
+                  location={selectedLocation.label}
+                  editLocation={showLocationModal}
+                  removeLocation={() => onChangeSelectedLocation(null)}
+                />
+              </View>
+            )}
 
-            {/* <ImageUpload
-              onSubmit={submit}
-              onSetImage={onChangeImage}
-              hasSetImage={!!image}
-              submitting={submitting}
-              isSubmittable={isSubmittable}
-              isEdit={isEdit}
-              images={images}
-              onSetImages={setImages}
-            /> */}
-
-            <View style={styles.imageEditor}>
-              <HoliCarousel
-                marginHorizontal={Spacing.sm}
-                slides={images.map((image: any, index) => ({
-                  children: (
-                    <View style={{ marginLeft: index === 0 ? -Spacing.xxs : 0 }}>
-                      <ImageEditor
-                        key={index}
-                        onSave={(newImage: HoliImageInfo | null) => {
-                          if (newImage !== null) {
-                            const newImages = [...images]
-                            newImages[index] = newImage
-                            setImages(newImages)
-                          } else {
-                            const newImages = images.filter((_, i) => i !== index)
-                            setImages(newImages)
-                          }
-                        }}
-                        image={image}
-                      />
-                    </View>
-                  ),
-                }))}
-              />
-            </View>
+            {!!images && !!images.length && (
+              <View style={styles.imageContainer}>
+                <HoliButton
+                  type="secondary"
+                  variant="small"
+                  label={t('global.edit')}
+                  inline
+                  style={styles.editImages}
+                  onPress={showEditImagesModal}
+                >
+                  <HoliText>{t('global.edit')}</HoliText>
+                  <HoliIcon size={16} icon={Edit2} style={styles.buttonIcon} />
+                </HoliButton>
+                <HoliCarousel
+                  marginHorizontal={Spacing.sm}
+                  style={styles.imageCarousel}
+                  slides={images.map((image: any, index) => ({
+                    children: <ImagePreview key={index} image={image} />,
+                  }))}
+                />
+              </View>
+            )}
           </View>
         </ScrollView>
 
         <SubmitPostBar
           onSubmit={submit}
           onSetImage={onChangeImage}
+          showLocationModal={showLocationModal}
+          showEditImagesModal={showEditImagesModal}
           hasSetImage={!!image}
           submitting={submitting}
           isSubmittable={isSubmittable}
           isEdit={isEdit}
           images={images}
-          setImages={setImages}
+          setImages={onChangeImages}
         />
       </KeyboardAvoidingView>
 
@@ -268,6 +289,59 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         >
           <PostTopics onChangeSelectedTopics={onChangeSelectedTopics} selectedTopicsIds={selectedTopics || []} />
         </HoliModalContentWrapper>
+      </HoliModal>
+      <HoliModal
+        label={t('individuals.post.input.topics.title')}
+        show={visibleLocationModal}
+        onDismiss={hideLocationModal}
+        testID="post-location-input"
+        style={styles.modal}
+      >
+        <FormWrapper
+          headlineText={t('individuals.post.input.topics.title')}
+          isModal
+          onSave={onSaveLocation}
+          keyboardShouldPersistTaps="handled"
+          showCancelButton
+          onCancel={hideLocationModal}
+          showBottomBar
+          saveButtonDisabled={!selectedLocation}
+          style={styles.modal}
+          renderProp={() => (
+            <>
+              <View style={styles.locationContainer}>
+                <HoliHeading level="1" size="m">
+                  {t('individuals.post.input.location.title')}
+                </HoliHeading>
+                <HoliText color="gray300" size="small">
+                  {t('individuals.post.input.location.description')}
+                </HoliText>
+              </View>
+              <PlacesAutocomplete
+                label={t('individuals.post.input.location')}
+                placeholder={t('spaces.input.location.placeholder')}
+                selected={selectedLocation}
+                id="post-location-input"
+                testID="post-location-input"
+                onChange={handleLocationChange}
+                style={[styles.input, { zIndex: 2 }]}
+                inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
+                suggestionsStyle={styles.suggestionsContainer}
+                enhanceWithDetails
+              />
+            </>
+          )}
+        />
+      </HoliModal>
+
+      <HoliModal
+        label={t('individuals.post.input.topics.title')}
+        show={visibleEditImagesModal}
+        onDismiss={hideEditImagesModal}
+        style={{ backgroundColor: theme.colors.background20 }}
+        testID="post-location-input"
+      >
+        <EditUploadedImages images={images} setImages={onChangeImages} onActionButtonPress={hideEditImagesModal} />
       </HoliModal>
     </>
   )
@@ -313,8 +387,21 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       paddingHorizontal: 6,
     },
-    imageEditor: {
-      paddingTop: 24,
+    imageContainer: {
+      paddingTop: Spacing.sm,
+      alignItems: 'flex-end',
+    },
+    editImages: {
+      borderRadius: 28,
+      marginRight: Spacing['3xs'],
+    },
+    buttonIcon: {
+      marginLeft: Spacing['4xs'],
+    },
+    imageCarousel: {
+      marginHorizontal: -Spacing['3xs'],
+      marginTop: Spacing['3xs'],
+      flex: 1,
     },
     pillContainer: {
       width: '100%',
@@ -352,6 +439,30 @@ const getStyles = (theme: HoliTheme) =>
       bottom: Platform.OS === 'web' ? 64 : 96,
       left: 0,
       right: 0,
+    },
+    input: {
+      marginBottom: 16,
+    },
+    suggestionsContainer: {
+      backgroundColor: theme.colors.background10,
+    },
+
+    locationContainer: {
+      width: '100%',
+      gap: 8,
+      paddingBottom: 24,
+    },
+    modal: {
+      backgroundColor: theme.colors.background20,
+      ...Platform.select({
+        web: {
+          height: '50%',
+        },
+      }),
+    },
+    locationCard: {
+      padding: 8,
+      paddingTop: 24,
     },
   })
 

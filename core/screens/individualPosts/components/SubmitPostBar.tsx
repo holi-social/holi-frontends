@@ -4,9 +4,10 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ImageAdd, ImageEdit } from '@holi/icons/src/generated'
+import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -18,6 +19,8 @@ import ImageUpload from './ImageUpload'
 export const SubmitPostBar = ({
   onSubmit,
   onSetImage,
+  showLocationModal,
+  showEditImagesModal,
   hasSetImage,
   submitting,
   isSubmittable,
@@ -27,6 +30,8 @@ export const SubmitPostBar = ({
 }: {
   onSubmit: () => void
   onSetImage: (image: HoliImageInfo) => void
+  showLocationModal: () => void
+  showEditImagesModal: () => void
   hasSetImage: boolean
   submitting: boolean
   isSubmittable: boolean
@@ -41,16 +46,26 @@ export const SubmitPostBar = ({
   return (
     <SafeArea style={styles.menuContainer} edges={['bottom']}>
       <View style={styles.items}>
-        <ImageUpload
-          onSubmit={onSubmit}
-          onSetImage={onSetImage}
-          hasSetImage={hasSetImage}
-          submitting={submitting}
-          isSubmittable={isSubmittable}
-          isEdit={isEdit}
-          images={images}
-          onSetImages={setImages}
-        />
+        <View style={styles.iconContainer}>
+          {images.length === 0 && (
+            <ImageUpload images={images} onSetImages={setImages}>
+              <HoliIcon icon={ImageAdd} style={styles.addImageIcon} />
+            </ImageUpload>
+          )}
+          {images.length > 0 && (
+            <HoliButton
+              transparent
+              inline
+              onPress={showEditImagesModal}
+              label={t('individuals.post.input.location.title')}
+            >
+              <HoliIcon icon={ImageEdit} size={28} />
+            </HoliButton>
+          )}
+          <HoliButton transparent inline onPress={showLocationModal} label={t('individuals.post.input.location.title')}>
+            <HoliIcon icon={MapPinLine} size={28} />
+          </HoliButton>
+        </View>
 
         <HoliButtonLoading
           label={isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}
@@ -110,5 +125,10 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
           padding: 12,
         },
       }),
+    },
+    iconContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 20,
     },
   })

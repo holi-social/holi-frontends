@@ -32,10 +32,16 @@ export interface NextPressHandlerOptions {
 }
 type NextPressHandler = (options: NextPressHandlerOptions) => void
 
+export interface SkipPressHandlerOptions {
+  currentStep: number
+}
+type SkipPressHandler = (options: SkipPressHandlerOptions) => void
+
 export interface HoliWizardProps {
   steps: React.ReactNode[]
   stepOptions: HoliWizardStepOptions
   handleNextPress: NextPressHandler
+  handleSkipPress: SkipPressHandler
   getSubmitButtonLabel: (stepNumber: number) => string
   scrollEnabled?: boolean
   testID?: string
@@ -88,9 +94,10 @@ export const useWizard = () => {
 
 interface HoliWizardHeaderProps {
   testID: string
+  handleSkipPress: SkipPressHandler
 }
 
-const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID }) => {
+const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID, handleSkipPress }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { currentStep, stepCount } = useStepper()
@@ -117,7 +124,10 @@ const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID }) => {
             inline
             transparent
             variant="small"
-            onPress={onSkipPress}
+            onPress={() => {
+              handleSkipPress({ currentStep })
+              onSkipPress && onSkipPress()
+            }}
             testID={`${testID}-skip-btn`}
           >
             <HoliText size="extrasmall">{t('global.skip')}</HoliText>
@@ -155,6 +165,7 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
   steps,
   stepOptions,
   handleNextPress,
+  handleSkipPress,
   getSubmitButtonLabel,
   isNextButtonEnabled,
   scrollEnabled = false,
@@ -164,7 +175,7 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
     <SafeAreaView style={{ flex: 1 }} testID={testID}>
       <HoliStepperController stepCount={steps.length}>
         <HoliWizardContextProvider stepOptions={stepOptions} handleNextPress={handleNextPress}>
-          <HoliWizardHeader testID={testID} />
+          <HoliWizardHeader testID={testID} handleSkipPress={handleSkipPress} />
 
           <HoliStepper steps={steps} scrollEnabled={scrollEnabled} lazy />
 

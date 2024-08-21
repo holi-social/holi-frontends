@@ -6,6 +6,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
+import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -48,10 +49,12 @@ const CreatePost = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
   const [selectedTopics, setSelectedTopics] = useState<Term[]>([])
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | null>(null)
 
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [image, setImage] = useState<HoliImageInfo | null>(null)
+  const [images, setImages] = useState<HoliImageInfo[]>([])
   const [showCategories, setShowCategories] = useState(true)
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
@@ -84,9 +87,18 @@ const CreatePost = () => {
           description,
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
-          image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
           language: data?.detectedLanguage,
+          location: selectedLocation?.label,
+          ...(images && images.length
+            ? { images: images.map((image, index) => ({ image, order: index, altText: Math.random() + '' })) }
+            : {}),
+          geolocation: selectedLocation
+            ? {
+                latitude: selectedLocation.coordinates?.latitude,
+                longitude: selectedLocation.coordinates?.longitude,
+              }
+            : undefined,
         },
       },
       onError: (error) => {
@@ -143,12 +155,16 @@ const CreatePost = () => {
           onChangeDescription={setDescription}
           image={image}
           onChangeImage={setImage}
+          images={images}
+          onChangeImages={setImages}
           selectedCategoryId={selectedCategoryId}
           onChangeSelectedCategoryId={setSelectedCategoryId}
           selectedVisibility={selectedVisibility}
           onChangeSelectedVisibility={setSelectedVisibility}
           selectedTopics={selectedTopics}
           onChangeSelectedTopics={setSelectedTopics}
+          selectedLocation={selectedLocation}
+          onChangeSelectedLocation={setSelectedLocation}
           onSubmit={createPost}
           submitting={submitting}
           categories={categories}

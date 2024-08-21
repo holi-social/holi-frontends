@@ -22,6 +22,10 @@ export type HoliKeyboardSaveViewProps = {
 
 const WITHOUT_MAX_HEIGHT = 10000
 
+/**
+ * @deprecated Use `HoliKeyboardSafeAreaView` instead.
+ * HoliKeyboardSafeAreaView provides simpler, more modern and more reliable way to handle keyboard
+ * */
 const HoliKeyboardSaveView = ({
   style,
   contentStyle,

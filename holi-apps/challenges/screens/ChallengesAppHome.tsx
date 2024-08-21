@@ -1,10 +1,13 @@
 import { Camera } from 'expo-camera'
 import React, { useEffect, useRef, useState } from 'react'
+import { Platform, Share } from 'react-native'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { useNavigation } from '@react-navigation/native'
 
+import { holiNextJSApiUrl } from '@holi/api/config'
 import HoliWebView from '@holi/core/components/HoliWebView'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -21,6 +24,7 @@ const ChallengesAppHome = () => {
   const { navigate } = useRouting()
   const [pathQueryParam] = useParam('path')
   const { goBack } = useNavigation()
+  const { displayError } = useErrorHandling()
 
   const headers = useChallengesHeaders()
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
@@ -38,9 +42,26 @@ const ChallengesAppHome = () => {
     return cameraPermissionResult.granted && micPermissionResult.granted
   }
 
+  const share = async (message: string, path: string) => {
+    const url = `${holiNextJSApiUrl}/de/apps/challenges?path=${encodeURIComponent(path)}`
+    try {
+      await Share.share({
+        title: 'Holi Challenge',
+        message: Platform.OS === 'android' ? url : message,
+        url: url,
+      })
+    } catch (error) {
+      displayError(error, 'Failed to share link', {
+        location: 'useShareLink.shareLinkMobile',
+      })
+      throw error
+    }
+  }
+
   const handleMessageFromBackend = async (event: WebViewMessageEvent) => {
-    switch (event.nativeEvent.data) {
-      case 'requestPermission':
+    const message = JSON.parse(event.nativeEvent.data)
+    switch (message.name) {
+      case 'request-permission':
         await requestPermissions().then((granted) => {
           if (granted) {
             webViewRef.current?.postMessage('requestPermissionGranted')
@@ -49,14 +70,14 @@ const ChallengesAppHome = () => {
           }
         })
         break
-      case 'register':
-        navigate('/onboarding')
+      case 'navigate-path':
+        navigate(message.path)
         break
-      case 'login':
-        navigate('/login')
-        break
-      case 'exit':
+      case 'navigate-exit':
         goBack()
+        break
+      case 'share':
+        await share(message.message, message.path)
         break
     }
   }
@@ -65,7 +86,7 @@ const ChallengesAppHome = () => {
     isCameraAndMicPermissionGranted().then((permission) => setRequireCameraPermission(!permission))
   }, [])
 
-  if (!headers || isCameraAndMicPermissionGranted === undefined) {
+  if (!headers || requireCameraPermission === undefined) {
     return <HoliLoader />
   }
 

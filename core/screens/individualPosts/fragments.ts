@@ -27,6 +27,13 @@ export const FeedPostDetailsFragment = gql`
     createdAt
     imageUrl: image
     imageBlurhash
+    images {
+      id
+      image
+      imageBlurhash
+      order
+      altText
+    }
     author: creator {
       ...UserAvatar
     }
@@ -51,6 +58,11 @@ export const FeedPostDetailsFragment = gql`
       fullName
     }
     language
+    location
+    geolocation {
+      latitude
+      longitude
+    }
   }
 `
 

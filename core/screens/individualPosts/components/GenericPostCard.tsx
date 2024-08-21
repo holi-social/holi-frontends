@@ -13,6 +13,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
+import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
@@ -192,11 +193,16 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         )}
         {!feedPost.imageUrl && !!feedPost.linkPreview && (
           <HoliLinkPreview
+            style={styles.linkPreview}
             previewData={feedPost.linkPreview}
             onPress={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
           />
         )}
-
+        {feedPost.location && (
+          <View style={styles.locationCard}>
+            <PostLocationCard location={feedPost.location} geolocation={feedPost.geolocation} />
+          </View>
+        )}
         <View style={styles.reactionsBar}>
           <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
             {feedPost.totalComments > 0 ? (
@@ -360,7 +366,11 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             onPress={() => track(TrackingEvent.SpacePosts.read(spacePost.id, spacePost.space?.id))}
           />
         )}
-
+        {spacePost.location && (
+          <View style={styles.locationCard}>
+            <PostLocationCard location={spacePost.location} geolocation={spacePost.geolocation} />
+          </View>
+        )}
         <View style={styles.reactionsBar}>
           <HoliButton transparent inline onPress={goToDetailView} label="btn-comment-to-feed-post">
             {spacePost.numberOfComments > 0 ? (
@@ -455,6 +465,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     linkPreview: {
       marginTop: Spacing.xs,
+    },
+    locationCard: {
+      paddingTop: 8,
     },
   })
 

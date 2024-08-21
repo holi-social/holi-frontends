@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { logError } from '@holi/core/errors/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { FeedPostCategoriesQueryResult, feedPostCategoriesQuery } from '@holi/core/screens/individualPosts/queries'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export type FeedPostCategories = {
   id: string
@@ -16,6 +17,8 @@ export type FeedPostCategories = {
 
 const useFeedPostCategories = () => {
   const { t } = useTranslation()
+
+  const { user } = useLoggedInUser()
 
   const { data, loading } = useQuery<FeedPostCategoriesQueryResult>(feedPostCategoriesQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
@@ -57,19 +60,28 @@ const useFeedPostCategories = () => {
       description: t('individuals.post.category.description.awareness'),
       image: require('@holi/ui/assets/img/posts/category-raise-awareness-illustrations.svg'),
     },
+    'founder-update': {
+      idx: 5,
+      name: t('individuals.post.category.name.foundersUpdate'),
+      label: t('individuals.post.category.name.foundersUpdate'),
+      description: t('individuals.post.category.name.foundersUpdate'),
+      image: require('@holi/ui/assets/img/posts/category-founders-update-illustrations.svg'),
+    },
   }
 
   const presentableCategories = data?.feedPostCategories.data.reduce<FeedPostCategories>((acc, category) => {
     const categoryPresentation = categoryPresentationBySlug[category.slug]
     if (categoryPresentation) {
-      acc.push({
-        idx: categoryPresentation.idx,
-        id: category.id,
-        name: categoryPresentation.name,
-        label: categoryPresentation.label,
-        description: categoryPresentation.description,
-        image: categoryPresentation.image,
-      })
+      if (user?.role === 'FOUNDER' || categoryPresentation.idx !== 5 || category.slug !== 'founder-update') {
+        acc.push({
+          idx: categoryPresentation.idx,
+          id: category.id,
+          name: categoryPresentation.name,
+          label: categoryPresentation.label,
+          description: categoryPresentation.description,
+          image: categoryPresentation.image,
+        })
+      }
     }
     return acc
   }, [])

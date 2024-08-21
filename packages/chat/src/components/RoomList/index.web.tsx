@@ -2,14 +2,14 @@ import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated'
 
-import { ROOM_ITEM_HEIGHT } from '@holi/chat/src/components/RoomList/RoomItem'
-import RoomItemDeletable from '@holi/chat/src/components/RoomList/RoomItemDeletable'
 import { leaveRoom } from '@holi/chat/src/store'
 import { onScreenScrollY } from '@holi/core/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
+import { ROOM_ITEM_HEIGHT } from './RoomItem'
+import RoomItemDeletable from './RoomItemDeletable'
 import type { RoomListProps } from './types'
 
 const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {

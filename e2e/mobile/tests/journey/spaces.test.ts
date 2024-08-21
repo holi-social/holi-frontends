@@ -102,7 +102,7 @@ describe('@Spaces', () => {
 
   const assertEditingSpace = async () => {
     // check if edit space page has correct information
-    await seeTextWithTestId(initialName, 'space-edit-title')
+    await seeTextWithTestId(initialName, 'space-edit-title', 30000)
     await scrollToElementWithTestId('space-edit-goal', 'down', { maxAttempts: 2 })
     await seeTextWithTestId(initialGoal, 'space-edit-goal')
 

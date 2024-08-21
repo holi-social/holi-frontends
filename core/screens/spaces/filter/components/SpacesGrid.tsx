@@ -13,7 +13,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 
 interface Props {
   spaces: Space[]
-  pageSize: number
+  pageSize?: number
   style?: StyleProp<ViewStyle>
 }
 
@@ -23,7 +23,7 @@ const gridBreakpoints: [number, number][] = [
   [dimensions.breakpointL, 4],
 ]
 
-const SpacesGrid = ({ loading, spaces, style, pageSize }: PropsWithChildren<PropsWithSkeleton<Props>>) => {
+const SpacesGrid = ({ loading, spaces, style, pageSize = 1 }: PropsWithChildren<PropsWithSkeleton<Props>>) => {
   const itemsInRow = useBreakpointMatcher(gridBreakpoints) ?? 2
   // approximation, because of padding images are a bit to large, but that's ok
   const { imageWidth } = useWindowDimensionsWithImageScaling({ relativeWidth: 1 / itemsInRow })

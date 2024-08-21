@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
@@ -22,10 +22,10 @@ import {
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
 import { getChatInitials, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
-import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { getInitials } from '@holi/core/helpers'
+import { useShowHeaderOnScreenFocus } from '@holi/core/helpers/useShowHeaderOnScreenFocus'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -33,6 +33,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -77,6 +78,7 @@ const ChatRoomView = () => {
 
   useEffect(() => {
     setScreenOptions({
+      headerTransparent: true,
       headerRight: () =>
         !!chatPartner &&
         !isSpaceRoom && (
@@ -166,15 +168,18 @@ const ChatRoomView = () => {
     requestMessages(roomId, false)
   }, [requestMessages, roomId, room?.id, room?.hasInvitation])
 
+  // reset header when screen is focused
+  useShowHeaderOnScreenFocus()
+
   // TODO: provide skeleton instead of HoliLoader
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
 
   return (
-    <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-      <Animated.View entering={FadeIn} style={{ flex: 1 }}>
-        <SafeAreaView style={styles.safeArea}>
-          <KeyboardAvoidingViewWrapper
-            renderProp={() => (
+    <HoliKeyboardSafeAreaView>
+      <View style={styles.layoutWarpper}>
+        <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
+          <Animated.View entering={FadeIn} style={{ flex: 1 }}>
+            <SafeAreaView style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
                   {room.hasInvitation ? (
@@ -214,11 +219,11 @@ const ChatRoomView = () => {
                   roomId={roomId}
                 />
               </View>
-            )}
-          />
-        </SafeAreaView>
-      </Animated.View>
-    </PermissionsGuard>
+            </SafeAreaView>
+          </Animated.View>
+        </PermissionsGuard>
+      </View>
+    </HoliKeyboardSafeAreaView>
   )
 }
 
@@ -226,6 +231,16 @@ export default ChatRoomView
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    layoutWarpper: {
+      ...Platform.select({
+        web: {
+          height: '100%',
+        },
+        native: {
+          flex: 1,
+        },
+      }),
+    },
     safeArea: {
       flex: 1,
     },
@@ -237,7 +252,6 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       flex: 1,
       alignItems: 'center',
-      minHeight: '100%',
       backgroundColor: theme.colors.background20,
     },
     listContainer: {

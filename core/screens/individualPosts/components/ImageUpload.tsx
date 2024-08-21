@@ -8,29 +8,22 @@ import ImageCropPicker from 'react-native-image-crop-picker'
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit } from '@holi/icons/src/generated'
+import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
-import ImageEditor from './ImageEditor'
+import ImagePreview from './ImagePreview'
 
 const ImageUpload = ({
-  onSubmit,
-  onSetImage,
   onSetImages,
-  hasSetImage,
-  submitting,
-  isSubmittable,
-  isEdit,
   images,
+  buttonProps = { transparent: true, inline: true, label: '' },
+  children,
 }: {
-  onSubmit: () => void
-  onSetImage: (image: HoliImageInfo) => void
   onSetImages: (images: HoliImageInfo[]) => void
-  hasSetImage: boolean
-  submitting: boolean
-  isSubmittable: boolean
-  isEdit: boolean
   images: HoliImageInfo[]
+  buttonProps?: Omit<HoliButtonProps, 'children' | 'onPress'>
+  children?: React.ReactNode
 }) => {
   const { t } = useTranslation()
 
@@ -42,15 +35,10 @@ const ImageUpload = ({
         limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
         resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
       }}
-      buttonProps={{
-        label: t('individuals.post.image.add'),
-        transparent: true,
-        inline: true,
-      }}
-      onPickImage={onSetImage}
+      buttonProps={buttonProps}
       onPickImages={onSetImages}
     >
-      <HoliIcon icon={images.length > 0 ? ImageEdit : ImageAdd} style={styles.addImageIcon} />
+      {children}
     </HoliImagePicker>
   )
 }
