@@ -5,7 +5,6 @@ import { StyleSheet, View } from 'react-native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
@@ -16,15 +15,14 @@ import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
 import VolunteeringRecosV1 from '@holi-apps/volunteering/components/VolunteeringRecosV1'
 import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
+import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks'
 
 const Recommendations = () => {
   const { t } = useTranslation()
 
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayGoodNews = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
-  const displayVolunteeringRecosV1 = useFeatureFlagToggle(FeatureFlagKey.VOLUNTEERING_RECOS_V1)
-  const displayVolunteering =
-    useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn && !displayVolunteeringRecosV1
+  const volunteeringVariant = useVolunteeringVariant()
 
   return (
     <View style={styles.container}>
@@ -50,13 +48,13 @@ const Recommendations = () => {
         </HoliContainer>
       )}
 
-      {displayVolunteering && (
+      {volunteeringVariant === 'legacy' && (
         <HoliContainer>
           <VolunteeringUpdates style={styles.updatesContainer} />
         </HoliContainer>
       )}
 
-      {displayVolunteeringRecosV1 && (
+      {volunteeringVariant === 'recosV1' && (
         <HoliContainer>
           <VolunteeringRecosV1 style={styles.updatesContainer} />
         </HoliContainer>

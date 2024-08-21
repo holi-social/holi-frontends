@@ -16,4 +16,6 @@ export const useOnRefresh = (callback?: RefreshHandler) => {
   }, [callback, registerRefreshHandler])
 
   useFocusEffect(onFocus)
+
+  return callback
 }

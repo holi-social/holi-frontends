@@ -72,7 +72,7 @@ const useFeedPostCategories = () => {
   const presentableCategories = data?.feedPostCategories.data.reduce<FeedPostCategories>((acc, category) => {
     const categoryPresentation = categoryPresentationBySlug[category.slug]
     if (categoryPresentation) {
-      if (user?.role === 'FOUNDER' || categoryPresentation.idx !== 5 || category.slug !== 'founder-update') {
+      if (user?.role === 'CO_FOUNDER' || categoryPresentation.idx !== 5 || category.slug !== 'founder-update') {
         acc.push({
           idx: categoryPresentation.idx,
           id: category.id,
