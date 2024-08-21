@@ -253,7 +253,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
       minHeight: '100%',
-      backgroundColor: theme.colors.background20,
     },
     content: {
       minHeight: '100%',
@@ -261,7 +260,7 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       alignItems: 'baseline',
       backgroundColor: theme.colors.background10,
-      paddingBottom: 24,
+      paddingBottom: 16,
     },
     messageContainer: {
       alignItems: 'center',

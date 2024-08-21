@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { Calendar, LocaleConfig } from 'react-native-calendars'
+import { Platform, StyleSheet, View } from 'react-native'
+import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
 
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -9,8 +9,10 @@ import { ArrowLeftS, ArrowRightS } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
-import { getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
+import { formatDateToYYYMMDD, getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+import { HoliDatePickerProps } from './types'
 
 LocaleConfig.locales['de'] = {
   monthNames: [
@@ -32,15 +34,6 @@ LocaleConfig.locales['de'] = {
   dayNamesShort: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
   today: 'Heute',
 }
-export interface HoliDatePickerProps {
-  onChange: (date: string) => void
-  title: string
-  value: string
-  label?: string
-  style?: StyleProp<ViewStyle>
-  testID?: string
-  isRequired?: boolean
-}
 
 const HoliDatePicker = ({
   onChange = () => null,
@@ -48,8 +41,10 @@ const HoliDatePicker = ({
   value,
   label,
   style,
-  testID = 'holi-date-picker',
+  minimumDate,
+  maximumDate,
   isRequired,
+  testID = 'holi-date-picker',
 }: HoliDatePickerProps) => {
   const { theme } = useTheme()
   const { colors } = theme
@@ -61,7 +56,7 @@ const HoliDatePicker = ({
   const { i18n } = useTranslation()
   const currentLanguage = getLocale(i18n.language || '')
 
-  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(value), currentLanguage)
+  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(formatDateToYYYMMDD(value)), currentLanguage)
 
   const hoverPropsForWeb = Platform.select({
     web: {
@@ -96,21 +91,30 @@ const HoliDatePicker = ({
           </View>
         </HoliButton>
       </View>
+
       {visible && (
         <Calendar
           style={[styles.border, styles.calendar]}
-          renderArrow={(direction) => <HoliIcon icon={direction === 'left' ? ArrowLeftS : ArrowRightS} />}
-          onDayPress={(day) => {
-            onChange(day.dateString)
+          renderArrow={(direction: 'left' | 'right') => (
+            <HoliIcon icon={direction === 'left' ? ArrowLeftS : ArrowRightS} />
+          )}
+          onDayPress={(day: DateData) => {
+            onChange(new Date(day.timestamp))
             setVisible(false)
           }}
           markedDates={
             value
               ? {
-                  [value]: { selected: true, disableTouchEvent: true, selectedColor: colors.brandColorB30 },
+                  [formatDateToYYYMMDD(value)]: {
+                    selected: true,
+                    disableTouchEvent: false,
+                    selectedColor: colors.brandColorB30,
+                  },
                 }
               : {}
           }
+          minDate={minimumDate ? formatDateToYYYMMDD(minimumDate) : undefined}
+          maxDate={maximumDate ? formatDateToYYYMMDD(maximumDate) : undefined}
         />
       )}
     </>

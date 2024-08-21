@@ -39,6 +39,7 @@ export const FullUserFragment = gql`
     aboutMe
     pronouns
     location
+    role
     geolocationId
     engagementLevel
     interests {

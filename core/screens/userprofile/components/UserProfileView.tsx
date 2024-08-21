@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { StartChatButton } from '@holi/core/screens/userprofile/components/StartChatButton'
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import type { User } from '@holi/core/screens/userprofile/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { VerifiedExternal, VerifiedInternal } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface UserProfileViewProps {
   user: User
@@ -21,8 +22,18 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const fullName = user.fullName || t('user.profileView.anonymous')
+
+  const roleMapping: { [key: string]: string } = {
+    EDITOR: 'user.profileView.role.editor',
+    JOURNALIST: 'user.profileView.role.journalist',
+    CO_FOUNDER: 'user.profileView.role.co_founder',
+    COMMUNITY_MANAGER: 'user.profileView.role.community_manager',
+  }
+
+  const badge = user.role !== 'JOURNALIST' ? VerifiedInternal : VerifiedExternal
 
   return (
     <View style={styles.header}>
@@ -38,14 +49,26 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
           />
         </View>
         <View style={styles.nameContainer}>
-          <HoliHeading level="1" testID="user-profile-full-name">
+          <HoliText size="large" testID="user-profile-full-name">
             {fullName}
-          </HoliHeading>
+          </HoliText>
           {(!!user.pronouns || !!user.location) && (
-            <HoliText style={{ color: colors.foreground20 }}>
-              {!!user.pronouns && `(${user.pronouns}) `}
+            <HoliText style={styles.details}>
+              {!!user.pronouns && `${user.pronouns}`}
+              {!!user.pronouns && !!user.location && (
+                <HoliText size="large" style={styles.dot}>
+                  {' '}
+                  &middot;{' '}
+                </HoliText>
+              )}
               {!!user.location && `${user.location}`}
             </HoliText>
+          )}
+          {user?.role && roleMapping[user.role] && (
+            <View style={styles.role}>
+              <HoliText style={{ color: colors.foreground20 }}>{t(roleMapping[user.role])}</HoliText>
+              <HoliIcon icon={badge} size={20} style={styles.verified} />
+            </View>
           )}
         </View>
       </View>
@@ -56,36 +79,64 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
       )}
       {contactPossible && (
         <View style={styles.profileButtonWrapper}>
-          <UserConnectionButtons user={user} />
-          <StartChatButton user={user} label={t('user.profileView.message')} type="secondary" inline />
+          <UserConnectionButtons user={user} style={styles.connectionButton} />
+          <StartChatButton
+            user={user}
+            label={t('user.profileView.message')}
+            type="secondary"
+            inline
+            style={styles.chatButton}
+          />
         </View>
       )}
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'column',
-    width: '100%',
-    minWidth: 250,
-    marginTop: 8,
-  },
-  avatarName: {
-    flexDirection: 'row',
-  },
-  profileButtonWrapper: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    columnGap: 8,
-    marginTop: 16,
-  },
-  nameContainer: {
-    marginTop: 8,
-    marginLeft: 16,
-    flexShrink: 1,
-    flex: 1,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    header: {
+      flexDirection: 'column',
+      width: '100%',
+      minWidth: 250,
+    },
+    avatarName: {
+      marginTop: 16,
+    },
+    profileButtonWrapper: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      columnGap: 8,
+      marginTop: 16,
+    },
+    nameContainer: {
+      marginTop: 16,
+    },
+    details: {
+      color: theme.colors.foreground20,
+      marginTop: 4,
+      gap: 4,
+    },
+    role: {
+      marginTop: 4,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    verified: {
+      marginLeft: 4,
+    },
+    dot: {
+      color: theme.colors.brandB300,
+    },
+    connectionButton: {
+      backgroundColor: theme.colors.brandColorA20,
+      paddingHorizontal: 20,
+      borderWidth: 1,
+    },
+    chatButton: {
+      paddingHorizontal: 20,
+      borderWidth: 1,
+    },
+  })
 
 export default UserProfileView
