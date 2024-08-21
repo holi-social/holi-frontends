@@ -70,39 +70,36 @@ const EditUploadedImages = ({
               </View>
             </View>
             <View style={styles.gridContainer}>
-              {images
-                .map((image) => image.uri)
-                .concat(currentImages || [])
-                .map((image, index) => (
-                  <View key={index} style={styles.imageContainer}>
-                    <View
-                      style={{
-                        padding: Spacing['3xs'],
-                        borderRadius: Spacing.xs,
-                        borderWidth: 1,
-                        borderColor: theme.colors.foreground10,
-                        backgroundColor: theme.colors.white100,
-                      }}
-                    >
-                      <HoliImage
-                        label={t('global.imagePreview.image')}
-                        source={typeof image === 'string' ? { uri: image } : image}
-                        resizeMode="cover"
-                        style={styles.image}
-                      />
-                      <View style={styles.buttonContainer}>
-                        <HoliButton
-                          transparent
-                          label={''}
-                          style={styles.button}
-                          onPress={() => setImages(images.filter((_, imageIndex) => imageIndex !== index))}
-                        >
-                          <HoliIcon icon={Delete} size={20} style={styles.icon} />
-                        </HoliButton>
-                      </View>
+              {images.map((image, index) => (
+                <View key={index} style={styles.imageContainer}>
+                  <View
+                    style={{
+                      padding: Spacing['3xs'],
+                      borderRadius: Spacing.xs,
+                      borderWidth: 1,
+                      borderColor: theme.colors.foreground10,
+                      backgroundColor: theme.colors.white100,
+                    }}
+                  >
+                    <HoliImage
+                      label={t('global.imagePreview.image')}
+                      source={typeof image === 'string' ? { uri: image } : image}
+                      resizeMode="cover"
+                      style={styles.image}
+                    />
+                    <View style={styles.buttonContainer}>
+                      <HoliButton
+                        transparent
+                        label={''}
+                        style={styles.button}
+                        onPress={() => setImages(images.filter((_, imageIndex) => imageIndex !== index))}
+                      >
+                        <HoliIcon icon={Delete} size={20} style={styles.icon} />
+                      </HoliButton>
                     </View>
                   </View>
-                ))}
+                </View>
+              ))}
             </View>
           </View>
         </HoliContainer>

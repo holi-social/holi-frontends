@@ -11,7 +11,7 @@ type ImagePreviewProps = {
   aspectRatio?: number
 }
 
-const ImagePreview = ({ image, currentImage, aspectRatio }: ImagePreviewProps) => {
+const ImagePreview = ({ image, currentImage, aspectRatio = 16 / 9 }: ImagePreviewProps) => {
   const { t } = useTranslation()
   const styles = createStyles(aspectRatio)
 
@@ -36,13 +36,13 @@ const ImagePreview = ({ image, currentImage, aspectRatio }: ImagePreviewProps) =
   )
 }
 
-const createStyles = (aspectRatio = 16 / 9) =>
+const createStyles = (aspectRatio: number) =>
   StyleSheet.create({
     container: {
       position: 'relative',
     },
     image: {
-      aspectRatio: 16 / 9,
+      aspectRatio: aspectRatio,
       borderRadius: 8,
       width: '100%',
     },

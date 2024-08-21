@@ -4,6 +4,14 @@ import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
+/* images {
+  id
+  image
+  imageBlurhash
+  order
+  altText
+} **/
+
 export const FeedPostDetailsFragment = gql`
   ${UserAvatarFragment}
   ${LinkFragment}
@@ -27,13 +35,6 @@ export const FeedPostDetailsFragment = gql`
     createdAt
     imageUrl: image
     imageBlurhash
-    images {
-      id
-      image
-      imageBlurhash
-      order
-      altText
-    }
     author: creator {
       ...UserAvatar
     }

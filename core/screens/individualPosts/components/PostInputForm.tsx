@@ -23,6 +23,7 @@ import { Term, User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Global, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -65,7 +66,7 @@ export interface PostInputFormProps {
   onChangeImages: any
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
-  onChangeSelectedLocation: (_: GeolocationSuggestion) => void
+  onChangeSelectedLocation: (_: GeolocationSuggestion | null) => void
   onSubmit: () => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
@@ -232,13 +233,51 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                   <HoliText>{t('global.edit')}</HoliText>
                   <HoliIcon size={16} icon={Edit2} style={styles.buttonIcon} />
                 </HoliButton>
-                <HoliCarousel
-                  marginHorizontal={Spacing.sm}
-                  style={styles.imageCarousel}
-                  slides={images.map((image: any, index) => ({
-                    children: <ImagePreview key={index} image={image} />,
-                  }))}
-                />
+                {Platform.OS !== 'web' && (
+                  <HoliCarousel
+                    marginHorizontal={Spacing.sm}
+                    style={styles.imageCarousel}
+                    slides={images.map((image: HoliImageInfo, index) => ({
+                      children: <ImagePreview key={index} image={image} />,
+                    }))}
+                  />
+                )}
+                {Platform.OS === 'web' && (
+                  <View
+                    style={{
+                      marginVertical: Spacing.sm,
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                      justifyContent: 'space-between',
+                      marginHorizontal: -Spacing['4xs'],
+                    }}
+                  >
+                    {images.map((image, index) => (
+                      <View key={index} style={{ width: '50%', padding: Spacing['4xs'] }}>
+                        <View
+                          style={{
+                            padding: Spacing['3xs'],
+                            borderRadius: Spacing.xs,
+                            borderWidth: 1,
+                            borderColor: theme.colors.foreground10,
+                            backgroundColor: theme.colors.white100,
+                          }}
+                        >
+                          <HoliImage
+                            label={t('global.imagePreview.image')}
+                            source={typeof image === 'string' ? { uri: image } : image}
+                            resizeMode="cover"
+                            style={{
+                              aspectRatio: 16 / 9,
+                              borderRadius: 8,
+                              width: '100%',
+                            }}
+                          />
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                )}
               </View>
             )}
           </View>
