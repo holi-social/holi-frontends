@@ -11,6 +11,13 @@ import { PropsWithSkeleton } from '@holi/ui/components/types'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+const roleMapping: { [key: string]: string } = {
+  EDITOR: 'user.profileView.role.editor',
+  JOURNALIST: 'user.profileView.role.journalist',
+  CO_FOUNDER: 'user.profileView.role.co_founder',
+  COMMUNITY_MANAGER: 'user.profileView.role.community_manager',
+}
+
 interface Props {
   avatarProps: AvatarProps
   secondaryAvatarProps?: AvatarProps
@@ -46,14 +53,6 @@ const HoliMediaHeader = ({
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { t } = useTranslation()
-
-  const roleMapping: { [key: string]: string } = {
-    EDITOR: 'user.profileView.role.editor',
-    JOURNALIST: 'user.profileView.role.journalist',
-    CO_FOUNDER: 'user.profileView.role.co_founder',
-    COMMUNITY_MANAGER: 'user.profileView.role.community_manager',
-  }
-
   const badge = role !== 'JOURNALIST' ? VerifiedInternal : VerifiedExternal
 
   if (loading) {
