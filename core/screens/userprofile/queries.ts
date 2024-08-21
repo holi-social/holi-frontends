@@ -22,7 +22,6 @@ export const UserAvatarFragment = gql`
     avatarDefaultColor
     firstName
     fullName
-    role
   }
 `
 
