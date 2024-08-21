@@ -29,7 +29,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { formatDateToYYYMMDD, numberToStringWithPad, transformToUTC } from '@holi/ui/helper/date'
+import { transformToUTC } from '@holi/ui/helper/date'
 import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -52,12 +52,8 @@ const CreateAppointment = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [inviteOnly, setInviteOnly] = useState<HoliModalSelectOption | undefined>()
-  const [startDate, setStartDate] = useState<string>(formatDateToYYYMMDD(new Date()))
-  const [endDate, setEndDate] = useState<string>(formatDateToYYYMMDD(new Date()))
-  const [startHours, setStartHours] = useState<string>(numberToStringWithPad(new Date().getHours()))
-  const [endHours, setEndHours] = useState<string>(numberToStringWithPad(new Date().getHours()))
-  const [startMinutes, setStartMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
-  const [endMinutes, setEndMinutes] = useState<string>(numberToStringWithPad(new Date().getMinutes()))
+  const [startDate, setStartDate] = useState<Date>(new Date())
+  const [endDate, setEndDate] = useState<Date>(new Date())
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined | null>()
   const [locationDetails, setLocationDetails] = useState<LocationDetails | undefined>()
@@ -124,8 +120,8 @@ const CreateAppointment = () => {
             inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
           permission: permissionType?.id,
           thumbnail: thumbnail?.blob,
-          startDateTime: transformToUTC(`${startDate}T${startHours}:${startMinutes}` || ''),
-          endDateTime: transformToUTC(`${endDate}T${endHours}:${endMinutes}` || ''),
+          startDateTime: transformToUTC(startDate),
+          endDateTime: transformToUTC(endDate),
           locationDetails: locationDetails,
           videoCallLink: url,
           videoCallInfo: additionalInfo,
@@ -168,21 +164,19 @@ const CreateAppointment = () => {
   }, [space?.id, title, description, inviteOnly, permissionType, thumbnail, locationDetails])
 
   useIsomorphicLayoutEffect(() => {
-    !loadingSpace &&
-      isMember &&
-      setScreenOptions({
-        animation: 'slide_from_bottom',
-        headerTitle: () => (
-          <HoliHeading level="1" size="s">
-            {t('spaces.appointments.add.button.label')}
-          </HoliHeading>
-        ),
-        headerTransparent: true,
-        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      })
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      headerTitle: () => (
+        <HoliHeading level="1" size="s">
+          {t('spaces.appointments.add.button.label')}
+        </HoliHeading>
+      ),
+      headerTransparent: true,
+      headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
   }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {
@@ -223,10 +217,6 @@ const CreateAppointment = () => {
               inviteOnly={inviteOnly}
               startDate={startDate}
               endDate={endDate}
-              startHours={startHours}
-              endHours={endHours}
-              startMinutes={startMinutes}
-              endMinutes={endMinutes}
               permissionType={permissionType}
               thumbnail={thumbnail}
               locationDetails={locationDetails}
@@ -242,10 +232,6 @@ const CreateAppointment = () => {
               onChangeSelectedLocation={setSelectedLocation}
               onChangeStartDate={setStartDate}
               onChangeEndDate={setEndDate}
-              onChangeStartHours={setStartHours}
-              onChangeEndHours={setEndHours}
-              onChangeStartMinutes={setStartMinutes}
-              onChangeEndMinutes={setEndMinutes}
               onChangeUrl={setUrl}
               onChangeAdditionalInfo={setAdditionalInfo}
               fieldErrors={fieldErrors}
