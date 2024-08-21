@@ -19,7 +19,6 @@ import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTime
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { numberToStringWithPad } from '@holi/ui/helper/date'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // this enum is only used for the HoliModalSelect, since inviteOnly is a boolean value
@@ -61,13 +60,9 @@ export const PERMISSION_TYPE_OPTIONS: HoliModalSelectOption[] = [
 export interface AppointmentInputFormProps {
   title: string
   description: string
-  startDate: string
-  endDate: string
+  startDate: Date
+  endDate: Date
   inviteOnly?: HoliModalSelectOption
-  startHours?: string
-  endHours?: string
-  startMinutes?: string
-  endMinutes?: string
   permissionType?: HoliModalSelectOption
   regularity?: HoliModalSelectOption
   thumbnail?: HoliImageInfo | null // null is for choosing to remove an image from an appointment and keeping it without image
@@ -77,21 +72,17 @@ export interface AppointmentInputFormProps {
   url?: string
   additionalInfo?: string
   currentThumbnail?: string
-  onChangeTitle: (_: string) => void
-  onChangeDescription: (_: string) => void
-  onChangeInviteOnly: (_: HoliModalSelectOption) => void
-  onChangeStartDate: (_: string) => void
-  onChangeEndDate: (_: string) => void
-  onChangeStartHours: (_: string) => void
-  onChangeEndHours: (_: string) => void
-  onChangeStartMinutes: (_: string) => void
-  onChangeEndMinutes: (_: string) => void
-  onChangePermissionType: (_: HoliModalSelectOption) => void
-  onChangeThumbnail: (_: HoliImageInfo | undefined | null) => void
-  onChangeLocationDetails: (_: LocationDetails) => void
-  onChangeSelectedLocation: (_?: GeolocationSuggestion) => void
-  onChangeUrl: (_: string) => void
-  onChangeAdditionalInfo: (_: string) => void
+  onChangeTitle: (value: string) => void
+  onChangeDescription: (value: string) => void
+  onChangeInviteOnly: (value: HoliModalSelectOption) => void
+  onChangeStartDate: (value: Date) => void
+  onChangeEndDate: (value: Date) => void
+  onChangePermissionType: (value: HoliModalSelectOption) => void
+  onChangeThumbnail: (value: HoliImageInfo | undefined | null) => void
+  onChangeLocationDetails: (value: LocationDetails) => void
+  onChangeSelectedLocation: (value?: GeolocationSuggestion) => void
+  onChangeUrl: (value: string) => void
+  onChangeAdditionalInfo: (value: string) => void
   fieldErrors?: TranslatedFieldErrors
   isAdmin?: boolean
 }
@@ -102,10 +93,6 @@ const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
   inviteOnly,
   startDate,
   endDate,
-  startHours,
-  endHours,
-  startMinutes,
-  endMinutes,
   permissionType,
   thumbnail,
   currentThumbnail,
@@ -117,10 +104,6 @@ const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
   onChangeInviteOnly,
   onChangeStartDate,
   onChangeEndDate,
-  onChangeStartHours,
-  onChangeEndHours,
-  onChangeStartMinutes,
-  onChangeEndMinutes,
   onChangePermissionType,
   onChangeThumbnail,
   onChangeSelectedLocation,
@@ -273,53 +256,27 @@ const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
         <HoliDateAndTimePicker
           title={t('spaces.appointments.input.startDate.title')}
           label={t('spaces.appointments.input.startDate.title')}
-          onChangeDate={(newStartDate) => {
+          value={startDate}
+          onChange={(newStartDate) => {
             if (endDate && newStartDate > endDate) {
               onChangeEndDate(newStartDate)
             }
             onChangeStartDate(newStartDate)
           }}
-          valueDate={startDate}
-          valueHours={startHours}
-          valueMinutes={startMinutes}
-          onChangeHours={(newStartHours) => {
-            if (`${endHours || '00'}:${endMinutes || '00'}` < `${newStartHours || '00'}:${startMinutes} || '00'`) {
-              onChangeEndHours(numberToStringWithPad(+newStartHours))
-            }
-            onChangeStartHours(newStartHours)
-          }}
-          onChangeMinutes={(newStartMinutes) => {
-            if (`${endHours || '00'}:${endMinutes || '00'}` < `${startHours || '00'}:${newStartMinutes || '00'}`) {
-              onChangeEndMinutes(numberToStringWithPad(+newStartMinutes))
-            }
-            onChangeStartMinutes(newStartMinutes)
-          }}
+          maximumDate={endDate}
         />
 
         <HoliDateAndTimePicker
           title={t('spaces.appointments.input.endDate.title')}
           label={t('spaces.appointments.input.endDate.title')}
-          onChangeDate={(newEndDate) => {
+          value={endDate}
+          onChange={(newEndDate) => {
             if (startDate && newEndDate < startDate) {
               onChangeStartDate(newEndDate)
             }
             onChangeEndDate(newEndDate)
           }}
-          valueDate={endDate}
-          valueHours={endHours}
-          valueMinutes={endMinutes}
-          onChangeHours={(newEndHours) => {
-            if (`${newEndHours || '00'}:${endMinutes || '00'}` < `${startHours || '00'}:${startMinutes || '00'}`) {
-              onChangeStartHours(numberToStringWithPad(+newEndHours))
-            }
-            onChangeEndHours(newEndHours)
-          }}
-          onChangeMinutes={(newEndMinutes) => {
-            if (`${endHours || '00'}:${newEndMinutes || '00'}` < `${startHours || '00'}:${startMinutes || '00'}`) {
-              onChangeStartMinutes(numberToStringWithPad(+newEndMinutes))
-            }
-            onChangeEndMinutes(newEndMinutes)
-          }}
+          minimumDate={startDate}
           style={styles.marginSeparator}
         />
       </View>
