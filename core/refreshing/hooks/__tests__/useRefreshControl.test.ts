@@ -46,25 +46,30 @@ describe('useRefreshControl', () => {
   it('should allow to deregister refresh callback', async () => {
     const { result } = renderHook(useRefreshControl)
 
-    // Register callback
-    const callback = jest.fn()
-    const deregister = result.current.registerRefreshHandler?.(callback)
+    // Register callbacks
+    const callback1 = jest.fn()
+    const callback2 = jest.fn()
+    const deregisterCallback1 = result.current.registerRefreshHandler?.(callback1)
+    result.current.registerRefreshHandler?.(callback2)
 
     await act(async () => {
-      // Ensure callback is used during refresh
+      // Ensure both callbacks are used during refresh
       result.current.refreshControlProps?.onRefresh?.()
-      expect(callback).toHaveBeenCalled()
+      expect(callback1).toHaveBeenCalled()
+      expect(callback2).toHaveBeenCalled()
       await waitFor(() => expect(result.current.refreshControlProps.refreshing).toBe(false))
     })
 
-    // Deregister callback and reset mock calls
-    deregister?.()
-    callback.mockClear()
+    // Deregister callback1 and reset mock calls
+    deregisterCallback1?.()
+    callback1.mockClear()
+    callback2.mockClear()
 
     await act(async () => {
-      // Ensure callback is not used anymore during refresh
+      // Ensure only callback2 is still called during refresh
       result.current.refreshControlProps?.onRefresh?.()
-      expect(callback).not.toHaveBeenCalled()
+      expect(callback1).not.toHaveBeenCalled()
+      expect(callback2).toHaveBeenCalled()
       await waitFor(() => expect(result.current.refreshControlProps.refreshing).toBe(false))
     })
   })
@@ -90,9 +95,11 @@ describe('useRefreshControl', () => {
   it('should catch and log errors during refresh', async () => {
     const { result } = renderHook(useRefreshControl)
 
-    const callback = jest.fn(() => Promise.reject('Test'))
+    const failingCallback = jest.fn(() => Promise.reject('Test'))
+    const callback2 = jest.fn()
 
-    result.current.registerRefreshHandler?.(callback)
+    result.current.registerRefreshHandler?.(failingCallback)
+    result.current.registerRefreshHandler?.(callback2)
 
     await act(async () => {
       result.current.refreshControlProps?.onRefresh?.()
@@ -100,7 +107,10 @@ describe('useRefreshControl', () => {
       await waitFor(() => expect(result.current.refreshControlProps.refreshing).toBeFalsy())
     })
 
-    expect(callback).toHaveBeenCalled()
+    // Ensure all handlers were called
+    expect(failingCallback).toHaveBeenCalled()
+    expect(callback2).toHaveBeenCalled()
+
     expect(logError).toHaveBeenCalledWith('Test', 'Error during refresh', { location: 'useRefreshControl.onRefresh' })
   })
 })
