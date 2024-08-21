@@ -10,6 +10,7 @@ export const useOnRefresh = (callback?: RefreshHandler) => {
   // Only register handlers for currently focused screen
   const onFocus = useCallback(() => {
     if (callback) {
+      // Deregister callback when unfocused again
       return registerRefreshHandler?.(callback)
     }
   }, [callback, registerRefreshHandler])

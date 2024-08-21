@@ -7,6 +7,7 @@ export const useOnRefresh = (callback?: RefreshHandler) => {
 
   useEffect(() => {
     if (callback) {
+      // Deregister focus on onmount
       return registerRefreshHandler?.(callback)
     }
   }, [callback, registerRefreshHandler])
