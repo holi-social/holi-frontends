@@ -107,6 +107,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           authorBold
           date={feedPost.createdAt}
           role={feedPost.author.role}
+          style={styles.authorHeader}
         />
         {isLoggedIn && (
           <View style={styles.postDrawer}>
@@ -475,6 +476,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     locationCard: {
       paddingTop: 8,
+    },
+    authorHeader: {
+      paddingRight: 32,
     },
   })
 

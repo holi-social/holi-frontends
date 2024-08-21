@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { VerifiedExternal, VerifiedInternal } from '@holi/icons/src/generated'
@@ -84,12 +84,12 @@ const HoliMediaHeader = ({
       </HoliButton>
       <View style={[styles.titleContainer]}>
         <HoliButton inline transparent label={titleLabel} onPress={onTitlePressed}>
-          <HoliText bold={!!titleBold} numberOfLines={1}>
+          <HoliText bold={!!titleBold} numberOfLines={1} style={{ lineHeight: 18 }}>
             {title}
           </HoliText>
         </HoliButton>
 
-        <View style={styles.row}>
+        <View style={styles.secondRow}>
           {!!role && role !== 'INTERNAL' && role !== 'REGULAR' && (
             <View style={styles.role}>
               <HoliText size="small" style={{ color: theme.colors.foreground20 }}>
@@ -125,6 +125,11 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
     },
+    secondRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: Spacing['4xs'],
+    },
     avatarButton: {
       position: 'relative',
     },
@@ -142,20 +147,19 @@ const getStyles = (theme: HoliTheme) =>
       overflow: 'hidden',
     },
     datePrefix: {
-      marginTop: 2,
       maxWidth: '50%',
     },
     date: {
-      marginTop: 2,
       color: theme.colors.foreground20,
       maxWidth: '50%',
     },
     dot: {
       color: theme.colors.brandB300,
+      lineHeight: 14 * 1.4,
       marginHorizontal: Spacing['4xs'],
+      bottom: Platform.OS === 'web' ? 2 : -2,
     },
     role: {
-      marginTop: 2,
       marginRight: Spacing['3xs'],
       flexDirection: 'row',
       alignItems: 'center',
