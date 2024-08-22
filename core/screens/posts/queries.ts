@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { Post } from '@holi/core/screens/posts/types'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const PostImageFragment = gql`
   fragment PostImageData on PostImage {
@@ -14,7 +14,7 @@ export const PostImageFragment = gql`
 `
 
 export const PostFragment = gql`
-  ${UserAvatarFragment}
+  ${FullUserAvatarFragment}
   ${PostImageFragment}
   ${LinkFragment}
 
@@ -26,13 +26,13 @@ export const PostFragment = gql`
     created
     modified
     creator {
-      ...UserAvatar
+      ...FullUserAvatar
     }
     numberOfComments
     commenters {
       totalResults
       data {
-        ...UserAvatar
+        ...FullUserAvatar
       }
     }
     space {
@@ -65,7 +65,7 @@ export const PostFragment = gql`
 `
 
 export const PostDetailsFragment = gql`
-  ${UserAvatarFragment}
+  ${FullUserAvatarFragment}
   ${PostImageFragment}
   ${LinkFragment}
 
@@ -77,13 +77,13 @@ export const PostDetailsFragment = gql`
     created
     modified
     creator {
-      ...UserAvatar
+      ...FullUserAvatar
     }
     numberOfComments
     commenters {
       totalResults
       data {
-        ...UserAvatar
+        ...FullUserAvatar
       }
     }
     image {

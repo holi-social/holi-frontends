@@ -2,10 +2,10 @@ import { gql } from '@apollo/client'
 
 import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const FeedPostDetailsFragment = gql`
-  ${UserAvatarFragment}
+  ${FullUserAvatarFragment}
   ${LinkFragment}
 
   fragment FeedPostFull on FeedPost {
@@ -28,7 +28,7 @@ export const FeedPostDetailsFragment = gql`
     imageUrl: image
     imageBlurhash
     author: creator {
-      ...UserAvatar
+      ...FullUserAvatar
     }
     myReaction {
       HEART
@@ -43,7 +43,7 @@ export const FeedPostDetailsFragment = gql`
     commenters(limit: 5) {
       totalResults
       data {
-        ...UserAvatar
+        ...FullUserAvatar
       }
     }
     mentionedUsers: mentions {
@@ -60,7 +60,7 @@ export const FeedPostDetailsFragment = gql`
 `
 
 export const GenericPostPagedFragment = gql`
-  ${UserAvatarFragment}
+  ${FullUserAvatarFragment}
   ${LinkFragment}
   ${PostFragment}
   ${FeedPostDetailsFragment}

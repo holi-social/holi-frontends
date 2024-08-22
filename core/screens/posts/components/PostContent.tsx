@@ -134,7 +134,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
             label={post.creator.fullName}
             testID="btn-to-post-creator-profile"
           >
-            <HoliMediaAuthorHeader author={post.creator} date={post.created} />
+            <HoliMediaAuthorHeader author={post.creator} date={post.created} role={post.creator.role} />
           </HoliLink>
         </>
 
@@ -152,13 +152,15 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
       {/* Post image */}
       {post.image && (
-        <PostImage
-          uri={post.image.url}
-          imageBlurhash={post.image.imageBlurhash}
-          height={post.image.height}
-          width={post.image.width}
-          postTitle={post.title}
-        />
+        <View style={styles.paddingHorizontal}>
+          <PostImage
+            uri={post.image.url}
+            imageBlurhash={post.image.imageBlurhash}
+            height={post.image.height}
+            width={post.image.width}
+            postTitle={post.title}
+          />
+        </View>
       )}
 
       {/* Post link previews */}
