@@ -1,3 +1,7 @@
+// eslint-disable-next-line prettier/prettier
+import 'ts-node/register'
+import { AppJSONConfig } from 'expo/config'
+
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
@@ -11,7 +15,7 @@ const versions = {
 // - Evaluated when running expo:dev, using the values set in the execution environment.
 //   Use `.envrc` / `.envrc.local` and the `.env.$environment` to set values.
 // - Evaluated when running eas build, using values set in the profiles in eas.json.
-const requiredEnvVar = (variableName) => {
+const requiredEnvVar = (variableName: string) => {
   if (!process.env[variableName]) {
     throw new Error(`Missing required environment variable ${variableName}`)
   }
@@ -21,7 +25,7 @@ const requiredEnvVar = (variableName) => {
 // Used to create different apps for different environments (e.g. production, development) so they can be
 // installed alongside each other on developers devices. See eas.json for available profile names.
 requiredEnvVar('APP_VARIANT')
-let appName, iOSBundleIdentifier, androidPackage, googleServicesFile
+let appName: string, iOSBundleIdentifier: string, androidPackage: string, googleServicesFile: string
 switch (process.env.APP_VARIANT) {
   case 'production':
     appName = 'holi'
@@ -39,7 +43,7 @@ switch (process.env.APP_VARIANT) {
     throw new Error(`Unknown APP_VARIANT ${process.env.APP_VARIANT}`)
 }
 
-export default {
+const config: AppJSONConfig = {
   expo: {
     name: appName,
     slug: 'projectholi',
@@ -47,6 +51,7 @@ export default {
     version: versions.version,
     orientation: 'portrait',
     icon: './assets/icon.png',
+    jsEngine: 'hermes',
     scheme: 'holi',
     splash: {
       image: './assets/splash.png',
@@ -58,7 +63,7 @@ export default {
       fallbackToCacheTimeout: 3000,
     },
     runtimeVersion: {
-      policy: 'sdkVersion', // needed for EAS updates
+      policy: 'fingerprint', // always target compatible native runtimes
     },
     assetBundlePatterns: ['**/*'],
     ios: {
@@ -136,7 +141,15 @@ export default {
     },
     plugins: [
       'expo-localization',
+      'expo-secure-store',
       ['sentry-expo'],
+      [
+        '@sentry/react-native/expo',
+        {
+          organization: 'holistic-foundation',
+          project: 'holi-app-mobile',
+        },
+      ],
       [
         'expo-image-picker',
         {
@@ -158,17 +171,18 @@ export default {
         },
       ],
     ],
-    hooks: {
-      postPublish: [
-        {
-          file: 'sentry-expo/upload-sourcemaps',
-          config: {
-            organization: 'holistic-foundation',
-            project: 'holi-app-mobile',
-          },
-        },
-      ],
-    },
+    // This doesn't seems to be supported by the expo config.
+    // hooks: {
+    //   postPublish: [
+    //     {
+    //       file: 'sentry-expo/upload-sourcemaps',
+    //       config: {
+    //         organization: 'holistic-foundation',
+    //         project: 'holi-app-mobile',
+    //       },
+    //     },
+    //   ],
+    // },
     extra: {
       novu: {
         applicationIdentifier: requiredEnvVar('NOVU_APPLICATION_IDENTIFIER'),
@@ -222,3 +236,5 @@ export default {
     },
   },
 }
+
+export default config
