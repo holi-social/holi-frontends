@@ -12,11 +12,11 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, ShareBox } from '@holi/icons/src/generated'
@@ -74,7 +74,7 @@ const DonationsAppProjectDetail = () => {
       })
     },
   })
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const project = data?.appDonations_project
 
@@ -99,10 +99,7 @@ const DonationsAppProjectDetail = () => {
         style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
         testID="donations-detailview-container"
       >
-        <ScrollHeaderLayout
-          refreshControlProps={{ refreshing, onRefresh }}
-          style={{ backgroundColor: colors.background30 }}
-        >
+        <ScrollHeaderLayout style={{ backgroundColor: colors.background30 }}>
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
             <View style={styles.header}>

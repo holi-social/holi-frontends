@@ -1,4 +1,3 @@
-import { useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,7 +6,6 @@ import { StyleSheet } from 'react-native'
 import FilterModal from '@holi/core/components/FIlterModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
@@ -42,9 +40,6 @@ const FilteredSpaces = () => {
   } = useSpaceInitialFilters()
 
   const updateParams = useUpdateParams(webReplaceQueryConfig)
-  const client = useApolloClient()
-
-  const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [spacesQuery] }))
 
   const { visible: isFilterModalShown, show: openFilterModal, hide: closeFilterModal } = useModalState()
 
@@ -78,15 +73,7 @@ const FilteredSpaces = () => {
 
   return (
     <SpaceTermContextProvider>
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        headerRelation="offset"
-        style={styles.container}
-        testID="filtered-spaces-container"
-      >
+      <ScrollHeaderLayout headerRelation="offset" style={styles.container} testID="filtered-spaces-container">
         <HoliContainer>
           <FilteredSpacesHeading locationId={locationId} topicSlugs={topicSlugs} skillSlugs={skillSlugs} />
           {isLoading ? (

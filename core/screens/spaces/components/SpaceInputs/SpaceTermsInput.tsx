@@ -1,12 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import {
-  SortedTerm,
-  Term,
-  termsBySortNumberComparator,
-  termsByTitleComparator,
-} from '@holi/core/screens/userprofile/types'
+import { SortedTerm, Term, termsBySortNumberComparator, termsByTitleComparator } from '@holi/core/domain/shared/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'

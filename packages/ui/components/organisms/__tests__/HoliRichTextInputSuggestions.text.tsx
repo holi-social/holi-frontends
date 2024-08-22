@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 
-import type { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'
 
 const MOCK_RESULT = [

@@ -5,7 +5,7 @@ import { Text } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { LoginState, useLoginState } from '@holi/core/auth/loginState'
-import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 
 const loggedIn = (): LoginState => {
   return {

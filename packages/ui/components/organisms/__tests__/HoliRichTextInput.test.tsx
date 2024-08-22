@@ -2,7 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 
-import { userByNameQuery } from '@holi/core/screens/userprofile/queries'
+import { userByNameQuery } from '@holi/core/domain/shared/queries'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 
 const MOCKS = [

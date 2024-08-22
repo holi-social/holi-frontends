@@ -5,7 +5,7 @@ import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMembershipBadge from '@holi/chat/src/components/RoomMessageList/RoomMembershipBadge'
 import RoomTextMessage from '@holi/chat/src/components/RoomMessageList/RoomTextMessage'
 import { roomMembersAtomCreator } from '@holi/chat/src/store'
-import type { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 
 interface Props {
   message: ChatRoomMessage

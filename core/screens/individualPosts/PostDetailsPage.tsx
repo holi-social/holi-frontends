@@ -8,11 +8,11 @@ import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { Term } from '@holi/core/domain/shared/types'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
@@ -22,6 +22,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
@@ -34,7 +35,6 @@ import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
@@ -113,7 +113,7 @@ const PostDetailsPage = () => {
     })
   }
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const [, shareLink] = useShareLink({
     link: `/feed-posts/${post?.slug}`,
@@ -211,12 +211,7 @@ const PostDetailsPage = () => {
       />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-      >
+      <ScrollHeaderLayout>
         <View style={[styles.wrapper, styles.wrapperContent]}>
           <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
             <ScrollView style={styles.scrollView}>
@@ -305,7 +300,6 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isS
       ...Platform.select({
         web: {
           minHeight: '100%',
-          paddingTop: dimensions.topBarHeight + Spacing.md,
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
       }),

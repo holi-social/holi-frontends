@@ -2,13 +2,8 @@ import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
+import { SortedTerm, Term, termsBySortNumberComparator, termsByTitleComparator } from '@holi/core/domain/shared/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import {
-  SortedTerm,
-  Term,
-  termsBySortNumberComparator,
-  termsByTitleComparator,
-} from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'

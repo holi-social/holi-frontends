@@ -1,10 +1,11 @@
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { User } from '@holi/core/domain/shared/types'
 import { Appointment } from '@holi/core/screens/appointments/types'
+import { Comment } from '@holi/core/screens/comments/types'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import { Comment, Post } from '@holi/core/screens/posts/types'
+import { Post } from '@holi/core/screens/posts/types'
 import { Space } from '@holi/core/screens/spaces/types'
-import { User } from '@holi/core/screens/userprofile/types'
 
 export enum NotificationType {
   POST_REACTION = 'PR',

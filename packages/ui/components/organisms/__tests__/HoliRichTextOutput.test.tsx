@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react-native'
 import * as React from 'react'
 
+import { User } from '@holi/core/domain/shared/types'
 import { Link } from '@holi/core/screens/posts/types'
-import type { User } from '@holi/core/screens/userprofile/types'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 
 const DUMMY_USERS: User[] = [

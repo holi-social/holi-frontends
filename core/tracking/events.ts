@@ -91,7 +91,7 @@ export namespace TrackingEvent {
   }
 
   export const Volunteering = {
-    pressed: (engagementId: number): TrackingEvent => ({
+    pressed: (engagementId: string): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
       properties: { engagementId },
       ...versionOne,

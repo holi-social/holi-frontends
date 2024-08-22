@@ -8,7 +8,7 @@ export type RefreshOnNavigationParams = {
 
 export interface RefreshOnNavigationProps {
   initialized?: boolean
-  onRefresh: () => Promise<void>
+  onRefresh?: () => Promise<unknown> | unknown
 }
 
 const { useParam, useUpdateParams } = createParamHooks<RefreshOnNavigationParams>()
@@ -19,7 +19,7 @@ const useRefreshOnNavigation = ({ initialized = false, onRefresh }: RefreshOnNav
 
   useEffect(() => {
     if (initialized && refreshParam) {
-      onRefresh()
+      onRefresh?.()
       updateParams({ refresh: undefined })
     }
     // Only refresh if refreshParam was set to true after initializing
