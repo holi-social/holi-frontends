@@ -89,6 +89,7 @@ const HoliImagePicker = ({
           onPickImages?.(images)
           return
         }
+        break
 
       case 'resize': {
         if (!allowsMultipleSelection && fileBlob) {
@@ -113,6 +114,7 @@ const HoliImagePicker = ({
           onPickImages?.(images)
           return
         }
+        break
       }
 
       case 'reject': {

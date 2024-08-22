@@ -100,7 +100,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false) => {
           }
       }
     },
-    [verifyPermissions]
+    [verifyPermissions, allowsMultipleSelection]
   )
 
   return {

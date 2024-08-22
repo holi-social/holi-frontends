@@ -60,7 +60,7 @@ export interface PostInputFormProps {
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
-  onChangeImages: any
+  onChangeImages: (_: HoliImageInfo[]) => void
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion | null) => void
