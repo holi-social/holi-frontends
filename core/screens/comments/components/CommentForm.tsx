@@ -12,6 +12,7 @@ import {
   useWindowDimensions,
 } from 'react-native'
 
+import { User } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -23,7 +24,6 @@ import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comm
 import { Comment, CommentableType } from '@holi/core/screens/comments/types'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { PostById } from '@holi/core/screens/posts/queries'
-import { User } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'

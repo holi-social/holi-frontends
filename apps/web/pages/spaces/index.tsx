@@ -1,9 +1,8 @@
 import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
+import { sdgsQuery, skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
 import Spaces from '@holi/core/screens/spaces/discover/Spaces'
-import { topicsQuery } from '@holi/core/screens/spaces/queries'
-import { sdgsQuery, skillsQuery } from '@holi/core/screens/userprofile/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const SpacesPage: NextPage = () => <Spaces />

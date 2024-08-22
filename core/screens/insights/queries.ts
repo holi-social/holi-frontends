@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client/core'
 
+import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { Initiative, Insight, InsightWithQuote, Recommendation } from '@holi/core/screens/insights/types'
 import { PollFragment } from '@holi/core/screens/polls/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import { User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export const QuoteFragment = gql`

@@ -1,9 +1,8 @@
+import { authenticatedUserV2Query, sdgsQuery, skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
 import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { authenticatedUserV2, locationId, topics } from '@holi/core/screens/spaces/__tests__/testData'
 import { mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFilters'
-import { sdgsQuery, topicsQuery } from '@holi/core/screens/spaces/queries'
-import { authenticatedUserV2Query, skillsQuery } from '@holi/core/screens/userprofile/queries'
 
 export const authenticatedUserMock = {
   request: {

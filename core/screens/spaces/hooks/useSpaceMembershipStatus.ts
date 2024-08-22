@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 
+import { UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 import { SpaceMember } from '@holi/core/screens/spaces/types'
-import { UserByIdResponse, userByIdQuery } from '@holi/core/screens/userprofile/queries'
-import { User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export const useSpaceMembershipStatus = (

@@ -11,10 +11,10 @@ import {
 } from 'react-native'
 import { MentionInput, MentionSuggestionsProps, PartType, Suggestion } from 'react-native-controlled-mentions'
 
+import { UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/providers/PortalProvider'
-import { UserByNameResponse, userByNameQuery } from '@holi/core/screens/userprofile/queries'
-import type { User } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { TEXT_INPUT_HORIZONTAL_PADDING, TEXT_INPUT_VERTICAL_PADDING } from '@holi/ui/components/molecules/HoliTextInput'
 import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRichTextInput/Suggestions'

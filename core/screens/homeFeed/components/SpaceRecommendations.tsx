@@ -9,11 +9,11 @@ import {
   SpaceRecommendationDocument,
   useSpaceRecommendationQuery,
 } from '@holi/api/graphql/graphql-codegen'
+import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { User } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'

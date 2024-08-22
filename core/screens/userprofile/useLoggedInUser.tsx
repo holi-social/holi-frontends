@@ -1,15 +1,15 @@
 import { useQuery } from '@apollo/client'
 
 import { useLoginState } from '@holi/core/auth/loginState'
-import { useErrorHandling } from '@holi/core/errors/hooks'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { onboardingStateVar, storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import {
   AuthenticatedUserV2Response,
   AuthenticatedUserV2Variables,
   authenticatedUserV2Query,
-} from '@holi/core/screens/userprofile/queries'
-import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
+} from '@holi/core/domain/shared/queries'
+import { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { onboardingStateVar, storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
 
 export interface LoggedInUserLoading {
   state: 'loading'

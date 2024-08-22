@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client/core'
 
+import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { MemberSpacesFragment } from '@holi/core/queries'
 import type { Space } from '@holi/core/screens/spaces/types'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { MemberSpaces } from '@holi/core/types'
 
 const SpaceMemberPermissionsFragment = gql`

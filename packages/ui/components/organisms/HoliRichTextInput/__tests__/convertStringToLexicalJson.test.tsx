@@ -1,4 +1,4 @@
-import { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 import { convertStringToLexicalJson } from '@holi/ui/components/organisms/HoliRichTextInput/helper/convertStringToLexicalJson'
 
 // Mock data

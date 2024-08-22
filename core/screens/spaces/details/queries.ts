@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client'
 
+import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 import {
   FullTaskFragment,
   SpaceInviteListFragment,
   SpaceMemberListFragment,
   SpaceMembershipRequestListFragment,
 } from '@holi/core/screens/spaces/queries'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const spaceMembersQuery = gql`
   ${SpaceMemberListFragment}

@@ -1,6 +1,6 @@
+import { Topic, User } from '@holi/core/domain/shared/types'
 import { Poll } from '@holi/core/screens/polls/types'
 import { Link, Post } from '@holi/core/screens/posts/types'
-import { Topic, User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export enum ExternalContentCategory {
