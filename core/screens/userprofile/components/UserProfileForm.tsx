@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { IMAGE_MAX_FILE_SIZE_BYTES, PROFILE_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
+import { User } from '@holi/core/domain/shared/types'
 import { FieldError, isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, {
@@ -17,7 +18,6 @@ import {
   UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Image } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'

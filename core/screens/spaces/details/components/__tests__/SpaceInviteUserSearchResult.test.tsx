@@ -2,10 +2,11 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render } from '@testing-library/react-native'
 import React from 'react'
 
+import { User } from '@holi/core/domain/shared/types'
 import { PaginationContext } from '@holi/core/pagination/Pagination'
 import SpaceInviteUserSearchResult from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearchResult'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 const spaceId = 'space1'
 const onInviteHandled = jest.fn()

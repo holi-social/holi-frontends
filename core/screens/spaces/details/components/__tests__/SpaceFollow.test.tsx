@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react-nativ
 import React from 'react'
 
 import { LoginState } from '@holi/core/auth/loginState'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetails from '@holi/core/screens/spaces/details/SpaceDetails'
@@ -10,7 +11,6 @@ import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollo
 import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 

@@ -39,10 +39,10 @@ import {
   createRoomMock,
 } from '@holi/chat/src/test-utils'
 import { LoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
+import { authenticatedUserV2Query, usersByChatIdentitiesQuery } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 import { mockParameters as useParamMock } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
-import { authenticatedUserV2Query, usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
-import { User } from '@holi/core/screens/userprofile/types'
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher')

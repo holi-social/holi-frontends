@@ -1,4 +1,4 @@
-import { Topic, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
+import { Topic, termsByTitleComparator } from '@holi/core/domain/shared/types'
 
 // ID of Germany in Geoapify
 export const DEFAULT_LOCATION_ID =

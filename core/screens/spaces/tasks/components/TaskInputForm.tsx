@@ -4,6 +4,7 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
+import { Skill } from '@holi/core/domain/shared/types'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
@@ -14,7 +15,6 @@ import {
   VISIBILITY_TYPE_OPTIONS,
 } from '@holi/core/screens/spaces/tasks/consts'
 import { LocationType, VisibilityType } from '@holi/core/screens/spaces/types'
-import { Skill } from '@holi/core/screens/userprofile/types'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, LinkM } from '@holi/icons/src/generated'

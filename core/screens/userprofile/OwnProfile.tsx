@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
+import { authenticatedUserV2Query, sdgsQuery, skillsQuery } from '@holi/core/domain/shared/queries'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
@@ -17,6 +18,7 @@ import OwnProfileView, { EditModeState, Tab } from '@holi/core/screens/userprofi
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
+import { interestsQuery } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
@@ -26,8 +28,6 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useTheme } from '@holi/ui/styles/theme'
-
-import { authenticatedUserV2Query, interestsQuery, sdgsQuery, skillsQuery } from './queries'
 
 const OwnProfile = () => {
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.PROFILE)

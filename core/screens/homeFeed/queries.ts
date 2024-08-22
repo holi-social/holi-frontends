@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client/core'
 
+import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 import { Task } from '@holi/core/screens/spaces/types'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import { User } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export type NumberOfItems = {

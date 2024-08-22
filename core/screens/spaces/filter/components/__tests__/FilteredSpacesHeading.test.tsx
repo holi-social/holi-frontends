@@ -2,13 +2,13 @@ import { MockedProvider } from '@apollo/client/testing'
 import { cleanup, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { SDG, Skill, Topic } from '@holi/core/domain/shared/types'
 import { locationDetailsMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { locationId } from '@holi/core/screens/spaces/__tests__/testData'
 import FilteredSpacesHeading, {
   FilteredSpacesHeadingProps,
 } from '@holi/core/screens/spaces/filter/components/FilteredSpacesHeading'
 import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
 const topics: Topic[] = [
   { id: '1', title: 'Topic 1', slug: 'topic-1', isDiscoverSpacesDefault: false },

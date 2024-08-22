@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
 import { FilterPillButton } from '@holi/core/components/FilterPill'
+import { Skill, Topic } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -16,7 +17,6 @@ import {
   discoverSpacesQuery,
 } from '@holi/core/screens/spaces/discover/queries'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
-import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
