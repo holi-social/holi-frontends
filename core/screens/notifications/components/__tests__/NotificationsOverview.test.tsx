@@ -3,9 +3,9 @@ import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-lib
 import React from 'react'
 
 import { LoginState, useLoginState } from '@holi/core/auth/loginState'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import { LastSeenNotificationMutation, notificationsQuery } from '@holi/core/screens/notifications/queries'
-import { authenticatedUserV2Query } from '@holi/core/screens/userprofile/queries'
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data

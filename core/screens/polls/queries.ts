@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
+import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { Poll } from '@holi/core/screens/polls/types'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const PollFragment = gql`
   ${UserAvatarFragment}

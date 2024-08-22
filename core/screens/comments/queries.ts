@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client/core'
 
+import { FullUserAvatarFragment } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 import { Comment, CommentableType } from '@holi/core/screens/comments/types'
-import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
-import type { User } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
 export const LinkFragment = gql`

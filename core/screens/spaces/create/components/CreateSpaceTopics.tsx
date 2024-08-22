@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
+import { Term } from '@holi/core/domain/shared/types'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Term } from '@holi/core/screens/userprofile/types'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 

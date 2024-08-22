@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
+import { Term, User } from '@holi/core/domain/shared/types'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
@@ -18,7 +19,6 @@ import {
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
-import { Term, User } from '@holi/core/screens/userprofile/types'
 import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'

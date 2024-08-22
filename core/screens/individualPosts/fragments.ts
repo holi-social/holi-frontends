@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
+import { FullUserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
-import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 
 export const FeedPostDetailsFragment = gql`
   ${FullUserAvatarFragment}

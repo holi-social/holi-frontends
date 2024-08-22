@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -20,7 +21,6 @@ import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPos
 import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
 import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Term } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Close } from '@holi/icons/src/generated'
@@ -158,7 +158,7 @@ const CreatePost = () => {
           onChangeSelectedVisibility={setSelectedVisibility}
           selectedTopics={selectedTopics}
           onChangeSelectedTopics={setSelectedTopics}
-          selectedLocation={selectedLocation}
+          selectedLocation={selectedLocation || undefined}
           onChangeSelectedLocation={setSelectedLocation}
           onSubmit={createPost}
           submitting={submitting}

@@ -1,8 +1,8 @@
 import { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
+import { userByIdQuery } from '@holi/core/domain/shared/queries'
 import UserProfile from '@holi/core/screens/userprofile/UserProfile'
-import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const UserProfilePage: NextPage = () => <UserProfile />

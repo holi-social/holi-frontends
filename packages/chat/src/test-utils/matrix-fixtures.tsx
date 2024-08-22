@@ -3,7 +3,7 @@ import { act } from 'react-test-renderer'
 
 import { ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
 import { createChatRoomResult, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-mocks'
-import { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 
 export const DM_ROOM_ID = 'room-id'
 export const NOTIFICATION_COUNT = 0

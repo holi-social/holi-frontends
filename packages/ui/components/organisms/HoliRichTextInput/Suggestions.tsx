@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import type { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
