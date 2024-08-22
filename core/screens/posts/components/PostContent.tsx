@@ -15,6 +15,7 @@ import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
 import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -178,6 +179,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
             secondaryText={{ text: title, setText: setTitle }}
             loading={loadingTranslation}
             setLoading={setLoadingTranslation}
+            trackingEvent={TrackingEvent.TranslationPressed('feed_post', post.id)}
           />
         </View>
       )}

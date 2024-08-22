@@ -274,6 +274,7 @@ const PostPreview = ({
           secondaryText={{ text: title, setText: setTitle }}
           loading={loadingTranslation}
           setLoading={setLoadingTranslation}
+          trackingEvent={TrackingEvent.TranslationPressed('feed_post', post.id)}
         />
       )}
       {/* Reaction bar with comments and likes */}
