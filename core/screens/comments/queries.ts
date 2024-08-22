@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
 import { Comment, CommentableType } from '@holi/core/screens/comments/types'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { FullUserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import type { User } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
@@ -20,7 +20,7 @@ export const LinkFragment = gql`
 `
 
 export const CommentFragment = gql`
-  ${UserAvatarFragment}
+  ${FullUserAvatarFragment}
   ${LinkFragment}
 
   fragment CommentFull on Comment {
@@ -29,7 +29,7 @@ export const CommentFragment = gql`
     created
     modified
     creator {
-      ...UserAvatar
+      ...FullUserAvatar
     }
     links {
       ...LinkFragment
@@ -53,7 +53,7 @@ export const CommentFragment = gql`
 `
 
 export const commentsMetadata = gql`
-  ${UserAvatarFragment}
+  ${FullUserAvatarFragment}
 
   query CommentsMetadata($commentableId: UUID!, $commentableType: CommentableType!) {
     commentable(id: $commentableId, type: $commentableType) {
@@ -62,7 +62,7 @@ export const commentsMetadata = gql`
       topComment {
         text
         creator {
-          ...UserAvatar
+          ...FullUserAvatar
         }
         mentions {
           id
@@ -73,7 +73,7 @@ export const commentsMetadata = gql`
       commenters(limit: 5) {
         totalResults
         data {
-          ...UserAvatar
+          ...FullUserAvatar
         }
       }
       totalComments
@@ -107,7 +107,7 @@ export const commentsByCommentable = gql`
       commenters(limit: 5) {
         totalResults
         data {
-          ...UserAvatar
+          ...FullUserAvatar
         }
       }
       comments(offset: $offset, limit: $limit, parentCommentId: $parentCommentId) {

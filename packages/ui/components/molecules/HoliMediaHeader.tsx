@@ -1,12 +1,22 @@
 import React, { useMemo } from 'react'
-import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { VerifiedExternal, VerifiedInternal } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+const roleMapping: { [key: string]: string } = {
+  EDITOR: 'user.profileView.role.editor',
+  JOURNALIST: 'user.profileView.role.journalist',
+  CO_FOUNDER: 'user.profileView.role.co_founder',
+  COMMUNITY_MANAGER: 'user.profileView.role.community_manager',
+}
 
 interface Props {
   avatarProps: AvatarProps
@@ -16,6 +26,7 @@ interface Props {
   titleBold?: boolean
   date?: string
   datePrefix?: string
+  role?: string
   onAvatarPressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   onTitlePressed?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   style?: StyleProp<ViewStyle>
@@ -33,6 +44,7 @@ const HoliMediaHeader = ({
   secondaryAvatarProps,
   date,
   datePrefix,
+  role,
   onAvatarPressed,
   onTitlePressed,
   style,
@@ -40,6 +52,9 @@ const HoliMediaHeader = ({
 }: HoliMediaHeaderProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { t } = useTranslation()
+  const badge = role !== 'JOURNALIST' ? VerifiedInternal : VerifiedExternal
+  const showBadge = role !== 'INTERNAL' && role !== 'REGULAR'
 
   if (loading) {
     return (
@@ -69,20 +84,33 @@ const HoliMediaHeader = ({
       </HoliButton>
       <View style={[styles.titleContainer]}>
         <HoliButton inline transparent label={titleLabel} onPress={onTitlePressed}>
-          <HoliText bold={!!titleBold} numberOfLines={1}>
+          <HoliText bold={!!titleBold} numberOfLines={1} style={styles.title}>
             {title}
           </HoliText>
         </HoliButton>
 
-        <View style={styles.row}>
+        <View style={styles.secondRow}>
+          {!!role && showBadge && !secondaryAvatarProps && (
+            <View style={styles.role}>
+              <HoliText size="small" style={{ color: theme.colors.foreground20 }}>
+                {t(roleMapping[role])}
+              </HoliText>
+              <HoliIcon icon={badge} size={16} style={styles.verified} />
+            </View>
+          )}
           {!!datePrefix && (
             <>
               <HoliText size="small" style={styles.datePrefix} ellipsizeMode="tail" numberOfLines={1}>
                 {datePrefix}
               </HoliText>
-              <HoliText size="large" style={styles.dot}>
-                &middot;
-              </HoliText>
+              {/* when role is one of roleMapping show the icon */}
+              {!!secondaryAvatarProps && showBadge ? (
+                <HoliIcon icon={badge} size={16} style={styles.spaceVerified} />
+              ) : (
+                <HoliText size="large" style={styles.dot}>
+                  &middot;
+                </HoliText>
+              )}
             </>
           )}
           {!!date && (
@@ -102,6 +130,11 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
     },
+    secondRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: Spacing['4xs'],
+    },
     avatarButton: {
       position: 'relative',
     },
@@ -119,17 +152,32 @@ const getStyles = (theme: HoliTheme) =>
       overflow: 'hidden',
     },
     datePrefix: {
-      marginTop: Spacing['4xs'],
       maxWidth: '50%',
     },
     date: {
-      marginTop: Spacing['4xs'],
       color: theme.colors.foreground20,
       maxWidth: '50%',
     },
     dot: {
       color: theme.colors.brandB300,
+      lineHeight: 14 * 1.4,
       marginHorizontal: Spacing['4xs'],
+      bottom: Platform.OS === 'web' ? 2 : -2,
+    },
+    role: {
+      marginRight: Spacing['3xs'],
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    verified: {
+      marginLeft: 4,
+    },
+    title: {
+      lineHeight: 18,
+    },
+    spaceVerified: {
+      marginLeft: Spacing['4xs'],
+      marginRight: Spacing['3xs'],
     },
   })
 

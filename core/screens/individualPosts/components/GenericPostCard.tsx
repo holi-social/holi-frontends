@@ -83,6 +83,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     const aggregatedTopics = allTopics?.filter((topic) =>
       feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
     )
+
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
       <View style={styles.container}>
@@ -100,7 +101,14 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             </HoliText>
           </View>
         )}
-        <HoliMediaAuthorHeader author={feedPost.author} authorBold date={feedPost.createdAt} />
+
+        <HoliMediaAuthorHeader
+          author={feedPost.author}
+          authorBold
+          date={feedPost.createdAt}
+          role={feedPost.author.role}
+          style={styles.authorHeader}
+        />
         {isLoggedIn && (
           <View style={styles.postDrawer}>
             <PostDrawer post={feedPost}>
@@ -221,6 +229,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     const spacePost = post as Post
     const isCurrentUserPostCreator = spacePost.creator.id === user?.id
     const goToDetailView = () => navigate(`/posts/${spacePost.id}`)
+
     return (
       <View style={styles.container}>
         {showVisibilityBadge && (
@@ -234,7 +243,12 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           </View>
         )}
         {spacePost.space && (
-          <HoliMediaSpaceAuthorHeader author={spacePost.creator} space={spacePost.space} date={spacePost.created} />
+          <HoliMediaSpaceAuthorHeader
+            author={spacePost.creator}
+            space={spacePost.space}
+            date={spacePost.created}
+            role={spacePost.creator.role}
+          />
         )}
         {isLoggedIn && (
           <View style={styles.postDrawer}>
@@ -467,7 +481,10 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: Spacing.xs,
     },
     locationCard: {
-      paddingTop: 8,
+      paddingTop: Spacing['3xs'],
+    },
+    authorHeader: {
+      paddingRight: Spacing.lg,
     },
   })
 

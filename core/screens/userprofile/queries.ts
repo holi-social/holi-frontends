@@ -25,6 +25,19 @@ export const UserAvatarFragment = gql`
   }
 `
 
+export const FullUserAvatarFragment = gql`
+  fragment FullUserAvatar on User {
+    id
+    avatar
+    avatarBlurhash
+    avatarLabel
+    avatarDefaultColor
+    firstName
+    fullName
+    role
+  }
+`
+
 export const FullUserFragment = gql`
   fragment FullUser on User {
     id
