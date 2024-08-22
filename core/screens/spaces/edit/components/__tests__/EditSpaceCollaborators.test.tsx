@@ -6,6 +6,7 @@ import React from 'react'
 import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
+import { userByIdQuery } from '@holi/core/domain/shared/queries'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
 import { pagedInvites, pagedMembershipRequests, space, user } from '@holi/core/screens/spaces/__tests__/testData'
@@ -17,7 +18,6 @@ import {
 import EditSpaceCollaborators from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
 import { spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 
 const spaceForAdmin = {
   ...space,

@@ -1,15 +1,17 @@
 import { useQuery } from '@apollo/client'
 import React, { createContext } from 'react'
 
+import { skillsQuery } from '@holi/core/domain/shared/queries'
+import {
+  SDG,
+  SdgsQueryResult,
+  Skill,
+  SkillsQueryResult,
+  Topic,
+  TopicsQueryResult,
+} from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { sdgsQuery, topicsQuery } from '@holi/core/screens/spaces/queries'
-import {
-  SdgsQueryResult,
-  SkillsQueryResult,
-  TopicsQueryResult,
-  skillsQuery,
-} from '@holi/core/screens/userprofile/queries'
-import { SDG, Skill, Topic } from '@holi/core/screens/userprofile/types'
 
 export interface SpaceTermContextResult {
   loadingTopics: boolean

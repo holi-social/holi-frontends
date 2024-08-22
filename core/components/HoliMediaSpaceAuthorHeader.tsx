@@ -2,18 +2,21 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native'
 
+import { User } from '@holi/core/domain/shared/types'
 import { getInitials } from '@holi/core/helpers'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space } from '@holi/core/screens/spaces/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
 
 type OnPressHandler = (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
 
-export type Author = Pick<User, 'id' | 'fullName' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel'>
+export type Author = Pick<
+  User,
+  'id' | 'fullName' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'role'
+>
 interface Props {
   style?: StyleProp<ViewStyle>
   testID?: string
@@ -21,6 +24,7 @@ interface Props {
   author: Author
   space: Space
   date?: string
+  role?: string
   onAvatarPressed?: OnPressHandler
   onTitlePressed?: OnPressHandler
 }
@@ -35,6 +39,7 @@ const HoliMediaAuthorHeader = ({
   loading,
   style,
   testID,
+  role,
   onAvatarPressed,
   onTitlePressed,
 }: HoliMediaSpaceAuthorHeaderProps) => {
@@ -86,6 +91,7 @@ const HoliMediaAuthorHeader = ({
       }}
       datePrefix={author.fullName}
       date={formattedDate}
+      role={role}
       onAvatarPressed={onAvatarPressed ?? (() => navigate(`/spaces/${space?.name}`))}
       onTitlePressed={onTitlePressed ?? (() => navigate(`/spaces/${space?.name}`))}
       style={style}

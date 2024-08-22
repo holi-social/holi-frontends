@@ -1,4 +1,4 @@
-import type { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 
 export enum ReactionType {
   HEART = 'HEART',

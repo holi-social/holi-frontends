@@ -6,8 +6,8 @@ import {
   UsersByChatIdentitiesQueryVariables,
   UsersByChatIdentitiesResponse,
   usersByChatIdentitiesQuery,
-} from '@holi/core/screens/userprofile/queries'
-import { User } from '@holi/core/screens/userprofile/types'
+} from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 
 /**
  * @returns a record to look up Holi `User` objects by Matrix ID (e.g. the user with identity `otto` for a given Matrix

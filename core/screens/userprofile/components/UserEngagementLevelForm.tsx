@@ -3,14 +3,14 @@ import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserV2Response,
-  authenticatedUserV2Query,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Smiley } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'

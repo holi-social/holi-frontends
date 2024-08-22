@@ -1,11 +1,11 @@
 import { DocumentNode } from '@apollo/client'
 
+import { userByNameQuery } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import usePaginationQuery, { UsePaginationQueryResult } from '@holi/core/pagination/usePaginationQuery'
 import { spacesByNameQuery } from '@holi/core/screens/spaces/queries'
 import { Space } from '@holi/core/screens/spaces/types'
-import { userByNameQuery } from '@holi/core/screens/userprofile/queries'
-import { User } from '@holi/core/screens/userprofile/types'
 
 export const FILTER_ALL_PAGE_SIZE = 6
 export const SEARCH_PAGE_SIZE = 18

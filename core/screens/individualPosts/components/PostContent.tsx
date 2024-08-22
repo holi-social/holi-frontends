@@ -4,9 +4,9 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
+import { Term } from '@holi/core/domain/shared/types'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
-import { Term } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -55,7 +55,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             </HoliText>
           </View>
         )}
-        <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} />
+        <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} role={post.author.role} />
         <View style={styles.pillContainer}>
           <View style={[styles.pill, styles.categoryPill]}>
             <HoliText size="small" numberOfLines={1}>

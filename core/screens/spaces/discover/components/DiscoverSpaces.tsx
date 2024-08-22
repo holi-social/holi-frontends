@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 
+import { Skill, Topic, User, termsByTitleComparator } from '@holi/core/domain/shared/types'
 import DiscoverSpacesView from '@holi/core/screens/spaces/discover/components/DiscoverSpacesView'
-import { Skill, Topic, User, termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 
 type DiscoverSpacesProps = {
   user?: User

@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
+import { User } from '@holi/core/domain/shared/types'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -13,7 +14,6 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Post } from '@holi/core/screens/posts/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
@@ -134,7 +134,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
             label={post.creator.fullName}
             testID="btn-to-post-creator-profile"
           >
-            <HoliMediaAuthorHeader author={post.creator} date={post.created} />
+            <HoliMediaAuthorHeader author={post.creator} date={post.created} role={post.creator.role} />
           </HoliLink>
         </>
 
@@ -152,13 +152,15 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
       {/* Post image */}
       {post.image && (
-        <PostImage
-          uri={post.image.url}
-          imageBlurhash={post.image.imageBlurhash}
-          height={post.image.height}
-          width={post.image.width}
-          postTitle={post.title}
-        />
+        <View style={styles.paddingHorizontal}>
+          <PostImage
+            uri={post.image.url}
+            imageBlurhash={post.image.imageBlurhash}
+            height={post.image.height}
+            width={post.image.width}
+            postTitle={post.title}
+          />
+        </View>
       )}
 
       {/* Post link previews */}

@@ -2,12 +2,12 @@ import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
 
+import { User } from '@holi/core/domain/shared/types'
 import PlacesAutocomplete, {
   GeolocationLevel,
   GeolocationSuggestion,
   PlacesAutocompleteProps,
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { User } from '@holi/core/screens/userprofile/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
