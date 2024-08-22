@@ -13,7 +13,6 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
@@ -23,6 +22,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
@@ -113,7 +113,7 @@ const PostDetailsPage = () => {
     })
   }
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const [, shareLink] = useShareLink({
     link: `/feed-posts/${post?.slug}`,
@@ -211,12 +211,7 @@ const PostDetailsPage = () => {
       />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-      >
+      <ScrollHeaderLayout>
         <View style={[styles.wrapper, styles.wrapperContent]}>
           <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
             <ScrollView style={styles.scrollView}>

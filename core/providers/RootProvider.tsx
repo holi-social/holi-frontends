@@ -13,6 +13,7 @@ import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import FeatureFlagsFetcher from '@holi/core/featureFlags/components/FeatureFlagsFetcher'
 import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
+import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
 import PosthogProvider, { PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
@@ -36,14 +37,16 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
             <ToastProvider>
               <PortalProvider>
                 <SessionExpiryProtection>
-                  <FeatureFlagsFetcher />
-                  {isMobile ? <DeviceRegistration /> : null}
-                  {isMobile ? <UpdateAppModal /> : null}
-                  <LoginModalProvider>
-                    <ChatSessionInitializer>
-                      <ChatProvider>{children}</ChatProvider>
-                    </ChatSessionInitializer>
-                  </LoginModalProvider>
+                  <RefreshContextProvider>
+                    <FeatureFlagsFetcher />
+                    {isMobile ? <DeviceRegistration /> : null}
+                    {isMobile ? <UpdateAppModal /> : null}
+                    <LoginModalProvider>
+                      <ChatSessionInitializer>
+                        <ChatProvider>{children}</ChatProvider>
+                      </ChatSessionInitializer>
+                    </LoginModalProvider>
+                  </RefreshContextProvider>
                 </SessionExpiryProtection>
               </PortalProvider>
             </ToastProvider>

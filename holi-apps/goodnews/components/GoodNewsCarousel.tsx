@@ -8,6 +8,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import HoliSwiper from '@holi/ui/components/molecules/HoliSwiper/index'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
@@ -42,18 +43,20 @@ const GoodNewsCarousel = () => {
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
   const setScreenOptions = useSetScreenOptions()
 
-  const { loading, error, data, fetchMore } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
-    goodNewsArticlesQuery,
-    {
-      variables: {
-        lastDate: undefined,
-      },
-      onError: (error) =>
-        logError(error, 'Failed to load good news articles', {
-          location: 'GoodNewsCarousel.GoodNewsArticlesQuery',
-        }),
-    }
-  )
+  const { loading, error, data, fetchMore, refetch } = useQuery<
+    GoodNewsArticlesQueryResponse,
+    GoodNewsArticlesQueryArgs
+  >(goodNewsArticlesQuery, {
+    variables: {
+      lastDate: undefined,
+    },
+    onError: (error) =>
+      logError(error, 'Failed to load good news articles', {
+        location: 'GoodNewsCarousel.GoodNewsArticlesQuery',
+      }),
+  })
+  useOnRefresh(refetch)
+
   const { articles = [], previousDateTeaser } = data?.appGoodNews_articles || {}
 
   const oldestDate: string | undefined = useMemo(() => {

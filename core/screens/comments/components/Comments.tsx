@@ -7,6 +7,7 @@ import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
@@ -41,7 +42,7 @@ const Comments = ({
 }: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
-  const { data: { commentable } = {} } = useQuery<CommentsResponse>(commentsByCommentable, {
+  const { data: { commentable } = {}, refetch } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType, parentCommentId },
     fetchPolicy: 'cache-and-network',
     onError: (error) => {
@@ -51,6 +52,7 @@ const Comments = ({
       })
     },
   })
+  useOnRefresh(refetch)
 
   const latestCommenters = commentable?.commenters?.data || []
   const comments = commentable?.comments?.data || []

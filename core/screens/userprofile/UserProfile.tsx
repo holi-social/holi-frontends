@@ -14,7 +14,6 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
 import useReportContent from '@holi/core/hooks/useReportContent'
@@ -24,6 +23,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ContentType } from '@holi/core/queries'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
@@ -79,7 +79,7 @@ const UserProfile = () => {
       })
     },
   })
-  const { refreshing, onRefresh } = useOnRefresh(refetchUser)
+  useOnRefresh(refetchUser)
 
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
@@ -164,15 +164,7 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <ScrollHeaderLayout
-      refreshControlProps={{
-        refreshing,
-        onRefresh,
-      }}
-      headerRelation="none"
-      style={styles.layout}
-      contentContainerStyle={styles.content}
-    >
+    <ScrollHeaderLayout headerRelation="none" style={styles.layout} contentContainerStyle={styles.content}>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>

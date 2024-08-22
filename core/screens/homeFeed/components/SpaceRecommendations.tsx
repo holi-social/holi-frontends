@@ -14,6 +14,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -82,7 +83,14 @@ const SpaceRecommendations = () => {
   const queryOptions: QueryHookOptions = {
     variables: { limit: 5 },
   }
-  const { data: spaceData, loading: isLoadingSpace, error: spaceError } = useSpaceRecommendationQuery(queryOptions)
+  const {
+    data: spaceData,
+    loading: isLoadingSpace,
+    error: spaceError,
+    refetch,
+  } = useSpaceRecommendationQuery(queryOptions)
+  useOnRefresh(refetch)
+
   const isReloadingSpace = useRefetchOnClientSideForLoggedInWebUser(SpaceRecommendationDocument, queryOptions)
 
   if (spaceError) {

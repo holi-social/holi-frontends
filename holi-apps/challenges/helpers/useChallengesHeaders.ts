@@ -22,7 +22,7 @@ export const useChallengesHeaders = () => {
   }, [isLoggedIn])
 
   const headers = useMemo(() => {
-    const anonymousTrackingHeader =
+    const anonymousTrackingHeader: { [key: string]: string } =
       !isLoggedIn && consentState.ANALYTICS === Consent.Given
         ? { 'X-Client-Platform-Anonymous-Tracking-Id': posthog.distinctId() }
         : {}

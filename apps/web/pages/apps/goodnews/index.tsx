@@ -1,9 +1,12 @@
+import dynamic from 'next/dynamic'
 import React, { ReactElement } from 'react'
 
 import { AppLayout } from '@holi/web/layout/NavigationLayoutGoodNewsApp'
 import type { NextPageWithLayout } from '@holi/web/pages/_app'
 
-import GoodNewsAppHome from '@holi-apps/goodnews/screens/GoodNewsAppHome'
+const GoodNewsAppHome = dynamic(() => import('@holi-apps/goodnews/screens/GoodNewsAppHome'), {
+  ssr: false,
+})
 
 const GoodNewsAppHomePage: NextPageWithLayout = () => <GoodNewsAppHome />
 

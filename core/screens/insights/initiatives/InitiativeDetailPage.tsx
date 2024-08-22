@@ -6,11 +6,11 @@ import { DimensionValue, ImageStyle, Linking, Platform, StyleSheet, View } from 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithInitiativeResponse, insightWithInitiative } from '@holi/core/screens/insights/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -64,7 +64,7 @@ const InitiativeDetailPage = () => {
     },
   })
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const initiative = insightById?.initiative
 
@@ -102,14 +102,7 @@ const InitiativeDetailPage = () => {
 
   return (
     <>
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        style={styles.layout}
-        contentContainerStyle={[mixins.container, styles.container]}
-      >
+      <ScrollHeaderLayout style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
         {initiative && !loading ? (
           <>
             {initiative.linkPreview.image && (

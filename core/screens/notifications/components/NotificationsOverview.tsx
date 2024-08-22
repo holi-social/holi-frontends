@@ -6,10 +6,10 @@ import { string } from 'zod'
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import i18n from '@holi/core/i18n'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
 import RefreshableNotificationSectionList, {
   NotificationGroup,
@@ -81,12 +81,13 @@ const NotificationsOverview = () => {
     }
   }, [markAllNotificationsAsSeen, novuNotifications])
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
+  useOnRefresh(getNotifications)
 
   const topLoader = <HoliLoader style={styles.loader} testID="loader" />
   const loadMoreComponent = useMemo(() => {
     const footer = <View style={styles.footer} />
-    if (canFetchMore && !refreshing) {
+    if (canFetchMore) {
       return (
         <ScrollBasedCallbackInvocation
           callback={fetchNextPage}
@@ -97,7 +98,7 @@ const NotificationsOverview = () => {
       )
     }
     return footer
-  }, [canFetchMore, fetchNextPage, refreshing, styles.bottomLoader, styles.footer])
+  }, [canFetchMore, fetchNextPage, styles.bottomLoader, styles.footer])
 
   const allNotifications = useMemo(
     () => [...(data?.notifications?.data ?? []), ...novuNotifications],
@@ -123,7 +124,6 @@ const NotificationsOverview = () => {
     <>
       {Platform.OS === 'android' && isFetchingMore ? topLoader : null}
       <RefreshableNotificationSectionList
-        refreshableProps={{ refreshing, onRefresh }}
         webWrapperStyle={styles.webWrapperStyle}
         headerOverlap={false}
         notifications={groupedNotifications}
