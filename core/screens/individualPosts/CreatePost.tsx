@@ -90,11 +90,9 @@ const CreatePost = () => {
           topicIds: selectedTopics.map((topic) => topic.id),
           language: data?.detectedLanguage,
           location: selectedLocation?.label,
-          image: images[0].blob,
-          images,
-          // ...(images && images.length
-          //   ? { images: images.map((image, index) => ({ ...image, order: index, altText: Math.random() + '' })) }
-          //   : {}),
+          images: images.map((_image, index) => {
+            return { image: _image.blob, order: index, altText: Math.random() + '' }
+          }),
           geolocation: selectedLocation
             ? {
                 latitude: selectedLocation.coordinates?.latitude,
