@@ -53,7 +53,6 @@ const CreatePost = () => {
 
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
-  const [image, setImage] = useState<HoliImageInfo | null>(null)
   const [images, setImages] = useState<HoliImageInfo[]>([])
   const [showCategories, setShowCategories] = useState(true)
   const { visible, show, hide } = useModalState()
@@ -79,7 +78,6 @@ const CreatePost = () => {
   const createPost = async () => {
     setSubmitting(true)
     const { data } = await detectLanguage({ variables: { text: description } })
-    console.log({ images })
     createFeedPost({
       variables: {
         input: {
@@ -153,8 +151,6 @@ const CreatePost = () => {
           onChangeTitle={setTitle}
           description={description}
           onChangeDescription={setDescription}
-          image={image}
-          onChangeImage={setImage}
           images={images}
           onChangeImages={setImages}
           selectedCategoryId={selectedCategoryId}
@@ -163,7 +159,7 @@ const CreatePost = () => {
           onChangeSelectedVisibility={setSelectedVisibility}
           selectedTopics={selectedTopics}
           onChangeSelectedTopics={setSelectedTopics}
-          selectedLocation={selectedLocation}
+          selectedLocation={selectedLocation || undefined}
           onChangeSelectedLocation={setSelectedLocation}
           onSubmit={createPost}
           submitting={submitting}

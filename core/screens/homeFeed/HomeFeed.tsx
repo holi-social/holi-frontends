@@ -32,7 +32,8 @@ import AttendingChallengeEvents from '@holi-apps/challenges/components/Attending
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-import { volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
+import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks'
+import { volunteeringEngagementsQuery, volunteeringRecosV1Query } from '@holi-apps/volunteering/queries'
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -55,7 +56,7 @@ const HomeFeed = () => {
 
   const donationsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const goodnewsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
-  const volunteeringEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
+  const volunteeringVariant = useVolunteeringVariant()
 
   // TODO: when SSR is enabled we need to lazy load the header because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -86,7 +87,8 @@ const HomeFeed = () => {
         lastInsightsQuery,
         donationsEnabled ? donationProjectsQuery : undefined,
         goodnewsEnabled ? goodNewsArticlesQuery : undefined,
-        volunteeringEnabled ? volunteeringEngagementsQuery : undefined,
+        volunteeringVariant === 'legacy' ? volunteeringEngagementsQuery : undefined,
+        volunteeringVariant === 'recosV1' ? volunteeringRecosV1Query : undefined,
         isLoggedIn ? userSuggestionsQuery : undefined,
       ].filter((q) => q !== undefined) as DocumentNode[],
     })

@@ -52,17 +52,14 @@ export enum Visibility {
 export interface PostInputFormProps {
   title: string
   description?: string
-  image: HoliImageInfo | null
   images: HoliImageInfo[]
   selectedVisibility: Visibility
   selectedCategoryId: string | null
-  currentImage?: string
   selectedTopics?: Term[]
   selectedLocation?: GeolocationSuggestion
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
-  onChangeImage: (image: HoliImageInfo | null) => void
   onChangeImages: any
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
@@ -79,18 +76,15 @@ export interface PostInputFormProps {
 const PostInputForm: React.FC<PostInputFormProps> = ({
   title,
   description,
-  image,
   images,
   mentions = [],
   selectedVisibility,
   selectedCategoryId,
   selectedLocation,
-  currentImage,
   selectedTopics,
   onChangeTitle,
   onChangeDescription,
   onChangeSelectedVisibility,
-  onChangeImage,
   onChangeImages,
   onChangeSelectedTopics,
   onChangeSelectedLocation,
@@ -243,35 +237,15 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                   />
                 )}
                 {Platform.OS === 'web' && (
-                  <View
-                    style={{
-                      marginVertical: Spacing.sm,
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                      justifyContent: 'space-between',
-                      marginHorizontal: -Spacing['4xs'],
-                    }}
-                  >
+                  <View style={styles.imageGrid}>
                     {images.map((image, index) => (
                       <View key={index} style={{ width: '50%', padding: Spacing['4xs'] }}>
-                        <View
-                          style={{
-                            padding: Spacing['3xs'],
-                            borderRadius: Spacing.xs,
-                            borderWidth: 1,
-                            borderColor: theme.colors.foreground10,
-                            backgroundColor: theme.colors.white100,
-                          }}
-                        >
+                        <View style={styles.imageGridItem}>
                           <HoliImage
                             label={t('global.imagePreview.image')}
                             source={typeof image === 'string' ? { uri: image } : image}
                             resizeMode="cover"
-                            style={{
-                              aspectRatio: 16 / 9,
-                              borderRadius: 8,
-                              width: '100%',
-                            }}
+                            style={styles.image}
                           />
                         </View>
                       </View>
@@ -287,7 +261,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           onSubmit={submit}
           showLocationModal={showLocationModal}
           showEditImagesModal={showEditImagesModal}
-          hasSetImage={!!image}
           submitting={submitting}
           isSubmittable={isSubmittable}
           isEdit={isEdit}
@@ -336,9 +309,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         style={styles.modal}
       >
         <FormWrapper
-          headlineText={t('individuals.post.input.topics.title')}
           isModal
-          onSave={onSaveLocation}
+          onSave={onSaveLocation as () => Promise<unknown>}
           keyboardShouldPersistTaps="handled"
           showCancelButton
           onCancel={hideLocationModal}
@@ -440,6 +412,25 @@ const getStyles = (theme: HoliTheme) =>
       marginHorizontal: -Spacing['3xs'],
       marginTop: Spacing['3xs'],
       flex: 1,
+    },
+    imageGrid: {
+      marginVertical: Spacing.sm,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      marginHorizontal: -Spacing['4xs'],
+    },
+    imageGridItem: {
+      padding: Spacing['3xs'],
+      borderRadius: Spacing.xs,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      backgroundColor: theme.colors.white100,
+    },
+    image: {
+      aspectRatio: 16 / 9,
+      borderRadius: 8,
+      width: '100%',
     },
     pillContainer: {
       width: '100%',

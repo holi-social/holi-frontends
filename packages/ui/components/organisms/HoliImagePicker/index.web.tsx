@@ -74,8 +74,6 @@ const HoliImagePicker = ({
 
     if (!fileBlobs.length) return
 
-    console.log(fileBlobs.length, fileSizeLimitation)
-
     switch (fileSizeLimitation.type) {
       case 'unlimited':
         if (!allowsMultipleSelection && fileBlob) {
@@ -112,7 +110,6 @@ const HoliImagePicker = ({
               images.push(await readImage(fileBlob))
             }
           }
-          console.log(images)
           onPickImages?.(images)
           return
         }

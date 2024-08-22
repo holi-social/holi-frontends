@@ -55,7 +55,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             </HoliText>
           </View>
         )}
-        <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} />
+        <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} role={post.author.role} />
         <View style={styles.pillContainer}>
           <View style={[styles.pill, styles.categoryPill]}>
             <HoliText size="small" numberOfLines={1}>

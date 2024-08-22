@@ -2,17 +2,17 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-
-import ImageUpload from './ImageUpload'
 
 export const SubmitPostBar = ({
   onSubmit,
@@ -42,9 +42,18 @@ export const SubmitPostBar = ({
       <View style={styles.items}>
         <View style={styles.iconContainer}>
           {images.length === 0 && (
-            <ImageUpload images={images} onSetImages={setImages}>
+            <HoliImagePicker
+              allowsMultipleSelection
+              fileSizeLimitation={{
+                type: 'resize',
+                limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+                resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+              }}
+              buttonProps={{ transparent: true, inline: true, label: t('individuals.post.images.add') }}
+              onPickImages={setImages}
+            >
               <HoliIcon icon={ImageAdd} style={styles.addImageIcon} />
-            </ImageUpload>
+            </HoliImagePicker>
           )}
           {images.length > 0 && (
             <HoliButton

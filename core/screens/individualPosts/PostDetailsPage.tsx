@@ -305,7 +305,6 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isS
       ...Platform.select({
         web: {
           minHeight: '100%',
-          paddingTop: dimensions.topBarHeight + Spacing.md,
           paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
         },
       }),
