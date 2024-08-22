@@ -2,14 +2,12 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -18,10 +16,8 @@ import ImageUpload from './ImageUpload'
 
 export const SubmitPostBar = ({
   onSubmit,
-  onSetImage,
   showLocationModal,
   showEditImagesModal,
-  hasSetImage,
   submitting,
   isSubmittable,
   isEdit,
@@ -29,10 +25,8 @@ export const SubmitPostBar = ({
   setImages,
 }: {
   onSubmit: () => void
-  onSetImage: (image: HoliImageInfo) => void
   showLocationModal: () => void
   showEditImagesModal: () => void
-  hasSetImage: boolean
   submitting: boolean
   isSubmittable: boolean
   isEdit: boolean

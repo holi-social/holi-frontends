@@ -285,7 +285,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
         <SubmitPostBar
           onSubmit={submit}
-          onSetImage={onChangeImage}
           showLocationModal={showLocationModal}
           showEditImagesModal={showEditImagesModal}
           hasSetImage={!!image}

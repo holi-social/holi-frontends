@@ -79,7 +79,7 @@ const CreatePost = () => {
   const createPost = async () => {
     setSubmitting(true)
     const { data } = await detectLanguage({ variables: { text: description } })
-
+    console.log({ images })
     createFeedPost({
       variables: {
         input: {
@@ -90,9 +90,11 @@ const CreatePost = () => {
           topicIds: selectedTopics.map((topic) => topic.id),
           language: data?.detectedLanguage,
           location: selectedLocation?.label,
-          ...(images && images.length
-            ? { images: images.map((image, index) => ({ image, order: index, altText: Math.random() + '' })) }
-            : {}),
+          image: images[0].blob,
+          images,
+          // ...(images && images.length
+          //   ? { images: images.map((image, index) => ({ ...image, order: index, altText: Math.random() + '' })) }
+          //   : {}),
           geolocation: selectedLocation
             ? {
                 latitude: selectedLocation.coordinates?.latitude,

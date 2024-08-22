@@ -112,6 +112,7 @@ const HoliImagePicker = ({
               images.push(await readImage(fileBlob))
             }
           }
+          console.log(images)
           onPickImages?.(images)
           return
         }
