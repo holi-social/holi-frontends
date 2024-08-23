@@ -1,5 +1,5 @@
+import { User } from '@holi/core/domain/shared/types'
 import type { Space } from '@holi/core/screens/spaces/types'
-import type { User } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
 export enum ReactionType {

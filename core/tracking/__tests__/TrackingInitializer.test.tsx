@@ -14,12 +14,14 @@ import {
 import {
   AuthenticatedUserV2Response,
   AuthenticatedUserV2Variables,
+  authenticatedUserV2Query,
+} from '@holi/core/domain/shared/queries'
+import { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserV2Response,
-  authenticatedUserV2Query,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import TrackingInitializer, {
   initialState,
@@ -42,6 +44,7 @@ const posthogCrossPlatformMock = {
   reset: jest.fn(),
   capture: jest.fn(),
   identify: jest.fn(),
+  distinctId: jest.fn(),
 } as PosthogCrossPlatform
 const usePosthogCrossPlatformMock = usePosthogCrossPlatform as jest.Mock
 

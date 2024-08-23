@@ -1,4 +1,3 @@
-import { useApolloClient } from '@apollo/client'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -7,7 +6,6 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -23,7 +21,6 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
-import { donationProjectsQuery } from '@holi-apps/donations/queries'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -56,12 +53,9 @@ const DonationsAppHome = () => {
     updateParams({ location: undefined })
     closeModal()
   }, [updateParams, closeModal])
-  const client = useApolloClient()
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-
-  const { refreshing, onRefresh } = useOnRefresh(() => client.refetchQueries({ include: [donationProjectsQuery] }))
 
   useIsomorphicLayoutEffect(() => {
     const searchButton = (
@@ -94,11 +88,7 @@ const DonationsAppHome = () => {
 
   return (
     <>
-      <ScrollHeaderLayout
-        refreshControlProps={{ refreshing, onRefresh }}
-        style={styles.defaultLayout}
-        keyboardShouldPersistTaps="always"
-      >
+      <ScrollHeaderLayout style={styles.defaultLayout} keyboardShouldPersistTaps="always">
         <HoliModal
           show={showSearchModal}
           onDismiss={closeModal}

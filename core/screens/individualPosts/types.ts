@@ -1,5 +1,4 @@
-import { Term, Topic } from '@holi/core/screens/userprofile/types'
-import type { User } from '@holi/core/screens/userprofile/types'
+import { Term, Topic, User } from '@holi/core/domain/shared/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export enum VisibilityLevel {

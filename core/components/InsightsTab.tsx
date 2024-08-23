@@ -8,6 +8,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { insightsByUserIdQuery } from '@holi/core/queries'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -26,13 +27,14 @@ const InsightsTab = ({ emptyText, userId }: InsightsTabProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { data } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, {
+  const { data, refetch } = useQuery<InsightsByUserIdResponse>(insightsByUserIdQuery, {
     variables: { userId },
     onError: (error) =>
       logError(error, 'Failed to load insights for user', { location: 'InsightsTab.insightsByUserIdQuery' }),
   })
   const insights = data?.insightsByUserId
   const hasInsights = !!insights?.totalResults
+  useOnRefresh(refetch)
 
   return (
     <HoliContainer>

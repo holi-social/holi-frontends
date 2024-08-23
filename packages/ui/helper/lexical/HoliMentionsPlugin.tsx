@@ -15,11 +15,11 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import React from 'react'
 
+import { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/providers/PortalProvider'
-import type { User } from '@holi/core/screens/userprofile/types'
 import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
 import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'

@@ -6,6 +6,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import {
   APPOINTMENT_STATUS_TYPE,
   AppointmentsBySpaceIdResponse,
@@ -44,6 +45,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
     data: appointmentsResult,
     error: errorAppointments,
     loading: loadingAppointments,
+    refetch,
   } = useQuery<AppointmentsBySpaceIdResponse>(appointmentsBySpaceIdQuery, {
     variables: { spaceId: space.id, statusType: APPOINTMENT_STATUS_TYPE.UPCOMING },
     onError: (error) =>
@@ -53,6 +55,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
       }),
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   })
+  useOnRefresh(refetch)
 
   return (
     <>

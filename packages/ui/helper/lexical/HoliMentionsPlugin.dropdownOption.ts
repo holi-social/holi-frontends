@@ -1,6 +1,6 @@
 import { TypeaheadOption } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 
-import type { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 
 class HoliMentionsPluginDropdownOption extends TypeaheadOption {
   user: User

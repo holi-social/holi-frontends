@@ -394,7 +394,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
             <RCTScrollView
               refreshControl={
                 <RefreshControlMock
-                  onRefresh={[Function]}
                   progressViewOffset={0}
                   refreshing={false}
                 />
@@ -869,7 +868,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
             <RCTScrollView
               refreshControl={
                 <RefreshControlMock
-                  onRefresh={[Function]}
                   progressViewOffset={0}
                   refreshing={false}
                 />
@@ -980,7 +978,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
             <RCTScrollView
               refreshControl={
                 <RefreshControlMock
-                  onRefresh={[Function]}
                   progressViewOffset={0}
                   refreshing={false}
                 />
@@ -1684,7 +1681,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
             <RCTScrollView
               refreshControl={
                 <RefreshControlMock
-                  onRefresh={[Function]}
                   progressViewOffset={0}
                   refreshing={false}
                 />
@@ -2159,7 +2155,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
             <RCTScrollView
               refreshControl={
                 <RefreshControlMock
-                  onRefresh={[Function]}
                   progressViewOffset={0}
                   refreshing={false}
                 />
@@ -3684,7 +3679,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
             <RCTScrollView
               refreshControl={
                 <RefreshControlMock
-                  onRefresh={[Function]}
                   progressViewOffset={0}
                   refreshing={false}
                 />

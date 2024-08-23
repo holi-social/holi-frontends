@@ -7,6 +7,7 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
+import { Term, User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -17,7 +18,6 @@ import PostLocationCard from '@holi/core/screens/individualPosts/components/Post
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
-import type { Term, User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -180,6 +180,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               secondaryText={{ text: title, setText: setTitle }}
               loading={loadingTranslation}
               setLoading={setLoadingTranslation}
+              trackingEvent={TrackingEvent.TranslationPressed('comment', feedPost.id)}
             />
           )}
         </View>
@@ -354,6 +355,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               secondaryText={{ text: title, setText: setTitle }}
               loading={loadingTranslation}
               setLoading={setLoadingTranslation}
+              trackingEvent={TrackingEvent.TranslationPressed('space_post', spacePost.id)}
             />
           )}
         </View>

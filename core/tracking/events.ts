@@ -91,7 +91,7 @@ export namespace TrackingEvent {
   }
 
   export const Volunteering = {
-    pressed: (engagementId: number): TrackingEvent => ({
+    pressed: (engagementId: string): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
       properties: { engagementId },
       ...versionOne,
@@ -160,6 +160,20 @@ export namespace TrackingEvent {
       ...versionOne,
     }
   }
+
+  export const TranslationPressed = (
+    type: 'feed_post' | 'space_post' | 'comment' | 'reply',
+    contentId: string
+  ): TrackingEvent => ({
+    name: 'translation_pressed',
+    event_version__major: 1,
+    event_version__minor: 0,
+    event_version__patch: 0,
+    properties: {
+      type: type,
+      contentId: contentId,
+    },
+  })
 
   export const RecommendationPressed = (
     type: 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews',

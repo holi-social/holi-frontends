@@ -10,13 +10,13 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import AppointmentCalendarButton from '@holi/core/screens/appointments/components/AppointmentCalendarButton'
 import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
 import ShareAppointment from '@holi/core/screens/spaces/appointments/ShareAppointment'
@@ -85,10 +85,8 @@ const AppointmentDetails = () => {
     skip: !idOrSlug,
   })
 
-  const { refreshing, onRefresh } = useOnRefresh(() => {
-    return Promise.all([refetchAppointment(), refetchSpace()])
-  })
-  useRefreshOnNavigation({ initialized: calledAppointment, onRefresh })
+  useOnRefresh(() => Promise.all([refetchAppointment(), refetchSpace()]))
+  useRefreshOnNavigation({ initialized: calledAppointment })
 
   const appointment = appointmentData?.appointment
 
@@ -125,7 +123,7 @@ const AppointmentDetails = () => {
     })
   }, [setScreenOptions, t, renderActionDrawer, colors.background10, styles.headerRight])
 
-  if (!appointment || !space || refreshing) {
+  if (!appointment || !space) {
     return <HoliLoader />
   }
 
@@ -193,7 +191,6 @@ const AppointmentDetails = () => {
   return (
     <>
       <ScrollHeaderLayout
-        refreshControlProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
         contentContainerStyle={styles.contentStyle}
         headerRelation="none"

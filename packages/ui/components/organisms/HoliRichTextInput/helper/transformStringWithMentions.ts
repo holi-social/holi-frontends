@@ -1,4 +1,4 @@
-import { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 
 /**
  * Mobile only method to convert a string with mentions into the format needed for the react-native-controlled-mentions library.

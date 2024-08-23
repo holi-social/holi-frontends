@@ -3,11 +3,11 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { topicsQuery } from '@holi/core/domain/shared/queries'
+import { Skill, Term, Topic, TopicsQueryResult } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
-import { topicsQuery } from '@holi/core/screens/spaces/queries'
-import { TopicsQueryResult } from '@holi/core/screens/userprofile/queries'
-import { Skill, Term, Topic } from '@holi/core/screens/userprofile/types'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 import VolunteeringUpdatesList from '@holi-apps/volunteering/components/VolunteeringUpdatesList'
@@ -47,7 +47,7 @@ const ForTopicsAndSkills: React.FC<
     skills: skills?.map((term: Term) => term.slug),
     geolocationId: geolocationId,
   }
-  const { data, loading } = useQuery<VolunteeringRecosV1QueryResponse, VolunteeringRecosV1QueryVariables>(
+  const { data, loading, refetch } = useQuery<VolunteeringRecosV1QueryResponse, VolunteeringRecosV1QueryVariables>(
     volunteeringRecosV1Query,
     {
       variables: queryVariables,
@@ -57,6 +57,7 @@ const ForTopicsAndSkills: React.FC<
         }),
     }
   )
+  useOnRefresh(refetch)
   const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringRecosV1Query, {
     variables: queryVariables,
     onError: (error) =>

@@ -1,5 +1,5 @@
 import { ChatRoomAtom } from '@holi/chat/src/store'
-import { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 
 export interface RoomListProps {
   roomAtoms: ChatRoomAtom[]
