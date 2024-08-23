@@ -7,6 +7,7 @@ import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { Term } from '@holi/core/domain/shared/types'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -113,6 +114,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             secondaryText={{ text: title, setText: setTitle }}
             loading={loadingTranslation}
             setLoading={setLoadingTranslation}
+            trackingEvent={TrackingEvent.TranslationPressed('feed_post', post.id)}
           />
         )}
       </View>

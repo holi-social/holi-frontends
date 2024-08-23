@@ -180,6 +180,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               secondaryText={{ text: title, setText: setTitle }}
               loading={loadingTranslation}
               setLoading={setLoadingTranslation}
+              trackingEvent={TrackingEvent.TranslationPressed('comment', feedPost.id)}
             />
           )}
         </View>
@@ -354,6 +355,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               secondaryText={{ text: title, setText: setTitle }}
               loading={loadingTranslation}
               setLoading={setLoadingTranslation}
+              trackingEvent={TrackingEvent.TranslationPressed('space_post', spacePost.id)}
             />
           )}
         </View>
