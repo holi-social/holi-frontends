@@ -8,6 +8,7 @@ import { act } from 'react-test-renderer'
 import { createCache } from '@holi/api/graphql/client'
 import { userByIdQuery } from '@holi/core/domain/shared/queries'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
+import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
 import { pagedInvites, pagedMembershipRequests, space, user } from '@holi/core/screens/spaces/__tests__/testData'
 import {
   spaceInvitesQuery,
@@ -85,13 +86,10 @@ const createMocksForSpace = (spaceById = spaceForAdmin) => {
     },
   }
 
-  // Space membership requests and invites are queried twice
   return [
     spaceByIdRequest,
     spaceMembersBySpaceIdRequest,
     spaceMembershipRequestsBySpaceIdRequest,
-    spaceMembershipRequestsBySpaceIdRequest,
-    spaceInvitesBySpaceIdRequest,
     spaceInvitesBySpaceIdRequest,
   ]
 }
@@ -209,8 +207,7 @@ describe('EditSpaceCollaborators', () => {
     expect(screen.queryByTestId('space-collaborators-permissions-modal-backdrop')).toBeFalsy()
   })
 
-  // TODO(SF) will be fixed in HOLI-9609
-  it.skip('refreshes members and requests if the refresh parameter is passed', async () => {
+  it('refreshes members and requests if the refresh parameter is passed', async () => {
     const cache = createCache()
 
     // Setup: send less members and membership requests after refresh
@@ -243,7 +240,9 @@ describe('EditSpaceCollaborators', () => {
     const mocks = [...initialMocks, ...refreshMocks]
     const crateComponent = () => (
       <MockedProvider mocks={mocks} cache={cache}>
-        <EditSpaceCollaborators />
+        <RefreshContextProvider>
+          <EditSpaceCollaborators />
+        </RefreshContextProvider>
       </MockedProvider>
     )
 

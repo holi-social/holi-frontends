@@ -87,10 +87,7 @@ const SpaceDetails = () => {
 
   const isCreator = loginState.isLoggedIn && space?.creator?.id === loginState.userId
 
-  useRefreshOnNavigation({
-    initialized: called,
-    onRefresh: refetch,
-  })
+  useRefreshOnNavigation({ initialized: called })
 
   useEffect(() => {
     if (!isOnboarded && !isCreator && isMember) {
