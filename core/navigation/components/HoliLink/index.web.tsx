@@ -3,6 +3,7 @@ import type { PropsWithChildren, SyntheticEvent } from 'react'
 import React, { useCallback } from 'react'
 
 import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
+import { HoliNavHistory } from '@holi/core/navigation/helpers/HoliNavHistory'
 
 export const HoliLink = ({
   href,
@@ -15,6 +16,7 @@ export const HoliLink = ({
 }: PropsWithChildren<HoliLinkProps>) => {
   const onLinkPress = useCallback(
     (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
+      href && HoliNavHistory.add(href)
       const stopPropagation = onPress?.(event)
       if (stopPropagation === false) {
         event?.preventDefault()
@@ -22,7 +24,7 @@ export const HoliLink = ({
         return false
       }
     },
-    [onPress]
+    [href, onPress]
   )
 
   return (
