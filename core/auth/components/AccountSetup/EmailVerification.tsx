@@ -14,7 +14,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { TrackingEvent } from '@holi/core/tracking'
+import { AuthTrackingEventOrigin, TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -229,7 +229,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
             }}
             type="secondary"
             testID="btn-to-continue-as-guest"
-            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed(AuthTrackingEventOrigin.EmailVerification)}
           >
             {t('auth.loginProtection.continueAsGuest')}
           </HoliButtonLoadingTracked>

@@ -17,7 +17,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { TrackingEvent } from '@holi/core/tracking'
+import { AuthTrackingEventOrigin, TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -75,7 +75,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   }, [initializeFlow])
 
   const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
-    track(TrackingEvent.Auth.RegisterButtonPressed)
+    track(TrackingEvent.Auth.RegisterButtonPressed(AuthTrackingEventOrigin.CreateAccount))
     if (flow) {
       showLoader()
       Keyboard.dismiss()
@@ -150,7 +150,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
             onPress={onDismiss}
             type="secondary"
             testID="btn-to-continue-as-guest"
-            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed(AuthTrackingEventOrigin.CreateAccount)}
           >
             {t('auth.loginProtection.continueAsGuest')}
           </HoliButtonTracked>
@@ -158,7 +158,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
           <View style={{ alignItems: 'center' }}>
             <AlreadyHaveAccountText
               style={styles.loginHeadline}
-              trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
+              trackingEvent={TrackingEvent.Auth.LoginButtonPressed(AuthTrackingEventOrigin.CreateAccount)}
             />
           </View>
         </View>

@@ -11,7 +11,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { TrackingEvent } from '@holi/core/tracking'
+import { AuthTrackingEventOrigin, TrackingEvent } from '@holi/core/tracking'
 import { FolderLock, Help, IdCard, Information, Sun, SunFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -68,7 +68,11 @@ const AnonymousProfileView = () => {
               </View>
 
               <View style={styles.profileButtonWrapper}>
-                <RegistrationButton type="primary" inline trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+                <RegistrationButton
+                  type="primary"
+                  inline
+                  trackingEvent={TrackingEvent.Auth.RegisterButtonPressed(AuthTrackingEventOrigin.AnonymousProfileView)}
+                />
 
                 <HoliButtonTracked
                   type="secondary"
@@ -76,7 +80,7 @@ const AnonymousProfileView = () => {
                   label={t('auth.loginProtection.login')}
                   onPress={() => navigate('/login')}
                   testID={'anonymous-profile-login-btn'}
-                  trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
+                  trackingEvent={TrackingEvent.Auth.LoginButtonPressed(AuthTrackingEventOrigin.AnonymousProfileView)}
                 >
                   <HoliText>{t('auth.loginProtection.login')}</HoliText>
                 </HoliButtonTracked>

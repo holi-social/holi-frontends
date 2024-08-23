@@ -17,7 +17,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
-import { TrackingEvent } from '@holi/core/tracking/events'
+import { AuthTrackingEventOrigin, TrackingEvent } from '@holi/core/tracking/events'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -128,7 +128,7 @@ const OnboardingWelcome = () => {
           onPress={() => {
             navigate('/onboarding/registration')
           }}
-          trackingEvent={TrackingEvent.Auth.RegisterButtonPressed}
+          trackingEvent={TrackingEvent.Auth.RegisterButtonPressed(AuthTrackingEventOrigin.OnboardingWelcome)}
           style={[styles.button, styles.firstButton]}
           testID="btn-to-registration-form"
         >
@@ -141,7 +141,7 @@ const OnboardingWelcome = () => {
             storeOnboardingState('finished')
             navigate('/')
           }}
-          trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+          trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed(AuthTrackingEventOrigin.OnboardingWelcome)}
           style={[styles.button, styles.secondButton]}
           type="secondary"
           testID="btn-to-continue-as-guest"
@@ -149,7 +149,10 @@ const OnboardingWelcome = () => {
           {t('auth.loginProtection.continueAsGuest')}
         </HoliButtonTracked>
 
-        <AlreadyHaveAccountText style={styles.loginHeadline} trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
+        <AlreadyHaveAccountText
+          style={styles.loginHeadline}
+          trackingEvent={TrackingEvent.Auth.LoginButtonPressed(AuthTrackingEventOrigin.OnboardingWelcome)}
+        />
       </CenteredContentLayout>
 
       <HoliModal

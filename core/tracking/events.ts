@@ -23,6 +23,16 @@ export interface TrackingEvent {
   properties?: { [key: string]: unknown }
 }
 
+export enum AuthTrackingEventOrigin {
+  CreateAccount = 'CreateAccount',
+  RecoverPasswordForm = 'RecoverPasswordForm',
+  LoginScreen = 'LoginScreen',
+  LoginGuardModal = 'LoginGuardModal',
+  OnboardingWelcome = 'OnboardingWelcome',
+  AnonymousProfileView = 'AnonymousProfileView',
+  EmailVerification = 'EmailVerification',
+}
+
 const versionOne = {
   event_version__major: 1,
   event_version__minor: 0,
@@ -115,18 +125,28 @@ export namespace TrackingEvent {
   }
 
   export namespace Auth {
-    export const RegisterButtonPressed: TrackingEvent = {
+    export const RegisterButtonPressed = (origin: AuthTrackingEventOrigin): TrackingEvent => ({
       name: 'registerButtonPressed',
+      properties: {
+        origin,
+      },
       ...versionOne,
-    }
-    export const LoginButtonPressed: TrackingEvent = {
+    })
+    export const LoginButtonPressed = (origin: AuthTrackingEventOrigin, originPathname?: string): TrackingEvent => ({
       name: 'loginButtonPressed',
+      properties: {
+        origin,
+        ...(originPathname && { originPathname }),
+      },
       ...versionOne,
-    }
-    export const ContinueAsGuestButtonPressed: TrackingEvent = {
+    })
+    export const ContinueAsGuestButtonPressed = (origin: AuthTrackingEventOrigin): TrackingEvent => ({
       name: 'continueAsGuestButtonPressed',
+      properties: {
+        origin,
+      },
       ...versionOne,
-    }
+    })
     export const ForgotPasswordButtonPressed: TrackingEvent = {
       name: 'forgotPasswordButtonPressed',
       ...versionOne,

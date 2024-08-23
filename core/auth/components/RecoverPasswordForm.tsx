@@ -10,7 +10,7 @@ import { initPasswordRecoveryFlow, updatePasswordRecoveryFlowEmail } from '@holi
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
-import { TrackingEvent } from '@holi/core/tracking'
+import { AuthTrackingEventOrigin, TrackingEvent } from '@holi/core/tracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -74,13 +74,16 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
           <AlreadyHaveAccountText
             mobileNavigateBackFirst
             style={styles.loginHeadline}
-            trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
+            trackingEvent={TrackingEvent.Auth.LoginButtonPressed(AuthTrackingEventOrigin.RecoverPasswordForm)}
           />
           <HoliGap size="l" />
           <HoliHeading level="2" align="center">
             {t('auth.login.signUp.link.headline')}
           </HoliHeading>
-          <RegistrationButton style={styles.button} trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+          <RegistrationButton
+            style={styles.button}
+            trackingEvent={TrackingEvent.Auth.RegisterButtonPressed(AuthTrackingEventOrigin.RecoverPasswordForm)}
+          />
         </>
       )}
     </View>

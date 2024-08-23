@@ -21,7 +21,7 @@ import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLi
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
-import { TrackingEvent } from '@holi/core/tracking'
+import { AuthTrackingEventOrigin, TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -74,7 +74,7 @@ const Login = () => {
   }, [isLoggedOut, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {
-    track(TrackingEvent.Auth.LoginButtonPressed)
+    track(TrackingEvent.Auth.LoginButtonPressed(AuthTrackingEventOrigin.LoginScreen))
     if (!flow) return
 
     showLoader()
@@ -133,7 +133,7 @@ const Login = () => {
 
           <RegistrationButton
             style={styles.formItemContainer}
-            trackingEvent={TrackingEvent.Auth.RegisterButtonPressed}
+            trackingEvent={TrackingEvent.Auth.RegisterButtonPressed(AuthTrackingEventOrigin.LoginScreen)}
           />
         </LoginRegistrationContainer>
       </HoliBox>
