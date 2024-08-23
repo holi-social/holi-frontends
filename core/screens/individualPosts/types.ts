@@ -33,6 +33,20 @@ interface Link {
   icon?: string
 }
 
+export interface FeedPostImage {
+  id: string
+  image: string
+  imageBlurhash: string
+  order: number
+  altText?: string
+}
+
+export interface FeedPostImageMetadata {
+  id: string
+  order: number
+  altText: string
+}
+
 export interface FeedPost {
   __typename: string
   id: string
@@ -40,6 +54,7 @@ export interface FeedPost {
   title: string
   description: string
   imageUrl?: string
+  images?: FeedPostImage[]
   visibility: VisibilityLevel
   location?: string
   geolocation?: GeolocationPoint

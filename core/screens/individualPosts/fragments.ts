@@ -4,6 +4,14 @@ import { FullUserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { LinkFragment } from '@holi/core/screens/comments/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 
+/* images {
+  id
+  image
+  imageBlurhash
+  order
+  altText
+} **/
+
 export const FeedPostDetailsFragment = gql`
   ${FullUserAvatarFragment}
   ${LinkFragment}
@@ -27,6 +35,12 @@ export const FeedPostDetailsFragment = gql`
     createdAt
     imageUrl: image
     imageBlurhash
+    images {
+      id
+      image
+      order
+      altText
+    }
     author: creator {
       ...FullUserAvatar
     }

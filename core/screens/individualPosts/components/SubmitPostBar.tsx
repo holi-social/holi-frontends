@@ -16,20 +16,22 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const SubmitPostBar = ({
   onSubmit,
-  onSetImage,
-  showModal,
-  hasSetImage,
+  showLocationModal,
+  showEditImagesModal,
   submitting,
   isSubmittable,
   isEdit,
+  images,
+  setImages,
 }: {
   onSubmit: () => void
-  onSetImage: (image: HoliImageInfo) => void
-  showModal: () => void
-  hasSetImage: boolean
+  showLocationModal: () => void
+  showEditImagesModal: () => void
   submitting: boolean
   isSubmittable: boolean
   isEdit: boolean
+  images: HoliImageInfo[]
+  setImages: (images: HoliImageInfo[]) => void
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -39,25 +41,35 @@ export const SubmitPostBar = ({
     <SafeArea style={styles.menuContainer} edges={['bottom']}>
       <View style={styles.items}>
         <View style={styles.iconContainer}>
-          <HoliImagePicker
-            fileSizeLimitation={{
-              type: 'resize',
-              limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
-              resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
-            }}
-            buttonProps={{
-              label: t('individuals.post.image.add'),
-              transparent: true,
-              inline: true,
-            }}
-            onPickImage={onSetImage}
-          >
-            <HoliIcon icon={hasSetImage ? ImageEdit : ImageAdd} size={28} style={styles.addImageIcon} />
-          </HoliImagePicker>
-          <HoliButton transparent inline onPress={showModal} label={t('individuals.post.input.location.title')}>
+          {images.length === 0 && (
+            <HoliImagePicker
+              allowsMultipleSelection
+              fileSizeLimitation={{
+                type: 'resize',
+                limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+                resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+              }}
+              buttonProps={{ transparent: true, inline: true, label: t('individuals.post.images.add') }}
+              onPickImages={setImages}
+            >
+              <HoliIcon icon={ImageAdd} style={styles.addImageIcon} />
+            </HoliImagePicker>
+          )}
+          {images.length > 0 && (
+            <HoliButton
+              transparent
+              inline
+              onPress={showEditImagesModal}
+              label={t('individuals.post.input.location.title')}
+            >
+              <HoliIcon icon={ImageEdit} size={28} />
+            </HoliButton>
+          )}
+          <HoliButton transparent inline onPress={showLocationModal} label={t('individuals.post.input.location.title')}>
             <HoliIcon icon={MapPinLine} size={28} />
           </HoliButton>
         </View>
+
         <HoliButtonLoading
           label={isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}
           inline
