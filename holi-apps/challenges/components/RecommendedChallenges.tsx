@@ -1,12 +1,13 @@
 import { withProfiler } from '@sentry/react'
 import fetch from 'cross-fetch'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, useWindowDimensions } from 'react-native'
 
 import { HOLI_APPS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
 import { TrackingEvent } from '@holi/core/tracking'
 import { StarSmileFilled } from '@holi/icons/src/generated'
@@ -36,7 +37,7 @@ const RecommendedChallenges = () => {
   const cardWidth = calculateCardWidth(screenWidth)
   const headers = useChallengesHeaders()
 
-  useEffect(() => {
+  const fetchChallenges = useCallback(() => {
     if (!headers) {
       return
     }
@@ -54,6 +55,11 @@ const RecommendedChallenges = () => {
       })
       .finally(() => setIsLoading(false))
   }, [headers])
+
+  useEffect(() => {
+    fetchChallenges()
+  }, [fetchChallenges])
+  useOnRefresh(fetchChallenges)
 
   if (!isLoading && !challenges.length) {
     return null

@@ -1,17 +1,16 @@
 import { DocumentNode, useMutation, useQuery } from '@apollo/client'
 import { useCallback, useMemo, useState } from 'react'
 
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import { Term, User, termsByTitleComparator } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import type { SelectableTerm } from '@holi/core/screens/userprofile/components/UserChipForm'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserV2Response,
-  authenticatedUserV2Query,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { Term, User } from '@holi/core/screens/userprofile/types'
-import { termsByTitleComparator } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
 export enum UserChipTypes {

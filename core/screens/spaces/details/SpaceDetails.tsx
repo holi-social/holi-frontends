@@ -8,7 +8,6 @@ import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
@@ -19,6 +18,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType, ContentType3K } from '@holi/core/queries'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
 import SpaceDetailView, {
@@ -57,7 +57,7 @@ const SpaceDetails = () => {
   const { colors } = theme
 
   const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const isWeb = Platform.OS === 'web'
   const id = space?.id || `${spaceIdOrName}`
@@ -88,7 +88,7 @@ const SpaceDetails = () => {
 
   const isCreator = loginState.isLoggedIn && space?.creator?.id === loginState.userId
 
-  useRefreshOnNavigation({ initialized: called, onRefresh })
+  useRefreshOnNavigation({ initialized: called })
 
   useEffect(() => {
     if (!isOnboarded && !isCreator && isMember) {
@@ -300,14 +300,7 @@ const SpaceDetails = () => {
 
   return (
     <>
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        backgroundColor={colors.background20}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScrollHeaderLayout backgroundColor={colors.background20} keyboardShouldPersistTaps="handled">
         <SpaceDetailView space={space} onChangeTabIndex={selectTabWithIndex} initialTabIndex={initialTabIndex} />
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout>

@@ -5,6 +5,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
 import VolunteeringUpdatesList from '@holi-apps/volunteering/components/VolunteeringUpdatesList'
 import { VolunteeringEngagementsQueryResponse, volunteeringEngagementsQuery } from '@holi-apps/volunteering/queries'
@@ -27,7 +28,11 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
         location: 'VolunteeringUpdates.VolunteeringEngagementsQuery',
       }),
   }
-  const { data, loading } = useQuery<VolunteeringEngagementsQueryResponse>(volunteeringEngagementsQuery, queryOptions)
+  const { data, loading, refetch } = useQuery<VolunteeringEngagementsQueryResponse>(
+    volunteeringEngagementsQuery,
+    queryOptions
+  )
+  useOnRefresh(refetch)
   const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringEngagementsQuery, queryOptions)
 
   const { data: engagements = [] } = data?.appVolunteering_engagementOpportunities || {}

@@ -119,7 +119,7 @@ const CurationPrinciplesPage: React.FC = () => {
   }, [t, setScreenOptions])
 
   return (
-    <ScrollHeaderLayout style={styles.wrapper}>
+    <ScrollHeaderLayout noRefresh style={styles.wrapper}>
       <HoliContainer noPadding>
         <HoliContainer>
           <View style={styles.intro}>

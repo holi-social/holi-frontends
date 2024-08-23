@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
+import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 
 export const favoritesQuery = gql`
   ${UserAvatarFragment}

@@ -4,6 +4,7 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
+import { User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import i18n from '@holi/core/i18n'
@@ -15,7 +16,6 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Link, Post } from '@holi/core/screens/posts/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -275,6 +275,7 @@ const PostPreview = ({
           secondaryText={{ text: title, setText: setTitle }}
           loading={loadingTranslation}
           setLoading={setLoadingTranslation}
+          trackingEvent={TrackingEvent.TranslationPressed('feed_post', post.id)}
         />
       )}
       {/* Reaction bar with comments and likes */}

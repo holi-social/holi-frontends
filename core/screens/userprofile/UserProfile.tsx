@@ -9,11 +9,11 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import SpacesTab from '@holi/core/components/SpacesTab'
+import { UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
 import useReportContent from '@holi/core/hooks/useReportContent'
@@ -26,11 +26,10 @@ import {
   InsightsByUserIdResponse,
   insightsByUserIdTotalResultsQuery,
 } from '@holi/core/queries'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
-import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -83,7 +82,7 @@ const UserProfile = () => {
       })
     },
   })
-  const { refreshing, onRefresh } = useOnRefresh(refetchUser)
+  useOnRefresh(refetchUser)
 
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
@@ -169,15 +168,7 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <ScrollHeaderLayout
-      refreshControlProps={{
-        refreshing,
-        onRefresh,
-      }}
-      headerRelation="none"
-      style={styles.layout}
-      contentContainerStyle={styles.content}
-    >
+    <ScrollHeaderLayout headerRelation="none" style={styles.layout} contentContainerStyle={styles.content}>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -257,7 +248,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
       minHeight: '100%',
-      backgroundColor: theme.colors.background20,
     },
     content: {
       minHeight: '100%',
@@ -265,7 +255,7 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       alignItems: 'baseline',
       backgroundColor: theme.colors.background10,
-      paddingBottom: 24,
+      paddingBottom: 16,
     },
     messageContainer: {
       alignItems: 'center',

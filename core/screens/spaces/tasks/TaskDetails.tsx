@@ -10,11 +10,11 @@ import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
@@ -43,7 +43,7 @@ const TaskDetails = () => {
   const { t } = useTranslation()
 
   const { error, space, refetch } = useSpace(spaceIdOrName)
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const { data, loading } = useQuery(taskByIdQuery, {
     variables: {
@@ -102,7 +102,6 @@ const TaskDetails = () => {
       <SeoTitle seoTitle={`${task.name} | ${space.name}`.trim()} />
       <ScrollHeaderLayout
         headerRelation="none"
-        refreshControlProps={{ refreshing, onRefresh }}
         style={styles.defaultLayout}
         contentContainerStyle={styles.contentStyle}
       >

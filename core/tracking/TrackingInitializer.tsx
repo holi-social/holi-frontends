@@ -7,17 +7,16 @@ import {
   loginState,
   loginStateUnknown,
 } from '@holi/core/auth/loginState'
+import { AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { isApp } from '@holi/core/helpers/isApp'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
-  AuthenticatedUserV2Response,
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserV2Response,
-  authenticatedUserV2Query,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
 import { consentStore } from '@holi/core/tracking/ConsentStore'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'

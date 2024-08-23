@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import usePaginationQuery, { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { Favorites } from '@holi/core/screens/favorites/types'
 import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
 
@@ -45,10 +46,11 @@ export function Pagination({
 }: PropsWithChildren<PaginationProps>) {
   const { t } = useTranslation()
 
-  const { loading, data, error, totalResults, fetchNextPage, canFetchMore } = usePaginationQuery<Favorites>(
+  const { loading, data, error, totalResults, fetchNextPage, canFetchMore, refetch } = usePaginationQuery<Favorites>(
     query,
     queryOptions
   )
+  useOnRefresh(refetch)
 
   const fetchMoreButtonText = fetchMoreButtonLabel || t('global.seeMore')
 

@@ -16,10 +16,10 @@ import {
   spaceRoomIdToChildRoomsAtom,
 } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
+import { User } from '@holi/core/domain/shared/types'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'

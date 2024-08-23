@@ -7,6 +7,7 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
+import { Term, User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -17,7 +18,6 @@ import PostLocationCard from '@holi/core/screens/individualPosts/components/Post
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { Post } from '@holi/core/screens/posts/types'
-import type { Term, User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -84,6 +84,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     const aggregatedTopics = allTopics?.filter((topic) =>
       feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
     )
+
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
       <View style={styles.container}>
@@ -101,7 +102,14 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             </HoliText>
           </View>
         )}
-        <HoliMediaAuthorHeader author={feedPost.author} authorBold date={feedPost.createdAt} />
+
+        <HoliMediaAuthorHeader
+          author={feedPost.author}
+          authorBold
+          date={feedPost.createdAt}
+          role={feedPost.author.role}
+          style={styles.authorHeader}
+        />
         {isLoggedIn && (
           <View style={styles.postDrawer}>
             <PostDrawer post={feedPost}>
@@ -173,6 +181,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               secondaryText={{ text: title, setText: setTitle }}
               loading={loadingTranslation}
               setLoading={setLoadingTranslation}
+              trackingEvent={TrackingEvent.TranslationPressed('comment', feedPost.id)}
             />
           )}
         </View>
@@ -222,6 +231,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     const spacePost = post as Post
     const isCurrentUserPostCreator = spacePost.creator.id === user?.id
     const goToDetailView = () => navigate(`/posts/${spacePost.id}`)
+
     return (
       <View style={styles.container}>
         {showVisibilityBadge && (
@@ -235,7 +245,12 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           </View>
         )}
         {spacePost.space && (
-          <HoliMediaSpaceAuthorHeader author={spacePost.creator} space={spacePost.space} date={spacePost.created} />
+          <HoliMediaSpaceAuthorHeader
+            author={spacePost.creator}
+            space={spacePost.space}
+            date={spacePost.created}
+            role={spacePost.creator.role}
+          />
         )}
         {isLoggedIn && (
           <View style={styles.postDrawer}>
@@ -341,6 +356,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               secondaryText={{ text: title, setText: setTitle }}
               loading={loadingTranslation}
               setLoading={setLoadingTranslation}
+              trackingEvent={TrackingEvent.TranslationPressed('space_post', spacePost.id)}
             />
           )}
         </View>
@@ -468,7 +484,10 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: Spacing.xs,
     },
     locationCard: {
-      paddingTop: 8,
+      paddingTop: Spacing['3xs'],
+    },
+    authorHeader: {
+      paddingRight: Spacing.lg,
     },
   })
 

@@ -7,15 +7,15 @@ import {
   RefreshableScrollViewProps,
 } from '@holi/core/components/ScrollHeaderLayout/types'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
+import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 export function withRefreshControl<P extends LayoutProps, T>(
-  ScrollComponent: (props: RefreshableScrollViewProps<P>, ref: React.ForwardedRef<T>) => React.ReactNode
+  ScrollComponent: (props: RefreshableScrollViewProps<P>) => React.ReactNode
 ) {
   const WithRefreshControl = React.forwardRef(
     (
       {
-        refreshableProps: { refreshing, onRefresh },
         headerOverlap,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         webWrapperStyle,
@@ -25,10 +25,9 @@ export function withRefreshControl<P extends LayoutProps, T>(
     ) => {
       const { top: safeAreaTop } = useSafeAreaInsets()
       const additionalOffset = headerOverlap ? safeAreaTop + dimensions.topBarHeight : 0
+      const { refreshControlProps } = useRefreshContext()
 
-      const refreshControl = (
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} progressViewOffset={additionalOffset} />
-      )
+      const refreshControl = <RefreshControl {...refreshControlProps} progressViewOffset={additionalOffset} />
       return (
         <ScrollComponent {...scrollViewProps} refreshControl={refreshControl} headerOverlap={headerOverlap} ref={ref} />
       )
@@ -40,6 +39,9 @@ export function withRefreshControl<P extends LayoutProps, T>(
   return WithRefreshControl
 }
 
-export const ScrollViewRefreshable = withRefreshControl<ScrollViewProps, ScrollView>((props) => (
-  <ScrollView {...props} />
+const ScrollViewWithRef = React.forwardRef<ScrollView, ScrollViewProps>((props, ref) => (
+  <ScrollView {...props} ref={ref} />
 ))
+ScrollViewWithRef.displayName = 'ScrollViewWithRef'
+
+export const ScrollViewRefreshable = withRefreshControl(ScrollViewWithRef)

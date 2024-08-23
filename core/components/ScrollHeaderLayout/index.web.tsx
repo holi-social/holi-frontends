@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { useRefreshControl } from '@holi/core/refreshing/hooks/useRefreshControl'
 
 import { ScrollHeaderLayoutProps } from './types'
 import { useHeaderOffsetOptions } from './useHeaderOffsetOptions'
@@ -12,26 +13,26 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
   (
     {
       headerRelation = 'offset',
-      refreshControlProps,
       backgroundColor,
       children,
       style,
       contentContainerStyle,
       testID,
+      noRefresh,
       ...scrollViewProps
     },
     ref
   ) => {
     useSyncWithHeader()
     const { offset } = useHeaderOffsetOptions(headerRelation)
+    const { refreshControlProps } = useRefreshControl()
 
     return (
       <div style={{ paddingTop: offset, flex: 1 }}>
-        {refreshControlProps ? (
+        {refreshControlProps && !noRefresh ? (
           <ScrollViewRefreshable
             {...scrollViewProps}
             ref={ref}
-            refreshableProps={refreshControlProps}
             style={[styles.scrollView, !!backgroundColor && { backgroundColor }, style]}
             contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
             webWrapperStyle={{ minHeight: '100%' }}

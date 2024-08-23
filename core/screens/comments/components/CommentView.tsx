@@ -122,6 +122,7 @@ const CommentView = ({
               author={creator}
               date={avatarSize !== 'micro' ? comment.created : undefined} // don't show the date when it's a reply (show it above the text instead)
               avatarSize={avatarSize}
+              role={creator.role}
             />
           </HoliLink>
         </View>

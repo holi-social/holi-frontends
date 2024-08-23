@@ -2,6 +2,7 @@ import React, { memo, useMemo, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { NativeScrollEvent, NativeSyntheticEvent, SectionList, SectionListData } from 'react-native'
 
+import { User } from '@holi/core/domain/shared/types'
 import SearchResultsItem from '@holi/core/screens/search/components/SearchResultsItem'
 import { FilterType } from '@holi/core/screens/search/components/types'
 import {
@@ -9,7 +10,6 @@ import {
   UserSpaceSearchQueryResult,
 } from '@holi/core/screens/search/components/useUserSpaceSearchQuery'
 import { Space } from '@holi/core/screens/spaces/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 

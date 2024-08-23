@@ -1,9 +1,10 @@
 import { withProfiler } from '@sentry/react'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
@@ -26,12 +27,12 @@ const AttendingChallengeEvents = () => {
   const headers = useChallengesHeaders()
   const { isLoggedIn } = useLoginState()
 
-  useEffect(() => {
+  const fetchAttendingEvents = useCallback(() => {
     // Events are only available to logged in users
     if (!isLoggedIn || !headers) {
       return
     }
-    fetch(API_URL, {
+    return fetch(API_URL, {
       headers: new Headers(headers),
     })
       .then((res) =>
@@ -45,6 +46,11 @@ const AttendingChallengeEvents = () => {
         })
       })
   }, [headers, isLoggedIn])
+
+  useEffect(() => {
+    fetchAttendingEvents()
+  }, [fetchAttendingEvents])
+  useOnRefresh(fetchAttendingEvents)
 
   if (!isLoggedIn || !events.length) {
     return null
