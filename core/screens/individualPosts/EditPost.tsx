@@ -17,6 +17,7 @@ import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySe
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { PostQueryResponse, allPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
+import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Term } from '@holi/core/screens/userprofile/types'
@@ -57,8 +58,8 @@ const EditPost = () => {
 
   const [description, setDescription] = useState<string>()
   const [title, setTitle] = useState<string>('')
-  const [image, setImage] = useState<HoliImageInfo | null>()
-  const [currentImage, setCurrentImage] = useState<string>()
+  const [images, setImages] = useState<HoliImageInfo[] | null>([])
+  const [currentImages, setCurrentImages] = useState<FeedPostImage[]>()
   const [selectedTopics, setSelectedTopics] = useState<Term[] | []>()
   const [showCategories, setShowCategories] = useState(false)
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
@@ -97,7 +98,16 @@ const EditPost = () => {
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
           postId: post?.id,
-          image: image === null ? null : image?.blob,
+          existingImages:
+            currentImages?.map((image, index) => ({ id: image.id, order: index, altText: image.altText })) || [],
+          newImages:
+            images !== null
+              ? images.map((_image, index) => ({
+                  image: _image.blob,
+                  order: index + (currentImages?.length || 0),
+                  altText: Math.random() + '',
+                }))
+              : images,
           topicIds: selectedTopics?.map((topic) => topic.id),
           language: data?.detectedLanguage,
           location: selectedLocation?.label || '',
@@ -125,11 +135,11 @@ const EditPost = () => {
     if (post) {
       setTitle(post.title)
       setDescription(post.description)
-      setCurrentImage(post.imageUrl)
+      setCurrentImages(post.images)
       setSelectedCategoryId(post.category.id)
       setSelectedVisibility(Visibility[post.visibility])
       setSelectedTopics(post.topics)
-      setSelectedLocation({ label: post.location, id: '', coordinates: post.geolocation || undefined })
+      setSelectedLocation({ label: post.location || '', id: '', coordinates: post.geolocation || undefined })
     }
   }, [post])
 
@@ -179,11 +189,10 @@ const EditPost = () => {
               onChangeTitle={setTitle}
               description={post?.description}
               onChangeDescription={setDescription}
-              image={image || null}
-              onChangeImage={(value) => {
-                setImage(value)
-                setCurrentImage(undefined)
-              }}
+              images={images || []}
+              currentImages={currentImages}
+              onChangeImages={setImages}
+              onChangeCurrentImages={setCurrentImages}
               mentions={post?.mentionedUsers}
               selectedCategoryId={selectedCategoryId}
               onChangeSelectedCategoryId={setSelectedCategoryId}
@@ -192,10 +201,9 @@ const EditPost = () => {
               selectedTopics={selectedTopics}
               onChangeSelectedTopics={setSelectedTopics}
               selectedLocation={selectedLocation}
-              onChangeSelectedLocation={setSelectedLocation}
+              onChangeSelectedLocation={setSelectedLocation as (_: GeolocationSuggestion | null) => void}
               onSubmit={editPost}
               submitting={submitting}
-              currentImage={currentImage}
               onClickCategoriesPill={toggleShowCategories}
               categories={categories}
               isEdit

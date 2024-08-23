@@ -18,12 +18,12 @@ import {
   FEED_POST_TITLE_MAX_CHARACTERS,
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
+import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { Term, User } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Global, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -53,6 +53,7 @@ export interface PostInputFormProps {
   title: string
   description?: string
   images: HoliImageInfo[]
+  currentImages?: FeedPostImage[]
   selectedVisibility: Visibility
   selectedCategoryId: string | null
   selectedTopics?: Term[]
@@ -61,6 +62,7 @@ export interface PostInputFormProps {
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
   onChangeImages: (_: HoliImageInfo[]) => void
+  onChangeCurrentImages?: (images: FeedPostImage[]) => void
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion | null) => void
@@ -77,6 +79,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   title,
   description,
   images,
+  currentImages,
   mentions = [],
   selectedVisibility,
   selectedCategoryId,
@@ -86,6 +89,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   onChangeDescription,
   onChangeSelectedVisibility,
   onChangeImages,
+  onChangeCurrentImages,
   onChangeSelectedTopics,
   onChangeSelectedLocation,
   onSubmit,
@@ -214,7 +218,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               </View>
             )}
 
-            {!!images && !!images.length && (
+            {((!!images && images.length > 0) || (currentImages && currentImages.length > 0)) && (
               <View style={styles.imageContainer}>
                 <HoliButton
                   type="secondary"
@@ -231,25 +235,30 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                   <HoliCarousel
                     marginHorizontal={Spacing.sm}
                     style={styles.imageCarousel}
-                    slides={images.map((image: HoliImageInfo, index) => ({
-                      children: <ImagePreview key={index} image={image} />,
-                    }))}
+                    slides={[...(currentImages || []), ...images].map((image, index) => {
+                      // differentiate types between FeedPostImage and HoliImageInfo
+                      const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
+                      const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
+                      return {
+                        children: <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />,
+                      }
+                    })}
                   />
                 )}
                 {Platform.OS === 'web' && (
                   <View style={styles.imageGrid}>
-                    {images.map((image, index) => (
-                      <View key={index} style={{ width: '50%', padding: Spacing['4xs'] }}>
-                        <View style={styles.imageGridItem}>
-                          <HoliImage
-                            label={t('global.imagePreview.image')}
-                            source={typeof image === 'string' ? { uri: image } : image}
-                            resizeMode="cover"
-                            style={styles.image}
-                          />
+                    {[...(currentImages || []), ...images].map((image, index) => {
+                      // differentiate types between FeedPostImage and HoliImageInfo
+                      const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
+                      const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
+                      return (
+                        <View key={index} style={{ width: '50%', padding: Spacing['4xs'] }}>
+                          <View style={styles.imageGridItem}>
+                            <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />
+                          </View>
                         </View>
-                      </View>
-                    ))}
+                      )
+                    })}
                   </View>
                 )}
               </View>
@@ -351,7 +360,13 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         style={{ backgroundColor: theme.colors.background20 }}
         testID="post-location-input"
       >
-        <EditUploadedImages images={images} setImages={onChangeImages} onActionButtonPress={hideEditImagesModal} />
+        <EditUploadedImages
+          images={images}
+          currentImages={currentImages}
+          setImages={onChangeImages}
+          setCurrentImages={onChangeCurrentImages}
+          onActionButtonPress={hideEditImagesModal}
+        />
       </HoliModal>
     </>
   )
@@ -426,11 +441,6 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       backgroundColor: theme.colors.white100,
-    },
-    image: {
-      aspectRatio: 16 / 9,
-      borderRadius: 8,
-      width: '100%',
     },
     pillContainer: {
       width: '100%',

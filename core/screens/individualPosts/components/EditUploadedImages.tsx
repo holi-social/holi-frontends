@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
+import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
+import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Close, Delete } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
@@ -17,7 +18,8 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type EditUploadedImagesProps = {
   images: HoliImageInfo[]
   setImages: (images: HoliImageInfo[]) => void
-  currentImages?: string[] // used for edit mode - when we only have a uri and no HoliImageInfo
+  currentImages?: FeedPostImage[] // used for edit mode - when we only have a uri and no HoliImageInfo
+  setCurrentImages?: (images: FeedPostImage[]) => void
   aspectRatio?: number
   onActionButtonPress: () => void
 }
@@ -25,13 +27,14 @@ type EditUploadedImagesProps = {
 const EditUploadedImages = ({
   images,
   setImages,
+  setCurrentImages,
   currentImages,
   aspectRatio,
   onActionButtonPress,
 }: EditUploadedImagesProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = createStyles(theme, aspectRatio)
+  const styles = createStyles(theme)
 
   return (
     <>
@@ -64,7 +67,10 @@ const EditUploadedImages = ({
                     inline
                     type="secondary"
                     label={t('individuals.post.images.removeAll')}
-                    onPress={() => setImages([])}
+                    onPress={() => {
+                      setImages([])
+                      setCurrentImages?.([])
+                    }}
                   >
                     <HoliText>{t('individuals.post.images.removeAll')}</HoliText>
                     <HoliIcon icon={Delete} style={styles.buttonIcon} />
@@ -78,28 +84,44 @@ const EditUploadedImages = ({
               </View>
             </View>
             <View style={styles.gridContainer}>
-              {images.map((image, index) => (
-                <View key={index} style={styles.imageContainer}>
-                  <View style={styles.imageWrapper}>
-                    <HoliImage
-                      label={t('global.imagePreview.image')}
-                      source={typeof image === 'string' ? { uri: image } : image}
-                      resizeMode="cover"
-                      style={styles.image}
-                    />
-                    <View style={styles.buttonContainer}>
-                      <HoliButton
-                        transparent
-                        label={t('individuals.post.images.remove')}
-                        style={styles.button}
-                        onPress={() => setImages(images.filter((_, imageIndex) => imageIndex !== index))}
-                      >
-                        <HoliIcon icon={Delete} size={20} style={styles.icon} />
-                      </HoliButton>
+              {[...(currentImages || []), ...images].map((image, index) => {
+                // differentiate types between FeedPostImage and HoliImageInfo
+                const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
+                const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
+                return (
+                  <View key={index} style={styles.imageContainer}>
+                    <View style={styles.imageWrapper}>
+                      <ImagePreview
+                        key={index}
+                        image={imageInfo}
+                        currentImage={feedPostImage?.image}
+                        aspectRatio={aspectRatio}
+                      />
+                      <View style={styles.buttonContainer}>
+                        <HoliButton
+                          transparent
+                          label={t('individuals.post.images.remove')}
+                          style={styles.button}
+                          onPress={() => {
+                            if (imageInfo) {
+                              setImages(
+                                images.filter((_, imageIndex) => imageIndex !== index - (currentImages?.length || 0))
+                              )
+                            }
+                            if (feedPostImage) {
+                              setCurrentImages?.(
+                                (currentImages || []).filter((_, imageIndex) => imageIndex !== index - images.length)
+                              )
+                            }
+                          }}
+                        >
+                          <HoliIcon icon={Delete} size={20} style={styles.icon} />
+                        </HoliButton>
+                      </View>
                     </View>
                   </View>
-                </View>
-              ))}
+                )
+              })}
             </View>
           </View>
         </HoliContainer>
@@ -130,7 +152,7 @@ const EditUploadedImages = ({
   )
 }
 
-const createStyles = (theme: HoliTheme, aspectRatio = 16 / 9) =>
+const createStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
       paddingBottom: Spacing['4xl'] * 2,
@@ -166,11 +188,6 @@ const createStyles = (theme: HoliTheme, aspectRatio = 16 / 9) =>
       borderWidth: 1,
       borderColor: theme.colors.foreground10,
       backgroundColor: theme.colors.white100,
-    },
-    image: {
-      aspectRatio: aspectRatio,
-      borderRadius: 8,
-      width: '100%',
     },
     button: {
       justifyContent: 'center',

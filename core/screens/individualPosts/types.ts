@@ -34,12 +34,18 @@ interface Link {
   icon?: string
 }
 
-interface FeedPostImage {
+export interface FeedPostImage {
   id: string
   image: string
   imageBlurhash: string
   order: number
   altText?: string
+}
+
+export interface FeedPostImageMetadata {
+  id: string
+  order: number
+  altText: string
 }
 
 export interface FeedPost {

@@ -26,7 +26,7 @@ const ImagePreview = ({ image, currentImage, aspectRatio = 16 / 9 }: ImagePrevie
             <HoliImage
               label={t('global.imagePreview.image')}
               source={{ uri: currentImage }}
-              resizeMode="contain"
+              resizeMode="cover"
               style={styles.image}
             />
           )}
