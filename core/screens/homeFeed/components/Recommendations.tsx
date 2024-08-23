@@ -15,7 +15,7 @@ import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
 import VolunteeringRecosV1 from '@holi-apps/volunteering/components/VolunteeringRecosV1'
 import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
-import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks'
+import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 
 const Recommendations = () => {
   const { t } = useTranslation()
