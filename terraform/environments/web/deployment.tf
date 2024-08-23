@@ -114,6 +114,10 @@ resource "google_cloud_run_service" "mvp_web" {
         "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "2"
         "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen1"
       }
+      labels = {
+        "environment_type" = local.environment_type
+        "holi_service"     = "frontends-web"
+      }
     }
   }
 
