@@ -16,12 +16,10 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
-import { ContentType } from '@holi/core/queries'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
-import { CommentableType } from '@holi/core/screens/comments/types'
-import { Comment } from '@holi/core/screens/comments/types'
+import { Comment, CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
@@ -183,7 +181,6 @@ const PostDetailPage = () => {
                     comment={comment}
                     commentableId={post.id}
                     commentableType={CommentableType.POST}
-                    reportContentType={ContentType.POST_COMMENT}
                     style={styles.comment}
                     onLayout={scrollToFirstComment || isCommentToScroll ? scrollIntoView : undefined}
                   />

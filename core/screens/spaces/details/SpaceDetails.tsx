@@ -18,7 +18,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
 import SpaceDetailView, {
@@ -65,6 +65,7 @@ const SpaceDetails = () => {
   const [isLoading, deleteSpace] = useDeleteSpace(id)
   const [isLoadingReport, reportContent] = useReportContent({
     id,
+    contentType3k: ContentType3K.SPACE,
     contentType: ContentType.SPACE,
     successMsg: t('global.report.successMessage'),
   })

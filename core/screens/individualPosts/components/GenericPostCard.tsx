@@ -10,7 +10,7 @@ import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
@@ -58,6 +58,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
 
   const [isLoadingSpacePostReport, reportSpacePostContent] = useReportContent({
     id: post?.id || '',
+    contentType3k: ContentType3K.POST,
     contentType: ContentType.POST,
     successMsg: t('global.report.successMessage'),
   })

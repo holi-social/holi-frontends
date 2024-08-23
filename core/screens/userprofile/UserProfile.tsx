@@ -20,14 +20,17 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ContentType } from '@holi/core/queries'
-import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
-import { InsightsByUserIdResponse } from '@holi/core/queries'
+import {
+  ContentType,
+  ContentType3K,
+  InsightsByUserIdResponse,
+  insightsByUserIdTotalResultsQuery,
+} from '@holi/core/queries'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import type { UserByIdResponse } from '@holi/core/screens/userprofile/queries'
+import { userByIdQuery } from '@holi/core/screens/userprofile/queries'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -89,6 +92,7 @@ const UserProfile = () => {
   const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
   const [isLoadingReport, reportContent] = useReportContent({
     id: userId,
+    contentType3k: ContentType3K.USER,
     contentType: ContentType.USER,
     successMsg: t('global.report.successMessage'),
   })

@@ -8,7 +8,7 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import CommentText from '@holi/core/screens/comments/components/CommentText'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import useDeleteComment from '@holi/core/screens/comments/hooks/useDeleteComment'
@@ -31,7 +31,6 @@ import Comments from './Comments'
 export interface CommentProps extends ViewProps {
   comment: Comment
   commentableId: string
-  reportContentType: ContentType
   commentableType: CommentableType
   created?: string
   onPressComment?: () => void
@@ -43,7 +42,6 @@ export interface CommentProps extends ViewProps {
 const CommentView = ({
   comment,
   commentableId,
-  reportContentType,
   commentableType,
   onPressComment,
   avatarSize = 'small',
@@ -62,7 +60,8 @@ const CommentView = ({
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: comment.id,
-    contentType: reportContentType,
+    contentType: ContentType.POST_COMMENT,
+    contentType3k: ContentType3K.COMMENT,
     successMsg: t('global.report.successMessage'),
   })
 

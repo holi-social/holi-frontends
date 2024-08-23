@@ -5,7 +5,6 @@ import { StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { ContentType } from '@holi/core/queries'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
@@ -100,7 +99,6 @@ const Comments = ({
             comment={comment}
             commentableId={commentableId}
             commentableType={commentableType}
-            reportContentType={ContentType.POST_COMMENT}
             {...(replyRoute ? { onPressComment: () => navigate(`${replyRoute}?commentId=${comment.id}`) } : {})}
             avatarSize={parentCommentId ? 'micro' : 'small'}
             startWithOpenThread={initialOpenThread == comment.id}

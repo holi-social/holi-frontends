@@ -8,7 +8,7 @@ import HoliTranslate from '@holi/core/components/HoliTranslate'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
@@ -53,6 +53,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: post.id,
+    contentType3k: ContentType3K.POST,
     contentType: ContentType.POST,
     successMsg: t('global.report.successMessage'),
   })

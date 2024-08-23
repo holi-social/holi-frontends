@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useReportContent from '@holi/core/hooks/useReportContent'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
@@ -65,6 +65,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: user.id,
+    contentType3k: ContentType3K.USER,
     contentType: ContentType.USER,
     successMsg: t('global.report.successMessage'),
   })

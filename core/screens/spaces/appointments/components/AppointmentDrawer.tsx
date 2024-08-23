@@ -5,7 +5,7 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { Space } from '@holi/core/screens/spaces/types'
 import { Delete, Edit2, Flag } from '@holi/icons/src/generated'
@@ -39,6 +39,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: appointment?.id || '',
+    contentType3k: ContentType3K.SPACE_APPOINTMENT,
     contentType: ContentType.SPACE_APPOINTMENT,
     successMsg: t('global.report.successMessage'),
   })
