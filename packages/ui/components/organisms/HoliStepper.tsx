@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Animated, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 import type {
   LayoutChangeEvent,
   NativeScrollEvent,
@@ -11,7 +11,6 @@ import type {
 } from 'react-native'
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import { delayAnimation } from '@holi/ui/helper'
 
 interface HoliStepperContextType {
   stepCount: number
@@ -78,7 +77,7 @@ export const useStepper = () => {
   return context as HoliStepperContextType
 }
 
-const scrollDelay = 33.332 // 1000 / 60fps * 2 to try to trigger on the second frame
+const scrollDelay = Platform.OS === 'web' ? 100 : 33.332 // 1000 / 60fps * 2 to try to trigger on the second frame
 
 /**
  * @description The HoliStepper component is a controlled component, which means
@@ -132,6 +131,19 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
     [updateCurrentStep]
   )
 
+  // RN `onMomentumScrollEnd` does not work on web, so we need to use `onScroll` instead
+  const onMomentumScrollEndWEB = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (Platform.OS !== 'web') return
+
+      const scrollX = event.nativeEvent.contentOffset.x
+      if (scrollX % viewWidth === 0) {
+        setStep(Math.round(scrollX / viewWidth))
+      }
+    },
+    [setStep, viewWidth]
+  )
+
   const scrollToStep = useCallback(
     (nextStep: number, animated = true) => {
       const scrollOptions = { x: nextStep * viewWidth, y: 0, animated: animated && !lazy }
@@ -140,7 +152,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       }
       Platform.OS === 'android'
         ? ref.current.scrollTo(scrollOptions)
-        : delayAnimation(ref.current.scrollTo, scrollOptions, scrollDelay)
+        : setTimeout(() => requestAnimationFrame(() => ref.current?.scrollTo(scrollOptions)), scrollDelay)
     },
     [lazy, viewWidth]
   )
@@ -170,7 +182,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
   }
 
   return (
-    <Animated.ScrollView
+    <ScrollView
       ref={ref}
       keyboardShouldPersistTaps="always"
       style={styles.scrollView}
@@ -184,6 +196,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       pagingEnabled={scrollEnabled}
       onLayout={handleLayout}
       onMomentumScrollEnd={onMomentumScrollEnd}
+      onScroll={onMomentumScrollEndWEB}
       {...scrollViewProps}
     >
       {steps.map((step, idx) => {
@@ -205,7 +218,7 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
           </View>
         )
       })}
-    </Animated.ScrollView>
+    </ScrollView>
   )
 }
 
