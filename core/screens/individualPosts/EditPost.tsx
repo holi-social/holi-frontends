@@ -98,8 +98,11 @@ const EditPost = () => {
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
           postId: post?.id,
-          existingImages:
-            currentImages?.map((image, index) => ({ id: image.id, order: index, altText: image.altText })) || [],
+          existingImages: (currentImages || []).map((image, index) => ({
+            id: image.id,
+            order: index,
+            altText: typeof image.altText === 'string' ? image.altText : '',
+          })),
           newImages:
             images !== null
               ? images.map((_image, index) => ({
