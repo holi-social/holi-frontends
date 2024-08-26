@@ -186,7 +186,9 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           )}
         </View>
 
-        {!!feedPost.images && !!feedPost.images.length && <ImageCarousel images={feedPost.images} />}
+        {!!feedPost.images && !!feedPost.images.length && (
+          <ImageCarousel images={feedPost.images} style={styles.imageCarousel} onPressItem={goToDetailView} />
+        )}
 
         {!feedPost.imageUrl && !!feedPost.linkPreview && (
           <HoliLinkPreview
@@ -465,10 +467,7 @@ const getStyles = (theme: HoliTheme) =>
       gap: Spacing.xs,
     },
     imageCarousel: {
-      // marginHorizontal: -Spacing['3xs'],
-      // marginTop: Spacing['3xs'],
-      flex: 1,
-      // width: '100%',
+      marginTop: Spacing['3xs'],
     },
     description: {
       marginTop: Spacing.xxs,

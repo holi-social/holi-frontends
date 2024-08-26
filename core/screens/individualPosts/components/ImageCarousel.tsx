@@ -5,14 +5,16 @@ import Carousel from 'react-native-reanimated-carousel'
 
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme'
 
 type ImageCarouselProps = {
   style?: ViewStyle
   images: FeedPostImage[]
+  onPressItem?: () => void
 }
 
-const ImageCarousel = ({ style, images }: ImageCarouselProps) => {
+const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
   const { theme } = useTheme()
   const [viewWidth, setViewWidth] = useState(0)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -34,12 +36,23 @@ const ImageCarousel = ({ style, images }: ImageCarouselProps) => {
           onSnapToItem={(index: number) => setCurrentIndex(index)}
           renderItem={({ index, item }: { index: number; item: FeedPostImage }) => (
             <View style={styles.item}>
-              <ImagePreview
-                key={index}
-                currentImage={item.image}
-                blurhash={item.imageBlurhash}
-                style={{ padding: 4 }}
-              />
+              {onPressItem ? (
+                <HoliButton transparent inline label={item.altText || ''} onPress={onPressItem}>
+                  <ImagePreview
+                    key={index}
+                    currentImage={item.image}
+                    blurhash={item.imageBlurhash}
+                    style={styles.image}
+                  />
+                </HoliButton>
+              ) : (
+                <ImagePreview
+                  key={index}
+                  currentImage={item.image}
+                  blurhash={item.imageBlurhash}
+                  style={styles.image}
+                />
+              )}
             </View>
           )}
         />
@@ -66,6 +79,9 @@ const ImageCarousel = ({ style, images }: ImageCarouselProps) => {
 const styles = StyleSheet.create({
   item: {
     flex: 1,
+  },
+  image: {
+    paddingHorizontal: 4,
   },
   dotsContainer: {
     flexDirection: 'row',

@@ -4,16 +4,17 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
+import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
-
-import ImagePreview from './ImagePreview'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type ImageCarouselProps = {
   style?: ViewStyle
   images: FeedPostImage[]
+  onPressItem?: () => void
 }
 
-const ImageCarousel = ({ style, images }: ImageCarouselProps) => {
+const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
   return (
     <View style={[styles.container, style]}>
       <Carousel
@@ -24,14 +25,15 @@ const ImageCarousel = ({ style, images }: ImageCarouselProps) => {
           },
         }}
       >
-        {images.map((item, index) => (
-          <ImagePreview
-            key={index}
-            currentImage={item.image}
-            blurhash={item.imageBlurhash}
-            style={{ pointerEvents: 'none' }} // to enable drag and drop slides
-          />
-        ))}
+        {images.map((item, index) =>
+          onPressItem ? (
+            <HoliButton transparent inline label={item.altText || ''} onPress={onPressItem}>
+              <ImagePreview key={index} currentImage={item.image} blurhash={item.imageBlurhash} style={styles.image} />
+            </HoliButton>
+          ) : (
+            <ImagePreview key={index} currentImage={item.image} blurhash={item.imageBlurhash} style={styles.image} />
+          )
+        )}
       </Carousel>
     </View>
   )
@@ -39,6 +41,7 @@ const ImageCarousel = ({ style, images }: ImageCarouselProps) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  image: { pointerEvents: 'none' }, // to enable drag and drop slides
 })
 
 export default withProfiler(ImageCarousel, { name: 'PostCard' })
