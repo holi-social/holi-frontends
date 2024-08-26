@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useLoginState } from '@holi/core/auth/loginState'
@@ -216,32 +216,31 @@ const PostDetailsPage = () => {
           refreshing,
           onRefresh,
         }}
+        headerRelation={isWeb ? 'overlap' : undefined}
       >
         <View style={[styles.wrapper, styles.wrapperContent]}>
           <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
-            <ScrollView style={styles.scrollView}>
-              {post && !loading ? (
-                <>
-                  <PostContent
-                    post={post}
-                    showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
-                    aggregatedTopics={aggregatedTopics}
+            {post && !loading ? (
+              <>
+                <PostContent
+                  post={post}
+                  showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
+                  aggregatedTopics={aggregatedTopics}
+                />
+                <View style={styles.commentsContainer}>
+                  <Comments
+                    commentableType={CommentableType.FEED_POST}
+                    commentableId={post.id}
+                    replyRoute={`/feed-posts/${post.slug}/comment`}
+                    initialOpenThread={commentId}
+                    reactionButton={<FeedPostReactions post={post} />}
+                    isDiscussion={false}
                   />
-                  <View style={styles.commentsContainer}>
-                    <Comments
-                      commentableType={CommentableType.FEED_POST}
-                      commentableId={post.id}
-                      replyRoute={`/feed-posts/${post.slug}/comment`}
-                      initialOpenThread={commentId}
-                      reactionButton={<FeedPostReactions post={post} />}
-                      isDiscussion={false}
-                    />
-                  </View>
-                </>
-              ) : (
-                <LoadingSkeleton />
-              )}
-            </ScrollView>
+                </View>
+              </>
+            ) : (
+              <LoadingSkeleton />
+            )}
             <HoliReactionsCount
               onPress={reactOnPost}
               type="post"
@@ -302,20 +301,9 @@ const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isS
       height: '100%',
       flex: 1,
       backgroundColor: colors.background10,
-      ...Platform.select({
-        web: {
-          minHeight: '100%',
-          paddingTop: dimensions.topBarHeight + Spacing.md,
-          paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
-        },
-      }),
     },
     wrapperContent: {
-      paddingBottom: 0,
-    },
-    scrollView: {
-      height: '100%',
-      ...(!isWeb ? { paddingHorizontal: Spacing['3xs'] } : {}),
+      paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
     },
     commentsContainer: {
       marginTop: isSm ? Spacing.md : Spacing.xs,
