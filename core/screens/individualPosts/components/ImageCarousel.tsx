@@ -3,10 +3,9 @@ import React, { useState } from 'react'
 import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 
+import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import { useTheme } from '@holi/ui/styles/theme'
-
-import ImagePreview from './ImagePreview'
 
 type ImageCarouselProps = {
   style?: ViewStyle
@@ -67,7 +66,6 @@ const ImageCarousel = ({ style, images }: ImageCarouselProps) => {
 const styles = StyleSheet.create({
   item: {
     flex: 1,
-    marginLeft: '2.5%',
   },
   dotsContainer: {
     flexDirection: 'row',

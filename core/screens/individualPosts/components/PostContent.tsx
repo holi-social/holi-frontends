@@ -6,12 +6,12 @@ import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { Term } from '@holi/core/domain/shared/types'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import ImageCarousel from '@holi/core/screens/individualPosts/components/ImageCarousel'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
@@ -90,19 +90,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             style={styles.description}
           />
         </View>
-        {!!post.imageUrl && (
-          <View style={[styles.imageContainer, styles.blockContainer]}>
-            <HoliImage
-              label={post.title}
-              source={{
-                uri: post.imageUrl,
-              }}
-              blurhash={post.imageBlurhash}
-              resizeMode="cover"
-              style={styles.image}
-            />
-          </View>
-        )}
+        {!!post.images?.length && <ImageCarousel images={post.images} style={styles.carousel} />}
         {!!post.linkPreview && (
           <View style={styles.blockContainer}>
             <HoliLinkPreview previewData={post.linkPreview} />
@@ -165,26 +153,8 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
       paddingHorizontal: sm ? Spacing.md : 0,
       width: '100%',
     },
-    imageContainer: {
-      marginTop: contentSpacing,
-      ...(!sm
-        ? {
-            borderRadius: Spacing.xxs,
-            aspectRatio: 16 / 9,
-            overflow: 'hidden',
-          }
-        : {}),
-    },
-    image: {
-      ...(sm
-        ? {
-            borderRadius: Spacing.xxs,
-            width: '100%',
-            aspectRatio: 16 / 9,
-            overflow: 'hidden',
-          }
-        : {}),
-      height: '100%',
+    carousel: {
+      paddingVertical: Spacing.xxs,
     },
   })
 
