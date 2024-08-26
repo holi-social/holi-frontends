@@ -90,12 +90,6 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             style={styles.description}
           />
         </View>
-        {!!post.images?.length && <ImageCarousel images={post.images} style={styles.carousel} />}
-        {!!post.linkPreview && (
-          <View style={styles.blockContainer}>
-            <HoliLinkPreview previewData={post.linkPreview} />
-          </View>
-        )}
         {isTranslatable && (
           <HoliTranslate
             primaryText={{ text: description, setText: setDescription }}
@@ -104,6 +98,12 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             setLoading={setLoadingTranslation}
             trackingEvent={TrackingEvent.TranslationPressed('feed_post', post.id)}
           />
+        )}
+        {!!post.images?.length && <ImageCarousel images={post.images} style={styles.carousel} />}
+        {!!post.linkPreview && (
+          <View style={styles.blockContainer}>
+            <HoliLinkPreview previewData={post.linkPreview} />
+          </View>
         )}
       </View>
     </>
@@ -154,7 +154,7 @@ const getStyles = (theme: HoliTheme, sm = false, contentSpacing: number) =>
       width: '100%',
     },
     carousel: {
-      paddingVertical: Spacing.xxs,
+      paddingVertical: Spacing.sm,
     },
   })
 

@@ -24,6 +24,7 @@ import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
+import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import {
@@ -48,8 +49,6 @@ import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-
-import FeedPostReactions from './components/FeedPostReactions'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -233,15 +232,19 @@ const PostDetailsPage = () => {
             ) : (
               <LoadingSkeleton />
             )}
-            <HoliReactionsCount
-              onPress={reactOnPost}
-              type="post"
-              count={heartReactions}
-              active={currentUserHasReacted}
-              fullName={post?.author.fullName}
-              testID="btn-react-to-feed-post-HEART"
-              disabled={loadingReaction}
-            />
+            {!post?.totalComments && (
+              <View style={styles.reactions}>
+                <HoliReactionsCount
+                  onPress={reactOnPost}
+                  type="post"
+                  count={heartReactions}
+                  active={currentUserHasReacted}
+                  fullName={post?.author.fullName}
+                  testID="btn-react-to-feed-post-HEART"
+                  disabled={loadingReaction}
+                />
+              </View>
+            )}
           </HoliContainer>
         </View>
       </ScrollHeaderLayout>
@@ -302,6 +305,9 @@ const getStyles = ({ colors }: HoliTheme, isSm = false) =>
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,
+    },
+    reactions: {
+      alignItems: 'flex-end',
     },
     commentWrapper: {
       backgroundColor: colors.background10,
