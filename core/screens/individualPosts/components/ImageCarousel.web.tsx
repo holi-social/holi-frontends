@@ -27,8 +27,8 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
       >
         {images.map((item, index) =>
           onPressItem ? (
-            <HoliButton transparent inline label={item.altText || ''} onPress={onPressItem}>
-              <ImagePreview key={index} currentImage={item.image} blurhash={item.imageBlurhash} style={styles.image} />
+            <HoliButton key={index} transparent inline label={item.altText || ''} onPress={onPressItem}>
+              <ImagePreview currentImage={item.image} blurhash={item.imageBlurhash} style={styles.image} />
             </HoliButton>
           ) : (
             <ImagePreview key={index} currentImage={item.image} blurhash={item.imageBlurhash} style={styles.image} />
