@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -68,10 +67,9 @@ const PostDetailsPage = () => {
   const { replaceRoute, navigate, navigateBack } = useRouting()
   const loginState = useLoginState()
   const { openLoginModal } = useLoginModal()
-  const insets = useSafeAreaInsets()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const isWeb = Platform.OS === 'web'
-  const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
+  const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
   const { isLoggedIn } = useLoggedInUser()
   const { displayError } = useErrorHandling()
@@ -294,7 +292,7 @@ const skeletonStyles = StyleSheet.create({
   },
 })
 
-const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isSm = false) =>
+const getStyles = ({ colors }: HoliTheme, isSm = false) =>
   StyleSheet.create({
     wrapper: {
       width: 'auto',
