@@ -13,6 +13,7 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
+import ImageCarousel from '@holi/core/screens/individualPosts/components/ImageCarousel'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
@@ -185,21 +186,10 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           )}
         </View>
 
-        {!!feedPost.imageUrl && (
-          <HoliButton transparent label={title} onPress={goToDetailView} style={styles.clickOverlay}>
-            <View style={styles.imageContainer}>
-              <HoliImage
-                label={title}
-                source={{
-                  uri: feedPost.imageUrl,
-                }}
-                blurhash={feedPost.imageBlurhash}
-                resizeMode="cover"
-                style={styles.image}
-              />
-            </View>
-          </HoliButton>
+        {!!feedPost.images && !!feedPost.images.length && (
+          <ImageCarousel images={feedPost.images} style={styles.imageCarousel} onPressItem={goToDetailView} />
         )}
+
         {!feedPost.imageUrl && !!feedPost.linkPreview && (
           <HoliLinkPreview
             style={styles.linkPreview}
@@ -475,6 +465,9 @@ const getStyles = (theme: HoliTheme) =>
       position: 'relative',
       pointerEvents: 'auto',
       gap: Spacing.xs,
+    },
+    imageCarousel: {
+      marginTop: Spacing['3xs'],
     },
     description: {
       marginTop: Spacing.xxs,

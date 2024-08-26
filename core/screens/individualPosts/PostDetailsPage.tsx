@@ -2,8 +2,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -25,6 +24,7 @@ import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
+import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import {
@@ -50,8 +50,6 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import FeedPostReactions from './components/FeedPostReactions'
-
 export type PostDetailsPageParams = {
   idOrSlug: string
   commentId: string
@@ -68,10 +66,9 @@ const PostDetailsPage = () => {
   const { replaceRoute, navigate, navigateBack } = useRouting()
   const loginState = useLoginState()
   const { openLoginModal } = useLoginModal()
-  const insets = useSafeAreaInsets()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const isWeb = Platform.OS === 'web'
-  const styles = useMemo(() => getStyles(theme, insets, isWeb, !!smStyle), [theme, insets, isWeb, smStyle])
+  const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
   const { isLoggedIn } = useLoggedInUser()
   const { displayError } = useErrorHandling()
@@ -211,41 +208,43 @@ const PostDetailsPage = () => {
       />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout>
+      <ScrollHeaderLayout headerRelation={isWeb ? 'overlap' : undefined}>
         <View style={[styles.wrapper, styles.wrapperContent]}>
           <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
-            <ScrollView style={styles.scrollView}>
-              {post && !loading ? (
-                <>
-                  <PostContent
-                    post={post}
-                    showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
-                    aggregatedTopics={aggregatedTopics}
+            {post && !loading ? (
+              <>
+                <PostContent
+                  post={post}
+                  showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
+                  aggregatedTopics={aggregatedTopics}
+                />
+                <View style={styles.commentsContainer}>
+                  <Comments
+                    commentableType={CommentableType.FEED_POST}
+                    commentableId={post.id}
+                    replyRoute={`/feed-posts/${post.slug}/comment`}
+                    initialOpenThread={commentId}
+                    reactionButton={<FeedPostReactions post={post} />}
+                    isDiscussion={false}
                   />
-                  <View style={styles.commentsContainer}>
-                    <Comments
-                      commentableType={CommentableType.FEED_POST}
-                      commentableId={post.id}
-                      replyRoute={`/feed-posts/${post.slug}/comment`}
-                      initialOpenThread={commentId}
-                      reactionButton={<FeedPostReactions post={post} />}
-                      isDiscussion={false}
-                    />
-                  </View>
-                </>
-              ) : (
-                <LoadingSkeleton />
-              )}
-            </ScrollView>
-            <HoliReactionsCount
-              onPress={reactOnPost}
-              type="post"
-              count={heartReactions}
-              active={currentUserHasReacted}
-              fullName={post?.author.fullName}
-              testID="btn-react-to-feed-post-HEART"
-              disabled={loadingReaction}
-            />
+                </View>
+              </>
+            ) : (
+              <LoadingSkeleton />
+            )}
+            {!post?.totalComments && (
+              <View style={styles.reactions}>
+                <HoliReactionsCount
+                  onPress={reactOnPost}
+                  type="post"
+                  count={heartReactions}
+                  active={currentUserHasReacted}
+                  fullName={post?.author.fullName}
+                  testID="btn-react-to-feed-post-HEART"
+                  disabled={loadingReaction}
+                />
+              </View>
+            )}
           </HoliContainer>
         </View>
       </ScrollHeaderLayout>
@@ -290,32 +289,25 @@ const skeletonStyles = StyleSheet.create({
   },
 })
 
-const getStyles = ({ colors }: HoliTheme, insets: EdgeInsets, isWeb = false, isSm = false) =>
+const getStyles = ({ colors }: HoliTheme, isSm = false) =>
   StyleSheet.create({
     wrapper: {
       width: 'auto',
       height: '100%',
       flex: 1,
       backgroundColor: colors.background10,
-      ...Platform.select({
-        web: {
-          minHeight: '100%',
-          paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
-        },
-      }),
     },
     wrapperContent: {
-      paddingBottom: 0,
-    },
-    scrollView: {
-      height: '100%',
-      ...(!isWeb ? { paddingHorizontal: Spacing['3xs'] } : {}),
+      paddingBottom: dimensions.bottomBarHeight + Spacing.xl,
     },
     commentsContainer: {
       marginTop: isSm ? Spacing.md : Spacing.xs,
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,
+    },
+    reactions: {
+      alignItems: 'flex-end',
     },
     commentWrapper: {
       backgroundColor: colors.background10,

@@ -161,7 +161,11 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   return (
     <>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.layout}>
-        <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
+        <ScrollView
+          contentContainerStyle={styles.contentContainer}
+          keyboardShouldPersistTaps="handled"
+          style={styles.container}
+        >
           <View style={styles.pillContainer}>
             <FeedPostPill
               label={t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
@@ -246,13 +250,18 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                   />
                 )}
                 {Platform.OS === 'web' && (
-                  <View style={styles.imageGrid}>
+                  <View
+                    style={[
+                      styles.imageGrid,
+                      [...(currentImages || []), ...images].length < 2 ? { justifyContent: 'flex-end' } : {},
+                    ]}
+                  >
                     {[...(currentImages || []), ...images].map((image, index) => {
                       // differentiate types between FeedPostImage and HoliImageInfo
                       const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
                       const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
                       return (
-                        <View key={index} style={{ width: '50%', padding: Spacing['4xs'] }}>
+                        <View key={index} style={styles.imageGridItemWrapper}>
                           <View style={styles.imageGridItem}>
                             <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />
                           </View>
@@ -266,6 +275,9 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           </View>
         </ScrollView>
 
+        {/* Suggestions*/}
+        <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
+
         <SubmitPostBar
           onSubmit={submit}
           showLocationModal={showLocationModal}
@@ -277,9 +289,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           setImages={onChangeImages}
         />
       </KeyboardAvoidingView>
-
-      {/* Suggestions*/}
-      <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
 
       <HoliModalSelect
         options={visibilityOptions}
@@ -429,11 +438,16 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
     },
     imageGrid: {
+      width: '100%',
       marginVertical: Spacing.sm,
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'space-between',
       marginHorizontal: -Spacing['4xs'],
+    },
+    imageGridItemWrapper: {
+      width: '50%',
+      padding: Spacing['4xs'],
     },
     imageGridItem: {
       padding: Spacing['3xs'],
@@ -460,22 +474,17 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: 10,
       paddingBottom: 10,
       backgroundColor: theme.colors.background10,
-      borderTopColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderRightColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderLeftColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderWidth: 1,
-      borderBottomWidth: 0,
+      borderColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
       borderRadius: 12,
       elevation: 4,
-      borderTopWidth: 1,
+      borderWidth: 1,
       ...Platform.select({
         web: {
           maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
         },
       }),
-      position: 'absolute',
-      bottom: Platform.OS === 'web' ? 64 : 96,
+      bottom: Spacing['4xl'],
       left: 0,
       right: 0,
     },
