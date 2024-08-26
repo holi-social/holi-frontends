@@ -49,11 +49,16 @@ export type VolunteeringEngagement = {
 }
 
 export type VolunteeringFilterParams = {
-  location?: string
-  category?: string
+  location?: string // Legacy value, can be removed when switching to Discovery V1
+  category?: string // Legacy value, can be removed when switching to Discovery V1
+  topic?: string[]
+  skill?: string[]
+  geolocationId?: string
 }
 
 export type VolunteeringFilters = {
   location?: GeolocationSuggestion
-  category?: string
+  category?: string // Legacy value, can be removed when switching to Discovery V1
+  topics?: string[]
+  skills?: string[]
 }
