@@ -246,13 +246,18 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                   />
                 )}
                 {Platform.OS === 'web' && (
-                  <View style={styles.imageGrid}>
+                  <View
+                    style={[
+                      styles.imageGrid,
+                      [...(currentImages || []), ...images].length < 2 ? { justifyContent: 'flex-end' } : {},
+                    ]}
+                  >
                     {[...(currentImages || []), ...images].map((image, index) => {
                       // differentiate types between FeedPostImage and HoliImageInfo
                       const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
                       const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
                       return (
-                        <View key={index} style={{ width: '50%', padding: Spacing['4xs'] }}>
+                        <View key={index} style={styles.imageGridItemWrapper}>
                           <View style={styles.imageGridItem}>
                             <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />
                           </View>
@@ -429,11 +434,16 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
     },
     imageGrid: {
+      width: '100%',
       marginVertical: Spacing.sm,
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'space-between',
       marginHorizontal: -Spacing['4xs'],
+    },
+    imageGridItemWrapper: {
+      width: '50%',
+      padding: Spacing['4xs'],
     },
     imageGridItem: {
       padding: Spacing['3xs'],
