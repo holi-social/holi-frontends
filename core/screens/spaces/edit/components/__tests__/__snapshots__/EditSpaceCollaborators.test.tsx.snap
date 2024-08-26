@@ -337,7 +337,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
     </View>
     <RCTScrollView
       bounces={false}
-      collapsable={false}
       contentContainerStyle={
         [
           {
@@ -356,6 +355,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
       keyboardShouldPersistTaps="always"
       onLayout={[Function]}
       onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
       pagingEnabled={true}
       scrollEnabled={true}
       scrollEventThrottle={16}
@@ -1624,7 +1624,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
     </View>
     <RCTScrollView
       bounces={false}
-      collapsable={false}
       contentContainerStyle={
         [
           {
@@ -1643,6 +1642,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
       keyboardShouldPersistTaps="always"
       onLayout={[Function]}
       onMomentumScrollEnd={[Function]}
+      onScroll={[Function]}
       pagingEnabled={true}
       scrollEnabled={true}
       scrollEventThrottle={16}
