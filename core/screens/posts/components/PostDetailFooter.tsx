@@ -34,8 +34,8 @@ export default PostDetailFooter
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     button: {
-      paddingHorizontal: 24,
       backgroundColor: theme.colors.background10,
+      justifyContent: 'center',
       ...Platform.select({
         web: {
           width: '100%',
