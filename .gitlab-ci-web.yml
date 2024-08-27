@@ -153,7 +153,7 @@ web_review_deploy:
     - if: $CI_COMMIT_BRANCH
       when: on_success
   after_script: |
-    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \''$CI_COMMIT_REF_SLUG'\' has been updated to \''$CI_COMMIT_TITLE'\' and is available and/or updated under https://'${UI_DOMAIN}'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'$CI_COMMIT_TITLE'\" and is available and/or updated under https://'${UI_DOMAIN}'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 web_review_e2e:
   extends: .web_e2e
