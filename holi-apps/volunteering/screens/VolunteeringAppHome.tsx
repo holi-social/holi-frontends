@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
@@ -33,6 +34,7 @@ const VolunteeringAppHome = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const discoveryVariant = useVolunteeringDiscoveryVariant()
+  const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
   const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
@@ -82,6 +84,7 @@ const VolunteeringAppHome = () => {
       style={styles.defaultLayout}
       testID="volunteering-list-container"
       keyboardShouldPersistTaps="handled"
+      onScroll={onScreenScroll}
     >
       <HoliModal
         show={showFilterModal}

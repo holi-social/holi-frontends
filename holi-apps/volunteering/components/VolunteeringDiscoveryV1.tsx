@@ -1,8 +1,10 @@
 import { withProfiler } from '@sentry/react'
 import React from 'react'
+import { StyleSheet } from 'react-native'
 
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 import {
   ENGAGEMENT_PAGE_SIZE,
@@ -33,7 +35,12 @@ const VolunteeringRecommendations = ({ isFiltering }: { isFiltering?: boolean })
   }
 
   return (
-    <Pagination query={volunteeringRecosV1Query} queryOptions={queryOptions} loadMoreOnScroll>
+    <Pagination
+      query={volunteeringRecosV1Query}
+      queryOptions={queryOptions}
+      loadMoreOnScroll
+      scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+    >
       {loadingQueryVariables ? (
         <VolunteeringListingSkeleton isFiltering={false} amount={ENGAGEMENT_PAGE_SIZE} />
       ) : (
@@ -62,7 +69,12 @@ const FilteredVolunteeringEngagements = ({
   }
 
   return (
-    <Pagination query={filteredVolunteeringEngagementsQuery} queryOptions={queryOptions} loadMoreOnScroll>
+    <Pagination
+      query={filteredVolunteeringEngagementsQuery}
+      queryOptions={queryOptions}
+      loadMoreOnScroll
+      scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+    >
       {loadingFilters ? (
         <VolunteeringListingSkeleton isFiltering={true} amount={ENGAGEMENT_PAGE_SIZE} />
       ) : (
@@ -84,3 +96,10 @@ const VolunteeringDiscoveryV1 = (props: VolunteeringListingProps) => {
 }
 
 export default withProfiler(VolunteeringDiscoveryV1, { name: 'VolunteeringDiscoveryV1' })
+
+const styles = StyleSheet.create({
+  loaderBottom: {
+    marginBottom: 24,
+    position: 'relative',
+  },
+})
