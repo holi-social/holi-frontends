@@ -20,9 +20,9 @@ export interface SpaceTermContextResult {
   failedTopics: boolean
   failedSkills: boolean
   failedSdgs: boolean
-  topics: Topic[]
-  skills: Skill[]
-  sdgs: SDG[]
+  topics: readonly Topic[]
+  skills: readonly Skill[]
+  sdgs: readonly SDG[]
 }
 
 const initialState = {

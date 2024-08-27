@@ -16,25 +16,16 @@ import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/Holi
 import { VolunteeringCategoriesQueryResult, volunteeringCategoriesQuery } from '@holi-apps/volunteering/queries'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
-type VolunteeringFilterFormProps = {
-  filters?: VolunteeringFilters
-  initialLocationSelection?: GeolocationSuggestion
+export type VolunteeringFilterFormProps = {
+  filters: VolunteeringFilters
   onSubmit: (filters?: VolunteeringFilters) => void
   clearFilters?: () => void
 }
 
-const VolunteeringFilterForm: React.FC<VolunteeringFilterFormProps> = ({
-  onSubmit,
-  filters = {},
-  initialLocationSelection,
-  clearFilters,
-}: VolunteeringFilterFormProps) => {
+const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: VolunteeringFilterFormProps) => {
   const { t } = useTranslation()
-
   const [category, setCategory] = useState(filters.category)
-  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(
-    filters.location ? initialLocationSelection : undefined
-  )
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(filters.location)
 
   const { data: categoriesData, loading } = useQuery<VolunteeringCategoriesQueryResult>(volunteeringCategoriesQuery, {
     onError: (error) =>
