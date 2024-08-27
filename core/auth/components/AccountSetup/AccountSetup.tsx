@@ -8,7 +8,7 @@ import LocationStep, { useLocationStep } from '@holi/core/auth/components/Accoun
 import NamesStep, { useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { useLoginState } from '@holi/core/auth/loginState'
-import { authenticatedUserV2Query, topicsQuery } from '@holi/core/domain/shared/queries'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { UserChipTypes, useUserChips } from '@holi/core/helpers/useUserChips'
 import { useRegisterUserNames } from '@holi/core/hooks/useRegisterUserNames'
@@ -16,6 +16,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
   UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserV2Response,
+  interestsQuery,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -93,7 +94,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     terms,
     onTermSelect,
     loading: loadingUserInterests,
-  } = useUserChips({ user, queryToUse: topicsQuery, keyInUserObject })
+  } = useUserChips({ user, queryToUse: interestsQuery, keyInUserObject })
 
   // Location step logic
   const { selectedLocation, setSelectedLocation, scrollToLocationInputWithId, locationScrollViewRef } =
