@@ -469,8 +469,8 @@ const getStyles = (theme: HoliTheme) =>
     suggestionsScrollView: {
       zIndex: 1,
       width: '100%',
-      height: 150,
-      maxHeight: 150,
+      height: 220,
+      maxHeight: 220,
       paddingTop: 10,
       paddingBottom: 10,
       backgroundColor: theme.colors.background10,
@@ -482,9 +482,10 @@ const getStyles = (theme: HoliTheme) =>
         web: {
           maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
+          bottom: Spacing['4xl'],
+          position: 'absolute',
         },
       }),
-      bottom: Spacing['4xl'],
       left: 0,
       right: 0,
     },
