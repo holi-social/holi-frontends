@@ -96,7 +96,7 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
             secondaryText={{ text: title, setText: setTitle }}
             loading={loadingTranslation}
             setLoading={setLoadingTranslation}
-            trackingEvent={TrackingEvent.TranslationPressed('feed_post', post.id)}
+            trackingEvent={TrackingEvent.ContentTranslated('feed_post', post.id)}
           />
         )}
         {!!post.images?.length && <ImageCarousel images={post.images} style={styles.carousel} />}
