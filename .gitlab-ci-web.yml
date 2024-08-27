@@ -45,12 +45,12 @@ default:
       # - e2e/web/test-results # contains artifacts (videos, screenshots, traces) organized by test case/run, redundant to playwright-report and doubling the artifacts size
       - e2e/web/artifacts # accessibility reports
     when: always
-  script:
-    - export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
-    - terraform/environments/web/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
-    - cd e2e/web
-    - yarn install
-    - BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
+  script: |
+    export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
+    terraform/environments/web/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
+    cd e2e/web
+    yarn install
+    BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
   tags:
     - 4cpu-16gb
@@ -152,6 +152,8 @@ web_review_deploy:
       when: never
     - if: $CI_COMMIT_BRANCH
       when: on_success
+  after_script: |
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'$CI_COMMIT_TITLE'\" and is available and/or updated under https://'${UI_DOMAIN}'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 web_review_e2e:
   extends: .web_e2e
