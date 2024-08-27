@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import Animated, { FadeInLeft } from 'react-native-reanimated'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -15,7 +16,6 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -40,7 +40,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
+import { MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -73,17 +73,6 @@ const PostDetailsPage = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
-
-  const headerLeft = useMemo(() => {
-    const directPageVisit = Platform.OS === 'web' // TODO: Implement a useUserVisitedScreenCount hook in order to know the number of visited screens
-    return directPageVisit ? (
-      <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
-        <HoliLogo />
-      </HoliButton>
-    ) : (
-      <HeaderBackButton icon={ArrowLeft} />
-    )
-  }, [navigate, t])
 
   const {
     data: { post } = {},
@@ -131,7 +120,14 @@ const PostDetailsPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerLeft: () => headerLeft,
+      headerTintColor: theme.colors.black300,
+      headerLeft: ({ tintColor }) => (
+        <Animated.View entering={FadeInLeft}>
+          <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
+            <HoliLogo color={tintColor} />
+          </HoliButton>
+        </Animated.View>
+      ),
       headerTitle: ({ tintColor }) => !loading && <HeaderTitle tintColor={tintColor}>{headerTitle}</HeaderTitle>,
       headerRight: () => {
         return (
@@ -151,7 +147,18 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
+  }, [
+    headerTitle,
+    loading,
+    navigateBack,
+    post,
+    setScreenOptions,
+    shareLink,
+    styles.headerRight,
+    t,
+    navigate,
+    theme.colors.black300,
+  ])
 
   useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
 

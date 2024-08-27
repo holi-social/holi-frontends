@@ -190,7 +190,7 @@ const EditPost = () => {
             <PostInputForm
               title={title}
               onChangeTitle={setTitle}
-              description={post?.description}
+              description={description || post?.description}
               onChangeDescription={setDescription}
               images={images || []}
               currentImages={currentImages}

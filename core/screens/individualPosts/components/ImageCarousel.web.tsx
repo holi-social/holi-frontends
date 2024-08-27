@@ -27,7 +27,14 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
       >
         {images.map((item, index) =>
           onPressItem ? (
-            <HoliButton key={index} transparent inline label={item.altText || ''} onPress={onPressItem}>
+            <HoliButton
+              key={index}
+              transparent
+              inline
+              label={item.altText || ''}
+              onPress={onPressItem}
+              style={styles.button}
+            >
               <ImagePreview currentImage={item.image} blurhash={item.imageBlurhash} style={styles.image} />
             </HoliButton>
           ) : (
@@ -41,6 +48,7 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  button: { width: '100%' },
   image: { pointerEvents: 'none' }, // to enable drag and drop slides
 })
 
