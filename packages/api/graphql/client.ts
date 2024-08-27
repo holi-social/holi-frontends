@@ -157,6 +157,8 @@ export const createCache = () =>
               })
             }
           ),
+          appVolunteering_engagementRecommendations: pagedPolicy(),
+          appVolunteering_filteredEngagements: pagedPolicy(),
           spaces: pagedPolicy(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (args: Record<string, any> | null) => {
