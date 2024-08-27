@@ -63,7 +63,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false) => {
         imagePickerResult = await launchImageLibraryAsync({
           mediaTypes: MediaTypeOptions.Images,
           allowsEditing: !allowsMultipleSelection,
-          quality: 1,
+          quality: 0.5,
           base64: true,
           allowsMultipleSelection,
           aspect: [16, 9],
