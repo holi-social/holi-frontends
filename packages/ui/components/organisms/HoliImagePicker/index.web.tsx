@@ -68,7 +68,8 @@ const HoliImagePicker = ({
 
   const onChangeHandler = async () => {
     const files = imageInputNode.current?.files
-    const fileBlobs = Array.from(files || [])
+
+    const fileBlobs = Array.from(files || []).slice(0, 3)
 
     const fileBlob = imageInputNode.current?.files?.[0]
 

@@ -35,7 +35,7 @@ const resizeImage = async (asset: ImagePickerAsset, resizeWidth: number): Promis
 
 export type HoliImagePickerResult = 'missingPermissions' | 'technicalError' | 'invalidFileSize' | ImagePickerResult
 
-export const useMediaLibraryImagePicker = (allowsMultipleSelection = false) => {
+export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, maxFiles = 3) => {
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
 
   const verifyPermissions = useCallback(async () => {
@@ -69,8 +69,6 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false) => {
           aspect: [16, 9],
         })
       } catch (error) {
-        // using an older phone and a larger image, picking an image can lead to out-of-memory errors and
-        // therefore a refused promise (observed on older Android device with ~ 20MB image size)
         return 'technicalError'
       }
 
@@ -78,29 +76,34 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false) => {
         return imagePickerResult
       }
 
-      // selection of multiple files is not supported, therefore we can safely assume that the first file
-      // is the one (and only one) we want to check
-      const asset = imagePickerResult.assets[0]
-      const fileInfo = await getInfoAsync(asset.uri)
-
-      switch (fileSizeLimitation.type) {
-        case 'unlimited':
-          return imagePickerResult
-        case 'resize':
-          if ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) {
-            return await resizeImage(asset, fileSizeLimitation.resizeWidth)
-          } else {
-            return imagePickerResult
-          }
-        case 'reject':
-          if ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) {
-            return 'invalidFileSize'
-          } else {
-            return imagePickerResult
-          }
+      if (imagePickerResult.assets.length > maxFiles) {
+        // Limit the selection to the maximum number of files
+        imagePickerResult.assets = imagePickerResult.assets.slice(0, maxFiles)
       }
+
+      // Check file sizes for each selected asset
+      for (const asset of imagePickerResult.assets) {
+        const fileInfo = await getInfoAsync(asset.uri)
+
+        switch (fileSizeLimitation.type) {
+          case 'unlimited':
+            continue
+          case 'resize':
+            if ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) {
+              return await resizeImage(asset, fileSizeLimitation.resizeWidth)
+            }
+            continue
+          case 'reject':
+            if ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) {
+              return 'invalidFileSize'
+            }
+            continue
+        }
+      }
+
+      return imagePickerResult
     },
-    [verifyPermissions, allowsMultipleSelection]
+    [verifyPermissions, allowsMultipleSelection, maxFiles]
   )
 
   return {
