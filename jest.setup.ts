@@ -16,7 +16,7 @@ global.mockOpenURL = jest.fn()
 global.mockOpenToast = jest.fn()
 global.mockTrack = jest.fn()
 
-global.TextEncoder = jest.fn()
+global.TextEncoder = jest.fn<() => TextEncoder>()
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native') as object
