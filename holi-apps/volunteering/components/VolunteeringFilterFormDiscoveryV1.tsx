@@ -13,6 +13,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
+import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 
 import { VolunteeringFilterFormProps } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 
@@ -73,60 +74,64 @@ const FilterFormDiscoveryV1 = ({ filters, onSubmit, clearFilters }: Volunteering
   }, [clearFilters])
 
   return (
-    <HoliModalContentWrapper
-      actionButtonText={t('volunteering:filter.submitButton')}
-      onActionButtonPress={submit}
-      style={styles.modalWrapper}
-      testID="volunteering-filter-modal"
-      keyboardShouldPersistTaps="handled"
-      scrollable={false}
-      loading={loadingTopics || loadingSkills}
-      hideFooterWhenKeyboardIsOpen={true}
-    >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
-          <HoliButton label={t('global.reset')} inline onPress={resetForm} type="secondary" variant="small">
-            <HoliText>{t('global.reset')}</HoliText>
-            <HoliIcon icon={Close} size={20} style={styles.clearFilters} />
-          </HoliButton>
+    <HoliKeyboardSafeAreaView>
+      <HoliModalContentWrapper
+        actionButtonText={t('volunteering:filter.submitButton')}
+        onActionButtonPress={submit}
+        style={styles.modalWrapper}
+        testID="volunteering-filter-modal"
+        keyboardShouldPersistTaps="handled"
+        scrollable={false}
+        loading={loadingTopics || loadingSkills}
+        hideFooterWhenKeyboardIsOpen={true}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
+            <HoliButton label={t('global.reset')} inline onPress={resetForm} type="secondary" variant="small">
+              <HoliText>{t('global.reset')}</HoliText>
+              <HoliIcon icon={Close} size={20} style={styles.clearFilters} />
+            </HoliButton>
+          </View>
+          <PlacesAutocomplete
+            label={t('volunteering:filter.location.label')}
+            placeholder={t('volunteering:filter.location.placeholder')}
+            selected={selectedLocation}
+            id="volunteering-filter-location"
+            testID="volunteering-filter-location"
+            onChange={setSelectedLocation}
+            style={[styles.filterOption, { zIndex: 2 }]}
+            inputProps={{ autoFocus: true }}
+          />
+          <HoliSelect
+            options={topicOptions}
+            inputLabel={t('volunteering:filter.topics.label')}
+            aria-label={t('volunteering:filter.topics.label')}
+            placeholder={t('volunteering:filter.topics.placeholder')}
+            style={[styles.filterOption, { zIndex: 1 }]}
+            onChange={toggleTopicSelection}
+            id="volunteering-filter-topics"
+            testID="volunteering-filter-topics"
+            multiSelect
+            multiSelectionLabel={t('volunteering:filter.topics.multiSelectionLabel')}
+            virtualized={true}
+          />
+          <HoliSelect
+            options={skillOptions}
+            inputLabel={t('volunteering:filter.skills.label')}
+            aria-label={t('volunteering:filter.skills.label')}
+            placeholder={t('volunteering:filter.skills.placeholder')}
+            style={[styles.filterOption, { zIndex: 0 }]}
+            onChange={toggleSkillSelection}
+            id="volunteering-filter-skills"
+            testID="volunteering-filter-skills"
+            multiSelect
+            multiSelectionLabel={t('volunteering:filter.skills.multiSelectionLabel')}
+            virtualized={true}
+          />
         </View>
-        <PlacesAutocomplete
-          label={t('volunteering:filter.location.label')}
-          placeholder={t('volunteering:filter.location.placeholder')}
-          selected={selectedLocation}
-          id="volunteering-filter-location"
-          testID="volunteering-filter-location"
-          onChange={setSelectedLocation}
-          style={[styles.filterOption, { zIndex: 2 }]}
-          inputProps={{ autoFocus: true }}
-        />
-        <HoliSelect
-          options={topicOptions}
-          inputLabel={t('volunteering:filter.topics.label')}
-          aria-label={t('volunteering:filter.topics.label')}
-          placeholder={t('volunteering:filter.topics.placeholder')}
-          style={[styles.filterOption, { zIndex: 1 }]}
-          onChange={toggleTopicSelection}
-          id="volunteering-filter-topics"
-          testID="volunteering-filter-topics"
-          multiSelect
-          multiSelectionLabel={t('volunteering:filter.topics.multiSelectionLabel')}
-        />
-        <HoliSelect
-          options={skillOptions}
-          inputLabel={t('volunteering:filter.skills.label')}
-          aria-label={t('volunteering:filter.skills.label')}
-          placeholder={t('volunteering:filter.skills.placeholder')}
-          style={[styles.filterOption, { zIndex: 0 }]}
-          onChange={toggleSkillSelection}
-          id="volunteering-filter-skills"
-          testID="volunteering-filter-skills"
-          multiSelect
-          multiSelectionLabel={t('volunteering:filter.skills.multiSelectionLabel')}
-        />
-      </View>
-    </HoliModalContentWrapper>
+      </HoliModalContentWrapper>
+    </HoliKeyboardSafeAreaView>
   )
 }
 
