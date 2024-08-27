@@ -49,8 +49,8 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
             <View style={[styles.image, styles.error]}>
               <HoliLocalImage
                 imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
-                width={100}
-                height={100}
+                width={72}
+                height={72}
                 label=""
                 isSvg
               />
