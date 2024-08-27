@@ -108,7 +108,7 @@ const PostPreview = ({
         {/* Post Author */}
         <HoliColumns>
           <HoliColumn flex={2}>
-            <HoliMediaAuthorHeader loading />
+            <HoliMediaAuthorHeader loading role={post?.creator.role} />
           </HoliColumn>
         </HoliColumns>
 
@@ -155,7 +155,12 @@ const PostPreview = ({
             label={post?.creator.fullName || ''}
             testID="btn-to-post-creator-profile"
           >
-            <HoliMediaAuthorHeader author={post?.creator || ({} as User)} authorBold date={post?.created} />
+            <HoliMediaAuthorHeader
+              author={post?.creator || ({} as User)}
+              authorBold
+              date={post?.created}
+              role={post?.creator.role}
+            />
           </HoliLink>
         </HoliColumn>
         {/* Action drawer (three dot menu) */}
