@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
+import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -23,6 +24,7 @@ export const SubmitPostBar = ({
   isEdit,
   images,
   setImages,
+  currentImages,
 }: {
   onSubmit: () => void
   showLocationModal: () => void
@@ -32,6 +34,7 @@ export const SubmitPostBar = ({
   isEdit: boolean
   images: HoliImageInfo[]
   setImages: (images: HoliImageInfo[]) => void
+  currentImages?: FeedPostImage[]
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -41,7 +44,7 @@ export const SubmitPostBar = ({
     <SafeArea style={styles.menuContainer} edges={['bottom']}>
       <View style={styles.items}>
         <View style={styles.iconContainer}>
-          {images.length === 0 && (
+          {[...images, ...(currentImages || [])].length === 0 && (
             <HoliImagePicker
               allowsMultipleSelection
               fileSizeLimitation={{
@@ -55,7 +58,7 @@ export const SubmitPostBar = ({
               <HoliIcon icon={ImageAdd} style={styles.addImageIcon} />
             </HoliImagePicker>
           )}
-          {images.length > 0 && (
+          {[...images, ...(currentImages || [])].length > 0 && (
             <HoliButton
               transparent
               inline

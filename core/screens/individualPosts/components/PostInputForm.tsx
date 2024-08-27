@@ -286,6 +286,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           isSubmittable={isSubmittable}
           isEdit={isEdit}
           images={images}
+          currentImages={currentImages}
           setImages={onChangeImages}
         />
       </KeyboardAvoidingView>
