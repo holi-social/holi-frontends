@@ -38,7 +38,7 @@ const CommentText = ({ comment, ...textProps }: CommentTextProps) => {
           }}
           loading={loadingTranslation}
           setLoading={setLoadingTranslation}
-          trackingEvent={TrackingEvent.TranslationPressed('comment', comment.id)}
+          trackingEvent={TrackingEvent.ContentTranslated('comment', comment.id)}
         />
       )}
     </>

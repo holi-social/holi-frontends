@@ -181,7 +181,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
             secondaryText={{ text: title, setText: setTitle }}
             loading={loadingTranslation}
             setLoading={setLoadingTranslation}
-            trackingEvent={TrackingEvent.TranslationPressed('feed_post', post.id)}
+            trackingEvent={TrackingEvent.ContentTranslated('feed_post', post.id)}
           />
         </View>
       )}

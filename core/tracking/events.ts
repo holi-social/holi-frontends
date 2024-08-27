@@ -161,11 +161,11 @@ export namespace TrackingEvent {
     }
   }
 
-  export const TranslationPressed = (
+  export const ContentTranslated = (
     type: 'feed_post' | 'space_post' | 'comment' | 'reply',
     contentId: string
   ): TrackingEvent => ({
-    name: 'translation_pressed',
+    name: 'content_translated',
     event_version__major: 1,
     event_version__minor: 0,
     event_version__patch: 0,
