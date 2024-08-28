@@ -96,8 +96,8 @@ exports[`renders correctly renders correctly when type is ERROR 1`] = `
       >
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="20"
-          bbWidth="20"
+          bbHeight={20}
+          bbWidth={20}
           color="#fff"
           fill="none"
           focusable={false}
@@ -285,8 +285,8 @@ exports[`renders correctly renders correctly when type is SUCCESS 1`] = `
       >
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="20"
-          bbWidth="20"
+          bbHeight={20}
+          bbWidth={20}
           color="#fff"
           fill="none"
           focusable={false}

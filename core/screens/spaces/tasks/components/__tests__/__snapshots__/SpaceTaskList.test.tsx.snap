@@ -293,8 +293,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight="12"
-                  bbWidth="12"
+                  bbHeight={12}
+                  bbWidth={12}
                   color="#787777"
                   fill="none"
                   focusable={false}
@@ -417,8 +417,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight="12"
-                  bbWidth="12"
+                  bbHeight={12}
+                  bbWidth={12}
                   color="#787777"
                   fill="none"
                   focusable={false}
@@ -965,8 +965,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight="12"
-                  bbWidth="12"
+                  bbHeight={12}
+                  bbWidth={12}
                   color="#787777"
                   fill="none"
                   focusable={false}
@@ -1089,8 +1089,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight="12"
-                  bbWidth="12"
+                  bbHeight={12}
+                  bbWidth={12}
                   color="#787777"
                   fill="none"
                   focusable={false}
@@ -1637,8 +1637,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight="12"
-                  bbWidth="12"
+                  bbHeight={12}
+                  bbWidth={12}
                   color="#787777"
                   fill="none"
                   focusable={false}
@@ -1761,8 +1761,8 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               >
                 <RNSVGSvgView
                   align="xMidYMid"
-                  bbHeight="12"
-                  bbWidth="12"
+                  bbHeight={12}
+                  bbWidth={12}
                   color="#787777"
                   fill="none"
                   focusable={false}

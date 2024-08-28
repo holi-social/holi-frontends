@@ -422,8 +422,8 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
-                          bbHeight="12"
-                          bbWidth="12"
+                          bbHeight={12}
+                          bbWidth={12}
                           color="#787777"
                           fill="none"
                           focusable={false}
@@ -546,8 +546,8 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
-                          bbHeight="12"
-                          bbWidth="12"
+                          bbHeight={12}
+                          bbWidth={12}
                           color="#787777"
                           fill="none"
                           focusable={false}
@@ -1094,8 +1094,8 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
-                          bbHeight="12"
-                          bbWidth="12"
+                          bbHeight={12}
+                          bbWidth={12}
                           color="#787777"
                           fill="none"
                           focusable={false}
@@ -1218,8 +1218,8 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
-                          bbHeight="12"
-                          bbWidth="12"
+                          bbHeight={12}
+                          bbWidth={12}
                           color="#787777"
                           fill="none"
                           focusable={false}
