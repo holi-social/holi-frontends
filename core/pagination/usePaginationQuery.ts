@@ -26,6 +26,7 @@ function usePaginationQuery<TData>(
     data: pagedData,
     error,
     fetchMore,
+    refetch,
   } = useQuery<PagedResponse<TData, string>>(query, {
     variables: {
       ...variables,
@@ -66,6 +67,7 @@ function usePaginationQuery<TData>(
     isFetchingMore,
     canFetchMore,
     fetchNextPage,
+    refetch,
   }
 }
 

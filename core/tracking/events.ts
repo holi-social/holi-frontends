@@ -82,6 +82,19 @@ export namespace TrackingEvent {
     }),
   }
 
+  export const Spaces = {
+    followSpaceButtonPressed: (spaceId: string, isLoggedIn: boolean): TrackingEvent => ({
+      name: 'followSpaceButtonPressed',
+      properties: { spaceId, isLoggedIn },
+      ...versionOne,
+    }),
+    joinSpaceButtonPressed: (spaceId: string, isLoggedIn: boolean): TrackingEvent => ({
+      name: 'joinSpaceButtonPressed',
+      properties: { spaceId, isLoggedIn },
+      ...versionOne,
+    }),
+  }
+
   export const Donations = {
     pressed: (projectId: number): TrackingEvent => ({
       name: 'pressedDonateButton',
@@ -91,7 +104,7 @@ export namespace TrackingEvent {
   }
 
   export const Volunteering = {
-    pressed: (engagementId: number): TrackingEvent => ({
+    pressed: (engagementId: string): TrackingEvent => ({
       name: 'pressedVolunteeringEngagementButton',
       properties: { engagementId },
       ...versionOne,
@@ -160,6 +173,20 @@ export namespace TrackingEvent {
       ...versionOne,
     }
   }
+
+  export const ContentTranslated = (
+    type: 'feed_post' | 'space_post' | 'comment' | 'reply',
+    contentId: string
+  ): TrackingEvent => ({
+    name: 'content_translated',
+    event_version__major: 1,
+    event_version__minor: 0,
+    event_version__patch: 0,
+    properties: {
+      type: type,
+      contentId: contentId,
+    },
+  })
 
   export const RecommendationPressed = (
     type: 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews',

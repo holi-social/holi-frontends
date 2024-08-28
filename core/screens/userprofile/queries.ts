@@ -1,177 +1,21 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import type {
-  AuthenticatedUser,
-  SDG,
-  Skill,
-  Topic,
-  UpdateConnectionWithUserActions,
-  User,
-} from '@holi/core/screens/userprofile/types'
-import type { Paged } from '@holi/core/types'
+import { FullAuthenticatedUserFragment, FullUserFragment } from '@holi/core/domain/shared/queries'
+import { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
+import type { UpdateConnectionWithUserActions } from '@holi/core/screens/userprofile/types'
 
-// This fragment is used in a lot of places throughout the app
-// Do NOT add anymore fields here that are not required for HoliAvatar
-export const UserAvatarFragment = gql`
-  fragment UserAvatar on User {
-    id
-    avatar
-    avatarBlurhash
-    avatarLabel
-    avatarDefaultColor
-    firstName
-    fullName
-  }
-`
-
-export const FullUserFragment = gql`
-  fragment FullUser on User {
-    id
-    identity
-    avatar
-    avatarBlurhash
-    avatarDefaultColor
-    avatarLabel
-    fullName
-    firstName
-    lastName
-    aboutMe
-    pronouns
-    location
-    geolocationId
-    engagementLevel
-    interests {
-      id
-      title
-      slug
-    }
-    sdgs {
-      id
-      title
-      slug
-    }
-    skills {
-      id
-      title
-      slug
-    }
-    connectionStatusToMyself
-  }
-`
-
-export const FullAuthenticatedUserFragment = gql`
-  fragment FullAuthenticatedUser on AuthenticatedUser {
-    id
-    identity
-    avatar
-    avatarBlurhash
-    avatarDefaultColor
-    avatarLabel
-    fullName
-    firstName
-    lastName
-    aboutMe
-    pronouns
-    location
-    role
-    geolocationId
-    engagementLevel
-    interests {
-      id
-      title
-      slug
-    }
-    sdgs {
-      id
-      title
-      slug
-    }
-    skills {
-      id
-      title
-      slug
-    }
-    connectionStatusToMyself
-    trackingConsentAnalytics
-    trackingConsentPersonalization
-    isEmployee
-  }
-`
-
-export const authenticatedUserV2Query = gql`
-  ${FullAuthenticatedUserFragment}
-
-  query AuthenticatedUser {
-    authenticatedUserV2 {
-      ...FullAuthenticatedUser
-    }
-  }
-`
-
-export type AuthenticatedUserV2Response = {
-  authenticatedUserV2: AuthenticatedUser & {
-    __typename: 'AuthenticatedUser'
-  }
-}
-
-export type AuthenticatedUserV2Variables = {
-  userId: string | undefined
-}
-
-export interface UserByIdResponse {
-  userById: User
-}
-
-export const userByIdQuery = gql`
-  ${FullUserFragment}
-
-  query UserById($userId: UUID!) {
-    userById(id: $userId) {
-      ...FullUser
-    }
-  }
-`
-
-export const userByNameQuery = gql`
-  ${UserAvatarFragment}
-  query UserByName($substring: String!, $limit: Int!, $offset: Int!) {
-    userByName(substring: $substring, limit: $limit, offset: $offset) {
+export const interestsQuery = gql`
+  query Topics {
+    interests: topics {
       data {
-        ...UserAvatar
-        identity
-      }
-      totalResults
-    }
-  }
-`
-
-export type UserByNameResponse = {
-  userByName: Paged<User>
-}
-
-export const usersByChatIdentitiesQuery = gql`
-  ${UserAvatarFragment}
-  query UsersByChatIdentities($identities: [String!]!, $limit: Int!, $offset: Int!) {
-    usersByChatIdentities(identities: $identities, limit: $limit, offset: $offset) {
-      data {
-        ...UserAvatar
-        identity
-        pronouns
+        id
+        title
+        slug
       }
     }
   }
 `
-
-export type UsersByChatIdentitiesQueryVariables = {
-  identities: string[]
-  offset: number
-  limit: number
-}
-
-export type UsersByChatIdentitiesResponse = {
-  usersByChatIdentities: Paged<User>
-}
 
 export const UpdateAuthenticatedUserInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
@@ -229,53 +73,6 @@ export const updateConnectionWithUserMutation = gql`
     }
   }
 `
-
-export const sdgsQuery = gql`
-  query SDGs {
-    sdgs {
-      data {
-        id
-        title
-      }
-    }
-  }
-`
-
-export const skillsQuery = gql`
-  query Skills {
-    skills {
-      data {
-        id
-        title
-        slug
-      }
-    }
-  }
-`
-
-export const interestsQuery = gql`
-  query Topics {
-    interests: topics {
-      data {
-        id
-        title
-        slug
-      }
-    }
-  }
-`
-
-export interface TopicsQueryResult {
-  topics: Paged<Topic>
-}
-
-export interface SkillsQueryResult {
-  skills: Paged<Skill>
-}
-
-export interface SdgsQueryResult {
-  sdgs: Paged<SDG>
-}
 
 export type DeleteAuthenticatedUserResponse = {
   success: boolean

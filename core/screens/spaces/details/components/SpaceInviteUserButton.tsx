@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
+import { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   UpdateSpaceUserConnectionResponse,
@@ -10,7 +11,7 @@ import {
 } from '@holi/core/screens/spaces/details/mutations'
 import { spaceInvitesQuery, userConnectionsQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Add, Loader } from '@holi/icons/src/generated'

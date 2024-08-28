@@ -7,6 +7,7 @@ import { StyleSheet, View } from 'react-native'
 
 import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
 import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
+import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
@@ -15,7 +16,6 @@ import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
-import type { User } from '@holi/core/screens/userprofile/types'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
@@ -83,7 +83,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
         </HoliContainer>
       </View>
       <HoliTabs
-        style={{ paddingTop: 24, flex: 1 }}
+        style={{ paddingTop: 16, flex: 1 }}
         backgroundColor={colors.background20}
         initialStep={initialTabIndex}
         onChangeTab={handleTabChanged}

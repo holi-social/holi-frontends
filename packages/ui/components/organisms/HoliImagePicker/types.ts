@@ -31,6 +31,8 @@ export type HoliImagePickerFileSizeLimitation =
 
 export interface HoliImagePickerProps {
   buttonProps: Omit<HoliButtonProps, 'children' | 'onPress'>
-  onPickImage: (image: HoliImageInfo) => void
+  onPickImage?: (image: HoliImageInfo) => void
+  onPickImages?: (images: HoliImageInfo[]) => void
+  allowsMultipleSelection?: boolean
   fileSizeLimitation: HoliImagePickerFileSizeLimitation
 }

@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
-import { User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
+import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 export const getRandomUser = (hasAvatar = false): User => {
   const firstName = faker.person.firstName()
@@ -25,5 +26,6 @@ export const getRandomUser = (hasAvatar = false): User => {
     skills: [],
     connectionStatusToMyself: UserConnectionStatus.NOT_CONNECTED,
     connectionStatusToSpace: [],
+    role: 'REGULAR',
   }
 }

@@ -2,10 +2,11 @@ import * as ImageManipulator from 'expo-image-manipulator'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { CONTENT_IMAGE_MAX_HEIGHT, CONTENT_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-import { HoliImageInfo, HoliImagePickerProps } from './types'
+import { FileSizeLimitationReject, FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
 
 const resizeImage = async (fileBlob: File, resizeWidth: number): Promise<HoliImageInfo> => {
   const fileBlobUri = URL.createObjectURL(fileBlob)
@@ -58,41 +59,107 @@ const HoliImagePicker = ({
   children,
   buttonProps,
   onPickImage,
+  onPickImages,
   fileSizeLimitation,
+  allowsMultipleSelection = false,
 }: React.PropsWithChildren<HoliImagePickerProps>) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const imageInputNode = useRef<HTMLInputElement>(null)
 
   const onChangeHandler = async () => {
+    const files = imageInputNode.current?.files
+
+    const fileBlobs = Array.from(files || []).slice(0, 3)
+
     const fileBlob = imageInputNode.current?.files?.[0]
 
-    if (!fileBlob) return
+    if (!fileBlobs.length) return
 
     switch (fileSizeLimitation.type) {
       case 'unlimited':
-        onPickImage(await readImage(fileBlob))
-        return
-
-      case 'resize': {
-        if (fileBlob.size > fileSizeLimitation.limitBytes) {
-          onPickImage(await resizeImage(fileBlob, fileSizeLimitation.resizeWidth))
-          return
-        } else {
-          onPickImage(await readImage(fileBlob))
+        if (!allowsMultipleSelection && fileBlob) {
+          onPickImage?.(await readImage(fileBlob))
           return
         }
+
+        if (allowsMultipleSelection) {
+          const images: HoliImageInfo[] = []
+          for (const fileBlob of fileBlobs) {
+            images.push(await readImage(fileBlob))
+          }
+          onPickImages?.(images)
+          return
+        }
+        break
+
+      case 'resize': {
+        const image = await readImage(fileBlob as File)
+
+        if (!allowsMultipleSelection && fileBlob) {
+          if (
+            fileBlob.size > (fileSizeLimitation as FileSizeLimitationResize).limitBytes ||
+            image.width > CONTENT_IMAGE_MAX_WIDTH ||
+            image.height > CONTENT_IMAGE_MAX_HEIGHT
+          ) {
+            const resizedImage = await resizeImage(
+              fileBlob,
+              (fileSizeLimitation as FileSizeLimitationResize).resizeWidth
+            )
+            onPickImage?.(resizedImage)
+            return
+          } else {
+            onPickImage?.(await readImage(fileBlob))
+            return
+          }
+        }
+
+        if (allowsMultipleSelection) {
+          const images: HoliImageInfo[] = []
+          for (const fileBlob of fileBlobs) {
+            if (fileBlob.size > (fileSizeLimitation as FileSizeLimitationResize).limitBytes) {
+              images.push(await resizeImage(fileBlob, (fileSizeLimitation as FileSizeLimitationResize).resizeWidth))
+            } else {
+              images.push(await readImage(fileBlob))
+            }
+          }
+          onPickImages?.(images)
+          return
+        }
+        break
       }
 
       case 'reject': {
-        if (fileBlob.size > fileSizeLimitation.limitBytes) {
-          openToast(
-            t('filePicker.error.maxFileSize', { size: fileSizeLimitation.limitBytes / 1024 / 1024 }),
-            HoliToastType.ERROR
-          )
-          return
-        } else {
-          onPickImage(await readImage(fileBlob))
+        if (!allowsMultipleSelection && fileBlob) {
+          if (fileBlob.size > (fileSizeLimitation as FileSizeLimitationReject).limitBytes) {
+            openToast(
+              t('filePicker.error.maxFileSize', {
+                size: (fileSizeLimitation as FileSizeLimitationReject).limitBytes / 1024 / 1024,
+              }),
+              HoliToastType.ERROR
+            )
+            return
+          } else {
+            onPickImage?.(await readImage(fileBlob))
+            return
+          }
+        }
+        if (allowsMultipleSelection) {
+          const images: HoliImageInfo[] = []
+          for (const fileBlob of fileBlobs) {
+            if (fileBlob.size > (fileSizeLimitation as FileSizeLimitationReject).limitBytes) {
+              openToast(
+                t('filePicker.error.maxFileSize', {
+                  size: (fileSizeLimitation as FileSizeLimitationReject).limitBytes / 1024 / 1024,
+                }),
+                HoliToastType.ERROR
+              )
+              return
+            } else {
+              images.push(await readImage(fileBlob))
+            }
+          }
+          onPickImages?.(images)
           return
         }
       }
@@ -105,11 +172,11 @@ const HoliImagePicker = ({
     <>
       <input
         type="file"
-        accept="image/*"
+        accept=".png,.jpg"
         style={{ display: 'none' }}
         ref={imageInputNode}
         onChange={onChangeHandler}
-        multiple={false}
+        multiple={allowsMultipleSelection}
       />
 
       <HoliButton {...buttonProps} onPress={pickImageHandler}>

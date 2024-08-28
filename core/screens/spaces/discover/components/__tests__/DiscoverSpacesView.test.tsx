@@ -2,12 +2,12 @@ import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render } from '@testing-library/react-native'
 import React, { PropsWithChildren } from 'react'
 
+import { Skill, Topic } from '@holi/core/domain/shared/types'
 import DiscoverSpacesView, {
   SPACES_GROUP_LIMIT,
   SPACES_SLIDER_SKELETONS,
 } from '@holi/core/screens/spaces/discover/components/DiscoverSpacesView'
 import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 
 jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => ({

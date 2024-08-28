@@ -4,6 +4,7 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
+import { User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import i18n from '@holi/core/i18n'
@@ -15,7 +16,6 @@ import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { Link, Post } from '@holi/core/screens/posts/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -108,7 +108,7 @@ const PostPreview = ({
         {/* Post Author */}
         <HoliColumns>
           <HoliColumn flex={2}>
-            <HoliMediaAuthorHeader loading />
+            <HoliMediaAuthorHeader loading role={post?.creator.role} />
           </HoliColumn>
         </HoliColumns>
 
@@ -155,7 +155,12 @@ const PostPreview = ({
             label={post?.creator.fullName || ''}
             testID="btn-to-post-creator-profile"
           >
-            <HoliMediaAuthorHeader author={post?.creator || ({} as User)} authorBold date={post?.created} />
+            <HoliMediaAuthorHeader
+              author={post?.creator || ({} as User)}
+              authorBold
+              date={post?.created}
+              role={post?.creator.role}
+            />
           </HoliLink>
         </HoliColumn>
         {/* Action drawer (three dot menu) */}
@@ -274,6 +279,7 @@ const PostPreview = ({
           secondaryText={{ text: title, setText: setTitle }}
           loading={loadingTranslation}
           setLoading={setLoadingTranslation}
+          trackingEvent={TrackingEvent.ContentTranslated('feed_post', post.id)}
         />
       )}
       {/* Reaction bar with comments and likes */}

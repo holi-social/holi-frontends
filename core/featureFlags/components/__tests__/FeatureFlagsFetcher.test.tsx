@@ -9,6 +9,11 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlagRefetch', () => ({
   useFeatureFlagRefetch: () => mockRefetch,
 }))
 
+const mockOnRefresh = jest.fn()
+jest.mock('@holi/core/refreshing/hooks/useOnRefresh', () => ({
+  useOnRefresh: (callback: unknown) => mockOnRefresh(callback),
+}))
+
 const mockAddEventListener = jest.fn()
 
 describe('FeatureFlagsFetcher', () => {
@@ -38,5 +43,11 @@ describe('FeatureFlagsFetcher', () => {
     handleAppStateChange('inactive')
 
     expect(mockRefetch).not.toHaveBeenCalled()
+  })
+
+  it('should register to refetch feature flags on refresh', () => {
+    render(<FeatureFlagsFetcher />)
+
+    expect(mockOnRefresh).toHaveBeenCalledWith(mockRefetch)
   })
 })

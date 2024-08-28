@@ -1,4 +1,3 @@
-import { DocumentNode, useApolloClient } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,11 +7,7 @@ import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-rean
 import { useLoginState } from '@holi/core/auth/loginState'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
-import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -20,20 +15,14 @@ import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeade
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
 import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
-import { userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import { allPostsQuery } from '@holi/core/screens/individualPosts/queries'
-import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
-import { donationProjectsQuery } from '@holi-apps/donations/queries'
-import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-import { volunteeringEngagementsQuery, volunteeringRecosV1Query } from '@holi-apps/volunteering/queries'
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -49,16 +38,9 @@ const HomeFeed = () => {
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
-  const client = useApolloClient()
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-
-  const donationsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
-  const goodnewsEnabled = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
-  const volunteeringRecosV1Enabled = useFeatureFlagToggle(FeatureFlagKey.VOLUNTEERING_RECOS_V1)
-  const volunteeringEnabled =
-    useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn && !volunteeringRecosV1Enabled
 
   // TODO: when SSR is enabled we need to lazy load the header because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -82,30 +64,9 @@ const HomeFeed = () => {
     })
   }, [navigate, t, headerTitle, setScreenOptions, colors.black300])
 
-  const { refreshing, onRefresh } = useOnRefresh(() =>
-    client.refetchQueries({
-      include: [
-        allPostsQuery,
-        lastInsightsQuery,
-        donationsEnabled ? donationProjectsQuery : undefined,
-        goodnewsEnabled ? goodNewsArticlesQuery : undefined,
-        volunteeringEnabled ? volunteeringEngagementsQuery : undefined,
-        volunteeringRecosV1Enabled ? volunteeringRecosV1Query : undefined,
-        isLoggedIn ? userSuggestionsQuery : undefined,
-      ].filter((q) => q !== undefined) as DocumentNode[],
-    })
-  )
-
   return (
     <>
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        style={{ backgroundColor: colors.white200 }}
-        contentContainerStyle={styles.layout}
-      >
+      <ScrollHeaderLayout style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
         <View style={styles.sections}>
           <Animated.View entering={FadeInDown}>
             <HomeFeedHeader />
@@ -128,7 +89,7 @@ const HomeFeed = () => {
         </View>
       </ScrollHeaderLayout>
 
-      {/* Floating CreatePostButton need to be outside the Layout */}
+      {/* Floating CreatePostButton needs to be outside the Layout */}
       <CreatePostButton />
 
       <OnboardingInitializer />

@@ -4,6 +4,7 @@ import { AppState, AppStateStatus } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useFeatureFlagRefetch } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
 const FeatureFlagsFetcher = () => {
   const refetch = useFeatureFlagRefetch()
@@ -22,6 +23,8 @@ const FeatureFlagsFetcher = () => {
       appStateListener.remove()
     }
   }, [refetch])
+
+  useOnRefresh(refetch)
 
   return null
 }

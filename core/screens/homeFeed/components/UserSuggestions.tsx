@@ -4,11 +4,12 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 
+import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
-import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -24,11 +25,12 @@ const UserSuggestions: React.FC = () => {
   // TODO: remove after implementing the feature
   const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
-  const { loading, error, data } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
+  const { loading, error, data, refetch } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
     variables: { limit },
     onError: (error) =>
       logError(error, 'Failed to load user suggestions', { location: 'UserSuggestions.userSuggestionsQuery' }),
   })
+  useOnRefresh(refetch)
 
   // Error and loading states are handled the same way and just hide the component
   if (loading || error || !data?.userSuggestions?.data?.length) {

@@ -47,10 +47,10 @@ import {
   toMatrixIdentity,
   updateSpaceRoomsNotifications,
 } from '@holi/chat/src/store/utils'
+import { User as HoliUser } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
-import type { User as HoliUser } from '@holi/core/screens/userprofile/types'
 
 const logger = getLogger('Chat')
 

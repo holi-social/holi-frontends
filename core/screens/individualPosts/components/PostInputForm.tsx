@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
+import { Term, User } from '@holi/core/domain/shared/types'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
+import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
-import ImageEditor from '@holi/core/screens/individualPosts/components/ImageEditor'
+import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
@@ -17,14 +19,17 @@ import {
   FEED_POST_TITLE_MAX_CHARACTERS,
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
+import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
-import { Term, User } from '@holi/core/screens/userprofile/types'
-import { Global, HoliLogoFilled } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Edit2, Global, HoliLogoFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
@@ -47,19 +52,20 @@ export enum Visibility {
 export interface PostInputFormProps {
   title: string
   description?: string
-  image: HoliImageInfo | null
+  images: HoliImageInfo[]
+  currentImages?: FeedPostImage[]
   selectedVisibility: Visibility
   selectedCategoryId: string | null
-  currentImage?: string
   selectedTopics?: Term[]
   selectedLocation?: GeolocationSuggestion
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
-  onChangeImage: (image: HoliImageInfo | null) => void
+  onChangeImages: (_: HoliImageInfo[]) => void
+  onChangeCurrentImages?: (images: FeedPostImage[]) => void
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
-  onChangeSelectedLocation: (_: GeolocationSuggestion) => void
+  onChangeSelectedLocation: (_: GeolocationSuggestion | null) => void
   onSubmit: () => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
@@ -72,17 +78,18 @@ export interface PostInputFormProps {
 const PostInputForm: React.FC<PostInputFormProps> = ({
   title,
   description,
-  image,
+  images,
+  currentImages,
   mentions = [],
   selectedVisibility,
   selectedCategoryId,
   selectedLocation,
-  currentImage,
   selectedTopics,
   onChangeTitle,
   onChangeDescription,
   onChangeSelectedVisibility,
-  onChangeImage,
+  onChangeImages,
+  onChangeCurrentImages,
   onChangeSelectedTopics,
   onChangeSelectedLocation,
   onSubmit,
@@ -101,6 +108,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
   const { show: showLocationModal, hide: hideLocationModal, visible: visibleLocationModal } = useModalState()
+  const { show: showEditImagesModal, hide: hideEditImagesModal, visible: visibleEditImagesModal } = useModalState()
 
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
@@ -145,7 +153,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
     selected ? onChangeSelectedLocation(selected) : onChangeSelectedLocation(null)
   }
 
-  const onSafeLocation = () => {
+  const onSaveLocation = () => {
     handleLocationChange(selectedLocation)
     hideLocationModal()
   }
@@ -153,7 +161,11 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   return (
     <>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.layout}>
-        <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
+        <ScrollView
+          contentContainerStyle={styles.contentContainer}
+          keyboardShouldPersistTaps="handled"
+          style={styles.container}
+        >
           <View style={styles.pillContainer}>
             <FeedPostPill
               label={t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
@@ -210,25 +222,74 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               </View>
             )}
 
-            <View style={styles.imageEditor}>
-              <ImageEditor onSave={onChangeImage} image={image} currentImage={currentImage} />
-            </View>
+            {((!!images && images.length > 0) || (currentImages && currentImages.length > 0)) && (
+              <View style={styles.imageContainer}>
+                <HoliButton
+                  type="secondary"
+                  variant="small"
+                  label={t('global.edit')}
+                  inline
+                  style={styles.editImages}
+                  onPress={showEditImagesModal}
+                >
+                  <HoliText>{t('global.edit')}</HoliText>
+                  <HoliIcon size={16} icon={Edit2} style={styles.buttonIcon} />
+                </HoliButton>
+                {Platform.OS !== 'web' && (
+                  <HoliCarousel
+                    marginHorizontal={Spacing.sm}
+                    style={styles.imageCarousel}
+                    slides={[...(currentImages || []), ...images].map((image, index) => {
+                      // differentiate types between FeedPostImage and HoliImageInfo
+                      const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
+                      const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
+                      return {
+                        children: <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />,
+                      }
+                    })}
+                  />
+                )}
+                {Platform.OS === 'web' && (
+                  <View
+                    style={[
+                      styles.imageGrid,
+                      [...(currentImages || []), ...images].length < 2 ? { justifyContent: 'flex-end' } : {},
+                    ]}
+                  >
+                    {[...(currentImages || []), ...images].map((image, index) => {
+                      // differentiate types between FeedPostImage and HoliImageInfo
+                      const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
+                      const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
+                      return (
+                        <View key={index} style={styles.imageGridItemWrapper}>
+                          <View style={styles.imageGridItem}>
+                            <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />
+                          </View>
+                        </View>
+                      )
+                    })}
+                  </View>
+                )}
+              </View>
+            )}
           </View>
         </ScrollView>
 
+        {/* Suggestions*/}
+        <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
+
         <SubmitPostBar
           onSubmit={submit}
-          onSetImage={onChangeImage}
-          showModal={showLocationModal}
-          hasSetImage={!!image}
+          showLocationModal={showLocationModal}
+          showEditImagesModal={showEditImagesModal}
           submitting={submitting}
           isSubmittable={isSubmittable}
           isEdit={isEdit}
+          images={images}
+          currentImages={currentImages}
+          setImages={onChangeImages}
         />
       </KeyboardAvoidingView>
-
-      {/* Suggestions*/}
-      <PortalGate gateName="suggestions" style={[styles.suggestionsScrollView]} />
 
       <HoliModalSelect
         options={visibilityOptions}
@@ -264,18 +325,17 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         show={visibleLocationModal}
         onDismiss={hideLocationModal}
         testID="post-location-input"
-        style={styles.locationModal}
+        style={styles.modal}
       >
         <FormWrapper
-          headlineText={t('individuals.post.input.topics.title')}
           isModal
-          onSave={onSafeLocation}
+          onSave={onSaveLocation as () => Promise<unknown>}
           keyboardShouldPersistTaps="handled"
           showCancelButton
           onCancel={hideLocationModal}
           showBottomBar
           saveButtonDisabled={!selectedLocation}
-          style={styles.locationModal}
+          style={styles.modal}
           renderProp={() => (
             <>
               <View style={styles.locationContainer}>
@@ -300,6 +360,22 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               />
             </>
           )}
+        />
+      </HoliModal>
+
+      <HoliModal
+        label={t('individuals.post.input.topics.title')}
+        show={visibleEditImagesModal}
+        onDismiss={hideEditImagesModal}
+        style={{ backgroundColor: theme.colors.background20 }}
+        testID="post-location-input"
+      >
+        <EditUploadedImages
+          images={images}
+          currentImages={currentImages}
+          setImages={onChangeImages}
+          setCurrentImages={onChangeCurrentImages}
+          onActionButtonPress={hideEditImagesModal}
         />
       </HoliModal>
     </>
@@ -346,8 +422,40 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       paddingHorizontal: 6,
     },
-    imageEditor: {
-      paddingTop: 24,
+    imageContainer: {
+      paddingTop: Spacing.sm,
+      alignItems: 'flex-end',
+    },
+    editImages: {
+      borderRadius: 28,
+      marginRight: Spacing['3xs'],
+    },
+    buttonIcon: {
+      marginLeft: Spacing['4xs'],
+    },
+    imageCarousel: {
+      marginHorizontal: -Spacing['3xs'],
+      marginTop: Spacing['3xs'],
+      flex: 1,
+    },
+    imageGrid: {
+      width: '100%',
+      marginVertical: Spacing.sm,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      marginHorizontal: -Spacing['4xs'],
+    },
+    imageGridItemWrapper: {
+      width: '50%',
+      padding: Spacing['4xs'],
+    },
+    imageGridItem: {
+      padding: Spacing['3xs'],
+      borderRadius: Spacing.xs,
+      borderWidth: 1,
+      borderColor: theme.colors.foreground10,
+      backgroundColor: theme.colors.white100,
     },
     pillContainer: {
       width: '100%',
@@ -362,27 +470,23 @@ const getStyles = (theme: HoliTheme) =>
     suggestionsScrollView: {
       zIndex: 1,
       width: '100%',
-      height: 150,
-      maxHeight: 150,
+      height: 220,
+      maxHeight: 220,
       paddingTop: 10,
       paddingBottom: 10,
       backgroundColor: theme.colors.background10,
-      borderTopColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderRightColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderLeftColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderWidth: 1,
-      borderBottomWidth: 0,
+      borderColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
       borderRadius: 12,
       elevation: 4,
-      borderTopWidth: 1,
+      borderWidth: 1,
       ...Platform.select({
         web: {
           maxWidth: dimensions.maxScreenWidth,
           marginHorizontal: 'auto',
+          bottom: Spacing['4xl'],
+          position: 'absolute',
         },
       }),
-      position: 'absolute',
-      bottom: Platform.OS === 'web' ? 64 : 96,
       left: 0,
       right: 0,
     },
@@ -398,7 +502,7 @@ const getStyles = (theme: HoliTheme) =>
       gap: 8,
       paddingBottom: 24,
     },
-    locationModal: {
+    modal: {
       backgroundColor: theme.colors.background20,
       ...Platform.select({
         web: {

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
+import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { Notification } from '@holi/core/screens/notifications/components/types'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 export type NumberOfItems = {

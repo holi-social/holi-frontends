@@ -4,12 +4,13 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers/logError'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import InsightList from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -36,9 +37,11 @@ const InsightsOfTheWeek = () => {
     data: lastInsights,
     loading,
     error,
+    refetch,
   } = useQuery(lastInsightsQuery, {
     variables: { offset: 0, limit: 4 },
   })
+  useOnRefresh(refetch)
 
   const insights = (lastInsights?.lastInsights?.data || []).slice(0, 4)
   const totalResults = lastInsights?.lastInsights?.totalResults || 0

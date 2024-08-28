@@ -1,6 +1,6 @@
+import { User } from '@holi/core/domain/shared/types'
 import { UsePaginationQueryResult } from '@holi/core/pagination/usePaginationQuery'
 import { Space } from '@holi/core/screens/spaces/types'
-import { User } from '@holi/core/screens/userprofile/types'
 
 interface SearchSectionBase {
   title: string

@@ -9,6 +9,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -33,7 +34,8 @@ const SpaceTasks = () => {
   const { width: screenWidth } = useClientWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 
-  const { space } = useSpace(spaceIdOrName)
+  const { space, refetch } = useSpace(spaceIdOrName)
+  useOnRefresh(refetch)
 
   const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)

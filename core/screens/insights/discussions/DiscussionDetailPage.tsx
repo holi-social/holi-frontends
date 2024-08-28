@@ -7,12 +7,12 @@ import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
@@ -61,7 +61,7 @@ const DiscussionDetailPage = () => {
     },
   })
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -87,14 +87,7 @@ const DiscussionDetailPage = () => {
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        style={styles.wrapper}
-        contentContainerStyle={styles.wrapperContent}
-      >
+      <ScrollHeaderLayout style={styles.wrapper} contentContainerStyle={styles.wrapperContent}>
         <HoliContainer noPadding>
           {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
           {discussionId && (

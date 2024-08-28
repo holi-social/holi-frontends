@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
+import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { Insight } from '@holi/core/screens/insights/types'
-import { UserAvatarFragment } from '@holi/core/screens/userprofile/queries'
 import { Paged } from '@holi/core/types'
 
 // Report Content query

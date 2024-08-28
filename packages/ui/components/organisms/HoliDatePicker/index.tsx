@@ -1,7 +1,7 @@
 import DateTimePicker, { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -11,24 +11,18 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { formatDateToYYYMMDD, getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export interface HoliDatePickerProps {
-  onChange: (date: string) => void
-  title: string
-  value: string
-  label?: string
-  style?: StyleProp<ViewStyle>
-  testID?: string
-  isRequired?: boolean
-}
+import type { HoliDatePickerProps } from './types'
 
 const HoliDatePicker = ({
+  value,
   onChange,
   title,
-  value,
   label,
   style,
-  testID = 'holi-date-picker',
+  minimumDate,
+  maximumDate,
   isRequired,
+  testID = 'holi-date-picker',
 }: HoliDatePickerProps) => {
   const [showPickerIOS, setShowPickerIOS] = useState(false)
   const { i18n } = useTranslation()
@@ -38,8 +32,7 @@ const HoliDatePicker = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const onChangeDate = (event: DateTimePickerEvent) => {
-    const chosenDate = new Date(event.nativeEvent.timestamp || 0)
-    onChange(formatDateToYYYMMDD(chosenDate))
+    onChange(new Date(event.nativeEvent.timestamp || 0))
   }
 
   const showPicker = () => {
@@ -55,7 +48,7 @@ const HoliDatePicker = ({
     }
   }
 
-  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(value), currentLanguage)
+  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(formatDateToYYYMMDD(value)), currentLanguage)
 
   return (
     <>
@@ -91,14 +84,16 @@ const HoliDatePicker = ({
           style={styles.modal}
         >
           <DateTimePicker
-            testID={testID}
-            value={new Date(value)}
+            value={value}
+            onChange={onChangeDate}
+            minimumDate={minimumDate}
+            maximumDate={maximumDate}
             mode="date"
             is24Hour={true}
-            onChange={onChangeDate}
             locale={currentLanguage}
             display="spinner"
             textColor={colors.foreground30}
+            testID={testID}
           />
         </HoliModal>
       )}

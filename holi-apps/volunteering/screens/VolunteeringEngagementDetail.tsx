@@ -14,10 +14,10 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -170,7 +170,7 @@ const VolunteeringEngagementDetail = () => {
   })
   const engagement = data?.appVolunteering_engagement
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const { windowHeight, windowWidth, imageWidth } = useWindowDimensionsWithImageScaling()
 
@@ -235,7 +235,7 @@ const VolunteeringEngagementDetail = () => {
         ogImage={engagement.imageUrl}
       />
       <View style={styles.wrapper} testID="volunteering-detailview-container">
-        <ScrollHeaderLayout refreshControlProps={{ refreshing, onRefresh }} style={styles.header}>
+        <ScrollHeaderLayout style={styles.header}>
           {engagement && (
             <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
               <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
