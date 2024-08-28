@@ -27,7 +27,10 @@ describe('@Donations', () => {
 
     await assertProjectDetails()
 
-    await assertFilterDonationsByLocation()
+    // Filtering is disabled, because we can no longer filter by location on the Betterplace API.
+    // https://holi.atlassian.net/browse/HOLI-9717
+    // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
+    // await assertFilterDonationsByLocation()
 
     await assertKeepsFilterAfterNavigatingToDetails()
 
@@ -48,6 +51,7 @@ const assertResetDonationsFilterFromList = async () => {
   expect(await waitForElementWithTestId('donations-list-unfiltered'))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const assertFilterDonationsByLocation = async () => {
   await filterForLocation('Germany')
   await scrollToElementWithTestId('donations-list-search-reset', 'up')
