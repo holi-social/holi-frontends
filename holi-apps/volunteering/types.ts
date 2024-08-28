@@ -49,16 +49,16 @@ export type VolunteeringEngagement = {
 }
 
 export type VolunteeringFilterParams = {
-  location?: string // Legacy value, can be removed when switching to Discovery V1
-  category?: string // Legacy value, can be removed when switching to Discovery V1
-  topic?: string[]
-  skill?: string[]
-  geolocationId?: string
+  location?: string // HOLI-9711: only needed for legacy variant
+  category?: string // HOLI-9711: only needed for legacy variant
+  topic?: string[] // HOLI-9711: only needed for DiscoveryV1
+  skill?: string[] // HOLI-9711: only needed for DiscoveryV1
+  geolocationId?: string // HOLI-9711: only needed for DiscoveryV1
 }
 
 export type VolunteeringFilters = {
   location?: GeolocationSuggestion
-  category?: string // Legacy value, can be removed when switching to Discovery V1
-  topics?: string[]
-  skills?: string[]
+  category?: string // HOLI-9711: only needed for legacy variant
+  topics?: string[] // HOLI-9711: only needed for DiscoveryV1
+  skills?: string[] // HOLI-9711: only needed for DiscoveryV1
 }
