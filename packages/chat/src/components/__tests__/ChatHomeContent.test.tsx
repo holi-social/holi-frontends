@@ -40,8 +40,8 @@ import {
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
 import { LoginState, useLoginState } from '@holi/core/auth/loginState'
-import { authenticatedUserV2Query, usersByChatIdentitiesQuery } from '@holi/core/screens/userprofile/queries'
-import { User } from '@holi/core/screens/userprofile/types'
+import { authenticatedUserV2Query, usersByChatIdentitiesQuery } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher')

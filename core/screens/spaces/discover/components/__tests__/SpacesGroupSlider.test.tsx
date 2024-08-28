@@ -4,6 +4,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import expect from 'expect'
 import React from 'react'
 
+import { Skill, Topic } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { createSpaceList } from '@holi/core/screens/spaces/__tests__/testData'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
@@ -14,7 +15,6 @@ import {
   discoverSpacesQuery,
 } from '@holi/core/screens/spaces/discover/queries'
 import { Space } from '@holi/core/screens/spaces/types'
-import { Skill, Topic } from '@holi/core/screens/userprofile/types'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const topic: Topic = { id: 'topic1', title: 'Topic 1', slug: 'topic-1', isDiscoverSpacesDefault: false }

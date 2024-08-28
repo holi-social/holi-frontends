@@ -2,11 +2,11 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import SpaceInviteUserButton from '@holi/core/screens/spaces/details/components/SpaceInviteUserButton'
 import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { User } from '@holi/core/screens/userprofile/types'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 // prevent logging about incomplete apollo mocks,

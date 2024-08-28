@@ -5,7 +5,6 @@ import { Platform, StyleSheet } from 'react-native'
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -15,7 +14,6 @@ import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import AppointmentsList from '@holi/core/screens/appointments/components/AppointmentsList'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
-import { spaceMembersQuery, spaceMembershipRequestsQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -56,16 +54,6 @@ const SpaceAppointments = () => {
     variables: { idOrName: spaceIdOrName },
   })
 
-  const { refetch: refetchUpcomingAppointments } = useQuery<SpaceByIdResponse>(spaceMembersQuery, {
-    skip: !spaceIdOrName,
-    variables: { idOrName: spaceIdOrName },
-  })
-
-  const { refetch: refetchPastAppointments } = useQuery<SpaceByIdResponse>(spaceMembershipRequestsQuery, {
-    skip: !spaceIdOrName,
-    variables: { idOrName: spaceIdOrName },
-  })
-
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.appointments.title'),
@@ -91,11 +79,7 @@ const SpaceAppointments = () => {
     },
   }
 
-  const { refreshing, onRefresh } = useOnRefresh(() =>
-    Promise.all([refetchUpcomingAppointments(), refetchPastAppointments()])
-  )
-
-  useRefreshOnNavigation({ initialized: called, onRefresh })
+  useRefreshOnNavigation({ initialized: called })
 
   if (loading || !space) {
     return <HoliLoader />
@@ -115,7 +99,6 @@ const SpaceAppointments = () => {
             style: styles.tabStyle,
             children: (
               <ScrollViewRefreshable
-                refreshableProps={{ refreshing, onRefresh }}
                 style={[mixins.container, styles.all, { minHeight: '100%' }]}
                 webWrapperStyle={{ justifyContent: 'center' }}
               >
@@ -137,7 +120,6 @@ const SpaceAppointments = () => {
             style: styles.tabStyle,
             children: (
               <ScrollViewRefreshable
-                refreshableProps={{ refreshing, onRefresh }}
                 style={[mixins.container, styles.all]}
                 webWrapperStyle={{ justifyContent: 'center' }}
               >

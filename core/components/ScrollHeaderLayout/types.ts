@@ -1,19 +1,17 @@
-import React, { CSSProperties } from 'react'
-import { RefreshControlProps, ScrollViewProps } from 'react-native'
+import { CSSProperties } from 'react'
+import { ScrollViewProps } from 'react-native'
 
 import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 
-export type RefreshableScrollHeaderLayoutProps<T extends LayoutProps> = Omit<T, 'refreshControl'> & {
-  refreshableProps: RefreshControlProps
+export type RefreshableScrollHeaderLayoutProps<T extends LayoutProps> = T & {
   headerOverlap?: boolean
   webWrapperStyle?: CSSProperties
 }
 
 export type RefreshableScrollViewProps<T extends LayoutProps> = Omit<
   RefreshableScrollHeaderLayoutProps<T>,
-  'refreshableProps' | 'headerOverlap' | 'webWrapperStyle'
+  'headerOverlap' | 'webWrapperStyle'
 > & {
-  refreshControl?: React.ReactElement<RefreshControlProps>
   headerOverlap?: boolean
 }
 
@@ -30,7 +28,7 @@ export interface ScrollHeaderLayoutProps
    * @example 'none' - no offset for content and refresh control
    */
   headerRelation?: 'overlap' | 'offset' | 'none'
-  refreshControlProps?: RefreshControlProps
   backgroundColor?: string
   testID?: string
+  noRefresh?: boolean
 }

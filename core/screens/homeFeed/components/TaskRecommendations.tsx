@@ -6,6 +6,7 @@ import { FlatList, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 // import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
@@ -24,10 +25,13 @@ const TaskRecommendations = () => {
     data: taskData,
     loading: isLoadingTasks,
     error: tasksError,
+    refetch,
   } = useQuery<RecommendedTasksQueryResponse>(recommendedTasksQuery, {
     variables: { limit: 5 },
     onError: (error) => logError(error, 'Failed to load recommendedTasks', { location: 'TaskRecommendations' }),
   })
+  useOnRefresh(refetch)
+
   const isReloadingTasks = useRefetchOnClientSideForLoggedInWebUser(recommendedTasksQuery, { variables: { limit: 5 } })
 
   if (tasksError) {

@@ -8,6 +8,7 @@ import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appC
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -39,8 +40,9 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
         location: 'DonationUpdates.projectsQuery',
       }),
   }
-  const { data, loading } = useQuery<AppDonationsProjectsResponse>(donationProjectsQuery, queryOptions)
+  const { data, loading, refetch } = useQuery<AppDonationsProjectsResponse>(donationProjectsQuery, queryOptions)
   const isReloading = useRefetchOnClientSideForLoggedInWebUser(donationProjectsQuery, queryOptions)
+  useOnRefresh(refetch)
 
   const { data: projects = [] } = data?.appDonations_projects || {}
 

@@ -6069,6 +6069,7 @@ __metadata:
     expo-linking: "npm:~6.2.2"
     expo-localization: "npm:~14.8.4"
     expo-notifications: "npm:~0.27.8"
+    expo-permissions: "npm:^14.4.0"
     expo-secure-store: "npm:~12.8.1"
     expo-splash-screen: "npm:~0.26.5"
     expo-status-bar: "npm:~1.11.1"
@@ -6097,9 +6098,11 @@ __metadata:
     react-native-calendars: "npm:^1.1303.0"
     react-native-controlled-mentions: "npm:^2.2.5"
     react-native-gesture-handler: "npm:~2.14.0"
+    react-native-image-crop-picker: "npm:^0.41.2"
     react-native-image-pan-zoom: "npm:^2.1.12"
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.6.2"
+    react-native-reanimated-carousel: "npm:^3.5.1"
     react-native-render-html: "npm:^6.3.4"
     react-native-safe-area-context: "npm:4.8.2"
     react-native-screens: "npm:~3.29.0"
@@ -6209,6 +6212,7 @@ __metadata:
     react-dom: "npm:18.2.0"
     react-indiana-drag-scroll: "npm:^2.2.0"
     react-intersection-observer: "npm:^9.5.2"
+    react-multi-carousel: "npm:^2.8.5"
     react-native-gesture-handler: "npm:~2.14.0"
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.6.2"
@@ -18678,6 +18682,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-permissions@npm:^14.4.0":
+  version: 14.4.0
+  resolution: "expo-permissions@npm:14.4.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/05f12cc80bedfd74c3fc9979f10fa99309e781512f081565922043d232e25c13f0361c918f5896780b29fa80a9ab93a1521881e44c56a895c7129ad56ddc3264
+  languageName: node
+  linkType: hard
+
 "expo-secure-store@npm:~12.8.1":
   version: 12.8.1
   resolution: "expo-secure-store@npm:12.8.1"
@@ -28068,6 +28081,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-multi-carousel@npm:^2.8.5":
+  version: 2.8.5
+  resolution: "react-multi-carousel@npm:2.8.5"
+  checksum: 10c0/6c5bf167f6aba91a6457d3992f53ecd12eca7f45d022d61b380f5303f18bca35e2edb28ff1a726fb7eee72cbd520264b4821de14b0c0a4fd778174fb1fdded0e
+  languageName: node
+  linkType: hard
+
 "react-native-animated-pagination-dot@npm:^0.4.0":
   version: 0.4.0
   resolution: "react-native-animated-pagination-dot@npm:0.4.0"
@@ -28147,6 +28167,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-image-crop-picker@npm:^0.41.2":
+  version: 0.41.2
+  resolution: "react-native-image-crop-picker@npm:0.41.2"
+  peerDependencies:
+    react-native: ">=0.40.0"
+  checksum: 10c0/8df9baa7107ce5e6f1f9f84e6a0766e3019c6df3bbc95eb88a4d261065959df81c81dcb566a097ca780f8d745e489bed7e390d4fdfedde207b102080bdce81ad
+  languageName: node
+  linkType: hard
+
 "react-native-image-pan-zoom@npm:^2.1.12":
   version: 2.1.12
   resolution: "react-native-image-pan-zoom@npm:2.1.12"
@@ -28178,6 +28207,18 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/fc3d16912c0cf5f29d1516c9b2136442e5fc0947953ef6107263b34961302ae331bbdc3a28dfea7aa843ca8e2f12bae5ab78168b71bd5f578236dab5e59123f8
+  languageName: node
+  linkType: hard
+
+"react-native-reanimated-carousel@npm:^3.5.1":
+  version: 3.5.1
+  resolution: "react-native-reanimated-carousel@npm:3.5.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-native: ">=0.6.0"
+    react-native-gesture-handler: ">=2.0.0"
+    react-native-reanimated: ">=3.0.0"
+  checksum: 10c0/b59a1d41b9138ba04198590319698a4a9f3be467abda1c63df42e043c643e5c8bbe94121c5cca2cf830c9b84d7c45f0712db79ecaafbca07158d73c61db6a4ff
   languageName: node
   linkType: hard
 

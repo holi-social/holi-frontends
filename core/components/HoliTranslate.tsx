@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { TranslateQueryRespone, translateQuery } from '@holi/core/queries'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Translate } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -21,9 +23,17 @@ interface HoliTranslateProps {
   secondaryText?: Translatable
   loading?: boolean
   setLoading: (_: boolean) => void
+  trackingEvent: TrackingEvent
 }
 
-const HoliTranslate: React.FC<HoliTranslateProps> = ({ primaryText, secondaryText, loading, setLoading }) => {
+const HoliTranslate: React.FC<HoliTranslateProps> = ({
+  primaryText,
+  secondaryText,
+  loading,
+  setLoading,
+  trackingEvent,
+}) => {
+  const { track } = useTracking()
   const { t, i18n } = useTranslation()
   const { openToast } = useToast()
   const [translate] = useLazyQuery<TranslateQueryRespone>(translateQuery, {
@@ -57,7 +67,7 @@ const HoliTranslate: React.FC<HoliTranslateProps> = ({ primaryText, secondaryTex
         setOriginalSecondaryText(secondaryText.text)
         secondaryText.setText(secondaryTranslation?.translatedText ?? secondaryText.text)
       }
-
+      track(trackingEvent)
       setOriginalPrimaryText(primaryText.text)
       primaryText.setText(primaryTranslation?.translatedText ?? primaryText.text)
     }

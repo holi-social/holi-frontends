@@ -1,32 +1,21 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { numberToStringWithPad } from '@holi/ui/helper/date'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-export interface HoliTimePickerProps {
-  onChangeHours: (hours: string) => void
-  onChangeMinutes: (minutes: string) => void
-  valueHours?: string
-  valueMinutes?: string
-  label?: string
-  style?: StyleProp<ViewStyle>
-  testID?: string
-  isRequired?: boolean
-}
+import { getFormattedTimePart } from './helpers'
+import type { HoliTimePickerProps } from './types'
 
 const HoliTimePicker = ({
-  onChangeHours,
-  onChangeMinutes,
-  valueHours,
-  valueMinutes,
+  value,
+  onChange,
   label,
   style,
   testID = 'holi-time-picker',
@@ -39,14 +28,11 @@ const HoliTimePicker = ({
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
+  const [hours, setHours] = useState(value.getHours().toString())
+  const [minutes, setMinutes] = useState(value.getMinutes().toString())
+
   const hoursLabel = t('global.hours')
   const minutesLabel = t('global.minutes')
-
-  const onModalClose = () => {
-    if (!valueHours) onChangeHours('00')
-    if (!valueMinutes) onChangeMinutes('00')
-    hideModal()
-  }
 
   const hoverPropsForWeb = Platform.select({
     web: {
@@ -54,6 +40,45 @@ const HoliTimePicker = ({
       onMouseOut: () => setHovered(false),
     },
   })
+
+  const onDismiss = () => {
+    const newValue = new Date(value)
+    // update hours and minutes only if they are valid
+    !isNaN(parseInt(hours)) && newValue.setHours(parseInt(hours))
+    !isNaN(parseInt(minutes)) && newValue.setMinutes(parseInt(minutes))
+
+    // Modal content does not get destroyed when it is hidden
+    // So, we need to reset the values with the 'newValue'
+    setHours(newValue.getHours().toString())
+    setMinutes(newValue.getMinutes().toString())
+
+    onChange(newValue)
+    hideModal()
+  }
+
+  const onHoursChange = (value: string) => {
+    const formattedValue = value.replace(/[^0-9+ .]/g, '')
+    const hours = parseInt(formattedValue)
+
+    // 'hours' is NaN when 'formattedValue' is an empty string
+    if (isNaN(hours) || hours < 0 || hours > 23) {
+      setHours(formattedValue.slice(0, -1))
+    } else {
+      setHours(formattedValue)
+    }
+  }
+
+  const onMinutesChange = (value: string) => {
+    const formattedValue = value.replace(/[^0-9+ .]/g, '')
+    const minutes = parseInt(formattedValue)
+
+    // 'minutes' is NaN when 'formattedValue' is an empty string
+    if (isNaN(minutes) || minutes < 0 || minutes > 59) {
+      setMinutes(formattedValue.slice(0, -1))
+    } else {
+      setMinutes(formattedValue)
+    }
+  }
 
   return (
     <>
@@ -74,10 +99,10 @@ const HoliTimePicker = ({
           onPress={modalProps?.show ? hideModal : showModal}
           {...hoverPropsForWeb}
         >
-          {valueHours ? (
+          {value ? (
             <View style={styles.valueContainer}>
               <HoliText>
-                {valueHours}:{valueMinutes}
+                {getFormattedTimePart(value.getHours())}:{getFormattedTimePart(value.getMinutes())}
               </HoliText>
             </View>
           ) : (
@@ -90,17 +115,13 @@ const HoliTimePicker = ({
         {...modalProps}
         autoHeight={false}
         relativeHeight={1}
-        onDismiss={() => {
-          onChangeHours(numberToStringWithPad(+(valueHours || 0)))
-          onChangeMinutes(numberToStringWithPad(+(valueMinutes || 0)))
-          onModalClose()
-        }}
+        onDismiss={onDismiss}
         style={styles.modal}
       >
         <View style={[mixins.container, styles.inputContainer]}>
           <HoliTextInput
-            value={valueHours}
-            onChange={(text) => Number(text) < 24 && onChangeHours(text.replace(/[^0-9+ .]/g, ''))}
+            value={hours}
+            onChange={onHoursChange}
             placeholder="00"
             inputLabel={hoursLabel}
             aria-label={hoursLabel}
@@ -114,8 +135,8 @@ const HoliTimePicker = ({
             style={styles.input}
           />
           <HoliTextInput
-            value={valueMinutes}
-            onChange={(text) => Number(text) < 60 && onChangeMinutes(text.replace(/[^0-9+ .]/g, ''))}
+            value={minutes}
+            onChange={onMinutesChange}
             placeholder="00"
             inputLabel={minutesLabel}
             aria-label={minutesLabel}
@@ -124,7 +145,7 @@ const HoliTimePicker = ({
               keyboardType: 'number-pad',
               inputMode: 'numeric',
               maxLength: 2,
-              onSubmitEditing: hideModal,
+              onSubmitEditing: onDismiss,
               returnKeyType: 'done',
             }}
             style={styles.input}

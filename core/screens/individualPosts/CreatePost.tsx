@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
+import { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -20,7 +21,6 @@ import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPos
 import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
 import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Term } from '@holi/core/screens/userprofile/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Close } from '@holi/icons/src/generated'
@@ -53,7 +53,7 @@ const CreatePost = () => {
 
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
-  const [image, setImage] = useState<HoliImageInfo | null>(null)
+  const [images, setImages] = useState<HoliImageInfo[]>([])
   const [showCategories, setShowCategories] = useState(true)
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
@@ -78,7 +78,6 @@ const CreatePost = () => {
   const createPost = async () => {
     setSubmitting(true)
     const { data } = await detectLanguage({ variables: { text: description } })
-
     createFeedPost({
       variables: {
         input: {
@@ -86,10 +85,12 @@ const CreatePost = () => {
           description,
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
-          image: image?.blob,
           topicIds: selectedTopics.map((topic) => topic.id),
           language: data?.detectedLanguage,
           location: selectedLocation?.label,
+          images: images.map((_image, index) => {
+            return { image: _image.blob, order: index, altText: Math.random() + '' }
+          }),
           geolocation: selectedLocation
             ? {
                 latitude: selectedLocation.coordinates?.latitude,
@@ -150,15 +151,15 @@ const CreatePost = () => {
           onChangeTitle={setTitle}
           description={description}
           onChangeDescription={setDescription}
-          image={image}
-          onChangeImage={setImage}
+          images={images}
+          onChangeImages={setImages}
           selectedCategoryId={selectedCategoryId}
           onChangeSelectedCategoryId={setSelectedCategoryId}
           selectedVisibility={selectedVisibility}
           onChangeSelectedVisibility={setSelectedVisibility}
           selectedTopics={selectedTopics}
           onChangeSelectedTopics={setSelectedTopics}
-          selectedLocation={selectedLocation}
+          selectedLocation={selectedLocation || undefined}
           onChangeSelectedLocation={setSelectedLocation}
           onSubmit={createPost}
           submitting={submitting}

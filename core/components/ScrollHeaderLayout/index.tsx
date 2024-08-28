@@ -3,6 +3,7 @@ import { type NativeScrollEvent, type NativeSyntheticEvent, RefreshControl } fro
 import Animated from 'react-native-reanimated'
 
 import { setScreenScrollY } from '@holi/core/helpers'
+import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 
 import { ScrollHeaderLayoutProps } from './types'
 import { useHeaderOffsetOptions } from './useHeaderOffsetOptions'
@@ -12,18 +13,19 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
   (
     {
       headerRelation = 'offset',
-      refreshControlProps,
       backgroundColor,
       children,
       style,
       contentContainerStyle,
       testID,
       onScroll,
+      noRefresh,
       ...scrollViewProps
     },
     ref
   ) => {
     const scrollViewRef = useSyncWithHeader()
+    const { refreshControlProps } = useRefreshContext()
 
     const { offset, refreshControlOffset, refreshControlStyle } = useHeaderOffsetOptions(
       headerRelation,
@@ -47,7 +49,7 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
           if (!!ref && 'current' in ref) ref.current = scrollViewRef.current
         }}
         refreshControl={
-          refreshControlProps ? (
+          refreshControlProps && !noRefresh ? (
             <RefreshControl {...refreshControlProps} progressViewOffset={refreshControlOffset} />
           ) : undefined
         }

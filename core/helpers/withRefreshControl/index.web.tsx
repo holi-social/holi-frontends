@@ -6,6 +6,7 @@ import {
   RefreshableScrollHeaderLayoutProps,
   RefreshableScrollViewProps,
 } from '@holi/core/components/ScrollHeaderLayout/types'
+import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
@@ -17,16 +18,11 @@ const isHoliModalOpen = () => document.querySelector('[aria-modal="true"]') !== 
 
 // DISCLAIMER: When changing anything here, also test horizontal scrolling on iOS Safari!
 export function withRefreshControl<P extends LayoutProps, T>(
-  ScrollComponent: (props: RefreshableScrollViewProps<P>, ref: React.ForwardedRef<T>) => React.ReactNode
+  ScrollComponent: (props: RefreshableScrollViewProps<P>) => React.ReactNode
 ) {
   const WithRefreshControl = React.forwardRef(
     (
-      {
-        refreshableProps: { refreshing, onRefresh },
-        headerOverlap,
-        webWrapperStyle,
-        ...scrollViewProps
-      }: RefreshableScrollHeaderLayoutProps<P>,
+      { headerOverlap, webWrapperStyle, ...scrollViewProps }: RefreshableScrollHeaderLayoutProps<P>,
       ref: React.ForwardedRef<T>
     ) => {
       const startPointRef = useRef(0)
@@ -35,6 +31,9 @@ export function withRefreshControl<P extends LayoutProps, T>(
       // use `pullChangeReactive` for reactive updates
       const [pullChangeReactive, setPullChangeReactive] = useState(0)
       const isPullInProgress = pullChangeReactive > 0
+      const {
+        refreshControlProps: { refreshing, onRefresh },
+      } = useRefreshContext()
 
       const pullStart = useCallback((event: TouchEvent) => {
         if (isHoliModalOpen()) return
@@ -127,6 +126,9 @@ export function withRefreshControl<P extends LayoutProps, T>(
   return WithRefreshControl
 }
 
-export const ScrollViewRefreshable = withRefreshControl<ScrollViewProps, ScrollView>((props) => (
-  <ScrollView {...props} />
+const ScrollViewWithRef = React.forwardRef<ScrollView, ScrollViewProps>((props, ref) => (
+  <ScrollView {...props} ref={ref} />
 ))
+ScrollViewWithRef.displayName = 'ScrollViewWithRef'
+
+export const ScrollViewRefreshable = withRefreshControl(ScrollViewWithRef)

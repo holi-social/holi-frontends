@@ -1,3 +1,4 @@
+import { Skill, Topic, User } from '@holi/core/domain/shared/types'
 import { AppointmentInput, PermissionsType } from '@holi/core/screens/appointments/types'
 import { Post } from '@holi/core/screens/posts/types'
 import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
@@ -16,7 +17,7 @@ import {
   Task,
   VisibilityType,
 } from '@holi/core/screens/spaces/types'
-import { Skill, Topic, User, UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { Paged } from '@holi/core/types'
 
 export type WithTypename = {

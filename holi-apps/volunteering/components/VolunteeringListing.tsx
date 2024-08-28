@@ -8,6 +8,7 @@ import InfoModal from '@holi/core/components/InfoModal'
 import { logError } from '@holi/core/errors/helpers'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import usePaginationQuery from '@holi/core/pagination/usePaginationQuery'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -70,6 +71,7 @@ const VolunteeringListing = ({
     totalResults,
     fetchNextPage,
     canFetchMore,
+    refetch,
   } = usePaginationQuery<VolunteeringEngagement>(volunteeringEngagementsQuery, {
     queryPath: 'appVolunteering_engagementOpportunities',
     pageSize: ENGAGEMENT_PAGE_SIZE,
@@ -83,6 +85,7 @@ const VolunteeringListing = ({
         location: 'VolunteeringListing.VolunteeringEngagementsQuery',
       }),
   })
+  useOnRefresh(refetch)
 
   if (loading || loadingFilters) {
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />

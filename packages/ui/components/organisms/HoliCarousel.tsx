@@ -3,6 +3,7 @@ import { NativeScrollEvent, Platform, ScrollView, StyleProp, StyleSheet, View, V
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliCarouselProps {
@@ -101,23 +102,20 @@ const HoliCarousel: React.FC<HoliCarouselProps> = ({
 
       {!hideDotIndicators && !isWeb && slides.length > 1 && (
         <View style={styles.slideButtonsContainer} role="tablist" accessibilityOrientation="horizontal">
-          {
-            /** FIXME: convert to VirtualizedList, FlatList or SectionList */
-            slides.map((slide, slideIndex) => (
-              <HoliTabButton
-                label={slide.title || '' + (slideIndex + 1)}
-                style={styles.slideButton}
-                onPress={() => goToSlide(slideIndex)}
-                key={slideIndex}
-                aria-selected={slideIndex === currentSlideIndex}
-                testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
-              >
-                <View
-                  style={[styles.slideButtonIcon, slideIndex === currentSlideIndex && styles.activeSlideButtonIcon]}
-                />
-              </HoliTabButton>
-            ))
-          }
+          {slides.map((slide, slideIndex) => (
+            <HoliTabButton
+              label={slide.title || '' + (slideIndex + 1)}
+              style={styles.slideButton}
+              onPress={() => goToSlide(slideIndex)}
+              key={slideIndex}
+              aria-selected={slideIndex === currentSlideIndex}
+              testID={slideIndex === slideIndex ? 'active-tab' : 'inactive-tab'}
+            >
+              <View
+                style={[styles.slideButtonIcon, slideIndex === currentSlideIndex && styles.activeSlideButtonIcon]}
+              />
+            </HoliTabButton>
+          ))}
         </View>
       )}
 
@@ -209,7 +207,7 @@ const getStyles = (
       alignItems: 'center',
       justifyContent: 'center',
       width: '100%',
-      marginTop: 24,
+      marginTop: Spacing.md,
     },
     slideButton: {
       marginHorizontal: 4,

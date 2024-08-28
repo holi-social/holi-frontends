@@ -1,41 +1,49 @@
 import React, { useMemo } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliDatePicker from '@holi/ui/components/organisms/HoliDatePicker'
+import type { HoliDatePickerBaseProps } from '@holi/ui/components/organisms/HoliDatePicker/types'
 import HoliTimePicker from '@holi/ui/components/organisms/HoliTimePicker'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export interface HoliDateAndTimePickerProps {
-  onChangeDate: (hours: string) => void
-  onChangeHours: (hours: string) => void
-  onChangeMinutes: (minutes: string) => void
-  valueDate: string
-  valueHours?: string
-  valueMinutes?: string
+interface Props extends HoliDatePickerBaseProps {
   title: string
-  label: string
-  style?: StyleProp<ViewStyle>
-  isRequired?: boolean
-  testID?: string
 }
 
 const HoliDateAndTimePicker = ({
-  onChangeDate,
-  onChangeHours,
-  onChangeMinutes,
-  valueDate,
-  valueHours,
-  valueMinutes,
+  value,
+  onChange,
   title,
   label,
   style,
   isRequired,
+  minimumDate,
+  maximumDate,
   testID = 'holi-date-and-time-picker',
-}: HoliDateAndTimePickerProps) => {
+}: Props) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+
+  const onTimeChange = (change: Date) => {
+    const newValue = new Date(value)
+
+    newValue.setHours(change.getHours())
+    newValue.setMinutes(change.getMinutes())
+
+    onChange(newValue)
+  }
+
+  const onDateChange = (change: Date) => {
+    const newValue = new Date(value)
+
+    newValue.setFullYear(change.getFullYear())
+    newValue.setMonth(change.getMonth())
+    newValue.setDate(change.getDate())
+
+    onChange(newValue)
+  }
 
   return (
     <View style={style} testID={testID}>
@@ -49,15 +57,18 @@ const HoliDateAndTimePicker = ({
       )}
       <View style={styles.inputWrapper}>
         <View style={styles.dateInput}>
-          <HoliDatePicker onChange={onChangeDate} title={title} value={valueDate} isRequired={isRequired} />
-        </View>
-        <View>
-          <HoliTimePicker
-            valueHours={valueHours}
-            onChangeHours={onChangeHours}
-            valueMinutes={valueMinutes}
-            onChangeMinutes={onChangeMinutes}
+          <HoliDatePicker
+            value={value}
+            onChange={onDateChange}
+            title={title}
+            minimumDate={minimumDate}
+            maximumDate={maximumDate}
+            isRequired={isRequired}
           />
+        </View>
+
+        <View>
+          <HoliTimePicker value={value} onChange={onTimeChange} />
         </View>
       </View>
     </View>

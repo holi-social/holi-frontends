@@ -15,8 +15,8 @@ export type SpaceImageFormProps = {
   description?: string
   instructions?: string
   onUploadImage: (image: HoliImageInfo) => void
-  image: HoliImageInfo
-  blurhash?: string | undefined
+  image?: HoliImageInfo | null
+  blurhash?: string
   currentImageUri?: string
   style?: ViewStyle
   previewVariant?: string

@@ -269,6 +269,8 @@ mobile_production_publish:
   only:
     - production
   when: manual
+  after_script: |
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The mobile environment for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available/updated via https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel='${CI_COMMIT_REF_SLUG}'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 mobile_production_build_android:
   extends: .mobile_build
@@ -320,6 +322,8 @@ mobile_production_submit_android:
   only:
     - production
   interruptible: false
+  after_script: |
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The Android app for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is submitted to the app store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 mobile_production_submit_ios:
   needs: ['mobile_production_build_ios']
@@ -335,3 +339,5 @@ mobile_production_submit_ios:
   only:
     - production
   interruptible: false
+  after_script: |
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The IOS app for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is submitted to the app store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER

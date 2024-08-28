@@ -9,6 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -34,7 +35,8 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpda
         location: 'GoodNewsUpdates.GoodNewsArticlesQuery',
       }),
   }
-  const { data, loading } = useQuery<GoodNewsArticlesQueryResponse>(goodNewsArticlesQuery)
+  const { data, loading, refetch } = useQuery<GoodNewsArticlesQueryResponse>(goodNewsArticlesQuery)
+  useOnRefresh(refetch)
   const isReloading = useRefetchOnClientSideForLoggedInWebUser(goodNewsArticlesQuery, queryOptions)
 
   const { articles = [] } = data?.appGoodNews_articles || {}

@@ -1,4 +1,4 @@
-import { AuthenticatedUser } from '@holi/core/screens/userprofile/types'
+import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { TrackingEvent } from '@holi/core/tracking/events'
 
 export enum TrackingPurpose {

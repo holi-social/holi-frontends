@@ -6,12 +6,12 @@ import { DimensionValue, ImageStyle, Linking, Platform, StyleSheet, View } from 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -66,7 +66,7 @@ const RecommendationDetailPage = () => {
     },
   })
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const recommendation = insightById?.recommendation
   const creator = insightById?.creator
@@ -107,14 +107,7 @@ const RecommendationDetailPage = () => {
 
   return (
     <>
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        style={styles.layout}
-        contentContainerStyle={[mixins.container, styles.container]}
-      >
+      <ScrollHeaderLayout style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
         {recommendation && !loading ? (
           <View style={styles.content}>
             {recommendation.linkPreview.image && (

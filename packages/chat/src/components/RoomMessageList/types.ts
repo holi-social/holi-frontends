@@ -2,7 +2,7 @@ import React from 'react'
 import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 
 import type { ChatRoomMessage } from '@holi/chat/src/client/types'
-import { User } from '@holi/core/screens/userprofile/types'
+import { User } from '@holi/core/domain/shared/types'
 
 export interface RoomMessageListProps {
   messages: ChatRoomMessage[]

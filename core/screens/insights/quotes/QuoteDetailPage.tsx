@@ -6,12 +6,12 @@ import { ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
 import { InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
@@ -68,7 +68,7 @@ const QuoteDetailPage = () => {
 
   const quote = insight?.quote
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const [, shareLink] = useShareLink({
     link: `/insights/${insight?.id}/quotes/${quoteId}`,
@@ -105,11 +105,7 @@ const QuoteDetailPage = () => {
 
   return (
     <>
-      <ScrollHeaderLayout
-        refreshControlProps={{ refreshing, onRefresh }}
-        contentContainerStyle={styles.wrapper}
-        backgroundColor={theme.colors.background20}
-      >
+      <ScrollHeaderLayout contentContainerStyle={styles.wrapper} backgroundColor={theme.colors.background20}>
         {quote && !loading ? (
           <>
             {quote.linkPreview.image && (

@@ -3,26 +3,28 @@ import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import Animated, { FadeInLeft } from 'react-native-reanimated'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { Term } from '@holi/core/domain/shared/types'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useOnRefresh } from '@holi/core/helpers/useOnRefresh'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import generatePostTitle from '@holi/core/i18n/helpers/generatePostTitle'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
+import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import {
@@ -33,13 +35,12 @@ import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Term } from '@holi/core/screens/userprofile/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft, MoreFilled, Share } from '@holi/icons/src/generated'
+import { MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -48,8 +49,6 @@ import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-
-import FeedPostReactions from './components/FeedPostReactions'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -74,17 +73,6 @@ const PostDetailsPage = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
-
-  const headerLeft = useMemo(() => {
-    const directPageVisit = Platform.OS === 'web' // TODO: Implement a useUserVisitedScreenCount hook in order to know the number of visited screens
-    return directPageVisit ? (
-      <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
-        <HoliLogo />
-      </HoliButton>
-    ) : (
-      <HeaderBackButton icon={ArrowLeft} />
-    )
-  }, [navigate, t])
 
   const {
     data: { post } = {},
@@ -111,7 +99,7 @@ const PostDetailsPage = () => {
     })
   }
 
-  const { refreshing, onRefresh } = useOnRefresh(refetch)
+  useOnRefresh(refetch)
 
   const [, shareLink] = useShareLink({
     link: `/feed-posts/${post?.slug}`,
@@ -132,7 +120,14 @@ const PostDetailsPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerLeft: () => headerLeft,
+      headerTintColor: theme.colors.black300,
+      headerLeft: ({ tintColor }) => (
+        <Animated.View entering={FadeInLeft}>
+          <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
+            <HoliLogo color={tintColor} />
+          </HoliButton>
+        </Animated.View>
+      ),
       headerTitle: ({ tintColor }) => !loading && <HeaderTitle tintColor={tintColor}>{headerTitle}</HeaderTitle>,
       headerRight: () => {
         return (
@@ -152,7 +147,18 @@ const PostDetailsPage = () => {
         footerShown: false,
       },
     })
-  }, [headerLeft, headerTitle, loading, navigateBack, post, setScreenOptions, shareLink, styles.headerRight])
+  }, [
+    headerTitle,
+    loading,
+    navigateBack,
+    post,
+    setScreenOptions,
+    shareLink,
+    styles.headerRight,
+    t,
+    navigate,
+    theme.colors.black300,
+  ])
 
   useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
 
@@ -209,13 +215,7 @@ const PostDetailsPage = () => {
       />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout
-        refreshControlProps={{
-          refreshing,
-          onRefresh,
-        }}
-        headerRelation={isWeb ? 'overlap' : undefined}
-      >
+      <ScrollHeaderLayout headerRelation={isWeb ? 'overlap' : undefined}>
         <View style={[styles.wrapper, styles.wrapperContent]}>
           <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
             {post && !loading ? (
@@ -239,15 +239,19 @@ const PostDetailsPage = () => {
             ) : (
               <LoadingSkeleton />
             )}
-            <HoliReactionsCount
-              onPress={reactOnPost}
-              type="post"
-              count={heartReactions}
-              active={currentUserHasReacted}
-              fullName={post?.author.fullName}
-              testID="btn-react-to-feed-post-HEART"
-              disabled={loadingReaction}
-            />
+            {!post?.totalComments && (
+              <View style={styles.reactions}>
+                <HoliReactionsCount
+                  onPress={reactOnPost}
+                  type="post"
+                  count={heartReactions}
+                  active={currentUserHasReacted}
+                  fullName={post?.author.fullName}
+                  testID="btn-react-to-feed-post-HEART"
+                  disabled={loadingReaction}
+                />
+              </View>
+            )}
           </HoliContainer>
         </View>
       </ScrollHeaderLayout>
@@ -308,6 +312,9 @@ const getStyles = ({ colors }: HoliTheme, isSm = false) =>
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,
+    },
+    reactions: {
+      alignItems: 'flex-end',
     },
     commentWrapper: {
       backgroundColor: colors.background10,
