@@ -9,8 +9,24 @@ import {
 } from 'expo-image-picker'
 import { MediaTypeOptions } from 'expo-image-picker'
 import { useCallback } from 'react'
+import { Image } from 'react-native'
 
+import { CONTENT_IMAGE_MAX_HEIGHT, CONTENT_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
 import { HoliImagePickerFileSizeLimitation } from '@holi/ui/components/organisms/HoliImagePicker/types'
+
+const getImageSize = async (imageUri: string): Promise<{ width: number; height: number }> => {
+  return new Promise((resolve, reject) => {
+    Image.getSize(
+      imageUri,
+      (width, height) => {
+        resolve({ width, height })
+      },
+      (error) => {
+        reject(error)
+      }
+    )
+  })
+}
 
 const resizeImage = async (asset: ImagePickerAsset, resizeWidth: number): Promise<ImagePickerResult> => {
   const resizeActions = [{ resize: { width: resizeWidth } }]
@@ -24,7 +40,6 @@ const resizeImage = async (asset: ImagePickerAsset, resizeWidth: number): Promis
     ...asset,
     uri: resizedImage.uri,
     width: resizedImage.width,
-    height: resizedImage.height,
   } as ImagePickerAsset
 
   return {
@@ -84,13 +99,22 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, maxF
       // Check file sizes for each selected asset
       for (const asset of imagePickerResult.assets) {
         const fileInfo = await getInfoAsync(asset.uri)
-
+        const imageInfo = await getImageSize(asset.uri)
         switch (fileSizeLimitation.type) {
           case 'unlimited':
             continue
           case 'resize':
-            if ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) {
-              return await resizeImage(asset, fileSizeLimitation.resizeWidth)
+            if (
+              ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) ||
+              imageInfo?.width > CONTENT_IMAGE_MAX_WIDTH ||
+              imageInfo?.height > CONTENT_IMAGE_MAX_HEIGHT
+            ) {
+              return await resizeImage(
+                asset,
+                fileSizeLimitation.resizeWidth <= CONTENT_IMAGE_MAX_WIDTH
+                  ? fileSizeLimitation.resizeWidth
+                  : CONTENT_IMAGE_MAX_WIDTH
+              )
             }
             continue
           case 'reject':
