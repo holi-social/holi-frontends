@@ -2,6 +2,7 @@ import * as ImageManipulator from 'expo-image-manipulator'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { CONTENT_IMAGE_MAX_HEIGHT, CONTENT_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
@@ -93,9 +94,19 @@ const HoliImagePicker = ({
         break
 
       case 'resize': {
+        const image = await readImage(fileBlob as File)
+
         if (!allowsMultipleSelection && fileBlob) {
-          if (fileBlob.size > (fileSizeLimitation as FileSizeLimitationResize).limitBytes) {
-            onPickImage?.(await resizeImage(fileBlob, (fileSizeLimitation as FileSizeLimitationResize).resizeWidth))
+          if (
+            fileBlob.size > (fileSizeLimitation as FileSizeLimitationResize).limitBytes ||
+            image.width > CONTENT_IMAGE_MAX_WIDTH ||
+            image.height > CONTENT_IMAGE_MAX_HEIGHT
+          ) {
+            const resizedImage = await resizeImage(
+              fileBlob,
+              (fileSizeLimitation as FileSizeLimitationResize).resizeWidth
+            )
+            onPickImage?.(resizedImage)
             return
           } else {
             onPickImage?.(await readImage(fileBlob))
