@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from '@testing-library/react-hooks'
 import { Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'

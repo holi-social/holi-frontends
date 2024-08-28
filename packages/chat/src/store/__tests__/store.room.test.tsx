@@ -1,4 +1,5 @@
-import { act, renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook } from '@testing-library/react-hooks'
+import { waitFor } from '@testing-library/react-native'
 import { Provider, createStore, useAtom, useAtomValue } from 'jotai'
 import { ClientEvent, EventType, IEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
 import React from 'react'

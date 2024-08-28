@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-native'
+import { renderHook } from '@testing-library/react-hooks'
 
 import { useFeatureFlagRefetch } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch'
 import { useFeatureFlagRefetch as useFeatureFlagRefetchWeb } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch.web'
