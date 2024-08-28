@@ -154,7 +154,7 @@ web_review_deploy:
       when: on_success
   after_script: |
     wget --header="Content-Type: application/json" \
-      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'$CI_COMMIT_TITLE'\" and is available and/or updated under https://'${UI_DOMAIN}'"}' \
+      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://'${UI_DOMAIN}'"}' \
       --output-document - \
       https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
