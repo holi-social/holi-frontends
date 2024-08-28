@@ -82,6 +82,19 @@ export namespace TrackingEvent {
     }),
   }
 
+  export const Spaces = {
+    followSpaceButtonPressed: (spaceId: string, isLoggedIn: boolean): TrackingEvent => ({
+      name: 'followSpaceButtonPressed',
+      properties: { spaceId, isLoggedIn },
+      ...versionOne,
+    }),
+    joinSpaceButtonPressed: (spaceId: string, isLoggedIn: boolean): TrackingEvent => ({
+      name: 'joinSpaceButtonPressed',
+      properties: { spaceId, isLoggedIn },
+      ...versionOne,
+    }),
+  }
+
   export const Donations = {
     pressed: (projectId: number): TrackingEvent => ({
       name: 'pressedDonateButton',
