@@ -74,7 +74,8 @@
     "react-spring": "^8.0.27",
     "sentry-expo": "~7.0.0",
     "slugify": "^1.6.6",
-    "tinycolor2": "1.4.2"
+    "tinycolor2": "1.4.2",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
@@ -86,7 +87,6 @@
     "jest-each": "^29.6.3",
     "jest-mock-extended": "^3.0.5",
     "react-devtools": "4.14.0",
-    "ts-node": "^10.9.2",
     "typescript": "~5.3.3",
     "use-sync-external-store": "^1.1.0"
   },
