@@ -24,6 +24,8 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
+const MIN_VOTES_RESULTS_REVEAL = 5
+
 export type PollComponentProps = {
   poll: Poll
 }
@@ -95,8 +97,7 @@ const PollComponent = ({ poll }: PollComponentProps) => {
     )
   }
 
-  // If a vote has less than 30 votes we don't show the results yet, but a message instead
-  if (userHasVoted?.userHasVotedByPollId && votesSum < 30) {
+  if (userHasVoted?.userHasVotedByPollId && votesSum < MIN_VOTES_RESULTS_REVEAL) {
     return <PollCompletionMessage />
   }
 
