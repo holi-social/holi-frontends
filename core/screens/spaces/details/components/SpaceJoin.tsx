@@ -7,6 +7,8 @@ import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/compo
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Time } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -28,6 +30,7 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message, ...props }) => {
   const { loading, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
   const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
+  const { track } = useTracking()
 
   const submitWithdraw = useCallback(() => {
     setWithdrawDialogIsOpen(false)
@@ -45,6 +48,8 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message, ...props }) => {
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
 
   const handleRequest = () => {
+    track(TrackingEvent.Spaces.joinSpaceButtonPressed(space.id, isLoggedIn))
+
     if (!isLoggedIn) {
       return openLoginModal({
         description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),

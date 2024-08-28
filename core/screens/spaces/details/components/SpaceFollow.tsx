@@ -11,6 +11,8 @@ import {
 } from '@holi/core/screens/spaces/details/mutations'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -23,6 +25,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { isLoggedIn, isLoading: isLoadingUser } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
+  const { track } = useTracking()
 
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
   const { displayError } = useErrorHandling()
@@ -47,6 +50,8 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
   const hasRequestedMembership = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
 
   const sendFollowRequest = useCallback(() => {
+    track(TrackingEvent.Spaces.followSpaceButtonPressed(space.id, isLoggedIn))
+
     if (!isLoggedIn) {
       return openLoginModal({
         description: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
@@ -59,7 +64,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
         spaceId: space.id,
       },
     })
-  }, [isLoggedIn, openLoginModal, t, followSpace, space.id, space.title])
+  }, [isLoggedIn, openLoginModal, t, followSpace, space.id, space.title, track])
 
   const submitUnfollowRequest = useCallback(() => {
     setUnfollowDialogIsOpen(false)
