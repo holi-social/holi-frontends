@@ -37,7 +37,7 @@ lint_compile_test:
       - 'e2e/*/node_modules'
   interruptible: true
   tags:
-    - 4cpu-16gb
+    - ramdisk
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:
