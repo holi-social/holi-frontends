@@ -152,11 +152,12 @@ web_review_deploy:
       when: never
     - if: $CI_COMMIT_BRANCH
       when: on_success
-  after_script: | # using wget instead of curl because curl is not part of the used terraform image, but wget is
+  after_script: |
     wget --header="Content-Type: application/json" \
       --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'$CI_COMMIT_TITLE'\" and is available and/or updated under https://'${UI_DOMAIN}'"}' \
       --output-document - \
       https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
