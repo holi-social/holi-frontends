@@ -72,7 +72,6 @@
     "react-native-swiper": "^1.6.0",
     "react-native-webview": "13.8.6",
     "react-spring": "^8.0.27",
-    "sentry-expo": "~7.0.0",
     "slugify": "^1.6.6",
     "tinycolor2": "1.4.2"
   },
@@ -94,7 +93,7 @@
   "name": "@holi/mobile",
   "private": true,
   "scripts": {
-    "android": "expo run:android",
+    "android": " npx expo run:android",
     "build_all": "npx --yes eas-cli build --platform all",
     "build_android": "npx --yes eas-cli build --platform android",
     "build_android_preview": "npx --yes eas-cli build --platform android --profile preview",
@@ -109,7 +108,7 @@
     "dev": "npx expo start --go",
     "dev_client": "npx expo start --dev-client",
     "eject": "npx expo eject",
-    "ios": "expo run:ios",
+    "ios": "npx expo run:ios",
     "lint": "TIMING=1 eslint .",
     "preview": "npx expo start --no-dev --minify",
     "start": "npx expo start --go",

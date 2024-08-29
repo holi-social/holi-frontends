@@ -141,7 +141,6 @@ const config: ExpoConfig = {
   plugins: [
     'expo-localization',
     'expo-secure-store',
-    ['sentry-expo'],
     [
       '@sentry/react-native/expo',
       {
