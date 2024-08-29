@@ -1,7 +1,7 @@
-// eslint-disable-next-line prettier/prettier
-import 'ts-node/register'
-import { AppJSONConfig } from 'expo/config'
-
+// eslint-disable-next-line
+require('ts-node/register')
+// eslint-disable-next-line
+import { ExpoConfig } from 'expo/config'
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
@@ -43,198 +43,196 @@ switch (process.env.APP_VARIANT) {
     throw new Error(`Unknown APP_VARIANT ${process.env.APP_VARIANT}`)
 }
 
-const config: AppJSONConfig = {
-  expo: {
-    name: appName,
-    slug: 'projectholi',
-    owner: 'holistic-foundation',
-    version: versions.version,
-    orientation: 'portrait',
-    icon: './assets/icon.png',
-    jsEngine: 'hermes',
-    scheme: 'holi',
-    splash: {
-      image: './assets/splash.png',
-      resizeMode: 'contain',
-      backgroundColor: '#F5F5F5',
+const config: ExpoConfig = {
+  name: appName,
+  slug: 'projectholi',
+  owner: 'holistic-foundation',
+  version: versions.version,
+  orientation: 'portrait',
+  icon: './assets/icon.png',
+  jsEngine: 'hermes',
+  scheme: 'holi',
+  splash: {
+    image: './assets/splash.png',
+    resizeMode: 'contain',
+    backgroundColor: '#F5F5F5',
+  },
+  updates: {
+    url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
+    fallbackToCacheTimeout: 3000,
+  },
+  runtimeVersion: {
+    policy: 'fingerprint', // always target compatible native runtimes
+  },
+  assetBundlePatterns: ['**/*'],
+  ios: {
+    supportsTablet: true,
+    bundleIdentifier: iOSBundleIdentifier,
+    buildNumber: versions.iosBuildNumber,
+    config: {
+      // usesNonExemptEncryption see https://docs.expo.dev/versions/latest/config/app/#usesnonexemptencryption
+      // and https://help.apple.com/app-store-connect/#/devc3f64248f
+      usesNonExemptEncryption: false,
     },
-    updates: {
-      url: 'https://u.expo.dev/78a9da0e-cc1c-48af-92aa-78b755f75183', // needed for EAS updates
-      fallbackToCacheTimeout: 3000,
-    },
-    runtimeVersion: {
-      policy: 'fingerprint', // always target compatible native runtimes
-    },
-    assetBundlePatterns: ['**/*'],
-    ios: {
-      supportsTablet: true,
-      bundleIdentifier: iOSBundleIdentifier,
-      buildNumber: versions.iosBuildNumber,
-      config: {
-        // usesNonExemptEncryption see https://docs.expo.dev/versions/latest/config/app/#usesnonexemptencryption
-        // and https://help.apple.com/app-store-connect/#/devc3f64248f
-        usesNonExemptEncryption: false,
-      },
-      infoPlist: {
-        CFBundleAllowMixedLocalizations: true,
-        LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
-        UIBackgroundModes: [
-          'remote-notification', // enables the app to receive push notifications while app is in background
-        ],
-      },
-      privacyManifests: {
-        NSPrivacyAccessedAPITypes: [
-          {
-            NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryDiskSpace',
-            NSPrivacyAccessedAPITypeReasons: ['7D9E.1', 'E174.1'],
-          },
-          {
-            NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryFileTimestamp',
-            NSPrivacyAccessedAPITypeReasons: ['C617.1'],
-          },
-          {
-            NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryUserDefaults',
-            NSPrivacyAccessedAPITypeReasons: ['1C8F.1'],
-          },
-          {
-            NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategorySystemBootTime',
-            NSPrivacyAccessedAPITypeReasons: ['3D61.1'],
-          },
-        ],
-      },
-      associatedDomains: [
-        'applinks:app.holi.social',
-        'applinks:holi.social',
-        'applinks:dev.holi.social',
-        'applinks:*.dev.holi.social',
-        'applinks:staging.dev.holi.social',
+    infoPlist: {
+      CFBundleAllowMixedLocalizations: true,
+      LSApplicationQueriesSchemes: ['itms-apps', 'itms-beta'],
+      UIBackgroundModes: [
+        'remote-notification', // enables the app to receive push notifications while app is in background
       ],
     },
-    android: {
-      package: androidPackage,
-      versionCode: versions.androidVersionCode,
-      // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android
-      googleServicesFile: googleServicesFile,
-      adaptiveIcon: {
-        foregroundImage: './assets/icon_android.png',
-        monochromeImage: './assets/icon_android_monochromatic.png',
-        backgroundColor: '#fdfd80',
-      },
-      permissions: [
-        'android.permission.CAMERA',
-        'android.permission.RECORD_AUDIO',
-        'android.permission.MODIFY_AUDIO_SETTINGS',
-      ],
-      intentFilters: [
+    privacyManifests: {
+      NSPrivacyAccessedAPITypes: [
         {
-          action: 'VIEW',
-          autoVerify: true,
-          data: [
-            {
-              scheme: 'https',
-              host: 'app.holi.social',
-            },
-          ],
-          category: ['BROWSABLE', 'DEFAULT'],
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryDiskSpace',
+          NSPrivacyAccessedAPITypeReasons: ['7D9E.1', 'E174.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryFileTimestamp',
+          NSPrivacyAccessedAPITypeReasons: ['C617.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategoryUserDefaults',
+          NSPrivacyAccessedAPITypeReasons: ['1C8F.1'],
+        },
+        {
+          NSPrivacyAccessedAPIType: 'NSPrivacyAccessedAPICategorySystemBootTime',
+          NSPrivacyAccessedAPITypeReasons: ['3D61.1'],
         },
       ],
     },
-    plugins: [
-      'expo-localization',
-      'expo-secure-store',
-      ['sentry-expo'],
-      [
-        '@sentry/react-native/expo',
-        {
-          organization: 'holistic-foundation',
-          project: 'holi-app-mobile',
-        },
-      ],
-      [
-        'expo-image-picker',
-        {
-          photosPermission: 'Allow access to photos to upload a picture of you to your profile.',
-        },
-      ],
-      [
-        'expo-camera',
-        {
-          cameraPermission: 'Allow access to your camera for video calls',
-          microphonePermission: 'Allow access to your microphone for video calls',
-          recordAudioAndroid: true,
-        },
-      ],
-      [
-        'expo-calendar',
-        {
-          calendarPermission: 'Allow access to your calendar',
-        },
-      ],
+    associatedDomains: [
+      'applinks:app.holi.social',
+      'applinks:holi.social',
+      'applinks:dev.holi.social',
+      'applinks:*.dev.holi.social',
+      'applinks:staging.dev.holi.social',
     ],
-    // This doesn't seems to be supported by the expo config.
-    // hooks: {
-    //   postPublish: [
-    //     {
-    //       file: 'sentry-expo/upload-sourcemaps',
-    //       config: {
-    //         organization: 'holistic-foundation',
-    //         project: 'holi-app-mobile',
-    //       },
-    //     },
-    //   ],
-    // },
-    extra: {
-      novu: {
-        applicationIdentifier: requiredEnvVar('NOVU_APPLICATION_IDENTIFIER'),
-        backendUrl: requiredEnvVar('NOVU_BACKEND_URL'),
-        socketUrl: requiredEnvVar('NOVU_SOCKET_URL'),
-        credentialsUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/novu/credentials',
+  },
+  android: {
+    package: androidPackage,
+    versionCode: versions.androidVersionCode,
+    // used for FCM push notifications, see https://docs.expo.dev/push-notifications/push-notifications-setup/#android
+    googleServicesFile: googleServicesFile,
+    adaptiveIcon: {
+      foregroundImage: './assets/icon_android.png',
+      monochromeImage: './assets/icon_android_monochromatic.png',
+      backgroundColor: '#fdfd80',
+    },
+    permissions: [
+      'android.permission.CAMERA',
+      'android.permission.RECORD_AUDIO',
+      'android.permission.MODIFY_AUDIO_SETTINGS',
+    ],
+    intentFilters: [
+      {
+        action: 'VIEW',
+        autoVerify: true,
+        data: [
+          {
+            scheme: 'https',
+            host: 'app.holi.social',
+          },
+        ],
+        category: ['BROWSABLE', 'DEFAULT'],
       },
-      chat: {
-        serverName: requiredEnvVar('HOLI_CHAT_SERVER_NAME'),
-        serverLoginUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/chatlogin',
-        serverUrl: requiredEnvVar('HOLI_CHAT_SERVER_URL'),
-        pushGatewayUrl: requiredEnvVar('HOLI_CHAT_PUSH_GATEWAY_URL'),
-        adminUserId: requiredEnvVar('HOLI_CHAT_ADMIN_USER_ID'),
-        adminName: requiredEnvVar('HOLI_CHAT_ADMIN_NAME'),
+    ],
+  },
+  plugins: [
+    'expo-localization',
+    'expo-secure-store',
+    ['sentry-expo'],
+    [
+      '@sentry/react-native/expo',
+      {
+        organization: 'holistic-foundation',
+        project: 'holi-app-mobile',
       },
-      ory: {
-        url: requiredEnvVar('ORY_BASE_URL'),
+    ],
+    [
+      'expo-image-picker',
+      {
+        photosPermission: 'Allow access to photos to upload a picture of you to your profile.',
       },
-      holi_api: {
-        url: requiredEnvVar('HOLI_API_URL'),
-        gateway: requiredEnvVar('HOLI_API_GATEWAY'),
+    ],
+    [
+      'expo-camera',
+      {
+        cameraPermission: 'Allow access to your camera for video calls',
+        microphonePermission: 'Allow access to your microphone for video calls',
+        recordAudioAndroid: true,
       },
-      holi_nextjs_api: {
-        url: requiredEnvVar('HOLI_NEXTJS_API_URL'),
+    ],
+    [
+      'expo-calendar',
+      {
+        calendarPermission: 'Allow access to your calendar',
       },
-      environment: requiredEnvVar('ENVIRONMENT_ID'),
-      sentry: {
-        dsn: requiredEnvVar('SENTRY_DSN'),
-      },
-      owncloud: {
-        url: requiredEnvVar('OWNCLOUD_BASE_URL'),
-      },
-      jitsi: {
-        url: requiredEnvVar('JITSI_URL'),
-      },
-      eas: {
-        projectId: process.env.EXPO_PROJECT_ID,
-        // see https://docs.expo.dev/build-reference/variables/#built-in-environment-variables
-        buildId: process.env.EAS_BUILD_ID,
-        profile: process.env.EAS_BUILD_PROFILE,
-        gitCommitHash: process.env.EAS_BUILD_GIT_COMMIT_HASH,
-      },
-      e2e: {
-        userId: process.env.E2E_USER_ID, // not required as not used in production
-      },
-      holi_challenges_app: requiredEnvVar('HOLI_CHALLENGES_APP'),
-      posthog: {
-        key: requiredEnvVar('POSTHOG_KEY'),
-        host: requiredEnvVar('POSTHOG_HOST'),
-      },
+    ],
+  ],
+  // This doesn't seems to be supported by the expo config.
+  // hooks: {
+  //   postPublish: [
+  //     {
+  //       file: 'sentry-expo/upload-sourcemaps',
+  //       config: {
+  //         organization: 'holistic-foundation',
+  //         project: 'holi-app-mobile',
+  //       },
+  //     },
+  //   ],
+  // },
+  extra: {
+    novu: {
+      applicationIdentifier: requiredEnvVar('NOVU_APPLICATION_IDENTIFIER'),
+      backendUrl: requiredEnvVar('NOVU_BACKEND_URL'),
+      socketUrl: requiredEnvVar('NOVU_SOCKET_URL'),
+      credentialsUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/novu/credentials',
+    },
+    chat: {
+      serverName: requiredEnvVar('HOLI_CHAT_SERVER_NAME'),
+      serverLoginUrl: requiredEnvVar('HOLI_API_GATEWAY') + '/api/chatlogin',
+      serverUrl: requiredEnvVar('HOLI_CHAT_SERVER_URL'),
+      pushGatewayUrl: requiredEnvVar('HOLI_CHAT_PUSH_GATEWAY_URL'),
+      adminUserId: requiredEnvVar('HOLI_CHAT_ADMIN_USER_ID'),
+      adminName: requiredEnvVar('HOLI_CHAT_ADMIN_NAME'),
+    },
+    ory: {
+      url: requiredEnvVar('ORY_BASE_URL'),
+    },
+    holi_api: {
+      url: requiredEnvVar('HOLI_API_URL'),
+      gateway: requiredEnvVar('HOLI_API_GATEWAY'),
+    },
+    holi_nextjs_api: {
+      url: requiredEnvVar('HOLI_NEXTJS_API_URL'),
+    },
+    environment: requiredEnvVar('ENVIRONMENT_ID'),
+    sentry: {
+      dsn: requiredEnvVar('SENTRY_DSN'),
+    },
+    owncloud: {
+      url: requiredEnvVar('OWNCLOUD_BASE_URL'),
+    },
+    jitsi: {
+      url: requiredEnvVar('JITSI_URL'),
+    },
+    eas: {
+      projectId: process.env.EXPO_PROJECT_ID,
+      // see https://docs.expo.dev/build-reference/variables/#built-in-environment-variables
+      buildId: process.env.EAS_BUILD_ID,
+      profile: process.env.EAS_BUILD_PROFILE,
+      gitCommitHash: process.env.EAS_BUILD_GIT_COMMIT_HASH,
+    },
+    e2e: {
+      userId: process.env.E2E_USER_ID, // not required as not used in production
+    },
+    holi_challenges_app: requiredEnvVar('HOLI_CHALLENGES_APP'),
+    posthog: {
+      key: requiredEnvVar('POSTHOG_KEY'),
+      host: requiredEnvVar('POSTHOG_HOST'),
     },
   },
 }
 
-export default config
+module.exports = config
