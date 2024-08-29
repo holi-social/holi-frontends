@@ -1860,12 +1860,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.7, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.6, @babel/runtime@npm:^7.20.0, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.7, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.6, @babel/runtime@npm:^7.20.0, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.25.4
   resolution: "@babel/runtime@npm:7.25.4"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
   checksum: 10c0/33e937e685f0bfc2d40c219261e2e50d0df7381a6e7cbf56b770e0c5d77cb0c21bf4d97da566cf0164317ed7508e992082c7b6cce7aaa3b17da5794f93fbfb46
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.24.8":
+  version: 7.25.6
+  resolution: "@babel/runtime@npm:7.25.6"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/d6143adf5aa1ce79ed374e33fdfd74fa975055a80bc6e479672ab1eadc4e4bfd7484444e17dd063a1d180e051f3ec62b357c7a2b817e7657687b47313158c3d2
   languageName: node
   linkType: hard
 
@@ -2471,7 +2480,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/config-plugins@npm:8.0.8, @expo/config-plugins@npm:~8.0.0, @expo/config-plugins@npm:~8.0.0-beta.0, @expo/config-plugins@npm:~8.0.8":
+"@expo/config-plugins@npm:8.0.8, @expo/config-plugins@npm:~8.0.0-beta.0, @expo/config-plugins@npm:~8.0.8":
   version: 8.0.8
   resolution: "@expo/config-plugins@npm:8.0.8"
   dependencies:
@@ -2841,16 +2850,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/ecma402-abstract@npm:1.18.3":
-  version: 1.18.3
-  resolution: "@formatjs/ecma402-abstract@npm:1.18.3"
-  dependencies:
-    "@formatjs/intl-localematcher": "npm:0.5.4"
-    tslib: "npm:^2.4.0"
-  checksum: 10c0/daee00497618905b535f8ff67fcb2a3f5478e0c40980297e735273fb87bf6ac9645ca28ecf284681b446d2666bd33c36d94dc095510d1e115c4ce34f4bb4bcf5
-  languageName: node
-  linkType: hard
-
 "@formatjs/ecma402-abstract@npm:2.0.0":
   version: 2.0.0
   resolution: "@formatjs/ecma402-abstract@npm:2.0.0"
@@ -2861,12 +2860,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-enumerator@npm:1.4.6":
-  version: 1.4.6
-  resolution: "@formatjs/intl-enumerator@npm:1.4.6"
+"@formatjs/intl-enumerator@npm:1.4.7":
+  version: 1.4.7
+  resolution: "@formatjs/intl-enumerator@npm:1.4.7"
   dependencies:
     tslib: "npm:^2.4.0"
-  checksum: 10c0/527e69b934eaf3b51ee551ceeae23ef4d5a6a24de70f11f5f7ecd07af7fe90d871a55dd08cbe9e752080598007bdb3ff8dc67e4f1f3231415b5183369807be0f
+  checksum: 10c0/86265395cd705a16edbddac7c02fb465a9045e7cc3822db5ef66d8839b1a8f8fb5234b3587c0c267291b21e46bcf87888b30301f6a7a00834901606bd40d200e
   languageName: node
   linkType: hard
 
@@ -2879,15 +2878,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-locale@npm:^3.0.7":
-  version: 3.4.6
-  resolution: "@formatjs/intl-locale@npm:3.4.6"
+"@formatjs/intl-locale@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@formatjs/intl-locale@npm:4.0.0"
   dependencies:
-    "@formatjs/ecma402-abstract": "npm:1.18.3"
-    "@formatjs/intl-enumerator": "npm:1.4.6"
+    "@formatjs/ecma402-abstract": "npm:2.0.0"
+    "@formatjs/intl-enumerator": "npm:1.4.7"
     "@formatjs/intl-getcanonicallocales": "npm:2.3.0"
     tslib: "npm:^2.4.0"
-  checksum: 10c0/f9f367d316f2f694bef793dfe580779ece4fd962ec08cbfc38b9d333f2c2c225e2bd93df36a49556f55e0405e7045c1a6ae63304ac47643b267e72191b2e77cd
+  checksum: 10c0/4b998a59d2f8c923cd88404182415b09da4af9b79994c97cb27d77947776f3e5188d0ed116ba1f9734ca02e1033cba0349bd2baed6a04a39638068f1f844f566
   languageName: node
   linkType: hard
 
@@ -2900,7 +2899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-pluralrules@npm:^5.1.4":
+"@formatjs/intl-pluralrules@npm:^5.2.14":
   version: 5.2.14
   resolution: "@formatjs/intl-pluralrules@npm:5.2.14"
   dependencies:
@@ -2911,7 +2910,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-relativetimeformat@npm:^11.1.4":
+"@formatjs/intl-relativetimeformat@npm:^11.2.14":
   version: 11.2.14
   resolution: "@formatjs/intl-relativetimeformat@npm:11.2.14"
   dependencies:
@@ -4262,10 +4261,10 @@ __metadata:
   resolution: "@holi/mobile@workspace:apps/mobile"
   dependencies:
     "@babel/core": "npm:^7.24.0"
-    "@expo/config-plugins": "npm:~8.0.0"
-    "@formatjs/intl-locale": "npm:^3.0.7"
-    "@formatjs/intl-pluralrules": "npm:^5.1.4"
-    "@formatjs/intl-relativetimeformat": "npm:^11.1.4"
+    "@expo/config-plugins": "npm:~8.0.8"
+    "@formatjs/intl-locale": "npm:^4.0.0"
+    "@formatjs/intl-pluralrules": "npm:^5.2.14"
+    "@formatjs/intl-relativetimeformat": "npm:^11.2.14"
     "@holi-apps/challenges": "npm:*"
     "@holi-apps/donations": "npm:*"
     "@holi-apps/goodnews": "npm:*"
@@ -4285,12 +4284,12 @@ __metadata:
     "@types/lodash.at": "npm:^4.6.7"
     "@types/lodash.debounce": "npm:^4.0.7"
     "@types/lodash.groupby": "npm:^4.6.9"
-    "@types/lodash.partition": "npm:^4.6.7"
+    "@types/lodash.partition": "npm:^4.6.9"
     "@types/react": "npm:~18.2.79"
     apollo-link-timeout: "npm:^4.0.0"
     expo: "npm:~51.0.31"
-    expo-application: "npm:^5.9.1"
-    expo-calendar: "npm:^13.0.5"
+    expo-application: "npm:~5.9.1"
+    expo-calendar: "npm:13.0.5"
     expo-camera: "npm:~15.0.15"
     expo-constants: "npm:~16.0.2"
     expo-dev-client: "npm:~4.0.25"
@@ -4311,8 +4310,8 @@ __metadata:
     fast-text-encoding: "npm:^1.0.6"
     find-yarn-workspace-root: "npm:^2.0.0"
     global: "npm:^4.4.0"
-    graphql: "npm:^16.3.0"
-    i18next: "npm:^22.4.9"
+    graphql: "npm:^16.9.0"
+    i18next: "npm:^23.14.0"
     intl: "npm:^1.2.5"
     jest-each: "npm:^29.6.3"
     jest-mock-extended: "npm:^3.0.5"
@@ -4320,15 +4319,15 @@ __metadata:
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
     lodash.partition: "npm:^4.6.0"
-    lottie-ios: "npm:4.4.1"
+    lottie-ios: "npm:4.5.0"
     lottie-react-native: "npm:6.7.0"
-    posthog-react-native: "npm:^3.1.1"
+    posthog-react-native: "npm:^3.1.2"
     react: "npm:18.2.0"
     react-devtools: "npm:4.14.0"
-    react-i18next: "npm:^12.1.5"
+    react-i18next: "npm:^15.0.1"
     react-native: "npm:0.74.5"
     react-native-animated-pagination-dot: "npm:^0.4.0"
-    react-native-calendars: "npm:^1.1303.0"
+    react-native-calendars: "npm:^1.1306.0"
     react-native-controlled-mentions: "npm:^2.2.5"
     react-native-gesture-handler: "npm:~2.16.1"
     react-native-image-crop-picker: "npm:^0.41.2"
@@ -4342,9 +4341,9 @@ __metadata:
     react-native-svg: "npm:15.2.0"
     react-native-swiper: "npm:^1.6.0"
     react-native-webview: "npm:13.8.6"
-    react-spring: "npm:^8.0.27"
+    react-spring: "npm:^9.7.4"
     slugify: "npm:^1.6.6"
-    tinycolor2: "npm:1.4.2"
+    tinycolor2: "npm:1.6.0"
     ts-node: "npm:^10.9.2"
     typescript: "npm:~5.3.3"
     use-sync-external-store: "npm:^1.1.0"
@@ -7269,6 +7268,136 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-spring/animated@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/animated@npm:9.7.4"
+  dependencies:
+    "@react-spring/shared": "npm:~9.7.4"
+    "@react-spring/types": "npm:~9.7.4"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/7620fe7f058ca81d321710dd391062eda8bd298d2abdf63c5e230348aecd1b80730e5b96bdf052807838a20c8961efe1f9e2840e6cce3cacae5b74a28622eff8
+  languageName: node
+  linkType: hard
+
+"@react-spring/core@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/core@npm:9.7.4"
+  dependencies:
+    "@react-spring/animated": "npm:~9.7.4"
+    "@react-spring/shared": "npm:~9.7.4"
+    "@react-spring/types": "npm:~9.7.4"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/cdbc5e222edc5f25746cad36086acf20563157543557a3436b55bf0527460f68e5eb98e2927e186937eba37abe3067c227b685c07b9dc393f987a8ff7abe2455
+  languageName: node
+  linkType: hard
+
+"@react-spring/konva@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/konva@npm:9.7.4"
+  dependencies:
+    "@react-spring/animated": "npm:~9.7.4"
+    "@react-spring/core": "npm:~9.7.4"
+    "@react-spring/shared": "npm:~9.7.4"
+    "@react-spring/types": "npm:~9.7.4"
+  peerDependencies:
+    konva: ">=2.6"
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-konva: ^16.8.0 || ^16.8.7-0 || ^16.9.0-0 || ^16.10.1-0 || ^16.12.0-0 || ^16.13.0-0 || ^17.0.0-0 || ^17.0.1-0 || ^17.0.2-0 || ^18.0.0-0
+  checksum: 10c0/e68a0834c5fda8dc19a3af730f7473e149febebeb1ebd4e33ba6d7fcf029f4582bb102578a9aac4fb278ba4c1874cb9ec1cb2d4310d83773c3dda8597e56a5d6
+  languageName: node
+  linkType: hard
+
+"@react-spring/native@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/native@npm:9.7.4"
+  dependencies:
+    "@react-spring/animated": "npm:~9.7.4"
+    "@react-spring/core": "npm:~9.7.4"
+    "@react-spring/shared": "npm:~9.7.4"
+    "@react-spring/types": "npm:~9.7.4"
+  peerDependencies:
+    react: 16.8.0  || >=17.0.0 || >=18.0.0
+    react-native: ">=0.58"
+  checksum: 10c0/b050ca225471f11b19fc2abab8c73ade1550b0fc08f5aab38cb85e5c7a585e06138264e8482be00e93b1d2c873866eb52ea3a30a257a3737018477be7d81efb6
+  languageName: node
+  linkType: hard
+
+"@react-spring/rafz@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/rafz@npm:9.7.4"
+  checksum: 10c0/975e27d6c19ed055dea91e97e473831a862aad2dc882f5402e98ac1f3f636f4ec05ee5cff623e5f6ece25388bb50a024bbc6dcdb6b750e43d53f0321140c5e52
+  languageName: node
+  linkType: hard
+
+"@react-spring/shared@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/shared@npm:9.7.4"
+  dependencies:
+    "@react-spring/rafz": "npm:~9.7.4"
+    "@react-spring/types": "npm:~9.7.4"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/ae5cbb41f4876ebf365e0b2293466678d421eb68e736bfb4a0836a550518eb916fee763274f81c5af8a6a25f776df1480031e39f2981639aa79ac6cb6d290a15
+  languageName: node
+  linkType: hard
+
+"@react-spring/three@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/three@npm:9.7.4"
+  dependencies:
+    "@react-spring/animated": "npm:~9.7.4"
+    "@react-spring/core": "npm:~9.7.4"
+    "@react-spring/shared": "npm:~9.7.4"
+    "@react-spring/types": "npm:~9.7.4"
+  peerDependencies:
+    "@react-three/fiber": ">=6.0"
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    three: ">=0.126"
+  checksum: 10c0/fec2479952cef77743f1fe4d7ca9795c4d2616399bbcf26abfa07ae95921893b52716ebf691aa66347dd02bc8e19cb4843fccfaf17c1d340845e3ca5ce9840a3
+  languageName: node
+  linkType: hard
+
+"@react-spring/types@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/types@npm:9.7.4"
+  checksum: 10c0/2ad43c0463dadb8caa58a7eeafc9ba447fa66cd7d9b9ea2241d58c619353155ea94d7e6a89fc6da0f071d500216c654b35a64a12a3a586d85e304ed6c93546fd
+  languageName: node
+  linkType: hard
+
+"@react-spring/web@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/web@npm:9.7.4"
+  dependencies:
+    "@react-spring/animated": "npm:~9.7.4"
+    "@react-spring/core": "npm:~9.7.4"
+    "@react-spring/shared": "npm:~9.7.4"
+    "@react-spring/types": "npm:~9.7.4"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/6312b612e53ae7a7cd0ab5fe16aaccbc6fba5d71248e30373a1f46e6aec997723095eff3c1a47f59aa8d5788b7092a898dee2120f841814f1d1295e5a4fcf5fb
+  languageName: node
+  linkType: hard
+
+"@react-spring/zdog@npm:~9.7.4":
+  version: 9.7.4
+  resolution: "@react-spring/zdog@npm:9.7.4"
+  dependencies:
+    "@react-spring/animated": "npm:~9.7.4"
+    "@react-spring/core": "npm:~9.7.4"
+    "@react-spring/shared": "npm:~9.7.4"
+    "@react-spring/types": "npm:~9.7.4"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-zdog: ">=1.0"
+    zdog: ">=1.0"
+  checksum: 10c0/880b6b521eba9681ad46e26e872b62430da603e76533ad1e7af489190289130c1584597bd547f28bd7bb50f7d375755677531e8e8fc06b5dd6b1e4fdfcbe6976
+  languageName: node
+  linkType: hard
+
 "@redux-devtools/extension@npm:^3.2.5":
   version: 3.3.0
   resolution: "@redux-devtools/extension@npm:3.3.0"
@@ -9748,7 +9877,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash.partition@npm:^4.6.7":
+"@types/lodash.partition@npm:^4.6.9":
   version: 4.6.9
   resolution: "@types/lodash.partition@npm:4.6.9"
   dependencies:
@@ -17510,7 +17639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:14 - 16, graphql@npm:^16.3.0, graphql@npm:^16.8.1":
+"graphql@npm:14 - 16, graphql@npm:^16.3.0, graphql@npm:^16.8.1, graphql@npm:^16.9.0":
   version: 16.9.0
   resolution: "graphql@npm:16.9.0"
   checksum: 10c0/a8850f077ff767377237d1f8b1da2ec70aeb7623cdf1dfc9e1c7ae93accc0c8149c85abe68923be9871a2934b1bce5a2496f846d4d56e1cfb03eaaa7ddba9b6a
@@ -18100,12 +18229,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^22.4.9":
-  version: 22.5.1
-  resolution: "i18next@npm:22.5.1"
+"i18next@npm:^23.14.0":
+  version: 23.14.0
+  resolution: "i18next@npm:23.14.0"
   dependencies:
-    "@babel/runtime": "npm:^7.20.6"
-  checksum: 10c0/a284f8d805ebad77114a830e60d5c59485a7f4d45179761f877249b63035572cff4103e5b4702669dff1a0e03b4e8b6df377bc871935f8215e43fd97e8e9e910
+    "@babel/runtime": "npm:^7.23.2"
+  checksum: 10c0/c26638a816e6213e515c158b17894ca3c54693911e1dc637cd279e11d53f8ded2494c3dcc6e2e94c639987ef63718193a1e2b4f3d5873fbcf89f266582140cd5
   languageName: node
   linkType: hard
 
@@ -20795,10 +20924,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-ios@npm:4.4.1":
-  version: 4.4.1
-  resolution: "lottie-ios@npm:4.4.1"
-  checksum: 10c0/9ea2cab6601ed2842867ce1b7ff0266230c09ed07646999cd9014d81d845cac4f2cea906d7feef532d011a7e6cd1d071b0e88406ee9e9c2992c32b8c71dd9768
+"lottie-ios@npm:4.5.0":
+  version: 4.5.0
+  resolution: "lottie-ios@npm:4.5.0"
+  checksum: 10c0/5952324ea68303500dd9e79e04c25284f372a226b85a5bea09f96df0c136453c22ed0c3fa04a2ac9bce24dea125b69ec9328f75d7e79ea7dbe38652c230f1c23
   languageName: node
   linkType: hard
 
@@ -23538,7 +23667,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-react-native@npm:^3.1.1":
+"posthog-react-native@npm:^3.1.2":
   version: 3.1.2
   resolution: "posthog-react-native@npm:3.1.2"
   peerDependencies:
@@ -23816,7 +23945,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.5.10, prop-types@npm:^15.5.7, prop-types@npm:^15.5.8, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.5.10, prop-types@npm:^15.5.7, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -24370,6 +24499,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-i18next@npm:^15.0.1":
+  version: 15.0.1
+  resolution: "react-i18next@npm:15.0.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.24.8"
+    html-parse-stringify: "npm:^3.0.1"
+  peerDependencies:
+    i18next: ">= 23.2.3"
+    react: ">= 16.8.0"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 10c0/74ed8903cb0dbc4d05f8eef176eba2d60ffad65c48bf6695e8294d70dd035563ebdb52b012319ef2835010fe4ccfc95a3e431d5b22d2b0a264141299aa6beb30
+  languageName: node
+  linkType: hard
+
 "react-indiana-drag-scroll@npm:^2.2.0":
   version: 2.2.0
   resolution: "react-indiana-drag-scroll@npm:2.2.0"
@@ -24458,7 +24605,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-calendars@npm:^1.1303.0":
+"react-native-calendars@npm:^1.1306.0":
   version: 1.1306.0
   resolution: "react-native-calendars@npm:1.1306.0"
   dependencies:
@@ -24892,16 +25039,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-spring@npm:^8.0.27":
-  version: 8.0.27
-  resolution: "react-spring@npm:8.0.27"
+"react-spring@npm:^9.7.4":
+  version: 9.7.4
+  resolution: "react-spring@npm:9.7.4"
   dependencies:
-    "@babel/runtime": "npm:^7.3.1"
-    prop-types: "npm:^15.5.8"
+    "@react-spring/core": "npm:~9.7.4"
+    "@react-spring/konva": "npm:~9.7.4"
+    "@react-spring/native": "npm:~9.7.4"
+    "@react-spring/three": "npm:~9.7.4"
+    "@react-spring/web": "npm:~9.7.4"
+    "@react-spring/zdog": "npm:~9.7.4"
   peerDependencies:
-    react: ">= 16.8.0"
-    react-dom: ">= 16.8.0"
-  checksum: 10c0/fbd5f38dcaa066770b92ff60206e5e62dc6a9bda2fd811c7e542e601ad8f935b412139d2e29714f5c3424c94d59abbd82af8bbc6a1dca59cac7cce2d444967ab
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/02c7f88a37d76f891e4b1e0bd1787f8c7ff27d72b09d8047b3908e3aa40e719c1365b07fd0672ef3dbe09ae15478d59bc797eb55ee6888319b35815ddc136edf
   languageName: node
   linkType: hard
 
@@ -27643,10 +27794,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinycolor2@npm:1.4.2":
-  version: 1.4.2
-  resolution: "tinycolor2@npm:1.4.2"
-  checksum: 10c0/822798610a7469d0caf1d202bed2d6836ceae87cfc7fd37012eaa0168a9a8fbd8cf47c572a21d48c612a9a3801b0af820a47b34bd58bbba04254b7fac8351ebd
+"tinycolor2@npm:1.6.0":
+  version: 1.6.0
+  resolution: "tinycolor2@npm:1.6.0"
+  checksum: 10c0/9aa79a36ba2c2a87cb221453465cabacd04b9e35f9694373e846fdc78b1c768110f81e581ea41440106c0f24d9a023891d0887e8075885e790ac40eb0e74a5c1
   languageName: node
   linkType: hard
 
