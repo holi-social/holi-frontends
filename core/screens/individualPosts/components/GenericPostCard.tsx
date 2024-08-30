@@ -11,7 +11,7 @@ import { Term, User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import ImageCarousel from '@holi/core/screens/individualPosts/components/ImageCarousel'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
@@ -59,6 +59,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
 
   const [isLoadingSpacePostReport, reportSpacePostContent] = useReportContent({
     id: post?.id || '',
+    contentType3k: ContentType3K.POST,
     contentType: ContentType.POST,
     successMsg: t('global.report.successMessage'),
   })
