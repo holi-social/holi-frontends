@@ -100,14 +100,14 @@ const FilteredVolunteeringEngagements = ({
   )
 }
 
-const VolunteeringDiscoveryV1 = (props: VolunteeringListingProps) => {
+const VolunteeringListingDiscoveryV1 = (props: VolunteeringListingProps) => {
   if (props.isFiltering) {
     return <FilteredVolunteeringEngagements {...props} />
   }
   return <VolunteeringRecommendations isFiltering={props.isFiltering} />
 }
 
-export default withProfiler(VolunteeringDiscoveryV1, { name: 'VolunteeringDiscoveryV1' })
+export default withProfiler(VolunteeringListingDiscoveryV1, { name: 'VolunteeringListingDiscoveryV1' })
 
 const styles = StyleSheet.create({
   loaderBottom: {

@@ -19,10 +19,10 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import VolunteeringDiscoveryV1 from '@holi-apps/volunteering/components/VolunteeringDiscoveryV1'
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringFilterFormDiscoveryV1 from '@holi-apps/volunteering/components/VolunteeringFilterFormDiscoveryV1'
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
+import VolunteeringListingDiscoveryV1 from '@holi-apps/volunteering/components/VolunteeringListingDiscoveryV1'
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import { useVolunteeringDiscoveryVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 
@@ -75,7 +75,7 @@ const VolunteeringAppHome = () => {
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, styles.dot])
 
-  const ListComponent = discoveryVariant === 'discoveryV1' ? VolunteeringDiscoveryV1 : VolunteeringListing
+  const ListComponent = discoveryVariant === 'discoveryV1' ? VolunteeringListingDiscoveryV1 : VolunteeringListing
   const FilterFormComponent =
     discoveryVariant === 'discoveryV1' ? VolunteeringFilterFormDiscoveryV1 : VolunteeringFilterForm
 
