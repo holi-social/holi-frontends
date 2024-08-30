@@ -25,14 +25,14 @@ type VolunteeringListingProps = {
   loadingFiltersFailed?: boolean
 }
 
-const VolunteeringRecommendations = ({ isFiltering }: { isFiltering?: boolean }) => {
+const VolunteeringRecommendations = () => {
   const { queryVariables, loading: loadingQueryVariables = false } = useVolunteeringRecosV1QueryVariables()
 
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: ENGAGEMENT_PAGE_SIZE,
     queryPath: 'appVolunteering_engagementRecommendations',
     variables: queryVariables,
-    skip: isFiltering || loadingQueryVariables,
+    skip: loadingQueryVariables,
   }
   const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringRecosV1Query, {
     variables: {
@@ -104,7 +104,7 @@ const VolunteeringListingDiscoveryV1 = (props: VolunteeringListingProps) => {
   if (props.isFiltering) {
     return <FilteredVolunteeringEngagements {...props} />
   }
-  return <VolunteeringRecommendations isFiltering={props.isFiltering} />
+  return <VolunteeringRecommendations />
 }
 
 export default withProfiler(VolunteeringListingDiscoveryV1, { name: 'VolunteeringListingDiscoveryV1' })
