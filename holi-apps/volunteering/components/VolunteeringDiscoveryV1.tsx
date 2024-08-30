@@ -51,7 +51,7 @@ const VolunteeringRecommendations = ({ isFiltering }: { isFiltering?: boolean })
       query={volunteeringRecosV1Query}
       queryOptions={queryOptions}
       loadMoreOnScroll
-      scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+      scrollPlaceholder={<HoliLoader style={styles.loaderBottom} testID="volunteering-loader" />}
     >
       {loadingQueryVariables || reloading ? (
         <VolunteeringListingSkeleton isFiltering={false} amount={ENGAGEMENT_PAGE_SIZE} />
@@ -85,7 +85,7 @@ const FilteredVolunteeringEngagements = ({
       query={filteredVolunteeringEngagementsQuery}
       queryOptions={queryOptions}
       loadMoreOnScroll
-      scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+      scrollPlaceholder={<HoliLoader style={styles.loaderBottom} testID="volunteering-loader" />}
     >
       {loadingFilters ? (
         <VolunteeringListingSkeleton isFiltering={true} amount={ENGAGEMENT_PAGE_SIZE} />

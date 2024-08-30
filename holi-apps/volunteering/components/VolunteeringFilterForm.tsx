@@ -71,7 +71,7 @@ const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volunteerin
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <HoliHeading>{t('volunteering:filter.heading')}</HoliHeading>
+          <HoliHeading testID="volunteering-filter-heading">{t('volunteering:filter.heading')}</HoliHeading>
           <HoliButton label={t('global.reset')} inline onPress={resetForm} type="secondary" variant="small">
             <HoliText>{t('global.reset')}</HoliText>
             <HoliIcon icon={Close} size={20} style={styles.clearFilters} />
