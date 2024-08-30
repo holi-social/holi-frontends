@@ -8,7 +8,6 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ContentType } from '@holi/core/queries'
 import CommentForm from '@holi/core/screens/comments/components/CommentForm'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import { CommentResponse, commentById } from '@holi/core/screens/comments/queries'
@@ -105,12 +104,7 @@ const DiscussionCommentPage = () => {
 
         {!!comment && (
           <View style={styles.parentComment}>
-            <CommentView
-              comment={comment}
-              commentableId={discussion.id}
-              commentableType={CommentableType.DISCUSSION}
-              reportContentType={ContentType.POST_COMMENT}
-            />
+            <CommentView comment={comment} commentableId={discussion.id} commentableType={CommentableType.DISCUSSION} />
           </View>
         )}
       </CommentForm>
