@@ -39,7 +39,7 @@ type VolunteeringListingProps = {
   isFiltering?: boolean
   clearFilters?: () => void
   loadingFilters: boolean
-  filterError?: boolean
+  loadingFiltersFailed?: boolean
 }
 
 export const ENGAGEMENT_PAGE_SIZE = 10
@@ -49,7 +49,7 @@ const VolunteeringListing = ({
   isFiltering,
   clearFilters,
   loadingFilters,
-  filterError,
+  loadingFiltersFailed,
 }: VolunteeringListingProps) => {
   const mixins = useStyleMixins()
   const { t } = useTranslation()
@@ -79,7 +79,7 @@ const VolunteeringListing = ({
       location: isFiltering ? filters.location : undefined,
       category: isFiltering ? filters.category : undefined,
     },
-    skip: filterError,
+    skip: !!loadingFiltersFailed,
     onError: (error) =>
       logError(error, 'Failed to load volunteering engagements', {
         location: 'VolunteeringListing.VolunteeringEngagementsQuery',
@@ -91,7 +91,7 @@ const VolunteeringListing = ({
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
 
-  const noResults = !!error || filterError || engagements.length === 0
+  const noResults = !!error || loadingFiltersFailed || engagements.length === 0
 
   const listFooter = canFetchMore ? (
     <HoliButtonLoading

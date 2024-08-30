@@ -8,6 +8,7 @@ import {
   ScrollBasedCallbackInvocationProps,
 } from '@holi/core/components/ScrollBasedCallbackInvocation.shared'
 import { mobileScrollYAtom } from '@holi/core/helpers'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
 const ScrollBasedCallbackInvocation = ({
   belowFoldThreshold = DEFAULT_DISTANCE_BELOW_FOLD_THRESHOLD,
@@ -39,6 +40,11 @@ const ScrollBasedCallbackInvocation = ({
       })
     }, 0)
   }, [windowHeight, belowFoldThreshold, scrollY, callback, lastPosition])
+
+  useOnRefresh(() => {
+    // Reset scroll position when refreshing content, so e.g. pagination can start anew
+    setLastPosition(0)
+  })
 
   return (
     <View ref={placeholderRef} collapsable={false}>

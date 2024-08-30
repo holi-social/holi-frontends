@@ -85,6 +85,31 @@ export const volunteeringRecosV1Query = gql`
   }
 `
 
+export const filteredVolunteeringEngagementsQuery = gql`
+  ${fullEngagementFragment}
+
+  query FilteredVolunteeringEngagements(
+    $limit: Int! = 10
+    $offset: Int! = 0
+    $topics: [String!] = []
+    $skills: [String!] = []
+    $geolocationId: String
+  ) {
+    appVolunteering_filteredEngagements(
+      limit: $limit
+      offset: $offset
+      topics: $topics
+      skills: $skills
+      geolocationId: $geolocationId
+    ) {
+      totalResults
+      data {
+        ...FullEngagement
+      }
+    }
+  }
+`
+
 export const engagementByIdQuery = gql`
   ${fullEngagementFragment}
 
