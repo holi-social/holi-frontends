@@ -65,7 +65,7 @@ export const VolunteeringEngagementList = ({
       {engagements.length > 0 && (
         <View>
           <HoliHeading level="2" size="l">
-            {t('volunteering:listing.headline')}
+            {t('volunteering:discoveryV1.headline')}
           </HoliHeading>
           <HoliGap size="s" />
           <PartnerInfoRow
@@ -81,7 +81,7 @@ export const VolunteeringEngagementList = ({
             onDismiss={closeModal}
             i18nPrefix={'volunteering:listing.partnerModal'}
           />
-          {isFiltering && (
+          {isFiltering ? (
             <View style={styles.headingRow}>
               <HoliText bold style={{ color: colors.foreground20 }}>
                 {t('volunteering:filter.result', {
@@ -89,6 +89,11 @@ export const VolunteeringEngagementList = ({
                 })}
               </HoliText>
             </View>
+          ) : (
+            <>
+              <HoliGap size="ml" />
+              <HoliText size="large">{t('volunteering:discoveryV1.subtitle')}</HoliText>
+            </>
           )}
         </View>
       )}
