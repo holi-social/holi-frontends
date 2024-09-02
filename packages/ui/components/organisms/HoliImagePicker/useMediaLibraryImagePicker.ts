@@ -97,7 +97,8 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, maxF
       }
 
       // Check file sizes for each selected asset
-      for (const asset of imagePickerResult.assets) {
+      for (let i = 0; i < imagePickerResult.assets.length; i++) {
+        let asset = imagePickerResult.assets[i]
         const fileInfo = await getInfoAsync(asset.uri)
         const imageInfo = await getImageSize(asset.uri)
         switch (fileSizeLimitation.type) {
@@ -109,17 +110,23 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, maxF
               imageInfo?.width > CONTENT_IMAGE_MAX_WIDTH ||
               imageInfo?.height > CONTENT_IMAGE_MAX_HEIGHT
             ) {
-              return await resizeImage(
+              const resizedAsset = await resizeImage(
                 asset,
                 fileSizeLimitation.resizeWidth <= CONTENT_IMAGE_MAX_WIDTH
                   ? fileSizeLimitation.resizeWidth
                   : CONTENT_IMAGE_MAX_WIDTH
               )
+              if (!allowsMultipleSelection) return resizedAsset
+              if (allowsMultipleSelection && resizedAsset.assets?.[0]) {
+                asset = resizedAsset.assets[0]
+              }
             }
             continue
           case 'reject':
             if ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) {
-              return 'invalidFileSize'
+              if (!allowsMultipleSelection) return 'invalidFileSize'
+
+              imagePickerResult.assets.splice(i, 1)
             }
             continue
         }
