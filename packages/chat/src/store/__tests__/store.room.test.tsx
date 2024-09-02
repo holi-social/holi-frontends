@@ -60,12 +60,10 @@ describe('Chat Store - rooms', () => {
     unreadNotificationCount: NOTIFICATION_COUNT,
     creatorId: CREATOR_FIXTURE.id,
     getMember: CREATOR_FIXTURE,
-    timestamp: TIMESTAMP_FIXTURE,
   }
 
   const spaceRoomMockOptions = {
     members: SPACE_MEMBERS_FIXTURE,
-    timestamp: TIMESTAMP_FIXTURE,
     timelineEvents: [],
     unreadNotificationCount: NOTIFICATION_COUNT,
     creatorId: ADMIN_FIXTURE.id,
@@ -103,7 +101,6 @@ describe('Chat Store - rooms', () => {
         creator: convertMemberAvatar(CREATOR_FIXTURE),
         members: convertMembersAvatar(DM_MEMBERS),
         notificationCount: NOTIFICATION_COUNT,
-        timestamp: TIMESTAMP_FIXTURE,
       })
     )
   })
@@ -161,7 +158,7 @@ describe('Chat Store - rooms', () => {
       name: SPACE_ROOM_NAME_FIXTURE,
       members: convertMembersAvatar(SPACE_MEMBERS_FIXTURE),
       notificationCount: NOTIFICATION_COUNT,
-      timestamp: TIMESTAMP_FIXTURE,
+      timestamp: undefined,
     })
 
     expect(store.get(result.current[SPACE_CHILD_ROOM_ID_FIXTURE])).toEqual(
@@ -176,7 +173,6 @@ describe('Chat Store - rooms', () => {
         members: convertMembersAvatar(SPACE_MEMBERS_FIXTURE),
         name: SPACE_CHILD_ROOM_ID_FIXTURE,
         notificationCount: NOTIFICATION_COUNT,
-        timestamp: TIMESTAMP_FIXTURE,
       })
     )
   })
@@ -283,8 +279,8 @@ describe('Chat Store - rooms', () => {
       members: convertMembersAvatar(DM_MEMBERS),
       name: MEMBER1_FIXTURE.name,
       notificationCount: NOTIFICATION_COUNT,
-      timestamp: TIMESTAMP_FIXTURE,
       type: 'private',
+      timestamp: undefined,
     })
 
     const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {
@@ -348,7 +344,7 @@ describe('Chat Store - rooms', () => {
       members: convertMembersAvatar(SPACE_MEMBERS_FIXTURE),
       name: SPACE_ROOM_NAME_FIXTURE,
       notificationCount: NOTIFICATION_COUNT,
-      timestamp: TIMESTAMP_FIXTURE,
+      timestamp: undefined,
     })
 
     expect(store.get(result.current[SPACE_CHILD_ROOM_ID_FIXTURE])).toStrictEqual({
@@ -362,7 +358,7 @@ describe('Chat Store - rooms', () => {
       members: convertMembersAvatar(SPACE_MEMBERS_FIXTURE),
       name: SPACE_CHILD_ROOM_ID_FIXTURE,
       notificationCount: NOTIFICATION_COUNT,
-      timestamp: TIMESTAMP_FIXTURE,
+      timestamp: undefined,
     })
   })
 

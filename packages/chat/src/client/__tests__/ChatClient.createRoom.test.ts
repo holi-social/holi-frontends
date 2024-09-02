@@ -26,7 +26,6 @@ jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher', () => jest.fn())
 
 describe('ChatClient', () => {
-  const timestamp = 1706715917444
   const members: MatrixId[] = ['@david.m.rosen:holi.social', '@fusajiro.yamauchi:holi.social']
 
   let mxClient: jest.MockedObjectDeep<MatrixClient>
@@ -148,7 +147,7 @@ describe('ChatClient', () => {
     it('should return a private chat room', () => {
       const timelineEvents = [] as MatrixEvent[]
       const joinRoomId = 'testRoomIdJoin'
-      const mockRoomJoin = createRoomMock(joinRoomId, { timelineEvents, timestamp })
+      const mockRoomJoin = createRoomMock(joinRoomId, { timelineEvents })
       mockRoomJoin.getMyMembership.mockReturnValue(MembershipStatus.join)
 
       mxClient.getRooms.mockReturnValue([mockRoomJoin])
@@ -165,7 +164,7 @@ describe('ChatClient', () => {
           members: [],
           name: undefined,
           notificationCount: 0,
-          timestamp,
+          timestamp: undefined,
           type: 'private',
         },
       ])
@@ -216,7 +215,7 @@ describe('ChatClient', () => {
 
       const spaceRoomMock = createRoomMock(spaceRoomId, {
         timelineEvents,
-        timestamp,
+        timestamp: undefined,
         name: spaceName,
         isSpaceRoom: true,
         stateEvents: [spaceSharedDataEvent],
@@ -224,7 +223,7 @@ describe('ChatClient', () => {
 
       const spaceChildRoomMock = createRoomMock(spaceChildRoomId, {
         timelineEvents,
-        timestamp,
+        timestamp: undefined,
         name: spaceChildName,
         stateEvents: [spaceChildSharedDataEvent, spaceParentEvent],
       })
@@ -232,7 +231,6 @@ describe('ChatClient', () => {
       const rooms = [spaceRoomMock, spaceChildRoomMock]
 
       rooms.forEach((room) => {
-        room.getLastActiveTimestamp.mockReturnValue(timestamp)
         room.getMyMembership.mockReturnValue(MembershipStatus.join)
         room.getUnreadNotificationCount.mockReturnValue(notificationCount)
       })
@@ -254,7 +252,7 @@ describe('ChatClient', () => {
         members: [],
         name: spaceName,
         notificationCount: notificationCount,
-        timestamp,
+        timestamp: undefined,
       })
 
       expect(chatRooms[1]).toStrictEqual({
@@ -268,7 +266,7 @@ describe('ChatClient', () => {
         members: [],
         name: spaceChildName,
         notificationCount: notificationCount,
-        timestamp,
+        timestamp: undefined,
       })
     })
   })

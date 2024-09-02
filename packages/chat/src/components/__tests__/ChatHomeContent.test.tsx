@@ -124,6 +124,8 @@ describe('ChatHomeContent Component', () => {
   })
 
   it('should render login info screen if the user is not logged-in', async () => {
+    mxClient.createMessagesRequest.mockResolvedValue({ start: 'start', end: 'end', chunk: [] })
+
     useLoginStateMock.mockReturnValue(loggedOut)
     render(
       <MockedProvider mocks={[]} addTypename={false} cache={createCache()}>
@@ -151,6 +153,7 @@ describe('ChatHomeContent Component', () => {
 
     mxClient.getRooms.mockReturnValue([roomMock])
     mxClient.roomState.mockResolvedValue([])
+    mxClient.createMessagesRequest.mockResolvedValue({ start: 'start', end: 'end', chunk: [] })
 
     render(
       <MockedProvider
@@ -194,6 +197,7 @@ describe('ChatHomeContent Component', () => {
     mxClient.getRooms.mockReturnValue([roomMock])
     mxClient.roomState.mockResolvedValue([])
     mxClient.getUserId.mockReturnValue(MEMBER1_FIXTURE.id)
+    mxClient.createMessagesRequest.mockResolvedValue({ start: 'start', end: 'end', chunk: [] })
 
     render(
       <MockedProvider
@@ -216,6 +220,8 @@ describe('ChatHomeContent Component', () => {
   })
 
   it('should render incoming rooms', async () => {
+    mxClient.createMessagesRequest.mockResolvedValue({ start: 'start', end: 'end', chunk: [] })
+
     useLoginStateMock.mockReturnValue(loggedIn(HOLI_MEMBER1_ID_FIXTURE))
 
     const spaceSharedDataEvent = createMatrixEventMock(ChatRoomEvent.SharedData, SPACE_ROOM_ID_FIXTURE, undefined, {
