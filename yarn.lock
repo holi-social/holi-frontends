@@ -4289,7 +4289,8 @@ __metadata:
     "@types/react": "npm:~18.2.79"
     apollo-link-timeout: "npm:^4.0.0"
     expo: "npm:~51.0.31"
-    expo-application: "npm:~5.9.1"
+    expo-application: "npm:^5.9.1"
+    expo-calendar: "npm:^13.0.5"
     expo-camera: "npm:~15.0.15"
     expo-constants: "npm:~16.0.2"
     expo-dev-client: "npm:~4.0.25"
@@ -15721,7 +15722,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-application@npm:~5.9.0, expo-application@npm:~5.9.1":
+"expo-application@npm:^5.9.1, expo-application@npm:~5.9.0":
   version: 5.9.1
   resolution: "expo-application@npm:5.9.1"
   peerDependencies:
@@ -15749,6 +15750,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10c0/445367b5e0f91c3420b52c041d3f7f246d513e47ae0e71e56f094f91767166d98358ccdd95bdd3fd3ab4fff3cb0de12c8042d2171cb451923ff6ab0398798e04
+  languageName: node
+  linkType: hard
+
+"expo-calendar@npm:^13.0.5":
+  version: 13.0.5
+  resolution: "expo-calendar@npm:13.0.5"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/8ec228f597df65b5e2b91d1ef68bccfe3bb425b20be9d64bbe9f825e9a14558b0dc4acedb3715393c5fc817b069ada8d3d7f3c73c0cea30e83aeffa64f621129
   languageName: node
   linkType: hard
 
