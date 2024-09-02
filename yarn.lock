@@ -4209,7 +4209,6 @@ __metadata:
     "@ory/kratos-client": "npm:^0.13.1"
     "@types/react": "npm:~18.2.45"
     "@types/tinycolor2": "npm:1.4.3"
-    expo-calendar: "npm:12.2.1"
     graphql: "npm:^16.3.0"
     graphql-config: "npm:^4.5.0"
     graphql-scalars: "npm:^1.21.3"
@@ -4223,6 +4222,7 @@ __metadata:
     "@react-navigation/native": ^6.0.13
     "@react-navigation/native-stack": ^6.9.1
     expo: ~51.0.31
+    expo-calendar: ^13.0.5
     expo-image-picker: ~15.0.7
     expo-linking: ~6.3.1
     graphql-request: ^7.1.0
@@ -15741,15 +15741,6 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10c0/aed3164cee4483e47fa56c8898384769d60ebb3f94553f7ad2a33a8902d73a1379aee3fc51833c8f0a4a59979ed842ba079e52c8e1903104b1ad312ad90fe1d1
-  languageName: node
-  linkType: hard
-
-"expo-calendar@npm:12.2.1":
-  version: 12.2.1
-  resolution: "expo-calendar@npm:12.2.1"
-  peerDependencies:
-    expo: "*"
-  checksum: 10c0/445367b5e0f91c3420b52c041d3f7f246d513e47ae0e71e56f094f91767166d98358ccdd95bdd3fd3ab4fff3cb0de12c8042d2171cb451923ff6ab0398798e04
   languageName: node
   linkType: hard
 
