@@ -59,11 +59,17 @@ describe('Chat Store - notifications', () => {
     // send the first message
     const { message: message1 } = sendMessageEvent(messageListener, roomMock, member.id, 1)
     act(() => unreadNotificationsListener({ highlight: 1, total: 1 }))
-    expect(result.current).toStrictEqual([{ ...room, notificationCount: 1 }, [message1]])
+    expect(result.current).toStrictEqual([
+      { ...room, notificationCount: 1, timestamp: message1.timestamp, lastMessage: message1 },
+      [message1],
+    ])
 
     // send the second message
     const { message: message2 } = sendMessageEvent(messageListener, roomMock, member.id, 2)
     act(() => unreadNotificationsListener({ highlight: 2, total: 2 }))
-    expect(result.current).toStrictEqual([{ ...room, notificationCount: 2 }, [message1, message2]])
+    expect(result.current).toStrictEqual([
+      { ...room, notificationCount: 2, timestamp: message2.timestamp, lastMessage: message2 },
+      [message1, message2],
+    ])
   })
 })

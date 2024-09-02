@@ -166,7 +166,7 @@ interface InitChatRoomOptions {
 
 export const initChatRoomFixture = (
   mxClient: jest.MockedObjectDeep<MatrixClient>,
-  { roomId = 'roomId', roomCreator = creator, roomMember = member, timestamp }: InitChatRoomOptions
+  { roomId = 'roomId', roomCreator = creator, roomMember = member, timestamp }: InitChatRoomOptions = {}
 ) => {
   const members = [roomCreator, roomMember]
   const roomMock = createRoomMock(roomId, {
