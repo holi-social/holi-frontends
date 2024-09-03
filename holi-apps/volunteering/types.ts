@@ -46,6 +46,8 @@ export type VolunteeringEngagement = {
   location?: string
   latitude?: number | null
   longitude?: number | null
+  matchedTopics?: string[]
+  matchedSkills?: string[]
 }
 
 export type VolunteeringFilterParams = {

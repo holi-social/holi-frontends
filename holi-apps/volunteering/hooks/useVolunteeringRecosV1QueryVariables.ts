@@ -1,25 +1,8 @@
-import { useQuery } from '@apollo/client'
-
-import { topicsQuery } from '@holi/core/domain/shared/queries'
-import { Skill, Term, Topic, TopicsQueryResult } from '@holi/core/domain/shared/types'
-import { logError } from '@holi/core/errors/helpers'
+import { useDefaultTopics } from '@holi/core/domain/shared/hooks'
+import { Skill, Term, Topic } from '@holi/core/domain/shared/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 import { VolunteeringRecosV1QueryVariables } from '@holi-apps/volunteering/queries'
-
-const useDefaultTopics = (): { defaultTopics: Topic[]; defaultTopicsLoading: boolean } => {
-  const { loading: defaultTopicsLoading, data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery, {
-    onError: (error) =>
-      logError(error, 'Failed to load topics', {
-        location: 'VolunteeringRecosV1.useDefaultTopics',
-      }),
-  })
-  const defaultTopics = (topicsData?.topics.data || []).filter((topic) => topic.isDiscoverSpacesDefault)
-  return {
-    defaultTopics,
-    defaultTopicsLoading,
-  }
-}
 
 interface VolunteeringRecosV1Parameters {
   topics?: Topic[]
