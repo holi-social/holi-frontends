@@ -4,8 +4,9 @@ import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import InfoModal from '@holi/core/components/InfoModal'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -121,9 +122,13 @@ export const VolunteeringEngagementList = ({
         )}
         <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}>
           <HoliGridWrapper>
-            {engagements.map((engagement) => (
+            {engagements.map((engagement, index) => (
               <HoliGridCell key={engagement.id}>
-                <HoliLink href={`/volunteering/${engagement.id}`} label={engagement.title}>
+                <HoliLinkTracked
+                  href={`/volunteering/${engagement.id}`}
+                  label={engagement.title}
+                  trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, index)}
+                >
                   <HoliCard
                     imageUri={engagement.imageUrl}
                     imageLabel={engagement.title ?? ''}
@@ -132,7 +137,7 @@ export const VolunteeringEngagementList = ({
                   >
                     <VolunteeringCardContent engagement={engagement} key={engagement.id} />
                   </HoliCard>
-                </HoliLink>
+                </HoliLinkTracked>
               </HoliGridCell>
             ))}
           </HoliGridWrapper>
