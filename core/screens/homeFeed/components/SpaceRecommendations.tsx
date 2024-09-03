@@ -1,6 +1,6 @@
 import { QueryHookOptions } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 
@@ -23,16 +23,15 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 
-const IMAGE_WIDTH = 480
-const IMAGE_HEIGHT = 320
-const CARD_WIDTH = 260
-
 interface SpaceRecommendationProps {
   space: SpaceCardFragment
   trackingEvent: TrackingEvent
+  cardWidth: number
 }
 
-const SpaceRecommendation = ({ space, trackingEvent }: SpaceRecommendationProps) => {
+const SpaceRecommendation = ({ space, trackingEvent, cardWidth }: SpaceRecommendationProps) => {
+  const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
+
   return (
     <View style={styles.cardContainer}>
       <HoliLinkTracked label={space.title} href={`/spaces/${space.name}`} isFullHeight trackingEvent={trackingEvent}>
@@ -41,8 +40,7 @@ const SpaceRecommendation = ({ space, trackingEvent }: SpaceRecommendationProps)
           key={space.id}
           imageLabel={space.title}
           imageUri={space.cover}
-          imageWidth={IMAGE_WIDTH}
-          imageHeight={IMAGE_HEIGHT}
+          imageWidth={cardWidth}
           caption={
             <HoliUserAvatarPile
               // FIXME: necessary cast until we update the HoliUserAvatarPile with types from `graphql-codegen`
@@ -76,9 +74,14 @@ const SpaceRecommendation = ({ space, trackingEvent }: SpaceRecommendationProps)
   )
 }
 
-const SpaceRecommendations = () => {
+type SpaceRecommendationsProps = {
+  cardWidth: number
+}
+
+const SpaceRecommendations = ({ cardWidth }: SpaceRecommendationsProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
 
   const queryOptions: QueryHookOptions = {
     variables: { limit: 5 },
@@ -116,6 +119,7 @@ const SpaceRecommendations = () => {
           <SpaceRecommendation
             space={item}
             trackingEvent={TrackingEvent.RecommendationPressed('space', item.id, index)}
+            cardWidth={cardWidth}
           />
         )}
         keyExtractor={(item) => item.id}
@@ -133,31 +137,32 @@ const SpaceRecommendations = () => {
 
 export default withProfiler(SpaceRecommendations, { name: 'SpaceRecommendations' })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 24,
-    paddingBottom: 10,
-  },
-  listContainer: {
-    flex: 1,
-    paddingLeft: 24,
-    paddingBottom: 12,
-    marginHorizontal: -20,
-  },
-  cardContainer: {
-    marginRight: 12,
-    width: CARD_WIDTH,
-  },
-  cardFooter: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'flex-start',
-    gap: 3,
-  },
-  moreCard: {
-    flex: 1,
-    width: CARD_WIDTH,
-    marginRight: 44,
-  },
-})
+const getStyles = (cardWidth: number) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: 24,
+      paddingBottom: 10,
+    },
+    listContainer: {
+      flex: 1,
+      paddingLeft: 24,
+      paddingBottom: 12,
+      marginHorizontal: -20,
+    },
+    cardContainer: {
+      marginRight: 12,
+      width: cardWidth,
+    },
+    cardFooter: {
+      flex: 1,
+      display: 'flex',
+      justifyContent: 'flex-start',
+      gap: 3,
+    },
+    moreCard: {
+      flex: 1,
+      width: cardWidth,
+      marginRight: 44,
+    },
+  })

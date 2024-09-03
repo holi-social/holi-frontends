@@ -23,9 +23,10 @@ export const PROJECT_PAGE_SIZE = 5
 interface DonationUpdatesProps {
   locationQuery?: string
   style?: StyleProp<ViewStyle>
+  cardWidth: number
 }
 
-const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
+const DonationUpdates = ({ locationQuery, style, cardWidth }: DonationUpdatesProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
@@ -69,6 +70,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
           />
         }
         trackingEvent={TrackingEvent.RecommendationPressed('donation', `${item.id}`, index)}
+        cardWidth={cardWidth}
       />
     )
   }
@@ -85,6 +87,7 @@ const DonationUpdates = ({ locationQuery, style }: DonationUpdatesProps) => {
       labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
       loading={loading || isReloading}
       style={style}
+      cardWidth={cardWidth}
     />
   )
 }

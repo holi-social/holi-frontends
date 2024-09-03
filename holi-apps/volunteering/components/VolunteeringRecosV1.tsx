@@ -3,6 +3,7 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
+import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -19,10 +20,13 @@ export const ENGAGEMENT_PAGE_SIZE = 5
 
 type VolunteeringRecosV1Props = {
   style?: StyleProp<ViewStyle>
+  cardWidth: number
 }
 
-const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ style }: VolunteeringRecosV1Props) => {
+const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ style, cardWidth }: VolunteeringRecosV1Props) => {
   const { queryVariables, loading: loadingQueryVariables = false } = useVolunteeringRecosV1QueryVariables()
+  const { topics, topicsLoading } = useTopics()
+  const { skills, skillsLoading } = useSkills()
 
   const { data, loading, refetch } = useQuery<VolunteeringRecosV1QueryResponse, VolunteeringRecosV1QueryVariables>(
     volunteeringRecosV1Query,
@@ -51,8 +55,11 @@ const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ style }: Volu
   return (
     <VolunteeringUpdatesList
       engagements={engagementsToRender}
-      loading={loading || reloading || loadingQueryVariables}
+      loading={loading || reloading || loadingQueryVariables || topicsLoading || skillsLoading}
       style={style}
+      cardWidth={cardWidth}
+      topics={topics}
+      skills={skills}
     />
   )
 }
