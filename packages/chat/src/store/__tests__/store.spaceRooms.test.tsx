@@ -43,7 +43,6 @@ describe('Chat Store - space rooms', () => {
   const childRoomId = 'aChildRoomId'
   const child2RoomId = 'aChild2RoomId'
   const notificationCount = 0
-  const timestamp = 1706715917444
 
   const creator: ChatRoomMember = {
     avatar: 'https://unsplash.com/photos/a-black-and-white-photo-of-a-diamond-vbPk2tB2HrU',
@@ -74,7 +73,7 @@ describe('Chat Store - space rooms', () => {
     const roomMock = createRoomMock(roomId, {
       name: 'name',
       members,
-      timestamp,
+      timestamp: undefined,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -85,7 +84,7 @@ describe('Chat Store - space rooms', () => {
     const childRoomMock = createRoomMock(childRoomId, {
       name: 'childName',
       members,
-      timestamp,
+      timestamp: undefined,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -96,7 +95,7 @@ describe('Chat Store - space rooms', () => {
     const child2RoomMock = createRoomMock(child2RoomId, {
       name: 'child2Name',
       members,
-      timestamp,
+      timestamp: undefined,
       timelineEvents: [],
       unreadNotificationCount: notificationCount,
       creatorId: creator.id,
@@ -119,9 +118,9 @@ describe('Chat Store - space rooms', () => {
     act(() => roomListener(childRoomMock))
     act(() => roomListener(child2RoomMock))
 
-    const room = createChatRoomResult(roomId, { name: 'name', creator, members, timestamp })
-    const childRoom = createChatRoomResult(childRoomId, { name: 'childName', creator, members, timestamp })
-    const child2Room = createChatRoomResult(child2RoomId, { name: 'child2Name', creator, members, timestamp })
+    const room = createChatRoomResult(roomId, { name: 'name', creator, members })
+    const childRoom = createChatRoomResult(childRoomId, { name: 'childName', creator, members })
+    const child2Room = createChatRoomResult(child2RoomId, { name: 'child2Name', creator, members })
 
     expect(store.get(result.current.roomAtomsRecord[roomId])).toStrictEqual(room)
     expect(store.get(result.current.roomAtomsRecord[childRoomId])).toStrictEqual(childRoom)

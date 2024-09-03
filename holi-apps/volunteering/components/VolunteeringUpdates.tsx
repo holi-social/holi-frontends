@@ -15,9 +15,10 @@ export const ENGAGEMENT_PAGE_SIZE = 5
 type VolunteeringUpdatesProps = {
   locationQuery?: string
   style?: StyleProp<ViewStyle>
+  cardWidth: number
 }
 
-const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: VolunteeringUpdatesProps) => {
+const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style, cardWidth }: VolunteeringUpdatesProps) => {
   const queryOptions: QueryHookOptions = {
     variables: {
       offset: 0,
@@ -39,7 +40,16 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style }: Volu
 
   const engagementsToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE)
 
-  return <VolunteeringUpdatesList engagements={engagementsToRender} loading={loading || reloading} style={style} />
+  return (
+    <VolunteeringUpdatesList
+      cardWidth={cardWidth}
+      engagements={engagementsToRender}
+      loading={loading || reloading}
+      style={style}
+      topics={[]}
+      skills={[]}
+    />
+  )
 }
 
 export default withProfiler(VolunteeringUpdates, { name: 'VolunteeringUpdates' })

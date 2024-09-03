@@ -13,10 +13,7 @@ import Image from './components/Image'
 import Skeleton from './components/Skeleton'
 import { BaseProps } from './types'
 
-const IMAGE_HEIGHT = 136
-const IMAGE_WIDTH = 311
-
-const Recommendation = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) => {
+const Recommendation = ({ loading, task, space, cardWidth }: PropsWithSkeleton<BaseProps> & { cardWidth: number }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -27,12 +24,7 @@ const Recommendation = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) 
   return (
     <HoliLink href={`/spaces/${space.name}/tasks/${task.id}`} label={task.name} isFullHeight>
       <HoliCardComponent.CardContainer hasBorder borderColor="gray200" borderRadius={16}>
-        <Image
-          imageUrl={task.thumbnail}
-          imageBlurhash={task.thumbnailBlurhash}
-          imageHeight={IMAGE_HEIGHT}
-          imageWidth={IMAGE_WIDTH}
-        >
+        <Image imageUrl={task.thumbnail} imageBlurhash={task.thumbnailBlurhash} imageWidth={cardWidth}>
           <View style={[styles.imageCaption, styles.spaceCaption]}>
             <SpaceAvatar space={space} size="micro" />
             <HoliText size="extrasmall" color="gray300">

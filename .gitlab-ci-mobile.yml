@@ -107,7 +107,7 @@ mobile_review_publish:
   needs: ['lint_compile_test']
   environment:
     name: review/$CI_COMMIT_REF_SLUG-mobile
-    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=$CI_COMMIT_REF_SLUG
+    url: https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/$CI_COMMIT_REF_SLUG
     on_stop: mobile_review_destroy
     auto_stop_in: 2 weeks
   variables:
@@ -118,6 +118,8 @@ mobile_review_publish:
     - /^noenv\/.*/
     - /^nomobile\/.*/
   allow_failure: false
+  after_script: |
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The mobile environment for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available/updated via https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/'${CI_COMMIT_REF_SLUG}'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
@@ -200,7 +202,7 @@ mobile_staging_publish:
   environment:
     name: mobile-staging
     deployment_tier: staging
-    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=staging
+    url: https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/staging
   variables:
     ENVIRONMENT_FILE: .env.staging
     EXPO_PUBLISH_RELEASE_CHANNEL: staging
@@ -262,15 +264,13 @@ mobile_production_publish:
   environment:
     name: mobile-production
     deployment_tier: production
-    url: https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel=production
+    url: https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/production
   variables:
     ENVIRONMENT_FILE: .env.production
     USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON: 'true'
   only:
     - production
   when: manual
-  after_script: |
-    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The mobile environment for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available/updated via https://expo.dev/@holistic-foundation/projectholi?serviceType=classic&distribution=expo-go&release-channel='${CI_COMMIT_REF_SLUG}'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 mobile_production_build_android:
   extends: .mobile_build

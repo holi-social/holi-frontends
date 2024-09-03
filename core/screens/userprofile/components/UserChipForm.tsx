@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   subline: {
     marginBottom: 24,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   input: {
     marginBottom: 16,

@@ -87,7 +87,6 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      flex: 1,
       zIndex: 2,
       gap: 8,
     },

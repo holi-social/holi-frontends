@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import type { ChatRoom, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent, isMsgTextContent } from '@holi/chat/src/client/utils'
-import { chatPartnerAtomCreator, setLatestMessagesAsRead } from '@holi/chat/src/store'
+import { chatPartnerAtomCreator, setLatestMessagesAsRead, useLastRoomMessage } from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
 import { getChatInitials, getChatMemberName, getDefaultAvatarColor, isMatrixId } from '@holi/chat/src/utils'
 import { User } from '@holi/core/domain/shared/types'
@@ -31,13 +31,15 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
   const { i18n, t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { id: roomId, name, hasInvitation, notificationCount, lastMessage, timestamp, members } = room
+  const { id: roomId, name, hasInvitation, notificationCount, members } = room
   const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
 
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceChildChatRoom(room)
   const roomName = isSpaceRoom ? room.content.spaceName : room.name
+
+  const lastMessage = useLastRoomMessage(room)
 
   const handleOnPress = async () => {
     await setLatestMessagesAsRead(roomId)
@@ -117,9 +119,9 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
                 <HoliText bold>{roomName}</HoliText>
               </View>
 
-              {!!timestamp && (
+              {!!lastMessage?.timestamp && (
                 <HoliText size="small" color={hasUnseenMessages ? 'brandB300' : 'gray300'}>
-                  {getDisplayDate(i18n.language, timestamp)}
+                  {getDisplayDate(i18n.language, lastMessage.timestamp)}
                 </HoliText>
               )}
             </View>

@@ -8,7 +8,6 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ContentType } from '@holi/core/queries'
 import CommentForm from '@holi/core/screens/comments/components/CommentForm'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import { CommentResponse, commentById } from '@holi/core/screens/comments/queries'
@@ -18,6 +17,7 @@ import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionCommentPageParams = {
   discussionId: string
@@ -35,6 +35,7 @@ const DiscussionCommentPage = () => {
   const [insightId] = useParam('insightId')
   const [commentId] = useParam('commentId')
   const { replaceRoute } = useRouting()
+  const { theme } = useTheme()
 
   const { data: { discussionById: discussion } = {} } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
@@ -70,6 +71,7 @@ const DiscussionCommentPage = () => {
     () =>
       setScreenOptions({
         title: t('comments.title'),
+        headerTransparent: false,
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -77,7 +79,7 @@ const DiscussionCommentPage = () => {
           <HeaderBackButton onPress={() => replaceRoute(`/insights/${insightId}/discussions/${discussionId}`)} />
         ),
       }),
-    [setScreenOptions, t, insightId, discussionId, replaceRoute]
+    [setScreenOptions, t, theme.colors.background10, insightId, discussionId, replaceRoute]
   )
 
   return (
@@ -105,12 +107,7 @@ const DiscussionCommentPage = () => {
 
         {!!comment && (
           <View style={styles.parentComment}>
-            <CommentView
-              comment={comment}
-              commentableId={discussion.id}
-              commentableType={CommentableType.DISCUSSION}
-              reportContentType={ContentType.POST_COMMENT}
-            />
+            <CommentView comment={comment} commentableId={discussion.id} commentableType={CommentableType.DISCUSSION} />
           </View>
         )}
       </CommentForm>

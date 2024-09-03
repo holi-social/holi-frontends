@@ -306,7 +306,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     style={
                       {
                         "alignItems": "flex-start",
-                        "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
                         "justifyContent": "space-between",
@@ -978,7 +977,6 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     style={
                       {
                         "alignItems": "flex-start",
-                        "flex": 1,
                         "flexDirection": "row",
                         "gap": 8,
                         "justifyContent": "space-between",

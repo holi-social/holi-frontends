@@ -5,7 +5,7 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import { Space, SpaceConnectionType, Task } from '@holi/core/screens/spaces/types'
 import { Delete, Edit2, Flag } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -28,6 +28,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ task, spa
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: task?.id || '',
+    contentType3k: ContentType3K.SPACE_TASK,
     contentType: ContentType.SPACE_TASK,
     successMsg: t('global.report.successMessage'),
   })

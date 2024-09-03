@@ -39,7 +39,6 @@ const useStoreMessagesAtomsTest = (roomId: string) => {
 
 describe('Chat Store - messages', () => {
   const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
-  const timestamp = 1706715917444
   let store: ReturnType<typeof createStore>
   let mxClient: jest.MockedObjectDeep<MatrixClient>
   let chatClient: ChatClient
@@ -52,11 +51,11 @@ describe('Chat Store - messages', () => {
     chatClient = createChatClient()
     initChatClient(chatClient)
     store = createStore()
-    ;({ roomMock, room, creator, member } = initChatRoomFixture(mxClient, { timestamp }))
+    ;({ roomMock, room, creator, member } = initChatRoomFixture(mxClient))
   })
 
   it('shoud receive messages in an existing room', () => {
-    const { roomMock, room, creator, member } = initChatRoomFixture(mxClient, { timestamp })
+    const { roomMock, room, creator, member } = initChatRoomFixture(mxClient)
 
     const { result } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
     const listener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
@@ -67,14 +66,20 @@ describe('Chat Store - messages', () => {
     expect(result.current).toStrictEqual([room, undefined])
 
     const { message: message1 } = sendMessageEvent(listener, roomMock, creator.id, 1)
-    expect(result.current).toStrictEqual([room, [message1]])
+    expect(result.current).toStrictEqual([
+      { ...room, lastMessage: message1, timestamp: message1.timestamp },
+      [message1],
+    ])
 
     const { message: message2 } = sendMessageEvent(listener, roomMock, member.id, 2)
-    expect(result.current).toStrictEqual([room, [message1, message2]])
+    expect(result.current).toStrictEqual([
+      { ...room, lastMessage: message2, timestamp: message2.timestamp },
+      [message1, message2],
+    ])
   })
 
   it('A new message with the same event id should replace existing message content', () => {
-    const { roomMock, room, creator, member } = initChatRoomFixture(mxClient, { timestamp })
+    const { roomMock, room, creator, member } = initChatRoomFixture(mxClient)
 
     const { result } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
     const listener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
@@ -85,13 +90,22 @@ describe('Chat Store - messages', () => {
     expect(result.current).toStrictEqual([room, undefined])
 
     const { message: message1 } = sendMessageEvent(listener, roomMock, creator.id, 1)
-    expect(result.current).toStrictEqual([room, [message1]])
+    expect(result.current).toStrictEqual([
+      { ...room, lastMessage: message1, timestamp: message1.timestamp },
+      [message1],
+    ])
 
     const { message: message2, event: event2 } = sendMessageEvent(listener, roomMock, creator.id, 2)
-    expect(result.current).toStrictEqual([room, [message1, message2]])
+    expect(result.current).toStrictEqual([
+      { ...room, lastMessage: message2, timestamp: message2.timestamp },
+      [message1, message2],
+    ])
 
     const { message: message3 } = sendMessageEvent(listener, roomMock, creator.id, 3)
-    expect(result.current).toStrictEqual([room, [message1, message2, message3]])
+    expect(result.current).toStrictEqual([
+      { ...room, lastMessage: message3, timestamp: message3.timestamp },
+      [message1, message2, message3],
+    ])
 
     const event2Duplicate = msgEvent(room.id, member.id, 4)
     event2Duplicate.event_id = event2.event_id
@@ -101,7 +115,10 @@ describe('Chat Store - messages', () => {
     const message2Duplicate = expectedMsgForEvent(event2Duplicate)
 
     // the last message and timestamp is not updated, because an existing message with an older timestamp is replaced
-    expect(result.current).toStrictEqual([room, [message1, message2Duplicate, message3]])
+    expect(result.current).toStrictEqual([
+      { ...room, lastMessage: message3, timestamp: message3.timestamp },
+      [message1, message2Duplicate, message3],
+    ])
   })
 
   it('Requesting room messages should update the store in bulk, but not the room', async () => {

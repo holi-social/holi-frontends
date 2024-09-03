@@ -15,16 +15,41 @@ export enum ContentType {
   SPACE_APPOINTMENT = 'SPACE_APPOINTMENT',
 }
 
+export enum ContentType3K {
+  POST = 'POST',
+  FEED_POST = 'FEED_POST',
+  COMMENT = 'COMMENT',
+  CHAT_MESSAGE = 'CHAT_MESSAGE',
+  SPACE = 'SPACE',
+  SPACE_TASK = 'SPACE_TASK',
+  SPACE_APPOINTMENT = 'SPACE_APPOINTMENT',
+  SPACE_LINKHUB_TOOL = 'SPACE_LINKHUB_TOOL',
+  USER = 'USER',
+}
+
 export const ReportContentMutation = gql`
-  mutation ReportContent($contentType: ContentType!, $description: String, $objectId: UUID!) {
-    reportContent(contentType: $contentType, description: $description, objectId: $objectId) {
+  mutation ReportContent(
+    $objectId: UUID!
+    $contentType: ContentType!
+    $moderationContentType: Moderation_ContentType!
+    $details: String!
+  ) {
+    reportContent(contentType: $contentType, objectId: $objectId) {
+      success
+    }
+    moderation_createReport(input: { contentId: $objectId, details: $details, contentType: $moderationContentType }) {
       success
     }
   }
 `
 
 export interface ReportContentResponse {
-  success: boolean
+  reportContent: {
+    success: boolean
+  }
+  moderation_createReport: {
+    success: boolean
+  }
 }
 
 // Block user query

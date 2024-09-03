@@ -6,11 +6,9 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { HoliCardComponent, ImageCaptionProps, ImageProps } from '@holi/ui/components/molecules/HoliCard'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type Variant = 'full' | 'recommendation' | 'list'
-
 export interface Props extends Pick<ImageProps, 'imageAspectRatio' | 'imageBlurhash' | 'imageWidth' | 'testID'> {
   imageUrl?: string
-  imageHeight: number
+  imageHeight?: number
   captionPosition?: ImageCaptionProps['position']
 }
 

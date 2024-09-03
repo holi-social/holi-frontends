@@ -10,11 +10,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Filter3 } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -58,17 +54,20 @@ const DonationsAppHome = () => {
   const setScreenOptions = useSetScreenOptions()
 
   useIsomorphicLayoutEffect(() => {
-    const searchButton = (
-      <HoliButton
-        label={t('donations:search.heading')}
-        inline
-        transparent
-        onPress={() => setShowSearchModal(true)}
-        testID="donations-search-button"
-      >
-        <HoliIcon icon={Filter3} />
-      </HoliButton>
-    )
+    // Filtering is disabled, because we can no longer filter by location on the Betterplace API.
+    // https://holi.atlassian.net/browse/HOLI-9717
+    // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
+    // const searchButton = (
+    //   <HoliButton
+    //     label={t('donations:search.heading')}
+    //     inline
+    //     transparent
+    //     onPress={() => setShowSearchModal(true)}
+    //     testID="donations-search-button"
+    //   >
+    //     <HoliIcon icon={Filter3} />
+    //   </HoliButton>
+    // )
 
     setScreenOptions({
       navigationCustomOptions: {
@@ -81,8 +80,8 @@ const DonationsAppHome = () => {
       ),
       headerTransparent: true,
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-      headerRight: () =>
-        Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
+      // headerRight: () =>
+      //   Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
     })
   }, [navigate, setScreenOptions, t, title])
 

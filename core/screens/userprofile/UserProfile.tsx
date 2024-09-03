@@ -20,9 +20,12 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ContentType } from '@holi/core/queries'
-import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
-import { InsightsByUserIdResponse } from '@holi/core/queries'
+import {
+  ContentType,
+  ContentType3K,
+  InsightsByUserIdResponse,
+  insightsByUserIdTotalResultsQuery,
+} from '@holi/core/queries'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
@@ -88,6 +91,7 @@ const UserProfile = () => {
   const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
   const [isLoadingReport, reportContent] = useReportContent({
     id: userId,
+    contentType3k: ContentType3K.USER,
     contentType: ContentType.USER,
     successMsg: t('global.report.successMessage'),
   })
