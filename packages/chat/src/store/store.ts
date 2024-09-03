@@ -1,7 +1,7 @@
 import { produce } from 'immer'
 import { type Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 import ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatState'
@@ -496,6 +496,70 @@ const messagesByRoomIdAtomCreator = (roomId: string) =>
   })
 
 /**
+ * @name lastMessageByRoomIdAtomCreator (Read-Only)
+ * @description A function that returns an atom of the last message for the given room id.
+ * @returns `Atom<ChatRoomMessage>` or `undefined` if the room or message does not exist.
+ */
+export const lastMessageByRoomIdAtomCreator = (roomId: string) =>
+  atom((get) => {
+    const roomMessagesAtomsRecord = get(_messagesAtomsRecordAtom)
+    const messagesAtom = roomMessagesAtomsRecord[roomId]
+    if (!messagesAtom) return undefined
+
+    const roomMessages = get(messagesAtom)
+    return roomMessages[roomMessages.length - 1]
+  })
+
+/**
+ * @name updateMessagesByRoomIdAtomCreator (Read-Only)
+ * @description A function that returns room update function to update last message.
+ * @returns `Atom<ChatRoomMessage[]>` or `undefined` if the room does not exist.
+ */
+export const updateLastMessagesByRoomIdAtomCreator = (roomId: string) =>
+  atom(null, (get, set, message: ChatRoomMessage) => {
+    const roomAtomsRecord = get(roomAtomsRecordAtom)
+    const roomAtom = roomAtomsRecord[roomId]
+
+    if (!roomAtom) return
+
+    set(roomAtom, (prevRoom) => updateRoomAfterNewMessage(prevRoom, message))
+  })
+
+/**
+ * @name useLastRoomMessage (Hook-Helper)
+ * @description Custom hook to fetch the valid last message of a room if it is not found in the Matrix room object.
+ * 'lastMessage' in ChatRoom object could be 'undefined' bacause we get only 4 events in the Matrix room initially
+ * and they could be invalid for our UI. So, we need to fetch the timeline and find a valid last message.
+ * @important Because room preview is disablesd on the Matrix server, we do not load timeline for rooms with invitations.
+ *
+ * @param room - ChatRoom object
+ */
+export const useLastRoomMessage = ({ id, lastMessage: lastMessageFromRoom, hasInvitation }: ChatRoom) => {
+  // try to get last message from store
+  const lastMessageFromTimeline = useAtomValue(useMemo(() => lastMessageByRoomIdAtomCreator(id), [id]))
+  const lastMessage = lastMessageFromRoom ?? lastMessageFromTimeline
+  const lastMessageNotFound = !lastMessage
+
+  // if last message is not found in the room object and in the stoer, we need to fetch messages
+  const requestMessages = useRequestRoomMessages()
+  useEffect(() => {
+    if (lastMessageNotFound && !hasInvitation) {
+      requestMessages(id, false)
+    }
+  }, [lastMessageNotFound, hasInvitation, requestMessages, id])
+
+  // update last message in the room object if it is found in the timeline and it is not in the room object
+  const updateLastMessageInRoom = useSetAtom(useMemo(() => updateLastMessagesByRoomIdAtomCreator(id), [id]))
+  const needToUpdateLastMessageInRoom =
+    !!lastMessage && (lastMessageFromTimeline?.timestamp ?? 0) > (lastMessageFromRoom?.timestamp ?? 1)
+  useEffect(() => {
+    needToUpdateLastMessageInRoom && updateLastMessageInRoom(lastMessage)
+  }, [lastMessage, needToUpdateLastMessageInRoom, updateLastMessageInRoom])
+
+  return lastMessage
+}
+
+/**
  * Messages Client Actions
  *
  **/
@@ -529,8 +593,7 @@ export const useRequestRoomMessages = () => {
   const isLoading = useRef(false)
 
   return useCallback(
-    (roomId: string, resync: boolean) => {
-      if (!client) return
+    async (roomId: string, resync: boolean, limit?: number) => {
       if (!roomId || !client) return
       if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
 
@@ -541,8 +604,8 @@ export const useRequestRoomMessages = () => {
         merge = false
       }
 
-      client
-        .createMessagesRequest(roomId, tokenRef.current.end)
+      await client
+        .createMessagesRequest(roomId, tokenRef.current.end, limit)
         .then(async (resp) => {
           const { chunk: roomEvents, start, end } = resp
           setMessages(roomId, roomEvents, merge)

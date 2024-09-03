@@ -34,8 +34,11 @@ test.describe('@Donations', () => {
     await clickElementByTestId(page, 'nav-button-back')
     await page.waitForSelector(byTestId('donations-list-container'))
 
-    await testFilterDonationsByLocationAndResetFilter(browser, page)
-    await testDisplaysDetailsOfFilterResults(page)
+    // Filtering is disabled, because we can no longer filter by location on the Betterplace API.
+    // https://holi.atlassian.net/browse/HOLI-9717
+    // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
+    // await testFilterDonationsByLocationAndResetFilter(browser, page)
+    // await testDisplaysDetailsOfFilterResults(page)
   })
 })
 

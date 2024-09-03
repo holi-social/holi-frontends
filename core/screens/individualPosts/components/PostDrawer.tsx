@@ -8,7 +8,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { ContentType } from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
@@ -36,6 +36,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: post?.id || '',
+    contentType3k: ContentType3K.FEED_POST,
     contentType: ContentType.FEED_POST,
     successMsg: t('global.report.successMessage'),
   })

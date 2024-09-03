@@ -1,18 +1,8 @@
 import React, { useMemo } from 'react'
-import {
-  FlatList,
-  GestureResponderEvent,
-  ListRenderItem,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native'
+import { FlatList, GestureResponderEvent, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { calculateCardWidth } from '@holi/core/screens/appsHub/components/AppUpdatesItem'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -36,7 +26,7 @@ type AppUpdatesListProps = {
   loading?: boolean
   style?: StyleProp<ViewStyle>
   testID?: string
-  cardWidth?: number
+  cardWidth: number
 }
 
 const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
@@ -51,13 +41,11 @@ const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
   loading,
   style,
   testID,
-  cardWidth: overrideCardWidth,
+  cardWidth,
 }: AppUpdatesListProps) => {
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const { colors } = theme
-  const { width: screenWidth } = useWindowDimensions()
-  const cardWidth = overrideCardWidth || calculateCardWidth(screenWidth)
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
 
   const handleHeaderTitlePress = () => {

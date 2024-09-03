@@ -1,7 +1,6 @@
 import { TFunction } from 'i18next'
 import {
   ClientEvent,
-  EventTimeline,
   EventType,
   type IContent,
   type IEvent,
@@ -255,10 +254,10 @@ export function createBaseChatRoom(
     members: room
       .getMembers()
       .map((member) => createChatMember(member, member.getAvatarUrl(homeserverUrl, 500, 500, 'scale', true, true))),
-    timestamp:
-      room.getLastActiveTimestamp() > 0
-        ? room.getLastActiveTimestamp()
-        : room.getLiveTimeline().getState(EventTimeline.FORWARDS)?.getStateEvents(EventType.RoomCreate, '')?.getTs(),
+    // Do not use `room.getLastActiveTimestamp()` because it can return Membership 'm.room.member' events
+    // where only content (user avatar or displayname) was updated, but membership remains the same.
+    // instead use the last message timestamp directly
+    timestamp: lastMessage?.timestamp,
   }
 }
 

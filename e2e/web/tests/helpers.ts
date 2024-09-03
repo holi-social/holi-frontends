@@ -31,6 +31,11 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
   return clickFirstElement(await locateElementByTestId(page, testId, nth))
 }
 
+export const scrollToMakeHeaderVisible = async (page: Page): Promise<void> =>
+  page.evaluate(() =>
+    window.scrollBy({ top: 5 })
+  )
+
 /*
  * Only use for text that is provided by the test (fixture)
  */

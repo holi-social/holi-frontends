@@ -69,7 +69,9 @@ You need to install [Appium](https://appium.io/docs/en/about-appium/getting-star
 When appium-doctor is successful, you can run appium:
 
 6. run `appium`
-7. On some systems it might be necessary to add `export APPIUM_PATH='/wd/hub'` to the `.envrc.local` file (if you see errors like `No route found for /session` while executing the tests).
+7. On some systems it might be necessary to add `export APPIUM_PATH='/wd/hub'` to the `.envrc.local` file (if you see errors like `No route found for /session` while executing the tests) and also pass this to `appium` as `base-path`:
+
+    `appium --base-path $APPIUM_PATH`
 
 ### Local Test Execution Against Expo Dev Mode
 
@@ -91,7 +93,7 @@ For [Android](#android) there is a script that takes care of starting the applic
 
 2. run `yarn workspace @holi/e2e-mobile prepare:android`
 
-   This script starts and maybe creates an emulator if necessary, runs `appium` and starts the mobile application locally (using the staging backend).
+   This script starts and maybe creates an emulator if necessary and runs `appium`. You still need to start the mobile application locally (using `mprocs` from `holi-meta` would be recommended).
 
    If the emulator is run for the first time, Expo Go might open some onboarding layer that should be clicked away.
 

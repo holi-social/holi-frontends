@@ -147,6 +147,7 @@ const getStyles = (theme: HoliTheme) =>
       ...Platform.select({
         web: {
           marginHorizontal: 'auto',
+          minHeight: '100%',
         },
       }),
     },

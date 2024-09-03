@@ -1,16 +1,14 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -22,81 +20,29 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
+import VolunteeringFilterFormDiscoveryV1 from '@holi-apps/volunteering/components/VolunteeringFilterFormDiscoveryV1'
 import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
-import { VolunteeringFilterParams, VolunteeringFilters } from '@holi-apps/volunteering/types'
-
-const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilterParams>()
+import VolunteeringListingDiscoveryV1 from '@holi-apps/volunteering/components/VolunteeringListingDiscoveryV1'
+import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
+import { useVolunteeringDiscoveryVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 
 const VolunteeringAppHome = () => {
-  const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
   const { t } = useTranslation()
   const title = t('volunteering:app.name')
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const discoveryVariant = useVolunteeringDiscoveryVariant()
+  const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
   const [showFilterModal, setShowFilterModal] = useState(false)
-
-  const [location] = useParam('location', singleParamConfig)
-  const [category] = useParam('category', singleParamConfig)
-  const updateParams = useUpdateParams(webReplaceQueryConfig)
-  const { geolocationDetails, geolocationError, loadingGeolocation } = useGeolocationDetails(location)
-  const initialLocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {
-    return (
-      geolocationDetails && {
-        ...geolocationDetails,
-        label: geolocationDetails.name,
-      }
-    )
-  }, [geolocationDetails])
-  const [filters, setFilters] = useState({ location: initialLocationSelection, category })
-  const loadingFilters = loadingGeolocation || (!!location && !geolocationDetails && !geolocationError)
-  const isFiltering = !!(location || category)
-
   const closeModal = useCallback(() => {
     setShowFilterModal(false)
   }, [])
 
-  const submit = useCallback(
-    (filters?: VolunteeringFilters) => {
-      setFilters({ location: filters?.location, category: filters?.category })
-      updateParams({ location: filters?.location?.id, category: filters?.category })
-      closeModal()
-    },
-    [updateParams, closeModal]
-  )
-
-  const clearParamsFromUrl = useCallback(
-    () =>
-      updateParams({
-        location: undefined,
-        category: undefined,
-      }),
-    [updateParams]
-  )
-
-  const clearFilters = useCallback(() => {
-    setFilters({ location: undefined, category: undefined })
-    clearParamsFromUrl()
-  }, [clearParamsFromUrl])
-
-  useEffect(() => {
-    if (loadingFilters) {
-      return
-    }
-    if (geolocationDetails || category) {
-      setFilters({
-        location: geolocationDetails && {
-          ...geolocationDetails,
-          label: geolocationDetails.name,
-        },
-        category,
-      })
-    } else {
-      setFilters({ location: undefined, category: undefined })
-    }
-  }, [location, category, geolocationDetails, loadingGeolocation, loadingFilters])
+  const { submit, filters, clearFilters, isFiltering, loadingGeolocation, geolocationError } =
+    useVolunteeringFilters(closeModal)
 
   useIsomorphicLayoutEffect(() => {
     const filterButton = (
@@ -129,21 +75,16 @@ const VolunteeringAppHome = () => {
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, styles.dot])
 
-  useEffect(() => {
-    if (geolocationError) {
-      displayError(geolocationError, 'Failed to load geolocation details', {
-        displayMessage: t('volunteering:listing.error'),
-        location: 'VolunteeringAppHome.useEffect',
-        locationId: location,
-      })
-    }
-  }, [displayError, geolocationError, location, t])
+  const ListComponent = discoveryVariant === 'discoveryV1' ? VolunteeringListingDiscoveryV1 : VolunteeringListing
+  const FilterFormComponent =
+    discoveryVariant === 'discoveryV1' ? VolunteeringFilterFormDiscoveryV1 : VolunteeringFilterForm
 
   return (
     <ScrollHeaderLayout
       style={styles.defaultLayout}
       testID="volunteering-list-container"
       keyboardShouldPersistTaps="handled"
+      onScroll={onScreenScroll}
     >
       <HoliModal
         show={showFilterModal}
@@ -153,26 +94,27 @@ const VolunteeringAppHome = () => {
         autoHeight={false}
         relativeHeight={1}
       >
-        <VolunteeringFilterForm
-          onSubmit={submit}
-          filters={filters}
-          clearFilters={clearFilters}
-          initialLocationSelection={initialLocationSelection}
-        />
+        <FilterFormComponent onSubmit={submit} filters={filters} clearFilters={clearFilters} />
       </HoliModal>
 
-      <VolunteeringListing
+      <ListComponent
         filters={filters}
         clearFilters={clearFilters}
         isFiltering={isFiltering}
-        loadingFilters={loadingFilters}
-        filterError={!!geolocationError}
+        loadingFilters={loadingGeolocation}
+        loadingFiltersFailed={!!geolocationError}
       />
     </ScrollHeaderLayout>
   )
 }
 
 const WrappedVolunteeringAppHome = () => {
+  const discoveryV1Toggle = useFeatureFlagToggle(FeatureFlagKey.VOLUNTEERING_DISCOVERY_V1)
+
+  if (discoveryV1Toggle) {
+    return <VolunteeringAppHome />
+  }
+
   return (
     <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering:maintenance.feature">
       <VolunteeringAppHome />

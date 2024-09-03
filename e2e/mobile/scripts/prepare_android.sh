@@ -8,8 +8,7 @@ trap "echo 'stopping all' && kill 0" EXIT
 echo 'starting or connecting to emulator...'
 ./scripts/run_android_emulator.sh &
 
-echo 'starting appium...'
-npx appium &
+echo 'You should start your local env using mprocs'
 
-echo 'starting local env...'
-HOLI_API_URL=https://staging.unified.apis.holi.social/graphql yarn workspace @holi/mobile android
+echo 'starting appium...'
+npx appium -p ${APPIUM_PORT:-4723} --base-path ${APPIUM_PATH:-/}

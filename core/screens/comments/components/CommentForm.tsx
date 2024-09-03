@@ -1,8 +1,7 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { PropsWithChildren, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  DimensionValue,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -11,6 +10,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { User } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
@@ -30,13 +30,10 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { useKeyboard } from '@holi/ui/helper'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
@@ -55,17 +52,13 @@ const CommentForm = ({
   children,
 }: CommentFormProps) => {
   const [text, setText] = useState('')
-  const [scrollContentHeight, setScrollContentHeight] = useState(0)
-  const [maxViewPortHeight, setMaxViewPortHeight] = useState(0)
-  const scrollViewRef = useRef<ScrollView>(null)
   const { navigateBack, replaceRoute } = useRouting()
-  const { keyboardHeight } = useKeyboard()
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { openToast } = useToast()
   const { height: screenHeight } = useWindowDimensions()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
+  const insets = useSafeAreaInsets()
 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
@@ -127,94 +120,63 @@ const CommentForm = ({
 
   const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
-  /**
-   * The view should:
-   * - scroll input field into viewport (with open keyboard)
-   * - scroll down when input field increases
-   * - leave scrolling space to show 5 suggestions below
-   * - prevent double scrollbars in web (no main page scrolling)
-   */
-  const scrollIntoView = useCallback(() => {
-    if (Platform.OS === 'web') {
-      scrollViewRef.current?.scrollToEnd({ animated: true })
-    } else {
-      const paddingTop = screenHeight < SMALL_DEVICE_HEIGHT ? 50 : 20
-      if (scrollContentHeight <= 0) return
-      requestAnimationFrame(() =>
-        scrollViewRef.current?.scrollTo({
-          animated: true,
-          y:
-            scrollContentHeight -
-            keyboardHeight -
-            SUGGESTIONS_DROPDOWN_HEIGHT +
-            SUBMIT_BUTTON_CONTAINER_HEIGHT -
-            paddingTop,
-        })
-      )
-    }
-  }, [scrollContentHeight, keyboardHeight, screenHeight])
-
-  useEffect(scrollIntoView, [scrollContentHeight, scrollIntoView])
-  useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
-
-  const onHeightChange = useCallback((newContainerHeight: number) => {
-    const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
-    setMaxViewPortHeight(newScrollViewHeight)
-  }, [])
-
   return (
     <HoliContainer noPadding>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.pageView}
+        keyboardVerticalOffset={dimensions.topBarHeight + insets.top}
+      >
         <SafeAreaView style={styles.safeArea}>
-          <HoliKeyboardSaveView onHeightChange={onHeightChange}>
-            <ScrollView onContentSizeChange={scrollIntoView} ref={scrollViewRef} style={styles.scrollView}>
-              <View onLayout={(event) => setScrollContentHeight(event.nativeEvent?.layout?.height)}>
-                {children}
+          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled">
+            <View>
+              {children}
 
-                {/* Comment input block */}
-                <View style={mixins.container}>
-                  {!parentComment && <VerticalLine style={styles.verticalLine} />}
+              {/* Comment input block */}
+              <HoliContainer>
+                {!parentComment && <VerticalLine style={styles.verticalLine} />}
 
-                  <View style={styles.inputContainer}>
-                    <HoliAvatar
-                      imageSrc={user.avatar}
-                      imageBlurhash={user.avatarBlurhash}
-                      label={user.fullName || t('user.profileView.anonymous')}
-                      initials={user.avatarLabel || ''}
-                      defaultColor={user.avatarDefaultColor || ''}
-                      size={parentComment ? 'micro' : 'small'}
-                    />
-                    <HoliRichTextInput
-                      placeholder={t('comments.placeholder')}
-                      autofocus={true}
-                      onChange={setText}
-                      style={styles.textInput}
-                      testID="post-comment"
-                      showCharacterCount={true}
-                      maxNoOfCharacters={1500}
-                      maxSuggestionOptions={30}
-                      // initialValue is not yet supported on web
-                      {...(Platform.OS !== 'web' && parentComment && parentComment?.creator?.id !== user?.id
-                        ? {
-                            initialValue: ' ', // empty space after the parent comment's user mention
-                            initialSelectedSuggestion: {
-                              id: parentComment.creator.id,
-                              name: parentComment.creator.fullName,
-                            },
-                          }
-                        : {})}
-                    />
-                  </View>
+                <View style={styles.inputContainer}>
+                  <HoliAvatar
+                    imageSrc={user.avatar}
+                    imageBlurhash={user.avatarBlurhash}
+                    label={user.fullName || t('user.profileView.anonymous')}
+                    initials={user.avatarLabel || ''}
+                    defaultColor={user.avatarDefaultColor || ''}
+                    size={parentComment ? 'micro' : 'small'}
+                  />
+                  <HoliRichTextInput
+                    placeholder={t('comments.placeholder')}
+                    autofocus={true}
+                    onChange={setText}
+                    style={styles.textInput}
+                    testID="post-comment"
+                    showCharacterCount={true}
+                    maxNoOfCharacters={1500}
+                    maxSuggestionOptions={30}
+                    // initialValue is not yet supported on web
+                    {...(Platform.OS !== 'web' && parentComment && parentComment?.creator?.id !== user?.id
+                      ? {
+                          initialValue: ' ', // empty space after the parent comment's user mention
+                          initialSelectedSuggestion: {
+                            id: parentComment.creator.id,
+                            name: parentComment.creator.fullName,
+                          },
+                        }
+                      : {})}
+                  />
                 </View>
-              </View>
-            </ScrollView>
+              </HoliContainer>
+            </View>
+          </ScrollView>
 
-            {/* Bottom Bar */}
-            <View style={[styles.bottomBar]}>
-              {/* Suggestions*/}
-              <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
+          {/* Bottom Bar */}
+          <View style={styles.bottomBar}>
+            {/* Suggestions*/}
+            <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
 
-              <View style={[styles.buttonContainer, mixins.container]}>
+            <HoliContainer>
+              <View style={styles.buttonContainer}>
                 <HoliButton
                   disabled={!text.trim().length || createCommentLoading}
                   label={t('comments.button')}
@@ -239,8 +201,8 @@ const CommentForm = ({
                   {t('comments.button')}
                 </HoliButton>
               </View>
-            </View>
-          </HoliKeyboardSaveView>
+            </HoliContainer>
+          </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
     </HoliContainer>
@@ -260,9 +222,7 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       overflow: 'hidden',
       ...Platform.select({
         web: {
-          paddingTop: dimensions.topBarHeight,
-          height: '100vh' as DimensionValue,
-          marginHorizontal: 'auto',
+          paddingBottom: dimensions.bottomBarHeight + Spacing.lg,
         },
       }),
     },
@@ -300,6 +260,15 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       borderTopWidth: 1,
       borderTopColor: theme.colors.background30,
       backgroundColor: theme.colors.background10,
+      ...Platform.select({
+        web: {
+          marginHorizontal: 'auto',
+          width: '100%',
+          alignSelf: 'center',
+          position: 'fixed',
+          bottom: 0,
+        },
+      }),
     },
     suggestionsScrollView: {
       zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
@@ -335,12 +304,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       justifyContent: 'center',
       alignItems: 'flex-end',
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-      ...Platform.select({
-        web: {
-          maxWidth: dimensions.maxScreenWidth,
-          marginHorizontal: 'auto',
-        },
-      }),
     },
   })
 

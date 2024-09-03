@@ -23,9 +23,10 @@ export const GOOD_NEWS_PAGE_SIZE = 5
 type GoodNewsUpdatesProps = {
   locationQuery?: string
   style?: StyleProp<ViewStyle>
+  cardWidth: number
 }
 
-const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpdatesProps) => {
+const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style, cardWidth }: GoodNewsUpdatesProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
 
@@ -58,6 +59,7 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpda
         imageSourceUri={item.pictureUrl}
         footer={formattedDate}
         trackingEvent={TrackingEvent.RecommendationPressed('goodnews', item.id, index)}
+        cardWidth={cardWidth}
       />
     )
   }
@@ -74,6 +76,7 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style }: GoodNewsUpda
       labelSeeMore={t('goodnews:goodnewsListing.loadMoreButton.text')}
       loading={loading || isReloading}
       style={style}
+      cardWidth={cardWidth}
     />
   )
 }
