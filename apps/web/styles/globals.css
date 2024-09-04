@@ -1,4 +1,5 @@
 @import url('@holi/ui/assets/fonts/CircularStd/style.css');
+@import url('@holi/ui/assets/fonts/InstrumentSans/style.css');
 @import url('@holi/ui/styles/globalVars/styles.css');
 @import url('@holi/web/styles/common.css');
 
@@ -64,6 +65,7 @@ button {
   -moz-appearance: none;
   border-width: thin;
   transition: 0.2s;
+  font-family: var(--font-family-web);
 
   user-select: none;
 
@@ -87,16 +89,17 @@ li {
   padding: 0;
 }
 
-[role='checkbox']:focus-visible > div:only-child {
+[role='checkbox']:focus-visible>div:only-child {
   border: solid 1px var(--brandColorB30) !important;
 }
 
 /* "data-stepper-wrapper" is our custom data-set attributes for HoliStepper childe nodes
 set 100% height for next three levels of children */
 [data-stepper-wrapper='true'] {
-  & > *,
-  & > * > *,
-  & > * > * > * {
+
+  &>*,
+  &>*>*,
+  &>*>*>* {
     height: 100%;
   }
 }
