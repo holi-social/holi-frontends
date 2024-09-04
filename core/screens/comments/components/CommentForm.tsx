@@ -1,7 +1,8 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import React, { PropsWithChildren, useMemo, useState } from 'react'
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -10,6 +11,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native'
+import { LayoutChangeEvent } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { User } from '@holi/core/domain/shared/types'
@@ -59,6 +61,10 @@ const CommentForm = ({
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
   const insets = useSafeAreaInsets()
+
+  const [scrollContentHeight, setScrollContentHeight] = useState(0)
+
+  const scrollViewRef = useRef<ScrollView>(null)
 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
@@ -120,6 +126,28 @@ const CommentForm = ({
 
   const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true })
+  }, [scrollContentHeight])
+
+  const onLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      setScrollContentHeight(event.nativeEvent.layout.height)
+    },
+    [setScrollContentHeight]
+  )
+
+  const onKeyboardDidShow = useCallback(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true })
+  }, [])
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', onKeyboardDidShow)
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidShow')
+    }
+  }, [onKeyboardDidShow])
+
   return (
     <HoliContainer noPadding>
       <KeyboardAvoidingView
@@ -128,7 +156,7 @@ const CommentForm = ({
         keyboardVerticalOffset={dimensions.topBarHeight + insets.top}
       >
         <SafeAreaView style={styles.safeArea}>
-          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled">
+          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled" ref={scrollViewRef}>
             <View>
               {children}
 
@@ -146,6 +174,7 @@ const CommentForm = ({
                     size={parentComment ? 'micro' : 'small'}
                   />
                   <HoliRichTextInput
+                    onLayout={onLayout}
                     placeholder={t('comments.placeholder')}
                     autofocus={true}
                     onChange={setText}

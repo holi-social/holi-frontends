@@ -9,6 +9,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
+import { LayoutChangeEvent } from 'react-native'
 import { MentionInput, MentionSuggestionsProps, PartType, Suggestion } from 'react-native-controlled-mentions'
 
 import { UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
@@ -45,6 +46,7 @@ export type HoliRichTextInputProps = {
   mentions?: User[]
   isEdit?: boolean
   scrollEnabled?: boolean
+  onLayout?: (event: LayoutChangeEvent) => void
 }
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
@@ -210,7 +212,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   }
 
   return (
-    <View style={props.style} testID={props.testID || 'richtext-component'}>
+    <View style={props.style} testID={props.testID || 'richtext-component'} onLayout={props.onLayout}>
       <MentionInput
         inputRef={inputRef}
         value={value}
