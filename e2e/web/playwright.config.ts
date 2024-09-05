@@ -7,15 +7,10 @@ import { devices } from '@playwright/test'
 import dotenv from 'dotenv'
 
 // Load environment variables from .envrc file (or you can specify .env if needed)
-dotenv.config({ path: '.env.staging' }
+dotenv.config({ path: '/holi-meta/holi-frontends/.env.staging' })
 
-  
-
-)
-/*env variable set for absolute path*/
-require('dotenv').config({ path: '/Users/hanzlasajid/holi-meta/holi-frontends/.env.staging' })
-
-
+/*Ensures env variable is set from .env.staging file. This is to setup E2E user properly for staging*/
+require('dotenv').config({ path: '/holi-meta/holi-frontends/.env.staging'})
 const baseURL = process.env.BASE_URL || 'https://staging.dev.holi.social'
 
 /**
