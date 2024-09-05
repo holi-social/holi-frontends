@@ -56,6 +56,7 @@ const EditUploadedImages = ({
                     label: t('individuals.post.images.addImage'),
                     inline: true,
                     type: 'secondary',
+                    variant: 'small',
                   }}
                   onPickImages={(newImages) => setImages([...images, ...newImages])}
                 >
@@ -71,6 +72,7 @@ const EditUploadedImages = ({
                       setImages([])
                       setCurrentImages?.([])
                     }}
+                    variant="small"
                   >
                     <HoliText>{t('individuals.post.images.removeAll')}</HoliText>
                     <HoliIcon icon={Delete} style={styles.buttonIcon} />
