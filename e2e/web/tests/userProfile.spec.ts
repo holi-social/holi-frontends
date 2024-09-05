@@ -22,7 +22,8 @@ test.describe('@Profile', () => {
 
     await testDisplaysProfileDetails(otherPage)
 
-    //await checkAccessibility(otherPage)
+    //FIXME: AssertionError: 1 accessibility violation was detected in the following line
+    await checkAccessibility(otherPage)
     await clickElementByTestId(otherPage, 'btn-open-profile-edit-view')
     // wait until modal is opened
     await otherPage.locator('[role="dialog"]').waitFor()
@@ -44,7 +45,7 @@ test.describe('@Profile', () => {
       clickElementByTestId(otherPage, 'user-profile-edit-form-close-btn'),
     ])
 
-    await expect // This takes a while to load
+    await expect
       .poll(async () => await otherPage.textContent(byTestId('user-profile-full-name')))
       .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
 
