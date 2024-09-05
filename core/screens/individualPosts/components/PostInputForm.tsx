@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import FormWrapper from '@holi/core/components/FormWrapper'
 import { Term, User } from '@holi/core/domain/shared/types'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
@@ -23,6 +22,7 @@ import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Global, HoliLogoFilled } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -151,11 +151,9 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   const handleLocationChange = (selected?: GeolocationSuggestion) => {
     selected ? onChangeSelectedLocation(selected) : onChangeSelectedLocation(null)
-  }
-
-  const onSaveLocation = () => {
-    handleLocationChange(selectedLocation)
-    hideLocationModal()
+    if (selected) {
+      hideLocationModal()
+    }
   }
 
   return (
@@ -326,41 +324,43 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         onDismiss={hideLocationModal}
         testID="post-location-input"
         style={styles.modal}
+        relativeHeight={1}
       >
-        <FormWrapper
-          isModal
-          onSave={onSaveLocation as () => Promise<unknown>}
-          keyboardShouldPersistTaps="handled"
-          showCancelButton
-          onCancel={hideLocationModal}
-          showBottomBar
-          saveButtonDisabled={!selectedLocation}
-          style={styles.modal}
-          renderProp={() => (
-            <>
-              <View style={styles.locationContainer}>
+        <View style={styles.locationWrapper}>
+          <HoliContainer>
+            <View style={styles.locationContainer}>
+              <View style={styles.locationHeader}>
                 <HoliHeading level="1" size="m">
                   {t('individuals.post.input.location.title')}
                 </HoliHeading>
-                <HoliText color="gray300" size="small">
-                  {t('individuals.post.input.location.description')}
-                </HoliText>
+                <HoliButton
+                  type="secondary"
+                  inline
+                  variant="small"
+                  label={t('global.done')}
+                  onPress={hideLocationModal}
+                >
+                  <HoliText>{t('global.done')}</HoliText>
+                </HoliButton>
               </View>
-              <PlacesAutocomplete
-                label={t('individuals.post.input.location')}
-                placeholder={t('spaces.input.location.placeholder')}
-                selected={selectedLocation}
-                id="post-location-input"
-                testID="post-location-input"
-                onChange={handleLocationChange}
-                style={[styles.input, { zIndex: 2 }]}
-                inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
-                suggestionsStyle={styles.suggestionsContainer}
-                enhanceWithDetails
-              />
-            </>
-          )}
-        />
+              <HoliText color="gray300" size="small">
+                {t('individuals.post.input.location.description')}
+              </HoliText>
+            </View>
+            <PlacesAutocomplete
+              label={t('individuals.post.input.location')}
+              placeholder={t('spaces.input.location.placeholder')}
+              selected={selectedLocation}
+              id="post-location-input"
+              testID="post-location-input"
+              onChange={handleLocationChange}
+              style={[styles.input, { zIndex: 2 }]}
+              inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
+              suggestionsStyle={styles.suggestionsContainer}
+              enhanceWithDetails
+            />
+          </HoliContainer>
+        </View>
       </HoliModal>
 
       <HoliModal
@@ -501,6 +501,15 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       gap: 8,
       paddingBottom: 24,
+    },
+    locationHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    locationWrapper: {
+      height: '100%',
+      paddingTop: Spacing.xs,
     },
     modal: {
       backgroundColor: theme.colors.background20,
