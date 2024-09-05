@@ -2,7 +2,19 @@ import type { PlaywrightTestConfig } from '@playwright/test'
 import { devices } from '@playwright/test'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: '.envrc' })
+// require('dotenv').config({ path: '.envrc' })
+
+import dotenv from 'dotenv'
+
+// Load environment variables from .envrc file (or you can specify .env if needed)
+dotenv.config({ path: '.env.staging' }
+
+  
+
+)
+/*env variable set for absolute path*/
+require('dotenv').config({ path: '/Users/hanzlasajid/holi-meta/holi-frontends/.env.staging' })
+
 
 const baseURL = process.env.BASE_URL || 'https://staging.dev.holi.social'
 

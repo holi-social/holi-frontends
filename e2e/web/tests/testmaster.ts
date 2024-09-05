@@ -1,5 +1,5 @@
 import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/test'
-
+import { retryGoto } from './helpers'
 import { denyConsent, withRandomUserSession } from './helpers'
 import { User, deleteAuthenticatedAccount, signUp } from './helpers/api'
 
@@ -45,7 +45,23 @@ export class SessionHandler {
     this.signInContexts.push(context)
 
     const newPage = await context.newPage()
-    await newPage.goto('/')
+    //Introduced exception handling if first attempt to hit the server does not succeed
+    try {
+      // First attempt to navigate normally
+      await newPage.goto('/')
+    } catch (error) {
+      if (error instanceof Error) 
+        {
+        console.error(`Initial navigation to '/' failed: ${error.message}`)
+        } 
+      else 
+      {
+        console.error(`Initial navigation to '/' failed with an unknown error.`)
+      }
+      
+      // If the initial attempt fails, fall back to retry logic
+      await retryGoto(newPage, '/')
+    }
     await denyConsent(newPage)
 
     return {

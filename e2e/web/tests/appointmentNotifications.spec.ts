@@ -1,8 +1,6 @@
 import { Page, expect } from '@playwright/test'
-
 import { randomSpaceName } from '@holi/e2e-web/tests/helpers/fixtures'
-
-import { clickElementByTestId, locateElementByTestId, retry } from './helpers'
+import { byTestId, clickElementByTestId, locateElementByTestId, retry } from './helpers'
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
@@ -10,64 +8,69 @@ const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-2-inactive'
 const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 
 test.describe('@AppointmentNotifications', () => {
-  test('space follower is notified about public appointment', async ({ sessions }) => {
-    const spaceName = randomSpaceName()
+ test('space follower is notified about public appointment', async ({ sessions }) => {
+   const spaceName = randomSpaceName()
 
-    const { page: admin } = await sessions.signUp()
+   const { page: admin } = await sessions.signUp()
+ 
+   // because we do a hard navigation we need to wait for logged in user to be fetched from BE. So, wait for 'logged-in-profile'
+
+ await admin.waitForSelector(byTestId('logged-in-profile'))
+
     await createSpace(admin, spaceName)
 
-    const { page: follower } = await sessions.signUp()
-    await followSpace(follower, spaceName)
+   const { page: follower } = await sessions.signUp()
+   await followSpace(follower, spaceName)
 
-    await createSpaceAppointment(admin)
+   await createSpaceAppointment(admin)
 
-    await retry(async () => {
-      await follower.goto('/notifications')
-      await expect(await locateElementByTestId(follower, 'space-appointment')).toBeVisible()
-    })
+   await retry(async () => {
+     await follower.goto('/notifications')
+     await expect(await locateElementByTestId(follower, 'space-appointment')).toBeVisible()
+   })
 
-    await test.step('space can be deleted', async () => {
-      await admin.goto('/spaces/' + spaceName)
-      await clickElementByTestId(admin, 'space-options-btn')
-      await clickElementByTestId(admin, 'space-delete')
-      await clickElementByTestId(admin, 'space-delete-confirmation-confirm')
-    })
-  })
+   await test.step('space can be deleted', async () => {
+     await admin.goto('/spaces/' + spaceName)
+     await clickElementByTestId(admin, 'space-options-btn')
+     await clickElementByTestId(admin, 'space-delete')
+     await clickElementByTestId(admin, 'space-delete-confirmation-confirm')
+   })
+ })
 })
 
 async function followSpace(user: Page, spaceName: string) {
-  return test.step('user follows space', async () => {
-    await user.goto('/spaces/' + spaceName)
-    await clickElementByTestId(user, 'follow-btn')
-    await expect(await locateElementByTestId(user, 'unfollow-btn')).toBeVisible()
-  })
+ return test.step('user follows space', async () => {
+   await user.goto('/spaces/' + spaceName)
+   await clickElementByTestId(user, 'follow-btn')
+   await expect(await locateElementByTestId(user, 'unfollow-btn')).toBeVisible()
+ })
 }
 
 async function createSpaceAppointment(adminA: Page) {
-  await test.step('admin creates appointment', async () => {
-    await clickElementByTestId(adminA, GET_INVOLVED_SPACE_TAB_TEST_ID)
-    // wait for animation of tab to end
-    await adminA.waitForTimeout(1000)
-    await clickElementByTestId(adminA, APPOINTMENT_CREATE_BUTTON_TEST_ID)
+ await test.step('admin creates appointment', async () => {
+   await clickElementByTestId(adminA, GET_INVOLVED_SPACE_TAB_TEST_ID)
+   // wait for animation of tab to end
+   await adminA.waitForTimeout(1000)
+   await clickElementByTestId(adminA, APPOINTMENT_CREATE_BUTTON_TEST_ID)
 
-    const titleField = await locateElementByTestId(adminA, 'appointment-title-input')
-    await expect(titleField).toBeVisible()
-    await titleField.fill('E2E Party')
+   const titleField = await locateElementByTestId(adminA, 'appointment-title-input')
+   await expect(titleField).toBeVisible()
+   await titleField.fill('E2E Party')
 
-    // advance the starting time to have the appointment in the future
-    // so it triggers notifications
-    await clickElementByTestId(adminA, 'btn-holi-date-picker')
+   // advance the starting time to have the appointment in the future
+   // so it triggers notifications
+   await clickElementByTestId(adminA, 'btn-holi-date-picker')
 
-    // next month
-    await clickElementByTestId(adminA, 'undefined.header.rightArrow')
-    // select first day
-    // using keyboard is simpler than using the ids as they aren't static
-    await adminA.keyboard.press('Tab')
-    await adminA.keyboard.press('Enter')
+   // next month
+   await clickElementByTestId(adminA, 'undefined.header.rightArrow')
+   // select first day
+   // using keyboard is simpler than using the ids as they aren't static
+   await adminA.keyboard.press('Tab')
+   await adminA.keyboard.press('Enter')
 
-    const descriptionField = await locateElementByTestId(adminA, 'appointment-description-input')
-    await descriptionField.fill('Best E2E Party Description')
+   const descriptionField = await locateElementByTestId(adminA, 'appointment-description-input')
+   await descriptionField.fill('Best E2E Party Description')
 
-    await clickElementByTestId(adminA, 'form-wrapper-save-btn')
-  })
+   await clickElementByTestId(adminA, 'form-wrapper-save-btn')
+ })
 }
