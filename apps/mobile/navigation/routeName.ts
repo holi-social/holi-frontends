@@ -50,6 +50,10 @@ export enum RouteName {
   EditAppointment = 'EditAppointment',
   AppointmentDetails = 'AppointmentDetails',
 
+  // Act Stack
+  ActHome = 'ActHome',
+  ActStack = 'ActStack',
+
   // Chat Stack
   ChatHome = 'ChatHome',
   ChatStack = 'ChatStack',
@@ -97,7 +101,6 @@ export enum RouteName {
   VideoCall = 'VideoCall',
 
   // Apps Hub
-  AppsModal = 'AppsModal',
   AppsHub = 'AppsHub',
 
   // separate Stacks
@@ -105,7 +108,7 @@ export enum RouteName {
   Home = 'Home',
   Insights = 'Insights',
   Spaces = 'Spaces',
-  SpacesHomeStack = 'SpacesHomeStack',
+  SpacesStack = 'SpacesStack',
   Chat = 'Chat',
   Auth = 'Auth',
   Search = 'Search',

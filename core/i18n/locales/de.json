@@ -1,4 +1,5 @@
 {
+  "act.title": "Handeln",
   "allTools.drawer.comingSoon.label": "Bald",
   "allTools.drawer.headline": "Alle Tools",
   "allTools.drawer.maintenance.label": "Offline",
@@ -244,6 +245,7 @@
   "global.report.successMessage": "Danke für deine Meldung. Wir schauen uns das schnellstmöglich an",
   "global.reset": "Zurücksetzen",
   "global.save": "Speichern",
+  "global.seeAll": "Alle anzeigen",
   "global.seeMore": "Weitere Vorschläge",
   "global.share": "Teilen",
   "global.share.copied": "Link kopiert",

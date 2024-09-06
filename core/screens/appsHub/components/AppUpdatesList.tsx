@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FlatList, GestureResponderEvent, ListRenderItem, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
@@ -43,6 +44,7 @@ const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
   testID,
   cardWidth,
 }: AppUpdatesListProps) => {
+  const { t } = useTranslation()
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const { colors } = theme
@@ -68,13 +70,16 @@ const AppUpdatesList: React.FC<AppUpdatesListProps> = ({
         testID={`${appName}-updates-heading-button`}
       >
         <View style={styles.header} testID={`${appName}-updates-heading`}>
-          <View style={styles.iconContainer}>
-            <HoliIcon icon={appIcon} size={20} color={colors.black300} />
+          <View style={styles.headerTitle}>
+            <View style={styles.iconContainer}>
+              <HoliIcon icon={appIcon} size={20} color={colors.black300} />
+            </View>
+            <View style={{ gap: 4 }}>
+              <HoliHeading>{heading}</HoliHeading>
+              <HoliText style={{ color: colors.foreground20 }}>{subline}</HoliText>
+            </View>
           </View>
-          <View style={{ gap: 4 }}>
-            <HoliHeading>{heading}</HoliHeading>
-            <HoliText style={{ color: colors.foreground20 }}>{subline}</HoliText>
-          </View>
+          <HoliText style={styles.seeAll}>{t('global.seeAll')}</HoliText>
         </View>
       </HoliButton>
       <FlatList
@@ -109,10 +114,20 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       alignItems: 'center',
       alignSelf: 'flex-start',
       gap: 12,
+      width: '100%',
+      justifyContent: 'space-between',
+    },
+    headerTitle: {
+      flexDirection: 'row',
+      gap: 12,
+    },
+    seeAll: {
+      fontSize: 15,
     },
     headerContainer: {
       alignSelf: 'flex-start',
       paddingBottom: 24,
+      width: '100%',
     },
     iconContainer: {
       padding: 13,

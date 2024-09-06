@@ -8,9 +8,15 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HomeSmile2, HomeSmile2Filled, Megaphone, Spaces, SpacesFilled } from '@holi/icons/src/generated'
+import {
+  HomeSmile2,
+  HomeSmile2Filled,
+  Megaphone,
+  MegaphoneFilled,
+  Spaces,
+  SpacesFilled,
+} from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -27,8 +33,9 @@ const FooterTabBar = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const isHome = pathname === '/'
-  const isChat = pathname.startsWith('/chat')
   const isSpaces = pathname.startsWith('/spaces')
+  const isAct = pathname.startsWith('/act')
+  const isChat = pathname.startsWith('/chat')
   const isProfileLoginRegistrationForgotPassword = ['/profile', '/login', '/forgotPassword'].some((path) =>
     pathname.startsWith(path)
   )
@@ -81,12 +88,25 @@ const FooterTabBar = () => {
           </HoliText>
         </HoliButton>
 
-        <AppsDrawer style={styles.button}>
-          <HoliIcon icon={Megaphone} color={styles.inactiveTintColor.color} style={{ alignItems: 'center' }} />
-          <HoliText size="extrasmall" style={[styles.buttonLabel, styles.inactiveTintColor]}>
+        <HoliButton
+          label={t('navigation.act')}
+          inline
+          transparent
+          onPress={() => navigate('/act')}
+          testID="btn-to-act"
+          contentStyle={styles.button}
+        >
+          <HoliIcon
+            icon={isAct ? MegaphoneFilled : Megaphone}
+            color={(isAct ? styles.activeTintColor : styles.inactiveTintColor).color}
+          />
+          <HoliText
+            size="extrasmall"
+            style={[styles.buttonLabel, isSpaces ? styles.activeTintColor : styles.inactiveTintColor]}
+          >
             {t('navigation.act')}
           </HoliText>
-        </AppsDrawer>
+        </HoliButton>
 
         <HoliButton
           label={t('navigation.chat')}

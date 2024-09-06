@@ -9,7 +9,6 @@ import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTab
 import { useLoginState } from '@holi/core/auth/loginState'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
-import AppsDrawer from '@holi/core/screens/appsHub/components/AppsDrawer'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   HomeSmile2,
@@ -19,6 +18,7 @@ import {
   Spaces,
   SpacesFilled,
 } from '@holi/icons/src/generated'
+import ActNavigator from '@holi/mobile/navigation/ActNavigator'
 import AuthStackNavigator from '@holi/mobile/navigation/AuthNavigator'
 import ChatHomeStackNavigator from '@holi/mobile/navigation/ChatHomeNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
@@ -30,17 +30,13 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
-  [RouteName.SpacesHomeStack]: undefined
+  [RouteName.SpacesStack]: undefined
+  [RouteName.ActStack]: undefined
   [RouteName.Chat]: undefined
-  [RouteName.AppsModal]: undefined
   [RouteName.Auth]: undefined
 }
 
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
-
-const AppsModalComponent = () => {
-  return null
-}
 
 const BottomTabsNavigator = () => {
   const { theme } = useTheme()
@@ -81,7 +77,7 @@ const BottomTabsNavigator = () => {
         listeners={{ tabPress: () => setPathname('/') }}
       />
       <BottomTabs.Screen
-        name={RouteName.SpacesHomeStack}
+        name={RouteName.SpacesStack}
         component={SpacesHomeNavigator}
         options={{
           headerShown: false,
@@ -99,8 +95,8 @@ const BottomTabsNavigator = () => {
         listeners={{ tabPress: () => setPathname('/spaces') }}
       />
       <BottomTabs.Screen
-        name={RouteName.AppsModal}
-        component={AppsModalComponent}
+        name={RouteName.ActStack}
+        component={ActNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
@@ -111,10 +107,10 @@ const BottomTabsNavigator = () => {
               {t('navigation.act')}
             </HoliText>
           ),
-          tabBarButton: (props) => <AppsDrawer {...props} />,
           tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-apps-view',
+          tabBarTestID: 'btn-to-act',
         }}
+        listeners={{ tabPress: () => setPathname('/act') }}
       />
       <BottomTabs.Screen
         name={RouteName.Chat}
