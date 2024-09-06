@@ -78,7 +78,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
         imagePickerResult = await launchImageLibraryAsync({
           mediaTypes: MediaTypeOptions.Images,
           allowsEditing: !allowsMultipleSelection,
-          quality: 0.5,
+          quality: 0.2,
           base64: true,
           allowsMultipleSelection,
           selectionLimit,
