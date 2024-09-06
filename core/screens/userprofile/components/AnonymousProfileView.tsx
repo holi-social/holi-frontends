@@ -74,7 +74,9 @@ const AnonymousProfileView = () => {
                   type="secondary"
                   inline
                   label={t('auth.loginProtection.login')}
-                  onPress={() => navigate('/login')}
+                  // TODO(SF): temporary change to test onboarding on mobile
+                  // onPress={() => navigate('/login')}
+                  onPress={() => navigate('/onboarding/first-visit')}
                   testID={'anonymous-profile-login-btn'}
                   trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
                 >
