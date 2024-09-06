@@ -75,6 +75,7 @@ const FirstVisitOnboardingSelection = ({
               key={option.id}
               style={({ hovered }) => [styles.option, (hovered || isSelected) && styles.optionHovered]}
               onPress={() => onSelectOption(option.id)}
+              testID={`option-${option.id}`}
             >
               <View style={styles.optionContent}>
                 {option.image && (

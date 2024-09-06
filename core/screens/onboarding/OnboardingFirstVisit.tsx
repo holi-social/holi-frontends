@@ -159,7 +159,7 @@ interface OnboardingStepperProps {
 
 type SelectionState = { [key in FirstVisitStep]?: string }
 
-const OnboardingStepper = ({ onContentSelection }: OnboardingStepperProps) => {
+export const OnboardingStepper = ({ onContentSelection }: OnboardingStepperProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { t } = useTranslation()
