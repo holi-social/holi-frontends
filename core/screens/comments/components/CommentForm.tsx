@@ -1,7 +1,8 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import React, { PropsWithChildren, useMemo, useState } from 'react'
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -10,6 +11,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native'
+import { LayoutChangeEvent } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { User } from '@holi/core/domain/shared/types'
@@ -28,7 +30,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -59,6 +61,10 @@ const CommentForm = ({
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
   const insets = useSafeAreaInsets()
+
+  const [scrollContentHeight, setScrollContentHeight] = useState(0)
+
+  const scrollViewRef = useRef<ScrollView>(null)
 
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
@@ -118,7 +124,30 @@ const CommentForm = ({
     refetchQueries,
   })
 
-  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
+  const [detectLanguage, { loading: detectLanguageLoading }] =
+    useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
+
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true })
+  }, [scrollContentHeight])
+
+  const onLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      setScrollContentHeight(event.nativeEvent.layout.height)
+    },
+    [setScrollContentHeight]
+  )
+
+  const onKeyboardDidShow = useCallback(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true })
+  }, [])
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', onKeyboardDidShow)
+    return () => {
+      Keyboard.removeAllListeners('keyboardDidShow')
+    }
+  }, [onKeyboardDidShow])
 
   return (
     <HoliContainer noPadding>
@@ -128,7 +157,7 @@ const CommentForm = ({
         keyboardVerticalOffset={dimensions.topBarHeight + insets.top}
       >
         <SafeAreaView style={styles.safeArea}>
-          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled">
+          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled" ref={scrollViewRef}>
             <View>
               {children}
 
@@ -146,6 +175,7 @@ const CommentForm = ({
                     size={parentComment ? 'micro' : 'small'}
                   />
                   <HoliRichTextInput
+                    onLayout={onLayout}
                     placeholder={t('comments.placeholder')}
                     autofocus={true}
                     onChange={setText}
@@ -177,8 +207,9 @@ const CommentForm = ({
 
             <HoliContainer>
               <View style={styles.buttonContainer}>
-                <HoliButton
-                  disabled={!text.trim().length || createCommentLoading}
+                <HoliButtonLoading
+                  disabled={!text.trim().length || createCommentLoading || detectLanguageLoading}
+                  loading={createCommentLoading || detectLanguageLoading}
                   label={t('comments.button')}
                   variant="small"
                   inline
@@ -199,7 +230,7 @@ const CommentForm = ({
                   testID="btn-submit-comment"
                 >
                   {t('comments.button')}
-                </HoliButton>
+                </HoliButtonLoading>
               </View>
             </HoliContainer>
           </View>
