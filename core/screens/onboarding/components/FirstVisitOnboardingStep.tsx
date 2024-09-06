@@ -1,6 +1,6 @@
-import React, { ReactNode, useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check } from '@holi/icons/src/generated'
@@ -25,7 +25,11 @@ export interface FirstVisitOnboardingStepProps {
   onSelect: (selection: string) => void
   step: string
   descriptionAbove?: boolean
-  imageComponent?: ReactNode
+  image?: {
+    source: StaticImageData
+    width: number
+    height: number
+  }
 }
 
 interface FirstTimeOnboardingSelectionProps {
@@ -124,14 +128,33 @@ export const FirstVisitOnboardingStep = ({
   initialSelection,
   onSelect,
   step,
-  imageComponent,
+  image,
 }: FirstVisitOnboardingStepProps) => {
+  const { width: screenWidth } = useWindowDimensions()
+  const maxImageWidth = screenWidth - dimensions.spacingML * 2
+  const imageAspectRatio = image ? image.height / image.width : 1
+
   return (
     <HoliContainer>
       <HoliGap size="s" />
       <FirstVisitOnboardingStepHeader step={step} descriptionAbove={descriptionAbove} />
-      {imageComponent ? <HoliGap size="ml" /> : null}
-      {imageComponent}
+      {image ? (
+        <>
+          <HoliGap size="ml" />
+          <HoliLocalImage
+            imageSource={image.source}
+            label=""
+            resizeMode="cover"
+            style={{ alignItems: 'center' }}
+            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? maxImageWidth : image.width}
+            height={
+              Platform.OS === 'web' && screenWidth < dimensions.breakpointM
+                ? imageAspectRatio * maxImageWidth
+                : image.height
+            }
+          />
+        </>
+      ) : null}
       <FirstVisitOnboardingSelection
         step={step}
         options={options}

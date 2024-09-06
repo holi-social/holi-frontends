@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { ReactNode, useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -9,8 +9,8 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import {
   FirstVisitOnboardingSelectionOption,
   FirstVisitOnboardingStep,
+  FirstVisitOnboardingStepProps,
 } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingStep'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliWizard, {
   BackPressHandlerOptions,
   NextPressHandlerOptions,
@@ -36,10 +36,8 @@ type FirstVisitOnboardingStepAction =
   | { options: FirstVisitOnboardingStepOptionConfiguration[] }
   | { contentType: ContentType }
 
-type FirstVisitOnboardingStepConfiguration = {
-  descriptionAbove?: boolean
-  imageComponent?: ReactNode
-} & FirstVisitOnboardingStepAction
+type FirstVisitOnboardingStepConfiguration = Pick<FirstVisitOnboardingStepProps, 'descriptionAbove' | 'image'> &
+  FirstVisitOnboardingStepAction
 
 const onboardingSteps: { [key in FirstVisitStep]: FirstVisitOnboardingStepConfiguration } = {
   INITIAL_QUESTION: {
@@ -121,17 +119,11 @@ const onboardingSteps: { [key in FirstVisitStep]: FirstVisitOnboardingStepConfig
   POSTS: {
     // no options, only info illustration
     contentType: 'HOME',
-    // TODO(SF) display bigger, esp. on web
-    imageComponent: (
-      <HoliLocalImage
-        imageSource={require('@holi/ui/assets/img/onboarding/posts-insights-composition.png')}
-        width={315}
-        height={340}
-        label=""
-        resizeMode="stretch"
-        style={{ alignItems: 'center' }}
-      />
-    ),
+    image: {
+      source: require('@holi/ui/assets/img/onboarding/posts-insights-composition.png'),
+      width: 630,
+      height: 680,
+    },
   },
   NOT_VOLUNTEERING: {
     options: [
@@ -223,7 +215,7 @@ const OnboardingStepper = ({ onContentSelection }: OnboardingStepperProps) => {
             options={'options' in stepConfiguration ? stepConfiguration.options : []}
             initialSelection={selections[step]}
             descriptionAbove={stepConfiguration.descriptionAbove}
-            imageComponent={stepConfiguration.imageComponent}
+            image={stepConfiguration.image}
           />
         )
       }),
