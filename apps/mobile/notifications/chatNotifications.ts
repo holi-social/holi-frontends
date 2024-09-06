@@ -154,8 +154,8 @@ const createAndroidRoomMessagePush = (event: AndroidRoomMessage) => {
   } else {
     // basically any content we don't want to implement yet
     return {
-      title: 'New Message',
-      body: 'Someone send you a new message.',
+      title: 'New message',
+      body: 'Someone sent you a new message.',
       data: {
         room_id: event.room_id,
       },
