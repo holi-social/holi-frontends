@@ -50,7 +50,7 @@ const resizeImage = async (asset: ImagePickerAsset, resizeWidth: number): Promis
 
 export type HoliImagePickerResult = 'missingPermissions' | 'technicalError' | 'invalidFileSize' | ImagePickerResult
 
-export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, maxFiles = 3) => {
+export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, selectionLimit = 3) => {
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
 
   const verifyPermissions = useCallback(async () => {
@@ -81,6 +81,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, maxF
           quality: 0.5,
           base64: true,
           allowsMultipleSelection,
+          selectionLimit,
           aspect: [16, 9],
         })
       } catch (error) {
@@ -89,11 +90,6 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, maxF
 
       if (imagePickerResult.canceled) {
         return imagePickerResult
-      }
-
-      if (imagePickerResult.assets.length > maxFiles) {
-        // Limit the selection to the maximum number of files
-        imagePickerResult.assets = imagePickerResult.assets.slice(0, maxFiles)
       }
 
       // Check file sizes for each selected asset
@@ -134,7 +130,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, maxF
 
       return imagePickerResult
     },
-    [verifyPermissions, allowsMultipleSelection, maxFiles]
+    [verifyPermissions, allowsMultipleSelection, selectionLimit]
   )
 
   return {
