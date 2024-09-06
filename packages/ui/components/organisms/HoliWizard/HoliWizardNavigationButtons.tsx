@@ -15,6 +15,7 @@ interface HoliWizardNavigationButtonsProps {
   isBackButtonAvailable?: boolean
   isNextButtonEnabled?: boolean
   submitButtonLabel?: string
+  nextButtonLabel?: string
   isLastStep?: boolean
   isLoading?: boolean
   style?: StyleProp<ViewStyle>
@@ -34,6 +35,7 @@ const HoliWizardNavigationButtons = ({
   isBackButtonAvailable = true,
   isNextButtonEnabled = true,
   isLastStep = false,
+  nextButtonLabel,
   style,
   testID,
 }: React.PropsWithChildren<HoliWizardNavigationButtonsProps>) => {
@@ -60,7 +62,7 @@ const HoliWizardNavigationButtons = ({
       <View style={{ flex: 1 }}>
         <HoliButtonLoading
           disabled={!isNextButtonEnabled}
-          label={isLastStep ? submitButtonLabel : t('global.next')}
+          label={isLastStep ? submitButtonLabel : nextButtonLabel ?? t('global.next')}
           loadingLabel={t('global.loading')}
           onPress={onNextPress}
           testID={testID ? `${testID}-next-btn` : 'holi-wizard-save-btn'}
