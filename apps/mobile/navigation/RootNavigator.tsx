@@ -9,6 +9,7 @@ import AppsHub from '@holi/core/screens/appsHub/AppsHub'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
+import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
 import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
 import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
@@ -35,6 +36,7 @@ export type RootStackScreens = {
 
   [RouteName.Onboarding]: undefined
   [RouteName.OnboardingRegistration]: undefined
+  [RouteName.OnboardingFirstVisit]: undefined
 
   [RouteName.Login]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -168,6 +170,11 @@ const RootNavigator = () => {
       <RootStack.Screen
         name={RouteName.OnboardingRegistration}
         component={OnboardingRegistration}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+      <RootStack.Screen
+        name={RouteName.OnboardingFirstVisit}
+        component={OnboardingFirstVisit}
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen

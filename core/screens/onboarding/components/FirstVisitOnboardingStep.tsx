@@ -80,7 +80,7 @@ const FirstVisitOnboardingSelection = ({
                 {option.image && (
                   <HoliLocalImage imageSource={option.image} width={40} height={40} isSvg label={label} />
                 )}
-                <HoliText>{label}</HoliText>
+                <HoliText style={styles.optionLabel}>{label}</HoliText>
               </View>
               <View style={[styles.optionCheckmark, isSelected && styles.optionCheckmarkSelected]}>
                 {isSelected && <HoliIcon icon={Check} size={20} color={colors.background10} />}
@@ -133,6 +133,7 @@ export const FirstVisitOnboardingStep = ({
   const { width: screenWidth } = useWindowDimensions()
   const maxImageWidth = screenWidth - dimensions.spacingML * 2
   const imageAspectRatio = image ? image.height / image.width : 1
+  const maxImageHeight = imageAspectRatio * maxImageWidth
 
   return (
     <HoliContainer>
@@ -146,11 +147,15 @@ export const FirstVisitOnboardingStep = ({
             label=""
             resizeMode="cover"
             style={{ alignItems: 'center' }}
-            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? maxImageWidth : image.width}
+            width={
+              Platform.OS === 'web' && screenWidth < dimensions.breakpointM
+                ? maxImageWidth
+                : Math.min(maxImageWidth, image.width)
+            }
             height={
               Platform.OS === 'web' && screenWidth < dimensions.breakpointM
-                ? imageAspectRatio * maxImageWidth
-                : image.height
+                ? maxImageHeight
+                : Math.min(maxImageHeight, image.height)
             }
           />
         </>
@@ -184,6 +189,9 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       alignItems: 'center',
       flexGrow: 1,
       flexShrink: 1,
+    },
+    optionLabel: {
+      flex: 1,
     },
     optionsContainer: {
       display: windowWidth > dimensions.breakpointXl ? 'grid' : 'flex',

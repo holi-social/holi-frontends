@@ -11,6 +11,7 @@ import {
   FirstVisitOnboardingStep,
   FirstVisitOnboardingStepProps,
 } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingStep'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliWizard, {
   BackPressHandlerOptions,
   NextPressHandlerOptions,
@@ -306,7 +307,11 @@ const OnboardingFirstVisit = () => {
     }
   }
 
-  return <OnboardingStepper onContentSelection={onContentSelection} />
+  return (
+    <SafeArea style={{ flex: 1 }}>
+      <OnboardingStepper onContentSelection={onContentSelection} />
+    </SafeArea>
+  )
 }
 
 const getStyles = (theme: HoliTheme) =>

@@ -120,6 +120,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     // Onboarding
     [RouteName.Onboarding]: 'onboarding',
     [RouteName.OnboardingRegistration]: 'onboarding/registration',
+    [RouteName.OnboardingFirstVisit]: 'onboarding/first-visit',
 
     // Modals
     [RouteName.Notifications]: 'notifications',

@@ -119,6 +119,7 @@ export enum RouteName {
   Onboarding = 'Onboarding',
   OnboardingWelcome = 'OnboardingWelcome',
   OnboardingRegistration = 'OnboardingRegistration',
+  OnboardingFirstVisit = 'OnboardingFirstVisit',
 
   // Root Stack
   Notifications = 'Notifications',
