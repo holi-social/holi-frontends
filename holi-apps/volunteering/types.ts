@@ -46,6 +46,8 @@ export type VolunteeringEngagement = {
   location?: string
   latitude?: number | null
   longitude?: number | null
+  topics?: string[]
+  skills?: string[]
   matchedTopics?: string[]
   matchedSkills?: string[]
 }

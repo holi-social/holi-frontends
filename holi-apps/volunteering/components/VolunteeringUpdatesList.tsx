@@ -12,6 +12,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, HeartsFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
+import { labelsForListings } from '@holi-apps/volunteering/helpers'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 type VolunteeringUpdatesListProps = {
@@ -21,44 +22,6 @@ type VolunteeringUpdatesListProps = {
   cardWidth: number
   topics: readonly Topic[]
   skills: readonly Skill[]
-}
-
-const labels = (
-  item: VolunteeringEngagement,
-  topics: readonly Topic[],
-  skills: readonly Skill[]
-): {
-  topicLabel: string | undefined
-  topicLabelCount: number | undefined
-  skillLabel: string | undefined
-  skillLabelCount: number | undefined
-} => {
-  const topicName = (topicSlug: string) => topics.find((t) => t.slug === topicSlug)?.title
-  const skillName = (skillSlug: string) => skills.find((s) => s.slug === skillSlug)?.title
-
-  const forTopics =
-    item.matchedTopics && item.matchedTopics.length > 0
-      ? {
-          topicLabel: topicName(item.matchedTopics[0]),
-          topicLabelCount: item.matchedTopics.length > 1 ? item.matchedTopics.length - 1 : undefined,
-        }
-      : {
-          topicLabel: undefined,
-          topicLabelCount: undefined,
-        }
-
-  const forSkills =
-    item.matchedSkills && item.matchedSkills.length > 0
-      ? {
-          skillLabel: skillName(item.matchedSkills[0]),
-          skillLabelCount: item.matchedSkills.length > 1 ? item.matchedSkills.length - 1 : undefined,
-        }
-      : {
-          skillLabel: undefined,
-          skillLabelCount: undefined,
-        }
-
-  return { ...forTopics, ...forSkills }
 }
 
 const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
@@ -81,7 +44,13 @@ const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
           interpolation: { escapeValue: false },
         })
       : item.title
-    const { topicLabel, topicLabelCount, skillLabel, skillLabelCount } = labels(item, topics, skills)
+
+    const { topicLabel, topicLabelCount, skillLabel, skillLabelCount } = labelsForListings(
+      item.matchedTopics,
+      item.matchedSkills,
+      topics,
+      skills
+    )
 
     return (
       <AppUpdatesItem
