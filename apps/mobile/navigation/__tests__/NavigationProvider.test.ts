@@ -37,7 +37,8 @@ const notificationResponseForRemoteTriggerAndroidMock: NotificationResponse = {
           data: {
             channelId: 'expo_notifications_fallback_notification_channel',
             message: 'You have a new message or invitation.',
-            content: '{"body":"hello world!","msgtype":"m.text"}',
+            content_body: 'hello world!',
+            content_msgtype: 'm.text',
             room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
             sender: '@malte1:development-chat.holi.social',
             type: 'm.room.message',

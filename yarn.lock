@@ -18367,16 +18367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-application@npm:~5.8.0":
-  version: 5.8.3
-  resolution: "expo-application@npm:5.8.3"
-  peerDependencies:
-    expo: "*"
-  checksum: 10c0/540e3bf319c399e5bcdaf98b6d5ae43e8b04fc1a89b8beb74b2b7fc9c2d2fb502738e0787358cbb197201e49a5e4d43b260e1de3683cbffd535f341731a1aed8
-  languageName: node
-  linkType: hard
-
-"expo-application@npm:~5.8.4":
+"expo-application@npm:~5.8.0, expo-application@npm:~5.8.4":
   version: 5.8.4
   resolution: "expo-application@npm:5.8.4"
   peerDependencies:

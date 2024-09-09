@@ -6,14 +6,18 @@ import {
   donationsRequestTimeout,
   proceedAsGuest,
   volunteeringRequestTimeout,
-  waitForAnimationEnd,
 } from './helpers'
 import { test } from './testmaster'
 
-test.describe('@AppsDrawer', () => {
+test.describe('@ActPage', () => {
   test('user journey', async ({ page }) => {
     // prepare
     await proceedAsGuest(page)
+
+    await page.goto('/act')
+    // act page is open and contain apps
+    await page.waitForSelector(byTestId('volunteering-app-updates-list'))
+    await page.waitForSelector(byTestId('donations-app-updates-list'))
 
     await openAppAndReturn(page, 'volunteering', volunteeringRequestTimeout)
     await openAppAndReturn(page, 'donations', donationsRequestTimeout)
@@ -21,16 +25,8 @@ test.describe('@AppsDrawer', () => {
 })
 
 const openAppAndReturn = async (page: Page, appName: string, appTimeout: number) => {
-  // find and click apps button
-  await clickElementByTestId(page, 'home-apps-button')
-
-  // apps drawer is open and contain apps
-  await page.waitForSelector(byTestId('apps-drawer-modal'))
-
-  await waitForAnimationEnd(page, byTestId('apps-drawer-modal-animatedview'))
-
-  // open the app
-  await clickElementByTestId(page, `app-tile-${appName}`)
+  // open the volunteering list
+  await clickElementByTestId(page, `${appName}-updates-heading-button`)
 
   // app is open
   await page.waitForSelector(byTestId(`${appName}-list-container`), { timeout: appTimeout })

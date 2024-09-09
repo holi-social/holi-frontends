@@ -18,7 +18,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.NotFound]: '404',
           },
         },
-        [RouteName.SpacesHomeStack]: {
+        [RouteName.SpacesStack]: {
           screens: {
             [RouteName.SpacesHome]: 'spaces',
             [RouteName.FilteredSpaces]: 'spaces/filter',

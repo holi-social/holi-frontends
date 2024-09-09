@@ -1,6 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useState } from 'react'
 import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Carousel from 'react-native-reanimated-carousel'
 
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
@@ -27,35 +28,41 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
   return (
     <View onLayout={onLayout} style={style}>
       {viewWidth > 0 && (
-        <Carousel
-          vertical={false}
-          width={viewWidth}
-          height={(viewWidth * 9) / 16}
-          loop={false}
-          data={images}
-          onSnapToItem={(index: number) => setCurrentIndex(index)}
-          renderItem={({ index, item }: { index: number; item: FeedPostImage }) => (
-            <View style={styles.item}>
-              {onPressItem ? (
-                <HoliButton transparent inline label={item.altText || ''} onPress={onPressItem}>
+        <GestureHandlerRootView>
+          <Carousel
+            vertical={false}
+            width={viewWidth}
+            height={(viewWidth * 9) / 16}
+            loop={false}
+            data={images}
+            onSnapToItem={(index: number) => setCurrentIndex(index)}
+            panGestureHandlerProps={{
+              activeOffsetX: [-10, 10],
+              failOffsetY: [-5, 5],
+            }}
+            renderItem={({ index, item }: { index: number; item: FeedPostImage }) => (
+              <View style={styles.item}>
+                {onPressItem ? (
+                  <HoliButton transparent inline label={item.altText || ''} onPress={onPressItem}>
+                    <ImagePreview
+                      key={index}
+                      currentImage={item.image}
+                      blurhash={item.imageBlurhash}
+                      style={styles.image}
+                    />
+                  </HoliButton>
+                ) : (
                   <ImagePreview
                     key={index}
                     currentImage={item.image}
                     blurhash={item.imageBlurhash}
                     style={styles.image}
                   />
-                </HoliButton>
-              ) : (
-                <ImagePreview
-                  key={index}
-                  currentImage={item.image}
-                  blurhash={item.imageBlurhash}
-                  style={styles.image}
-                />
-              )}
-            </View>
-          )}
-        />
+                )}
+              </View>
+            )}
+          />
+        </GestureHandlerRootView>
       )}
       {images.length > 1 && (
         <View style={styles.dotsContainer}>

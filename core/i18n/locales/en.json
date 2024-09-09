@@ -1,4 +1,5 @@
 {
+  "act.title": "Act",
   "allTools.drawer.comingSoon.label": "Soon",
   "allTools.drawer.headline": "All tools",
   "allTools.drawer.maintenance.label": "Offline",
@@ -252,6 +253,7 @@
   "global.report.successMessage": "Thanks for your report. We'll look into it asap",
   "global.reset": "Clear",
   "global.save": "Save",
+  "global.seeAll": "See all",
   "global.seeMore": "See more",
   "global.share": "Share",
   "global.share.copied": "Link copied to clipboard",

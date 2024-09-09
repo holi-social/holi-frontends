@@ -30,7 +30,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -124,7 +124,8 @@ const CommentForm = ({
     refetchQueries,
   })
 
-  const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
+  const [detectLanguage, { loading: detectLanguageLoading }] =
+    useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: true })
@@ -206,8 +207,9 @@ const CommentForm = ({
 
             <HoliContainer>
               <View style={styles.buttonContainer}>
-                <HoliButton
-                  disabled={!text.trim().length || createCommentLoading}
+                <HoliButtonLoading
+                  disabled={!text.trim().length || createCommentLoading || detectLanguageLoading}
+                  loading={createCommentLoading || detectLanguageLoading}
                   label={t('comments.button')}
                   variant="small"
                   inline
@@ -228,7 +230,7 @@ const CommentForm = ({
                   testID="btn-submit-comment"
                 >
                   {t('comments.button')}
-                </HoliButton>
+                </HoliButtonLoading>
               </View>
             </HoliContainer>
           </View>

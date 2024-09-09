@@ -74,7 +74,7 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 1,
       borderColor: theme.colors.defaultBorder,
       borderRadius: Spacing['3xs'],
-      backgroundColor: 'white',
+      backgroundColor: theme.colors.background10,
     },
     label: {
       alignSelf: 'center',

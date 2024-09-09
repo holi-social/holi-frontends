@@ -9,18 +9,6 @@ import { NotificationPayload } from '@holi/mobile/notifications'
 
 const logger = getLogger('Notifications')
 
-interface AndroidUnknownMessageContent {
-  msgtype: string | undefined
-  body: string | undefined
-}
-
-interface AndroidMessageContentText {
-  msgtype: 'm.text'
-  body: string // e.g. "example text"
-}
-
-type AndroidMessageContent = AndroidMessageContentText | AndroidUnknownMessageContent
-
 interface AndroidMemberChangeContent {
   is_direct: boolean
   displayname: string
@@ -57,7 +45,8 @@ interface AndroidRoomMemberChange extends AndroidBaseEvent {
 
 interface AndroidRoomMessage extends AndroidBaseEvent {
   type: 'm.room.message'
-  content: AndroidMessageContent // e.g. { body: "example text", msgtype: "m.text" }
+  content_msgtype: string | undefined | 'm.text'
+  content_body: string | undefined
 }
 
 interface IosMessageWithContent extends BaseEvent {
@@ -154,11 +143,10 @@ const createAndroidRoomMemberChangePush = (event: AndroidRoomMemberChange): Noti
 
 const createAndroidRoomMessagePush = (event: AndroidRoomMessage) => {
   // const sender = roomMessage.sender_display_name // currently not in sync with okuna
-  const content = event.content
-  if (content.msgtype === 'm.text') {
+  if (event?.content_msgtype === 'm.text') {
     return {
       title: 'New message',
-      body: content.body,
+      body: event.content_body,
       data: {
         room_id: event.room_id,
       },
@@ -166,8 +154,8 @@ const createAndroidRoomMessagePush = (event: AndroidRoomMessage) => {
   } else {
     // basically any content we don't want to implement yet
     return {
-      title: 'New Message',
-      body: 'Someone send you a new message.',
+      title: 'New message',
+      body: 'Someone sent you a new message.',
       data: {
         room_id: event.room_id,
       },
