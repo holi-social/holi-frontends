@@ -2,10 +2,25 @@ import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
+import { selectWizardOptions } from '@holi/core/screens/onboarding/components/__tests__/FirstVisitOnboardingStepper.test'
 
 jest.useFakeTimers()
 
+const mockUseFirstVisitContentSelection = jest.fn()
+jest.mock('@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection', () => ({
+  useFirstVisitContentSelection: () => mockUseFirstVisitContentSelection(),
+}))
+
 describe('OnboardingFirstVisit', () => {
+  const mockSelectContentType = jest.fn()
+
+  beforeEach(() => {
+    mockUseFirstVisitContentSelection.mockReturnValue({
+      selectedContentType: undefined,
+      selectContentType: mockSelectContentType,
+    })
+  })
+
   it('should navigate back on first screen', () => {
     render(<OnboardingFirstVisit />)
 
@@ -36,6 +51,46 @@ describe('OnboardingFirstVisit', () => {
     render(<OnboardingFirstVisit />)
 
     fireEvent.press(screen.getByTestId('holi-wizard-skip-btn'))
+
+    expect(mockNavigate).toHaveBeenCalledWith('/')
+  })
+
+  it('should store selected content', async () => {
+    const options = ['ALREADY_VOLUNTEERING', 'SMALL_ACTIONS', 'CHALLENGES']
+
+    render(<OnboardingFirstVisit />)
+
+    await selectWizardOptions(options)
+
+    expect(mockSelectContentType).toHaveBeenCalledWith('CHALLENGES')
+  })
+
+  const testCasesRoutes = [
+    { contentType: 'CHALLENGES', expectedRoute: '/act' },
+    { contentType: 'DONATIONS', expectedRoute: '/act' },
+    { contentType: 'VOLUNTEERING', expectedRoute: '/act' },
+    { contentType: 'SPACES', expectedRoute: '/spaces' },
+    { contentType: 'HOME', expectedRoute: '/' },
+  ]
+  it.each(testCasesRoutes)(
+    'should navigate to route $expectedRoute for content type $contentType',
+    ({ contentType, expectedRoute }) => {
+      mockUseFirstVisitContentSelection.mockReturnValue({
+        selectedContentType: contentType,
+        selectContentType: jest.fn(),
+      })
+      render(<OnboardingFirstVisit />)
+
+      expect(mockNavigate).toHaveBeenCalledWith(expectedRoute)
+    }
+  )
+
+  it('should navigate to home screen for invalid content type', () => {
+    mockUseFirstVisitContentSelection.mockReturnValue({
+      selectedContentType: 'FOOBAR',
+      selectContentType: jest.fn(),
+    })
+    render(<OnboardingFirstVisit />)
 
     expect(mockNavigate).toHaveBeenCalledWith('/')
   })
