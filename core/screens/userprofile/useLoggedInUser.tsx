@@ -9,7 +9,7 @@ import {
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { onboardingStateVar, storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import { onboardingStateVar, storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 export interface LoggedInUserLoading {
   state: 'loading'

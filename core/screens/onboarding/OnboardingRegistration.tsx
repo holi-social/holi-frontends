@@ -16,7 +16,7 @@ import {
   onboardingStateVar,
   storeOnboardingState,
   useStoredOnboardingState,
-} from '@holi/core/screens/onboarding/hooks'
+} from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'

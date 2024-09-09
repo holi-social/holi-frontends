@@ -15,7 +15,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
