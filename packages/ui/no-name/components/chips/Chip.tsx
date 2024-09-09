@@ -42,15 +42,13 @@ const Chip = ({
       onPress={(e) => onPress?.(e)}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
     >
-      <>
-        {iconLeading && <HoliIcon icon={iconLeading} size={18} color={styles.text.color} />}
-        {children && (
-          <HoliText selectable={false} style={styles.text}>
-            {children}
-          </HoliText>
-        )}
-        {iconTrailing && <HoliIcon icon={iconTrailing} size={18} color={styles.text.color} />}
-      </>
+      {iconLeading && <HoliIcon icon={iconLeading} size={18} color={styles.text.color} />}
+      {children && (
+        <HoliText selectable={false} style={styles.text}>
+          {children}
+        </HoliText>
+      )}
+      {iconTrailing && <HoliIcon icon={iconTrailing} size={18} color={styles.text.color} />}
     </Pressable>
   )
 }
@@ -61,7 +59,6 @@ const stylesheet = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipColor) => {
     return {
       display: 'flex',
-      alignSelf: 'flex-start',
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['4xs'],
@@ -84,7 +81,7 @@ const stylesheet = createStyleSheet((theme) => ({
       variants: {
         size: {
           md: {
-            paddingHorizontal: 8,
+            paddingHorizontal: Spacing['3xs'],
           },
           lg: {
             paddingHorizontal: 10,
