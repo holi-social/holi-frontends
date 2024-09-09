@@ -58,10 +58,6 @@ export namespace TrackingEvent {
   }
 
   export const FeedPosts = {
-    created: {
-      name: 'createdFeedPost',
-      ...versionOne,
-    },
     read: (postId: string): TrackingEvent => ({
       name: 'readFeedPost',
       properties: {
@@ -112,11 +108,6 @@ export namespace TrackingEvent {
   }
 
   export const SpacePosts = {
-    created: (spaceId?: string): TrackingEvent => ({
-      name: 'createdSpacePost',
-      properties: { spaceId },
-      ...versionOne,
-    }),
     read: (postId: string, spaceId?: string): TrackingEvent => ({
       name: 'readSpacePost',
       properties: {
