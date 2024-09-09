@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, Pressable, StyleSheet, View } from 'react-native'
 
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -47,8 +48,8 @@ const FirstVisitOnboardingSelection = ({
 }: FirstTimeOnboardingSelectionProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const windowWidth = Dimensions.get('window').width
-  const styles = useMemo(() => getStyles(theme, windowWidth), [theme, windowWidth])
+  const { width: screenWidth } = useClientWindowDimensions()
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
   const [selectedOption, setSelectedOption] = useState(initialSelection)
   const visibleOptions = Platform.OS === 'web' ? options.filter((option) => !option.mobileOnly) : options
 
@@ -131,7 +132,7 @@ export const FirstVisitOnboardingStep = ({
   step,
   image,
 }: FirstVisitOnboardingStepProps) => {
-  const { width: screenWidth } = useWindowDimensions()
+  const { width: screenWidth } = useClientWindowDimensions()
   const maxImageWidth = screenWidth - dimensions.spacingML * 2
   const imageAspectRatio = image ? image.height / image.width : 1
   const maxImageHeight = imageAspectRatio * maxImageWidth
