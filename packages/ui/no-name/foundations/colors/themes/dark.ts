@@ -20,6 +20,19 @@ const theme = {
         background: white,
       },
     },
+    chipLabel: {
+      text: mono[300],
+      border: {
+        ...byShade('700'),
+        mono: mono[500],
+        white: mono[500],
+      },
+      background: {
+        ...byShade('800'),
+        mono: mono[700],
+        white: black,
+      },
+    },
   },
 } as const
 
