@@ -103,12 +103,14 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   // HoliWizard event handlers
   const handleNextPress = async ({ currentStep, goNext }: NextPressHandlerOptions) => {
     switch (currentStep) {
-      // next press is tracked on the API side
       case AccountSetupStep.NAMES: {
         await registerUserNames({
           variables: { input: parseRegisterUserNamesInput(names) },
           refetchQueries: [{ query: authenticatedUserV2Query, fetchPolicy: 'network-only' }],
-          onCompleted: goNext,
+          onCompleted: () => {
+            track(TrackingEvent.Auth.RegisterNamesOnboardingStepCompleted(names))
+            goNext()
+          },
         })
         break
       }
@@ -118,13 +120,13 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         goNext()
         break
 
-      // next press is tracked on the API side
       case AccountSetupStep.INTERESTS: {
         const selectedInterestIds = terms.reduce(
           (acc: string[], { id, selected }) => (selected ? [...acc, id] : acc),
           []
         )
         updateUserQueryVariables.current = { ...updateUserQueryVariables.current, interests: selectedInterestIds }
+
         if (selectedInterestIds.length) {
           await updateUser({
             variables: { input: updateUserQueryVariables.current },
@@ -134,6 +136,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
                 location: 'AccountSetup.handleNextPress.INTERESTS',
                 currentStep,
               }),
+            onCompleted: () => track(TrackingEvent.Auth.InterestsOnboardingStepCompleted(selectedInterestIds)),
           })
         }
         goNext()
@@ -141,7 +144,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         break
       }
 
-      // next press is tracked on the API side
       case AccountSetupStep.LOCATION: {
         if (selectedLocation?.geolocation) {
           const geolocation = selectedLocation?.geolocation
@@ -160,6 +162,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
                 location: 'AccountSetup.handleNextPress.LOCATION',
                 currentStep,
               }),
+            onCompleted: () => track(TrackingEvent.Auth.LocationOnboardingStepCompleted(locationLabel)),
           })
         }
         goNext()
