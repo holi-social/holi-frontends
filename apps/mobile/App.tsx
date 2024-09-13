@@ -17,9 +17,12 @@ import {
   initNotifications,
   registerHandleNotificationsWhenAppIsInBackground,
 } from '@holi/mobile/notifications/initNotifications'
+import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const logger = getLogger('AppInit')
+
+initialiseComponentLibrary()
 
 SplashScreen.preventAutoHideAsync()
 

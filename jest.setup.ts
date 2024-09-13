@@ -4,9 +4,12 @@ import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 
 import i18n from '@holi/core/i18n'
 import { TrackingHook } from '@holi/core/tracking/types'
+import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('react-native-reanimated/src/reanimated2/jestUtils').setUpTests()
+
+initialiseComponentLibrary()
 
 global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()
@@ -63,6 +66,8 @@ jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
 jest.mock('apollo-upload-client/createUploadLink.mjs', () => jest.fn())
 
 jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
+
+jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 
 jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
   const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider') as object
