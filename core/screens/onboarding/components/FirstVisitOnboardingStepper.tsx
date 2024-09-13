@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { FirstVisitOnboardingSelectionOption } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingSelection'
 import {
-  FirstVisitOnboardingSelectionOption,
   FirstVisitOnboardingStep,
   FirstVisitOnboardingStepProps,
 } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingStep'
