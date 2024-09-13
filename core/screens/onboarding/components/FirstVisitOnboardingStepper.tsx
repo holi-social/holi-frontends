@@ -22,7 +22,7 @@ type FirstVisitStep =
   | 'POSTS'
   | 'NOT_VOLUNTEERING'
 
-export type ContentType = 'CHALLENGES' | 'DONATIONS' | 'VOLUNTEERING' | 'SPACES' | 'HOME'
+type ContentType = 'CHALLENGES' | 'DONATIONS' | 'VOLUNTEERING' | 'SPACES' | 'HOME'
 
 type FirstVisitOnboardingStepOptionAction = { nextStep: FirstVisitStep } | { contentType: ContentType }
 

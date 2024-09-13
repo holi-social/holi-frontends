@@ -3,7 +3,10 @@ import { memo, useEffect } from 'react'
 import { BackHandler, Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useOnboardingInitialization, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import {
+  useOnboardingInitialization,
+  useStoredOnboardingState,
+} from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 const OnboardingInitializer = () => {
   const { navigate } = useRouting()

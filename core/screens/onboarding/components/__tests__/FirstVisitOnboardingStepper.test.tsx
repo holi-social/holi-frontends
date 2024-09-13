@@ -5,6 +5,20 @@ import { FirstVisitOnboardingStepper } from '@holi/core/screens/onboarding/compo
 
 jest.useFakeTimers()
 
+export const selectWizardOptions = (options: string[]) =>
+  act(async () => {
+    // Select options as listed and press continue
+    for (const option of options) {
+      if (option) {
+        await waitFor(() => expect(screen.queryByTestId(`option-${option}`)).toBeTruthy())
+        fireEvent.press(screen.getByTestId(`option-${option}`))
+      }
+
+      await waitFor(() => expect(screen.getByTestId('holi-wizard-save-btn')).toBeEnabled())
+      fireEvent.press(screen.getByTestId('holi-wizard-save-btn'))
+    }
+  })
+
 describe('FirstVisitOnboardingStepper', () => {
   const testCases = [
     {
@@ -64,18 +78,7 @@ describe('FirstVisitOnboardingStepper', () => {
       const onContentSelection = jest.fn()
       render(<FirstVisitOnboardingStepper onContentSelection={onContentSelection} />)
 
-      await act(async () => {
-        // Select options as listed and press continue
-        for (const option of options) {
-          if (option) {
-            await waitFor(() => expect(screen.queryByTestId(`option-${option}`)).toBeTruthy())
-            fireEvent.press(screen.getByTestId(`option-${option}`))
-          }
-
-          await waitFor(() => expect(screen.getByTestId('holi-wizard-save-btn')).toBeEnabled())
-          fireEvent.press(screen.getByTestId('holi-wizard-save-btn'))
-        }
-      })
+      await selectWizardOptions(options)
 
       expect(onContentSelection).toHaveBeenCalledWith(expectedContentType)
     }
