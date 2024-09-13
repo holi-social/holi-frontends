@@ -139,8 +139,7 @@ const OnboardingWelcome = () => {
           label={t('auth.loginProtection.continueAsGuest')}
           onPress={() => {
             storeOnboardingState('finished')
-            // TODO(SF): temporary change to test onboarding on mobile
-            navigate('/onboarding/first-visit')
+            navigate('/')
           }}
           trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
           style={[styles.button, styles.secondButton]}
