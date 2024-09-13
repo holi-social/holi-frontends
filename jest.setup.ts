@@ -31,6 +31,7 @@ jest.mock('@react-navigation/native', () => {
         index: 0,
       })),
       setOptions: global.mockSetOptions,
+      canGoBack: jest.fn(),
     }),
     useLinkTo: () => global.mockNavigate,
     useFocusEffect: (callback: () => unknown) => callback?.(),

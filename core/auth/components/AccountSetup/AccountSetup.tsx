@@ -179,7 +179,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     }
   }
 
-  const handleSkipPress = ({ currentStep }: SkipPressHandlerOptions): void => {
+  const handleSkipPress = ({ currentStep, goNext }: SkipPressHandlerOptions): void => {
     switch (currentStep) {
       case AccountSetupStep.LOCATION:
         track(TrackingEvent.Auth.LocationOnboardingStepSkipped)
@@ -196,8 +196,9 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
         break
 
       default:
-        return
+        break
     }
+    goNext()
   }
 
   useEffect(() => {
