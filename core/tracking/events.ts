@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import type { NamesStepData } from '@holi/core/auth/components/AccountSetup/NamesStep'
 
 /**
  * The base type of all tracking events. `TrackingEvent` instances shall not be defined outside of this file to ensure
@@ -147,10 +148,25 @@ export namespace TrackingEvent {
       name: 'communityGuidelinesOnboardingStepCompleted',
       ...versionOne,
     }
+    export const RegisterNamesOnboardingStepCompleted = (updatedValues: NamesStepData): TrackingEvent => ({
+      name: 'registerNamesOnboardingStepCompleted',
+      properties: { updatedValues },
+      ...versionOne,
+    })
+    export const InterestsOnboardingStepCompleted = (updatedValues: string[]): TrackingEvent => ({
+      name: 'interestsOnboardingStepCompleted',
+      properties: { updatedValues },
+      ...versionOne,
+    })
     export const InterestsOnboardingStepSkipped: TrackingEvent = {
       name: 'interestsOnboardingStepSkipped',
       ...versionOne,
     }
+    export const LocationOnboardingStepCompleted = (updatedValues: string): TrackingEvent => ({
+      name: 'locationOnboardingStepCompleted',
+      properties: { updatedValues },
+      ...versionOne,
+    })
     export const LocationOnboardingStepSkipped: TrackingEvent = {
       name: 'locationOnboardingStepSkipped',
       ...versionOne,
