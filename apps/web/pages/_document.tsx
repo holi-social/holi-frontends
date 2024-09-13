@@ -9,23 +9,16 @@ import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
+import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import { environmentId } from '@holi/web/environment'
 import { createApolloPageProps, createApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
 import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 
-// adapt to react-native behavior
-// Force Next-generated DOM elements to fill their parent's height
-// const normalizeNextElements = `
-//   #__next {
-//     display: flex;
-//     flex-direction: column;
-//     height: 100%;
-//   }
-// `
-
 interface ApolloDocumentProps {
   apolloClient: ApolloClient<NormalizedCacheObject>
 }
+
+initialiseComponentLibrary()
 
 // Handling of Apollo cache inspired by https://github.com/vercel/next.js/discussions/15736#discussioncomment-6385504
 export default class MyDocument extends Document<ApolloDocumentProps> {

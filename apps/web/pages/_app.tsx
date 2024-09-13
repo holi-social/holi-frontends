@@ -12,6 +12,7 @@ import HoliHead from '@holi/core/components/HoliHead'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
 import { logError } from '@holi/core/errors/helpers'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
+import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
 import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import WebRootProvider from '@holi/web/providers/WebRootProvider'
@@ -28,6 +29,8 @@ export type NextPageWithLayout = NextPage<NextJSPageProps> & {
 }
 
 pino().debug('Avoid treeshaking of externally included logging framework by next build')
+
+initialiseComponentLibrary()
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   // defaultProps can be used to pass page specific props to the DefaultLayout component
