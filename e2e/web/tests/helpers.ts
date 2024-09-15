@@ -32,9 +32,7 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
 }
 
 export const scrollToMakeHeaderVisible = async (page: Page): Promise<void> =>
-  page.evaluate(() =>
-    window.scrollBy({ top: 5 })
-  )
+  page.evaluate(() => window.scrollBy({ top: 5 }))
 
 /*
  * Only use for text that is provided by the test (fixture)
@@ -56,22 +54,11 @@ export const denyConsent = async (page: Page) => {
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
-  //await page.goto('/profile')
+
   //Introduced exception handling if first attempt to hit the server does not succeed
-try {
-  // First attempt to navigate normally
-  await page.goto('/profile');
-} catch (error) {
-  if (error instanceof Error) {
-    console.error(`Initial navigation to '/profile' failed: ${error.message}`);
-  } else {
-    console.error(`Initial navigation to '/profile' failed with an unknown error.`)
-  }
-  
-  // If the initial attempt fails, fall back to retry logic
-  await retryGoto(page, '/profile');
-}
-  
+
+  await gotoWithRetries(page, '/profile')
+
   await denyConsent(page)
 }
 
@@ -94,21 +81,8 @@ export const registerUserAccount = async (
   email: string,
   password: string
 ): Promise<{ fullName: string }> => {
-  //await page.goto('/profile')
-  //Introduced exception handling if first attempt to hit the server does not succeed
-try {
-  // First attempt to navigate normally
-  await page.goto('/profile');
-} catch (error) {
-  if (error instanceof Error) {
-    console.error(`Initial navigation to '/' failed: ${error.message}`);
-  } else {
-    console.error(`Initial navigation to '/' failed with an unknown error.`)
-  }
-  
-  // If the initial attempt fails, fall back to retry logic
-  await retryGoto(page, '/profile');
-} 
+  await gotoWithRetries(page, '/profile')
+
   await registerUser(context, page, email, password)
   return await finishAccountSetup(page)
 }
@@ -153,23 +127,7 @@ export const finishAccountSetup = async (
     firstName?: string
     lastName?: string
   } = {}
-): Promise<{id: string;fullName: string }> => {
-  let id
-  await page.route(
-    `${process.env.BASE_URL}/api/graphql?op=AuthenticatedUser`,
-    async (route) => {
-      try {
-        const response = await route.fetch()
-        const result = await response.json()
-        id = result.data.authenticatedUserV2.id
-      } finally {
-        await route.continue()
-      }
-    },
-    // as this route is called by a lot of the tested components
-    // only intercept the route once
-    { times: 1 }
-  )
+): Promise<{ fullName: string }> => {
   // go through account setup
   // provide user names
   const firstNameInput = await locateElementByTestId(page, 'first-name-input')
@@ -192,30 +150,16 @@ export const finishAccountSetup = async (
   // skip interests step
   await page.waitForSelector(byTestId('account-setup-success-step'))
   await clickElementByTestId(page, 'holi-wizard-save-btn')
-  
-  if (!id) throw new Error("Wasn't able to intercept user id while finishing account setup flow")
+
   return {
-    id,
     fullName: firstName + ' ' + lastName,
   }
 }
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
-  //await page.goto('/')
-//Introduced exception handling if first attempt to hit the server does not succeed
-try {
-  // First attempt to navigate normally
-  await page.goto('/');
-} catch (error) {
-  if (error instanceof Error) {
-    console.error(`Initial navigation to '/' failed: ${error.message}`);
-  } else {
-    console.error(`Initial navigation to '/' failed with an unknown error.`)
-  }
-  
-  // If the initial attempt fails, fall back to retry logic
-  await retryGoto(page, '/');
-} 
+  //Introduced exception handling if first attempt to hit the server does not succeed
+  await gotoWithRetries(page, '/')
+
   await denyConsent(page)
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
@@ -281,22 +225,9 @@ export const sendConnectionRequest = async (page: Page) => {
   // visit another user's profile page via url
   const userId = process.env.E2E_USER_ID
   // test won't work if userId is not defined
- expect(userId?.length).toBe(36)
-  //await page.goto('/profile/' + userId)
-  //Introduced exception handling if first attempt to hit the server does not succeed
-try {
-  // First attempt to navigate normally
-  await page.goto('/profile/' + userId);
-} catch (error) {
-  if (error instanceof Error) {
-    console.error(`Initial navigation to '/' failed: ${error.message}`);
-  } else {
-    console.error(`Initial navigation to '/' failed with an unknown error.`)
-  }
-  
-  // If the initial attempt fails, fall back to retry logic
-  await retryGoto(page, '/profile/' + userId);
-}
+  expect(userId?.length).toBe(36)
+  await gotoWithRetries(page, '/profile/' + userId)
+
   // because we do a hard navigation we need to wait for logged in user to be fetched from BE. So, wait for 'logged-in-profile'
   await page.waitForSelector(byTestId('logged-in-profile'))
   await page.waitForSelector(byTestId('user-profile-full-name'))
@@ -332,22 +263,10 @@ export const withRandomUserSession = async (
   const page = await context.newPage()
 
   const newAccount = await registerNewUserAccount(context, page, email, password)
-  // goto profile to simulate old behaviour for now
-  //await page.goto('/profile')
-  //Introduced exception handling if first attempt to hit the server does not succeed
-try {
-  // First attempt to navigate normally
-  await page.goto('/profile');
-} catch (error) {
-  if (error instanceof Error) {
-    console.error(`Initial navigation to '/' failed: ${error.message}`);
-  } else {
-    console.error(`Initial navigation to '/' failed with an unknown error.`)
-  }
-  
+
   // If the initial attempt fails, fall back to retry logic
-  await retryGoto(page, '/profile');
-} 
+  await gotoWithRetries(page, '/profile')
+
   await page.waitForSelector(byTestId('user-profile-full-name'))
 
   await actions(page, newAccount.fullName)
@@ -356,21 +275,6 @@ try {
     await deleteAuthenticatedAccount(context)
     await context.close()
   }
-}
-
-/*Deletes a user by navigating through the profile settings and confirming the deletion.*/
-const deleteUser = async (page: Page) => {
-  await retry(async () => {
-    await page.goto('/profile')
-    await clickElementByTestId(page, 'btn-to-settings')
-    await clickElementByTestId(page, 'btn-your-account')
-    await clickElementByTestId(page, 'btn-delete-account')
-    await clickElementByTestIdAndWaitForToast(
-      page,
-      'account-deletion-confirmation-confirmation-confirm',
-      'toast-SUCCESS'
-    )
-  })
 }
 
 export const clickElementByTestIdAndWaitForToast = async (page: Page, elementId: string, toastId: string) => {
@@ -418,37 +322,36 @@ export const withSSR = async (
 ): Promise<void> => {
   const context = await browser.newContext({ javaScriptEnabled: false })
   const page = await context.newPage()
-
-  try {
-    // Attempt to navigate to the given URL
-    await page.goto(url)
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Initial navigation to '${url}' failed: ${error.message}`)
-    } else {
-      console.error(`Initial navigation to '${url}' failed with an unknown error.`)
-    }
-
-    // Retry the navigation if it fails
-    await retryGoto(page, url); // Fix: remove quotes around 'url'
-  }
+  // Retry the navigation if it fails
+  await gotoWithRetries(page, url) // Fix: remove quotes around 'url'
 
   // Execute the provided actions
-  await actions(page, { testSSR: true });
+  await actions(page, { testSSR: true })
 
   // Close the context to clean up
   await context.close()
-};
+}
 
-export async function retryGoto(page: Page, url: string, retries: number = 3, delay: number = 2000) {
+export async function scrollToTriggerModal(page: Page) {
+  // Wait for the page to load
+  await page.waitForLoadState()
+
+  // Scroll down and then scroll up to trigger the modal
+  await page.mouse.wheel(0, 600)
+  await page.mouse.wheel(0, -750)
+}
+
+export async function gotoWithRetries(page: Page, url: string, retries = 3, delay = 2000) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       await page.goto(url, { waitUntil: 'load', timeout: 20000 })
-      return;
+      return
     } catch (error) {
       if (error instanceof Error) {
+        // eslint-disable-next-line no-console
         console.error(`Attempt ${attempt} to navigate to ${url} failed: ${error.message}`)
       } else {
+        // eslint-disable-next-line no-console
         console.error(`Attempt ${attempt} to navigate to ${url} failed: Unknown error`)
       }
 

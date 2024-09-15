@@ -46,8 +46,8 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
 
   const createCommentWithE2EUserMention = async (page: Page) => {
     const userId = process.env.E2E_USER_ID
-    //FIXME: Even though the test functionality works, userID is not picked up by the system due to unknown reason(s)
-    //expect(userId?.length).toBe(36)
+
+    expect(userId?.length).toBe(36)
 
     await page.goto('/profile/' + userId)
     const testUserFullName = await page.textContent(byTestId('user-profile-full-name'))
