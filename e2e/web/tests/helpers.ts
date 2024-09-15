@@ -245,14 +245,6 @@ export const randomSpaceName = () => {
   return faker.animal.type() + faker.number.int()
 }
 
-/* A constant password string to be used for new users.*/
-// export const newUserPassword = 'TheSamePassword4A11E2eUsers'
-
-/*Generates a new user email using a combination of a username and a random alphanumeric string.*/
-// export const newUserEmail = () => {
-//   return `${faker.internet.userName()}${faker.string.alphanumeric(4)}@e2etest.com`
-// }
-
 export const withRandomUserSession = async (
   browser: Browser,
   actions: (page: Page, userFullName: string) => Promise<void>,
