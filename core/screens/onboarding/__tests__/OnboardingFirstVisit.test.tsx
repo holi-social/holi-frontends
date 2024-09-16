@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
@@ -11,10 +11,22 @@ jest.mock('@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection', (
   useFirstVisitContentSelection: () => mockUseFirstVisitContentSelection(),
 }))
 
+const mockUseLoggedInUser = jest.fn()
+jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+  useLoggedInUser: () => mockUseLoggedInUser(),
+}))
+
+const mockStoreOnboardingState = jest.fn()
+jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
+  storeOnboardingState: (value: string) => mockStoreOnboardingState(value),
+}))
+
 describe('OnboardingFirstVisit', () => {
   const mockSelectContentType = jest.fn()
 
   beforeEach(() => {
+    mockStoreOnboardingState.mockResolvedValue({})
+    mockUseLoggedInUser.mockReturnValue({ isLoggedIn: false })
     mockUseFirstVisitContentSelection.mockReturnValue({
       selectedContentType: undefined,
       selectContentType: mockSelectContentType,
@@ -47,12 +59,20 @@ describe('OnboardingFirstVisit', () => {
     expect(mockNavigate).not.toHaveBeenCalled()
   })
 
-  it('should skip whole flow', () => {
+  it('should skip whole flow', async () => {
     render(<OnboardingFirstVisit />)
 
     fireEvent.press(screen.getByTestId('holi-wizard-skip-btn'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/')
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'))
+  })
+
+  it('should set onboarding state to finished when skipping the flow', () => {
+    render(<OnboardingFirstVisit />)
+
+    fireEvent.press(screen.getByTestId('holi-wizard-skip-btn'))
+
+    expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
   })
 
   it('should store selected content', async () => {
@@ -74,22 +94,39 @@ describe('OnboardingFirstVisit', () => {
   ]
   it.each(testCasesRoutes)(
     'should navigate to route $expectedRoute for content type $contentType',
-    ({ contentType, expectedRoute }) => {
+    async ({ contentType, expectedRoute }) => {
       mockUseFirstVisitContentSelection.mockReturnValue({
         selectedContentType: contentType,
         selectContentType: jest.fn(),
       })
       render(<OnboardingFirstVisit />)
 
-      expect(mockNavigate).toHaveBeenCalledWith(expectedRoute)
+      await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith(expectedRoute))
     }
   )
 
-  it('should navigate to home screen for invalid content type', () => {
+  it('should set onboarding state to finished on content selection', () => {
+    mockUseFirstVisitContentSelection.mockReturnValue({
+      selectedContentType: 'SPACES',
+      selectContentType: jest.fn(),
+    })
+    render(<OnboardingFirstVisit />)
+
+    expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
+  })
+
+  it('should navigate to home screen for invalid content type', async () => {
     mockUseFirstVisitContentSelection.mockReturnValue({
       selectedContentType: 'FOOBAR',
       selectContentType: jest.fn(),
     })
+    render(<OnboardingFirstVisit />)
+
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'))
+  })
+
+  it('should navigate to home screen if user is already logged in', () => {
+    mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true })
     render(<OnboardingFirstVisit />)
 
     expect(mockNavigate).toHaveBeenCalledWith('/')

@@ -26,20 +26,21 @@ const OnboardingFirstVisit = () => {
       return navigate('/')
     }
     if (selectedContentType) {
-      storeOnboardingState('finished')
-      switch (selectedContentType) {
-        case 'CHALLENGES':
-          return navigate('/act')
-        case 'DONATIONS':
-          return navigate('/act')
-        case 'VOLUNTEERING':
-          return navigate('/act')
-        case 'SPACES':
-          return navigate('/spaces')
-        case 'HOME':
-        default:
-          return navigate('/')
-      }
+      storeOnboardingState('finished').then(() => {
+        switch (selectedContentType) {
+          case 'CHALLENGES':
+            return navigate('/act')
+          case 'DONATIONS':
+            return navigate('/act')
+          case 'VOLUNTEERING':
+            return navigate('/act')
+          case 'SPACES':
+            return navigate('/spaces')
+          case 'HOME':
+          default:
+            return navigate('/')
+        }
+      })
     }
   }, [selectedContentType, navigate, isLoggedIn])
 
