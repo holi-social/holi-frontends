@@ -196,7 +196,7 @@ export namespace TrackingEvent {
   })
 
   export const RecommendationPressed = (
-    type: 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews',
+    type: 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task',
     itemId: string,
     index: number
   ): TrackingEvent => ({
