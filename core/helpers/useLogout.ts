@@ -7,6 +7,8 @@ import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers
 import { setLoginStateLoggedOut, useLoginState } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { clearFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const logger = getLogger('Auth')
@@ -61,7 +63,12 @@ export const useLogout = () => {
           if (!skipLogoutFlow) {
             await submitLogoutFlow({ session_token: session?.session_token || '' })
           }
-          await setLoginStateLoggedOut()
+          await Promise.all([
+            setLoginStateLoggedOut(),
+            // Reset onboarding state
+            clearOnboardingState(),
+            clearFirstVisitContentSelection(),
+          ])
           await client.clearStore()
 
           logger.debug('useLogout', 'logout successful')

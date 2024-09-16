@@ -15,6 +15,11 @@ const isOnboardingStateValue = (value: string | null): value is OnboardingStateV
 
 export const onboardingStateVar = makeVar<OnboardingStateValue | undefined>(undefined)
 
+export const clearOnboardingState = async () => {
+  await AsyncStore.removeItem(ONBOARDING_STATE_STORAGE_NAME)
+  onboardingStateVar(undefined)
+}
+
 export const storeOnboardingState = async (value: OnboardingStateValue) => {
   if (!value) return
 
