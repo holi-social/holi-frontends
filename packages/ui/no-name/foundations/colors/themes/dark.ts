@@ -8,7 +8,7 @@ const theme = {
   },
   components: {
     chip: {
-      text: white,
+      text: mono[300],
       border: mono[300],
       background: {
         ...byShade('700'),

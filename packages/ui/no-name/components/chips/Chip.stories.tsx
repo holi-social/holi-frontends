@@ -30,6 +30,7 @@ export const Playground: Story = {
   argTypes: {
     color: { control: 'select', options: availableColors },
     size: { control: 'select', options: availableSizes },
+    iconLeading: { control: { type: false } },
     iconTrailing: { control: { type: false } },
   },
   args: {
@@ -50,9 +51,6 @@ export const Playground: Story = {
 }
 
 export const ByColor: Story = {
-  argTypes: {
-    iconTrailing: { control: { type: false } },
-  },
   args: {
     iconTrailing: Pencil,
   },
@@ -68,15 +66,12 @@ export const ByColor: Story = {
 }
 
 export const BySize: Story = {
-  argTypes: {
-    iconTrailing: { control: { type: false } },
-  },
   args: {
     iconTrailing: Pencil,
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'end', gap: 10 }}>
         {availableSizes.map((s) => (
           <Chip key={s} {...args} size={s} color="blue" />
         ))}
