@@ -9,7 +9,8 @@ import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/use
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
 import { RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
-import Recommendation from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/Recommendation'
+import TaskRecommendation from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/TaskRecommendation'
+import { TrackingEvent } from '@holi/core/tracking'
 import CheckboxFilled from '@holi/icons/src/generated/CheckboxFilled'
 
 type TaskRecommendationsProps = {
@@ -47,7 +48,12 @@ const TaskRecommendations = ({ cardWidth }: TaskRecommendationsProps) => {
       renderItem={({ item, index }) => {
         return item.space ? (
           <View style={[styles.cardContainer, index === (tasks?.length || 0) - 1 && styles.lastCard]}>
-            <Recommendation task={item} space={item.space} cardWidth={cardWidth} />
+            <TaskRecommendation
+              task={item}
+              space={item.space}
+              cardWidth={cardWidth}
+              trackingEvent={TrackingEvent.RecommendationPressed('space_task', item.id, index)}
+            />
           </View>
         ) : null
       }}
