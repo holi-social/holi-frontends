@@ -2,16 +2,14 @@ import { withProfiler } from '@sentry/react'
 import fetch from 'cross-fetch'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, useWindowDimensions } from 'react-native'
+import { useWindowDimensions } from 'react-native'
 
-import { HOLI_APPS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
+import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
 import { TrackingEvent } from '@holi/core/tracking'
 import { StarSmileFilled } from '@holi/icons/src/generated'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 import { ChallengeCard, calculateCardWidth } from '@holi-apps/challenges/components/ChallengeCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
@@ -66,31 +64,22 @@ const RecommendedChallenges = () => {
   }
 
   return (
-    <HoliContainer>
-      <AppUpdatesList
-        appName={HOLI_APPS.CHALLENGES}
-        renderItem={({ item, index }: { item: Challenge; index: number }) => (
-          <ChallengeCard challenge={item} trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, index)} />
-        )}
-        data={challenges.slice(0, MAX_ITEMS_TO_DISPLAY)}
-        appIcon={StarSmileFilled}
-        heading={t('challenges:recommendations.title')}
-        subline={t('challenges:recommendations.subline')}
-        onPressSeeMore={() => navigate(createInAppChallengesPath(allChallengePath))}
-        labelSeeMore={t('global.seeMore')}
-        loading={isLoading}
-        style={styles.challengesCardContainer}
-        cardWidth={cardWidth}
-      />
-    </HoliContainer>
+    <ActSlider
+      name="challenges"
+      renderItem={({ item, index }: { item: Challenge; index: number }) => (
+        <ChallengeCard challenge={item} trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, index)} />
+      )}
+      data={challenges.slice(0, MAX_ITEMS_TO_DISPLAY)}
+      icon={StarSmileFilled}
+      heading={t('challenges:recommendations.title')}
+      subline={t('challenges:recommendations.subline')}
+      seeAllPath={createInAppChallengesPath()}
+      onPressSeeMore={() => navigate(createInAppChallengesPath(allChallengePath))}
+      labelSeeMore={t('global.seeMore')}
+      loading={isLoading}
+      cardWidth={cardWidth}
+    />
   )
 }
-
-const styles = StyleSheet.create({
-  challengesCardContainer: {
-    paddingBottom: 8,
-    flex: 1,
-  },
-})
 
 export default withProfiler(RecommendedChallenges, { name: 'RecommendedChallenges' })
