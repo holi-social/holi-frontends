@@ -2,15 +2,12 @@ import { QueryHookOptions, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
 
-import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
-import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
+import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
+import ActSliderItem from '@holi/core/screens/appsHub/components/ActSliderItem'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HandHeartsFilled } from '@holi/icons/src/generated'
 
@@ -22,13 +19,11 @@ export const PROJECT_PAGE_SIZE = 5
 
 interface DonationUpdatesProps {
   locationQuery?: string
-  style?: StyleProp<ViewStyle>
   cardWidth: number
 }
 
-const DonationUpdates = ({ locationQuery, style, cardWidth }: DonationUpdatesProps) => {
+const DonationUpdates = ({ locationQuery, cardWidth }: DonationUpdatesProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
 
   const queryOptions: QueryHookOptions = {
     variables: {
@@ -56,9 +51,9 @@ const DonationUpdates = ({ locationQuery, style, cardWidth }: DonationUpdatesPro
     const original = picture.find(({ type }) => type === 'original')
 
     return (
-      <AppUpdatesItem
-        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path}/${item.id}`}
-        appName={HOLI_APPS.DONATIONS}
+      <ActSliderItem
+        to={`/donations/${item.id}`}
+        name="donations"
         title={item.title}
         imageSourceUri={original?.url}
         footer={
@@ -76,17 +71,16 @@ const DonationUpdates = ({ locationQuery, style, cardWidth }: DonationUpdatesPro
   }
 
   return (
-    <AppUpdatesList
-      appName={HOLI_APPS.DONATIONS}
+    <ActSlider
+      name="donations"
       renderItem={renderItem}
       data={projectsToRender}
-      appIcon={HandHeartsFilled}
+      icon={HandHeartsFilled}
       heading={t('donations:app.name')}
       subline={t('donations:app.subline')}
-      onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.DONATIONS].path)}
+      seeAllPath="/donations"
       labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
       loading={loading || isReloading}
-      style={style}
       cardWidth={cardWidth}
     />
   )

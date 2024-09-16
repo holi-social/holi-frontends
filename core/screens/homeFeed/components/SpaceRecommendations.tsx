@@ -2,7 +2,7 @@ import { QueryHookOptions } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import {
   SpaceCardFragment,
@@ -13,12 +13,11 @@ import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
 import { TrackingEvent } from '@holi/core/tracking'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { SpacesFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -80,8 +79,6 @@ type SpaceRecommendationsProps = {
 
 const SpaceRecommendations = ({ cardWidth }: SpaceRecommendationsProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
-  const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
 
   const queryOptions: QueryHookOptions = {
     variables: { limit: 5 },
@@ -106,32 +103,23 @@ const SpaceRecommendations = ({ cardWidth }: SpaceRecommendationsProps) => {
   const seeMoreText = t('recommendations.spaces.seeMore')
 
   return (
-    <View style={styles.container}>
-      <HoliBox padding={[0, 0, 20, 0]}>
-        <HoliHeading level="2">{t('recommendations.spaces.title')}</HoliHeading>
-      </HoliBox>
-
-      <FlatList
-        horizontal
-        style={styles.listContainer}
-        data={spaces}
-        renderItem={({ item, index }) => (
-          <SpaceRecommendation
-            space={item}
-            trackingEvent={TrackingEvent.RecommendationPressed('space', item.id, index)}
-            cardWidth={cardWidth}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-        ListFooterComponent={
-          <View style={styles.moreCard}>
-            <HoliMoreCard role="link" label={seeMoreText} onPress={() => navigate('/spaces?tab=discover')}>
-              {seeMoreText}
-            </HoliMoreCard>
-          </View>
-        }
-      />
-    </View>
+    <ActSlider
+      name="spaces"
+      renderItem={({ item, index }) => (
+        <SpaceRecommendation
+          space={item}
+          trackingEvent={TrackingEvent.RecommendationPressed('space', item.id, index)}
+          cardWidth={cardWidth}
+        />
+      )}
+      data={spaces}
+      icon={SpacesFilled}
+      heading={t('recommendations.spaces.title')}
+      subline={t('recommendations.spaces.subline')}
+      seeAllPath="/spaces?tab=discover"
+      labelSeeMore={seeMoreText}
+      cardWidth={cardWidth}
+    />
   )
 }
 
@@ -139,17 +127,6 @@ export default withProfiler(SpaceRecommendations, { name: 'SpaceRecommendations'
 
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-      paddingTop: 24,
-      paddingBottom: 10,
-    },
-    listContainer: {
-      flex: 1,
-      paddingLeft: 24,
-      paddingBottom: 12,
-      marginHorizontal: -20,
-    },
     cardContainer: {
       marginRight: 12,
       width: cardWidth,
@@ -159,10 +136,5 @@ const getStyles = (cardWidth: number) =>
       display: 'flex',
       justifyContent: 'flex-start',
       gap: 3,
-    },
-    moreCard: {
-      flex: 1,
-      width: cardWidth,
-      marginRight: 44,
     },
   })

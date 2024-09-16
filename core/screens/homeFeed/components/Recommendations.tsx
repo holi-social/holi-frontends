@@ -10,7 +10,9 @@ import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRe
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
@@ -63,44 +65,26 @@ const Recommendations = () => {
   const cardWidth = useCardWidth()
 
   return (
-    <View style={styles.container}>
+    <View>
       <RecommendationsHeader />
-
-      <ErrorBoundary>
-        <HoliContainer>
+      <HoliGap />
+      <View style={styles.container}>
+        <ErrorBoundary>
           <SpaceRecommendations cardWidth={cardWidth} />
-        </HoliContainer>
-      </ErrorBoundary>
+        </ErrorBoundary>
 
-      <ErrorBoundary>
-        <HoliContainer>
+        <ErrorBoundary>
           <TaskRecommendations cardWidth={cardWidth} />
-        </HoliContainer>
-      </ErrorBoundary>
+        </ErrorBoundary>
 
-      {volunteeringVariant === 'legacy' && (
-        <HoliContainer>
-          <VolunteeringUpdates cardWidth={cardWidth} style={styles.updatesContainer} />
-        </HoliContainer>
-      )}
+        {volunteeringVariant === 'legacy' && <VolunteeringUpdates cardWidth={cardWidth} />}
 
-      {volunteeringVariant === 'recosV1' && (
-        <HoliContainer>
-          <VolunteeringRecosV1 cardWidth={cardWidth} style={styles.updatesContainer} />
-        </HoliContainer>
-      )}
+        {volunteeringVariant === 'recosV1' && <VolunteeringRecosV1 cardWidth={cardWidth} />}
 
-      {displayDonations && (
-        <HoliContainer>
-          <DonationUpdates cardWidth={cardWidth} style={styles.updatesContainer} />
-        </HoliContainer>
-      )}
+        {displayDonations && <DonationUpdates cardWidth={cardWidth} />}
 
-      {displayGoodNews && (
-        <HoliContainer>
-          <GoodNewsUpdates cardWidth={cardWidth} style={styles.updatesContainer} />
-        </HoliContainer>
-      )}
+        {displayGoodNews && <GoodNewsUpdates cardWidth={cardWidth} />}
+      </View>
     </View>
   )
 }
@@ -113,11 +97,6 @@ export const exportedForTesting = {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 24,
-  },
-  updatesContainer: {
-    flex: 1,
-    minHeight: 'auto',
-    paddingBottom: 12,
+    gap: dimensions.spacingL,
   },
 })

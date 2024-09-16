@@ -1,8 +1,9 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
@@ -12,8 +13,7 @@ import NotificationAndSearchHeader from '@holi/core/navigation/components/header
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
@@ -36,6 +36,7 @@ const ActHome = () => {
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
+      headerTransparent: true,
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
@@ -50,8 +51,7 @@ const ActHome = () => {
   const volunteeringVariant = useVolunteeringVariant()
 
   return (
-    <ScrollView style={styles.container}>
-      <HoliGap size="m" />
+    <ScrollHeaderLayout>
       <View style={styles.container}>
         <AttendingChallengeEvents />
         <ErrorBoundary>
@@ -59,49 +59,38 @@ const ActHome = () => {
         </ErrorBoundary>
 
         <ErrorBoundary>
-          <HoliContainer>
-            <TaskRecommendations cardWidth={cardWidth} />
-          </HoliContainer>
+          <TaskRecommendations cardWidth={cardWidth} />
         </ErrorBoundary>
 
         {volunteeringVariant === 'legacy' && (
           <ErrorBoundary>
-            <HoliContainer>
-              <VolunteeringUpdates style={styles.updatesContainer} cardWidth={cardWidth} />
-            </HoliContainer>
+            <VolunteeringUpdates cardWidth={cardWidth} />
           </ErrorBoundary>
         )}
 
         {volunteeringVariant === 'recosV1' && (
           <ErrorBoundary>
-            <HoliContainer>
-              <VolunteeringRecosV1 style={styles.updatesContainer} cardWidth={cardWidth} />
-            </HoliContainer>
+            <VolunteeringRecosV1 cardWidth={cardWidth} />
           </ErrorBoundary>
         )}
 
         {displayDonations && (
           <ErrorBoundary>
-            <HoliContainer>
-              <DonationUpdates style={styles.updatesContainer} cardWidth={cardWidth} />
-            </HoliContainer>
+            <DonationUpdates cardWidth={cardWidth} />
           </ErrorBoundary>
         )}
       </View>
-    </ScrollView>
+    </ScrollHeaderLayout>
   )
 }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
-      gap: 48,
+      gap: dimensions.spacingL,
       backgroundColor: theme.colors.background20,
-    },
-    updatesContainer: {
-      flex: 1,
-      minHeight: 'auto',
-      paddingBottom: 12,
+      paddingTop: dimensions.spacingM,
+      paddingBottom: dimensions.spacingL,
     },
   })
 
