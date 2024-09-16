@@ -6,22 +6,27 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { FirstVisitOnboardingStepper } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingStepper'
+import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 
 const OnboardingFirstVisit = () => {
   const setScreenOptions = useSetScreenOptions()
   const { navigate } = useRouting()
   const { selectedContentType, selectContentType } = useFirstVisitContentSelection()
-
-  // HOLI-9831: Check if user is already logged in?
+  const { isLoggedIn } = useLoggedInUser()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
   }, [setScreenOptions])
 
   useEffect(() => {
+    if (isLoggedIn) {
+      return navigate('/')
+    }
     if (selectedContentType) {
+      storeOnboardingState('finished')
       switch (selectedContentType) {
         case 'CHALLENGES':
           return navigate('/act')
@@ -36,7 +41,7 @@ const OnboardingFirstVisit = () => {
           return navigate('/')
       }
     }
-  }, [selectedContentType, navigate])
+  }, [selectedContentType, navigate, isLoggedIn])
 
   return (
     <SafeArea style={styles.container}>
