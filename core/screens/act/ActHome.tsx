@@ -13,6 +13,8 @@ import NotificationAndSearchHeader from '@holi/core/navigation/components/header
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
+import { useFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -23,13 +25,57 @@ import VolunteeringRecosV1 from '@holi-apps/volunteering/components/Volunteering
 import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
 import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 
+const ActSection = ({ type }: { type: string }) => {
+  const cardWidth = useCardWidth()
+  const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
+  const volunteeringVariant = useVolunteeringVariant()
+
+  switch (type) {
+    case 'CHALLENGES':
+      return (
+        <ErrorBoundary>
+          <RecommendedChallenges />
+        </ErrorBoundary>
+      )
+    case 'VOLUNTEERING':
+      return (
+        <>
+          <ErrorBoundary>
+            <TaskRecommendations cardWidth={cardWidth} />
+          </ErrorBoundary>
+
+          {volunteeringVariant === 'legacy' && (
+            <ErrorBoundary>
+              <VolunteeringUpdates cardWidth={cardWidth} />
+            </ErrorBoundary>
+          )}
+
+          {volunteeringVariant === 'recosV1' && (
+            <ErrorBoundary>
+              <VolunteeringRecosV1 cardWidth={cardWidth} />
+            </ErrorBoundary>
+          )}
+        </>
+      )
+    case 'DONATIONS':
+      return (
+        <>
+          {displayDonations && (
+            <ErrorBoundary>
+              <DonationUpdates cardWidth={cardWidth} />
+            </ErrorBoundary>
+          )}
+        </>
+      )
+  }
+}
+
 const ActHome = () => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const setScreenOptions = useSetScreenOptions()
   const title = t('act.title')
-  const cardWidth = useCardWidth()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -47,38 +93,27 @@ const ActHome = () => {
     })
   }, [title, setScreenOptions])
 
-  const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
-  const volunteeringVariant = useVolunteeringVariant()
+  const { isLoading, selectedContentType } = useFirstVisitContentSelection()
+
+  if (isLoading) return <HoliLoader />
+
+  const sections = ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS']
+
+  if (selectedContentType) {
+    const index = sections.findIndex((item) => item === selectedContentType)
+    if (index > 0) {
+      const [itemToMoveToTheFront] = sections.splice(index, 1)
+      sections.unshift(itemToMoveToTheFront)
+    }
+  }
 
   return (
     <ScrollHeaderLayout>
       <View style={styles.container}>
         <AttendingChallengeEvents />
-        <ErrorBoundary>
-          <RecommendedChallenges />
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <TaskRecommendations cardWidth={cardWidth} />
-        </ErrorBoundary>
-
-        {volunteeringVariant === 'legacy' && (
-          <ErrorBoundary>
-            <VolunteeringUpdates cardWidth={cardWidth} />
-          </ErrorBoundary>
-        )}
-
-        {volunteeringVariant === 'recosV1' && (
-          <ErrorBoundary>
-            <VolunteeringRecosV1 cardWidth={cardWidth} />
-          </ErrorBoundary>
-        )}
-
-        {displayDonations && (
-          <ErrorBoundary>
-            <DonationUpdates cardWidth={cardWidth} />
-          </ErrorBoundary>
-        )}
+        {sections.map((sectionName) => (
+          <ActSection type={sectionName} key={sectionName} />
+        ))}
       </View>
     </ScrollHeaderLayout>
   )
