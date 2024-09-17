@@ -99,4 +99,9 @@ const palettes: Palettes = {
   red,
 }
 
+export const byShade = (shade: keyof ColorPalette): Record<Color, string> =>
+  Object.entries(palettes).reduce((previous, current) => {
+    return { ...previous, ...{ [current[0]]: current[1][shade] } }
+  }, {} as Record<Color, string>)
+
 export default palettes

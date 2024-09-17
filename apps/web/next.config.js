@@ -109,6 +109,7 @@ const nextConfig = {
     'react-native-svg',
     'react-native-swipe-gestures',
     'react-native-media-query',
+    'react-native-unistyles',
     'react-native-web',
     'react-native-webview',
     'recyclerlistview',

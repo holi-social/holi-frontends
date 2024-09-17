@@ -1,6 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useMemo, useState } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
 import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVerification'
@@ -9,6 +9,7 @@ import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import {
@@ -16,10 +17,11 @@ import {
   onboardingStateVar,
   storeOnboardingState,
   useStoredOnboardingState,
-} from '@holi/core/screens/onboarding/hooks'
+} from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
@@ -36,16 +38,10 @@ export enum RegistrationStep {
 }
 
 interface OnboardingStepperProps {
-  style?: StyleProp<ViewStyle>
   onOnboardingStateChange: (value: OnboardingStateValue) => Promise<void>
-  afterAccountCreated?: () => void
 }
 
-const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
-  style,
-  onOnboardingStateChange,
-  afterAccountCreated,
-}) => {
+const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingStateChange }) => {
   const { theme } = useTheme()
   const { track } = useTracking()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -54,6 +50,8 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
     communityGuidelines: false,
     privacyPolicy: false,
   })
+
+  usePreventBackNavigation(true)
 
   const { navigate, navigateBack } = useRouting()
 
@@ -101,9 +99,8 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
         }
         break
       case RegistrationStep.CREATE_ACCOUNT:
-        goNext()
         await onOnboardingStateChange('emailVerification')
-        afterAccountCreated?.()
+        goNext()
         break
       case RegistrationStep.EMAIL_VERIFICATION:
         await onOnboardingStateChange('accountSetup')
@@ -112,10 +109,10 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
       default:
         return
     }
-  }, [afterAccountCreated, communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy, track])
+  }, [communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy, track])
 
   return (
-    <View style={[styles.container, style]}>
+    <SafeArea style={styles.container}>
       <HoliStepper
         scrollEnabled={false}
         steps={[
@@ -147,16 +144,11 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({
         ]}
         lazy
       />
-    </View>
+    </SafeArea>
   )
 }
 
-export interface OnboardingProps {
-  afterAccountCreated?: () => void
-  style?: StyleProp<ViewStyle>
-}
-
-const OnboardingRegistration = ({ afterAccountCreated, style }: OnboardingProps) => {
+const OnboardingRegistration = () => {
   const storedOnboardingState = useStoredOnboardingState()
   const [toRegistration] = useParam('registrationStep')
 
@@ -182,11 +174,7 @@ const OnboardingRegistration = ({ afterAccountCreated, style }: OnboardingProps)
 
   return (
     <HoliStepperController initialStep={initialStep} stepCount={6}>
-      <OnboardingStepper
-        style={style}
-        onOnboardingStateChange={storeOnboardingState}
-        afterAccountCreated={afterAccountCreated}
-      />
+      <OnboardingStepper onOnboardingStateChange={storeOnboardingState} />
     </HoliStepperController>
   )
 }

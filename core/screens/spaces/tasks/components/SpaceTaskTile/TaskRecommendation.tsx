@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import Content from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Content'
+import { TrackingEvent } from '@holi/core/tracking'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
@@ -13,7 +14,13 @@ import Image from './components/Image'
 import Skeleton from './components/Skeleton'
 import { BaseProps } from './types'
 
-const Recommendation = ({ loading, task, space, cardWidth }: PropsWithSkeleton<BaseProps> & { cardWidth: number }) => {
+const TaskRecommendation = ({
+  loading,
+  task,
+  space,
+  cardWidth,
+  trackingEvent,
+}: PropsWithSkeleton<BaseProps> & { cardWidth: number; trackingEvent: TrackingEvent }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -22,7 +29,12 @@ const Recommendation = ({ loading, task, space, cardWidth }: PropsWithSkeleton<B
   }
 
   return (
-    <HoliLink href={`/spaces/${space.name}/tasks/${task.id}`} label={task.name} isFullHeight>
+    <HoliLinkTracked
+      href={`/spaces/${space.name}/tasks/${task.id}`}
+      label={task.name}
+      isFullHeight
+      trackingEvent={trackingEvent}
+    >
       <HoliCardComponent.CardContainer hasBorder borderColor="gray200" borderRadius={16}>
         <Image imageUrl={task.thumbnail} imageBlurhash={task.thumbnailBlurhash} imageWidth={cardWidth}>
           <View style={[styles.imageCaption, styles.spaceCaption]}>
@@ -41,7 +53,7 @@ const Recommendation = ({ loading, task, space, cardWidth }: PropsWithSkeleton<B
           <Content task={task} recommendation />
         </HoliCardComponent.ContentContainer>
       </HoliCardComponent.CardContainer>
-    </HoliLink>
+    </HoliLinkTracked>
   )
 }
 
@@ -60,4 +72,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default Recommendation
+export default TaskRecommendation
