@@ -13,11 +13,11 @@ export type OnboardingStateValue = (typeof onboardingValues)[number]
 const isOnboardingStateValue = (value: string | null): value is OnboardingStateValue =>
   onboardingValues.some((v) => value === v)
 
-export const onboardingStateVar = makeVar<OnboardingStateValue | undefined>(undefined)
+export const onboardingStateVar = makeVar<OnboardingStateValue | null>(null)
 
 export const clearOnboardingState = async () => {
   await AsyncStore.removeItem(ONBOARDING_STATE_STORAGE_NAME)
-  onboardingStateVar(undefined)
+  onboardingStateVar(null)
 }
 
 export const storeOnboardingState = async (value: OnboardingStateValue) => {

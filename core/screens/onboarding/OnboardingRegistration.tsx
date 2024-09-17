@@ -1,6 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useMemo, useState } from 'react'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
 import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVerification'
@@ -38,7 +38,6 @@ export enum RegistrationStep {
 }
 
 interface OnboardingStepperProps {
-  style?: StyleProp<ViewStyle>
   onOnboardingStateChange: (value: OnboardingStateValue) => Promise<void>
 }
 
