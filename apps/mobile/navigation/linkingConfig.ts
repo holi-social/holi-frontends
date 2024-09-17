@@ -30,6 +30,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.ChatHome]: 'chat',
           },
         },
+        [RouteName.ActStack]: {
+          initialRouteName: RouteName.ActHome,
+          screens: {
+            [RouteName.ActHome]: 'act',
+          },
+        },
         [RouteName.Auth]: {
           initialRouteName: RouteName.Profile,
           screens: {
