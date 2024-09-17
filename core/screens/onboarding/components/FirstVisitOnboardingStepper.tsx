@@ -9,18 +9,21 @@ import {
   FirstVisitOnboardingStepProps,
 } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingStep'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliWizard, {
   BackPressHandlerOptions,
   NextPressHandlerOptions,
+  SkipPressHandlerOptions,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type FirstVisitStep =
-  | 'INITIAL_QUESTION'
+  | 'VOLUNTEERING_QUESTION'
   | 'ALREADY_VOLUNTEERING'
   | 'SMALL_ACTIONS'
   | 'COLLABORATION'
-  | 'POSTS'
+  | 'POST_FEATURE_PREVIEW'
   | 'NOT_VOLUNTEERING'
 
 type ContentType = 'CHALLENGES' | 'DONATIONS' | 'VOLUNTEERING' | 'SPACES' | 'HOME'
@@ -38,7 +41,7 @@ type FirstVisitOnboardingStepConfiguration = Pick<FirstVisitOnboardingStepProps,
   FirstVisitOnboardingStepAction
 
 const onboardingSteps: { [key in FirstVisitStep]: FirstVisitOnboardingStepConfiguration } = {
-  INITIAL_QUESTION: {
+  VOLUNTEERING_QUESTION: {
     descriptionAbove: true,
     options: [
       {
@@ -65,7 +68,7 @@ const onboardingSteps: { [key in FirstVisitStep]: FirstVisitOnboardingStepConfig
       },
       {
         id: 'POSTS',
-        nextStep: 'POSTS',
+        nextStep: 'POST_FEATURE_PREVIEW',
         image: require('@holi/ui/assets/img/onboarding/icon-posts.svg'),
       },
       {
@@ -114,7 +117,7 @@ const onboardingSteps: { [key in FirstVisitStep]: FirstVisitOnboardingStepConfig
       },
     ],
   },
-  POSTS: {
+  POST_FEATURE_PREVIEW: {
     // no options, only info illustration
     contentType: 'HOME',
     image: {
@@ -162,7 +165,8 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
   const { t } = useTranslation()
   const { navigate, navigateBack } = useRouting()
   const [selections, setSelections] = useState<SelectionState>({})
-  const [currentStep, setCurrentStep] = useState<FirstVisitStep>('INITIAL_QUESTION')
+  const [currentStep, setCurrentStep] = useState<FirstVisitStep>('VOLUNTEERING_QUESTION')
+  const { track } = useTracking()
 
   const onSelectOption = useCallback(
     (step: FirstVisitStep, selection: string) =>
@@ -195,7 +199,7 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
       return 'nextStep' in selectedOption ? selectedOption.nextStep : undefined
     }
 
-    const firstStep = 'INITIAL_QUESTION'
+    const firstStep = 'VOLUNTEERING_QUESTION'
     const secondStep = determineNextStep(firstStep)
     const thirdStep = secondStep && determineNextStep(secondStep)
     return [firstStep, secondStep, thirdStep].filter((step) => !!step) as FirstVisitStep[]
@@ -226,32 +230,47 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
       const stepKey = stepsToRender[currentStep]
       const stepConfiguration = onboardingSteps[stepKey]
       if ('contentType' in stepConfiguration) {
+        stepConfiguration.contentType && track(TrackingEvent.OnboardingPressed(stepKey, stepConfiguration.contentType))
         onContentSelection(stepConfiguration.contentType)
       } else {
         const selectedOptionId = selections[stepKey]
         const selectedOption = stepConfiguration.options?.find((option) => option.id === selectedOptionId)
         if (selectedOption && 'contentType' in selectedOption) {
+          track(TrackingEvent.OnboardingPressed(stepKey, selectedOption.contentType))
           onContentSelection(selectedOption.contentType)
         } else {
+          selectedOptionId && track(TrackingEvent.OnboardingPressed(stepKey, selectedOptionId))
           const nextStep = selectedOption?.nextStep
           nextStep && setCurrentStep(nextStep)
           goNext()
         }
       }
     },
-    [stepsToRender, onContentSelection, selections]
+    [track, stepsToRender, onContentSelection, selections]
   )
 
   const handleBackPress = useCallback(
     ({ currentStep, goBack }: BackPressHandlerOptions) => {
       if (currentStep > 0) {
+        const curr = stepsToRender[currentStep]
+        curr && track(TrackingEvent.OnboardingPressed(curr, 'BACK'))
         setCurrentStep(stepsToRender[currentStep - 1])
         goBack()
       } else {
         navigateBack()
       }
     },
-    [stepsToRender, navigateBack]
+    [track, stepsToRender, navigateBack]
+  )
+
+  const handleSkipPress = useCallback(
+    async ({ currentStep }: SkipPressHandlerOptions) => {
+      const curr = stepsToRender[currentStep]
+      curr && track(TrackingEvent.OnboardingPressed(curr, 'SKIP'))
+      await storeOnboardingState('finished')
+      navigate('/')
+    },
+    [navigate, track, stepsToRender]
   )
 
   return (
@@ -265,10 +284,7 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
         }}
         handleNextPress={handleNextPress}
         handleBackPress={handleBackPress}
-        handleSkipPress={async () => {
-          await storeOnboardingState('finished')
-          navigate('/')
-        }}
+        handleSkipPress={handleSkipPress}
         getSubmitButtonLabel={() => t('onboarding.firstVisit.continue')}
         nextButtonLabel={t('onboarding.firstVisit.continue')}
         isNextButtonEnabled={nextButtonEnabled}
