@@ -4,6 +4,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
+import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -15,7 +16,6 @@ import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
@@ -52,15 +52,16 @@ const OnboardingWelcome = () => {
             },
           ]}
         >
-          <HoliButton
+          <HoliButtonTracked
             variant="default"
             style={[styles.forwardBtn]}
             label={t('onboarding.welcome.forward')}
             onPress={() => navigate('/onboarding/first-visit')}
             testID="btn-to-onboarding"
+            trackingEvent={TrackingEvent.OnboardingPressed('WELCOME', 'CONTINUE')}
           >
             {t('onboarding.welcome.forward')}
-          </HoliButton>
+          </HoliButtonTracked>
           <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </View>
         <HoliGap size="xl" />
