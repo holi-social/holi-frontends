@@ -8,10 +8,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
-export type ChipColor = Color | 'white'
-export type Size = 'md' | 'lg'
+type ChipColor = Color | 'white'
+type Size = 'md' | 'lg'
 
-export type ChipProps = PressableProps & {
+type ChipProps = PressableProps & {
   onPress: (event: GestureResponderEvent) => void
   children?: ReactNode
   selected?: boolean

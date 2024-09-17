@@ -8,10 +8,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
-export type ChipColor = Color | 'white'
-export type Size = 'sm' | 'md' | 'lg'
+type ChipColor = Color | 'white'
+type Size = 'sm' | 'md' | 'lg'
 
-export type ChipLabelProps = {
+type ChipLabelProps = {
   children?: ReactNode
   color?: ChipColor
   size?: Size
