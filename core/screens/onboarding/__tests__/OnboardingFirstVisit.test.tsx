@@ -55,7 +55,7 @@ describe('OnboardingFirstVisit', () => {
     fireEvent.press(screen.getByTestId('holi-wizard-back-btn'))
 
     // Expect first step
-    expect(screen.findByText('onboarding.firstVisit.INITIAL_QUESTION.heading')).toBeTruthy()
+    expect(screen.findByText('onboarding.firstVisit.VOLUNTEERING_QUESTION.heading')).toBeTruthy()
     expect(mockNavigate).not.toHaveBeenCalled()
   })
 
