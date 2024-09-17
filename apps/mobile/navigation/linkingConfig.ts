@@ -18,7 +18,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
             [RouteName.NotFound]: '404',
           },
         },
-        [RouteName.SpacesHomeStack]: {
+        [RouteName.SpacesStack]: {
           screens: {
             [RouteName.SpacesHome]: 'spaces',
             [RouteName.FilteredSpaces]: 'spaces/filter',
@@ -28,6 +28,12 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           initialRouteName: RouteName.ChatHome,
           screens: {
             [RouteName.ChatHome]: 'chat',
+          },
+        },
+        [RouteName.ActStack]: {
+          initialRouteName: RouteName.ActHome,
+          screens: {
+            [RouteName.ActHome]: 'act',
           },
         },
         [RouteName.Auth]: {
@@ -120,6 +126,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     // Onboarding
     [RouteName.Onboarding]: 'onboarding',
     [RouteName.OnboardingRegistration]: 'onboarding/registration',
+    [RouteName.OnboardingFirstVisit]: 'onboarding/first-visit',
 
     // Modals
     [RouteName.Notifications]: 'notifications',

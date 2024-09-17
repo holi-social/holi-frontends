@@ -1,21 +1,19 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { Skill, Topic } from '@holi/core/domain/shared/types'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
-import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
+import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
+import ActSliderItem from '@holi/core/screens/appsHub/components/ActSliderItem'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, HeartsFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
+import { labelsForListings } from '@holi-apps/volunteering/helpers'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 type VolunteeringUpdatesListProps = {
-  style?: StyleProp<ViewStyle>
   engagements: VolunteeringEngagement[]
   loading: boolean
   cardWidth: number
@@ -23,46 +21,7 @@ type VolunteeringUpdatesListProps = {
   skills: readonly Skill[]
 }
 
-const labels = (
-  item: VolunteeringEngagement,
-  topics: readonly Topic[],
-  skills: readonly Skill[]
-): {
-  topicLabel: string | undefined
-  topicLabelCount: number | undefined
-  skillLabel: string | undefined
-  skillLabelCount: number | undefined
-} => {
-  const topicName = (topicSlug: string) => topics.find((t) => t.slug === topicSlug)?.title
-  const skillName = (skillSlug: string) => skills.find((s) => s.slug === skillSlug)?.title
-
-  const forTopics =
-    item.matchedTopics && item.matchedTopics.length > 0
-      ? {
-          topicLabel: topicName(item.matchedTopics[0]),
-          topicLabelCount: item.matchedTopics.length > 1 ? item.matchedTopics.length - 1 : undefined,
-        }
-      : {
-          topicLabel: undefined,
-          topicLabelCount: undefined,
-        }
-
-  const forSkills =
-    item.matchedSkills && item.matchedSkills.length > 0
-      ? {
-          skillLabel: skillName(item.matchedSkills[0]),
-          skillLabelCount: item.matchedSkills.length > 1 ? item.matchedSkills.length - 1 : undefined,
-        }
-      : {
-          skillLabel: undefined,
-          skillLabelCount: undefined,
-        }
-
-  return { ...forTopics, ...forSkills }
-}
-
 const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
-  style,
   loading,
   engagements,
   cardWidth,
@@ -70,7 +29,6 @@ const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
   skills,
 }) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
 
   const renderItem = ({ item, index }: { item: VolunteeringEngagement; index: number }) => {
     const { organizer } = item
@@ -81,12 +39,18 @@ const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
           interpolation: { escapeValue: false },
         })
       : item.title
-    const { topicLabel, topicLabelCount, skillLabel, skillLabelCount } = labels(item, topics, skills)
+
+    const { topicLabel, topicLabelCount, skillLabel, skillLabelCount } = labelsForListings(
+      item.matchedTopics,
+      item.matchedSkills,
+      topics,
+      skills
+    )
 
     return (
-      <AppUpdatesItem
-        appName={HOLI_APPS.VOLUNTEERING}
-        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path}/${item.id}`}
+      <ActSliderItem
+        name="volunteering"
+        to={`/volunteering/${item.id}`}
         topicLabel={topicLabel}
         topicLabelCount={topicLabelCount}
         skillLabel={skillLabel}
@@ -96,7 +60,7 @@ const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
         footer={
           !!item.location && (
             <View style={styles.locationFooter}>
-              <HoliIcon icon={Globe} testID={`${HOLI_APPS.VOLUNTEERING}-updates-item-location-icon`} />
+              <HoliIcon icon={Globe} testID={'volunteering-updates-item-location-icon'} />
               <HoliText size="small">{item.location}</HoliText>
             </View>
           )
@@ -108,17 +72,16 @@ const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
   }
 
   return (
-    <AppUpdatesList
-      appName={HOLI_APPS.VOLUNTEERING}
+    <ActSlider
+      name="volunteering"
       renderItem={renderItem}
       data={engagements}
-      appIcon={HeartsFilled}
+      icon={HeartsFilled}
       heading={t('volunteering:app.name')}
       subline={t('volunteering:app.subline')}
-      onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.VOLUNTEERING].path)}
+      seeAllPath="/volunteering"
       labelSeeMore={t('volunteering:listing.loadMoreButton.text')}
       loading={loading}
-      style={style}
       cardWidth={cardWidth}
     />
   )

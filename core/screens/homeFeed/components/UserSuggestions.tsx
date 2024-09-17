@@ -91,8 +91,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginHorizontal: -20,
     paddingLeft: 24,
-    // scrollbar should not overlap labels
-    paddingBottom: 10,
   },
   listItem: {
     marginRight: 11,

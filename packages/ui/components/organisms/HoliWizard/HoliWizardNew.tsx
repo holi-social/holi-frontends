@@ -34,18 +34,28 @@ type NextPressHandler = (options: NextPressHandlerOptions) => void
 
 export interface SkipPressHandlerOptions {
   currentStep: number
+  goNext: () => void
 }
 type SkipPressHandler = (options: SkipPressHandlerOptions) => void
+
+export interface BackPressHandlerOptions {
+  currentStep: number
+  goBack: () => void
+}
+type BackPressHandler = (options: BackPressHandlerOptions) => void
 
 export interface HoliWizardProps {
   steps: React.ReactNode[]
   stepOptions: HoliWizardStepOptions
   handleNextPress: NextPressHandler
-  handleSkipPress: SkipPressHandler
+  handleBackPress?: BackPressHandler
+  handleSkipPress?: SkipPressHandler
   getSubmitButtonLabel: (stepNumber: number) => string
   scrollEnabled?: boolean
   testID?: string
+  nextButtonLabel?: string
   isNextButtonEnabled: boolean
+  initialBackButton?: boolean
 }
 
 interface HoliWizardContextType {
@@ -60,12 +70,16 @@ const HoliWizardContext = createContext<HoliWizardContextType | null>(null)
 interface HoliWizardContextProviderProps {
   stepOptions: HoliWizardStepOptions
   handleNextPress: NextPressHandler
+  handleSkipPress?: SkipPressHandler
+  handleBackPress?: BackPressHandler
 }
 
 const HoliWizardContextProvider: React.FC<React.PropsWithChildren<HoliWizardContextProviderProps>> = ({
   stepOptions,
   children,
   handleNextPress,
+  handleSkipPress,
+  handleBackPress,
 }) => {
   const { currentStep, goBack, goNext } = useStepper()
   const onNextPress = keyboardDismissWrapper(() =>
@@ -74,8 +88,22 @@ const HoliWizardContextProvider: React.FC<React.PropsWithChildren<HoliWizardCont
       goNext,
     })
   )
-  const onBackPress = keyboardDismissWrapper(goBack)
-  const onSkipPress = keyboardDismissWrapper(goNext)
+  const onBackPress = keyboardDismissWrapper(() =>
+    handleBackPress
+      ? handleBackPress({
+          currentStep,
+          goBack,
+        })
+      : goBack()
+  )
+  const onSkipPress = keyboardDismissWrapper(() => {
+    handleSkipPress
+      ? handleSkipPress({
+          currentStep,
+          goNext,
+        })
+      : goNext()
+  })
 
   const context = {
     currentStepOptions: stepOptions[currentStep],
@@ -94,10 +122,9 @@ export const useWizard = () => {
 
 interface HoliWizardHeaderProps {
   testID: string
-  handleSkipPress: SkipPressHandler
 }
 
-const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID, handleSkipPress }) => {
+const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { currentStep, stepCount } = useStepper()
@@ -124,10 +151,7 @@ const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID, handleSkipP
             inline
             transparent
             variant="small"
-            onPress={() => {
-              handleSkipPress({ currentStep })
-              onSkipPress && onSkipPress()
-            }}
+            onPress={onSkipPress}
             testID={`${testID}-skip-btn`}
           >
             <HoliText size="extrasmall">{t('global.skip')}</HoliText>
@@ -140,9 +164,16 @@ const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID, handleSkipP
 
 interface HoliWizardFooterProps {
   getSubmitButtonLabel: (stepNumber: number) => string
+  nextButtonLabel?: string
   isNextButtonEnabled: boolean
+  initialBackButton?: boolean
 }
-const HoliWizardFooter: React.FC<HoliWizardFooterProps> = ({ getSubmitButtonLabel, isNextButtonEnabled }) => {
+const HoliWizardFooter: React.FC<HoliWizardFooterProps> = ({
+  getSubmitButtonLabel,
+  nextButtonLabel,
+  isNextButtonEnabled,
+  initialBackButton,
+}) => {
   const { onNextPress, onBackPress, currentStepOptions } = useWizard()
   const { currentStep, stepCount } = useStepper()
   const { isBackButtonAvailable } = currentStepOptions
@@ -153,7 +184,8 @@ const HoliWizardFooter: React.FC<HoliWizardFooterProps> = ({ getSubmitButtonLabe
       onNextPress={onNextPress}
       onBackPress={onBackPress}
       submitButtonLabel={submitButtonLabel}
-      isBackButtonAvailable={isBackButtonAvailable && !!currentStep}
+      nextButtonLabel={nextButtonLabel}
+      isBackButtonAvailable={isBackButtonAvailable && (!!currentStep || initialBackButton)}
       isNextButtonEnabled={isNextButtonEnabled}
       isLastStep={currentStep === stepCount - 1}
       style={styles.buttonContainer}
@@ -165,21 +197,34 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
   steps,
   stepOptions,
   handleNextPress,
+  handleBackPress,
   handleSkipPress,
   getSubmitButtonLabel,
+  nextButtonLabel,
   isNextButtonEnabled,
+  initialBackButton = false,
   scrollEnabled = false,
   testID = 'holi-wizard',
 }) => {
   return (
     <SafeAreaView style={{ flex: 1 }} testID={testID}>
       <HoliStepperController stepCount={steps.length}>
-        <HoliWizardContextProvider stepOptions={stepOptions} handleNextPress={handleNextPress}>
-          <HoliWizardHeader testID={testID} handleSkipPress={handleSkipPress} />
+        <HoliWizardContextProvider
+          stepOptions={stepOptions}
+          handleNextPress={handleNextPress}
+          handleSkipPress={handleSkipPress}
+          handleBackPress={handleBackPress}
+        >
+          <HoliWizardHeader testID={testID} />
 
           <HoliStepper steps={steps} scrollEnabled={scrollEnabled} lazy />
 
-          <HoliWizardFooter getSubmitButtonLabel={getSubmitButtonLabel} isNextButtonEnabled={isNextButtonEnabled} />
+          <HoliWizardFooter
+            getSubmitButtonLabel={getSubmitButtonLabel}
+            nextButtonLabel={nextButtonLabel}
+            isNextButtonEnabled={isNextButtonEnabled}
+            initialBackButton={initialBackButton}
+          />
         </HoliWizardContextProvider>
       </HoliStepperController>
     </SafeAreaView>

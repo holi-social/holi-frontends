@@ -9,11 +9,13 @@ import AppsHub from '@holi/core/screens/appsHub/AppsHub'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
+import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
 import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
 import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
+import ActNavigator from '@holi/mobile/navigation/ActNavigator'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import ChallengesAppNavigator from '@holi/mobile/navigation/ChallengesAppNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
@@ -31,10 +33,12 @@ export type RootStackScreens = {
   [RouteName.Notifications]: undefined
   [RouteName.Spaces]: undefined
   [RouteName.Insights]: undefined
+  [RouteName.ActHome]: undefined
   [RouteName.ChatStack]: undefined
 
   [RouteName.Onboarding]: undefined
   [RouteName.OnboardingRegistration]: undefined
+  [RouteName.OnboardingFirstVisit]: undefined
 
   [RouteName.Login]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -77,6 +81,9 @@ const RootNavigator = () => {
 
       {/* SpacesHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} options={{ headerShown: false }} />
+
+      {/* ActHome is in BottomTabs */}
+      <RootStack.Screen name={RouteName.ActHome} component={ActNavigator} options={{ headerShown: false }} />
 
       {/* ChatHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.ChatStack} component={ChatStackNavigator} options={{ headerShown: false }} />
@@ -168,6 +175,11 @@ const RootNavigator = () => {
       <RootStack.Screen
         name={RouteName.OnboardingRegistration}
         component={OnboardingRegistration}
+        options={{ headerShown: false, gestureEnabled: false }}
+      />
+      <RootStack.Screen
+        name={RouteName.OnboardingFirstVisit}
+        component={OnboardingFirstVisit}
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen

@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
 
 import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { logError } from '@holi/core/errors/helpers'
@@ -19,11 +18,10 @@ import {
 export const ENGAGEMENT_PAGE_SIZE = 5
 
 type VolunteeringRecosV1Props = {
-  style?: StyleProp<ViewStyle>
   cardWidth: number
 }
 
-const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ style, cardWidth }: VolunteeringRecosV1Props) => {
+const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ cardWidth }: VolunteeringRecosV1Props) => {
   const { queryVariables, loading: loadingQueryVariables = false } = useVolunteeringRecosV1QueryVariables()
   const { topics, topicsLoading } = useTopics()
   const { skills, skillsLoading } = useSkills()
@@ -56,7 +54,6 @@ const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ style, cardWi
     <VolunteeringUpdatesList
       engagements={engagementsToRender}
       loading={loading || reloading || loadingQueryVariables || topicsLoading || skillsLoading}
-      style={style}
       cardWidth={cardWidth}
       topics={topics}
       skills={skills}

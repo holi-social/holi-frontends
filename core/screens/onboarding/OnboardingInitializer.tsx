@@ -3,7 +3,10 @@ import { memo, useEffect } from 'react'
 import { BackHandler, Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useOnboardingInitialization, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks'
+import {
+  useOnboardingInitialization,
+  useStoredOnboardingState,
+} from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 const OnboardingInitializer = () => {
   const { navigate } = useRouting()
@@ -15,12 +18,14 @@ const OnboardingInitializer = () => {
   useOnboardingInitialization()
 
   useEffect(() => {
-    if (onboardingState === undefined || finished) {
+    if (!onboardingState || finished) {
       return
-    } else if (onboardingState === 'onboarding') {
-      navigate('/onboarding')
+    }
+    // FIXME Crude hack to workaround a react-navigation issue: https://github.com/react-navigation/react-navigation/issues/9170
+    if (onboardingState === 'onboarding') {
+      setTimeout(() => navigate('/onboarding'), 100)
     } else {
-      navigate('/onboarding/registration')
+      setTimeout(() => navigate('/onboarding/registration'), 100)
     }
   }, [finished, navigate, onboardingState])
 

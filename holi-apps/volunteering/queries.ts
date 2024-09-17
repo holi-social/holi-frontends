@@ -18,6 +18,8 @@ export const fullEngagementFragment = gql`
     location
     latitude
     longitude
+    topics
+    skills
     matchedTopics
     matchedSkills
   }

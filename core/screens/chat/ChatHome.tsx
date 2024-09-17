@@ -35,7 +35,6 @@ const ChatHome = () => {
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>

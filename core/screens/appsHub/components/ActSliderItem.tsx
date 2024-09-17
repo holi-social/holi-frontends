@@ -9,8 +9,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
 import { useTheme } from '@holi/ui/styles/theme'
 
-interface AppUpdatesItemProps {
-  appName: string
+interface ActSliderItemProps {
+  name: string
   to: string | undefined
   imageSourceUri?: string
   title: string
@@ -23,7 +23,7 @@ interface AppUpdatesItemProps {
   cardWidth: number
 }
 
-const AppUpdatesItem = ({
+const ActSliderItem = ({
   to,
   imageSourceUri,
   topicLabel,
@@ -32,10 +32,10 @@ const AppUpdatesItem = ({
   skillLabelCount,
   title,
   footer,
-  appName,
+  name,
   trackingEvent,
   cardWidth,
-}: AppUpdatesItemProps) => {
+}: ActSliderItemProps) => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
@@ -43,7 +43,7 @@ const AppUpdatesItem = ({
   if (!to) return null
 
   return (
-    <View testID={`${appName}-updates-item`} style={styles.container}>
+    <View testID={`${name}-updates-item`} style={styles.container}>
       <HoliLinkTracked label={title} href={to} trackingEvent={trackingEvent}>
         <HoliCardComponent.CardContainer hasBorder borderColor="gray200" borderRadius={16}>
           <HoliCardComponent.ImageContainer>
@@ -103,7 +103,7 @@ const AppUpdatesItem = ({
   )
 }
 
-export default AppUpdatesItem
+export default ActSliderItem
 
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({

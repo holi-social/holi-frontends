@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import type { NamesStepData } from '@holi/core/auth/components/AccountSetup/NamesStep'
 
 /**
  * The base type of all tracking events. `TrackingEvent` instances shall not be defined outside of this file to ensure
@@ -58,10 +59,6 @@ export namespace TrackingEvent {
   }
 
   export const FeedPosts = {
-    created: {
-      name: 'createdFeedPost',
-      ...versionOne,
-    },
     read: (postId: string): TrackingEvent => ({
       name: 'readFeedPost',
       properties: {
@@ -112,11 +109,6 @@ export namespace TrackingEvent {
   }
 
   export const SpacePosts = {
-    created: (spaceId?: string): TrackingEvent => ({
-      name: 'createdSpacePost',
-      properties: { spaceId },
-      ...versionOne,
-    }),
     read: (postId: string, spaceId?: string): TrackingEvent => ({
       name: 'readSpacePost',
       properties: {
@@ -156,10 +148,25 @@ export namespace TrackingEvent {
       name: 'communityGuidelinesOnboardingStepCompleted',
       ...versionOne,
     }
+    export const RegisterNamesOnboardingStepCompleted = (updatedValues: NamesStepData): TrackingEvent => ({
+      name: 'registerNamesOnboardingStepCompleted',
+      properties: { updatedValues },
+      ...versionOne,
+    })
+    export const InterestsOnboardingStepCompleted = (updatedValues: string[]): TrackingEvent => ({
+      name: 'interestsOnboardingStepCompleted',
+      properties: { updatedValues },
+      ...versionOne,
+    })
     export const InterestsOnboardingStepSkipped: TrackingEvent = {
       name: 'interestsOnboardingStepSkipped',
       ...versionOne,
     }
+    export const LocationOnboardingStepCompleted = (updatedValues: string): TrackingEvent => ({
+      name: 'locationOnboardingStepCompleted',
+      properties: { updatedValues },
+      ...versionOne,
+    })
     export const LocationOnboardingStepSkipped: TrackingEvent = {
       name: 'locationOnboardingStepSkipped',
       ...versionOne,
@@ -189,7 +196,7 @@ export namespace TrackingEvent {
   })
 
   export const RecommendationPressed = (
-    type: 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews',
+    type: 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task',
     itemId: string,
     index: number
   ): TrackingEvent => ({
@@ -244,4 +251,25 @@ export namespace TrackingEvent {
       },
     })
   }
+
+  export const OnboardingPressed = (
+    step:
+      | 'WELCOME'
+      | 'VOLUNTEERING_QUESTION'
+      | 'ALREADY_VOLUNTEERING'
+      | 'SMALL_ACTIONS'
+      | 'COLLABORATION'
+      | 'POST_FEATURE_PREVIEW'
+      | 'NOT_VOLUNTEERING',
+    answer: string
+  ): TrackingEvent => ({
+    name: 'onboarding_pressed',
+    event_version__major: 1,
+    event_version__minor: 0,
+    event_version__patch: 0,
+    properties: {
+      step: step,
+      answer: answer,
+    },
+  })
 }

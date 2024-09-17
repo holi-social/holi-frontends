@@ -2,16 +2,13 @@ import { QueryHookOptions, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
 
-import { HOLI_APPS, HOLI_APPS_NAVIGATION_PATHS } from '@holi/core/constants/appConstants'
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import AppUpdatesItem from '@holi/core/screens/appsHub/components/AppUpdatesItem'
-import AppUpdatesList from '@holi/core/screens/appsHub/components/AppUpdatesList'
+import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
+import ActSliderItem from '@holi/core/screens/appsHub/components/ActSliderItem'
 import { TrackingEvent } from '@holi/core/tracking'
 import { NewspaperFilled } from '@holi/icons/src/generated'
 
@@ -22,13 +19,11 @@ export const GOOD_NEWS_PAGE_SIZE = 5
 
 type GoodNewsUpdatesProps = {
   locationQuery?: string
-  style?: StyleProp<ViewStyle>
   cardWidth: number
 }
 
-const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style, cardWidth }: GoodNewsUpdatesProps) => {
+const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNewsUpdatesProps) => {
   const { t, i18n } = useTranslation()
-  const { navigate } = useRouting()
 
   const queryOptions: QueryHookOptions = {
     onError: (error) =>
@@ -52,9 +47,9 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style, cardWidth }: G
     params.set('articleId', item.id)
 
     return (
-      <AppUpdatesItem
-        appName={HOLI_APPS.GOOD_NEWS}
-        to={`${HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path}?${params.toString()}`}
+      <ActSliderItem
+        name="goodnews"
+        to={`/apps/goodnews?${params.toString()}`}
         title={item.headline}
         imageSourceUri={item.pictureUrl}
         footer={formattedDate}
@@ -65,17 +60,16 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ style, cardWidth }: G
   }
 
   return (
-    <AppUpdatesList
-      appName={HOLI_APPS.GOOD_NEWS}
+    <ActSlider
+      name="goodnews"
       renderItem={renderItem}
       data={articlesToRender}
-      appIcon={NewspaperFilled}
+      icon={NewspaperFilled}
       heading={t('goodnews:app.name')}
       subline={t('goodnews:app.subline')}
-      onPressSeeMore={() => navigate(HOLI_APPS_NAVIGATION_PATHS[HOLI_APPS.GOOD_NEWS].path)}
+      seeAllPath="/apps/goodnews"
       labelSeeMore={t('goodnews:goodnewsListing.loadMoreButton.text')}
       loading={loading || isReloading}
-      style={style}
       cardWidth={cardWidth}
     />
   )

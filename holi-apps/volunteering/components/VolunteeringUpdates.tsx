@@ -1,7 +1,6 @@
 import { QueryHookOptions, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
@@ -14,11 +13,10 @@ export const ENGAGEMENT_PAGE_SIZE = 5
 
 type VolunteeringUpdatesProps = {
   locationQuery?: string
-  style?: StyleProp<ViewStyle>
   cardWidth: number
 }
 
-const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style, cardWidth }: VolunteeringUpdatesProps) => {
+const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ cardWidth }: VolunteeringUpdatesProps) => {
   const queryOptions: QueryHookOptions = {
     variables: {
       offset: 0,
@@ -45,7 +43,6 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ style, cardWi
       cardWidth={cardWidth}
       engagements={engagementsToRender}
       loading={loading || reloading}
-      style={style}
       topics={[]}
       skills={[]}
     />
