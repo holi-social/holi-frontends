@@ -6,6 +6,11 @@ const FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME = 'first_visit_content_value'
 
 const firstVisitSelectedContentTypeVar = makeVar<string | null>(null)
 
+export const clearFirstVisitContentSelection = async () => {
+  await AsyncStore.removeItem(FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME)
+  firstVisitSelectedContentTypeVar(null)
+}
+
 export const useFirstVisitContentSelection = () => {
   const [isLoading, setIsLoading] = useState(true)
   const selectedContentType = useReactiveVar(firstVisitSelectedContentTypeVar)

@@ -8,6 +8,7 @@ import {
   FirstVisitOnboardingStep,
   FirstVisitOnboardingStepProps,
 } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingStep'
+import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import HoliWizard, {
   BackPressHandlerOptions,
   NextPressHandlerOptions,
@@ -264,8 +265,10 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
         }}
         handleNextPress={handleNextPress}
         handleBackPress={handleBackPress}
-        // HOLI-9752/HOLI-9831: update onboarding state, so the wizard won't show up again
-        handleSkipPress={() => navigate('/')}
+        handleSkipPress={async () => {
+          await storeOnboardingState('finished')
+          navigate('/')
+        }}
         getSubmitButtonLabel={() => t('onboarding.firstVisit.continue')}
         nextButtonLabel={t('onboarding.firstVisit.continue')}
         isNextButtonEnabled={nextButtonEnabled}
