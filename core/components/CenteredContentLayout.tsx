@@ -32,7 +32,7 @@ const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildr
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
             <HoliBox padding={24}>
-              <View style={styles.childrenWapper}>{children}</View>
+              <View style={styles.childrenWrapper}>{children}</View>
             </HoliBox>
           </ScrollView>
         </View>
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: { minHeight: '100%' },
     }),
+    alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   scrollView: {
     overflow: 'visible',
   },
-  childrenWapper: {
+  childrenWrapper: {
     alignItems: 'center',
   },
 })
