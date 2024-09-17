@@ -9,7 +9,7 @@ import { Colors } from '@holi/ui/no-name/foundations/colors/primitives'
 import Chip from './Chip'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
-const availableSizes = ['md', 'lg'] as const
+const availableSizes = ['sm', 'md', 'lg'] as const
 
 const meta: Meta<typeof Chip> = {
   title: 'No Name/Components/Chips (draft)',

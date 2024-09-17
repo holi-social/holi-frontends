@@ -9,7 +9,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 type ChipColor = Color | 'white'
-type Size = 'md' | 'lg'
+type Size = 'sm' | 'md' | 'lg'
 
 type ChipProps = PressableProps & {
   onPress: (event: GestureResponderEvent) => void
@@ -33,6 +33,7 @@ const Chip = ({
   iconTrailing,
 }: ChipProps) => {
   const { styles } = useStyles(stylesheet, { size, selected, disabled })
+  const iconSize = size === 'sm' ? 14 : 18
 
   return (
     <Pressable
@@ -42,13 +43,13 @@ const Chip = ({
       onPress={(e) => onPress?.(e)}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
     >
-      {iconLeading && <HoliIcon icon={iconLeading} size={18} color={styles.text.color} />}
+      {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
       {children && (
         <HoliText selectable={false} style={styles.text}>
           {children}
         </HoliText>
       )}
-      {iconTrailing && <HoliIcon icon={iconTrailing} size={18} color={styles.text.color} />}
+      {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} color={styles.text.color} />}
     </Pressable>
   )
 }
@@ -80,6 +81,9 @@ const stylesheet = createStyleSheet((theme) => ({
       }),
       variants: {
         size: {
+          sm: {
+            paddingHorizontal: Spacing['3xs'],
+          },
           md: {
             paddingHorizontal: Spacing['3xs'],
           },
@@ -108,6 +112,7 @@ const stylesheet = createStyleSheet((theme) => ({
     variants: {
       //  Temporary explicit styles, until new font & Text component is built
       size: {
+        sm: { fontSize: 13, lineHeight: 15.6, letterSpacing: -0.104 },
         md: { fontSize: 15, lineHeight: 21, letterSpacing: -0.12 },
         lg: { fontSize: 18, lineHeight: 21.6, letterSpacing: -0.18 },
       },
