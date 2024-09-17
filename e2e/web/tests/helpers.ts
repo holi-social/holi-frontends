@@ -32,9 +32,7 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
 }
 
 export const scrollToMakeHeaderVisible = async (page: Page): Promise<void> =>
-  page.evaluate(() =>
-    window.scrollBy({ top: 5 })
-  )
+  page.evaluate(() => window.scrollBy({ top: 5 }))
 
 /*
  * Only use for text that is provided by the test (fixture)
@@ -157,9 +155,10 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await page.goto('/')
   await denyConsent(page)
   await Promise.all([
-    page.waitForSelector(byTestId('btn-to-continue-as-guest'), { state: 'detached' }),
-    clickElementByTestId(page, 'btn-to-continue-as-guest'),
+    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
+    clickElementByTestId(page, 'btn-to-onboarding'),
   ])
+  await clickElementByTestId(page, 'holi-wizard-skip-btn')
 }
 
 export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {

@@ -34,8 +34,10 @@ beforeEach(async () => {
         numAttempts--
       }
     }
+    // Decline tracking and skip onboarding
     await tapOnElementWithTestId('btn-consentModal-declineAll')
-    await tapOnElementWithTestId('btn-to-continue-as-guest')
+    await tapOnElementWithTestId('btn-to-onboarding')
+    await tapOnElementWithTestId('holi-wizard-skip-btn')
     await waitForHomeScreen(homeScreenTimeout)
   } else {
     // Logout + navigate back to the home screen before each test
