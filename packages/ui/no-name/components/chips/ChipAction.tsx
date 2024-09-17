@@ -11,7 +11,7 @@ import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 type ChipColor = Color | 'white'
 type Size = 'sm' | 'md' | 'lg'
 
-type ChipProps = PressableProps & {
+type ChipActionProps = PressableProps & {
   onPress: (event: GestureResponderEvent) => void
   children?: ReactNode
   selected?: boolean
@@ -22,7 +22,7 @@ type ChipProps = PressableProps & {
   iconTrailing?: HoliIconType
 }
 
-const Chip = ({
+const ChipAction = ({
   onPress,
   children,
   selected = false,
@@ -31,7 +31,7 @@ const Chip = ({
   size = 'md',
   iconLeading,
   iconTrailing,
-}: ChipProps) => {
+}: ChipActionProps) => {
   const { styles } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = size === 'sm' ? 14 : 18
 
@@ -54,7 +54,7 @@ const Chip = ({
   )
 }
 
-export default Chip
+export default ChipAction
 
 const stylesheet = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipColor) => {

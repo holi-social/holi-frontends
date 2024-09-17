@@ -10,7 +10,7 @@ const availableColors = ['white' as const, ...Object.values(Colors)]
 const availableSizes = ['sm', 'md', 'lg'] as const
 
 const meta: Meta<typeof ChipLabel> = {
-  title: 'No Name/Components/Chips (draft)/Chip Labels',
+  title: 'No Name/Components/Chips (draft)/Chip Label',
   component: ChipLabel,
   argTypes: {
     children: { description: 'Text label', required: true },
