@@ -1,34 +1,31 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { Skill, Topic } from '@holi/core/domain/shared/types'
 import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
 import ActSliderItem from '@holi/core/screens/appsHub/components/ActSliderItem'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, HeartsFilled } from '@holi/icons/src/generated'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import { labelsForListings } from '@holi-apps/volunteering/helpers'
+import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
+import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 type VolunteeringUpdatesListProps = {
   engagements: VolunteeringEngagement[]
   loading: boolean
   cardWidth: number
-  topics: readonly Topic[]
-  skills: readonly Skill[]
 }
 
-const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
-  loading,
-  engagements,
-  cardWidth,
-  topics,
-  skills,
-}) => {
+const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({ loading, engagements, cardWidth }) => {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const variant = useVolunteeringVariant()
 
   const renderItem = ({ item, index }: { item: VolunteeringEngagement; index: number }) => {
     const { organizer } = item
@@ -40,21 +37,27 @@ const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
         })
       : item.title
 
-    const { topicLabel, topicLabelCount, skillLabel, skillLabelCount } = labelsForListings(
-      item.matchedTopics,
-      item.matchedSkills,
-      topics,
-      skills
+    const hasTopics = item.matchedTopics && item.matchedTopics?.length > 0
+    const hasSkills = item.matchedSkills && item.matchedSkills?.length > 0
+
+    const legacyLabels = variant !== 'recosV1' && (
+      <HoliText size={'small'} style={styles.categoryText} testID="volunteering-engagement-categories">
+        {item.categories[0]}
+      </HoliText>
+    )
+
+    const recosV1Labels = variant === 'recosV1' && (hasTopics || hasSkills) && (
+      <>
+        <VolunteeringLabels displayAll={false} topicSlugs={item.matchedTopics} skillSlugs={item.matchedSkills} />
+        <HoliGap size={'xs'} />
+      </>
     )
 
     return (
       <ActSliderItem
         name="volunteering"
         to={`/volunteering/${item.id}`}
-        topicLabel={topicLabel}
-        topicLabelCount={topicLabelCount}
-        skillLabel={skillLabel}
-        skillLabelCount={skillLabelCount}
+        labels={variant === 'recosV1' ? recosV1Labels : legacyLabels}
         title={title}
         imageSourceUri={item.imageUrl}
         footer={
@@ -87,12 +90,16 @@ const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({
   )
 }
 
-const styles = StyleSheet.create({
-  locationFooter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    locationFooter: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+    },
+    categoryText: {
+      color: theme.colors.brandColorB30,
+    },
+  })
 
 export default VolunteeringUpdatesList
