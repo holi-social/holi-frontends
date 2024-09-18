@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import LocationContainer from '@holi-apps/volunteering/components/LocationContainer'
+import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
+import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 type VolunteeringDetailHeaderProps = {
@@ -14,22 +17,31 @@ type VolunteeringDetailHeaderProps = {
   imageWidth: number
 }
 
-const VolunteeringDetailHeader: React.FC<VolunteeringDetailHeaderProps> = ({
-  engagement,
-  imageWidth,
-}: VolunteeringDetailHeaderProps) => {
+const VolunteeringDetailHeader = ({ engagement, imageWidth }: VolunteeringDetailHeaderProps) => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const variant = useVolunteeringVariant()
+
+  const hasTopics = engagement.topics && engagement.topics?.length > 0
+  const hasSkills = engagement.skills && engagement.skills?.length > 0
 
   const uri = engagement.imageUrl
   return (
     <View style={styles.container}>
       <HoliImage source={uri ? { uri, width: imageWidth } : []} label={engagement.title} style={styles.image} />
       <View style={styles.detailContainer}>
-        <HoliText size={'small'} style={styles.categoryText} testID="volunteering-engagement-categories">
-          {engagement.categories[0]}
-        </HoliText>
+        {variant === 'recosV1' && (hasTopics || hasSkills) && (
+          <>
+            <VolunteeringLabels displayAll={true} topicSlugs={engagement.topics} skillSlugs={engagement.skills} />
+            <HoliGap size={'sm'} />
+          </>
+        )}
+        {variant !== 'recosV1' && (
+          <HoliText size={'small'} style={styles.categoryText} testID="volunteering-engagement-categories">
+            {engagement.categories[0]}
+          </HoliText>
+        )}
         <HoliHeading level="1" size="l" testID="volunteering-engagement-title">
           {engagement.title}
         </HoliHeading>

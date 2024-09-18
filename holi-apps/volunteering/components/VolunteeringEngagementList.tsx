@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import InfoModal from '@holi/core/components/InfoModal'
-import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -43,8 +42,6 @@ export const VolunteeringEngagementList = ({
   isFiltering = false,
   clearFilters,
 }: VolunteeringEngagementListProps) => {
-  const { topics, topicsLoading } = useTopics()
-  const { skills, skillsLoading } = useSkills()
   const {
     loading: engagementsLoading,
     data: engagements,
@@ -64,7 +61,7 @@ export const VolunteeringEngagementList = ({
 
   const noResults = loadingFailed || engagements.length === 0
 
-  if (topicsLoading || skillsLoading || engagementsLoading) {
+  if (engagementsLoading) {
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
 
@@ -137,17 +134,13 @@ export const VolunteeringEngagementList = ({
                   trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, index)}
                 >
                   <HoliCard
+                    loading={false}
                     imageUri={engagement.imageUrl}
                     imageLabel={engagement.title ?? ''}
                     imageWidth={imageWidth}
                     testID="btn-to-volunteering-engagement"
                   >
-                    <VolunteeringCardContent
-                      engagement={engagement}
-                      topics={topics}
-                      skills={skills}
-                      key={engagement.id}
-                    />
+                    <VolunteeringCardContent engagement={engagement} key={engagement.id} />
                   </HoliCard>
                 </HoliLinkTracked>
               </HoliGridCell>

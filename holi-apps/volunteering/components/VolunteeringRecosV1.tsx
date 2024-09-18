@@ -2,7 +2,6 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 
-import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { logError } from '@holi/core/errors/helpers'
 import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -23,8 +22,6 @@ type VolunteeringRecosV1Props = {
 
 const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ cardWidth }: VolunteeringRecosV1Props) => {
   const { queryVariables, loading: loadingQueryVariables = false } = useVolunteeringRecosV1QueryVariables()
-  const { topics, topicsLoading } = useTopics()
-  const { skills, skillsLoading } = useSkills()
 
   const { data, loading, refetch } = useQuery<VolunteeringRecosV1QueryResponse, VolunteeringRecosV1QueryVariables>(
     volunteeringRecosV1Query,
@@ -53,10 +50,8 @@ const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ cardWidth }: 
   return (
     <VolunteeringUpdatesList
       engagements={engagementsToRender}
-      loading={loading || reloading || loadingQueryVariables || topicsLoading || skillsLoading}
+      loading={loading || reloading || loadingQueryVariables}
       cardWidth={cardWidth}
-      topics={topics}
-      skills={skills}
     />
   )
 }

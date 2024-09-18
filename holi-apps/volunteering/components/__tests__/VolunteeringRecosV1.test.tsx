@@ -8,6 +8,7 @@ import { Skill, Topic, User } from '@holi/core/domain/shared/types'
 import { LoggedInState } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 import VolunteeringRecosV1 from '@holi-apps/volunteering/components/VolunteeringRecosV1'
+import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 import {
   VolunteeringRecosV1QueryResponse,
   VolunteeringRecosV1QueryVariables,
@@ -18,6 +19,9 @@ const mockUseLoggedInUser = jest.fn()
 jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
+
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringVariant')
+const mockUseVolunteeringVariant = jest.mocked(useVolunteeringVariant)
 
 jest.mock('@holi/core/domain/shared/hooks')
 
@@ -112,6 +116,7 @@ const setupHooksMocks = () => {
     defaultTopics: defaultTopics,
     defaultTopicsLoading: false,
   })
+  mockUseVolunteeringVariant.mockReturnValue('recosV1')
 }
 
 const setupApolloMocks = (expectedQueryVars: VolunteeringRecosV1QueryVariables) => {
@@ -145,7 +150,7 @@ describe('VolunteeringRecosV1', () => {
         // toJSON is the only easy way I could find to assert that something renders to null
         const { toJSON } = render(
           <MockedProvider>
-            <VolunteeringRecosV1 style={{}} cardWidth={260} />
+            <VolunteeringRecosV1 cardWidth={260} />
           </MockedProvider>
         )
         expect(toJSON()).toBeNull()
@@ -167,7 +172,7 @@ describe('VolunteeringRecosV1', () => {
         })
         render(
           <MockedProvider mocks={[providerMock]}>
-            <VolunteeringRecosV1 style={{}} cardWidth={260} />
+            <VolunteeringRecosV1 cardWidth={260} />
           </MockedProvider>
         )
         await act(async () => {
@@ -186,7 +191,7 @@ describe('VolunteeringRecosV1', () => {
         setupHooksMocks()
         const { toJSON } = render(
           <MockedProvider>
-            <VolunteeringRecosV1 style={{}} cardWidth={260} />
+            <VolunteeringRecosV1 cardWidth={260} />
           </MockedProvider>
         )
         expect(toJSON()).toBeNull()
@@ -209,7 +214,7 @@ describe('VolunteeringRecosV1', () => {
         })
         render(
           <MockedProvider mocks={[providerMock]}>
-            <VolunteeringRecosV1 style={{}} cardWidth={260} />
+            <VolunteeringRecosV1 cardWidth={260} />
           </MockedProvider>
         )
         await act(async () => {
@@ -234,7 +239,7 @@ describe('VolunteeringRecosV1', () => {
         })
         render(
           <MockedProvider mocks={[providerMock]}>
-            <VolunteeringRecosV1 style={{}} cardWidth={260} />
+            <VolunteeringRecosV1 cardWidth={260} />
           </MockedProvider>
         )
         await act(async () => {
