@@ -42,7 +42,7 @@ export enum AccountSetupStep {
 }
 
 export interface AccountSetupProps {
-  onFinish: () => void
+  onFinish: () => Promise<void>
 }
 
 const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStepOptions> = {
@@ -101,7 +101,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     useLocationStep(user)
 
   // HoliWizard event handlers
-  const handleNextPress = async ({ currentStep, goNext }: NextPressHandlerOptions) => {
+  const handleNextPress = async ({ currentStep, goNext, setFinished }: NextPressHandlerOptions) => {
     switch (currentStep) {
       case AccountSetupStep.NAMES: {
         await registerUserNames({
@@ -173,6 +173,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.SUCCESS:
         // wait for AsyncStorage to be set
         await onFinish()
+        setFinished(true)
         track(TrackingEvent.Auth.SuccessOnboardingStepCompleted)
         navigate('/')
         break
