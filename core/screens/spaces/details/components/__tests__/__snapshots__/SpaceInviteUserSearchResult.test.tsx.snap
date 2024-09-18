@@ -314,8 +314,8 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           <View>
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="20"
-              bbWidth="20"
+              bbHeight={20}
+              bbWidth={20}
               color="#262424"
               fill="none"
               focusable={false}
@@ -612,8 +612,8 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           <View>
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="20"
-              bbWidth="20"
+              bbHeight={20}
+              bbWidth={20}
               color="#262424"
               fill="none"
               focusable={false}
@@ -1107,8 +1107,8 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           <View>
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="20"
-              bbWidth="20"
+              bbHeight={20}
+              bbWidth={20}
               color="#262424"
               fill="none"
               focusable={false}

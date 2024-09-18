@@ -790,8 +790,8 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="22"
-            bbWidth="22"
+            bbHeight={22}
+            bbWidth={22}
             color="#ebebeb"
             focusable={false}
             height={22}

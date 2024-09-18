@@ -20,7 +20,7 @@
         "lottie-react-native",
         "react",
         "react-dom",
-        "sentry-expo",
+        "@sentry/react-native",
         "@shopify/react-native-skia",
         "@sentry/react-native",
         "/^@react-native/",

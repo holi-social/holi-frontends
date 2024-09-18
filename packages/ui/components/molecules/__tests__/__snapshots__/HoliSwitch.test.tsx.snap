@@ -79,8 +79,8 @@ exports[`HoliSwitch renders correctly with styling props 1`] = `
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="26"
-          bbWidth="26"
+          bbHeight={26}
+          bbWidth={26}
           color="#6267e7"
           fill="none"
           focusable={false}
@@ -215,8 +215,8 @@ exports[`HoliSwitch renders default styling correctly without any props 1`] = `
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="26"
-          bbWidth="26"
+          bbHeight={26}
+          bbWidth={26}
           color="#6267e7"
           fill="none"
           focusable={false}

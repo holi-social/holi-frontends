@@ -23,7 +23,7 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
     },
     ref
   ) => {
-    useSyncWithHeader()
+    const scrollViewRef = useSyncWithHeader()
     const { offset } = useHeaderOffsetOptions(headerRelation)
     const { refreshControlProps } = useRefreshControl()
 
@@ -32,7 +32,10 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
         {refreshControlProps && !noRefresh ? (
           <ScrollViewRefreshable
             {...scrollViewProps}
-            ref={ref}
+            ref={scrollViewRef}
+            onLayout={() => {
+              if (!!ref && 'current' in ref) ref.current = scrollViewRef.current
+            }}
             style={[styles.scrollView, !!backgroundColor && { backgroundColor }, style]}
             contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
             webWrapperStyle={{ minHeight: '100%' }}
@@ -43,7 +46,10 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
         ) : (
           <ScrollView
             {...scrollViewProps}
-            ref={ref}
+            ref={scrollViewRef}
+            onLayout={() => {
+              if (!!ref && 'current' in ref) ref.current = scrollViewRef.current
+            }}
             style={[styles.scrollView, !!backgroundColor && { backgroundColor }, style]}
             contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
             testID={testID}

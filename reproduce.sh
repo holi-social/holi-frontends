@@ -170,10 +170,10 @@ BABEL_CONFIG
 # https://reactjs.org/warnings/invalid-hook-call-warning.html#mismatching-versions-of-react-and-react-dom
 ########################################################################################################################
 
-cat mobile/package.json | jq '.dependencies += {"react": "18.0.0"}'     | sponge mobile/package.json
-cat mobile/package.json | jq '.dependencies += {"react-dom": "18.0.0"}' | sponge mobile/package.json
-cat web/package.json    | jq '.dependencies += {"react": "18.0.0"}'     | sponge web/package.json
-cat web/package.json    | jq '.dependencies += {"react-dom": "18.0.0"}' | sponge web/package.json
+cat mobile/package.json | jq '.dependencies += {"react": "18.2.0"}'     | sponge mobile/package.json
+cat mobile/package.json | jq '.dependencies += {"react-dom": "18.2.0"}' | sponge mobile/package.json
+cat web/package.json    | jq '.dependencies += {"react": "18.2.0"}'     | sponge web/package.json
+cat web/package.json    | jq '.dependencies += {"react-dom": "18.2.0"}' | sponge web/package.json
 
 yarn install
 
@@ -206,4 +206,3 @@ SAMPLE_SHARED_COMPONENT
 
 yarn workspace mobile run start
 yarn workspace web run dev
-
