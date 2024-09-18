@@ -145,8 +145,8 @@ exports[`PostTopics matches snapshot 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#ebebeb"
                     fill="none"
                     focusable={false}
@@ -224,8 +224,8 @@ exports[`PostTopics matches snapshot 1`] = `
           >
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="14"
-              bbWidth="14"
+              bbHeight={14}
+              bbWidth={14}
               color="#787777"
               fill="none"
               focusable={false}

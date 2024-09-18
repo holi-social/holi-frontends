@@ -293,8 +293,8 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="22"
-            bbWidth="22"
+            bbHeight={22}
+            bbWidth={22}
             color="#262424"
             fill="none"
             focusable={false}
@@ -611,8 +611,8 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="22"
-            bbWidth="22"
+            bbHeight={22}
+            bbWidth={22}
             color="#262424"
             fill="none"
             focusable={false}
@@ -929,8 +929,8 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="22"
-            bbWidth="22"
+            bbHeight={22}
+            bbWidth={22}
             color="#262424"
             fill="none"
             focusable={false}

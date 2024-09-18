@@ -79,8 +79,8 @@ exports[`SpaceInviteUserButton displays button if the user already requested mem
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="20"
-          bbWidth="20"
+          bbHeight={20}
+          bbWidth={20}
           color="#262424"
           fill="none"
           focusable={false}
@@ -215,8 +215,8 @@ exports[`SpaceInviteUserButton displays button if the user can be invited 1`] = 
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="20"
-          bbWidth="20"
+          bbHeight={20}
+          bbWidth={20}
           color="#262424"
           fill="none"
           focusable={false}
