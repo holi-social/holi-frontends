@@ -31,7 +31,7 @@
     "web:build": "yarn workspace @holi/web build",
     "web:start": "yarn workspace @holi/web start",
     "check-types": "tsc --noemit",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint --concurrency 100%",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",
     "clean": "yarn workspaces foreach -A run clean",
     "clean:all": "yarn workspaces foreach -A run clean:all && npx rimraf node_modules",
