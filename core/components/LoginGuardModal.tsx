@@ -39,9 +39,11 @@ export const LoginGuardModal = ({
   }, [navigate, onConfirm, pathname, props, track])
 
   const dismissHandler = useCallback(() => {
+    track(TrackingEvent.Auth.CloseLoginModalButtonPressed)
+
     const dismissPropagation = onDismiss?.()
     if (dismissPropagation !== false) props.onDismiss?.()
-  }, [onDismiss, props])
+  }, [onDismiss, props, track])
 
   return (
     <HoliConfirmation
