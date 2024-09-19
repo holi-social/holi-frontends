@@ -2,6 +2,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
 
 import { useLoginState } from '@holi/core/auth/loginState'
@@ -65,7 +66,7 @@ const HomeFeed = () => {
   }, [navigate, t, headerTitle, setScreenOptions, colors.black300])
 
   return (
-    <>
+    <GestureHandlerRootView>
       <ScrollHeaderLayout style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
         <View style={styles.sections}>
           <Animated.View entering={FadeInDown}>
@@ -93,7 +94,7 @@ const HomeFeed = () => {
       <CreatePostButton />
 
       <OnboardingInitializer />
-    </>
+    </GestureHandlerRootView>
   )
 }
 
