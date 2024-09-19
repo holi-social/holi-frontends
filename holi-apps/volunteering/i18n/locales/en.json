@@ -2,7 +2,6 @@
   "app.name": "Volunteer",
   "app.subline": "via voltastics.com",
   "discoveryV1.headline": "Opportunities for you",
-  "discoveryV1.subtitle": "Based on your preferences",
   "engagement.country": "Germany",
   "engagement.title": "{{title}} by {{organization}}",
   "engagementDetail.aboutEngagement": "About this volunteering",

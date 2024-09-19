@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import InfoModal from '@holi/core/components/InfoModal'
+import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -53,6 +54,7 @@ export const VolunteeringEngagementList = ({
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(insets.bottom, theme), [insets.bottom, theme])
+  const subtitle = useRecosSubtitle()
 
   const { imageWidth } = useWindowDimensionsWithImageScaling()
 
@@ -97,7 +99,7 @@ export const VolunteeringEngagementList = ({
           ) : (
             <>
               <HoliGap size="ml" />
-              <HoliText size="large">{t('volunteering:discoveryV1.subtitle')}</HoliText>
+              <HoliText size="large">{t(subtitle)}</HoliText>
             </>
           )}
         </View>

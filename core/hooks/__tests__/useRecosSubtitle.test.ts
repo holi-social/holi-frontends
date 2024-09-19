@@ -1,8 +1,5 @@
-import { render, screen } from '@testing-library/react-native'
-import React from 'react'
-
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
-import { exportedForTesting } from '@holi/core/screens/homeFeed/components/Recommendations'
+import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { LoggedInState } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 const mockUseLoggedInUser = jest.fn()
@@ -18,8 +15,8 @@ describe('Recommendations section', () => {
         isLoading: true,
         user: undefined,
       } as LoggedInState)
-      render(<exportedForTesting.RecommendationsHeader />)
-      expect(screen.queryByText('recommendations.subtitle.defaultTopics')).toBeTruthy()
+      const subtitle = useRecosSubtitle()
+      expect(subtitle).toBe('recommendations.subtitle.defaultTopics')
     })
   })
   describe('given a logged out user', () => {
@@ -28,8 +25,8 @@ describe('Recommendations section', () => {
         isLoggedOut: true,
         user: undefined,
       } as LoggedInState)
-      render(<exportedForTesting.RecommendationsHeader />)
-      expect(screen.queryByText('recommendations.subtitle.defaultTopics')).toBeTruthy()
+      const subtitle = useRecosSubtitle()
+      expect(subtitle).toBe('recommendations.subtitle.defaultTopics')
     })
   })
   describe('given a logged in user', () => {
@@ -57,10 +54,8 @@ describe('Recommendations section', () => {
             location: hasLocation ? 'some-location' : undefined,
           } as AuthenticatedUser,
         } as LoggedInState)
-
-        render(<exportedForTesting.RecommendationsHeader />)
-
-        expect(screen.queryByText(expectedSubtitle)).toBeTruthy()
+        const subtitle = useRecosSubtitle()
+        expect(subtitle).toBe(expectedSubtitle)
       }
     )
   })
