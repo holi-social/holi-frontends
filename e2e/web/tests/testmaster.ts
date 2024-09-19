@@ -1,5 +1,6 @@
 import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/test'
-import { retryGoto } from './helpers'
+
+import { gotoWithRetries } from './helpers'
 import { denyConsent, withRandomUserSession } from './helpers'
 import { User, deleteAuthenticatedAccount, signUp } from './helpers/api'
 
@@ -50,17 +51,14 @@ export class SessionHandler {
       // First attempt to navigate normally
       await newPage.goto('/')
     } catch (error) {
-      if (error instanceof Error) 
-        {
+      if (error instanceof Error) {
         console.error(`Initial navigation to '/' failed: ${error.message}`)
-        } 
-      else 
-      {
-        console.error(`Initial navigation to '/' failed with an unknown error.`)
+      } else {
+        console.error("Initial navigation to '/' failed with an unknown error.")
       }
-      
+
       // If the initial attempt fails, fall back to retry logic
-      await retryGoto(newPage, '/')
+      await gotoWithRetries(newPage, '/')
     }
     await denyConsent(newPage)
 
