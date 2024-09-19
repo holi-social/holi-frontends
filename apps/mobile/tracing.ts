@@ -1,7 +1,7 @@
-import * as Sentry from 'sentry-expo'
+import * as Sentry from '@sentry/react-native'
 
-export const reactNativeTracingRoutingInstrumentation = new Sentry.Native.ReactNavigationInstrumentation({})
-export const reactNativeTracing = new Sentry.Native.ReactNativeTracing({
+export const reactNativeTracingRoutingInstrumentation = new Sentry.ReactNavigationInstrumentation({})
+export const reactNativeTracing = new Sentry.ReactNativeTracing({
   enableStallTracking: true,
   enableNativeFramesTracking: true,
   tracePropagationTargets: ['localhost', /^\//, 'holi.social'],
@@ -21,8 +21,8 @@ export const reactNativeTracing = new Sentry.Native.ReactNativeTracing({
       } else if (parsedUrl.pathname === '/_matrix/client/v3/sync') {
         // e.g. https://chat.holi.social/_matrix/client/v3/sync?filter={"room":{"timeline":{"unread_thread_notifications":true,"limit":8}}}&timeout=0&_cacheBuster=1693387473254&_=1693387473255 (encoded, initial sync)
         // e.g. https://chat.holi.social/_matrix/client/v3/sync?filter=0&timeout=30000&since=s779_10763_0_103_2_1_1_200_0_1&_=1693387473613 (long poll sync)
-        const timeout = parseInt(parsedUrl.searchParams.get('timeout')) // may be NaN (param missing)
-        const isHighTimeout = timeout > 500 // `false` if NaN
+        const timeout = String(parsedUrl?.searchParams?.get('timeout')) // may be NaN (param missing)
+        const isHighTimeout = parseInt(timeout) > 500 // `false` if NaN
         // don't record high timeout calls,
         // because it expands our performance transactions artificially
         // (matrix sdk does them continuously)

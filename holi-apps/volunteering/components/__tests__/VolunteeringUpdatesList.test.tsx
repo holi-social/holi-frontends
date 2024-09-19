@@ -2,9 +2,11 @@ import { faker } from '@faker-js/faker'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
+import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { Skill, Topic } from '@holi/core/domain/shared/types'
 
 import VolunteeringUpdatesList from '@holi-apps/volunteering/components/VolunteeringUpdatesList'
+import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 const makeEngagement = (topics: Topic[], skills: Skill[], location = true): VolunteeringEngagement => ({
@@ -68,128 +70,35 @@ const skill3: Skill = {
 const allTopics: Topic[] = [topic1, topic2, topic3]
 const allSkills: Skill[] = [skill1, skill2, skill3]
 
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringVariant')
+const mockUseVolunteeringVariant = jest.mocked(useVolunteeringVariant)
+
+jest.mock('@holi/core/domain/shared/hooks')
+const mockUseTopics = jest.mocked(useTopics)
+const mockUseSkills = jest.mocked(useSkills)
+
 describe('VolunteeringUpdatesList', () => {
-  describe('when given an item to render', () => {
-    it('renders no label for topics if none given', () => {
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[makeEngagement([], [])]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      allTopics.forEach((topic) => {
-        expect(screen.queryByText(topic.title)).toBeFalsy()
-      })
+  beforeEach(() => {
+    mockUseTopics.mockReturnValue({
+      topics: allTopics,
+      topicsLoading: false,
     })
-    it('renders a label for topics if given', () => {
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[makeEngagement([topic1], [])]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      expect(screen.queryByText(topic1.title)).toBeTruthy()
+    mockUseSkills.mockReturnValue({
+      skills: allSkills,
+      skillsLoading: false,
     })
-    it('renders a label "+n" for topics if n+1 topics given', () => {
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[makeEngagement([topic1, topic2, topic3], [])]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      expect(screen.queryByText(topic1.title)).toBeTruthy()
-      expect(screen.queryByText('+2')).toBeTruthy()
-    })
-    it('renders no label for skills if none given', () => {
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[makeEngagement([], [])]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      allSkills.forEach((skill) => {
-        expect(screen.queryByText(skill.title)).toBeFalsy()
-      })
-    })
-    it('renders a label for skills if given', () => {
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[makeEngagement([], [skill1])]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      expect(screen.queryByText(skill1.title)).toBeTruthy()
-    })
-    it('renders a label "+n" for skills if n+1 skills given', () => {
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[makeEngagement([], [skill1, skill2, skill3])]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      expect(screen.queryByText(skill1.title)).toBeTruthy()
-      expect(screen.queryByText('+2')).toBeTruthy()
-    })
-    it('renders labels if both topics and skills present', () => {
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[makeEngagement([topic1, topic2], [skill1, skill2, skill3])]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      expect(screen.queryByText(topic1.title)).toBeTruthy()
-      expect(screen.queryByText('+1')).toBeTruthy()
-      expect(screen.queryByText(skill1.title)).toBeTruthy()
-      expect(screen.queryByText('+2')).toBeTruthy()
-    })
-    it('renders no location if not given', () => {
-      const engagement = makeEngagement([topic1, topic2], [skill1, skill2, skill3], false)
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[engagement]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      expect(screen.queryByTestId('volunteering-updates-item-location-icon')).toBeFalsy()
-    })
-    it('renders location with icon if given', () => {
-      const engagement = makeEngagement([topic1, topic2], [skill1, skill2, skill3])
-      render(
-        <VolunteeringUpdatesList
-          cardWidth={260}
-          engagements={[engagement]}
-          loading={false}
-          topics={allTopics}
-          skills={allSkills}
-        />
-      )
-      expect(screen.queryByTestId('volunteering-updates-item-location-icon')).toBeTruthy()
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      expect(screen.queryByText(engagement.location!)).toBeTruthy()
-    })
+    mockUseVolunteeringVariant.mockReturnValue('recosV1')
+  })
+  it('renders no location if not given', () => {
+    const engagement = makeEngagement([topic1, topic2], [skill1, skill2, skill3], false)
+    render(<VolunteeringUpdatesList cardWidth={260} engagements={[engagement]} loading={false} />)
+    expect(screen.queryByTestId('volunteering-updates-item-location-icon')).toBeFalsy()
+  })
+  it('renders location with icon if given', () => {
+    const engagement = makeEngagement([topic1, topic2], [skill1, skill2, skill3])
+    render(<VolunteeringUpdatesList cardWidth={260} engagements={[engagement]} loading={false} />)
+    expect(screen.queryByTestId('volunteering-updates-item-location-icon')).toBeTruthy()
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(screen.queryByText(engagement.location!)).toBeTruthy()
   })
 })

@@ -39,13 +39,7 @@ const VolunteeringUpdates: React.FC<VolunteeringUpdatesProps> = ({ cardWidth }: 
   const engagementsToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE)
 
   return (
-    <VolunteeringUpdatesList
-      cardWidth={cardWidth}
-      engagements={engagementsToRender}
-      loading={loading || reloading}
-      topics={[]}
-      skills={[]}
-    />
+    <VolunteeringUpdatesList cardWidth={cardWidth} engagements={engagementsToRender} loading={loading || reloading} />
   )
 }
 
