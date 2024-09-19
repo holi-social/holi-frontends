@@ -165,6 +165,7 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
             onCompleted: () => track(TrackingEvent.Auth.LocationOnboardingStepCompleted(locationLabel)),
           })
         }
+        setFinished(true)
         goNext()
 
         break
@@ -173,7 +174,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       case AccountSetupStep.SUCCESS:
         // wait for AsyncStorage to be set
         await onFinish()
-        setFinished(true)
         track(TrackingEvent.Auth.SuccessOnboardingStepCompleted)
         navigate('/')
         break
