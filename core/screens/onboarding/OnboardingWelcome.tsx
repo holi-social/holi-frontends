@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
@@ -8,6 +8,7 @@ import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AnimatedIntro from '@holi/core/screens/onboarding/components/AnimatedIntro'
@@ -19,8 +20,6 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-const isWeb = Platform.OS === 'web'
-
 const OnboardingWelcome = () => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
@@ -30,7 +29,7 @@ const OnboardingWelcome = () => {
   const { height: screenHeight } = useWindowDimensions()
 
   useEffect(() => {
-    if (isWeb && isLoggedIn) {
+    if (isLoggedIn) {
       replaceRoute('/')
     }
   }, [replaceRoute, isLoggedIn])
@@ -38,6 +37,8 @@ const OnboardingWelcome = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
   }, [setScreenOptions])
+
+  usePreventBackNavigation(true)
 
   return (
     <SafeArea style={styles.container}>

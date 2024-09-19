@@ -18,7 +18,6 @@ describe('useFirstVisitContentSelection', () => {
   it('should load content selection from async storage', async () => {
     mockGetItem.mockResolvedValue('VOLUNTEERING')
 
-    // TODO(SF) does this change with expo update?
     const { result } = renderHook(() => useFirstVisitContentSelection())
 
     // Loading state is null
