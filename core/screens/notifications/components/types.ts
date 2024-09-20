@@ -165,6 +165,8 @@ export type NotificationWithUser =
   | NotificationPost
   | NotificationSpaceConnection
   | NotificationSpacePermissions
+  | NotificationPostReactions
+  | NotificationCommentReactions
 export type Notification =
   | NotificationWithUser
   | NotificationReleaseInfo
@@ -178,4 +180,21 @@ export interface NotificationProps<T = Notification> {
   style?: StyleProp<ViewStyle>
   testID?: string
   link?: string
+}
+
+export interface NotificationPostReactions extends NotificationBase {
+  notificationType: NovuNotificationType.POST_REACTION
+  options: {
+    user: User
+    post: Pick<Post, 'id'> & { link: string }
+  }
+}
+
+export interface NotificationCommentReactions extends NotificationBase {
+  notificationType: NovuNotificationType.COMMENT_REACTION
+  options: {
+    user: User
+    comment: Pick<Comment, 'id'> & { link: string }
+    commentLink: string
+  }
 }

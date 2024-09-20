@@ -8,8 +8,10 @@ import {
   Notification,
   NotificationAppointments,
   NotificationChallenges,
+  NotificationCommentReactions,
   NotificationPolls,
   NotificationPost,
+  NotificationPostReactions,
   NotificationSpaceConnection,
   NotificationSpacePost,
 } from '@holi/core/screens/notifications/components/types'
@@ -139,6 +141,8 @@ function mapToNotification(
   | NotificationAppointments
   | NotificationChallenges
   | NotificationPolls
+  | NotificationPostReactions
+  | NotificationCommentReactions
   | undefined {
   const { data, notificationType, notificationVersion } = message.payload
   switch (notificationType) {
@@ -215,6 +219,26 @@ function mapToNotification(
         created: message.createdAt,
         read: message.seen,
         options: data as NotificationPolls['options'],
+        content: message.content.toString(),
+      }
+    case NovuNotificationType.POST_REACTION:
+      return {
+        id: message._id,
+        notificationType,
+        notificationVersion,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationPostReactions['options'],
+        content: message.content.toString(),
+      }
+    case NovuNotificationType.COMMENT_REACTION:
+      return {
+        id: message._id,
+        notificationType,
+        notificationVersion,
+        created: message.createdAt,
+        read: message.seen,
+        options: data as NotificationCommentReactions['options'],
         content: message.content.toString(),
       }
   }
