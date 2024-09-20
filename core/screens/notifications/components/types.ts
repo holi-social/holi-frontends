@@ -182,19 +182,22 @@ export interface NotificationProps<T = Notification> {
   link?: string
 }
 
+export interface PostReactionNotificationData {
+  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
+  post: Pick<Post, 'id' | 'title'>
+}
+
 export interface NotificationPostReactions extends NotificationBase {
   notificationType: NovuNotificationType.POST_REACTION
-  options: {
-    user: User
-    post: Pick<Post, 'id'> & { link: string }
-  }
+  options: PostReactionNotificationData
+}
+
+export interface CommentReactionNotificationData {
+  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
+  comment: Pick<Comment, 'id'> & { link: string }
 }
 
 export interface NotificationCommentReactions extends NotificationBase {
   notificationType: NovuNotificationType.COMMENT_REACTION
-  options: {
-    user: User
-    comment: Pick<Comment, 'id'> & { link: string }
-    commentLink: string
-  }
+  options: CommentReactionNotificationData
 }

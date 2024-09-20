@@ -4,6 +4,10 @@ import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
+  CommentReactionPushNotification,
+  PostReactionPushNotification,
+} from '@holi/mobile/notifications/reactionPushNotifications'
+import {
   PostCommentPushNotification,
   SpaceMembershipPushNotification,
   SpacePostPushNotification,
@@ -62,6 +66,26 @@ const toSpaceUrl = (notification: SpaceMembershipPushNotification, refresh = fal
   if (refresh) {
     url.searchParams.set('refresh', 'true')
   }
+  return url.toString()
+}
+
+const toCommentReactionUrl = (notification: CommentReactionPushNotification) => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const {
+    comment: { link },
+  } = parsedData
+  const url = new URL(`holi://${link}`)
+  return url.toString()
+}
+
+const toPostReactionUrl = (notification: PostReactionPushNotification) => {
+  const parsedData =
+    typeof notification?.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
+  const {
+    post: { link },
+  } = parsedData
+  const url = new URL(`holi://${link}`)
   return url.toString()
 }
 
@@ -212,6 +236,10 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
       case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
       case NovuNotificationType.CHALLENGE_KEEP_STREAK:
         return challengeUrl(payload)
+      case NovuNotificationType.POST_REACTION:
+        return toPostReactionUrl(payload as unknown as PostReactionPushNotification)
+      case NovuNotificationType.COMMENT_REACTION:
+        return toCommentReactionUrl(payload as unknown as CommentReactionPushNotification)
       default:
         return null
     }
