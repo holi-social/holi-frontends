@@ -20,8 +20,9 @@ type EditUploadedImagesProps = {
   setImages: (images: HoliImageInfo[]) => void
   currentImages?: FeedPostImage[] // used for edit mode - when we only have a uri and no HoliImageInfo
   setCurrentImages?: (images: FeedPostImage[]) => void
-  aspectRatio?: number
+  aspectRatio?: '16:9' | '1:1'
   onActionButtonPress: () => void
+  setAspectRatio: (aspectRatio: '16:9' | '1:1') => void
 }
 
 const EditUploadedImages = ({
@@ -31,6 +32,7 @@ const EditUploadedImages = ({
   currentImages,
   aspectRatio,
   onActionButtonPress,
+  setAspectRatio,
 }: EditUploadedImagesProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -84,6 +86,30 @@ const EditUploadedImages = ({
                   {t('individuals.post.images.requirements')}
                 </HoliText>
               </View>
+
+              <View style={styles.imageRatioContainer}>
+                <HoliText size="large">{t('individuals.post.images.imageRatio')}</HoliText>
+                <View style={styles.imageRatioButtons}>
+                  <HoliButton
+                    style={[styles.imageRatioButton, aspectRatio === '16:9' && styles.imageRatioButtonActive]}
+                    variant="small"
+                    inline
+                    label="16:9"
+                    onPress={() => setAspectRatio('16:9')}
+                  >
+                    <HoliText color={aspectRatio === '16:9' ? 'white100' : 'black300'}>16:9</HoliText>
+                  </HoliButton>
+                  <HoliButton
+                    style={[styles.imageRatioButton, aspectRatio === '1:1' && styles.imageRatioButtonActive]}
+                    variant="small"
+                    inline
+                    label="1:1"
+                    onPress={() => setAspectRatio('1:1')}
+                  >
+                    <HoliText color={aspectRatio === '1:1' ? 'white100' : 'black300'}>1:1</HoliText>
+                  </HoliButton>
+                </View>
+              </View>
             </View>
             <View style={styles.gridContainer}>
               {[...(currentImages || []), ...images].map((image, index) => {
@@ -97,7 +123,7 @@ const EditUploadedImages = ({
                         key={index}
                         image={imageInfo}
                         currentImage={feedPostImage?.image}
-                        aspectRatio={aspectRatio}
+                        aspectRatio={aspectRatio === '16:9' ? 16 / 9 : 1 / 1}
                       />
                       <View style={styles.buttonContainer}>
                         <HoliButton
@@ -168,7 +194,24 @@ const createStyles = (theme: HoliTheme) =>
       paddingLeft: Spacing['3xs'],
     },
     requirements: {
-      marginTop: Spacing.xxs,
+      marginTop: Spacing['3xs'],
+    },
+    imageRatioContainer: {
+      marginTop: Spacing.sm,
+    },
+    imageRatioButtons: {
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
+      marginTop: Spacing['3xs'],
+    },
+    imageRatioButton: {
+      width: 70,
+      borderRadius: 100,
+      backgroundColor: theme.colors.background10,
+    },
+    imageRatioButtonActive: {
+      backgroundColor: theme.colors.foreground30,
+      color: theme.colors.background10,
     },
     container: {
       position: 'relative',

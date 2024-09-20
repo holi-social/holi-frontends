@@ -47,7 +47,7 @@ const CreatePost = () => {
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
   const [selectedTopics, setSelectedTopics] = useState<Term[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | null>(null)
-
+  const [aspectRatio, setAspectRatio] = useState<'16:9' | '1:1'>('16:9')
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [images, setImages] = useState<HoliImageInfo[]>([])
@@ -161,6 +161,8 @@ const CreatePost = () => {
           submitting={submitting}
           categories={categories}
           onClickCategoriesPill={toggleShowCategories}
+          aspectRatio={aspectRatio}
+          onChangeAspectRatio={setAspectRatio}
         />
       )}
       <PostOnboardModal visible={visible} handleModalClose={handleModalClose} />

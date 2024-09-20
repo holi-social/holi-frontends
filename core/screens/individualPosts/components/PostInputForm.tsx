@@ -66,6 +66,8 @@ export interface PostInputFormProps {
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion | null) => void
+  aspectRatio: '16:9' | '1:1'
+  onChangeAspectRatio: (_: '16:9' | '1:1') => void
   onSubmit: () => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
@@ -90,6 +92,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   onChangeSelectedVisibility,
   onChangeImages,
   onChangeCurrentImages,
+  aspectRatio,
+  onChangeAspectRatio,
   onChangeSelectedTopics,
   onChangeSelectedLocation,
   onSubmit,
@@ -376,6 +380,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           setImages={onChangeImages}
           setCurrentImages={onChangeCurrentImages}
           onActionButtonPress={hideEditImagesModal}
+          setAspectRatio={onChangeAspectRatio}
+          aspectRatio={aspectRatio}
         />
       </HoliModal>
     </>
