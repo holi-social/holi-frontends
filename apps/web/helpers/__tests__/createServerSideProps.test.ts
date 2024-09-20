@@ -18,7 +18,7 @@ jest.mock('@holi/api/graphql/client', () => ({
 
 const mockCreatePosthogPageProps = jest.fn()
 jest.mock('@holi/web/helpers/createPosthogPageProps', () => ({
-  createPosthogPageProps: () => mockCreatePosthogPageProps(),
+  createPosthogPageProps: (userId: string) => mockCreatePosthogPageProps(userId),
 }))
 
 describe('createServerSideProps', () => {
@@ -63,7 +63,7 @@ describe('createServerSideProps', () => {
     `,
   }
 
-  const mockQueryFunction = jest.fn().mockResolvedValue({})
+  const mockQueryFunction = jest.fn()
   const mockedClient = {
     query: mockQueryFunction,
     cache: {
@@ -76,6 +76,7 @@ describe('createServerSideProps', () => {
   }
 
   beforeEach(() => {
+    mockQueryFunction.mockResolvedValue({ data: {} })
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
     mockInitializeApolloSSRClient.mockReturnValue(mockedClient)
     mockCreatePosthogPageProps.mockReturnValue(mockPosthogBootstrapValues)
@@ -102,7 +103,7 @@ describe('createServerSideProps', () => {
     await createServerSideProps(context, [query1, query2])
 
     expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
-    expect(mockQueryFunction).toHaveBeenCalledTimes(2) // query1 + query2 inside createServerSideProps
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
     expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
   })
@@ -118,7 +119,7 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toHaveBeenCalledTimes(2)
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
     expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
     expect(new HoliPageProps(props).apolloState).toEqual(mockedCache)
@@ -127,7 +128,7 @@ describe('createServerSideProps', () => {
   it('should not execute queries that should be skipped', async () => {
     await createServerSideProps(context, [{ ...query1, skip: true }, query2])
 
-    expect(mockQueryFunction).toHaveBeenCalledTimes(1)
+    expect(mockQueryFunction).toHaveBeenCalledTimes(1 + 1) // query2 + authenticatedUser
     expect(mockQueryFunction).not.toHaveBeenCalledWith(query1)
     expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
   })
@@ -147,7 +148,7 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toHaveBeenCalledTimes(2)
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
     expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
     expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
@@ -219,5 +220,21 @@ describe('createServerSideProps', () => {
         origin: 'http://localhost:3000',
       },
     })
+  })
+
+  it('should add default posthog bootstrap values if user is not logged in', async () => {
+    const props = await createServerSideProps(context)
+
+    expect(mockCreatePosthogPageProps).toHaveBeenCalledWith(undefined)
+    expect(new HoliPageProps(props).posthogBootstrapValues).toEqual(mockPosthogBootstrapValues)
+  })
+
+  it('should add user specific posthog bootstrap values if user is logged in', async () => {
+    const userId = 'test-user-id'
+    mockQueryFunction.mockResolvedValue({ data: { authenticatedUserV2: { id: userId } } })
+    const props = await createServerSideProps(context)
+
+    expect(mockCreatePosthogPageProps).toHaveBeenCalledWith(userId)
+    expect(new HoliPageProps(props).posthogBootstrapValues).toEqual(mockPosthogBootstrapValues)
   })
 })

@@ -28,7 +28,6 @@ jest.mock('@holi/core/errors/hooks/useErrorHandling', () => ({
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserV2Query,
-    variables: {},
   },
   result: {
     data: {

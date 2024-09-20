@@ -38,7 +38,6 @@ jest.mock('@holi/core/screens/notifications/hooks/useNotifications', () => ({
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserV2Query,
-    variables: { userId: '123' },
   },
   result: {
     data: {

@@ -86,12 +86,9 @@ class Tracking {
     return consentState
   }
 
-  public async fetchAuthenticatedUser(userId: string): Promise<AuthenticatedUser> {
+  public async fetchAuthenticatedUser(): Promise<AuthenticatedUser> {
     const response = await this.apollo.query<AuthenticatedUserV2Response>({
       query: authenticatedUserV2Query,
-      variables: {
-        userId,
-      },
     })
     logger.debug('TrackingInitializer.fetchAuthenticatedUser', 'fetched authenticated user')
     return response.data.authenticatedUserV2
@@ -161,6 +158,7 @@ interface InitializerState {
         trigger: 'consentUpdatedByUser'
         newConsentState: ConsentState
       } /* transition triggered when user updates their consent */
+  // TODO(SF) not needed anymore?
   userId?: undefined | string
 }
 
@@ -264,7 +262,7 @@ const TrackingInitializerInner = ({
             case 'userLoggedIn':
               state.userId &&
                 tracking
-                  .fetchAuthenticatedUser(state.userId)
+                  .fetchAuthenticatedUser()
                   .then((au) => {
                     tracking.initWithLoggedInUser(au)
                     consentStateVar([ConsentState.fromUser(au), { loading: false }])
@@ -340,7 +338,7 @@ const TrackingInitializerInner = ({
           switch (state.processing.trigger) {
             case 'userLoggedIn':
               state.userId &&
-                tracking.fetchAuthenticatedUser(state.userId).then((authenticatedUser) => {
+                tracking.fetchAuthenticatedUser().then((authenticatedUser) => {
                   const consentStateFromUserProfile = ConsentState.fromUser(authenticatedUser)
                   const maybeMigrateConsentStateToUserProfile = ConsentState.isUnknown(consentStateFromUserProfile)
                     ? tracking.loadConsentStateFromLocalStorage().then((csls) => {

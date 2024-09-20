@@ -13,12 +13,21 @@ describe('createPosthogPageProps', () => {
     process.env.POSTHOG_KEY = 'test'
   })
 
-  it('should should fetch feature flags from posthog', async () => {
+  it('should should fetch default feature flags from posthog', async () => {
     mockGetAllFlagsAndPayloads.mockResolvedValue({})
 
     await createPosthogPageProps()
 
     expect(mockGetAllFlagsAndPayloads).toHaveBeenCalledWith('')
+  })
+
+  it('should should fetch user specific feature flags from posthog', async () => {
+    const userId = 'test-user-id'
+    mockGetAllFlagsAndPayloads.mockResolvedValue({})
+
+    await createPosthogPageProps(userId)
+
+    expect(mockGetAllFlagsAndPayloads).toHaveBeenCalledWith(userId)
   })
 
   it('should add feature flags to page props', async () => {

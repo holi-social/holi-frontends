@@ -2,6 +2,7 @@ import { type QueryOptions } from '@apollo/client'
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { createPosthogPageProps } from '@holi/web/helpers/createPosthogPageProps'
 import { createTranslationPageProps } from '@holi/web/helpers/createTranslationPageProps'
@@ -37,8 +38,17 @@ export const createServerSideProps = async (
 
   const client = initializeApolloSSRClient()
 
+  const queriesToExecute = [
+    // Pre-fetch authenticated user if logged in
+    // Authenticated user query is expected to be the first query to check result below
+    {
+      query: authenticatedUserV2Query,
+    },
+    ...queries,
+  ]
+
   const results = await Promise.allSettled(
-    queries
+    queriesToExecute
       .filter((query) => !query.skip)
       .map((query) => {
         // Filter content negotiation headers except accept-language
@@ -65,9 +75,12 @@ export const createServerSideProps = async (
     }
   }
 
+  const [userQueryResult] = results
+  const userId = userQueryResult.status === 'fulfilled' ? userQueryResult.value.data.authenticatedUserV2?.id : undefined
+
   return minimalProps.with({
     translations: await createTranslationPageProps(locale),
-    posthogBootstrapValues: await createPosthogPageProps(),
+    posthogBootstrapValues: await createPosthogPageProps(userId),
     apolloState: createApolloPageProps(client),
   })
 }

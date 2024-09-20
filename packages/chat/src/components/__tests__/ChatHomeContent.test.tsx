@@ -70,9 +70,6 @@ const getLoggedUserQueryMock = (user: User) => {
   return {
     request: {
       query: authenticatedUserV2Query,
-      variables: {
-        userId: user.id,
-      },
     },
     result: {
       data: {

@@ -65,15 +65,11 @@ export const useLoggedInUser = (): LoggedInState => {
     loading: isLoadingAuthenticatedUser,
     refetch,
   } = useQuery<AuthenticatedUserV2Response, AuthenticatedUserV2Variables>(authenticatedUserV2Query, {
-    skip: !loginState.isLoggedIn,
+    skip: !loginState.isLoggedIn || !loginState.userId,
     onError: (error) => {
       displayError(error, 'Failed to load authenticated user', {
         location: 'useLoggedInUser.authenticatedUserQuery',
       })
-    },
-    // we avoid getting previous user from GraphQL cache by passing `userId`
-    variables: {
-      userId: loginState.isLoggedIn ? loginState.userId : undefined,
     },
   })
 
