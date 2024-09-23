@@ -1,10 +1,10 @@
 import { withProfiler } from '@sentry/react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
-import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -24,13 +24,18 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
     setViewWidth(width)
   }
 
+  // all images should have the same aspect ratio
+  const aspectRatio = useMemo(() => {
+    return images[0].aspectRatio
+  }, [images])
+
   return (
     <View onLayout={onLayout} style={style}>
       {viewWidth > 0 && (
         <Carousel
           vertical={false}
           width={viewWidth}
-          height={(viewWidth * 9) / 16}
+          height={viewWidth * (aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1)}
           loop={false}
           data={images}
           onSnapToItem={(index: number) => setCurrentIndex(index)}
@@ -56,6 +61,7 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
                   currentImage={item.image}
                   blurhash={item.imageBlurhash}
                   style={styles.image}
+                  aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
                 />
               )}
             </View>

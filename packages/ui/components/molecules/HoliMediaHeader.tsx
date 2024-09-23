@@ -84,7 +84,7 @@ const HoliMediaHeader = ({
       </HoliButton>
       <View style={[styles.titleContainer]}>
         <HoliButton inline transparent label={titleLabel} onPress={onTitlePressed}>
-          <HoliText bold={!!titleBold} numberOfLines={1} style={styles.title}>
+          <HoliText bold={!!titleBold} numberOfLines={1}>
             {title}
           </HoliText>
         </HoliButton>
@@ -172,9 +172,7 @@ const getStyles = (theme: HoliTheme) =>
     verified: {
       marginLeft: 4,
     },
-    title: {
-      lineHeight: 18,
-    },
+
     spaceVerified: {
       marginLeft: Spacing['4xs'],
       marginRight: Spacing['3xs'],

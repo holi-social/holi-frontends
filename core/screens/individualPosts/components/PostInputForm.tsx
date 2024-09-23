@@ -18,7 +18,7 @@ import {
   FEED_POST_TITLE_MAX_CHARACTERS,
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
-import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Global, HoliLogoFilled } from '@holi/icons/src/generated'
@@ -66,8 +66,8 @@ export interface PostInputFormProps {
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion | null) => void
-  aspectRatio: '16:9' | '1:1'
-  onChangeAspectRatio: (_: '16:9' | '1:1') => void
+  aspectRatio: ImageAspectRatio
+  onChangeAspectRatio: (_: ImageAspectRatio) => void
   onSubmit: () => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
@@ -140,10 +140,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       icon: HoliLogoFilled,
     },
   ]
-
-  const submit = () => {
-    onSubmit()
-  }
 
   const handleChangeVisibility = (option: HoliModalSelectOption<Visibility>) => onChangeSelectedVisibility(option.id)
 
@@ -246,11 +242,19 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                       const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
                       const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
                       return {
-                        children: <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />,
+                        children: (
+                          <ImagePreview
+                            key={index}
+                            image={imageInfo}
+                            currentImage={feedPostImage?.image}
+                            aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
+                          />
+                        ),
                       }
                     })}
                   />
                 )}
+
                 {Platform.OS === 'web' && (
                   <View
                     style={[
@@ -265,7 +269,12 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                       return (
                         <View key={index} style={styles.imageGridItemWrapper}>
                           <View style={styles.imageGridItem}>
-                            <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />
+                            <ImagePreview
+                              key={index}
+                              image={imageInfo}
+                              currentImage={feedPostImage?.image}
+                              aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
+                            />
                           </View>
                         </View>
                       )
@@ -281,7 +290,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
         <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
 
         <SubmitPostBar
-          onSubmit={submit}
+          onSubmit={onSubmit}
           showLocationModal={showLocationModal}
           showEditImagesModal={showEditImagesModal}
           submitting={submitting}

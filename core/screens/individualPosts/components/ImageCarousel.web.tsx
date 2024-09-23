@@ -5,7 +5,7 @@ import 'react-multi-carousel/lib/styles.css'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
-import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 type ImageCarouselProps = {
@@ -35,10 +35,21 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
               onPress={onPressItem}
               style={styles.button}
             >
-              <ImagePreview currentImage={item.image} blurhash={item.imageBlurhash} style={styles.image} />
+              <ImagePreview
+                currentImage={item.image}
+                blurhash={item.imageBlurhash}
+                style={styles.image}
+                aspectRatio={item.aspectRatio === ImageAspectRatio.ONE_ONE ? 1 : 16 / 9}
+              />
             </HoliButton>
           ) : (
-            <ImagePreview key={index} currentImage={item.image} blurhash={item.imageBlurhash} style={styles.image} />
+            <ImagePreview
+              key={index}
+              currentImage={item.image}
+              blurhash={item.imageBlurhash}
+              style={styles.image}
+              aspectRatio={item.aspectRatio === ImageAspectRatio.ONE_ONE ? 1 : 16 / 9}
+            />
           )
         )}
       </Carousel>

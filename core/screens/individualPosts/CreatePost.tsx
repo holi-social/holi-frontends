@@ -17,6 +17,7 @@ import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySe
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
+import { ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
 import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
@@ -47,7 +48,7 @@ const CreatePost = () => {
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
   const [selectedTopics, setSelectedTopics] = useState<Term[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | null>(null)
-  const [aspectRatio, setAspectRatio] = useState<'16:9' | '1:1'>('16:9')
+  const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(ImageAspectRatio.SIXTEEN_NINE)
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [images, setImages] = useState<HoliImageInfo[]>([])
@@ -85,7 +86,7 @@ const CreatePost = () => {
           language: data?.detectedLanguage,
           location: selectedLocation?.label,
           images: images.map((_image, index) => {
-            return { image: _image.blob, order: index, altText: Math.random() + '' }
+            return { image: _image.blob, order: index, aspectRatio }
           }),
           geolocation: selectedLocation
             ? {

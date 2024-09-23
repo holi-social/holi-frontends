@@ -4,7 +4,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
-import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Close, Delete } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -20,9 +20,9 @@ type EditUploadedImagesProps = {
   setImages: (images: HoliImageInfo[]) => void
   currentImages?: FeedPostImage[] // used for edit mode - when we only have a uri and no HoliImageInfo
   setCurrentImages?: (images: FeedPostImage[]) => void
-  aspectRatio?: '16:9' | '1:1'
+  aspectRatio?: ImageAspectRatio
   onActionButtonPress: () => void
-  setAspectRatio: (aspectRatio: '16:9' | '1:1') => void
+  setAspectRatio: (aspectRatio: ImageAspectRatio) => void
 }
 
 const EditUploadedImages = ({
@@ -91,22 +91,30 @@ const EditUploadedImages = ({
                 <HoliText size="large">{t('individuals.post.images.imageRatio')}</HoliText>
                 <View style={styles.imageRatioButtons}>
                   <HoliButton
-                    style={[styles.imageRatioButton, aspectRatio === '16:9' && styles.imageRatioButtonActive]}
+                    style={[
+                      styles.imageRatioButton,
+                      aspectRatio === ImageAspectRatio.SIXTEEN_NINE && styles.imageRatioButtonActive,
+                    ]}
                     variant="small"
                     inline
                     label="16:9"
-                    onPress={() => setAspectRatio('16:9')}
+                    onPress={() => setAspectRatio(ImageAspectRatio.SIXTEEN_NINE)}
                   >
-                    <HoliText color={aspectRatio === '16:9' ? 'white100' : 'black300'}>16:9</HoliText>
+                    <HoliText color={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 'white100' : 'black300'}>
+                      16:9
+                    </HoliText>
                   </HoliButton>
                   <HoliButton
-                    style={[styles.imageRatioButton, aspectRatio === '1:1' && styles.imageRatioButtonActive]}
+                    style={[
+                      styles.imageRatioButton,
+                      aspectRatio === ImageAspectRatio.ONE_ONE && styles.imageRatioButtonActive,
+                    ]}
                     variant="small"
                     inline
                     label="1:1"
-                    onPress={() => setAspectRatio('1:1')}
+                    onPress={() => setAspectRatio(ImageAspectRatio.ONE_ONE)}
                   >
-                    <HoliText color={aspectRatio === '1:1' ? 'white100' : 'black300'}>1:1</HoliText>
+                    <HoliText color={aspectRatio === ImageAspectRatio.ONE_ONE ? 'white100' : 'black300'}>1:1</HoliText>
                   </HoliButton>
                 </View>
               </View>
@@ -123,7 +131,7 @@ const EditUploadedImages = ({
                         key={index}
                         image={imageInfo}
                         currentImage={feedPostImage?.image}
-                        aspectRatio={aspectRatio === '16:9' ? 16 / 9 : 1 / 1}
+                        aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1 / 1}
                       />
                       <View style={styles.buttonContainer}>
                         <HoliButton
