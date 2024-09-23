@@ -29,8 +29,9 @@ export interface HoliWizardCurrentStepOptions {
 export interface NextPressHandlerOptions {
   currentStep: number
   goNext: () => void
+  setFinished: (value: boolean) => void
 }
-type NextPressHandler = (options: NextPressHandlerOptions) => void
+type NextPressHandler = (options: NextPressHandlerOptions) => Promise<void>
 
 export interface SkipPressHandlerOptions {
   currentStep: number
@@ -81,21 +82,23 @@ const HoliWizardContextProvider: React.FC<React.PropsWithChildren<HoliWizardCont
   handleSkipPress,
   handleBackPress,
 }) => {
-  const { currentStep, goBack, goNext } = useStepper()
-  const onNextPress = keyboardDismissWrapper(() =>
-    handleNextPress({
+  const { currentStep, goBack, goNext, setFinished } = useStepper()
+  const onNextPress = keyboardDismissWrapper(async () => {
+    return handleNextPress({
       currentStep,
       goNext,
+      setFinished,
     })
-  )
-  const onBackPress = keyboardDismissWrapper(() =>
-    handleBackPress
+  })
+  const onBackPress = keyboardDismissWrapper(() => {
+    setFinished(false)
+    return handleBackPress
       ? handleBackPress({
           currentStep,
           goBack,
         })
       : goBack()
-  )
+  })
   const onSkipPress = keyboardDismissWrapper(() => {
     handleSkipPress
       ? handleSkipPress({
@@ -127,10 +130,10 @@ interface HoliWizardHeaderProps {
 const HoliWizardHeader: React.FC<HoliWizardHeaderProps> = ({ testID }) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { currentStep, stepCount } = useStepper()
+  const { currentStep, stepCount, finished } = useStepper()
   const { currentStepOptions, onSkipPress } = useWizard()
   const { skippable } = currentStepOptions
-  const progress = ((currentStep + 1) / stepCount) * 100
+  const progress = finished && currentStep >= stepCount - 1 ? 100 : (currentStep / stepCount) * 100
   const { percentage } = useProgressBarAnimation(progress)
 
   const { theme } = useTheme()
