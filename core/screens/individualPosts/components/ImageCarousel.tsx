@@ -26,7 +26,7 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
 
   // all images should have the same aspect ratio
   const aspectRatio = useMemo(() => {
-    return images[0].aspectRatio
+    return images[0].aspectRatio || ImageAspectRatio.SIXTEEN_NINE
   }, [images])
 
   return (
@@ -35,7 +35,7 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
         <Carousel
           vertical={false}
           width={viewWidth}
-          height={viewWidth * (aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1)}
+          height={viewWidth / (aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1)}
           loop={false}
           data={images}
           onSnapToItem={(index: number) => setCurrentIndex(index)}
@@ -53,6 +53,7 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
                     currentImage={item.image}
                     blurhash={item.imageBlurhash}
                     style={styles.image}
+                    aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
                   />
                 </HoliButton>
               ) : (

@@ -30,7 +30,7 @@ const EditUploadedImages = ({
   setImages,
   setCurrentImages,
   currentImages,
-  aspectRatio,
+  aspectRatio = ImageAspectRatio.SIXTEEN_NINE,
   onActionButtonPress,
   setAspectRatio,
 }: EditUploadedImagesProps) => {
