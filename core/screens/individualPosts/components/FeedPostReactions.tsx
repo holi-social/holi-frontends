@@ -40,6 +40,19 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
           location: 'FeedPostReactions.updateFeedPostReaction',
           postId: post.id,
         }),
+      optimisticResponse: {
+        feedPost: {
+          ...post,
+          reactions: {
+            ...post.reactions,
+            HEART: currentUserHasReacted ? post.reactions.HEART - 1 : post.reactions.HEART + 1,
+          },
+          myReaction: {
+            ...post.myReaction,
+            HEART: currentUserHasReacted ? 0 : 1,
+          },
+        },
+      },
     }
   )
 
