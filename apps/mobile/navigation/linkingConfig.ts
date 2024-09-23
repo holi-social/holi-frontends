@@ -181,6 +181,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.FeedPostCommentPage]: 'feed-posts/:idOrSlug/comment',
       },
     },
+    [RouteName.CreateReport]: {
+      screens: {
+        [RouteName.CreateReport]: 'report/:id/:type',
+      },
+    },
   },
 }
 
