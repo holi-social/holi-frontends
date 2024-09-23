@@ -2,7 +2,7 @@ import { Page, expect } from '@playwright/test'
 
 import { randomSpaceName } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { clickElementByTestId, locateElementByTestId, retry } from './helpers'
+import { byTestId, clickElementByTestId, locateElementByTestId, retry } from './helpers'
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
@@ -14,6 +14,11 @@ test.describe('@AppointmentNotifications', () => {
     const spaceName = randomSpaceName()
 
     const { page: admin } = await sessions.signUp()
+
+    // because we do a hard navigation we need to wait for logged in user to be fetched from BE. So, wait for 'logged-in-profile'
+
+    await admin.waitForSelector(byTestId('logged-in-profile'))
+
     await createSpace(admin, spaceName)
 
     const { page: follower } = await sessions.signUp()

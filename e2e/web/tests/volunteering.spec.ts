@@ -8,6 +8,7 @@ import {
   locateElementByTestId,
   proceedAsGuest,
   scrollToMakeHeaderVisible,
+  scrollToTriggerModal,
   volunteeringRequestTimeout,
   withSSR,
 } from './helpers'
@@ -30,11 +31,19 @@ test.describe('@Volunteering', () => {
     await testDisplaysEngagementDetails(context, page)
     await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
 
+    /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
+    await page.waitForLoadState()
+    await page.mouse.wheel(0, +600)
+    await page.mouse.wheel(0, -750)
     // navigate back
     await clickElementByTestId(page, 'nav-button-back')
     await page.waitForSelector(byTestId('volunteering-list-container'))
 
     await testFilteringByLocation(browser, page)
+    /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
+    await page.waitForLoadState()
+    await page.mouse.wheel(0, +600)
+    await page.mouse.wheel(0, -750)
     await testDisplaysFilterResults(browser, page)
   })
 })
@@ -143,16 +152,24 @@ const testFilteringByLocation = async (browser: Browser, page: Page) => {
 }
 
 const testDisplaysFilterResults = async (browser: Browser, page: Page) => {
+  //close the filter modal
+  await clickElementByTestId(page, 'btn-to-close-volunteering-filter-modal')
   // navigate to detail view
+  await page.waitForSelector(byTestId('btn-to-volunteering-engagement'))
   await clickElementByTestId(page, 'btn-to-volunteering-engagement')
 
   // expect detail view
   await page.waitForSelector(byTestId('volunteering-detailview-container'))
 
+  /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
+  await scrollToTriggerModal(page)
+
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
   // expect filtered list
   await testDisplaysFilterResultsCommon(page)
+
+  //FIXME: SSR for filter results has to be fixed
 
   await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
 
