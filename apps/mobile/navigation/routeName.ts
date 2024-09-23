@@ -136,4 +136,7 @@ export enum RouteName {
   FeedPostCommentPage = 'FeedPostCommentPage',
   CreatePost = 'CreatePost',
   EditPost = 'EditPost',
+
+  // Reports
+  CreateReport = 'CreateReport',
 }

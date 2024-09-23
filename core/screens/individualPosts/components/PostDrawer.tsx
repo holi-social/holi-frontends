@@ -34,7 +34,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   const { navigate } = useRouting()
   const { track } = useTracking()
 
-  const [isLoadingReport, reportContent] = useReportContent({
+  const [isLoadingReport] = useReportContent({
     id: post?.id || '',
     contentType3k: ContentType3K.FEED_POST,
     contentType: ContentType.FEED_POST,
@@ -80,6 +80,37 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
       track(TrackingEvent.FeedPosts.shared(post.id))
     }
   }
+  const reportPost = () => {
+    navigate(`/report/${post.id}/post`)
+  }
+
+  const renderAuthorActions = () => (
+    <>
+      <HoliActionDrawer.Action
+        icon={Edit2}
+        title={t('global.edit')}
+        testID="btn-edit-post"
+        handleAction={editFeedPostActionHandler}
+      />
+      <HoliActionDrawer.Action
+        icon={Delete}
+        title={t('global.delete')}
+        testID="btn-delete-post"
+        handleAction={deleteFeedPostActionHandler}
+        variant="danger"
+      />
+    </>
+  )
+
+  const renderReportAction = () => (
+    <HoliActionDrawer.Action
+      isLoading={isLoadingReport}
+      icon={Flag}
+      title={t('report.post.title')}
+      testID="btn-report-post"
+      handleAction={reportPost}
+    />
+  )
 
   return (
     <>
@@ -90,40 +121,8 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
           testID="btn-share-post"
           handleAction={onShare}
         />
-
-        {loginState.isLoggedIn && loginState.userId === post.author.id ? (
-          <>
-            <HoliActionDrawer.Action
-              icon={Edit2}
-              title={t('global.edit')}
-              testID="btn-edit-post"
-              handleAction={editFeedPostActionHandler}
-            />
-            <HoliActionDrawer.Action
-              icon={Delete}
-              title={t('global.delete')}
-              testID="btn-delete-post"
-              handleAction={deleteFeedPostActionHandler}
-              variant="danger"
-            />
-          </>
-        ) : (
-          <HoliActionDrawer.Action
-            isLoading={isLoadingReport}
-            icon={Flag}
-            title={t('global.report')}
-            testID="btn-report-post"
-            showConfirmation
-          >
-            <HoliActionDrawer.Confirmation
-              title={t('insights.post.report.confirmation.title')}
-              description={t('insights.post.report.confirmation.description')}
-              handleConfirmation={reportContent}
-              hasDismissBtn
-              requireLogin
-            />
-          </HoliActionDrawer.Action>
-        )}
+        {loginState.isLoggedIn && loginState.userId === post.author.id && renderAuthorActions()}
+        {loginState.isLoggedIn && loginState.userId !== post.author.id && renderReportAction()}
       </HoliActionDrawer.Drawer>
       <HoliConfirmation
         show={showDeleteConfirmationModal}

@@ -158,7 +158,7 @@ const getStyles = (theme: HoliTheme) =>
       borderRadius: 5,
       borderWidth: 1,
       backgroundColor: theme.dark ? theme.colors.foreground30 : theme.colors.background10,
-      borderColor: theme.dark ? theme.colors.foreground10 : theme.colors.background30,
+      borderColor: theme.colors.foreground10,
       alignItems: 'center',
       justifyContent: 'center',
     },

@@ -12,11 +12,13 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 interface HoliWizardProps {
   onSubmit: () => Promise<void>
   onNextPress: (currentStep: number) => Promise<boolean>
+  safeButtonLabel?: string
   isBackButtonAvailable?: boolean
+  showProgress?: boolean
 }
 
 const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWizardProps>>(
-  ({ children, isBackButtonAvailable = false, onNextPress, onSubmit }, ref) => {
+  ({ children, isBackButtonAvailable = false, showProgress = true, onNextPress, onSubmit, safeButtonLabel }, ref) => {
     const { t } = useTranslation()
     const [currentStep, setCurrentStep] = useState(0)
     const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
@@ -74,16 +76,17 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
         saveButtonDisabled={!isNextButtonEnabled}
         saveButtonLoading={isSaveButtonLoading}
         showBackButton={isBackButtonAvailable && currentStep > 0}
-        buttonLabel={currentStep === stepCount - 1 ? t('global.save') : t('global.next')}
+        buttonLabel={currentStep === stepCount - 1 ? safeButtonLabel || t('global.save') : t('global.next')}
         scrollToInput={false}
         bottomBarStyle={styles.bottomBar}
         renderProp={() => (
           <HoliWizardContext.Provider value={wizardContext}>
-            <View style={[mixins.container, styles.progressBarContainer]}>
-              <HoliProgressBar percentage={percentage} />
-              <StepCount />
-            </View>
-
+            {showProgress && (
+              <View style={[mixins.container, styles.progressBarContainer]}>
+                <HoliProgressBar percentage={percentage} />
+                <StepCount />
+              </View>
+            )}
             <ScrollView style={styles.scrollView} contentContainerStyle={mixins.container} ref={ref}>
               {arrayChildren && arrayChildren[currentStep]}
             </ScrollView>

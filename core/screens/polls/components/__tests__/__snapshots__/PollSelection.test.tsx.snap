@@ -137,7 +137,7 @@ exports[`PollSelection renders poll selection correctly 1`] = `
                     {
                       "alignItems": "center",
                       "backgroundColor": "#fff",
-                      "borderColor": "#ebebeb",
+                      "borderColor": "#bfbebe",
                       "borderRadius": 24,
                       "borderWidth": 1,
                       "height": 24,
@@ -319,7 +319,7 @@ exports[`PollSelection renders poll selection correctly 1`] = `
                     {
                       "alignItems": "center",
                       "backgroundColor": "#fff",
-                      "borderColor": "#ebebeb",
+                      "borderColor": "#bfbebe",
                       "borderRadius": 24,
                       "borderWidth": 1,
                       "height": 24,
@@ -507,7 +507,7 @@ exports[`PollSelection renders poll selection correctly with one option 1`] = `
                   {
                     "alignItems": "center",
                     "backgroundColor": "#fff",
-                    "borderColor": "#ebebeb",
+                    "borderColor": "#bfbebe",
                     "borderRadius": 24,
                     "borderWidth": 1,
                     "height": 24,
