@@ -325,7 +325,8 @@
   "individuals.post.emptyTitleOther": "{{name}} hasn’t posted anything yet.",
   "individuals.post.images.add": "Add images",
   "individuals.post.images.addImage": "Add image",
-  "individuals.post.images.edit": "Added images",
+  "individuals.post.images.edit": "Edit images",
+  "individuals.post.images.imageRatio": "Image ratio",
   "individuals.post.images.remove": "Remove",
   "individuals.post.images.removeAll": "Remove all",
   "individuals.post.images.requirements": ".jpg or .png file up to 8 MB",
@@ -1401,15 +1402,7 @@
   "volunteering.navigation.search": "Search",
   "webview.error": "Loading the page failed!",
   "wizard.stepsCount": "Step {{current}} of {{total}}",
-  "dayNames": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-  ],
+  "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
   "monthNames": [
     "January",
     "February",

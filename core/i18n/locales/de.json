@@ -325,7 +325,8 @@
   "individuals.post.emptyTitleOther": "{{name}} hat noch nichts gepostet.",
   "individuals.post.images.add": "Bilder hinzufügen",
   "individuals.post.images.addImage": "Bild hinzufügen",
-  "individuals.post.images.edit": "Hinzugefügte Bilder",
+  "individuals.post.images.edit": "Bilder bearbeiten",
+  "individuals.post.images.imageRatio": "Bildverhältnis",
   "individuals.post.images.remove": "Entfernen",
   "individuals.post.images.removeAll": "Alle entfernen",
   "individuals.post.images.requirements": "jpg oder .png Datei bis zu 8 MB",
@@ -1400,15 +1401,7 @@
   "volunteering.navigation.search": "Search",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
   "wizard.stepsCount": "Schritt {{current}} von {{total}}",
-  "dayNames": [
-    "Sonntag",
-    "Montag",
-    "Dienstag",
-    "Mittwoch",
-    "Donnerstag",
-    "Freitag",
-    "Samstag"
-  ],
+  "dayNames": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
   "monthNames": [
     "Januar",
     "Februar",

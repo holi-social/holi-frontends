@@ -17,6 +17,11 @@ export enum ReactionAction {
   'REMOVE' = 'REMOVE',
 }
 
+export enum ImageAspectRatio {
+  'ONE_ONE' = 'ONE_ONE',
+  'SIXTEEN_NINE' = 'SIXTEEN_NINE',
+}
+
 export interface ReactionCounts {
   HEART: number
 }
@@ -39,6 +44,7 @@ export interface FeedPostImage {
   imageBlurhash: string
   order: number
   altText?: string
+  aspectRatio?: ImageAspectRatio
 }
 
 export interface FeedPostImageMetadata {
