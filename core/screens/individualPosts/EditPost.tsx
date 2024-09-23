@@ -122,7 +122,6 @@ const EditPost = () => {
         },
       },
       onError: (error) => {
-        console.log('error', error)
         if (isMaliciousUrlError(error)) {
           openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
         } else {
