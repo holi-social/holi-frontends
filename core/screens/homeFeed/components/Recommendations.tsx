@@ -17,8 +17,6 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
-import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
-import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 
 const IMAGE_WIDTH = 311
 
@@ -40,9 +38,9 @@ const RecommendationsHeader = () => {
 }
 
 const Recommendations = () => {
+  const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayGoodNews = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
-  const volunteeringVariant = useVolunteeringVariant()
   const cardWidth = useCardWidth()
 
   return (
@@ -58,9 +56,7 @@ const Recommendations = () => {
           <TaskRecommendations cardWidth={cardWidth} />
         </ErrorBoundary>
 
-        {volunteeringVariant === 'legacy' && <VolunteeringUpdates cardWidth={cardWidth} />}
-
-        {volunteeringVariant === 'recosV1' && <VolunteeringRecos cardWidth={cardWidth} />}
+        {displayVolunteering && <VolunteeringRecos cardWidth={cardWidth} />}
 
         {displayDonations && <DonationUpdates cardWidth={cardWidth} />}
 

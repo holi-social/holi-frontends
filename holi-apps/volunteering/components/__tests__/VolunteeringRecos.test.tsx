@@ -4,28 +4,25 @@ import { act, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import { useDefaultTopics, useSkills, useTopics } from '@holi/core/domain/shared/hooks'
-import { Skill, Topic, User } from '@holi/core/domain/shared/types'
-import { LoggedInState } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { AuthenticatedUser, Skill, Topic } from '@holi/core/domain/shared/types'
+import {
+  LoggedInUser,
+  loggedInUserLoading,
+  loggedOut,
+  useLoggedInUser,
+} from '@holi/core/screens/userprofile/useLoggedInUser'
 
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
-import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 import {
   VolunteeringRecosQueryResponse,
   VolunteeringRecosQueryVariables,
   volunteeringRecosQuery,
 } from '@holi-apps/volunteering/queries'
-import { VolunteeringReco } from '@holi-apps/volunteering/types'
 
-const mockUseLoggedInUser = jest.fn()
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
-  useLoggedInUser: () => mockUseLoggedInUser(),
-}))
-
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringVariant')
-const mockUseVolunteeringVariant = jest.mocked(useVolunteeringVariant)
+jest.mock('@holi/core/screens/userprofile/useLoggedInUser')
+const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
 
 jest.mock('@holi/core/domain/shared/hooks')
-
 const mockUseTopics = jest.mocked(useTopics)
 const mockUseSkills = jest.mocked(useSkills)
 const mockUseDefaultTopics = jest.mocked(useDefaultTopics)
@@ -34,9 +31,10 @@ const testUser1 = (
   interests: Topic[] = [],
   skills: Skill[] = [],
   geolocationId: string | undefined = undefined
-): User => ({
+): AuthenticatedUser => ({
   id: faker.string.uuid(),
   identity: faker.string.uuid(),
+  isEmployee: faker.datatype.boolean(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
   fullName: faker.person.firstName(),
@@ -58,7 +56,7 @@ const testTopic2: Topic = {
   id: 'test-topic-2',
   title: 'Test Topic 2',
   slug: 'test-topic-2',
-  isDiscoverSpacesDefault: false,
+  isDiscoverSpacesDefault: true,
 }
 
 const testTopic3: Topic = {
@@ -85,71 +83,82 @@ const testSkill2: Skill = {
 
 const allSkills = [testSkill1, testSkill2]
 
-const reco1: VolunteeringReco = {
+const reco1 = {
   engagement: {
     id: faker.string.uuid(),
     title: faker.lorem.sentence(10),
     description: faker.lorem.paragraph(10),
     url: faker.internet.url(),
     source: faker.internet.url(),
-    categories: ['cat1', 'cat2'],
     imageUrl: faker.image.url(),
     organizer: {
       name: faker.person.fullName(),
       imageUrl: faker.image.url(),
+      __typename: 'AppVolunteering_Organizer',
     },
     location: faker.location.city(),
     latitude: faker.location.latitude(),
     longitude: faker.location.longitude(),
+    topics: [testTopic1.slug],
+    skills: [],
+    __typename: 'AppVolunteering_Engagement',
   },
   matchedTopics: [testTopic1.slug],
   matchedSkills: [],
-}
-
-const setupHooksMocks = () => {
-  mockUseTopics.mockReturnValue({
-    topics: allTopics,
-    topicsLoading: false,
-  })
-  mockUseSkills.mockReturnValue({
-    skills: allSkills,
-    skillsLoading: false,
-  })
-  mockUseDefaultTopics.mockReturnValue({
-    defaultTopics: defaultTopics,
-    defaultTopicsLoading: false,
-  })
-  mockUseVolunteeringVariant.mockReturnValue('recosV1')
+  __typename: 'AppVolunteering_EngagementReco',
 }
 
 const setupApolloMocks = (expectedQueryVars: VolunteeringRecosQueryVariables) => {
-  const querySpy = jest.fn(() => ({
-    data: {
-      appVolunteering_engagementRecos: {
-        totalResults: 1,
-        data: [reco1],
+  const querySpy = jest.fn(() => {
+    return {
+      data: {
+        appVolunteering_engagementRecos: {
+          totalResults: 1,
+          data: [reco1],
+          __typename: 'AppVolunteering_EngagementRecosResponse',
+        },
       },
-    },
-  }))
-  const providerMock: MockedResponse<VolunteeringRecosQueryResponse, VolunteeringRecosQueryVariables> = {
+    }
+  })
+  const mockedResponse: MockedResponse<VolunteeringRecosQueryResponse, VolunteeringRecosQueryVariables> = {
     request: {
       query: volunteeringRecosQuery,
       variables: expectedQueryVars,
     },
     newData: querySpy,
   }
-  return { querySpy, providerMock }
+  return { querySpy, mockedResponses: [mockedResponse] }
 }
 
-describe('VolunteeringRecosV1', () => {
+const loggedInUser = (user: AuthenticatedUser): LoggedInUser => ({
+  state: 'loggedIn',
+  isLoading: false,
+  isLoggedIn: true,
+  isLoggedOut: false,
+  user,
+  refetch: () => Promise.resolve(),
+})
+
+describe('VolunteeringRecos', () => {
+  beforeEach(() => {
+    mockUseTopics.mockReturnValue({
+      topics: allTopics,
+      topicsLoading: false,
+    })
+    mockUseSkills.mockReturnValue({
+      skills: allSkills,
+      skillsLoading: false,
+    })
+    mockUseDefaultTopics.mockReturnValue({
+      defaultTopics: defaultTopics,
+      defaultTopicsLoading: false,
+    })
+  })
   describe('when viewed by a logged out user', () => {
     describe('and default topics are still loading', () => {
       it('displays nothing', () => {
-        mockUseLoggedInUser.mockReturnValue({
-          isLoggedOut: true,
-          user: undefined,
-        } as LoggedInState)
-        setupHooksMocks()
+        mockUseLoggedInUser.mockReturnValue(loggedOut)
+        mockUseDefaultTopics.mockReturnValue({ defaultTopics: [], defaultTopicsLoading: true })
         // toJSON is the only easy way I could find to assert that something renders to null
         const { toJSON } = render(
           <MockedProvider>
@@ -161,12 +170,8 @@ describe('VolunteeringRecosV1', () => {
     })
     describe('and default topics have been loaded', () => {
       it('queries recos for default topics', async () => {
-        mockUseLoggedInUser.mockReturnValue({
-          isLoggedOut: true,
-          user: undefined,
-        } as LoggedInState)
-        setupHooksMocks()
-        const { querySpy, providerMock } = setupApolloMocks({
+        mockUseLoggedInUser.mockReturnValue(loggedOut)
+        const { querySpy, mockedResponses } = setupApolloMocks({
           topics: defaultTopics.map((t) => t.slug),
           skills: undefined,
           geolocationId: undefined,
@@ -174,7 +179,7 @@ describe('VolunteeringRecosV1', () => {
           limit: 5,
         })
         render(
-          <MockedProvider mocks={[providerMock]}>
+          <MockedProvider mocks={mockedResponses}>
             <VolunteeringRecos cardWidth={260} />
           </MockedProvider>
         )
@@ -186,12 +191,8 @@ describe('VolunteeringRecosV1', () => {
   })
   describe('when viewed by a logged in user', () => {
     describe('and user is still loading', () => {
-      it('displays a loading spinner', () => {
-        mockUseLoggedInUser.mockReturnValue({
-          isLoading: true,
-          user: undefined,
-        } as LoggedInState)
-        setupHooksMocks()
+      it('displays nothing', () => {
+        mockUseLoggedInUser.mockReturnValue(loggedInUserLoading)
         const { toJSON } = render(
           <MockedProvider>
             <VolunteeringRecos cardWidth={260} />
@@ -203,12 +204,10 @@ describe('VolunteeringRecosV1', () => {
     describe('and user has set interests, skills and geolocation', () => {
       it('queries recos for them', async () => {
         const geolocationId = faker.string.uuid()
-        mockUseLoggedInUser.mockReturnValue({
-          isLoggedIn: true,
-          user: testUser1([testTopic1, testTopic3], [testSkill1, testSkill2], geolocationId),
-        } as LoggedInState)
-        setupHooksMocks()
-        const { querySpy, providerMock } = setupApolloMocks({
+        mockUseLoggedInUser.mockReturnValue(
+          loggedInUser(testUser1([testTopic1, testTopic3], [testSkill1, testSkill2], geolocationId))
+        )
+        const { querySpy, mockedResponses } = setupApolloMocks({
           topics: [testTopic1.slug, testTopic3.slug],
           skills: [testSkill1.slug, testSkill2.slug],
           geolocationId,
@@ -216,7 +215,7 @@ describe('VolunteeringRecosV1', () => {
           limit: 5,
         })
         render(
-          <MockedProvider mocks={[providerMock]}>
+          <MockedProvider mocks={mockedResponses}>
             <VolunteeringRecos cardWidth={260} />
           </MockedProvider>
         )
@@ -228,12 +227,8 @@ describe('VolunteeringRecosV1', () => {
     describe('and user has only a geolocation', () => {
       it('queries for default topics and geolocation', async () => {
         const geolocationId = faker.string.uuid()
-        mockUseLoggedInUser.mockReturnValue({
-          isLoggedIn: true,
-          user: testUser1([], [], geolocationId),
-        } as LoggedInState)
-        setupHooksMocks()
-        const { querySpy, providerMock } = setupApolloMocks({
+        mockUseLoggedInUser.mockReturnValue(loggedInUser(testUser1([], [], geolocationId)))
+        const { querySpy, mockedResponses } = setupApolloMocks({
           topics: defaultTopics.map((t) => t.slug),
           skills: undefined,
           geolocationId,
@@ -241,7 +236,7 @@ describe('VolunteeringRecosV1', () => {
           limit: 5,
         })
         render(
-          <MockedProvider mocks={[providerMock]}>
+          <MockedProvider mocks={mockedResponses}>
             <VolunteeringRecos cardWidth={260} />
           </MockedProvider>
         )

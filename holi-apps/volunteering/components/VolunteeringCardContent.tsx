@@ -9,11 +9,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
-import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 type VolunteeringCardContentProps = {
-  data: VolunteeringEngagement | VolunteeringReco
+  engagementOrReco: VolunteeringEngagement | VolunteeringReco
 }
 
 const hasTopics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
@@ -32,29 +31,12 @@ const hasSkills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) 
 const skills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
   'engagement' in engagementOrReco ? engagementOrReco.matchedSkills : engagementOrReco.skills
 
-const recosLabels = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) => {
-  return (
-    (hasTopics(engagementOrReco) || hasSkills(engagementOrReco)) && (
-      <>
-        <VolunteeringLabels
-          displayAll={false}
-          topicSlugs={topics(engagementOrReco)}
-          skillSlugs={skills(engagementOrReco)}
-        />
-        <HoliGap size={'xs'} />
-      </>
-    )
-  )
-}
-
-const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ data }) => {
+const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engagementOrReco }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const variant = useVolunteeringVariant()
-  const isReco = 'engagement' in data
-  const engagement = isReco ? data.engagement : data
+  const engagement = 'engagement' in engagementOrReco ? engagementOrReco.engagement : engagementOrReco
 
   const title = engagement.organizer?.name
     ? t('volunteering:engagement.title', {
@@ -68,11 +50,15 @@ const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ data 
   const country = t('volunteering:engagement.country')
   return (
     <View testID="volunteering-list-item">
-      {variant === 'recosV1' && recosLabels(data)}
-      {variant !== 'recosV1' && (
-        <HoliText size={'small'} style={styles.categoryText} testID="volunteering-engagement-categories">
-          {engagement.categories[0]}
-        </HoliText>
+      {(hasTopics(engagementOrReco) || hasSkills(engagementOrReco)) && (
+        <>
+          <VolunteeringLabels
+            displayAll={false}
+            topicSlugs={topics(engagementOrReco)}
+            skillSlugs={skills(engagementOrReco)}
+          />
+          <HoliGap size={'xs'} />
+        </>
       )}
       <HoliText size={'default'} bold={true}>
         {title}

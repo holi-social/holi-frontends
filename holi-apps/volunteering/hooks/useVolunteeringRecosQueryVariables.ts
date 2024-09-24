@@ -12,35 +12,34 @@ interface VolunteeringRecosParameters {
 }
 
 const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
-  const { user, isLoggedIn } = useLoggedInUser()
+  const { user, isLoggedIn, isLoading } = useLoggedInUser()
   const { defaultTopics, defaultTopicsLoading } = useDefaultTopics()
 
-  if (isLoggedIn) {
-    if (!user /* = isLoading */) {
+  if (isLoading) {
+    return {
+      loading: true,
+    }
+  } else if (isLoggedIn) {
+    const hasInterests = !!user.interests?.length
+    const hasSkills = !!user.skills?.length
+    if (hasInterests || hasSkills) {
       return {
-        loading: true,
+        topics: user.interests,
+        skills: user.skills,
+        geolocationId: user.geolocationId,
       }
     } else {
-      const hasInterests = !!user.interests?.length
-      const hasSkills = !!user.skills?.length
-      if (hasInterests || hasSkills) {
-        return {
-          topics: user.interests,
-          skills: user.skills,
-          geolocationId: user.geolocationId,
-        }
-      } else {
-        return {
-          topics: defaultTopics,
-          loading: defaultTopicsLoading,
-          geolocationId: user.geolocationId,
-        }
+      return {
+        topics: defaultTopics,
+        loading: defaultTopicsLoading,
+        geolocationId: user.geolocationId,
       }
     }
-  }
-  return {
-    topics: defaultTopics,
-    loading: defaultTopicsLoading,
+  } else {
+    return {
+      topics: defaultTopics,
+      loading: defaultTopicsLoading,
+    }
   }
 }
 

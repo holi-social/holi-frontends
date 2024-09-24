@@ -11,7 +11,6 @@ import createParamHooks, {
   webReplaceQueryConfig,
 } from '@holi/core/navigation/hooks/useParam'
 
-import { useVolunteeringDiscoveryVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 import { VolunteeringFilterParams, VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 interface FilterHook {
@@ -61,35 +60,6 @@ const useGeolocation = (locationId?: string) => {
   }
 }
 
-const useLegacyFilters = (): FilterHook => {
-  const [location] = useParam('location', singleParamConfig)
-  const [category] = useParam('category', singleParamConfig)
-  const updateParams = useUpdateParams(webReplaceQueryConfig)
-  const geolocationProps = useGeolocation(location)
-
-  const [filters, setFilters] = useState<VolunteeringFilters>({
-    location: geolocationProps.geolocationSelection,
-    category,
-  })
-  const isFiltering = !!(filters.location || filters.category)
-
-  const onFilterChange = useCallback(
-    ({ location, category }: VolunteeringFilters = {}) => {
-      setFilters({ location, category })
-      updateParams({ location: location?.id, category })
-    },
-    [updateParams]
-  )
-
-  const clearFilters = useCallback(() => {
-    const emptyFilters = { location: undefined, category: undefined }
-    setFilters(emptyFilters)
-    updateParams(emptyFilters)
-  }, [updateParams])
-
-  return { filters, setFilters: onFilterChange, clearFilters, isFiltering, ...geolocationProps }
-}
-
 const useDiscoveryV1Filters = (): FilterHook => {
   const [topics] = useParam('topic', arrayParamConfig)
   const [skills] = useParam('skill', arrayParamConfig)
@@ -116,12 +86,7 @@ const useDiscoveryV1Filters = (): FilterHook => {
 }
 
 export const useVolunteeringFilters = (onSubmit: () => void) => {
-  const discoveryVariant = useVolunteeringDiscoveryVariant()
-
-  const legacyFilterProps = useLegacyFilters()
-  const discoverV1filterProps = useDiscoveryV1Filters()
-
-  const { setFilters, ...filterProps } = discoveryVariant === 'discoveryV1' ? discoverV1filterProps : legacyFilterProps
+  const { setFilters, ...filterProps } = useDiscoveryV1Filters()
 
   const submit = useCallback(
     (filters?: VolunteeringFilters) => {

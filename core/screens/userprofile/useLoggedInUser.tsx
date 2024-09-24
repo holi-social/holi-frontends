@@ -40,7 +40,7 @@ export interface LoggedInUser {
 
 export type LoggedInState = LoggedInUserLoading | LoggedOut | LoggedInUser
 
-const loading: LoggedInUserLoading = {
+export const loggedInUserLoading: LoggedInUserLoading = {
   state: 'loading',
   isLoading: true,
   isLoggedIn: false,
@@ -49,7 +49,7 @@ const loading: LoggedInUserLoading = {
   refetch: () => Promise.resolve(),
 }
 
-const loggedOut: LoggedOut = {
+export const loggedOut: LoggedOut = {
   state: 'loggedOut',
   isLoading: false,
   isLoggedIn: false,
@@ -92,7 +92,7 @@ export const useLoggedInUser = (): LoggedInState => {
   })
 
   if (loginState.isUnknown || isLoadingAuthenticatedUser) {
-    return loading
+    return loggedInUserLoading
   } else if (loginState.isLoggedOut) {
     return loggedOut
   } else {

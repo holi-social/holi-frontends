@@ -40,7 +40,6 @@ export type VolunteeringEngagement = {
   description: string
   url: string
   source: string
-  categories: string[]
   imageUrl?: string
   organizer?: Organizer
   location?: string

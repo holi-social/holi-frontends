@@ -108,7 +108,6 @@ const testDisplaysEngagementDetailsCommon = async (page: Page) => {
 
   await page.waitForSelector(byTestId('volunteering-engagement-title'))
   await page.waitForSelector(byTestId('volunteering-engagement-description'))
-  await page.waitForSelector(byTestId('volunteering-engagement-categories'))
 }
 
 const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page) => {
