@@ -140,7 +140,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingState
             onSuccess={goToNextStep}
             key={RegistrationStep.EMAIL_VERIFICATION}
           />,
-          <AccountSetup onFinish={() => onOnboardingStateChange('finished')} key="account-setup" />,
+          <AccountSetup onFinish={() => onOnboardingStateChange('finished')} key={RegistrationStep.ACCOUNT_SETUP} />,
         ]}
         lazy
       />
@@ -162,7 +162,7 @@ const OnboardingRegistration = () => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
   }, [setScreenOptions])
 
-  if (isLoading) return <HoliLoader />
+  if (isLoading || !storeOnboardingState) return <HoliLoader />
 
   if (storedOnboardingState === 'emailVerification') {
     initialStep = RegistrationStep.EMAIL_VERIFICATION

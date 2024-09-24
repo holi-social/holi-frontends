@@ -8,8 +8,6 @@ import {
 } from '@holi/core/domain/shared/queries'
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { onboardingStateVar, storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 export interface LoggedInUserLoading {
   state: 'loading'
@@ -61,7 +59,6 @@ export const loggedOut: LoggedOut = {
 export const useLoggedInUser = (): LoggedInState => {
   const loginState = useLoginState()
   const { displayError } = useErrorHandling()
-  const { navigate } = useRouting()
 
   const {
     data: { authenticatedUserV2: user } = {},
@@ -77,17 +74,6 @@ export const useLoggedInUser = (): LoggedInState => {
     // we avoid getting previous user from GraphQL cache by passing `userId`
     variables: {
       userId: loginState.isLoggedIn ? loginState.userId : undefined,
-    },
-    onCompleted: async ({ authenticatedUserV2: { identity } }) => {
-      // check if user has `identity`.
-      // if not, user needs to provide his/her name and lastname
-      // to get it we redirect user to Onboarding `accoutSetup` step
-      const currentOnboardingState = onboardingStateVar()
-
-      if (!identity && currentOnboardingState !== 'emailVerification') {
-        await storeOnboardingState('accountSetup')
-        navigate('/onboarding/registration')
-      }
     },
   })
 

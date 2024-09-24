@@ -15,6 +15,7 @@ import LoginModalProvider from '@holi/core/providers/LoginModalProvider'
 import PortalProvider from '@holi/core/providers/PortalProvider'
 import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
+import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import PosthogProvider, { PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
@@ -39,6 +40,7 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
                 <SessionExpiryProtection>
                   <RefreshContextProvider>
                     <FeatureFlagsFetcher />
+                    <OnboardingInitializer />
                     {isMobile ? <DeviceRegistration /> : null}
                     {isMobile ? <UpdateAppModal /> : null}
                     <LoginModalProvider>

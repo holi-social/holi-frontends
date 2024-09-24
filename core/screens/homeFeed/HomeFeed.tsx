@@ -18,7 +18,6 @@ import Recommendations from '@holi/core/screens/homeFeed/components/Recommendati
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -92,8 +91,6 @@ const HomeFeed = () => {
 
       {/* Floating CreatePostButton needs to be outside the Layout */}
       <CreatePostButton />
-
-      <OnboardingInitializer />
     </GestureHandlerRootView>
   )
 }
