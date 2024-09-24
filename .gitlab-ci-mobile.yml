@@ -121,7 +121,7 @@ mobile_review_publish:
   after_script: |
     curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The mobile environment for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available/updated via https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/'${CI_COMMIT_REF_SLUG}'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
   rules:
-    - !reference [rules_mobile_review]
+    - !reference [.rules_mobile_review]
     
 
 
@@ -143,7 +143,7 @@ mobile_review_destroy:
   allow_failure: false
   interruptible: false
   rules:
-    - !reference [rules_mobile_review]
+    - !reference [.rules_mobile_review]
 
 mobile_review_build_android:
   extends: .mobile_build
@@ -154,7 +154,7 @@ mobile_review_build_android:
   when: manual
   allow_failure: false
   rules:
-    - !reference [rules_mobile_review]
+    - !reference [.rules_mobile_review]
 
 mobile_review_build_ios:
   extends: .mobile_build
@@ -165,7 +165,7 @@ mobile_review_build_ios:
   when: manual
   allow_failure: false
   rules:
-    - !reference [rules_mobile_review]
+    - !reference [.rules_mobile_review]
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
@@ -173,7 +173,7 @@ mobile_review_e2e_android:
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
-    - !reference [rules_mobile_review]
+    - !reference [.rules_mobile_review]
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
@@ -181,7 +181,7 @@ mobile_review_e2e_ios:
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
-    - !reference [rules_mobile_review]
+    - !reference [.rules_mobile_review]
 
 ## staging environment
 
