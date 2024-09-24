@@ -149,7 +149,7 @@ export const VolunteeringEngagementList = ({
                       imageWidth={imageWidth}
                       testID="btn-to-volunteering-engagement"
                     >
-                      <VolunteeringCardContent data={engagementOrReco} key={engagement.id} />
+                      <VolunteeringCardContent engagementOrReco={engagementOrReco} key={engagement.id} />
                     </HoliCard>
                   </HoliLinkTracked>
                 </HoliGridCell>

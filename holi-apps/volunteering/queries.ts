@@ -10,7 +10,6 @@ export const fullEngagementFragment = gql`
     url
     imageUrl
     source
-    categories
     organizer {
       name
       imageUrl
@@ -23,28 +22,15 @@ export const fullEngagementFragment = gql`
   }
 `
 
-export type VolunteeringEngagementsQueryResponse = {
-  appVolunteering_engagementOpportunities: {
-    totalResults: number
-    data: VolunteeringEngagement[]
-  }
-}
-
-export const volunteeringEngagementsQuery = gql`
+export const fullEngagementRecoFragment = gql`
   ${fullEngagementFragment}
 
-  query VolunteeringEngagements(
-    $location: AppVolunteering_GeoJSON
-    $category: String
-    $limit: Int! = 10
-    $offset: Int! = 0
-  ) {
-    appVolunteering_engagementOpportunities(location: $location, category: $category, limit: $limit, offset: $offset) {
-      totalResults
-      data {
-        ...FullEngagement
-      }
+  fragment FullEngagementReco on AppVolunteering_EngagementReco {
+    engagement {
+      ...FullEngagement
     }
+    matchedTopics
+    matchedSkills
   }
 `
 
@@ -62,18 +48,6 @@ export type VolunteeringRecosQueryResponse = {
     data: VolunteeringReco[]
   }
 }
-
-export const fullEngagementRecoFragment = gql`
-  ${fullEngagementFragment}
-
-  fragment FullEngagementReco on AppVolunteering_EngagementReco {
-    engagement {
-      ...FullEngagement
-    }
-    matchedTopics
-    matchedSkills
-  }
-`
 
 export const volunteeringRecosQuery = gql`
   ${fullEngagementRecoFragment}
@@ -146,26 +120,6 @@ export const trackEngagementViewMutation = gql`
   }
 `
 
-export const volunteeringCategoriesQuery = gql`
-  query VolunteeringCategories {
-    appVolunteering_categories {
-      data {
-        name
-      }
-    }
-  }
-`
-
 export type TrackEngagementViewResponse = {
   id: string
-}
-
-export type Category = {
-  name: string
-}
-
-export interface VolunteeringCategoriesQueryResult {
-  appVolunteering_categories: {
-    data: Category[]
-  }
 }

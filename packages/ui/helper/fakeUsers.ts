@@ -1,7 +1,12 @@
 import { faker } from '@faker-js/faker'
 
-import { User } from '@holi/core/domain/shared/types'
+import { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
+
+export const getRandomAuthenticatedUser = (): AuthenticatedUser => ({
+  ...getRandomUser(),
+  isEmployee: faker.datatype.boolean(),
+})
 
 export const getRandomUser = (hasAvatar = false): User => {
   const firstName = faker.person.firstName()
