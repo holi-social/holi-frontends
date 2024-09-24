@@ -10,41 +10,65 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
 import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 type VolunteeringCardContentProps = {
-  engagement: VolunteeringEngagement
+  data: VolunteeringEngagement | VolunteeringReco
 }
 
-const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engagement }) => {
+const hasTopics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
+  'engagement' in engagementOrReco
+    ? engagementOrReco.matchedTopics && engagementOrReco.matchedTopics?.length > 0
+    : engagementOrReco.topics && engagementOrReco.topics?.length > 0
+
+const topics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
+  'engagement' in engagementOrReco ? engagementOrReco.matchedTopics : engagementOrReco.topics
+
+const hasSkills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
+  'engagement' in engagementOrReco
+    ? engagementOrReco.matchedSkills && engagementOrReco.matchedSkills?.length > 0
+    : engagementOrReco.skills && engagementOrReco.skills?.length > 0
+
+const skills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
+  'engagement' in engagementOrReco ? engagementOrReco.matchedSkills : engagementOrReco.skills
+
+const recosLabels = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) => {
+  return (
+    (hasTopics(engagementOrReco) || hasSkills(engagementOrReco)) && (
+      <>
+        <VolunteeringLabels
+          displayAll={false}
+          topicSlugs={topics(engagementOrReco)}
+          skillSlugs={skills(engagementOrReco)}
+        />
+        <HoliGap size={'xs'} />
+      </>
+    )
+  )
+}
+
+const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ data }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const variant = useVolunteeringVariant()
+  const isReco = 'engagement' in data
+  const engagement = isReco ? data.engagement : data
 
-  const { organizer } = engagement
-  const title = organizer?.name
+  const title = engagement.organizer?.name
     ? t('volunteering:engagement.title', {
         title: engagement.title,
-        organization: organizer?.name,
+        organization: engagement.organizer?.name,
         interpolation: { escapeValue: false },
       })
     : engagement.title
-
-  const hasTopics = engagement.matchedTopics && engagement.matchedTopics?.length > 0
-  const hasSkills = engagement.matchedSkills && engagement.matchedSkills?.length > 0
 
   // hardcoded for now as we don't have the country provided by the API yet
   const country = t('volunteering:engagement.country')
   return (
     <View testID="volunteering-list-item">
-      {variant === 'recosV1' && (hasTopics || hasSkills) && (
-        <>
-          <VolunteeringLabels displayAll={false} topicSlugs={engagement.topics} skillSlugs={engagement.skills} />
-          <HoliGap size={'xs'} />
-        </>
-      )}
+      {variant === 'recosV1' && recosLabels(data)}
       {variant !== 'recosV1' && (
         <HoliText size={'small'} style={styles.categoryText} testID="volunteering-engagement-categories">
           {engagement.categories[0]}

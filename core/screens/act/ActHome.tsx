@@ -21,7 +21,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
-import VolunteeringRecosV1 from '@holi-apps/volunteering/components/VolunteeringRecosV1'
+import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
 import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 
@@ -52,7 +52,7 @@ const ActSection = ({ type }: { type: string }) => {
 
           {volunteeringVariant === 'recosV1' && (
             <ErrorBoundary>
-              <VolunteeringRecosV1 cardWidth={cardWidth} />
+              <VolunteeringRecos cardWidth={cardWidth} />
             </ErrorBoundary>
           )}
         </>

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-native'
 
-import { useVolunteeringRecosV1QueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosV1QueryVariables'
+import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 
 const mockUseQuery = jest.fn()
 jest.mock('@apollo/client', () => ({
@@ -20,7 +20,7 @@ const topics = [
 ]
 const expectedDefaultTopics = ['topic-1', 'topic-2', 'topic-3']
 
-describe('useVolunteeringRecosV1QueryVariables', () => {
+describe('useVolunteeringRecosQueryVariables', () => {
   beforeEach(() => {
     mockUseQuery.mockReturnValue({
       loading: false,
@@ -34,7 +34,7 @@ describe('useVolunteeringRecosV1QueryVariables', () => {
   })
 
   it('should use default topics if user is not logged in', () => {
-    const { result } = renderHook(() => useVolunteeringRecosV1QueryVariables())
+    const { result } = renderHook(() => useVolunteeringRecosQueryVariables())
 
     expect(result.current.queryVariables).toEqual({ topics: expectedDefaultTopics })
   })
@@ -43,14 +43,14 @@ describe('useVolunteeringRecosV1QueryVariables', () => {
     mockUseQuery.mockReturnValue({
       loading: true,
     })
-    const { result } = renderHook(() => useVolunteeringRecosV1QueryVariables())
+    const { result } = renderHook(() => useVolunteeringRecosQueryVariables())
 
     expect(result.current.loading).toBeTruthy()
   })
 
   it('should expose loading flag if user is logged in but still loading', () => {
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true })
-    const { result } = renderHook(() => useVolunteeringRecosV1QueryVariables())
+    const { result } = renderHook(() => useVolunteeringRecosQueryVariables())
 
     expect(result.current.loading).toBeTruthy()
   })
@@ -64,7 +64,7 @@ describe('useVolunteeringRecosV1QueryVariables', () => {
         geolocationId: 'locationId',
       },
     })
-    const { result } = renderHook(() => useVolunteeringRecosV1QueryVariables())
+    const { result } = renderHook(() => useVolunteeringRecosQueryVariables())
 
     expect(result.current.queryVariables).toEqual({
       topics: ['topic-3', 'topic-4'],
@@ -75,7 +75,7 @@ describe('useVolunteeringRecosV1QueryVariables', () => {
 
   it('should use default topics and user location if logged in user has not selected topics or skills', () => {
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true, user: { geolocationId: 'locationId' } })
-    const { result } = renderHook(() => useVolunteeringRecosV1QueryVariables())
+    const { result } = renderHook(() => useVolunteeringRecosQueryVariables())
 
     expect(result.current.queryVariables).toEqual({
       topics: expectedDefaultTopics,

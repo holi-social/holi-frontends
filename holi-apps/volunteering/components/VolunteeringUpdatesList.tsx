@@ -13,12 +13,25 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
 import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 type VolunteeringUpdatesListProps = {
-  engagements: VolunteeringEngagement[]
+  engagements: VolunteeringEngagement[] | VolunteeringReco[]
   loading: boolean
   cardWidth: number
+}
+
+const recoLabels = (reco: VolunteeringReco) => {
+  const hasTopics = reco.matchedTopics && reco.matchedTopics?.length > 0
+  const hasSkills = reco.matchedSkills && reco.matchedSkills?.length > 0
+  return (
+    (hasTopics || hasSkills) && (
+      <>
+        <VolunteeringLabels displayAll={false} topicSlugs={reco.matchedTopics} skillSlugs={reco.matchedSkills} />
+        <HoliGap size={'xs'} />
+      </>
+    )
+  )
 }
 
 const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({ loading, engagements, cardWidth }) => {
@@ -27,48 +40,41 @@ const VolunteeringUpdatesList: React.FC<VolunteeringUpdatesListProps> = ({ loadi
   const styles = useMemo(() => getStyles(theme), [theme])
   const variant = useVolunteeringVariant()
 
-  const renderItem = ({ item, index }: { item: VolunteeringEngagement; index: number }) => {
-    const { organizer } = item
-    const title = organizer?.name
+  const renderItem = ({ item, index }: { item: VolunteeringEngagement | VolunteeringReco; index: number }) => {
+    const isReco = 'engagement' in item
+    const engagement = isReco ? item.engagement : item
+    const title = engagement.organizer?.name
       ? t('volunteering:engagement.title', {
-          title: item.title,
-          organization: organizer?.name,
+          title: engagement.title,
+          organization: engagement.organizer?.name,
           interpolation: { escapeValue: false },
         })
-      : item.title
+      : engagement.title
 
-    const hasTopics = item.matchedTopics && item.matchedTopics?.length > 0
-    const hasSkills = item.matchedSkills && item.matchedSkills?.length > 0
-
-    const legacyLabels = variant !== 'recosV1' && (
+    const legacyLabels = variant !== 'recosV1' && !isReco && (
       <HoliText size={'small'} style={styles.categoryText} testID="volunteering-engagement-categories">
         {item.categories[0]}
       </HoliText>
     )
 
-    const recosV1Labels = variant === 'recosV1' && (hasTopics || hasSkills) && (
-      <>
-        <VolunteeringLabels displayAll={false} topicSlugs={item.matchedTopics} skillSlugs={item.matchedSkills} />
-        <HoliGap size={'xs'} />
-      </>
-    )
+    const recosV1Labels = variant === 'recosV1' && isReco && recoLabels(item)
 
     return (
       <ActSliderItem
         name="volunteering"
-        to={`/volunteering/${item.id}`}
+        to={`/volunteering/${engagement.id}`}
         labels={variant === 'recosV1' ? recosV1Labels : legacyLabels}
         title={title}
-        imageSourceUri={item.imageUrl}
+        imageSourceUri={engagement.imageUrl}
         footer={
-          !!item.location && (
+          !!engagement.location && (
             <View style={styles.locationFooter}>
               <HoliIcon icon={Globe} testID={'volunteering-updates-item-location-icon'} />
-              <HoliText size="small">{item.location}</HoliText>
+              <HoliText size="small">{engagement.location}</HoliText>
             </View>
           )
         }
-        trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', item.id, index)}
+        trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, index)}
         cardWidth={cardWidth}
       />
     )

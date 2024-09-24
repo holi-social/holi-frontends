@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { VolunteeringEngagement } from './types'
+import { VolunteeringEngagement, VolunteeringReco } from './types'
 
 export const fullEngagementFragment = gql`
   fragment FullEngagement on AppVolunteering_Engagement {
@@ -20,8 +20,6 @@ export const fullEngagementFragment = gql`
     longitude
     topics
     skills
-    matchedTopics
-    matchedSkills
   }
 `
 
@@ -50,22 +48,35 @@ export const volunteeringEngagementsQuery = gql`
   }
 `
 
-export type VolunteeringRecosV1QueryVariables = {
+export type VolunteeringRecosQueryVariables = {
   limit?: number
   offset?: number
   topics?: string[]
   skills?: string[]
   geolocationId?: string
 }
-export type VolunteeringRecosV1QueryResponse = {
-  appVolunteering_engagementRecommendations: {
+
+export type VolunteeringRecosQueryResponse = {
+  appVolunteering_engagementRecos: {
     totalResults: number
-    data: VolunteeringEngagement[]
+    data: VolunteeringReco[]
   }
 }
 
-export const volunteeringRecosV1Query = gql`
+export const fullEngagementRecoFragment = gql`
   ${fullEngagementFragment}
+
+  fragment FullEngagementReco on AppVolunteering_EngagementReco {
+    engagement {
+      ...FullEngagement
+    }
+    matchedTopics
+    matchedSkills
+  }
+`
+
+export const volunteeringRecosQuery = gql`
+  ${fullEngagementRecoFragment}
 
   query VolunteeringRecommendations(
     $limit: Int! = 10
@@ -74,7 +85,7 @@ export const volunteeringRecosV1Query = gql`
     $skills: [String!] = []
     $geolocationId: String
   ) {
-    appVolunteering_engagementRecommendations(
+    appVolunteering_engagementRecos(
       limit: $limit
       offset: $offset
       topics: $topics
@@ -83,7 +94,7 @@ export const volunteeringRecosV1Query = gql`
     ) {
       totalResults
       data {
-        ...FullEngagement
+        ...FullEngagementReco
       }
     }
   }
