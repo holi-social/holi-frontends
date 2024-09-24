@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ViewStyle,
 } from 'react-native'
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HandHeartThin, HandHeartThinFilledDarker, HandHeartThinFilledRaised } from '@holi/icons/src/generated'
@@ -77,10 +78,28 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
     ? HandHeartThinFilledDarker // !active and hovered
     : HandHeartThin // !active and !hovered
 
+  const scale = useSharedValue(1)
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    }
+  })
+
+  const handlePress = useCallback(
+    (event: SyntheticEvent | GestureResponderEvent) => {
+      scale.value = withSpring(1.5, {}, () => {
+        scale.value = withSpring(1)
+      })
+      onPress(event)
+    },
+    [onPress, scale]
+  )
+
   return (
     <HoliButton
       label={labelText}
-      onPress={onPress}
+      onPress={handlePress}
       disabled={disabled}
       onMouseEnter={onNativeMouseEnter}
       onMouseOut={onNativeMouseOut}
@@ -96,7 +115,9 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
       >
         {count}
       </HoliText>
-      <HoliIcon icon={icon} />
+      <Animated.View style={animatedStyle}>
+        <HoliIcon icon={icon} />
+      </Animated.View>
     </HoliButton>
   )
 }
