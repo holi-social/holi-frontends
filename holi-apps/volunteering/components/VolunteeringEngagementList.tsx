@@ -28,7 +28,7 @@ import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -47,7 +47,7 @@ export const VolunteeringEngagementList = ({
     loading: engagementsLoading,
     data: engagements,
     totalResults,
-  } = usePaginationContext<VolunteeringEngagement>()
+  } = usePaginationContext<VolunteeringEngagement | VolunteeringReco>()
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
@@ -128,25 +128,33 @@ export const VolunteeringEngagementList = ({
         )}
         <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}>
           <HoliGridWrapper>
-            {engagements.map((engagement, index) => (
-              <HoliGridCell key={engagement.id}>
-                <HoliLinkTracked
-                  href={`/volunteering/${engagement.id}`}
-                  label={engagement.title}
-                  trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, index)}
-                >
-                  <HoliCard
-                    loading={false}
-                    imageUri={engagement.imageUrl}
-                    imageLabel={engagement.title ?? ''}
-                    imageWidth={imageWidth}
-                    testID="btn-to-volunteering-engagement"
+            {engagements.map((engagementOrReco, index) => {
+              const isReco = 'engagement' in engagementOrReco
+              const engagement = isReco ? engagementOrReco.engagement : engagementOrReco
+              return (
+                <HoliGridCell key={engagement.id}>
+                  <HoliLinkTracked
+                    href={`/volunteering/${engagement.id}`}
+                    label={engagement.title}
+                    trackingEvent={TrackingEvent.RecommendationPressed(
+                      'volunteering_opportunity',
+                      engagement.id,
+                      index
+                    )}
                   >
-                    <VolunteeringCardContent engagement={engagement} key={engagement.id} />
-                  </HoliCard>
-                </HoliLinkTracked>
-              </HoliGridCell>
-            ))}
+                    <HoliCard
+                      loading={false}
+                      imageUri={engagement.imageUrl}
+                      imageLabel={engagement.title ?? ''}
+                      imageWidth={imageWidth}
+                      testID="btn-to-volunteering-engagement"
+                    >
+                      <VolunteeringCardContent data={engagementOrReco} key={engagement.id} />
+                    </HoliCard>
+                  </HoliLinkTracked>
+                </HoliGridCell>
+              )
+            })}
           </HoliGridWrapper>
         </View>
       </HoliBox>

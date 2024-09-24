@@ -7,43 +7,43 @@ import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/use
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
 import VolunteeringUpdatesList from '@holi-apps/volunteering/components/VolunteeringUpdatesList'
-import { useVolunteeringRecosV1QueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosV1QueryVariables'
+import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 import {
-  VolunteeringRecosV1QueryResponse,
-  VolunteeringRecosV1QueryVariables,
-  volunteeringRecosV1Query,
+  VolunteeringRecosQueryResponse,
+  VolunteeringRecosQueryVariables,
+  volunteeringRecosQuery,
 } from '@holi-apps/volunteering/queries'
 
 export const ENGAGEMENT_PAGE_SIZE = 5
 
-type VolunteeringRecosV1Props = {
+type VolunteeringRecosProps = {
   cardWidth: number
 }
 
-const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ cardWidth }: VolunteeringRecosV1Props) => {
-  const { queryVariables, loading: loadingQueryVariables = false } = useVolunteeringRecosV1QueryVariables()
+const VolunteeringRecos: React.FC<VolunteeringRecosProps> = ({ cardWidth }: VolunteeringRecosProps) => {
+  const { queryVariables, loading: loadingQueryVariables = false } = useVolunteeringRecosQueryVariables()
 
-  const { data, loading, refetch } = useQuery<VolunteeringRecosV1QueryResponse, VolunteeringRecosV1QueryVariables>(
-    volunteeringRecosV1Query,
+  const { data, loading, refetch } = useQuery<VolunteeringRecosQueryResponse, VolunteeringRecosQueryVariables>(
+    volunteeringRecosQuery,
     {
       variables: { ...queryVariables, offset: 0, limit: ENGAGEMENT_PAGE_SIZE },
       skip: loadingQueryVariables,
       onError: (error) =>
         logError(error, 'Failed to load volunteering engagements', {
-          location: 'VolunteeringRecosV1.VolunteeringEngagementsQuery',
+          location: 'VolunteeringRecos.VolunteeringEngagementsQuery',
         }),
     }
   )
   useOnRefresh(refetch)
-  const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringRecosV1Query, {
+  const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringRecosQuery, {
     variables: queryVariables,
     onError: (error) =>
       logError(error, 'Failed to load volunteering engagements', {
-        location: 'VolunteeringRecosV1.VolunteeringEngagementsQuery',
+        location: 'VolunteeringRecos.VolunteeringEngagementsQuery',
       }),
   })
 
-  const { data: engagements = [] } = data?.appVolunteering_engagementRecommendations || {}
+  const { data: engagements = [] } = data?.appVolunteering_engagementRecos || {}
 
   const engagementsToRender = engagements.slice(0, ENGAGEMENT_PAGE_SIZE)
 
@@ -56,4 +56,4 @@ const VolunteeringRecosV1: React.FC<VolunteeringRecosV1Props> = ({ cardWidth }: 
   )
 }
 
-export default withProfiler(VolunteeringRecosV1, { name: 'VolunteeringRecosV1' })
+export default withProfiler(VolunteeringRecos, { name: 'VolunteeringRecos' })

@@ -16,7 +16,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import GoodNewsUpdates from '@holi-apps/goodnews/components/GoodNewsUpdates'
-import VolunteeringRecosV1 from '@holi-apps/volunteering/components/VolunteeringRecosV1'
+import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
 import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 
@@ -60,7 +60,7 @@ const Recommendations = () => {
 
         {volunteeringVariant === 'legacy' && <VolunteeringUpdates cardWidth={cardWidth} />}
 
-        {volunteeringVariant === 'recosV1' && <VolunteeringRecosV1 cardWidth={cardWidth} />}
+        {volunteeringVariant === 'recosV1' && <VolunteeringRecos cardWidth={cardWidth} />}
 
         {displayDonations && <DonationUpdates cardWidth={cardWidth} />}
 

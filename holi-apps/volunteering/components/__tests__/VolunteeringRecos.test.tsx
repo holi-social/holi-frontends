@@ -7,13 +7,14 @@ import { useDefaultTopics, useSkills, useTopics } from '@holi/core/domain/shared
 import { Skill, Topic, User } from '@holi/core/domain/shared/types'
 import { LoggedInState } from '@holi/core/screens/userprofile/useLoggedInUser'
 
-import VolunteeringRecosV1 from '@holi-apps/volunteering/components/VolunteeringRecosV1'
+import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 import {
-  VolunteeringRecosV1QueryResponse,
-  VolunteeringRecosV1QueryVariables,
-  volunteeringRecosV1Query,
+  VolunteeringRecosQueryResponse,
+  VolunteeringRecosQueryVariables,
+  volunteeringRecosQuery,
 } from '@holi-apps/volunteering/queries'
+import { VolunteeringReco } from '@holi-apps/volunteering/types'
 
 const mockUseLoggedInUser = jest.fn()
 jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
@@ -84,21 +85,23 @@ const testSkill2: Skill = {
 
 const allSkills = [testSkill1, testSkill2]
 
-const reco1 = {
-  id: faker.string.uuid(),
-  title: faker.lorem.sentence(10),
-  description: faker.lorem.paragraph(10),
-  url: faker.internet.url(),
-  source: faker.internet.url(),
-  categories: ['cat1', 'cat2'],
-  imageUrl: faker.image.url(),
-  organizer: {
-    name: faker.person.fullName(),
+const reco1: VolunteeringReco = {
+  engagement: {
+    id: faker.string.uuid(),
+    title: faker.lorem.sentence(10),
+    description: faker.lorem.paragraph(10),
+    url: faker.internet.url(),
+    source: faker.internet.url(),
+    categories: ['cat1', 'cat2'],
     imageUrl: faker.image.url(),
+    organizer: {
+      name: faker.person.fullName(),
+      imageUrl: faker.image.url(),
+    },
+    location: faker.location.city(),
+    latitude: faker.location.latitude(),
+    longitude: faker.location.longitude(),
   },
-  location: faker.location.city(),
-  latitude: faker.location.latitude(),
-  longitude: faker.location.longitude(),
   matchedTopics: [testTopic1.slug],
   matchedSkills: [],
 }
@@ -119,18 +122,18 @@ const setupHooksMocks = () => {
   mockUseVolunteeringVariant.mockReturnValue('recosV1')
 }
 
-const setupApolloMocks = (expectedQueryVars: VolunteeringRecosV1QueryVariables) => {
+const setupApolloMocks = (expectedQueryVars: VolunteeringRecosQueryVariables) => {
   const querySpy = jest.fn(() => ({
     data: {
-      appVolunteering_engagementRecommendations: {
+      appVolunteering_engagementRecos: {
         totalResults: 1,
         data: [reco1],
       },
     },
   }))
-  const providerMock: MockedResponse<VolunteeringRecosV1QueryResponse, VolunteeringRecosV1QueryVariables> = {
+  const providerMock: MockedResponse<VolunteeringRecosQueryResponse, VolunteeringRecosQueryVariables> = {
     request: {
-      query: volunteeringRecosV1Query,
+      query: volunteeringRecosQuery,
       variables: expectedQueryVars,
     },
     newData: querySpy,
@@ -150,7 +153,7 @@ describe('VolunteeringRecosV1', () => {
         // toJSON is the only easy way I could find to assert that something renders to null
         const { toJSON } = render(
           <MockedProvider>
-            <VolunteeringRecosV1 cardWidth={260} />
+            <VolunteeringRecos cardWidth={260} />
           </MockedProvider>
         )
         expect(toJSON()).toBeNull()
@@ -172,7 +175,7 @@ describe('VolunteeringRecosV1', () => {
         })
         render(
           <MockedProvider mocks={[providerMock]}>
-            <VolunteeringRecosV1 cardWidth={260} />
+            <VolunteeringRecos cardWidth={260} />
           </MockedProvider>
         )
         await act(async () => {
@@ -191,7 +194,7 @@ describe('VolunteeringRecosV1', () => {
         setupHooksMocks()
         const { toJSON } = render(
           <MockedProvider>
-            <VolunteeringRecosV1 cardWidth={260} />
+            <VolunteeringRecos cardWidth={260} />
           </MockedProvider>
         )
         expect(toJSON()).toBeNull()
@@ -214,7 +217,7 @@ describe('VolunteeringRecosV1', () => {
         })
         render(
           <MockedProvider mocks={[providerMock]}>
-            <VolunteeringRecosV1 cardWidth={260} />
+            <VolunteeringRecos cardWidth={260} />
           </MockedProvider>
         )
         await act(async () => {
@@ -239,7 +242,7 @@ describe('VolunteeringRecosV1', () => {
         })
         render(
           <MockedProvider mocks={[providerMock]}>
-            <VolunteeringRecosV1 cardWidth={260} />
+            <VolunteeringRecos cardWidth={260} />
           </MockedProvider>
         )
         await act(async () => {

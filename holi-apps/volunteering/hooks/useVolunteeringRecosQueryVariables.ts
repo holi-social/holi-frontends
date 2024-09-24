@@ -2,16 +2,16 @@ import { useDefaultTopics } from '@holi/core/domain/shared/hooks'
 import { Skill, Term, Topic } from '@holi/core/domain/shared/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
-import { VolunteeringRecosV1QueryVariables } from '@holi-apps/volunteering/queries'
+import { VolunteeringRecosQueryVariables } from '@holi-apps/volunteering/queries'
 
-interface VolunteeringRecosV1Parameters {
+interface VolunteeringRecosParameters {
   topics?: Topic[]
   skills?: Skill[]
   geolocationId?: string
   loading?: boolean
 }
 
-const useRecosV1Parameters = (): VolunteeringRecosV1Parameters => {
+const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
   const { user, isLoggedIn } = useLoggedInUser()
   const { defaultTopics, defaultTopicsLoading } = useDefaultTopics()
 
@@ -44,11 +44,11 @@ const useRecosV1Parameters = (): VolunteeringRecosV1Parameters => {
   }
 }
 
-export const useVolunteeringRecosV1QueryVariables = (): {
-  queryVariables: VolunteeringRecosV1QueryVariables
+export const useVolunteeringRecosQueryVariables = (): {
+  queryVariables: VolunteeringRecosQueryVariables
   loading?: boolean
 } => {
-  const parameters = useRecosV1Parameters()
+  const parameters = useVolunteeringRecosParameters()
 
   return {
     loading: parameters.loading,
