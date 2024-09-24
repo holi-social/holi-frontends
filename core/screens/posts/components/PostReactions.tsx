@@ -5,7 +5,7 @@ import { ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
-import { UpdatePostReactionMutation, UpdatePostReactionResponse } from '@holi/core/screens/posts/queries'
+import { UpdatePostReactionMutation } from '@holi/core/screens/posts/queries'
 import { Post, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -28,7 +28,7 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
   const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
 
-  const [updatePostReaction] = useMutation<UpdatePostReactionResponse>(UpdatePostReactionMutation, {
+  const [updatePostReaction] = useMutation(UpdatePostReactionMutation, {
     onCompleted: () => onChange?.(),
     onError: (error) =>
       displayError(error, 'Failed to update post reaction', {
@@ -51,6 +51,19 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
       },
       onCompleted: () => {
         !currentUserHasReacted && track(TrackingEvent.Engaging.reacted('Post', post.id))
+      },
+      optimisticResponse: {
+        updatePostReaction: {
+          ...post,
+          reactions: {
+            ...post.reactions,
+            HEART: currentUserHasReacted ? post.reactions.HEART - 1 : post.reactions.HEART + 1,
+          },
+          myReaction: {
+            ...post.myReaction,
+            HEART: currentUserHasReacted ? 0 : 1,
+          },
+        },
       },
     })
   }
