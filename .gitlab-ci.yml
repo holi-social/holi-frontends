@@ -68,6 +68,8 @@ lint_compile_test:
     - 4cpu-16gb
   rules:
     - !reference [.rule_templates, not_on_git_tags]
+    - !reference [.rule_templates, any_other]
+    
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:
