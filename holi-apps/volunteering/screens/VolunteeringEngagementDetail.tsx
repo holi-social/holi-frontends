@@ -154,7 +154,7 @@ const VolunteeringEngagementDetail = () => {
         return replaceRoute('/404')
       }
       return displayError(error, 'Failed to load volunteering engagement', {
-        displayMessage: t('volunteering:listing.error'),
+        displayMessage: t('volunteering:engagementDetail.notFound'),
         location: 'VolunteeringEngagementDetail.engagementByIdQuery',
         engagementId,
       })
@@ -274,10 +274,6 @@ export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: '
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
-    },
     wrapper: {
       alignItems: 'center',
       flex: 1,
@@ -322,14 +318,6 @@ const getStyles = (theme: HoliTheme) =>
       borderRadius: 20,
       marginRight: 16,
     },
-    providerInfoRow: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 16,
-    },
-
     volunteeringButton: {
       bottom: 40,
       justifyContent: 'center',
