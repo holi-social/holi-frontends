@@ -6,7 +6,7 @@ import { black, mono, purple, red, white } from '@holi/ui/no-name/foundations/co
 
 const availableSizes: TypographySize[] = ['4xl', '3xl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs']
 const linkSizes: TypographySize[] = ['md', 'sm', 'xs']
-const availableVariants = ['normal', 'link']
+const availableVariants = ['default', 'link']
 const availableHeadingLevels = {
   none: undefined,
   '1': '1',

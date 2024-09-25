@@ -6,7 +6,7 @@ import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { fonts } from '@holi/ui/no-name/foundations/fonts'
 
 export type TypographySize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
-export type TypographyVariant = 'normal' | 'link'
+export type TypographyVariant = 'default' | 'link'
 export type TypographyHeadingLevel = '1' | '2' | '3'
 
 export interface TypographyProps {
@@ -46,7 +46,7 @@ const createAccessibilityProps = (
 
 const Typography = ({
   size,
-  variant = 'normal',
+  variant = 'default',
   selectable = true,
   testID,
   numberOfLines,
