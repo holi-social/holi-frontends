@@ -140,7 +140,9 @@ const scrollElementIntoView = async (testId: string, direction: ScrollDirection,
   while (scrollCounter < maxAttempts) {
     // is the element in the viewport?
     try {
-      return await waitForElementWithTestId(testId, 100)
+      // Not explicitly awaiting the element caused a second scroll to happen too soon, possibly overscrolling the element to search for
+      const element = await waitForElementWithTestId(testId, 100)
+      return element
     } catch (e) {
       // element was not found
     }
