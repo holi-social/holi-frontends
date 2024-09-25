@@ -25,7 +25,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const logger = getLogger('CreateAccount')
@@ -174,7 +173,6 @@ export default memo(CreateAccount)
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     inner: {
-      maxWidth: dimensions.breakpointL,
       width: '100%',
     },
     description: {
