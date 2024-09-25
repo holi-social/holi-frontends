@@ -143,8 +143,8 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="22"
-                bbWidth="22"
+                bbHeight={22}
+                bbWidth={22}
                 color="#262424"
                 focusable={false}
                 height={22}
@@ -373,8 +373,8 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
           <View>
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="16"
-              bbWidth="16"
+              bbHeight={16}
+              bbWidth={16}
               color="#cc1820"
               fill="none"
               focusable={false}

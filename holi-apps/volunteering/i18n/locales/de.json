@@ -2,7 +2,6 @@
   "app.name": "Ehrenamt",
   "app.subline": "über voltastics.com",
   "discoveryV1.headline": "Freiwilligenarbeit für dich",
-  "discoveryV1.subtitle": "Basierend auf deinen Präferenzen",
   "engagement.country": "Deutschland",
   "engagement.title": "{{title}} bei {{organization}}",
   "engagementDetail.aboutEngagement": "Über dieses Engagement",

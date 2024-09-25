@@ -308,8 +308,8 @@ exports[`FirstVisitOnboardingSelection should handle initial option selection 1`
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="20"
-          bbWidth="20"
+          bbHeight={20}
+          bbWidth={20}
           color="#fff"
           fill="none"
           focusable={false}

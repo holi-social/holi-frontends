@@ -1193,8 +1193,8 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
         >
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="16"
-            bbWidth="16"
+            bbHeight={16}
+            bbWidth={16}
             color="#262424"
             fill="none"
             focusable={false}
@@ -2427,8 +2427,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <View>
                               <RNSVGSvgView
                                 align="xMidYMid"
-                                bbHeight="22"
-                                bbWidth="22"
+                                bbHeight={22}
+                                bbWidth={22}
                                 color="#262424"
                                 fill="none"
                                 focusable={false}
@@ -2611,8 +2611,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <View>
                               <RNSVGSvgView
                                 align="xMidYMid"
-                                bbHeight="22"
-                                bbWidth="22"
+                                bbHeight={22}
+                                bbWidth={22}
                                 color="#262424"
                                 fill="none"
                                 focusable={false}
@@ -2918,8 +2918,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <View>
                               <RNSVGSvgView
                                 align="xMidYMid"
-                                bbHeight="22"
-                                bbWidth="22"
+                                bbHeight={22}
+                                bbWidth={22}
                                 color="#262424"
                                 fill="none"
                                 focusable={false}
@@ -3102,8 +3102,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <View>
                               <RNSVGSvgView
                                 align="xMidYMid"
-                                bbHeight="22"
-                                bbWidth="22"
+                                bbHeight={22}
+                                bbWidth={22}
                                 color="#262424"
                                 fill="none"
                                 focusable={false}
@@ -3409,8 +3409,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <View>
                               <RNSVGSvgView
                                 align="xMidYMid"
-                                bbHeight="22"
-                                bbWidth="22"
+                                bbHeight={22}
+                                bbWidth={22}
                                 color="#262424"
                                 fill="none"
                                 focusable={false}
@@ -3593,8 +3593,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             <View>
                               <RNSVGSvgView
                                 align="xMidYMid"
-                                bbHeight="22"
-                                bbWidth="22"
+                                bbHeight={22}
+                                bbWidth={22}
                                 color="#262424"
                                 fill="none"
                                 focusable={false}
@@ -3928,8 +3928,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         <View>
                           <RNSVGSvgView
                             align="xMidYMid"
-                            bbHeight="22"
-                            bbWidth="22"
+                            bbHeight={22}
+                            bbWidth={22}
                             color="#262424"
                             fill="none"
                             focusable={false}
@@ -4246,8 +4246,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         <View>
                           <RNSVGSvgView
                             align="xMidYMid"
-                            bbHeight="22"
-                            bbWidth="22"
+                            bbHeight={22}
+                            bbWidth={22}
                             color="#262424"
                             fill="none"
                             focusable={false}
@@ -4564,8 +4564,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         <View>
                           <RNSVGSvgView
                             align="xMidYMid"
-                            bbHeight="22"
-                            bbWidth="22"
+                            bbHeight={22}
+                            bbWidth={22}
                             color="#262424"
                             fill="none"
                             focusable={false}
@@ -4789,8 +4789,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
         >
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="16"
-            bbWidth="16"
+            bbHeight={16}
+            bbWidth={16}
             color="#262424"
             fill="none"
             focusable={false}

@@ -46,6 +46,7 @@ const testUserMentionInPostComment = async (context: BrowserContext, page: Page,
 
   const createCommentWithE2EUserMention = async (page: Page) => {
     const userId = process.env.E2E_USER_ID
+
     expect(userId?.length).toBe(36)
 
     await page.goto('/profile/' + userId)

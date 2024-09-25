@@ -228,8 +228,8 @@ exports[`SpaceInviteItem renders correctly 1`] = `
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="22"
-          bbWidth="22"
+          bbHeight={22}
+          bbWidth={22}
           color="#262424"
           fill="none"
           focusable={false}

@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import InfoModal from '@holi/core/components/InfoModal'
-import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
+import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -28,7 +28,7 @@ import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -43,19 +43,18 @@ export const VolunteeringEngagementList = ({
   isFiltering = false,
   clearFilters,
 }: VolunteeringEngagementListProps) => {
-  const { topics, topicsLoading } = useTopics()
-  const { skills, skillsLoading } = useSkills()
   const {
     loading: engagementsLoading,
     data: engagements,
     totalResults,
-  } = usePaginationContext<VolunteeringEngagement>()
+  } = usePaginationContext<VolunteeringEngagement | VolunteeringReco>()
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(insets.bottom, theme), [insets.bottom, theme])
+  const subtitle = useRecosSubtitle()
 
   const { imageWidth } = useWindowDimensionsWithImageScaling()
 
@@ -64,7 +63,7 @@ export const VolunteeringEngagementList = ({
 
   const noResults = loadingFailed || engagements.length === 0
 
-  if (topicsLoading || skillsLoading || engagementsLoading) {
+  if (engagementsLoading) {
     return <VolunteeringListingSkeleton isFiltering={isFiltering} amount={ENGAGEMENT_PAGE_SIZE} />
   }
 
@@ -100,7 +99,7 @@ export const VolunteeringEngagementList = ({
           ) : (
             <>
               <HoliGap size="ml" />
-              <HoliText size="large">{t('volunteering:discoveryV1.subtitle')}</HoliText>
+              <HoliText size="large">{t(subtitle)}</HoliText>
             </>
           )}
         </View>
@@ -129,29 +128,33 @@ export const VolunteeringEngagementList = ({
         )}
         <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}>
           <HoliGridWrapper>
-            {engagements.map((engagement, index) => (
-              <HoliGridCell key={engagement.id}>
-                <HoliLinkTracked
-                  href={`/volunteering/${engagement.id}`}
-                  label={engagement.title}
-                  trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, index)}
-                >
-                  <HoliCard
-                    imageUri={engagement.imageUrl}
-                    imageLabel={engagement.title ?? ''}
-                    imageWidth={imageWidth}
-                    testID="btn-to-volunteering-engagement"
+            {engagements.map((engagementOrReco, index) => {
+              const isReco = 'engagement' in engagementOrReco
+              const engagement = isReco ? engagementOrReco.engagement : engagementOrReco
+              return (
+                <HoliGridCell key={engagement.id}>
+                  <HoliLinkTracked
+                    href={`/volunteering/${engagement.id}`}
+                    label={engagement.title}
+                    trackingEvent={TrackingEvent.RecommendationPressed(
+                      'volunteering_opportunity',
+                      engagement.id,
+                      index
+                    )}
                   >
-                    <VolunteeringCardContent
-                      engagement={engagement}
-                      topics={topics}
-                      skills={skills}
-                      key={engagement.id}
-                    />
-                  </HoliCard>
-                </HoliLinkTracked>
-              </HoliGridCell>
-            ))}
+                    <HoliCard
+                      loading={false}
+                      imageUri={engagement.imageUrl}
+                      imageLabel={engagement.title ?? ''}
+                      imageWidth={imageWidth}
+                      testID="btn-to-volunteering-engagement"
+                    >
+                      <VolunteeringCardContent engagementOrReco={engagementOrReco} key={engagement.id} />
+                    </HoliCard>
+                  </HoliLinkTracked>
+                </HoliGridCell>
+              )
+            })}
           </HoliGridWrapper>
         </View>
       </HoliBox>

@@ -62,8 +62,8 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
     <View>
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight="24"
-        bbWidth="24"
+        bbHeight={24}
+        bbWidth={24}
         color="#787777"
         focusable={false}
         height={24}
@@ -203,8 +203,8 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
     <View>
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight="24"
-        bbWidth="24"
+        bbHeight={24}
+        bbWidth={24}
         color="#787777"
         fill="none"
         focusable={false}

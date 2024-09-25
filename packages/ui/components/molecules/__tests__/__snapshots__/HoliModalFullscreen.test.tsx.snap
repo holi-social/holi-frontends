@@ -24,17 +24,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
       ]
     }
   >
-    <RCTSafeAreaView
-      style={
-        {
-          "left": 0,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-          "zIndex": 10,
-        }
-      }
-    >
+    <View>
       <View
         style={
           {
@@ -107,8 +97,8 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="24"
-                bbWidth="24"
+                bbHeight={24}
+                bbWidth={24}
                 color="#fff"
                 fill="none"
                 focusable={false}
@@ -198,7 +188,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           </View>
         </View>
       </View>
-    </RCTSafeAreaView>
+    </View>
   </View>
 </Modal>
 `;

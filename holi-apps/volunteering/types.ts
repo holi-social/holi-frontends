@@ -40,7 +40,6 @@ export type VolunteeringEngagement = {
   description: string
   url: string
   source: string
-  categories: string[]
   imageUrl?: string
   organizer?: Organizer
   location?: string
@@ -48,6 +47,10 @@ export type VolunteeringEngagement = {
   longitude?: number | null
   topics?: string[]
   skills?: string[]
+}
+
+export type VolunteeringReco = {
+  engagement: VolunteeringEngagement
   matchedTopics?: string[]
   matchedSkills?: string[]
 }
