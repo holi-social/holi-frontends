@@ -20,13 +20,13 @@ describe('Typography', () => {
     expect((await screen.findByTestId('test')).props.role).toEqual('heading')
   })
 
-  it('should not set role to heading if no level is specified', async () => {
+  it('should set role to none if no level is specified', async () => {
     render(
       <Typography size="md" testID="test">
         Foobar
       </Typography>
     )
 
-    expect((await screen.findByTestId('test')).props.role).toBeUndefined()
+    expect((await screen.findByTestId('test')).props.role).toEqual('none')
   })
 })

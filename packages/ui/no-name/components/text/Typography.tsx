@@ -28,7 +28,10 @@ const createAccessibilityProps = (
   headingLevel?: TypographyHeadingLevel
 ): AccessibilityProps & AccessibilityPropsWeb => {
   if (!headingLevel) {
-    return { accessible: false }
+    return {
+      accessible: false,
+      role: 'none',
+    }
   }
   return Platform.select({
     web: {
