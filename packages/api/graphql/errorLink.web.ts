@@ -21,9 +21,8 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
       }
 
       logErrorLocal(err, `GraphQL Error ${JSON.stringify(graphQLError)}`, { location: 'errorLink.web' })
-
-      Sentry.configureScope((scope: Sentry.Scope) => {
-        scope.addBreadcrumb({
+      Sentry.getCurrentScope()
+        .addBreadcrumb({
           type: 'default',
           category: 'graphql',
           data: {
@@ -33,8 +32,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
           level: 'debug',
           timestamp: Date.now(),
         })
-        Sentry.captureException(err)
-      })
+        .captureException(err)
     }
   }
   if (networkError) {

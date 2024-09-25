@@ -13,7 +13,6 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import { storeOnboardingState, useStoredOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import OwnProfileView, { EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
@@ -42,8 +41,6 @@ const OwnProfile = () => {
   const { colors } = theme
 
   const { user, isLoggedIn } = useLoggedInUser()
-  const storedOnboardingState = useStoredOnboardingState()
-  const isOnboardingFinished = storedOnboardingState === 'finished'
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -70,9 +67,6 @@ const OwnProfile = () => {
       return
     }
 
-    if (isOnboardingFinished && user?.firstName === null) {
-      storeOnboardingState('accountSetup')
-    }
     setScreenOptions({
       title,
       headerShown: true,
@@ -114,16 +108,7 @@ const OwnProfile = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [
-    navigate,
-    t,
-    isLoggedIn,
-    toggleEditMode,
-    showFeatureNotImplementedToast,
-    isOnboardingFinished,
-    setScreenOptions,
-    user,
-  ])
+  }, [navigate, t, isLoggedIn, toggleEditMode, showFeatureNotImplementedToast, setScreenOptions, user])
 
   const client = useApolloClient()
   const onSubmit = useCallback(async () => {

@@ -154,8 +154,8 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         >
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="18"
-            bbWidth="18"
+            bbHeight={18}
+            bbWidth={18}
             color="#787777"
             fill="none"
             focusable={false}

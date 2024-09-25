@@ -29,8 +29,9 @@ lint_compile_test:
     key: $CI_COMMIT_REF_SLUG
     policy: pull-push
     paths:
-      - 'node_modules'
-      - 'e2e/*/node_modules'
+      - './node_modules'
+      - './*/node_modules'
+      - './*/*/node_modules'
   interruptible: true
   tags:
     - 4cpu-16gb

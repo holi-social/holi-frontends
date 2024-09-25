@@ -1,10 +1,11 @@
-import { useQuery } from '@apollo/client'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import SpaceTermContextProvider, {
+  SpaceTermContext,
+} from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -13,7 +14,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
-import { VolunteeringCategoriesQueryResult, volunteeringCategoriesQuery } from '@holi-apps/volunteering/queries'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 export type VolunteeringFilterFormProps = {
@@ -24,37 +24,57 @@ export type VolunteeringFilterFormProps = {
 
 const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: VolunteeringFilterFormProps) => {
   const { t } = useTranslation()
-  const [category, setCategory] = useState(filters.category)
+  const { topics, skills, loadingTopics, loadingSkills } = useContext(SpaceTermContext)
+  const [selectedTopics, setSelectedTopics] = useState(filters.topics || [])
+  const [selectedSkills, setSelectedSkills] = useState(filters.skills || [])
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(filters.location)
 
-  const { data: categoriesData, loading } = useQuery<VolunteeringCategoriesQueryResult>(volunteeringCategoriesQuery, {
-    onError: (error) =>
-      logError(error, 'Failed to load volunteering categories', {
-        location: 'VolunteeringFilterForm.VolunteeringCategoriesQuery',
-      }),
-  })
+  const topicOptions: HoliSelectOption[] = topics.map((topic) => ({
+    id: topic.slug,
+    title: topic.title,
+    selected: selectedTopics.includes(topic.slug),
+  }))
 
-  const categories = categoriesData?.appVolunteering_categories.data || []
-
-  const topicOptions: HoliSelectOption[] = categories.map((_category) => ({
-    id: _category.name,
-    title: _category.name,
-    selected: _category.name === category,
+  const skillOptions: HoliSelectOption[] = skills.map((skill) => ({
+    id: skill.slug,
+    title: skill.title,
+    selected: selectedSkills.includes(skill.slug),
   }))
 
   const toggleTopicSelection = useCallback(
-    (option: HoliSelectOption) => setCategory(option.selected ? undefined : option.id),
-    [setCategory]
+    (option: HoliSelectOption) =>
+      setSelectedTopics(
+        option.selected
+          ? selectedTopics.filter((topicSlug) => topicSlug !== option.id)
+          : [...(selectedTopics || []), option.id]
+      ),
+    [selectedTopics]
+  )
+
+  const toggleSkillSelection = useCallback(
+    (option: HoliSelectOption) =>
+      setSelectedSkills(
+        option.selected
+          ? selectedSkills.filter((skillSlug) => skillSlug !== option.id)
+          : [...(selectedSkills || []), option.id]
+      ),
+    [selectedSkills]
   )
 
   const submit = useCallback(
-    () => onSubmit({ location: selectedLocation, category }),
-    [onSubmit, selectedLocation, category]
+    () =>
+      onSubmit({
+        location: selectedLocation,
+        topics: selectedTopics,
+        skills: selectedSkills,
+      }),
+    [onSubmit, selectedLocation, selectedTopics, selectedSkills]
   )
 
   const resetForm = useCallback(() => {
     setSelectedLocation(undefined)
-    setCategory(undefined)
+    setSelectedTopics([])
+    setSelectedSkills([])
     clearFilters?.()
   }, [clearFilters])
 
@@ -66,7 +86,7 @@ const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volunteerin
       testID="volunteering-filter-modal"
       keyboardShouldPersistTaps="handled"
       scrollable={false}
-      loading={loading}
+      loading={loadingTopics || loadingSkills}
       hideFooterWhenKeyboardIsOpen={true}
     >
       <View style={styles.container}>
@@ -84,26 +104,47 @@ const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volunteerin
           id="volunteering-filter-location"
           testID="volunteering-filter-location"
           onChange={setSelectedLocation}
-          style={[styles.filterOption, { zIndex: 1 }]}
+          style={[styles.filterOption, { zIndex: 2 }]}
           inputProps={{ autoFocus: true }}
-          enhanceWithDetails
         />
         <HoliSelect
           options={topicOptions}
-          inputLabel={t('volunteering:filter.category.label')}
-          aria-label={t('volunteering:filter.category.label')}
-          placeholder={t('volunteering:filter.category.placeholder')}
-          style={[styles.filterOption, { zIndex: 0 }]}
+          inputLabel={t('volunteering:filter.topics.label')}
+          aria-label={t('volunteering:filter.topics.label')}
+          placeholder={t('volunteering:filter.topics.placeholder')}
+          style={[styles.filterOption, { zIndex: 1 }]}
           onChange={toggleTopicSelection}
-          id="volunteering-filter-category"
-          testID="volunteering-filter-category"
+          id="volunteering-filter-topics"
+          testID="volunteering-filter-topics"
+          multiSelect
+          multiSelectionLabel={t('volunteering:filter.topics.multiSelectionLabel')}
+          virtualized={true}
+        />
+        <HoliSelect
+          options={skillOptions}
+          inputLabel={t('volunteering:filter.skills.label')}
+          aria-label={t('volunteering:filter.skills.label')}
+          placeholder={t('volunteering:filter.skills.placeholder')}
+          style={[styles.filterOption, { zIndex: 0 }]}
+          onChange={toggleSkillSelection}
+          id="volunteering-filter-skills"
+          testID="volunteering-filter-skills"
+          multiSelect
+          multiSelectionLabel={t('volunteering:filter.skills.multiSelectionLabel')}
+          virtualized={true}
         />
       </View>
     </HoliModalContentWrapper>
   )
 }
 
-export default VolunteeringFilterForm
+const WrappedFilterForm = (props: VolunteeringFilterFormProps) => (
+  <SpaceTermContextProvider>
+    <VolunteeringFilterForm {...props} />
+  </SpaceTermContextProvider>
+)
+
+export default WrappedFilterForm
 
 const styles = StyleSheet.create({
   filterOption: {

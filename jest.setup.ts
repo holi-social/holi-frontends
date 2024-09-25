@@ -19,7 +19,7 @@ global.mockOpenURL = jest.fn()
 global.mockOpenToast = jest.fn()
 global.mockTrack = jest.fn()
 
-global.TextEncoder = jest.fn()
+global.TextEncoder = jest.fn<() => TextEncoder>()
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native') as object
@@ -61,7 +61,10 @@ jest.mock('@sentry/react-native', () => ({
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper')
 
 jest.mock('react-native/Libraries/Network/RCTNetworking')
-
+jest.mock('react-native/Libraries/Settings/Settings', () => ({
+  get: jest.fn(),
+  set: jest.fn(),
+}))
 jest.mock('react-native-safe-area-context', () => mockSafeAreaContext)
 
 jest.mock('apollo-upload-client/createUploadLink.mjs', () => jest.fn())

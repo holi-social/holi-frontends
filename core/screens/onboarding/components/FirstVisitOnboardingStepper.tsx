@@ -154,7 +154,7 @@ const onboardingSteps: { [key in FirstVisitStep]: FirstVisitOnboardingStepConfig
 }
 
 interface FirstVisitOnboardingStepperProps {
-  onContentSelection: (content: ContentType) => void
+  onContentSelection: (content: ContentType) => Promise<void>
 }
 
 type SelectionState = { [key in FirstVisitStep]?: string }
@@ -226,18 +226,20 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
 
   // Handle content type if already selected, otherwise progress to next step
   const handleNextPress = useCallback(
-    ({ currentStep, goNext }: NextPressHandlerOptions) => {
+    async ({ currentStep, goNext, setFinished }: NextPressHandlerOptions) => {
       const stepKey = stepsToRender[currentStep]
       const stepConfiguration = onboardingSteps[stepKey]
       if ('contentType' in stepConfiguration) {
-        stepConfiguration.contentType && track(TrackingEvent.OnboardingPressed(stepKey, stepConfiguration.contentType))
-        onContentSelection(stepConfiguration.contentType)
+        setFinished(true)
+        track(TrackingEvent.OnboardingPressed(stepKey, stepConfiguration.contentType))
+        await onContentSelection(stepConfiguration.contentType)
       } else {
         const selectedOptionId = selections[stepKey]
         const selectedOption = stepConfiguration.options?.find((option) => option.id === selectedOptionId)
         if (selectedOption && 'contentType' in selectedOption) {
+          setFinished(true)
           track(TrackingEvent.OnboardingPressed(stepKey, selectedOption.contentType))
-          onContentSelection(selectedOption.contentType)
+          await onContentSelection(selectedOption.contentType)
         } else {
           selectedOptionId && track(TrackingEvent.OnboardingPressed(stepKey, selectedOptionId))
           const nextStep = selectedOption?.nextStep

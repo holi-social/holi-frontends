@@ -316,8 +316,8 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="22"
-                bbWidth="22"
+                bbHeight={22}
+                bbWidth={22}
                 color="#262424"
                 fill="none"
                 focusable={false}
@@ -500,8 +500,8 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="22"
-                bbWidth="22"
+                bbHeight={22}
+                bbWidth={22}
                 color="#262424"
                 fill="none"
                 focusable={false}
@@ -807,8 +807,8 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="22"
-                bbWidth="22"
+                bbHeight={22}
+                bbWidth={22}
                 color="#262424"
                 fill="none"
                 focusable={false}
@@ -991,8 +991,8 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="22"
-                bbWidth="22"
+                bbHeight={22}
+                bbWidth={22}
                 color="#262424"
                 fill="none"
                 focusable={false}
@@ -1298,8 +1298,8 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="22"
-                bbWidth="22"
+                bbHeight={22}
+                bbWidth={22}
                 color="#262424"
                 fill="none"
                 focusable={false}
@@ -1482,8 +1482,8 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="22"
-                bbWidth="22"
+                bbHeight={22}
+                bbWidth={22}
                 color="#262424"
                 fill="none"
                 focusable={false}

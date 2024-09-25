@@ -96,8 +96,8 @@ exports[`renders correctly renders correctly when checked 1`] = `
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="15"
-          bbWidth="15"
+          bbHeight={15}
+          bbWidth={15}
           color="#fff"
           fill="none"
           focusable={false}
@@ -333,8 +333,8 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="15"
-          bbWidth="15"
+          bbHeight={15}
+          bbWidth={15}
           color="#787777"
           fill="none"
           focusable={false}

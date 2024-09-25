@@ -20,6 +20,7 @@ export const FeedPostSchema = z.object({
   postId: z.string().optional(), // for edit post
   language: z.string().optional(),
   location: z.string().optional(),
+  aspectRatio: z.string().optional(),
   geolocation: z
     .object({
       latitude: z.number().optional(),

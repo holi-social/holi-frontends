@@ -1,11 +1,10 @@
 import { withProfiler } from '@sentry/react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { LayoutChangeEvent, StyleSheet, View, ViewStyle } from 'react-native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Carousel from 'react-native-reanimated-carousel'
 
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
-import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -25,44 +24,50 @@ const ImageCarousel = ({ style, images, onPressItem }: ImageCarouselProps) => {
     setViewWidth(width)
   }
 
+  // all images should have the same aspect ratio
+  const aspectRatio = useMemo(() => {
+    return images[0].aspectRatio || ImageAspectRatio.SIXTEEN_NINE
+  }, [images])
+
   return (
     <View onLayout={onLayout} style={style}>
       {viewWidth > 0 && (
-        <GestureHandlerRootView>
-          <Carousel
-            vertical={false}
-            width={viewWidth}
-            height={(viewWidth * 9) / 16}
-            loop={false}
-            data={images}
-            onSnapToItem={(index: number) => setCurrentIndex(index)}
-            panGestureHandlerProps={{
-              activeOffsetX: [-10, 10],
-              failOffsetY: [-5, 5],
-            }}
-            renderItem={({ index, item }: { index: number; item: FeedPostImage }) => (
-              <View style={styles.item}>
-                {onPressItem ? (
-                  <HoliButton transparent inline label={item.altText || ''} onPress={onPressItem}>
-                    <ImagePreview
-                      key={index}
-                      currentImage={item.image}
-                      blurhash={item.imageBlurhash}
-                      style={styles.image}
-                    />
-                  </HoliButton>
-                ) : (
+        <Carousel
+          vertical={false}
+          width={viewWidth}
+          height={viewWidth / (aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1)}
+          loop={false}
+          data={images}
+          onSnapToItem={(index: number) => setCurrentIndex(index)}
+          snapEnabled={true}
+          panGestureHandlerProps={{
+            activeOffsetX: [-10, 10],
+          }}
+          scrollAnimationDuration={200} // default is 500
+          renderItem={({ index, item }: { index: number; item: FeedPostImage }) => (
+            <View style={styles.item}>
+              {onPressItem ? (
+                <HoliButton transparent inline label={item.altText || ''} onPress={onPressItem}>
                   <ImagePreview
                     key={index}
                     currentImage={item.image}
                     blurhash={item.imageBlurhash}
                     style={styles.image}
+                    aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
                   />
-                )}
-              </View>
-            )}
-          />
-        </GestureHandlerRootView>
+                </HoliButton>
+              ) : (
+                <ImagePreview
+                  key={index}
+                  currentImage={item.image}
+                  blurhash={item.imageBlurhash}
+                  style={styles.image}
+                  aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
+                />
+              )}
+            </View>
+          )}
+        />
       )}
       {images.length > 1 && (
         <View style={styles.dotsContainer}>

@@ -1,9 +1,11 @@
 import React from 'react'
 
 import { NotificationChallengesItem } from '@holi/core/screens/notifications/components/NotificationChallengesItem'
+import NotificationCommentReactionItem from '@holi/core/screens/notifications/components/NotificationCommentReactionItem'
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
 import NotificationPollUpdatesItem from '@holi/core/screens/notifications/components/NotificationPollUpdatesItem'
 import NotificationPostItem from '@holi/core/screens/notifications/components/NotificationPostItem'
+import NotificationPostReactionItem from '@holi/core/screens/notifications/components/NotificationPostReactionItem'
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
 import NotificationSpaceAppointmentDeletionItem from '@holi/core/screens/notifications/components/NotificationSpaceAppointmentDeletionItem'
 import NotificationSpaceAppointmentItem from '@holi/core/screens/notifications/components/NotificationSpaceAppointmentItem'
@@ -54,6 +56,8 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.CHALLENGE_KEEP_STREAK,
   NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST,
   NovuNotificationType.POLL_UPDATES,
+  NovuNotificationType.POST_REACTION,
+  NovuNotificationType.COMMENT_REACTION,
 ]
 
 const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props }) => {
@@ -106,6 +110,10 @@ const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props 
       return <NotificationChallengesItem notification={notification} {...props} />
     case NovuNotificationType.POLL_UPDATES:
       return <NotificationPollUpdatesItem notification={notification} {...props} />
+    case NovuNotificationType.POST_REACTION:
+      return <NotificationPostReactionItem notification={notification} {...props} />
+    case NovuNotificationType.COMMENT_REACTION:
+      return <NotificationCommentReactionItem notification={notification} {...props} />
     default:
       return null
   }

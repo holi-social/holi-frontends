@@ -46,23 +46,14 @@ const assertFilteringWorks = async () => {
   // Tap on modal heading to close keyboard
   await tapOnElementWithTestId('volunteering-filter-heading')
 
-  const useLegacyVariant = await checkIfElementWithTestIdExists('volunteering-filter-category-input')
-  if (useLegacyVariant) {
-    // open categories dropdown
-    await tapOnElementWithTestId('volunteering-filter-category-input')
+  // open topics dropdown
+  await tapOnElementWithTestId('volunteering-filter-topics-input')
 
-    // click on first category in the list
-    await tapOnElementWithTestId('volunteering-filter-category-item')
-  } else {
-    // open topics dropdown
-    await tapOnElementWithTestId('volunteering-filter-topics-input')
+  // click on first topic in the list
+  await tapOnElementWithTestId('volunteering-filter-topics-item')
 
-    // click on first topic in the list
-    await tapOnElementWithTestId('volunteering-filter-topics-item')
-
-    // Tap on modal heading to close keyboard & select
-    await tapOnElementWithTestId('volunteering-filter-heading')
-  }
+  // Tap on modal heading to close keyboard & select
+  await tapOnElementWithTestId('volunteering-filter-heading')
 
   // click filter confirmation button
   await tapOnElementWithTestId('volunteering-filter-modal-close-btn')

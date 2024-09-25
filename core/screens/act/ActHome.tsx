@@ -21,14 +21,12 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
-import VolunteeringRecosV1 from '@holi-apps/volunteering/components/VolunteeringRecosV1'
-import VolunteeringUpdates from '@holi-apps/volunteering/components/VolunteeringUpdates'
-import { useVolunteeringVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
+import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 
 const ActSection = ({ type }: { type: string }) => {
   const cardWidth = useCardWidth()
+  const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
-  const volunteeringVariant = useVolunteeringVariant()
 
   switch (type) {
     case 'CHALLENGES':
@@ -44,15 +42,9 @@ const ActSection = ({ type }: { type: string }) => {
             <TaskRecommendations cardWidth={cardWidth} />
           </ErrorBoundary>
 
-          {volunteeringVariant === 'legacy' && (
+          {displayVolunteering && (
             <ErrorBoundary>
-              <VolunteeringUpdates cardWidth={cardWidth} />
-            </ErrorBoundary>
-          )}
-
-          {volunteeringVariant === 'recosV1' && (
-            <ErrorBoundary>
-              <VolunteeringRecosV1 cardWidth={cardWidth} />
+              <VolunteeringRecos cardWidth={cardWidth} />
             </ErrorBoundary>
           )}
         </>

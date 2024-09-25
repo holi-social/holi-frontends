@@ -18,7 +18,7 @@ import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySe
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { PostQueryResponse, allPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
-import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
@@ -55,7 +55,7 @@ const EditPost = () => {
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
-
+  const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(ImageAspectRatio.SIXTEEN_NINE)
   const [description, setDescription] = useState<string>()
   const [title, setTitle] = useState<string>('')
   const [images, setImages] = useState<HoliImageInfo[] | null>([])
@@ -102,13 +102,14 @@ const EditPost = () => {
             id: image.id,
             order: index,
             altText: typeof image.altText === 'string' ? image.altText : '',
+            aspectRatio: aspectRatio,
           })),
           newImages:
             images !== null
               ? images.map((_image, index) => ({
                   image: _image.blob,
                   order: index + (currentImages?.length || 0),
-                  altText: Math.random() + '',
+                  aspectRatio: aspectRatio,
                 }))
               : images,
           topicIds: selectedTopics?.map((topic) => topic.id),
@@ -143,6 +144,7 @@ const EditPost = () => {
       setSelectedVisibility(Visibility[post.visibility])
       setSelectedTopics(post.topics)
       setSelectedLocation({ label: post.location || '', id: '', coordinates: post.geolocation || undefined })
+      setAspectRatio(post.images?.[0]?.aspectRatio || ImageAspectRatio.SIXTEEN_NINE) // all images should be the same aspect ratio
     }
   }, [post])
 
@@ -209,6 +211,8 @@ const EditPost = () => {
               submitting={submitting}
               onClickCategoriesPill={toggleShowCategories}
               categories={categories}
+              aspectRatio={aspectRatio}
+              onChangeAspectRatio={setAspectRatio}
               isEdit
             />
           )}

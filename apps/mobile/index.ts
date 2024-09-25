@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client'
-import { CodedError, registerRootComponent } from 'expo'
+import * as Sentry from '@sentry/react-native'
+import { registerRootComponent } from 'expo'
 import 'fast-text-encoding'
 // Polyfill for Intl including required locale data
 import 'intl'
@@ -7,13 +8,13 @@ import 'intl/locale-data/jsonp/de'
 import 'intl/locale-data/jsonp/en'
 import 'react-native-gesture-handler'
 import 'react-native-url-polyfill/auto'
-import * as Sentry from 'sentry-expo'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { environment } from '@holi/core/helpers/environment'
 
 import App from './App'
 import { config } from './config'
+import { CodedError } from './expo-error'
 import { reactNativeTracing } from './tracing'
 
 // Only set this to `true` if on a dev client! Keep this `false` in all commits!
@@ -22,7 +23,7 @@ const debugSentry = false
 
 Sentry.init({
   dsn: config.sentry.dsn,
-  enableInExpoDevelopment: debugSentry,
+  enabled: !__DEV__,
   environment: environment,
   debug: debugSentry, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event.
   onReady: (response) => {
@@ -46,7 +47,7 @@ Sentry.init({
       } else if (exception instanceof HoliError) {
         event.fingerprint = ['{{ default }}', 'holi-client-error']
       } else if (exception instanceof CodedError) {
-        event.fingerprint = ['{{ default }}', 'expo-client-error', String(exception.code)]
+        event.fingerprint = ['{{ default }}', 'expo-client-error', String(exception?.code)]
       }
     } catch (e) {
       // do nothing, see comment above try-block.
@@ -58,7 +59,7 @@ Sentry.init({
   tracesSampleRate: debugSentry ? 1 : 0.1,
 })
 
-const SentryInstrumentedApp = Sentry.Native.wrap(App)
+const SentryInstrumentedApp = Sentry.wrap(App)
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,

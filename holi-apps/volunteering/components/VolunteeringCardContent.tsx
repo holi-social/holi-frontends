@@ -2,69 +2,61 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import FilterPill from '@holi/core/components/FilterPill'
-import { Skill, Topic } from '@holi/core/domain/shared/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import { labelsForListings } from '@holi-apps/volunteering/helpers'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
+import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 type VolunteeringCardContentProps = {
-  engagement: VolunteeringEngagement
-  topics: readonly Topic[]
-  skills: readonly Skill[]
+  engagementOrReco: VolunteeringEngagement | VolunteeringReco
 }
 
-const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engagement, topics, skills }) => {
+const hasTopics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
+  'engagement' in engagementOrReco
+    ? engagementOrReco.matchedTopics && engagementOrReco.matchedTopics?.length > 0
+    : engagementOrReco.topics && engagementOrReco.topics?.length > 0
+
+const topics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
+  'engagement' in engagementOrReco ? engagementOrReco.matchedTopics : engagementOrReco.topics
+
+const hasSkills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
+  'engagement' in engagementOrReco
+    ? engagementOrReco.matchedSkills && engagementOrReco.matchedSkills?.length > 0
+    : engagementOrReco.skills && engagementOrReco.skills?.length > 0
+
+const skills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
+  'engagement' in engagementOrReco ? engagementOrReco.matchedSkills : engagementOrReco.skills
+
+const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engagementOrReco }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const engagement = 'engagement' in engagementOrReco ? engagementOrReco.engagement : engagementOrReco
 
-  const { organizer } = engagement
-  const title = organizer?.name
+  const title = engagement.organizer?.name
     ? t('volunteering:engagement.title', {
         title: engagement.title,
-        organization: organizer?.name,
+        organization: engagement.organizer?.name,
         interpolation: { escapeValue: false },
       })
     : engagement.title
 
-  const { topicLabel, topicLabelCount, skillLabel, skillLabelCount } = labelsForListings(
-    engagement.topics,
-    engagement.skills,
-    topics,
-    skills
-  )
-
   // hardcoded for now as we don't have the country provided by the API yet
   const country = t('volunteering:engagement.country')
-
   return (
     <View testID="volunteering-list-item">
-      {!!topicLabel && (
+      {(hasTopics(engagementOrReco) || hasSkills(engagementOrReco)) && (
         <>
-          <View style={styles.labelRow}>
-            <FilterPill small label={topicLabel} filterType="topic" style={styles.pill} />
-            {!!topicLabelCount && (
-              <FilterPill small label={'+' + topicLabelCount} filterType="topic" style={styles.pill} />
-            )}
-          </View>
-          <HoliGap size={'xxs'} />
-        </>
-      )}
-      {!!skillLabel && (
-        <>
-          <View style={styles.labelRow}>
-            <FilterPill small label={skillLabel} filterType="skill" style={styles.pill} />
-            {!!skillLabelCount && (
-              <FilterPill small label={'+' + skillLabelCount} filterType="skill" style={styles.pill} />
-            )}
-          </View>
+          <VolunteeringLabels
+            displayAll={false}
+            topicSlugs={topics(engagementOrReco)}
+            skillSlugs={skills(engagementOrReco)}
+          />
           <HoliGap size={'xs'} />
         </>
       )}
@@ -104,5 +96,8 @@ const getStyles = (theme: HoliTheme) =>
     },
     pill: {
       flexShrink: 1,
+    },
+    categoryText: {
+      color: theme.colors.brandColorB30,
     },
   })

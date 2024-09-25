@@ -19,6 +19,8 @@ interface HoliStepperContextType {
   setStep: (nextStep: number, animated?: boolean) => void
   goNext: () => void
   goBack: () => void
+  finished: boolean
+  setFinished: (value: boolean) => void
 }
 
 const HoliStepperContext = createContext<HoliStepperContextType | null>(null)
@@ -43,6 +45,7 @@ export const HoliStepperController: React.FC<HoliStepperControllerProps> = ({
   children,
 }) => {
   const [currentStep, setCurrentStep] = useState(initialStep)
+  const [finished, setFinished] = useState(false)
   const setStep = useCallback(
     (nextStep: number) => {
       const validNextStep = Math.min(Math.max(nextStep, 0), stepCount - 1)
@@ -68,6 +71,8 @@ export const HoliStepperController: React.FC<HoliStepperControllerProps> = ({
     setStep,
     goNext,
     goBack,
+    finished,
+    setFinished,
   }
 
   return <HoliStepperContext.Provider value={stepperContext}>{children}</HoliStepperContext.Provider>

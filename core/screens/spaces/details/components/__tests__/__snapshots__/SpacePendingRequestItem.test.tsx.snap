@@ -251,8 +251,8 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
           <View>
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="22"
-              bbWidth="22"
+              bbHeight={22}
+              bbWidth={22}
               color="#262424"
               fill="none"
               focusable={false}
@@ -435,8 +435,8 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
           <View>
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="22"
-              bbWidth="22"
+              bbHeight={22}
+              bbWidth={22}
               color="#262424"
               fill="none"
               focusable={false}
@@ -745,8 +745,8 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
           <View>
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="22"
-              bbWidth="22"
+              bbHeight={22}
+              bbWidth={22}
               color="#262424"
               fill="none"
               focusable={false}
@@ -929,8 +929,8 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
           <View>
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="22"
-              bbWidth="22"
+              bbHeight={22}
+              bbWidth={22}
               color="#262424"
               fill="none"
               focusable={false}
@@ -1400,8 +1400,8 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     <View>
                       <RNSVGSvgView
                         align="xMidYMid"
-                        bbHeight="24"
-                        bbWidth="24"
+                        bbHeight={24}
+                        bbWidth={24}
                         color="#86df54"
                         fill="none"
                         focusable={false}
@@ -1533,8 +1533,8 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     <View>
                       <RNSVGSvgView
                         align="xMidYMid"
-                        bbHeight="24"
-                        bbWidth="24"
+                        bbHeight={24}
+                        bbWidth={24}
                         color="#cc1820"
                         fill="none"
                         focusable={false}
@@ -1703,8 +1703,8 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     <View>
                       <RNSVGSvgView
                         align="xMidYMid"
-                        bbHeight="24"
-                        bbWidth="24"
+                        bbHeight={24}
+                        bbWidth={24}
                         color="#262424"
                         fill="none"
                         focusable={false}
@@ -1872,8 +1872,8 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     <View>
                       <RNSVGSvgView
                         align="xMidYMid"
-                        bbHeight="24"
-                        bbWidth="24"
+                        bbHeight={24}
+                        bbWidth={24}
                         color="#262424"
                         fill="none"
                         focusable={false}

@@ -8,8 +8,6 @@ import {
 } from '@holi/core/domain/shared/queries'
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { onboardingStateVar, storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 export interface LoggedInUserLoading {
   state: 'loading'
@@ -40,7 +38,7 @@ export interface LoggedInUser {
 
 export type LoggedInState = LoggedInUserLoading | LoggedOut | LoggedInUser
 
-const loading: LoggedInUserLoading = {
+export const loggedInUserLoading: LoggedInUserLoading = {
   state: 'loading',
   isLoading: true,
   isLoggedIn: false,
@@ -49,7 +47,7 @@ const loading: LoggedInUserLoading = {
   refetch: () => Promise.resolve(),
 }
 
-const loggedOut: LoggedOut = {
+export const loggedOut: LoggedOut = {
   state: 'loggedOut',
   isLoading: false,
   isLoggedIn: false,
@@ -61,7 +59,6 @@ const loggedOut: LoggedOut = {
 export const useLoggedInUser = (): LoggedInState => {
   const loginState = useLoginState()
   const { displayError } = useErrorHandling()
-  const { navigate } = useRouting()
 
   const {
     data: { authenticatedUserV2: user } = {},
@@ -78,21 +75,10 @@ export const useLoggedInUser = (): LoggedInState => {
     variables: {
       userId: loginState.isLoggedIn ? loginState.userId : undefined,
     },
-    onCompleted: async ({ authenticatedUserV2: { identity } }) => {
-      // check if user has `identity`.
-      // if not, user needs to provide his/her name and lastname
-      // to get it we redirect user to Onboarding `accoutSetup` step
-      const currentOnboardingState = onboardingStateVar()
-
-      if (!identity && currentOnboardingState !== 'emailVerification') {
-        await storeOnboardingState('accountSetup')
-        navigate('/onboarding/registration')
-      }
-    },
   })
 
   if (loginState.isUnknown || isLoadingAuthenticatedUser) {
-    return loading
+    return loggedInUserLoading
   } else if (loginState.isLoggedOut) {
     return loggedOut
   } else {

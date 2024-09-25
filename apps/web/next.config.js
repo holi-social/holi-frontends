@@ -26,6 +26,7 @@ const nextConfig = {
   output: 'standalone',
   experimental: {
     outputFileTracingRoot: path.join(__dirname, '../../'),
+    instrumentationHook: true
   },
   i18n: {
     // Adding a "default" locale as Next.js does not distinguish between explicitly specifying the default locale and not specifying a locale at all (i.e. /default/spaces === /spaces) and would either not allow explicitly overriding the locale with the default ("en") or result in an endless redirect loop
