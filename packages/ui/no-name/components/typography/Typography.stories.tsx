@@ -5,8 +5,6 @@ import Typography, { TypographySize } from '@holi/ui/no-name/components/typograp
 import { black, mono, purple, red, white } from '@holi/ui/no-name/foundations/colors/primitives'
 
 const availableSizes: TypographySize[] = ['4xl', '3xl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs']
-const linkSizes: TypographySize[] = ['md', 'sm', 'xs']
-const availableVariants = ['default', 'link']
 const availableHeadingLevels = {
   none: undefined,
   '1': '1',
@@ -39,7 +37,6 @@ type Story = StoryObj<typeof Typography>
 export const Playground: Story = {
   argTypes: {
     size: { control: 'select', options: availableSizes },
-    variant: { control: 'select', options: availableVariants },
     color: {
       control: 'select',
       options: Object.keys(exampleColors),
@@ -68,22 +65,6 @@ export const BySize: Story = {
         {availableSizes.map((size) => (
           <Typography key={size} {...args} size={size}>
             This is a text in size {size}.
-          </Typography>
-        ))}
-      </div>
-    )
-  },
-}
-
-export const LinksBySize: Story = {
-  argTypes: {},
-  args: {},
-  render: function Render(args) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {linkSizes.map((size) => (
-          <Typography key={size} {...args} size={size} variant="link">
-            This is a link in size {size}.
           </Typography>
         ))}
       </div>

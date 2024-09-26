@@ -6,12 +6,10 @@ import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { fontFamilies } from '@holi/ui/no-name/components/typography/fontFamilies'
 
 export type TypographySize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
-export type TypographyVariant = 'default' | 'link'
 export type TypographyHeadingLevel = '1' | '2' | '3'
 
 export interface TypographyProps {
   size: TypographySize
-  variant?: TypographyVariant
   /**
    * For usage inside buttons it is advised to set this to `false`, so selecting the text does not interfere with button taps.
    */
@@ -46,7 +44,6 @@ const createAccessibilityProps = (
 
 const Typography = ({
   size,
-  variant = 'default',
   selectable = true,
   testID,
   numberOfLines,
@@ -56,9 +53,7 @@ const Typography = ({
   headingLevel,
   children,
 }: React.PropsWithChildren<TypographyProps>) => {
-  const bold = variant === 'link' || size === 'lg'
-  const link = variant === 'link' ? size : undefined
-  const { styles } = useStyles(stylesheet, { size, bold, link })
+  const { styles } = useStyles(stylesheet, { size })
 
   const accessibilityProps = createAccessibilityProps(headingLevel)
 
@@ -94,12 +89,6 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       }),
       variants: {
-        bold: {
-          true: {
-            fontFamily: fontFamilies.bold,
-            fontWeight: '500',
-          },
-        },
         size: {
           '4xl': {
             fontSize: 36,
@@ -122,6 +111,8 @@ const stylesheet = createStyleSheet((theme) => ({
             letterSpacing: -0.18,
           },
           lg: {
+            fontFamily: fontFamilies.bold,
+            fontWeight: '500',
             fontSize: 16,
             lineHeight: 16 * 1.4,
             letterSpacing: -0.256,
@@ -140,22 +131,6 @@ const stylesheet = createStyleSheet((theme) => ({
             fontSize: 13,
             lineHeight: 13 * 1.2,
             letterSpacing: 0.104,
-          },
-        },
-        link: {
-          '4xl': {},
-          '3xl': {},
-          xxl: {},
-          xl: {},
-          lg: {},
-          md: {
-            letterSpacing: -0.192,
-          },
-          sm: {
-            letterSpacing: -0.03,
-          },
-          xs: {
-            letterSpacing: 0.026,
           },
         },
       },
