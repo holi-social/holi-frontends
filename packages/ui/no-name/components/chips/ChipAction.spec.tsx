@@ -3,7 +3,7 @@ import React from 'react'
 
 import ChipAction from './ChipAction'
 
-describe('Chip', () => {
+describe('ChipAction', () => {
   it('should render text/children', () => {
     render(<ChipAction onPress={jest.fn()}>Hai</ChipAction>)
 
