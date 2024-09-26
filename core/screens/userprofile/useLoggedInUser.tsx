@@ -77,7 +77,7 @@ export const useLoggedInUser = (): LoggedInState => {
     },
   })
 
-  if (loginState.isUnknown || isLoadingAuthenticatedUser) {
+  if (loginState.isUnknown || isLoadingAuthenticatedUser || (loginState.isLoggedIn && !user)) {
     return loggedInUserLoading
   } else if (loginState.isLoggedOut) {
     return loggedOut
