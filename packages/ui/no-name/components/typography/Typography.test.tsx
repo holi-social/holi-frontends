@@ -12,21 +12,17 @@ describe('Typography', () => {
 
   it('should set role to heading if level is specified', async () => {
     render(
-      <Typography size="md" headingLevel="1" testID="test">
+      <Typography size="md" headingLevel="1">
         Foobar
       </Typography>
     )
 
-    expect((await screen.findByTestId('test')).props.role).toEqual('heading')
+    expect((await screen.findByText('Foobar')).props.role).toEqual('heading')
   })
 
   it('should set role to none if no level is specified', async () => {
-    render(
-      <Typography size="md" testID="test">
-        Foobar
-      </Typography>
-    )
+    render(<Typography size="md">Foobar</Typography>)
 
-    expect((await screen.findByTestId('test')).props.role).toEqual('none')
+    expect((await screen.findByText('Foobar')).props.role).toEqual('none')
   })
 })
