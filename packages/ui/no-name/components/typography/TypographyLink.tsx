@@ -8,11 +8,6 @@ export type TypographyLinkSize = 'md' | 'sm' | 'xs'
 
 export interface TypographyLinkProps {
   size: TypographyLinkSize
-  /**
-   * For usage inside buttons it is advised to set this to `false`, so selecting the text does not interfere with button taps.
-   */
-  // TODO(SF) does this make sense?
-  selectable?: boolean
   testID?: string
   numberOfLines?: number
   color?: TextStyle['color']
@@ -22,7 +17,6 @@ export interface TypographyLinkProps {
 
 const TypographyLink = ({
   size,
-  selectable = true,
   testID,
   numberOfLines,
   color,
@@ -34,11 +28,11 @@ const TypographyLink = ({
 
   return (
     <Text
-      selectable={Platform.OS !== 'web' ? selectable : undefined}
+      selectable={Platform.OS !== 'web' ? false : undefined}
       testID={testID}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
-      style={styles.typography(selectable, color, textAlign)}
+      style={styles.typography(color, textAlign)}
     >
       {children}
     </Text>
@@ -48,13 +42,13 @@ const TypographyLink = ({
 export default TypographyLink
 
 const stylesheet = createStyleSheet((theme) => ({
-  typography: (selectable: boolean, color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  typography: (color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.bold,
       fontWeight: '500',
       color: color ?? theme.colors.text,
-      userSelect: selectable ? 'auto' : 'none',
+      userSelect: 'auto',
       textAlign: textAlign,
       ...Platform.select({
         web: {
