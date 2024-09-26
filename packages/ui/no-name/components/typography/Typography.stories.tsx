@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
-import Typography, { TypographySize } from '@holi/ui/no-name/components/text/Typography'
+import Typography, { TypographySize } from '@holi/ui/no-name/components/typography/Typography'
 import { black, mono, purple, red, white } from '@holi/ui/no-name/foundations/colors/primitives'
 
 const availableSizes: TypographySize[] = ['4xl', '3xl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs']
