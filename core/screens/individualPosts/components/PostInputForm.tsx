@@ -508,8 +508,8 @@ const getStyles = (theme: HoliTheme) =>
     suggestionsScrollView: {
       zIndex: 1,
       width: '100%',
-      height: 220,
-      maxHeight: 220,
+      height: 80,
+      maxHeight: 140,
       paddingTop: 10,
       paddingBottom: 10,
       backgroundColor: theme.colors.background10,
