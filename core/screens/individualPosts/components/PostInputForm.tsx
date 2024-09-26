@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
+import { useHeaderHeight } from '@react-navigation/elements'
+
 import { Term, User } from '@holi/core/domain/shared/types'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
@@ -114,6 +116,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const { show: showLocationModal, hide: hideLocationModal, visible: visibleLocationModal } = useModalState()
   const { show: showEditImagesModal, hide: hideEditImagesModal, visible: visibleEditImagesModal } = useModalState()
 
+  const height = useHeaderHeight()
+
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
       visibility: selectedVisibility,
@@ -158,150 +162,157 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   return (
     <>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.layout}>
-        <ScrollView
-          contentContainerStyle={styles.contentContainer}
-          keyboardShouldPersistTaps="handled"
-          style={styles.container}
-        >
-          <View style={styles.pillContainer}>
-            <FeedPostPill
-              label={t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
-              setting={'visibility'}
-              onPress={showVisibility}
-            />
-            <FeedPostPill label={categoryLabel} setting={'category'} onPress={onClickCategoriesPill} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoidingView}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? height : dimensions.bottomBarHeight}
+      >
+        <View style={styles.layout}>
+          <ScrollView
+            contentContainerStyle={styles.contentContainer}
+            keyboardShouldPersistTaps="handled"
+            style={styles.container}
+          >
+            <View style={styles.pillContainer}>
+              <FeedPostPill
+                label={t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
+                setting={'visibility'}
+                onPress={showVisibility}
+              />
+              <FeedPostPill label={categoryLabel} setting={'category'} onPress={onClickCategoriesPill} />
 
-            {selectedTopics &&
-              (selectedTopics?.length < 1 ? (
-                <FeedPostPill setting={'topic'} onPress={showTopicsModal} />
-              ) : (
-                <FeedPostPill
-                  label={`${selectedTopics.length} ${selectedTopics.length > 1 ? ' Topics' : 'Topic'}`}
-                  setting={'topic'}
-                  onPress={showTopicsModal}
-                />
-              ))}
-          </View>
-          <View style={styles.inputContainer}>
-            <HoliTextInput
-              placeholder={t('individuals.post.input.category.input.title')}
-              fontStyle={styles.titleFont}
-              inputStyle={styles.titleInput}
-              placeholderColor={theme.colors.gray300}
-              aria-label={t('individuals.post.input.category.input.title')}
-              onChange={(input) => onChangeTitle(removeTitlelines(input))}
-              value={title}
-              maxNoOfCharacters={FEED_POST_TITLE_MAX_CHARACTERS}
-              maxNoOfVisibleLines={3}
-              noOfVisibleLines={2}
-            />
-
-            <HoliRichTextInput
-              placeholder={descriptionPlaceholder}
-              inputStyle={styles.descriptionInput}
-              aria-label={descriptionPlaceholder}
-              onChange={onChangeDescription}
-              placeholderTextColor={theme.colors.gray300}
-              showCharacterCount
-              maxNoOfCharacters={FEED_POST_DESCRIPTION_MAX_CHARACTERS}
-              initialValue={description}
-              mentions={mentions}
-              isEdit={isEdit}
-              scrollEnabled={false}
-            />
-            {selectedLocation?.label && (
-              <View style={styles.locationCard}>
-                <PostLocationCard
-                  location={selectedLocation.label}
-                  editLocation={showLocationModal}
-                  removeLocation={() => onChangeSelectedLocation(null)}
-                />
-              </View>
-            )}
-
-            {((!!images && images.length > 0) || (currentImages && currentImages.length > 0)) && (
-              <View style={styles.imageContainer}>
-                <HoliButton
-                  type="secondary"
-                  variant="small"
-                  label={t('global.edit')}
-                  inline
-                  style={styles.editImages}
-                  onPress={showEditImagesModal}
-                >
-                  <HoliText>{t('global.edit')}</HoliText>
-                  <HoliIcon size={16} icon={Edit2} style={styles.buttonIcon} />
-                </HoliButton>
-                {Platform.OS !== 'web' && (
-                  <HoliCarousel
-                    marginHorizontal={Spacing.sm}
-                    style={styles.imageCarousel}
-                    slides={[...(currentImages || []), ...images].map((image, index) => {
-                      // differentiate types between FeedPostImage and HoliImageInfo
-                      const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
-                      const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
-                      return {
-                        children: (
-                          <ImagePreview
-                            key={index}
-                            image={imageInfo}
-                            currentImage={feedPostImage?.image}
-                            aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
-                          />
-                        ),
-                      }
-                    })}
+              {selectedTopics &&
+                (selectedTopics?.length < 1 ? (
+                  <FeedPostPill setting={'topic'} onPress={showTopicsModal} />
+                ) : (
+                  <FeedPostPill
+                    label={`${selectedTopics.length} ${selectedTopics.length > 1 ? ' Topics' : 'Topic'}`}
+                    setting={'topic'}
+                    onPress={showTopicsModal}
                   />
-                )}
+                ))}
+            </View>
+            <View style={styles.inputContainer}>
+              <HoliTextInput
+                placeholder={t('individuals.post.input.category.input.title')}
+                fontStyle={styles.titleFont}
+                inputStyle={styles.titleInput}
+                placeholderColor={theme.colors.gray300}
+                aria-label={t('individuals.post.input.category.input.title')}
+                onChange={(input) => onChangeTitle(removeTitlelines(input))}
+                value={title}
+                maxNoOfCharacters={FEED_POST_TITLE_MAX_CHARACTERS}
+                maxNoOfVisibleLines={3}
+                noOfVisibleLines={2}
+              />
 
-                {Platform.OS === 'web' && (
-                  <View
-                    style={[
-                      styles.imageGrid,
-                      [...(currentImages || []), ...images].length < 2 ? { justifyContent: 'flex-end' } : {},
-                    ]}
+              <HoliRichTextInput
+                placeholder={descriptionPlaceholder}
+                inputStyle={styles.descriptionInput}
+                aria-label={descriptionPlaceholder}
+                onChange={onChangeDescription}
+                placeholderTextColor={theme.colors.gray300}
+                showCharacterCount
+                maxNoOfCharacters={FEED_POST_DESCRIPTION_MAX_CHARACTERS}
+                initialValue={description}
+                mentions={mentions}
+                isEdit={isEdit}
+                scrollEnabled={false}
+              />
+              {selectedLocation?.label && (
+                <View style={styles.locationCard}>
+                  <PostLocationCard
+                    location={selectedLocation.label}
+                    editLocation={showLocationModal}
+                    removeLocation={() => onChangeSelectedLocation(null)}
+                  />
+                </View>
+              )}
+
+              {((!!images && images.length > 0) || (currentImages && currentImages.length > 0)) && (
+                <View style={styles.imageContainer}>
+                  <HoliButton
+                    type="secondary"
+                    variant="small"
+                    label={t('global.edit')}
+                    inline
+                    style={styles.editImages}
+                    onPress={showEditImagesModal}
                   >
-                    {[...(currentImages || []), ...images].map((image, index) => {
-                      // differentiate types between FeedPostImage and HoliImageInfo
-                      const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
-                      const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
-                      return (
-                        <View key={index} style={styles.imageGridItemWrapper}>
-                          <View style={styles.imageGridItem}>
+                    <HoliText>{t('global.edit')}</HoliText>
+                    <HoliIcon size={16} icon={Edit2} style={styles.buttonIcon} />
+                  </HoliButton>
+                  {Platform.OS !== 'web' && (
+                    <HoliCarousel
+                      marginHorizontal={Spacing.sm}
+                      style={styles.imageCarousel}
+                      slides={[...(currentImages || []), ...images].map((image, index) => {
+                        // differentiate types between FeedPostImage and HoliImageInfo
+                        const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
+                        const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
+                        return {
+                          children: (
                             <ImagePreview
                               key={index}
                               image={imageInfo}
                               currentImage={feedPostImage?.image}
                               aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
                             />
+                          ),
+                        }
+                      })}
+                    />
+                  )}
+
+                  {Platform.OS === 'web' && (
+                    <View
+                      style={[
+                        styles.imageGrid,
+                        [...(currentImages || []), ...images].length < 2 ? { justifyContent: 'flex-end' } : {},
+                      ]}
+                    >
+                      {[...(currentImages || []), ...images].map((image, index) => {
+                        // differentiate types between FeedPostImage and HoliImageInfo
+                        const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
+                        const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
+                        return (
+                          <View key={index} style={styles.imageGridItemWrapper}>
+                            <View style={styles.imageGridItem}>
+                              <ImagePreview
+                                key={index}
+                                image={imageInfo}
+                                currentImage={feedPostImage?.image}
+                                aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
+                              />
+                            </View>
                           </View>
-                        </View>
-                      )
-                    })}
-                  </View>
-                )}
-              </View>
-            )}
+                        )
+                      })}
+                    </View>
+                  )}
+                </View>
+              )}
+            </View>
+          </ScrollView>
+
+          {/* Suggestions*/}
+          <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
+
+          <View style={styles.submitBarContainer}>
+            <SubmitPostBar
+              onSubmit={onSubmit}
+              showLocationModal={showLocationModal}
+              showEditImagesModal={showEditImagesModal}
+              submitting={submitting}
+              isSubmittable={isSubmittable}
+              isEdit={isEdit}
+              images={images}
+              currentImages={currentImages}
+              setImages={onChangeImages}
+            />
           </View>
-        </ScrollView>
-
-        {/* Suggestions*/}
-        <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
-
-        <SubmitPostBar
-          onSubmit={onSubmit}
-          showLocationModal={showLocationModal}
-          showEditImagesModal={showEditImagesModal}
-          submitting={submitting}
-          isSubmittable={isSubmittable}
-          isEdit={isEdit}
-          images={images}
-          currentImages={currentImages}
-          setImages={onChangeImages}
-        />
+        </View>
       </KeyboardAvoidingView>
-
       <HoliModalSelect
         options={visibilityOptions}
         title={t('individuals.post.input.visibility.title')}
@@ -399,11 +410,34 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    keyboardAvoidingView: {
+      flex: 1,
+      width: '100%',
+      backgroundColor: theme.colors.background10,
+    },
     layout: {
       backgroundColor: theme.colors.background20,
       width: '100%',
       height: '100%',
-      alignItems: 'center',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    container: {
+      flex: 1,
+      width: '100%',
+      ...Platform.select({
+        web: {
+          maxWidth: dimensions.breakpointM,
+        },
+      }),
+    },
+    contentContainer: {
+      flexGrow: 1,
+      paddingBottom: Spacing.md,
+    },
+    submitBarContainer: {
+      width: '100%',
+      backgroundColor: theme.colors.background20,
     },
     titleInput: {
       backgroundColor: theme.colors.background20,
@@ -421,17 +455,6 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: 6,
       paddingHorizontal: 10,
       maxWidth: '100%',
-    },
-    container: {
-      width: '100%',
-      ...Platform.select({
-        web: {
-          maxWidth: dimensions.breakpointM,
-        },
-      }),
-    },
-    contentContainer: {
-      paddingBottom: Platform.OS === 'ios' ? dimensions.bottomBarHeight : dimensions.bottomBarHeight + 60,
     },
     inputContainer: {
       width: '100%',
