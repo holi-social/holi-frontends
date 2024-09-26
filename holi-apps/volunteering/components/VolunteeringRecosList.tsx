@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -9,7 +9,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe, HeartsFilled } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
 import { VolunteeringReco } from '@holi-apps/volunteering/types'
@@ -24,8 +23,6 @@ const VolunteeringRecosListItem = ({
   cardWidth: number
 }) => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
 
   const title = reco.engagement.organizer?.name
     ? t('volunteering:engagement.title', {
@@ -89,16 +86,12 @@ const VolunteeringRecosList: React.FC<VolunteeringRecosListProps> = ({ recos, ca
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    locationFooter: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 6,
-    },
-    categoryText: {
-      color: theme.colors.brandColorB30,
-    },
-  })
+const styles = StyleSheet.create({
+  locationFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+})
 
 export default VolunteeringRecosList
