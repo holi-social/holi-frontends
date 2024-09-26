@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { GestureResponderEvent, Platform, Pressable, PressableProps, ViewStyle } from 'react-native'
+import { GestureResponderEvent, Pressable, PressableProps } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -7,6 +7,8 @@ import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
+
+import { pill } from './styles'
 
 type ChipColor = Color | 'white'
 type Size = 'sm' | 'md' | 'lg'
@@ -59,26 +61,15 @@ export default ChipAction
 const stylesheet = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipColor) => {
     return {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: Spacing['4xs'],
+      ...pill,
       color: theme.components.chip.text,
       backgroundColor: theme.components.chip.background[color],
       borderColor: theme.components.chip.border,
       borderWidth: 1,
-      borderRadius: 50,
       outlineColor: theme.components.chip.border,
       outlineWidth: 1,
       outlineStyle: hovered ? 'solid' : 'none',
       boxShadow: focused ? theme.colors.focus : 'none',
-      maxWidth: '100%',
-      overflow: 'hidden',
-      ...Platform.select({
-        web: {
-          display: 'inline-flex' as ViewStyle['display'],
-        },
-      }),
       variants: {
         size: {
           sm: {

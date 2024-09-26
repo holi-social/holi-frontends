@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react'
-import { Platform, View, ViewStyle } from 'react-native'
+import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { pill } from '@holi/ui/no-name/components/chips/styles'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 type ChipColor = Color | 'white'
@@ -37,22 +38,11 @@ export default ChipLabel
 const stylesheet = createStyleSheet((theme) => ({
   chip: (color: ChipColor) => {
     return {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: Spacing['4xs'],
+      ...pill,
       color: theme.components.chipLabel.text,
       backgroundColor: theme.components.chipLabel.background[color],
       borderColor: theme.components.chipLabel.border[color],
       borderWidth: 1,
-      borderRadius: 50,
-      maxWidth: '100%',
-      overflow: 'hidden',
-      ...Platform.select({
-        web: {
-          display: 'inline-flex' as ViewStyle['display'],
-        },
-      }),
       variants: {
         size: {
           sm: {
