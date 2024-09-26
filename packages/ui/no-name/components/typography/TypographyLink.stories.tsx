@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
@@ -39,6 +40,7 @@ export const Playground: Story = {
   },
   args: {
     size: 'md',
+    onPress: action('Pressed!'),
   },
   render: function Render(args) {
     return <TypographyLink {...args} />

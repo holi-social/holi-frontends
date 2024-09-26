@@ -13,6 +13,7 @@ export interface TypographyLinkProps {
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
+  onPress?: TextProps['onPress']
 }
 
 const TypographyLink = ({
@@ -23,16 +24,19 @@ const TypographyLink = ({
   textAlign,
   ellipsizeMode,
   children,
+  onPress,
 }: React.PropsWithChildren<TypographyLinkProps>) => {
   const { styles } = useStyles(stylesheet, { size })
 
   return (
     <Text
       selectable={Platform.OS !== 'web' ? false : undefined}
+      role="link"
       testID={testID}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
       style={styles.typography(color, textAlign)}
+      onPress={onPress}
     >
       {children}
     </Text>
