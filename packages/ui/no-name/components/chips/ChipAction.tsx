@@ -62,11 +62,11 @@ const stylesheet = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipColor) => {
     return {
       ...pill,
-      color: theme.components.chip.text,
-      backgroundColor: theme.components.chip.background[color],
-      borderColor: theme.components.chip.border,
+      color: theme.components.chipAction.text,
+      backgroundColor: theme.components.chipAction.background[color],
+      borderColor: theme.components.chipAction.border,
       borderWidth: 1,
-      outlineColor: theme.components.chip.border,
+      outlineColor: theme.components.chipAction.border,
       outlineWidth: 1,
       outlineStyle: hovered ? 'solid' : 'none',
       boxShadow: focused ? theme.colors.focus : 'none',
@@ -84,9 +84,9 @@ const stylesheet = createStyleSheet((theme) => ({
         },
         selected: {
           true: {
-            color: theme.components.chip.selected.text,
-            borderColor: theme.components.chip.selected.border,
-            backgroundColor: theme.components.chip.selected.background,
+            color: theme.components.chipAction.selected.text,
+            borderColor: theme.components.chipAction.selected.border,
+            backgroundColor: theme.components.chipAction.selected.background,
           },
         },
         disabled: {
@@ -99,7 +99,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   text: {
     fontWeight: '400',
-    color: theme.components.chip.text,
+    color: theme.components.chipAction.text,
     variants: {
       //  Temporary explicit styles, until new font & Text component is built
       size: {
@@ -109,7 +109,7 @@ const stylesheet = createStyleSheet((theme) => ({
       },
       selected: {
         true: {
-          color: theme.components.chip.selected.text,
+          color: theme.components.chipAction.selected.text,
         },
       },
     },

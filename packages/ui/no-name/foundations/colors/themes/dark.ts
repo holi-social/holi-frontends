@@ -7,7 +7,7 @@ const theme = {
     focus: `${mono[700]} 0px 0px 0px 1.5px, ${blue[600]} 0px 0px 0px 3px`,
   },
   components: {
-    chip: {
+    chipAction: {
       text: mono[300],
       border: mono[300],
       background: {
