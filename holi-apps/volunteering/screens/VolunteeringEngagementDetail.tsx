@@ -24,7 +24,6 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -137,7 +136,7 @@ const VolunteeringEngagementDetail = () => {
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('volunteering:app.name') })
+    setScreenOptions({ title: t('volunteering:app.name'), headerTransparent: true })
   }, [setScreenOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
@@ -154,7 +153,7 @@ const VolunteeringEngagementDetail = () => {
         return replaceRoute('/404')
       }
       return displayError(error, 'Failed to load volunteering engagement', {
-        displayMessage: t('volunteering:listing.error'),
+        displayMessage: t('volunteering:engagementDetail.notFound'),
         location: 'VolunteeringEngagementDetail.engagementByIdQuery',
         engagementId,
       })
@@ -226,7 +225,7 @@ const VolunteeringEngagementDetail = () => {
   }
 
   return (
-    <>
+    <View style={styles.wrapper} testID="volunteering-detailview-container">
       <HoliHead
         title={engagement.title}
         description={engagement.description}
@@ -234,33 +233,31 @@ const VolunteeringEngagementDetail = () => {
         ogDescription={engagement.description}
         ogImage={engagement.imageUrl}
       />
-      <View style={styles.wrapper} testID="volunteering-detailview-container">
-        <ScrollHeaderLayout style={styles.header}>
-          {engagement && (
-            <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
-              <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
-              <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
-              {!!partner && providerContainer}
-              <VolunteeringPartnerCard
-                headline={t('volunteering:engagementDetail.technicalPartner')}
-                name={'Voltastics'}
-                partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
-              />
-            </View>
-          )}
-        </ScrollHeaderLayout>
+      <ScrollHeaderLayout style={styles.header}>
+        {engagement && (
+          <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
+            <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
+            <AboutVolunteering description={engagement.description} organizer={engagement.organizer} />
+            {!!partner && providerContainer}
+            <VolunteeringPartnerCard
+              headline={t('volunteering:engagementDetail.technicalPartner')}
+              name={'Voltastics'}
+              partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
+            />
+          </View>
+        )}
+      </ScrollHeaderLayout>
 
-        <View style={styles.volunteeringButton}>
-          <HoliButtonLoadingTracked
-            icon={ShareBox}
-            label={t('volunteering:engagementDetail.getInTouch')}
-            onPress={() => Linking.openURL(engagement.url)}
-            testID="volunteering-engagement-get-in-touch-btn"
-            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId)}
-          />
-        </View>
+      <View style={styles.volunteeringButton}>
+        <HoliButtonLoadingTracked
+          icon={ShareBox}
+          label={t('volunteering:engagementDetail.getInTouch')}
+          onPress={() => Linking.openURL(engagement.url)}
+          testID="volunteering-engagement-get-in-touch-btn"
+          trackingEvent={TrackingEvent.Volunteering.pressed(engagementId)}
+        />
       </View>
-    </>
+    </View>
   )
 }
 
@@ -274,10 +271,6 @@ export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: '
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
-    },
     wrapper: {
       alignItems: 'center',
       flex: 1,
@@ -292,10 +285,6 @@ const getStyles = (theme: HoliTheme) =>
       ...Platform.select({
         native: {
           maxWidth: '100%',
-          paddingTop: dimensions.topBarHeight + 40,
-        },
-        web: {
-          paddingTop: dimensions.topBarHeight,
         },
       }),
     },
@@ -322,14 +311,6 @@ const getStyles = (theme: HoliTheme) =>
       borderRadius: 20,
       marginRight: 16,
     },
-    providerInfoRow: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 16,
-    },
-
     volunteeringButton: {
       bottom: 40,
       justifyContent: 'center',

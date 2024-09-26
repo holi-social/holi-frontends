@@ -70,10 +70,4 @@ const getStyles = (theme: HoliTheme) =>
       aspectRatio: 1.5,
       width: '100%',
     },
-    categoryText: {
-      color: theme.colors.brandColorB30,
-    },
-    titleText: {
-      marginTop: 8,
-    },
   })
