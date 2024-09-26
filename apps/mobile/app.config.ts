@@ -173,8 +173,8 @@ const config: ExpoConfig = {
     //   'expo-font',
     //   {
     //     fonts: [
-    //       '../../packages/ui/assets/fonts/InstrumentSans/InstrumentSans-Regular.ttf',
-    //       '../../packages/ui/assets/fonts/InstrumentSans/InstrumentSans-Medium.ttf',
+    //       '../../packages/ui/no-name/components/typography/fonts/InstrumentSans-Regular.ttf',
+    //       '../../packages/ui/no-name/components/typography/fonts/InstrumentSans-Medium.ttf',
     //     ],
     //   },
     // ],

@@ -1,7 +1,6 @@
 import { Platform } from 'react-native'
 
-// TODO(SF) include in themes?
-export const fonts = {
+export const fontFamilies = {
   regular: Platform.select({
     web: 'InstrumentSans-Regular,Helvetica,Arial,sans-serif',
     default: 'InstrumentSans-Regular',

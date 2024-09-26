@@ -3,7 +3,7 @@ import { AccessibilityProps, ColorValue, Platform, Text, TextProps, TextStyle } 
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import { fonts } from '@holi/ui/no-name/foundations/fonts'
+import { fontFamilies } from '@holi/ui/no-name/components/typography/fontFamilies'
 
 export type TypographySize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
 export type TypographyVariant = 'default' | 'link'
@@ -82,7 +82,7 @@ const stylesheet = createStyleSheet((theme) => ({
   typography: (selectable: boolean, color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
-      fontFamily: fonts.regular,
+      fontFamily: fontFamilies.regular,
       fontWeight: '400',
       color: color ?? theme.colors.text,
       userSelect: selectable ? 'auto' : 'none',
@@ -96,7 +96,7 @@ const stylesheet = createStyleSheet((theme) => ({
       variants: {
         bold: {
           true: {
-            fontFamily: fonts.bold,
+            fontFamily: fontFamilies.bold,
             fontWeight: '500',
           },
         },
