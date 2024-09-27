@@ -97,18 +97,6 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      ...Platform.select({
-        web: {
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-        },
-        android: {
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-        },
-      }),
       backgroundColor: theme.colors.background10,
     },
     roundSubmitButton: {
