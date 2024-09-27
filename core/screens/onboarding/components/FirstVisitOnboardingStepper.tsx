@@ -188,10 +188,11 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
   const stepsToRender = useMemo<FirstVisitStep[]>(() => {
     const determineNextStep = (previousStep: FirstVisitStep) => {
       const previousStepSelection = selections[previousStep]
-      if (!('options' in onboardingSteps[previousStep])) {
+      const stepConfiguration = onboardingSteps[previousStep]
+      if (!('options' in stepConfiguration)) {
         return undefined
       }
-      const options = onboardingSteps[previousStep].options
+      const options = stepConfiguration.options
       if (!options?.length) {
         return undefined
       }
