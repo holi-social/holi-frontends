@@ -165,7 +165,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoidingView}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? height : dimensions.bottomBarHeight}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? height : dimensions.bottomBarHeight - Spacing.xs}
       >
         <View style={styles.layout}>
           <ScrollView
@@ -295,10 +295,9 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             </View>
           </ScrollView>
 
-          {/* Suggestions*/}
-          <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
-
           <View style={styles.submitBarContainer}>
+            {/* Suggestions*/}
+            <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
             <SubmitPostBar
               onSubmit={onSubmit}
               showLocationModal={showLocationModal}
@@ -508,8 +507,8 @@ const getStyles = (theme: HoliTheme) =>
     suggestionsScrollView: {
       zIndex: 1,
       width: '100%',
-      height: 80,
-      maxHeight: 140,
+      height: 140,
+      maxHeight: 160,
       paddingTop: 10,
       paddingBottom: 10,
       backgroundColor: theme.colors.background10,
