@@ -23,6 +23,7 @@ const insight: Insight = {
     data: [],
   },
   isFavorite: false,
+  polls: [],
 }
 
 export const createInsightList = (length = 3) =>
