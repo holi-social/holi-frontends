@@ -11,6 +11,7 @@ import {
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliWizard, {
   BackPressHandlerOptions,
   NextPressHandlerOptions,
@@ -210,15 +211,16 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
       stepsToRender.map((step) => {
         const stepConfiguration = onboardingSteps[step]
         return (
-          <FirstVisitOnboardingStep
-            key={step}
-            step={step}
-            onSelect={(selection) => onSelectOption(step, selection)}
-            options={'options' in stepConfiguration ? stepConfiguration.options : []}
-            initialSelection={selections[step]}
-            descriptionAbove={stepConfiguration.descriptionAbove}
-            image={stepConfiguration.image}
-          />
+          <HoliBox padding={[0, 0, 96, 0]} key={step}>
+            <FirstVisitOnboardingStep
+              step={step}
+              onSelect={(selection) => onSelectOption(step, selection)}
+              options={'options' in stepConfiguration ? stepConfiguration.options : []}
+              initialSelection={selections[step]}
+              descriptionAbove={stepConfiguration.descriptionAbove}
+              image={stepConfiguration.image}
+            />
+          </HoliBox>
         )
       }),
     [onSelectOption, selections, stepsToRender]
