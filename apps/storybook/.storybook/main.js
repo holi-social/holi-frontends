@@ -16,6 +16,7 @@ module.exports = {
     getAbsolutePath('@storybook/addon-links'),
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-interactions'),
+    getAbsolutePath('@storybook/addon-actions'),
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-storysource'),
     {
@@ -36,15 +37,21 @@ module.exports = {
   },
 
   webpackFinal: async (config) => {
+    const fileTypesWithOverrides = ['svg', 'png', 'txt']
+    const excludeRegex = new RegExp(`\\.(${fileTypesWithOverrides.join('|')})$`)
     config?.module?.rules?.forEach((rule) => {
       if (!rule || typeof rule !== 'object') return
-      if (rule.test instanceof RegExp && (rule.test.test('.svg') || rule.test.test('.png'))) {
-        rule.exclude = /\.(svg|png)$/
+      if (rule.test instanceof RegExp && fileTypesWithOverrides.some((ending) => rule.test.test(`.${ending}`))) {
+        rule.exclude = excludeRegex
       }
     })
     config?.module?.rules?.push({
       test: /\.(svg|png)$/,
       type: 'asset/resource',
+    })
+    config?.module?.rules?.push({
+      test: /\.txt$/,
+      type: 'asset/source',
     })
     return config
   },

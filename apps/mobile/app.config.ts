@@ -168,6 +168,16 @@ const config: ExpoConfig = {
         calendarPermission: 'Allow access to your calendar',
       },
     ],
+    // HOLI-9792: Create a new development build to bundle fonts
+    // [
+    //   'expo-font',
+    //   {
+    //     fonts: [
+    //       '../../packages/ui/no-name/components/typography/fonts/InstrumentSans-Regular.ttf',
+    //       '../../packages/ui/no-name/components/typography/fonts/InstrumentSans-Medium.ttf',
+    //     ],
+    //   },
+    // ],
   ],
   // This doesn't seems to be supported by the expo config.
   // hooks: {
