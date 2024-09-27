@@ -10,12 +10,14 @@ export interface AlreadyHaveAccountTextProps {
   mobileNavigateBackFirst?: boolean
   style?: StyleProp<ViewStyle>
   trackingEvent: TrackingEvent
+  onPress?(): void
 }
 
 const AlreadyHaveAccountText = ({
   mobileNavigateBackFirst = false,
   style,
   trackingEvent,
+  onPress,
 }: AlreadyHaveAccountTextProps) => {
   const { t } = useTranslation()
 
@@ -24,6 +26,7 @@ const AlreadyHaveAccountText = ({
       <Trans t={t} i18nKey={'auth.registration.alreadyHasAccount'}>
         <HoliTextLinkTracked
           label={t('auth.login')}
+          onPress={onPress ? onPress : undefined}
           href="/login"
           size="small"
           mobileNavigateBackFirst={mobileNavigateBackFirst}
