@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { FirstVisitOnboardingSelectionOption } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingSelection'
@@ -211,16 +211,18 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
       stepsToRender.map((step) => {
         const stepConfiguration = onboardingSteps[step]
         return (
-          <HoliBox padding={[0, 0, 96, 0]} key={step}>
-            <FirstVisitOnboardingStep
-              step={step}
-              onSelect={(selection) => onSelectOption(step, selection)}
-              options={'options' in stepConfiguration ? stepConfiguration.options : []}
-              initialSelection={selections[step]}
-              descriptionAbove={stepConfiguration.descriptionAbove}
-              image={stepConfiguration.image}
-            />
-          </HoliBox>
+          <ScrollView key={step}>
+            <HoliBox padding={[0, 0, 96, 0]}>
+              <FirstVisitOnboardingStep
+                step={step}
+                onSelect={(selection) => onSelectOption(step, selection)}
+                options={'options' in stepConfiguration ? stepConfiguration.options : []}
+                initialSelection={selections[step]}
+                descriptionAbove={stepConfiguration.descriptionAbove}
+                image={stepConfiguration.image}
+              />
+            </HoliBox>
+          </ScrollView>
         )
       }),
     [onSelectOption, selections, stepsToRender]
