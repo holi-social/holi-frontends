@@ -54,7 +54,7 @@ describe('calls onPress prop function correctly', () => {
     )
 
     await fireEvent.press(getByTestId('Button'))
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
   it('does not call onPress prop when disabled', async () => {
@@ -66,7 +66,7 @@ describe('calls onPress prop function correctly', () => {
     )
 
     await fireEvent.press(getByTestId('Button'))
-    expect(mockFn).toBeCalledTimes(0)
+    expect(mockFn).toHaveBeenCalledTimes(0)
   })
 })
 
