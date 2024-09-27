@@ -102,9 +102,9 @@ describe('createServerSideProps', () => {
     await createServerSideProps(context, [query1, query2])
 
     expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
-    expect(mockQueryFunction).toBeCalledTimes(2) // query1 + query2 inside createServerSideProps
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2) // query1 + query2 inside createServerSideProps
+    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
+    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
   })
 
   it('should add apollo state to page props after executing queries', async () => {
@@ -118,18 +118,18 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(2)
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2)
+    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
+    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
     expect(new HoliPageProps(props).apolloState).toEqual(mockedCache)
   })
 
   it('should not execute queries that should be skipped', async () => {
     await createServerSideProps(context, [{ ...query1, skip: true }, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(1)
-    expect(mockQueryFunction).not.toBeCalledWith(query1)
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledTimes(1)
+    expect(mockQueryFunction).not.toHaveBeenCalledWith(query1)
+    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
   })
 
   it('should redirect to 404 page if a query results in a NOT_FOUND error', async () => {
@@ -147,9 +147,9 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toBeCalledTimes(2)
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toBeCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2)
+    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
+    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
     expect(props).toEqual({
       notFound: true,
     })

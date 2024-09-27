@@ -29,6 +29,6 @@ describe('HoliModal', () => {
 
     fireEvent.press(getByTestId('testmodal-backdrop'))
 
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 })

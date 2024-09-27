@@ -31,6 +31,6 @@ describe('calls closeToast correctly', () => {
 
     fireEvent.press(getByTestId('toast-test'))
 
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 })
