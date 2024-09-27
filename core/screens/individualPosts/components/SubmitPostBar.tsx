@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
@@ -12,6 +12,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -38,7 +39,8 @@ export const SubmitPostBar = ({
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = useMemo(() => getSubmitPostBarStyles(theme), [theme])
+  const screenWidth = useWindowDimensions().width
+  const styles = useMemo(() => getSubmitPostBarStyles(theme, screenWidth), [theme, screenWidth])
 
   return (
     <SafeArea style={styles.menuContainer} edges={['bottom']}>
@@ -88,7 +90,7 @@ export const SubmitPostBar = ({
     </SafeArea>
   )
 }
-const getSubmitPostBarStyles = (theme: HoliTheme) =>
+const getSubmitPostBarStyles = (theme: HoliTheme, screenWidth: number) =>
   StyleSheet.create({
     menuContainer: {
       padding: 12,
@@ -117,6 +119,9 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
       ...Platform.select({
         ios: {
           padding: 12,
+        },
+        web: {
+          paddingHorizontal: screenWidth > dimensions.breakpointM ? Spacing.lg : 0,
         },
       }),
     },
