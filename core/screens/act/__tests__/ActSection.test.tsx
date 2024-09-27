@@ -1,0 +1,851 @@
+import { mockFeatureFlags } from '@holi/core/helpers/__mocks__/mockFeatureFlags'
+
+import { MockedProvider } from '@apollo/client/testing'
+import { render, screen } from '@testing-library/react-native'
+import React from 'react'
+
+import { skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
+import { User } from '@holi/core/domain/shared/types'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { ActSection } from '@holi/core/screens/act/ActSection'
+import { recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
+
+import { donationProjectsQuery } from '@holi-apps/donations/queries'
+import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
+
+export const user: User = {
+  id: '123',
+  identity: 'member1.feynman',
+  avatar: '',
+  fullName: 'fullName',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  aboutMe: '',
+  avatarDefaultColor: 'papayawhip',
+  avatarLabel: 'FL',
+  interests: [],
+  skills: [],
+}
+
+jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+  useLoggedInUser: () => ({
+    isLoggedIn: true,
+    user,
+  }),
+}))
+
+const topicsRequest = {
+  request: {
+    query: topicsQuery,
+  },
+  result: {
+    data: {
+      topics: {
+        data: [
+          { id: '1', title: 'democracy-human-rights', slug: 'democracy-human-rights', isDiscoverSpacesDefault: true },
+          { id: '2', title: 'climate-protection', slug: 'climate-protection', isDiscoverSpacesDefault: true },
+          { id: '3', title: 'culture-social-change', slug: 'culture-social-change', isDiscoverSpacesDefault: true },
+        ],
+      },
+    },
+  },
+}
+
+const skillsRequest = {
+  request: {
+    query: skillsQuery,
+  },
+  result: {
+    data: {
+      skills: {
+        data: [
+          { id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4', title: 'Leadership', slug: 'leadership' },
+          { id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd5', title: 'communication-skills', slug: 'communication-skills' },
+          { id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd6', title: 'caring-nursing', slug: 'caring-nursing' },
+        ],
+      },
+    },
+  },
+}
+
+const tasksRequest = {
+  request: {
+    query: recommendedTasksQuery,
+    variables: { limit: 5 },
+  },
+  result: {
+    data: {
+      recommendedTasks: {
+        data: [
+          {
+            id: '24e71f03-333f-495d-b5c0-aed210793673',
+            name: 'Leadership Remote 5-2',
+            description: 'sewrwer',
+            space: {
+              id: '9e724463-4682-45d3-b24e-b15fe9d95a3a',
+              title: 'Space 5',
+              name: 'space-5',
+              avatar: null,
+              avatarBlurhash: null,
+              avatarDefaultColor: '#78EDA8',
+              __typename: 'Space',
+            },
+            thumbnail: null,
+            thumbnailBlurhash: null,
+            location: null,
+            locationType: 'REMOTE',
+            regularity: 'ONE_TIME',
+            skills: [
+              {
+                id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4',
+                title: 'Leadership',
+                slug: 'leadership',
+                __typename: 'Skill',
+              },
+            ],
+            __typename: 'Task',
+          },
+          {
+            id: 'e75ff702-c70c-4fe6-a84b-63e4c525a594',
+            name: 'Private Leadership 3-3',
+            description: 'aasdfasdf',
+            space: {
+              id: '5e308371-d074-4249-b6dc-1de5deb53561',
+              title: 'Space 3',
+              name: 'space-3',
+              avatar:
+                'https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png',
+              avatarBlurhash: 'LYDvsB?bt8V?~WxZj[ay%2jEWAkW',
+              avatarDefaultColor: '#FFAE86',
+              __typename: 'Space',
+            },
+            thumbnail: null,
+            thumbnailBlurhash: null,
+            location: null,
+            locationType: 'REMOTE',
+            regularity: 'ONE_TIME',
+            skills: [
+              {
+                id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4',
+                title: 'Leadership',
+                slug: 'leadership',
+                __typename: 'Skill',
+              },
+            ],
+            __typename: 'Task',
+          },
+          {
+            id: 'cd277528-9a4d-44cd-afc0-8730b6f72282',
+            name: 'Leadership Local 3-1',
+            description: 'adsfsadf',
+            space: {
+              id: '5e308371-d074-4249-b6dc-1de5deb53561',
+              title: 'Space 3',
+              name: 'space-3',
+              avatar:
+                'https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png',
+              avatarBlurhash: 'LYDvsB?bt8V?~WxZj[ay%2jEWAkW',
+              avatarDefaultColor: '#FFAE86',
+              __typename: 'Space',
+            },
+            thumbnail: null,
+            thumbnailBlurhash: null,
+            location: 'Sasel, Hamburg, Germany',
+            locationType: 'ONSITE',
+            regularity: 'ONE_TIME',
+            skills: [
+              {
+                id: '04b40644-bac2-4f2c-b8d0-cc5177592d0c',
+                title: 'Holistic Thinking',
+                slug: 'holistic-thinking',
+                __typename: 'Skill',
+              },
+              {
+                id: '738af6ed-b6bb-4f7f-91a8-bfa7fd5864f3',
+                title: 'Empathy',
+                slug: 'empathy',
+                __typename: 'Skill',
+              },
+              {
+                id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4',
+                title: 'Leadership',
+                slug: 'leadership',
+                __typename: 'Skill',
+              },
+              {
+                id: 'ab15c947-3da5-4259-9617-cc066aa98ba3',
+                title: 'Critical Thinking',
+                slug: 'critical-thinking',
+                __typename: 'Skill',
+              },
+              {
+                id: 'f8399855-4123-4ed6-9595-e0fb65bc2ade',
+                title: 'Finances & Taxes',
+                slug: 'finances-taxes',
+                __typename: 'Skill',
+              },
+              {
+                id: 'ebb7ad73-fdc0-48ba-b97e-f2079d2cb335',
+                title: 'Coordination & Coordination of Volunteers',
+                slug: 'coordination-coordination-of-volunteers',
+                __typename: 'Skill',
+              },
+            ],
+            __typename: 'Task',
+          },
+          {
+            id: 'e335db2f-a725-4230-8a71-26d41d269126',
+            name: 'Motivation Local 2-2',
+            description: 'asdfasdf',
+            space: {
+              id: 'a66ebe3c-bb20-44c7-98d2-c91ede584371',
+              title: 'Space 2',
+              name: 'space-2',
+              avatar: null,
+              avatarBlurhash: null,
+              avatarDefaultColor: '#7571EC',
+              __typename: 'Space',
+            },
+            thumbnail: null,
+            thumbnailBlurhash: null,
+            location: 'Sasel, Hamburg, Germany',
+            locationType: 'ONSITE',
+            regularity: 'ONE_TIME',
+            skills: [
+              {
+                id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4',
+                title: 'Leadership',
+                slug: 'leadership',
+                __typename: 'Skill',
+              },
+              {
+                id: 'fe09d17f-656b-4da7-8eef-f7b62bbca232',
+                title: 'Motivation',
+                slug: 'motivation',
+                __typename: 'Skill',
+              },
+            ],
+            __typename: 'Task',
+          },
+          {
+            id: '2b5f92bc-6f47-48d7-9642-bee06acc3b9c',
+            name: 'Motivation Remote Task 2-1',
+            description: 'Blabla',
+            space: {
+              id: 'a66ebe3c-bb20-44c7-98d2-c91ede584371',
+              title: 'Space 2',
+              name: 'space-2',
+              avatar: null,
+              avatarBlurhash: null,
+              avatarDefaultColor: '#7571EC',
+              __typename: 'Space',
+            },
+            thumbnail: null,
+            thumbnailBlurhash: null,
+            location: null,
+            locationType: 'REMOTE',
+            regularity: 'ONE_TIME',
+            skills: [
+              {
+                id: 'fe09d17f-656b-4da7-8eef-f7b62bbca232',
+                title: 'Motivation',
+                slug: 'motivation',
+                __typename: 'Skill',
+              },
+            ],
+            __typename: 'Task',
+          },
+        ],
+        totalResults: 13,
+        __typename: 'TaskPaged',
+      },
+    },
+  },
+}
+
+const volunteeringRequest = {
+  request: {
+    query: volunteeringRecosQuery,
+    variables: {
+      limit: 5,
+      offset: 0,
+      topics: ['democracy-human-rights', 'climate-protection', 'culture-social-change'],
+      skills: undefined,
+      geolocationId: undefined,
+    },
+  },
+  result: {
+    data: {
+      appVolunteering_engagementRecos: {
+        totalResults: 21618,
+        data: [
+          {
+            engagement: {
+              id: '83200',
+              title: 'Ehrenamtliche Unterstützung beim Schreiben und Lesen in Deutsch',
+              description:
+                '<p>Sie unterstützen einen jungen Mann beim Erlernen der deutschen Sprache in Wort und Schrift. Er kann bereits sehr gut Deutsch sprechen und verstehen. </p>',
+              url: 'https://vostel.de/de/volunteering/projects/4023_Buero-fuer-Buergerengagement-der-AWO-Kreisverband-Koeln_Ehrenamtliche-Unterstuetzung-beim-Schreiben-und-Lesen-in-Deutsch_Koeln?utm_source=voltastics',
+              imageUrl:
+                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D83200-ehrenamtliche-unterstutzung-beim-schreiben-und-lesen-in-deutsch',
+              source: 'vostel.de',
+              organizer: {
+                name: 'Büro für Bürgerengagement der AWO Kreisverband Köln',
+                imageUrl:
+                  'https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/276/AWO_Logo_840x360_px_neu_19_3_2014.JPG',
+                __typename: 'AppVolunteering_Organizer',
+              },
+              location: 'Köln',
+              latitude: 50.937531,
+              longitude: 6.9602786,
+              topics: ['education-science', 'biodiversity-animal-welfare', 'climate-protection'],
+              skills: [
+                'commitment',
+                'communication-skills',
+                'empathy',
+                'motivation',
+                'openness',
+                'teaching-education',
+                'coaching & mentoring',
+                'discipline',
+                'inclusive-mindset-intercultural-competence',
+                'initiative-and-energy',
+                'moderation-facilitation',
+                'relationship-skills',
+                'self-confident',
+                'solution-orientedness',
+                'teamwork',
+                'willingness-to-learn',
+                'writing-translation',
+              ],
+              __typename: 'AppVolunteering_Engagement',
+            },
+            matchedTopics: ['education-science', 'climate-protection', 'biodiversity-animal-welfare'],
+            matchedSkills: [
+              'motivation',
+              'openness',
+              'commitment',
+              'communication-skills',
+              'empathy',
+              'teaching-education',
+              'coaching & mentoring',
+              'discipline',
+              'inclusive-mindset-intercultural-competence',
+              'initiative-and-energy',
+              'moderation-facilitation',
+              'relationship-skills',
+              'self-confident',
+              'solution-orientedness',
+              'teamwork',
+              'willingness-to-learn',
+              'writing-translation',
+            ],
+            __typename: 'AppVolunteering_EngagementReco',
+          },
+          {
+            engagement: {
+              id: '124064',
+              title: 'Bibliothek betreuen',
+              description:
+                '<p>Es wird eine Betreuung der Bibliothek in den Pausen gewünscht.</p>\n<p>Einzelheiten sind mit der Lehrerin Frau Frieske klären.</p>',
+              url: 'https://www.aktion-mensch.de/was-du-tun-kannst/ehrenamt/engagement-plattform#/lokale-angebote/c9ddc509-9f6f-4bc8-ad80-0303e2bf0f7b?utm_source=voltastics',
+              imageUrl:
+                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D124064-bibliothek-betreuen',
+              source: 'Aktion Mensch',
+              organizer: {
+                name: 'Freiwilligen Zentrum Königs Wusterhausen',
+                imageUrl: null,
+                __typename: 'AppVolunteering_Organizer',
+              },
+              location: 'Königs Wusterhausen',
+              latitude: 52.2994511,
+              longitude: 13.6244389,
+              topics: ['education-science'],
+              skills: [
+                'commitment',
+                'communication-skills',
+                'initiative-and-energy',
+                'motivation',
+                'openness',
+                'solution-orientedness',
+                'teamwork',
+                'willingness-to-learn',
+              ],
+              __typename: 'AppVolunteering_Engagement',
+            },
+            matchedTopics: ['education-science'],
+            matchedSkills: [
+              'motivation',
+              'openness',
+              'commitment',
+              'communication-skills',
+              'initiative-and-energy',
+              'solution-orientedness',
+              'teamwork',
+              'willingness-to-learn',
+            ],
+            __typename: 'AppVolunteering_EngagementReco',
+          },
+          {
+            engagement: {
+              id: '93629',
+              title: 'Nutze öffentliche Bücherschränke in deiner Stadt',
+              description:
+                '<p><strong>Worum geht es bei diesem Engagement?</strong></p><p>Öffentliche Bücherschränke sind eine fantastische Möglichkeit, bereits gelesene Bücher anderen Menschen kostenfrei zur Verfügung zu stellen und gleichzeitig für sich selbst tolles neues Lesematerial zu finden.</p><p>Auf der Seite des <a href="https://openbookcase.de/map">OpenBookCase</a> findest du eine Karte, auf der du viele Bücherschränke in deiner Stadt finden kannst. Sollte ein Bücherschrank in deiner Nähe nicht dabei sein, kannst du diesen ganz einfach selbst ergänzen.</p><p>----------------------</p><p><strong>Was sind 5-Minuten Engagements?</strong></p><p>Mit unseren 5-Minuten Engagements wollen wir dich dazu inspirieren, Engagement ganz einfach in deinen Alltag zu integrieren. Sie sind unabhängig von gemeinnützigen Organisationen und ermöglichen es dir, dich individuell für Menschen und Natur in deiner Nachbarschaft einzusetzen.</p>',
+              url: 'https://vostel.de/de/volunteering/projects/5961_vostel-de_Nutze-oeffentliche-Buecherschraenke-in-deiner-Stadt?utm_source=voltastics',
+              imageUrl:
+                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D93629-nutze-offentliche-bucherschranke-in-deiner-stadt',
+              source: 'vostel.de',
+              organizer: {
+                name: 'vostel.de',
+                imageUrl:
+                  'https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/65/logo-de-rot-medium.png',
+                __typename: 'AppVolunteering_Organizer',
+              },
+              location: 'Bundesweit',
+              latitude: null,
+              longitude: null,
+              topics: ['education-science'],
+              skills: [
+                'commitment',
+                'communication-skills',
+                'hands-on-support',
+                'initiative-and-energy',
+                'openness',
+                'solution-orientedness',
+                'teamwork',
+              ],
+              __typename: 'AppVolunteering_Engagement',
+            },
+            matchedTopics: ['education-science'],
+            matchedSkills: [
+              'openness',
+              'commitment',
+              'communication-skills',
+              'hands-on-support',
+              'initiative-and-energy',
+              'solution-orientedness',
+              'teamwork',
+            ],
+            __typename: 'AppVolunteering_EngagementReco',
+          },
+          {
+            engagement: {
+              id: '68892',
+              title: 'Nachhilfe für junge Erwachsene',
+              description:
+                '<p>Wir suchen laufend Nachhilfe für junge Erwachsene in verschiedensten Fächern, vor allem aber in Mathe und Deutsch.</p><p>Für dieses Projekt benötigt ihr ca. 1-Mal pro Woche 1-2 Stunden Zeit. </p>',
+              url: 'https://vostel.de/de/volunteering/projects/3106_Muenchner-Fluechtlingsrat-e-V-Gemeinsam-Aktiv_Nachhilfe-fuer-junge-Erwachsene_Muenchen?utm_source=voltastics',
+              imageUrl:
+                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D68892-nachhilfe-fur-junge-erwachsene',
+              source: 'vostel.de',
+              organizer: {
+                name: 'Münchner Flüchtlingsrat e.V. - Gemeinsam Aktiv',
+                imageUrl: 'https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/688/Logoeinfach.jpg',
+                __typename: 'AppVolunteering_Organizer',
+              },
+              location: 'München',
+              latitude: 48.1351253,
+              longitude: 11.5819806,
+              topics: ['education-science'],
+              skills: [
+                'coaching & mentoring',
+                'commitment',
+                'communication-skills',
+                'initiative-and-energy',
+                'motivation',
+                'openness',
+                'solution-orientedness',
+                'teaching-education',
+                'willingness-to-learn',
+              ],
+              __typename: 'AppVolunteering_Engagement',
+            },
+            matchedTopics: ['education-science'],
+            matchedSkills: [
+              'motivation',
+              'openness',
+              'coaching & mentoring',
+              'commitment',
+              'communication-skills',
+              'initiative-and-energy',
+              'solution-orientedness',
+              'teaching-education',
+              'willingness-to-learn',
+            ],
+            __typename: 'AppVolunteering_EngagementReco',
+          },
+          {
+            engagement: {
+              id: '101572',
+              title: 'Bookla Foundation',
+              description:
+                '<ul>\n<li>Marketing</li>\n<li>Design (UI/UX)</li>\n<li>Programming (Frontend/Mobile)</li>\n<li>Programming (Backend) - Python, PHP, Node.Js over TypeScript</li>\n</ul>\n<p>All experience levels are welcome!</p>',
+              url: 'https://govolunteer.com/projekte/bookla-foundation?utm_source=voltastics',
+              imageUrl:
+                'https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D101572-bookla-foundation',
+              source: 'GoVolunteer',
+              organizer: {
+                name: 'Bookla',
+                imageUrl: 'https://app.voltastics.com/media/headers/search.png',
+                __typename: 'AppVolunteering_Organizer',
+              },
+              location: 'Berlin',
+              latitude: 52.5170365,
+              longitude: 13.3888599,
+              topics: ['climate-protection', 'education-science', 'energy-transition'],
+              skills: [
+                'commitment',
+                'communication-skills',
+                'creativity',
+                'design',
+                'hands-on-support',
+                'initiative-and-energy',
+                'it-technology',
+                'marketing-social-media',
+                'motivation',
+                'openness',
+                'solution-orientedness',
+                'teamwork',
+                'willingness-to-learn',
+              ],
+              __typename: 'AppVolunteering_Engagement',
+            },
+            matchedTopics: ['climate-protection', 'education-science', 'energy-transition'],
+            matchedSkills: [
+              'motivation',
+              'openness',
+              'commitment',
+              'communication-skills',
+              'creativity',
+              'design',
+              'hands-on-support',
+              'initiative-and-energy',
+              'it-technology',
+              'marketing-social-media',
+              'solution-orientedness',
+              'teamwork',
+              'willingness-to-learn',
+            ],
+            __typename: 'AppVolunteering_EngagementReco',
+          },
+        ],
+        __typename: 'AppVolunteering_EngagementRecosResponse',
+      },
+    },
+  },
+}
+
+const donationsRequest = {
+  request: {
+    query: donationProjectsQuery,
+    variables: { offset: 0, limit: 5, location: undefined },
+  },
+  result: {
+    data: {
+      appDonations_projects: {
+        totalResults: 345,
+        data: [
+          {
+            id: 141582,
+            title: 'Medizinisches Equipment für Kinderstation in Ghana ',
+            categories: ['development-aid', 'health', 'children', 'popular'],
+            donationsCount: 196,
+            progressPercentage: 89,
+            openAmountInCents: 214000,
+            picture: [
+              {
+                type: 'original',
+                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/141/582/crop_original_0fa83d27-0e92-412f-bea3-5711cd655bd8.jpeg',
+                width: null,
+                height: null,
+              },
+            ],
+            __typename: 'AppDonations_Project',
+          },
+          {
+            id: 63107,
+            title: 'Mikrokredite für Frauen in Äthiopien! ',
+            categories: ['education', 'development-aid', 'woman', 'popular'],
+            donationsCount: 4419,
+            progressPercentage: 85,
+            openAmountInCents: 4151300,
+            picture: [
+              {
+                type: 'original',
+                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/063/107/crop_original_bp1658321698_180424_LOV_Ethiopia_00194_preview.jpg',
+                width: null,
+                height: null,
+              },
+            ],
+            __typename: 'AppDonations_Project',
+          },
+          {
+            id: 85241,
+            title: 'Support for Our Animals at Wohlfühlhof Zeh',
+            categories: ['animals', 'environment', 'popular'],
+            donationsCount: 2096,
+            progressPercentage: 91,
+            openAmountInCents: 1216300,
+            picture: [
+              {
+                type: 'original',
+                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/085/241/crop_original_3232ecdb-b1fb-4e0a-ae76-9f73e079eb1d.jpg',
+                width: null,
+                height: null,
+              },
+            ],
+            __typename: 'AppDonations_Project',
+          },
+          {
+            id: 104592,
+            title: 'SARAH - Search and Rescue in the Mediterranean - Take Part in Saving Lifes',
+            categories: ['refugees', 'searescue', 'human_rights', 'popular'],
+            donationsCount: 1180,
+            progressPercentage: 95,
+            openAmountInCents: 981200,
+            picture: [
+              {
+                type: 'original',
+                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/104/592/crop_original_5d244920-0902-462e-897f-87fc42f31e06.jpg',
+                width: null,
+                height: null,
+              },
+            ],
+            __typename: 'AppDonations_Project',
+          },
+          {
+            id: 51400,
+            title: 'acTVism Munich Crowdfunding',
+            categories: ['education', 'human_rights', 'civic_education', 'civic_education', 'popular'],
+            donationsCount: 4731,
+            progressPercentage: 82,
+            openAmountInCents: 2126770,
+            picture: [
+              {
+                type: 'original',
+                url: 'https://betterplace-assets.betterplace.org/uploads/project/profile_picture/000/051/400/crop_original_bp1658309949_Betterplace_Snowden.jpg',
+                width: null,
+                height: null,
+              },
+            ],
+            __typename: 'AppDonations_Project',
+          },
+        ],
+      },
+    },
+  },
+}
+
+jest.mock('cross-fetch', () => () => {
+  const response = {
+    challenges: [
+      {
+        id: 'e4bfb7fc-4171-499f-8d77-d19bd34a8557',
+        title: 'Give animals & insects a home',
+        participants: 8,
+        challengeDetailPath: '/quest?challengeId=e4bfb7fc-4171-499f-8d77-d19bd34a8557&overlay=true',
+        submissions: [
+          {
+            id: '60b88bda-262d-4a63-a4a9-2ca4e2d691d0',
+            submissionDate: '2024-09-03T21:32:26.425172Z',
+            imageUrl:
+              'https://ik.imagekit.io/holi/challenges-transcoder-staging-1ce0/138f481e-5e4f-4a2f-89f0-b619ae4827c6.jpg?tr=ar-9-16,w-200',
+            videoUrl: 'https://challenges-transcoder-staging-1ce0.holi.social/138f481e-5e4f-4a2f-89f0-b619ae4827c6',
+            playerPath: '/video/play/LATEST_REVIEW/60b88bda-262d-4a63-a4a9-2ca4e2d691d0?referrerPath=/',
+            submitter: {
+              id: 'c52cbb66-cfb7-460e-9d02-21e9c24ded42',
+              username: 'release 1320 release testing account',
+              avatarUrl:
+                'https://ik.imagekit.io/holi/_DEV_/avatar/a5558cd1-0ccd-469d-8318-e0b1c37c42f9_HhQ7euc5n1.jpeg?tr=w-128,ar-1-1,fo-face,z-0.7',
+            },
+          },
+          {
+            id: '70bde9ad-a775-4a15-b804-68345e6d70d1',
+            submissionDate: '2024-08-27T15:53:31.257353Z',
+            imageUrl:
+              'https://ik.imagekit.io/holi/challenges-transcoder-staging-1ce0/716c0f79-f8ee-4da7-ac4e-e054c91806dc.jpg?tr=ar-9-16,w-200',
+            videoUrl: 'https://challenges-transcoder-staging-1ce0.holi.social/716c0f79-f8ee-4da7-ac4e-e054c91806dc',
+            playerPath: '/video/play/LATEST_REVIEW/70bde9ad-a775-4a15-b804-68345e6d70d1?referrerPath=/',
+            submitter: {
+              id: '08a5922a-c5ed-44dd-b8bb-f5e618dd6d31',
+              username: 'The Mailinator Account Not to be confused with the Terminator account',
+              avatarUrl:
+                'https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-128,ar-1-1,fo-face,z-0.7',
+            },
+          },
+        ],
+        lastSubmittedDate: '2024-09-03T21:32:26.425172Z',
+      },
+      {
+        id: '7368146d-fa56-4fc1-98ec-649ccc8197a2',
+        title: 'Go for a walk',
+        participants: 7,
+        challengeDetailPath: '/quest?challengeId=7368146d-fa56-4fc1-98ec-649ccc8197a2&overlay=true',
+        submissions: [
+          {
+            id: '36b0226f-324e-4a52-8faf-593ae8f6e184',
+            submissionDate: '2024-08-28T17:15:44.719670Z',
+            imageUrl:
+              'https://ik.imagekit.io/holi/challenges-transcoder-staging-1ce0/a822f39d-d71e-4f0b-a362-591dd32150b9.jpg?tr=ar-9-16,w-200',
+            videoUrl: 'https://challenges-transcoder-staging-1ce0.holi.social/a822f39d-d71e-4f0b-a362-591dd32150b9',
+            playerPath: '/video/play/LATEST_REVIEW/36b0226f-324e-4a52-8faf-593ae8f6e184?referrerPath=/',
+            submitter: {
+              id: 'e4fe2c0b-66a2-401e-8dc8-55af99afd1a6',
+              username: 'mailinator 11 ',
+              avatarUrl:
+                'https://ik.imagekit.io/holi/_DEV_/avatar/5d91a785-5bad-45f1-98be-a29473a4d362_E_MBZCQeh.jpg?tr=w-128,ar-1-1,fo-face,z-0.7',
+            },
+          },
+          {
+            id: 'cd691266-3a45-43f2-a833-56935db2cab4',
+            submissionDate: '2024-08-20T13:01:25.022455Z',
+            imageUrl:
+              'https://ik.imagekit.io/holi/challenges-transcoder-staging-1ce0/5724faf3-4204-4bed-80ad-1f128e44d19f.jpg?tr=ar-9-16,w-200',
+            videoUrl: 'https://challenges-transcoder-staging-1ce0.holi.social/5724faf3-4204-4bed-80ad-1f128e44d19f',
+            playerPath: '/video/play/LATEST_REVIEW/cd691266-3a45-43f2-a833-56935db2cab4?referrerPath=/',
+            submitter: {
+              id: 'a5585917-8f4b-476a-981b-9c49ea8b91f3',
+              username: 'Hans la',
+              avatarUrl:
+                'https://ik.imagekit.io/holi/_DEV_/avatar/4f4ff9a7-6880-46ce-b3a0-34c7b33061ef__klXP1H8h.png?tr=w-128,ar-1-1,fo-face,z-0.7',
+            },
+          },
+        ],
+        lastSubmittedDate: '2024-08-28T17:15:44.719670Z',
+      },
+      {
+        id: '6abf5c40-1152-4aaa-a37b-a513a257b594',
+        title: 'Your oldest technical device',
+        participants: 7,
+        challengeDetailPath: '/quest?challengeId=6abf5c40-1152-4aaa-a37b-a513a257b594&overlay=true',
+        submissions: [
+          {
+            id: '0bb48f6c-a075-4d15-8625-bcb7f5966544',
+            submissionDate: '2024-08-20T15:40:21.103901Z',
+            imageUrl:
+              'https://ik.imagekit.io/holi/challenges-transcoder-staging-1ce0/11b7ffbe-ce5b-4938-8f88-518e00a3b6cc.jpg?tr=ar-9-16,w-200',
+            videoUrl: 'https://challenges-transcoder-staging-1ce0.holi.social/11b7ffbe-ce5b-4938-8f88-518e00a3b6cc',
+            playerPath: '/video/play/LATEST_REVIEW/0bb48f6c-a075-4d15-8625-bcb7f5966544?referrerPath=/',
+            submitter: {
+              id: '08a5922a-c5ed-44dd-b8bb-f5e618dd6d31',
+              username: 'The Mailinator Account Not to be confused with the Terminator account',
+              avatarUrl:
+                'https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-128,ar-1-1,fo-face,z-0.7',
+            },
+          },
+          {
+            id: 'daf2488c-5078-47b3-82ea-0f9e8a6a7831',
+            submissionDate: '2024-08-14T15:43:32.748868Z',
+            imageUrl:
+              'https://ik.imagekit.io/holi/challenges-transcoder-staging-1ce0/e6f712f8-b3cf-45e5-9027-4b1739256a51.jpg?tr=ar-9-16,w-200',
+            videoUrl: 'https://challenges-transcoder-staging-1ce0.holi.social/e6f712f8-b3cf-45e5-9027-4b1739256a51',
+            playerPath: '/video/play/LATEST_REVIEW/daf2488c-5078-47b3-82ea-0f9e8a6a7831?referrerPath=/',
+            submitter: {
+              id: '1f73d92d-b6c8-4ca5-ac08-37222e7c5dd2',
+              username: 'account number 6 of the series ',
+              avatarUrl:
+                'https://ik.imagekit.io/holi/_DEV_/avatar/5e92eddc-0b91-40b8-8e65-8fb42b2dcb90_iLHw5vbC3.jpeg?tr=w-128,ar-1-1,fo-face,z-0.7',
+            },
+          },
+        ],
+        lastSubmittedDate: '2024-08-20T15:40:21.103901Z',
+      },
+      {
+        id: '6bd552ed-0d1f-4ba6-bfb8-bff9817ab048',
+        title: 'Coffe to go with your cup',
+        participants: 6,
+        challengeDetailPath: '/quest?challengeId=6bd552ed-0d1f-4ba6-bfb8-bff9817ab048&overlay=true',
+        submissions: [
+          {
+            id: '8cf15971-d9cc-4eae-b9be-4cf3ec123ca9',
+            submissionDate: '2024-08-07T14:35:43.215863Z',
+            imageUrl:
+              'https://ik.imagekit.io/holi/challenges-transcoder-staging-1ce0/266240b1-081c-4b55-bd5d-ccb6d9a9b0bd.jpg?tr=ar-9-16,w-200',
+            videoUrl: 'https://challenges-transcoder-staging-1ce0.holi.social/266240b1-081c-4b55-bd5d-ccb6d9a9b0bd',
+            playerPath: '/video/play/LATEST_REVIEW/8cf15971-d9cc-4eae-b9be-4cf3ec123ca9?referrerPath=/',
+            submitter: {
+              id: '5290c2aa-f0f0-4d2a-bf07-6566ed62da88',
+              username: 'namm ',
+              avatarUrl:
+                'https://ik.imagekit.io/holi/_DEV_/avatar/a22a06f4-dee6-4ac1-ac05-cafe1f2b4989_YN8SD7ulw.jpeg?tr=w-128,ar-1-1,fo-face,z-0.7',
+            },
+          },
+          {
+            id: 'b5e02deb-3a89-4d23-8c1d-0c0ed9ac5b24',
+            submissionDate: '2024-07-04T06:46:20.894814Z',
+            imageUrl:
+              'https://ik.imagekit.io/holi/challenges-transcoder-staging-1ce0/72bdd774-863a-4704-a669-965174eb86be.jpg?tr=ar-9-16,w-200',
+            videoUrl: 'https://challenges-transcoder-staging-1ce0.holi.social/72bdd774-863a-4704-a669-965174eb86be',
+            playerPath: '/video/play/LATEST_REVIEW/b5e02deb-3a89-4d23-8c1d-0c0ed9ac5b24?referrerPath=/',
+            submitter: {
+              id: 'e8d0d392-c8a0-413e-9d7b-63edf25082b3',
+              username: 'Tom ',
+              avatarUrl: null,
+            },
+          },
+        ],
+        lastSubmittedDate: '2024-08-07T14:35:43.215863Z',
+      },
+    ],
+  }
+  return Promise.resolve(new Response(JSON.stringify(response)))
+})
+
+const mockPosthog = jest.fn()
+jest.mock('@holi/core/tracking/PosthogCrossPlatform', () => ({
+  usePosthogCrossPlatform: () => mockPosthog(),
+}))
+
+const mockUseFirstVisitContentSelection = jest.fn()
+jest.mock('@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection', () => ({
+  useFirstVisitContentSelection: () => mockUseFirstVisitContentSelection(),
+}))
+
+describe('ActHome Section', () => {
+  beforeEach(() => {
+    mockFeatureFlags({
+      [FeatureFlagKey.DONATIONS]: 'on',
+      [FeatureFlagKey.VOLUNTEERING]: 'on',
+    })
+  })
+
+  it('shows DONATIONS', async () => {
+    render(
+      <MockedProvider mocks={[donationsRequest]}>
+        <ActSection type="DONATIONS" />
+      </MockedProvider>
+    )
+    expect(await screen.findByTestId('donations-updates-heading-button'))
+    expect(await screen.findAllByTestId('donations-updates-item'))
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
+
+  it('shows VOLUNTEERING', async () => {
+    render(
+      <MockedProvider mocks={[topicsRequest, tasksRequest, volunteeringRequest, skillsRequest]}>
+        <ActSection type="VOLUNTEERING" />
+      </MockedProvider>
+    )
+    expect(await screen.findByTestId('tasks-updates-heading-button'))
+    expect(await screen.findAllByTestId('tasks-updates-item'))
+    expect(await screen.findByTestId('volunteering-updates-heading-button'))
+    expect(await screen.findAllByTestId('volunteering-updates-item'))
+    expect(await screen.findAllByTestId('topic-labels-list-view'))
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
+
+  it('shows CHALLENGES', async () => {
+    mockPosthog.mockReturnValue({
+      distinctId: () => '1234',
+    })
+    render(
+      <MockedProvider mocks={[]}>
+        <ActSection type="CHALLENGES" />
+      </MockedProvider>
+    )
+    expect(await screen.findByTestId('challenges-updates-heading-button'))
+    expect(await screen.findAllByTestId('challenges-updates-load-more-button'))
+    expect(screen.toJSON()).toMatchSnapshot()
+  })
+})

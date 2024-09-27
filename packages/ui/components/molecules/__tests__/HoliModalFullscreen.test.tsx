@@ -30,7 +30,7 @@ describe('HoliModalFullscreen.tsx', () => {
     )
 
     await fireEvent.press(getByLabelText('modal.close'))
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
   it('renders children', () => {

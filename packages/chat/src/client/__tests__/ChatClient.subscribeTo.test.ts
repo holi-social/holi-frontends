@@ -102,7 +102,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToNewRooms, ClientEvent.Room)
       await listener(room)
 
-      expect(callback).toBeCalledWith(
+      expect(callback).toHaveBeenCalledWith(
         createChatRoom(client['createSharedData'](room), mxClient.getHomeserverUrl(), false)
       )
     })
@@ -121,7 +121,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToNewRooms, ClientEvent.Room)
       await listener(dmRoomMock)
 
-      expect(callback).toBeCalledTimes(0)
+      expect(callback).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -142,7 +142,7 @@ describe('ChatClient', () => {
 
       await listener(dmRoomMock)
 
-      expect(callback).toBeCalledWith(client['createChatRoom'](dmRoomMock))
+      expect(callback).toHaveBeenCalledWith(client['createChatRoom'](dmRoomMock))
     })
   })
 
@@ -153,7 +153,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToRoomDeletion, ClientEvent.DeleteRoom)
       await listener(roomId)
 
-      expect(callback).toBeCalledWith(roomId)
+      expect(callback).toHaveBeenCalledWith(roomId)
     })
   })
 
@@ -169,7 +169,7 @@ describe('ChatClient', () => {
       // trigger event
       await listener(nonSharedDataEvent)
 
-      expect(callback).not.toBeCalled()
+      expect(callback).not.toHaveBeenCalled()
     })
 
     it('should create a SpaceChatRoom on SharedData and its children on SpaceParent events', async () => {
@@ -210,11 +210,11 @@ describe('ChatClient', () => {
       await listener(spaceSharedDataEvent, spaceRoomMock)
       await listener(spaceChildSharedDataEvent, spaceChildRoomMock)
 
-      expect(callback).toBeCalledTimes(2)
+      expect(callback).toHaveBeenCalledTimes(2)
 
       await listener(spaceParentEvent, spaceChildRoomMock)
 
-      expect(callback).toBeCalledTimes(3)
+      expect(callback).toHaveBeenCalledTimes(3)
       expect(callback).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -261,7 +261,7 @@ describe('ChatClient', () => {
 
       await listener(messageEventMock, room)
 
-      expect(callback).toBeCalledWith(roomId, createChatMessage(roomId, effectiveEvent))
+      expect(callback).toHaveBeenCalledWith(roomId, createChatMessage(roomId, effectiveEvent))
     })
 
     describe('handles membership', () => {
@@ -295,17 +295,17 @@ describe('ChatClient', () => {
       }
       it('JOIN events', async () => {
         const { callback, message, roomId } = await simulatesMembershipSub('invite', 'join')
-        expect(callback).toBeCalledWith(roomId, message)
+        expect(callback).toHaveBeenCalledWith(roomId, message)
       })
 
       it('LEAVE events', async () => {
         const { callback, message, roomId } = await simulatesMembershipSub('join', 'leave')
-        expect(callback).toBeCalledWith(roomId, message)
+        expect(callback).toHaveBeenCalledWith(roomId, message)
       })
 
       it('ignores other membership events', async () => {
         const { callback } = await simulatesMembershipSub('knock', 'invite')
-        expect(callback).not.toBeCalled()
+        expect(callback).not.toHaveBeenCalled()
       })
     })
 
@@ -330,7 +330,7 @@ describe('ChatClient', () => {
 
           await listener(unsupportedEventMock)
 
-          expect(callback).not.toBeCalled()
+          expect(callback).not.toHaveBeenCalled()
         })
       )
     })
@@ -348,7 +348,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToSpaceRooms, RoomEvent.Timeline, room)
       await listener(event)
 
-      expect(callback).toBeCalled()
+      expect(callback).toHaveBeenCalled()
     })
 
     it('ignores non-SpaceChild event types', async () => {
@@ -362,7 +362,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToSpaceRooms, RoomEvent.Timeline, room)
       await listener(event)
 
-      expect(callback).not.toBeCalled()
+      expect(callback).not.toHaveBeenCalled()
     })
   })
 
@@ -376,7 +376,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToRoomsUpdates, RoomEvent.Timeline)
       await listener(event, room)
 
-      expect(callback).toBeCalledWith(roomId, RoomUpdatesType.name, content)
+      expect(callback).toHaveBeenCalledWith(roomId, RoomUpdatesType.name, content)
     })
 
     it('avatar updates are propagated', async () => {
@@ -388,7 +388,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToRoomsUpdates, RoomEvent.Timeline)
       await listener(event, room)
 
-      expect(callback).toBeCalledWith(roomId, RoomUpdatesType.avatar, content)
+      expect(callback).toHaveBeenCalledWith(roomId, RoomUpdatesType.avatar, content)
     })
 
     it('when room is missing, the callback is not called', async () => {
@@ -396,7 +396,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToRoomsUpdates, RoomEvent.Timeline)
       await listener(event)
 
-      expect(callback).not.toBeCalled()
+      expect(callback).not.toHaveBeenCalled()
     })
 
     it('when different event type, the callback is not called', async () => {
@@ -404,7 +404,7 @@ describe('ChatClient', () => {
       const { listener, callback } = simulateSubscription(client.subscribeToRoomsUpdates, RoomEvent.Timeline)
       await listener(event)
 
-      expect(callback).not.toBeCalled()
+      expect(callback).not.toHaveBeenCalled()
     })
   })
 
@@ -423,7 +423,7 @@ describe('ChatClient', () => {
 
       await listener(notificationCount)
 
-      expect(callback).toBeCalledWith(roomId, notificationCount)
+      expect(callback).toHaveBeenCalledWith(roomId, notificationCount)
     })
 
     it('ignores UnreadNotifications event with `0` count value.', async () => {
@@ -439,7 +439,7 @@ describe('ChatClient', () => {
 
       await listener(notificationCount)
 
-      expect(callback).not.toBeCalled()
+      expect(callback).not.toHaveBeenCalled()
     })
   })
 
@@ -460,7 +460,7 @@ describe('ChatClient', () => {
       // event: MatrixEvent, roomState: RoomState, member: RoomMember
       await listener(event, roomState, member)
 
-      expect(callback).toBeCalledWith(
+      expect(callback).toHaveBeenCalledWith(
         roomId,
         { avatar: avatarUrl, id: userId, membership: currentMembership, name: userName },
         newMembership

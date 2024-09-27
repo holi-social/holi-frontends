@@ -27,7 +27,7 @@ const TopicLabelsForListView = ({ topicSlugs, topics }: TopicLabelsProps & { top
 
   return (
     !!label && (
-      <View style={styles.labelRowListView}>
+      <View style={styles.labelRowListView} testID="topic-labels-list-view">
         <FilterPill loading={false} small label={label} filterType="topic" style={styles.pill} />
         {!!count && <FilterPill loading={false} small label={'+' + count} filterType="topic" style={styles.pill} />}
       </View>
