@@ -8,7 +8,6 @@ export type TypographyLinkSize = 'md' | 'sm' | 'xs'
 
 export interface TypographyLinkProps {
   size: TypographyLinkSize
-  testID?: string
   numberOfLines?: number
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
@@ -18,7 +17,6 @@ export interface TypographyLinkProps {
 
 const TypographyLink = ({
   size,
-  testID,
   numberOfLines,
   color,
   textAlign,
@@ -32,7 +30,6 @@ const TypographyLink = ({
     <Text
       selectable={Platform.OS !== 'web' ? false : undefined}
       role="link"
-      testID={testID}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
       style={styles.typography(color, textAlign)}

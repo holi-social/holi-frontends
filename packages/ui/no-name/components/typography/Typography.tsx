@@ -14,7 +14,6 @@ export interface TypographyProps {
    * For usage inside buttons it is advised to set this to `false`, so selecting the text does not interfere with button taps.
    */
   selectable?: boolean
-  testID?: string
   numberOfLines?: number
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
@@ -45,7 +44,6 @@ const createAccessibilityProps = (
 const Typography = ({
   size,
   selectable = true,
-  testID,
   numberOfLines,
   color,
   textAlign,
@@ -61,7 +59,6 @@ const Typography = ({
     <Text
       {...accessibilityProps}
       selectable={Platform.OS !== 'web' ? selectable : undefined}
-      testID={testID}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
       style={styles.typography(selectable, color, textAlign)}
