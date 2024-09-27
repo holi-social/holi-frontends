@@ -1,7 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { PermissionStatus } from 'expo-modules-core'
-import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
-
 import {
   handleNotificationForBadgeUpdateTriggerAndroidMock,
   handleNotificationForBadgeUpdateTriggerIosMock,
@@ -9,7 +5,12 @@ import {
   handleNotificationForRemoteInvitationTriggerAndroidMock,
   handleNotificationForRemoteMessageTriggerAndroidMock,
   handleNotificationForRemoteMessageTriggerIosMock,
-} from '@holi/core/helpers/__tests__/mocks'
+} from '@holi/core/helpers/__mocks__/mocks'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { PermissionStatus } from 'expo-modules-core'
+import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
+
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 
 jest.mock('@holi/mobile/tracing', () => ({}))

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   AccessibilityProps,
@@ -16,6 +16,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -42,6 +43,7 @@ export interface HoliConfirmationProps extends ModalProps {
   confirmText?: string
   dismissText?: string
   testID?: string
+  footerComponent?: ReactNode
 }
 
 export const useConfirmationState = ({
@@ -86,6 +88,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   onDismiss,
   confirmText,
   dismissText,
+  footerComponent = null,
   testID = 'holi',
 }) => {
   const { t } = useTranslation()
@@ -116,38 +119,41 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
         <Pressable onPress={onDismiss} style={styles.backdrop} testID={`${testID}-confirmation-backdrop`} />
 
         <View style={styles.modalView}>
-          <HoliHeading level="3" size="s">
-            {title}
-          </HoliHeading>
-          <HoliText style={styles.description} testID={`${testID}-confirmation-description`}>
-            {description}
-          </HoliText>
-          <View style={styles.buttonContainer}>
-            {onDismiss && (
-              <HoliButton
-                inline
-                type="secondary"
-                label={dismissText || t('confirmation.dismiss')}
-                onPress={onDismiss}
-                style={styles.button}
-                testID={`${testID}-confirmation-dismiss`}
-              >
-                {dismissText || t('confirmation.dismiss')}
-              </HoliButton>
-            )}
-            {onConfirm && (
-              <HoliButton
-                inline
-                label={confirmText || t('confirmation.confirm')}
-                onPress={onConfirm}
-                type={confirmationButtonType}
-                style={styles.button}
-                testID={`${testID}-confirmation-confirm`}
-              >
-                {confirmText || t('confirmation.confirm')}
-              </HoliButton>
-            )}
+          <View style={styles.topContent}>
+            <HoliHeading level="3" size="m">
+              {title}
+            </HoliHeading>
+            <HoliText style={styles.description} testID={`${testID}-confirmation-description`}>
+              {description}
+            </HoliText>
+            <View style={styles.buttonContainer}>
+              {onDismiss && (
+                <HoliButton
+                  inline
+                  type="secondary"
+                  label={dismissText || t('confirmation.dismiss')}
+                  onPress={onDismiss}
+                  style={styles.button}
+                  testID={`${testID}-confirmation-dismiss`}
+                >
+                  {dismissText || t('confirmation.dismiss')}
+                </HoliButton>
+              )}
+              {onConfirm && (
+                <HoliButton
+                  inline
+                  label={confirmText || t('confirmation.confirm')}
+                  onPress={onConfirm}
+                  type={confirmationButtonType}
+                  style={styles.button}
+                  testID={`${testID}-confirmation-confirm`}
+                >
+                  {confirmText || t('confirmation.confirm')}
+                </HoliButton>
+              )}
+            </View>
           </View>
+          {footerComponent}
         </View>
       </View>
     </ModalBasic>
@@ -158,10 +164,14 @@ export default HoliConfirmation
 
 const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice: boolean, theme: HoliTheme) =>
   StyleSheet.create({
+    topContent: {
+      padding: Spacing.md,
+    },
     modalContainer: {
       justifyContent: 'center',
       flex: 1,
     },
+
     backdrop: {
       opacity: 0.4,
       backgroundColor: theme.colors.backdropBackground,
@@ -169,12 +179,11 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
     },
     modalView: {
       maxWidth: 460,
-      padding: 24,
-      margin: 25,
+      margin: Spacing.md,
       alignSelf: 'center',
       backgroundColor: theme.colors.background10,
       borderWidth: 2,
-      borderRadius: 24,
+      borderRadius: Spacing.md,
       borderColor: theme.colors.foreground30,
       shadowColor: theme.colors.foreground30,
       shadowOffset: {
@@ -192,7 +201,7 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       flexDirection: 'row',
       justifyContent: 'space-between',
       flexWrap: 'wrap',
-      marginTop: 24,
+      marginTop: Spacing.md,
       gap: 14,
     },
     button: {

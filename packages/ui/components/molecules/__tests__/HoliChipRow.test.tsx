@@ -31,7 +31,7 @@ describe('calls onPressEdit prop function correctly', () => {
     )
 
     await fireEvent.press(getByText('Edit'))
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
   it('does not display edit button when not editable', () => {

@@ -26,7 +26,7 @@ describe('calls onPress prop function correctly', () => {
     const { getByText } = render(<HoliChip text="Test" label="Test" onPress={mockFn} />)
 
     await fireEvent.press(getByText('Test'))
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
   it('does not call onPress prop when disabled', async () => {
@@ -34,7 +34,7 @@ describe('calls onPress prop function correctly', () => {
     const { getByText } = render(<HoliChip text="Test" label="Test" onPress={mockFn} disabled={true} />)
 
     await fireEvent.press(getByText('Test'))
-    expect(mockFn).toBeCalledTimes(0)
+    expect(mockFn).toHaveBeenCalledTimes(0)
   })
 })
 

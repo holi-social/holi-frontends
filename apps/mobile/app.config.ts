@@ -1,13 +1,15 @@
 // eslint-disable-next-line
+import { ExpoConfig } from 'expo/config'
+
 require('ts-node/register')
 // eslint-disable-next-line
-import { ExpoConfig } from 'expo/config'
+
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.34.0', // user-facing value visible in stores
-  iosBuildNumber: '1.34.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 92, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.34.1', // user-facing value visible in stores
+  iosBuildNumber: '1.34.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 93, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -168,6 +170,16 @@ const config: ExpoConfig = {
         calendarPermission: 'Allow access to your calendar',
       },
     ],
+    // HOLI-9792: Create a new development build to bundle fonts
+    // [
+    //   'expo-font',
+    //   {
+    //     fonts: [
+    //       '../../packages/ui/no-name/components/typography/fonts/InstrumentSans-Regular.ttf',
+    //       '../../packages/ui/no-name/components/typography/fonts/InstrumentSans-Medium.ttf',
+    //     ],
+    //   },
+    // ],
   ],
   // This doesn't seems to be supported by the expo config.
   // hooks: {
