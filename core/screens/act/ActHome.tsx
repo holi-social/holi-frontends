@@ -10,7 +10,6 @@ import NotificationAndSearchHeader from '@holi/core/navigation/components/header
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ActSection } from '@holi/core/screens/act/ActSection'
 import { useFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -52,9 +51,7 @@ const ActHome = () => {
     })
   }, [title, setScreenOptions])
 
-  const { isLoading, selectedContentType } = useFirstVisitContentSelection()
-
-  if (isLoading) return <HoliLoader />
+  const { selectedContentType } = useFirstVisitContentSelection()
 
   const sections = orderedSections(selectedContentType)
 

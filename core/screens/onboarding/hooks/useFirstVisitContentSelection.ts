@@ -2,6 +2,8 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { useEffect, useState } from 'react'
 
+import { isSSR } from '@holi/core/helpers/isSSR'
+
 const FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME = 'first_visit_content_value'
 
 const firstVisitSelectedContentTypeVar = makeVar<string | null>(null)
@@ -12,7 +14,7 @@ export const clearFirstVisitContentSelection = async () => {
 }
 
 export const useFirstVisitContentSelection = () => {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(!isSSR)
   const selectedContentType = useReactiveVar(firstVisitSelectedContentTypeVar)
 
   useEffect(() => {
