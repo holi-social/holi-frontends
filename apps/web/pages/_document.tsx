@@ -49,7 +49,9 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
             return <App {...props} />
           }
 
-          apolloClient = apolloClient ?? createApolloSSRClient(new HoliPageProps(props.pageProps))
+          apolloClient =
+            apolloClient ??
+            createApolloSSRClient(new HoliPageProps(props.pageProps), context.req?.headers as Record<string, string>)
           const ApolloContext = getApolloContext()
 
           return (

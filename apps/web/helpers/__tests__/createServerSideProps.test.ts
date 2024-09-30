@@ -1,6 +1,5 @@
 import { ApolloError, gql } from '@apollo/client'
 import { GraphQLError } from 'graphql'
-import { DocumentNode } from 'graphql/language/ast'
 import type { NextPageContext } from 'next'
 
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
@@ -13,7 +12,7 @@ jest.mock('ni18n', () => ({
 
 const mockInitializeApolloSSRClient = jest.fn()
 jest.mock('@holi/api/graphql/client', () => ({
-  initializeApolloSSRClient: () => mockInitializeApolloSSRClient(),
+  initializeApolloSSRClient: (options) => mockInitializeApolloSSRClient(options),
 }))
 
 const mockCreatePosthogPageProps = jest.fn()
@@ -23,8 +22,12 @@ jest.mock('@holi/web/helpers/createPosthogPageProps', () => ({
 
 describe('createServerSideProps', () => {
   const origin = 'https://app.holi.social'
-  const expectedHeaders = { header1: 'header1 value', 'accept-language': 'en' }
-  const headers = { ...expectedHeaders, accept: 'application/json', 'accept-encoding': 'gzip' }
+  const headers = {
+    header1: 'header1 value',
+    'accept-language': 'en',
+    accept: 'application/json',
+    'accept-encoding': 'gzip',
+  }
   const context = { req: { url: '', headers } } as unknown as NextPageContext
   const mockedTranslations = { __ni18n_server__: { resources: {}, ns: [] } }
   const mockPosthogBootstrapValues = {
@@ -71,10 +74,6 @@ describe('createServerSideProps', () => {
     },
   }
 
-  const addExpectedHeader = (query: { query: DocumentNode }) => {
-    return { ...query, context: { headers: expectedHeaders } }
-  }
-
   beforeEach(() => {
     mockQueryFunction.mockResolvedValue({ data: {} })
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
@@ -102,10 +101,10 @@ describe('createServerSideProps', () => {
   it('should execute list of queries and pass request headers', async () => {
     await createServerSideProps(context, [query1, query2])
 
-    expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
+    expect(mockInitializeApolloSSRClient).toHaveBeenCalledWith({ headers })
     expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledWith(query1)
+    expect(mockQueryFunction).toHaveBeenCalledWith(query2)
   })
 
   it('should add apollo state to page props after executing queries', async () => {
@@ -120,8 +119,8 @@ describe('createServerSideProps', () => {
     const props = await createServerSideProps(context, [query1, query2])
 
     expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledWith(query1)
+    expect(mockQueryFunction).toHaveBeenCalledWith(query2)
     expect(new HoliPageProps(props).apolloState).toEqual(mockedCache)
   })
 
@@ -130,7 +129,7 @@ describe('createServerSideProps', () => {
 
     expect(mockQueryFunction).toHaveBeenCalledTimes(1 + 1) // query2 + authenticatedUser
     expect(mockQueryFunction).not.toHaveBeenCalledWith(query1)
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledWith(query2)
   })
 
   it('should redirect to 404 page if a query results in a NOT_FOUND error', async () => {
@@ -149,8 +148,8 @@ describe('createServerSideProps', () => {
     const props = await createServerSideProps(context, [query1, query2])
 
     expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledWith(query1)
+    expect(mockQueryFunction).toHaveBeenCalledWith(query2)
     expect(props).toEqual({
       notFound: true,
     })

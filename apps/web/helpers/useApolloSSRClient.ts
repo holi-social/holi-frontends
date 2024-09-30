@@ -14,9 +14,9 @@ export const createApolloPageProps = (client: ApolloClient<NormalizedCacheObject
   return JSON.parse(JSON.stringify(client.cache.extract()))
 }
 
-export const createApolloSSRClient = (props: HoliPageProps) => {
+export const createApolloSSRClient = (props: HoliPageProps, headers?: Record<string, string>) => {
   const state = props.apolloState
-  return initializeApolloSSRClient(state)
+  return initializeApolloSSRClient({ initState: state, headers })
 }
 
 export const useApolloSSRClient = (props: HoliPageProps) => {

@@ -36,7 +36,7 @@ export const createServerSideProps = async (
     return minimalProps
   }
 
-  const client = initializeApolloSSRClient()
+  const client = initializeApolloSSRClient({ headers: req.headers as Record<string, string> })
 
   const queriesToExecute = [
     // Pre-fetch authenticated user if logged in
@@ -48,20 +48,7 @@ export const createServerSideProps = async (
   ]
 
   const results = await Promise.allSettled(
-    queriesToExecute
-      .filter((query) => !query.skip)
-      .map((query) => {
-        // Filter content negotiation headers except accept-language
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { accept, 'accept-encoding': acceptEncoding, ...headers } = req.headers
-        const newQuery = {
-          ...query,
-          context: {
-            headers,
-          },
-        }
-        return client.query(newQuery)
-      })
+    queriesToExecute.filter((query) => !query.skip).map((query) => client.query(query))
   )
 
   // For now treat 403 the same as 404
