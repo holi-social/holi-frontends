@@ -158,8 +158,6 @@ interface InitializerState {
         trigger: 'consentUpdatedByUser'
         newConsentState: ConsentState
       } /* transition triggered when user updates their consent */
-  // TODO(SF) not needed anymore?
-  userId?: undefined | string
 }
 
 /** internal use only! only exported for reset in testing */
@@ -233,7 +231,6 @@ const TrackingInitializerInner = ({
         initializerStateVar({
           state: currentState.state,
           processing: { trigger: 'userLoggedIn' },
-          userId: curState.userId,
         })
       } else if (curState.isLoggedOut && prevState?.isLoggedOut === false) {
         logger.debug('TrackingInitializer', 'detected user logout')
@@ -260,20 +257,19 @@ const TrackingInitializerInner = ({
         case 'initializing':
           switch (state.processing.trigger) {
             case 'userLoggedIn':
-              state.userId &&
-                tracking
-                  .fetchAuthenticatedUser()
-                  .then((au) => {
-                    tracking.initWithLoggedInUser(au)
-                    consentStateVar([ConsentState.fromUser(au), { loading: false }])
+              tracking
+                .fetchAuthenticatedUser()
+                .then((au) => {
+                  tracking.initWithLoggedInUser(au)
+                  consentStateVar([ConsentState.fromUser(au), { loading: false }])
+                })
+                .then(() => {
+                  initializerStateVar({
+                    state: 'loggedIn',
+                    processing: null,
                   })
-                  .then(() => {
-                    initializerStateVar({
-                      state: 'loggedIn',
-                      processing: null,
-                    })
-                    onUserLoggedInCompleted?.()
-                  })
+                  onUserLoggedInCompleted?.()
+                })
               break
             case 'userLoggedOut':
               tracking
@@ -337,28 +333,27 @@ const TrackingInitializerInner = ({
         case 'loggedOut':
           switch (state.processing.trigger) {
             case 'userLoggedIn':
-              state.userId &&
-                tracking.fetchAuthenticatedUser().then((authenticatedUser) => {
-                  const consentStateFromUserProfile = ConsentState.fromUser(authenticatedUser)
-                  const maybeMigrateConsentStateToUserProfile = ConsentState.isUnknown(consentStateFromUserProfile)
-                    ? tracking.loadConsentStateFromLocalStorage().then((csls) => {
-                        logger.debug('TrackingInitializer.userLoggedIn', 'migrating local consent to user profile')
-                        return tracking.updateConsentOnUserProfile(csls)
-                      })
-                    : Promise.resolve(authenticatedUser)
-                  maybeMigrateConsentStateToUserProfile
-                    .then((maybeMigratedUser) => {
-                      tracking.initWithLoggedInUser(maybeMigratedUser)
-                      consentStateVar([ConsentState.fromUser(maybeMigratedUser), { loading: false }])
+              tracking.fetchAuthenticatedUser().then((authenticatedUser) => {
+                const consentStateFromUserProfile = ConsentState.fromUser(authenticatedUser)
+                const maybeMigrateConsentStateToUserProfile = ConsentState.isUnknown(consentStateFromUserProfile)
+                  ? tracking.loadConsentStateFromLocalStorage().then((csls) => {
+                      logger.debug('TrackingInitializer.userLoggedIn', 'migrating local consent to user profile')
+                      return tracking.updateConsentOnUserProfile(csls)
                     })
-                    .then(() => {
-                      initializerStateVar({
-                        state: 'loggedIn',
-                        processing: null,
-                      })
-                      onUserLoggedInCompleted?.()
+                  : Promise.resolve(authenticatedUser)
+                maybeMigrateConsentStateToUserProfile
+                  .then((maybeMigratedUser) => {
+                    tracking.initWithLoggedInUser(maybeMigratedUser)
+                    consentStateVar([ConsentState.fromUser(maybeMigratedUser), { loading: false }])
+                  })
+                  .then(() => {
+                    initializerStateVar({
+                      state: 'loggedIn',
+                      processing: null,
                     })
-                })
+                    onUserLoggedInCompleted?.()
+                  })
+              })
               break
             case 'userLoggedOut':
               initializerStateVar({
