@@ -22,31 +22,28 @@ const HoliRichTextInputSuggestions: React.FC<HoliRichTextInputSuggestionsProps> 
 
   return (
     <View style={[styles.suggestionsContainer]} testID={testID || 'holi-rich-text-input-suggestions'}>
-      {
-        /** FIXME convert to VirtualizedList, FlatList or SectionList */
-        options.map((item) => (
-          <HoliButton
-            key={item.id}
-            label={t('comment.suggestionItem.label', { item: item.fullName })}
-            transparent
-            style={styles.suggestionItem}
-            contentStyle={styles.suggestionButton}
-            onPress={() => onChooseSuggestion(item)}
-            testID={testID ? `${testID}-item` : 'holi-rich-text-input-suggestions-item'}
-          >
-            <HoliAvatar
-              imageSrc={item.avatar}
-              imageBlurhash={item.avatarBlurhash}
-              label={item.fullName}
-              initials={item.avatarLabel}
-              defaultColor={item.avatarDefaultColor}
-              size="micro"
-              style={styles.suggestionItemImage}
-            />
-            <HoliText>{item.fullName}</HoliText>
-          </HoliButton>
-        ))
-      }
+      {options.map((item) => (
+        <HoliButton
+          key={item.id}
+          label={t('comment.suggestionItem.label', { item: item.fullName })}
+          transparent
+          style={styles.suggestionItem}
+          contentStyle={styles.suggestionButton}
+          onPress={() => onChooseSuggestion(item)}
+          testID={testID ? `${testID}-item` : 'holi-rich-text-input-suggestions-item'}
+        >
+          <HoliAvatar
+            imageSrc={item.avatar}
+            imageBlurhash={item.avatarBlurhash}
+            label={item.fullName}
+            initials={item.avatarLabel}
+            defaultColor={item.avatarDefaultColor}
+            size="micro"
+            style={styles.suggestionItemImage}
+          />
+          <HoliText>{item.fullName}</HoliText>
+        </HoliButton>
+      ))}
     </View>
   )
 }

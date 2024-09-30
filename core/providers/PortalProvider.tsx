@@ -35,5 +35,9 @@ export const PortalGate: React.FC<PortalGateProps> = ({ gateName, style }) => {
 
   if (!gates[gateName]) return null
 
-  return <ScrollView style={style}>{gates[gateName]}</ScrollView>
+  return (
+    <ScrollView style={style} keyboardShouldPersistTaps="handled">
+      {gates[gateName]}
+    </ScrollView>
+  )
 }
