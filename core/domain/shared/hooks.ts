@@ -11,9 +11,10 @@ export const useTopics = (): { topics: readonly Topic[]; topicsLoading: boolean 
         location: 'domain/shared/hooks/useTopics',
       }),
   })
+  const topics = topicsData?.topics.data || []
   return {
-    topics: topicsData?.topics.data || [],
-    topicsLoading,
+    topics,
+    topicsLoading: topicsLoading && !topics.length,
   }
 }
 
@@ -33,8 +34,9 @@ export const useSkills = (): { skills: readonly Skill[]; skillsLoading: boolean 
         location: 'domain/shared/hooks/useSkills',
       }),
   })
+  const skills = skillsData?.skills.data || []
   return {
-    skills: skillsData?.skills.data || [],
-    skillsLoading,
+    skills,
+    skillsLoading: skillsLoading && !skills.length,
   }
 }
