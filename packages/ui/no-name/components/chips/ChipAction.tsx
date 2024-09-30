@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { GestureResponderEvent, Pressable, PressableProps } from 'react-native'
+import { GestureResponderEvent, Pressable } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -13,7 +13,7 @@ import { pill } from './styles'
 type ChipColor = Color | 'white'
 type Size = 'sm' | 'md' | 'lg'
 
-type ChipActionProps = PressableProps & {
+type ChipActionProps = {
   onPress: (event: GestureResponderEvent) => void
   children?: ReactNode
   selected?: boolean
