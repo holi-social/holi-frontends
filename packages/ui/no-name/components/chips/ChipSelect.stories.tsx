@@ -1,0 +1,93 @@
+import { action } from '@storybook/addon-actions'
+import { useArgs } from '@storybook/preview-api'
+import { Meta, StoryObj } from '@storybook/react'
+import React from 'react'
+
+import { Colors } from '@holi/ui/no-name/foundations/colors/primitives'
+
+import ChipSelect from './ChipSelect'
+
+const availableColors = Object.values(Colors)
+const availableSizes = ['sm', 'md', 'lg'] as const
+
+const meta: Meta<typeof ChipSelect> = {
+  title: 'No Name/Components/Chips (draft)/Chip Select',
+  component: ChipSelect,
+  argTypes: {
+    children: { description: 'Text label', required: true },
+  },
+  args: {
+    children: 'Chip',
+    disabled: false,
+    selected: false,
+  },
+}
+
+type Story = StoryObj<typeof ChipSelect>
+
+export const Playground: Story = {
+  argTypes: {
+    selectedColor: { control: 'select', options: availableColors },
+    size: { control: 'select', options: availableSizes },
+  },
+  args: {
+    selectedColor: Colors.green,
+    onPress: action('Pressed!'),
+    size: 'md',
+  },
+  render: function Render(args) {
+    const [{ selected }, updateArgs] = useArgs()
+
+    const handleOnPress = () => {
+      updateArgs({ selected: !selected })
+    }
+
+    return <ChipSelect {...args} onPress={handleOnPress} selected={selected} />
+  },
+}
+
+export const ByColor: Story = {
+  render: function Render(args) {
+    return (
+      <div style={{ display: 'flex', gap: 10 }}>
+        {availableColors.map((c) => (
+          <ChipSelect key={c} {...args} selectedColor={c} />
+        ))}
+      </div>
+    )
+  },
+}
+
+export const BySize: Story = {
+  render: function Render(args) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'end', gap: 10 }}>
+        {availableSizes.map((s) => (
+          <ChipSelect key={s} {...args} size={s} selectedColor="blue" />
+        ))}
+      </div>
+    )
+  },
+}
+
+export const BySelect: Story = {
+  argTypes: {
+    selectedColor: { control: 'select', options: availableColors },
+    size: { control: 'select', options: availableSizes },
+    selected: { control: false },
+  },
+  args: {
+    selectedColor: Colors.green,
+    size: 'md',
+  },
+  render: function Render(args) {
+    return (
+      <div style={{ display: 'flex', gap: 10 }}>
+        <ChipSelect {...args} />
+        <ChipSelect {...args} selected />
+      </div>
+    )
+  },
+}
+
+export default meta
