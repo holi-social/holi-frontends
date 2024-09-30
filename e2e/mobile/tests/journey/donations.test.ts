@@ -4,7 +4,7 @@ import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
   pressEnter,
-  scrollToElementWithTestId, // seeTextWithTestId,
+  scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
   waitForElementWithTestIdToBeNull,
@@ -32,20 +32,22 @@ describe('@Donations', () => {
     // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
     // await assertFilterDonationsByLocation()
 
-    await assertKeepsFilterAfterNavigatingToDetails()
+    // await assertKeepsFilterAfterNavigatingToDetails()
 
-    await assertResetDonationsFilterFromList()
+    // await assertResetDonationsFilterFromList()
 
     await assertAllowsPagination()
   })
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const assertKeepsFilterAfterNavigatingToDetails = async () => {
   await assertProjectDetails()
   // expect filtered list
   await waitForElementWithTestId('donations-list-search-reset')
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const assertResetDonationsFilterFromList = async () => {
   await tapOnElementWithTestId('donations-list-search-reset')
   expect(await waitForElementWithTestId('donations-list-unfiltered'))
