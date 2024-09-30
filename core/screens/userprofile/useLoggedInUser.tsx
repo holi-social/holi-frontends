@@ -8,6 +8,7 @@ import {
 } from '@holi/core/domain/shared/queries'
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { isSSR } from '@holi/core/helpers/isSSR'
 
 export interface LoggedInUserLoading {
   state: 'loading'
@@ -60,6 +61,7 @@ export const useLoggedInUser = (): LoggedInState => {
     AuthenticatedUserV2Variables
   >(authenticatedUserV2Query, {
     skip: loginState.isLoggedOut,
+    fetchPolicy: isSSR ? 'cache-only' : 'cache-first',
     onError: (error) => {
       displayError(error, 'Failed to load authenticated user', {
         location: 'useLoggedInUser.authenticatedUserQuery',
