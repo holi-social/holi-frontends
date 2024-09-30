@@ -2,7 +2,6 @@ import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useLoginState } from '@holi/core/auth/loginState'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { Skill } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
@@ -19,6 +18,7 @@ import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
 import { UpdateTaskResponse, UpdateTaskSchema, updateTaskMutation } from '@holi/core/screens/spaces/tasks/mutations'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { GeolocationPoint } from '@holi/core/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -67,11 +67,11 @@ const EditTask = () => {
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const task = (space?.tasks || []).find((t) => t.id === taskId)
-  const isTaskOwner = loginState.isLoggedIn && task?.creator.id === loginState.userId
+  const isTaskOwner = loginState.isLoggedIn && task?.creator.id === loginState.user.id
 
   const { displayError } = useErrorHandling()
 

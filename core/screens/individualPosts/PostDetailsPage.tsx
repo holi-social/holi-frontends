@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import Animated, { FadeInLeft } from 'react-native-reanimated'
 
-import { useLoginState } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { Term } from '@holi/core/domain/shared/types'
@@ -64,13 +63,12 @@ const PostDetailsPage = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { replaceRoute, navigate, navigateBack } = useRouting()
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
-  const { isLoggedIn } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
@@ -110,7 +108,7 @@ const PostDetailsPage = () => {
   const currentLanguage = getLocale(i18n.language || '')
 
   const headerTitle =
-    loginState.isLoggedIn && loginState.userId === post?.author.id
+    loginState.isLoggedIn && loginState.user.id === post?.author.id
       ? t('individuals.post.details.title.personal')
       : generatePostTitle({
           name: post?.author.firstName || '',
@@ -184,7 +182,7 @@ const PostDetailsPage = () => {
   )
 
   const reactOnPost = () => {
-    if (!isLoggedIn) {
+    if (!loginState.isLoggedIn) {
       openLoginModal({
         description: t('individuals.post.reaction.loginRedirect.text'),
       })
@@ -222,7 +220,7 @@ const PostDetailsPage = () => {
               <>
                 <PostContent
                   post={post}
-                  showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
+                  showVisibilityBadge={loginState.isLoggedIn && loginState.user.id === post.author.id}
                   aggregatedTopics={aggregatedTopics}
                 />
                 <View style={styles.commentsContainer}>

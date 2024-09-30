@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliModal'
-import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Appointment } from '@holi/core/screens/appointments/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { CalendarCheck } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -53,7 +53,7 @@ const getOrCreateCalendar = async (theme: HoliTheme) => {
 
 const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ appointment }) => {
   const { t } = useTranslation()
-  const { isLoggedIn } = useLoginState()
+  const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
   const { openToast } = useToast()
   const { show: showModal, hide: hideModal, props: modalProps } = useModalState()

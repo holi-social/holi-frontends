@@ -6,9 +6,9 @@ import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import ChatBottomTabsNavigatorItem from '@holi/chat/src/components/ChatBottomTabsNavigatorItem'
-import { useLoginState } from '@holi/core/auth/loginState'
 import LoginProfileButton from '@holi/core/navigation/components/LoginProfileButton'
 import { setPathname } from '@holi/core/navigation/hooks/usePathname'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   HomeSmile2,
@@ -45,7 +45,7 @@ const BottomTabsNavigator = () => {
 
   const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
-  const { isLoggedIn } = useLoginState()
+  const { isLoggedIn } = useLoggedInUser()
   const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
 
   return (

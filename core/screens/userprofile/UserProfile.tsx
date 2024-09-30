@@ -4,7 +4,6 @@ import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -30,6 +29,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
@@ -56,11 +56,11 @@ const UserProfile = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
   const [userId = ''] = useParam('userId')
 
   useEffect(() => {
-    if (loginState.isLoggedIn && userId === loginState.userId) {
+    if (loginState.isLoggedIn && userId === loginState.user.id) {
       replaceRoute('/profile')
     }
   }, [replaceRoute, loginState, userId])

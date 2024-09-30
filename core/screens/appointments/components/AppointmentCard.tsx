@@ -2,7 +2,6 @@ import React, { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -10,6 +9,7 @@ import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/App
 import { Appointment } from '@holi/core/screens/appointments/types'
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
 import { Space } from '@holi/core/screens/spaces/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -36,7 +36,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 }: AppointmentCardProps) => {
   const { t, i18n } = useTranslation()
   const { navigate } = useRouting()
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
   const [imageError, setImageError] = useState(false)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -80,7 +80,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   )
 
   const goToDetailView = () => navigate(`/spaces/${space.name}/appointments/${appointment.id}`)
-  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.userId
+  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.user?.id
 
   const shouldShowVisibilityLabel = loginState.isLoggedIn && (isMember || isAdmin)
   const userIsAllowedToEdit = isAdmin || isAppointmentCreator

@@ -2,7 +2,6 @@ import { useMutation } from '@apollo/client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -17,6 +16,7 @@ import {
 import { favoritesQuery } from '@holi/core/screens/favorites/queries'
 import { insightById } from '@holi/core/screens/insights/queries'
 import { Insight } from '@holi/core/screens/insights/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Bookmark3Line, BookmarkFill, BookmarkLine, Share } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -29,7 +29,7 @@ type InsightDrawerProps = {
 const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: InsightDrawerProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { isLoggedIn } = useLoginState()
+  const { isLoggedIn } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
 

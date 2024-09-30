@@ -12,14 +12,14 @@ interface VolunteeringRecosParameters {
 }
 
 const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
-  const { user, isLoggedIn, isLoading } = useLoggedInUser()
+  const { user, isLoading } = useLoggedInUser()
   const { defaultTopics, defaultTopicsLoading } = useDefaultTopics()
 
   if (isLoading) {
     return {
       loading: true,
     }
-  } else if (isLoggedIn) {
+  } else if (user) {
     const hasInterests = !!user.interests?.length
     const hasSkills = !!user.skills?.length
     if (hasInterests || hasSkills) {

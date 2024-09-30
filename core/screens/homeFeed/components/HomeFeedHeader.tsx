@@ -31,7 +31,7 @@ const HomeFeedHeader: React.FC = () => {
   const { theme } = useTheme()
   const isFocused = useIsFocused()
 
-  const { user, state } = useLoggedInUser()
+  const { user, isLoading } = useLoggedInUser()
 
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
 
@@ -94,9 +94,7 @@ const HomeFeedHeader: React.FC = () => {
         </HoliHeading>
 
         {/* start waving animation after user state has been loaded and the screen is focused/active */}
-        <Animated.View
-          style={[state !== 'loading' && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}
-        >
+        <Animated.View style={[!isLoading && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}>
           <HoliLocalImage
             imageSource={Platform.OS === 'android' ? HandWaveFilledPng : HandWaveFilled}
             width={40}

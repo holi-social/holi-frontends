@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -12,6 +11,7 @@ import { ContentType, ContentType3K } from '@holi/core/queries'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { FeedPost } from '@holi/core/screens/individualPosts/types'
+import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Delete, Edit2, Flag, Share } from '@holi/icons/src/generated'
@@ -30,7 +30,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
   const { navigate } = useRouting()
   const { track } = useTracking()
 
@@ -91,7 +91,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
           handleAction={onShare}
         />
 
-        {loginState.isLoggedIn && loginState.userId === post.author.id ? (
+        {loginState.isLoggedIn && loginState.user.id === post.author.id ? (
           <>
             <HoliActionDrawer.Action
               icon={Edit2}

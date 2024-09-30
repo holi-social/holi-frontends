@@ -50,12 +50,11 @@ const CommentView = ({
   ...props
 }: CommentProps) => {
   const [isRepliesOpen, setIsRepliesOpen] = useState(false)
-  const { user: loggedInUser } = useLoggedInUser()
+  const { user: loggedInUser, isLoggedIn } = useLoggedInUser()
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { isLoggedIn } = useLoggedInUser()
   const { openLoginModal } = useLoginModal()
 
   const [isLoadingReport, reportContent] = useReportContent({
