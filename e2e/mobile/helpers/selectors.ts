@@ -207,6 +207,7 @@ export const fillFieldByTestId = async (testId: string, value: string) => {
   try {
     const element = await tapOnElementWithTestId(testId)
     // https://webdriver.io/docs/api/element/setValue
+    await element.clearValue()
     await element.setValue(value)
     return element
   } catch (err) {
