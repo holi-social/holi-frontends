@@ -9,14 +9,14 @@ import {
   proceedAsGuest,
   waitForAnimationEnd,
   withSSR,
-} from '../tests/helpers'
-import { inputSpaceNameAndGoal } from '../tests/helpers/spaces'
-import { SessionHandler, test } from '../tests/testmaster'
+} from '@holi/e2e-web/tests/helpers'
+import { inputSpaceNameAndGoal } from '@holi/e2e-web/tests/helpers/spaces'
+import { SessionHandler, test } from '@holi/e2e-web/tests/testmaster'
 
 test.setTimeout(240000)
 
 test.describe('@Spaces', () => {
-  test('user journey', async ({ browser, browserName, context, page, sessions }) => {
+  test('user journey', async ({ browser, browserName, page, sessions }) => {
     test.skip(
       browserName === 'webkit',
       'webkit fails regularly due to timing, race conditions, in a flaky way. Due to time constraints, we disabled the suite.'
@@ -39,7 +39,7 @@ test.describe('@Spaces', () => {
     await withSSR(browser, page.url(), testDisplaysSpaceDetailsCommon)
 
     await testShareSpace(browserName, page)
-    await testCreatingEditingDeletingASpace(browser, context, page, sessions)
+    await testCreatingEditingDeletingASpace(browser, sessions)
   })
 })
 

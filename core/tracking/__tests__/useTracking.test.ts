@@ -21,6 +21,7 @@ const posthogCrossPlatformMock = {
   reset: jest.fn(),
   capture: jest.fn(),
   identify: jest.fn(),
+  distinctId: jest.fn(),
 } as PosthogCrossPlatform
 const usePosthogCrossPlatformMock = usePosthogCrossPlatform as jest.Mock
 
