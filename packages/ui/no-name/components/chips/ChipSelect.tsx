@@ -1,24 +1,26 @@
 import React, { ReactNode } from 'react'
-import { GestureResponderEvent, Pressable, PressableProps } from 'react-native'
+import { GestureResponderEvent, Pressable } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
+import { Color, mono } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { pill } from './styles'
 
 type Size = 'sm' | 'md' | 'lg'
 
-type ChipSelectProps = PressableProps & {
+type ChipSelectProps = {
   onPress: (event: GestureResponderEvent) => void
   children?: ReactNode
   selected?: boolean
   disabled?: boolean
   selectedColor?: Color
   size?: Size
+  avatar?: Pick<AvatarProps, 'initials' | 'label' | 'imageSrc' | 'imageBlurhash'>
 }
 
 const sizeToIconSize: Record<Size, number> = {
@@ -34,9 +36,11 @@ const ChipSelect = ({
   disabled = false,
   selectedColor = 'green',
   size = 'md',
+  avatar,
 }: ChipSelectProps) => {
   const { styles } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = sizeToIconSize[size]
+  const avatarSize = size === 'lg' ? 'small' : 'micro'
 
   return (
     <Pressable
@@ -46,6 +50,7 @@ const ChipSelect = ({
       onPress={(e) => onPress?.(e)}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, selectedColor)]}
     >
+      {avatar && <HoliAvatar {...avatar} size={avatarSize} defaultColor={mono[600]} style={styles.avatar} />}
       {children && (
         <HoliText selectable={false} style={styles.text}>
           {children}
@@ -84,7 +89,7 @@ const stylesheet = createStyleSheet((theme) => ({
           },
           lg: {
             paddingHorizontal: Spacing.xxs,
-            paddingVertical: Spacing['4xs'],
+            paddingVertical: 2,
           },
         },
         selected: {
@@ -99,6 +104,29 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       },
     }
+  },
+  avatar: {
+    variants: {
+      size: {
+        sm: {
+          width: 18,
+          height: 18,
+          marginLeft: -(Spacing['3xs'] - 2),
+          marginVertical: 2,
+        },
+        md: {
+          width: 24,
+          height: 24,
+          marginLeft: -(Spacing['3xs'] - 2),
+          marginVertical: 2,
+        },
+        lg: {
+          width: 32,
+          height: 32,
+          marginLeft: -(Spacing.xxs - 2),
+        },
+      },
+    },
   },
   text: {
     fontWeight: '400',

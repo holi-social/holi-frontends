@@ -15,6 +15,20 @@ const meta: Meta<typeof ChipSelect> = {
   component: ChipSelect,
   argTypes: {
     children: { description: 'Text label', required: true },
+    avatar: {
+      type: 'string',
+      options: ['none', 'initials', 'image'],
+      control: { type: 'select' },
+      mapping: {
+        none: undefined,
+        initials: { initials: 'TP', label: 'pick me' },
+        image: {
+          initials: 'TP',
+          label: 'no, pick me',
+          imageSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+        },
+      },
+    },
   },
   args: {
     children: 'Chip',
@@ -47,6 +61,9 @@ export const Playground: Story = {
 }
 
 export const ByColor: Story = {
+  args: {
+    selected: true,
+  },
   render: function Render(args) {
     return (
       <div style={{ display: 'flex', gap: 10 }}>
@@ -70,7 +87,7 @@ export const BySize: Story = {
   },
 }
 
-export const BySelect: Story = {
+export const BySelection: Story = {
   argTypes: {
     selectedColor: { control: 'select', options: availableColors },
     size: { control: 'select', options: availableSizes },
@@ -85,6 +102,34 @@ export const BySelect: Story = {
       <div style={{ display: 'flex', gap: 10 }}>
         <ChipSelect {...args} />
         <ChipSelect {...args} selected />
+      </div>
+    )
+  },
+}
+
+export const ByAvatar: Story = {
+  argTypes: {
+    selectedColor: { control: 'select', options: availableColors },
+    size: { control: 'select', options: availableSizes },
+    avatar: { control: false },
+  },
+  args: {
+    selectedColor: Colors.green,
+    size: 'md',
+  },
+  render: function Render(args) {
+    return (
+      <div style={{ display: 'flex', gap: 10 }}>
+        <ChipSelect {...args} />
+        <ChipSelect {...args} avatar={{ initials: 'TP', label: 'pick me' }} />
+        <ChipSelect
+          {...args}
+          avatar={{
+            initials: 'TP',
+            label: 'pick me',
+            imageSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+          }}
+        />
       </div>
     )
   },
