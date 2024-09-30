@@ -15,7 +15,6 @@ export interface LoggedInUserLoading {
   isLoggedIn: false
   isLoggedOut: false
   user: undefined
-  refetch: (...args: never[]) => Promise<unknown>
 }
 
 export interface LoggedOut {
@@ -24,7 +23,6 @@ export interface LoggedOut {
   isLoggedIn: false
   isLoggedOut: true
   user: undefined
-  refetch: (...args: never[]) => Promise<unknown>
 }
 
 export interface LoggedInUser {
@@ -33,7 +31,6 @@ export interface LoggedInUser {
   isLoggedIn: true
   isLoggedOut: false
   user: AuthenticatedUser
-  refetch: (...args: never[]) => Promise<unknown>
 }
 
 export type LoggedInState = LoggedInUserLoading | LoggedOut | LoggedInUser
@@ -44,7 +41,6 @@ export const loggedInUserLoading: LoggedInUserLoading = {
   isLoggedIn: false,
   isLoggedOut: false,
   user: undefined,
-  refetch: () => Promise.resolve(),
 }
 
 export const loggedOut: LoggedOut = {
@@ -53,19 +49,17 @@ export const loggedOut: LoggedOut = {
   isLoggedIn: false,
   isLoggedOut: true,
   user: undefined,
-  refetch: () => Promise.resolve(),
 }
 
 export const useLoggedInUser = (): LoggedInState => {
   const loginState = useLoginState()
   const { displayError } = useErrorHandling()
 
-  const {
-    data: { authenticatedUserV2: user } = {},
-    loading: isLoadingAuthenticatedUser,
-    refetch,
-  } = useQuery<AuthenticatedUserV2Response, AuthenticatedUserV2Variables>(authenticatedUserV2Query, {
-    skip: !loginState.isLoggedIn || !loginState.userId,
+  const { data: { authenticatedUserV2: user } = {} } = useQuery<
+    AuthenticatedUserV2Response,
+    AuthenticatedUserV2Variables
+  >(authenticatedUserV2Query, {
+    skip: loginState.isLoggedOut,
     onError: (error) => {
       displayError(error, 'Failed to load authenticated user', {
         location: 'useLoggedInUser.authenticatedUserQuery',
@@ -73,18 +67,17 @@ export const useLoggedInUser = (): LoggedInState => {
     },
   })
 
-  if (loginState.isUnknown || isLoadingAuthenticatedUser || (loginState.isLoggedIn && !user)) {
-    return loggedInUserLoading
-  } else if (loginState.isLoggedOut) {
+  if (loginState.isLoggedOut) {
     return loggedOut
-  } else {
+  } else if (user) {
     return {
       state: 'loggedIn',
       isLoading: false,
       isLoggedIn: true,
       isLoggedOut: false,
       user: user as AuthenticatedUser,
-      refetch,
     }
+  } else {
+    return loggedInUserLoading
   }
 }
