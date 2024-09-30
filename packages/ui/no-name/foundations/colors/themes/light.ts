@@ -7,6 +7,16 @@ const theme = {
     focus: `${mono[200]} 0px 0px 0px 1.5px, ${blue[400]} 0px 0px 0px 3px`,
   },
   components: {
+    chipSelect: {
+      text: black,
+      border: black,
+      background: white,
+      selected: {
+        background: {
+          ...byShade('400'),
+        },
+      },
+    },
     chipAction: {
       text: black,
       border: black,
