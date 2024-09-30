@@ -2,8 +2,6 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 
-import { logError } from '@holi/core/errors/helpers'
-import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -34,17 +32,6 @@ const VolunteeringRecommendations = () => {
     variables: queryVariables,
     skip: loadingQueryVariables,
   }
-  const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringRecosQuery, {
-    variables: {
-      ...queryVariables,
-      limit: ENGAGEMENT_PAGE_SIZE,
-      offset: 0,
-    },
-    onError: (error) =>
-      logError(error, 'Failed to reload volunteering recommendations', {
-        location: 'VolunteeringRecommendations.useRefetchOnClientSideForLoggedInWebUser',
-      }),
-  })
 
   return (
     <Pagination
@@ -53,7 +40,7 @@ const VolunteeringRecommendations = () => {
       loadMoreOnScroll
       scrollPlaceholder={<HoliLoader style={styles.loaderBottom} testID="volunteering-loader" />}
     >
-      {loadingQueryVariables || reloading ? (
+      {loadingQueryVariables ? (
         <VolunteeringListingSkeleton isFiltering={false} amount={ENGAGEMENT_PAGE_SIZE} />
       ) : (
         <VolunteeringEngagementList />

@@ -4,14 +4,9 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import {
-  SpaceCardFragment,
-  SpaceRecommendationDocument,
-  useSpaceRecommendationQuery,
-} from '@holi/api/graphql/graphql-codegen'
+import { SpaceCardFragment, useSpaceRecommendationQuery } from '@holi/api/graphql/graphql-codegen'
 import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
-import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
@@ -91,13 +86,11 @@ const SpaceRecommendations = ({ cardWidth }: SpaceRecommendationsProps) => {
   } = useSpaceRecommendationQuery(queryOptions)
   useOnRefresh(refetch)
 
-  const isReloadingSpace = useRefetchOnClientSideForLoggedInWebUser(SpaceRecommendationDocument, queryOptions)
-
   if (spaceError) {
     logError(spaceError, 'Recommended Spaces rendering error', { location: 'SpaceRecommendations' })
   }
 
-  if (!spaceData || isLoadingSpace || isReloadingSpace) return null
+  if (!spaceData || isLoadingSpace) return null
 
   const spaces = spaceData.recommendedSpaces.data
   const seeMoreText = t('recommendations.spaces.seeMore')
