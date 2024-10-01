@@ -33,7 +33,7 @@ export interface GeolocationGeoJSON {
 export interface LocationDetails {
   completeAddress: string
   city?: string
-  state?: string
+  state?: string | null
   country?: string
   geolocation: GeolocationPoint
 }
