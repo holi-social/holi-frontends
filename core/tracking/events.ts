@@ -124,6 +124,10 @@ export namespace TrackingEvent {
       name: 'registerButtonPressed',
       ...versionOne,
     }
+    export const CloseLoginModalButtonPressed: TrackingEvent = {
+      name: 'closeLoginModalButtonPressed',
+      ...versionOne,
+    }
     export const LoginButtonPressed: TrackingEvent = {
       name: 'loginButtonPressed',
       ...versionOne,

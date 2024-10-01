@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { VolunteeringEngagement } from './types'
+import { VolunteeringEngagement, VolunteeringReco } from './types'
 
 export const fullEngagementFragment = gql`
   fragment FullEngagement on AppVolunteering_Engagement {
@@ -10,7 +10,6 @@ export const fullEngagementFragment = gql`
     url
     imageUrl
     source
-    categories
     organizer {
       name
       imageUrl
@@ -20,52 +19,38 @@ export const fullEngagementFragment = gql`
     longitude
     topics
     skills
+  }
+`
+
+export const fullEngagementRecoFragment = gql`
+  ${fullEngagementFragment}
+
+  fragment FullEngagementReco on AppVolunteering_EngagementReco {
+    engagement {
+      ...FullEngagement
+    }
     matchedTopics
     matchedSkills
   }
 `
 
-export type VolunteeringEngagementsQueryResponse = {
-  appVolunteering_engagementOpportunities: {
-    totalResults: number
-    data: VolunteeringEngagement[]
-  }
-}
-
-export const volunteeringEngagementsQuery = gql`
-  ${fullEngagementFragment}
-
-  query VolunteeringEngagements(
-    $location: AppVolunteering_GeoJSON
-    $category: String
-    $limit: Int! = 10
-    $offset: Int! = 0
-  ) {
-    appVolunteering_engagementOpportunities(location: $location, category: $category, limit: $limit, offset: $offset) {
-      totalResults
-      data {
-        ...FullEngagement
-      }
-    }
-  }
-`
-
-export type VolunteeringRecosV1QueryVariables = {
+export type VolunteeringRecosQueryVariables = {
   limit?: number
   offset?: number
   topics?: string[]
   skills?: string[]
   geolocationId?: string
 }
-export type VolunteeringRecosV1QueryResponse = {
-  appVolunteering_engagementRecommendations: {
+
+export type VolunteeringRecosQueryResponse = {
+  appVolunteering_engagementRecos: {
     totalResults: number
-    data: VolunteeringEngagement[]
+    data: VolunteeringReco[]
   }
 }
 
-export const volunteeringRecosV1Query = gql`
-  ${fullEngagementFragment}
+export const volunteeringRecosQuery = gql`
+  ${fullEngagementRecoFragment}
 
   query VolunteeringRecommendations(
     $limit: Int! = 10
@@ -74,7 +59,7 @@ export const volunteeringRecosV1Query = gql`
     $skills: [String!] = []
     $geolocationId: String
   ) {
-    appVolunteering_engagementRecommendations(
+    appVolunteering_engagementRecos(
       limit: $limit
       offset: $offset
       topics: $topics
@@ -83,7 +68,7 @@ export const volunteeringRecosV1Query = gql`
     ) {
       totalResults
       data {
-        ...FullEngagement
+        ...FullEngagementReco
       }
     }
   }
@@ -135,26 +120,6 @@ export const trackEngagementViewMutation = gql`
   }
 `
 
-export const volunteeringCategoriesQuery = gql`
-  query VolunteeringCategories {
-    appVolunteering_categories {
-      data {
-        name
-      }
-    }
-  }
-`
-
 export type TrackEngagementViewResponse = {
   id: string
-}
-
-export type Category = {
-  name: string
-}
-
-export interface VolunteeringCategoriesQueryResult {
-  appVolunteering_categories: {
-    data: Category[]
-  }
 }

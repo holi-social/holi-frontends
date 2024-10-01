@@ -22,6 +22,6 @@ describe('HoliUserCardsModalContent', () => {
     const { getByTestId } = render(<HoliUserCardsModalContent users={users} onDismiss={mockFn} testID="userModal" />)
 
     await fireEvent.press(getByTestId('userModal-close-btn'))
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 })

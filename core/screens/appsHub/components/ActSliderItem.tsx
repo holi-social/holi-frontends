@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import FilterPill from '@holi/core/components/FilterPill'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -14,10 +13,7 @@ interface ActSliderItemProps {
   to: string | undefined
   imageSourceUri?: string
   title: string
-  topicLabel?: string
-  topicLabelCount?: number
-  skillLabel?: string
-  skillLabelCount?: number
+  labels?: React.ReactNode
   footer?: string | React.ReactNode
   trackingEvent: TrackingEvent
   cardWidth: number
@@ -26,10 +22,7 @@ interface ActSliderItemProps {
 const ActSliderItem = ({
   to,
   imageSourceUri,
-  topicLabel,
-  topicLabelCount,
-  skillLabel,
-  skillLabelCount,
+  labels,
   title,
   footer,
   name,
@@ -55,28 +48,7 @@ const ActSliderItem = ({
             />
           </HoliCardComponent.ImageContainer>
           <HoliCardComponent.ContentContainer>
-            {!!topicLabel && (
-              <>
-                <View style={styles.labelRow}>
-                  <FilterPill small label={topicLabel} filterType="topic" style={styles.pill} />
-                  {!!topicLabelCount && (
-                    <FilterPill small label={'+' + topicLabelCount} filterType="topic" style={styles.pill} />
-                  )}
-                </View>
-                <HoliGap size={'xxs'} />
-              </>
-            )}
-            {!!skillLabel && (
-              <>
-                <View style={styles.labelRow}>
-                  <FilterPill small label={skillLabel} filterType="skill" style={styles.pill} />
-                  {!!skillLabelCount && (
-                    <FilterPill small label={'+' + skillLabelCount} filterType="skill" style={styles.pill} />
-                  )}
-                </View>
-                <HoliGap size={'xs'} />
-              </>
-            )}
+            {!!labels && labels}
             <>
               <View style={styles.content}>
                 <HoliText size="small" bold numberOfLines={2} selectable>

@@ -59,8 +59,9 @@ const stepOptions = [
 
 const getSubmitButtonLabel = (stepNumber: number) => (stepNumber === steps.length - 1 ? 'Finish' : 'Next')
 
-const handleNextPress = ({ currentStep, goNext }: NextPressHandlerOptions) => {
+const handleNextPress = async ({ currentStep, goNext, setFinished }: NextPressHandlerOptions) => {
   if (currentStep === steps.length - 1) {
+    setFinished(true)
     return
   }
   return new Promise<void>((resolve) =>

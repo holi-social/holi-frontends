@@ -206,8 +206,8 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#262424"
                     focusable={false}
                     height={22}
@@ -517,8 +517,8 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="20"
-                bbWidth="20"
+                bbHeight={20}
+                bbWidth={20}
                 color="#fff"
                 fill="none"
                 focusable={false}
@@ -677,8 +677,8 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="20"
-                bbWidth="20"
+                bbHeight={20}
+                bbWidth={20}
                 color="#fff"
                 fill="none"
                 focusable={false}
@@ -1448,8 +1448,8 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#262424"
                     focusable={false}
                     height={22}
@@ -1759,8 +1759,8 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight="20"
-                bbWidth="20"
+                bbHeight={20}
+                bbWidth={20}
                 color="#fff"
                 fill="none"
                 focusable={false}
@@ -2627,8 +2627,8 @@ exports[`MultiSelect renders correctly when closed 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#262424"
                     fill="none"
                     focusable={false}
@@ -2901,8 +2901,8 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#262424"
                     focusable={false}
                     height={22}
@@ -4001,8 +4001,8 @@ exports[`SingleSelect correctly filters options 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="16"
-                    bbWidth="16"
+                    bbHeight={16}
+                    bbWidth={16}
                     color="#262424"
                     fill="none"
                     focusable={false}
@@ -4149,8 +4149,8 @@ exports[`SingleSelect correctly filters options 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#262424"
                     focusable={false}
                     height={22}
@@ -5225,8 +5225,8 @@ exports[`SingleSelect renders correctly after selection 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#262424"
                     fill="none"
                     focusable={false}
@@ -5466,8 +5466,8 @@ exports[`SingleSelect renders correctly when closed 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#262424"
                     fill="none"
                     focusable={false}
@@ -5709,8 +5709,8 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 <View>
                   <RNSVGSvgView
                     align="xMidYMid"
-                    bbHeight="22"
-                    bbWidth="22"
+                    bbHeight={22}
+                    bbWidth={22}
                     color="#262424"
                     focusable={false}
                     height={22}

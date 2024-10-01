@@ -28,6 +28,8 @@ Please list the main changes made in this pull request:
 - [ ] The introduction of new library dependencies is well justified
 - [ ] SSR has been taken into account, if applicable.
 - [ ] High-level documentation is updated, if necessary (with corresponding MRs linked)
+- [ ] New deprecations are marked and documented
+- [ ] Removable deprecations are removed
 
 ## Checklist for the Reviewer
 

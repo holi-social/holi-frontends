@@ -13,8 +13,8 @@ import {
   VolunteeringEngagementList,
 } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
-import { useVolunteeringRecosV1QueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosV1QueryVariables'
-import { filteredVolunteeringEngagementsQuery, volunteeringRecosV1Query } from '@holi-apps/volunteering/queries'
+import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import { filteredVolunteeringEngagementsQuery, volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
 import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringListingProps = {
@@ -26,15 +26,15 @@ type VolunteeringListingProps = {
 }
 
 const VolunteeringRecommendations = () => {
-  const { queryVariables, loading: loadingQueryVariables = false } = useVolunteeringRecosV1QueryVariables()
+  const { queryVariables, loading: loadingQueryVariables = false } = useVolunteeringRecosQueryVariables()
 
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: ENGAGEMENT_PAGE_SIZE,
-    queryPath: 'appVolunteering_engagementRecommendations',
+    queryPath: 'appVolunteering_engagementRecos',
     variables: queryVariables,
     skip: loadingQueryVariables,
   }
-  const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringRecosV1Query, {
+  const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringRecosQuery, {
     variables: {
       ...queryVariables,
       limit: ENGAGEMENT_PAGE_SIZE,
@@ -48,7 +48,7 @@ const VolunteeringRecommendations = () => {
 
   return (
     <Pagination
-      query={volunteeringRecosV1Query}
+      query={volunteeringRecosQuery}
       queryOptions={queryOptions}
       loadMoreOnScroll
       scrollPlaceholder={<HoliLoader style={styles.loaderBottom} testID="volunteering-loader" />}
@@ -100,14 +100,14 @@ const FilteredVolunteeringEngagements = ({
   )
 }
 
-const VolunteeringListingDiscoveryV1 = (props: VolunteeringListingProps) => {
+const VolunteeringListingDiscovery = (props: VolunteeringListingProps) => {
   if (props.isFiltering) {
     return <FilteredVolunteeringEngagements {...props} />
   }
   return <VolunteeringRecommendations />
 }
 
-export default withProfiler(VolunteeringListingDiscoveryV1, { name: 'VolunteeringListingDiscoveryV1' })
+export default withProfiler(VolunteeringListingDiscovery, { name: 'VolunteeringListingDiscovery' })
 
 const styles = StyleSheet.create({
   loaderBottom: {

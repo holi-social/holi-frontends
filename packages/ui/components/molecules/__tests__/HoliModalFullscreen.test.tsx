@@ -1,8 +1,16 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
-import React from 'react'
+import React, { type ReactNode } from 'react'
 import { Text } from 'react-native'
 
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
+
+jest.mock('react-native', () => {
+  const RN = jest.requireActual('react-native')
+  return {
+    ...RN,
+    SafeAreaView: ({ children }: { children: ReactNode }) => <RN.View>{children}</RN.View>, // Replace SafeAreaView with a simple View for testing
+  }
+})
 
 describe('HoliModalFullscreen.tsx', () => {
   it('renders correctly when open', () => {
@@ -22,7 +30,7 @@ describe('HoliModalFullscreen.tsx', () => {
     )
 
     await fireEvent.press(getByLabelText('modal.close'))
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
   it('renders children', () => {

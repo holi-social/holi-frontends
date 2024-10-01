@@ -1,13 +1,8 @@
+import { scrollDown } from '@holi/e2e-mobile/helpers/gestures'
+
 import { target } from '../../appiumConfig'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
-import {
-  checkIfElementWithTestIdExists,
-  scrollToElementWithTestId,
-  tapOnElementWithTestId,
-  waitForElementWithTestId,
-  waitForElementWithTestIdToBeNull,
-} from '../../helpers/selectors'
-import { delayMs } from '../../helpers/time'
+import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@Volunteering', () => {
   afterEach(async () => {
@@ -46,23 +41,14 @@ const assertFilteringWorks = async () => {
   // Tap on modal heading to close keyboard
   await tapOnElementWithTestId('volunteering-filter-heading')
 
-  const useLegacyVariant = await checkIfElementWithTestIdExists('volunteering-filter-category-input')
-  if (useLegacyVariant) {
-    // open categories dropdown
-    await tapOnElementWithTestId('volunteering-filter-category-input')
+  // open topics dropdown
+  await tapOnElementWithTestId('volunteering-filter-topics-input')
 
-    // click on first category in the list
-    await tapOnElementWithTestId('volunteering-filter-category-item')
-  } else {
-    // open topics dropdown
-    await tapOnElementWithTestId('volunteering-filter-topics-input')
+  // click on first topic in the list
+  await tapOnElementWithTestId('volunteering-filter-topics-item')
 
-    // click on first topic in the list
-    await tapOnElementWithTestId('volunteering-filter-topics-item')
-
-    // Tap on modal heading to close keyboard & select
-    await tapOnElementWithTestId('volunteering-filter-heading')
-  }
+  // Tap on modal heading to close keyboard & select
+  await tapOnElementWithTestId('volunteering-filter-heading')
 
   // click filter confirmation button
   await tapOnElementWithTestId('volunteering-filter-modal-close-btn')
@@ -84,25 +70,12 @@ const assertAllowsPagination = async () => {
   const list = await waitForElementWithTestId('volunteering-list-unfiltered')
   const { height: heightBefore } = await list.getSize()
 
-  // HOLI-9711: handling both variants
-  // Legacy variant
-  // swipe to the bottom until the load more button is visible
-  await scrollToElementWithTestId('btn-volunteering-list-load-more', 'down', { maxAttempts: 20 })
-    // Catch error: Button does not exist for DiscoveryV1 variant
-    .catch(() => ({}))
-
-  const useLegacyVariant = await checkIfElementWithTestIdExists('btn-volunteering-list-load-more')
-
-  if (useLegacyVariant) {
-    // load more
-    await tapOnElementWithTestId('btn-volunteering-list-load-more')
-    // wait a moment
-    await delayMs(1000)
-    // wait until "load more" button has been replaced by next list item
-    await waitForElementWithTestIdToBeNull('btn-volunteering-list-load-more')
-  } else {
-    // Scrolling down should already have triggered pagination-on-scroll and added new elements => List height should have been increased
-    const { height: heightAfter } = await list.getSize()
-    expect(heightAfter).toBeGreaterThan(heightBefore)
+  // Scroll down to trigger pagination-on-scroll
+  for (let i = 0; i < 10; i++) {
+    await scrollDown()
   }
+
+  // New elements should have been added to the list, increasing the list height
+  const { height: heightAfter } = await list.getSize()
+  expect(heightAfter).toBeGreaterThan(heightBefore)
 }

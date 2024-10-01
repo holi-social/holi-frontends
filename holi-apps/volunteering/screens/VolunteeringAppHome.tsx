@@ -6,7 +6,6 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -20,11 +19,8 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
-import VolunteeringFilterFormDiscoveryV1 from '@holi-apps/volunteering/components/VolunteeringFilterFormDiscoveryV1'
-import VolunteeringListing from '@holi-apps/volunteering/components/VolunteeringListing'
-import VolunteeringListingDiscoveryV1 from '@holi-apps/volunteering/components/VolunteeringListingDiscoveryV1'
+import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/VolunteeringListingDiscovery'
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
-import { useVolunteeringDiscoveryVariant } from '@holi-apps/volunteering/hooks/useVolunteeringVariant'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
@@ -33,7 +29,6 @@ const VolunteeringAppHome = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const discoveryVariant = useVolunteeringDiscoveryVariant()
   const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
   const [showFilterModal, setShowFilterModal] = useState(false)
@@ -75,10 +70,6 @@ const VolunteeringAppHome = () => {
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, styles.dot])
 
-  const ListComponent = discoveryVariant === 'discoveryV1' ? VolunteeringListingDiscoveryV1 : VolunteeringListing
-  const FilterFormComponent =
-    discoveryVariant === 'discoveryV1' ? VolunteeringFilterFormDiscoveryV1 : VolunteeringFilterForm
-
   return (
     <ScrollHeaderLayout
       style={styles.defaultLayout}
@@ -94,10 +85,10 @@ const VolunteeringAppHome = () => {
         autoHeight={false}
         relativeHeight={1}
       >
-        <FilterFormComponent onSubmit={submit} filters={filters} clearFilters={clearFilters} />
+        <VolunteeringFilterForm onSubmit={submit} filters={filters} clearFilters={clearFilters} />
       </HoliModal>
 
-      <ListComponent
+      <VolunteeringListingDiscovery
         filters={filters}
         clearFilters={clearFilters}
         isFiltering={isFiltering}
@@ -109,12 +100,6 @@ const VolunteeringAppHome = () => {
 }
 
 const WrappedVolunteeringAppHome = () => {
-  const discoveryV1Toggle = useFeatureFlagToggle(FeatureFlagKey.VOLUNTEERING_DISCOVERY_V1)
-
-  if (discoveryV1Toggle) {
-    return <VolunteeringAppHome />
-  }
-
   return (
     <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering:maintenance.feature">
       <VolunteeringAppHome />

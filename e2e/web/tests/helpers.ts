@@ -31,9 +31,6 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
   return clickFirstElement(await locateElementByTestId(page, testId, nth))
 }
 
-export const scrollToMakeHeaderVisible = async (page: Page): Promise<void> =>
-  page.evaluate(() => window.scrollBy({ top: 5 }))
-
 /*
  * Only use for text that is provided by the test (fixture)
  */
@@ -54,7 +51,11 @@ export const denyConsent = async (page: Page) => {
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
-  await page.goto('/profile')
+
+  //Introduced exception handling if first attempt to hit the server does not succeed
+
+  await gotoWithRetries(page, '/profile')
+
   await denyConsent(page)
 }
 
@@ -77,7 +78,8 @@ export const registerUserAccount = async (
   email: string,
   password: string
 ): Promise<{ fullName: string }> => {
-  await page.goto('/profile')
+  await gotoWithRetries(page, '/profile')
+
   await registerUser(context, page, email, password)
   return await finishAccountSetup(page)
 }
@@ -152,7 +154,9 @@ export const finishAccountSetup = async (
 }
 
 export const proceedAsGuest = async (page: Page): Promise<void> => {
-  await page.goto('/')
+  //Introduced exception handling if first attempt to hit the server does not succeed
+  await gotoWithRetries(page, '/')
+
   await denyConsent(page)
   await Promise.all([
     page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
@@ -220,7 +224,8 @@ export const sendConnectionRequest = async (page: Page) => {
   const userId = process.env.E2E_USER_ID
   // test won't work if userId is not defined
   expect(userId?.length).toBe(36)
-  await page.goto('/profile/' + userId)
+  await gotoWithRetries(page, '/profile/' + userId)
+
   // because we do a hard navigation we need to wait for logged in user to be fetched from BE. So, wait for 'logged-in-profile'
   await page.waitForSelector(byTestId('logged-in-profile'))
   await page.waitForSelector(byTestId('user-profile-full-name'))
@@ -230,6 +235,12 @@ export const sendConnectionRequest = async (page: Page) => {
 
   // after clicked, the button state should change to REQUESTED
   await page.waitForSelector(byTestId('user-connection-button-REQUESTED'), { state: 'detached' })
+}
+
+/*Generates a random space name using a combination of an animal type and a random number*/
+
+export const randomSpaceName = () => {
+  return faker.animal.type() + faker.number.int()
 }
 
 export const withRandomUserSession = async (
@@ -242,8 +253,10 @@ export const withRandomUserSession = async (
   const page = await context.newPage()
 
   const newAccount = await registerNewUserAccount(context, page, email, password)
-  // goto profile to simulate old behaviour for now
-  await page.goto('/profile')
+
+  // If the initial attempt fails, fall back to retry logic
+  await gotoWithRetries(page, '/profile')
+
   await page.waitForSelector(byTestId('user-profile-full-name'))
 
   await actions(page, newAccount.fullName)
@@ -299,9 +312,43 @@ export const withSSR = async (
 ): Promise<void> => {
   const context = await browser.newContext({ javaScriptEnabled: false })
   const page = await context.newPage()
-  await page.goto(url)
+  // Retry the navigation if it fails
+  await gotoWithRetries(page, url) // Fix: remove quotes around 'url'
 
+  // Execute the provided actions
   await actions(page, { testSSR: true })
 
+  // Close the context to clean up
   await context.close()
+}
+
+export async function scrollToMakeHeaderVisible(page: Page) {
+  // Wait for the page to load
+  await page.waitForLoadState()
+
+  // Scroll down and then scroll up to trigger the modal
+  await page.mouse.wheel(0, 600)
+  await page.mouse.wheel(0, -750)
+}
+
+export async function gotoWithRetries(page: Page, url: string, retries = 3, delay = 2000) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      await page.goto(url, { waitUntil: 'load', timeout: 20000 })
+    } catch (error) {
+      if (error instanceof Error) {
+        // eslint-disable-next-line no-console
+        console.error(`Attempt ${attempt} to navigate to ${url} failed: ${error.message}`)
+      } else {
+        // eslint-disable-next-line no-console
+        console.error(`Attempt ${attempt} to navigate to ${url} failed: Unknown error`)
+      }
+
+      if (attempt < retries) {
+        await page.waitForTimeout(delay)
+      } else {
+        throw new Error(`Failed to load ${url} after ${retries} attempts`)
+      }
+    }
+  }
 }

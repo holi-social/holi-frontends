@@ -71,8 +71,8 @@ exports[`React tree renders correctly with new notifications badge 1`] = `
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="24"
-          bbWidth="24"
+          bbHeight={24}
+          bbWidth={24}
           color="#262424"
           fill="none"
           focusable={false}
@@ -220,8 +220,8 @@ exports[`React tree renders without new notifications badge 1`] = `
       <View>
         <RNSVGSvgView
           align="xMidYMid"
-          bbHeight="24"
-          bbWidth="24"
+          bbHeight={24}
+          bbWidth={24}
           color="#262424"
           fill="none"
           focusable={false}

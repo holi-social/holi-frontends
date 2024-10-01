@@ -45,7 +45,7 @@ describe('ChatClient', () => {
       const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
 
       expect(room_id).toEqual(DM_ROOM_ID)
-      expect(mxClient.createRoom).toBeCalledTimes(1)
+      expect(mxClient.createRoom).toHaveBeenCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
         is_direct: isDM,
@@ -62,7 +62,7 @@ describe('ChatClient', () => {
 
       const { room_id } = await client.createRoom(members, { isDirectMessage, name })
       expect(room_id).toEqual(DM_ROOM_ID)
-      expect(mxClient.createRoom).toBeCalledTimes(1)
+      expect(mxClient.createRoom).toHaveBeenCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
         invite: members,
         is_direct: isDirectMessage,
@@ -131,7 +131,7 @@ describe('ChatClient', () => {
 
       const { room_id } = await client.getOrCreateRoom([members[0]], { isDirectMessage: true })
       expect(room_id).toEqual(roomId)
-      expect(mxClient.createRoom).not.toBeCalled()
+      expect(mxClient.createRoom).not.toHaveBeenCalled()
     })
   })
 
@@ -280,7 +280,7 @@ describe('ChatClient', () => {
       mockRoom.hasMembershipState.mockReturnValue(false)
       const result = client.hasPendingInvitation(mockRoom)
       expect(result).toBe(false)
-      expect(mockRoom.hasMembershipState).toBeCalledWith(userId, MembershipStatus.invite)
+      expect(mockRoom.hasMembershipState).toHaveBeenCalledWith(userId, MembershipStatus.invite)
     })
 
     it('Event with no notify has no pending invitation', async () => {
@@ -321,7 +321,7 @@ describe('ChatClient', () => {
 
       client.setLatestMessagesAsRead(roomId)
 
-      expect(mxClient.sendReadReceipt).not.toBeCalled()
+      expect(mxClient.sendReadReceipt).not.toHaveBeenCalled()
     })
 
     it('A read receipt for the last event is sent', async () => {
@@ -333,7 +333,7 @@ describe('ChatClient', () => {
 
       client.setLatestMessagesAsRead(roomId)
 
-      expect(mxClient.sendReadReceipt).toBeCalledWith(e2, ReceiptType.ReadPrivate)
+      expect(mxClient.sendReadReceipt).toHaveBeenCalledWith(e2, ReceiptType.ReadPrivate)
     })
   })
 

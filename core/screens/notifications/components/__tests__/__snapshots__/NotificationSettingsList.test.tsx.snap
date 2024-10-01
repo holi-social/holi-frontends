@@ -431,8 +431,8 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       <View>
                         <RNSVGSvgView
                           align="xMidYMid"
-                          bbHeight="20"
-                          bbWidth="20"
+                          bbHeight={20}
+                          bbWidth={20}
                           color="#fff"
                           fill="none"
                           focusable={false}
@@ -1205,8 +1205,8 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
                       <View>
                         <RNSVGSvgView
                           align="xMidYMid"
-                          bbHeight="20"
-                          bbWidth="20"
+                          bbHeight={20}
+                          bbWidth={20}
                           color="#fff"
                           fill="none"
                           focusable={false}
@@ -2375,8 +2375,8 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
                       <View>
                         <RNSVGSvgView
                           align="xMidYMid"
-                          bbHeight="20"
-                          bbWidth="20"
+                          bbHeight={20}
+                          bbWidth={20}
                           color="#fff"
                           fill="none"
                           focusable={false}

@@ -47,7 +47,10 @@ const TaskRecommendations = ({ cardWidth }: TaskRecommendationsProps) => {
       name="tasks"
       renderItem={({ item, index }) => {
         return item.space ? (
-          <View style={[styles.cardContainer, index === (tasks?.length || 0) - 1 && styles.lastCard]}>
+          <View
+            style={[styles.cardContainer, index === (tasks?.length || 0) - 1 && styles.lastCard]}
+            testID="tasks-updates-item"
+          >
             <TaskRecommendation
               task={item}
               space={item.space}

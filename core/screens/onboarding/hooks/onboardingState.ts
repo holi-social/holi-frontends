@@ -1,8 +1,9 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
-import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
@@ -29,41 +30,57 @@ export const storeOnboardingState = async (value: OnboardingStateValue) => {
 
 export const useStoredOnboardingState = () => useReactiveVar(onboardingStateVar)
 
+const determineTargetState = ({
+  isLoggedIn,
+  accountCompleted,
+  value,
+}: {
+  isLoggedIn: boolean
+  accountCompleted: boolean
+  value: OnboardingStateValue | null
+}): OnboardingStateValue => {
+  if (isLoggedIn && !accountCompleted) {
+    return 'accountSetup'
+  }
+  if (isLoggedIn && value !== 'accountSetup') {
+    return 'finished'
+  }
+  return value || 'onboarding'
+}
+
 export const useOnboardingInitialization = () => {
   const loginState = useLoggedInUser()
-  const finishedOnce = useRef(false)
 
   useEffect(() => {
-    if (loginState.isLoading || finishedOnce.current) return
+    if (loginState.isLoading) return
 
-    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)
-      ?.then(async (storedValue) => {
-        const value = isOnboardingStateValue(storedValue) ? storedValue : null
+    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
+      const value = isOnboardingStateValue(storedValue) ? storedValue : null
+      const accountCompleted = !!loginState.user?.identity && !!loginState.user?.firstName
+      const targetState = determineTargetState({ isLoggedIn: loginState.isLoggedIn, accountCompleted, value })
 
-        const userHasIdentity = loginState.isLoggedIn && loginState.user.identity
-        const onboardingNotFinished = value !== 'finished'
-        if (onboardingNotFinished && userHasIdentity) {
-          await storeOnboardingState('finished')
-          return
-        }
-
-        switch (value) {
-          // First app load or when user reseted app data
-          case null:
-            await storeOnboardingState(loginState.isLoggedIn ? 'finished' : 'onboarding')
-            break
-
-          case 'onboarding':
-          case 'emailVerification':
-          case 'finished':
-          case 'accountSetup':
-            onboardingStateVar(value)
-            break
-
-          default:
-            throw new HoliOnboardingError(`Onboarding does not support "${value}" value`)
-        }
-      })
-      .then(() => (finishedOnce.current = true))
+      if (value !== targetState) {
+        await storeOnboardingState(targetState)
+      } else {
+        onboardingStateVar(value)
+      }
+    })
   }, [loginState])
+}
+
+export const useOnboardingRedirect = () => {
+  const onboardingState = useStoredOnboardingState()
+  const pathname = usePathname()
+  const { navigate } = useRouting()
+
+  useEffect(() => {
+    // FIXME Using setTimeout as navigation might not be properly set up yet
+    // Crude hack to workaround a react-navigation issue: https://github.com/react-navigation/react-navigation/issues/9170
+    // Should be fixed with react-navigation v7
+    if (onboardingState === 'accountSetup' && pathname !== '/onboarding/registration') {
+      setTimeout(() => navigate('/onboarding/registration'), 100)
+    } else if (onboardingState === 'onboarding' && pathname === '/') {
+      setTimeout(() => navigate('/onboarding'), 100)
+    }
+  }, [navigate, onboardingState, pathname])
 }

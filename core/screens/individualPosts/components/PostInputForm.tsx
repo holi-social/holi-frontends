@@ -1,14 +1,14 @@
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { Term, User } from '@holi/core/domain/shared/types'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { PortalGate } from '@holi/core/providers/PortalProvider'
 import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
+import FormLayout from '@holi/core/screens/individualPosts/components/FormLayout/FormLayout'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
@@ -18,7 +18,7 @@ import {
   FEED_POST_TITLE_MAX_CHARACTERS,
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
-import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Global, HoliLogoFilled } from '@holi/icons/src/generated'
@@ -34,7 +34,6 @@ import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/typ
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
@@ -66,6 +65,8 @@ export interface PostInputFormProps {
   onChangeSelectedTopics: (_: Term[]) => void
   onChangeSelectedCategoryId: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion | null) => void
+  aspectRatio: ImageAspectRatio
+  onChangeAspectRatio: (_: ImageAspectRatio) => void
   onSubmit: () => void
   isEdit?: boolean
   fieldErrors?: TranslatedFieldErrors
@@ -90,6 +91,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   onChangeSelectedVisibility,
   onChangeImages,
   onChangeCurrentImages,
+  aspectRatio,
+  onChangeAspectRatio,
   onChangeSelectedTopics,
   onChangeSelectedLocation,
   onSubmit,
@@ -137,10 +140,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
     },
   ]
 
-  const submit = () => {
-    onSubmit()
-  }
-
   const handleChangeVisibility = (option: HoliModalSelectOption<Visibility>) => onChangeSelectedVisibility(option.id)
 
   const categoryLabel = categories?.find((category) => category.id === selectedCategoryId)?.label ?? selectedCategoryId
@@ -158,12 +157,23 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   return (
     <>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.layout}>
-        <ScrollView
-          contentContainerStyle={styles.contentContainer}
-          keyboardShouldPersistTaps="handled"
-          style={styles.container}
-        >
+      <FormLayout
+        hasSuggestions
+        bottomBar={
+          <SubmitPostBar
+            onSubmit={onSubmit}
+            showLocationModal={showLocationModal}
+            showEditImagesModal={showEditImagesModal}
+            submitting={submitting}
+            isSubmittable={isSubmittable}
+            isEdit={isEdit}
+            images={images}
+            currentImages={currentImages}
+            setImages={onChangeImages}
+          />
+        }
+      >
+        <>
           <View style={styles.pillContainer}>
             <FeedPostPill
               label={t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
@@ -242,11 +252,19 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                       const imageInfo = (image as FeedPostImage)?.id ? undefined : (image as HoliImageInfo)
                       const feedPostImage = imageInfo ? undefined : (image as FeedPostImage)
                       return {
-                        children: <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />,
+                        children: (
+                          <ImagePreview
+                            key={index}
+                            image={imageInfo}
+                            currentImage={feedPostImage?.image}
+                            aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
+                          />
+                        ),
                       }
                     })}
                   />
                 )}
+
                 {Platform.OS === 'web' && (
                   <View
                     style={[
@@ -261,7 +279,12 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                       return (
                         <View key={index} style={styles.imageGridItemWrapper}>
                           <View style={styles.imageGridItem}>
-                            <ImagePreview key={index} image={imageInfo} currentImage={feedPostImage?.image} />
+                            <ImagePreview
+                              key={index}
+                              image={imageInfo}
+                              currentImage={feedPostImage?.image}
+                              aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1}
+                            />
                           </View>
                         </View>
                       )
@@ -271,23 +294,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               </View>
             )}
           </View>
-        </ScrollView>
-
-        {/* Suggestions*/}
-        <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
-
-        <SubmitPostBar
-          onSubmit={submit}
-          showLocationModal={showLocationModal}
-          showEditImagesModal={showEditImagesModal}
-          submitting={submitting}
-          isSubmittable={isSubmittable}
-          isEdit={isEdit}
-          images={images}
-          currentImages={currentImages}
-          setImages={onChangeImages}
-        />
-      </KeyboardAvoidingView>
+        </>
+      </FormLayout>
 
       <HoliModalSelect
         options={visibilityOptions}
@@ -356,7 +364,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               onChange={handleLocationChange}
               style={[styles.input, { zIndex: 2 }]}
               inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
-              suggestionsStyle={styles.suggestionsContainer}
+              suggestionsStyle={styles.placesAutoComplete}
               enhanceWithDetails
             />
           </HoliContainer>
@@ -376,6 +384,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           setImages={onChangeImages}
           setCurrentImages={onChangeCurrentImages}
           onActionButtonPress={hideEditImagesModal}
+          setAspectRatio={onChangeAspectRatio}
+          aspectRatio={aspectRatio}
         />
       </HoliModal>
     </>
@@ -384,12 +394,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    layout: {
-      backgroundColor: theme.colors.background20,
-      width: '100%',
-      height: '100%',
-      alignItems: 'center',
-    },
     titleInput: {
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
@@ -406,17 +410,6 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: 6,
       paddingHorizontal: 10,
       maxWidth: '100%',
-    },
-    container: {
-      width: '100%',
-      ...Platform.select({
-        web: {
-          maxWidth: dimensions.breakpointM,
-        },
-      }),
-    },
-    contentContainer: {
-      paddingBottom: Platform.OS === 'ios' ? dimensions.bottomBarHeight : dimensions.bottomBarHeight + 60,
     },
     inputContainer: {
       width: '100%',
@@ -467,36 +460,12 @@ const getStyles = (theme: HoliTheme) =>
       gap: 8,
       paddingHorizontal: 16,
     },
-    suggestionsScrollView: {
-      zIndex: 1,
-      width: '100%',
-      height: 220,
-      maxHeight: 220,
-      paddingTop: 10,
-      paddingBottom: 10,
-      backgroundColor: theme.colors.background10,
-      borderColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderRadius: 12,
-      elevation: 4,
-      borderWidth: 1,
-      ...Platform.select({
-        web: {
-          maxWidth: dimensions.maxScreenWidth,
-          marginHorizontal: 'auto',
-          bottom: Spacing['4xl'],
-          position: 'absolute',
-        },
-      }),
-      left: 0,
-      right: 0,
-    },
     input: {
       marginBottom: 16,
     },
-    suggestionsContainer: {
+    placesAutoComplete: {
       backgroundColor: theme.colors.background10,
     },
-
     locationContainer: {
       width: '100%',
       gap: 8,

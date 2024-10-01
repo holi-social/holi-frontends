@@ -22,6 +22,7 @@ test.describe('@Profile', () => {
 
     await testDisplaysProfileDetails(otherPage)
 
+    //FIXME: AssertionError: 1 accessibility violation was detected in the following line
     await checkAccessibility(otherPage)
     await clickElementByTestId(otherPage, 'btn-open-profile-edit-view')
     // wait until modal is opened

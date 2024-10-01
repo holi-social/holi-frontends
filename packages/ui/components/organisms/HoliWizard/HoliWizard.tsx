@@ -21,6 +21,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
   ({ children, isBackButtonAvailable = false, showProgress = true, onNextPress, onSubmit, safeButtonLabel }, ref) => {
     const { t } = useTranslation()
     const [currentStep, setCurrentStep] = useState(0)
+    const [finished, setFinished] = useState(false)
     const [isNextButtonEnabled, setIsNextButtonEnabled] = useState(false)
     const [isSaveButtonLoading, setSaveButtonLoading] = useState(false)
     const mixins = useStyleMixins()
@@ -30,7 +31,7 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
 
     const arrayChildren = Children.toArray(children)
     const stepCount = arrayChildren.length
-    const progress = stepCount - currentStep > 0 ? 100 / (stepCount - currentStep) : 0
+    const progress = finished && currentStep >= stepCount - 1 ? 100 : (currentStep / stepCount) * 100
     const { percentage } = useProgressBarAnimation(progress)
 
     const wizardContext = {
@@ -46,7 +47,11 @@ const HoliWizard = React.forwardRef<ScrollView, React.PropsWithChildren<HoliWiza
           setCurrentStep(currentStep + 1)
         }
       } else {
-        await onSubmit()
+        setFinished(true)
+        await onSubmit().catch((error) => {
+          setFinished(false)
+          throw error
+        })
         setSaveButtonLoading(true)
       }
     }

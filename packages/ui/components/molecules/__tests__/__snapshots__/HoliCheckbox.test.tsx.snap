@@ -264,8 +264,8 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="20"
-            bbWidth="20"
+            bbHeight={20}
+            bbWidth={20}
             color="#fff"
             fill="none"
             focusable={false}
@@ -415,8 +415,8 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="20"
-            bbWidth="20"
+            bbHeight={20}
+            bbWidth={20}
             color="#787777"
             fill="none"
             focusable={false}
@@ -566,8 +566,8 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="20"
-            bbWidth="20"
+            bbHeight={20}
+            bbWidth={20}
             color="#fff"
             fill="none"
             focusable={false}
@@ -717,8 +717,8 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="20"
-            bbWidth="20"
+            bbHeight={20}
+            bbWidth={20}
             color="#787777"
             fill="none"
             focusable={false}
@@ -868,8 +868,8 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
         <View>
           <RNSVGSvgView
             align="xMidYMid"
-            bbHeight="20"
-            bbWidth="20"
+            bbHeight={20}
+            bbWidth={20}
             color="#262424"
             fill="none"
             focusable={false}

@@ -4,6 +4,7 @@ import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTe
 describe('@HoliModal', () => {
   it('find selectors', async () => {
     await waitForHomeScreen()
+    await waitForElementWithTestId('posts-list-results') // wait that posts are loaded
 
     // open editors modal
     await scrollToElementWithTestId('avatar-pile-open-modal-button', 'down')

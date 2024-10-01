@@ -10,6 +10,7 @@ import {
   donationsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
+  scrollToMakeHeaderVisible,
   withSSR,
 } from './helpers'
 import { test } from './testmaster'
@@ -30,6 +31,10 @@ test.describe('@Donations', () => {
     await clickElementByTestId(page, 'donations-list-item')
     await testDisplaysProjectDetails(context, page)
     await withSSR(browser, page.url(), testDisplaysProjectDetailsCommon)
+
+    /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
+    await scrollToMakeHeaderVisible(page)
+
     // navigate back
     await clickElementByTestId(page, 'nav-button-back')
     await page.waitForSelector(byTestId('donations-list-container'))
@@ -37,8 +42,12 @@ test.describe('@Donations', () => {
     // Filtering is disabled, because we can no longer filter by location on the Betterplace API.
     // https://holi.atlassian.net/browse/HOLI-9717
     // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
-    // await testFilterDonationsByLocationAndResetFilter(browser, page)
-    // await testDisplaysDetailsOfFilterResults(page)
+
+    /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
+    //  await scrollToMakeHeaderVisible(page)
+
+    //    await testFilterDonationsByLocationAndResetFilter(browser, page)
+    //    await testDisplaysDetailsOfFilterResults(page)
   })
 })
 
@@ -50,6 +59,9 @@ const testAbleToVisitDonationsApp = async (page: Page) => {
 
   // expect detail view
   await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
+
+  /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
+  await scrollToMakeHeaderVisible(page)
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
@@ -181,7 +193,7 @@ const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, pag
 
   // reset filter in modal
   await resetFilterInModal(page)
-
+  //FIXME: This button is not avaible in the given screen
   // assert reset
   await expect(page.getByTestId('donations-list-unfiltered')).toBeVisible({ timeout: donationsRequestTimeout })
 }
@@ -265,7 +277,8 @@ const resetFilterInModal = async (page: Page) => {
   // open search modal
   await clickElementByTestId(page, 'donations-search-button')
 
-  // reset filter
+  //BUG: Reset filter needs to be pressed twice sometimes to clear field:
+  //reset filter
   await clickElementByTestId(page, 'donations-search-form-reset')
 
   // close search modal

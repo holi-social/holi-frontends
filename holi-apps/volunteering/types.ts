@@ -40,7 +40,6 @@ export type VolunteeringEngagement = {
   description: string
   url: string
   source: string
-  categories: string[]
   imageUrl?: string
   organizer?: Organizer
   location?: string
@@ -48,21 +47,22 @@ export type VolunteeringEngagement = {
   longitude?: number | null
   topics?: string[]
   skills?: string[]
+}
+
+export type VolunteeringReco = {
+  engagement: VolunteeringEngagement
   matchedTopics?: string[]
   matchedSkills?: string[]
 }
 
 export type VolunteeringFilterParams = {
-  location?: string // HOLI-9711: only needed for legacy variant
-  category?: string // HOLI-9711: only needed for legacy variant
-  topic?: string[] // HOLI-9711: only needed for DiscoveryV1
-  skill?: string[] // HOLI-9711: only needed for DiscoveryV1
-  geolocationId?: string // HOLI-9711: only needed for DiscoveryV1
+  topic?: string[]
+  skill?: string[]
+  geolocationId?: string
 }
 
 export type VolunteeringFilters = {
   location?: GeolocationSuggestion
-  category?: string // HOLI-9711: only needed for legacy variant
-  topics?: string[] // HOLI-9711: only needed for DiscoveryV1
-  skills?: string[] // HOLI-9711: only needed for DiscoveryV1
+  topics?: string[]
+  skills?: string[]
 }

@@ -4,7 +4,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
-import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Close, Delete } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -20,8 +20,9 @@ type EditUploadedImagesProps = {
   setImages: (images: HoliImageInfo[]) => void
   currentImages?: FeedPostImage[] // used for edit mode - when we only have a uri and no HoliImageInfo
   setCurrentImages?: (images: FeedPostImage[]) => void
-  aspectRatio?: number
+  aspectRatio?: ImageAspectRatio
   onActionButtonPress: () => void
+  setAspectRatio: (aspectRatio: ImageAspectRatio) => void
 }
 
 const EditUploadedImages = ({
@@ -29,8 +30,9 @@ const EditUploadedImages = ({
   setImages,
   setCurrentImages,
   currentImages,
-  aspectRatio,
+  aspectRatio = ImageAspectRatio.SIXTEEN_NINE,
   onActionButtonPress,
+  setAspectRatio,
 }: EditUploadedImagesProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -84,6 +86,38 @@ const EditUploadedImages = ({
                   {t('individuals.post.images.requirements')}
                 </HoliText>
               </View>
+
+              <View style={styles.imageRatioContainer}>
+                <HoliText size="large">{t('individuals.post.images.imageRatio')}</HoliText>
+                <View style={styles.imageRatioButtons}>
+                  <HoliButton
+                    style={[
+                      styles.imageRatioButton,
+                      aspectRatio === ImageAspectRatio.SIXTEEN_NINE && styles.imageRatioButtonActive,
+                    ]}
+                    variant="small"
+                    inline
+                    label="16:9"
+                    onPress={() => setAspectRatio(ImageAspectRatio.SIXTEEN_NINE)}
+                  >
+                    <HoliText color={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 'white100' : 'black300'}>
+                      16:9
+                    </HoliText>
+                  </HoliButton>
+                  <HoliButton
+                    style={[
+                      styles.imageRatioButton,
+                      aspectRatio === ImageAspectRatio.ONE_ONE && styles.imageRatioButtonActive,
+                    ]}
+                    variant="small"
+                    inline
+                    label="1:1"
+                    onPress={() => setAspectRatio(ImageAspectRatio.ONE_ONE)}
+                  >
+                    <HoliText color={aspectRatio === ImageAspectRatio.ONE_ONE ? 'white100' : 'black300'}>1:1</HoliText>
+                  </HoliButton>
+                </View>
+              </View>
             </View>
             <View style={styles.gridContainer}>
               {[...(currentImages || []), ...images].map((image, index) => {
@@ -97,7 +131,7 @@ const EditUploadedImages = ({
                         key={index}
                         image={imageInfo}
                         currentImage={feedPostImage?.image}
-                        aspectRatio={aspectRatio}
+                        aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1 / 1}
                       />
                       <View style={styles.buttonContainer}>
                         <HoliButton
@@ -168,7 +202,24 @@ const createStyles = (theme: HoliTheme) =>
       paddingLeft: Spacing['3xs'],
     },
     requirements: {
-      marginTop: Spacing.xxs,
+      marginTop: Spacing['3xs'],
+    },
+    imageRatioContainer: {
+      marginTop: Spacing.sm,
+    },
+    imageRatioButtons: {
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
+      marginTop: Spacing['3xs'],
+    },
+    imageRatioButton: {
+      width: 70,
+      borderRadius: 100,
+      backgroundColor: theme.colors.background10,
+    },
+    imageRatioButtonActive: {
+      backgroundColor: theme.colors.foreground30,
+      color: theme.colors.background10,
     },
     container: {
       position: 'relative',
