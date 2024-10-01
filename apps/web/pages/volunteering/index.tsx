@@ -19,8 +19,7 @@ export const paths = {
 }
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  // `location` is a legacy parameter and can be removed when switching to Discovery V1
-  const { geolocationId, location } = context.query
+  const { geolocationId } = context.query
 
   const queries = [
     {
@@ -31,8 +30,8 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
     {
       query: geoPlaceDetailsQuery,
-      variables: { id: geolocationId || location },
-      skip: !(geolocationId || location),
+      variables: { id: geolocationId },
+      skip: !geolocationId,
     },
   ]
 

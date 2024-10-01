@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, useWindowDimensions } from 'react-native'
+import { StyleSheet } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 
 import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -37,7 +38,7 @@ const AnimatedIntro = () => {
   const textPosition = useSharedValue(-50)
   const textScale = useSharedValue(1.1)
   const textOpacity = useSharedValue(0)
-  const { height: screenHeight } = useWindowDimensions()
+  const { height: screenHeight } = useClientWindowDimensions()
 
   const containerStyle = useAnimatedStyle(() => {
     return {
