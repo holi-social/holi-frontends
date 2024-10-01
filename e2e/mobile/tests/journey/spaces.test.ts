@@ -68,6 +68,7 @@ describe('@Spaces', () => {
 
     await scrollToElementWithTestId('space-description', 'down', { maxAttempts: 2 })
 
+    await scrollToElementWithTestId('nav-button-back', 'up', { maxAttempts: 2 })
     await tapOnElementWithTestId('nav-button-back')
   }
 
