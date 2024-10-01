@@ -229,3 +229,27 @@ export const pressEnter = async (inputTestId: string) => {
     await Appium.pressKeyCode(66)
   }
 }
+
+export const retry = async (fn: () => Promise<void>, timeout = 3000, retryIntervall = 200) => {
+  const startTime = Date.now()
+
+  const poll = async (): Promise<void> => {
+    try {
+      await fn()
+      // eslint-disable-next-line no-console
+      console.log('Fulfilled')
+      return
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Retrying...')
+      if (Date.now() - startTime >= timeout) {
+        throw new Error('Condition was not met within the timeout')
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, retryIntervall)) // Wait for the interval before retrying
+      return poll() // Retry
+    }
+  }
+
+  return poll() // Start polling
+}

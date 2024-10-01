@@ -2,7 +2,12 @@ import { scrollDown } from '@holi/e2e-mobile/helpers/gestures'
 
 import { target } from '../../appiumConfig'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import {
+  retry,
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 
 describe('@Volunteering', () => {
   afterEach(async () => {
@@ -76,6 +81,8 @@ const assertAllowsPagination = async () => {
   }
 
   // New elements should have been added to the list, increasing the list height
-  const { height: heightAfter } = await list.getSize()
-  expect(heightAfter).toBeGreaterThan(heightBefore)
+  await retry(async () => {
+    const { height: heightAfter } = await list.getSize()
+    expect(heightAfter).toBeGreaterThan(heightBefore)
+  })
 }
