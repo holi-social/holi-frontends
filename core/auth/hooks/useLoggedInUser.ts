@@ -56,7 +56,7 @@ export const useLoggedInUser = (): LoggedInState => {
   const loginState = useLoginState()
   const { displayError } = useErrorHandling()
 
-  const { data: { authenticatedUserV2: user } = {} } = useQuery<
+  const { data: { authenticatedUserV2: user } = {}, error } = useQuery<
     AuthenticatedUserV2Response,
     AuthenticatedUserV2Variables
   >(authenticatedUserV2Query, {
@@ -69,7 +69,7 @@ export const useLoggedInUser = (): LoggedInState => {
     },
   })
 
-  if (loginState.isLoggedOut) {
+  if (loginState.isLoggedOut || error) {
     return loggedOut
   } else if (user) {
     return {

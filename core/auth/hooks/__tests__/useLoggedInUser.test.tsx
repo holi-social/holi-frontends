@@ -1,0 +1,199 @@
+import { MockedProvider } from '@apollo/client/testing'
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import React from 'react'
+import { Text } from 'react-native'
+
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+
+jest.useFakeTimers()
+
+const mockUseLoginState = jest.fn()
+jest.mock('@holi/core/auth/loginState', () => ({
+  useLoginState: () => mockUseLoginState(),
+}))
+
+const mockDisplayError = jest.fn()
+jest.mock('@holi/core/errors/hooks', () => ({
+  useErrorHandling: () => ({
+    displayError: mockDisplayError,
+  }),
+}))
+
+const TestComponent = () => {
+  const { isLoggedIn, isLoggedOut, user } = useLoggedInUser()
+
+  const state = isLoggedIn ? `isLoggedIn: ${user.id}` : isLoggedOut ? 'isLoggedOut' : 'isLoading'
+
+  return <Text>{state}</Text>
+}
+
+const mockUserRequest = () => {
+  const querySpy = jest.fn().mockReturnValue({
+    data: {
+      authenticatedUserV2: {
+        id: 'test-user-id',
+        identity: '',
+        avatar: 'https://ik.imagekit.io/holidev/avatar/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0_eEx60YjuIa.jpg',
+        fullName: 'EE. Visited',
+        firstName: 'EE.',
+        lastName: 'Visited',
+        aboutMe: '',
+        avatarDefaultColor: '#7571EC',
+        avatarLabel: 'EV',
+        avatarBlurhash: '',
+        pronouns: '',
+        location: '',
+        role: '',
+        geolocationId: '',
+        engagementLevel: '',
+        interests: [],
+        sdgs: [],
+        skills: [],
+        connectionStatusToMyself: '',
+        trackingConsentPersonalization: false,
+        trackingConsentAnalytics: false,
+        isEmployee: false,
+        __typename: 'AuthenticatedUser',
+      },
+    },
+  })
+  const mockedResponse = {
+    request: {
+      query: authenticatedUserV2Query,
+    },
+    newData: querySpy,
+  }
+  return { mocks: [mockedResponse], querySpy }
+}
+const mockedFailedRequest = {
+  request: {
+    query: authenticatedUserV2Query,
+  },
+  error: new Error('Test'),
+}
+
+describe('useLoggedInUser', () => {
+  it('should return logged out state', async () => {
+    mockUseLoginState.mockReturnValue({ isLoggedOut: true })
+    const { mocks } = mockUserRequest()
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    expect(await screen.findByText('isLoggedOut')).toBeTruthy()
+  })
+
+  it('should not query user if logged out', () => {
+    mockUseLoginState.mockReturnValue({ isLoggedOut: true })
+    const { mocks, querySpy } = mockUserRequest()
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    expect(querySpy).not.toHaveBeenCalled()
+  })
+
+  it('should query user if logged in', () => {
+    mockUseLoginState.mockReturnValue({ isLoggedIn: true })
+    const { mocks, querySpy } = mockUserRequest()
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    expect(querySpy).toHaveBeenCalled()
+  })
+
+  it('should query user if login state is unknown', () => {
+    mockUseLoginState.mockReturnValue({ isUnknown: true })
+    const { mocks, querySpy } = mockUserRequest()
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    expect(querySpy).toHaveBeenCalled()
+  })
+
+  it('should expose loading state while loading the user', async () => {
+    mockUseLoginState.mockReturnValue({ isLoggedIn: true })
+    const { mocks } = mockUserRequest()
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    expect(await screen.findByText('isLoading')).toBeTruthy()
+  })
+
+  it('should expose loading state if user was not loaded and login state is unknown', async () => {
+    mockUseLoginState.mockReturnValue({ isUnknown: true })
+    const { mocks } = mockUserRequest()
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    expect(await screen.findByText('isLoading')).toBeTruthy()
+  })
+
+  it('should expose user if it was loaded independent of the login state', async () => {
+    mockUseLoginState.mockReturnValue({})
+    const { mocks } = mockUserRequest()
+
+    render(
+      <MockedProvider mocks={mocks}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    await waitForElementToBeRemoved(() => screen.getByText('isLoading'))
+
+    expect(await screen.findByText('isLoggedIn: test-user-id')).toBeTruthy()
+  })
+
+  it('should display error if loading the user failed', async () => {
+    mockUseLoginState.mockReturnValue({})
+
+    render(
+      <MockedProvider mocks={[mockedFailedRequest]}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    await waitForElementToBeRemoved(() => screen.getByText('isLoading'))
+
+    expect(mockDisplayError).toHaveBeenCalledWith(expect.any(Object), 'Failed to load authenticated user', {
+      location: 'useLoggedInUser.authenticatedUserQuery',
+    })
+  })
+
+  it('should return logged out state if loading the user failed', async () => {
+    mockUseLoginState.mockReturnValue({})
+
+    render(
+      <MockedProvider mocks={[mockedFailedRequest]}>
+        <TestComponent />
+      </MockedProvider>
+    )
+
+    await waitForElementToBeRemoved(() => screen.getByText('isLoading'))
+
+    expect(await screen.findByText('isLoggedOut')).toBeTruthy()
+  })
+})
