@@ -91,13 +91,15 @@ const stylesheet = createStyleSheet((theme) => ({
         size: {
           sm: {
             paddingHorizontal: Spacing['3xs'],
+            height: 24,
           },
           md: {
             paddingHorizontal: Spacing['3xs'],
+            height: 30,
           },
           lg: {
             paddingHorizontal: Spacing.xxs,
-            paddingVertical: 2,
+            height: 38,
           },
         },
         selected: {
