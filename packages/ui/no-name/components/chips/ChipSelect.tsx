@@ -7,7 +7,7 @@ import { Deselect, Select } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { Color, mono } from '@holi/ui/no-name/foundations/colors/primitives'
+import { Color, byShade } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { pill } from './styles'
 
@@ -38,7 +38,7 @@ const ChipSelect = ({
   size = 'md',
   avatar,
 }: ChipSelectProps) => {
-  const { styles } = useStyles(stylesheet, { size, selected, disabled })
+  const { styles, theme } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = sizeToIconSize[size]
   const avatarSize = size === 'lg' ? 'small' : 'micro'
 
@@ -50,7 +50,15 @@ const ChipSelect = ({
       onPress={(e) => onPress?.(e)}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, selectedColor)]}
     >
-      {avatar && <HoliAvatar {...avatar} size={avatarSize} defaultColor={mono[600]} style={styles.avatar} />}
+      {avatar && (
+        <HoliAvatar
+          {...avatar}
+          size={avatarSize}
+          defaultColor={byShade('600')[selectedColor]}
+          initialsColor={theme.components.chipSelect.text}
+          style={styles.avatar}
+        />
+      )}
       {children && (
         <HoliText selectable={false} style={styles.text}>
           {children}
