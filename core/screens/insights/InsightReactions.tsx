@@ -4,6 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import {
@@ -16,7 +17,6 @@ import {
 } from '@holi/core/screens/insights/mutations'
 import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'

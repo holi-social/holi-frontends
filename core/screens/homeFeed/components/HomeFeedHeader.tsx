@@ -12,10 +12,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HandWaveFilledPng from '@holi/ui/assets/img/icons/hand-wave-filled.png'
 import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'

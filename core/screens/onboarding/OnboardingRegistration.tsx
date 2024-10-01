@@ -7,6 +7,7 @@ import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVeri
 import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import CreateAccount from '@holi/core/auth/components/CreateAccount'
 import DataConsent from '@holi/core/auth/components/DataConsent'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
@@ -18,7 +19,6 @@ import {
   storeOnboardingState,
   useStoredOnboardingState,
 } from '@holi/core/screens/onboarding/hooks/onboardingState'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'

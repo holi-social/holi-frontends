@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -17,7 +18,6 @@ import Recommendations from '@holi/core/screens/homeFeed/components/Recommendati
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 

@@ -1,13 +1,13 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { Appointment } from '@holi/core/screens/appointments/types'
 import { Space } from '@holi/core/screens/spaces/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { Delete, Edit2, Flag } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 

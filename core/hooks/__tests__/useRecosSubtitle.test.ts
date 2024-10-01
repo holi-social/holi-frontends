@@ -1,9 +1,9 @@
+import { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
-import { LoggedInState } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 const mockUseLoggedInUser = jest.fn()
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 

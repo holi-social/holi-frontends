@@ -1,6 +1,6 @@
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useDefaultTopics } from '@holi/core/domain/shared/hooks'
 import { Skill, Term, Topic } from '@holi/core/domain/shared/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 import { VolunteeringRecosQueryVariables } from '@holi-apps/volunteering/queries'
 

@@ -7,6 +7,7 @@ import InterestsStep from '@holi/core/auth/components/AccountSetup/InterestsStep
 import LocationStep, { useLocationStep } from '@holi/core/auth/components/AccountSetup/LocationStep'
 import NamesStep, { useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useLoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -19,7 +20,6 @@ import {
   interestsQuery,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'

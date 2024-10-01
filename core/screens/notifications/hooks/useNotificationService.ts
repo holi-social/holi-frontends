@@ -1,10 +1,10 @@
 import { ApiService } from '@novu/client'
 import { useEffect, useRef, useState } from 'react'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError } from '@holi/core/errors/helpers'
 import { novuApplicationIdentifier, novuBackendUrl } from '@holi/core/screens/notifications/config'
 import { useNovuCredentials } from '@holi/core/screens/notifications/hooks/useNovuCredentials'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const useNotificationService = () => {
   const { user } = useLoggedInUser()

@@ -6,7 +6,7 @@ import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 
 const mockUseLoggedInUser = jest.fn()
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 

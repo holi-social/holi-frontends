@@ -3,16 +3,16 @@ import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/r
 import React from 'react'
 import renderer from 'react-test-renderer'
 
+import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { dummyUser, notificationSpaceInvite } from '@holi/core/screens/notifications/components/seedData'
 import { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { type LoggedInState, useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser')
+jest.mock('@holi/core/auth/hooks/useLoggedInUser')
 const useLoggedInUserMock = jest.mocked(useLoggedInUser)
 const loggedIn = {
   isLoading: false,

@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError } from '@holi/core/errors/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { FeedPostCategoriesQueryResult, feedPostCategoriesQuery } from '@holi/core/screens/individualPosts/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export type FeedPostCategories = {
   id: string

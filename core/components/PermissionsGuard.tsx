@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 export enum PermissionsType {

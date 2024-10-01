@@ -9,7 +9,7 @@ import DiscoverSpacesView, {
 } from '@holi/core/screens/spaces/discover/components/DiscoverSpacesView'
 import { SpaceTermContext, SpaceTermContextResult } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => ({
     isLoggedIn: true,
   }),

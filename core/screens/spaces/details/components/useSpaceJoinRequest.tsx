@@ -2,6 +2,7 @@ import { ApolloError, useMutation } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
 import {
@@ -9,7 +10,6 @@ import {
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export interface UseSpaceJoinRequestProps {
   loading?: boolean

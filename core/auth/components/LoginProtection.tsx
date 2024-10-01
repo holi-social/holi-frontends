@@ -1,7 +1,7 @@
 import React from 'react'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import AnonymousProfileView from '@holi/core/screens/userprofile/components/AnonymousProfileView'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const LoginProtection = ({ children }: React.PropsWithChildren<unknown>) => {

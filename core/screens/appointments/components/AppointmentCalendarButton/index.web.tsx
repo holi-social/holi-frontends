@@ -3,6 +3,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
@@ -10,7 +11,6 @@ import {
   generateAppointmentIcsFileMutation,
 } from '@holi/core/screens/appointments/mutations'
 import { Appointment } from '@holi/core/screens/appointments/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { CalendarCheck } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
