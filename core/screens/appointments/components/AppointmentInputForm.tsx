@@ -1,14 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
+import { CreateAppointmentInput, LocationDetailsInput } from '@holi/api/graphql/graphql-codegen'
+import { PermissionType } from '@holi/api/graphql/graphql-codegen'
+import FormWrapper from '@holi/core/components/FormWrapper'
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
-import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import AppointmentVideoCallLinkInput from '@holi/core/screens/appointments/components/AppointmentVideoCallLinkInput'
-import { PermissionsType } from '@holi/core/screens/appointments/types'
-import { LocationDetails } from '@holi/core/types'
+import { CreateAppointmentSchema } from '@holi/core/screens/appointments/mutations'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -17,8 +19,9 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTimePicker'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { transformToUTC } from '@holi/ui/helper/date'
+import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // this enum is only used for the HoliModalSelect, since inviteOnly is a boolean value
@@ -27,7 +30,7 @@ export enum INVITE_ONLY_TYPE {
   PUBLIC = 'PUBLIC',
 }
 
-export const INVITE_ONLY_OPTIONS: HoliModalSelectOption[] = [
+export const INVITE_ONLY_OPTIONS: HoliModalSelectOption<INVITE_ONLY_TYPE>[] = [
   {
     id: INVITE_ONLY_TYPE.PUBLIC,
     selected: true,
@@ -42,357 +45,343 @@ export const INVITE_ONLY_OPTIONS: HoliModalSelectOption[] = [
   },
 ]
 
-export const PERMISSION_TYPE_OPTIONS: HoliModalSelectOption[] = [
+export const PERMISSION_TYPE_OPTIONS: HoliModalSelectOption<PermissionType>[] = [
   {
-    id: PermissionsType.PARTICIPANTS,
+    id: PermissionType.Participants,
     title: 'Members',
     selected: true,
     icon: Team,
   },
   {
-    id: PermissionsType.ADMINS,
+    id: PermissionType.Admins,
     title: 'Admins',
     selected: false,
     icon: Lock, // TODO: Add admin icon
   },
 ]
 
-export interface AppointmentInputFormProps {
-  title: string
-  description: string
-  startDate: Date
-  endDate: Date
-  inviteOnly?: HoliModalSelectOption
-  permissionType?: HoliModalSelectOption
-  regularity?: HoliModalSelectOption
-  thumbnail?: HoliImageInfo | null // null is for choosing to remove an image from an appointment and keeping it without image
-  thumbnailBlurhash?: string
-  locationDetails?: LocationDetails
-  selectedLocation?: GeolocationSuggestion
-  url?: string
-  additionalInfo?: string
-  currentThumbnail?: string
-  onChangeTitle: (value: string) => void
-  onChangeDescription: (value: string) => void
-  onChangeInviteOnly: (value: HoliModalSelectOption) => void
-  onChangeStartDate: (value: Date) => void
-  onChangeEndDate: (value: Date) => void
-  onChangePermissionType: (value: HoliModalSelectOption) => void
-  onChangeThumbnail: (value: HoliImageInfo | undefined | null) => void
-  onChangeLocationDetails: (value: LocationDetails) => void
-  onChangeSelectedLocation: (value?: GeolocationSuggestion) => void
-  onChangeUrl: (value: string) => void
-  onChangeAdditionalInfo: (value: string) => void
-  fieldErrors?: TranslatedFieldErrors
-  isAdmin?: boolean
+const roundToNextFullHour = (date: Date, add: number) => {
+  date.setHours(date.getHours() + add)
+  date.setMinutes(0, 0, 0)
+  return date
 }
 
-const AppointmentInputForm: React.FC<AppointmentInputFormProps> = ({
-  title,
-  description,
-  inviteOnly,
-  startDate,
-  endDate,
-  permissionType,
-  thumbnail,
-  currentThumbnail,
-  selectedLocation,
-  url,
-  additionalInfo,
-  onChangeTitle,
-  onChangeDescription,
-  onChangeInviteOnly,
-  onChangeStartDate,
-  onChangeEndDate,
-  onChangePermissionType,
-  onChangeThumbnail,
-  onChangeSelectedLocation,
-  onChangeUrl,
-  onChangeAdditionalInfo,
-  fieldErrors = {},
-  isAdmin,
+export const getAppointmentDefaultInitialState = (
+  override: Partial<CreateAppointmentInput> = {}
+): CreateAppointmentInput => ({
+  spaceId: '',
+  title: '',
+  description: '',
+  locationDetails: undefined,
+  inviteOnly: false,
+  participantIds: [],
+  permission: PermissionType.Admins,
+  startDateTime: transformToUTC(roundToNextFullHour(new Date(), 1)),
+  endDateTime: transformToUTC(roundToNextFullHour(new Date(), 2)),
+  thumbnail: undefined,
+  videoCallInfo: undefined,
+  videoCallLink: undefined,
+  ...override,
+})
+
+export interface AppointmentInputFormProps {
+  space: Space
+  initialAppointment: CreateAppointmentInput
+  onSubmit: (appointment: CreateAppointmentInput) => Promise<void>
+  onBackButtonPress?: () => void
+}
+
+const locationDetailsInputToGeolocationSuggestion = (locationDetails: LocationDetailsInput): GeolocationSuggestion => ({
+  id: '1',
+  label: locationDetails.completeAddress ?? '',
+  city: locationDetails.city,
+  state: locationDetails.state || undefined,
+  country: locationDetails.country,
+  ...(locationDetails.geolocation?.latitude && locationDetails.geolocation?.longitude
+    ? {
+        coordinates: {
+          latitude: locationDetails.geolocation?.latitude,
+          longitude: locationDetails.geolocation?.longitude,
+        },
+      }
+    : {}),
+})
+
+const geolocationSuggestionToLocationDetails = (suggestion: GeolocationSuggestion): LocationDetailsInput => ({
+  completeAddress: suggestion.label,
+  city: suggestion.city,
+  state: suggestion.state,
+  country: suggestion.country,
+  geolocation: suggestion.coordinates
+    ? {
+        latitude: suggestion.coordinates.latitude,
+        longitude: suggestion.coordinates.longitude,
+      }
+    : undefined,
+})
+
+const AppointmentInputForm = ({
+  space,
+  initialAppointment,
+  onSubmit,
+  onBackButtonPress,
 }: AppointmentInputFormProps) => {
-  const [optionsReady, setOptionsReady] = useState(false)
-  const [inviteOnlyOptions, setInviteOnlyOptions] = useState<HoliModalSelectOption[]>(INVITE_ONLY_OPTIONS)
-  const [permissionTypeOptions, setPermissionTypeOptions] = useState<HoliModalSelectOption[]>(PERMISSION_TYPE_OPTIONS)
-
-  const [titleError, setTitleError] = useState<string | undefined>()
-
-  const { show: showInviteOnly, hide: hideInviteOnly, visible: visibleInviteOnly } = useModalState()
-  const { show: showPermissionType, hide: hidePermissionType, visible: visiblePermissionType } = useModalState()
-
   const { t } = useTranslation()
-
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
 
-  // set options translations
-  useEffect(() => {
-    setInviteOnlyOptions((options) =>
-      options.map((option) => ({
-        ...option,
-        title: t(`spaces.appointments.input.inviteOnly.${option.id}.title`),
-        description: t(`spaces.appointments.input.inviteOnly.${option.id}.description`),
-        disabled: !isAdmin && option.id === INVITE_ONLY_TYPE.PUBLIC,
-        selected: inviteOnly?.id === option.id,
-      }))
+  const [appointment, setAppointment] = useState<CreateAppointmentInput>({
+    ...initialAppointment,
+    thumbnail: initialAppointment.thumbnail ? { uri: initialAppointment.thumbnail } : undefined,
+  })
+  const startDate = appointment.startDateTime ? new Date(appointment.startDateTime) : new Date()
+  const endDate = appointment.endDateTime ? new Date(appointment.endDateTime) : new Date()
+  const selectedLocation: GeolocationSuggestion | undefined =
+    appointment.locationDetails && locationDetailsInputToGeolocationSuggestion(appointment.locationDetails)
+
+  const onAppointmentChange = (update: Partial<CreateAppointmentInput>) => {
+    setAppointment((prev) => ({ ...prev, ...update }))
+  }
+
+  const [validationErrors, setValidationErrors] = useState<
+    Partial<Record<keyof CreateAppointmentInput, string[]>> | undefined
+  >(undefined)
+
+  const { show: showInviteOnly, hide: hideInviteOnly, visible: visibleInviteOnly } = useModalState()
+  const { show: showPermissionType, hide: hidePermissionType, visible: visiblePermissionType } = useModalState()
+
+  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
+
+  const inviteOnlyOptions = INVITE_ONLY_OPTIONS.map((option) => ({
+    ...option,
+    title: t(`spaces.appointments.input.inviteOnly.${option.id}.title`),
+    description: t(`spaces.appointments.input.inviteOnly.${option.id}.description`),
+    disabled: !isAdmin && option.id === INVITE_ONLY_TYPE.PUBLIC,
+    selected: option.id === INVITE_ONLY_TYPE.INVITE_ONLY ? appointment.inviteOnly : !appointment.inviteOnly,
+  }))
+
+  const permissionTypeOptions = PERMISSION_TYPE_OPTIONS.map((option) => ({
+    ...option,
+    title: t(`spaces.appointments.input.permission.${option.id}.title`),
+    description: t(`spaces.appointments.input.permission.${option.id}.description`),
+    disabled: option.id === PermissionType.Participants && !appointment.inviteOnly,
+    selected: appointment.permission === option.id,
+  }))
+
+  const getValidationErrors = (fieldsToValidate: (keyof CreateAppointmentInput)[] = []) => {
+    const validation = CreateAppointmentSchema.safeParse(
+      { ...appointment, spaceId: space?.id },
+      // validate only passed fields or the whole object if no fields are passed
+      fieldsToValidate.length ? { path: fieldsToValidate } : undefined
     )
+    const errors = validation.error?.flatten().fieldErrors
 
-    setPermissionTypeOptions((options) =>
-      options.map((option) => ({
-        ...option,
-        title: t(`spaces.appointments.input.permission.${option.id}.title`),
-        description: t(`spaces.appointments.input.permission.${option.id}.description`),
-        disabled: option.id === PermissionsType.PARTICIPANTS && inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC,
-        selected: permissionType?.id === option.id,
-      }))
-    )
-    setOptionsReady(true)
-  }, [t, setInviteOnlyOptions, setPermissionTypeOptions, isAdmin, inviteOnly, permissionType, setOptionsReady])
+    setValidationErrors(errors)
 
-  useEffect(() => {
-    // for admins, set it as public initially
-    if (optionsReady && !inviteOnly && isAdmin) {
-      const publicAppointment = inviteOnlyOptions.find((option) => option.id === INVITE_ONLY_TYPE.PUBLIC)
-      if (publicAppointment) {
-        onChangeInviteOnly(publicAppointment)
-      }
-    }
+    return errors
+  }
 
-    // for non-admins, set it as private by default
-    if (optionsReady && !inviteOnly && !isAdmin) {
-      const privateAppointment = inviteOnlyOptions.find((option) => option.id === INVITE_ONLY_TYPE.INVITE_ONLY)
-      if (privateAppointment) {
-        onChangeInviteOnly(privateAppointment)
-      }
-    }
+  const onSave = async () => {
+    if (getValidationErrors() !== undefined) return
 
-    // whenever selected to public events, set permissions as admins only by default
-    if (optionsReady && inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC && permissionType?.id !== PermissionsType.ADMINS) {
-      const adminOnlyPermissions = permissionTypeOptions.find((option) => option.id === PermissionsType.ADMINS)
-      if (adminOnlyPermissions) {
-        onChangePermissionType(adminOnlyPermissions)
-      }
-    }
-
-    // set permissions as admins only by default if not yet set
-    if (optionsReady && !permissionType) {
-      const adminOnlyPermissions = permissionTypeOptions.find((option) => option.id === PermissionsType.ADMINS)
-      if (adminOnlyPermissions) {
-        onChangePermissionType(adminOnlyPermissions)
-      }
-    }
-  }, [
-    inviteOnly,
-    permissionType,
-    isAdmin,
-    inviteOnlyOptions,
-    permissionTypeOptions,
-    onChangeInviteOnly,
-    onChangePermissionType,
-    optionsReady,
-  ])
-
-  useEffect(() => {
-    setTitleError(fieldErrors?.title?.length ? fieldErrors.title[0] : undefined)
-  }, [fieldErrors, t])
-
-  useEffect(() => {
-    if (inviteOnly) {
-      setInviteOnlyOptions((options) =>
-        options.map((inviteOnlyOption) =>
-          inviteOnlyOption.title === inviteOnly.title
-            ? { ...inviteOnlyOption, selected: true }
-            : { ...inviteOnlyOption, selected: false }
-        )
-      )
-    }
-    if (permissionType) {
-      setPermissionTypeOptions((options) =>
-        options.map((locationTypeOption) =>
-          locationTypeOption.title === permissionType.title
-            ? { ...locationTypeOption, selected: true }
-            : { ...locationTypeOption, selected: false }
-        )
-      )
-    }
-  }, [inviteOnly, permissionType])
+    await onSubmit({
+      ...appointment,
+      spaceId: space?.id,
+      thumbnail: appointment.thumbnail?.blob,
+      participantIds: appointment.inviteOnly ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
+      inviteOnly: !!appointment.inviteOnly,
+    })
+  }
 
   return (
-    <>
-      <HoliTextInput
-        placeholder={t('spaces.appointments.input.title.placeholder')}
-        inputLabel={t('spaces.appointments.input.title.label')}
-        validationErrorText={titleError}
-        value={title}
-        onChange={onChangeTitle}
-        aria-label={t('spaces.appointments.input.title.label')}
-        testID="appointment-title"
-        isRequired
-        showCharacterCount
-        maxNoOfCharacters={128}
-        inputProps={{ autoFocus: true }}
-      />
+    <FormWrapper
+      onSave={onSave}
+      saveButtonDisabled={!!validationErrors}
+      onBack={onBackButtonPress}
+      showBackButton
+      behavior="padding"
+      scrollToInput={false}
+      keyboardShouldPersistTaps="handled"
+      bottomBarStyle={styles.bottomBar}
+      initialOffsetTop={Platform.OS === 'ios' ? dimensions.bottomBarHeight : undefined}
+      renderProp={() => (
+        <View style={styles.container}>
+          <HoliTextInput
+            placeholder={t('spaces.appointments.input.title.placeholder')}
+            inputLabel={t('spaces.appointments.input.title.label')}
+            validationErrorText={validationErrors?.title?.[0]}
+            value={appointment.title}
+            onChange={(title) => onAppointmentChange({ title })}
+            aria-label={t('spaces.appointments.input.title.label')}
+            testID="appointment-title"
+            isRequired
+            showCharacterCount
+            maxNoOfCharacters={128}
+            onBlur={() => setValidationErrors(getValidationErrors(['title']))}
+            inputProps={{ autoFocus: true }}
+          />
 
-      {optionsReady && (
-        <HoliModalSelect
-          options={inviteOnlyOptions}
-          title={t('spaces.appointments.input.inviteOnly.title')}
-          onChange={onChangeInviteOnly}
-          placeholder={t('spaces.appointments.input.inviteOnly.placeholder')}
-          label={t('spaces.appointments.input.inviteOnly.title')}
-          testID="appointment-invite-only-input"
-          style={styles.marginSeparator}
-          showOptionIcon
-          isRequired
-          show={showInviteOnly}
-          hide={hideInviteOnly}
-          visible={visibleInviteOnly}
-        />
-      )}
+          <HoliModalSelect
+            options={inviteOnlyOptions}
+            title={t('spaces.appointments.input.inviteOnly.title')}
+            onChange={(option) => onAppointmentChange({ inviteOnly: option.id === INVITE_ONLY_TYPE.INVITE_ONLY })}
+            placeholder={t('spaces.appointments.input.inviteOnly.placeholder')}
+            label={t('spaces.appointments.input.inviteOnly.title')}
+            testID="appointment-invite-only-input"
+            style={styles.marginSeparator}
+            showOptionIcon
+            isRequired
+            show={showInviteOnly}
+            hide={hideInviteOnly}
+            visible={visibleInviteOnly}
+          />
 
-      <View style={styles.sectionWrapper}>
-        <HoliDateAndTimePicker
-          title={t('spaces.appointments.input.startDate.title')}
-          label={t('spaces.appointments.input.startDate.title')}
-          value={startDate}
-          onChange={(newStartDate) => {
-            if (endDate && newStartDate > endDate) {
-              onChangeEndDate(newStartDate)
-            }
-            onChangeStartDate(newStartDate)
-          }}
-          maximumDate={endDate}
-        />
-
-        <HoliDateAndTimePicker
-          title={t('spaces.appointments.input.endDate.title')}
-          label={t('spaces.appointments.input.endDate.title')}
-          value={endDate}
-          onChange={(newEndDate) => {
-            if (startDate && newEndDate < startDate) {
-              onChangeStartDate(newEndDate)
-            }
-            onChangeEndDate(newEndDate)
-          }}
-          minimumDate={startDate}
-          style={styles.marginSeparator}
-        />
-      </View>
-
-      <View style={[styles.sectionWrapper, { zIndex: 3 }]}>
-        <PlacesAutocomplete
-          label={t('spaces.input.location.label')}
-          placeholder={t('spaces.input.location.placeholder')}
-          selected={selectedLocation}
-          id="appointment-location"
-          testID="appointment-location"
-          onChange={onChangeSelectedLocation}
-          style={{ zIndex: 1 }}
-        />
-
-        <AppointmentVideoCallLinkInput
-          url={url}
-          additionalInfo={additionalInfo}
-          onChangeAdditionalInfo={onChangeAdditionalInfo}
-          onChangeUrl={onChangeUrl}
-          style={styles.videoCallItem}
-        />
-      </View>
-
-      <View style={[styles.sectionWrapper, { zIndex: 1 }]}>
-        <HoliTextInput
-          placeholder={t('spaces.appointments.input.description.placeholder')}
-          inputLabel={t('spaces.appointments.input.description.label')}
-          value={description}
-          onChange={onChangeDescription}
-          aria-label={t('spaces.appointments.input.description.label')}
-          testID="appointment-description"
-          showCharacterCount
-          noOfVisibleLines={4}
-          maxNoOfVisibleLines={8}
-          maxNoOfCharacters={5000}
-        />
-        <View style={[styles.thumbnailContainer, styles.marginSeparator]}>
-          {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
-          {thumbnail?.uri ? (
-            <ReactNativeImage
-              source={{ uri: thumbnail?.uri ?? '' }}
-              aria-label={t('spaces.appointments.input.thumbnail.label')}
-              style={styles.thumbnail}
-            />
-          ) : currentThumbnail ? (
-            <ReactNativeImage
-              source={{ uri: currentThumbnail }}
-              aria-label={t('spaces.appointments.input.thumbnail.label')}
-              style={styles.thumbnail}
-            />
-          ) : (
-            <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
-              <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
-            </View>
-          )}
-          <View style={styles.uploadButtonContainer}>
-            <HoliImagePicker
-              fileSizeLimitation={{
-                type: 'resize',
-                limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
-                resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+          <View style={styles.sectionWrapper}>
+            <HoliDateAndTimePicker
+              title={t('spaces.appointments.input.startDate.title')}
+              label={t('spaces.appointments.input.startDate.title')}
+              value={startDate}
+              onChange={(newStartDate) => {
+                onAppointmentChange({
+                  startDateTime: transformToUTC(newStartDate),
+                  endDateTime: newStartDate > endDate ? transformToUTC(newStartDate) : appointment.endDateTime,
+                })
               }}
-              buttonProps={{
-                label: thumbnail?.uri
-                  ? t('spaces.appointments.input.coverImage.change.button.label')
-                  : t('spaces.appointments.input.upload.button.label'),
-                testID: 'space-upload-image-btn',
-                style: styles.imageUploadButton,
-              }}
-              onPickImage={onChangeThumbnail}
-            >
-              <HoliText>
-                {thumbnail?.uri
-                  ? t('spaces.appointments.input.coverImage.change.button.label')
-                  : t('spaces.appointments.input.upload.button.label')}
-              </HoliText>
-            </HoliImagePicker>
+              maximumDate={endDate}
+            />
 
-            {(!!thumbnail?.uri || currentThumbnail) && (
-              <HoliButton
-                label={t('spaces.appointments.input.coverImage.remove.button.label')}
-                onPress={() => onChangeThumbnail(null)}
-                testID="create-space-remove-image-btn"
-                style={styles.imageUploadButton}
-                inline
-              >
-                <HoliText numberOfLines={1}>{t('spaces.appointments.input.coverImage.remove.button.label')}</HoliText>
-              </HoliButton>
-            )}
+            <HoliDateAndTimePicker
+              title={t('spaces.appointments.input.endDate.title')}
+              label={t('spaces.appointments.input.endDate.title')}
+              value={endDate}
+              onChange={(newEndDate) => {
+                onAppointmentChange({
+                  startDateTime: newEndDate < startDate ? transformToUTC(newEndDate) : appointment.startDateTime,
+                  endDateTime: transformToUTC(newEndDate),
+                })
+              }}
+              minimumDate={startDate}
+              style={styles.marginSeparator}
+            />
           </View>
-          <View style={styles.instructionsContainer}>
-            <HoliText size="extrasmall" style={styles.instructions}>
-              {t('spaces.input.coverImage.upload.hint')}
-            </HoliText>
+
+          <View style={[styles.sectionWrapper, { zIndex: 3 }]}>
+            <PlacesAutocomplete
+              label={t('spaces.input.location.label')}
+              placeholder={t('spaces.input.location.placeholder')}
+              selected={selectedLocation}
+              id="appointment-location"
+              testID="appointment-location"
+              onChange={(geoLocationSuggestion) =>
+                onAppointmentChange({
+                  locationDetails:
+                    geoLocationSuggestion && geolocationSuggestionToLocationDetails(geoLocationSuggestion),
+                })
+              }
+              style={{ zIndex: 1 }}
+            />
+
+            <AppointmentVideoCallLinkInput
+              url={appointment.videoCallLink}
+              additionalInfo={appointment.videoCallInfo}
+              onChangeAdditionalInfo={(videoCallInfo) => onAppointmentChange({ videoCallInfo })}
+              onChangeUrl={(videoCallLink) => onAppointmentChange({ videoCallLink })}
+              style={styles.videoCallItem}
+            />
+          </View>
+
+          <View style={[styles.sectionWrapper, { zIndex: 1 }]}>
+            <HoliTextInput
+              placeholder={t('spaces.appointments.input.description.placeholder')}
+              inputLabel={t('spaces.appointments.input.description.label')}
+              value={appointment.description}
+              onChange={(description) => onAppointmentChange({ description })}
+              aria-label={t('spaces.appointments.input.description.label')}
+              testID="appointment-description"
+              showCharacterCount
+              noOfVisibleLines={4}
+              maxNoOfVisibleLines={8}
+              maxNoOfCharacters={5000}
+            />
+            <View style={[styles.thumbnailContainer, styles.marginSeparator]}>
+              {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
+              {appointment.thumbnail?.uri ? (
+                <ReactNativeImage
+                  source={{ uri: appointment.thumbnail?.uri ?? '' }}
+                  aria-label={t('spaces.appointments.input.thumbnail.label')}
+                  style={styles.thumbnail}
+                />
+              ) : (
+                <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
+                  <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
+                </View>
+              )}
+              <View style={styles.uploadButtonContainer}>
+                <HoliImagePicker
+                  fileSizeLimitation={{
+                    type: 'resize',
+                    limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
+                    resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
+                  }}
+                  buttonProps={{
+                    label: appointment.thumbnail?.uri
+                      ? t('spaces.appointments.input.coverImage.change.button.label')
+                      : t('spaces.appointments.input.upload.button.label'),
+                    testID: 'space-upload-image-btn',
+                    style: styles.imageUploadButton,
+                  }}
+                  onPickImage={(thumbnail) => onAppointmentChange({ thumbnail })}
+                >
+                  <HoliText>
+                    {appointment.thumbnail?.uri
+                      ? t('spaces.appointments.input.coverImage.change.button.label')
+                      : t('spaces.appointments.input.upload.button.label')}
+                  </HoliText>
+                </HoliImagePicker>
+
+                {!!appointment.thumbnail?.uri && (
+                  <HoliButton
+                    label={t('spaces.appointments.input.coverImage.remove.button.label')}
+                    onPress={() => onAppointmentChange({ thumbnail: undefined })}
+                    testID="create-space-remove-image-btn"
+                    style={styles.imageUploadButton}
+                    inline
+                  >
+                    <HoliText numberOfLines={1}>
+                      {t('spaces.appointments.input.coverImage.remove.button.label')}
+                    </HoliText>
+                  </HoliButton>
+                )}
+              </View>
+
+              <View style={styles.instructionsContainer}>
+                <HoliText size="extrasmall" style={styles.instructions}>
+                  {t('spaces.input.coverImage.upload.hint')}
+                </HoliText>
+              </View>
+            </View>
+          </View>
+
+          <View style={[styles.sectionWrapper, { zIndex: 3 }]}>
+            <HoliModalSelect
+              options={permissionTypeOptions}
+              title={t('spaces.appointments.input.permission.title')}
+              onChange={(option) => onAppointmentChange({ permission: option.id as PermissionType })}
+              placeholder={t('spaces.appointments.input.permission.placeholder')}
+              label={t('spaces.appointments.input.permission.label')}
+              testID="appointment-permission-input"
+              description={t('spaces.appointments.input.permission.description')}
+              showOptionIcon
+              isRequired
+              show={showPermissionType}
+              hide={hidePermissionType}
+              visible={visiblePermissionType}
+            />
           </View>
         </View>
-      </View>
-
-      <View style={[styles.sectionWrapper, { zIndex: 3 }]}>
-        <HoliModalSelect
-          options={permissionTypeOptions}
-          title={t('spaces.appointments.input.permission.title')}
-          onChange={onChangePermissionType}
-          placeholder={t('spaces.appointments.input.permission.placeholder')}
-          label={t('spaces.appointments.input.permission.label')}
-          testID="appointment-permission-input"
-          description={t('spaces.appointments.input.permission.description')}
-          showOptionIcon
-          isRequired
-          show={showPermissionType}
-          hide={hidePermissionType}
-          visible={visiblePermissionType}
-        />
-      </View>
-    </>
+      )}
+    />
   )
 }
 
@@ -400,6 +389,14 @@ export default AppointmentInputForm
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: dimensions.topBarHeight + (constants.statusBarHeight || 0) + 24,
+      paddingBottom: dimensions.bottomBarHeight + 24,
+    },
+    bottomBar: {
+      backgroundColor: theme.colors.background10,
+    },
     marginSeparator: {
       marginTop: 24,
     },

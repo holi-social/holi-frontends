@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
+import { Appointment } from '@holi/api/graphql/graphql-codegen'
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
-import { Appointment } from '@holi/core/screens/appointments/types'
 import { Paged } from '@holi/core/types'
 
 export enum APPOINTMENT_STATUS_TYPE {

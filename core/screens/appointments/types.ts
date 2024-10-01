@@ -1,3 +1,4 @@
+import { PermissionType } from '@holi/api/graphql/graphql-codegen'
 import { User } from '@holi/core/domain/shared/types'
 import { LocationDetails } from '@holi/core/types'
 
@@ -38,7 +39,7 @@ export interface Appointment {
   inviteOnly: boolean
   startDateTime: string
   endDateTime: string
-  permission: PermissionsType
+  permission: PermissionType
   creator?: User
   participantIds?: string[]
   locationDetails?: LocationDetails
