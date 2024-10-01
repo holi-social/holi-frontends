@@ -39,6 +39,12 @@ export type CreateAppointmentParams = {
 
 const { useParam } = createParamHooks<CreateAppointmentParams>()
 
+const roundToNextFullHour = (date: Date, add: number) => {
+  date.setHours(date.getHours() + add)
+  date.setMinutes(0, 0, 0)
+  return date
+}
+
 const CreateAppointment = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
@@ -52,8 +58,8 @@ const CreateAppointment = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [inviteOnly, setInviteOnly] = useState<HoliModalSelectOption | undefined>()
-  const [startDate, setStartDate] = useState<Date>(new Date())
-  const [endDate, setEndDate] = useState<Date>(new Date())
+  const [startDate, setStartDate] = useState<Date>(roundToNextFullHour(new Date(), 1))
+  const [endDate, setEndDate] = useState<Date>(roundToNextFullHour(new Date(), 2))
   const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined | null>()
   const [locationDetails, setLocationDetails] = useState<LocationDetails | undefined>()
