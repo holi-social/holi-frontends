@@ -172,16 +172,13 @@ const PostDetailsPage = () => {
   const heartReactions = post?.reactions.HEART
   const currentUserHasReacted = !!post?.myReaction.HEART
 
-  const [updateFeedPostReaction, { loading: loadingReaction }] = useMutation<UpdateFeedPostReactionResponse>(
-    UpdateFeedPostReactionMutation,
-    {
-      onError: (error) =>
-        displayError(error, 'Failed to update feed post reaction', {
-          location: 'FeedPostReactions.updateFeedPostReaction',
-          postId: post?.id,
-        }),
-    }
-  )
+  const [updateFeedPostReaction] = useMutation<UpdateFeedPostReactionResponse>(UpdateFeedPostReactionMutation, {
+    onError: (error) =>
+      displayError(error, 'Failed to update feed post reaction', {
+        location: 'FeedPostReactions.updateFeedPostReaction',
+        postId: post?.id,
+      }),
+  })
 
   const reactOnPost = () => {
     if (!isLoggedIn) {
@@ -248,7 +245,6 @@ const PostDetailsPage = () => {
                   active={currentUserHasReacted}
                   fullName={post?.author.fullName}
                   testID="btn-react-to-feed-post-HEART"
-                  disabled={loadingReaction}
                 />
               </View>
             )}

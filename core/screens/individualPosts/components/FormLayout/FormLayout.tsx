@@ -28,7 +28,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={headerHeight}
       >
-        <ScrollView contentContainerStyle={styles.scrollViewContent} style={{ flex: 1, flexGrow: 1 }}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent} style={styles.scrollView}>
           {children}
         </ScrollView>
 
@@ -52,6 +52,10 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background20,
     },
     scrollViewContent: {
+      flexGrow: 1,
+    },
+    scrollView: {
+      flex: 1,
       flexGrow: 1,
     },
     suggestionsScrollView: {

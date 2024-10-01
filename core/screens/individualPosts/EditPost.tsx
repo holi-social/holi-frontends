@@ -155,7 +155,7 @@ const EditPost = () => {
           {t('individuals.post.edit.title')}
         </HoliHeading>
       ),
-      headerTransparent: true,
+      headerTransparent: false,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor={colors.black300} />,
       navigationCustomOptions: {
         footerShown: false,
@@ -226,7 +226,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     grayExtendingBackground: {
       backgroundColor: theme.colors.background20,
-      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : dimensions.topBarHeight + 40,
+      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight : 0,
       alignItems: 'center',
       justifyContent: 'flex-start',
       height: '100%',
