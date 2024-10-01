@@ -102,6 +102,7 @@ const logoutOrDelete = async (fn: () => Promise<void>) => {
   if (await navigateToSettings()) {
     await fn()
     await tapOnElementWithTestId('btn-consentModal-declineAll')
+    await tapOnElementWithTestId('toast-logout-success')
     await tapOnElementWithTestId('btn-to-home-view')
     await tapOnElementWithTestId('btn-to-onboarding')
     await tapOnElementWithTestId('holi-wizard-skip-btn')

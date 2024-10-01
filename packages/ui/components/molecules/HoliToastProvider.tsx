@@ -16,8 +16,8 @@ export enum HoliToastType {
 }
 
 export enum HoliToastTimeout {
-  ERROR = 5000,
-  SUCCESS = 3000,
+  ERROR = 500000,
+  SUCCESS = 300000,
 }
 
 interface Toast {
