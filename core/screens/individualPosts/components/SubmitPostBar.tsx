@@ -7,7 +7,6 @@ import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
@@ -43,7 +42,7 @@ export const SubmitPostBar = ({
   const styles = useMemo(() => getSubmitPostBarStyles(theme, screenWidth), [theme, screenWidth])
 
   return (
-    <SafeArea style={styles.menuContainer} edges={['bottom']}>
+    <View style={styles.menuContainer}>
       <View style={styles.items}>
         <View style={styles.iconContainer}>
           {[...images, ...(currentImages || [])].length === 0 && (
@@ -87,7 +86,7 @@ export const SubmitPostBar = ({
           <HoliText bold>{isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}</HoliText>
         </HoliButtonLoading>
       </View>
-    </SafeArea>
+    </View>
   )
 }
 const getSubmitPostBarStyles = (theme: HoliTheme, screenWidth: number) =>
@@ -117,9 +116,6 @@ const getSubmitPostBarStyles = (theme: HoliTheme, screenWidth: number) =>
       alignItems: 'center',
       maxWidth: dimensions.breakpointM,
       ...Platform.select({
-        ios: {
-          padding: 12,
-        },
         web: {
           paddingHorizontal: screenWidth > dimensions.breakpointM ? Spacing.lg : 0,
         },

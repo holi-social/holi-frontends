@@ -1,12 +1,11 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useHeaderHeight } from '@react-navigation/elements'
 
 import { PortalGate } from '@holi/core/providers/PortalProvider'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface FormLayoutProps {
@@ -23,53 +22,36 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
   const headerHeight = useHeaderHeight()
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.keyboardAvoidingView}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? headerHeight : dimensions.bottomBarHeight - Spacing.xs}
-    >
-      <View style={styles.layout}>
-        <ScrollView
-          contentContainerStyle={styles.contentContainer}
-          keyboardShouldPersistTaps="handled"
-          style={styles.container}
-        >
+    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
+      <KeyboardAvoidingView
+        style={styles.containe2}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={headerHeight}
+      >
+        <ScrollView contentContainerStyle={styles.scrollViewContent} style={{ flex: 1, flexGrow: 1 }}>
           {children}
         </ScrollView>
 
-        <View style={styles.submitBarContainer}>
+        <View>
           {hasSuggestions && <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />}
           {bottomBar}
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    keyboardAvoidingView: {
+    safeArea: {
       flex: 1,
-      width: '100%',
-      backgroundColor: theme.colors.background10,
-    },
-    layout: {
       backgroundColor: theme.colors.background20,
-      width: '100%',
-      height: '100%',
-      flexDirection: 'column',
     },
-    container: {
+    containe2: {
       flex: 1,
-      width: '100%',
     },
-    contentContainer: {
+    scrollViewContent: {
       flexGrow: 1,
-      paddingBottom: Spacing.md,
-    },
-    submitBarContainer: {
-      width: '100%',
-      backgroundColor: theme.colors.background20,
     },
     suggestionsScrollView: {
       zIndex: 1,
