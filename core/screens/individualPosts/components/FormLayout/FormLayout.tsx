@@ -24,7 +24,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom']}>
       <KeyboardAvoidingView
-        style={styles.containe2}
+        style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={headerHeight}
       >
@@ -45,10 +45,11 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     safeArea: {
       flex: 1,
-      backgroundColor: theme.colors.background20,
+      backgroundColor: theme.colors.background10,
     },
-    containe2: {
+    container: {
       flex: 1,
+      backgroundColor: theme.colors.background20,
     },
     scrollViewContent: {
       flexGrow: 1,
