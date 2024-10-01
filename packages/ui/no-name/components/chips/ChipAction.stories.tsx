@@ -56,11 +56,11 @@ export const ByColor: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', gap: 10 }}>
+      <>
         {availableColors.map((c) => (
           <ChipAction key={c} {...args} color={c} />
         ))}
-      </div>
+      </>
     )
   },
 }
@@ -71,11 +71,11 @@ export const BySize: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', alignItems: 'end', gap: 10 }}>
+      <>
         {availableSizes.map((s) => (
           <ChipAction key={s} {...args} size={s} color="blue" />
         ))}
-      </div>
+      </>
     )
   },
 }
@@ -91,13 +91,13 @@ export const ByIcons: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', gap: 10 }}>
+      <>
         <ChipAction {...args} />
         <ChipAction {...args} iconLeading={Hearts} />
         <ChipAction {...args} iconTrailing={Pencil} />
         <ChipAction {...args} iconLeading={Hearts} iconTrailing={Pencil} />
         <ChipAction {...{ ...args, ...{ children: undefined } }} iconLeading={Hearts} />
-      </div>
+      </>
     )
   },
 }

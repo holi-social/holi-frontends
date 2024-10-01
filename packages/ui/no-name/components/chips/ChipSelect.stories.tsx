@@ -66,11 +66,11 @@ export const ByColor: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', gap: 10 }}>
+      <>
         {availableColors.map((c) => (
           <ChipSelect key={c} {...args} selectedColor={c} />
         ))}
-      </div>
+      </>
     )
   },
 }
@@ -78,11 +78,11 @@ export const ByColor: Story = {
 export const BySize: Story = {
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', alignItems: 'end', gap: 10 }}>
+      <>
         {availableSizes.map((s) => (
           <ChipSelect key={s} {...args} size={s} selectedColor="blue" />
         ))}
-      </div>
+      </>
     )
   },
 }
@@ -99,10 +99,10 @@ export const BySelection: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', gap: 10 }}>
+      <>
         <ChipSelect {...args} />
         <ChipSelect {...args} selected />
-      </div>
+      </>
     )
   },
 }
@@ -119,7 +119,7 @@ export const ByAvatar: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', gap: 10 }}>
+      <>
         <ChipSelect {...args} />
         <ChipSelect {...args} avatar={{ initials: 'TP', label: 'pick me' }} />
         <ChipSelect
@@ -130,7 +130,7 @@ export const ByAvatar: Story = {
             imageSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
           }}
         />
-      </div>
+      </>
     )
   },
 }

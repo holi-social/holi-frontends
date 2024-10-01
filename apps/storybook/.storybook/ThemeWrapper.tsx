@@ -20,7 +20,9 @@ const ThemeProvider = ({ children, dark = false, colors }: ThemeProviderProps) =
       setModalIsOpen: () => {},
     }}
   >
-    <div style={{ padding: '2rem', backgroundColor: colors.background10 }}>{children}</div>
+    <div style={{ padding: '2rem', backgroundColor: colors.background10, display: 'flex', gap: 10, alignItems: 'end' }}>
+      {children}
+    </div>
   </ThemeContext.Provider>
 )
 

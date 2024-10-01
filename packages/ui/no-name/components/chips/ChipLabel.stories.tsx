@@ -41,11 +41,11 @@ export const ByColor: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', gap: 10 }}>
+      <>
         {availableColors.map((c) => (
           <ChipLabel key={c} {...args} color={c} />
         ))}
-      </div>
+      </>
     )
   },
 }
@@ -56,11 +56,11 @@ export const BySize: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', alignItems: 'end', gap: 10 }}>
+      <>
         {availableSizes.map((s) => (
           <ChipLabel key={s} {...args} size={s} color="green" />
         ))}
-      </div>
+      </>
     )
   },
 }
