@@ -55,6 +55,33 @@ default:
   tags:
     - 4cpu-16gb
 
+.web_destroy:
+  image:
+    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.6.6'
+    # default entrypoint is terraform command, but we want to run shell scripts
+    entrypoint: ['/bin/sh', '-c']
+  variables:
+    # has to be set to none for auto stop
+    GIT_STRATEGY: none
+  cache: [] # explicitly disable caching
+  dependencies: [] # explicitly disable artifact usage
+  artifacts:
+    paths:
+      - 'terraform/environments/web/crash.log' # optional, only available in case of a crash/panic
+      - 'terraform/environments/web/terraform-*.log' # separate log for every step/command
+    name: '${CI_JOB_NAME}_${CI_JOB_ID}'
+    when: on_failure
+    expire_in: 1 week
+  before_script:
+  script:
+    # branch may have been deleted, so we clone and checkout main
+    - git clone $CI_REPOSITORY_URL main-clone
+    - cd main-clone
+    - terraform/environments/web/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
+  allow_failure: false
+  resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
+  interruptible: false
+
 # end job templates
 
 # pipeline in chronological order
@@ -169,38 +196,13 @@ web_review_e2e:
     - !reference [.rules_web_review]
 
 web_review_destroy:
+  extends: .web_destroy
   needs: ['web_review_deploy']
-  image:
-    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.6.6'
-    # default entrypoint is terraform command, but we want to run shell scripts
-    entrypoint: ['/bin/sh', '-c']
-  variables:
-    # has to be set to none for auto stop
-    GIT_STRATEGY: none
   environment:
     name: review/$CI_COMMIT_REF_SLUG-web
     action: stop
-  cache: [] # explicitly disable caching
-  dependencies: [] # explicitly disable artifact usage
-  artifacts:
-    paths:
-      - "terraform/environments/web/crash.log" # optional, only available in case of a crash/panic
-      - "terraform/environments/web/terraform-*.log" # separate log for every step/command
-    name: "${CI_JOB_NAME}_${CI_JOB_ID}"
-    when: on_failure
-    expire_in: 1 week
-  before_script:
-  script:
-    # branch may have been deleted, so we clone and checkout main
-    - git clone $CI_REPOSITORY_URL main-clone
-    - cd main-clone
-    - terraform/environments/web/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
-  # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
-  allow_failure: false
   rules:
     - !reference [.rules_web_review]
-  resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
-  interruptible: false
 
 ## staging environment
 
@@ -226,9 +228,34 @@ web_staging_e2e:
 
 ## production environment
 
-web_release_deploy:
+web_release_candidate_deploy:
   extends: .web_deploy
   needs: ['web_build_docker']
+  environment:
+    name: release-candidate/$CI_COMMIT_REF_SLUG-web
+    url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
+    on_stop: web_release_candidate_destroy
+    auto_stop_in: 1 week
+  rules:
+    - !reference [.rule_templates, only_on_production_release]
+  after_script: |
+    wget --header="Content-Type: application/json" \
+      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://'"$(cat $UI_DOMAIN_PATH)"'"}' \
+      --output-document - \
+      https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+
+web_release_candidate_destroy:
+  extends: .web_destroy
+  needs: ['web_release_candidate_deploy']
+  environment:
+    name: release-candidate/$CI_COMMIT_REF_SLUG-web
+    action: stop
+  rules:
+    - !reference [.rule_templates, only_on_production_release]
+
+web_release_deploy:
+  extends: .web_deploy
+  needs: ['web_release_candidate_deploy']
   allow_failure: false
   environment:
     name: web-production
@@ -238,3 +265,8 @@ web_release_deploy:
     ENVIRONMENT_ID: production
   rules:
     - !reference [.rule_templates, manually_on_production_release]
+  after_script: |
+    wget --header="Content-Type: application/json" \
+      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The production web environment has been manually released from \"'$CI_COMMIT_REF_SLUG'\". It has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://app.holi.social"}' \
+      --output-document - \
+      https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
