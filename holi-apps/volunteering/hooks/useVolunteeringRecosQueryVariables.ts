@@ -12,10 +12,10 @@ interface VolunteeringRecosParameters {
 }
 
 const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
-  const { user, isLoading } = useLoggedInUser()
+  const { user, isLoading: userLoading } = useLoggedInUser()
   const { defaultTopics, defaultTopicsLoading } = useDefaultTopics()
 
-  if (isLoading) {
+  if (userLoading) {
     return {
       loading: true,
     }

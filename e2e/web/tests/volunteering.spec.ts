@@ -23,8 +23,7 @@ test.describe('@Volunteering', () => {
     await testIsAccessibleFromHomeScreen(page)
 
     await testAllowsPagination(page)
-    // TODO: Should be fixed with HOLI-7656
-    // await withSSR(browser, page.url(), testDisplaysList)
+    await withSSR(browser, page.url(), testDisplaysList)
 
     // click first element in list
     await clickElementByTestId(page, 'btn-to-volunteering-engagement')
@@ -155,9 +154,7 @@ const testDisplaysFilterResults = async (browser: Browser, page: Page) => {
   await clickElementByTestId(page, 'nav-button-back')
   // expect filtered list
   await testDisplaysFilterResultsCommon(page)
-
-  // TODO: Should be fixed with HOLI-7656
-  // await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
+  await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
 
   // Scroll to make header & filter button visible
   await scrollToMakeHeaderVisible(page)
