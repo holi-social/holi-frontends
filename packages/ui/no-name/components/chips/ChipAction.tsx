@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { GestureResponderEvent, Pressable, PressableProps } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -15,7 +15,7 @@ type Size = 'sm' | 'md' | 'lg'
 
 type ChipActionProps = PressableProps & {
   onPress: (event: GestureResponderEvent) => void
-  children?: ReactNode
+  children?: string
   selected?: boolean
   disabled?: boolean
   color?: ChipColor

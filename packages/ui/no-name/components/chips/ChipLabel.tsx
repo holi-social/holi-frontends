@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -13,7 +13,7 @@ type ChipColor = Color | 'white'
 type Size = 'sm' | 'md' | 'lg'
 
 type ChipLabelProps = {
-  children?: ReactNode
+  children?: string
   color?: ChipColor
   size?: Size
   iconLeading?: HoliIconType
