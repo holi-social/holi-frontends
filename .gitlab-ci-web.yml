@@ -240,7 +240,7 @@ web_release_candidate_deploy:
     - !reference [.rule_templates, only_on_production_release]
   after_script: |
     wget --header="Content-Type: application/json" \
-      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://'"$(cat $UI_DOMAIN_PATH)"'"}' \
+      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'"$CI_COMMIT_TITLE"'\". and is available and/or updated under https://'"$(cat $UI_DOMAIN_PATH)"'\nIf the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a 'PR_END_OF_FILE_ERROR' in your browser."}' \
       --output-document - \
       https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
