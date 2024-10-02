@@ -20,6 +20,13 @@ jest.mock('@holi/core/errors/hooks', () => ({
   }),
 }))
 
+const mockIsSSR = jest.fn()
+jest.mock('@holi/core/helpers/isSSR', () => ({
+  get isSSR() {
+    return mockIsSSR()
+  },
+}))
+
 const TestComponent = () => {
   const { isLoggedIn, isLoggedOut, user } = useLoggedInUser()
 
@@ -74,7 +81,11 @@ const mockedFailedRequest = {
 }
 
 describe('useLoggedInUser', () => {
-  it('should return logged out state', async () => {
+  beforeEach(() => {
+    mockIsSSR.mockReturnValue(false)
+  })
+
+  it('shoulmockIsSSRd return logged out state', async () => {
     mockUseLoginState.mockReturnValue({ isLoggedOut: true })
     const { mocks } = mockUserRequest()
 
@@ -193,6 +204,29 @@ describe('useLoggedInUser', () => {
     )
 
     await waitForElementToBeRemoved(() => screen.getByText('isLoading'))
+
+    expect(await screen.findByText('isLoggedOut')).toBeTruthy()
+  })
+
+  it('should return logged out state if user is not in cache during ssr', async () => {
+    mockIsSSR.mockReturnValue(true)
+    mockUseLoginState.mockReturnValue({})
+    const mockLoggedOutUserRequest = {
+      request: {
+        query: authenticatedUserV2Query,
+      },
+      result: {
+        data: {
+          authenticatedUserV2: null,
+        },
+      },
+    }
+
+    render(
+      <MockedProvider mocks={[mockLoggedOutUserRequest]}>
+        <TestComponent />
+      </MockedProvider>
+    )
 
     expect(await screen.findByText('isLoggedOut')).toBeTruthy()
   })

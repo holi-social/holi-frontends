@@ -69,7 +69,7 @@ export const useLoggedInUser = (): LoggedInState => {
     },
   })
 
-  if (loginState.isLoggedOut || error) {
+  if (loginState.isLoggedOut || error || (!user && isSSR)) {
     return loggedOut
   } else if (user) {
     return {
