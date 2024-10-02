@@ -4,14 +4,13 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
+import Typography from '@holi/ui/no-name/components/typography/Typography'
 import { Color, byShade } from '@holi/ui/no-name/foundations/colors/primitives'
 
+import { Size, sizeToTypographySize } from './size'
 import { pill } from './styles'
-
-type Size = 'sm' | 'md' | 'lg'
 
 type ChipSelectProps = {
   onPress: (event: GestureResponderEvent) => void
@@ -40,6 +39,7 @@ const ChipSelect = ({
 }: ChipSelectProps) => {
   const { styles, theme } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = sizeToIconSize[size]
+  const icon = selected ? Deselect : Select
   const avatarSize = size === 'lg' ? 'small' : 'micro'
 
   return (
@@ -60,15 +60,11 @@ const ChipSelect = ({
         />
       )}
       {children && (
-        <HoliText selectable={false} style={styles.text}>
+        <Typography size={sizeToTypographySize[size]} color={theme.components.chipSelect.text} selectable={false}>
           {children}
-        </HoliText>
+        </Typography>
       )}
-      {selected ? (
-        <HoliIcon icon={Deselect} size={iconSize} color={styles.text.color} />
-      ) : (
-        <HoliIcon icon={Select} size={iconSize} color={styles.text.color} />
-      )}
+      <HoliIcon icon={icon} size={iconSize} color={theme.components.chipSelect.text} />
     </Pressable>
   )
 }
@@ -135,18 +131,6 @@ const stylesheet = createStyleSheet((theme) => ({
           height: 32,
           marginLeft: -(Spacing.xxs - 2),
         },
-      },
-    },
-  },
-  text: {
-    fontWeight: '400',
-    color: theme.components.chipSelect.text,
-    variants: {
-      //  Temporary explicit styles, until new font & Text component is built
-      size: {
-        sm: { fontSize: 13, lineHeight: 15.6, letterSpacing: -0.104 },
-        md: { fontSize: 15, lineHeight: 21, letterSpacing: -0.12 },
-        lg: { fontSize: 18, lineHeight: 21.6, letterSpacing: -0.18 },
       },
     },
   },
