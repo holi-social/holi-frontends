@@ -136,12 +136,13 @@ mobile_review_destroy:
   dependencies: [] # explicitly disable artifact usage
   script:
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
-  # can't use rules here: https://gitlab.com/gitlab-org/gitlab/-/issues/34077
-  when: manual
   allow_failure: false
   interruptible: false
   rules:
-    - !reference [.rules_mobile_review]
+    - !reference [.rule_templates, any_but_production_staging]
+    - !reference [.rule_templates, skip_environment_for_mobile]
+    - if: $CI_COMMIT_BRANCH
+      when: manual
 
 mobile_review_build_android:
   extends: .mobile_build

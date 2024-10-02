@@ -202,7 +202,10 @@ web_review_destroy:
     name: review/$CI_COMMIT_REF_SLUG-web
     action: stop
   rules:
-    - !reference [.rules_web_review]
+    - !reference [.rule_templates, any_but_production_staging]
+    - !reference [.rule_templates, skip_environment_for_web]
+    - if: $CI_COMMIT_BRANCH
+      when: manual
 
 ## staging environment
 
@@ -251,7 +254,7 @@ web_release_candidate_destroy:
     name: release-candidate/$CI_COMMIT_REF_SLUG-web
     action: stop
   rules:
-    - !reference [.rule_templates, only_on_production_release]
+    - !reference [.rule_templates, manually_on_production_release]
 
 web_release_deploy:
   extends: .web_deploy
