@@ -6,12 +6,10 @@
   "engagement.title": "{{title}} by {{organization}}",
   "engagementDetail.aboutEngagement": "About this volunteering",
   "engagementDetail.getInTouch": "Get in touch",
-  "engagementDetail.notFound": "Opportunity with ID {{engagementId}} could not be found",
+  "engagementDetail.notFound": "Opportunity could not be found",
   "engagementDetail.organizer": "Organiser",
   "engagementDetail.provider": "Provided via",
   "engagementDetail.technicalPartner": "Technical partner",
-  "filter.category.label": "Topics you are interested in",
-  "filter.category.placeholder": "Select topic",
   "filter.heading": "Filter opportunities",
   "filter.location.label": "Location",
   "filter.location.placeholder": "Address, district, city or country…",
@@ -26,7 +24,6 @@
   "filter.topics.multiSelectionLabel": "Topics",
   "filter.topics.placeholder": "All topics",
   "listing.error": "Loading opportunities failed",
-  "listing.headline": "Interesting tasks for you",
   "listing.loadMoreButton.text": "See more",
   "listing.partnerModal.Aktion Mensch.buttonText": "Visit aktion-mensch.de",
   "listing.partnerModal.Aktion Mensch.headline": "Inclusion is a matter close to our heart",
@@ -49,6 +46,5 @@
   "listing.partnerModal.vostel.de.text": "We envision a world where everyone contributes to a better, more sustainable future according to their abilities and regardless of how much time they have, what language they speak or what skills they bring with them.",
   "listing.subline": "provided by our partners",
   "maintenance.feature": "The volunteering app",
-  "shared.partner.link.title": "Page of {{source}}",
-  "shared.partner.modal.close": "Got it"
+  "shared.partner.link.title": "Page of {{source}}"
 }

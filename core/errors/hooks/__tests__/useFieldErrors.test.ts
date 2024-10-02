@@ -32,6 +32,8 @@ const graphQlError: GraphQLError = {
   originalError: undefined,
   name: '',
   message: '',
+  toJSON: jest.fn(),
+  [Symbol.toStringTag]: '',
 }
 
 describe('useFieldErrors', () => {

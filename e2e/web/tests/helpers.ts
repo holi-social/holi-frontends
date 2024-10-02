@@ -31,9 +31,6 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
   return clickFirstElement(await locateElementByTestId(page, testId, nth))
 }
 
-export const scrollToMakeHeaderVisible = async (page: Page): Promise<void> =>
-  page.evaluate(() => window.scrollBy({ top: 5 }))
-
 /*
  * Only use for text that is provided by the test (fixture)
  */
@@ -325,7 +322,7 @@ export const withSSR = async (
   await context.close()
 }
 
-export async function scrollToTriggerModal(page: Page) {
+export async function scrollToMakeHeaderVisible(page: Page) {
   // Wait for the page to load
   await page.waitForLoadState()
 

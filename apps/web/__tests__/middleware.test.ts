@@ -38,7 +38,7 @@ const createRequest = ({
       get: () => acceptLanguage,
     },
     url,
-  } as NextRequest
+  } as unknown as NextRequest
 }
 
 describe('middleware', () => {

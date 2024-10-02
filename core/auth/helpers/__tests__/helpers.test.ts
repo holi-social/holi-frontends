@@ -69,14 +69,14 @@ describe('handleKratosSdkError', () => {
     expect(() => errorHandlerIgnoringCodes(errorResponse)).not.toThrow()
 
     expect(console.warn).not.toHaveBeenCalled()
-    expect(captureSentryException).not.toBeCalled()
+    expect(captureSentryException).not.toHaveBeenCalled()
   })
 
   it('does not log or report errors with status code 400', () => {
     expect(() => errorHandlerIgnoringCodes({ response: { status: 400 } })).toThrow()
 
     expect(console.warn).not.toHaveBeenCalled()
-    expect(captureSentryException).not.toBeCalled()
+    expect(captureSentryException).not.toHaveBeenCalled()
   })
 
   it('handles general errors', () => {

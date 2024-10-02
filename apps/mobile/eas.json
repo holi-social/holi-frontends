@@ -4,6 +4,9 @@
       "node": "20.11.0",
       "ios": {
         "resourceClass": "m-medium"
+      },
+      "android": {
+        "resourceClass": "large"
       }
     },
     "development": {

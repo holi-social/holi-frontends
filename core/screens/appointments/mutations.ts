@@ -5,16 +5,16 @@ import type { Appointment } from '@holi/core/screens/appointments/types'
 
 export const CreateAppointmentSchema = z.object({
   spaceId: z.string() /* UUID */,
-  title: z.string().min(2).max(128).optional(),
+  title: z.string().min(2).max(128),
   inviteOnly: z.boolean(),
-  startDateTime: z.string().optional(),
-  endDateTime: z.string().optional(),
+  startDateTime: z.string(),
+  endDateTime: z.string(),
   locationDetails: z
     .object({
-      completeAddress: z.string().optional(),
-      city: z.string().optional(),
-      state: z.string().optional(),
-      country: z.string().optional(),
+      completeAddress: z.string(),
+      city: z.string(),
+      state: z.string().optional().nullable(),
+      country: z.string(),
       geolocation: z
         .object({
           latitude: z.number(),
@@ -24,7 +24,7 @@ export const CreateAppointmentSchema = z.object({
     })
     .optional(),
   description: z.string().trim().max(5000).optional(),
-  permission: z.string().optional() /* PermissionType */,
+  permission: z.string() /* PermissionType */,
   videoCallLink: z.string().optional(),
   videoCallInfo: z.string().optional(),
   thumbnail: z.instanceof(Object).optional(),

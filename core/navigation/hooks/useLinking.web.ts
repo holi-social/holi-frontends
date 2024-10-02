@@ -1,12 +1,11 @@
 import type { ParsedURL, QueryParams } from 'expo-linking'
 
 import useRouting from './useRouting'
-import { navigateOptions } from './useRouting/types'
 
 interface UseLinking {
   currentUrl: string
   createUrl: (path: string) => string
-  openUrl: (routeName: string, options?: navigateOptions) => void
+  openUrl: (routeName: string) => void
   parsedUrl: ParsedURL
 }
 

@@ -1,13 +1,13 @@
+import { scrollDown } from '@holi/e2e-mobile/helpers/gestures'
+
 import { target } from '../../appiumConfig'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
-  checkIfElementWithTestIdExists,
+  retry,
   scrollToElementWithTestId,
   tapOnElementWithTestId,
   waitForElementWithTestId,
-  waitForElementWithTestIdToBeNull,
 } from '../../helpers/selectors'
-import { delayMs } from '../../helpers/time'
 
 describe('@Volunteering', () => {
   afterEach(async () => {
@@ -75,25 +75,14 @@ const assertAllowsPagination = async () => {
   const list = await waitForElementWithTestId('volunteering-list-unfiltered')
   const { height: heightBefore } = await list.getSize()
 
-  // HOLI-9711: handling both variants
-  // Legacy variant
-  // swipe to the bottom until the load more button is visible
-  await scrollToElementWithTestId('btn-volunteering-list-load-more', 'down', { maxAttempts: 20 })
-    // Catch error: Button does not exist for DiscoveryV1 variant
-    .catch(() => ({}))
+  // Scroll down to trigger pagination-on-scroll
+  for (let i = 0; i < 10; i++) {
+    await scrollDown()
+  }
 
-  const useLegacyVariant = await checkIfElementWithTestIdExists('btn-volunteering-list-load-more')
-
-  if (useLegacyVariant) {
-    // load more
-    await tapOnElementWithTestId('btn-volunteering-list-load-more')
-    // wait a moment
-    await delayMs(1000)
-    // wait until "load more" button has been replaced by next list item
-    await waitForElementWithTestIdToBeNull('btn-volunteering-list-load-more')
-  } else {
-    // Scrolling down should already have triggered pagination-on-scroll and added new elements => List height should have been increased
+  // New elements should have been added to the list, increasing the list height
+  await retry(async () => {
     const { height: heightAfter } = await list.getSize()
     expect(heightAfter).toBeGreaterThan(heightBefore)
-  }
+  })
 }

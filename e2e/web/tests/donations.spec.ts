@@ -10,7 +10,7 @@ import {
   donationsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
-  scrollToTriggerModal,
+  scrollToMakeHeaderVisible,
   withSSR,
 } from './helpers'
 import { test } from './testmaster'
@@ -33,7 +33,7 @@ test.describe('@Donations', () => {
     await withSSR(browser, page.url(), testDisplaysProjectDetailsCommon)
 
     /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-    await scrollToTriggerModal(page)
+    await scrollToMakeHeaderVisible(page)
 
     // navigate back
     await clickElementByTestId(page, 'nav-button-back')
@@ -44,9 +44,7 @@ test.describe('@Donations', () => {
     // Can be re-enabled when we use the donations from our own DB. Please remember to also re-enable the e2e test web and mobile!
 
     /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-    //  await page.waitForLoadState()
-    //  await page.mouse.wheel(0, +600)
-    //  await page.mouse.wheel(0, -750)
+    //  await scrollToMakeHeaderVisible(page)
 
     //    await testFilterDonationsByLocationAndResetFilter(browser, page)
     //    await testDisplaysDetailsOfFilterResults(page)
@@ -63,7 +61,7 @@ const testAbleToVisitDonationsApp = async (page: Page) => {
   await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
   /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-  await scrollToTriggerModal(page)
+  await scrollToMakeHeaderVisible(page)
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
