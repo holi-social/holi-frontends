@@ -85,9 +85,6 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: 24,
       backgroundColor: theme.colors.background20,
     },
-    heading: {
-      marginBottom: 3,
-    },
     searchQuery: {
       color: theme.colors.brandColorB30,
       marginTop: 16,
@@ -96,9 +93,5 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       marginTop: 16,
-    },
-    list: {
-      paddingTop: 24,
-      backgroundColor: theme.colors.background20,
     },
   })

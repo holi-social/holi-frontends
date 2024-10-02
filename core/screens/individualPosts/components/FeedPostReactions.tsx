@@ -28,7 +28,7 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
   const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
 
-  const [updateFeedPostReaction, { loading }] = useMutation(UpdateFeedPostReactionMutation, {
+  const [updateFeedPostReaction] = useMutation(UpdateFeedPostReactionMutation, {
     onCompleted: () => onChange?.(),
     onError: (error) =>
       displayError(error, 'Failed to update feed post reaction', {
@@ -80,7 +80,6 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
       fullName={post.author.fullName}
       style={style}
       testID="btn-react-to-feed-post-HEART"
-      disabled={loading}
     />
   )
 }

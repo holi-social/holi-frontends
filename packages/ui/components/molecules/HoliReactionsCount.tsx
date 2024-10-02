@@ -26,7 +26,6 @@ export interface HoliReactionsCountProps {
   onPress?: (event: SyntheticEvent | GestureResponderEvent) => void
   onMouseEnter?: (event: MouseEnterOutEvent) => void
   onMouseOut?: (event: MouseEnterOutEvent) => void
-  disabled?: boolean
   style?: ViewStyle
   testID?: string
 }
@@ -39,7 +38,6 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
   onPress = () => null,
   onMouseEnter = () => null,
   onMouseOut = () => null,
-  disabled = false,
   style,
   testID,
 }) => {
@@ -100,7 +98,6 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
     <HoliButton
       label={labelText}
       onPress={handlePress}
-      disabled={disabled}
       onMouseEnter={onNativeMouseEnter}
       onMouseOut={onNativeMouseOut}
       transparent

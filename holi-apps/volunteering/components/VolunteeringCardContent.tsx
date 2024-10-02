@@ -90,14 +90,4 @@ const getStyles = (theme: HoliTheme) =>
     locationText: {
       color: theme.colors.foreground20,
     },
-    labelRow: {
-      flexDirection: 'row',
-      gap: 6,
-    },
-    pill: {
-      flexShrink: 1,
-    },
-    categoryText: {
-      color: theme.colors.brandColorB30,
-    },
   })

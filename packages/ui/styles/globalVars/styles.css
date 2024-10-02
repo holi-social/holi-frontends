@@ -1,29 +1,12 @@
 :root {
   /* Font variables */
   --font-family-web: Circular Std, Helvetica, Arial, sans-serif;
-  --font-family-mobile: Circular Std;
+  /* HOLI-9766: Replace font */
+  /* --font-family-web: InstrumentSans-Regular, Helvetica, Arial, sans-serif; */
 
   /* Dimension variables */
-  --max-screen-width: 840px;
-  --max-button-width: 400px;
-  --top-bar-height: 52px;
+  --top-bar-height: 56px;
   --bottom-bar-height: 62px;
-  --bottom-bar-mobile: 92px;
-  --loader-height: 66px;
-
-  --breakpoint-xs: 375px;
-  --breakpoint-s: 576px;
-  --breakpoint-m: 768px;
-  --breakpoint-l: 840px;
-  --breakpoint-xl: 1200px;
-  --breakpoint-xxl: 1920px;
-  --breakpoint-xxxl: 2396px;
-
-  --spacing-xs: 8px;
-  --spacing-s: 16px;
-  --spacing-m: 24px;
-  --spacing-l: 40px;
-  --spacing-xl: 64px;
 
   /* Color variables */
   --foreground30: #262424;

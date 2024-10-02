@@ -1,12 +1,13 @@
+import { Topic } from '@holi/core/domain/shared/types'
 import { getDefaultTopicIds } from '@holi/core/screens/spaces/helpers/defaultFilters'
 
-const topics = [
-  { id: 'a', title: 'a', isDiscoverSpacesDefault: true },
-  { id: 'b', title: 'b', isDiscoverSpacesDefault: true },
-  { id: 'c', title: 'c', isDiscoverSpacesDefault: true },
-  { id: 'd', title: 'd', isDiscoverSpacesDefault: false },
-  { id: 'e', title: 'e', isDiscoverSpacesDefault: false },
-  { id: 'f', title: 'f', isDiscoverSpacesDefault: false },
+const topics: Topic[] = [
+  { id: 'a', title: 'a', isDiscoverSpacesDefault: true, slug: 'a' },
+  { id: 'b', title: 'b', isDiscoverSpacesDefault: true, slug: 'b' },
+  { id: 'c', title: 'c', isDiscoverSpacesDefault: true, slug: 'c' },
+  { id: 'd', title: 'd', isDiscoverSpacesDefault: false, slug: 'd' },
+  { id: 'e', title: 'e', isDiscoverSpacesDefault: false, slug: 'e' },
+  { id: 'f', title: 'f', isDiscoverSpacesDefault: false, slug: 'f' },
 ]
 describe('SpacesGrid', () => {
   it('returns empty when default topic ids are the same as user topic ids', () => {

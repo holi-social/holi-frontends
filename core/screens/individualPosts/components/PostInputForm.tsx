@@ -1,14 +1,14 @@
 import { withProfiler } from '@sentry/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { Term, User } from '@holi/core/domain/shared/types'
 import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { PortalGate } from '@holi/core/providers/PortalProvider'
 import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
 import FeedPostPill from '@holi/core/screens/individualPosts/components/FeedPostPill'
+import FormLayout from '@holi/core/screens/individualPosts/components/FormLayout/FormLayout'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
@@ -34,7 +34,6 @@ import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/typ
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
@@ -158,12 +157,23 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
   return (
     <>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.layout}>
-        <ScrollView
-          contentContainerStyle={styles.contentContainer}
-          keyboardShouldPersistTaps="handled"
-          style={styles.container}
-        >
+      <FormLayout
+        hasSuggestions
+        bottomBar={
+          <SubmitPostBar
+            onSubmit={onSubmit}
+            showLocationModal={showLocationModal}
+            showEditImagesModal={showEditImagesModal}
+            submitting={submitting}
+            isSubmittable={isSubmittable}
+            isEdit={isEdit}
+            images={images}
+            currentImages={currentImages}
+            setImages={onChangeImages}
+          />
+        }
+      >
+        <>
           <View style={styles.pillContainer}>
             <FeedPostPill
               label={t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
@@ -284,23 +294,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               </View>
             )}
           </View>
-        </ScrollView>
-
-        {/* Suggestions*/}
-        <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
-
-        <SubmitPostBar
-          onSubmit={onSubmit}
-          showLocationModal={showLocationModal}
-          showEditImagesModal={showEditImagesModal}
-          submitting={submitting}
-          isSubmittable={isSubmittable}
-          isEdit={isEdit}
-          images={images}
-          currentImages={currentImages}
-          setImages={onChangeImages}
-        />
-      </KeyboardAvoidingView>
+        </>
+      </FormLayout>
 
       <HoliModalSelect
         options={visibilityOptions}
@@ -369,7 +364,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
               onChange={handleLocationChange}
               style={[styles.input, { zIndex: 2 }]}
               inputProps={{ autoFocus: true, clearButtonMode: 'always' }}
-              suggestionsStyle={styles.suggestionsContainer}
+              suggestionsStyle={styles.placesAutoComplete}
               enhanceWithDetails
             />
           </HoliContainer>
@@ -399,12 +394,6 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    layout: {
-      backgroundColor: theme.colors.background20,
-      width: '100%',
-      height: '100%',
-      alignItems: 'center',
-    },
     titleInput: {
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
@@ -421,17 +410,6 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: 6,
       paddingHorizontal: 10,
       maxWidth: '100%',
-    },
-    container: {
-      width: '100%',
-      ...Platform.select({
-        web: {
-          maxWidth: dimensions.breakpointM,
-        },
-      }),
-    },
-    contentContainer: {
-      paddingBottom: Platform.OS === 'ios' ? dimensions.bottomBarHeight : dimensions.bottomBarHeight + 60,
     },
     inputContainer: {
       width: '100%',
@@ -475,43 +453,19 @@ const getStyles = (theme: HoliTheme) =>
     pillContainer: {
       width: '100%',
       flexWrap: 'wrap',
-      marginTop: Platform.OS === 'web' ? Spacing.xs : Spacing.md,
+      marginTop: Platform.OS === 'web' ? 0 : Spacing.sm,
       marginBottom: 24,
       flexDirection: 'row',
       zIndex: 1,
       gap: 8,
       paddingHorizontal: 16,
     },
-    suggestionsScrollView: {
-      zIndex: 1,
-      width: '100%',
-      height: 220,
-      maxHeight: 220,
-      paddingTop: 10,
-      paddingBottom: 10,
-      backgroundColor: theme.colors.background10,
-      borderColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderRadius: 12,
-      elevation: 4,
-      borderWidth: 1,
-      ...Platform.select({
-        web: {
-          maxWidth: dimensions.maxScreenWidth,
-          marginHorizontal: 'auto',
-          bottom: Spacing['4xl'],
-          position: 'absolute',
-        },
-      }),
-      left: 0,
-      right: 0,
-    },
     input: {
       marginBottom: 16,
     },
-    suggestionsContainer: {
+    placesAutoComplete: {
       backgroundColor: theme.colors.background10,
     },
-
     locationContainer: {
       width: '100%',
       gap: 8,

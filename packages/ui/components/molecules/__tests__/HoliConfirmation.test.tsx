@@ -71,6 +71,6 @@ describe('calls onConfirm prop function correctly', () => {
     )
 
     fireEvent.press(getByTestId('test-confirmation-confirm'))
-    expect(mockFn).toBeCalledTimes(1)
+    expect(mockFn).toHaveBeenCalledTimes(1)
   })
 })

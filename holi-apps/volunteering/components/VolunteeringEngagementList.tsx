@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import InfoModal from '@holi/core/components/InfoModal'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
@@ -50,10 +49,9 @@ export const VolunteeringEngagementList = ({
   } = usePaginationContext<VolunteeringEngagement | VolunteeringReco>()
   const mixins = useStyleMixins()
   const { t } = useTranslation()
-  const insets = useSafeAreaInsets()
   const { theme } = useTheme()
   const { colors } = theme
-  const styles = useMemo(() => getStyles(insets.bottom, theme), [insets.bottom, theme])
+  const styles = useMemo(() => getStyles(theme), [theme])
   const subtitle = useRecosSubtitle()
 
   const { imageWidth } = useWindowDimensionsWithImageScaling()
@@ -162,15 +160,11 @@ export const VolunteeringEngagementList = ({
   )
 }
 
-const getStyles = (bottomInset = 0, theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     list: {
       paddingTop: dimensions.topBarHeight,
       backgroundColor: theme.colors.background20,
-    },
-    loadMoreButton: {
-      marginTop: 24,
-      marginBottom: 48 + bottomInset,
     },
     headingRow: {
       flexDirection: 'row',

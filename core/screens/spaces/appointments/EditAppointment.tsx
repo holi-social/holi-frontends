@@ -1,42 +1,15 @@
-import { useMutation, useQuery } from '@apollo/client'
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
 
-import FormWrapper from '@holi/core/components/FormWrapper'
-import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import AppointmentInputForm, {
-  INVITE_ONLY_OPTIONS,
-  INVITE_ONLY_TYPE,
-  PERMISSION_TYPE_OPTIONS,
-} from '@holi/core/screens/appointments/components/AppointmentInputForm'
-import {
-  UpdateAppointmentResponse,
-  UpdateAppointmentSchema,
-  updateAppointmentMutation,
-} from '@holi/core/screens/appointments/mutations'
-import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
-import { PermissionsType as AppointmentPermissionsType } from '@holi/core/screens/appointments/types'
-import { SpaceByIdResponse, spaceByIdWithAllMembersQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { LocationDetails } from '@holi/core/types'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { transformToUTC } from '@holi/ui/helper/date'
-import { constants, dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+
+import AppointmentCreateEditForm from './components/AppointmentCreateEditForm'
+import { appointmentToCreateAppointmentInput } from './helpers/functions'
+import { useUpdateAppointment } from './helpers/mutations'
+import { useAppointmentById, useSpaceByIdOrName } from './helpers/queries'
 
 export type EditAppointmentParams = {
   spaceIdOrName: string
@@ -46,325 +19,53 @@ export type EditAppointmentParams = {
 const { useParam } = createParamHooks<EditAppointmentParams>()
 
 const EditAppointment = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [idOrSlug] = useParam('idOrSlug')
-  const { navigateBack, replaceRoute } = useRouting()
-  const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
-  const { openToast } = useToast()
-
-  // input fields
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [inviteOnly, setInviteOnly] = useState<HoliModalSelectOption | undefined>()
-  const [startDate, setStartDate] = useState<Date>(new Date())
-  const [endDate, setEndDate] = useState<Date>(new Date())
-  const [permissionType, setPermissionType] = useState<HoliModalSelectOption | undefined>()
-  const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined | null>()
-  const [locationDetails, setLocationDetails] = useState<LocationDetails | undefined>()
-  const [url, setUrl] = useState('')
-  const [additionalInfo, setAdditionalInfo] = useState('')
-  const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
-
-  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
-
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-  const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
-  const [inputValid, setInputValid] = useState(true)
-  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
-  const exitConfirmationTitle = t('global.leavePage.confirmation.title')
+  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const [appointmentIdOrSlug] = useParam('idOrSlug')
+  const { navigateBack } = useRouting()
 
   const {
-    loading: loadingAppointment,
-    error: errorAppointment,
-    data: appointmentData,
-  } = useQuery<appointmentByIdOrSlugResponse>(appointmentByIdOrSlugQuery, {
-    variables: { idOrSlug },
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load appointment', {
-        location: 'EditAppointment.appointmentByIdOrSlugQuery',
-        idOrSlug,
-      })
-    },
-    skip: !idOrSlug,
-  })
-
-  const {
-    data,
-    loading: loadingSpace,
+    data: { spaceById: space } = {},
     error: errorSpace,
-  } = useQuery<SpaceByIdResponse>(spaceByIdWithAllMembersQuery, {
-    variables: { idOrName: spaceIdOrName },
-    skip: !spaceIdOrName,
-    onError: (error) => {
-      if (isNotFoundError(error)) {
-        return replaceRoute('/404')
-      }
-      logError(error, 'Failed to load space', {
-        location: 'EditAppointment.spaceByIdWithAllMembersQuery',
-        spaceIdOrName,
-      })
-    },
-  })
+    loading: loadingSpace,
+  } = useSpaceByIdOrName(spaceIdOrName)
 
-  const appointment = appointmentData?.appointment
-  const space = data?.spaceById
-  const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
+  const {
+    data: { appointment: appointmentOrigin } = {},
+    error: errorAppointment,
+    loading: loadingAppointment,
+  } = useAppointmentById(appointmentIdOrSlug)
 
-  const { displayError } = useErrorHandling()
+  const updateAppointment = useUpdateAppointment(spaceIdOrName)
 
-  const [updateAppointment] = useMutation<UpdateAppointmentResponse>(updateAppointmentMutation, {
-    onCompleted: () => navigateBack(),
-    onError: (error) => {
-      if (isMaliciousUrlError(error)) {
-        openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)
-      } else {
-        displayError(error, 'Failed to create appointment', {
-          location: 'EditAppointment.updateAppointment',
-          spaceIdOrName,
-        })
-      }
-    },
-    refetchQueries: ['Appointments'],
-  })
-
-  const onSave = () =>
-    updateAppointment({
+  // Exclude spaceId
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onSubmit = async ({ spaceId, ...appointmentState }: CreateAppointmentInput) => {
+    await updateAppointment({
       variables: {
         input: {
-          appointmentId: appointment?.id,
-          title,
-          description,
-          inviteOnly: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY,
-          participantIds:
-            inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
-          permission: permissionType?.id,
-          thumbnail: thumbnail === null ? null : thumbnail?.blob, // null is used to inform the backend that the thumbnail has been deleted
-          startDateTime: transformToUTC(startDate),
-          endDateTime: transformToUTC(endDate),
-          locationDetails: locationDetails,
-          videoCallLink: url,
-          videoCallInfo: additionalInfo,
+          appointmentId: appointmentOrigin?.id,
+          ...appointmentState,
         },
       },
+      onCompleted: () => navigateBack(),
     })
-
-  useEffect(() => {
-    if (selectedLocation?.coordinates) {
-      setLocationDetails({
-        completeAddress: selectedLocation.label,
-        city: selectedLocation.city,
-        state: selectedLocation.state,
-        country: selectedLocation.country,
-        geolocation: {
-          latitude: selectedLocation.coordinates.latitude,
-          longitude: selectedLocation.coordinates.longitude,
-        },
-      })
-    } else {
-      setLocationDetails(undefined)
-    }
-  }, [selectedLocation, permissionType])
-
-  useEffect(() => {
-    const resultSchema = UpdateAppointmentSchema.safeParse({
-      spaceId: space?.id,
-      inviteOnly: inviteOnly?.id === INVITE_ONLY_TYPE.INVITE_ONLY,
-      permission: permissionType?.id,
-      ...(title ? { title } : {}),
-      ...(description ? { description } : {}),
-    })
-    setInputValid(resultSchema.success)
-
-    if (!resultSchema.success) {
-      setFieldErrors(resultSchema.error.flatten().fieldErrors)
-    } else {
-      setFieldErrors({})
-    }
-  }, [space?.id, title, description, inviteOnly, permissionType, thumbnail, locationDetails])
-
-  useIsomorphicLayoutEffect(() => {
-    !loadingSpace &&
-      isMember &&
-      setScreenOptions({
-        animation: 'slide_from_bottom',
-        headerTitle: () => (
-          <HoliHeading level="1" size="s">
-            {t('spaces.appointments.edit.button.label')}
-          </HoliHeading>
-        ),
-        headerTransparent: true,
-        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      })
-  }, [t, loadingSpace, isMember, setScreenOptions])
-
-  useEffect(() => {
-    setSaveButtonDisabled(!title.length || !inputValid)
-  }, [title, inputValid])
-
-  useEffect(() => {
-    if (appointment) {
-      // first handle the select options values to pick the correct options
-      const inviteOnlyOption = INVITE_ONLY_OPTIONS.find((option) =>
-        appointment.inviteOnly ? option.id === INVITE_ONLY_TYPE.INVITE_ONLY : option.id === INVITE_ONLY_TYPE.PUBLIC
-      )
-      if (inviteOnlyOption && appointment.inviteOnly) {
-        setInviteOnly({
-          title: t(`spaces.appointments.input.inviteOnly.${inviteOnlyOption.id}.title`),
-          description: t(`spaces.appointments.input.inviteOnly.${inviteOnlyOption.id}.description`),
-          disabled: !isAdmin && inviteOnlyOption.id === INVITE_ONLY_TYPE.PUBLIC,
-          selected: inviteOnly?.id === inviteOnlyOption.id,
-        } as HoliModalSelectOption)
-      }
-      const permissionTypeOption = PERMISSION_TYPE_OPTIONS.find((option) =>
-        appointment.inviteOnly ? option.id === INVITE_ONLY_TYPE.INVITE_ONLY : option.id === INVITE_ONLY_TYPE.PUBLIC
-      )
-      if (permissionTypeOption && appointment.permission) {
-        setPermissionType({
-          title: t(`spaces.appointments.input.permission.${permissionTypeOption.id}.title`),
-          description: t(`spaces.appointments.input.permission.${permissionTypeOption.id}.description`),
-          disabled:
-            permissionTypeOption.id === AppointmentPermissionsType.PARTICIPANTS &&
-            inviteOnly?.id === INVITE_ONLY_TYPE.PUBLIC,
-          selected: permissionType?.id === permissionTypeOption.id,
-        } as HoliModalSelectOption)
-      }
-
-      if (appointment.locationDetails) {
-        const { city, completeAddress, country, geolocation, state } = appointment.locationDetails
-
-        const _location = {
-          completeAddress: completeAddress,
-          city: city,
-          state: state,
-          country: country,
-          geolocation: {
-            latitude: geolocation?.latitude,
-            longitude: geolocation?.longitude,
-          },
-        }
-
-        setLocationDetails(_location)
-        setSelectedLocation({
-          label: completeAddress || '',
-          id: '',
-        })
-      }
-
-      const start = new Date(appointment.startDateTime)
-      const end = new Date(appointment.endDateTime)
-
-      // set all other fields accordingly
-      setTitle(appointment.title)
-      setDescription(appointment.description)
-      setStartDate(start)
-      setEndDate(end)
-      setCurrentThumbnail(appointment.thumbnail)
-      setUrl(appointment.videoCallLink?.url || '')
-      setAdditionalInfo(appointment.videoCallLink?.additionalInfo || '')
-    }
-  }, [appointment, inviteOnly?.id, isAdmin, permissionType?.id, t])
-
-  useEffect(() => {
-    // if a thumbnail is uploaded or the current one is deleted, update the currentThumbnail
-    if (thumbnail || thumbnail === null) {
-      setCurrentThumbnail(undefined)
-    }
-  }, [thumbnail, setCurrentThumbnail])
+  }
 
   if (loadingSpace || loadingAppointment) {
     return <HoliLoader />
-  }
-
-  if (errorSpace || errorAppointment || !appointment || !space) {
-    return <></>
+  } else if (errorSpace || !space || errorAppointment || !appointmentOrigin) {
+    return null
   }
 
   return (
-    <PermissionsGuard
-      permissionType={PermissionsType.SPACES}
+    <AppointmentCreateEditForm
+      initialAppointment={appointmentToCreateAppointmentInput(appointmentOrigin, space.id)}
       space={space}
-      spaceConnectionType={SpaceConnectionType.MEMBER}
-      redirectRoute={`/spaces/${spaceIdOrName}`}
-    >
-      <FormWrapper
-        onSave={onSave}
-        saveButtonDisabled={saveButtonDisabled}
-        onBack={() => setShowConfirmationModal(true)}
-        showBackButton
-        behavior="padding"
-        scrollToInput={false}
-        keyboardShouldPersistTaps="handled"
-        bottomBarStyle={styles.bottomBar}
-        renderProp={() => (
-          <View style={styles.container}>
-            <AppointmentInputForm
-              title={title}
-              description={description}
-              inviteOnly={inviteOnly}
-              startDate={startDate}
-              endDate={endDate}
-              permissionType={permissionType}
-              thumbnail={thumbnail}
-              locationDetails={locationDetails}
-              selectedLocation={selectedLocation}
-              url={url}
-              additionalInfo={additionalInfo}
-              currentThumbnail={currentThumbnail}
-              onChangeTitle={setTitle}
-              onChangeDescription={setDescription}
-              onChangeInviteOnly={setInviteOnly}
-              onChangePermissionType={setPermissionType}
-              onChangeThumbnail={setThumbnail}
-              onChangeLocationDetails={setLocationDetails}
-              onChangeSelectedLocation={setSelectedLocation}
-              onChangeStartDate={setStartDate}
-              onChangeEndDate={setEndDate}
-              onChangeUrl={setUrl}
-              onChangeAdditionalInfo={setAdditionalInfo}
-              fieldErrors={fieldErrors}
-              isAdmin={isAdmin}
-            />
-          </View>
-        )}
-      />
-      <HoliConfirmation
-        show={showConfirmationModal}
-        label={exitConfirmationTitle}
-        title={exitConfirmationTitle}
-        description={t('global.leavePage.confirmation.description')}
-        onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t('global.leavePage.confirmation.dismiss')}
-        confirmText={t('global.leavePage.confirmation.confirm')}
-        testID="form-modal-exit-confirmation"
-        onConfirm={() => {
-          setShowConfirmationModal(false)
-          navigateBack()
-        }}
-      />
-    </PermissionsGuard>
+      headerTitle={t('spaces.appointments.edit.button.label')}
+      onSubmit={onSubmit}
+    />
   )
 }
-
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      paddingTop: dimensions.topBarHeight + (constants.statusBarHeight || 0) + 24,
-      paddingBottom: dimensions.bottomBarHeight + 24,
-    },
-    bottomBar: {
-      backgroundColor: theme.colors.background10,
-    },
-  })
 
 export default EditAppointment

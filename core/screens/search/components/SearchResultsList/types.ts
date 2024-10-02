@@ -8,12 +8,12 @@ interface SearchSectionBase {
 
 interface SearchUserSection extends SearchSectionBase {
   type: 'users'
-  data: User[]
+  data: readonly User[]
   result: UsePaginationQueryResult<User>
 }
 interface SearchSpaceSection extends SearchSectionBase {
   type: 'spaces'
-  data: Space[]
+  data: readonly Space[]
   result: UsePaginationQueryResult<Space>
 }
 

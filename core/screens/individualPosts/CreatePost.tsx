@@ -118,6 +118,9 @@ const CreatePost = () => {
           {t('individuals.post.input.title')}
         </HoliHeading>
       ),
+      headerStyle: {
+        backgroundColor: colors.background20,
+      },
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor={colors.black300} />,
       navigationCustomOptions: {
         footerShown: false,

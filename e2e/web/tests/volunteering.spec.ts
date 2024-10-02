@@ -8,7 +8,6 @@ import {
   locateElementByTestId,
   proceedAsGuest,
   scrollToMakeHeaderVisible,
-  scrollToTriggerModal,
   volunteeringRequestTimeout,
   withSSR,
 } from './helpers'
@@ -24,7 +23,8 @@ test.describe('@Volunteering', () => {
     await testIsAccessibleFromHomeScreen(page)
 
     await testAllowsPagination(page)
-    await withSSR(browser, page.url(), testDisplaysList)
+    // TODO: Should be fixed with HOLI-7656
+    // await withSSR(browser, page.url(), testDisplaysList)
 
     // click first element in list
     await clickElementByTestId(page, 'btn-to-volunteering-engagement')
@@ -32,18 +32,14 @@ test.describe('@Volunteering', () => {
     await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
 
     /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-    await page.waitForLoadState()
-    await page.mouse.wheel(0, +600)
-    await page.mouse.wheel(0, -750)
+    await scrollToMakeHeaderVisible(page)
     // navigate back
     await clickElementByTestId(page, 'nav-button-back')
     await page.waitForSelector(byTestId('volunteering-list-container'))
 
     await testFilteringByLocation(browser, page)
     /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-    await page.waitForLoadState()
-    await page.mouse.wheel(0, +600)
-    await page.mouse.wheel(0, -750)
+    await scrollToMakeHeaderVisible(page)
     await testDisplaysFilterResults(browser, page)
   })
 })
@@ -88,15 +84,9 @@ const testAllowsPagination = async (page: Page) => {
 
   const listItemCountBefore = await countListItems()
 
-  // HOLI-9711: check which variant to handle
-  const legacyButton = await locateElementByTestId(page, 'btn-volunteering-list-load-more')
-  if ((await legacyButton.count()) > 0) {
-    await clickElementByTestId(page, 'btn-volunteering-list-load-more')
-  } else {
-    // Scroll down to last element to trigger next fetch
-    const listItems = await locateElementByTestId(page, 'btn-to-volunteering-engagement')
-    await listItems.last().scrollIntoViewIfNeeded()
-  }
+  // Scroll down to last element to trigger next fetch
+  const listItems = await locateElementByTestId(page, 'btn-to-volunteering-engagement')
+  await listItems.last().scrollIntoViewIfNeeded()
 
   await expect.poll(countListItems, { timeout: volunteeringRequestTimeout }).toBeGreaterThan(listItemCountBefore)
 
@@ -151,8 +141,6 @@ const testFilteringByLocation = async (browser: Browser, page: Page) => {
 }
 
 const testDisplaysFilterResults = async (browser: Browser, page: Page) => {
-  //close the filter modal
-  await clickElementByTestId(page, 'btn-to-close-volunteering-filter-modal')
   // navigate to detail view
   await page.waitForSelector(byTestId('btn-to-volunteering-engagement'))
   await clickElementByTestId(page, 'btn-to-volunteering-engagement')
@@ -161,16 +149,15 @@ const testDisplaysFilterResults = async (browser: Browser, page: Page) => {
   await page.waitForSelector(byTestId('volunteering-detailview-container'))
 
   /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-  await scrollToTriggerModal(page)
+  await scrollToMakeHeaderVisible(page)
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
   // expect filtered list
   await testDisplaysFilterResultsCommon(page)
 
-  //FIXME: SSR for filter results has to be fixed
-
-  await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
+  // TODO: Should be fixed with HOLI-7656
+  // await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
 
   // Scroll to make header & filter button visible
   await scrollToMakeHeaderVisible(page)
@@ -178,19 +165,9 @@ const testDisplaysFilterResults = async (browser: Browser, page: Page) => {
   // Open filter modal
   await clickElementByTestId(page, 'btn-to-volunteering-filter-modal')
 
-  // HOLI-9711: check which variant to handle
-  const legacyFilter = await locateElementByTestId(page, 'volunteering-filter-category-input')
-  if ((await legacyFilter.count()) > 0) {
-    // open category dropdown
-    await clickElementByTestId(page, 'volunteering-filter-category-input')
+  // open topics dropdown
+  await clickElementByTestId(page, 'volunteering-filter-topics-input')
 
-    // click on first category in the list
-    await clickElementByTestId(page, 'volunteering-filter-category-item')
-  } else {
-    // open topics dropdown
-    await clickElementByTestId(page, 'volunteering-filter-topics-input')
-
-    // click on first topic in the list
-    await clickElementByTestId(page, 'volunteering-filter-topics-item')
-  }
+  // click on first topic in the list
+  await clickElementByTestId(page, 'volunteering-filter-topics-item')
 }

@@ -1,5 +1,4 @@
-import { useQuery } from '@apollo/client'
-import type { ApolloError } from '@apollo/react-hooks'
+import { ApolloError, useQuery } from '@apollo/client'
 
 import { logError } from '@holi/core/errors/helpers'
 import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'

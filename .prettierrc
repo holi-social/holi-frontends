@@ -5,6 +5,7 @@
   "useTabs": false,
   "printWidth": 120,
   "importOrder": [
+    "^@holi/core/helpers/__mocks__/(.*)$",
     "<THIRD_PARTY_MODULES>",
     "^@react-navigation/(.*)$",
     "^@holi/(.*)$",

@@ -1,5 +1,4 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
-import { useApolloClient } from '@apollo/client'
+import { makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -72,7 +71,8 @@ export const useLogout = () => {
           await client.clearStore()
 
           logger.debug('useLogout', 'logout successful')
-          if (showToastAfter) openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
+          if (showToastAfter)
+            openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS, { testID: 'logout-success' })
         } catch (err) {
           logger.debug('useLogout', 'logout failed, removing session from storage', err)
           setLoginStateLoggedOut() // will remove session info from storage
