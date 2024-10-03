@@ -87,15 +87,15 @@ const stylesheet = createStyleSheet((theme) => ({
         size: {
           sm: {
             paddingHorizontal: Spacing['3xs'],
-            height: 24,
+            minHeight: Spacing.md,
           },
           md: {
             paddingHorizontal: Spacing['3xs'],
-            height: 30,
+            minHeight: Spacing.lg,
           },
           lg: {
             paddingHorizontal: Spacing.xxs,
-            height: 38,
+            minHeight: Spacing.xl,
           },
         },
         selected: {
@@ -118,18 +118,16 @@ const stylesheet = createStyleSheet((theme) => ({
           width: 18,
           height: 18,
           marginLeft: -(Spacing['3xs'] - 2),
-          marginVertical: 2,
         },
         md: {
-          width: 24,
-          height: 24,
-          marginLeft: -(Spacing['3xs'] - 2),
-          marginVertical: 2,
+          width: Spacing.md,
+          height: Spacing.md,
+          marginLeft: -(Spacing['3xs'] - 3),
         },
         lg: {
-          width: 32,
-          height: 32,
-          marginLeft: -(Spacing.xxs - 2),
+          width: Spacing.lg,
+          height: Spacing.lg,
+          marginLeft: -(Spacing.xxs - 3),
         },
       },
     },

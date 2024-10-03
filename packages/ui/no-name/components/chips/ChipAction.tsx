@@ -74,12 +74,15 @@ const stylesheet = createStyleSheet((theme) => ({
         size: {
           sm: {
             paddingHorizontal: Spacing['3xs'],
+            minHeight: Spacing.md,
           },
           md: {
             paddingHorizontal: Spacing['3xs'],
+            minHeight: Spacing.lg,
           },
           lg: {
             paddingHorizontal: 10,
+            minHeight: Spacing.xl,
           },
         },
         selected: {
