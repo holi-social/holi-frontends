@@ -6,14 +6,14 @@ import React from 'react'
 import { Hearts, Pencil } from '@holi/icons/src/generated'
 import { Colors } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import Chip from './Chip'
+import ChipAction from './ChipAction'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
-const availableSizes = ['md', 'lg'] as const
+const availableSizes = ['sm', 'md', 'lg'] as const
 
-const meta: Meta<typeof Chip> = {
-  title: 'No Name/Components/Chips (draft)',
-  component: Chip,
+const meta: Meta<typeof ChipAction> = {
+  title: 'No Name/Components/Chips (draft)/Chip Action',
+  component: ChipAction,
   argTypes: {
     children: { description: 'Text label', required: true },
   },
@@ -24,7 +24,7 @@ const meta: Meta<typeof Chip> = {
   },
 }
 
-type Story = StoryObj<typeof Chip>
+type Story = StoryObj<typeof ChipAction>
 
 export const Playground: Story = {
   argTypes: {
@@ -46,7 +46,7 @@ export const Playground: Story = {
       updateArgs({ selected: !selected })
     }
 
-    return <Chip {...args} onPress={handleOnPress} selected={selected} />
+    return <ChipAction {...args} onPress={handleOnPress} selected={selected} />
   },
 }
 
@@ -58,7 +58,7 @@ export const ByColor: Story = {
     return (
       <div style={{ display: 'flex', gap: 10 }}>
         {availableColors.map((c) => (
-          <Chip key={c} {...args} color={c} />
+          <ChipAction key={c} {...args} color={c} />
         ))}
       </div>
     )
@@ -73,7 +73,7 @@ export const BySize: Story = {
     return (
       <div style={{ display: 'flex', alignItems: 'end', gap: 10 }}>
         {availableSizes.map((s) => (
-          <Chip key={s} {...args} size={s} color="blue" />
+          <ChipAction key={s} {...args} size={s} color="blue" />
         ))}
       </div>
     )
@@ -92,11 +92,11 @@ export const ByIcons: Story = {
   render: function Render(args) {
     return (
       <div style={{ display: 'flex', gap: 10 }}>
-        <Chip {...args} />
-        <Chip {...args} iconLeading={Hearts} />
-        <Chip {...args} iconTrailing={Pencil} />
-        <Chip {...args} iconLeading={Hearts} iconTrailing={Pencil} />
-        <Chip {...{ ...args, ...{ children: undefined } }} iconLeading={Hearts} />
+        <ChipAction {...args} />
+        <ChipAction {...args} iconLeading={Hearts} />
+        <ChipAction {...args} iconTrailing={Pencil} />
+        <ChipAction {...args} iconLeading={Hearts} iconTrailing={Pencil} />
+        <ChipAction {...{ ...args, ...{ children: undefined } }} iconLeading={Hearts} />
       </div>
     )
   },
