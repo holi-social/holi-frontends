@@ -6,4 +6,4 @@ specific, but only available once, not once per environment. For example a datab
 databases, one per environment.
 
 Please take a look at the platform specific terraform definitions, especially web (residing in
-$PROJECT_ROOT/terraform/environments/web), to get the whole picture.
+$PROJECT_ROOT/terraform/environments), to get the whole picture.
