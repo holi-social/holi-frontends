@@ -63,7 +63,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
       style={
         {
           "color": "#262424",
-          "fontFamily": "Circular Std Medium",
+          "fontFamily": "InstrumentSans-Medium",
           "fontSize": 21,
           "fontWeight": "500",
           "lineHeight": 29.4,
@@ -140,7 +140,7 @@ exports[`renders correctly renders correctly when disabled is 'false', disableFo
       style={
         {
           "color": "#262424",
-          "fontFamily": "Circular Std Medium",
+          "fontFamily": "InstrumentSans-Medium",
           "fontSize": 21,
           "fontWeight": "500",
           "lineHeight": 29.4,
@@ -217,7 +217,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
       style={
         {
           "color": "#787777",
-          "fontFamily": "Circular Std Medium",
+          "fontFamily": "InstrumentSans-Medium",
           "fontSize": 21,
           "fontWeight": "500",
           "lineHeight": 29.4,
@@ -294,7 +294,7 @@ exports[`renders correctly renders correctly when disabled is 'true', disableFoc
       style={
         {
           "color": "#787777",
-          "fontFamily": "Circular Std Medium",
+          "fontFamily": "InstrumentSans-Medium",
           "fontSize": 21,
           "fontWeight": "500",
           "lineHeight": 29.4,

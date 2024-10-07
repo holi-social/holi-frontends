@@ -112,7 +112,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       style={
         {
           "color": "#fff",
-          "fontFamily": "Circular Std Book",
+          "fontFamily": "InstrumentSans-Regular",
           "fontSize": 10.8,
           "fontWeight": "bold",
           "lineHeight": 12.96,
@@ -222,7 +222,7 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
       style={
         {
           "color": "#000",
-          "fontFamily": "Circular Std Book",
+          "fontFamily": "InstrumentSans-Regular",
           "fontSize": 10.8,
           "fontWeight": "bold",
           "lineHeight": 12.96,

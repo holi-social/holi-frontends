@@ -134,7 +134,7 @@ exports[`SpacePublicLink renders correctly when type is OTHER 1`] = `
       style={
         {
           "color": "#262424",
-          "fontFamily": "Circular Std Medium",
+          "fontFamily": "InstrumentSans-Medium",
           "fontSize": 14,
           "fontWeight": "500",
           "lineHeight": 19.599999999999998,
@@ -309,7 +309,7 @@ exports[`SpacePublicLink renders correctly when type is different than OTHER 1`]
       style={
         {
           "color": "#262424",
-          "fontFamily": "Circular Std Medium",
+          "fontFamily": "InstrumentSans-Medium",
           "fontSize": 14,
           "fontWeight": "500",
           "lineHeight": 19.599999999999998,

@@ -108,7 +108,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 21,
                   "fontWeight": "400",
                   "lineHeight": 29.4,
@@ -340,7 +340,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
+                            "fontFamily": "InstrumentSans-Medium",
                             "fontSize": 16,
                             "fontWeight": "500",
                             "lineHeight": 22.4,
@@ -533,7 +533,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 12,
                             "fontWeight": "400",
                             "lineHeight": 16.799999999999997,
@@ -663,7 +663,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 12,
                             "fontWeight": "400",
                             "lineHeight": 16.799999999999997,
@@ -794,7 +794,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     style={
                       {
                         "color": "#262424",
-                        "fontFamily": "Circular Std Book",
+                        "fontFamily": "InstrumentSans-Regular",
                         "fontSize": 14,
                         "fontWeight": "400",
                         "lineHeight": 19.599999999999998,
@@ -1045,7 +1045,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
+                            "fontFamily": "InstrumentSans-Medium",
                             "fontSize": 16,
                             "fontWeight": "500",
                             "lineHeight": 22.4,
@@ -1238,7 +1238,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 12,
                             "fontWeight": "400",
                             "lineHeight": 16.799999999999997,
@@ -1368,7 +1368,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 12,
                             "fontWeight": "400",
                             "lineHeight": 16.799999999999997,
@@ -1499,7 +1499,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     style={
                       {
                         "color": "#262424",
-                        "fontFamily": "Circular Std Book",
+                        "fontFamily": "InstrumentSans-Regular",
                         "fontSize": 14,
                         "fontWeight": "400",
                         "lineHeight": 19.599999999999998,
@@ -1663,7 +1663,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "Circular Std Book",
+                    "fontFamily": "InstrumentSans-Regular",
                     "fontSize": 16,
                     "fontWeight": "400",
                     "lineHeight": 22.4,
