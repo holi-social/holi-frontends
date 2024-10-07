@@ -111,7 +111,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     base: {
       fontWeight: '400',
-      fontFamily: theme.fontFamily.default('Book'),
+      fontFamily: theme.fontFamily.default('Regular'),
       color: theme.colors.foreground30,
     },
     bold: {
