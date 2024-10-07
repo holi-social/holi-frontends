@@ -72,8 +72,8 @@ export const setLoginStateLoggedIn = async (session: OrySessionContext): Promise
 // intended to be called from outside the context provider (e.g. logout form)
 export const setLoginStateLoggedOut = async () => {
   logger.debug('setLoginStateLoggedOut', 'user logged out')
-  await removeSessionFromStorage()
   loginStateVar(loginStateLoggedOut)
+  await removeSessionFromStorage()
 }
 
 /**
@@ -87,6 +87,17 @@ export const setLoginStateLoggedOut = async () => {
  */
 export const useLoginState = (): LoginState => {
   return useReactiveVar(loginStateVar)
+}
+
+/**
+ * React hook to set the initial login state to either logged out or unknown (i.e. session should be loaded from storage).
+ * Only used for web to align server- and client-side rendered HTML.
+ */
+export const useInitialLoginState = ({ isLoggedOut = false }: { isLoggedOut?: boolean }) => {
+  // Unknown is the default, only override if logged out
+  if (isLoggedOut) {
+    setLoginStateLoggedOut()
+  }
 }
 
 /**

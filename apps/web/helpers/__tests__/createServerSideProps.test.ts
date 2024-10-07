@@ -41,11 +41,13 @@ describe('createServerSideProps', () => {
     locale: 'en',
     origin,
   }
+  const loggedOutUserProps = { isLoggedOut: true }
   const expectedProps = HoliPageProps.from({
     ...minimalProps,
     translations: mockedTranslations,
     apolloState: mockedCache,
     posthogBootstrapValues: mockPosthogBootstrapValues,
+    user: loggedOutUserProps,
   }).props
   const query1 = {
     query: gql`
@@ -235,5 +237,23 @@ describe('createServerSideProps', () => {
 
     expect(mockCreatePosthogPageProps).toHaveBeenCalledWith(userId)
     expect(new HoliPageProps(props).posthogBootstrapValues).toEqual(mockPosthogBootstrapValues)
+  })
+
+  it('should add logged out user props if user is not logged in', async () => {
+    const props = await createServerSideProps(context)
+
+    expect(new HoliPageProps(props).user).toEqual(loggedOutUserProps)
+  })
+
+  it('should add logged in user props if user is logged in', async () => {
+    const userId = 'test-user-id'
+    const expectedUserProps = {
+      id: userId,
+      isLoggedOut: false,
+    }
+    mockQueryFunction.mockResolvedValue({ data: { authenticatedUserV2: { id: userId } } })
+    const props = await createServerSideProps(context)
+
+    expect(new HoliPageProps(props).user).toEqual(expectedUserProps)
   })
 })

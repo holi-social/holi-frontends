@@ -15,6 +15,16 @@ interface SkippableQueryOptions extends QueryOptions {
   skip?: boolean
 }
 
+const createUserPageProps = (userId?: string) => {
+  if (userId) {
+    return {
+      id: userId,
+      isLoggedOut: false,
+    }
+  }
+  return { isLoggedOut: true }
+}
+
 export const createServerSideProps = async (
   { req, locale: nextJsLocale }: NextPageContext,
   queries: SkippableQueryOptions[] = [],
@@ -69,5 +79,6 @@ export const createServerSideProps = async (
     translations: await createTranslationPageProps(locale),
     posthogBootstrapValues: await createPosthogPageProps(userId),
     apolloState: createApolloPageProps(client),
+    user: createUserPageProps(userId),
   })
 }

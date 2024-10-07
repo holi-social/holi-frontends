@@ -15,7 +15,7 @@ const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
   const { user, isLoading: userLoading } = useLoggedInUser()
   const { defaultTopics, defaultTopicsLoading } = useDefaultTopics()
 
-  if (userLoading) {
+  if (!user && userLoading) {
     return {
       loading: true,
     }

@@ -5,11 +5,17 @@ import type { SeoUrls } from '@holi/core/components/HoliHead/types'
 
 const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 const POSTHOG_BOOTSTRAP_PROP_NAME = '__POSTHOG_BOOTSTRAP__'
+const USER_PROP_NAME = '__USER__'
 
 export interface CustomProps {
   seoTitle?: string
   urls?: SeoUrls
   blockIndexing?: boolean
+}
+
+export interface UserPageProps {
+  id?: string
+  isLoggedOut: boolean
 }
 
 export interface NextJSPageProps extends Ni18nServerState, Record<string, unknown> {
@@ -18,12 +24,14 @@ export interface NextJSPageProps extends Ni18nServerState, Record<string, unknow
   customProps?: Partial<CustomProps>
   [APOLLO_STATE_PROP_NAME]?: Record<string, unknown>
   [POSTHOG_BOOTSTRAP_PROP_NAME]?: PostHogOptions['bootstrap']
+  [USER_PROP_NAME]?: UserPageProps
 }
 
 type PagePropsOverrides = Pick<NextJSPageProps, 'origin' | 'locale' | 'customProps'> & {
   translations?: Ni18nServerState
   apolloState?: Record<string, unknown>
   posthogBootstrapValues?: PostHogOptions['bootstrap']
+  user?: UserPageProps
 }
 
 export class HoliPageProps {
@@ -37,7 +45,7 @@ export class HoliPageProps {
     return new HoliPageProps().with(overrides)
   }
 
-  with({ translations, apolloState, posthogBootstrapValues, ...overrides }: PagePropsOverrides) {
+  with({ translations, apolloState, posthogBootstrapValues, user, ...overrides }: PagePropsOverrides) {
     const newProps: Partial<NextJSPageProps> = {
       ...overrides,
       ...translations,
@@ -47,6 +55,9 @@ export class HoliPageProps {
     }
     if (posthogBootstrapValues) {
       newProps[POSTHOG_BOOTSTRAP_PROP_NAME] = posthogBootstrapValues
+    }
+    if (user) {
+      newProps[USER_PROP_NAME] = user
     }
 
     return new HoliPageProps({
@@ -61,6 +72,10 @@ export class HoliPageProps {
 
   get posthogBootstrapValues() {
     return this.props[POSTHOG_BOOTSTRAP_PROP_NAME]
+  }
+
+  get user() {
+    return this.props[USER_PROP_NAME]
   }
 
   get customProps() {
