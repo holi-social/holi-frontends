@@ -31,6 +31,9 @@ export type HoliHeadingProps = {
   skeletonOptions?: SkeletonTextOptions
 }
 
+/**
+ * @deprecated Use `Typography` with `headingLevel` prop instead.
+ */
 export const HoliHeading = ({
   children,
   level = '2',

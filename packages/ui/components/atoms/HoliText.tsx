@@ -28,6 +28,9 @@ export interface HoliTextProps extends TextProps {
   skeletonOptions?: SkeletonTextOptions
 }
 
+/**
+ * @deprecated Use `Typography` instead.
+ */
 const HoliText = ({
   children,
   bold,
