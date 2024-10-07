@@ -249,6 +249,7 @@ const AppointmentInputForm = ({
                 })
               }}
               maximumDate={endDate}
+              testID="appointment-start-date"
             />
 
             <HoliDateAndTimePicker
@@ -263,6 +264,7 @@ const AppointmentInputForm = ({
               }}
               minimumDate={startDate}
               style={styles.marginSeparator}
+              testID="appointment-end-date"
             />
           </View>
 
@@ -367,7 +369,7 @@ const AppointmentInputForm = ({
             <HoliModalSelect
               options={permissionTypeOptions}
               title={t('spaces.appointments.input.permission.title')}
-              onChange={(option) => onAppointmentChange({ permission: option.id as PermissionType })}
+              onChange={(option) => onAppointmentChange({ permission: option.id })}
               placeholder={t('spaces.appointments.input.permission.placeholder')}
               label={t('spaces.appointments.input.permission.label')}
               testID="appointment-permission-input"

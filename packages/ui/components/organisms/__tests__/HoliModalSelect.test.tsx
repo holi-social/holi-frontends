@@ -55,7 +55,7 @@ describe('HoliModalSelect', () => {
     render(<ParentComponent />)
     fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     // items should be rendered
-    expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(defaultOptions.length)
+    expect(screen.queryAllByTestId(/item-holi-modal-select/i)).toHaveLength(defaultOptions.length)
   })
 
   it('correctly selects an option', async () => {
@@ -63,7 +63,7 @@ describe('HoliModalSelect', () => {
     fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
 
     // select first option
-    const firstOption = screen.getAllByTestId('item-holi-modal-select')[0]
+    const firstOption = screen.getAllByTestId(/item-holi-modal-select/i)[0]
     fireEvent.press(firstOption)
 
     // check the button has the correct value after modal is closed
@@ -79,7 +79,7 @@ describe('HoliModalSelect', () => {
     render(<ParentComponent variant="dense" />)
     fireEvent.press(screen.getByTestId('btn-holi-modal-select'))
     // items should be rendered
-    expect(screen.queryAllByTestId('item-holi-modal-select')).toHaveLength(defaultOptions.length)
+    expect(screen.queryAllByTestId(/item-holi-modal-select/i)).toHaveLength(defaultOptions.length)
     // test snapshot
   })
 })

@@ -115,6 +115,7 @@ const HoliDatePicker = ({
           }
           minDate={minimumDate ? formatDateToYYYMMDD(minimumDate) : undefined}
           maxDate={maximumDate ? formatDateToYYYMMDD(maximumDate) : undefined}
+          testID={testID}
         />
       )}
     </>

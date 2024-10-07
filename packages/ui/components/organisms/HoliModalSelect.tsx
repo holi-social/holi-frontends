@@ -99,7 +99,7 @@ const HoliModalSelect = <IDType extends string>({
         onPress={() => {
           handleOnChange(option)
         }}
-        testID={`item-${testID}`}
+        testID={`item-${testID}-${option.id}`}
       >
         {!isDense && (
           <HoliIcon

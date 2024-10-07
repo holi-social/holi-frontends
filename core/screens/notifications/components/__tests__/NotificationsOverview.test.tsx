@@ -264,6 +264,7 @@ const novuNotifications = [
 
 describe('NotificationsOverview', () => {
   beforeEach(() => {
+    jest.clearAllMocks()
     useLoginStateMock.mockImplementation(loggedIn)
     mockUseNotifications.mockReturnValue({
       notifications: [],
@@ -325,6 +326,8 @@ describe('NotificationsOverview', () => {
         <Notifications />
       </MockedProvider>
     )
+
+    await waitForElementToBeRemoved(() => screen.getByText(/loginRedirect.title/i))
 
     const emptyNotificationsMessage = 'notifications.display.empty.text2'
     expect(await screen.findByTestId('notifications-overview')).not.toHaveTextContent(emptyNotificationsMessage)
