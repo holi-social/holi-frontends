@@ -1,8 +1,8 @@
 import 'holi-bricks/components/text/fonts/style.css'
+import 'holi-bricks/libs/init'
 
 import i18n, { initI18n } from '@holi/core/i18n'
 import '@holi/storybook/storybook.css'
-import '@holi/ui/assets/fonts/CircularStd/style.css'
 import '@holi/web/styles/common.css'
 
 import { withTheme } from './ThemeWrapper'

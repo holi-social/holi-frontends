@@ -51,10 +51,6 @@ const App = () => {
 
   // HOLI-9792: Remove when moving font to app.config.js
   const fonts = {
-    ['Circular Std Book']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Book.otf'),
-    ['Circular Std Book Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-BookItalic.otf'),
-    ['Circular Std Medium']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Medium.otf'),
-    ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
     ['InstrumentSans-Regular']: require('holi-bricks/components/text/fonts/InstrumentSans-Regular.ttf'),
     ['InstrumentSans-Medium']: require('holi-bricks/components/text/fonts/InstrumentSans-Medium.ttf'),
   }
