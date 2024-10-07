@@ -64,11 +64,12 @@ const HoliDateAndTimePicker = ({
             minimumDate={minimumDate}
             maximumDate={maximumDate}
             isRequired={isRequired}
+            testID={testID + '--date'}
           />
         </View>
 
         <View>
-          <HoliTimePicker value={value} onChange={onTimeChange} />
+          <HoliTimePicker value={value} onChange={onTimeChange} testID={testID + '--time'} />
         </View>
       </View>
     </View>

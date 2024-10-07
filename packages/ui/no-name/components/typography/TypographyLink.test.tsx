@@ -7,7 +7,9 @@ describe('TypographyLink', () => {
   it('should render text', () => {
     render(<TypographyLink size="md">Foobar</TypographyLink>)
 
-    expect(screen.container).toHaveTextContent('Foobar')
+    const link = screen.getByRole('link')
+    expect(link).toBeOnTheScreen()
+    expect(link).toHaveTextContent('Foobar')
   })
 
   it('should have role link', async () => {

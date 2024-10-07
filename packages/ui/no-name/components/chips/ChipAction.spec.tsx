@@ -7,7 +7,8 @@ describe('ChipAction', () => {
   it('should render text/children', () => {
     render(<ChipAction onPress={jest.fn()}>Hai</ChipAction>)
 
-    expect(screen.container).toHaveTextContent('Hai')
+    const chip = screen.getByText('Hai')
+    expect(chip).toBeOnTheScreen()
   })
 
   it('should raise press event', () => {
