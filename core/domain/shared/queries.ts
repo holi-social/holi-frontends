@@ -154,10 +154,6 @@ export type AuthenticatedUserV2Response = {
   }
 }
 
-export type AuthenticatedUserV2Variables = {
-  userId: string | undefined
-}
-
 export const userByIdQuery = gql`
   ${FullUserFragment}
 

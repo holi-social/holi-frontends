@@ -1,11 +1,7 @@
 import { useQuery } from '@apollo/client'
 
 import { useLoginState } from '@holi/core/auth/loginState'
-import {
-  AuthenticatedUserV2Response,
-  AuthenticatedUserV2Variables,
-  authenticatedUserV2Query,
-} from '@holi/core/domain/shared/queries'
+import { AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -56,18 +52,18 @@ export const useLoggedInUser = (): LoggedInState => {
   const loginState = useLoginState()
   const { displayError } = useErrorHandling()
 
-  const { data: { authenticatedUserV2: user } = {}, error } = useQuery<
-    AuthenticatedUserV2Response,
-    AuthenticatedUserV2Variables
-  >(authenticatedUserV2Query, {
-    skip: loginState.isLoggedOut,
-    fetchPolicy: isSSR ? 'cache-only' : 'cache-first',
-    onError: (error) => {
-      displayError(error, 'Failed to load authenticated user', {
-        location: 'useLoggedInUser.authenticatedUserQuery',
-      })
-    },
-  })
+  const { data: { authenticatedUserV2: user } = {}, error } = useQuery<AuthenticatedUserV2Response>(
+    authenticatedUserV2Query,
+    {
+      skip: loginState.isLoggedOut,
+      fetchPolicy: isSSR ? 'cache-only' : 'cache-first',
+      onError: (error) => {
+        displayError(error, 'Failed to load authenticated user', {
+          location: 'useLoggedInUser.authenticatedUserQuery',
+        })
+      },
+    }
+  )
 
   if (loginState.isLoggedOut || error || (!user && isSSR)) {
     return loggedOut
