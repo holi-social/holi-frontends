@@ -48,18 +48,10 @@ export const createServerSideProps = async (
 
   const client = initializeApolloSSRClient({ headers: req.headers as Record<string, string> })
 
-  const queriesToExecute = [
-    // Pre-fetch authenticated user if logged in
-    // Authenticated user query is expected to be the first query to check result below
-    {
-      query: authenticatedUserV2Query,
-    },
-    ...queries,
-  ]
+  // Pre-fetch authenticated user if logged in
+  const authenticatedUserPromise = client.query({ query: authenticatedUserV2Query })
 
-  const results = await Promise.allSettled(
-    queriesToExecute.filter((query) => !query.skip).map((query) => client.query(query))
-  )
+  const results = await Promise.allSettled(queries.filter((query) => !query.skip).map((query) => client.query(query)))
 
   // For now treat 403 the same as 404
   const wasNotFound = results.some(
@@ -72,8 +64,9 @@ export const createServerSideProps = async (
     }
   }
 
-  const [userQueryResult] = results
-  const userId = userQueryResult.status === 'fulfilled' ? userQueryResult.value.data.authenticatedUserV2?.id : undefined
+  // Ignore failing user request silently
+  const userQueryResult = await authenticatedUserPromise.catch()
+  const userId = userQueryResult.data?.authenticatedUserV2?.id
 
   return minimalProps.with({
     translations: await createTranslationPageProps(locale),

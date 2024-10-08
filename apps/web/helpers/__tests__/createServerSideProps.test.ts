@@ -116,6 +116,7 @@ describe('createServerSideProps', () => {
   })
 
   it('should add apollo state to page props even if a query fails', async () => {
+    mockQueryFunction.mockResolvedValueOnce({ data: {} }) // Let user query succeed
     mockQueryFunction.mockRejectedValueOnce(new Error('test'))
 
     const props = await createServerSideProps(context, [query1, query2])
@@ -135,6 +136,7 @@ describe('createServerSideProps', () => {
   })
 
   it('should redirect to 404 page if a query results in a NOT_FOUND error', async () => {
+    mockQueryFunction.mockResolvedValueOnce({ data: {} }) // Let user query succeed
     mockQueryFunction.mockRejectedValueOnce(
       new ApolloError({
         graphQLErrors: [
