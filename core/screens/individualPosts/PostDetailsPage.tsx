@@ -20,7 +20,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
@@ -65,7 +65,7 @@ const PostDetailsPage = () => {
   const { theme } = useTheme()
   const { replaceRoute, navigate, navigateBack } = useRouting()
   const loginState = useLoginState()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
@@ -165,8 +165,9 @@ const PostDetailsPage = () => {
   const onPressCreateComment = () =>
     loginState.isLoggedIn
       ? navigate(`/feed-posts/${idOrSlug}/comment`)
-      : openLoginModal({
+      : openSignupModal({
           description: t('comments.loginRedirect.text'),
+          trackTrigger: 'COMMENT_ON_POST',
         })
 
   const heartReactions = post?.reactions.HEART
@@ -182,8 +183,9 @@ const PostDetailsPage = () => {
 
   const reactOnPost = () => {
     if (!isLoggedIn) {
-      openLoginModal({
+      openSignupModal({
         description: t('individuals.post.reaction.loginRedirect.text'),
+        trackTrigger: 'REACT_COMMENT_ON_POST',
       })
     } else {
       const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET

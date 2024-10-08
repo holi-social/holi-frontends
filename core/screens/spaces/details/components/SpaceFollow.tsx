@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
@@ -24,7 +24,7 @@ export type SpaceFollowProps = {
 const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { isLoggedIn, isLoading: isLoadingUser } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { track } = useTracking()
 
   const [unfollowDialogIsOpen, setUnfollowDialogIsOpen] = useState(false)
@@ -53,8 +53,9 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
     track(TrackingEvent.Spaces.followSpaceButtonPressed(space.id, isLoggedIn))
 
     if (!isLoggedIn) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('spaces.follow.loginRedirect.text', { spaceName: space.title }),
+        trackTrigger: 'FOLLOW_SPACE',
       })
     }
     return followSpace({
@@ -64,7 +65,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
         spaceId: space.id,
       },
     })
-  }, [isLoggedIn, openLoginModal, t, followSpace, space.id, space.title, track])
+  }, [isLoggedIn, openSignupModal, t, followSpace, space.id, space.title, track])
 
   const submitUnfollowRequest = useCallback(() => {
     setUnfollowDialogIsOpen(false)
@@ -114,10 +115,10 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
         label={t('spaces.follow.unfollow.confirm.headline', { spaceName: space.title })}
         title={t('spaces.follow.unfollow.confirm.headline', { spaceName: space.title })}
         description={t('spaces.follow.unfollow.confirm.text', { spaceName: space.title })}
-        dismissText={t('global.dismiss')}
-        confirmText={t('global.yes')}
+        secondaryText={t('global.dismiss')}
+        primaryText={t('global.yes')}
         confirmationButtonType="warning"
-        onConfirm={submitUnfollowRequest}
+        onPrimary={submitUnfollowRequest}
         onDismiss={() => setUnfollowDialogIsOpen(false)}
         testID="unfollow-confirm"
       />

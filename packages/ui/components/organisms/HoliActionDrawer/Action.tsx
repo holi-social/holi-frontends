@@ -40,7 +40,7 @@ export interface ActionProps {
   isLoading?: boolean
   variant?: 'default' | 'danger'
   showConfirmation?: boolean
-  handleAction?: (event: SyntheticEvent | GestureResponderEvent) => Promise<void> | void
+  handleAction?: (event: SyntheticEvent | GestureResponderEvent) => Promise<void | unknown> | void
   testID?: string
   iconColor?: string
 }

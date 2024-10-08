@@ -169,10 +169,10 @@ const CreateSpace = () => {
           title={exitConfirmationTitle}
           description={t('spaces.create.close.dialog.description')}
           onDismiss={() => setShowConfirmationModal(false)}
-          dismissText={t('spaces.create.close.dialog.dismiss')}
-          confirmText={t('spaces.create.close.dialog.confirm')}
+          secondaryText={t('spaces.create.close.dialog.dismiss')}
+          primaryText={t('spaces.create.close.dialog.confirm')}
           testID="exit-space-creation-confirmation"
-          onConfirm={() => {
+          onPrimary={() => {
             setShowConfirmationModal(false)
             navigateBack()
           }}

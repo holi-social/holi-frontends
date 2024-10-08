@@ -10,7 +10,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { chatServerName } from '@holi/core/helpers/config'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -31,7 +31,7 @@ export function StartChatButton({
   const isChatInitialized = useChatInitialized()
 
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
 
   const { openToast } = useToast()
   const { replaceRoute, navigate } = useRouting()
@@ -40,8 +40,9 @@ export function StartChatButton({
 
   const handleChat = async () => {
     if (!isLoggedIn) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('chat.start.loginRedirect.text'),
+        trackTrigger: 'START_CHAT',
       })
     }
 

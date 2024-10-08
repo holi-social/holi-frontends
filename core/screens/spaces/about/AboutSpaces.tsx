@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { ArrowLeft, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -23,7 +23,7 @@ const AboutSpaces = () => {
   const { navigate, navigateBack } = useRouting()
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { width: screenWidth } = useClientWindowDimensions()
 
@@ -47,8 +47,10 @@ const AboutSpaces = () => {
   }, [setScreenOptions, t, colors.background20])
 
   const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn ? navigate('/spaces/create') : openLoginModal({ description: t('spaces.create.loginRedirect.text') })
-  }, [isLoggedIn, navigate, openLoginModal, t])
+    isLoggedIn
+      ? navigate('/spaces/create')
+      : openSignupModal({ description: t('spaces.create.loginRedirect.text'), trackTrigger: 'CREATE_SPACE' })
+  }, [isLoggedIn, navigate, openSignupModal, t])
 
   return (
     <ScrollView contentContainerStyle={styles.container} style={styles.scrollViewBackground}>

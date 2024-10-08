@@ -14,7 +14,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
@@ -54,7 +54,7 @@ const PostDetailPage = () => {
   const [commentId] = useParam('commentId')
   const { navigate, replaceRoute } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const setScreenOptions = useSetScreenOptions()
 
   const { space } = useSpace(spaceIdOrName)
@@ -198,8 +198,9 @@ const PostDetailPage = () => {
             onPress={() =>
               isLoggedIn
                 ? navigate(getPostCommentUrl())
-                : openLoginModal({
+                : openSignupModal({
                     description: t('comments.loginRedirect.text'),
+                    trackTrigger: 'COMMENT_ON_POST',
                   })
             }
           />

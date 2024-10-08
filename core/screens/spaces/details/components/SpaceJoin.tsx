@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboarding'
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
 import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -29,7 +29,7 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message, ...props }) => {
   const { visible: onboardingVisible, show: showOnboarding, hide: hideOnboarding } = useModalState()
   const { loading, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { track } = useTracking()
 
   const submitWithdraw = useCallback(() => {
@@ -51,8 +51,9 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message, ...props }) => {
     track(TrackingEvent.Spaces.joinSpaceButtonPressed(space.id, isLoggedIn))
 
     if (!isLoggedIn) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
+        trackTrigger: 'JOIN_SPACE',
       })
     }
     showOnboarding()
@@ -98,10 +99,10 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message, ...props }) => {
         label={t('spaces.join.withdraw.confirm.headline')}
         title={t('spaces.join.withdraw.confirm.headline')}
         description={t('spaces.join.withdraw.confirm.text')}
-        dismissText={t('global.dismiss')}
-        confirmText={t('global.yes')}
+        secondaryText={t('global.dismiss')}
+        primaryText={t('global.yes')}
         confirmationButtonType="warning"
-        onConfirm={submitWithdraw}
+        onPrimary={submitWithdraw}
         onDismiss={() => setWithdrawDialogIsOpen(false)}
       />
       <SpaceCollaboratorOnboarding

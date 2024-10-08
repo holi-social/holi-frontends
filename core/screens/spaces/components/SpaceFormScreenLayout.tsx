@@ -73,10 +73,10 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
         title={exitConfirmationTitle}
         description={t('global.leavePage.confirmation.description')}
         onDismiss={() => toggleConfirmationModal(false)}
-        dismissText={t('global.leavePage.confirmation.dismiss')}
-        confirmText={t('global.leavePage.confirmation.confirm')}
+        secondaryText={t('global.leavePage.confirmation.dismiss')}
+        primaryText={t('global.leavePage.confirmation.confirm')}
         testID="form-modal-exit-confirmation"
-        onConfirm={() => {
+        onPrimary={() => {
           toggleConfirmationModal(false)
           navigateBack()
         }}

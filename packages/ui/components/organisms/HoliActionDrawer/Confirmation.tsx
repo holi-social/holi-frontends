@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { LoginGuardModal } from '@holi/core/components/LoginGuardModal'
+import { SignupGuardModal } from '@holi/core/components/SignupGuardModal'
 import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -49,7 +49,7 @@ export const Confirmation = ({
   return (
     <>
       {requireLogin && !isLoggedIn ? (
-        <LoginGuardModal {...confirmationProps} />
+        <SignupGuardModal {...confirmationProps} />
       ) : (
         <HoliConfirmation
           show={isVisibleConfirmation}
@@ -57,10 +57,10 @@ export const Confirmation = ({
           title={title}
           description={description}
           onDismiss={handleDismiss}
-          dismissText={dismissText ?? t('confirmation.dismiss')}
-          confirmText={confirmText ?? t('confirmation.confirm')}
+          secondaryText={dismissText ?? t('confirmation.dismiss')}
+          primaryText={confirmText ?? t('confirmation.confirm')}
           testID={testID}
-          onConfirm={handleAction}
+          onPrimary={handleAction}
           confirmationButtonType={buttonType}
         />
       )}
