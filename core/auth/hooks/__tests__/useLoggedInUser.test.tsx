@@ -4,14 +4,19 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { loginStateLoggedIn, loginStateLoggedOut, loginStateUnknown } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 
 jest.useFakeTimers()
 
 const mockUseLoginState = jest.fn()
-jest.mock('@holi/core/auth/loginState', () => ({
-  useLoginState: () => mockUseLoginState(),
-}))
+jest.mock('@holi/core/auth/loginState', () => {
+  const original = jest.requireActual('@holi/core/auth/loginState')
+  return {
+    ...original,
+    useLoginState: () => mockUseLoginState(),
+  }
+})
 
 const mockDisplayError = jest.fn()
 jest.mock('@holi/core/errors/hooks', () => ({
@@ -85,8 +90,8 @@ describe('useLoggedInUser', () => {
     mockIsSSR.mockReturnValue(false)
   })
 
-  it('shoulmockIsSSRd return logged out state', async () => {
-    mockUseLoginState.mockReturnValue({ isLoggedOut: true })
+  it('should return logged out state', async () => {
+    mockUseLoginState.mockReturnValue(loginStateLoggedOut)
     const { mocks } = mockUserRequest()
 
     render(
@@ -99,7 +104,7 @@ describe('useLoggedInUser', () => {
   })
 
   it('should not query user if logged out', () => {
-    mockUseLoginState.mockReturnValue({ isLoggedOut: true })
+    mockUseLoginState.mockReturnValue(loginStateLoggedOut)
     const { mocks, querySpy } = mockUserRequest()
 
     render(
@@ -112,7 +117,7 @@ describe('useLoggedInUser', () => {
   })
 
   it('should query user if logged in', () => {
-    mockUseLoginState.mockReturnValue({ isLoggedIn: true })
+    mockUseLoginState.mockReturnValue(loginStateLoggedIn('test-user-id'))
     const { mocks, querySpy } = mockUserRequest()
 
     render(
@@ -125,7 +130,7 @@ describe('useLoggedInUser', () => {
   })
 
   it('should query user if login state is unknown', () => {
-    mockUseLoginState.mockReturnValue({ isUnknown: true })
+    mockUseLoginState.mockReturnValue(loginStateUnknown)
     const { mocks, querySpy } = mockUserRequest()
 
     render(
@@ -138,7 +143,7 @@ describe('useLoggedInUser', () => {
   })
 
   it('should expose loading state while loading the user', async () => {
-    mockUseLoginState.mockReturnValue({ isLoggedIn: true })
+    mockUseLoginState.mockReturnValue(loginStateLoggedIn('test-user-id'))
     const { mocks } = mockUserRequest()
 
     render(
@@ -151,7 +156,7 @@ describe('useLoggedInUser', () => {
   })
 
   it('should expose loading state if user was not loaded and login state is unknown', async () => {
-    mockUseLoginState.mockReturnValue({ isUnknown: true })
+    mockUseLoginState.mockReturnValue(loginStateUnknown)
     const { mocks } = mockUserRequest()
 
     render(
@@ -164,7 +169,7 @@ describe('useLoggedInUser', () => {
   })
 
   it('should expose user if it was loaded independent of the login state', async () => {
-    mockUseLoginState.mockReturnValue({})
+    mockUseLoginState.mockReturnValue(loginStateUnknown)
     const { mocks } = mockUserRequest()
 
     render(
@@ -179,7 +184,7 @@ describe('useLoggedInUser', () => {
   })
 
   it('should display error if loading the user failed', async () => {
-    mockUseLoginState.mockReturnValue({})
+    mockUseLoginState.mockReturnValue(loginStateUnknown)
 
     render(
       <MockedProvider mocks={[mockedFailedRequest]}>
@@ -195,7 +200,7 @@ describe('useLoggedInUser', () => {
   })
 
   it('should return logged out state if loading the user failed', async () => {
-    mockUseLoginState.mockReturnValue({})
+    mockUseLoginState.mockReturnValue(loginStateUnknown)
 
     render(
       <MockedProvider mocks={[mockedFailedRequest]}>
@@ -210,7 +215,7 @@ describe('useLoggedInUser', () => {
 
   it('should return logged out state if user is not in cache during ssr', async () => {
     mockIsSSR.mockReturnValue(true)
-    mockUseLoginState.mockReturnValue({})
+    mockUseLoginState.mockReturnValue(loginStateUnknown)
     const mockLoggedOutUserRequest = {
       request: {
         query: authenticatedUserV2Query,

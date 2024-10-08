@@ -29,7 +29,6 @@ const loggedInUser = (user: AuthenticatedUser): LoggedInUser => ({
   isLoggedIn: true,
   isLoggedOut: false,
   user,
-  refetch: () => Promise.resolve(),
 })
 
 describe('useVolunteeringRecosQueryVariables', () => {
