@@ -7,7 +7,7 @@ import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import CommentText from '@holi/core/screens/comments/components/CommentText'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
@@ -56,7 +56,8 @@ const CommentView = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
+  const isInsight = commentableType === CommentableType.DISCUSSION
 
   const [isLoadingReport, reportContent] = useReportContent({
     id: comment.id,
@@ -82,18 +83,11 @@ const CommentView = ({
   const heartReactions = comment.reactions.HEART
   const currentUserHasReacted = !!comment.myReaction.HEART
 
-  const replyLoginModalConfig = {
-    description: t(
-      commentableType === CommentableType.DISCUSSION
-        ? 'insight.discussion.comment.loginRedirect.text'
-        : 'comments.react.loginRedirect.text'
-    ),
-  }
-
   const reactOnComment = () => {
     if (!isLoggedIn) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('comments.react.loginRedirect.text'),
+        trackTrigger: isInsight ? 'REACT_COMMENT_ON_INSIGHT' : 'REACT_COMMENT_ON_POST',
       })
     }
 
@@ -196,7 +190,18 @@ const CommentView = ({
                 inline
                 label={t('comments.create_comment_button')}
                 contentStyle={styles.addComment}
-                onPress={() => (loggedInUser ? onPressComment() : openLoginModal(replyLoginModalConfig))}
+                onPress={() => {
+                  if (loggedInUser) onPressComment()
+                  else
+                    openSignupModal({
+                      description: t(
+                        isInsight
+                          ? 'insight.discussion.comment.loginRedirect.text'
+                          : 'comments.react.loginRedirect.text'
+                      ),
+                      trackTrigger: isInsight ? 'REPLY_COMMENT_ON_INSIGHT' : 'REPLY_COMMENT_ON_POST',
+                    })
+                }}
               >
                 {!!loggedInUser && (
                   <HoliAvatar

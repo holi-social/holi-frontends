@@ -84,10 +84,10 @@ const SpaceLinkInput: React.FC<SpaceLinkInputProps> = ({ link, onEdit, onDelete 
               title={t('spaces.input.publicLinks.delete.confirmation.title')}
               description={t('spaces.input.publicLinks.delete.confirmation.description')}
               onDismiss={() => setDeleteModalVisible(false)}
-              dismissText={t('spaces.input.publicLinks.delete.confirmation.no')}
-              confirmText={t('spaces.input.publicLinks.delete.confirmation.yes')}
+              secondaryText={t('spaces.input.publicLinks.delete.confirmation.no')}
+              primaryText={t('spaces.input.publicLinks.delete.confirmation.yes')}
               testID="spaces-links-delete-confirmation"
-              onConfirm={() => {
+              onPrimary={() => {
                 onDelete && onDelete(link.id)
               }}
             />

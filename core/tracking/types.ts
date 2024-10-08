@@ -88,3 +88,28 @@ export interface PosthogCrossPlatform {
   identify: (distinctId: string, properties?: Properties) => void
   distinctId: () => string
 }
+
+export type SignupModalPressedTrigger =
+  | 'JOIN_SPACE'
+  | 'FOLLOW_SPACE'
+  | 'LIKE_POST'
+  | 'CREATE_CHALLENGE_VIDEO'
+  | 'CREATE_POST'
+  | 'CREATE_SPACE'
+  | 'COMMENT_ON_POST'
+  | 'COMMENT_ON_CHALLENGE'
+  | 'COMMENT_ON_INSIGHT'
+  | 'REPLY_COMMENT_ON_POST'
+  | 'REPLY_COMMENT_ON_CHALLENGE'
+  | 'REPLY_COMMENT_ON_INSIGHT'
+  | 'REACT_COMMENT_ON_POST'
+  | 'REACT_COMMENT_ON_INSIGHT'
+  | 'REACT_COMMENT_ON_CHALLENGE'
+  | 'REACT_ON_CHALLENGE'
+  | 'REACT_ON_INSIGHT'
+  | 'REACT_ON_POST'
+  | 'FAVORITE_ON_INSIGHT'
+  | 'VIEW_DISCUSSION_COMMENT_ON_INSIGHT'
+  | 'POLL_ANSWER_INSIGHT'
+  | 'START_CHAT'
+  | 'CONNECT_TO_USER'

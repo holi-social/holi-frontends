@@ -7,7 +7,7 @@ import StyleSheet from 'react-native-media-query'
 import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import CommentText from '@holi/core/screens/comments/components/CommentText'
 import { CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
@@ -35,7 +35,7 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
   const { theme } = useTheme()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
 
   const { styles } = useMemo(() => getStyles(theme), [theme])
 
@@ -59,8 +59,9 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
     } else {
       isLoggedIn
         ? navigate(`/insights/${insightId}/discussions/${discussion.id}/comment`)
-        : openLoginModal({
+        : openSignupModal({
             description: t('comments.loginRedirect.text'),
+            trackTrigger: 'VIEW_DISCUSSION_COMMENT_ON_INSIGHT',
           })
     }
   }

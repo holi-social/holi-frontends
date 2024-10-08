@@ -32,7 +32,7 @@ const HoliSwipeable = ({
   const styles = React.useMemo(() => getStyles(theme), [theme])
 
   const { setShow: showConfirmation, props: confirmationProps } = useConfirmationState({
-    onConfirm: () => {
+    onPrimary: () => {
       onSwipeLeft()
       swipableRef.current?.close()
     },

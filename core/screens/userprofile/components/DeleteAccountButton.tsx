@@ -66,10 +66,10 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
         confirmationButtonType="warning"
         description={t('profile.settings.account.delete.confirmation.description')}
         onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t('profile.settings.account.delete.confirmation.dismiss')}
-        confirmText={t('profile.settings.account.delete.confirmation.confirm')}
+        secondaryText={t('profile.settings.account.delete.confirmation.dismiss')}
+        primaryText={t('profile.settings.account.delete.confirmation.confirm')}
         testID="account-deletion-confirmation"
-        onConfirm={() => {
+        onPrimary={() => {
           setShowConfirmationModal(false)
           deleteAuthenticatedUser()
         }}

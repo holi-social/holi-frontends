@@ -63,9 +63,9 @@ const SpacePublicLink: React.FC<SpacePublicLinkProps> = ({ link, style }: SpaceP
         title={t('spaces.spaceDetails.publicLinks.change.title')}
         description={`${t('spaces.spaceDetails.publicLinks.change.url')}${url}`}
         onDismiss={() => setShowConfirmationModal(false)}
-        onConfirm={handleConfirm}
-        dismissText={t('global.dismiss')}
-        confirmText={t('global.proceed')}
+        onPrimary={handleConfirm}
+        secondaryText={t('global.dismiss')}
+        primaryText={t('global.proceed')}
         testID="confirm-proceed-external-space-link"
       />
     </>

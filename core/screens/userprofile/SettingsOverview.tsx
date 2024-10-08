@@ -39,7 +39,7 @@ const SettingsOverview = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { setShow: setShowLogoutConfirmation, props: logoutConfirmationProps } = useConfirmationState({
-    onConfirm: () => {
+    onPrimary: () => {
       logout()
     },
   })
@@ -131,8 +131,8 @@ const SettingsOverview = () => {
             label={t('auth.logout.button')}
             title={t('auth.logout.button')}
             description={t('auth.logout.heading')}
-            dismissText={t('auth.logout.confirmation.dismiss')}
-            confirmText={t('auth.logout.confirmation.confirm')}
+            secondaryText={t('auth.logout.confirmation.dismiss')}
+            primaryText={t('auth.logout.confirmation.confirm')}
             confirmationButtonType="warning"
             {...logoutConfirmationProps}
             testID="modal-logout"

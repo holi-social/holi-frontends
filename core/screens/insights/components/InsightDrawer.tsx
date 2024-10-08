@@ -6,7 +6,7 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { FavoriteType } from '@holi/core/screens/favorites/model'
 import {
   FavoriteResponse,
@@ -35,7 +35,7 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
 
   const { id, isFavorite } = insight
 
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
 
   const [favorite] = useMutation<FavoriteResponse>(favoriteMutation, {
     onError: (error) =>
@@ -60,9 +60,10 @@ const InsightDrawer: React.FC<InsightDrawerProps> = ({ insight, children }: Insi
       await favorite({ variables: { favoritableId: id, favoritableType: FavoriteType.INSIGHT } })
       openToast(t('insights.insight.favorite.success'), HoliToastType.SUCCESS)
     } else {
-      openLoginModal({
+      openSignupModal({
         title: t('loginRedirect.title'),
         description: t('insights.insight.login.prompt.message'),
+        trackTrigger: 'FAVORITE_ON_INSIGHT',
       })
     }
   }

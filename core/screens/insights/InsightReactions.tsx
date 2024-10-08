@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import {
   UpdateInitiativeReactionMutation,
   UpdateInitiativeReactionResponse,
@@ -36,7 +36,7 @@ export interface InsightReactionsProps {
 const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType, style }) => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
@@ -68,8 +68,9 @@ const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType, sty
 
   const reactOnItem = () => {
     if (!user) {
-      return openLoginModal({
+      return openSignupModal({
         description: t(`insights.${itemType.toLowerCase()}s.loginRedirect.text`),
+        trackTrigger: 'REACT_ON_INSIGHT',
       })
     }
     updateItemReaction({

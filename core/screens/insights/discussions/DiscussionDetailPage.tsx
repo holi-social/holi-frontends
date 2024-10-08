@@ -11,7 +11,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
@@ -39,7 +39,7 @@ const DiscussionDetailPage = () => {
   const { theme } = useTheme()
   const { replaceRoute } = useRouting()
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
 
   const [discussionId] = useParam('discussionId')
   const [insightId] = useParam('insightId')
@@ -79,8 +79,9 @@ const DiscussionDetailPage = () => {
   const onPressCreateComment = () =>
     isLoggedIn
       ? replaceRoute(`/insights/${insightId}/discussions/${discussionId}/comment`)
-      : openLoginModal({
+      : openSignupModal({
           description: t('insight.discussion.comment.loginRedirect.text'),
+          trackTrigger: 'COMMENT_ON_INSIGHT',
         })
 
   return (

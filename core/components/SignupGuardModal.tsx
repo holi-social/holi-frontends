@@ -8,25 +8,29 @@ import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 import HoliConfirmation, { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-export type LoginGuardModalProps = Partial<HoliConfirmationProps>
+export interface SignupGuardModalProps extends Partial<HoliConfirmationProps> {
+  trackTrigger?: SignupModalPressedTrigger
+}
 
-export const LoginGuardModal = ({
+export const SignupGuardModal = ({
   show = false,
   label,
   title,
   description,
-  confirmText,
-  dismissText,
-  onConfirm,
+  primaryText,
+  secondaryText,
+  onPrimary,
   onDismiss,
   confirmationButtonType,
+  trackTrigger,
   testID = 'login-guard-modal',
-}: LoginGuardModalProps) => {
+}: SignupGuardModalProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { props } = useConfirmationState()
@@ -34,22 +38,28 @@ export const LoginGuardModal = ({
   const { track } = useTracking()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-
-  const confirmHandler = useCallback(() => {
-    track(TrackingEvent.Auth.LoginButtonPressed)
+  const primaryHandler = useCallback(() => {
+    if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'signUp'))
     setPathToRedirect(pathname)
     navigate('/onboarding/registration')
 
-    const confirmPropagation = onConfirm?.()
-    if (confirmPropagation !== false) props.onConfirm?.()
-  }, [navigate, onConfirm, pathname, props, track])
+    const confirmPropagation = onPrimary?.()
+    if (confirmPropagation !== false) {
+      props.onPrimary?.()
+    }
+  }, [navigate, onPrimary, pathname, props, trackTrigger, track])
 
   const dismissHandler = useCallback(() => {
-    track(TrackingEvent.Auth.CloseLoginModalButtonPressed)
-
+    if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'x'))
     const dismissPropagation = onDismiss?.()
     if (dismissPropagation !== false) props.onDismiss?.()
-  }, [onDismiss, props, track])
+  }, [onDismiss, props, trackTrigger, track])
+
+  const secondaryHandler = useCallback(() => {
+    if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'notNow'))
+    const dismissPropagation = onDismiss?.()
+    if (dismissPropagation !== false) props.onDismiss?.()
+  }, [onDismiss, props, trackTrigger, track])
 
   return (
     <HoliConfirmation
@@ -57,15 +67,23 @@ export const LoginGuardModal = ({
       label={label || t('loginRedirect.title')}
       title={title || t('loginRedirect.title')}
       description={description || t('loginRedirect.text')}
-      confirmText={confirmText || t('loginRedirect.btnConfirm')}
-      dismissText={dismissText || t('loginRedirect.btnCancel')}
-      onConfirm={confirmHandler}
+      primaryText={primaryText || t('loginRedirect.btnConfirm')}
+      secondaryText={secondaryText || t('loginRedirect.btnCancel')}
+      onPrimary={primaryHandler}
       onDismiss={dismissHandler}
+      onSecondary={secondaryHandler}
       confirmationButtonType={confirmationButtonType}
       testID={testID}
       footerComponent={
         <View style={styles.footerContainer}>
-          <AlreadyHaveAccountText onPress={dismissHandler} trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
+          <AlreadyHaveAccountText
+            onPress={dismissHandler}
+            trackingEvent={
+              trackTrigger
+                ? TrackingEvent.SignUpModalPressed(trackTrigger, 'login')
+                : TrackingEvent.Auth.LoginButtonPressed
+            }
+          />
         </View>
       }
     />

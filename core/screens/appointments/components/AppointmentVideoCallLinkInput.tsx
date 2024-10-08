@@ -232,10 +232,10 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
           title={t('spaces.appointments.input.videoCall.delete.button')}
           description={t('spaces.appointments.input.videoCall.delete.confirmation')}
           onDismiss={hideDeleteModal}
-          dismissText={t('global.dismiss')}
-          confirmText={t('global.delete')}
+          secondaryText={t('global.dismiss')}
+          primaryText={t('global.delete')}
           testID="video-linkform-modal-exit-confirmation"
-          onConfirm={handleDelete}
+          onPrimary={handleDelete}
         />
       </HoliModal>
     </>

@@ -5,7 +5,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import PollCompletionMessage from '@holi/core/screens/polls/components/PollCompletionMessage'
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 import PollSelection from '@holi/core/screens/polls/components/PollSelection'
@@ -36,7 +36,7 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const choices = poll?.choices
   const { width: screenWidth } = useClientWindowDimensions()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { isLoading: loadingUser, user } = useLoggedInUser()
 
   const [loading, setLoading] = useState(true)
@@ -82,8 +82,9 @@ const PollComponent = ({ poll }: PollComponentProps) => {
 
   const handleSelected = (selectedChoice: Choice | null) => {
     if (!user) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('insight.poll.reaction.loginRedirect.text'),
+        trackTrigger: 'POLL_ANSWER_INSIGHT',
       })
     }
     setSelectedAnswerOption(selectedChoice)
