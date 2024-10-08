@@ -1,8 +1,6 @@
 import { NextPageContext } from 'next'
 import React, { ReactElement } from 'react'
 
-import { skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
-import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { AppLayout } from '@holi/web/layout/NavigationLayoutVolunteeringApp'
 import type { NextPageWithLayout } from '@holi/web/pages/_app'
@@ -18,27 +16,10 @@ export const paths = {
   de: '/ehrenamt',
 }
 
-export const getServerSideProps = async (context: NextPageContext) => {
-  const { geolocationId } = context.query
-
-  const queries = [
-    {
-      query: topicsQuery,
-    },
-    {
-      query: skillsQuery,
-    },
-    {
-      query: geoPlaceDetailsQuery,
-      variables: { id: geolocationId },
-      skip: !geolocationId,
-    },
-  ]
-
-  return createServerSideProps(context, queries, {
+export const getServerSideProps = async (context: NextPageContext) =>
+  createServerSideProps(context, [], {
     seoTitle: 'seo.h1.volunteering',
     urls: paths,
   })
-}
 
 export default VolunteeringAppHomePage

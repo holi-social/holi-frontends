@@ -65,13 +65,10 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
     // Re-render page until all render promises were resolved to populate the Apollo cache
     let initialProps = await Document.getInitialProps(context)
     while (renderPromises.hasPromises()) {
-      try {
-        await renderPromises.consumeAndAwaitPromises()
-        initialProps = await Document.getInitialProps(context)
-      } finally {
-        renderPromises.stop()
-      }
+      await renderPromises.consumeAndAwaitPromises()
+      initialProps = await Document.getInitialProps(context)
     }
+    renderPromises.stop()
 
     const styles = [getStyleElement(), flush()]
     return { ...initialProps, styles: Children.toArray(styles), apolloClient }
