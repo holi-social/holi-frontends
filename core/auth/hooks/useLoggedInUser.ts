@@ -56,6 +56,7 @@ export const useLoggedInUser = (): LoggedInState => {
     authenticatedUserV2Query,
     {
       skip: loginState.isLoggedOut,
+      // The user is pre-loaded during SSR and the result is already present in the cache (if it's missing, the user is not logged in)
       fetchPolicy: isSSR ? 'cache-only' : 'cache-first',
       onError: (error) => {
         displayError(error, 'Failed to load authenticated user', {
