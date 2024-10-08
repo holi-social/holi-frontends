@@ -2,6 +2,7 @@ import { ApolloError, gql } from '@apollo/client'
 import { GraphQLError } from 'graphql'
 import type { NextPageContext } from 'next'
 
+import { WebApolloClientOptions } from '@holi/api/graphql/client'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { HoliPageProps } from '@holi/web/types'
 
@@ -10,9 +11,9 @@ jest.mock('ni18n', () => ({
   loadTranslations: () => mockLoadTranslations(),
 }))
 
-const mockInitializeApolloSSRClient = jest.fn()
+const mockInitializeWebApolloClient = jest.fn()
 jest.mock('@holi/api/graphql/client', () => ({
-  initializeApolloSSRClient: (options) => mockInitializeApolloSSRClient(options),
+  initializeWebApolloClient: (options: WebApolloClientOptions) => mockInitializeWebApolloClient(options),
 }))
 
 const mockCreatePosthogPageProps = jest.fn()
@@ -79,7 +80,7 @@ describe('createServerSideProps', () => {
   beforeEach(() => {
     mockQueryFunction.mockResolvedValue({ data: {} })
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
-    mockInitializeApolloSSRClient.mockReturnValue(mockedClient)
+    mockInitializeWebApolloClient.mockReturnValue(mockedClient)
     mockCreatePosthogPageProps.mockReturnValue(mockPosthogBootstrapValues)
   })
 
@@ -103,7 +104,7 @@ describe('createServerSideProps', () => {
   it('should execute list of queries and pass request headers', async () => {
     await createServerSideProps(context, [query1, query2])
 
-    expect(mockInitializeApolloSSRClient).toHaveBeenCalledWith({ headers })
+    expect(mockInitializeWebApolloClient).toHaveBeenCalledWith({ headers })
     expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
     expect(mockQueryFunction).toHaveBeenCalledWith(query1)
     expect(mockQueryFunction).toHaveBeenCalledWith(query2)
@@ -164,7 +165,7 @@ describe('createServerSideProps', () => {
     const { props } = await createServerSideProps({ req: { url: '/_next/data/' } }, [])
 
     expect(props).toEqual(minimalProps)
-    expect(mockInitializeApolloSSRClient).not.toHaveBeenCalled()
+    expect(mockInitializeWebApolloClient).not.toHaveBeenCalled()
     expect(mockLoadTranslations).not.toHaveBeenCalled()
   })
 

@@ -4,7 +4,7 @@ import React, { useContext } from 'react'
 
 import RootProvider from '@holi/core/providers/RootProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
-import { useApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
+import { useApolloWebClient } from '@holi/web/helpers/useApolloWebClient'
 import type { HoliPageProps } from '@holi/web/types'
 
 interface RootProviderProps {
@@ -13,9 +13,9 @@ interface RootProviderProps {
 
 const WebRootProvider = ({ children, pageProps }: PropsWithChildren<RootProviderProps>) => {
   // Apollo context is only available on the server side: client side will create new client from page props
-  const apolloSsrClient = useApolloSSRClient(pageProps)
+  const apolloWebClient = useApolloWebClient(pageProps)
   const apolloContext = useContext(getApolloContext())
-  const apolloClient = apolloContext.client ?? apolloSsrClient
+  const apolloClient = apolloContext.client ?? apolloWebClient
 
   return (
     <ThemeProvider theme={defaultHoliTheme}>

@@ -1,14 +1,14 @@
 import { type QueryOptions } from '@apollo/client'
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
-import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { initializeWebApolloClient } from '@holi/api/graphql/client'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { createPosthogPageProps } from '@holi/web/helpers/createPosthogPageProps'
 import { createTranslationPageProps } from '@holi/web/helpers/createTranslationPageProps'
 import { getOrigin } from '@holi/web/helpers/getOrigin'
 import { getValidLocale } from '@holi/web/helpers/getValidLocale'
-import { createApolloPageProps } from '@holi/web/helpers/useApolloSSRClient'
+import { createApolloPageProps } from '@holi/web/helpers/useApolloWebClient'
 import { type CustomProps, HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 
 interface SkippableQueryOptions extends QueryOptions {
@@ -46,7 +46,7 @@ export const createServerSideProps = async (
     return minimalProps
   }
 
-  const client = initializeApolloSSRClient({ headers: req.headers as Record<string, string> })
+  const client = initializeWebApolloClient({ headers: req.headers as Record<string, string> })
 
   // Pre-fetch authenticated user if logged in
   const authenticatedUserPromise = client.query({ query: authenticatedUserV2Query })

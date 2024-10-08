@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import type { NextPageContext } from 'next'
 import pino from 'pino'
 
-import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { initializeWebApolloClient } from '@holi/api/graphql/client'
 import { Topic } from '@holi/api/graphql/graphql-codegen'
 import { defaultLocale } from '@holi/core/i18n/locales.cjs'
 import { generateSitemapUrlSet, getUrlPrefix } from '@holi/web/helpers/sitemap'
@@ -51,7 +51,7 @@ const StaticSitemapIndex = () => {
 
 export const getServerSideProps = async ({ req, res, locale }: NextPageContext) => {
   const prefix = getUrlPrefix(req, locale)
-  const client = initializeApolloSSRClient()
+  const client = initializeWebApolloClient()
   const topics = await client
     .query({ query: topicSlugsQuery })
     .then((result) => result.data.topics.data)

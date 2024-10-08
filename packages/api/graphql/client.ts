@@ -233,19 +233,18 @@ const createApolloClient = ({
 }
 
 // Web
-/** This `let` variable can only be mutated by the initializeApolloSSRClient function. */
-let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
+/** This `let` variable can only be mutated by the initializeWebClientApolloClient function. */
+let apolloWebClient: ApolloClient<NormalizedCacheObject> | null = null
 
-type SSRClientInitState = Record<string, unknown> | null
+type WebClientInitState = Record<string, unknown> | null
 
-export const initializeApolloSSRClient = ({
-  initState,
-  headers,
-}: {
-  initState?: SSRClientInitState
+export interface WebApolloClientOptions {
+  initState?: WebClientInitState
   headers?: ApolloClientOptions<NormalizedCacheObject>['headers']
-} = {}) => {
-  const client = apolloSSRClient ?? createApolloClient({ ssrMode: true, headers })
+}
+
+export const initializeWebApolloClient = ({ initState, headers }: WebApolloClientOptions = {}) => {
+  const client = apolloWebClient ?? createApolloClient({ ssrMode: true, headers })
 
   if (initState) {
     const { __META, ...existingCache } = client.extract()
@@ -255,11 +254,12 @@ export const initializeApolloSSRClient = ({
     })
   }
 
-  // For SSG and SSR always create a new Apollo Client
   if (isSSR) {
+    // For SSG and SSR always create a new Apollo Client
     return client
   }
-  if (!apolloSSRClient) apolloSSRClient = client
+
+  if (!apolloWebClient) apolloWebClient = client
 
   return client
 }
