@@ -90,17 +90,6 @@ export const useLoginState = (): LoginState => {
 }
 
 /**
- * React hook to set the initial login state to either logged out or unknown (i.e. session should be loaded from storage).
- * Only used for web to align server- and client-side rendered HTML.
- */
-export const useInitialLoginState = ({ isLoggedOut = false }: { isLoggedOut?: boolean }) => {
-  // Unknown is the default, only override if logged out
-  if (isLoggedOut) {
-    setLoginStateLoggedOut()
-  }
-}
-
-/**
  * Function to retrieve the current login state.
  *
  * If you want to reactively subscribe to login state changes from within a component, use either the `useLoggedInUser` hook to take SSR into consideration, or `useLoginState` if SSR is of no importance.
