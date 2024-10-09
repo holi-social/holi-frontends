@@ -1,8 +1,8 @@
 import { ApolloError, gql } from '@apollo/client'
 import { GraphQLError } from 'graphql'
-import { DocumentNode } from 'graphql/language/ast'
 import type { NextPageContext } from 'next'
 
+import { WebApolloClientOptions } from '@holi/api/graphql/client'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { HoliPageProps } from '@holi/web/types'
 
@@ -11,20 +11,24 @@ jest.mock('ni18n', () => ({
   loadTranslations: () => mockLoadTranslations(),
 }))
 
-const mockInitializeApolloSSRClient = jest.fn()
+const mockInitializeWebApolloClient = jest.fn()
 jest.mock('@holi/api/graphql/client', () => ({
-  initializeApolloSSRClient: () => mockInitializeApolloSSRClient(),
+  initializeWebApolloClient: (options: WebApolloClientOptions) => mockInitializeWebApolloClient(options),
 }))
 
 const mockCreatePosthogPageProps = jest.fn()
 jest.mock('@holi/web/helpers/createPosthogPageProps', () => ({
-  createPosthogPageProps: () => mockCreatePosthogPageProps(),
+  createPosthogPageProps: (userId: string) => mockCreatePosthogPageProps(userId),
 }))
 
 describe('createServerSideProps', () => {
   const origin = 'https://app.holi.social'
-  const expectedHeaders = { header1: 'header1 value', 'accept-language': 'en' }
-  const headers = { ...expectedHeaders, accept: 'application/json', 'accept-encoding': 'gzip' }
+  const headers = {
+    header1: 'header1 value',
+    'accept-language': 'en',
+    accept: 'application/json',
+    'accept-encoding': 'gzip',
+  }
   const context = { req: { url: '', headers } } as unknown as NextPageContext
   const mockedTranslations = { __ni18n_server__: { resources: {}, ns: [] } }
   const mockPosthogBootstrapValues = {
@@ -38,11 +42,13 @@ describe('createServerSideProps', () => {
     locale: 'en',
     origin,
   }
+  const loggedOutUserProps = { isLoggedOut: true }
   const expectedProps = HoliPageProps.from({
     ...minimalProps,
     translations: mockedTranslations,
     apolloState: mockedCache,
     posthogBootstrapValues: mockPosthogBootstrapValues,
+    user: loggedOutUserProps,
   }).props
   const query1 = {
     query: gql`
@@ -63,7 +69,7 @@ describe('createServerSideProps', () => {
     `,
   }
 
-  const mockQueryFunction = jest.fn().mockResolvedValue({})
+  const mockQueryFunction = jest.fn()
   const mockedClient = {
     query: mockQueryFunction,
     cache: {
@@ -71,13 +77,10 @@ describe('createServerSideProps', () => {
     },
   }
 
-  const addExpectedHeader = (query: { query: DocumentNode }) => {
-    return { ...query, context: { headers: expectedHeaders } }
-  }
-
   beforeEach(() => {
+    mockQueryFunction.mockResolvedValue({ data: {} })
     mockLoadTranslations.mockResolvedValue(mockedTranslations)
-    mockInitializeApolloSSRClient.mockReturnValue(mockedClient)
+    mockInitializeWebApolloClient.mockReturnValue(mockedClient)
     mockCreatePosthogPageProps.mockReturnValue(mockPosthogBootstrapValues)
   })
 
@@ -101,10 +104,10 @@ describe('createServerSideProps', () => {
   it('should execute list of queries and pass request headers', async () => {
     await createServerSideProps(context, [query1, query2])
 
-    expect(mockInitializeApolloSSRClient).toHaveBeenCalled()
-    expect(mockQueryFunction).toHaveBeenCalledTimes(2) // query1 + query2 inside createServerSideProps
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
+    expect(mockInitializeWebApolloClient).toHaveBeenCalledWith({ headers })
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
+    expect(mockQueryFunction).toHaveBeenCalledWith(query1)
+    expect(mockQueryFunction).toHaveBeenCalledWith(query2)
   })
 
   it('should add apollo state to page props after executing queries', async () => {
@@ -114,25 +117,27 @@ describe('createServerSideProps', () => {
   })
 
   it('should add apollo state to page props even if a query fails', async () => {
+    mockQueryFunction.mockResolvedValueOnce({ data: {} }) // Let user query succeed
     mockQueryFunction.mockRejectedValueOnce(new Error('test'))
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toHaveBeenCalledTimes(2)
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
+    expect(mockQueryFunction).toHaveBeenCalledWith(query1)
+    expect(mockQueryFunction).toHaveBeenCalledWith(query2)
     expect(new HoliPageProps(props).apolloState).toEqual(mockedCache)
   })
 
   it('should not execute queries that should be skipped', async () => {
     await createServerSideProps(context, [{ ...query1, skip: true }, query2])
 
-    expect(mockQueryFunction).toHaveBeenCalledTimes(1)
+    expect(mockQueryFunction).toHaveBeenCalledTimes(1 + 1) // query2 + authenticatedUser
     expect(mockQueryFunction).not.toHaveBeenCalledWith(query1)
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledWith(query2)
   })
 
   it('should redirect to 404 page if a query results in a NOT_FOUND error', async () => {
+    mockQueryFunction.mockResolvedValueOnce({ data: {} }) // Let user query succeed
     mockQueryFunction.mockRejectedValueOnce(
       new ApolloError({
         graphQLErrors: [
@@ -147,9 +152,9 @@ describe('createServerSideProps', () => {
 
     const props = await createServerSideProps(context, [query1, query2])
 
-    expect(mockQueryFunction).toHaveBeenCalledTimes(2)
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query1))
-    expect(mockQueryFunction).toHaveBeenCalledWith(addExpectedHeader(query2))
+    expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
+    expect(mockQueryFunction).toHaveBeenCalledWith(query1)
+    expect(mockQueryFunction).toHaveBeenCalledWith(query2)
     expect(props).toEqual({
       notFound: true,
     })
@@ -160,7 +165,7 @@ describe('createServerSideProps', () => {
     const { props } = await createServerSideProps({ req: { url: '/_next/data/' } }, [])
 
     expect(props).toEqual(minimalProps)
-    expect(mockInitializeApolloSSRClient).not.toHaveBeenCalled()
+    expect(mockInitializeWebApolloClient).not.toHaveBeenCalled()
     expect(mockLoadTranslations).not.toHaveBeenCalled()
   })
 
@@ -219,5 +224,39 @@ describe('createServerSideProps', () => {
         origin: 'http://localhost:3000',
       },
     })
+  })
+
+  it('should add default posthog bootstrap values if user is not logged in', async () => {
+    const props = await createServerSideProps(context)
+
+    expect(mockCreatePosthogPageProps).toHaveBeenCalledWith(undefined)
+    expect(new HoliPageProps(props).posthogBootstrapValues).toEqual(mockPosthogBootstrapValues)
+  })
+
+  it('should add user specific posthog bootstrap values if user is logged in', async () => {
+    const userId = 'test-user-id'
+    mockQueryFunction.mockResolvedValue({ data: { authenticatedUserV2: { id: userId } } })
+    const props = await createServerSideProps(context)
+
+    expect(mockCreatePosthogPageProps).toHaveBeenCalledWith(userId)
+    expect(new HoliPageProps(props).posthogBootstrapValues).toEqual(mockPosthogBootstrapValues)
+  })
+
+  it('should add logged out user props if user is not logged in', async () => {
+    const props = await createServerSideProps(context)
+
+    expect(new HoliPageProps(props).user).toEqual(loggedOutUserProps)
+  })
+
+  it('should add logged in user props if user is logged in', async () => {
+    const userId = 'test-user-id'
+    const expectedUserProps = {
+      id: userId,
+      isLoggedOut: false,
+    }
+    mockQueryFunction.mockResolvedValue({ data: { authenticatedUserV2: { id: userId } } })
+    const props = await createServerSideProps(context)
+
+    expect(new HoliPageProps(props).user).toEqual(expectedUserProps)
   })
 })

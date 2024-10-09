@@ -11,7 +11,7 @@ jest.mock('@holi/core/screens/notifications/config', () => ({
   novuApplicationIdentifier: 'testApplicationIdentifier',
 }))
 
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 

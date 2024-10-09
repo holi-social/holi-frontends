@@ -3,22 +3,23 @@ import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/r
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { LoginState, useLoginState } from '@holi/core/auth/loginState'
+import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import NotificationSpaceConnectionItem from '@holi/core/screens/notifications/components/NotificationSpaceConnectionItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { dummyUser, notificationSpaceConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
+import { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import { updateSpaceUserConnectionMutation } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-jest.mock('@holi/core/auth/loginState')
-const useLoginStateMock = jest.mocked(useLoginState)
-const loggedIn: LoginState = {
-  isUnknown: false,
+jest.mock('@holi/core/auth/hooks/useLoggedInUser')
+const useLoggedInUserMock = jest.mocked(useLoggedInUser)
+const loggedIn = {
+  isLoading: false,
   isLoggedOut: false,
   isLoggedIn: true,
-  userId: '123',
-}
+  user: { id: '123' },
+} as LoggedInState
 
 // prevent warnings about incomplete apollo mocks,
 // which aren't used as we only test the loading indicator
@@ -57,7 +58,7 @@ const MOCKS = [acceptRequest, declineRequest]
 
 describe('NotificationSpaceConnectionItem', () => {
   beforeEach(() => {
-    useLoginStateMock.mockReturnValue(loggedIn)
+    useLoggedInUserMock.mockReturnValue(loggedIn)
     jest.useRealTimers()
   })
 
@@ -128,7 +129,8 @@ describe('NotificationSpaceConnectionItem', () => {
         message: 'I would like to join!',
       },
       content: 'Some User wants to join the Space Foo\nI would like to join!',
-    }
+      notificationVersion: '1.0.0',
+    } as NotificationSpaceConnection
 
     it('notification for membership request matches snapshot', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))

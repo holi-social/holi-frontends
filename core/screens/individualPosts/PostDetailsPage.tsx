@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import Animated, { FadeInLeft } from 'react-native-reanimated'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { Term } from '@holi/core/domain/shared/types'
@@ -35,7 +35,6 @@ import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -64,13 +63,12 @@ const PostDetailsPage = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { replaceRoute, navigate, navigateBack } = useRouting()
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
-  const { isLoggedIn } = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
@@ -110,7 +108,7 @@ const PostDetailsPage = () => {
   const currentLanguage = getLocale(i18n.language || '')
 
   const headerTitle =
-    loginState.isLoggedIn && loginState.userId === post?.author.id
+    loginState.isLoggedIn && loginState.user.id === post?.author.id
       ? t('individuals.post.details.title.personal')
       : generatePostTitle({
           name: post?.author.firstName || '',
@@ -182,7 +180,7 @@ const PostDetailsPage = () => {
   })
 
   const reactOnPost = () => {
-    if (!isLoggedIn) {
+    if (!loginState.isLoggedIn) {
       openSignupModal({
         description: t('individuals.post.reaction.loginRedirect.text'),
         trackTrigger: 'REACT_COMMENT_ON_POST',
@@ -221,7 +219,7 @@ const PostDetailsPage = () => {
               <>
                 <PostContent
                   post={post}
-                  showVisibilityBadge={loginState.isLoggedIn && loginState.userId === post.author.id}
+                  showVisibilityBadge={loginState.isLoggedIn && loginState.user.id === post.author.id}
                   aggregatedTopics={aggregatedTopics}
                 />
                 <View style={styles.commentsContainer}>

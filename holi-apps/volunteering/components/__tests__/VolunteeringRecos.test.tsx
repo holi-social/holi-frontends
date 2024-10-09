@@ -3,14 +3,9 @@ import { faker } from '@faker-js/faker'
 import { act, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
+import { LoggedInUser, loggedInUserLoading, loggedOut, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useDefaultTopics, useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { AuthenticatedUser, Skill, Topic } from '@holi/core/domain/shared/types'
-import {
-  LoggedInUser,
-  loggedInUserLoading,
-  loggedOut,
-  useLoggedInUser,
-} from '@holi/core/screens/userprofile/useLoggedInUser'
 
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 import {
@@ -19,7 +14,7 @@ import {
   volunteeringRecosQuery,
 } from '@holi-apps/volunteering/queries'
 
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser')
+jest.mock('@holi/core/auth/hooks/useLoggedInUser')
 const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
 
 jest.mock('@holi/core/domain/shared/hooks')
@@ -136,7 +131,6 @@ const loggedInUser = (user: AuthenticatedUser): LoggedInUser => ({
   isLoggedIn: true,
   isLoggedOut: false,
   user,
-  refetch: () => Promise.resolve(),
 })
 
 describe('VolunteeringRecos', () => {

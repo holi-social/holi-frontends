@@ -3,6 +3,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -12,7 +13,6 @@ import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
 import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type CommentInputPageParams = {

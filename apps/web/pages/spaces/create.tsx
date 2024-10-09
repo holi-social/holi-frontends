@@ -1,7 +1,8 @@
 import { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import React from 'react'
 
-import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
+const CreateSpace = dynamic(() => import('@holi/core/screens/spaces/create/CreateSpace'), { ssr: false })
 
 const CreateSpacePage: NextPage = () => <CreateSpace />
 

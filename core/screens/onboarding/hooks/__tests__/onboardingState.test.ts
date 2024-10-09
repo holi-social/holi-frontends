@@ -17,7 +17,7 @@ jest.mock('@holi/core/navigation/hooks/usePathname', () => ({
   setPathname: jest.fn(),
 }))
 const mockUseLoggedInUser = jest.fn()
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 const mockGetStorage = jest.fn()

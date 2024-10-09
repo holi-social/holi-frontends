@@ -1,10 +1,8 @@
-import { QueryHookOptions, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { logError } from '@holi/core/errors/helpers'
-import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
@@ -25,15 +23,8 @@ type GoodNewsUpdatesProps = {
 const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNewsUpdatesProps) => {
   const { t, i18n } = useTranslation()
 
-  const queryOptions: QueryHookOptions = {
-    onError: (error) =>
-      logError(error, 'Failed to load good news articles', {
-        location: 'GoodNewsUpdates.GoodNewsArticlesQuery',
-      }),
-  }
   const { data, loading, refetch } = useQuery<GoodNewsArticlesQueryResponse>(goodNewsArticlesQuery)
   useOnRefresh(refetch)
-  const isReloading = useRefetchOnClientSideForLoggedInWebUser(goodNewsArticlesQuery, queryOptions)
 
   const { articles = [] } = data?.appGoodNews_articles || {}
 
@@ -69,7 +60,7 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNews
       subline={t('goodnews:app.subline')}
       seeAllPath="/apps/goodnews"
       labelSeeMore={t('goodnews:goodnewsListing.loadMoreButton.text')}
-      loading={loading || isReloading}
+      loading={loading}
       cardWidth={cardWidth}
     />
   )

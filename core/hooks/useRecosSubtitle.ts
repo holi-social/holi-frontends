@@ -1,4 +1,4 @@
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 export const useRecosSubtitle = (): string => {
   const loggedInUser = useLoggedInUser()

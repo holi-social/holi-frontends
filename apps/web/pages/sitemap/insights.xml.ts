@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import type { NextPageContext } from 'next'
 import pino from 'pino'
 
-import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { initializeWebApolloClient } from '@holi/api/graphql/client'
 import { generateSitemapIndex, getUrlPrefix } from '@holi/web/helpers/sitemap'
 
 const logger = pino()
@@ -31,7 +31,7 @@ const InsightsSiteMapIndex = () => {
 
 export const getServerSideProps = async ({ req, res, locale }: NextPageContext) => {
   const prefix = getUrlPrefix(req, locale)
-  const client = initializeApolloSSRClient()
+  const client = initializeWebApolloClient()
   const totalInsightsCount = await client
     .query({ query: insightsCountQuery })
     .then((result) => result.data.lastInsights.totalResults)

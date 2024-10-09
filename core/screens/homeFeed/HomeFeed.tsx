@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -22,7 +22,7 @@ import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
-import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
+import RecommendedChallenges from '@holi-apps/challenges/components/AttendingChallengeEvents.tsx'
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -33,7 +33,7 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 }
 
 const HomeFeed = () => {
-  const { isLoggedIn } = useLoginState()
+  const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()

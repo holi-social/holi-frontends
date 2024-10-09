@@ -1,6 +1,6 @@
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useDefaultTopics } from '@holi/core/domain/shared/hooks'
 import { Skill, Term, Topic } from '@holi/core/domain/shared/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 import { VolunteeringRecosQueryVariables } from '@holi-apps/volunteering/queries'
 
@@ -12,14 +12,14 @@ interface VolunteeringRecosParameters {
 }
 
 const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
-  const { user, isLoggedIn, isLoading } = useLoggedInUser()
+  const { user, isLoading: userLoading } = useLoggedInUser()
   const { defaultTopics, defaultTopicsLoading } = useDefaultTopics()
 
-  if (isLoading) {
+  if (!user && userLoading) {
     return {
       loading: true,
     }
-  } else if (isLoggedIn) {
+  } else if (user) {
     const hasInterests = !!user.interests?.length
     const hasSkills = !!user.skills?.length
     if (hasInterests || hasSkills) {

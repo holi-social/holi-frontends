@@ -1,5 +1,6 @@
 import type { NormalizedCacheObject } from '@apollo/client'
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { ApolloClientOptions, HttpOptions } from '@apollo/react-hooks'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
@@ -199,12 +200,14 @@ export const createCache = () =>
     },
   })
 
-interface ApolloCreateClientOptions {
-  readonly ssrMode: boolean
-}
-
 const API_URL = 'http://localhost:3000/api/graphql'
-const ssrHttpLink = new HttpLink({ uri: API_URL })
+const createSsrHttpLink = (requestHeaders?: HttpOptions['headers']) => {
+  // Filter content negotiation headers except accept-language
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { accept, 'accept-encoding': acceptEncoding, ...headers } = requestHeaders || {}
+
+  return new HttpLink({ uri: API_URL, headers })
+}
 
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
@@ -212,8 +215,11 @@ const ssrHttpLink = new HttpLink({ uri: API_URL })
 // `headerLink` is therefore only needed on Mobile (i.e. when defined)
 const clientSideLink = from([headerLink, timeoutLink, errorLink, uploadCapableTerminatingLink].filter((link) => !!link))
 
-const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
-  const clientLink = isSSR ? from([errorLink, ssrHttpLink]) : clientSideLink
+const createApolloClient = ({
+  ssrMode,
+  headers,
+}: Pick<ApolloClientOptions<NormalizedCacheObject>, 'ssrMode' | 'headers'>) => {
+  const clientLink = isSSR ? from([errorLink, createSsrHttpLink(headers)]) : clientSideLink
 
   return new ApolloClient({
     ssrMode,
@@ -222,17 +228,23 @@ const createApolloClient = ({ ssrMode }: ApolloCreateClientOptions) => {
     assumeImmutableResults: true,
     // Trying to connect to apollo dev tools (browser extension) does not make sense during ssr and leads to logging noise
     connectToDevTools: isSSR ? false : undefined,
+    headers,
   })
 }
 
 // Web
-/** This `let` variable can only be mutated by the initializeApolloSSRClient function. */
-let apolloSSRClient: ApolloClient<NormalizedCacheObject> | null = null
+/** This `let` variable can only be mutated by the initializeWebClientApolloClient function. */
+let apolloWebClient: ApolloClient<NormalizedCacheObject> | null = null
 
-type SSRClientInitState = Record<string, unknown> | null
+type WebClientInitState = Record<string, unknown> | null
 
-export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
-  const client = apolloSSRClient ?? createApolloClient({ ssrMode: true })
+export interface WebApolloClientOptions {
+  initState?: WebClientInitState
+  headers?: ApolloClientOptions<NormalizedCacheObject>['headers']
+}
+
+export const initializeWebApolloClient = ({ initState, headers }: WebApolloClientOptions = {}) => {
+  const client = apolloWebClient ?? createApolloClient({ ssrMode: true, headers })
 
   if (initState) {
     const { __META, ...existingCache } = client.extract()
@@ -242,11 +254,12 @@ export const initializeApolloSSRClient = (initState?: SSRClientInitState) => {
     })
   }
 
-  // For SSG and SSR always create a new Apollo Client
   if (isSSR) {
+    // For SSG and SSR always create a new Apollo Client
     return client
   }
-  if (!apolloSSRClient) apolloSSRClient = client
+
+  if (!apolloWebClient) apolloWebClient = client
 
   return client
 }

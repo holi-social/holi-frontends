@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
 import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
 import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
 import { useBreakpointMatcher } from '@holi/core/helpers'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import AnimatedIntro from '@holi/core/screens/onboarding/components/AnimatedIntro'
 import DocumentsFooter from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
@@ -26,7 +27,7 @@ const OnboardingWelcome = () => {
   const { navigate, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mdStyle = useBreakpointMatcher([[dimensions.breakpointM, true]])
-  const { height: screenHeight } = useWindowDimensions()
+  const { height: screenHeight } = useClientWindowDimensions()
 
   useEffect(() => {
     if (isLoggedIn) {

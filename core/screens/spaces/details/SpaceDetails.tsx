@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { spaceRoomAtomCreator } from '@holi/chat/src/store'
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
@@ -84,9 +84,9 @@ const SpaceDetails = () => {
 
   const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_join_is_onboarded')
   const { visible, show, hide } = useModalState()
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
 
-  const isCreator = loginState.isLoggedIn && space?.creator?.id === loginState.userId
+  const isCreator = loginState.isLoggedIn && space?.creator?.id === loginState.user.id
 
   useRefreshOnNavigation({ initialized: called })
 

@@ -2,9 +2,9 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { useEffect } from 'react'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 

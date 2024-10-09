@@ -27,7 +27,7 @@ export const user: User = {
   skills: [],
 }
 
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => ({
     isLoggedIn: true,
     user,

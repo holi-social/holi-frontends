@@ -4,7 +4,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { logError } from '@holi/core/errors/helpers'
-import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
 import ActSliderItem from '@holi/core/screens/appsHub/components/ActSliderItem'
@@ -37,7 +36,6 @@ const DonationUpdates = ({ locationQuery, cardWidth }: DonationUpdatesProps) => 
       }),
   }
   const { data, loading, refetch } = useQuery<AppDonationsProjectsResponse>(donationProjectsQuery, queryOptions)
-  const isReloading = useRefetchOnClientSideForLoggedInWebUser(donationProjectsQuery, queryOptions)
   useOnRefresh(refetch)
 
   const { data: projects = [] } = data?.appDonations_projects || {}
@@ -80,7 +78,7 @@ const DonationUpdates = ({ locationQuery, cardWidth }: DonationUpdatesProps) => 
       subline={t('donations:app.subline')}
       seeAllPath="/donations"
       labelSeeMore={t('donations:donationListing.loadMoreButton.text')}
-      loading={loading || isReloading}
+      loading={loading}
       cardWidth={cardWidth}
     />
   )

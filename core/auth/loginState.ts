@@ -72,12 +72,14 @@ export const setLoginStateLoggedIn = async (session: OrySessionContext): Promise
 // intended to be called from outside the context provider (e.g. logout form)
 export const setLoginStateLoggedOut = async () => {
   logger.debug('setLoginStateLoggedOut', 'user logged out')
-  await removeSessionFromStorage()
   loginStateVar(loginStateLoggedOut)
+  await removeSessionFromStorage()
 }
 
 /**
  * React hook to retrieve and reactively subscribe to login state changes.
+ *
+ * Use `useLoggedInUser` for a SSR compatible variant that takes the cache into consideration.
  *
  * Use `listenOnLoginStateChange` instead if you want to subscribe a listener that receives previous and current state (e.g. in order to derive state transitions).
  *
@@ -90,7 +92,7 @@ export const useLoginState = (): LoginState => {
 /**
  * Function to retrieve the current login state.
  *
- * Use the `useLoginState` hook instead if you want to reactively subscribe to login state changes from within a component.
+ * If you want to reactively subscribe to login state changes from within a component, use either the `useLoggedInUser` hook to take SSR into consideration, or `useLoginState` if SSR is of no importance.
  *
  * Use `listenOnLoginStateChange` instead if you want to subscribe a listener that receives previous and current state (e.g. in order to derive state transitions).
  */

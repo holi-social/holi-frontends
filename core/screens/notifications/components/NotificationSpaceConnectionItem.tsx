@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
@@ -95,7 +95,7 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
     }).then(() => setConnectionAccepted(false))
   }, [updateSpaceUserConnection])
 
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
 
   const showButtons = connectionAccepted === null && notificationHasInteraction(notification)
 
@@ -109,13 +109,13 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
 
     // this message is for 'CONNECTION_REQUEST' notification before user does any action
     if (connectionAccepted === null)
-      return loginState.isLoggedIn && loginState.userId === notification.options.user.id
+      return loginState.isLoggedIn && loginState.user.id === notification.options.user.id
         ? 'notifications.space.connection.message'
         : 'notifications.space.connection.requested.message'
 
     if (connectionAccepted) {
       // this case is for 'CONNECTION_REQUEST_APPROVED' notification after connection was accepted
-      return loginState.isLoggedIn && loginState.userId === notification.options.user.id
+      return loginState.isLoggedIn && loginState.user.id === notification.options.user.id
         ? 'notifications.space.connection.accepted.message'
         : 'notifications.space.connection.joined.message'
     } else {
@@ -159,7 +159,7 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
         notification={notification}
         i18nKey={getI18nKey()}
         style={[style, loading && styles.notificationProcessing]}
-        testID={`${testID ? testID + '-' : ''}notification-item_${loginState.userId}_${notification.options.user.id}`}
+        testID={`${testID ? testID + '-' : ''}notification-item_${loginState.user.id}_${notification.options.user.id}`}
       >
         {showButtons && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>

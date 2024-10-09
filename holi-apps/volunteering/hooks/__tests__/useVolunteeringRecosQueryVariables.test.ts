@@ -1,13 +1,8 @@
 import { renderHook } from '@testing-library/react-native'
 
+import { LoggedInUser, loggedInUserLoading, loggedOut, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useDefaultTopics } from '@holi/core/domain/shared/hooks'
 import { AuthenticatedUser, Skill, Topic } from '@holi/core/domain/shared/types'
-import {
-  LoggedInUser,
-  loggedInUserLoading,
-  loggedOut,
-  useLoggedInUser,
-} from '@holi/core/screens/userprofile/useLoggedInUser'
 import { getRandomAuthenticatedUser } from '@holi/ui/helper/fakeUsers'
 
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
@@ -15,7 +10,7 @@ import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hook
 jest.mock('@holi/core/domain/shared/hooks')
 const mockUseDefaultTopics = jest.mocked(useDefaultTopics)
 
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser')
+jest.mock('@holi/core/auth/hooks/useLoggedInUser')
 const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
 
 const topic1: Topic = { id: '1', title: 'Topic 1', slug: 'topic-1', isDiscoverSpacesDefault: true }
@@ -34,7 +29,6 @@ const loggedInUser = (user: AuthenticatedUser): LoggedInUser => ({
   isLoggedIn: true,
   isLoggedOut: false,
   user,
-  refetch: () => Promise.resolve(),
 })
 
 describe('useVolunteeringRecosQueryVariables', () => {

@@ -11,7 +11,7 @@ import { flush } from 'react-native-media-query'
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
 import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import { environmentId } from '@holi/web/environment'
-import { createApolloPageProps, createApolloSSRClient } from '@holi/web/helpers/useApolloSSRClient'
+import { createApolloPageProps, createApolloWebClient } from '@holi/web/helpers/useApolloWebClient'
 import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 
 interface ApolloDocumentProps {
@@ -49,7 +49,9 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
             return <App {...props} />
           }
 
-          apolloClient = apolloClient ?? createApolloSSRClient(new HoliPageProps(props.pageProps))
+          apolloClient =
+            apolloClient ??
+            createApolloWebClient(new HoliPageProps(props.pageProps), context.req?.headers as Record<string, string>)
           const ApolloContext = getApolloContext()
 
           return (
@@ -63,13 +65,10 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
     // Re-render page until all render promises were resolved to populate the Apollo cache
     let initialProps = await Document.getInitialProps(context)
     while (renderPromises.hasPromises()) {
-      try {
-        await renderPromises.consumeAndAwaitPromises()
-        initialProps = await Document.getInitialProps(context)
-      } finally {
-        renderPromises.stop()
-      }
+      await renderPromises.consumeAndAwaitPromises()
+      initialProps = await Document.getInitialProps(context)
     }
+    renderPromises.stop()
 
     const styles = [getStyleElement(), flush()]
     return { ...initialProps, styles: Children.toArray(styles), apolloClient }

@@ -12,10 +12,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HandWaveFilledPng from '@holi/ui/assets/img/icons/hand-wave-filled.png'
 import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -31,7 +31,7 @@ const HomeFeedHeader: React.FC = () => {
   const { theme } = useTheme()
   const isFocused = useIsFocused()
 
-  const { user, state } = useLoggedInUser()
+  const { user, isLoading } = useLoggedInUser()
 
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
 
@@ -94,9 +94,7 @@ const HomeFeedHeader: React.FC = () => {
         </HoliHeading>
 
         {/* start waving animation after user state has been loaded and the screen is focused/active */}
-        <Animated.View
-          style={[state !== 'loading' && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}
-        >
+        <Animated.View style={[!isLoading && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}>
           <HoliLocalImage
             imageSource={Platform.OS === 'android' ? HandWaveFilledPng : HandWaveFilled}
             width={40}

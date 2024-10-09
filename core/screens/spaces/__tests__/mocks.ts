@@ -7,7 +7,6 @@ import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFi
 export const authenticatedUserMock = {
   request: {
     query: authenticatedUserV2Query,
-    variables: { userId: '123' },
   },
   result: {
     data: {

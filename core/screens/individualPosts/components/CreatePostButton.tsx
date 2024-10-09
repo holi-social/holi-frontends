@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -18,7 +18,7 @@ const CreatePostButton: React.FC = () => {
   const styles = useMemo(() => getStyles(), [])
   const { openSignupModal } = useSignupModal()
 
-  const { isLoggedIn } = useLoginState()
+  const { isLoggedIn } = useLoggedInUser()
 
   const navigateToCreatePost = useCallback(() => {
     if (!isLoggedIn) {

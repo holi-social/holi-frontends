@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
@@ -14,7 +15,6 @@ import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import useDeleteComment from '@holi/core/screens/comments/hooks/useDeleteComment'
 import useReactOnComment from '@holi/core/screens/comments/hooks/useReactOnComment'
 import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Comments as CommentsIcon, Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
@@ -50,12 +50,11 @@ const CommentView = ({
   ...props
 }: CommentProps) => {
   const [isRepliesOpen, setIsRepliesOpen] = useState(false)
-  const { user: loggedInUser } = useLoggedInUser()
+  const { user: loggedInUser, isLoggedIn } = useLoggedInUser()
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { isLoggedIn } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
   const isInsight = commentableType === CommentableType.DISCUSSION
 

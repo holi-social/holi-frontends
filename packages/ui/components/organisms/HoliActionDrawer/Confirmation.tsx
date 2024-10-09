@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { SignupGuardModal } from '@holi/core/components/SignupGuardModal'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import type { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 

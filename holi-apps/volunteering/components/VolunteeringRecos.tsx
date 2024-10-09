@@ -3,7 +3,6 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
-import { useRefetchOnClientSideForLoggedInWebUser } from '@holi/core/helpers/useRefetchOnClientSide'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
 import VolunteeringRecosList from '@holi-apps/volunteering/components/VolunteeringRecosList'
@@ -35,15 +34,8 @@ const VolunteeringRecos: React.FC<VolunteeringRecosProps> = ({ cardWidth }: Volu
     }
   )
   useOnRefresh(refetch)
-  const reloading = useRefetchOnClientSideForLoggedInWebUser(volunteeringRecosQuery, {
-    variables: queryVariables,
-    onError: (error) =>
-      logError(error, 'Failed to reload volunteering engagements', {
-        location: 'VolunteeringRecos.volunteeringRecosQuery/reload',
-      }),
-  })
 
-  if (loadingQueryVariables || loading || reloading) {
+  if (loadingQueryVariables || loading) {
     return null
   }
 

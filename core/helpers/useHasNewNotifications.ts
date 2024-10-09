@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
 import { useUnseenNotificationsCount } from '@holi/core/screens/notifications/hooks/useUnseenNotificationsCount'
 import { HasNewNotificationsQuery, HasNewNotificationsResponse } from '@holi/core/screens/notifications/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 
 export const useHasNewNotifications = () => {
   const { isLoggedIn } = useLoggedInUser()

@@ -39,7 +39,6 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserV2Query,
-    variables: { userId: '123' },
   },
   result: {
     data: {

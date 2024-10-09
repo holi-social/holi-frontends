@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -18,7 +18,7 @@ export type TaskDrawerProps = {
 export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ task, space }) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
 
   const [isLoadingDeleteTask, deleteTask] = useDeleteTask({
     id: task.id,
@@ -36,7 +36,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ task, spa
   const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const isAdmin = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isCollaborator = isAdmin || isMember
-  const isTaskOwner = loginState.isLoggedIn && isCollaborator && loginState.userId === task.creator.id
+  const isTaskOwner = loginState.isLoggedIn && isCollaborator && loginState.user.id === task.creator.id
 
   if (!loginState.isLoggedIn) {
     return <></>

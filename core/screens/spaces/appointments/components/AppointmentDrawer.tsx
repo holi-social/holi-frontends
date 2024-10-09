@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
 import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -28,7 +28,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
 }: AppointmentDrawerProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
 
   const [isLoadingDeleteAppointment, deleteAppointment] = useDeleteAppointment({
     id: appointment.id,
@@ -44,7 +44,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
     successMsg: t('global.report.successMessage'),
   })
 
-  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.userId
+  const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.user.id
 
   const shouldDisplayModificationActions = isAdmin || isAppointmentCreator
   const shouldDisplayReportAction = loginState.isLoggedIn && !isAppointmentCreator

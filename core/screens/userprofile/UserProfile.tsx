@@ -4,7 +4,7 @@ import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -56,11 +56,11 @@ const UserProfile = () => {
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
   const [userId = ''] = useParam('userId')
 
   useEffect(() => {
-    if (loginState.isLoggedIn && userId === loginState.userId) {
+    if (loginState.isLoggedIn && userId === loginState.user.id) {
       replaceRoute('/profile')
     }
   }, [replaceRoute, loginState, userId])

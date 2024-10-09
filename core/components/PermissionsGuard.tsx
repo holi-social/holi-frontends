@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -27,14 +27,14 @@ const PermissionsGuard: React.FC<React.PropsWithChildren<PermissionsGuardProps>>
   children,
 }) => {
   const { navigate } = useRouting()
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
 
   if (forceRestrict) {
     navigate(redirectRoute || '/')
     return null
   }
 
-  if (permissionType === PermissionsType.AUTH && loginState.isUnknown) {
+  if (permissionType === PermissionsType.AUTH && loginState.isLoading) {
     return <HoliLoader />
   }
 

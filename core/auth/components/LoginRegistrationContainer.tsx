@@ -2,10 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
@@ -14,8 +13,7 @@ interface LoginRegistrationContainerProps {
 }
 
 const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren<LoginRegistrationContainerProps>) => {
-  const { isLoggedIn } = useLoginState()
-  const { isLoading } = useLoggedInUser()
+  const { isLoggedIn, isLoading } = useLoggedInUser()
   const { t } = useTranslation()
   const redirect = useRedirect('/')
 

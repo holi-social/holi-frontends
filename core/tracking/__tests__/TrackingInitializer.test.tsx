@@ -117,9 +117,6 @@ const mockAuthenticatedUserResponse = (
 ): MockedResponse<AuthenticatedUserV2Response, AuthenticatedUserV2Variables> => ({
   request: {
     query: authenticatedUserV2Query,
-    variables: {
-      userId: 'some-user-identity-id',
-    },
   },
   result: {
     data: {

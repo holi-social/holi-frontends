@@ -3,6 +3,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { string } from 'zod'
 
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import { logError } from '@holi/core/errors/helpers'
 import { isLastWeek, isThisWeek } from '@holi/core/helpers'
@@ -24,7 +25,6 @@ import {
   lastSeenNotificationResponse,
   notificationsQuery,
 } from '@holi/core/screens/notifications/queries'
-import { useLoggedInUser } from '@holi/core/screens/userprofile/useLoggedInUser'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'

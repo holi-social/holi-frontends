@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import { Term, User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -40,7 +40,7 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
   const { track } = useTracking()
-  const { isLoggedIn } = useLoginState()
+  const { isLoggedIn } = useLoggedInUser()
 
   const aggregatedTopics = allTopics?.filter((topic) =>
     post.topics?.some((selectedTopic) => selectedTopic.id === topic.id)

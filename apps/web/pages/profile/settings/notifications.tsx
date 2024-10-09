@@ -1,7 +1,10 @@
 import { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import React from 'react'
 
-import NotificationSettings from '@holi/core/screens/notifications/NotificationSettings'
+const NotificationSettings = dynamic(() => import('@holi/core/screens/notifications/NotificationSettings'), {
+  ssr: false,
+})
 
 const NotificationSettingsPage: NextPage = () => <NotificationSettings />
 

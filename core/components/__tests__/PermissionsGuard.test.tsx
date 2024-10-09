@@ -2,12 +2,18 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
-import { LoginState } from '@holi/core/auth/loginState'
+import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 
-jest.mock('@holi/core/auth/loginState', () => ({
-  useLoginState: (): LoginState => ({ isUnknown: false, isLoggedIn: true, isLoggedOut: false, userId: 'userId' }),
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: () =>
+    ({
+      isLoading: false,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      user: { id: 'userId' },
+    } as LoggedInState),
 }))
 
 describe('PermissionsGuard', () => {

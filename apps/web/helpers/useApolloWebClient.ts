@@ -1,7 +1,7 @@
 import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { useMemo } from 'react'
 
-import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { initializeWebApolloClient } from '@holi/api/graphql/client'
 import type { HoliPageProps } from '@holi/web/types'
 
 export const createApolloPageProps = (client: ApolloClient<NormalizedCacheObject> | undefined) => {
@@ -14,13 +14,13 @@ export const createApolloPageProps = (client: ApolloClient<NormalizedCacheObject
   return JSON.parse(JSON.stringify(client.cache.extract()))
 }
 
-export const createApolloSSRClient = (props: HoliPageProps) => {
+export const createApolloWebClient = (props: HoliPageProps, headers?: Record<string, string>) => {
   const state = props.apolloState
-  return initializeApolloSSRClient(state)
+  return initializeWebApolloClient({ initState: state, headers })
 }
 
-export const useApolloSSRClient = (props: HoliPageProps) => {
-  const store = useMemo(() => createApolloSSRClient(props), [props])
+export const useApolloWebClient = (props: HoliPageProps) => {
+  const store = useMemo(() => createApolloWebClient(props), [props])
 
   return store
 }

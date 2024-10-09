@@ -8,9 +8,11 @@ import React, { ReactElement, ReactNode, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
+import { setLoginStateLoggedOut } from '@holi/core/auth/loginState'
 import HoliHead from '@holi/core/components/HoliHead'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
 import { logError } from '@holi/core/errors/helpers'
+import { isSSR } from '@holi/core/helpers/isSSR'
 import { markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import { ni18nConfig } from '@holi/web/helpers/ni18nConfig'
@@ -37,6 +39,11 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { defaultProps = {} } = Component
   const { t } = useTranslation()
   const holiPageProps = new HoliPageProps(pageProps)
+
+  // Synchronize initial login state between server and client
+  if (holiPageProps.user?.isLoggedOut && !isSSR) {
+    setLoginStateLoggedOut()
+  }
 
   useEffect(() => {
     // Init authentication

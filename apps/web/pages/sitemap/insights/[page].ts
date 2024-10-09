@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import type { NextPageContext } from 'next'
 import pino from 'pino'
 
-import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { initializeWebApolloClient } from '@holi/api/graphql/client'
 import { Insight } from '@holi/api/graphql/graphql-codegen'
 import { generateSitemapUrlSet, getUrlPrefix } from '@holi/web/helpers/sitemap'
 import { PAGE_SIZE } from '@holi/web/pages/sitemap/insights.xml'
@@ -63,7 +63,7 @@ const InsightSiteMap = () => {
 export const getServerSideProps = async ({ req, res, query, locale }: NextPageContext) => {
   const { page } = query
   const prefix = getUrlPrefix(req, locale)
-  const client = initializeApolloSSRClient()
+  const client = initializeWebApolloClient()
   const insights = await client
     .query({ query: insightsWithRelatedIdsQuery, variables: { offset: asNum(page) * PAGE_SIZE, limit: PAGE_SIZE } })
     .then((result) => result.data.lastInsights.data)

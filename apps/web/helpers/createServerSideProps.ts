@@ -1,17 +1,28 @@
 import { type QueryOptions } from '@apollo/client'
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
-import { initializeApolloSSRClient } from '@holi/api/graphql/client'
+import { initializeWebApolloClient } from '@holi/api/graphql/client'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { createPosthogPageProps } from '@holi/web/helpers/createPosthogPageProps'
 import { createTranslationPageProps } from '@holi/web/helpers/createTranslationPageProps'
 import { getOrigin } from '@holi/web/helpers/getOrigin'
 import { getValidLocale } from '@holi/web/helpers/getValidLocale'
-import { createApolloPageProps } from '@holi/web/helpers/useApolloSSRClient'
+import { createApolloPageProps } from '@holi/web/helpers/useApolloWebClient'
 import { type CustomProps, HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 
 interface SkippableQueryOptions extends QueryOptions {
   skip?: boolean
+}
+
+const createUserPageProps = (userId?: string) => {
+  if (userId) {
+    return {
+      id: userId,
+      isLoggedOut: false,
+    }
+  }
+  return { isLoggedOut: true }
 }
 
 export const createServerSideProps = async (
@@ -35,24 +46,12 @@ export const createServerSideProps = async (
     return minimalProps
   }
 
-  const client = initializeApolloSSRClient()
+  const client = initializeWebApolloClient({ headers: req.headers as Record<string, string> })
 
-  const results = await Promise.allSettled(
-    queries
-      .filter((query) => !query.skip)
-      .map((query) => {
-        // Filter content negotiation headers except accept-language
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { accept, 'accept-encoding': acceptEncoding, ...headers } = req.headers
-        const newQuery = {
-          ...query,
-          context: {
-            headers,
-          },
-        }
-        return client.query(newQuery)
-      })
-  )
+  // Pre-fetch authenticated user if logged in
+  const authenticatedUserPromise = client.query({ query: authenticatedUserV2Query })
+
+  const results = await Promise.allSettled(queries.filter((query) => !query.skip).map((query) => client.query(query)))
 
   // For now treat 403 the same as 404
   const wasNotFound = results.some(
@@ -65,9 +64,14 @@ export const createServerSideProps = async (
     }
   }
 
+  // Ignore failing user request silently
+  const userQueryResult = await authenticatedUserPromise.catch()
+  const userId = userQueryResult.data?.authenticatedUserV2?.id
+
   return minimalProps.with({
     translations: await createTranslationPageProps(locale),
-    posthogBootstrapValues: await createPosthogPageProps(),
+    posthogBootstrapValues: await createPosthogPageProps(userId),
     apolloState: createApolloPageProps(client),
+    user: createUserPageProps(userId),
   })
 }

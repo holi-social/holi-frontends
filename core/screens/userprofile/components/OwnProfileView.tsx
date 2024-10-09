@@ -1,25 +1,24 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { Suspense, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import type { InsightsTabProps } from '@holi/core/components/InsightsTab'
-import type { SpacesTabProps } from '@holi/core/components/SpacesTab'
+import InsightsTab from '@holi/core/components/InsightsTab'
+import SpacesTab from '@holi/core/components/SpacesTab'
 import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
-import { dynamicImport } from '@holi/core/helpers/dynamicImport'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
+import MyPostsTab from '@holi/core/screens/individualPosts/components/MyPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -38,12 +37,6 @@ interface OwnProfileViewProps {
   toggleEditMode: (editModeState: EditModeState) => void
   onChangeTab: (tab: Tab) => void
 }
-
-/** TODO: Suspence currently only works on web. To make it work for
- * mobile we need to move to the new React Native architecture */
-const SpacesTab = dynamicImport<SpacesTabProps>(() => import('@holi/core/components/SpacesTab'))
-const InsightsTab = dynamicImport<InsightsTabProps>(() => import('@holi/core/components/InsightsTab'))
-const MyPostsTab = dynamicImport(() => import('@holi/core/screens/individualPosts/components/MyPostsTab'))
 
 const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren<OwnProfileViewProps>) => {
   const { t } = useTranslation()
@@ -147,34 +140,24 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
           },
           {
             title: t('individuals.post.name'),
-            children: (
-              <Suspense fallback={<HoliLoader />}>
-                <MyPostsTab />
-              </Suspense>
-            ),
+            children: <MyPostsTab />,
           },
           ...(hasInsights
             ? [
                 {
                   title: t('profile.tabs.insight'),
-                  children: (
-                    <Suspense fallback={<HoliLoader />}>
-                      <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />
-                    </Suspense>
-                  ),
+                  children: <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
                 },
               ]
             : []),
           {
             title: t('profile.tabs.spaces'),
             children: (
-              <Suspense fallback={<HoliLoader />}>
-                <SpacesTab
-                  emptyText={t('profile.tabs.spaces.empty')}
-                  emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
-                  memberId={user.id}
-                />
-              </Suspense>
+              <SpacesTab
+                emptyText={t('profile.tabs.spaces.empty')}
+                emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
+                memberId={user.id}
+              />
             ),
           },
         ]}

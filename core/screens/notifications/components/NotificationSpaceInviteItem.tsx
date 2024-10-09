@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useLoginState } from '@holi/core/auth/loginState'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import {
@@ -36,7 +36,7 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
 
   const { displayError } = useErrorHandling()
 
-  const loginState = useLoginState()
+  const loginState = useLoggedInUser()
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
@@ -94,7 +94,7 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
     if (inviteAccepted) return 'notifications.space.invite.accepted.message'
     if (inviteDeclined) {
       return !isInvitationDeclinedNotification ||
-        (loginState.isLoggedIn && loginState.userId === notification.options.user.id)
+        (loginState.isLoggedIn && loginState.user.id === notification.options.user.id)
         ? 'notifications.space.invite.ignored.message'
         : 'notifications.space.invite.declined.message'
     }
@@ -136,7 +136,7 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
         notification={notification}
         i18nKey={getI18Key()}
         style={style}
-        testID={`${testID ? testID + '-' : ''}notification-item_${loginState.userId}_${notification.options.user.id}`}
+        testID={`${testID ? testID + '-' : ''}notification-item_${loginState.user.id}_${notification.options.user.id}`}
       >
         {showButtons && (
           <HoliHorizontalRow gap={8} style={styles.buttonContainer}>

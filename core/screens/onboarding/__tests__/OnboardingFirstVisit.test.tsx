@@ -12,7 +12,7 @@ jest.mock('@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection', (
 }))
 
 const mockUseLoggedInUser = jest.fn()
-jest.mock('@holi/core/screens/userprofile/useLoggedInUser', () => ({
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 
