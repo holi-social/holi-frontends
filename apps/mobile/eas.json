@@ -122,6 +122,13 @@
         "POSTHOG_HOST": "https://eu.posthog.com"
       }
     },
+    "production-apk": {
+      "extends": "production",
+      "channel": "production",
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "simulator": {
       "extends": "base",
       "env": {
