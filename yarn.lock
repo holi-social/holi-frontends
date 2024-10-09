@@ -4413,7 +4413,6 @@ __metadata:
     "@types/react": "npm:~18.2.45"
     babel-loader: "npm:^9.1.2"
     babel-plugin-react-native-web: "npm:^0.19.12"
-    chromatic: "npm:^6.11.4"
     eslint: "npm:^8.33.0"
     lodash.debounce: "npm:^4.0.8"
     raf: "npm:^3.4.1"
@@ -13599,17 +13598,6 @@ __metadata:
   version: 2.0.0
   resolution: "chownr@npm:2.0.0"
   checksum: 10c0/594754e1303672171cc04e50f6c398ae16128eb134a88f801bf5354fd96f205320f23536a045d9abd8b51024a149696e51231565891d4efdab8846021ecf88e6
-  languageName: node
-  linkType: hard
-
-"chromatic@npm:^6.11.4":
-  version: 6.24.1
-  resolution: "chromatic@npm:6.24.1"
-  bin:
-    chroma: dist/bin.js
-    chromatic: dist/bin.js
-    chromatic-cli: dist/bin.js
-  checksum: 10c0/b65ad05fa38c54693f670a5c4ad1f104d60ff1023282976135c3a537529829bf15fda877a29278b95385fa8c51971dc4b20f418a77b501c5c18367fcaad39e7c
   languageName: node
   linkType: hard
 
