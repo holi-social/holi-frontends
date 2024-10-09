@@ -1,3 +1,4 @@
+import type { Decorator } from '@storybook/react'
 import React, { ReactNode } from 'react'
 import { UnistylesRuntime } from 'react-native-unistyles'
 
@@ -15,9 +16,9 @@ const ThemeProvider = ({ children, dark = false, colors }: ThemeProviderProps) =
   <ThemeContext.Provider
     value={{
       theme: { ...defaultTheme, dark, colors },
-      toggleDarkMode: () => {},
+      toggleDarkMode: () => null,
       modalIsOpen: false,
-      setModalIsOpen: () => {},
+      setModalIsOpen: () => null,
     }}
   >
     <div style={{ padding: '2rem', backgroundColor: colors.background10 }}>{children}</div>
@@ -54,7 +55,7 @@ const ThemeWrapper = ({ children, showInLightMode = true, showInDarkMode = false
   )
 }
 
-export const withTheme = (Story, { globals: { theme } }) => {
+export const withTheme: Decorator = (Story, { globals: { theme } }) => {
   return (
     <ThemeWrapper showInLightMode={['light', 'both'].includes(theme)} showInDarkMode={['dark', 'both'].includes(theme)}>
       <Story />

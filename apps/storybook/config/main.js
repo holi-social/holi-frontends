@@ -1,6 +1,5 @@
 import { dirname, join } from 'path'
 
-const path = require('path')
 const uiPackageDir = '../../../packages/ui'
 const iconsPackageDir = '../../../packages/icons'
 module.exports = {
