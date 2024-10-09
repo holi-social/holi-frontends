@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import { Text } from 'holi-bricks/components/text'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +15,6 @@ import { Insight } from '@holi/core/screens/insights/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -62,7 +62,9 @@ const InsightsOfTheWeek = () => {
   return (
     <HoliContainer>
       {/* Headline */}
-      <HoliHeading size="l">{t('homeFeed.insights.heading')}</HoliHeading>
+      <Text size="3xl" headingLevel="2">
+        {t('homeFeed.insights.heading')}
+      </Text>
       <HoliGap size="xs" />
 
       {/* Curators with popup */}

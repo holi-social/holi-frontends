@@ -3,6 +3,8 @@ import { black, blue, byShade, mono, red, white, yellow } from '@holi/ui/no-name
 const theme = {
   colors: {
     text: mono[100],
+    textSecondary: mono[200],
+    textTertiary: mono[300],
     background: mono[700],
     focus: `${mono[700]} 0px 0px 0px 1.5px, ${blue[600]} 0px 0px 0px 3px`,
   },

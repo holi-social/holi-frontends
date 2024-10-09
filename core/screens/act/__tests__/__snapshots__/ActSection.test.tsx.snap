@@ -196,10 +196,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 21,
-                    "fontWeight": "500",
-                    "lineHeight": 29.4,
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
                     "userSelect": "auto",
                   }
                 }
@@ -208,20 +214,21 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
               </Text>
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
+                role="none"
                 selectable={true}
                 style={
                   {
-                    "color": "#787777",
+                    "color": "#8a8989",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
                     "fontWeight": "400",
-                    "lineHeight": 22.4,
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
                     "userSelect": "auto",
                   }
                 }
@@ -231,21 +238,21 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
             </View>
           </View>
           <Text
-            accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            selectable={true}
+            role="link"
+            selectable={false}
             style={
               {
                 "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
+                "fontFamily": "InstrumentSans-Medium",
                 "fontSize": 15,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "500",
+                "letterSpacing": -0.03,
+                "lineHeight": 21,
+                "textAlign": undefined,
                 "userSelect": "auto",
               }
             }
@@ -2714,10 +2721,16 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "InstrumentSans-Medium",
-                    "fontSize": 21,
-                    "fontWeight": "500",
-                    "lineHeight": 29.4,
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
                     "userSelect": "auto",
                   }
                 }
@@ -2726,20 +2739,21 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               </Text>
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
+                role="none"
                 selectable={true}
                 style={
                   {
-                    "color": "#787777",
+                    "color": "#8a8989",
                     "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
                     "fontWeight": "400",
-                    "lineHeight": 22.4,
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
                     "userSelect": "auto",
                   }
                 }
@@ -2749,21 +2763,21 @@ exports[`ActHome Section shows DONATIONS 1`] = `
             </View>
           </View>
           <Text
-            accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            selectable={true}
+            role="link"
+            selectable={false}
             style={
               {
                 "color": "#262424",
-                "fontFamily": "InstrumentSans-Regular",
+                "fontFamily": "InstrumentSans-Medium",
                 "fontSize": 15,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "500",
+                "letterSpacing": -0.03,
+                "lineHeight": 21,
+                "textAlign": undefined,
                 "userSelect": "auto",
               }
             }
@@ -4556,10 +4570,16 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   style={
                     {
                       "color": "#262424",
-                      "fontFamily": "InstrumentSans-Medium",
-                      "fontSize": 21,
-                      "fontWeight": "500",
-                      "lineHeight": 29.4,
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
                       "userSelect": "auto",
                     }
                   }
@@ -4568,20 +4588,21 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 </Text>
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
+                  role="none"
                   selectable={true}
                   style={
                     {
-                      "color": "#787777",
+                      "color": "#8a8989",
                       "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
                       "fontWeight": "400",
-                      "lineHeight": 22.4,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
                       "userSelect": "auto",
                     }
                   }
@@ -8254,10 +8275,16 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   style={
                     {
                       "color": "#262424",
-                      "fontFamily": "InstrumentSans-Medium",
-                      "fontSize": 21,
-                      "fontWeight": "500",
-                      "lineHeight": 29.4,
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
                       "userSelect": "auto",
                     }
                   }
@@ -8266,20 +8293,21 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 </Text>
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
+                  role="none"
                   selectable={true}
                   style={
                     {
-                      "color": "#787777",
+                      "color": "#8a8989",
                       "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 16,
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
                       "fontWeight": "400",
-                      "lineHeight": 22.4,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
                       "userSelect": "auto",
                     }
                   }
@@ -8289,21 +8317,21 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
               </View>
             </View>
             <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={true}
+              role="link"
+              selectable={false}
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "InstrumentSans-Regular",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 15,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "500",
+                  "letterSpacing": -0.03,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
                   "userSelect": "auto",
                 }
               }

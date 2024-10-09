@@ -32,7 +32,7 @@ export type HoliHeadingProps = {
 }
 
 /**
- * @deprecated Use `Typography` with `headingLevel` prop instead.
+ * @deprecated Use `Text` from holi-bricks with `headingLevel` prop instead.
  */
 export const HoliHeading = ({
   children,

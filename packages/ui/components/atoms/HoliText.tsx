@@ -29,7 +29,7 @@ export interface HoliTextProps extends TextProps {
 }
 
 /**
- * @deprecated Use `Typography` instead.
+ * @deprecated Use `Text` from holi-bricks instead.
  */
 const HoliText = ({
   children,
