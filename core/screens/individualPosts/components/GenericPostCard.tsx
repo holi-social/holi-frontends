@@ -39,7 +39,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type GenericPostCardProps = {
   post: FeedPost | Post
   showVisibilityBadge?: boolean
-  allTopics?: Term[]
+  allTopics?: readonly Term[]
 }
 
 const NUMBER_OF_LINES = 3
@@ -196,7 +196,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             onPress={() => track(TrackingEvent.FeedPosts.read(feedPost.id))}
           />
         )}
-        {feedPost.location && (
+        {!!feedPost.location && (
           <View style={styles.locationCard}>
             <PostLocationCard location={feedPost.location} geolocation={feedPost.geolocation} />
           </View>
