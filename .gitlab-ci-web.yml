@@ -124,6 +124,10 @@ storybook_publish:
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas' # too much, but since it is there...
   script:
     - yarn storybook:publish
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
   artifacts:
     paths:
       - apps/storybook/build-storybook.log
