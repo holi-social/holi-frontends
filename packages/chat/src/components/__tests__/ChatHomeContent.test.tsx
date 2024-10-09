@@ -1,6 +1,6 @@
 import { DefaultOptions } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
-import { act, render, screen, waitFor } from '@testing-library/react-native'
+import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { createStore } from 'jotai'
 import { ClientEvent, EventType, IEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
 import React from 'react'
@@ -169,7 +169,7 @@ describe('ChatHomeContent Component', () => {
     )
 
     // During the loading phase we show the `<HoliLoader />`
-    expect(await screen.findByTestId('chat-home-loader')).toBeOnTheScreen()
+    await waitForElementToBeRemoved(() => screen.getByTestId('chat-home-loader'))
 
     const displayedRoom = await screen.findByTestId(`room-item-${roomName}`)
     expect(displayedRoom).toHaveTextContent(roomName)
@@ -278,7 +278,7 @@ describe('ChatHomeContent Component', () => {
     )
 
     // During the loading phase we show the `<HoliLoader />`
-    expect(await screen.findByTestId('chat-home-loader')).toBeOnTheScreen()
+    await waitForElementToBeRemoved(() => screen.getByTestId('chat-home-loader'))
     expect(await screen.findByTestId('chat-no-result')).toBeOnTheScreen()
 
     // Events starts coming in

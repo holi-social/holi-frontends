@@ -18,7 +18,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
 import { type SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
@@ -43,7 +43,7 @@ const Spaces = () => {
   const { navigate } = useRouting()
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<Animated.ScrollView>(null)
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()
@@ -77,8 +77,12 @@ const Spaces = () => {
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn
       ? navigate('/spaces/create')
-      : openLoginModal({ description: t('spaces.create.loginRedirect.text'), redirectPath: '/spaces/create' })
-  }, [isLoggedIn, navigate, openLoginModal, t])
+      : openSignupModal({
+          description: t('spaces.create.loginRedirect.text'),
+          redirectPath: '/spaces/create',
+          trackTrigger: 'CREATE_SPACE',
+        })
+  }, [isLoggedIn, navigate, openSignupModal, t])
 
   useIsomorphicLayoutEffect(() => {
     const title = t('spaces.title')

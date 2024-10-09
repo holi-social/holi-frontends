@@ -1,5 +1,4 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
-import { useApolloClient } from '@apollo/client'
+import { makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -59,23 +58,24 @@ export const useLogout = () => {
         isLoggingOutVar(true)
 
         try {
-          const session = await getSessionFromStorage()
           if (!skipLogoutFlow) {
+            const session = await getSessionFromStorage()
             await submitLogoutFlow({ session_token: session?.session_token || '' })
           }
-          await Promise.all([
-            setLoginStateLoggedOut(),
-            // Reset onboarding state
-            clearOnboardingState(),
-            clearFirstVisitContentSelection(),
-          ])
+          await Promise.all([setLoginStateLoggedOut(), clearOnboardingState(), clearFirstVisitContentSelection()])
           await client.clearStore()
 
           logger.debug('useLogout', 'logout successful')
-          if (showToastAfter) openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS)
+          if (showToastAfter)
+            openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS, { testID: 'logout-success' })
         } catch (err) {
           logger.debug('useLogout', 'logout failed, removing session from storage', err)
-          setLoginStateLoggedOut() // will remove session info from storage
+          try {
+            await Promise.all([setLoginStateLoggedOut(), clearOnboardingState(), clearFirstVisitContentSelection()])
+          } catch (e) {
+            logger.debug('useLogout', 'cleaning up after logout error failed as well', e)
+            openToast(message || t('auth.logout.error'), HoliToastType.ERROR, { testID: 'logout-failed' })
+          }
           throw err // will be sent to Sentry so we're aware of it
           // not displaying any user-facing error messages as with the removal from the storage logout should be done
         } finally {

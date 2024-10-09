@@ -11,7 +11,7 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import i18n from '@holi/core/i18n'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
@@ -61,7 +61,7 @@ const PostPreview = ({
 
   const commenters = post?.commenters.data
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { navigate } = useRouting()
   const [isLoadingReport, reportContent] = useReportContent({
     id: post?.id || '',
@@ -92,8 +92,9 @@ const PostPreview = ({
 
   const onPressCommentLink = () => {
     if (!isLoggedIn) {
-      openLoginModal({
+      openSignupModal({
         description: t('comments.loginRedirect.text'),
+        trackTrigger: 'COMMENT_ON_POST',
       })
       // return false prevents link execution
       return false

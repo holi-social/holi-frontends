@@ -19,7 +19,7 @@ export const useFirstVisitContentSelection = () => {
 
   useEffect(() => {
     AsyncStore.getItem(FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME)
-      .then(async (storedValue) => {
+      .then((storedValue) => {
         firstVisitSelectedContentTypeVar(storedValue)
       })
       .finally(() => setIsLoading(false))

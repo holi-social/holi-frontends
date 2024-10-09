@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { FirstVisitOnboardingSelectionOption } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingSelection'
@@ -11,6 +11,7 @@ import {
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliWizard, {
   BackPressHandlerOptions,
   NextPressHandlerOptions,
@@ -187,10 +188,11 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
   const stepsToRender = useMemo<FirstVisitStep[]>(() => {
     const determineNextStep = (previousStep: FirstVisitStep) => {
       const previousStepSelection = selections[previousStep]
-      if (!('options' in onboardingSteps[previousStep])) {
+      const stepConfiguration = onboardingSteps[previousStep]
+      if (!('options' in stepConfiguration)) {
         return undefined
       }
-      const options = onboardingSteps[previousStep].options
+      const options = stepConfiguration.options
       if (!options?.length) {
         return undefined
       }
@@ -210,15 +212,18 @@ export const FirstVisitOnboardingStepper = ({ onContentSelection }: FirstVisitOn
       stepsToRender.map((step) => {
         const stepConfiguration = onboardingSteps[step]
         return (
-          <FirstVisitOnboardingStep
-            key={step}
-            step={step}
-            onSelect={(selection) => onSelectOption(step, selection)}
-            options={'options' in stepConfiguration ? stepConfiguration.options : []}
-            initialSelection={selections[step]}
-            descriptionAbove={stepConfiguration.descriptionAbove}
-            image={stepConfiguration.image}
-          />
+          <ScrollView key={step}>
+            <HoliBox padding={[0, 0, 96, 0]}>
+              <FirstVisitOnboardingStep
+                step={step}
+                onSelect={(selection) => onSelectOption(step, selection)}
+                options={'options' in stepConfiguration ? stepConfiguration.options : []}
+                initialSelection={selections[step]}
+                descriptionAbove={stepConfiguration.descriptionAbove}
+                image={stepConfiguration.image}
+              />
+            </HoliBox>
+          </ScrollView>
         )
       }),
     [onSelectOption, selections, stepsToRender]

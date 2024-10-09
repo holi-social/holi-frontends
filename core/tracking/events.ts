@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { NamesStepData } from '@holi/core/auth/components/AccountSetup/NamesStep'
+import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 
 /**
  * The base type of all tracking events. `TrackingEvent` instances shall not be defined outside of this file to ensure
@@ -120,14 +121,22 @@ export namespace TrackingEvent {
   }
 
   export namespace Auth {
-    export const RegisterButtonPressed: TrackingEvent = {
-      name: 'registerButtonPressed',
-      ...versionOne,
-    }
+    // Login Modal
     export const CloseLoginModalButtonPressed: TrackingEvent = {
       name: 'closeLoginModalButtonPressed',
       ...versionOne,
     }
+    export const SignupLoginModalButtonPressed: TrackingEvent = {
+      name: 'signupLoginModalButtonPressed',
+      ...versionOne,
+    }
+
+    // Others
+    export const RegisterButtonPressed: TrackingEvent = {
+      name: 'registerButtonPressed',
+      ...versionOne,
+    }
+
     export const LoginButtonPressed: TrackingEvent = {
       name: 'loginButtonPressed',
       ...versionOne,
@@ -275,5 +284,13 @@ export namespace TrackingEvent {
       step: step,
       answer: answer,
     },
+  })
+
+  export const SignUpModalPressed = (trigger: SignupModalPressedTrigger, answer: string): TrackingEvent => ({
+    name: 'signUpModalPressed',
+    event_version__major: 1,
+    event_version__minor: 0,
+    event_version__patch: 0,
+    properties: { trigger, answer },
   })
 }

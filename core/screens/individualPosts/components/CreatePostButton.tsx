@@ -4,7 +4,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -16,20 +16,21 @@ const CreatePostButton: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const styles = useMemo(() => getStyles(), [])
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
 
   const { isLoggedIn } = useLoggedInUser()
 
   const navigateToCreatePost = useCallback(() => {
     if (!isLoggedIn) {
-      openLoginModal({
+      openSignupModal({
         title: t('individuals.post.login.title'),
         description: t('individuals.post.login.text'),
+        trackTrigger: 'CREATE_POST',
       })
     } else {
       navigate('/feed-posts/create')
     }
-  }, [navigate, openLoginModal, t, isLoggedIn])
+  }, [navigate, openSignupModal, t, isLoggedIn])
 
   return (
     <View style={styles.floatingContainer}>

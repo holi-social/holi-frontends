@@ -98,43 +98,6 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
   })
 }
 
-export const tapOnElementWithTestIdConsentSkipped = async (testIdToAwait: string, testIdToPress: string) => {
-  // @ts-ignore
-  const max = Appium.options.waitforTimeout / 500
-  for (let i = 0; i < max; i++) {
-    try {
-      const found = await waitForAnyElementWithTestId(['btn-consentModal-declineAll', testIdToAwait])
-      if (found.testId == 'btn-consentModal-declineAll') {
-        await Appium.touchAction({ element: found.element, action: 'tap' })
-        await waitForElementWithTestId(testIdToAwait)
-        await tapOnElementWithTestId(testIdToPress)
-        return true
-      } else {
-        const found = await waitForAnyElementWithTestId(['btn-consentModal-declineAll', testIdToPress])
-        if (found.testId == 'btn-consentModal-declineAll') {
-          await Appium.touchAction({ element: found.element, action: 'tap' })
-          await tapOnElementWithTestId(testIdToPress)
-          return true
-        } else {
-          await Appium.touchAction({ element: found.element, action: 'tap' })
-          return false
-        }
-      }
-    } catch (err) {
-      await delayMs(500)
-      // retry
-    }
-  }
-  throw new Error('Elements could not be found after ' + max + ' retries: ' + testIdToAwait + ', ' + testIdToPress)
-}
-
-export const waitForConsent = async (consent = false) => {
-  while (!consent) {
-    consent ||= await tapOnElementWithTestIdConsentSkipped('home-feed-insights-heading', 'btn-to-profile-view')
-    consent ||= await tapOnElementWithTestIdConsentSkipped('btn-to-registration-form', 'btn-to-home-view')
-  }
-}
-
 const scrollElementIntoView = async (testId: string, direction: ScrollDirection, maxAttempts: number) => {
   let scrollCounter = 0
   while (scrollCounter < maxAttempts) {
@@ -244,6 +207,7 @@ export const fillFieldByTestId = async (testId: string, value: string) => {
   try {
     const element = await tapOnElementWithTestId(testId)
     // https://webdriver.io/docs/api/element/setValue
+    await element.clearValue()
     await element.setValue(value)
     return element
   } catch (err) {
@@ -264,4 +228,28 @@ export const pressEnter = async (inputTestId: string) => {
     // 66 is KeyCode for "Enter"
     await Appium.pressKeyCode(66)
   }
+}
+
+export const retry = async (fn: () => Promise<void>, timeout = 3000, retryIntervall = 200) => {
+  const startTime = Date.now()
+
+  const poll = async (): Promise<void> => {
+    try {
+      await fn()
+      // eslint-disable-next-line no-console
+      console.log('Fulfilled')
+      return
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Retrying...')
+      if (Date.now() - startTime >= timeout) {
+        throw new Error('Condition was not met within the timeout')
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, retryIntervall)) // Wait for the interval before retrying
+      return poll() // Retry
+    }
+  }
+
+  return poll() // Start polling
 }

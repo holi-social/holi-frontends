@@ -131,10 +131,10 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
         title={t('individuals.post.delete.dialog.title')}
         description={t('individuals.post.delete.dialog.message')}
         onDismiss={() => setShowDeleteConfirmationModal(false)}
-        dismissText={t('individuals.post.delete.cancel.button')}
-        confirmText={t('individuals.post.delete.confirmation.button')}
+        secondaryText={t('individuals.post.delete.cancel.button')}
+        primaryText={t('individuals.post.delete.confirmation.button')}
         testID="post-delete-dialog"
-        onConfirm={handleDelete}
+        onPrimary={handleDelete}
       />
     </>
   )

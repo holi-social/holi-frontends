@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof HoliConfirmation> = ({ ...args }) => {
         {...args}
         show={showConfirmation}
         onDismiss={() => setShowConfirmation(false)}
-        onConfirm={() => setShowConfirmation(false)}
+        onPrimary={() => setShowConfirmation(false)}
       />
     </>
   )
@@ -31,17 +31,20 @@ export const Primary: ComponentStory<typeof HoliConfirmation> = Template.bind({}
 Primary.argTypes = {
   title: { description: 'Confirmation title', type: 'string', control: { type: 'text' } },
   description: { description: 'Confirmation description', type: 'string', control: { type: 'text' } },
-  confirmationButtonType: {
+  primaryButtonType: {
     options: ['primary', 'warning'],
     control: { type: 'select' },
     description: 'Primary or danger confirm button type',
   },
-  onConfirm: { description: 'Confirm dialog function', type: 'function' },
+  primaryText: { description: 'Text for primary button', type: 'string' },
+  secondaryText: { description: 'Text for secondary button', type: 'string' },
+  onPrimary: { description: 'Primary dialog function', type: 'function' },
+  onSecondary: { description: 'Secondary dialog function', type: 'function' },
   onDismiss: { description: 'Dismiss dialog function', type: 'function' },
 }
 
 Primary.args = {
   title: 'Connect with Jane Doe?',
   description: 'Are you sure you would like to connect with Jane Doe?',
-  confirmationButtonType: 'primary',
+  primaryButtonType: 'primary',
 }

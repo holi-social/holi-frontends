@@ -4,6 +4,9 @@
       "node": "20.11.0",
       "ios": {
         "resourceClass": "m-medium"
+      },
+      "android": {
+        "resourceClass": "large"
       }
     },
     "development": {
@@ -95,7 +98,7 @@
     },
     "production": {
       "extends": "base",
-      "channel": "production-1-34",
+      "channel": "production-1-36",
       "env": {
         "APP_VARIANT": "production",
         "ENVIRONMENT_ID": "production",

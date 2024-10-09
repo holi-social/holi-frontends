@@ -7,7 +7,7 @@ import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import { Skill, Topic } from '@holi/core/domain/shared/types'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
 import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -49,7 +49,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -69,8 +69,12 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
   const handleCreateSpaceButtonPress = useCallback(() => {
     isLoggedIn
       ? navigate('/spaces/create')
-      : openLoginModal({ description: t('spaces.create.loginRedirect.text'), redirectPath: '/spaces/create' })
-  }, [isLoggedIn, navigate, openLoginModal, t])
+      : openSignupModal({
+          description: t('spaces.create.loginRedirect.text'),
+          redirectPath: '/spaces/create',
+          trackTrigger: 'CREATE_SPACE',
+        })
+  }, [isLoggedIn, navigate, openSignupModal, t])
 
   const aspectRatio = 188 / 324
 

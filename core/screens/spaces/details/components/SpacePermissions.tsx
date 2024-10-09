@@ -311,10 +311,10 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                 user: user.fullName || t('user.profileView.anonymous'),
               })}
               onDismiss={() => setShowGrantAdminConfirmationModal(false)}
-              dismissText={t('spaces.collaborators.permissions.confirm.no')}
-              confirmText={t('spaces.collaborators.permissions.confirm.yes')}
+              secondaryText={t('spaces.collaborators.permissions.confirm.no')}
+              primaryText={t('spaces.collaborators.permissions.confirm.yes')}
               testID="spaces-collaborators-grant-admin-confirmation"
-              onConfirm={grantAdminRights}
+              onPrimary={grantAdminRights}
             />
 
             <HoliConfirmation
@@ -325,10 +325,10 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                 user: user.fullName || t('user.profileView.anonymous'),
               })}
               onDismiss={() => setshowRevokeAdminConfirmationModal(false)}
-              dismissText={t('spaces.collaborators.permissions.confirm.no')}
-              confirmText={t('spaces.collaborators.permissions.confirm.yes')}
+              secondaryText={t('spaces.collaborators.permissions.confirm.no')}
+              primaryText={t('spaces.collaborators.permissions.confirm.yes')}
               testID="spaces-collaborators-revoke-admin-confirmation"
-              onConfirm={revokeAdminRights}
+              onPrimary={revokeAdminRights}
             />
 
             <HoliConfirmation
@@ -339,10 +339,10 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                 user: user.fullName || t('user.profileView.anonymous'),
               })}
               onDismiss={() => setShowRemoveMemberConfirmationModal(false)}
-              dismissText={t('spaces.collaborators.permissions.confirm.no')}
-              confirmText={t('spaces.collaborators.permissions.confirm.yes')}
+              secondaryText={t('spaces.collaborators.permissions.confirm.no')}
+              primaryText={t('spaces.collaborators.permissions.confirm.yes')}
               testID="spaces-collaborators-remove-user-confirmation"
-              onConfirm={removeMember}
+              onPrimary={removeMember}
             />
 
             <HoliConfirmation
@@ -354,7 +354,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
               })}
               onDismiss={() => setShowReportMemberConfirmationModal(false)}
               testID="spaces-collaborators-report-user-confirmation"
-              onConfirm={reportMember}
+              onPrimary={reportMember}
             />
           </View>
         </ScrollView>

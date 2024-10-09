@@ -5,7 +5,7 @@ import { ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { UpdatePostReactionMutation } from '@holi/core/screens/posts/queries'
 import { Post, ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -21,7 +21,7 @@ export interface PostReactionsProps {
 const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
@@ -39,8 +39,9 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
 
   const reactOnPost = () => {
     if (!user) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('insights.reactions.post.loginRedirect.text'),
+        trackTrigger: 'REACT_ON_POST',
       })
     }
     updatePostReaction({

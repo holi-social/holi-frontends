@@ -1,17 +1,17 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -38,10 +38,11 @@ export const SubmitPostBar = ({
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = useMemo(() => getSubmitPostBarStyles(theme), [theme])
+  const screenWidth = useWindowDimensions().width
+  const styles = useMemo(() => getSubmitPostBarStyles(theme, screenWidth), [theme, screenWidth])
 
   return (
-    <SafeArea style={styles.menuContainer} edges={['bottom']}>
+    <View style={styles.menuContainer}>
       <View style={styles.items}>
         <View style={styles.iconContainer}>
           {[...images, ...(currentImages || [])].length === 0 && (
@@ -85,10 +86,10 @@ export const SubmitPostBar = ({
           <HoliText bold>{isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}</HoliText>
         </HoliButtonLoading>
       </View>
-    </SafeArea>
+    </View>
   )
 }
-const getSubmitPostBarStyles = (theme: HoliTheme) =>
+const getSubmitPostBarStyles = (theme: HoliTheme, screenWidth: number) =>
   StyleSheet.create({
     menuContainer: {
       padding: 12,
@@ -97,18 +98,6 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      ...Platform.select({
-        web: {
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-        },
-        android: {
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-        },
-      }),
       backgroundColor: theme.colors.background10,
     },
     roundSubmitButton: {
@@ -127,8 +116,8 @@ const getSubmitPostBarStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       maxWidth: dimensions.breakpointM,
       ...Platform.select({
-        ios: {
-          padding: 12,
+        web: {
+          paddingHorizontal: screenWidth > dimensions.breakpointM ? Spacing.lg : 0,
         },
       }),
     },

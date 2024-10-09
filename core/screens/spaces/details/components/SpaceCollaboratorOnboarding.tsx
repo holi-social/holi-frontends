@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import {
   UpdateSpaceUserConnectionResponse,
@@ -46,7 +46,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   const client = useApolloClient()
 
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { displayError } = useErrorHandling()
 
   const [updateSpaceUserConnection] = useMutation<UpdateSpaceUserConnectionResponse>(
@@ -80,8 +80,9 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
 
   const submitJoinRequest = async () => {
     if (!isLoggedIn) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
+        trackTrigger: 'JOIN_SPACE',
       })
     }
     return updateSpaceUserConnection({

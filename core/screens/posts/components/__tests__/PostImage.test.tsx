@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Image } from 'react-native'
 import renderer from 'react-test-renderer'
@@ -17,12 +17,12 @@ describe('PostImage', () => {
   })
 
   it('shows Modal after clicking on post image', async () => {
-    const { getByRole, getByLabelText } = render(<PostImage uri={imageUri} postTitle={postTitle} />)
+    render(<PostImage uri={imageUri} postTitle={postTitle} />)
 
-    const imageButton = getByRole('button', { name: /insights.posts.image.show/i })
+    const imageButton = screen.getByRole('button', { name: /insights.posts.image.show/i })
     await fireEvent.press(imageButton)
 
-    const modal = getByLabelText(/insights.posts.image.modal/i)
-    expect(modal).toHaveProp('visible', true)
+    const modal = screen.getAllByLabelText(/insights.posts.image.modal/i)
+    expect(modal[0]).toHaveProp('visible', true)
   })
 })

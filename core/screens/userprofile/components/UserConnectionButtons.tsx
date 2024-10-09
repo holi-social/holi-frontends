@@ -6,7 +6,7 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Time } from '@holi/icons/src/generated'
@@ -26,7 +26,7 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, sty
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
 
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
 
   useEffect(() => {
     if (error) {
@@ -41,8 +41,9 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, sty
 
   const onPrimaryPress = () => {
     if (!isLoggedIn) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('user.profileView.connection.loginRedirect.text', { firstName: user.firstName }),
+        trackTrigger: 'CONNECT_TO_USER',
       })
     }
 
@@ -93,12 +94,12 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, sty
           name: user.fullName,
         })}
         onDismiss={() => setShowConfirmationModal(false)}
-        dismissText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
-        confirmText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
+        secondaryText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
+        primaryText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
         confirmationButtonType="warning"
         testID="user-connection"
         // onConfirm needs to be undefined if not logged in to hide the confirm button inside the dialog
-        onConfirm={
+        onPrimary={
           isLoggedIn
             ? () => {
                 setShowConfirmationModal(false)

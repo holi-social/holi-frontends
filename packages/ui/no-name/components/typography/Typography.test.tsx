@@ -7,7 +7,8 @@ describe('Typography', () => {
   it('should render text', () => {
     render(<Typography size="md">Foobar</Typography>)
 
-    expect(screen.container).toHaveTextContent('Foobar')
+    const typography = screen.getByText(/foobar/i)
+    expect(typography).toBeOnTheScreen()
   })
 
   it('should set role to heading if level is specified', async () => {

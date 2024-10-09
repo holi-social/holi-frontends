@@ -13,28 +13,20 @@ const today = new Date()
 
 export const Example: StoryObj<typeof HoliDateAndTimePicker> = {
   argTypes: {
-    valueDate: { type: 'string', control: 'date' },
-    valueHours: { type: 'string', control: 'text' },
-    valueMinutes: { type: 'string', control: 'text' },
+    value: { type: 'string', control: 'date' },
     title: { type: 'string', control: 'text' },
     label: { type: 'string', control: 'text' },
   },
   args: {
-    valueDate: today.toISOString(),
-    valueHours: today.getHours().toString().padStart(2, '0'),
-    valueMinutes: today.getMinutes().toString().padStart(2, '0'),
+    value: today,
   },
   render: function Render() {
-    const [{ valueDate, valueHours, valueMinutes, title, label }, updateArgs] = useArgs()
+    const [{ value, title, label }, updateArgs] = useArgs()
 
     return (
       <HoliDateAndTimePicker
-        onChangeDate={(date) => updateArgs({ valueDate: date })}
-        onChangeHours={(hours) => updateArgs({ valueHours: hours })}
-        onChangeMinutes={(minutes) => updateArgs({ valueMinutes: minutes })}
-        valueDate={valueDate}
-        valueHours={valueHours}
-        valueMinutes={valueMinutes}
+        onChange={(date) => updateArgs({ valueDate: date })}
+        value={value}
         title={title}
         label={label}
       />

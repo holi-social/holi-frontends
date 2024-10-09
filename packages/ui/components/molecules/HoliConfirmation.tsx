@@ -7,10 +7,13 @@ import {
   Platform,
   Pressable,
   StyleSheet,
+  TouchableOpacity,
   View,
   useWindowDimensions,
 } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Close } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -30,6 +33,7 @@ export interface UseConfirmationProps {
   show: boolean
   onConfirm: () => void
   onDismiss: () => void
+  onSecondary?: () => void
 }
 
 export interface HoliConfirmationProps extends ModalProps {
@@ -37,28 +41,30 @@ export interface HoliConfirmationProps extends ModalProps {
   label: string
   title: string
   description: string
-  confirmationButtonType?: HoliButtonType
-  onConfirm?: () => boolean | void
+  primaryButtonType?: HoliButtonType
+  onPrimary?: () => boolean | void
   onDismiss?: () => boolean | void
-  confirmText?: string
-  dismissText?: string
+  onSecondary?: () => boolean | void
+  primaryText?: string
+  secondaryText?: string
   testID?: string
   footerComponent?: ReactNode
 }
 
 export const useConfirmationState = ({
   show = false,
-  onConfirm,
+  onSecondary,
   onDismiss,
-}: Partial<Pick<HoliConfirmationProps, 'show' | 'onConfirm' | 'onDismiss'>> = {}) => {
+  onPrimary,
+}: Partial<Pick<HoliConfirmationProps, 'show' | 'onPrimary' | 'onDismiss' | 'onSecondary'>> = {}) => {
   const [visible, setVisible] = useState(show)
 
-  const confirmHandler = useCallback(() => {
-    const confirmPropagation = onConfirm?.()
-    if (confirmPropagation !== false) {
+  const primaryHandler = useCallback(() => {
+    const primaryPropagation = onPrimary?.()
+    if (primaryPropagation !== false) {
       setVisible(false)
     }
-  }, [onConfirm])
+  }, [onPrimary])
 
   const dismissHandler = useCallback(() => {
     const dismissPropagation = onDismiss?.()
@@ -67,13 +73,21 @@ export const useConfirmationState = ({
     }
   }, [onDismiss])
 
+  const secondaryHandler = useCallback(() => {
+    const secondaryPropagation = onSecondary?.()
+    if (secondaryPropagation !== false) {
+      setVisible(false)
+    }
+  }, [onSecondary])
+
   return {
     show: visible,
     setShow: setVisible,
     props: {
       show: visible,
-      onConfirm: confirmHandler,
+      onPrimary: primaryHandler,
       onDismiss: dismissHandler,
+      onSecondary: secondaryHandler,
     },
   }
 }
@@ -83,11 +97,12 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   label,
   title,
   description,
-  confirmationButtonType = 'primary',
-  onConfirm,
+  primaryButtonType = 'primary',
+  onPrimary,
   onDismiss,
-  confirmText,
-  dismissText,
+  onSecondary,
+  primaryText,
+  secondaryText,
   footerComponent = null,
   testID = 'holi',
 }) => {
@@ -120,35 +135,56 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
 
         <View style={styles.modalView}>
           <View style={styles.topContent}>
-            <HoliHeading level="3" size="m">
-              {title}
-            </HoliHeading>
+            <View style={styles.titleContainer}>
+              <HoliHeading level="3" size="m">
+                {title}
+              </HoliHeading>
+              <TouchableOpacity
+                accessibilityLabel={t('confirmation.dismiss')}
+                accessibilityRole="button"
+                testID={`${testID}-confirmation-dismiss`}
+                onPress={() => {
+                  if (onDismiss) onDismiss()
+                }}
+              >
+                <HoliIcon size={24} icon={Close} />
+              </TouchableOpacity>
+            </View>
+
             <HoliText style={styles.description} testID={`${testID}-confirmation-description`}>
               {description}
             </HoliText>
             <View style={styles.buttonContainer}>
-              {onDismiss && (
+              {(onSecondary || onDismiss) && (
                 <HoliButton
                   inline
                   type="secondary"
-                  label={dismissText || t('confirmation.dismiss')}
-                  onPress={onDismiss}
+                  label={secondaryText || t('confirmation.dismiss')}
+                  onPress={() => {
+                    if (onSecondary) {
+                      onSecondary()
+                    } else if (onDismiss) {
+                      onDismiss()
+                    }
+                  }}
                   style={styles.button}
-                  testID={`${testID}-confirmation-dismiss`}
+                  testID={`${testID}-confirmation-secondary`}
                 >
-                  {dismissText || t('confirmation.dismiss')}
+                  {secondaryText || t('confirmation.dismiss')}
                 </HoliButton>
               )}
-              {onConfirm && (
+              {onPrimary && (
                 <HoliButton
                   inline
-                  label={confirmText || t('confirmation.confirm')}
-                  onPress={onConfirm}
-                  type={confirmationButtonType}
+                  label={primaryText || t('confirmation.confirm')}
+                  onPress={() => {
+                    onPrimary()
+                  }}
+                  type={primaryButtonType}
                   style={styles.button}
-                  testID={`${testID}-confirmation-confirm`}
+                  testID={`${testID}-confirmation-primary`}
                 >
-                  {confirmText || t('confirmation.confirm')}
+                  {primaryText || t('confirmation.confirm')}
                 </HoliButton>
               )}
             </View>
@@ -171,7 +207,12 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       justifyContent: 'center',
       flex: 1,
     },
-
+    titleContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
     backdrop: {
       opacity: 0.4,
       backgroundColor: theme.colors.backdropBackground,

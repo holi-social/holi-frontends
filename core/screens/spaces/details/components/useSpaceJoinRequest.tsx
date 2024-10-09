@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import {
   UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
@@ -24,7 +24,7 @@ export const useSpaceJoinRequest = (
   message?: string
 ): UseSpaceJoinRequestProps => {
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
   const client = useApolloClient()
@@ -63,8 +63,9 @@ export const useSpaceJoinRequest = (
 
   const submitJoinRequest = () => {
     if (!isLoggedIn) {
-      return openLoginModal({
+      return openSignupModal({
         description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
+        trackTrigger: 'JOIN_SPACE',
       })
     }
     updateSpaceUserConnection({

@@ -5,7 +5,7 @@ import { ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { useLoginModal } from '@holi/core/providers/LoginModalProvider'
+import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { UpdateFeedPostReactionMutation } from '@holi/core/screens/individualPosts/mutations'
 import { FeedPost, ReactionAction, ReactionType } from '@holi/core/screens/individualPosts/types'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -21,14 +21,14 @@ export interface FeedPostReactionsProps {
 const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, style }) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { openLoginModal } = useLoginModal()
+  const { openSignupModal } = useSignupModal()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
 
   const heartReactions = post.reactions.HEART
   const currentUserHasReacted = !!post.myReaction.HEART
 
-  const [updateFeedPostReaction, { loading }] = useMutation(UpdateFeedPostReactionMutation, {
+  const [updateFeedPostReaction] = useMutation(UpdateFeedPostReactionMutation, {
     onCompleted: () => onChange?.(),
     onError: (error) =>
       displayError(error, 'Failed to update feed post reaction', {
@@ -52,8 +52,9 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
 
   const reactOnPost = () => {
     if (!isLoggedIn) {
-      openLoginModal({
+      openSignupModal({
         description: t('individuals.post.reaction.loginRedirect.text'),
+        trackTrigger: 'REACT_ON_POST',
       })
     } else {
       const reactionAction = currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET
@@ -80,7 +81,6 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
       fullName={post.author.fullName}
       style={style}
       testID="btn-react-to-feed-post-HEART"
-      disabled={loading}
     />
   )
 }
