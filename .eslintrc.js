@@ -53,9 +53,5 @@ module.exports = {
     'no-console': ['error', { allow: ['debug'] }],
     'react/prop-types': 'off',
   },
-  ignorePatterns: [
-    '**/__generated__/*',
-    'apps/mobile/android/**',
-    'apps/mobile/ios/**'
-  ],
+  ignorePatterns: ['**/__generated__/*', 'apps/mobile/android/**', 'apps/mobile/ios/**'],
 }
