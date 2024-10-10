@@ -1,8 +1,10 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { cleanup, render } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
+import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
+import { authenticatedUserMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
@@ -10,53 +12,85 @@ import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 
 jest.useFakeTimers()
 
-const spaceByIdRequest = {
-  request: {
-    query: spaceByIdQuery,
-    variables: {
-      idOrName: space.name,
+const createMocksForSpace = (spaceById = space) => {
+  const spaceByIdRequest = {
+    request: {
+      query: spaceByIdQuery,
+      variables: {
+        idOrName: spaceById.name,
+      },
     },
-  },
-  result: {
-    data: {
-      spaceById: space,
+    result: {
+      data: {
+        spaceById,
+      },
     },
-  },
+  }
+
+  const spacePostsRequest = {
+    request: {
+      query: spacePostsQuery,
+      variables: {
+        offset: 0,
+        limit: 10,
+        idOrName: spaceById.name,
+        visibility: 'ALL',
+      },
+    },
+    result: {
+      data: {
+        spaceById,
+      },
+    },
+  }
+
+  const appointmentsRequest = {
+    request: {
+      query: appointmentsBySpaceIdQuery,
+      variables: {
+        offset: 0,
+        limit: 10,
+        spaceId: spaceById.id,
+        statusType: APPOINTMENT_STATUS_TYPE.UPCOMING,
+      },
+    },
+    result: {
+      data: {
+        appointments: {
+          totalResults: 0,
+          data: [],
+        },
+      },
+    },
+  }
+
+  return [authenticatedUserMock, spaceByIdRequest, spacePostsRequest, appointmentsRequest]
 }
 
-const spacePostsRequest = {
-  request: {
-    query: spacePostsQuery,
-    variables: {
-      offset: 0,
-      limit: 10,
-      idOrName: space.name,
-      visibility: 'ALL',
-    },
-  },
-  result: {
-    data: {
-      spaceById: space,
-    },
-  },
+const SpaceDetailWrapper = () => {
+  const [activeTab, setActiveTab] = React.useState('info')
+  return <SpaceDetailView space={space} activeTab={activeTab} onTabChange={setActiveTab} />
 }
-
-const mocks = [spaceByIdRequest, spacePostsRequest]
 
 describe('SpaceDetailView', () => {
-  it('renders correctly', () => {
-    const { getByText, getAllByText } = render(
-      <MockedProvider mocks={mocks} cache={createCache()}>
-        <SpaceDetailView space={space} onChangeTabIndex={() => null} />
+  afterAll(() => {
+    jest.runOnlyPendingTimers()
+    jest.restoreAllMocks()
+  })
+
+  it('renders correctly', async () => {
+    render(
+      <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
+        <SpaceDetailWrapper />
       </MockedProvider>
     )
 
-    expect(getByText('Space title')).toBeDefined()
-    expect(getByText('Space description')).toBeDefined()
-    // Only two tasks are displayed, but more are available
-    expect(getAllByText('Task title').length).toBe(2)
-    expect(getByText('spaces.global.seeAllButton.label')).toBeDefined()
+    expect(screen.getByText('Space title')).toBeDefined()
+    expect(screen.getByText('Space description')).toBeDefined()
 
-    cleanup()
+    await userEvent.press(screen.getByRole('tab', { name: 'spaces.tab.action' }))
+    // Only two tasks are displayed, but more are available
+    expect(await screen.findAllByText('Task title')).toHaveLength(2)
+    expect(await screen.findByText('spaces.global.seeAllButton.label')).toBeDefined()
   })
 })

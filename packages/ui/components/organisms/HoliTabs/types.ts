@@ -17,6 +17,7 @@ export interface HoliTabsProps<D> {
   renderTabContent: (options: RenderFuncOptions<D>) => React.ReactNode
   activeTab: string
   onChange: (key: string) => void
+  variant?: 'scrollable' | 'virtualized'
   centeredTabButtons?: boolean
   backgroundColor?: string
   testID?: string

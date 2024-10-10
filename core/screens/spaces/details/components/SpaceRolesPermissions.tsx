@@ -14,7 +14,7 @@ import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import TabContentScrollView from '@holi/ui/components/organisms/HoliTabs/TabContentScrollView'
+import TabContentScrollView from '@holi/ui/components/organisms/HoliTabs/TabContentScrollViewLayout'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
