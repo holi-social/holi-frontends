@@ -1,9 +1,9 @@
 import { TypographySize } from '@holi/ui/no-name/components/typography/Typography'
 
-export const sizeToTypographySize: Record<Size, TypographySize> = {
+export const chipSizeToTypographySize: Record<ChipSize, TypographySize> = {
   sm: 'xs',
   md: 'sm',
   lg: 'xl',
 }
 
-export type Size = 'sm' | 'md' | 'lg'
+export type ChipSize = 'sm' | 'md' | 'lg'

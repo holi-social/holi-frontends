@@ -8,7 +8,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import Typography from '@holi/ui/no-name/components/typography/Typography'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import { Size, sizeToTypographySize } from './size'
+import { ChipSize, chipSizeToTypographySize } from './size'
 import { pill } from './styles'
 
 type ChipColor = Color | 'white'
@@ -19,7 +19,7 @@ type ChipActionProps = {
   selected?: boolean
   disabled?: boolean
   color?: ChipColor
-  size?: Size
+  size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
 }
@@ -47,7 +47,7 @@ const ChipAction = ({
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
       {children && (
-        <Typography size={sizeToTypographySize[size]} color={styles.text.color} selectable={false}>
+        <Typography size={chipSizeToTypographySize[size]} color={styles.text.color} selectable={false}>
           {children}
         </Typography>
       )}

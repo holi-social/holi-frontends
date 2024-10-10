@@ -9,7 +9,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import Typography from '@holi/ui/no-name/components/typography/Typography'
 import { Color, byShade } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import { Size, sizeToTypographySize } from './size'
+import { ChipSize, chipSizeToTypographySize } from './size'
 import { pill } from './styles'
 
 type ChipSelectProps = {
@@ -18,11 +18,11 @@ type ChipSelectProps = {
   selected?: boolean
   disabled?: boolean
   selectedColor?: Color
-  size?: Size
+  size?: ChipSize
   avatar?: Pick<AvatarProps, 'initials' | 'label' | 'imageSrc' | 'imageBlurhash'>
 }
 
-const sizeToIconSize: Record<Size, number> = {
+const sizeToIconSize: Record<ChipSize, number> = {
   sm: 12,
   md: 18,
   lg: 24,
@@ -60,7 +60,7 @@ const ChipSelect = ({
         />
       )}
       {children && (
-        <Typography size={sizeToTypographySize[size]} color={theme.components.chipSelect.text} selectable={false}>
+        <Typography size={chipSizeToTypographySize[size]} color={theme.components.chipSelect.text} selectable={false}>
           {children}
         </Typography>
       )}

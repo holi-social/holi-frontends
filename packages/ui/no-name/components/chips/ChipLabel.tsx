@@ -9,14 +9,14 @@ import { pill } from '@holi/ui/no-name/components/chips/styles'
 import Typography from '@holi/ui/no-name/components/typography/Typography'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import { Size, sizeToTypographySize } from './size'
+import { ChipSize, chipSizeToTypographySize } from './size'
 
 type ChipColor = Color | 'white'
 
 type ChipLabelProps = {
   children?: string
   color?: ChipColor
-  size?: Size
+  size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
 }
@@ -29,7 +29,7 @@ const ChipLabel = ({ children, color = 'mono', size = 'md', iconLeading, iconTra
     <View style={styles.chip(color)}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={theme.components.chipLabel.text} />}
       {children && (
-        <Typography size={sizeToTypographySize[size]} color={theme.components.chipLabel.text}>
+        <Typography size={chipSizeToTypographySize[size]} color={theme.components.chipLabel.text}>
           {children}
         </Typography>
       )}
