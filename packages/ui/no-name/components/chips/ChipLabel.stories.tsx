@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
-import { Cloud } from '@holi/icons/src/generated'
+import { Cloud, Heart } from '@holi/icons/src/generated'
 import { Colors } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import ChipLabel from './ChipLabel'
@@ -41,11 +41,11 @@ export const ByColor: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', gap: 10 }}>
+      <>
         {availableColors.map((c) => (
           <ChipLabel key={c} {...args} color={c} />
         ))}
-      </div>
+      </>
     )
   },
 }
@@ -56,11 +56,33 @@ export const BySize: Story = {
   },
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', alignItems: 'end', gap: 10 }}>
+      <>
         {availableSizes.map((s) => (
           <ChipLabel key={s} {...args} size={s} color="green" />
         ))}
-      </div>
+      </>
+    )
+  },
+}
+
+export const ByIcons: Story = {
+  argTypes: {
+    color: { control: 'select', options: availableColors },
+    size: { control: 'select', options: availableSizes },
+  },
+  args: {
+    color: Colors.yellow,
+    size: 'md',
+  },
+  render: function Render(args) {
+    return (
+      <>
+        <ChipLabel {...args} />
+        <ChipLabel {...args} iconLeading={Cloud} />
+        <ChipLabel {...args} iconTrailing={Cloud} />
+        <ChipLabel {...args} iconLeading={Cloud} iconTrailing={Heart} />
+        <ChipLabel {...{ ...args, ...{ children: undefined } }} iconLeading={Cloud} />
+      </>
     )
   },
 }

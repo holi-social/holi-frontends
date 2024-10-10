@@ -4,31 +4,36 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { pill } from '@holi/ui/no-name/components/chips/styles'
+import Typography from '@holi/ui/no-name/components/typography/Typography'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
+import { ChipSize, chipSizeToTypographySize } from './size'
+
 type ChipColor = Color | 'white'
-type Size = 'sm' | 'md' | 'lg'
 
 type ChipLabelProps = {
   children?: string
   color?: ChipColor
-  size?: Size
+  size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
 }
 
 const ChipLabel = ({ children, color = 'mono', size = 'md', iconLeading, iconTrailing }: ChipLabelProps) => {
-  const { styles } = useStyles(stylesheet, { size })
+  const { styles, theme } = useStyles(stylesheet, { size })
   const iconSize = size === 'sm' ? 12 : 16
 
   return (
     <View style={styles.chip(color)}>
-      {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
-      {children && <HoliText style={styles.text}>{children}</HoliText>}
-      {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} color={styles.text.color} />}
+      {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={theme.components.chipLabel.text} />}
+      {children && (
+        <Typography size={chipSizeToTypographySize[size]} color={theme.components.chipLabel.text}>
+          {children}
+        </Typography>
+      )}
+      {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} color={theme.components.chipLabel.text} />}
     </View>
   )
 }
@@ -47,27 +52,18 @@ const stylesheet = createStyleSheet((theme) => ({
         size: {
           sm: {
             paddingHorizontal: Spacing['3xs'],
+            minHeight: Spacing.md,
           },
           md: {
             paddingHorizontal: Spacing['3xs'],
+            minHeight: Spacing.lg,
           },
           lg: {
             paddingHorizontal: 10,
+            minHeight: Spacing.xl,
           },
         },
       },
     }
-  },
-  text: {
-    fontWeight: '400',
-    color: theme.components.chipLabel.text,
-    variants: {
-      //  Temporary explicit styles, until new font & Text component is built
-      size: {
-        sm: { fontSize: 13, lineHeight: 15.6, letterSpacing: -0.104 },
-        md: { fontSize: 15, lineHeight: 21, letterSpacing: -0.12 },
-        lg: { fontSize: 18, lineHeight: 21.6, letterSpacing: -0.18 },
-      },
-    },
   },
 }))
