@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { Dimensions, View } from 'react-native'
 import { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 
+import TabContentVirtualized from '@holi/ui/components/organisms/HoliTabs/TabContentVirtualized'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import BotomLineSeperator from './BotomLineSeperator'
 import TabButtonList from './TabButtonList'
-import TabContentList from './TabContentList'
+import TabContentList from './TabContentScrollableList'
 import { renderTabButtonHelper, useHoliTabsMarginHorizontal } from './helpers'
 import { HoliTabItem, HoliTabsProps } from './types'
 
@@ -17,6 +18,7 @@ const HoliTabs = <D extends HoliTabItem>({
   renderTabContent,
   activeTab,
   onChange,
+  variant = 'virtualized',
   centeredTabButtons = false,
   backgroundColor,
   testID = 'holi-tabs',
@@ -36,6 +38,7 @@ const HoliTabs = <D extends HoliTabItem>({
   const marginHorizontal = useHoliTabsMarginHorizontal()
 
   const isUserDrag = useSharedValue(false)
+  const isScrollableVariant = variant === 'scrollable'
 
   return (
     <View
@@ -57,24 +60,32 @@ const HoliTabs = <D extends HoliTabItem>({
           renderItem={(options) =>
             renderTabButtonHelper({ options, renderFunc: renderTabButton, id: testID, onPress: onChange })
           }
-          contentScrollOffsetX={isUserDrag && contentScrollOffsetX}
+          contentScrollOffsetX={isScrollableVariant && isUserDrag ? contentScrollOffsetX : undefined}
           testID={`${testID}-button-list`}
         />
       </View>
 
       <View style={{ backgroundColor }}>
-        <TabContentList
-          {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
-          renderItem={renderTabContent}
-          onScroll={onContentScroll}
-          scrollEventThrottle={16}
-          onScrollBeginDrag={() => (isUserDrag.value = true)}
-          onMomentumScrollEnd={() => {
-            isUserDrag.value = false
-            onChange(getKeyByIndex(Math.floor(contentScrollOffsetX.value / componentWidth)))
-          }}
-          testID={`${testID}-content-list`}
-        />
+        {isScrollableVariant ? (
+          <TabContentList
+            {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
+            renderItem={renderTabContent}
+            onScroll={onContentScroll}
+            scrollEventThrottle={16}
+            onScrollBeginDrag={() => (isUserDrag.value = true)}
+            onMomentumScrollEnd={() => {
+              isUserDrag.value = false
+              onChange(getKeyByIndex(Math.floor(contentScrollOffsetX.value / componentWidth)))
+            }}
+            testID={`${testID}-content-list`}
+          />
+        ) : (
+          <TabContentVirtualized
+            {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
+            renderItem={renderTabContent}
+            testID={`${testID}-content-list`}
+          />
+        )}
       </View>
     </View>
   )

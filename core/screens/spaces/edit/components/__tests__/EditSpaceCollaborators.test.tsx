@@ -1,14 +1,14 @@
 import { ApolloError } from '@apollo/client'
 import { GraphQLErrors } from '@apollo/client/errors'
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { render, screen, userEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
-import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
 import { userByIdQuery } from '@holi/core/domain/shared/queries'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
+import { authenticatedUserMock } from '@holi/core/screens/spaces/__tests__/mocks'
 import { pagedInvites, pagedMembershipRequests, space, user } from '@holi/core/screens/spaces/__tests__/testData'
 import {
   spaceInvitesQuery,
@@ -87,6 +87,7 @@ const createMocksForSpace = (spaceById = spaceForAdmin) => {
   }
 
   return [
+    authenticatedUserMock,
     spaceByIdRequest,
     spaceMembersBySpaceIdRequest,
     spaceMembershipRequestsBySpaceIdRequest,
@@ -112,9 +113,7 @@ describe('EditSpaceCollaborators', () => {
         <EditSpaceCollaborators />
       </MockedProvider>
     )
-    await act(async () => {
-      await waitFor(() => screen.getAllByTestId('spaces-collaborators-item'))
-    })
+    await screen.findAllByTestId('spaces-collaborators-item')
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -125,10 +124,12 @@ describe('EditSpaceCollaborators', () => {
         <EditSpaceCollaborators />
       </MockedProvider>
     )
-    await act(async () => {
-      await waitFor(() => screen.getAllByTestId('spaces-collaborators-item'))
-      await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
-    })
+
+    await screen.findAllByTestId('spaces-collaborators-item')
+
+    await userEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.requests' }))
+    await screen.findAllByTestId('space-pending-request-item')
+
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -170,10 +171,8 @@ describe('EditSpaceCollaborators', () => {
         <EditSpaceCollaborators />
       </MockedProvider>
     )
-    await act(async () => {
-      await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
-      await waitFor(() => screen.getByTestId('space-collaborators-permissions-modal-backdrop'))
-    })
+    await screen.findAllByTestId('space-pending-request-item')
+    await screen.findByTestId('space-collaborators-permissions-modal-backdrop')
   })
 
   it('does not open the modal for an unknown user', async () => {
@@ -201,9 +200,8 @@ describe('EditSpaceCollaborators', () => {
         <EditSpaceCollaborators />
       </MockedProvider>
     )
-    await act(async () => {
-      await waitFor(() => screen.getAllByTestId('space-pending-request-item'))
-    })
+
+    await screen.findAllByTestId('space-pending-request-item')
     expect(screen.queryByTestId('space-collaborators-permissions-modal-backdrop')).toBeFalsy()
   })
 
@@ -251,13 +249,11 @@ describe('EditSpaceCollaborators', () => {
     const { rerender } = render(crateComponent())
 
     // Expect initial members and membership requests in the beginning
-    await act(async () => {
-      await waitFor(() => expect(screen.getAllByTestId('spaces-collaborators-item').length).toBe(newMemberCount + 1))
-      await waitFor(() =>
-        expect(screen.getAllByTestId('space-pending-request-item').length).toBe(newMembershipRequestsCount + 1)
-      )
-      await waitFor(() => expect(screen.getAllByTestId('space-invite-item').length).toBe(newInvitesCount + 1))
-    })
+    await waitFor(() => expect(screen.getAllByTestId('spaces-collaborators-item')).toHaveLength(newMemberCount + 1))
+    await userEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.requests' }))
+    expect(await screen.findAllByTestId('space-pending-request-item')).toHaveLength(newMembershipRequestsCount + 1)
+    await userEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.invites' }))
+    expect(await screen.findAllByTestId('space-invite-item')).toHaveLength(newInvitesCount + 1)
     expect(mockUseUpdateParams).not.toHaveBeenCalled()
 
     // Pass new params and force rerender
@@ -268,12 +264,11 @@ describe('EditSpaceCollaborators', () => {
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ refresh: undefined }))
 
     // Expect less members, membership requests and invites
-    await act(async () => {
-      await waitFor(() => expect(screen.getAllByTestId('spaces-collaborators-item').length).toBe(newMemberCount))
-      await waitFor(() =>
-        expect(screen.getAllByTestId('space-pending-request-item').length).toBe(newMembershipRequestsCount)
-      )
-      await waitFor(() => expect(screen.getAllByTestId('space-invite-item').length).toBe(newInvitesCount))
-    })
+    await userEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.all' }))
+    expect(await screen.findAllByTestId('spaces-collaborators-item')).toHaveLength(newMemberCount)
+    await userEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.requests' }))
+    expect(await screen.findAllByTestId('space-pending-request-item')).toHaveLength(newMembershipRequestsCount)
+    await userEvent.press(screen.getByRole('tab', { name: 'spaces.collaborators.manage.tabs.invites' }))
+    expect(await screen.findAllByTestId('space-invite-item')).toHaveLength(newInvitesCount)
   })
 })

@@ -3,11 +3,12 @@ import { View, ViewStyle } from 'react-native'
 import { useAnimatedScrollHandler } from 'react-native-reanimated'
 
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import TabContentVirtualized from '@holi/ui/components/organisms/HoliTabs/TabContentVirtualized'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import BotomLineSeperator from './BotomLineSeperator'
 import TabButtonList from './TabButtonList'
-import TabContentList from './TabContentList'
+import TabContentList from './TabContentScrollableList'
 import { renderTabButtonHelper, useHoliTabsMarginHorizontal } from './helpers'
 import { HoliTabItem, HoliTabsProps } from './types'
 
@@ -18,6 +19,7 @@ const HoliTabs = <D extends HoliTabItem>({
   renderTabContent,
   activeTab,
   onChange,
+  variant = 'virtualized',
   centeredTabButtons = false,
   backgroundColor,
   testID = 'holi-tabs',
@@ -77,13 +79,21 @@ const HoliTabs = <D extends HoliTabItem>({
         ]}
       >
         <HoliContainer noPadding>
-          <TabContentList
-            {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
-            renderItem={renderTabContent}
-            onScroll={onContentScroll}
-            scrollEventThrottle={100}
-            testID={`${testID}-content-list`}
-          />
+          {variant === 'scrollable' ? (
+            <TabContentList
+              {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
+              renderItem={renderTabContent}
+              onScroll={onContentScroll}
+              scrollEventThrottle={100}
+              testID={`${testID}-content-list`}
+            />
+          ) : (
+            <TabContentVirtualized
+              {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
+              renderItem={renderTabContent}
+              testID={`${testID}-content-list`}
+            />
+          )}
         </HoliContainer>
       </View>
     </View>

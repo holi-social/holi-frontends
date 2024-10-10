@@ -27,7 +27,7 @@ export interface Tab {
 
 const TAB_SPACING = 20
 
-interface Props<D> extends Omit<HoliTabsProps<D>, 'renderTabContent' | 'renderTabButton' | 'onChange'> {
+interface Props<D> extends Omit<HoliTabsProps<D>, 'renderTabContent' | 'renderTabButton' | 'onChange' | 'variant'> {
   renderItem: HoliTabsProps<D>['renderTabContent']
   width: number
   contentScrollOffsetX?: SharedValue<number>

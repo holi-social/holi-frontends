@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react-native'
-import React, { PropsWithChildren } from 'react'
+import { fireEvent, render, screen, userEvent } from '@testing-library/react-native'
+import React, { PropsWithChildren, useState } from 'react'
 import { View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -47,27 +47,33 @@ const tabs: Tab[] = [
   },
 ]
 
+const HoliTabsWrapper = () => {
+  const [activeTab, setActiveTab] = useState('profile')
+
+  return (
+    <HoliTabs
+      data={tabs}
+      keyExtractor={({ key }) => key}
+      renderTabContent={(options) => options.item.content(options)}
+      activeTab={activeTab}
+      onChange={setActiveTab}
+    />
+  )
+}
+
 describe('HoliTabs', () => {
   describe('renders correctly', () => {
-    it('renders correctly when open', () => {
-      render(
-        <HoliTabs
-          data={tabs}
-          keyExtractor={({ key }) => key}
-          renderTabContent={(options) => options.item.content(options)}
-          activeTab="profile"
-          onChange={() => {
-            null
-          }}
-        />
-      )
+    it('renders correctly when open', async () => {
+      render(<HoliTabsWrapper />)
 
       expect(screen.getByTestId('profileTab')).toBeVisible()
       expect(screen.getAllByText('Profile')).toHaveLength(2) // we expect two because we render additionally a phantom text element to prevent shifting
 
-      expect(screen.getByTestId('InsightsTab')).toBeVisible()
+      await userEvent.press(screen.getByRole('tab', { name: 'Insights' }))
+      expect(await screen.findByTestId('InsightsTab')).toBeVisible()
       expect(screen.getAllByText('Insights')).toHaveLength(2) // we expect two because we render additionally a phantom text element to prevent shifting
 
+      await userEvent.press(screen.getByRole('tab', { name: 'Spaces' }))
       expect(screen.getByTestId('SpacesTab')).toBeVisible()
       expect(screen.getAllByText('Spaces')).toHaveLength(2) // we expect two because we render additionally a phantom text element to prevent shifting
     })
