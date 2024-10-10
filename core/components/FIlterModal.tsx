@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Filter3 } from '@holi/icons/src/generated'
@@ -12,11 +13,12 @@ import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface Props extends HoliModalProps {
+  actionButtonVisible?: boolean
   buttonLabel: string
   open: () => void
 }
 
-const FilterModal = ({ open, testID = 'filter-modal', ...props }: Props) => {
+const FilterModal = ({ actionButtonVisible, open, testID = 'filter-modal', ...props }: Props) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { theme } = useTheme()
@@ -25,20 +27,26 @@ const FilterModal = ({ open, testID = 'filter-modal', ...props }: Props) => {
   return (
     <View>
       {/* Floating filter button */}
-      <View style={[mixins.container, styles.overlayButtonWrapper]}>
-        <HoliButton
-          label={props.label}
-          testID={`${testID}--open-btn`}
-          inline
-          style={styles.overlayButton}
-          onPress={open}
+      {actionButtonVisible && (
+        <Animated.View
+          entering={SlideInDown}
+          exiting={SlideOutDown}
+          style={[mixins.container, styles.overlayButtonWrapper]}
         >
-          <HoliText size="small" bold>
-            {t('spaces.filter.button.text')}
-          </HoliText>
-          <HoliIcon icon={Filter3} size={16} color={colors.foreground30} style={styles.icon} />
-        </HoliButton>
-      </View>
+          <HoliButton
+            label={props.label}
+            testID={`${testID}--open-btn`}
+            inline
+            style={styles.overlayButton}
+            onPress={open}
+          >
+            <HoliText size="small" bold>
+              {t('spaces.filter.button.text')}
+            </HoliText>
+            <HoliIcon icon={Filter3} size={16} color={colors.foreground30} style={styles.icon} />
+          </HoliButton>
+        </Animated.View>
+      )}
 
       {/* Filter modal */}
       <HoliModal relativeHeight={1} autoHeight={false} testID={testID} {...props} />
@@ -58,6 +66,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: 12,
     paddingHorizontal: 16,
+    zIndex: 2,
   },
   icon: {
     marginLeft: 6,

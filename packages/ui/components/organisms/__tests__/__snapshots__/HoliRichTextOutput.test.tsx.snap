@@ -3,6 +3,12 @@
 exports[`HoliRichTextOutput full text starting with word followed by colon is not a link 1`] = `
 <Text
   accessible={false}
+  collapsable={false}
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
   selectable={true}
   style={
     {
@@ -23,6 +29,12 @@ exports[`HoliRichTextOutput full text starting with word followed by colon is no
 exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 1`] = `
 <Text
   accessible={false}
+  collapsable={false}
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
   selectable={true}
   style={
     {
@@ -40,6 +52,12 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
   <Text
     accessible={false}
     aria-label="http://www.google.de"
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     onPress={[Function]}
     role="link"
     selectable={true}

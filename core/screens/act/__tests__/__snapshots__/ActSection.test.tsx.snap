@@ -208,6 +208,12 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
               </Text>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -226,6 +232,12 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
           </View>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -548,6 +560,12 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                 >
                   <Text
                     accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
                     selectable={true}
                     style={
                       {
@@ -1030,6 +1048,12 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                 >
                   <Text
                     accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
                     selectable={true}
                     style={
                       {
@@ -1512,6 +1536,12 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                 >
                   <Text
                     accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
                     selectable={true}
                     style={
                       {
@@ -1994,6 +2024,12 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                 >
                   <Text
                     accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
                     selectable={true}
                     style={
                       {
@@ -2336,6 +2372,12 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                       <Text
                         accessible={false}
                         aria-label="Tom "
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         role="img"
                         selectable={true}
                         style={
@@ -2446,6 +2488,12 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -2678,6 +2726,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               </Text>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -2696,6 +2750,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
           </View>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -3023,6 +3083,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -3099,6 +3165,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -3262,6 +3334,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -3338,6 +3416,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -3501,6 +3585,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -3577,6 +3667,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -3740,6 +3836,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -3816,6 +3918,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -3979,6 +4087,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -4055,6 +4169,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -4163,6 +4283,12 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -4432,6 +4558,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 </Text>
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -4854,6 +4986,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           <Text
                             accessible={false}
                             aria-label="Space 5"
+                            collapsable={false}
+                            jestAnimatedStyle={
+                              {
+                                "value": {},
+                              }
+                            }
                             role="img"
                             selectable={true}
                             style={
@@ -4873,6 +5011,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -4902,7 +5046,13 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
                       ellipsizeMode="tail"
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -5036,6 +5186,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -5160,6 +5316,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -5210,6 +5372,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -5236,6 +5404,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     />
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -5467,6 +5641,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -5496,7 +5676,13 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
                       ellipsizeMode="tail"
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -5630,6 +5816,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -5754,6 +5946,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -5804,6 +6002,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -5830,6 +6034,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     />
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -6061,6 +6271,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -6090,7 +6306,13 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
                       ellipsizeMode="tail"
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -6224,6 +6446,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -6348,6 +6576,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -6398,6 +6632,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -6435,6 +6675,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -6461,6 +6707,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     />
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -6670,6 +6922,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           <Text
                             accessible={false}
                             aria-label="Space 2"
+                            collapsable={false}
+                            jestAnimatedStyle={
+                              {
+                                "value": {},
+                              }
+                            }
                             role="img"
                             selectable={true}
                             style={
@@ -6689,6 +6947,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -6718,7 +6982,13 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
                       ellipsizeMode="tail"
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -6852,6 +7122,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -6976,6 +7252,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -7026,6 +7308,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -7063,6 +7351,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -7089,6 +7383,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     />
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -7300,6 +7600,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           <Text
                             accessible={false}
                             aria-label="Space 2"
+                            collapsable={false}
+                            jestAnimatedStyle={
+                              {
+                                "value": {},
+                              }
+                            }
                             role="img"
                             selectable={true}
                             style={
@@ -7319,6 +7625,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -7348,7 +7660,13 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   >
                     <Text
                       accessible={false}
+                      collapsable={false}
                       ellipsizeMode="tail"
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -7482,6 +7800,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -7606,6 +7930,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         </View>
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           selectable={true}
                           style={
                             {
@@ -7656,6 +7986,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -7682,6 +8018,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     />
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       numberOfLines={2}
                       selectable={true}
                       style={
@@ -7917,6 +8259,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 </Text>
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -7935,6 +8283,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
             </View>
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -8439,6 +8793,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={2}
                         selectable={true}
                         style={
@@ -8566,6 +8926,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -8742,6 +9108,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={2}
                         selectable={true}
                         style={
@@ -8869,6 +9241,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -9045,6 +9423,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={2}
                         selectable={true}
                         style={
@@ -9172,6 +9556,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -9348,6 +9738,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={2}
                         selectable={true}
                         style={
@@ -9475,6 +9871,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -9657,6 +10059,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -9696,6 +10104,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <Text
                           accessible={false}
+                          collapsable={false}
+                          jestAnimatedStyle={
+                            {
+                              "value": {},
+                            }
+                          }
                           numberOfLines={1}
                           selectable={true}
                           style={
@@ -9739,6 +10153,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={2}
                         selectable={true}
                         style={
@@ -9866,6 +10286,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -9973,6 +10399,12 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 >
                   <Text
                     accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
                     selectable={true}
                     style={
                       {

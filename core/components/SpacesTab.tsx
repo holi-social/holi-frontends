@@ -10,7 +10,6 @@ import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries
 import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceForMember } from '@holi/core/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -32,32 +31,28 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
   if (!data) return null
   const spaces = data.spaces
 
-  return (
-    <HoliContainer>
-      {spaces.totalResults > 0 ? (
-        <HoliBox padding={[Spacing.xs, 0]}>
-          {spaces.data.map((space: SpaceForMember) => (
-            <HoliBox
-              key={space.id}
-              padding={[0, 0, 32, 0]}
-              layout={{ maxWidth: dimensions.maxScreenWidth, width: '100%', alignSelf: 'center' }}
-            >
-              <HoliBlockItem
-                label={space.title}
-                title={space.title}
-                imageElement={<SpaceAvatar space={space} size={'large'} />}
-                users={space.members.data.map((membership) => membership.user)}
-                href={`/spaces/${space.name}`}
-                testID="space-tab"
-                totalUserCount={space.members.totalResults}
-              />
-            </HoliBox>
-          ))}
+  return spaces.totalResults > 0 ? (
+    <HoliBox padding={[Spacing.xs, 0]}>
+      {spaces.data.map((space: SpaceForMember) => (
+        <HoliBox
+          key={space.id}
+          padding={[0, 0, 32, 0]}
+          layout={{ maxWidth: dimensions.maxScreenWidth, width: '100%', alignSelf: 'center' }}
+        >
+          <HoliBlockItem
+            label={space.title}
+            title={space.title}
+            imageElement={<SpaceAvatar space={space} size={'large'} />}
+            users={space.members.data.map((membership) => membership.user)}
+            href={`/spaces/${space.name}`}
+            testID="space-tab"
+            totalUserCount={space.members.totalResults}
+          />
         </HoliBox>
-      ) : (
-        <EmptyTab text={emptyText} callToAction={emptyCallToAction} />
-      )}
-    </HoliContainer>
+      ))}
+    </HoliBox>
+  ) : (
+    <EmptyTab text={emptyText} callToAction={emptyCallToAction} />
   )
 }
 

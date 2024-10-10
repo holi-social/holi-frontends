@@ -66,6 +66,12 @@ exports[`HoliUserCard renders correctly 1`] = `
   </View>
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {
@@ -92,6 +98,12 @@ exports[`HoliUserCard renders correctly 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {
@@ -184,6 +196,12 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {

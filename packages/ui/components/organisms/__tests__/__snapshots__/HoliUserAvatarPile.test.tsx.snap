@@ -101,6 +101,12 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Text
       accessible={false}
       aria-label="Max Mustermann"
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       role="img"
       selectable={true}
       style={
@@ -205,6 +211,12 @@ exports[`HoliUserAvatarPile renders correct snapshot 1`] = `
     <Text
       accessible={false}
       aria-label="Sandra Kasandra"
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       role="img"
       selectable={true}
       style={

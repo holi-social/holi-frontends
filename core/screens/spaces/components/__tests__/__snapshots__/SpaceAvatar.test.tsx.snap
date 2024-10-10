@@ -98,6 +98,12 @@ exports[`React tree renders initials with colored background, when given image p
   <Text
     accessible={false}
     aria-label="Space title"
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     role="img"
     selectable={true}
     style={

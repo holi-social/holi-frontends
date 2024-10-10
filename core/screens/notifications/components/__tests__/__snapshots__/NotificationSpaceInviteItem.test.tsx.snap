@@ -132,6 +132,12 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -146,6 +152,12 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -161,6 +173,12 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           </Text>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -320,6 +338,12 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {
@@ -428,6 +452,12 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {
@@ -583,7 +613,13 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={3}
             onTextLayout={[Function]}
             selectable={true}
@@ -602,6 +638,12 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -622,6 +664,12 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           </Text>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -781,6 +829,12 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {
@@ -889,6 +943,12 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {

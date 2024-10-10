@@ -71,6 +71,12 @@ exports[`HoliCard renders correctly 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {

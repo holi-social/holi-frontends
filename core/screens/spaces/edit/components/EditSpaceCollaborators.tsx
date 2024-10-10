@@ -1,12 +1,13 @@
 import { useQuery } from '@apollo/client'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -32,8 +33,9 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
@@ -45,8 +47,12 @@ export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
 const { useParam } = createParamHooks<EditSpaceCollaboratorsParams>()
 
 const PAGE_SIZE = 20
-const TAB_COLLABORATORS = 0
-const TAB_PENDING = 1
+
+enum SpaceCollaboratorsTabs {
+  COLLABORATORS = 'collaborators',
+  INVITES = 'invites',
+  REQUESTS = 'requests',
+}
 
 const EditSpaceCollaborators = () => {
   const { t } = useTranslation()
@@ -60,10 +66,8 @@ const EditSpaceCollaborators = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { user: loggedInUser } = useLoggedInUser()
-  const { height: screenHeight } = useWindowDimensions()
   const { theme } = useTheme()
   const { colors } = theme
-  const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
 
   const { data, loading, error, called } = useQuery<SpaceByIdResponse>(spaceMembershipByIdQuery, {
     variables: { idOrName: spaceIdOrName },
@@ -97,7 +101,10 @@ const EditSpaceCollaborators = () => {
   const isSpaceAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   const initialTab =
-    selectedTab === 'pending' || space?.membershipRequests?.totalResults ? TAB_PENDING : TAB_COLLABORATORS
+    selectedTab === 'pending' || space?.membershipRequests?.totalResults
+      ? SpaceCollaboratorsTabs.REQUESTS
+      : SpaceCollaboratorsTabs.COLLABORATORS
+  const [activeTab, setActiveTab] = useState<string>(initialTab)
 
   const queryOptions: Omit<PaginationQueryHookOptions, 'queryPath'> = {
     pageSize: PAGE_SIZE,
@@ -133,8 +140,14 @@ const EditSpaceCollaborators = () => {
 
   useRefreshOnNavigation({ initialized: called })
 
+  const { top: safeAreaTop } = useSafeAreaInsets()
+  const tabContentContainerStyle: StyleProp<ViewStyle> = {
+    paddingBottom: safeAreaTop + dimensions.topBarHeight + Spacing['4xl'],
+    marginHorizontal: Spacing.xs,
+  }
+
   if (loading) {
-    return <HoliLoader />
+    return <HoliLoader testID="edit-space-collaborators-loader" />
   }
 
   if (error || !space) {
@@ -150,16 +163,14 @@ const EditSpaceCollaborators = () => {
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
     >
       <HoliTabs
-        id="collaborator-tabs"
-        testID="collaborator-tabs"
-        style={styles.tabWrapper}
-        initialStep={initialTab}
-        tabs={[
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        data={[
           {
-            title: t('spaces.collaborators.manage.tabs.all'),
-            style: styles.tabStyle,
-            children: (
-              <ScrollViewRefreshable style={[mixins.container, styles.all]}>
+            key: SpaceCollaboratorsTabs.COLLABORATORS,
+            tabTitle: t('spaces.collaborators.manage.tabs.all'),
+            content: () => (
+              <ScrollViewRefreshable style={styles.tabContent} contentContainerStyle={tabContentContainerStyle}>
                 <Pagination
                   query={spaceMembersQuery}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.members' }}
@@ -173,10 +184,10 @@ const EditSpaceCollaborators = () => {
             ),
           },
           {
-            title: t('spaces.collaborators.manage.tabs.requests'),
-            style: styles.tabStyle,
-            children: (
-              <ScrollViewRefreshable style={[mixins.container, styles.all]}>
+            key: SpaceCollaboratorsTabs.REQUESTS,
+            tabTitle: t('spaces.collaborators.manage.tabs.requests'),
+            content: () => (
+              <ScrollViewRefreshable style={styles.tabContent} contentContainerStyle={tabContentContainerStyle}>
                 <Pagination
                   query={spaceMembershipRequestsQuery}
                   queryOptions={{
@@ -200,10 +211,10 @@ const EditSpaceCollaborators = () => {
             ),
           },
           {
-            title: t('spaces.collaborators.manage.tabs.invites'),
-            style: styles.tabStyle,
-            children: (
-              <ScrollViewRefreshable style={[mixins.container, styles.all]}>
+            key: SpaceCollaboratorsTabs.INVITES,
+            tabTitle: t('spaces.collaborators.manage.tabs.invites'),
+            content: () => (
+              <ScrollViewRefreshable style={styles.tabContent} contentContainerStyle={tabContentContainerStyle}>
                 <Pagination
                   query={spaceInvitesQuery}
                   queryOptions={{ ...queryOptions, queryPath: 'spaceById.invites', fetchPolicy: 'cache-and-network' }}
@@ -217,6 +228,10 @@ const EditSpaceCollaborators = () => {
             ),
           },
         ]}
+        keyExtractor={({ key }) => key}
+        renderTabContent={({ item }) => item.content()}
+        backgroundColor={colors.background20}
+        testID="collaborator-tabs"
       />
 
       {selectedMember && !!space && (
@@ -249,55 +264,31 @@ const EditSpaceCollaborators = () => {
   )
 }
 
-const getStyles = (screenHeight: number, theme: HoliTheme) =>
-  StyleSheet.create({
-    wrapper: {
-      minHeight: '100%',
-      ...Platform.select({
-        web: {
-          paddingTop: dimensions.topBarHeight,
-          minHeight: '100vh' as DimensionValue,
-        },
-      }),
-    },
-    tabWrapper: {
-      height: '100%',
-    },
-    tabStyle: {
-      flex: 1,
-      backgroundColor: theme.colors.background20,
-      paddingBottom: 42,
-    },
-    all: {
-      paddingVertical: 16,
-      ...Platform.select({
-        web: {
-          minHeight: screenHeight - dimensions.topBarHeight - dimensions.bottomBarHeight - 52,
-        },
-        native: {
-          minHeight: screenHeight - dimensions.topBarHeight - dimensions.bottomBarHeight - 80,
-        },
-      }),
-    },
-    buttonContainer: {
-      marginTop: 20,
-    },
-    overlayButtonWrapper: {
-      bottom: 12,
-      paddingHorizontal: 16,
-    },
-    overlayButton: {
-      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-      maxWidth: 420,
-      flex: 1,
-      bottom: Platform.OS === 'web' ? 32 : 16,
-      borderWidth: 1,
-      paddingVertical: 12,
-      paddingHorizontal: 16,
-    },
-    icon: {
-      marginLeft: 6,
-      marginBottom: 2,
-    },
-  })
+const styles = StyleSheet.create({
+  tabContent: {
+    marginHorizontal: -Spacing.xs, // hack to override HoliTabs margin
+    minHeight: '100%',
+  },
+  buttonContainer: {
+    marginTop: 20,
+  },
+  overlayButtonWrapper: {
+    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+    bottom: 12,
+    paddingHorizontal: 16,
+    width: '100%',
+  },
+  overlayButton: {
+    maxWidth: 420,
+    flex: 1,
+    bottom: Platform.OS === 'web' ? 32 : 16,
+    borderWidth: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  icon: {
+    marginLeft: 6,
+    marginBottom: 2,
+  },
+})
 export default EditSpaceCollaborators

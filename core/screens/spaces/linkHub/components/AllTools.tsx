@@ -7,7 +7,6 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import NoTools from '@holi/core/screens/spaces/linkHub/components/NoTools'
 import ToolWidget from '@holi/core/screens/spaces/linkHub/components/ToolWidget'
 import { CollaborationType, SpaceCollaborationTool, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type AllToolsProps = {
   spaceIdOrName?: string
@@ -21,7 +20,6 @@ const AllTools = ({ spaceIdOrName }: AllToolsProps) => {
   const { t } = useTranslation()
   const [categorizedToolsList, setCategorizedToolsList] = useState<CategorizedToolsListProps | undefined>()
   const { navigate } = useRouting()
-  const mixins = useStyleMixins()
 
   const { space } = useSpace(spaceIdOrName)
 
@@ -50,7 +48,7 @@ const AllTools = ({ spaceIdOrName }: AllToolsProps) => {
   if (!spaceIdOrName || !space) return null
 
   return (
-    <View style={[mixins.container, styles.container]}>
+    <View style={styles.container}>
       {(categorizedToolsList &&
         (Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>).map((collaborationType) => {
           const tools = categorizedToolsList[collaborationType]
@@ -75,6 +73,6 @@ export default AllTools
 
 const styles = StyleSheet.create({
   container: {
-    margin: 24,
+    marginVertical: 24,
   },
 })

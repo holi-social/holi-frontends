@@ -73,6 +73,12 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
       />
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         selectable={false}
         style={
           {
@@ -168,6 +174,12 @@ exports[`HoliCheckbox renders correctly for checked value false and is disabled 
       />
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         selectable={false}
         style={
           {
@@ -319,6 +331,12 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
       </View>
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         selectable={false}
         style={
           {
@@ -470,6 +488,12 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
       </View>
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         selectable={false}
         style={
           {
@@ -621,6 +645,12 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
       </View>
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         selectable={false}
         style={
           {
@@ -772,6 +802,12 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
       </View>
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         selectable={false}
         style={
           {
@@ -923,6 +959,12 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
       </View>
       <Text
         accessible={false}
+        collapsable={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         selectable={false}
         style={
           {
@@ -943,6 +985,12 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
   </View>
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {

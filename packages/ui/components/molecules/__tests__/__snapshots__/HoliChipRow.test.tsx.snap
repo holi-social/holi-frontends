@@ -24,6 +24,12 @@ exports[`renders correctly renders correctly when there is a title, is editable 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {
@@ -95,6 +101,12 @@ exports[`renders correctly renders correctly when there is a title, is editable 
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={false}
           style={
             {
@@ -126,6 +138,12 @@ exports[`renders correctly renders correctly when there is a title, is editable 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {
@@ -168,6 +186,12 @@ exports[`renders correctly renders correctly when there is no title, not editabl
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {

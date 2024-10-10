@@ -126,7 +126,13 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
           ellipsizeMode="tail"
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           numberOfLines={1}
           selectable={true}
           style={
@@ -620,7 +626,13 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
       >
         <Text
           accessible={false}
+          collapsable={false}
           ellipsizeMode="tail"
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           numberOfLines={1}
           selectable={true}
           style={
@@ -1283,6 +1295,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               </View>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1299,6 +1317,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               </Text>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1314,6 +1338,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
               />
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1454,6 +1484,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     </View>
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -1623,6 +1659,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     </View>
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -1793,6 +1835,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     </View>
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       selectable={true}
                       style={
                         {
@@ -1962,6 +2010,12 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                     </View>
                     <Text
                       accessible={false}
+                      collapsable={false}
+                      jestAnimatedStyle={
+                        {
+                          "value": {},
+                        }
+                      }
                       selectable={true}
                       style={
                         {

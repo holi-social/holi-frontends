@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -15,7 +15,9 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import TabContentScrollView from '@holi/ui/components/organisms/HoliTabs/TabContentScrollView'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -37,6 +39,8 @@ const LinkHub = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading, error, space } = useSpace(spaceIdOrName)
+
+  const [activeTab, setActiveTab] = useState<string>('all-links')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -67,8 +71,12 @@ const LinkHub = () => {
     )
   }
 
-  if (loading || error || !space) {
+  if (error || !space) {
     return <></>
+  }
+
+  if (loading) {
+    return <HoliLoader />
   }
 
   return (
@@ -77,32 +85,50 @@ const LinkHub = () => {
       space={space}
       spaceConnectionType={SpaceConnectionType.MEMBER}
     >
-      <ScrollView style={styles.defaultLayout}>
-        <HoliTabs
-          id="toolKit-tabs"
-          centeredButtons
-          style={styles.tabBar}
-          backgroundColor={colors.background20}
-          tabs={[
-            {
-              title: t('spaces.toolKit.allTools.label'),
-              style: styles.tabStyle,
-              children: <AllTools spaceIdOrName={spaceIdOrName} />,
-            },
-            {
-              title: t('spaces.toolKit.toolIdeas.label'),
-              style: styles.tabStyle,
-              children: <SuggestedTools />,
-            },
-          ]}
-        />
-      </ScrollView>
+      <HoliTabs
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        centeredTabButtons
+        data={[
+          {
+            key: 'all-links',
+            tabTitle: t('spaces.toolKit.allTools.label'),
+            style: styles.tabStyle,
+            content: () => (
+              <TabContentScrollView paddingBottom={ADD_BUTTON_DIMENSIONS.bottom + ADD_BUTTON_DIMENSIONS.height}>
+                <AllTools spaceIdOrName={spaceIdOrName} />
+              </TabContentScrollView>
+            ),
+          },
+          {
+            key: 'suggested-links',
+            tabTitle: t('spaces.toolKit.toolIdeas.label'),
+            style: styles.tabStyle,
+            content: () => (
+              <TabContentScrollView paddingBottom={ADD_BUTTON_DIMENSIONS.bottom + ADD_BUTTON_DIMENSIONS.height}>
+                <SuggestedTools />
+              </TabContentScrollView>
+            ),
+          },
+        ]}
+        keyExtractor={({ key }) => key}
+        renderTabContent={({ item }) => item.content()}
+        backgroundColor={colors.background20}
+        testID="toolKit-tabs"
+      />
+
       <AddButton />
     </PermissionsGuard>
   )
 }
 
 export default LinkHub
+
+const ADD_BUTTON_DIMENSIONS = {
+  width: 56,
+  height: 56,
+  bottom: dimensions.bottomBarHeight,
+}
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
@@ -121,14 +147,12 @@ const getStyles = (theme: HoliTheme) =>
       paddingBottom: 24,
     },
     overlayButton: {
-      width: 56,
-      height: 56,
+      ...ADD_BUTTON_DIMENSIONS,
       borderRadius: 28,
       borderWidth: 1,
       marginRight: 10,
       paddingHorizontal: 0,
       paddingVertical: 0,
-      bottom: dimensions.topBarHeight,
       right: '50%',
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',
       justifyContent: 'center',

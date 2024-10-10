@@ -4,7 +4,13 @@ exports[`renders correctly with long text 1`] = `
 <View>
   <Text
     accessible={false}
+    collapsable={false}
     ellipsizeMode="tail"
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     numberOfLines={3}
     onTextLayout={[Function]}
     selectable={true}
@@ -23,6 +29,12 @@ exports[`renders correctly with long text 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {
@@ -46,7 +58,13 @@ exports[`renders correctly with short text 1`] = `
 <View>
   <Text
     accessible={false}
+    collapsable={false}
     ellipsizeMode="tail"
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     numberOfLines={3}
     onTextLayout={[Function]}
     selectable={true}
@@ -65,6 +83,12 @@ exports[`renders correctly with short text 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {

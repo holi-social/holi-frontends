@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -14,8 +14,9 @@ import { ArrowDownS, ArrowLeft, Check, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import TabContentScrollView from '@holi/ui/components/organisms/HoliTabs/TabContentScrollView'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type SpaceRolesPermissionsParams = {
   spaceIdOrName: string
@@ -165,16 +166,58 @@ const COLLABORATOR_PERMISSIONS: RolePermissions[] = [
 
 const { useParam } = createParamHooks<SpaceRolesPermissionsParams>()
 
-const SpaceRolesPermissions = () => {
+const PermissionsList = ({ permissions }: { permissions: Permission[] }) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
-  const setScreenOptions = useSetScreenOptions()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
+  return (
+    <>
+      {permissions.map((permission, index) => (
+        <View key={index} style={styles.listing}>
+          <HoliIcon
+            icon={permission.allowed ? Check : Close}
+            style={styles.icon}
+            color={permission.allowed ? colors.brandColorB30 : colors.warning30}
+          />
+          <HoliText>{t(permission.name)}</HoliText>
+        </View>
+      ))}
+    </>
+  )
+}
+
+interface SpaceRolesPermissionsProps {
+  rolePermissions: RolePermissions[]
+}
+const SpaceRolesTabContent = ({ rolePermissions }: SpaceRolesPermissionsProps) => {
+  const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+
+  return (
+    <TabContentScrollView paddingTop={Spacing.xs} paddingBottom={Spacing['4xl']}>
+      {rolePermissions.map((rolePermission) => (
+        <View key={rolePermission.role} style={styles.section}>
+          <HoliHeading>{t(rolePermission.role)}</HoliHeading>
+          <PermissionsList permissions={rolePermission.permissions} />
+        </View>
+      ))}
+    </TabContentScrollView>
+  )
+}
+
+const SpaceRolesPermissions = () => {
+  const { t } = useTranslation()
+  const setScreenOptions = useSetScreenOptions()
+  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const { theme } = useTheme()
+  const { colors } = theme
+
   const { error, space } = useSpace(spaceIdOrName)
+
+  const [activeTab, setActiveTab] = useState<string>('admin')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -188,49 +231,6 @@ const SpaceRolesPermissions = () => {
     })
   }, [setScreenOptions, t, colors.background10])
 
-  const PermissionsList = ({ permissions }: { permissions: Permission[] }) => {
-    return (
-      <>
-        {permissions.map((permission, index) => (
-          <View key={index} style={styles.listing}>
-            <HoliIcon
-              icon={permission.allowed ? Check : Close}
-              style={styles.icon}
-              color={permission.allowed ? colors.brandColorB30 : colors.warning30}
-            />
-            <HoliText>{t(permission.name)}</HoliText>
-          </View>
-        ))}
-      </>
-    )
-  }
-
-  const AdminTab = () => {
-    return (
-      <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
-        {ADMIN_PERMISSIONS.map((rolePermission, index) => (
-          <View key={index} style={styles.section}>
-            <HoliHeading>{t(rolePermission.role)}</HoliHeading>
-            <PermissionsList permissions={rolePermission.permissions} />
-          </View>
-        ))}
-      </ScrollView>
-    )
-  }
-
-  const CollaboratorTab = () => {
-    return (
-      <ScrollView contentContainerStyle={[mixins.container, styles.all]}>
-        {COLLABORATOR_PERMISSIONS.map((rolePermission, index) => (
-          <View key={index} style={styles.section}>
-            <HoliHeading>{t(rolePermission.role)}</HoliHeading>
-            <PermissionsList permissions={rolePermission.permissions} />
-          </View>
-        ))}
-      </ScrollView>
-    )
-  }
-
   if (error || !space) {
     return <></>
   }
@@ -242,20 +242,24 @@ const SpaceRolesPermissions = () => {
       spaceConnectionType={SpaceConnectionType.ADMINISTRATOR}
     >
       <HoliTabs
-        id="collaborator-tabs"
-        style={styles.tabWrapper}
-        tabs={[
+        testID="collaborator-tabs"
+        data={[
           {
-            title: t('spaces.rolesAndPermissions.tabs.admin'),
-            style: styles.tabStyle,
-            children: <AdminTab />,
+            key: 'admin',
+            tabTitle: t('spaces.rolesAndPermissions.tabs.admin'),
+            content: () => <SpaceRolesTabContent rolePermissions={ADMIN_PERMISSIONS} />,
           },
           {
-            title: t('spaces.rolesAndPermissions.tabs.collaborators'),
-            style: styles.tabStyle,
-            children: <CollaboratorTab />,
+            key: 'collaborators',
+            tabTitle: t('spaces.rolesAndPermissions.tabs.collaborators'),
+            content: () => <SpaceRolesTabContent rolePermissions={COLLABORATOR_PERMISSIONS} />,
           },
         ]}
+        keyExtractor={({ key }) => key}
+        renderTabContent={({ item }) => item.content()}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        backgroundColor={theme.colors.background20}
       />
     </PermissionsGuard>
   )
@@ -266,29 +270,9 @@ const getStyles = (theme: HoliTheme) =>
     wrapper: {
       backgroundColor: theme.colors.background20,
     },
-    tabWrapper: {
-      backgroundColor: theme.colors.background10,
-      ...Platform.select({
-        native: {
-          height: '100%',
-        },
-      }),
-    },
-    tabStyle: {
-      backgroundColor: theme.colors.background20,
-      ...Platform.select({
-        web: {
-          minHeight: '100vh' as DimensionValue,
-        },
-        native: {
-          height: '100%',
-        },
-      }),
-    },
-    all: {
-      paddingTop: 16,
-      paddingBottom: 40,
-      backgroundColor: theme.colors.background20,
+    tabContent: {
+      paddingTop: Spacing.xs,
+      marginHorizontal: Spacing.xs,
     },
     section: {
       display: 'flex',

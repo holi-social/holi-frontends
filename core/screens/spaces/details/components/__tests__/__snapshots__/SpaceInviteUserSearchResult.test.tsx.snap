@@ -2,25 +2,68 @@
 
 exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
 <View
+  collapsable={false}
+  entering={
+    FadeIn {
+      "build": [Function],
+      "callbackV": undefined,
+      "dampingRatioV": undefined,
+      "dampingV": undefined,
+      "delayV": 300,
+      "durationV": undefined,
+      "easingV": undefined,
+      "initialValues": undefined,
+      "massV": undefined,
+      "overshootClampingV": undefined,
+      "randomizeDelay": false,
+      "reduceMotionV": "system",
+      "restDisplacementThresholdV": undefined,
+      "restSpeedThresholdV": undefined,
+      "rotateV": undefined,
+      "stiffnessV": undefined,
+      "type": undefined,
+    }
+  }
+  exiting={
+    FadeOut {
+      "build": [Function],
+      "callbackV": undefined,
+      "dampingRatioV": undefined,
+      "dampingV": undefined,
+      "delayV": undefined,
+      "durationV": 500,
+      "easingV": undefined,
+      "initialValues": undefined,
+      "massV": undefined,
+      "overshootClampingV": undefined,
+      "randomizeDelay": false,
+      "reduceMotionV": "system",
+      "restDisplacementThresholdV": undefined,
+      "restSpeedThresholdV": undefined,
+      "rotateV": undefined,
+      "stiffnessV": undefined,
+      "type": undefined,
+    }
+  }
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
   style={
-    [
-      {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "bottom": 0,
-        "justifyContent": "center",
-        "left": 0,
-        "paddingHorizontal": 16,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
-        "zIndex": 2,
-      },
-      {
-        "marginVertical": 24,
-        "position": "relative",
-      },
-    ]
+    {
+      "alignItems": "center",
+      "backgroundColor": "transparent",
+      "bottom": 0,
+      "justifyContent": "center",
+      "left": 0,
+      "marginVertical": 24,
+      "paddingHorizontal": 16,
+      "position": "relative",
+      "right": 0,
+      "top": 0,
+      "zIndex": 2,
+    }
   }
 >
   <View
@@ -65,6 +108,12 @@ exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
 exports[`SpaceInviteUserSearchResult displays text if no results where found 1`] = `
 <Text
   accessible={false}
+  collapsable={false}
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
   selectable={true}
   style={
     {
@@ -185,6 +234,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             aria-hidden={true}
             aria-label="No Connection"
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             role="img"
             selectable={true}
             style={
@@ -209,7 +264,13 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -466,6 +527,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             aria-hidden={true}
             aria-label="Connected"
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             role="img"
             selectable={true}
             style={
@@ -490,7 +557,13 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -516,6 +589,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -764,6 +843,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             aria-hidden={true}
             aria-label="Connected and Space connection"
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             role="img"
             selectable={true}
             style={
@@ -788,7 +873,13 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -814,6 +905,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -830,6 +927,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             </Text>
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -846,6 +949,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             </Text>
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -961,6 +1070,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             aria-hidden={true}
             aria-label="Follower"
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             role="img"
             selectable={true}
             style={
@@ -985,7 +1100,13 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1011,6 +1132,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -1259,6 +1386,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             aria-hidden={true}
             aria-label="Member"
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             role="img"
             selectable={true}
             style={
@@ -1283,7 +1416,13 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1309,6 +1448,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -1424,6 +1569,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             accessible={false}
             aria-hidden={true}
             aria-label="Admin"
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             role="img"
             selectable={true}
             style={
@@ -1448,7 +1599,13 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1474,6 +1631,12 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {

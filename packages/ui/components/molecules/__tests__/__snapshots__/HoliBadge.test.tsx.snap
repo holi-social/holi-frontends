@@ -18,6 +18,12 @@ exports[`HoliBadge renders correctly with styling props 1`] = `
 >
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {
@@ -53,6 +59,12 @@ exports[`HoliBadge renders default styling correctly without any props 1`] = `
 >
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {

@@ -4394,6 +4394,7 @@ __metadata:
   resolution: "@holi/storybook@workspace:apps/storybook"
   dependencies:
     "@babel/core": "npm:^7.23.9"
+    "@babel/plugin-proposal-export-namespace-from": "npm:^7.18.9"
     "@babel/preset-env": "npm:^7.23.9"
     "@babel/preset-react": "npm:^7.23.3"
     "@babel/preset-typescript": "npm:^7.23.3"
@@ -4501,7 +4502,6 @@ __metadata:
     raf: "npm:^3.4.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
-    react-indiana-drag-scroll: "npm:^2.2.0"
     react-intersection-observer: "npm:^9.5.2"
     react-multi-carousel: "npm:^2.8.5"
     react-native-gesture-handler: "npm:~2.14.0"
@@ -13687,13 +13687,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.6":
-  version: 2.5.1
-  resolution: "classnames@npm:2.5.1"
-  checksum: 10c0/afff4f77e62cea2d79c39962980bf316bacb0d7c49e13a21adaadb9221e1c6b9d3cdb829d8bb1b23c406f4e740507f37e1dcf506f7e3b7113d17c5bab787aa69
-  languageName: node
-  linkType: hard
-
 "clean-css@npm:4.2.x":
   version: 4.2.4
   resolution: "clean-css@npm:4.2.4"
@@ -15547,13 +15540,6 @@ __metadata:
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
   checksum: 10c0/26f364ebcdb6395f95124fda411f63137a4bfb5d3a06453f7f23dfe52502905bd84e0488172e0f9ec295fdc45f05c23d5d91baf16bd26f0fe9acd777a188dc39
-  languageName: node
-  linkType: hard
-
-"easy-bem@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "easy-bem@npm:1.1.1"
-  checksum: 10c0/83b54e5c854795612a245fba9bc48053da3593205ff19d8aad38ef9bc0cbf56d2df7af73d90b533602696ead1ffe6beef55d756e2356e981f50156e044a1463e
   languageName: node
   linkType: hard
 
@@ -25439,20 +25425,6 @@ __metadata:
     react-native:
       optional: true
   checksum: 10c0/59ff253978f8341464712cf5e8df33d5ec856ada5995384e9b282bdcd82b2f3fa687b2f48eb12691aa923596115a7aab5d5c3187f26e3c4f33fece51f54b3cca
-  languageName: node
-  linkType: hard
-
-"react-indiana-drag-scroll@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "react-indiana-drag-scroll@npm:2.2.0"
-  dependencies:
-    classnames: "npm:^2.2.6"
-    debounce: "npm:^1.2.0"
-    easy-bem: "npm:^1.1.1"
-  peerDependencies:
-    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/2c337ec8b2cf0628ac4f17df3c84d4a24b5357f8f93d5a4cfc74c4d104cc1bc32c3e0eeb33ed5ffd505d74bc345a30615a0b0b4f6a761767db57378f45e8d87b
   languageName: node
   linkType: hard
 

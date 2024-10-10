@@ -72,6 +72,12 @@ exports[`renders correctly renders correctly when checked 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -222,6 +228,12 @@ exports[`renders correctly renders correctly when disabled 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -309,6 +321,12 @@ exports[`renders correctly renders correctly when unchecked 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {

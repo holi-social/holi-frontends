@@ -76,6 +76,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -174,6 +180,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -274,6 +286,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -366,6 +384,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -461,6 +485,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -558,6 +588,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -654,6 +690,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -753,6 +795,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -854,6 +902,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -949,6 +1003,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1047,6 +1107,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1147,6 +1213,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1239,6 +1311,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1334,6 +1412,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1431,6 +1515,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1527,6 +1617,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1626,6 +1722,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1727,6 +1829,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1825,6 +1933,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -1926,6 +2040,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2029,6 +2149,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2124,6 +2250,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2222,6 +2354,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2322,6 +2460,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2424,6 +2568,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2529,6 +2679,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2636,6 +2792,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2734,6 +2896,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2835,6 +3003,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -2938,6 +3112,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3033,6 +3213,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3131,6 +3317,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3231,6 +3423,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3333,6 +3531,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3438,6 +3642,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3545,6 +3755,12 @@ exports[`renders correctly renders correctly when inline is 'false', disabled is
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3640,6 +3856,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3738,6 +3960,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3838,6 +4066,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -3930,6 +4164,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4025,6 +4265,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4122,6 +4368,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4218,6 +4470,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4317,6 +4575,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4418,6 +4682,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4513,6 +4783,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4611,6 +4887,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4711,6 +4993,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4803,6 +5091,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4898,6 +5192,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -4995,6 +5295,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5091,6 +5397,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5190,6 +5502,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5291,6 +5609,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5389,6 +5713,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5490,6 +5820,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5593,6 +5929,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5688,6 +6030,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5786,6 +6134,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5886,6 +6240,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -5988,6 +6348,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6093,6 +6459,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6200,6 +6572,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6298,6 +6676,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6399,6 +6783,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6502,6 +6892,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6597,6 +6993,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6695,6 +7097,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6795,6 +7203,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -6897,6 +7311,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -7002,6 +7422,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {
@@ -7109,6 +7535,12 @@ exports[`renders correctly renders correctly when inline is 'true', disabled is 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={false}
       style={
         {

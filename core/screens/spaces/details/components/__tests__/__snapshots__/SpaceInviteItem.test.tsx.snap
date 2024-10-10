@@ -126,7 +126,13 @@ exports[`SpaceInviteItem renders correctly 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
           ellipsizeMode="tail"
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           numberOfLines={1}
           selectable={true}
           style={

@@ -1,7 +1,7 @@
 import { ApolloError } from '@apollo/client'
 import { GraphQLErrors } from '@apollo/client/errors'
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, waitFor } from '@testing-library/react-native'
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 import { act } from 'react-test-renderer'
 
@@ -142,9 +142,9 @@ describe('EditSpaceCollaborators', () => {
         <EditSpaceCollaborators />
       </MockedProvider>
     )
-    await act(async () => {
-      await waitFor(() => screen.getByTestId('collaborator-tabs-button-1-active'))
-    })
+    await waitForElementToBeRemoved(() => screen.queryByTestId('edit-space-collaborators-loader'))
+    screen.debug()
+    await waitFor(() => screen.getByTestId('collaborator-tabs-button-requests-active'))
   })
 
   it('opens the modal for a user request if the corresponding parameter is passed', async () => {

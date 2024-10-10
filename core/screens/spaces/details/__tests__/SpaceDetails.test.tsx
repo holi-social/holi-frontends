@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
-import { act } from 'react-test-renderer'
 
 import { createCache } from '@holi/api/graphql/client'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -95,11 +94,7 @@ describe('SpaceDetails', () => {
       </MockedProvider>
     )
 
-    await act(async () => {
-      jest.runAllTimers()
-      await waitFor(() => screen.getByText(space.title))
-    })
-
+    await screen.findByText(space.title)
     expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'info' })
   })
 
@@ -111,12 +106,8 @@ describe('SpaceDetails', () => {
       </MockedProvider>
     )
 
-    await act(async () => {
-      jest.runAllTimers()
-      await waitFor(() => screen.getByText(space.title))
-    })
-
-    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'involvement' })
+    await screen.findByText(space.title)
+    await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'involvement' }))
   })
 
   it('selects updates tab for members if no involvement content exists', async () => {
@@ -131,10 +122,8 @@ describe('SpaceDetails', () => {
       </MockedProvider>
     )
 
-    await act(async () => {
-      jest.runAllTimers()
-      await waitFor(() => expect(screen.getByText(space.title)).toBeVisible())
-    })
+    await screen.findByText(space.title)
+    await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'updates' }))
 
     expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'updates' })
   })
@@ -161,9 +150,8 @@ describe('SpaceDetails', () => {
     const { rerender } = render(crateComponent())
 
     // Expect initial title
-    await act(async () => {
-      await waitFor(() => screen.getByText(space.title))
-    })
+    await screen.findByText(space.title)
+
     expect(mockUseUpdateParams).toHaveBeenCalledTimes(1)
     expect(mockUseUpdateParams).toHaveBeenCalledWith({
       tab: 'info',
@@ -178,8 +166,6 @@ describe('SpaceDetails', () => {
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ refresh: undefined }))
 
     // Expect a new title
-    await act(async () => {
-      await waitFor(() => screen.getByText(newTitle))
-    })
+    expect(await screen.findByText(newTitle)).toBeOnTheScreen()
   })
 })

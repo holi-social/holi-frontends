@@ -138,6 +138,12 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -152,6 +158,12 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -167,6 +179,12 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           </Text>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -326,6 +344,12 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {
@@ -434,6 +458,12 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {
@@ -595,7 +625,13 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={3}
             onTextLayout={[Function]}
             selectable={true}
@@ -614,6 +650,12 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -635,6 +677,12 @@ I would like to join!
           </Text>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -794,6 +842,12 @@ I would like to join!
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {
@@ -902,6 +956,12 @@ I would like to join!
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {

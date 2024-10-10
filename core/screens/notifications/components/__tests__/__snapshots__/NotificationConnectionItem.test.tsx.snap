@@ -82,6 +82,12 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           <Text
             accessible={false}
             aria-label="Some User"
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             role="img"
             selectable={true}
             style={
@@ -111,6 +117,12 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -125,6 +137,12 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -140,6 +158,12 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           </Text>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -299,6 +323,12 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {
@@ -407,6 +437,12 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={false}
               style={
                 {

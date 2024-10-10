@@ -3,6 +3,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, useWindowDimensions } from 'react-native'
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -29,7 +30,7 @@ import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSave
 import { useTheme } from '@holi/ui/styles/theme'
 
 const OwnProfile = () => {
-  const [currentTab, setCurrentTab] = useState<Tab>(Tab.PROFILE)
+  const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
@@ -169,13 +170,23 @@ const OwnProfile = () => {
                 </HoliKeyboardSaveView>
               </HoliModal>
             )}
-            <OwnProfileView user={user} toggleEditMode={toggleEditMode} onChangeTab={setCurrentTab} />
+            <OwnProfileView
+              user={user}
+              toggleEditMode={toggleEditMode}
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+            />
           </>
         ) : (
           <HoliLoader />
         )}
       </ScrollView>
-      {currentTab === Tab.POSTS && <CreatePostButton />}
+
+      {activeTab === Tab.POSTS && (
+        <Animated.View entering={SlideInDown} exiting={SlideOutDown} style={{ zIndex: 10 }}>
+          <CreatePostButton />
+        </Animated.View>
+      )}
     </LoginProtection>
   )
 }

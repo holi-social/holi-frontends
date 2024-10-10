@@ -5,7 +5,6 @@ import { StyleSheet, View } from 'react-native'
 import EmptyTab from '@holi/core/components/EmptyTab'
 import PostsList from '@holi/core/screens/individualPosts/components/PostsList'
 import { postsByUserIdQuery } from '@holi/core/screens/individualPosts/queries'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import Spacing from '@holi/ui/foundations/Spacing'
 
 export type PostsTabProps = {
@@ -17,26 +16,23 @@ const OtherPostsTab = ({ userId, userFirstName }: PostsTabProps) => {
   const { t } = useTranslation()
 
   return (
-    <HoliContainer>
-      <View style={styles.container}>
-        <PostsList
-          emptyMessage={
-            <EmptyTab
-              text={t('individuals.post.emptyTitleOther', { name: userFirstName || t('user.profileView.anonymous') })}
-            />
-          }
-          postsQuery={postsByUserIdQuery}
-          paginationOptions={{ variables: { userId }, queryPath: 'postsByUserId', pageSize: 10 }}
-        />
-      </View>
-    </HoliContainer>
+    <View style={styles.container}>
+      <PostsList
+        emptyMessage={
+          <EmptyTab
+            text={t('individuals.post.emptyTitleOther', { name: userFirstName || t('user.profileView.anonymous') })}
+          />
+        }
+        postsQuery={postsByUserIdQuery}
+        paginationOptions={{ variables: { userId }, queryPath: 'postsByUserId', pageSize: 10 }}
+      />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingVertical: Spacing.xs,
-    height: '100%',
   },
 })
 

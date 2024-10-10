@@ -99,6 +99,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             </Text>
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -163,6 +169,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -188,6 +200,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -249,6 +267,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -553,6 +577,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             </Text>
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -617,6 +647,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -642,6 +678,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -703,6 +745,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -876,6 +924,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             </Text>
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -940,6 +994,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -965,6 +1025,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -1023,6 +1089,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1307,6 +1379,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1482,6 +1560,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             </Text>
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -1546,6 +1630,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -1571,6 +1661,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -1632,6 +1728,12 @@ exports[`NotificationSettingsList should correctly render grouped preferences 1`
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1777,22 +1879,67 @@ exports[`NotificationSettingsList should correctly render loading state 1`] = `
   testID="holi-container"
 >
   <View
+    collapsable={false}
+    entering={
+      FadeIn {
+        "build": [Function],
+        "callbackV": undefined,
+        "dampingRatioV": undefined,
+        "dampingV": undefined,
+        "delayV": 300,
+        "durationV": undefined,
+        "easingV": undefined,
+        "initialValues": undefined,
+        "massV": undefined,
+        "overshootClampingV": undefined,
+        "randomizeDelay": false,
+        "reduceMotionV": "system",
+        "restDisplacementThresholdV": undefined,
+        "restSpeedThresholdV": undefined,
+        "rotateV": undefined,
+        "stiffnessV": undefined,
+        "type": undefined,
+      }
+    }
+    exiting={
+      FadeOut {
+        "build": [Function],
+        "callbackV": undefined,
+        "dampingRatioV": undefined,
+        "dampingV": undefined,
+        "delayV": undefined,
+        "durationV": 500,
+        "easingV": undefined,
+        "initialValues": undefined,
+        "massV": undefined,
+        "overshootClampingV": undefined,
+        "randomizeDelay": false,
+        "reduceMotionV": "system",
+        "restDisplacementThresholdV": undefined,
+        "restSpeedThresholdV": undefined,
+        "rotateV": undefined,
+        "stiffnessV": undefined,
+        "type": undefined,
+      }
+    }
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     style={
-      [
-        {
-          "alignItems": "center",
-          "backgroundColor": "transparent",
-          "bottom": 0,
-          "justifyContent": "center",
-          "left": 0,
-          "paddingHorizontal": 16,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-          "zIndex": 2,
-        },
-        undefined,
-      ]
+      {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "bottom": 0,
+        "justifyContent": "center",
+        "left": 0,
+        "paddingHorizontal": 16,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "zIndex": 2,
+      }
     }
   >
     <View
@@ -1851,6 +1998,12 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
 >
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {
@@ -1869,6 +2022,12 @@ exports[`NotificationSettingsList should correctly render maintenance state 1`] 
   </Text>
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {
@@ -1923,22 +2082,67 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
       testID="holi-container"
     >
       <View
+        collapsable={false}
+        entering={
+          FadeIn {
+            "build": [Function],
+            "callbackV": undefined,
+            "dampingRatioV": undefined,
+            "dampingV": undefined,
+            "delayV": 300,
+            "durationV": undefined,
+            "easingV": undefined,
+            "initialValues": undefined,
+            "massV": undefined,
+            "overshootClampingV": undefined,
+            "randomizeDelay": false,
+            "reduceMotionV": "system",
+            "restDisplacementThresholdV": undefined,
+            "restSpeedThresholdV": undefined,
+            "rotateV": undefined,
+            "stiffnessV": undefined,
+            "type": undefined,
+          }
+        }
+        exiting={
+          FadeOut {
+            "build": [Function],
+            "callbackV": undefined,
+            "dampingRatioV": undefined,
+            "dampingV": undefined,
+            "delayV": undefined,
+            "durationV": 500,
+            "easingV": undefined,
+            "initialValues": undefined,
+            "massV": undefined,
+            "overshootClampingV": undefined,
+            "randomizeDelay": false,
+            "reduceMotionV": "system",
+            "restDisplacementThresholdV": undefined,
+            "restSpeedThresholdV": undefined,
+            "rotateV": undefined,
+            "stiffnessV": undefined,
+            "type": undefined,
+          }
+        }
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         style={
-          [
-            {
-              "alignItems": "center",
-              "backgroundColor": "transparent",
-              "bottom": 0,
-              "justifyContent": "center",
-              "left": 0,
-              "paddingHorizontal": 16,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "zIndex": 2,
-            },
-            undefined,
-          ]
+          {
+            "alignItems": "center",
+            "backgroundColor": "transparent",
+            "bottom": 0,
+            "justifyContent": "center",
+            "left": 0,
+            "paddingHorizontal": 16,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+            "zIndex": 2,
+          }
         }
       >
         <View
@@ -2043,6 +2247,12 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
             </Text>
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -2107,6 +2317,12 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -2132,6 +2348,12 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
               >
                 <Text
                   accessible={false}
+                  collapsable={false}
+                  jestAnimatedStyle={
+                    {
+                      "value": {},
+                    }
+                  }
                   selectable={true}
                   style={
                     {
@@ -2193,6 +2415,12 @@ exports[`NotificationSettingsList should correctly render updating state 1`] = `
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {

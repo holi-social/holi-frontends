@@ -43,6 +43,12 @@ exports[`FirstVisitOnboardingStep should render step with description about head
   />
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {
@@ -149,6 +155,12 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
   />
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {
@@ -243,6 +255,12 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -337,6 +355,12 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -431,6 +455,12 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -525,6 +555,12 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -628,6 +664,12 @@ exports[`FirstVisitOnboardingStep should render step without options 1`] = `
   />
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     selectable={true}
     style={
       {

@@ -9,7 +9,6 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type Tool = {
   id: string
@@ -21,7 +20,6 @@ type Tool = {
 
 const SuggestedTools: React.FC = () => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const imageWidth = 285
   const imageHeight = 170
   const { theme } = useTheme()
@@ -82,7 +80,7 @@ const SuggestedTools: React.FC = () => {
   }
 
   return (
-    <View style={[mixins.container, styles.container]}>
+    <View style={styles.container}>
       <HoliLocalImage
         imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_suggested_tools.svg')}
         width={imageWidth}

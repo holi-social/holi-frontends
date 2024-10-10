@@ -86,7 +86,14 @@ const MOCKS_WITHOUT_MY_SPACES = [
   discoverSpacesDefaultMock,
 ]
 
-describe('Spaces screen', () => {
+describe.only('Spaces screen', () => {
+  beforeAll(() => jest.useFakeTimers())
+  beforeEach(() => jest.clearAllMocks())
+  afterAll(() => {
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers()
+  })
+
   const renderSpaces = (mocks: MockedResponse[]) =>
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
@@ -99,7 +106,7 @@ describe('Spaces screen', () => {
   it('displays loading screen while loading', async () => {
     renderSpaces(MOCKS_WITH_MY_SPACES)
 
-    expect(await screen.findByTestId('spaces-group-slider-skeletons'))
+    expect(await screen.findByTestId('spaces-group-slider-skeletons')).toBeOnTheScreen()
   })
 
   it('displays error toast if loading own spaces failed', async () => {
@@ -113,12 +120,12 @@ describe('Spaces screen', () => {
   it('shows a tab navigation with open "mine"-tab, when user has any spaces (as MEMBER, FOLLOWER, CREATOR)', async () => {
     renderSpaces(MOCKS_WITH_MY_SPACES)
 
-    expect(await screen.findByTestId('spaces-tab-navigation'))
+    expect(await screen.findByTestId('spaces-tab-navigation')).toBeOnTheScreen()
   })
 
   it('shows discover-spaces-view, when user has no spaces', async () => {
     renderSpaces(MOCKS_WITHOUT_MY_SPACES)
 
-    expect(await screen.findByTestId('discover-spaces-header'))
+    expect(await screen.findByTestId('discover-spaces-header')).toBeOnTheScreen()
   })
 })

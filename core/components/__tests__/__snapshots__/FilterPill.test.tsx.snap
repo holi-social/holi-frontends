@@ -22,6 +22,12 @@ exports[`FilterPill renders correctly 1`] = `
 >
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     numberOfLines={1}
     selectable={true}
     style={
@@ -62,6 +68,12 @@ exports[`FilterPill renders correctly 2`] = `
 >
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     numberOfLines={1}
     selectable={true}
     style={
@@ -102,6 +114,12 @@ exports[`FilterPill renders correctly 3`] = `
 >
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     numberOfLines={1}
     selectable={true}
     style={
@@ -142,6 +160,12 @@ exports[`FilterPill renders correctly 4`] = `
 >
   <Text
     accessible={false}
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     numberOfLines={1}
     selectable={true}
     style={

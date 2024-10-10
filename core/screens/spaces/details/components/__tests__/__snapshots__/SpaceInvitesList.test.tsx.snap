@@ -26,6 +26,12 @@ exports[`SpaceInvitesList renders correctly if there are no pending invites 1`] 
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {
@@ -44,6 +50,12 @@ exports[`SpaceInvitesList renders correctly if there are no pending invites 1`] 
     </Text>
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {
@@ -191,7 +203,13 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -509,7 +527,13 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -827,7 +851,13 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={

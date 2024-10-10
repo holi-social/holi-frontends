@@ -1,15 +1,23 @@
 import { atom, useAtomValue } from 'jotai'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Dimensions, Platform, View } from 'react-native'
 
 import type { ChatRoom } from '@holi/chat/src/client/types'
 import { roomAtomsRecordAtom, spaceRoomIdToChildRoomsAtom, spaceRoomIdsAtom } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { Tab } from '@holi/ui/components/organisms/HoliTabBar'
-import HoliTabBar from '@holi/ui/components/organisms/HoliTabBar'
+import BotomLineSeperator from '@holi/ui/components/organisms/HoliTabs/BotomLineSeperator'
+import TabButton from '@holi/ui/components/organisms/HoliTabs/TabButton'
+import TabButtonList from '@holi/ui/components/organisms/HoliTabs/TabButtonList'
+import { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
+import Spacing from '@holi/ui/foundations/Spacing'
 
 export const DEFAULT_TAB_ID = 'all' as const
+
+interface Tab extends HoliTabItem {
+  key: string
+}
 
 export const roomTabsAtom = atom<Tab[]>((get) => {
   const spaceRoomIds = get(spaceRoomIdsAtom)
@@ -27,8 +35,8 @@ export const roomTabsAtom = atom<Tab[]>((get) => {
     const room: ChatRoom = get(roomAtom)
 
     tabs.push({
-      id,
-      title: room.name,
+      key: id,
+      tabTitle: room.name,
     })
 
     return tabs
@@ -43,20 +51,36 @@ const ChatTabBar = ({ selectedTabId }: Props) => {
   const { setParams, replaceRoute } = useRouting()
   const { t } = useTranslation()
 
+  const [componentWidth, setComponentWidth] = useState(Platform.OS === 'web' ? 0 : Dimensions.get('window').width)
+
   const roomTabs = useAtomValue(roomTabsAtom)
   const defaultTab: Tab = {
-    id: DEFAULT_TAB_ID,
-    title: t('chat.tab.all'),
+    key: DEFAULT_TAB_ID,
+    tabTitle: t('chat.tab.all'),
   }
   const tabs = [defaultTab].concat(roomTabs)
 
   return (
-    <HoliTabBar
-      id="chat-bar"
-      tabs={tabs}
-      selectedTabId={selectedTabId}
-      onPress={(tabId) => (isWeb ? replaceRoute('/chat?activeTab=' + tabId) : setParams({ activeTab: tabId }))}
-    />
+    <View onLayout={(event) => setComponentWidth(event.nativeEvent.layout.width)} style={{ width: '100%' }}>
+      <BotomLineSeperator />
+      <TabButtonList
+        activeTab={selectedTabId}
+        data={tabs}
+        keyExtractor={({ key }) => key}
+        renderItem={({ key, item }) => (
+          <TabButton
+            id="chat-bar"
+            tabId={key}
+            tabTitle={item.tabTitle}
+            tabIcons={item.tabIcons}
+            onPress={() => (isWeb ? replaceRoute('/chat?activeTab=' + key) : setParams({ activeTab: key }))}
+            isActive={selectedTabId === key}
+          />
+        )}
+        width={componentWidth}
+        marginHorizontal={Spacing.xs}
+      />
+    </View>
   )
 }
 

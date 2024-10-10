@@ -1,8 +1,9 @@
 import { withProfiler } from '@sentry/react'
 import { useAtomValue } from 'jotai'
-import React, { memo, useCallback, useEffect, useMemo } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
 import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -12,7 +13,7 @@ import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import useReportContent from '@holi/core/hooks/useReportContent'
-import useTabNavigation, { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
+import { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -21,10 +22,7 @@ import { ContentType, ContentType3K } from '@holi/core/queries'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceOnboardModal from '@holi/core/screens/spaces/components/SpaceOnboardModal'
 import AddNewDrawer from '@holi/core/screens/spaces/details/components/AddNewDrawer'
-import SpaceDetailView, {
-  SPACE_DETAILS_TABS_IN_ORDER,
-  SpaceDetailsTabs,
-} from '@holi/core/screens/spaces/details/components/SpaceDetailView'
+import SpaceDetailView, { SpaceDetailsTabs } from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 import SpaceShareIcon from '@holi/core/screens/spaces/details/components/SpaceShareIcon'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnboarding'
@@ -36,6 +34,7 @@ import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
+import { useHoliTabQueryParamSetter } from '@holi/ui/components/organisms/HoliTabs/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -97,10 +96,6 @@ const SpaceDetails = () => {
   }, [space, show, isOnboarded, isCreator, isMember])
 
   const determineInitialTab = useCallback(() => {
-    if (loading || isSSR) {
-      return undefined
-    }
-
     const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
     const hasInvolvementContent = space?.tasks?.length !== 0 || space?.collaborationTools?.length !== 0
     if (!isMember) {
@@ -110,12 +105,23 @@ const SpaceDetails = () => {
       return SpaceDetailsTabs.INVOLVEMENT
     }
     return SpaceDetailsTabs.UPDATES
-  }, [loading, space?.collaborationTools?.length, space?.connectionStatusToMyself, space?.tasks?.length])
+  }, [space?.collaborationTools?.length, space?.connectionStatusToMyself, space?.tasks?.length])
 
-  const { initialTabIndex, currentTabName, selectTabWithIndex } = useTabNavigation({
-    tabNamesInOrder: SPACE_DETAILS_TABS_IN_ORDER,
-    determineInitialTab,
-  })
+  const [activeTab, setActiveTab] = useState<string>(SpaceDetailsTabs.INFO)
+  const setHoliTabQueryParam = useHoliTabQueryParamSetter(activeTab)
+  const onChangeHandler = (key: string) => {
+    setHoliTabQueryParam(key)
+    setActiveTab(key)
+  }
+
+  const isReadyToDetermineTab = !loading && !isSSR
+  useEffect(() => {
+    if (isReadyToDetermineTab) {
+      const tabKey = determineInitialTab()
+      setActiveTab(tabKey)
+      setHoliTabQueryParam(tabKey)
+    }
+  }, [determineInitialTab, isReadyToDetermineTab, setHoliTabQueryParam])
 
   const handleModalClose = () => {
     setIsOnboarded().finally(hide)
@@ -276,37 +282,42 @@ const SpaceDetails = () => {
     colors.foreground30,
   ])
 
-  const onUpdateButtonPress = () => {
+  const onUpdateButtonPress = useCallback(() => {
     navigate(`/spaces/${spaceIdOrName}/updates/create`)
-  }
+  }, [navigate, spaceIdOrName])
 
   // Error and loading states are handled the same way and just hide the component
   if (error || !space) {
     return <HoliLoader />
   }
 
-  const UpdateButton = () => {
-    return (
-      <HoliButton
-        label={t('spaces.toolKit.add.button.label')}
-        testID="space-add-post-button"
-        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-        onPress={onUpdateButtonPress}
-      >
-        <HoliIcon icon={Pencil} size={20} />
-      </HoliButton>
-    )
-  }
-
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <ScrollHeaderLayout backgroundColor={colors.background20} keyboardShouldPersistTaps="handled">
-        <SpaceDetailView space={space} onChangeTabIndex={selectTabWithIndex} initialTabIndex={initialTabIndex} />
+        <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onChangeHandler} />
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout>
-      {isMember && currentTabName === SpaceDetailsTabs.INVOLVEMENT && <AddNewDrawer spaceIdOrName={space.name} />}
-      {isMember && currentTabName === SpaceDetailsTabs.UPDATES && <UpdateButton />}
-    </>
+
+      <AddNewDrawer spaceIdOrName={space.name} shown={isMember && activeTab === SpaceDetailsTabs.INVOLVEMENT} />
+
+      {isMember && activeTab === SpaceDetailsTabs.UPDATES && (
+        <Animated.View
+          entering={SlideInDown.delay(150)}
+          exiting={SlideOutDown}
+          style={{ zIndex: 999 }}
+          key="add-post-button"
+        >
+          <HoliButton
+            label={t('spaces.toolKit.add.button.label')}
+            testID="space-add-post-button"
+            style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
+            onPress={onUpdateButtonPress}
+          >
+            <HoliIcon icon={Pencil} size={20} />
+          </HoliButton>
+        </Animated.View>
+      )}
+    </View>
   )
 }
 
