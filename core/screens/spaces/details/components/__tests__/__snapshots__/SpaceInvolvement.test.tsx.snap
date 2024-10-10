@@ -98,6 +98,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
           >
             <Text
               accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
               selectable={true}
               style={
                 {
@@ -322,7 +328,13 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
                         ellipsizeMode="tail"
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={2}
                         selectable={true}
                         style={
@@ -511,6 +523,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -635,6 +653,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -685,6 +709,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={1}
                         selectable={true}
                         style={
@@ -724,6 +754,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={1}
                         selectable={true}
                         style={
@@ -750,6 +786,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   />
                   <Text
                     accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
                     selectable={true}
                     style={
                       {
@@ -993,7 +1035,13 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
                         ellipsizeMode="tail"
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={2}
                         selectable={true}
                         style={
@@ -1182,6 +1230,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -1306,6 +1360,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                       </View>
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         selectable={true}
                         style={
                           {
@@ -1356,6 +1416,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={1}
                         selectable={true}
                         style={
@@ -1395,6 +1461,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                     >
                       <Text
                         accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
                         numberOfLines={1}
                         selectable={true}
                         style={
@@ -1421,6 +1493,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                   />
                   <Text
                     accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
                     selectable={true}
                     style={
                       {
@@ -1579,6 +1657,12 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {

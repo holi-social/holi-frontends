@@ -41,6 +41,11 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
     >
       <Text
         accessible={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         style={
           {
             "color": "#262424",
@@ -142,6 +147,11 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
       >
         <Text
           accessible={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -203,6 +213,11 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
     >
       <Text
         accessible={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         style={
           {
             "color": "#262424",
@@ -304,6 +319,11 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
       >
         <Text
           accessible={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -365,6 +385,11 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
     >
       <Text
         accessible={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         style={
           {
             "color": "#262424",
@@ -466,6 +491,11 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
       >
         <Text
           accessible={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -527,6 +557,11 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
     >
       <Text
         accessible={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         style={
           {
             "color": "#262424",
@@ -637,6 +672,11 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
       >
         <Text
           accessible={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -698,6 +738,11 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
     >
       <Text
         accessible={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         style={
           {
             "color": "#262424",
@@ -875,6 +920,11 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
       >
         <Text
           accessible={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -936,6 +986,11 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
     >
       <Text
         accessible={false}
+        jestAnimatedStyle={
+          {
+            "value": {},
+          }
+        }
         style={
           {
             "color": "#262424",
@@ -1038,6 +1093,11 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
       >
         <Text
           accessible={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           style={
             {
               "color": "#787777",
@@ -1171,6 +1231,11 @@ exports[`HoliTextInput renders correctly without label 1`] = `
       >
         <Text
           accessible={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           style={
             {
               "color": "#787777",

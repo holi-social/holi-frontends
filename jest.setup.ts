@@ -13,7 +13,7 @@ const { Switch } = require('react-native')
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('react-native-reanimated/src/reanimated2/jestUtils').setUpTests()
+require('react-native-reanimated').setUpTests()
 
 initialiseComponentLibrary()
 

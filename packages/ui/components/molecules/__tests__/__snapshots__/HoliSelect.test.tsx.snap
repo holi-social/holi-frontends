@@ -45,6 +45,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -376,6 +382,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -477,6 +489,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -637,6 +655,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -797,6 +821,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -898,6 +928,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -999,6 +1035,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1100,6 +1142,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1201,6 +1249,12 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1287,6 +1341,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -1618,6 +1678,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1719,6 +1785,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1879,6 +1951,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -1980,6 +2058,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2081,6 +2165,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2182,6 +2272,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2283,6 +2379,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2384,6 +2486,12 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -2470,6 +2578,12 @@ exports[`MultiSelect renders correctly when closed 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -2741,6 +2855,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -3071,6 +3191,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3172,6 +3298,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3273,6 +3405,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3374,6 +3512,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3475,6 +3619,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3576,6 +3726,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3677,6 +3833,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -3778,6 +3940,12 @@ exports[`MultiSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4319,6 +4487,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4418,6 +4592,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4517,6 +4697,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4616,6 +4802,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4715,6 +4907,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4814,6 +5012,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -4913,6 +5117,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -5012,6 +5222,12 @@ exports[`SingleSelect correctly filters options 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -5879,6 +6095,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -5978,6 +6200,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6077,6 +6305,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6176,6 +6410,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6275,6 +6515,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6374,6 +6620,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6473,6 +6725,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={
@@ -6572,6 +6830,12 @@ exports[`SingleSelect renders correctly when opened 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={false}
             style={

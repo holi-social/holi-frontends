@@ -1,8 +1,8 @@
 import { DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -12,7 +12,6 @@ import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -63,10 +62,11 @@ const Spaces = () => {
 
   hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length
 
-  const tabNamesInOrder = [Tab.MINE, Tab.DISCOVER]
-  const { selectTabWithIndex, initialTabIndex, currentTabName } = useTabNavigation({
-    tabNamesInOrder,
-  })
+  const [activeTab, setActiveTab] = useState<string>(Tab.MINE)
+  const onChangeTab = (tabKey: string) => {
+    setActiveTab(tabKey)
+    pageViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
+  }
 
   useOnRefresh(() =>
     client.refetchQueries({
@@ -105,11 +105,6 @@ const Spaces = () => {
       ),
     })
   }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions])
-
-  const onChangeTab = (tabIndex: number) => {
-    selectTabWithIndex(tabIndex)
-    pageViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
-  }
 
   const { visible: isFilterModalShown, show: openFilterModal, hide: closeFilterModal } = useModalState()
 
@@ -155,50 +150,42 @@ const Spaces = () => {
             <DiscoverSpaces user={user} />
           </HoliContainer>
         ) : (
-          /* User HAS spaces => show tabs with mine and discover */
-          <HoliTabs
-            id="space-tabs"
-            onChangeTab={onChangeTab}
-            style={styles.holiTabs}
-            backgroundColor={colors.background20}
-            scrollEnabled={Platform.OS !== 'android'} // Discover spaces has a horizontal scroll and React Native has a nested scrolling issue with Android
-            initialStep={initialTabIndex}
-            tabs={[
-              {
-                title: t('spaces.tabs.mine'),
-                style: styles.tabStyle,
-                children: (
-                  <HoliContainer flex={1}>
-                    <MySpaces mySpaces={mySpaces} />
-                  </HoliContainer>
-                ),
-              },
-              {
-                title: t('spaces.tabs.discover'),
-                style: styles.tabStyle,
-                children: (
-                  <HoliContainer flex={1}>
-                    <DiscoverSpaces user={user} />
-                  </HoliContainer>
-                ),
-              },
-            ]}
-            testID="spaces-tab-navigation"
-          />
+          <View style={styles.tabsWrapper}>
+            {/* User HAS spaces => show tabs with mine and discover */}
+            <HoliTabs
+              activeTab={activeTab}
+              onChange={onChangeTab}
+              backgroundColor={colors.background20}
+              data={[
+                {
+                  key: Tab.MINE,
+                  tabTitle: t('spaces.tabs.mine'),
+                  content: () => <MySpaces mySpaces={mySpaces} />,
+                },
+                {
+                  key: Tab.DISCOVER,
+                  tabTitle: t('spaces.tabs.discover'),
+                  content: () => <DiscoverSpaces user={user} />,
+                },
+              ]}
+              keyExtractor={({ key }) => key}
+              renderTabContent={({ item }) => item.content()}
+              testID="spaces-tab-navigation"
+            />
+          </View>
         )}
       </ScrollHeaderLayout>
 
-      {(!hasOwnSpaces || currentTabName === Tab.DISCOVER) && (
-        <FilterModal
-          label={t('spaces.filter.heading')}
-          buttonLabel={t('spaces.filter.button.label')}
-          show={isFilterModalShown}
-          open={openFilterModal}
-          onDismiss={closeFilterModal}
-        >
-          <SpaceFilterForm onSubmit={onSubmit} />
-        </FilterModal>
-      )}
+      <FilterModal
+        actionButtonVisible={!hasOwnSpaces || activeTab === Tab.DISCOVER}
+        label={t('spaces.filter.heading')}
+        buttonLabel={t('spaces.filter.button.label')}
+        show={isFilterModalShown}
+        open={openFilterModal}
+        onDismiss={closeFilterModal}
+      >
+        <SpaceFilterForm onSubmit={onSubmit} />
+      </FilterModal>
     </SpaceTermContextProvider>
   )
 }
@@ -208,12 +195,9 @@ const getStyles = (theme: HoliTheme) =>
     layout: {
       backgroundColor: theme.colors.background20,
     },
-    holiTabs: {
+    tabsWrapper: {
       flex: 1,
       backgroundColor: theme.colors.background10,
-    },
-    tabStyle: {
-      backgroundColor: theme.colors.background20,
     },
   })
 

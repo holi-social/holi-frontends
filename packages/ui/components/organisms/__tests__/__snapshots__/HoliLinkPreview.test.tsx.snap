@@ -93,6 +93,12 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={3}
             selectable={true}
             style={
@@ -110,6 +116,12 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           </Text>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={2}
             selectable={true}
             style={
@@ -128,6 +140,12 @@ exports[`HoliLinkPreview matches previous snapshot 1`] = `
           </Text>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {

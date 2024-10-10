@@ -193,7 +193,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
                 ellipsizeMode="tail"
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={2}
                 selectable={true}
                 style={
@@ -382,6 +388,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               </View>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -506,6 +518,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               </View>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -556,6 +574,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={1}
                 selectable={true}
                 style={
@@ -595,6 +619,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={1}
                 selectable={true}
                 style={
@@ -621,6 +651,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           />
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -864,7 +900,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
                 ellipsizeMode="tail"
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={2}
                 selectable={true}
                 style={
@@ -1053,6 +1095,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               </View>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1177,6 +1225,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               </View>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1227,6 +1281,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={1}
                 selectable={true}
                 style={
@@ -1266,6 +1326,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={1}
                 selectable={true}
                 style={
@@ -1292,6 +1358,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           />
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {
@@ -1535,7 +1607,13 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
                 ellipsizeMode="tail"
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={2}
                 selectable={true}
                 style={
@@ -1724,6 +1802,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               </View>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1848,6 +1932,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
               </View>
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 selectable={true}
                 style={
                   {
@@ -1898,6 +1988,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={1}
                 selectable={true}
                 style={
@@ -1937,6 +2033,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
             >
               <Text
                 accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
                 numberOfLines={1}
                 selectable={true}
                 style={
@@ -1963,6 +2065,12 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
           />
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {

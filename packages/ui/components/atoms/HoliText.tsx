@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Platform, StyleProp, StyleSheet, Text, TextProps, TextStyle, View } from 'react-native'
+import { Platform, StyleProp, StyleSheet, TextProps, TextStyle, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
@@ -55,7 +56,7 @@ const HoliText = ({
   }
 
   return (
-    <Text
+    <Animated.Text
       accessible={false}
       selectable={Platform.OS !== 'web' ? selectable : undefined}
       testID={testID}
@@ -73,7 +74,7 @@ const HoliText = ({
       ])}
     >
       {children}
-    </Text>
+    </Animated.Text>
   )
 }
 

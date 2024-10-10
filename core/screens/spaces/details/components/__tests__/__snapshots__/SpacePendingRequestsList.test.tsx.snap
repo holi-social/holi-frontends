@@ -26,6 +26,12 @@ exports[`SpacePendingRequestsList renders correctly if there are no pending requ
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {
@@ -44,6 +50,12 @@ exports[`SpacePendingRequestsList renders correctly if there are no pending requ
     </Text>
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {
@@ -191,7 +203,13 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -682,7 +700,13 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={
@@ -1173,7 +1197,13 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <Text
             accessible={false}
+            collapsable={false}
             ellipsizeMode="tail"
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             numberOfLines={1}
             selectable={true}
             style={

@@ -26,6 +26,12 @@ exports[`PollResults renders correctly as expected 1`] = `
   >
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       numberOfLines={2}
       selectable={true}
       style={
@@ -47,6 +53,12 @@ exports[`PollResults renders correctly as expected 1`] = `
     </Text>
     <Text
       accessible={false}
+      collapsable={false}
+      jestAnimatedStyle={
+        {
+          "value": {},
+        }
+      }
       selectable={true}
       style={
         {

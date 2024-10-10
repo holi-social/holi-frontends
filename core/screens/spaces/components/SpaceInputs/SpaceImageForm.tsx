@@ -122,17 +122,25 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
         </HoliText>
       )}
       {!!description && <HoliText style={styles.subTitle}>{description}</HoliText>}
-      <HoliTabs
-        id="upload-image-tabs"
-        style={styles.holiTabs}
-        tabs={[
-          {
-            title: t('spaces.input.coverImage.tab.upload.title'),
-            style: styles.tabStyle,
-            children: <Uploader />,
-          },
-        ]}
-      />
+      <View style={styles.holiTabs}>
+        <HoliTabs
+          testID="upload-image-tabs"
+          data={[
+            {
+              key: 'upload',
+              tabTitle: t('spaces.input.coverImage.tab.upload.title'),
+              content: () => <Uploader />,
+            },
+          ]}
+          keyExtractor={({ key }) => key}
+          renderTabContent={({ item }) => item.content()}
+          activeTab="upload"
+          onChange={() => {
+            null
+          }}
+          backgroundColor={theme.colors.background10}
+        />
+      </View>
     </View>
   )
 }
@@ -166,26 +174,10 @@ const getStyles = (theme: HoliTheme) =>
     },
     holiTabs: {
       marginTop: 32,
-      backgroundColor: theme.colors.background20,
-      borderTopLeftRadius: 8,
-      borderTopRightRadius: 8,
       borderRadius: 8,
       borderWidth: 1,
       borderColor: theme.colors.background30,
-    },
-    imageUploadContainer: {
-      marginBottom: 4,
-      marginHorizontal: 2,
-      paddingTop: 16,
-      borderBottomLeftRadius: 8,
-      borderBottomRightRadius: 8,
-      paddingBottom: 0,
-    },
-    tabStyle: {
-      width: '100%',
-      backgroundColor: theme.colors.background10,
-      borderBottomLeftRadius: 8,
-      borderBottomRightRadius: 8,
+      overflow: 'hidden',
     },
     imageContainer: {
       justifyContent: 'center',

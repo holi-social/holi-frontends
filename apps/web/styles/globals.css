@@ -42,6 +42,13 @@ body {
   padding: 0;
 }
 
+/* Display a scrollbar on desktop to prevent page jumping during height changes */
+@media screen and (min-width: 768px) {
+	body {
+		overflow: scroll;
+	}
+}
+
 div#__next {
   display: flex;
   flex-direction: column;
@@ -96,7 +103,6 @@ li {
 /* "data-stepper-wrapper" is our custom data-set attributes for HoliStepper childe nodes
 set 100% height for next three levels of children */
 [data-stepper-wrapper='true'] {
-
   &>*,
   &>*>*,
   &>*>*>* {

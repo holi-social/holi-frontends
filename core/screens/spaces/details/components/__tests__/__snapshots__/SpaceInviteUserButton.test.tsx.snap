@@ -277,6 +277,12 @@ exports[`SpaceInviteUserButton displays nothing if the user is already a member 
 exports[`SpaceInviteUserButton displays status if the user is already invited 1`] = `
 <Text
   accessible={false}
+  collapsable={false}
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
   selectable={true}
   style={
     {

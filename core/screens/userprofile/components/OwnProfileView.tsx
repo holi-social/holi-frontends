@@ -10,7 +10,6 @@ import SpacesTab from '@holi/core/components/SpacesTab'
 import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
-import useTabNavigation from '@holi/core/hooks/useTabNavigation'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import { InsightsByUserIdResponse } from '@holi/core/queries'
 import MyPostsTab from '@holi/core/screens/individualPosts/components/MyPostsTab'
@@ -21,7 +20,6 @@ import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
@@ -35,12 +33,12 @@ export enum Tab {
 interface OwnProfileViewProps {
   user: User
   toggleEditMode: (editModeState: EditModeState) => void
-  onChangeTab: (tab: Tab) => void
+  activeTab: string
+  onTabChange: (tabKey: string) => void
 }
 
-const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren<OwnProfileViewProps>) => {
+const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsWithChildren<OwnProfileViewProps>) => {
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -59,15 +57,6 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
   hasInsights && tabNamesInOrder.push(Tab.INSIGHTS)
   tabNamesInOrder.push(Tab.SPACES)
 
-  const { selectTabWithIndex, initialTabIndex } = useTabNavigation({
-    tabNamesInOrder,
-  })
-
-  const handleTabChanged = (index: number) => {
-    selectTabWithIndex(index)
-    onChangeTab(tabNamesInOrder[index])
-  }
-
   return (
     <>
       <View style={{ backgroundColor: colors.background10 }}>
@@ -75,18 +64,17 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
           <UserProfileView user={user} contactPossible={false} />
         </HoliContainer>
       </View>
+
       <HoliTabs
-        style={{ paddingTop: 16, flex: 1 }}
-        backgroundColor={colors.background20}
-        initialStep={initialTabIndex}
-        onChangeTab={handleTabChanged}
-        id="profile-tabs"
-        tabs={[
+        activeTab={activeTab}
+        onChange={onTabChange}
+        data={[
           {
-            title: t('profile.tabs.profile'),
-            children: (
+            key: Tab.PROFILE,
+            tabTitle: t('profile.tabs.profile'),
+            content: () => (
               <View style={styles.profileContainer}>
-                <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
+                <View style={styles.chipRowContainer} key="engagementLevel">
                   <HoliChipRow
                     editButtonLabel={t('profile.engagementLevel.edit')}
                     editable
@@ -111,7 +99,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
                     )}
                   </HoliChipRow>
                 </View>
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
+                <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
                   <UserChipRow
                     user={user}
                     keyInUserObject={UserChipTypes.INTERESTS}
@@ -119,7 +107,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
                     numberOfLines={1}
                   />
                 </View>
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
+                <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
                   <UserChipRow
                     user={user}
                     keyInUserObject={UserChipTypes.SDGS}
@@ -127,7 +115,7 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
                     numberOfLines={1}
                   />
                 </View>
-                <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
+                <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
                   <UserChipRow
                     user={user}
                     keyInUserObject={UserChipTypes.SKILLS}
@@ -139,20 +127,19 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
             ),
           },
           {
-            title: t('individuals.post.name'),
-            children: <MyPostsTab />,
+            key: Tab.POSTS,
+            tabTitle: t('individuals.post.name'),
+            content: () => <MyPostsTab />,
           },
-          ...(hasInsights
-            ? [
-                {
-                  title: t('profile.tabs.insight'),
-                  children: <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
-                },
-              ]
-            : []),
           {
-            title: t('profile.tabs.spaces'),
-            children: (
+            key: Tab.INSIGHTS,
+            tabTitle: t('profile.tabs.insight'),
+            content: () => <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
+          },
+          {
+            key: Tab.SPACES,
+            tabTitle: t('profile.tabs.spaces'),
+            content: () => (
               <SpacesTab
                 emptyText={t('profile.tabs.spaces.empty')}
                 emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
@@ -161,6 +148,10 @@ const OwnProfileView = ({ user, toggleEditMode, onChangeTab }: PropsWithChildren
             ),
           },
         ]}
+        keyExtractor={(item) => item.key}
+        renderTabContent={({ item }) => item.content()}
+        backgroundColor={colors.background20}
+        testID="profile-tabs"
       />
     </>
   )

@@ -25,6 +25,12 @@ exports[`PostTopics matches snapshot 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -314,6 +320,12 @@ exports[`PostTopics matches snapshot 1`] = `
           </View>
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {

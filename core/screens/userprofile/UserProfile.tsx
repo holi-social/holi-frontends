@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { memo, useEffect, useMemo } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -10,7 +10,7 @@ import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import SpacesTab from '@holi/core/components/SpacesTab'
 import { UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
-import { isNotFoundError, logError } from '@holi/core/errors/helpers'
+import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -20,12 +20,7 @@ import useReportContent from '@holi/core/hooks/useReportContent'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import {
-  ContentType,
-  ContentType3K,
-  InsightsByUserIdResponse,
-  insightsByUserIdTotalResultsQuery,
-} from '@holi/core/queries'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
@@ -58,6 +53,8 @@ const UserProfile = () => {
 
   const loginState = useLoggedInUser()
   const [userId = ''] = useParam('userId')
+
+  const [activeTab, setActiveTab] = useState<string>('profile')
 
   useEffect(() => {
     if (loginState.isLoggedIn && userId === loginState.user.id) {
@@ -95,17 +92,6 @@ const UserProfile = () => {
     contentType: ContentType.USER,
     successMsg: t('global.report.successMessage'),
   })
-
-  const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
-    variables: { userId },
-    skip: !userId,
-    onError: (error) =>
-      logError(error, 'Failed to load insights for user', {
-        location: 'UserProfile.insightsByUserIdTotalResultsQuery',
-      }),
-  })
-
-  const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -172,17 +158,18 @@ const UserProfile = () => {
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
+
       <HoliTabs
-        style={{ flex: 1 }}
-        backgroundColor={colors.background20}
-        id="profile-tabs"
-        tabs={[
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        data={[
           {
-            title: t('profile.tabs.profile'),
-            children: (
+            key: 'profile',
+            tabTitle: t('profile.tabs.profile'),
+            content: () => (
               <View style={styles.profileContainer}>
                 {user.engagementLevel && (
-                  <View style={[mixins.container, styles.chipRowContainer]} key="engagementLevel">
+                  <View style={styles.chipRowContainer} key="engagementLevel">
                     <HoliChipRow title={t('profile.engagementLevel')}>
                       <HoliChip
                         text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
@@ -195,17 +182,17 @@ const UserProfile = () => {
                   </View>
                 )}
                 {hasInterests && (
-                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.INTERESTS}>
+                  <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
                     <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
                   </View>
                 )}
                 {hasSdgs && (
-                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SDGS}>
+                  <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
                     <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
                   </View>
                 )}
                 {hasSkills && (
-                  <View style={[mixins.container, styles.chipRowContainer]} key={UserChipTypes.SKILLS}>
+                  <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
                     <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
                   </View>
                 )}
@@ -218,20 +205,19 @@ const UserProfile = () => {
             ),
           },
           {
-            title: t('individuals.post.name'),
-            children: <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
+            key: 'posts',
+            tabTitle: t('individuals.post.name'),
+            content: () => <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
           },
-          ...(hasInsights
-            ? [
-                {
-                  title: t('profile.tabs.insight'),
-                  children: <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
-                },
-              ]
-            : []),
           {
-            title: t('profile.tabs.spaces'),
-            children: (
+            key: 'insights',
+            tabTitle: t('profile.tabs.insight'),
+            content: () => <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
+          },
+          {
+            key: 'spaces',
+            tabTitle: t('profile.tabs.spaces'),
+            content: () => (
               <SpacesTab
                 emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}
                 memberId={user.id}
@@ -239,6 +225,10 @@ const UserProfile = () => {
             ),
           },
         ]}
+        keyExtractor={(item) => item.key}
+        renderTabContent={({ item }) => item.content()}
+        backgroundColor={colors.background20}
+        testID="profile-tabs"
       />
     </ScrollHeaderLayout>
   )
@@ -247,7 +237,8 @@ const UserProfile = () => {
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     layout: {
-      minHeight: '100%',
+      flex: 1,
+      backgroundColor: theme.colors.background20,
     },
     content: {
       minHeight: '100%',

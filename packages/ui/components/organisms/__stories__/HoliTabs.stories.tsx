@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -7,8 +7,9 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 
 const tabs = [
   {
-    title: 'Profile',
-    children: (
+    key: 'profile',
+    tabTitle: 'Profile',
+    content: () => (
       <View
         style={{
           display: 'flex',
@@ -22,8 +23,9 @@ const tabs = [
     ),
   },
   {
-    title: 'Insights',
-    children: (
+    key: 'insights',
+    tabTitle: 'Insights',
+    content: () => (
       <View
         style={{
           display: 'flex',
@@ -43,16 +45,32 @@ export default {
   component: HoliTabs,
 } as ComponentMeta<typeof HoliTabs>
 
-const Template: ComponentStory<typeof HoliTabs> = ({ ...args }) => <HoliTabs {...args} />
+const Template: ComponentStory<typeof HoliTabs> = ({ ...args }) => {
+  const [activeTab, setActiveTab] = useState('profile')
+  return <HoliTabs {...args} activeTab={activeTab} onChange={setActiveTab} />
+}
 
 export const Primary: ComponentStory<typeof HoliTabs> = Template.bind({})
 
 Primary.argTypes = {
-  id: { description: 'unique ID to identify tabs and child elements', control: false },
-  tabs: { description: 'Tabs information with title and children', control: false },
+  data: { description: 'Tab item data information with mandatory "tabTitle" property', control: false },
+  keyExtractor: { description: 'Function to extract the key from the data item', control: false },
+  renderTabButton: { description: 'Optional function to render the tab button', control: false },
+  renderTabContent: { description: 'Function to render the tab content', control: false },
+  activeTab: { description: 'The key of the active tab', control: false },
+  onChange: { description: 'Function to handle the tab change', control: false },
+  centeredTabButtons: { description: 'Whether the tab buttons should be centered', control: false },
+  backgroundColor: { description: 'Background color of the tabs', control: false },
+  testID: { description: 'Test ID for the tabs component', control: false },
 }
 
 Primary.args = {
-  id: 'story-tabs',
-  tabs,
+  data: tabs,
+  keyExtractor: ({ key }) => key,
+  renderTabContent: ({ item }) => item.content(),
+  activeTab: 'profile',
+  onChange: () => {
+    null
+  },
+  testID: 'story-tabs',
 }

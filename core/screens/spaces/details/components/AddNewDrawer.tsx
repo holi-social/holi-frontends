@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
@@ -27,9 +28,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface AddNewDrawerProps {
   spaceIdOrName: string | undefined
+  shown?: boolean
 }
 
-const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDrawerProps) => {
+const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName, shown = false }: AddNewDrawerProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { visible, show, hide } = useModalState()
@@ -100,17 +102,26 @@ const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName }: AddNewDraw
   return (
     <>
       {/* Floating apps button */}
-      <HoliButton
-        label={t('allTools.drawer.headline')}
-        type="secondary"
-        inline
-        testID="space-resources-add-button"
-        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-        onPress={show}
-      >
-        <HoliText style={styles.buttonTitle}>{t('allTools.drawer.toolKit.button.label')}</HoliText>
-        <HoliIcon icon={Spaces} size={20} />
-      </HoliButton>
+      {shown && (
+        <Animated.View
+          style={styles.overlayButtonWrapper}
+          entering={SlideInDown.delay(150)}
+          exiting={SlideOutDown}
+          key="add-new-drawer-button"
+        >
+          <HoliButton
+            label={t('allTools.drawer.headline')}
+            type="secondary"
+            inline
+            testID="space-resources-add-button"
+            style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
+            onPress={show}
+          >
+            <HoliText style={styles.buttonTitle}>{t('allTools.drawer.toolKit.button.label')}</HoliText>
+            <HoliIcon icon={Spaces} size={20} />
+          </HoliButton>
+        </Animated.View>
+      )}
 
       {/* Add new modal (drawer) */}
       <HoliModal
@@ -144,6 +155,10 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       backgroundColor: theme.colors.background20,
+    },
+    overlayButtonWrapper: {
+      // zIndex is needed for exiting animation
+      zIndex: 999,
     },
     overlayButton: {
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',

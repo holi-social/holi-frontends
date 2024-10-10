@@ -44,6 +44,12 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -275,6 +281,12 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
       >
         <Text
           accessible={false}
+          collapsable={false}
+          jestAnimatedStyle={
+            {
+              "value": {},
+            }
+          }
           selectable={true}
           style={
             {
@@ -450,6 +462,12 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
         >
           <Text
             accessible={false}
+            collapsable={false}
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
             selectable={true}
             style={
               {

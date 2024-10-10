@@ -71,6 +71,12 @@ exports[`React tree renders the users initials, when given image prop is empty 1
   <Text
     accessible={false}
     aria-label="Uschi Meyer"
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
     role="img"
     selectable={true}
     style={
