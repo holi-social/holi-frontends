@@ -39,3 +39,5 @@ license-disclaimer.txt
 !**/.yarn/releases
 !**/.yarn/sdks
 !**/.yarn/versions
+
+*storybook.log
