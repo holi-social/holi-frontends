@@ -7,7 +7,7 @@ describe('ChipSelect', () => {
   it('should render text/children', () => {
     render(<ChipSelect onPress={jest.fn()}>Hai</ChipSelect>)
 
-    expect(screen.container).toHaveTextContent('Hai')
+    expect(screen.root).toHaveTextContent('Hai')
   })
 
   it('should raise press event', () => {
