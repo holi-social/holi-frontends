@@ -79,7 +79,11 @@ const useDiscoveryV1Filters = (): FilterHook => {
   )
   const clearFilters = useCallback(() => {
     setFilters({})
-    updateParams({})
+    updateParams({
+      topic: undefined,
+      skill: undefined,
+      geolocationId: undefined,
+    })
   }, [updateParams])
 
   return { filters, setFilters: onFilterChange, clearFilters, isFiltering, ...geolocationProps }
