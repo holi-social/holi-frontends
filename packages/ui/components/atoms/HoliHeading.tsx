@@ -5,7 +5,7 @@ import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
 import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
-import defaultTheme, { HoliTheme, useTheme } from '@holi/ui/styles/theme/theme'
+import defaultTheme, { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliHeadingLevel = '1' | '2' | '3'
 export type HoliHeadingSize = 'xl' | 'l' | 'm' | 's'
