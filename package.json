@@ -6,6 +6,7 @@
       "apps/*",
       "holi-apps/*",
       "packages/*",
+      "holi-bricks",
       "core",
       "e2e/mobile"
     ],
