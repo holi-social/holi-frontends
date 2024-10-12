@@ -20,7 +20,7 @@ describe('PostImage', () => {
     render(<PostImage uri={imageUri} postTitle={postTitle} />)
 
     const imageButton = screen.getByRole('button', { name: /insights.posts.image.show/i })
-    await fireEvent.press(imageButton)
+    fireEvent.press(imageButton)
 
     const modal = screen.getAllByLabelText(/insights.posts.image.modal/i)
     expect(modal[0]).toHaveProp('visible', true)

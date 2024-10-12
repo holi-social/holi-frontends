@@ -18,8 +18,10 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import { TrackingEvent } from '@holi/core/tracking'
 import { ShareBox } from '@holi/icons/src/generated'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -29,6 +31,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
 import VolunteeringPartnerCard from '@holi-apps/volunteering/components/VolunteeringPartnerCard'
+import VolunteeringSimilarRecos from '@holi-apps/volunteering/components/VolunteeringSimilarRecosSlider'
 import {
   AppVolunteeringEngagementByIdResponse,
   TrackEngagementViewResponse,
@@ -142,6 +145,7 @@ const VolunteeringEngagementDetail = () => {
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const cardWidth = useCardWidth()
 
   const { loading, data, refetch } = useQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery, {
     variables: {
@@ -244,6 +248,12 @@ const VolunteeringEngagementDetail = () => {
               name={'Voltastics'}
               partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
             />
+            <View style={styles.similarRecos}>
+              <HoliHeading size={'m'} weight={'400'}>
+                {t('volunteering:engagementDetail.similarRecosHeading')}
+              </HoliHeading>
+              <VolunteeringSimilarRecos engagementId={engagement.id} cardWidth={cardWidth} />
+            </View>
           </View>
         )}
       </ScrollHeaderLayout>
@@ -324,5 +334,10 @@ const getStyles = (theme: HoliTheme) =>
           position: 'fixed',
         },
       }),
+    },
+    similarRecos: {
+      paddingTop: 42,
+      padding: 24,
+      gap: 18,
     },
   })

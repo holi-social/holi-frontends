@@ -45,15 +45,15 @@ test.describe('@Volunteering', () => {
 
 const testIsAccessibleFromHomeScreen = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-act')
-  await clickElementByTestId(page, 'volunteering-updates-heading-button')
+  await clickElementByTestId(page, 'volunteering-reco-slider-heading-button')
 
   await page.waitForSelector(byTestId('volunteering-list-container'))
   expect(page.url()).toContain('/volunteering')
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('volunteering-updates-item'))
+  await page.waitForSelector(byTestId('volunteering-reco-slider-card'))
 
   // click first element in ScrollView
-  await clickElementByTestId(page, 'volunteering-updates-item')
+  await clickElementByTestId(page, 'volunteering-reco-slider-card')
 
   // navigate to article in volunteering app
   await page.waitForSelector(byTestId('volunteering-detailview-container'))
@@ -61,10 +61,10 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('volunteering-updates-item'))
+  await page.waitForSelector(byTestId('volunteering-reco-slider-card'))
 
   // click on "see more" / navigate to volunteering app
-  await clickElementByTestId(page, 'volunteering-updates-load-more-button')
+  await clickElementByTestId(page, 'volunteering-reco-slider-load-more-button')
 }
 
 const testDisplaysList = async (page: Page) => {

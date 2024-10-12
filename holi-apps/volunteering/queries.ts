@@ -74,6 +74,32 @@ export const volunteeringRecosQuery = gql`
   }
 `
 
+export type VolunteeringSimilarRecosQueryVariables = {
+  id: string
+  offset?: number
+  limit?: number
+}
+
+export type VolunteeringSimilarRecosQueryResponse = {
+  appVolunteering_similarRecommendations: {
+    totalResults: number
+    data: VolunteeringEngagement[]
+  }
+}
+
+export const volunteeringSimilarRecosQuery = gql`
+  ${fullEngagementFragment}
+
+  query SimilarRecommendations($id: String!, $offset: Int! = 0, $limit: Int = 10) {
+    appVolunteering_similarRecommendations(id: $id, offset: $offset, limit: $limit) {
+      totalResults
+      data {
+        ...FullEngagement
+      }
+    }
+  }
+`
+
 export const filteredVolunteeringEngagementsQuery = gql`
   ${fullEngagementFragment}
 

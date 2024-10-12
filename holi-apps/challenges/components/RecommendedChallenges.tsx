@@ -4,10 +4,10 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWindowDimensions } from 'react-native'
 
+import RecoSlider from '@holi/core/components/RecoSlider'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
 import { TrackingEvent } from '@holi/core/tracking'
 import { StarSmileFilled } from '@holi/icons/src/generated'
 
@@ -64,7 +64,7 @@ const RecommendedChallenges = () => {
   }
 
   return (
-    <ActSlider
+    <RecoSlider
       name="challenges"
       renderItem={({ item, index }: { item: Challenge; index: number }) => (
         <ChallengeCard challenge={item} trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, index)} />

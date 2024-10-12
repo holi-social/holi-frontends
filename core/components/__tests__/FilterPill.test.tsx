@@ -25,7 +25,7 @@ describe('FilterPill', () => {
       <FilterPillButton filterType="skill" label="skill filter" onPress={onPress} testID="test" />
     )
 
-    await fireEvent.press(getByTestId('test'))
+    fireEvent.press(getByTestId('test'))
 
     expect(onPress).toHaveBeenCalled()
   })

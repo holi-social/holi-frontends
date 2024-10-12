@@ -16,8 +16,8 @@ test.describe('@ActPage', () => {
 
     await page.goto('/act')
     // act page is open and contain apps
-    await page.waitForSelector(byTestId('volunteering-app-updates-list'))
-    await page.waitForSelector(byTestId('donations-app-updates-list'))
+    await page.waitForSelector(byTestId('volunteering-reco-slider'))
+    await page.waitForSelector(byTestId('donations-reco-slider'))
 
     await openAppAndReturn(page, 'volunteering', volunteeringRequestTimeout)
     await openAppAndReturn(page, 'donations', donationsRequestTimeout)
@@ -26,7 +26,7 @@ test.describe('@ActPage', () => {
 
 const openAppAndReturn = async (page: Page, appName: string, appTimeout: number) => {
   // open the volunteering list
-  await clickElementByTestId(page, `${appName}-updates-heading-button`)
+  await clickElementByTestId(page, `${appName}-reco-slider-heading-button`)
 
   // app is open
   await page.waitForSelector(byTestId(`${appName}-list-container`), { timeout: appTimeout })

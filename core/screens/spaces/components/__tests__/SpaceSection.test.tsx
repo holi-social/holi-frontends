@@ -20,7 +20,7 @@ describe('SpaceSection', () => {
       <SpaceSection title="onpress test" editable onPressEdit={onPress} testID="test-onpress" />
     )
 
-    await fireEvent.press(getByTestId('btn-test-onpress'))
+    fireEvent.press(getByTestId('btn-test-onpress'))
 
     expect(onPress).toHaveBeenCalled()
   })

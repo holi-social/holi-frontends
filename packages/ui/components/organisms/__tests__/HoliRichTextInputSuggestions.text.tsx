@@ -22,7 +22,7 @@ describe('HoliRichTextInputSuggestions', () => {
     expect(elements).toHaveLength(2)
 
     // now choose one suggestion
-    await fireEvent.press(elements[0])
+    fireEvent.press(elements[0])
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 })

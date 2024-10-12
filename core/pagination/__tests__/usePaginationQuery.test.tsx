@@ -142,7 +142,7 @@ describe('usePaginationQuery', () => {
 
     expect(await screen.findByText(totalResults + ' results'))
 
-    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     expect(await screen.findByText('Fetching more'))
   })
@@ -161,14 +161,14 @@ describe('usePaginationQuery', () => {
     expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
 
-    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
     // Fetch second page
     await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
     expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
     // Fetch last page
-    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
     await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
 
     expect(await screen.findByText(totalResults + ' results'))
@@ -199,14 +199,14 @@ describe('usePaginationQuery', () => {
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
 
     // Fetch second page
-    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
     expect(await screen.findByText(totalResults + ' results'))
     expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
 
     // Fetch last page
-    await fireEvent.press(screen.getByTestId('btn-fetch-more'))
+    fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
     expect(await screen.findByText(totalResults + ' results'))

@@ -14,8 +14,8 @@ describe('@GoodNews', () => {
   it('should support the user journey', async () => {
     // preparation of test
     await waitForHomeScreen()
-    await scrollToElementWithTestId('goodnews-updates-heading-button', 'down')
-    await tapOnElementWithTestId('goodnews-updates-heading-button')
+    await scrollToElementWithTestId('goodnews-reco-slider-heading-button', 'down')
+    await tapOnElementWithTestId('goodnews-reco-slider-heading-button')
     await waitForElementWithTestId('goodnews-detailview-container')
     await assertAllowsPagination()
   })

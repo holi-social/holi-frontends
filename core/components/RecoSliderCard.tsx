@@ -8,7 +8,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
 import { useTheme } from '@holi/ui/styles/theme'
 
-interface ActSliderItemProps {
+interface RecoSliderCardProps {
   name: string
   to: string | undefined
   imageSourceUri?: string
@@ -19,35 +19,37 @@ interface ActSliderItemProps {
   cardWidth: number
 }
 
-const ActSliderItem = ({
+const RecoSliderCard = ({
+  name,
   to,
   imageSourceUri,
   labels,
   title,
   footer,
-  name,
   trackingEvent,
   cardWidth,
-}: ActSliderItemProps) => {
+}: RecoSliderCardProps) => {
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(cardWidth), [cardWidth])
+  const testID = `${name}-reco-slider-card`
 
   if (!to) return null
 
   return (
-    <View testID={`${name}-updates-item`} style={styles.container}>
-      <HoliLinkTracked label={title} href={to} trackingEvent={trackingEvent}>
+    <View testID={testID} style={styles.container}>
+      <HoliLinkTracked label={title} href={to} trackingEvent={trackingEvent} testID={`${testID}-link`}>
         <HoliCardComponent.CardContainer hasBorder borderColor="gray200" borderRadius={16}>
-          <HoliCardComponent.ImageContainer>
+          <HoliCardComponent.ImageContainer testID={testID}>
             <HoliCardComponent.Image
               imageUri={imageSourceUri}
               imageWidth={cardWidth}
               imageAspectRatio={1.5}
               imageLabel={title}
+              testID={testID}
             />
           </HoliCardComponent.ImageContainer>
-          <HoliCardComponent.ContentContainer>
+          <HoliCardComponent.ContentContainer testID={testID}>
             {!!labels && labels}
             <>
               <View style={styles.content}>
@@ -75,7 +77,7 @@ const ActSliderItem = ({
   )
 }
 
-export default ActSliderItem
+export default RecoSliderCard
 
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({

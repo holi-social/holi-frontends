@@ -23,17 +23,17 @@ test.describe('@GoodNews', () => {
 })
 
 const testIsAccessibleFromHomeScreen = async (page: Page) => {
-  await clickElementByTestId(page, 'goodnews-updates-heading-button')
+  await clickElementByTestId(page, 'goodnews-reco-slider-heading-button')
 
   await page.waitForSelector(byTestId('goodnews-app-home'), { timeout: goodnewsRequestTimeout })
   expect(page.url()).toContain('/apps/goodnews')
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('goodnews-updates-container'), { timeout: goodnewsRequestTimeout })
+  await page.waitForSelector(byTestId('goodnews-reco-slider-list'), { timeout: goodnewsRequestTimeout })
 
   // click first element in ScrollView
-  await clickElementByTestId(page, 'goodnews-updates-item')
+  await clickElementByTestId(page, 'goodnews-reco-slider-card')
 
   // navigate to article in good news app
   await page.waitForSelector(byTestId('goodnews-detailview-container'))
@@ -41,10 +41,10 @@ const testIsAccessibleFromHomeScreen = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('goodnews-updates-container'), { timeout: goodnewsRequestTimeout })
+  await page.waitForSelector(byTestId('goodnews-reco-slider-list'), { timeout: goodnewsRequestTimeout })
 
   // click on "see more" / navigate to good news app
-  await clickElementByTestId(page, 'goodnews-updates-load-more-button')
+  await clickElementByTestId(page, 'goodnews-reco-slider-load-more-button')
   await page.waitForSelector(byTestId('goodnews-detailview-container'))
 }
 

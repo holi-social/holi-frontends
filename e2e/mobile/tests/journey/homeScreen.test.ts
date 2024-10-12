@@ -55,11 +55,11 @@ const assertShowInsightsScreen = async () => {
 
 const assertShowsAppUpdates = async (app: string) => {
   // check if donation updates are displayed
-  await scrollToElementWithTestId(`${app}-updates-item`, 'down')
-  // await waitForElementWithTestId(`${app}-updates-heading`)
+  await scrollToElementWithTestId(`${app}-reco-slider-card`, 'down')
+  // await waitForElementWithTestId(`${app}-reco-slider-heading`)
 
   // click first element in ScrollView
-  await tapOnElementWithTestId(`${app}-updates-item`)
+  await tapOnElementWithTestId(`${app}-reco-slider-card`)
 
   // expect detail view
   await waitForElementWithTestId(`${app}-detailview-container`)

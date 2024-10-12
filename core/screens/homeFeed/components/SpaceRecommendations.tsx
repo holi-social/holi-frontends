@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { SpaceCardFragment, useSpaceRecommendationQuery } from '@holi/api/graphql/graphql-codegen'
+import RecoSlider from '@holi/core/components/RecoSlider'
 import { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
 import { TrackingEvent } from '@holi/core/tracking'
 import { SpacesFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -96,7 +96,7 @@ const SpaceRecommendations = ({ cardWidth }: SpaceRecommendationsProps) => {
   const seeMoreText = t('recommendations.spaces.seeMore')
 
   return (
-    <ActSlider
+    <RecoSlider
       name="spaces"
       renderItem={({ item, index }) => (
         <SpaceRecommendation

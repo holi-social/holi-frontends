@@ -30,7 +30,7 @@ describe('calls onPressEdit prop function correctly', () => {
       <HoliChipRow title="Test" onPressEdit={mockFn} editButtonText="Edit" editButtonLabel="Edit Label" editable />
     )
 
-    await fireEvent.press(getByText('Edit'))
+    fireEvent.press(getByText('Edit'))
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 

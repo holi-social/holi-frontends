@@ -816,8 +816,9 @@ describe('ActHome Section', () => {
         <ActSection type="DONATIONS" />
       </MockedProvider>
     )
-    expect(await screen.findByTestId('donations-updates-heading-button'))
-    expect(await screen.findAllByTestId('donations-updates-item'))
+    expect(await screen.findByTestId('donations-reco-slider-heading-button'))
+    const donationsRecos = await screen.findAllByTestId('donations-reco-slider-card')
+    expect(donationsRecos.length).toBe(5)
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
@@ -827,10 +828,12 @@ describe('ActHome Section', () => {
         <ActSection type="VOLUNTEERING" />
       </MockedProvider>
     )
-    expect(await screen.findByTestId('tasks-updates-heading-button'))
-    expect(await screen.findAllByTestId('tasks-updates-item'))
-    expect(await screen.findByTestId('volunteering-updates-heading-button'))
-    expect(await screen.findAllByTestId('volunteering-updates-item'))
+    expect(await screen.findByTestId('tasks-reco-slider-heading-button'))
+    const tasksRecos = await screen.findAllByTestId('tasks-reco-slider-card')
+    expect(tasksRecos.length).toBe(5)
+    expect(await screen.findByTestId('volunteering-reco-slider-heading-button'))
+    const volunteeringRecos = await screen.findAllByTestId('volunteering-reco-slider-card')
+    expect(volunteeringRecos.length).toBe(5)
     expect(await screen.findAllByTestId('topic-labels-list-view'))
     expect(screen.toJSON()).toMatchSnapshot()
   })
@@ -844,8 +847,8 @@ describe('ActHome Section', () => {
         <ActSection type="CHALLENGES" />
       </MockedProvider>
     )
-    expect(await screen.findByTestId('challenges-updates-heading-button'))
-    expect(await screen.findAllByTestId('challenges-updates-load-more-button'))
+    expect(await screen.findByTestId('challenges-reco-slider-heading-button'))
+    expect(await screen.findAllByTestId('challenges-reco-slider-load-more-button'))
     expect(screen.toJSON()).toMatchSnapshot()
   })
 })
