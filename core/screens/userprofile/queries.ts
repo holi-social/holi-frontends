@@ -1,7 +1,8 @@
 import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
-import { FullAuthenticatedUserFragment, FullUserFragment } from '@holi/core/domain/shared/queries'
+import { FullUserFragmentDoc } from '@holi/api/graphql/graphql-codegen'
+import { FullAuthenticatedUserFragment } from '@holi/core/domain/shared/queries'
 import { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import type { UpdateConnectionWithUserActions } from '@holi/core/screens/userprofile/types'
 
@@ -65,7 +66,7 @@ export const updateAuthenticatedUserV2Mutation = gql`
 `
 
 export const updateConnectionWithUserMutation = gql`
-  ${FullUserFragment}
+  ${FullUserFragmentDoc}
 
   mutation UpdateConnectionWithUser($input: UpdateConnectionWithUserInput!) {
     updateConnectionWithUser(input: $input) {

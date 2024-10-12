@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client/core'
 
+import { FullUserFragmentDoc } from '@holi/api/graphql/graphql-codegen'
 import { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import type { Paged } from '@holi/core/types'
 
@@ -65,41 +66,6 @@ export const FullUserAvatarFragment = gql`
   }
 `
 
-export const FullUserFragment = gql`
-  fragment FullUser on User {
-    id
-    identity
-    avatar
-    avatarBlurhash
-    avatarDefaultColor
-    avatarLabel
-    fullName
-    firstName
-    lastName
-    aboutMe
-    pronouns
-    location
-    role
-    geolocationId
-    engagementLevel
-    interests {
-      id
-      title
-      slug
-    }
-    sdgs {
-      id
-      title
-      slug
-    }
-    skills {
-      id
-      title
-      slug
-    }
-    connectionStatusToMyself
-  }
-`
 export const FullAuthenticatedUserFragment = gql`
   fragment FullAuthenticatedUser on AuthenticatedUser {
     id
@@ -155,7 +121,7 @@ export type AuthenticatedUserV2Response = {
 }
 
 export const userByIdQuery = gql`
-  ${FullUserFragment}
+  ${FullUserFragmentDoc}
 
   query UserById($userId: UUID!) {
     userById(id: $userId) {

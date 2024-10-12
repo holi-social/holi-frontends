@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
 import colorsLight from '@holi/ui/styles/globalVars/colors.light'
-import defaultTheme, { HoliTheme, ThemeContext } from '@holi/ui/styles/theme'
+import { ThemeContext } from '@holi/ui/styles/theme/ThemeContext'
 import { getColorScheme, setColorScheme } from '@holi/ui/styles/theme/colors'
+import defaultTheme, { HoliTheme } from '@holi/ui/styles/theme/theme'
 
 type ModalState = { [key: string]: boolean }
 
