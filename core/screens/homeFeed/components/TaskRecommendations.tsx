@@ -4,9 +4,9 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import RecoSlider from '@holi/core/components/RecoSlider'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
 import { RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 import TaskRecommendation from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/TaskRecommendation'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -40,13 +40,13 @@ const TaskRecommendations = ({ cardWidth }: TaskRecommendationsProps) => {
   const tasks = taskData?.recommendedTasks.data ?? []
 
   return (
-    <ActSlider
+    <RecoSlider
       name="tasks"
       renderItem={({ item, index }) => {
         return item.space ? (
           <View
             style={[styles.cardContainer, index === (tasks?.length || 0) - 1 && styles.lastCard]}
-            testID="tasks-updates-item"
+            testID={'tasks-reco-slider-card'}
           >
             <TaskRecommendation
               task={item}

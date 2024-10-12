@@ -34,7 +34,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
         "minHeight": "auto",
       }
     }
-    testID="challenges-app-updates-list"
+    testID="challenges-reco-slider"
   >
     <View
       accessibilityLabel="recommendations.title"
@@ -82,7 +82,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
           },
         ]
       }
-      testID="challenges-updates-heading-button"
+      testID="challenges-reco-slider-heading-button"
     >
       <View
         style={
@@ -106,7 +106,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
               "width": "100%",
             }
           }
-          testID="challenges-updates-heading"
+          testID="challenges-reco-slider-heading"
         >
           <View
             style={
@@ -270,7 +270,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
             label="global.seeMore"
             onPress={[Function]}
             role="link"
-            testID="challenges-updates-load-more-button"
+            testID="challenges-reco-slider-load-more-button"
           >
             global.seeMore
           </HoliMoreCard>
@@ -441,7 +441,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
           "paddingLeft": 24,
         }
       }
-      testID="challenges-updates-container"
+      testID="challenges-reco-slider-list"
       viewabilityConfigCallbackPairs={[]}
     >
       <View>
@@ -2460,7 +2460,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                   "padding": 8,
                 }
               }
-              testID="challenges-updates-load-more-button"
+              testID="challenges-reco-slider-load-more-button"
             >
               <View
                 style={
@@ -2552,7 +2552,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
         "minHeight": "auto",
       }
     }
-    testID="donations-app-updates-list"
+    testID="donations-reco-slider"
   >
     <View
       accessibilityLabel="app.name"
@@ -2600,7 +2600,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
           },
         ]
       }
-      testID="donations-updates-heading-button"
+      testID="donations-reco-slider-heading-button"
     >
       <View
         style={
@@ -2624,7 +2624,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               "width": "100%",
             }
           }
-          testID="donations-updates-heading"
+          testID="donations-reco-slider-heading"
         >
           <View
             style={
@@ -2788,7 +2788,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
             label="donationListing.loadMoreButton.text"
             onPress={[Function]}
             role="link"
-            testID="donations-updates-load-more-button"
+            testID="donations-reco-slider-load-more-button"
           >
             donationListing.loadMoreButton.text
           </HoliMoreCard>
@@ -2937,7 +2937,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
           "paddingLeft": 24,
         }
       }
-      testID="donations-updates-container"
+      testID="donations-reco-slider-list"
       viewabilityConfigCallbackPairs={[]}
     >
       <View>
@@ -2960,7 +2960,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                 "width": 546.9230769230769,
               }
             }
-            testID="donations-updates-item"
+            testID="donations-reco-slider-card"
           >
             <View
               accessibilityLabel="Medizinisches Equipment für Kinderstation in Ghana "
@@ -2999,7 +2999,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   false,
                 ]
               }
-              testID="link"
+              testID="donations-reco-slider-card-link"
             >
               <View
                 style={
@@ -3035,7 +3035,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       },
                     ]
                   }
-                  testID="undefined-image-container"
+                  testID="donations-reco-slider-card-image-container"
                 >
                   <Image
                     accessibilityRole="image"
@@ -3058,7 +3058,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         "width": "100%",
                       }
                     }
-                    testID="undefined-card-image"
+                    testID="donations-reco-slider-card-card-image"
                   />
                 </View>
                 <View
@@ -3069,7 +3069,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       "paddingHorizontal": 8,
                     }
                   }
-                  testID="undefined-content-container"
+                  testID="donations-reco-slider-card-content-container"
                 >
                   <View
                     style={
@@ -3211,7 +3211,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                 "width": 546.9230769230769,
               }
             }
-            testID="donations-updates-item"
+            testID="donations-reco-slider-card"
           >
             <View
               accessibilityLabel="Mikrokredite für Frauen in Äthiopien! "
@@ -3250,7 +3250,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   false,
                 ]
               }
-              testID="link"
+              testID="donations-reco-slider-card-link"
             >
               <View
                 style={
@@ -3286,7 +3286,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       },
                     ]
                   }
-                  testID="undefined-image-container"
+                  testID="donations-reco-slider-card-image-container"
                 >
                   <Image
                     accessibilityRole="image"
@@ -3309,7 +3309,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         "width": "100%",
                       }
                     }
-                    testID="undefined-card-image"
+                    testID="donations-reco-slider-card-card-image"
                   />
                 </View>
                 <View
@@ -3320,7 +3320,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       "paddingHorizontal": 8,
                     }
                   }
-                  testID="undefined-content-container"
+                  testID="donations-reco-slider-card-content-container"
                 >
                   <View
                     style={
@@ -3462,7 +3462,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                 "width": 546.9230769230769,
               }
             }
-            testID="donations-updates-item"
+            testID="donations-reco-slider-card"
           >
             <View
               accessibilityLabel="Support for Our Animals at Wohlfühlhof Zeh"
@@ -3501,7 +3501,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   false,
                 ]
               }
-              testID="link"
+              testID="donations-reco-slider-card-link"
             >
               <View
                 style={
@@ -3537,7 +3537,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       },
                     ]
                   }
-                  testID="undefined-image-container"
+                  testID="donations-reco-slider-card-image-container"
                 >
                   <Image
                     accessibilityRole="image"
@@ -3560,7 +3560,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         "width": "100%",
                       }
                     }
-                    testID="undefined-card-image"
+                    testID="donations-reco-slider-card-card-image"
                   />
                 </View>
                 <View
@@ -3571,7 +3571,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       "paddingHorizontal": 8,
                     }
                   }
-                  testID="undefined-content-container"
+                  testID="donations-reco-slider-card-content-container"
                 >
                   <View
                     style={
@@ -3713,7 +3713,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                 "width": 546.9230769230769,
               }
             }
-            testID="donations-updates-item"
+            testID="donations-reco-slider-card"
           >
             <View
               accessibilityLabel="SARAH - Search and Rescue in the Mediterranean - Take Part in Saving Lifes"
@@ -3752,7 +3752,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   false,
                 ]
               }
-              testID="link"
+              testID="donations-reco-slider-card-link"
             >
               <View
                 style={
@@ -3788,7 +3788,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       },
                     ]
                   }
-                  testID="undefined-image-container"
+                  testID="donations-reco-slider-card-image-container"
                 >
                   <Image
                     accessibilityRole="image"
@@ -3811,7 +3811,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         "width": "100%",
                       }
                     }
-                    testID="undefined-card-image"
+                    testID="donations-reco-slider-card-card-image"
                   />
                 </View>
                 <View
@@ -3822,7 +3822,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       "paddingHorizontal": 8,
                     }
                   }
-                  testID="undefined-content-container"
+                  testID="donations-reco-slider-card-content-container"
                 >
                   <View
                     style={
@@ -3964,7 +3964,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                 "width": 546.9230769230769,
               }
             }
-            testID="donations-updates-item"
+            testID="donations-reco-slider-card"
           >
             <View
               accessibilityLabel="acTVism Munich Crowdfunding"
@@ -4003,7 +4003,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   false,
                 ]
               }
-              testID="link"
+              testID="donations-reco-slider-card-link"
             >
               <View
                 style={
@@ -4039,7 +4039,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       },
                     ]
                   }
-                  testID="undefined-image-container"
+                  testID="donations-reco-slider-card-image-container"
                 >
                   <Image
                     accessibilityRole="image"
@@ -4062,7 +4062,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         "width": "100%",
                       }
                     }
-                    testID="undefined-card-image"
+                    testID="donations-reco-slider-card-card-image"
                   />
                 </View>
                 <View
@@ -4073,7 +4073,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       "paddingHorizontal": 8,
                     }
                   }
-                  testID="undefined-content-container"
+                  testID="donations-reco-slider-card-content-container"
                 >
                   <View
                     style={
@@ -4255,7 +4255,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   "padding": 8,
                 }
               }
-              testID="donations-updates-load-more-button"
+              testID="donations-reco-slider-load-more-button"
             >
               <View
                 style={
@@ -4348,7 +4348,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
           "minHeight": "auto",
         }
       }
-      testID="tasks-app-updates-list"
+      testID="tasks-reco-slider"
     >
       <View
         accessibilityLabel="recommendations.tasks.title"
@@ -4396,7 +4396,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
             },
           ]
         }
-        testID="tasks-updates-heading-button"
+        testID="tasks-reco-slider-heading-button"
       >
         <View
           style={
@@ -4420,7 +4420,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 "width": "100%",
               }
             }
-            testID="tasks-updates-heading"
+            testID="tasks-reco-slider-heading"
           >
             <View
               style={
@@ -4794,7 +4794,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
             "paddingLeft": 24,
           }
         }
-        testID="tasks-updates-container"
+        testID="tasks-reco-slider-list"
         viewabilityConfigCallbackPairs={[]}
       >
         <View>
@@ -4820,7 +4820,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   false,
                 ]
               }
-              testID="tasks-updates-item"
+              testID="tasks-reco-slider-card"
             >
               <View
                 accessibilityLabel="Leadership Remote 5-2"
@@ -5453,7 +5453,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   false,
                 ]
               }
-              testID="tasks-updates-item"
+              testID="tasks-reco-slider-card"
             >
               <View
                 accessibilityLabel="Private Leadership 3-3"
@@ -6083,7 +6083,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   false,
                 ]
               }
-              testID="tasks-updates-item"
+              testID="tasks-reco-slider-card"
             >
               <View
                 accessibilityLabel="Leadership Local 3-1"
@@ -6756,7 +6756,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   false,
                 ]
               }
-              testID="tasks-updates-item"
+              testID="tasks-reco-slider-card"
             >
               <View
                 accessibilityLabel="Motivation Local 2-2"
@@ -7434,7 +7434,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   },
                 ]
               }
-              testID="tasks-updates-item"
+              testID="tasks-reco-slider-card"
             >
               <View
                 accessibilityLabel="Motivation Remote Task 2-1"
@@ -8085,7 +8085,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
           "minHeight": "auto",
         }
       }
-      testID="volunteering-app-updates-list"
+      testID="volunteering-reco-slider"
     >
       <View
         accessibilityLabel="app.name"
@@ -8133,7 +8133,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
             },
           ]
         }
-        testID="volunteering-updates-heading-button"
+        testID="volunteering-reco-slider-heading-button"
       >
         <View
           style={
@@ -8157,7 +8157,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 "width": "100%",
               }
             }
-            testID="volunteering-updates-heading"
+            testID="volunteering-reco-slider-heading"
           >
             <View
               style={
@@ -8321,7 +8321,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
               label="listing.loadMoreButton.text"
               onPress={[Function]}
               role="link"
-              testID="volunteering-updates-load-more-button"
+              testID="volunteering-reco-slider-load-more-button"
             >
               listing.loadMoreButton.text
             </HoliMoreCard>
@@ -8633,7 +8633,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
             "paddingLeft": 24,
           }
         }
-        testID="volunteering-updates-container"
+        testID="volunteering-reco-slider-list"
         viewabilityConfigCallbackPairs={[]}
       >
         <View>
@@ -8656,7 +8656,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   "width": 546.9230769230769,
                 }
               }
-              testID="volunteering-updates-item"
+              testID="volunteering-reco-slider-card"
             >
               <View
                 accessibilityLabel="engagement.title"
@@ -8695,7 +8695,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     false,
                   ]
                 }
-                testID="link"
+                testID="volunteering-reco-slider-card-link"
               >
                 <View
                   style={
@@ -8731,7 +8731,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         },
                       ]
                     }
-                    testID="undefined-image-container"
+                    testID="volunteering-reco-slider-card-image-container"
                   >
                     <Image
                       accessibilityRole="image"
@@ -8754,7 +8754,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           "width": "100%",
                         }
                       }
-                      testID="undefined-card-image"
+                      testID="volunteering-reco-slider-card-card-image"
                     />
                   </View>
                   <View
@@ -8765,7 +8765,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         "paddingHorizontal": 8,
                       }
                     }
-                    testID="undefined-content-container"
+                    testID="volunteering-reco-slider-card-content-container"
                   >
                     <View
                       style={
@@ -8832,7 +8832,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       }
                     >
                       <View
-                        testID="volunteering-updates-item-location-icon"
+                        testID="volunteering-reco-slider-card-location-icon"
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
@@ -8971,7 +8971,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   "width": 546.9230769230769,
                 }
               }
-              testID="volunteering-updates-item"
+              testID="volunteering-reco-slider-card"
             >
               <View
                 accessibilityLabel="engagement.title"
@@ -9010,7 +9010,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     false,
                   ]
                 }
-                testID="link"
+                testID="volunteering-reco-slider-card-link"
               >
                 <View
                   style={
@@ -9046,7 +9046,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         },
                       ]
                     }
-                    testID="undefined-image-container"
+                    testID="volunteering-reco-slider-card-image-container"
                   >
                     <Image
                       accessibilityRole="image"
@@ -9069,7 +9069,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           "width": "100%",
                         }
                       }
-                      testID="undefined-card-image"
+                      testID="volunteering-reco-slider-card-card-image"
                     />
                   </View>
                   <View
@@ -9080,7 +9080,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         "paddingHorizontal": 8,
                       }
                     }
-                    testID="undefined-content-container"
+                    testID="volunteering-reco-slider-card-content-container"
                   >
                     <View
                       style={
@@ -9147,7 +9147,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       }
                     >
                       <View
-                        testID="volunteering-updates-item-location-icon"
+                        testID="volunteering-reco-slider-card-location-icon"
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
@@ -9286,7 +9286,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   "width": 546.9230769230769,
                 }
               }
-              testID="volunteering-updates-item"
+              testID="volunteering-reco-slider-card"
             >
               <View
                 accessibilityLabel="engagement.title"
@@ -9325,7 +9325,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     false,
                   ]
                 }
-                testID="link"
+                testID="volunteering-reco-slider-card-link"
               >
                 <View
                   style={
@@ -9361,7 +9361,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         },
                       ]
                     }
-                    testID="undefined-image-container"
+                    testID="volunteering-reco-slider-card-image-container"
                   >
                     <Image
                       accessibilityRole="image"
@@ -9384,7 +9384,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           "width": "100%",
                         }
                       }
-                      testID="undefined-card-image"
+                      testID="volunteering-reco-slider-card-card-image"
                     />
                   </View>
                   <View
@@ -9395,7 +9395,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         "paddingHorizontal": 8,
                       }
                     }
-                    testID="undefined-content-container"
+                    testID="volunteering-reco-slider-card-content-container"
                   >
                     <View
                       style={
@@ -9462,7 +9462,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       }
                     >
                       <View
-                        testID="volunteering-updates-item-location-icon"
+                        testID="volunteering-reco-slider-card-location-icon"
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
@@ -9601,7 +9601,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   "width": 546.9230769230769,
                 }
               }
-              testID="volunteering-updates-item"
+              testID="volunteering-reco-slider-card"
             >
               <View
                 accessibilityLabel="engagement.title"
@@ -9640,7 +9640,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     false,
                   ]
                 }
-                testID="link"
+                testID="volunteering-reco-slider-card-link"
               >
                 <View
                   style={
@@ -9676,7 +9676,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         },
                       ]
                     }
-                    testID="undefined-image-container"
+                    testID="volunteering-reco-slider-card-image-container"
                   >
                     <Image
                       accessibilityRole="image"
@@ -9699,7 +9699,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           "width": "100%",
                         }
                       }
-                      testID="undefined-card-image"
+                      testID="volunteering-reco-slider-card-card-image"
                     />
                   </View>
                   <View
@@ -9710,7 +9710,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         "paddingHorizontal": 8,
                       }
                     }
-                    testID="undefined-content-container"
+                    testID="volunteering-reco-slider-card-content-container"
                   >
                     <View
                       style={
@@ -9777,7 +9777,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       }
                     >
                       <View
-                        testID="volunteering-updates-item-location-icon"
+                        testID="volunteering-reco-slider-card-location-icon"
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
@@ -9916,7 +9916,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   "width": 546.9230769230769,
                 }
               }
-              testID="volunteering-updates-item"
+              testID="volunteering-reco-slider-card"
             >
               <View
                 accessibilityLabel="engagement.title"
@@ -9955,7 +9955,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     false,
                   ]
                 }
-                testID="link"
+                testID="volunteering-reco-slider-card-link"
               >
                 <View
                   style={
@@ -9991,7 +9991,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         },
                       ]
                     }
-                    testID="undefined-image-container"
+                    testID="volunteering-reco-slider-card-image-container"
                   >
                     <Image
                       accessibilityRole="image"
@@ -10014,7 +10014,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           "width": "100%",
                         }
                       }
-                      testID="undefined-card-image"
+                      testID="volunteering-reco-slider-card-card-image"
                     />
                   </View>
                   <View
@@ -10025,7 +10025,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         "paddingHorizontal": 8,
                       }
                     }
-                    testID="undefined-content-container"
+                    testID="volunteering-reco-slider-card-content-container"
                   >
                     <View
                       style={
@@ -10192,7 +10192,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       }
                     >
                       <View
-                        testID="volunteering-updates-item-location-icon"
+                        testID="volunteering-reco-slider-card-location-icon"
                       >
                         <RNSVGSvgView
                           align="xMidYMid"
@@ -10371,7 +10371,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     "padding": 8,
                   }
                 }
-                testID="volunteering-updates-load-more-button"
+                testID="volunteering-reco-slider-load-more-button"
               >
                 <View
                   style={

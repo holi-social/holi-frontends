@@ -16,7 +16,7 @@ describe('GoodNewsArticleComponent', () => {
 
   it('opens article url on button click', async () => {
     render(<GoodNewsArticleComponent article={article} />)
-    await fireEvent.press(screen.getByTestId('btn-to-article-external'))
+    fireEvent.press(screen.getByTestId('btn-to-article-external'))
     expect(mockOpenURL).toHaveBeenCalledWith('https://www.somenews.com/article')
   })
 })

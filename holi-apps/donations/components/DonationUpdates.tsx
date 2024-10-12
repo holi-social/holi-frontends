@@ -3,10 +3,10 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import RecoSlider from '@holi/core/components/RecoSlider'
+import RecoSliderCard from '@holi/core/components/RecoSliderCard'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
-import ActSliderItem from '@holi/core/screens/appsHub/components/ActSliderItem'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HandHeartsFilled } from '@holi/icons/src/generated'
 
@@ -49,9 +49,10 @@ const DonationUpdates = ({ locationQuery, cardWidth }: DonationUpdatesProps) => 
     const original = picture.find(({ type }) => type === 'original')
 
     return (
-      <ActSliderItem
+      <RecoSliderCard
         to={`/donations/${item.id}`}
         name="donations"
+        index={index}
         title={item.title}
         imageSourceUri={original?.url}
         footer={
@@ -69,7 +70,7 @@ const DonationUpdates = ({ locationQuery, cardWidth }: DonationUpdatesProps) => 
   }
 
   return (
-    <ActSlider
+    <RecoSlider
       name="donations"
       renderItem={renderItem}
       data={projectsToRender}

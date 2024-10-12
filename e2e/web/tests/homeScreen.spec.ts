@@ -45,9 +45,9 @@ const testDisplaysHomeScreenContent = async (page: Page) => {
   await page.waitForSelector(byTestId('home-feed-insights-heading'), { state: 'attached' })
   await page.waitForSelector(byTestId('posts-list-results'))
   await page.waitForSelector(byTestId('btn-navigate-to-insights'))
-  await page.waitForSelector(byTestId('donations-app-updates-list'))
-  await page.waitForSelector(byTestId('volunteering-app-updates-list'))
-  await page.waitForSelector(byTestId('goodnews-app-updates-list'))
+  await page.waitForSelector(byTestId('donations-reco-slider'))
+  await page.waitForSelector(byTestId('volunteering-reco-slider'))
+  await page.waitForSelector(byTestId('goodnews-reco-slider'))
 }
 
 const testDisplaysInsightDetails = async (page: Page) => {
@@ -66,9 +66,9 @@ const testShowInsightsScreen = async (page: Page) => {
 }
 
 const testAppUpdatesVisible = async (page: Page, app: string, timeout: number) => {
-  await page.waitForSelector(byTestId(`${app}-updates-heading`), { timeout: timeout })
-  await page.waitForSelector(byTestId(`${app}-updates-container`), { timeout: timeout })
-  await page.waitForSelector(byTestId(`${app}-updates-item`), { timeout: timeout })
+  await page.waitForSelector(byTestId(`${app}-reco-slider-heading`), { timeout: timeout })
+  await page.waitForSelector(byTestId(`${app}-reco-slider-list`), { timeout: timeout })
+  await page.waitForSelector(byTestId(`${app}-reco-slider-card`), { timeout: timeout })
 }
 
 const testInsightsSection = async (browser: Browser, page: Page) => {

@@ -25,7 +25,7 @@ describe('calls onPress prop function correctly', () => {
     const mockFn = jest.fn()
     const { getByText } = render(<HoliChip text="Test" label="Test" onPress={mockFn} />)
 
-    await fireEvent.press(getByText('Test'))
+    fireEvent.press(getByText('Test'))
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
@@ -33,7 +33,7 @@ describe('calls onPress prop function correctly', () => {
     const mockFn = jest.fn()
     const { getByText } = render(<HoliChip text="Test" label="Test" onPress={mockFn} disabled={true} />)
 
-    await fireEvent.press(getByText('Test'))
+    fireEvent.press(getByText('Test'))
     expect(mockFn).toHaveBeenCalledTimes(0)
   })
 })

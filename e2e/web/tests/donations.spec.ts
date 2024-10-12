@@ -55,7 +55,7 @@ const countElementsByTestId = async (page: Page, testId: string) => (await locat
 
 const testAbleToVisitDonationsApp = async (page: Page) => {
   // click first element in ScrollView
-  await page.locator(byTestId('donations-updates-item')).first().click({ timeout: donationsRequestTimeout })
+  await page.locator(byTestId('donations-reco-slider-card')).first().click({ timeout: donationsRequestTimeout })
 
   // expect detail view
   await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
@@ -65,10 +65,10 @@ const testAbleToVisitDonationsApp = async (page: Page) => {
 
   // navigate back
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('donations-updates-item'))
+  await page.waitForSelector(byTestId('donations-reco-slider-card'))
 
   // click on "see more" / navigate to donations app
-  await clickElementByTestId(page, 'donations-updates-load-more-button')
+  await clickElementByTestId(page, 'donations-reco-slider-load-more-button')
 }
 
 const testDisplaysProjectList = async (page: Page) => {

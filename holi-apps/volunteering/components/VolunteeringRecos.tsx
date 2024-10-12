@@ -5,7 +5,7 @@ import React from 'react'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
-import VolunteeringRecosList from '@holi-apps/volunteering/components/VolunteeringRecosList'
+import VolunteeringRecosSlider from '@holi-apps/volunteering/components/VolunteeringRecosSlider'
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 import {
   VolunteeringRecosQueryResponse,
@@ -42,7 +42,7 @@ const VolunteeringRecos: React.FC<VolunteeringRecosProps> = ({ cardWidth }: Volu
   const { data: recos = [] } = data?.appVolunteering_engagementRecos || {}
   const recosToRender = recos.slice(0, ENGAGEMENT_PAGE_SIZE)
 
-  return <VolunteeringRecosList recos={recosToRender} cardWidth={cardWidth} />
+  return <VolunteeringRecosSlider recos={recosToRender} cardWidth={cardWidth} />
 }
 
 export default withProfiler(VolunteeringRecos, { name: 'VolunteeringRecos' })

@@ -29,7 +29,7 @@ describe('HoliModalFullscreen.tsx', () => {
       <HoliModalFullscreen label="test" show={true} onDismiss={mockFn} testID="testmodal" />
     )
 
-    await fireEvent.press(getByLabelText('modal.close'))
+    fireEvent.press(getByLabelText('modal.close'))
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 

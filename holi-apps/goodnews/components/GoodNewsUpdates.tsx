@@ -3,10 +3,10 @@ import { withProfiler } from '@sentry/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import RecoSlider from '@holi/core/components/RecoSlider'
+import RecoSliderCard from '@holi/core/components/RecoSliderCard'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import ActSlider from '@holi/core/screens/appsHub/components/ActSlider'
-import ActSliderItem from '@holi/core/screens/appsHub/components/ActSliderItem'
 import { TrackingEvent } from '@holi/core/tracking'
 import { NewspaperFilled } from '@holi/icons/src/generated'
 
@@ -38,9 +38,10 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNews
     params.set('articleId', item.id)
 
     return (
-      <ActSliderItem
+      <RecoSliderCard
         name="goodnews"
         to={`/apps/goodnews?${params.toString()}`}
+        index={index}
         title={item.headline}
         imageSourceUri={item.pictureUrl}
         footer={formattedDate}
@@ -51,7 +52,7 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNews
   }
 
   return (
-    <ActSlider
+    <RecoSlider
       name="goodnews"
       renderItem={renderItem}
       data={articlesToRender}

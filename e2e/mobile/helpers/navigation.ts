@@ -7,8 +7,8 @@ export const waitForHomeScreen = async (timeout?: number) => waitForElementWithT
 export const navigateToAppById = async (id: 'donations' | 'goodnews' | 'volunteering') => {
   await waitForHomeScreen()
   await tapOnElementWithTestId('btn-to-act')
-  await scrollToElementWithTestId(`${id}-updates-heading-button`, 'down')
-  await tapOnElementWithTestId(`${id}-updates-heading-button`)
+  await scrollToElementWithTestId(`${id}-reco-slider-heading-button`, 'down')
+  await tapOnElementWithTestId(`${id}-reco-slider-heading-button`)
   await waitForElementWithTestId(`${id}-list-container`)
 }
 

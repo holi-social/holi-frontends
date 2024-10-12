@@ -13,7 +13,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-type ActSliderProps = {
+type RecoSliderProps = {
   name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderItem: ListRenderItem<any>
@@ -30,7 +30,7 @@ type ActSliderProps = {
   cardWidth: number
 }
 
-const ActSlider: React.FC<ActSliderProps> = ({
+const RecoSlider: React.FC<RecoSliderProps> = ({
   name,
   renderItem,
   data,
@@ -43,7 +43,7 @@ const ActSlider: React.FC<ActSliderProps> = ({
   loading,
   testID,
   cardWidth,
-}: ActSliderProps) => {
+}: RecoSliderProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { theme } = useTheme()
@@ -68,16 +68,16 @@ const ActSlider: React.FC<ActSliderProps> = ({
 
   return (
     <HoliContainer>
-      <View style={styles.container} testID={testID || `${name}-app-updates-list`}>
+      <View style={styles.container} testID={testID || `${name}-reco-slider`}>
         <HoliButton
           inline
           label={heading}
           style={styles.headerContainer}
           transparent
           onPress={handleHeaderTitlePress}
-          testID={`${name}-updates-heading-button`}
+          testID={`${name}-reco-slider-heading-button`}
         >
-          <View style={styles.header} testID={`${name}-updates-heading`}>
+          <View style={styles.header} testID={`${name}-reco-slider-heading`}>
             <View style={styles.headerTitle}>
               <View style={styles.iconContainer}>
                 <HoliIcon icon={icon} size={20} color={colors.black300} />
@@ -103,7 +103,7 @@ const ActSlider: React.FC<ActSliderProps> = ({
                   role="link"
                   label={labelSeeMore}
                   onPress={handleSeeMore}
-                  testID={`${name}-updates-load-more-button`}
+                  testID={`${name}-reco-slider-load-more-button`}
                 >
                   {labelSeeMore}
                 </HoliMoreCard>
@@ -112,13 +112,13 @@ const ActSlider: React.FC<ActSliderProps> = ({
               <></>
             )
           }
-          testID={`${name}-updates-container`}
+          testID={`${name}-reco-slider-list`}
         />
       </View>
     </HoliContainer>
   )
 }
-export default ActSlider
+export default RecoSlider
 
 const getStyles = (theme: HoliTheme, cardWidth: number) =>
   StyleSheet.create({

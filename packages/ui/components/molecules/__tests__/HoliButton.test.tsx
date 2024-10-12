@@ -53,7 +53,7 @@ describe('calls onPress prop function correctly', () => {
       </HoliButton>
     )
 
-    await fireEvent.press(getByTestId('Button'))
+    fireEvent.press(getByTestId('Button'))
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
@@ -65,7 +65,7 @@ describe('calls onPress prop function correctly', () => {
       </HoliButton>
     )
 
-    await fireEvent.press(getByTestId('Button'))
+    fireEvent.press(getByTestId('Button'))
     expect(mockFn).toHaveBeenCalledTimes(0)
   })
 })
