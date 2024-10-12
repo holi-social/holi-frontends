@@ -16,7 +16,6 @@ type Path = string | { [key: string]: string }
 const static_urls: Path[] = [
   '/',
   '/spaces',
-  '/appsHub',
   donationPaths,
   volunteeringPaths,
   '/insights',

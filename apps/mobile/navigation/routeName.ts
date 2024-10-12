@@ -100,9 +100,6 @@ export enum RouteName {
   // Video call
   VideoCall = 'VideoCall',
 
-  // Apps Hub
-  AppsHub = 'AppsHub',
-
   // separate Stacks
   BottomTabs = 'BottomTabs',
   Home = 'Home',
