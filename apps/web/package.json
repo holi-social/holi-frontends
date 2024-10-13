@@ -14,7 +14,6 @@
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@lexical/react": "^0.6.0",
-    "@ory/integrations": "^0.2.6",
     "@sentry/nextjs": "^8.27.0",
     "cookies": "^0.8.0",
     "cookies-next": "^2.1.1",
