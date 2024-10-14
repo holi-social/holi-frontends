@@ -63,7 +63,7 @@ const InsightSiteMap = () => {
 export const getServerSideProps = async ({ req, res, query, locale }: NextPageContext) => {
   const { page } = query
   const prefix = getUrlPrefix(req, locale)
-  const client = initializeWebApolloClient()
+  const client = initializeWebApolloClient({ locale })
   const insights = await client
     .query({ query: insightsWithRelatedIdsQuery, variables: { offset: asNum(page) * PAGE_SIZE, limit: PAGE_SIZE } })
     .then((result) => result.data.lastInsights.data)

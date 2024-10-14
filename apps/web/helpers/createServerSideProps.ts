@@ -46,7 +46,7 @@ export const createServerSideProps = async (
     return minimalProps
   }
 
-  const client = initializeWebApolloClient({ headers: req.headers as Record<string, string> })
+  const client = initializeWebApolloClient({ headers: req.headers as Record<string, string>, locale })
 
   // Pre-fetch authenticated user if logged in
   const authenticatedUserPromise = client.query({ query: authenticatedUserV2Query })

@@ -31,7 +31,7 @@ const InsightsSiteMapIndex = () => {
 
 export const getServerSideProps = async ({ req, res, locale }: NextPageContext) => {
   const prefix = getUrlPrefix(req, locale)
-  const client = initializeWebApolloClient()
+  const client = initializeWebApolloClient({ locale })
   const totalInsightsCount = await client
     .query({ query: insightsCountQuery })
     .then((result) => result.data.lastInsights.totalResults)
