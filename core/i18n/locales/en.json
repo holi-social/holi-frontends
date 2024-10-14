@@ -802,6 +802,7 @@
   "spaces.appointments.report.title": "Report appointment",
   "spaces.appointments.share.message.date": "📅 Save the date: {{date}} - {{time}}\n",
   "spaces.appointments.share.message.location": "📍 Location: {{location}}\n",
+  "spaces.appointments.share.message.link": "🔗 Meeting link:",
   "spaces.appointments.share.message.text": "Join us for the event - \"{{appointment}}\" of {{space}}\n\n",
   "spaces.appointments.share.message.title": "Hey there! 🌟\n",
   "spaces.appointments.tabs.past": "Past",

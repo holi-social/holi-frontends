@@ -803,6 +803,7 @@
   "spaces.appointments.report.title": "Termin melden",
   "spaces.appointments.share.message.date": "📅 Datum: {{date}} - {{time}}\n",
   "spaces.appointments.share.message.location": "📍 Ort: {{location}}\n",
+  "spaces.appointments.share.message.link": "🔗 Meeting-Link:",
   "spaces.appointments.share.message.text": "Du bis eingeladen zum Termin - \"{{appointment}}\" von {{space}}\n\n",
   "spaces.appointments.share.message.title": "Hallo! 🌟\n",
   "spaces.appointments.tabs.past": "Vergangene",
