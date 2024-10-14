@@ -8,9 +8,10 @@ import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
 import { holiApiUrl } from '@holi/api/config'
 import { isSSR } from '@holi/core/helpers/isSSR'
 
+import authorizationHeaderLink from './authorizationHeaderLink'
 import { alwaysReplacePolicy, pagedPolicy } from './cachePolicies'
+import createLocaleHeaderLink from './createLocaleHeaderLink'
 import errorLink from './errorLink'
-import headerLink from './headerLink'
 
 // The HOLI backend needs ~35s for a cold boot (which it does on a regular basis as we scale to zero), timeout respects that
 const TIMEOUT_IN_MS = 60 * 1000 // 60 seconds
@@ -212,14 +213,26 @@ const createSsrHttpLink = (requestHeaders?: HttpOptions['headers']) => {
 // Web authentication works using http-only cookies that are transparently added to requests by the Browser
 // Mobile authentication works by adding the `X-Session-Token` header which takes its value from `SecureStorage`
 // For mobile it is also necessary to explicitly set the Accept-Language header.
-// `headerLink` is therefore only needed on Mobile (i.e. when defined)
-const clientSideLink = from([headerLink, timeoutLink, errorLink, uploadCapableTerminatingLink].filter((link) => !!link))
+// `authorizationHeaderLink` is therefore only needed on Mobile (i.e. when defined)
+const createClientSideLink = (locale?: string) =>
+  from(
+    [
+      createLocaleHeaderLink(locale),
+      authorizationHeaderLink,
+      timeoutLink,
+      errorLink,
+      uploadCapableTerminatingLink,
+    ].filter((link) => !!link)
+  )
 
 const createApolloClient = ({
   ssrMode,
   headers,
-}: Pick<ApolloClientOptions<NormalizedCacheObject>, 'ssrMode' | 'headers'>) => {
-  const clientLink = isSSR ? from([errorLink, createSsrHttpLink(headers)]) : clientSideLink
+  locale,
+}: Pick<ApolloClientOptions<NormalizedCacheObject>, 'ssrMode' | 'headers'> & { locale?: string }) => {
+  const clientLink = isSSR
+    ? from([createLocaleHeaderLink(locale), errorLink, createSsrHttpLink(headers)])
+    : createClientSideLink(locale)
 
   return new ApolloClient({
     ssrMode,
@@ -241,10 +254,11 @@ type WebClientInitState = Record<string, unknown> | null
 export interface WebApolloClientOptions {
   initState?: WebClientInitState
   headers?: ApolloClientOptions<NormalizedCacheObject>['headers']
+  locale?: string
 }
 
-export const initializeWebApolloClient = ({ initState, headers }: WebApolloClientOptions = {}) => {
-  const client = apolloWebClient ?? createApolloClient({ ssrMode: true, headers })
+export const initializeWebApolloClient = ({ initState, headers, locale }: WebApolloClientOptions = {}) => {
+  const client = apolloWebClient ?? createApolloClient({ ssrMode: true, headers, locale })
 
   if (initState) {
     const { __META, ...existingCache } = client.extract()
