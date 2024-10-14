@@ -23,6 +23,7 @@ interface Props<D>
   renderItem: HoliTabsProps<D>['renderTabContent']
   width: number
   marginHorizontal?: number
+  tabsId: string
 }
 
 const TabContentList = <D,>({
@@ -33,6 +34,7 @@ const TabContentList = <D,>({
   marginHorizontal = 0,
   width: componentWidth,
   testID = 'holi-tabs-content-list',
+  tabsId,
   ...listProps
 }: Props<D>) => {
   const activeTabIndex = data.findIndex((item) => keyExtractor(item) === activeTab)
@@ -80,7 +82,11 @@ const TabContentList = <D,>({
         const isActive = key === activeTab
 
         return (
-          <View style={[listItemSnapToIntervalStyle, { width: componentWidth }]}>
+          <View
+            role="tabpanel"
+            id={`${tabsId}-panel-${activeTab}`}
+            style={[listItemSnapToIntervalStyle, { width: componentWidth }]}
+          >
             <View onLayout={(event) => saveTabContentLayout(event, key)} style={{ marginHorizontal }}>
               {renderItem({ item, key, isActive, index })}
             </View>

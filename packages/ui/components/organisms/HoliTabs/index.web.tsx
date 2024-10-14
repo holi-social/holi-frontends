@@ -86,12 +86,14 @@ const HoliTabs = <D extends HoliTabItem>({
               onScroll={onContentScroll}
               scrollEventThrottle={100}
               testID={`${testID}-content-list`}
+              tabsId={testID}
             />
           ) : (
             <TabContentVirtualized
               {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
               renderItem={renderTabContent}
               testID={`${testID}-content-list`}
+              tabsId={testID}
             />
           )}
         </HoliContainer>

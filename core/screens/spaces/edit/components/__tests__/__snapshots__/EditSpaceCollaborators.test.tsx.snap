@@ -46,6 +46,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
             "value": {},
           }
         }
+        role="tablist"
         scrollEventThrottle={1}
         showsHorizontalScrollIndicator={false}
         testID="collaborator-tabs-button-list"
@@ -544,11 +545,13 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
           }
         }
         exiting={[Function]}
+        id="undefined-panel-collaborators"
         jestAnimatedStyle={
           {
             "value": {},
           }
         }
+        role="tabpanel"
         style={
           {
             "marginHorizontal": 32,
@@ -1301,6 +1304,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
             "value": {},
           }
         }
+        role="tablist"
         scrollEventThrottle={1}
         showsHorizontalScrollIndicator={false}
         testID="collaborator-tabs-button-list"
@@ -1799,11 +1803,13 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
           }
         }
         exiting={[Function]}
+        id="undefined-panel-requests"
         jestAnimatedStyle={
           {
             "value": {},
           }
         }
+        role="tabpanel"
         style={
           {
             "marginHorizontal": 32,
