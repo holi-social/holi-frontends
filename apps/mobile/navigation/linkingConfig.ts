@@ -117,12 +117,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
 
-    [RouteName.AppsHub]: {
-      screens: {
-        [RouteName.AppsHub]: 'appsHub',
-      },
-    },
-
     // Onboarding
     [RouteName.Onboarding]: 'onboarding',
     [RouteName.OnboardingRegistration]: 'onboarding/registration',

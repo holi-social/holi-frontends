@@ -25,7 +25,7 @@ describe('generateSitemapIndex', () => {
 describe('generateSitemapUrlSet', () => {
   it('should create correct xml', () => {
     const prefix = 'https://app.holi.social/en'
-    const urls = ['/spaces', '/appsHub']
+    const urls = ['/spaces', '/donations']
 
     const xml = generateSitemapUrlSet(prefix, urls)
 
@@ -36,7 +36,7 @@ describe('generateSitemapUrlSet', () => {
           <loc>https://app.holi.social/en/spaces</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/appsHub</loc>
+          <loc>https://app.holi.social/en/donations</loc>
         </url>
         </urlset>
       "

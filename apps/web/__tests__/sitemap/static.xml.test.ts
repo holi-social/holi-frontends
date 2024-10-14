@@ -44,9 +44,6 @@ describe('Static sitemap index', () => {
           <loc>https://app.holi.social/en/spaces</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/appsHub</loc>
-        </url>
-        <url>
           <loc>https://app.holi.social/en/donations</loc>
         </url>
         <url>
@@ -89,9 +86,6 @@ describe('Static sitemap index', () => {
         </url>
         <url>
           <loc>https://app.holi.social/de/spaces</loc>
-        </url>
-        <url>
-          <loc>https://app.holi.social/de/appsHub</loc>
         </url>
         <url>
           <loc>https://app.holi.social/de/spenden</loc>
