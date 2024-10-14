@@ -138,6 +138,7 @@ const TabButtonList = <D,>({
       contentContainerStyle={[styles.tabButtonsContainer, centeredTabButtons && styles.tabButtonsContainer_centered]}
       ref={tabButtonsScrollViewRef}
       testID={testID}
+      role="tablist"
     >
       {data.map((item, index) => {
         const key = keyExtractor(item)
