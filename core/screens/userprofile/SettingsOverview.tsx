@@ -133,7 +133,7 @@ const SettingsOverview = () => {
             description={t('auth.logout.heading')}
             secondaryText={t('auth.logout.confirmation.dismiss')}
             primaryText={t('auth.logout.confirmation.confirm')}
-            confirmationButtonType="warning"
+            primaryButtonType="warning"
             {...logoutConfirmationProps}
             testID="modal-logout"
           />

@@ -61,7 +61,7 @@ export const Confirmation = ({
           primaryText={confirmText ?? t('confirmation.confirm')}
           testID={testID}
           onPrimary={handleAction}
-          confirmationButtonType={buttonType}
+          primaryButtonType={buttonType}
         />
       )}
     </>

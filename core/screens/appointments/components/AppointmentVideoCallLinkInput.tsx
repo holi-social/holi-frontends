@@ -226,7 +226,7 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
           {t('global.done')}
         </HoliButton>
         <HoliConfirmation
-          confirmationButtonType="warning"
+          primaryButtonType="warning"
           show={deleteModalVisible}
           label={t('spaces.appointments.input.videoCall.delete.button')}
           title={t('spaces.appointments.input.videoCall.delete.button')}

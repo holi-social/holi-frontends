@@ -96,7 +96,7 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, sty
         onDismiss={() => setShowConfirmationModal(false)}
         secondaryText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
         primaryText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
-        confirmationButtonType="warning"
+        primaryButtonType="warning"
         testID="user-connection"
         // onConfirm needs to be undefined if not logged in to hide the confirm button inside the dialog
         onPrimary={

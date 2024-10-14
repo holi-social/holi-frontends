@@ -27,7 +27,7 @@ export const SignupGuardModal = ({
   secondaryText,
   onPrimary,
   onDismiss,
-  confirmationButtonType,
+  primaryButtonType,
   trackTrigger,
   testID = 'login-guard-modal',
 }: SignupGuardModalProps) => {
@@ -72,7 +72,7 @@ export const SignupGuardModal = ({
       onPrimary={primaryHandler}
       onDismiss={dismissHandler}
       onSecondary={secondaryHandler}
-      confirmationButtonType={confirmationButtonType}
+      primaryButtonType={primaryButtonType}
       testID={testID}
       footerComponent={
         <View style={styles.footerContainer}>
