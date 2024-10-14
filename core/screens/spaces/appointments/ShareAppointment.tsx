@@ -26,6 +26,9 @@ const ShareAppointment: React.FC<ShareAppointmentProps> = ({
 }: ShareAppointmentProps) => {
   const { t } = useTranslation()
 
+  const meetLink = appointment.videoCallLink?.url
+    ? `${t('spaces.appointments.share.message.link')} ${appointment.videoCallLink?.url}`
+    : ''
   const message = `${t('spaces.appointments.share.message.title')}${t('spaces.appointments.share.message.text', {
     appointment: appointment.title,
     space: space.title,
@@ -33,9 +36,7 @@ const ShareAppointment: React.FC<ShareAppointmentProps> = ({
     appointment.locationDetails?.completeAddress
       ? t('spaces.appointments.share.message.location', { location: appointment.locationDetails.completeAddress })
       : ''
-  }${appointment.videoCallLink?.url ? t('spaces.appointments.share.message.link') : ''}${
-    appointment.videoCallLink?.url ? appointment.videoCallLink?.url : ''
-  }`
+  }${meetLink}\n`
 
   const [, shareLink] = useShareLink({
     link: `/spaces/${space?.name}/appointments/${appointment?.id}`,
