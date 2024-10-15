@@ -127,7 +127,9 @@ storybook_publish:
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
-      - node_modules/
+      - './node_modules'
+      - './*/node_modules'
+      - './*/*/node_modules'
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
