@@ -13,7 +13,7 @@ export const createSpace = async (page: Page, initialName = 'e2e space name', in
     await inputSpaceNameAndGoal(page, initialName, initialGoal)
     await clickElementByTestId(page, 'holi-wizard-save-btn')
 
-    const termCheckboxes = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
+    const termCheckboxes = page.locator(`${byTestId('space-terms-list')} >> [role="switch"]`)
     await termCheckboxes.nth(0).click()
     await clickElementByTestId(page, 'holi-wizard-save-btn')
 
