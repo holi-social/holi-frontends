@@ -59,17 +59,6 @@ async function createSpaceAppointment(adminA: Page) {
     await expect(titleField).toBeVisible()
     await titleField.fill('E2E Party')
 
-    // advance the starting time to have the appointment in the future
-    // so it triggers notifications
-    await clickElementByTestId(adminA, 'btn-holi-date-picker')
-
-    // next month
-    await clickElementByTestId(adminA, 'undefined.header.rightArrow')
-    // select first day
-    // using keyboard is simpler than using the ids as they aren't static
-    await adminA.keyboard.press('Tab')
-    await adminA.keyboard.press('Enter')
-
     const descriptionField = await locateElementByTestId(adminA, 'appointment-description-input')
     await descriptionField.fill('Best E2E Party Description')
 
