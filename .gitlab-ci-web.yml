@@ -97,9 +97,8 @@ web_build:
   # Enable cache for Next.js web build as suggested on https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching#gitlab-ci
   cache:
     key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-      - apps/web/.next/cache/
+    paths: !reference [.default_cache, paths]
+    policy: pull-push
   artifacts:
     paths:
       - apps/web/.next
@@ -126,10 +125,7 @@ storybook_publish:
     - yarn storybook:publish
   cache:
     key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - './node_modules'
-      - './*/node_modules'
-      - './*/*/node_modules'
+    paths: !reference [.default_cache, paths]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
