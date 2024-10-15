@@ -3,15 +3,19 @@
 # caching strategy follows "Solution 1" taken from https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
 # first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it, and only if they need the cache
 # cache key corresponds to current branch name ($CI_COMMIT_REF_SLUG)
-cache:
+
+.default_cache:
   key: $CI_COMMIT_REF_SLUG
-  policy: pull
-  untracked: true
+  paths:
+    - './node_modules'
+    - './*/node_modules'
+    - './*/*/node_modules'
+    - './apps/web/.next/cache/'
 
 # rules templates
 .rule_templates:
   not_on_git_tags:
-    - if: "$CI_COMMIT_TAG"
+    - if: '$CI_COMMIT_TAG'
       when: never
   skip_environment_for_web:
     - if: $CI_COMMIT_BRANCH =~ /^noenv\/.*|^noweb\/.*/
@@ -48,6 +52,9 @@ default:
   tags:
     - 1cpu-4gb
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  cache:
+    policy: pull
+    untracked: true
 
 lint_compile_test:
   stage: build
@@ -57,19 +64,15 @@ lint_compile_test:
     - yarn lint
     - yarn test
   cache:
-    key: $CI_COMMIT_REF_SLUG
+    key: !reference [.default_cache, key]
     policy: pull-push
-    paths:
-      - './node_modules'
-      - './*/node_modules'
-      - './*/*/node_modules'
+    paths: !reference [.default_cache, paths]
   interruptible: true
   tags:
     - 4cpu-16gb
   rules:
     - !reference [.rule_templates, not_on_git_tags]
     - !reference [.rule_templates, any_other]
-    
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:
