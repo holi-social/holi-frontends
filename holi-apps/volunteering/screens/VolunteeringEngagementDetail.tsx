@@ -31,7 +31,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
 import VolunteeringPartnerCard from '@holi-apps/volunteering/components/VolunteeringPartnerCard'
-import VolunteeringSimilarRecos from '@holi-apps/volunteering/components/VolunteeringSimilarRecosSlider'
+import VolunteeringSimilarRecosSlider from '@holi-apps/volunteering/components/VolunteeringSimilarRecosSlider'
 import {
   AppVolunteeringEngagementByIdResponse,
   TrackEngagementViewResponse,
@@ -229,7 +229,7 @@ const VolunteeringEngagementDetail = () => {
   }
 
   return (
-    <View style={styles.wrapper} testID="volunteering-detailview-container">
+    <View testID="volunteering-detailview-container">
       <HoliHead
         title={engagement.title}
         description={engagement.description}
@@ -252,7 +252,7 @@ const VolunteeringEngagementDetail = () => {
               <HoliHeading size={'m'} weight={'400'}>
                 {t('volunteering:engagementDetail.similarRecosHeading')}
               </HoliHeading>
-              <VolunteeringSimilarRecos engagementId={engagement.id} cardWidth={cardWidth} />
+              <VolunteeringSimilarRecosSlider engagementId={engagement.id} cardWidth={cardWidth} />
             </View>
           </View>
         )}
@@ -281,11 +281,6 @@ export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: '
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    wrapper: {
-      alignItems: 'center',
-      flex: 1,
-      backgroundColor: theme.colors.background30,
-    },
     header: {
       backgroundColor: theme.colors.background30,
     },
@@ -323,8 +318,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     volunteeringButton: {
       bottom: 40,
-      justifyContent: 'center',
-      alignItems: 'center',
+      alignSelf: 'center',
       paddingHorizontal: 16,
       ...Platform.select({
         native: {
