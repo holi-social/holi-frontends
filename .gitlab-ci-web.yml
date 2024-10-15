@@ -115,7 +115,7 @@ web_build:
     WEB_BUILD: true
 
 storybook_publish:
-  needs: ['web_build']
+  needs: ['lint_compile_test']
   environment:
     name: storybook-main
     url: https://main--63846e9768032326df3b0c75.chromatic.com
