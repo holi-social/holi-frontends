@@ -8,6 +8,7 @@ import UserConnectionButtons from '@holi/core/screens/userprofile/components/Use
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { VerifiedExternal, VerifiedInternal } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
@@ -49,9 +50,9 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
           />
         </View>
         <View style={styles.nameContainer}>
-          <HoliText size="large" testID="user-profile-full-name">
+          <HoliHeading level="1" size="m" weight="400" testID="user-profile-full-name">
             {fullName}
-          </HoliText>
+          </HoliHeading>
           {(!!user.pronouns || !!user.location) && (
             <HoliText style={styles.details}>
               {!!user.pronouns && `${user.pronouns}`}

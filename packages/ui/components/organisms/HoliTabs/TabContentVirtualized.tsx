@@ -11,6 +11,7 @@ interface Props<D>
   renderItem: HoliTabsProps<D>['renderTabContent']
   width: number
   marginHorizontal?: number
+  tabsId: string
 }
 
 const TabContentVirtualized = <D,>({
@@ -21,6 +22,7 @@ const TabContentVirtualized = <D,>({
   marginHorizontal = 0,
   width: componentWidth,
   testID = 'holi-tabs-content-list',
+  tabsId,
 }: Props<D>) => {
   const activeTabIndex = data.findIndex((item) => keyExtractor(item) === activeTab)
   const activeTabData = data[activeTabIndex]
@@ -33,6 +35,8 @@ const TabContentVirtualized = <D,>({
         entering={FadeInDown.delay(200)}
         exiting={FadeOutDown}
         testID={testID}
+        role="tabpanel"
+        id={`${tabsId}-panel-${activeTab}`}
       >
         {renderItem({
           item: activeTabData,
