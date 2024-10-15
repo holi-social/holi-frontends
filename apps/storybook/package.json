@@ -8,7 +8,7 @@
     "clean:all": "yarn clean && npx rimraf node_modules",
     "dev": "storybook dev -p 6006 -c config",
     "lint": "TIMING=1 eslint .",
-    "publish-library": "npx chromatic --ci -b build --storybook-config-dir config --exit-zero-on-changes",
+    "publish-library": "npx chromatic --ci -b build --storybook-config-dir config --exit-zero-on-changes --storybookBaseDir apps/storybook",
     "test": "echo 'unit testing goes here'"
   },
   "dependencies": {
