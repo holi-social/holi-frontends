@@ -2,7 +2,6 @@ import { dirname, join } from 'path'
 
 const uiPackageDir = '../../../packages/ui'
 const iconsPackageDir = '../../../packages/icons'
-
 module.exports = {
   staticDirs: ['../../web/public'],
 

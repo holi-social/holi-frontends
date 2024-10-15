@@ -142,8 +142,8 @@ storybook_publish:
     - !reference [.rule_templates, not_on_git_tags]
     - if: $CI_COMMIT_BRANCH == "main"
       changes:
-        - apps/storybook/*
-        - packages/ui/*
+        - apps/storybook/**/*
+        - packages/ui/**/*
         - '**/*.stories.tsx'
 
 web_build_docker:
