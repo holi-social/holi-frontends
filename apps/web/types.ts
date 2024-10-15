@@ -85,4 +85,8 @@ export class HoliPageProps {
   get origin() {
     return this.props.origin
   }
+
+  get locale() {
+    return this.props.locale
+  }
 }

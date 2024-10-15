@@ -50,7 +50,7 @@ const StaticSitemapIndex = () => {
 
 export const getServerSideProps = async ({ req, res, locale }: NextPageContext) => {
   const prefix = getUrlPrefix(req, locale)
-  const client = initializeWebApolloClient()
+  const client = initializeWebApolloClient({ locale })
   const topics = await client
     .query({ query: topicSlugsQuery })
     .then((result) => result.data.topics.data)

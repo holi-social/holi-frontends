@@ -16,7 +16,7 @@ export const createApolloPageProps = (client: ApolloClient<NormalizedCacheObject
 
 export const createApolloWebClient = (props: HoliPageProps, headers?: Record<string, string>) => {
   const state = props.apolloState
-  return initializeWebApolloClient({ initState: state, headers })
+  return initializeWebApolloClient({ initState: state, headers, locale: props.locale })
 }
 
 export const useApolloWebClient = (props: HoliPageProps) => {

@@ -102,9 +102,9 @@ describe('createServerSideProps', () => {
   })
 
   it('should execute list of queries and pass request headers', async () => {
-    await createServerSideProps(context, [query1, query2])
+    await createServerSideProps({ ...context, locale: 'de' }, [query1, query2])
 
-    expect(mockInitializeWebApolloClient).toHaveBeenCalledWith({ headers })
+    expect(mockInitializeWebApolloClient).toHaveBeenCalledWith({ headers, locale: 'de' })
     expect(mockQueryFunction).toHaveBeenCalledTimes(2 + 1) // query1, query2 + authenticatedUser
     expect(mockQueryFunction).toHaveBeenCalledWith(query1)
     expect(mockQueryFunction).toHaveBeenCalledWith(query2)
