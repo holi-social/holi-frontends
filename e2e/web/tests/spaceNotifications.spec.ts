@@ -55,7 +55,7 @@ test.describe('@SpaceNotifications', async () => {
       await clickElementByTestId(adminA, 'btn-to-open-space-collaborators-modal')
       await clickButtonByText(adminA, adminBFullName)
       await clickElementByTestId(adminA, 'spaces-collaborators-grant-admin-btn')
-      await clickElementByTestId(adminA, 'spaces-collaborators-grant-admin-confirmation-confirmation-confirm')
+      await clickElementByTestId(adminA, 'spaces-collaborators-grant-admin-confirmation-confirmation-primary')
 
       // B is notified about promotion
       await retry(async () => {

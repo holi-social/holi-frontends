@@ -402,9 +402,9 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
 }
 
 export const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
-  const locatorForAllTerms = page.locator(`${byTestId('space-terms-list')} >> [role="checkbox"]`)
+  const locatorForAllTerms = page.locator(`${byTestId('space-terms-list')} >> [role="switch"]`)
   const locatorForSelectedTerms = page.locator(
-    `${byTestId('space-terms-list')} >> [role="checkbox"][aria-checked="true"]`
+    `${byTestId('space-terms-list')} >> [role="switch"][aria-checked="true"]`
   )
   const numberOfTotalTerms = await locatorForAllTerms.count()
   const numberOfInitiallySelectedTerms = await locatorForSelectedTerms.count()
@@ -440,7 +440,7 @@ const testAddEditDeleteTask = async (browser: Browser, page: Page) => {
   // create task
   const taskTitle = 'E2E task'
   const taskDescription = 'E2E task description'
-  await clickElementByTestId(page, 'space-tabs-button-2-inactive')
+  await clickElementByTestId(page, 'space-tabs-button-involvement-inactive')
 
   // !!! It's a bad pattern to add a delay in tests !!!
   // But we currently don't have any more ideas how we can fix the issue

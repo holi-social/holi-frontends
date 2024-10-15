@@ -6,7 +6,7 @@ import { byTestId, clickElementByTestId, locateElementByTestId, retry } from './
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
-const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-2-inactive'
+const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-involvement-inactive'
 const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 
 test.describe('@AppointmentNotifications', () => {
