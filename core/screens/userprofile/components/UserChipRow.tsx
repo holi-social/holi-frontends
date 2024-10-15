@@ -1,31 +1,31 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
 
 import { User, termsByTitleComparator } from '@holi/core/domain/shared/types'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import { Add } from '@holi/icons/src/generated'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
+import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 type UserChipRowProps = {
   keyInUserObject: UserChipTypes
   onPressEdit?: () => void
   numberOfLines?: number
   user: User
+  color: Color | 'white'
 }
 
 const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   onPressEdit,
-  numberOfLines,
   user,
   keyInUserObject,
+  color = 'mono',
 }: UserChipRowProps) => {
   const terms = user ? user[keyInUserObject] || [] : []
   const sortedTerms = [...terms].sort(termsByTitleComparator)
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <HoliChipRow
@@ -35,42 +35,18 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       onPressEdit={onPressEdit}
       testID={`user-profile-${keyInUserObject}`}
     >
-      {sortedTerms.length > 0 ? (
+      {sortedTerms.length > 0 || !onPressEdit ? (
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         sortedTerms.map((term) => (
-          <HoliChip
-            numberOfLines={numberOfLines}
-            key={term.id}
-            text={term.title}
-            label={term.title}
-            disabled
-            style={styles.chip}
-            fontStyle={styles.chipFont}
-          />
+          <ChipLabel key={term.id} color={color}>
+            {term.title}
+          </ChipLabel>
         ))
       ) : (
-        <HoliChip
-          text={''}
-          key="edit"
-          onPress={onPressEdit}
-          label={t(`profile.${keyInUserObject}.add`)}
-          style={styles.chip}
-          fontStyle={styles.chipFont}
-        />
+        <ChipAction key="edit" onPress={onPressEdit} color="white" iconTrailing={Add} />
       )}
     </HoliChipRow>
   )
 }
-
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    chip: {
-      borderWidth: 1,
-      borderColor: theme.colors.foreground30at12Percent,
-    },
-    chipFont: {
-      color: theme.colors.black300,
-    },
-  })
 
 export default UserChipRow

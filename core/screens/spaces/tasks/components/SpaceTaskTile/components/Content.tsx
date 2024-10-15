@@ -2,7 +2,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import FilterPill from '@holi/core/components/FilterPill'
 import { LocationType } from '@holi/core/screens/spaces/types'
 import type { Task } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -19,6 +18,7 @@ import HoliText, { type HoliTextProps } from '@holi/ui/components/atoms/HoliText
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export interface Props {
@@ -32,7 +32,7 @@ const Content = ({
   task,
   richTextOutputColor = 'black300',
   descriptionWithDetails = false,
-  recommendation: recommendation = false,
+  recommendation = false,
 }: Props) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -66,13 +66,21 @@ const Content = ({
         <View style={styles.skillsContainer}>
           {recommendation ? (
             <>
-              <FilterPill small label={task.skills[0].title} filterType="skill" style={styles.pill} />
-              {task.skills.length > 1 && <FilterPill small label={'+' + (task.skills.length - 1)} filterType="skill" />}
+              <ChipLabel size="sm" color="blue">
+                {task.skills[0].title}
+              </ChipLabel>
+              {task.skills.length > 1 && (
+                <ChipLabel size="sm" color="blue">
+                  {'+' + (task.skills.length - 1)}
+                </ChipLabel>
+              )}
             </>
           ) : (
             <>
               {task.skills.map((skill) => (
-                <FilterPill small key={skill.id} label={skill.title} filterType="skill" style={styles.pill} />
+                <ChipLabel key={skill.id} size="sm" color="blue">
+                  {skill.title}
+                </ChipLabel>
               ))}
             </>
           )}
@@ -144,9 +152,6 @@ const Content = ({
 }
 
 export const styles = StyleSheet.create({
-  pill: {
-    flexShrink: 1,
-  },
   iconsContainer: {
     marginTop: 8,
     flexDirection: 'row',

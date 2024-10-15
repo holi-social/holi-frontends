@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import FilterPill from '@holi/core/components/FilterPill'
 import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { Skill, Topic } from '@holi/core/domain/shared/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 
 export type TopicLabelsProps = {
   topicSlugs: readonly string[] | undefined
@@ -28,8 +28,14 @@ const TopicLabelsForListView = ({ topicSlugs, topics }: TopicLabelsProps & { top
   return (
     !!label && (
       <View style={styles.labelRowListView} testID="topic-labels-list-view">
-        <FilterPill loading={false} small label={label} filterType="topic" style={styles.pill} />
-        {!!count && <FilterPill loading={false} small label={'+' + count} filterType="topic" style={styles.pill} />}
+        <ChipLabel size="sm" color="green">
+          {label}
+        </ChipLabel>
+        {!!count && (
+          <ChipLabel size="sm" color="green">
+            {'+' + count}
+          </ChipLabel>
+        )}
       </View>
     )
   )
@@ -42,8 +48,14 @@ const SkillLabelsForListView = ({ skillSlugs, skills }: SkillLabelsProps & { ski
   return (
     !!label && (
       <View style={styles.labelRowListView}>
-        <FilterPill loading={false} small label={label} filterType="skill" style={styles.pill} />
-        {!!count && <FilterPill loading={false} small label={'+' + count} filterType="skill" style={styles.pill} />}
+        <ChipLabel size="sm" color="blue">
+          {label}
+        </ChipLabel>
+        {!!count && (
+          <ChipLabel size="sm" color="blue">
+            {'+' + count}
+          </ChipLabel>
+        )}
       </View>
     )
   )
@@ -57,7 +69,9 @@ const TopicLabelsForDetailView = ({ topicSlugs, topics }: TopicLabelsProps & { t
   return (
     <View style={styles.labelRowDetailView}>
       {labels?.map((label, index) => (
-        <FilterPill loading={false} key={index} small label={label} filterType="topic" style={styles.pill} />
+        <ChipLabel key={index} size="sm" color="green">
+          {label}
+        </ChipLabel>
       ))}
     </View>
   )
@@ -71,7 +85,9 @@ const SkillLabelsForDetailView = ({ skillSlugs, skills }: SkillLabelsProps & { s
   return (
     <View style={styles.labelRowDetailView}>
       {labels?.map((label, index) => (
-        <FilterPill loading={false} key={index} small label={label} filterType="skill" style={styles.pill} />
+        <ChipLabel key={index} size="sm" color="blue">
+          {label}
+        </ChipLabel>
       ))}
     </View>
   )
@@ -111,8 +127,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 6,
-  },
-  pill: {
-    flexShrink: 1,
   },
 })

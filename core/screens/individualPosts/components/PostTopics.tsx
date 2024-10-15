@@ -7,9 +7,9 @@ import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermC
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
+import ChipSelect from '@holi/ui/no-name/components/chips/ChipSelect'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostTopicsProps = {
@@ -81,19 +81,12 @@ const PostTopics: React.FC<PostTopicsProps> = ({ selectedTopicsIds, onChangeSele
               {t('spaces.input.topics.hint')}
             </HoliText>
           </View>
-
           <View style={styles.termsListContainer}>
             {filteredTerms &&
               filteredTerms.map((term) => (
-                <HoliChip
-                  key={term.id}
-                  checked={selectedTopics?.includes(term)}
-                  onPress={() => updateValues(term)}
-                  text={showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
-                  label={showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
-                  style={styles.chip}
-                  testID={`post-topics-list-item${selectedTopics?.includes(term) ? '-checked' : ''}`}
-                />
+                <ChipSelect key={term.id} selected={selectedTopics?.includes(term)} onPress={() => updateValues(term)}>
+                  {showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
+                </ChipSelect>
               ))}
           </View>
         </View>
@@ -134,16 +127,13 @@ const getStyles = (theme: HoliTheme) =>
       marginLeft: 5,
       color: theme.colors.foreground20,
     },
-    chip: {
-      marginRight: Spacing['3xs'],
-      marginBottom: Spacing['3xs'],
-    },
     termsListContainer: {
       marginTop: Spacing.xs,
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'wrap',
       flexShrink: 1,
+      gap: 8,
     },
   })
 

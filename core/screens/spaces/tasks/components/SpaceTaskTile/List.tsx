@@ -7,12 +7,11 @@ import Content from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/co
 import Skeleton from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Skeleton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import { VisibilityType } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobeFilled, LockFilled } from '@holi/icons/src/generated'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import Image from './components/Image'
@@ -24,7 +23,6 @@ const IMAGE_WIDTH = 311
 const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleton<ListProps>) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
   if (loading) {
@@ -47,15 +45,9 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
         imageAspectRatio={1.75}
       >
         {isCollaborator && (
-          <View style={[styles.imageCaption, styles.visibilityCaption]}>
-            <HoliIcon
-              icon={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled}
-              color={colors.foreground30}
-              size={16}
-            />
-            <HoliGap size="xxs" direction="horizontal" />
-            <HoliText size="small">{t(`spaces.input.task.visibility.${task.visibility}.title`)}</HoliText>
-          </View>
+          <ChipLabel iconLeading={task.visibility === VisibilityType.PUBLIC ? GlobeFilled : LockFilled} size="sm">
+            {t(`spaces.input.task.visibility.${task.visibility}.title`)}
+          </ChipLabel>
         )}
       </Image>
 

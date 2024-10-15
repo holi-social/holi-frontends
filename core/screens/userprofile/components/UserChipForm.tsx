@@ -5,9 +5,10 @@ import { StyleSheet, View } from 'react-native'
 import { Term } from '@holi/core/domain/shared/types'
 import { Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import ChipSelect from '@holi/ui/no-name/components/chips/ChipSelect'
+import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 export interface SelectableTerm extends Term {
   selected?: boolean
@@ -19,6 +20,7 @@ type UserChipFormProps = {
   onFilterStringChange: (value: string) => void
   terms: SelectableTerm[]
   onTermSelect: (id: string) => void
+  color?: Color
 }
 
 const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
@@ -27,6 +29,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   terms,
   onTermSelect,
   keyInUserObject,
+  color = 'green',
 }: UserChipFormProps) => {
   const { t } = useTranslation()
 
@@ -45,7 +48,9 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
 
       <HoliChipRow editable={false} editButtonLabel="">
         {terms.map(({ id, selected, title }) => (
-          <HoliChip key={id} checked={selected} onPress={() => onTermSelect(id)} text={title} label={title} />
+          <ChipSelect key={id} onPress={() => onTermSelect(id)} selected={selected} selectedColor={color}>
+            {title}
+          </ChipSelect>
         ))}
       </HoliChipRow>
 

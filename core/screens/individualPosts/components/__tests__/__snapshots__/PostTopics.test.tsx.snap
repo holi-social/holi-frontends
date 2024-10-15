@@ -349,6 +349,7 @@ exports[`PostTopics matches snapshot 1`] = `
               "flexDirection": "row",
               "flexShrink": 1,
               "flexWrap": "wrap",
+              "gap": 8,
               "marginTop": 16,
             }
           }

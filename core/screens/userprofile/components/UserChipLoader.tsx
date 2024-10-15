@@ -11,7 +11,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type UserChipLoaderProps = UseUserChipsOptions
 
-const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject }: UserChipLoaderProps) => {
+const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject, color }: UserChipLoaderProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -48,6 +48,7 @@ const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject }: UserChi
           terms={terms}
           onTermSelect={onTermSelect}
           keyInUserObject={keyInUserObject}
+          color={color}
         />
       </HoliBox>
     </HoliModalContentWrapper>

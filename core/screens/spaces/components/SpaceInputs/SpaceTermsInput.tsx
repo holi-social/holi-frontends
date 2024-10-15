@@ -5,8 +5,9 @@ import { SortedTerm, Term, termsBySortNumberComparator, termsByTitleComparator }
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import ChipSelect from '@holi/ui/no-name/components/chips/ChipSelect'
+import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceTermsInputProps {
@@ -19,6 +20,7 @@ export interface SpaceTermsInputProps {
   hint?: string
   showSortNumber?: boolean
   testID?: string
+  color?: Color
 }
 
 const SpaceTermsInput = ({
@@ -31,6 +33,7 @@ const SpaceTermsInput = ({
   selected,
   terms,
   testID,
+  color = 'green',
 }: SpaceTermsInputProps) => {
   const [filterString, setFilterString] = useState<string>('')
   const [orderedTerms, setOrderedTerms] = useState<SortedTerm[]>([])
@@ -103,15 +106,14 @@ const SpaceTermsInput = ({
       <View style={styles.termsListContainer}>
         {filteredTerms &&
           filteredTerms.map((term) => (
-            <HoliChip
+            <ChipSelect
               key={term.id}
-              checked={selected.includes(term)}
+              selected={selected.includes(term)}
               onPress={() => updateValues(term)}
-              text={showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
-              label={showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
-              style={styles.chip}
-              testID={`space-terms-list-item${selected.includes(term) ? '-checked' : ''}`}
-            />
+              selectedColor={color}
+            >
+              {showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
+            </ChipSelect>
           ))}
       </View>
     </View>
@@ -149,16 +151,13 @@ const getStyles = (theme: HoliTheme) =>
     hint: {
       marginLeft: 5,
     },
-    chip: {
-      marginRight: 8,
-      marginBottom: 8,
-    },
     termsListContainer: {
       marginTop: 16,
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'wrap',
       flexShrink: 1,
+      gap: 8,
     },
     flatlistContainer: {
       paddingBottom: Platform.OS === 'web' ? 0 : 450,

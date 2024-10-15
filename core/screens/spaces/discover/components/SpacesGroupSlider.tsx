@@ -3,7 +3,6 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
 
-import { FilterPillButton } from '@holi/core/components/FilterPill'
 import { Skill, Topic } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
@@ -17,8 +16,10 @@ import {
   discoverSpacesQuery,
 } from '@holi/core/screens/spaces/discover/queries'
 import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
+import { MapPinLine } from '@holi/icons/src/generated'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
+import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
@@ -109,34 +110,20 @@ const SpacesGroupSlider = ({
   return (
     <View style={[styles.sliderContainer, style]} testID={testID}>
       <View style={styles.sliderHeader}>
-        {loading && !locationId && !topic && !skill && <FilterPillButton loading={true} style={styles.pill} />}
         {topic && (
-          <FilterPillButton
-            testID="spaces-topic-title"
-            label={topic.title}
-            filterType="topic"
-            style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
-          />
+          <ChipAction onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)} color="green">
+            {topic.title}
+          </ChipAction>
         )}
         {!!locationId && (
-          <FilterPillButton
-            testID="spaces-location-title"
-            label={geolocationDetails?.name ?? ''}
-            loading={loadingGeolocation}
-            filterType="location"
-            style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?location=${locationId}`)}
-          />
+          <ChipAction onPress={() => navigate(`/spaces/filter?location=${locationId}`)} iconLeading={MapPinLine}>
+            {geolocationDetails?.name ?? ''}
+          </ChipAction>
         )}
         {skill && (
-          <FilterPillButton
-            testID="spaces-skill-title"
-            label={skill.title}
-            filterType="skill"
-            style={styles.pill}
-            onPress={() => navigate(`/spaces/filter?skill=${skill.slug}`)}
-          />
+          <ChipAction onPress={() => navigate(`/spaces/filter?skill=${skill.slug}`)} color="blue">
+            {skill.title}
+          </ChipAction>
         )}
       </View>
       <SpacesHorizontalSlider
@@ -189,9 +176,6 @@ const getStyles = (theme: HoliTheme) =>
     sliderHeader: {
       flexDirection: 'row',
       alignItems: 'center',
-    },
-    pill: {
-      marginRight: 6,
     },
     seeMoreCard: {
       paddingVertical: 8,

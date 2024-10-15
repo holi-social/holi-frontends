@@ -33,6 +33,7 @@ import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -125,19 +126,13 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         >
           <View style={styles.clickableArea}>
             <View style={styles.pillContainer}>
-              <View style={[styles.pill, styles.categoryPill]}>
-                <HoliText size="small" numberOfLines={1}>
-                  {feedPost.category.label}
-                </HoliText>
-              </View>
+              <ChipLabel size="sm" color="yellow">
+                {feedPost.category.label}
+              </ChipLabel>
               {aggregatedTopics && aggregatedTopics?.length > 0 && (
-                <View style={[styles.pill, styles.topicPill]}>
-                  <HoliText size="small" numberOfLines={1}>
-                    {`${aggregatedTopics[0]?.title} ${
-                      aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
-                    }`}
-                  </HoliText>
-                </View>
+                <ChipLabel size="sm" color="green">{`${aggregatedTopics[0]?.title} ${
+                  aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
+                }`}</ChipLabel>
               )}
             </View>
             <View style={styles.contentSection}>
@@ -412,18 +407,6 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       flexWrap: 'wrap',
       gap: Spacing['3xs'],
-    },
-    pill: {
-      borderRadius: Spacing.xxl,
-      paddingVertical: Spacing['4xs'],
-      paddingHorizontal: Spacing['3xs'],
-      alignSelf: 'flex-start',
-    },
-    categoryPill: {
-      backgroundColor: theme.dark ? theme.colors.brandA300 : theme.colors.brandA100,
-    },
-    topicPill: {
-      backgroundColor: theme.dark ? theme.colors.brandC300 : theme.colors.brandC100,
     },
     badgeContainer: {
       flexDirection: 'row',

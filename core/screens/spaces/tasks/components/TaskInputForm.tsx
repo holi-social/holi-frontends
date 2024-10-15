@@ -20,7 +20,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -28,6 +27,7 @@ import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -290,14 +290,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           {!!skills?.length && (
             <View style={styles.listContainer}>
               {skills.map((skill, index) => (
-                <HoliChip
-                  key={`skill_${index}`}
-                  text={`${skill.title}`}
-                  label={`${skill.title}`}
-                  disabled
-                  style={styles.chip}
-                  testID="task-edit-skills-chip"
-                />
+                <ChipLabel key={`skill_${index}`} color="blue">{`${skill.title}`}</ChipLabel>
               ))}
             </View>
           )}
@@ -510,11 +503,7 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       flexWrap: 'wrap',
       flexShrink: 1,
-    },
-    chip: {
-      backgroundColor: theme.colors.background10,
-      marginRight: 8,
-      marginBottom: 8,
+      gap: 8,
     },
     modalWrapper: {
       flex: 1,

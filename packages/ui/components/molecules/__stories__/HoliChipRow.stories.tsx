@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 
 export default {
   title: 'Molecules/HoliChipRow',
@@ -12,18 +12,13 @@ export default {
 const Template: ComponentStory<typeof HoliChipRow> = ({ ...args }) => {
   return (
     <HoliChipRow {...args}>
-      <HoliChip text="Books" label="Books" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Sports" label="Sports" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Movies" label="Movies" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Hiking" label="Hiking" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Video games" label="Video games" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip text="Harvesting" label="Harvesting" disabled style={{ marginRight: 5, marginTop: 5 }} />
-      <HoliChip
-        text="Chasing butterflies"
-        label="Chasing butterflies"
-        disabled
-        style={{ marginRight: 5, marginTop: 5 }}
-      />
+      <ChipLabel>Books</ChipLabel>
+      <ChipLabel>Sports</ChipLabel>
+      <ChipLabel>Movies</ChipLabel>
+      <ChipLabel>Hiking</ChipLabel>
+      <ChipLabel>Video Games</ChipLabel>
+      <ChipLabel>Harvesting</ChipLabel>
+      <ChipLabel>Chasing butterflies</ChipLabel>
     </HoliChipRow>
   )
 }

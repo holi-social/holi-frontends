@@ -5351,42 +5351,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#90ddff",
-                            },
-                            {
-                              "flexShrink": 1,
-                            },
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d9f4ff",
+                            "borderColor": "#90ddff",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }
@@ -5981,42 +5980,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#90ddff",
-                            },
-                            {
-                              "flexShrink": 1,
-                            },
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d9f4ff",
+                            "borderColor": "#90ddff",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }
@@ -6611,42 +6609,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#90ddff",
-                            },
-                            {
-                              "flexShrink": 1,
-                            },
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d9f4ff",
+                            "borderColor": "#90ddff",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }
@@ -6656,40 +6653,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       </View>
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#90ddff",
-                            },
-                            undefined,
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d9f4ff",
+                            "borderColor": "#90ddff",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }
@@ -7287,42 +7285,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#90ddff",
-                            },
-                            {
-                              "flexShrink": 1,
-                            },
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d9f4ff",
+                            "borderColor": "#90ddff",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }
@@ -7332,40 +7329,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       </View>
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#90ddff",
-                            },
-                            undefined,
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d9f4ff",
+                            "borderColor": "#90ddff",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }
@@ -7965,42 +7963,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#90ddff",
-                            },
-                            {
-                              "flexShrink": 1,
-                            },
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d9f4ff",
+                            "borderColor": "#90ddff",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }
@@ -10038,42 +10035,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     >
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#abff8b",
-                            },
-                            {
-                              "flexShrink": 1,
-                            },
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d6ffc7",
+                            "borderColor": "#abff8b",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }
@@ -10083,42 +10079,41 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       </View>
                       <View
                         style={
-                          [
-                            {
-                              "borderColor": "#262424",
-                              "borderRadius": 48,
-                              "borderWidth": 1,
-                              "flexDirection": "row",
-                              "justifyContent": "center",
-                              "paddingHorizontal": 8,
-                              "paddingVertical": 2,
-                            },
-                            {
-                              "backgroundColor": "#abff8b",
-                            },
-                            {
-                              "flexShrink": 1,
-                            },
-                          ]
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d6ffc7",
+                            "borderColor": "#abff8b",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
                         }
                       >
                         <Text
                           accessible={false}
-                          collapsable={false}
-                          jestAnimatedStyle={
-                            {
-                              "value": {},
-                            }
-                          }
-                          numberOfLines={1}
+                          role="none"
                           selectable={true}
                           style={
                             {
                               "color": "#262424",
-                              "fontFamily": "Circular Std Book",
-                              "fontSize": 14,
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
                               "fontWeight": "400",
-                              "lineHeight": 19.599999999999998,
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
                               "userSelect": "auto",
                             }
                           }

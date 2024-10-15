@@ -40,13 +40,13 @@ import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -231,7 +231,7 @@ const InsightDetailPage = () => {
             <View style={[styles.content, styles.section]}>
               {!!insight.topic && (
                 <View style={styles.tag}>
-                  <HoliBadge>{insight.topic.title}</HoliBadge>
+                  <ChipLabel color="green">{insight.topic.title}</ChipLabel>
                 </View>
               )}
 

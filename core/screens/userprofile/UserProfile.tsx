@@ -27,10 +27,10 @@ import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -171,29 +171,28 @@ const UserProfile = () => {
                 {user.engagementLevel && (
                   <View style={styles.chipRowContainer} key="engagementLevel">
                     <HoliChipRow title={t('profile.engagementLevel')}>
-                      <HoliChip
-                        text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                        label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                        style={styles.chip}
-                        fontStyle={styles.chipFont}
-                        disabled
-                      />
+                      <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
                     </HoliChipRow>
                   </View>
                 )}
                 {hasInterests && (
                   <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
-                    <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} />
+                    <UserChipRow
+                      user={user}
+                      keyInUserObject={UserChipTypes.INTERESTS}
+                      numberOfLines={1}
+                      color="green"
+                    />
                   </View>
                 )}
                 {hasSdgs && (
                   <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
-                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} />
+                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} color="white" />
                   </View>
                 )}
                 {hasSkills && (
                   <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
-                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} />
+                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} color="blue" />
                   </View>
                 )}
                 {!hasInfo && (
@@ -254,12 +253,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     chipRowContainer: {
       marginTop: 24,
-    },
-    chip: {
-      marginRight: 8,
-      marginBottom: 8,
-      borderWidth: 1,
-      borderColor: theme.colors.foreground30at12Percent,
+      gap: 8,
     },
     chipFont: {
       color: theme.colors.black300,
