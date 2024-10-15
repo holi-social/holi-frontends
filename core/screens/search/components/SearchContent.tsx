@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useRef } from 'react'
+import React, { memo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
@@ -9,10 +9,9 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { FilterType, filterTypes } from './types'
@@ -31,34 +30,9 @@ const validateFilter = (value: FilterType): FilterType => {
   return filterTypes.includes(value) ? value : 'all'
 }
 
-interface SearchFilterButton {
-  label: string
-  onPress?: () => void
-  selected?: boolean
-  loading?: boolean
-}
-
-const FilterButton = ({ label, onPress, selected, loading }: SearchFilterButton) => {
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
-  return (
-    <HoliButtonLoading
-      type="secondary"
-      label={label}
-      loading={loading}
-      onPress={onPress}
-      color={selected ? 'white100' : 'black300'}
-      disabled={false}
-      style={[styles.filterButton, selected && styles.filterButtonSelected]}
-    />
-  )
-}
-
 const SearchContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const [query = ''] = useParam('query', singleParamConfig)
@@ -117,15 +91,16 @@ const SearchContent = () => {
           const result = filterType !== 'all' ? searchQueryResult[filterType] : undefined
 
           return (
-            <FilterButton
+            <ChipAction
               key={filterType}
-              label={`${t(`search.filter.${filterType}`)} ${
+              onPress={() => updateParams({ filter: filterType })}
+              selected={isSelected}
+              color="white"
+            >
+              {`${t(`search.filter.${filterType}`)} ${
                 isQueryValid && result && !result.loading ? `(${result.totalResults})` : ''
               }`}
-              selected={isSelected}
-              loading={result?.loading}
-              onPress={() => updateParams({ filter: filterType })}
-            />
+            </ChipAction>
           )
         })}
       </ScrollView>
@@ -143,37 +118,21 @@ const SearchContent = () => {
 
 export default memo(SearchContent)
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    inner: {
-      flex: 1,
-      // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
-      marginTop: dimensions.topBarHeight,
-      paddingLeft: 0,
-      paddingRight: 0,
-    },
-    buttonList: {
-      flexGrow: 0,
-      flexShrink: 0,
-    },
-    buttonListContainer: {
-      gap: 8,
-      marginHorizontal: 16,
-      marginVertical: 12,
-    },
-    filterButton: {
-      paddingHorizontal: 16,
-      paddingVertical: 8,
-      flexBasis: 1,
-      ...Platform.select({
-        web: {
-          minWidth: 'fit-content',
-          maxWidth: '33%',
-        },
-      }),
-    },
-    filterButtonSelected: {
-      backgroundColor: theme.colors.foreground30,
-      borderColor: theme.colors.foreground30,
-    },
-  })
+const styles = StyleSheet.create({
+  inner: {
+    flex: 1,
+    // we do not use `paddingTop` for this spacing, because it will be overridden with `safeAreaInsetTop` for Android
+    marginTop: dimensions.topBarHeight,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  buttonList: {
+    flexGrow: 0,
+    flexShrink: 0,
+  },
+  buttonListContainer: {
+    gap: 8,
+    marginHorizontal: 16,
+    marginVertical: 12,
+  },
+})

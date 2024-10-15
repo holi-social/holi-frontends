@@ -149,6 +149,7 @@ const OwnProfile = () => {
                       onSubmit={onSubmit}
                       keyInUserObject={UserChipTypes.INTERESTS}
                       queryToUse={interestsQuery}
+                      color="green"
                     />
                   )}
                   {editMode === 'skills' && (
@@ -157,6 +158,7 @@ const OwnProfile = () => {
                       onSubmit={onSubmit}
                       keyInUserObject={UserChipTypes.SKILLS}
                       queryToUse={skillsQuery}
+                      color="blue"
                     />
                   )}
                   {editMode === 'sdgs' && (

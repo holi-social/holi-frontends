@@ -37,12 +37,12 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -266,15 +266,9 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   {!!space.topics?.length && (
                     <View style={styles.listContainer}>
                       {space.topics?.map((topic, index) => (
-                        <HoliChip
-                          key={`topic_${index}`}
-                          text={topic.title}
-                          label={topic.title}
-                          disabled
-                          style={styles.chip}
-                          fontStyle={styles.chipFontStyle}
-                          testID="space-edit-topics-chip"
-                        />
+                        <ChipLabel key={`topic_${index}`} color="green">
+                          {topic.title}
+                        </ChipLabel>
                       ))}
                     </View>
                   )}
@@ -300,15 +294,9 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   {!!space.sdgs?.length && (
                     <View style={styles.listContainer}>
                       {sdgs.map((sdg, index) => (
-                        <HoliChip
-                          key={`sdg_${index}`}
-                          text={`${sdg.number}. ${sdg.title}`}
-                          label={`${sdg.number}. ${sdg.title}`}
-                          disabled
-                          style={styles.chip}
-                          fontStyle={styles.chipFontStyle}
-                          testID="space-edit-sdgs-chip"
-                        />
+                        <ChipLabel key={`sdg_${index}`} color="white">
+                          {`${sdg.number}. ${sdg.title}`}
+                        </ChipLabel>
                       ))}
                     </View>
                   )}
@@ -490,13 +478,7 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
       flexDirection: 'row',
       flexWrap: 'wrap',
       flexShrink: 1,
-    },
-    chip: {
-      marginRight: 8,
-      marginBottom: 8,
-      borderColor: theme.colors.black300at12percent,
-      borderWidth: 1,
-      borderRadius: 24,
+      gap: 8,
     },
     chipFontStyle: {
       color: theme.colors.foreground30,

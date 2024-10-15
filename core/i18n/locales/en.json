@@ -291,6 +291,7 @@
   "individuals.post.category.label.experience": "Experience",
   "individuals.post.category.label.recommendation": "Recommendation",
   "individuals.post.category.label.topic": "Topic",
+  "individuals.post.category.label.topic_plural": "Topics",
   "individuals.post.category.label.visibility": "Visibility",
   "individuals.post.category.label.visibility.PUBLIC": "Public",
   "individuals.post.category.label.visibility.REGISTERED_USERS_ONLY": "Only users on holi",

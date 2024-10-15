@@ -6,7 +6,7 @@ import { User } from '@holi/core/domain/shared/types'
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliUserCardVariant = 'small' | 'normal'
@@ -61,7 +61,11 @@ const HoliUserCard: React.FC<HoliUserCardProps> = ({
             <HoliText style={styles.textStyle} bold>
               {fullName}
             </HoliText>
-            {!!category && <HoliChip style={styles.chip} text={category} label={category} checked hideIcon disabled />}
+            {!!category && (
+              <View style={styles.chip}>
+                <ChipLabel color="blue">{category}</ChipLabel>
+              </View>
+            )}
             <View style={styles.aboutMeContainer}>
               <HoliText style={styles.textStyleAboutMe}>{aboutMe}</HoliText>
             </View>

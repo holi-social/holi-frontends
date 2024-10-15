@@ -15,10 +15,13 @@ import { InsightsByUserIdResponse } from '@holi/core/queries'
 import MyPostsTab from '@holi/core/screens/individualPosts/components/MyPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
+import { Add } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
-import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
+import Spacing from '@holi/ui/foundations/Spacing'
+import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
@@ -75,29 +78,12 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
             content: () => (
               <View style={styles.profileContainer}>
                 <View style={styles.chipRowContainer} key="engagementLevel">
-                  <HoliChipRow
-                    editButtonLabel={t('profile.engagementLevel.edit')}
-                    editable
-                    title={t('profile.engagementLevel')}
-                    onPressEdit={() => toggleEditMode('engagementLevel')}
-                  >
-                    {user?.engagementLevel ? (
-                      <HoliChip
-                        text={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                        label={t(`user.engagementLevel.title.${user.engagementLevel}`)}
-                        disabled
-                        style={styles.chip}
-                        fontStyle={styles.chipFont}
-                      />
-                    ) : (
-                      <HoliChip
-                        onPress={() => toggleEditMode('engagementLevel')}
-                        label={t('profile.engagementLevel.add')}
-                        style={styles.chip}
-                        fontStyle={styles.chipFont}
-                      />
-                    )}
-                  </HoliChipRow>
+                  <HoliText size="small">{t('profile.engagementLevel')}</HoliText>
+                  {user?.engagementLevel ? (
+                    <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
+                  ) : (
+                    <ChipAction color="white" onPress={() => toggleEditMode('engagementLevel')} iconTrailing={Add} />
+                  )}
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
                   <UserChipRow
@@ -105,6 +91,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                     keyInUserObject={UserChipTypes.INTERESTS}
                     onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)}
                     numberOfLines={1}
+                    color="green"
                   />
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
@@ -113,6 +100,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                     keyInUserObject={UserChipTypes.SDGS}
                     onPressEdit={() => toggleEditMode(UserChipTypes.SDGS)}
                     numberOfLines={1}
+                    color="white"
                   />
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
@@ -121,6 +109,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                     keyInUserObject={UserChipTypes.SKILLS}
                     onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)}
                     numberOfLines={1}
+                    color="blue"
                   />
                 </View>
               </View>
@@ -163,17 +152,15 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'baseline',
     },
     chipRowContainer: {
-      marginTop: 24,
-    },
-    chip: {
-      borderWidth: 1,
-      borderColor: theme.colors.foreground30at12Percent,
+      gap: 8,
     },
     chipFont: {
       color: theme.colors.black300,
     },
     profileContainer: {
-      paddingBottom: 24,
+      paddingTop: Spacing.lg,
+      paddingBottom: Spacing.lg,
+      gap: Spacing.md,
     },
   })
 

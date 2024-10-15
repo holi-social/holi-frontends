@@ -47,6 +47,7 @@ const EditSpaceTopics: React.FC<EditSpaceTopicsProps> = ({ space, onDismiss }: E
         selected={topics}
         onSelect={setTopics}
         terms={allTopics}
+        color="green"
       />
     </EditSpaceModalWithFooter>
   )

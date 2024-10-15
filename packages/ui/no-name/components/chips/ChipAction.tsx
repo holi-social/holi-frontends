@@ -70,6 +70,7 @@ const stylesheet = createStyleSheet((theme) => ({
       outlineWidth: 1,
       outlineStyle: hovered ? 'solid' : 'none',
       boxShadow: focused ? theme.colors.focus : 'none',
+      alignSelf: 'flex-start',
       variants: {
         size: {
           sm: {

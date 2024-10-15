@@ -12,9 +12,10 @@ import { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { At, Phone } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliChip from '@holi/ui/components/molecules/HoliChip'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import Spacing from '@holi/ui/foundations/Spacing'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
+import { useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInfoViewProps = {
   space: Space
@@ -25,7 +26,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(), [])
 
   const { show: showInfoModal, hide: closeInfoModal, visible: infoModalVisible } = useModalState()
   const partner = SDG_INFO_MODAL_SOURCES_MAPPING['sdg']
@@ -41,7 +42,9 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
         <SpaceSection title={t('spaces.spaceDetails.topics')}>
           <View style={styles.listContainer}>
             {space.topics?.map((topic, index) => (
-              <HoliChip key={`topic_${index}`} text={topic.title} label={topic.title} disabled style={styles.chip} />
+              <ChipLabel key={`topic_${index}`} color="green">
+                {topic.title}
+              </ChipLabel>
             ))}
           </View>
         </SpaceSection>
@@ -57,13 +60,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
         <SpaceSection title={t('spaces.spaceDetails.sdgs')} infoIcon onPressInfo={showInfoModal}>
           <View style={styles.listContainer}>
             {sdgs.map((sdg, index) => (
-              <HoliChip
-                key={`sdg_${index}`}
-                text={`${sdg.number}. ${sdg.title}`}
-                label={`${sdg.number}. ${sdg.title}`}
-                disabled
-                style={styles.chip}
-              />
+              <ChipLabel key={`sdg_${index}`} color="white">{`${sdg.number}. ${sdg.title}`}</ChipLabel>
             ))}
           </View>
           <InfoModal
@@ -111,29 +108,25 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
 }
 export default SpaceInfoView
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
     listContainer: {
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'wrap',
       flexShrink: 1,
-    },
-    chip: {
-      backgroundColor: theme.colors.background10,
-      marginRight: 8,
-      marginBottom: 8,
+      gap: Spacing['3xs'],
     },
     link: {
-      marginRight: 20,
-      marginBottom: 20,
+      marginRight: Spacing['sm'],
+      marginBottom: Spacing['sm'],
     },
     contactIcon: {
       marginRight: 10,
     },
     contactWrapper: {
       flex: 1,
-      gap: 16,
+      gap: Spacing['xs'],
     },
     contactContainer: {
       flexDirection: 'row',

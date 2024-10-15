@@ -1,9 +1,7 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
 
 import { ExternalContentCategory } from '@holi/core/screens/insights/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   BarChart2,
   CalendarEvent,
@@ -17,10 +15,8 @@ import {
   Star,
   Video,
 } from '@holi/icons/src/generated'
-import HoliText, { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
-import HoliBadge from '@holi/ui/components/molecules/HoliBadge'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { useTheme } from '@holi/ui/styles/theme'
+import { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 
 export interface ExternalContentCategoryBadgeProps {
   category: ExternalContentCategory
@@ -41,21 +37,13 @@ const icons = {
   [ExternalContentCategory.EVENT]: CalendarEvent,
 }
 
-const ExternalContentCategoryBadge: React.FC<ExternalContentCategoryBadgeProps> = ({
-  category,
-  textSize = 'extrasmall',
-}) => {
+const ExternalContentCategoryBadge: React.FC<ExternalContentCategoryBadgeProps> = ({ category }) => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const icon = icons[category]
 
   return (
-    <HoliBadge textSize={textSize}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing['4xs'] }}>
-        {!!icon && <HoliIcon icon={icon} color={theme.colors.gray300} size={14} />}
-        <HoliText size={textSize}>{t(`insights.recommendations.category.${category.toLowerCase()}`)}</HoliText>
-      </View>
-    </HoliBadge>
+    <ChipLabel iconLeading={icons[category]} size="sm">
+      {t(`insights.recommendations.category.${category.toLowerCase()}`)}
+    </ChipLabel>
   )
 }
 

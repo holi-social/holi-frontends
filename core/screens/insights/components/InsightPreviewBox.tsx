@@ -17,6 +17,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
+import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
@@ -70,11 +71,11 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
           hasBorder
         >
           {!!insight.topic && (
-            <HoliBox padding={[0, 0, 8, 0]}>
-              <HoliText size="small" bold selectable style={{ color: colors.brandB300 }}>
+            <View style={{ paddingBottom: 8 }}>
+              <ChipLabel size="sm" color="green">
                 {insight.topic.title}
-              </HoliText>
-            </HoliBox>
+              </ChipLabel>
+            </View>
           )}
 
           <HoliHeading level="2" selectable size="s" numberOfLines={3}>

@@ -48,6 +48,7 @@ const stylesheet = createStyleSheet((theme) => ({
       backgroundColor: theme.components.chipLabel.background[color],
       borderColor: theme.components.chipLabel.border[color],
       borderWidth: 1,
+      alignSelf: 'flex-start',
       variants: {
         size: {
           sm: {
