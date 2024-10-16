@@ -6,6 +6,10 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import Spacing from '@holi/ui/foundations/Spacing'
 import Typography from '@holi/ui/no-name/components/typography/Typography'
+import {
+  InteractiveAccessibilityProps,
+  interactiveAccessibilityProps,
+} from '@holi/ui/no-name/foundations/accessibility'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { ChipSize, chipSizeToTypographySize } from './size'
@@ -13,7 +17,7 @@ import { pill } from './styles'
 
 type ChipColor = Color | 'white'
 
-type ChipActionProps = {
+type ChipActionProps = InteractiveAccessibilityProps & {
   onPress: (event: GestureResponderEvent) => void
   children?: string
   selected?: boolean
@@ -33,13 +37,16 @@ const ChipAction = ({
   size = 'md',
   iconLeading,
   iconTrailing,
+  role = 'switch',
+  ...rest
 }: ChipActionProps) => {
   const { styles } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = size === 'sm' ? 14 : 18
 
   return (
     <Pressable
-      role="switch"
+      {...interactiveAccessibilityProps(rest)}
+      role={role}
       aria-checked={selected}
       disabled={disabled}
       onPress={(e) => onPress?.(e)}
