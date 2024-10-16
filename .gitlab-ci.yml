@@ -47,11 +47,11 @@ default:
     - env -0 | sort -z | tr '\0' '\n' | egrep -ve '^(DOCKER_AUTH_CONFIG|GOOGLE_APPLICATION_CREDENTIALS)=.*'
   tags:
     - 1cpu-4gb
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
 
 lint_compile_test:
   stage: build
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   script:
     - yarn install --immutable --check-cache
     - yarn lint

@@ -90,7 +90,7 @@ default:
 
 web_build:
   needs: ['lint_compile_test']
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   script:
     - yarn web:build
     - ./scripts/generate-license-documents.sh
@@ -121,7 +121,7 @@ storybook_publish:
     name: storybook-main
     url: https://main--63846e9768032326df3b0c75.chromatic.com
     deployment_tier: staging
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas' # too much, but since it is there...
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas' # too much, but since it is there...
   script:
     - yarn storybook:publish
   artifacts:
