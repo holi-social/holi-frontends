@@ -19,7 +19,7 @@ test.describe('@Login', () => {
     await clickElementByTestId(page, 'btn-to-profile-view')
     await clickElementByTestId(page, 'btn-to-settings')
     await clickElementByTestId(page, 'btn-to-logout')
-    await clickElementByTestId(page, 'modal-logout-confirmation-confirm')
+    await page.getByRole('button', { name: 'Log out' }).click()
     await page.waitForSelector(byTestId('anonymous-profile-login-btn'))
   })
 })

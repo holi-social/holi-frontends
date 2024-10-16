@@ -335,6 +335,7 @@ export async function gotoWithRetries(page: Page, url: string, retries = 3, dela
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       await page.goto(url, { waitUntil: 'load', timeout: 20000 })
+      break
     } catch (error) {
       if (error instanceof Error) {
         // eslint-disable-next-line no-console
