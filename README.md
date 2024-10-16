@@ -735,7 +735,7 @@ export const holiApiUrl = Constants.expoConfig?.extra?.holi_api.url
 
 #### Configuration for mobile builds
 
-For app builds generated using the [`EAS command line tool`](https://github.com/expo/eas-cli) (which is used in the pipelines), environment variables have be set for each build profile in `apps/mobile/eas.json` (see [documentation](https://docs.expo.dev/build/eas-json/#environment-variables)).
+For app builds generated using the [`EAS command line tool`](https://github.com/expo/eas-cli) (which is used in the pipelines), environment variables have to be set for each build profile in `apps/mobile/eas.json` (see [documentation](https://docs.expo.dev/build/eas-json/#environment-variables)).
 You should see such variables listed as `Project environment variables` in the EAS build logs (you should also be able to find the full `app.config.js` there to check that all configuration values are filled in correctly).
 
 ## sentry.io logging/tracing
