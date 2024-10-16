@@ -8,7 +8,7 @@ export type AccessibilityProps = {
 }
 
 export type InteractiveAccessibilityProps = AccessibilityProps & {
-  tabIndex: -1 | 0 | undefined
+  tabIndex?: -1 | 0 | undefined
 }
 
 export const accessibilityProps = (props: AccessibilityProps) => {
