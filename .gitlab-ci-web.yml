@@ -95,9 +95,7 @@ web_build:
     - yarn web:build
     - ./scripts/generate-license-documents.sh
   # Enable cache for Next.js web build as suggested on https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching#gitlab-ci
-  cache:
-    paths: !reference [.default_cache, paths]
-    policy: pull-push
+  cache: !reference [.pull_push_cache]
   artifacts:
     paths:
       - apps/web/.next
