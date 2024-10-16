@@ -11,7 +11,6 @@ locals {
   holi_api_gateway = "https://${local.environment == "production" ? "production" : "staging"}.${data.terraform_remote_state.holi_unified_api_common_state.outputs.dns_unified_api_domain}"
   holi_api_url     = "${local.holi_api_gateway}/graphql"
 
-  posthog_key  = local.environment == "production" ? "phc_otDkhAWe558gCziFqIE3XrGla2AvdosZftmhOyjfWAu" : "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6"
   posthog_host = "https://eu.posthog.com"
 
   default_region = data.terraform_remote_state.holi_infra_state.outputs.default_region
