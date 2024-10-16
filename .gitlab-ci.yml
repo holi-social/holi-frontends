@@ -57,6 +57,7 @@ default:
   cache: # pull only, with branch name as key name
     key: $CI_COMMIT_REF_SLUG
     policy: pull
+    paths: !reference [.pull_push_cache, paths]
 
 lint_compile_test:
   stage: build
