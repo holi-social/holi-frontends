@@ -96,7 +96,6 @@ web_build:
     - ./scripts/generate-license-documents.sh
   # Enable cache for Next.js web build as suggested on https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching#gitlab-ci
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
     paths: !reference [.default_cache, paths]
     policy: pull-push
   artifacts:
@@ -123,9 +122,6 @@ storybook_publish:
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas' # too much, but since it is there...
   script:
     - yarn storybook:publish
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths: !reference [.default_cache, paths]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
