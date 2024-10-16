@@ -1,7 +1,7 @@
 # job templates
 
 .mobile_publish:
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   variables:
     ENVIRONMENT_FILE: '' # must be overriden by jobs extending .mobile_publish
     EXPO_PUBLISH_RELEASE_CHANNEL: $CI_COMMIT_REF_SLUG
@@ -23,7 +23,7 @@
     - 4cpu-16gb
 
 .mobile_build:
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   variables:
     ENVIRONMENT_FILE: '' # must be overridden by jobs extending .mobile_build
     BUILD_PROFILE: preview
@@ -62,7 +62,7 @@
   allow_failure: false
 
 .mobile_e2e:
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   dependencies: [] # explicitly disable artifact usage
   variables:
     BUILD_PLATFORM: changeme
@@ -315,7 +315,7 @@ mobile_release_candidate_build_ios:
 
 mobile_release_candidate_submit_android:
   needs: ['mobile_release_candidate_build_android']
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
@@ -332,7 +332,7 @@ mobile_release_candidate_submit_android:
 
 mobile_release_candidate_submit_ios:
   needs: ['mobile_release_candidate_build_ios']
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
