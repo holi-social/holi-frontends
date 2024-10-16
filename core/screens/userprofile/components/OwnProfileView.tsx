@@ -82,7 +82,12 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                   {user?.engagementLevel ? (
                     <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
                   ) : (
-                    <ChipAction color="white" onPress={() => toggleEditMode('engagementLevel')} iconTrailing={Add} />
+                    <ChipAction
+                      color="white"
+                      onPress={() => toggleEditMode('engagementLevel')}
+                      iconTrailing={Add}
+                      aria-label={t('profile.engagementLevel.add')}
+                    />
                   )}
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
