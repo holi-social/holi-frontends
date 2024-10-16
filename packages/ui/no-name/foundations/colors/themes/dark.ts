@@ -43,6 +43,14 @@ const theme = {
         white: black,
       },
     },
+    selector: {
+      backgroundColor: mono[700],
+      outlineColor: mono[500],
+      selected: {
+        outlineColor: mono[200],
+      },
+      text: mono[200],
+    },
   },
 } as const
 

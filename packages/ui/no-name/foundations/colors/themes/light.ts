@@ -44,6 +44,14 @@ const theme = {
         white,
       },
     },
+    selector: {
+      backgroundColor: mono[100],
+      outlineColor: mono[400],
+      selected: {
+        outlineColor: mono[800],
+      },
+      text: mono[800],
+    },
   },
 } as const
 
