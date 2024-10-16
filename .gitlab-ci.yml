@@ -4,8 +4,10 @@
 # first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it, and only if they need the cache
 # cache key corresponds to current branch name ($CI_COMMIT_REF_SLUG)
 
-.default_cache:
+.pull_push_cache:
   key: $CI_COMMIT_REF_SLUG
+  policy: pull-push
+  untracked: true
   paths:
     - './node_modules'
     - './*/node_modules'
@@ -52,9 +54,9 @@ default:
   tags:
     - 1cpu-4gb
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/alpine-node-expo-eas'
-  cache:
+  cache: # pull only, with branch name as key name
+    key: $CI_COMMIT_REF_SLUG
     policy: pull
-    untracked: true
 
 lint_compile_test:
   stage: build
@@ -63,10 +65,7 @@ lint_compile_test:
     - yarn install --immutable --check-cache
     - yarn lint
     - yarn test
-  cache:
-    key: !reference [.default_cache, key]
-    policy: pull-push
-    paths: !reference [.default_cache, paths]
+  cache: !reference [.pull_push_cache]
   interruptible: true
   tags:
     - 4cpu-16gb
