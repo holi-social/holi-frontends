@@ -257,13 +257,13 @@ mobile_release_candidate_publish:
     ENVIRONMENT_FILE: .env.production
     EXPO_PUBLISH_RELEASE_CHANNEL: release-candidate
   rules:
-    - !reference [.rule_templates, only_on_production_release]
+    - !reference [.rule_templates, manually_on_production_release]
   after_script: |
     curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The mobile release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available for testing via https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/release-candidate ."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 mobile_release_publish:
   extends: .mobile_publish
-  needs: ['lint_compile_test']
+  needs: ['mobile_release_candidate_publish']
   allow_failure: false
   environment:
     name: mobile-production
