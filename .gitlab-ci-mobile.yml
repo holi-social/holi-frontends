@@ -254,7 +254,7 @@ mobile_release_candidate_publish:
     deployment_tier: production
     url: https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/release-candidate
   variables:
-    ENVIRONMENT_FILE: .env.production
+    ENVIRONMENT_FILE: .env.staging
     EXPO_PUBLISH_RELEASE_CHANNEL: release-candidate
   rules:
     - !reference [.rule_templates, manually_on_production_release]
@@ -277,7 +277,7 @@ mobile_release_publish:
   after_script: |
     curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The mobile release \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is published to the branch specific channel. You can find it at https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels ."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
-mobile_release_candidate_build_android:
+mobile_release_build_android:
   extends: .mobile_build
   needs: ['lint_compile_test']
   allow_failure: false
@@ -295,7 +295,7 @@ mobile_release_candidate_build_android:
   rules:
     - !reference [.rule_templates, only_on_production_release]
 
-mobile_release_candidate_build_ios:
+mobile_release_build_ios:
   extends: .mobile_build
   needs: ['lint_compile_test']
   allow_failure: false
@@ -313,8 +313,8 @@ mobile_release_candidate_build_ios:
   rules:
     - !reference [.rule_templates, only_on_production_release]
 
-mobile_release_candidate_submit_android:
-  needs: ['mobile_release_candidate_build_android']
+mobile_release_submit_android:
+  needs: ['mobile_release_build_android']
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
@@ -330,8 +330,8 @@ mobile_release_candidate_submit_android:
   after_script: |
     curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The Android app for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the Play Store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
-mobile_release_candidate_submit_ios:
-  needs: ['mobile_release_candidate_build_ios']
+mobile_release_submit_ios:
+  needs: ['mobile_release_build_ios']
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
