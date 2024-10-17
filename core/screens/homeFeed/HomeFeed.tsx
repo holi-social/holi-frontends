@@ -22,7 +22,6 @@ import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
-import RecommendedChallenges from '@holi-apps/challenges/components/AttendingChallengeEvents'
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -75,9 +74,6 @@ const HomeFeed = () => {
           <AttendingChallengeEvents />
           <ErrorBoundary>
             <AllPosts />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <RecommendedChallenges />
           </ErrorBoundary>
           <ErrorBoundary>
             <InsightsOfTheWeek />
