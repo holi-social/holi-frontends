@@ -51,17 +51,13 @@ export const denyConsent = async (page: Page) => {
 
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
-
-  //Introduced exception handling if first attempt to hit the server does not succeed
-
-  await gotoWithRetries(page, '/profile')
-
   await denyConsent(page)
 }
 
 export const login = async (context: BrowserContext, page: Page, email: string, password: string): Promise<void> => {
+  await page.goto('/login')
+
   await prepareForLoginOrRegistration(context, page)
-  await clickElementByTestId(page, 'anonymous-profile-login-btn')
 
   const emailInput = await locateElementByTestId(page, 'ory-identifier-input')
   await emailInput.fill(email)
@@ -78,8 +74,6 @@ export const registerUserAccount = async (
   email: string,
   password: string
 ): Promise<{ fullName: string }> => {
-  await gotoWithRetries(page, '/profile')
-
   await registerUser(context, page, email, password)
   return await finishAccountSetup(page)
 }
@@ -90,29 +84,18 @@ export const registerUser = async (
   email: string,
   password: string
 ): Promise<void> => {
+  await page.goto('/onboarding/registration')
   await prepareForLoginOrRegistration(context, page)
 
-  await clickElementByTestId(page, 'btn-to-registration-form')
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-  await clickElementByTestId(page, 'community-guidelines-checkbox')
-  await clickElementByTestId(page, 'community-guidelines-navbtn-next-btn')
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-  await clickElementByTestId(page, 'privacy-policy-checkbox')
-  await clickElementByTestId(page, 'privacy-policy-navbtn-next-btn')
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+  await page.getByRole('checkbox', { name: 'I respect the Terms of Use and the Community Guidelines' }).check()
+  await page.getByRole('button', { name: 'Next' }).click()
+  await page.getByRole('checkbox', { name: 'I have read and understood the privacy policy.' }).check()
+  await page.getByRole('button', { name: 'Next' }).click()
 
-  const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
-  const passwordInput = await locateElementByTestId(page, 'ory-password-input')
+  await page.getByRole('textbox', { name: 'Email' }).fill(email)
+  await page.getByRole('textbox', { name: 'Password' }).fill(password)
 
-  await expect(async () => {
-    await expect(emailInput).toBeVisible()
-    await expect(passwordInput).toBeVisible()
-  }).toPass()
-
-  await emailInput.fill(email)
-  await passwordInput.fill(password)
-
-  await clickElementByTestId(page, 'ory-submit-password')
+  await page.getByRole('button', { name: 'Sign up' }).click()
 }
 
 export const finishAccountSetup = async (
