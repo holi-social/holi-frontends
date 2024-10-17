@@ -22,6 +22,7 @@ type ChipActionProps = {
   size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
+  'aria-label'?: string
 }
 
 const ChipAction = ({
@@ -33,6 +34,7 @@ const ChipAction = ({
   size = 'md',
   iconLeading,
   iconTrailing,
+  'aria-label': ariaLabel,
 }: ChipActionProps) => {
   const { styles } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = size === 'sm' ? 14 : 18
@@ -41,6 +43,7 @@ const ChipAction = ({
     <Pressable
       role="switch"
       aria-checked={selected}
+      aria-label={ariaLabel}
       disabled={disabled}
       onPress={(e) => onPress?.(e)}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
