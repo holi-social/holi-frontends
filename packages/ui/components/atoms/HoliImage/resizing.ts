@@ -20,8 +20,8 @@ const calcPixelRatioSize = (value: number | undefined): number | undefined => {
     if (isSSR) {
       return value * 2
     }
-    const pixelDensity = window.devicePixelRatio // hint: can be affected by zoom!
-    const halfRoundedPixelDensity = Math.round(pixelDensity * 2) / 2 // to limit the amount of cache buckets
+    const pixelDensity = window.devicePixelRatio // hint: can be affected by zoom! and can be a float, but we must return an integer from the function!
+    const halfRoundedPixelDensity = Math.round(pixelDensity + 0.25) // to limit the amount of cache buckets; +0.25 in order to be mostly backwards compatible with a previous version
     return halfRoundedPixelDensity * value
   }
   return PixelRatio.getPixelSizeForLayoutSize(value)
