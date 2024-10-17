@@ -14,7 +14,7 @@
     - 'cd apps/mobile'
     - >
       if [ "$USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON" == "true" ]; then
-        export EXPO_PUBLISH_RELEASE_CHANNEL=$(jq .build.production.channel eas.json)
+        export EXPO_PUBLISH_RELEASE_CHANNEL=$(jq -r .build.production.channel eas.json)
         echo "Using production channel: $EXPO_PUBLISH_RELEASE_CHANNEL"
       fi
     - 'eas update --channel=${EXPO_PUBLISH_RELEASE_CHANNEL} --auto'
