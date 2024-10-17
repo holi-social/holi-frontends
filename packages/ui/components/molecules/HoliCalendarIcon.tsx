@@ -32,7 +32,7 @@ const HoliCalendarIcon = ({
   const styles = useMemo(() => getStyles(isSmall, disabled, theme), [isSmall, disabled, theme])
 
   const getMonthName = (month: number): string => {
-    const monthNames: [string] = t('monthNames', { returnObjects: true })
+    const monthNames = t('monthNames', { returnObjects: true }) as string[]
     const monthName = monthNames[month - 1]
     if (!monthName) {
       return ''
