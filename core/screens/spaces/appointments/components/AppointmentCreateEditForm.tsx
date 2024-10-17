@@ -31,7 +31,7 @@ const AppointmentCreateEditForm = ({ space, initialAppointment, headerTitle, onS
   const { t } = useTranslation()
 
   const { props: confirmationModalProps, setShow: showConfirmationModal } = useConfirmationState({
-    onConfirm: () => navigateBack(),
+    onPrimary: () => navigateBack(),
   })
   const exitConfirmationTitle = t('global.leavePage.confirmation.title')
 
@@ -69,8 +69,8 @@ const AppointmentCreateEditForm = ({ space, initialAppointment, headerTitle, onS
         label={exitConfirmationTitle}
         title={exitConfirmationTitle}
         description={t('global.leavePage.confirmation.description')}
-        dismissText={t('global.leavePage.confirmation.dismiss')}
-        confirmText={t('global.leavePage.confirmation.confirm')}
+        secondaryText={t('global.leavePage.confirmation.dismiss')}
+        primaryText={t('global.leavePage.confirmation.confirm')}
         testID="form-modal-exit-confirmation"
         {...confirmationModalProps}
       />
