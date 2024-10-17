@@ -38,7 +38,7 @@ const RecoSliderCard = ({
 
   return (
     <View testID={testID} style={styles.container}>
-      <HoliLinkTracked label={title} href={to} trackingEvent={trackingEvent} testID={`${testID}-link`}>
+      <HoliLinkTracked label={title} href={to} trackingEvent={trackingEvent} testID={`${testID}-link`} isFullHeight>
         <HoliCardComponent.CardContainer hasBorder borderColor="gray200" borderRadius={16}>
           <HoliCardComponent.ImageContainer testID={testID}>
             <HoliCardComponent.Image

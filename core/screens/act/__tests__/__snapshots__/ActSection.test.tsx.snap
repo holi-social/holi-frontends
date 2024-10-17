@@ -2996,7 +2996,9 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               role="link"
               style={
                 [
-                  false,
+                  {
+                    "flex": 1,
+                  },
                 ]
               }
               testID="donations-reco-slider-card-link"
@@ -3247,7 +3249,9 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               role="link"
               style={
                 [
-                  false,
+                  {
+                    "flex": 1,
+                  },
                 ]
               }
               testID="donations-reco-slider-card-link"
@@ -3498,7 +3502,9 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               role="link"
               style={
                 [
-                  false,
+                  {
+                    "flex": 1,
+                  },
                 ]
               }
               testID="donations-reco-slider-card-link"
@@ -3749,7 +3755,9 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               role="link"
               style={
                 [
-                  false,
+                  {
+                    "flex": 1,
+                  },
                 ]
               }
               testID="donations-reco-slider-card-link"
@@ -4000,7 +4008,9 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               role="link"
               style={
                 [
-                  false,
+                  {
+                    "flex": 1,
+                  },
                 ]
               }
               testID="donations-reco-slider-card-link"
@@ -8689,7 +8699,9 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 role="link"
                 style={
                   [
-                    false,
+                    {
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="volunteering-reco-slider-card-link"
@@ -9004,7 +9016,9 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 role="link"
                 style={
                   [
-                    false,
+                    {
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="volunteering-reco-slider-card-link"
@@ -9319,7 +9333,9 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 role="link"
                 style={
                   [
-                    false,
+                    {
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="volunteering-reco-slider-card-link"
@@ -9634,7 +9650,9 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 role="link"
                 style={
                   [
-                    false,
+                    {
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="volunteering-reco-slider-card-link"
@@ -9949,7 +9967,9 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 role="link"
                 style={
                   [
-                    false,
+                    {
+                      "flex": 1,
+                    },
                   ]
                 }
                 testID="volunteering-reco-slider-card-link"
