@@ -11,10 +11,10 @@ export const CreateAppointmentSchema = z.object({
   endDateTime: z.string(),
   locationDetails: z
     .object({
-      completeAddress: z.string(),
-      city: z.string(),
+      completeAddress: z.string().optional(),
+      city: z.string().optional(),
       state: z.string().optional().nullable(),
-      country: z.string(),
+      country: z.string().optional(),
       geolocation: z
         .object({
           latitude: z.number(),
@@ -22,11 +22,12 @@ export const CreateAppointmentSchema = z.object({
         })
         .optional(),
     })
+    .or(z.null())
     .optional(),
   description: z.string().trim().max(5000).optional(),
   permission: z.string() /* PermissionType */,
-  videoCallLink: z.string().optional(),
-  videoCallInfo: z.string().optional(),
+  videoCallLink: z.string().or(z.null()).optional(),
+  videoCallInfo: z.string().or(z.null()).optional(),
   thumbnail: z.instanceof(Object).optional(),
 })
 

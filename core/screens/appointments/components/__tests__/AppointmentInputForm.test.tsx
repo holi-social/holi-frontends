@@ -1,67 +1,13 @@
-import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, userEvent } from '@testing-library/react-native'
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 
-import { geoPlaceDetailsQuery, geoPlacesQuery } from '@holi/core/geolocation/queries'
 import AppointmentInputForm, {
   getAppointmentDefaultInitialState,
 } from '@holi/core/screens/appointments/components/AppointmentInputForm'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 
 jest.mock('@holi/ui/components/organisms/HoliImagePicker')
-
-const mocks = [
-  {
-    request: {
-      query: geoPlacesQuery,
-      variables: {
-        text: 'Hamburg, Germany',
-        limit: 3,
-      },
-    },
-    result: {
-      data: {
-        geo_placesAutocomplete: [
-          {
-            id: '1',
-            name: 'Hamburg, Germany',
-            city: 'Hamburg',
-            state: 'Hamburg',
-            country: 'Germany',
-            coordinates: { latitude: 1, longitude: 2 },
-          },
-        ],
-      },
-    },
-  },
-  {
-    request: {
-      query: geoPlaceDetailsQuery,
-      variables: {
-        id: '1',
-      },
-    },
-    result: {
-      data: {
-        geo_placeDetails: {
-          name: 'Hamburg, Germany',
-          geolocation: {
-            place_id: '1',
-            properties: {
-              formatted: 'Hamburg, Germany',
-            },
-            geometry: {
-              type: 'test',
-              coordinates: [],
-            },
-          },
-        },
-      },
-    },
-  },
-]
-
-const Wrapper = ({ children }: PropsWithChildren) => <MockedProvider mocks={mocks}>{children}</MockedProvider>
+jest.mock('@holi/core/geolocation/components/PlacesAutocomplete')
 
 describe('AppointmentInputForm', () => {
   const onSubmitMock = jest.fn()
@@ -77,25 +23,64 @@ describe('AppointmentInputForm', () => {
     jest.useRealTimers()
   })
 
-  it('should not submit the form if the `Title` is not provided', async () => {
+  it('for an initial, pristine form no error is shown and the submit button is disabled', async () => {
     render(
       <AppointmentInputForm
         initialAppointment={getAppointmentDefaultInitialState()}
         space={space}
         onSubmit={onSubmitMock}
         onBackButtonPress={onBackButtonPressMock}
-      />,
-      { wrapper: Wrapper }
+      />
     )
 
-    let titleError = screen.queryByTestId('appointment-title-input-error-message')
+    const titleError = screen.queryByTestId('appointment-title-input-error-message')
     expect(titleError).not.toBeOnTheScreen()
 
     const submitButton = screen.getByRole('button', { name: /global.save/i })
-    userEvent.press(submitButton)
+    expect(submitButton).toBeDisabled()
+  })
 
+  it('changing a value for the first time shows error validation text', async () => {
+    render(
+      <AppointmentInputForm
+        initialAppointment={getAppointmentDefaultInitialState()}
+        space={space}
+        onSubmit={onSubmitMock}
+        onBackButtonPress={onBackButtonPressMock}
+      />
+    )
+    // given a clean title field
+    let titleError = screen.queryByTestId('appointment-title-input-error-message')
+    expect(titleError).not.toBeOnTheScreen()
+
+    // when changing description
+    const descriptionInput = screen.getByLabelText(/spaces.appointments.input.description.label/i)
+    await userEvent.type(descriptionInput, 'some description')
+
+    // empty title field has error text
     titleError = await screen.findByTestId('appointment-title-input-error-message')
     expect(titleError).toBeOnTheScreen()
+  })
+
+  it('cannot submit form when missing a title', async () => {
+    render(
+      <AppointmentInputForm
+        initialAppointment={getAppointmentDefaultInitialState()}
+        space={space}
+        onSubmit={onSubmitMock}
+        onBackButtonPress={onBackButtonPressMock}
+      />
+    )
+
+    // given just a description
+    const descriptionInput = screen.getByLabelText(/spaces.appointments.input.description.label/i)
+    await userEvent.type(descriptionInput, 'some description')
+
+    // when submitting
+    const submitButton = screen.getByRole('button', { name: /global.save/i })
+    userEvent.press(submitButton)
+
+    // then no submit handler was called
     expect(onSubmitMock).not.toHaveBeenCalled()
   })
 
@@ -108,8 +93,7 @@ describe('AppointmentInputForm', () => {
         space={space}
         onSubmit={onSubmitMock}
         onBackButtonPress={onBackButtonPressMock}
-      />,
-      { wrapper: Wrapper }
+      />
     )
 
     // shows error message when title is less than 2 characters
@@ -117,6 +101,7 @@ describe('AppointmentInputForm', () => {
     expect(titleError).not.toBeOnTheScreen()
 
     let titleInput = screen.getByLabelText(/spaces.appointments.input.title.label/i)
+
     await userEvent.type(titleInput, TITLE_TEXT.slice(0, 1))
     await userEvent.press(screen.getByText(/spaces.appointments.input.inviteOnly.title/i))
 
@@ -127,6 +112,7 @@ describe('AppointmentInputForm', () => {
     titleInput = screen.getByLabelText(/spaces.appointments.input.title.label/i)
     await userEvent.type(titleInput, TITLE_TEXT)
     await userEvent.press(screen.getByText(/spaces.appointments.input.inviteOnly.title/i))
+
     expect(titleError).not.toBeOnTheScreen()
   })
 
@@ -141,8 +127,7 @@ describe('AppointmentInputForm', () => {
           space={space}
           onSubmit={onSubmitMock}
           onBackButtonPress={onBackButtonPressMock}
-        />,
-        { wrapper: Wrapper }
+        />
       )
 
       const titleInput = screen.getByLabelText(/spaces.appointments.input.title.label/i)
@@ -197,8 +182,7 @@ describe('AppointmentInputForm', () => {
           space={space}
           onSubmit={onSubmitMock}
           onBackButtonPress={onBackButtonPressMock}
-        />,
-        { wrapper: Wrapper }
+        />
       )
 
       const titleInput = screen.getByLabelText(/spaces.appointments.input.title.label/i)
