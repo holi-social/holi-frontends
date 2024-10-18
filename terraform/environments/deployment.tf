@@ -57,8 +57,13 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
-          name  = "POSTHOG_KEY"
-          value = local.posthog_key
+          name = "POSTHOG_KEY"
+          value_from {
+            secret_key_ref {
+              name = local.environment_name == "production" ? "POSTHOG_API_KEY_PRODUCTION" : "POSTHOG_API_KEY_DEVELOPMENT"
+              key  = "latest"
+            }
+          }
         }
         env {
           name  = "POSTHOG_HOST"
@@ -76,8 +81,8 @@ resource "google_cloud_run_service" "mvp_web" {
           name = "ORY_ADMIN_ACCESS_TOKEN"
           value_from {
             secret_key_ref {
-              key  = "latest"
               name = local.environment_name == "production" ? "ORY_ACCESS_TOKEN_PRODUCTION" : "ORY_ACCESS_TOKEN_DEVELOPMENT"
+              key  = "latest"
             }
           }
         }
