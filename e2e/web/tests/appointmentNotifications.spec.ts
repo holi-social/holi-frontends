@@ -35,7 +35,7 @@ test.describe('@AppointmentNotifications', () => {
       await admin.goto('/spaces/' + spaceName)
       await clickElementByTestId(admin, 'space-options-btn')
       await clickElementByTestId(admin, 'space-delete')
-      await clickElementByTestId(admin, 'space-delete-confirmation-confirm')
+      await clickElementByTestId(admin, 'space-delete-confirmation-primary')
     })
   })
 })
