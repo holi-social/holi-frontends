@@ -57,7 +57,7 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
 
   return Platform.OS === 'web' ? (
     <DefaultLayout keyboardShouldPersistTaps="handled" headerOverlap={true}>
-      <LoginRegistrationContainer style={{ paddingHorizontal: 24 }}>
+      <LoginRegistrationContainer>
         {success ? (
           <RecoverPasswordCode email={email} flow={flow} webview={webview} />
         ) : (
