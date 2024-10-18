@@ -131,6 +131,7 @@ const AppointmentInputForm = ({
   const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
 
+  const [pristine, setPristine] = useState(true)
   const [appointment, setAppointment] = useState<CreateAppointmentInput>({
     ...initialAppointment,
     thumbnail: initialAppointment.thumbnail ? { uri: initialAppointment.thumbnail } : undefined,
@@ -142,11 +143,8 @@ const AppointmentInputForm = ({
 
   const onAppointmentChange = (update: Partial<CreateAppointmentInput>) => {
     setAppointment((prev) => ({ ...prev, ...update }))
+    setPristine(false)
   }
-
-  const [validationErrors, setValidationErrors] = useState<
-    Partial<Record<keyof CreateAppointmentInput, string[]>> | undefined
-  >(undefined)
 
   const { show: showInviteOnly, hide: hideInviteOnly, visible: visibleInviteOnly } = useModalState()
   const { show: showPermissionType, hide: hidePermissionType, visible: visiblePermissionType } = useModalState()
@@ -169,35 +167,26 @@ const AppointmentInputForm = ({
     selected: appointment.permission === option.id,
   }))
 
-  const getValidationErrors = (fieldsToValidate: (keyof CreateAppointmentInput)[] = []) => {
-    const validation = CreateAppointmentSchema.safeParse(
-      { ...appointment, spaceId: space?.id },
-      // validate only passed fields or the whole object if no fields are passed
-      fieldsToValidate.length ? { path: fieldsToValidate } : undefined
-    )
-    const errors = validation.error?.flatten().fieldErrors
-
-    setValidationErrors(errors)
-
-    return errors
-  }
+  const validation = CreateAppointmentSchema.safeParse({ ...appointment, spaceId: space?.id })
+  const errors = pristine ? {} : validation.error?.flatten().fieldErrors
 
   const onSave = async () => {
-    if (getValidationErrors() !== undefined) return
-
-    await onSubmit({
-      ...appointment,
-      spaceId: space?.id,
-      thumbnail: appointment.thumbnail?.blob,
-      participantIds: appointment.inviteOnly ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
-      inviteOnly: !!appointment.inviteOnly,
-    })
+    setPristine(false)
+    if (validation.success) {
+      await onSubmit({
+        ...appointment,
+        spaceId: space?.id,
+        thumbnail: appointment.thumbnail?.blob,
+        participantIds: appointment.inviteOnly ? space?.members.data.map(({ user }) => user.id) : [], // TODO: remove this logic when allowing choosing specific participants
+        inviteOnly: !!appointment.inviteOnly,
+      })
+    }
   }
 
   return (
     <FormWrapper
       onSave={onSave}
-      saveButtonDisabled={!!validationErrors}
+      saveButtonDisabled={!validation.success}
       onBack={onBackButtonPress}
       showBackButton
       behavior="padding"
@@ -210,7 +199,7 @@ const AppointmentInputForm = ({
           <HoliTextInput
             placeholder={t('spaces.appointments.input.title.placeholder')}
             inputLabel={t('spaces.appointments.input.title.label')}
-            validationErrorText={validationErrors?.title?.[0]}
+            validationErrorText={errors?.title?.[0]}
             value={appointment.title}
             onChange={(title) => onAppointmentChange({ title })}
             aria-label={t('spaces.appointments.input.title.label')}
@@ -218,7 +207,6 @@ const AppointmentInputForm = ({
             isRequired
             showCharacterCount
             maxNoOfCharacters={128}
-            onBlur={() => setValidationErrors(getValidationErrors(['title']))}
             inputProps={{ autoFocus: true }}
           />
 
