@@ -123,7 +123,6 @@ mobile_review_publish:
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/alpine'
   variables:
     # has to be set to none for auto stop
     GIT_STRATEGY: none
