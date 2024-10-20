@@ -70,6 +70,7 @@ export const initNotifications = async () => {
 
 const handleForegroundNotification = async (notification: Notification): Promise<NotificationBehavior> => {
   // defensive programming, since types don't show all null-possibilities
+  logger.debug('handleForegroundNotification', 'notification', JSON.stringify(notification))
   const request: Partial<NotificationRequest> = notification.request
   if (request.trigger?.type === 'push') {
     const trigger = request.trigger as Partial<PushNotificationTrigger>
@@ -79,18 +80,22 @@ const handleForegroundNotification = async (notification: Notification): Promise
       const currentRoute = navigationRef.current?.getCurrentRoute()
       await handleForegroundChatMessage(currentRoute, payload)
     }
-    return {
+    const response = {
       shouldShowAlert: false,
       shouldPlaySound: false,
       shouldSetBadge: false,
     }
+    logger.debug('handleForegroundNotification', 'response', response)
+    return response
   }
   // Android: only with `shouldPlaySound: true`, the notification pops over the screen
-  return {
+  const response = {
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
   }
+  logger.debug('handleForegroundNotification', 'response', response)
+  return response
 }
 
 const registerHandleNotificationsWhenAppIsInForeground = () => {

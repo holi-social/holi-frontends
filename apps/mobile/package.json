@@ -35,7 +35,7 @@
     "expo-linear-gradient": "~13.0.2",
     "expo-linking": "~6.3.1",
     "expo-localization": "~15.0.3",
-    "expo-notifications": "~0.28.18",
+    "expo-notifications": "patch:expo-notifications@npm%3A0.28.18#~/.yarn/patches/expo-notifications-npm-0.28.18-ea1d2eef01.patch",
     "expo-secure-store": "~13.0.2",
     "expo-splash-screen": "~0.27.6",
     "expo-status-bar": "~1.12.1",
