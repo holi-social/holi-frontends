@@ -31,7 +31,7 @@ const EditAppointment = () => {
   } = useSpaceByIdOrName(spaceIdOrName)
 
   const {
-    data: { appointment: appointmentOrigin } = {},
+    data: { appointment } = {},
     error: errorAppointment,
     loading: loadingAppointment,
   } = useAppointmentById(appointmentIdOrSlug)
@@ -44,7 +44,7 @@ const EditAppointment = () => {
     await updateAppointment({
       variables: {
         input: {
-          appointmentId: appointmentOrigin?.id,
+          appointmentId: appointment?.id,
           ...appointmentState,
         },
       },
@@ -54,13 +54,13 @@ const EditAppointment = () => {
 
   if (loadingSpace || loadingAppointment) {
     return <HoliLoader />
-  } else if (errorSpace || !space || errorAppointment || !appointmentOrigin) {
+  } else if (errorSpace || !space || errorAppointment || !appointment) {
     return null
   }
 
   return (
     <AppointmentCreateEditForm
-      initialAppointment={appointmentToCreateAppointmentInput(appointmentOrigin, space.id)}
+      initialAppointment={appointmentToCreateAppointmentInput(appointment, space.id)}
       space={space}
       headerTitle={t('spaces.appointments.edit.button.label')}
       onSubmit={onSubmit}

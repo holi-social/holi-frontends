@@ -15,13 +15,11 @@ export const appointmentToCreateAppointmentInput = (
     endDateTime,
     videoCallLink,
   } = appointment
-  // Exclude __typename
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { locationDetails: { __typename: _, ...locationDetails } = {} } = appointment
-  const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    geolocation: { __typename: __, ...geolocation } = {},
-  } = locationDetails
+  const { __typename: _, ...cleanLocationDetails } = appointment?.locationDetails || {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { __typename: __, ...cleanGeolocation } = appointment.locationDetails?.geolocation || {}
 
   return {
     spaceId,
@@ -35,9 +33,11 @@ export const appointmentToCreateAppointmentInput = (
     participantIds: participants.map(({ id }) => id),
     videoCallLink: videoCallLink?.url,
     videoCallInfo: videoCallLink?.additionalInfo,
-    locationDetails: {
-      ...locationDetails,
-      geolocation: 'latitude' in geolocation ? geolocation : undefined,
-    },
+    ...(cleanLocationDetails.geolocation && {
+      locationDetails: {
+        ...cleanLocationDetails,
+        geolocation: 'latitude' in cleanGeolocation ? cleanGeolocation : undefined,
+      },
+    }),
   }
 }
