@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { PermissionStatus } from 'expo-modules-core'
 import { Notification, NotificationHandler, NotificationRequestInput } from 'expo-notifications'
 
-import { initNotifications } from '@holi/mobile/notifications/initNotifications'
+import { initNotifications, pushNotificationSource } from '@holi/mobile/notifications/initNotifications'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
 
@@ -146,6 +146,15 @@ describe('initNotifications', () => {
     expect(mockGetDevicePushTokenAsync).toHaveBeenCalledTimes(0)
     expect(mockGetStorage).toHaveBeenCalledWith(permissionRequestedStorageKey)
     expect(mockWriteStorage).toHaveBeenCalledTimes(0)
+  })
+
+  describe('pushNotificationSource', () => {
+    it('should recognize novu notification', () => {
+      expect(pushNotificationSource({ notificationType: 'FOOBAR' })).toEqual('novu')
+    })
+    it('should assume chat as source if not novu', () => {
+      expect(pushNotificationSource({})).toEqual('chat')
+    })
   })
 
   describe('foreground handling', () => {

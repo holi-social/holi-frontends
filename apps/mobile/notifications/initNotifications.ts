@@ -1,12 +1,12 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { PermissionStatus } from 'expo-modules-core'
-import * as Notifications from 'expo-notifications'
 import type {
   Notification,
   NotificationBehavior,
   NotificationRequest,
   PushNotificationTrigger,
 } from 'expo-notifications'
+import * as Notifications from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
 import { TaskManagerTaskBody } from 'expo-task-manager'
 import { Platform } from 'react-native'
@@ -16,7 +16,8 @@ import { isDevice } from '@holi/core/helpers/isDevice'
 import { getLogger } from '@holi/core/helpers/logging'
 import { initDeviceToken, markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
-import { handleForegroundChatMessage, isChatNotification } from '@holi/mobile/notifications/chatNotifications'
+import { maybeScheduleChatNotification } from '@holi/mobile/notifications/chatNotifications'
+import { NotificationPayload } from '@holi/mobile/notifications/index'
 
 const logger = getLogger('Notifications')
 
@@ -68,28 +69,59 @@ export const initNotifications = async () => {
   }
 }
 
-const handleForegroundNotification = async (notification: Notification): Promise<NotificationBehavior> => {
-  // defensive programming, since types don't show all null-possibilities
+const notificationType = (notification: Notification): 'push' | 'scheduled' =>
+  (notification.request as Partial<NotificationRequest>).trigger?.type === 'push' ? 'push' : 'scheduled'
+
+const parseNotificationPayload = (notification: Notification): NotificationPayload => {
   const request: Partial<NotificationRequest> = notification.request
-  if (request.trigger?.type === 'push') {
-    const trigger = request.trigger as Partial<PushNotificationTrigger>
-    const payload = trigger.remoteMessage?.data ?? trigger.payload // android ?? ios
-    // Only chat notifications might be displayed in the foreground
-    if (isChatNotification(payload)) {
-      const currentRoute = navigationRef.current?.getCurrentRoute()
-      await handleForegroundChatMessage(currentRoute, payload)
+  const trigger = request.trigger as Partial<PushNotificationTrigger>
+  return trigger.remoteMessage?.data /* Android */ ?? trigger.payload /* iOS */ ?? {}
+}
+
+export const pushNotificationSource = (payload: NotificationPayload): 'novu' | 'chat' => {
+  // all Novu notifications have `notificationType` and we currently only have notifications from Novu and Sygnal
+  return payload?.notificationType ? 'novu' : 'chat'
+}
+
+// gets called when:
+// * for every notification when app is in foreground received via FCM / APNS
+// * for every notification scheduled via scheduleNotificationsAsync from within our app code
+const handleNotification = async (notification: Notification): Promise<NotificationBehavior> => {
+  switch (notificationType(notification)) {
+    case 'scheduled': {
+      logger.debug('handleNotification', 'not displaying scheduled notification', notification)
+      return {
+        shouldShowAlert: true,
+        shouldPlaySound: true, // Android: only with `shouldPlaySound: true`, the notification pops over the screen
+        shouldSetBadge: false,
+      }
     }
-    return {
-      shouldShowAlert: false,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
+    case 'push': {
+      const payload = parseNotificationPayload(notification)
+      switch (pushNotificationSource(payload)) {
+        case 'novu': {
+          // conscious product decision: if the user has the app open, we don't want to bug them with notifications
+          // in-app unread notification count should suffice
+          logger.debug('handleNotification', 'not displaying novu notification', notification)
+          return {
+            shouldShowAlert: false,
+            shouldPlaySound: false,
+            shouldSetBadge: false,
+          }
+        }
+        case 'chat': {
+          const currentRoute = navigationRef.current?.getCurrentRoute()
+          // chat push notifications don't come in a form that can be rendered as notifications directly
+          // maybeScheduleChatNotification transforms them such that they can
+          await maybeScheduleChatNotification(currentRoute, payload)
+          return {
+            shouldShowAlert: false,
+            shouldPlaySound: false,
+            shouldSetBadge: false,
+          }
+        }
+      }
     }
-  }
-  // Android: only with `shouldPlaySound: true`, the notification pops over the screen
-  return {
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
   }
 }
 
@@ -97,16 +129,16 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
   // see https://docs.expo.dev/versions/latest/sdk/notifications/#setnotificationhandlerhandler
   Notifications.setNotificationHandler({
     handleNotification: async (notification: Notification): Promise<NotificationBehavior> => {
-      logger.debug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
-      return handleForegroundNotification(notification)
+      logger.debug('handleNotification', 'received notification', JSON.stringify(notification))
+      return handleNotification(notification)
     },
     handleSuccess: async (notificationId) => {
       // could be used for tracking
-      logger.debug('foregroundNotificationHandler', 'notification success', notificationId)
+      logger.debug('handleNotification', 'notification success', notificationId)
     },
     handleError: async (notificationId, error) => {
       logError(error, 'Failed to handle foreground notification', {
-        location: 'initNotifications.foregroundNotificationHandler',
+        location: 'initNotifications.handleNotification',
         notificationId,
       })
     },

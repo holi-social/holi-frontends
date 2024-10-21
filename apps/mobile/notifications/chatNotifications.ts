@@ -1,5 +1,5 @@
-import * as Notifications from 'expo-notifications'
 import type { NotificationContentInput } from 'expo-notifications'
+import * as Notifications from 'expo-notifications'
 
 import { type Route } from '@react-navigation/native'
 
@@ -73,18 +73,12 @@ type SygnalEvent =
   | IosMessageWithContent
   | IosEventAnonymized
 
-const parseToSygnalEvent = (
-  remoteData:
-    | {
-        [key: string]: unknown
-      }
-    | undefined
-): SygnalEvent | undefined => {
-  if (!remoteData) {
+const parseToSygnalEvent = (payload: NotificationPayload | undefined): SygnalEvent | undefined => {
+  if (!payload) {
     return undefined
   }
   try {
-    const { content, ...rest } = remoteData
+    const { content, ...rest } = payload
 
     return {
       // Android events benefit from parsing the content JSON
@@ -97,15 +91,12 @@ const parseToSygnalEvent = (
   }
 }
 
-const navigationStateAllowsPushDisplayFor = (
-  pushRoomId: string | undefined,
-  currentRoute: Route<string> | undefined
-): boolean => {
+const isInChatHome = (currentRoute: Route<string> | undefined): boolean => currentRoute?.name === RouteName.ChatHome
+
+const isInSameChatRoom = (pushRoomId: string | undefined, currentRoute: Route<string> | undefined): boolean => {
   const name = currentRoute?.name
   const params = currentRoute?.params
-  const isInChatHome = name === RouteName.ChatHome
-  const isInSameRoom = name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === pushRoomId
-  return !isInChatHome && !isInSameRoom
+  return name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === pushRoomId
 }
 
 const createIosMessagePush = (locArgs: [string, string], roomId: string | undefined) => {
@@ -184,19 +175,17 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
   }
 }
 
-export const isChatNotification = (data: NotificationPayload | undefined) => !data?.notificationType
-
-export const handleForegroundChatMessage = async (
+export const maybeScheduleChatNotification = async (
   currentRoute: Route<string> | undefined,
-  data: NotificationPayload | undefined
-) => {
-  const event = parseToSygnalEvent(data)
-  logger.debug('handleForegroundChatMessage', 'using sygnal event', JSON.stringify(event))
+  payload: NotificationPayload | undefined
+): Promise<void> => {
+  const event = parseToSygnalEvent(payload)
+  logger.debug('maybeScheduleChatNotification', 'parsed sygnal event', JSON.stringify(event))
 
-  if (event && navigationStateAllowsPushDisplayFor(event.room_id, currentRoute)) {
+  if (event && !isInChatHome(currentRoute) && !isInSameChatRoom(event.room_id, currentRoute)) {
     const content = generateNotificationContent(event)
     if (content) {
-      logger.debug('handleForegroundChatMessage', 'scheduling notification', JSON.stringify(content))
+      logger.debug('maybeScheduleChatNotification', 'scheduling chat notification', JSON.stringify(content))
       await Notifications.scheduleNotificationAsync({
         content,
         // Android:
@@ -207,7 +196,8 @@ export const handleForegroundChatMessage = async (
         trigger: null, // `null` means to schedule directly
       })
     } else {
-      logger.debug('handleForegroundChatMessage', 'skipping push notification')
+      logger.debug('maybeScheduleChatNotification', 'ignoring unknown push notification', payload)
     }
   }
+  return undefined
 }

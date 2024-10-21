@@ -27,7 +27,7 @@ initialiseComponentLibrary()
 SplashScreen.preventAutoHideAsync()
 
 registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
-  logError(error, 'Failed to register notifications backgound task', {
+  logError(error, 'Failed to register notifications background task', {
     location: 'App.registerHandleNotificationsWhenAppIsInBackground',
   })
 )
