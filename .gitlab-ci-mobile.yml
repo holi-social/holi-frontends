@@ -3,7 +3,7 @@
 .mobile_publish:
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   variables:
-    ENVIRONMENT_FILE: '' # must be overriden by jobs extending .mobile_publish
+    ENVIRONMENT_FILE: '' # must be overridden by jobs extending .mobile_publish
     EXPO_PUBLISH_RELEASE_CHANNEL: $CI_COMMIT_REF_SLUG
     USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON: 'false'
     NODE_OPTIONS: '--max_old_space_size=4096' # helps against OOM errors
@@ -105,7 +105,6 @@
 .rules_mobile_review:
   - !reference [.rule_templates, any_but_production_staging]
   - !reference [.rule_templates, skip_environment_for_mobile]
-  - !reference [.rule_templates, any_other]
 
 mobile_review_publish:
   extends: .mobile_publish
@@ -120,6 +119,7 @@ mobile_review_publish:
   allow_failure: false
   rules:
     - !reference [.rules_mobile_review]
+    - !reference [.rule_templates, automatically_on_any_other]
 
 mobile_review_destroy:
   needs: ['mobile_review_publish']
@@ -147,10 +147,10 @@ mobile_review_build_android:
   variables:
     BUILD_PLATFORM: android
     ENVIRONMENT_FILE: .env.staging
-  when: manual
   allow_failure: false
   rules:
     - !reference [.rules_mobile_review]
+    - !reference [.rule_templates, manually_on_any_other]
 
 mobile_review_build_ios:
   extends: .mobile_build
@@ -158,10 +158,10 @@ mobile_review_build_ios:
   variables:
     BUILD_PLATFORM: ios
     ENVIRONMENT_FILE: .env.staging
-  when: manual
   allow_failure: false
   rules:
     - !reference [.rules_mobile_review]
+    - !reference [.rule_templates, manually_on_any_other]
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
@@ -170,6 +170,7 @@ mobile_review_e2e_android:
     TEST_SUITES: (smoke|journey)
   rules:
     - !reference [.rules_mobile_review]
+    - !reference [.rule_templates, manually_on_any_other]
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
@@ -178,6 +179,7 @@ mobile_review_e2e_ios:
     TEST_SUITES: (smoke|journey)
   rules:
     - !reference [.rules_mobile_review]
+    - !reference [.rule_templates, manually_on_any_other]
 
 ## staging environment
 
@@ -192,7 +194,7 @@ mobile_staging_publish:
     ENVIRONMENT_FILE: .env.staging
     EXPO_PUBLISH_RELEASE_CHANNEL: staging
   rules:
-    - !reference [.rule_templates, only_on_staging]
+    - !reference [.rule_templates, automatically_on_staging]
 
 mobile_staging_build_android:
   extends: .mobile_build
@@ -207,7 +209,7 @@ mobile_staging_build_android:
       - apps/mobile/artifacts_staging/
     expire_in: 1 week
   rules:
-    - !reference [.rule_templates, only_on_staging]
+    - !reference [.rule_templates, manually_on_staging]
 
 mobile_staging_build_ios:
   extends: .mobile_build
@@ -222,7 +224,7 @@ mobile_staging_build_ios:
       - apps/mobile/artifacts_staging/
     expire_in: 1 week
   rules:
-    - !reference [.rule_templates, only_on_staging]
+    - !reference [.rule_templates, manually_on_staging]
 
 mobile_staging_e2e_android:
   extends: .mobile_e2e_android
@@ -230,7 +232,7 @@ mobile_staging_e2e_android:
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
-    - !reference [.rule_templates, only_on_staging]
+    - !reference [.rule_templates, manually_on_staging]
 
 mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
@@ -238,7 +240,7 @@ mobile_staging_e2e_ios:
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
-    - !reference [.rule_templates, only_on_staging]
+    - !reference [.rule_templates, manually_on_staging]
 
 ## production environment
 
