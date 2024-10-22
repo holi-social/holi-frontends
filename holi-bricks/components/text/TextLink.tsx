@@ -1,5 +1,6 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import * as React from 'react'
+// eslint-disable-next-line no-restricted-imports
 import { ColorValue, Platform, Text, TextProps, TextStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 

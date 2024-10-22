@@ -1,4 +1,5 @@
 import React from 'react'
+// eslint-disable-next-line no-restricted-imports
 import { Text, TouchableOpacity } from 'react-native'
 
 interface MyButtonProps {

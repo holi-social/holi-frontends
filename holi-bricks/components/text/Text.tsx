@@ -3,13 +3,15 @@ import * as React from 'react'
 import {
   AccessibilityProps,
   ColorValue,
-  Platform,
-  Text as RNText,
+  Platform, // eslint-disable-next-line no-restricted-imports
+  Text as RNText, // eslint-disable-next-line no-restricted-imports
   TextProps as RNTextProps,
   TextStyle,
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+// Change import in HOLI-10369
+// eslint-disable-next-line no-restricted-imports
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'

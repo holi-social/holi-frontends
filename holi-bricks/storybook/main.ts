@@ -1,4 +1,3 @@
-import { dirname, join } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
 /** @type{import('@storybook/react-webpack5').StorybookConfig} */

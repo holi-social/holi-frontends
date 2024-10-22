@@ -28,11 +28,18 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/no-explicit-any': ['error'],
     'no-restricted-imports': [
-      'error',
+      'warn',
       {
         // Allows relative imports only within the current directory, forbids all other relative imports
         // Also forbid imports to yarn workspaces without @holi prefix as this breaks mobile builds
         patterns: ['..*', 'core/*', 'packages/*', 'holi-apps/*'],
+        paths: [
+          {
+            name: 'react-native',
+            importNames: ['Text', 'TextProps'],
+            message: 'Please use components from holi-bricks instead.',
+          },
+        ],
       },
     ],
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
