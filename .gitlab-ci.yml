@@ -51,6 +51,9 @@
   manually_on_any_other:
     - if: $CI_COMMIT_BRANCH
       when: manual
+  automatically_on_scheduled_e2e_test_run:
+    - if: $CI_PIPELINE_SOURCE == "schedule" &&  $CI_RUN_E2E_TESTS == "true"
+      when: on_success
 
 default:
   before_script:
