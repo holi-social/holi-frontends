@@ -743,8 +743,6 @@
   "registration.emailVerification.resendEmail": "Resend email",
   "registration.signUp.description": "With an account you can use all social functions and become active immediately. This takes about 2 minutes. ",
   "registration.signUp.heading": "Your engagement starts here",
-  "rootProvider.loading.login": "Starting transformation…",
-  "rootProvider.loading.profile": "Scaling impact…",
   "search.filter.all": "All",
   "search.filter.reset": "Clear filter",
   "search.filter.spaces": "Spaces",

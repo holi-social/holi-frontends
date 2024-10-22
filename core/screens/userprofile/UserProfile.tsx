@@ -26,8 +26,10 @@ import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPo
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
@@ -128,12 +130,11 @@ const UserProfile = () => {
   }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
 
   if (!userId || (loading && !user)) {
-    // TODO: replace with proper loading indicator
     return (
       <DefaultLayout>
-        <View style={[mixins.container, styles.messageContainer]}>
-          <HoliText>{t('rootProvider.loading.profile')}</HoliText>
-        </View>
+        <HoliContainer>
+          <HoliLoader />
+        </HoliContainer>
       </DefaultLayout>
     )
   }

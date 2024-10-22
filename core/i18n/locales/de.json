@@ -744,8 +744,6 @@
   "registration.emailVerification.resendEmail": "E-Mail erneut senden",
   "registration.signUp.description": "Mit einem Konto nutzt du alle sozialen Funktionen und kannst direkt aktiv werden. Das dauert ca. 2 Minuten.",
   "registration.signUp.heading": "Dein Engagement beginnt hier",
-  "rootProvider.loading.login": "Starte Transformation…",
-  "rootProvider.loading.profile": "Skaliere Impact…",
   "search.filter.all": "Alle",
   "search.filter.reset": "Filter löschen",
   "search.filter.spaces": "Spaces",
