@@ -176,8 +176,8 @@ const config: ExpoConfig = {
     //   'expo-font',
     //   {
     //     fonts: [
-    //       '../../packages/ui/no-name/components/text/fonts/InstrumentSans-Regular.ttf',
-    //       '../../packages/ui/no-name/components/text/fonts/InstrumentSans-Medium.ttf',
+    //       '../../holi-bricks/components/text/fonts/InstrumentSans-Regular.ttf',
+    //       '../../holi-bricks/components/text/fonts/InstrumentSans-Medium.ttf',
     //     ],
     //   },
     // ],

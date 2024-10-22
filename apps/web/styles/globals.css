@@ -1,5 +1,5 @@
 @import url('@holi/ui/assets/fonts/CircularStd/style.css');
-@import url('@holi/ui/no-name/components/text/fonts/style.css');
+@import url('holi-bricks/components/text/fonts/style.css');
 @import url('@holi/ui/styles/globalVars/styles.css');
 @import url('@holi/web/styles/common.css');
 
