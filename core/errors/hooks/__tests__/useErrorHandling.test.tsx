@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { jest } from '@jest/globals'
 import { render, screen } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -26,7 +26,7 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({ displayMessage }) => {
     location: 'ErrorComponent',
   })
 
-  return <Text>Child Content</Text>
+  return <Text size="md">Child Content</Text>
 }
 
 describe('useErrorHandling', () => {

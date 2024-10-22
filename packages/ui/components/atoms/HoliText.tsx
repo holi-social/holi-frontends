@@ -1,4 +1,5 @@
 import * as React from 'react'
+// eslint-disable-next-line no-restricted-imports
 import { Platform, StyleProp, StyleSheet, TextProps, TextStyle, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 

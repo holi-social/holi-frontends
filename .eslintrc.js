@@ -28,7 +28,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/no-explicit-any': ['error'],
     'no-restricted-imports': [
-      'warn',
+      'error',
       {
         // Allows relative imports only within the current directory, forbids all other relative imports
         // Also forbid imports to yarn workspaces without @holi prefix as this breaks mobile builds

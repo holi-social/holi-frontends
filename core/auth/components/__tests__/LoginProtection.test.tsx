@@ -1,7 +1,7 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { LoginState, useLoginState } from '@holi/core/auth/loginState'
@@ -67,7 +67,7 @@ describe('LoginProtection', () => {
     render(
       <MockedProvider mocks={[authenticatedUserRequest]} addTypename={false}>
         <LoginProtection>
-          <Text>Protected Content</Text>
+          <Text size="md">Protected Content</Text>
         </LoginProtection>
       </MockedProvider>
     )

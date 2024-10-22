@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 
 import { HoliStepper, HoliStepperController, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 
@@ -20,7 +21,7 @@ const TestStep = ({ idx }: { idx: number }) => {
   return (
     <Pressable testID={stepId} onPress={goNext}>
       <View>
-        <Text>{stepId}</Text>
+        <Text size="md">{stepId}</Text>
       </View>
     </Pressable>
   )

@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { render, screen } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import renderer from 'react-test-renderer'
 
 import i18next from '@holi/core/i18n'
@@ -32,7 +33,7 @@ describe('HoliUserAvatarPile', () => {
     render(
       <HoliUserAvatarPile users={users} counter>
         <View>
-          <Text>{dummyText}</Text>
+          <Text size="md">{dummyText}</Text>
         </View>
       </HoliUserAvatarPile>
     )
