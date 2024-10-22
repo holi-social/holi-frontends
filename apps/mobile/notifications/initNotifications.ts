@@ -89,7 +89,7 @@ export const pushNotificationSource = (payload: NotificationPayload): 'novu' | '
 const handleNotification = async (notification: Notification): Promise<NotificationBehavior> => {
   switch (notificationType(notification)) {
     case 'scheduled': {
-      logger.debug('handleNotification', 'not displaying scheduled notification', notification)
+      logger.debug('handleNotification', 'displaying scheduled notification', notification)
       return {
         shouldShowAlert: true,
         shouldPlaySound: true, // Android: only with `shouldPlaySound: true`, the notification pops over the screen
@@ -102,7 +102,11 @@ const handleNotification = async (notification: Notification): Promise<Notificat
         case 'novu': {
           // conscious product decision: if the user has the app open, we don't want to bug them with notifications
           // in-app unread notification count should suffice
-          logger.debug('handleNotification', 'not displaying novu notification', notification)
+          logger.debug(
+            'handleNotification',
+            'not displaying novu notification because app is in foreground',
+            notification
+          )
           return {
             shouldShowAlert: false,
             shouldPlaySound: false,
@@ -114,6 +118,7 @@ const handleNotification = async (notification: Notification): Promise<Notificat
           // chat push notifications don't come in a form that can be rendered as notifications directly
           // maybeScheduleChatNotification transforms them such that they can
           await maybeScheduleChatNotification(currentRoute, payload)
+          logger.debug('handleNotification', 'maybeScheduleChatNotification done, return not to display')
           return {
             shouldShowAlert: false,
             shouldPlaySound: false,
@@ -137,7 +142,7 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
       logger.debug('handleNotification', 'notification success', notificationId)
     },
     handleError: async (notificationId, error) => {
-      logError(error, 'Failed to handle foreground notification', {
+      logError(error, 'Failed to handle notification', {
         location: 'initNotifications.handleNotification',
         notificationId,
       })

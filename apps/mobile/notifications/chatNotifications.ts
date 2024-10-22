@@ -179,25 +179,36 @@ export const maybeScheduleChatNotification = async (
   currentRoute: Route<string> | undefined,
   payload: NotificationPayload | undefined
 ): Promise<void> => {
-  const event = parseToSygnalEvent(payload)
-  logger.debug('maybeScheduleChatNotification', 'parsed sygnal event', JSON.stringify(event))
+  const sygnalEvent = parseToSygnalEvent(payload)
+  logger.debug('maybeScheduleChatNotification', 'parsed sygnal event', JSON.stringify(sygnalEvent))
 
-  if (event && !isInChatHome(currentRoute) && !isInSameChatRoom(event.room_id, currentRoute)) {
-    const content = generateNotificationContent(event)
+  if (sygnalEvent) {
+    const content = generateNotificationContent(sygnalEvent)
     if (content) {
-      logger.debug('maybeScheduleChatNotification', 'scheduling chat notification', JSON.stringify(content))
-      await Notifications.scheduleNotificationAsync({
-        content,
-        // Android:
-        // - automatically uses a notification channel that supports pop over screen and sound
-        // TODO(SF) check this in HOLI-6190
-        // - Disclaimer: last time we checked, providing a (valid) notification channel id
-        //   caused an error "Failed to schedule notification" and we don't know why
-        trigger: null, // `null` means to schedule directly
-      })
+      const inChatHome = isInChatHome(currentRoute)
+      const inSameChatRoom = isInSameChatRoom(sygnalEvent.room_id, currentRoute)
+
+      if (!inChatHome && !inSameChatRoom) {
+        logger.debug('maybeScheduleChatNotification', 'scheduling chat notification', JSON.stringify(content))
+        await Notifications.scheduleNotificationAsync({
+          content,
+          // Android:
+          // - automatically uses a notification channel that supports pop over screen and sound
+          // TODO(SF) check this in HOLI-6190
+          // - Disclaimer: last time we checked, providing a (valid) notification channel id
+          //   caused an error "Failed to schedule notification" and we don't know why
+          trigger: null, // `null` means to schedule directly
+        })
+      } else {
+        logger.debug('maybeScheduleChatNotification', 'not scheduling chat notification', {
+          inChatHome,
+          inSameChatRoom,
+          currentRoute,
+        })
+      }
     } else {
       logger.debug('maybeScheduleChatNotification', 'ignoring unknown push notification', payload)
     }
   }
-  return undefined
+  return Promise.resolve()
 }
