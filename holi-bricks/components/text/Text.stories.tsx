@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { Text, TextSize } from 'holi-bricks/components/text/Text'
 import { black, mono, purple, red, white } from 'holi-bricks/tokens'
 import React from 'react'
@@ -20,7 +20,7 @@ const exampleColors = {
 }
 
 const meta: Meta<typeof Text> = {
-  title: 'No Name/Components/Text (draft)',
+  title: 'Components/Text',
   component: Text,
   argTypes: {
     children: { description: 'Text content', required: true },

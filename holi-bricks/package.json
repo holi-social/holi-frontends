@@ -34,6 +34,7 @@
     "@gorhom/bottom-sheet": "^4.6.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/slider": "4.5.2",
+    "@storybook/addon-a11y": "^8.3.6",
     "@storybook/addon-actions": "^8.3.5",
     "@storybook/addon-controls": "^8.3.5",
     "@storybook/addon-essentials": "^8.3.5",
