@@ -11,7 +11,9 @@ const config: Config = {
   // collectCoverage: true,
   // coverageDirectory: ".coverage",
   testEnvironment: 'jsdom',
-  testMatch: ['**/?(*.)+(test).[jt]s?(x)'],
+  moduleNameMapper: {
+    'holi-bricks/(.*)': '<rootDir>/$1',
+  },
   setupFilesAfterEnv: ['<rootDir>/jest.setupAfterEnv.ts'],
   transformIgnorePatterns: [
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|react-native-svg/.*)',

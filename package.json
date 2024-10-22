@@ -2,6 +2,9 @@
   "name": "holi-frontends",
   "private": true,
   "workspaces": {
+    "nohoist": [
+      "holi-bricks"
+    ],
     "packages": [
       "apps/*",
       "holi-apps/*",
