@@ -7,7 +7,6 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CenteredImageHeadlineDescriptionLayoutProps extends CenteredContentLayoutProps {
@@ -54,7 +53,7 @@ const CenteredImageHeadlineDescriptionLayout = React.forwardRef<
               />
             </View>
           )}
-          <View>
+          <View style={contentStyle}>
             <View style={styles.textContainer}>
               <HoliHeading level="1" size="m" align="center" testID={`${testID}-headline`}>
                 {headlineText}
@@ -76,8 +75,8 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     inner: {
       alignItems: 'center',
-      maxWidth: dimensions.breakpointL,
       gap: Spacing['4xl'],
+      width: '100%',
     },
     imageContainer: {
       alignItems: 'center',

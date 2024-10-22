@@ -15,7 +15,6 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const CODE_MAX_COUNT = 6
@@ -116,6 +115,7 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
         descriptionText={t('auth.forgotPassword.description')}
         testID="email-verification"
         ref={scrollViewRef}
+        contentStyle={styles.inner}
       >
         <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox} />
         <HoliTextInput
@@ -170,7 +170,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     inner: {
       alignItems: 'center',
-      maxWidth: dimensions.breakpointL,
+      width: '100%',
     },
     imageContainer: {
       alignItems: 'center',
@@ -186,7 +186,6 @@ const getStyles = (theme: HoliTheme) =>
       textAlign: 'center',
     },
     limitedBox: {
-      maxWidth: dimensions.breakpointS,
       width: '100%',
     },
   })

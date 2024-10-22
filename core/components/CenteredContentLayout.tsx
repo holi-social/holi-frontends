@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 export interface CenteredContentLayoutProps {
   // `append` is ReactNode that we can position (absolute/fixed) over main content in `children`
@@ -31,9 +32,11 @@ const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildr
             ref={ref}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
-            <HoliBox padding={24}>
-              <View style={styles.childrenWrapper}>{children}</View>
-            </HoliBox>
+            <HoliContainer>
+              <HoliBox padding={[24, 0]}>
+                <View style={styles.childrenWrapper}>{children}</View>
+              </HoliBox>
+            </HoliContainer>
           </ScrollView>
         </View>
 
@@ -58,6 +61,7 @@ const styles = StyleSheet.create({
   inner: {
     justifyContent: 'center',
     maxHeight: '100%',
+    maxWidth: '100%',
   },
   scrollView: {
     overflow: 'visible',
