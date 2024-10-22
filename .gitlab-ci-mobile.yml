@@ -209,6 +209,7 @@ mobile_staging_build_android:
       - apps/mobile/artifacts_staging/
     expire_in: 1 week
   rules:
+    - !reference [.rule_templates, automatically_on_scheduled_e2e_test_run]
     - !reference [.rule_templates, manually_on_staging]
 
 mobile_staging_build_ios:
@@ -224,6 +225,7 @@ mobile_staging_build_ios:
       - apps/mobile/artifacts_staging/
     expire_in: 1 week
   rules:
+    - !reference [.rule_templates, automatically_on_scheduled_e2e_test_run]
     - !reference [.rule_templates, manually_on_staging]
 
 mobile_staging_e2e_android:
@@ -232,6 +234,7 @@ mobile_staging_e2e_android:
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
+    - !reference [.rule_templates, automatically_on_scheduled_e2e_test_run]
     - !reference [.rule_templates, manually_on_staging]
 
 mobile_staging_e2e_ios:
@@ -240,6 +243,7 @@ mobile_staging_e2e_ios:
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
+    - !reference [.rule_templates, automatically_on_scheduled_e2e_test_run]
     - !reference [.rule_templates, manually_on_staging]
 
 ## production environment
