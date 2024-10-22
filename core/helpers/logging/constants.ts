@@ -8,7 +8,7 @@ export const DEBUG_LOG_COMPONENTS = {
   Chat: false,
   GoodNews: false,
   NavigationProvider: false,
-  Notifications: false,
+  Notifications: true,
   Tracking: false,
   Other: false,
 }
