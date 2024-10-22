@@ -1,4 +1,4 @@
-import type { NotificationResponse, PushNotificationTrigger } from 'expo-notifications'
+import type { NotificationResponse } from 'expo-notifications'
 import { Platform } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
