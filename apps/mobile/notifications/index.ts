@@ -26,7 +26,8 @@ const extractPayloadFromNotification = (response: NotificationResponse): Notific
     if (triggerData) {
       return triggerData
     }
-  } else if (request?.content?.data) {
+  }
+  if (request?.content?.data) {
     // active app push
     return request?.content?.data
   }
@@ -205,6 +206,7 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
     return null
   }
 
+  logger.debug('transformPushInteractionToUrl', 'payload', payload)
   if (isChatNotification(payload)) {
     return createUrlFromChatNotification(payload)
   } else {
