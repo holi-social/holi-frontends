@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -6,7 +7,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { pill } from '@holi/ui/no-name/components/chips/styles'
-import { Text } from '@holi/ui/no-name/components/text/Text'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { ChipSize, chipSizeToTextSize } from './size'

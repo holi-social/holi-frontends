@@ -1,8 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
+import { Text, TextSize } from 'holi-bricks/components/text/Text'
+import { black, mono, purple, red, white } from 'holi-bricks/tokens'
 import React from 'react'
-
-import { Text, TextSize } from '@holi/ui/no-name/components/text/Text'
-import { black, mono, purple, red, white } from '@holi/ui/no-name/foundations/colors/primitives'
 
 const availableSizes: TextSize[] = ['4xl', '3xl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs']
 const availableHeadingLevels = {

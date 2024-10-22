@@ -1,3 +1,4 @@
+import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import * as React from 'react'
 import {
   AccessibilityProps,
@@ -10,7 +11,6 @@ import {
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import { fontFamilies } from '@holi/ui/no-name/components/text/fontFamilies'
 
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
 export type TextHeadingLevel = '1' | '2' | '3'

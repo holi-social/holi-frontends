@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { ReactNode } from 'react'
 import { GestureResponderEvent, Pressable } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -6,7 +7,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
 import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { Text } from '@holi/ui/no-name/components/text/Text'
 import { Color, byShade } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { ChipSize, chipSizeToTextSize } from './size'

@@ -1,9 +1,8 @@
 import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
+import { TextLink, TextLinkSize } from 'holi-bricks/components/text/TextLink'
+import { black, mono, purple, red, white } from 'holi-bricks/tokens'
 import React from 'react'
-
-import { TextLink, TextLinkSize } from '@holi/ui/no-name/components/text/TextLink'
-import { black, mono, purple, red, white } from '@holi/ui/no-name/foundations/colors/primitives'
 
 const availableSizes: TextLinkSize[] = ['md', 'sm', 'xs']
 const exampleColors = {

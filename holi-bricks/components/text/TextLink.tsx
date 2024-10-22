@@ -1,8 +1,7 @@
+import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import * as React from 'react'
 import { ColorValue, Platform, Text, TextProps, TextStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-
-import { fontFamilies } from '@holi/ui/no-name/components/text/fontFamilies'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
 
