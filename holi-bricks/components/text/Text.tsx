@@ -1,4 +1,6 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
+import { useStyles } from 'holi-bricks/hooks/useStyles'
+import { createStyleSheet } from 'holi-bricks/utils/createStyleSheet'
 import * as React from 'react'
 import {
   AccessibilityProps,
@@ -8,7 +10,6 @@ import {
   TextProps as RNTextProps,
   TextStyle,
 } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 // Change import in HOLI-10369
 // eslint-disable-next-line no-restricted-imports
