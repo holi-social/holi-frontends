@@ -180,12 +180,13 @@ const AppointmentDetails = () => {
 
   const openMap = () => {
     if (!appointment.locationDetails) return
+    if (appointment.locationDetails.completeAddress) {
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        appointment.locationDetails.completeAddress
+      )}`
 
-    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      appointment.locationDetails.completeAddress
-    )}`
-
-    Linking.openURL(mapUrl)
+      Linking.openURL(mapUrl)
+    }
   }
 
   return (
@@ -231,7 +232,7 @@ const AppointmentDetails = () => {
                 </HoliText>
               </View>
             </View>
-            {!loginState.isLoggedIn && appointment.locationDetails && (
+            {!loginState.isLoggedIn && appointment.locationDetails && appointment.locationDetails.completeAddress && (
               <>
                 <View style={styles.iconGroupContainer}>
                   <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
@@ -278,7 +279,7 @@ const AppointmentDetails = () => {
               <View style={styles.iconGroupContainer}>
                 <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
                 <HoliButton
-                  label={appointment.locationDetails.completeAddress}
+                  label={appointment.locationDetails.completeAddress as string}
                   transparent
                   inline
                   style={styles.externalLinkButton}

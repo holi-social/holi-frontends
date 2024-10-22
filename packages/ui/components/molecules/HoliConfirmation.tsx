@@ -31,7 +31,7 @@ export interface UseConfirmation {
 
 export interface UseConfirmationProps {
   show: boolean
-  onConfirm: () => void
+  onPrimary: () => void
   onDismiss: () => void
   onSecondary?: () => void
 }

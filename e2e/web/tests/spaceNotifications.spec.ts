@@ -116,7 +116,7 @@ test.describe('@SpaceNotifications', async () => {
         await adminA.goto('/spaces/' + spaceName)
         await clickElementByTestId(adminA, 'space-options-btn')
         await clickElementByTestId(adminA, 'space-delete')
-        await clickElementByTestId(adminA, 'space-delete-confirmation-confirm')
+        await clickElementByTestId(adminA, 'space-delete-confirmation-primary')
       })
     })
   })

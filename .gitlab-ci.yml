@@ -33,16 +33,26 @@
     - !reference [.rule_templates, not_on_git_tags]
     - if: $CI_COMMIT_BRANCH =~ /^release\/.*/
       when: manual
-  only_on_staging:
+  automatically_on_staging:
     - !reference [.rule_templates, not_on_git_tags]
     - if: $CI_COMMIT_BRANCH == "main"
       when: on_success
+  manually_on_staging:
+    - !reference [.rule_templates, not_on_git_tags]
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
   any_but_production_staging:
     - !reference [.rule_templates, not_on_git_tags]
     - if: $CI_COMMIT_BRANCH =~ /^release\/.*|^main$/
       when: never
-  any_other:
+  automatically_on_any_other:
     - if: $CI_COMMIT_BRANCH
+      when: on_success
+  manually_on_any_other:
+    - if: $CI_COMMIT_BRANCH
+      when: manual
+  automatically_on_scheduled_e2e_test_run:
+    - if: $CI_PIPELINE_SOURCE == "schedule" &&  $CI_RUN_E2E_TESTS == "true"
       when: on_success
 
 default:
@@ -72,7 +82,7 @@ lint_compile_test:
     - 4cpu-16gb
   rules:
     - !reference [.rule_templates, not_on_git_tags]
-    - !reference [.rule_templates, any_other]
+    - !reference [.rule_templates, automatically_on_any_other]
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:

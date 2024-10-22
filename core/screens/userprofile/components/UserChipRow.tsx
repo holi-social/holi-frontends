@@ -43,7 +43,12 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
           </ChipLabel>
         ))
       ) : (
-        <ChipAction key="edit" onPress={onPressEdit} color="white" iconTrailing={Add} />
+        <ChipAction
+          onPress={onPressEdit}
+          color="white"
+          iconTrailing={Add}
+          aria-label={t(`profile.${keyInUserObject}.add`)}
+        />
       )}
     </HoliChipRow>
   )

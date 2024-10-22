@@ -107,7 +107,7 @@ web_build:
     - !reference [.rule_templates, not_on_git_tags]
     - if: $CI_COMMIT_BRANCH =~ /^noweb\/.*/
       when: never
-    - !reference [.rule_templates, any_other]
+    - !reference [.rule_templates, automatically_on_any_other]
   variables:
     WEB_BUILD: true
 
@@ -159,30 +159,25 @@ web_build_docker:
   rules:
     - !reference [.rule_templates, not_on_git_tags]
     - !reference [.rule_templates, skip_environment_for_web]
-    - !reference [.rule_templates, any_other]
+    - !reference [.rule_templates, automatically_on_any_other]
 
 ## only for review environments
 
 .rules_web_review:
   - !reference [.rule_templates, any_but_production_staging]
   - !reference [.rule_templates, skip_environment_for_web]
-  - !reference [.rule_templates, any_other]
 
 web_review_deploy:
   extends: .web_deploy
   needs: ['web_build_docker']
   environment:
-    name: review/$CI_COMMIT_REF_SLUG-web
+    name: web-review/$CI_COMMIT_REF_SLUG
     url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
     on_stop: web_review_destroy
     auto_stop_in: 1 week
   rules:
     - !reference [.rules_web_review]
-  after_script: |
-    wget --header="Content-Type: application/json" \
-      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://'"$(cat $UI_DOMAIN_PATH)"'"}' \
-      --output-document - \
-      https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    - !reference [.rule_templates, automatically_on_any_other]
 
 web_review_e2e:
   extends: .web_e2e
@@ -191,12 +186,13 @@ web_review_e2e:
     - web_review_deploy
   rules:
     - !reference [.rules_web_review]
+    - !reference [.rule_templates, manually_on_any_other]
 
 web_review_destroy:
   extends: .web_destroy
   needs: ['web_review_deploy']
   environment:
-    name: review/$CI_COMMIT_REF_SLUG-web
+    name: web-review/$CI_COMMIT_REF_SLUG
     action: stop
   rules:
     - !reference [.rule_templates, any_but_production_staging]
@@ -216,7 +212,7 @@ web_staging_deploy:
   variables:
     ENVIRONMENT_ID: staging
   rules:
-    - !reference [.rule_templates, only_on_staging]
+    - !reference [.rule_templates, automatically_on_staging]
 
 web_staging_e2e:
   extends: .web_e2e
@@ -224,7 +220,8 @@ web_staging_e2e:
   dependencies:
     - web_staging_deploy
   rules:
-    - !reference [.rule_templates, only_on_staging]
+    - !reference [.rule_templates, automatically_on_scheduled_e2e_test_run]
+    - !reference [.rule_templates, manually_on_staging]
 
 ## production environment
 
@@ -232,7 +229,7 @@ web_release_candidate_deploy:
   extends: .web_deploy
   needs: ['web_build_docker']
   environment:
-    name: release-candidate/$CI_COMMIT_REF_SLUG-web
+    name: web-rc/${CI_COMMIT_BRANCH}
     url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
     on_stop: web_release_candidate_destroy
     auto_stop_in: 1 week
@@ -248,7 +245,7 @@ web_release_candidate_destroy:
   extends: .web_destroy
   needs: ['web_release_candidate_deploy']
   environment:
-    name: release-candidate/$CI_COMMIT_REF_SLUG-web
+    name: web-rc/${CI_COMMIT_BRANCH}
     action: stop
   rules:
     - !reference [.rule_templates, manually_on_production_release]

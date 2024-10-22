@@ -1,0 +1,38 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+import { mono, black, white, yellow, purple, green, blue, orange, red } from './primitives'
+
+<Meta title="Foundations/Colors/Primitives" />
+
+<ColorPalette>
+  <ColorItem title="Mono" subtitle="primitives.mono" colors={mono} />
+
+  <ColorItem
+    title="Black - single"
+    subtitle="primitives.black"
+    colors={{
+      'mono.800':
+      black
+    }}
+  />
+
+  <ColorItem
+    title="White - single"
+    subtitle="primitives.white"
+    colors={{
+      'mono.100':
+      white
+    }}
+  />
+
+  <ColorItem title="Yellow" subtitle="primitives.yellow" colors={yellow} />
+
+  <ColorItem title="Purple" subtitle="primitives.purple" colors={purple} />
+
+  <ColorItem title="Green" subtitle="primitives.green" colors={green} />
+
+  <ColorItem title="Blue" subtitle="primitives.blue" colors={blue} />
+
+  <ColorItem title="Orange" subtitle="primitives.orange" colors={orange} />
+
+  <ColorItem title="Red" subtitle="primitives.red" colors={red} />
+</ColorPalette>

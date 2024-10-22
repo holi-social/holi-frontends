@@ -61,11 +61,11 @@ test.describe('@Profile', () => {
   })
 })
 
-const testDisplaysProfileDetails = async (page: Page) => {
+const testDisplaysProfileDetails = async (page: Page, options?: { testSSR?: boolean }) => {
   await page.waitForSelector(byTestId('user-profile-full-name'))
-  await page.waitForSelector(byTestId('user-profile-interests'))
-  await page.waitForSelector(byTestId('user-profile-sdgs'))
-  await page.waitForSelector(byTestId('user-profile-skills'))
+  await page.waitForSelector(byTestId('user-profile-interests'), { state: options?.testSSR ? 'attached' : 'visible' })
+  await page.waitForSelector(byTestId('user-profile-sdgs'), { state: options?.testSSR ? 'attached' : 'visible' })
+  await page.waitForSelector(byTestId('user-profile-skills'), { state: options?.testSSR ? 'attached' : 'visible' })
 }
 
 const checkChipsSelection = async (page: Page, what: string) => {

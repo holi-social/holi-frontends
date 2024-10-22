@@ -248,7 +248,7 @@ const testCreatingEditingDeletingASpace = async (browser: Browser, sessions: Ses
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
   await clickElementByTestId(page, 'space-options-btn')
   await clickElementByTestId(page, 'space-delete')
-  await clickElementByTestId(page, 'space-delete-confirmation-confirm')
+  await clickElementByTestId(page, 'space-delete-confirmation-primary')
 
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
 

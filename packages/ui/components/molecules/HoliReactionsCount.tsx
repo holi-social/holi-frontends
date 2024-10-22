@@ -82,7 +82,7 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
     return {
       transform: [{ scale: scale.value }],
     }
-  })
+  }, [scale])
 
   const handlePress = useCallback(
     (event: SyntheticEvent | GestureResponderEvent) => {

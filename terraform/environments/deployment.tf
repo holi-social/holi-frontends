@@ -57,8 +57,13 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment
         }
         env {
-          name  = "POSTHOG_KEY"
-          value = local.posthog_key
+          name = "POSTHOG_KEY"
+          value_from {
+            secret_key_ref {
+              name = local.environment_name == "production" ? "POSTHOG_API_KEY_PRODUCTION" : "POSTHOG_API_KEY_DEVELOPMENT"
+              key  = "latest"
+            }
+          }
         }
         env {
           name  = "POSTHOG_HOST"
@@ -69,14 +74,15 @@ resource "google_cloud_run_service" "mvp_web" {
           value = local.environment == "production" ? "https://auth.holi.social" : "https://dev-auth.holi.social"
         }
         env {
-          name = "HOLI_CHALLENGES_APP" == "production" ? "https://challenges.holi.social" : "https://staging.challenges-dev.holi.social"
+          name  = "HOLI_CHALLENGES_APP"
+          value = local.environment == "production" ? "https://challenges.holi.social" : "https://staging.challenges-dev.holi.social"
         }
         env {
           name = "ORY_ADMIN_ACCESS_TOKEN"
           value_from {
             secret_key_ref {
-              key  = "latest"
               name = local.environment_name == "production" ? "ORY_ACCESS_TOKEN_PRODUCTION" : "ORY_ACCESS_TOKEN_DEVELOPMENT"
+              key  = "latest"
             }
           }
         }
@@ -113,6 +119,7 @@ resource "google_cloud_run_service" "mvp_web" {
         "autoscaling.knative.dev/minScale"         = local.environment == "production" ? "1" : "0"
         "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "2"
         "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen1"
+        "run.googleapis.com/startup-cpu-boost"    = "true"
       }
       # labels set on the revision level
       labels = {
