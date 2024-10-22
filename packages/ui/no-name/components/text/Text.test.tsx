@@ -1,28 +1,28 @@
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import Typography from './Typography'
+import { Text } from './Text'
 
-describe('Typography', () => {
+describe('Text', () => {
   it('should render text', () => {
-    render(<Typography size="md">Foobar</Typography>)
+    render(<Text size="md">Foobar</Text>)
 
-    const typography = screen.getByText(/foobar/i)
-    expect(typography).toBeOnTheScreen()
+    const text = screen.getByText(/foobar/i)
+    expect(text).toBeOnTheScreen()
   })
 
   it('should set role to heading if level is specified', async () => {
     render(
-      <Typography size="md" headingLevel="1">
+      <Text size="md" headingLevel="1">
         Foobar
-      </Typography>
+      </Text>
     )
 
     expect((await screen.findByText('Foobar')).props.role).toEqual('heading')
   })
 
   it('should set role to none if no level is specified', async () => {
-    render(<Typography size="md">Foobar</Typography>)
+    render(<Text size="md">Foobar</Text>)
 
     expect((await screen.findByText('Foobar')).props.role).toEqual('none')
   })

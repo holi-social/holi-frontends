@@ -57,8 +57,8 @@ const App = () => {
     ['Circular Std Book Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-BookItalic.otf'),
     ['Circular Std Medium']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Medium.otf'),
     ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
-    ['InstrumentSans-Regular']: require('@holi/ui/no-name/components/typography/fonts/InstrumentSans-Regular.ttf'),
-    ['InstrumentSans-Medium']: require('@holi/ui/no-name/components/typography/fonts/InstrumentSans-Medium.ttf'),
+    ['InstrumentSans-Regular']: require('@holi/ui/no-name/components/text/fonts/InstrumentSans-Regular.ttf'),
+    ['InstrumentSans-Medium']: require('@holi/ui/no-name/components/text/fonts/InstrumentSans-Medium.ttf'),
   }
 
   const [fontsLoaded] = useFonts(fonts)

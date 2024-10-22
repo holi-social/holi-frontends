@@ -2,12 +2,12 @@ import * as React from 'react'
 import { ColorValue, Platform, Text, TextProps, TextStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { fontFamilies } from '@holi/ui/no-name/components/typography/fontFamilies'
+import { fontFamilies } from '@holi/ui/no-name/components/text/fontFamilies'
 
-export type TypographyLinkSize = 'md' | 'sm' | 'xs'
+export type TextLinkSize = 'md' | 'sm' | 'xs'
 
-export interface TypographyLinkProps {
-  size: TypographyLinkSize
+export interface TextLinkProps {
+  size: TextLinkSize
   numberOfLines?: number
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
@@ -15,7 +15,7 @@ export interface TypographyLinkProps {
   onPress?: TextProps['onPress']
 }
 
-const TypographyLink = ({
+export const TextLink = ({
   size,
   numberOfLines,
   color,
@@ -23,7 +23,7 @@ const TypographyLink = ({
   ellipsizeMode,
   children,
   onPress,
-}: React.PropsWithChildren<TypographyLinkProps>) => {
+}: React.PropsWithChildren<TextLinkProps>) => {
   const { styles } = useStyles(stylesheet, { size })
 
   return (
@@ -32,7 +32,7 @@ const TypographyLink = ({
       role="link"
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
-      style={styles.typography(color, textAlign)}
+      style={styles.text(color, textAlign)}
       onPress={onPress}
     >
       {children}
@@ -40,10 +40,8 @@ const TypographyLink = ({
   )
 }
 
-export default TypographyLink
-
 const stylesheet = createStyleSheet((theme) => ({
-  typography: (color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.bold,

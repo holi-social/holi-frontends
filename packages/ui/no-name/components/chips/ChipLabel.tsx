@@ -6,10 +6,10 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { pill } from '@holi/ui/no-name/components/chips/styles'
-import Typography from '@holi/ui/no-name/components/typography/Typography'
+import { Text } from '@holi/ui/no-name/components/text/Text'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import { ChipSize, chipSizeToTypographySize } from './size'
+import { ChipSize, chipSizeToTextSize } from './size'
 
 type ChipColor = Color | 'white'
 
@@ -29,9 +29,9 @@ const ChipLabel = ({ children, color = 'mono', size = 'md', iconLeading, iconTra
     <View style={styles.chip(color)}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={theme.components.chipLabel.text} />}
       {children && (
-        <Typography size={chipSizeToTypographySize[size]} color={theme.components.chipLabel.text}>
+        <Text size={chipSizeToTextSize[size]} color={theme.components.chipLabel.text}>
           {children}
-        </Typography>
+        </Text>
       )}
       {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} color={theme.components.chipLabel.text} />}
     </View>

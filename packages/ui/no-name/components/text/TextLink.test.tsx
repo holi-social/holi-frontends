@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import TypographyLink from './TypographyLink'
+import { TextLink } from './TextLink'
 
-describe('TypographyLink', () => {
+describe('TextLink', () => {
   it('should render text', () => {
-    render(<TypographyLink size="md">Foobar</TypographyLink>)
+    render(<TextLink size="md">Foobar</TextLink>)
 
     const link = screen.getByRole('link')
     expect(link).toBeOnTheScreen()
@@ -13,7 +13,7 @@ describe('TypographyLink', () => {
   })
 
   it('should have role link', async () => {
-    render(<TypographyLink size="md">Foobar</TypographyLink>)
+    render(<TextLink size="md">Foobar</TextLink>)
 
     expect((await screen.findByText('Foobar')).props.role).toEqual('link')
   })
@@ -21,9 +21,9 @@ describe('TypographyLink', () => {
   it('should call onPress handler', async () => {
     const mockOnPress = jest.fn()
     render(
-      <TypographyLink size="md" onPress={mockOnPress}>
+      <TextLink size="md" onPress={mockOnPress}>
         Foobar
-      </TypographyLink>
+      </TextLink>
     )
 
     const link = screen.getByText('Foobar')

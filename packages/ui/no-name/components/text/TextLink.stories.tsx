@@ -2,10 +2,10 @@ import { action } from '@storybook/addon-actions'
 import { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
-import TypographyLink, { TypographyLinkSize } from '@holi/ui/no-name/components/typography/TypographyLink'
+import { TextLink, TextLinkSize } from '@holi/ui/no-name/components/text/TextLink'
 import { black, mono, purple, red, white } from '@holi/ui/no-name/foundations/colors/primitives'
 
-const availableSizes: TypographyLinkSize[] = ['md', 'sm', 'xs']
+const availableSizes: TextLinkSize[] = ['md', 'sm', 'xs']
 const exampleColors = {
   default: undefined,
   black: black,
@@ -15,9 +15,9 @@ const exampleColors = {
   purple: purple[600],
 }
 
-const meta: Meta<typeof TypographyLink> = {
-  title: 'No Name/Components/TypographyLink (draft)',
-  component: TypographyLink,
+const meta: Meta<typeof TextLink> = {
+  title: 'No Name/Components/TextLink (draft)',
+  component: TextLink,
   argTypes: {
     children: { description: 'Text content', required: true },
   },
@@ -27,7 +27,7 @@ const meta: Meta<typeof TypographyLink> = {
   },
 }
 
-type Story = StoryObj<typeof TypographyLink>
+type Story = StoryObj<typeof TextLink>
 
 export const Playground: Story = {
   argTypes: {
@@ -43,7 +43,7 @@ export const Playground: Story = {
     onPress: action('Pressed!'),
   },
   render: function Render(args) {
-    return <TypographyLink {...args} />
+    return <TextLink {...args} />
   },
 }
 
@@ -54,9 +54,9 @@ export const BySize: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {availableSizes.map((size) => (
-          <TypographyLink key={size} {...args} size={size}>
+          <TextLink key={size} {...args} size={size}>
             This is a text link in size {size}.
-          </TypographyLink>
+          </TextLink>
         ))}
       </div>
     )
@@ -70,9 +70,9 @@ export const ByColor: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {Object.entries(exampleColors).map(([name, color]) => (
-          <TypographyLink key={name} {...args} color={color}>
+          <TextLink key={name} {...args} color={color}>
             This is a text link in color {name}.
-          </TypographyLink>
+          </TextLink>
         ))}
       </div>
     )
