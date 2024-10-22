@@ -15,3 +15,5 @@ storybook.requires.ts
 
 # macOS
 .DS_Store
+ios
+android
