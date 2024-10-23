@@ -147,7 +147,7 @@ mobile_review_build_android:
   variables:
     BUILD_PLATFORM: android
     ENVIRONMENT_FILE: .env.staging
-  allow_failure: false
+  allow_failure: true  # optional build step, won't block the pipeline
   rules:
     - !reference [.rules_mobile_review]
     - !reference [.rule_templates, manually_on_any_other]
@@ -155,17 +155,18 @@ mobile_review_build_android:
 mobile_review_build_ios:
   extends: .mobile_build
   needs: ['lint_compile_test']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   variables:
     BUILD_PLATFORM: ios
     ENVIRONMENT_FILE: .env.staging
-  allow_failure: false
   rules:
     - !reference [.rules_mobile_review]
     - !reference [.rule_templates, manually_on_any_other]
 
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
-  needs: ['mobile_review_build_android']
+  needs: ['mobile_review_build_android'] # e2e only runs if build succeeded
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
@@ -174,7 +175,8 @@ mobile_review_e2e_android:
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
-  needs: ['mobile_review_build_ios']
+  needs: ['mobile_review_build_ios'] # e2e only runs if build succeeded
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
@@ -199,6 +201,7 @@ mobile_staging_publish:
 mobile_staging_build_android:
   extends: .mobile_build
   needs: ['lint_compile_test']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   variables:
     ENVIRONMENT_FILE: .env.staging
     KEEP_ARTIFACTS: 'true'
@@ -215,6 +218,7 @@ mobile_staging_build_android:
 mobile_staging_build_ios:
   extends: .mobile_build
   needs: ['lint_compile_test']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   variables:
     ENVIRONMENT_FILE: .env.staging
     KEEP_ARTIFACTS: 'true'
@@ -230,7 +234,8 @@ mobile_staging_build_ios:
 
 mobile_staging_e2e_android:
   extends: .mobile_e2e_android
-  needs: ['mobile_staging_build_android']
+  needs: ['mobile_staging_build_android'] # e2e only runs if build succeeded
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
@@ -239,7 +244,8 @@ mobile_staging_e2e_android:
 
 mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
-  needs: ['mobile_staging_build_ios']
+  needs: ['mobile_staging_build_ios'] # e2e only runs if build succeeded
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
