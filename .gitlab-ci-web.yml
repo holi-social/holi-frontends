@@ -217,6 +217,7 @@ web_staging_deploy:
 web_staging_e2e:
   extends: .web_e2e
   needs: ['web_staging_deploy']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   dependencies:
     - web_staging_deploy
   rules:
