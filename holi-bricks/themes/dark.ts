@@ -1,4 +1,4 @@
-import { black, blue, mono, white } from 'holi-bricks/tokens'
+import { black, blue, mono, red, white, yellow } from 'holi-bricks/tokens'
 import { byShade } from 'holi-bricks/utils/byShade'
 
 export const darkTheme = {
@@ -8,6 +8,33 @@ export const darkTheme = {
     focus: `${mono[700]} 0px 0px 0px 1.5px, ${blue[600]} 0px 0px 0px 3px`,
   },
   components: {
+    button: {
+      primary: {
+        background: yellow[700],
+        border: yellow[600],
+        text: yellow[300],
+      },
+      secondary: {
+        background: mono[700],
+        border: mono[200],
+        text: mono[100],
+      },
+      selected: {
+        background: mono[700],
+        border: mono[400],
+        text: mono[100],
+      },
+      disabled: {
+        background: mono[700],
+        border: mono[600],
+        text: mono[500],
+      },
+      danger: {
+        background: red[800],
+        border: red[400],
+        text: red[300],
+      },
+    },
     chipSelect: {
       text: mono[200],
       border: mono[200],
@@ -43,6 +70,14 @@ export const darkTheme = {
         mono: mono[700],
         white: black,
       },
+    },
+    selector: {
+      backgroundColor: mono[700],
+      outlineColor: mono[500],
+      selected: {
+        outlineColor: mono[200],
+      },
+      text: mono[200],
     },
   },
 }

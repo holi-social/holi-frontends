@@ -12,7 +12,7 @@ module.exports = {
         paths: [
           {
             name: 'react-native',
-            importNames: ['Text', 'TextProps'],
+            importNames: ['Text', 'TextProps', 'Button'],
             message: 'Please use components from holi-bricks instead.',
           },
         ],

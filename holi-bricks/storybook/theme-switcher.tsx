@@ -26,7 +26,7 @@ const ThemeWrapper = ({ children, theme = 'light' }: ThemeWrapperProps) => {
     setActiveTheme(theme)
   }, [getActiveTheme, setActiveTheme, theme])
 
-  return children
+  return <div style={{ display: 'flex' }}>{children}</div>
 }
 
 export const withTheme: Decorator = (Story, { globals: { theme } }) => {
