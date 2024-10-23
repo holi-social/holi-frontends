@@ -45,7 +45,7 @@ body {
 /* Display a scrollbar on desktop to prevent page jumping during height changes */
 @media screen and (min-width: 768px) {
 	body {
-		overflow: scroll;
+		overflow-y: scroll;
 	}
 }
 

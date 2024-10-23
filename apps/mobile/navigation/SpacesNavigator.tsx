@@ -31,6 +31,7 @@ import SpaceOnboarding, { SpaceOnboardingParams } from '@holi/core/screens/space
 import SpaceOnboardingSteps, {
   SpaceOnboardingStepsParams,
 } from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingSteps'
+import RelatedSpaces, { SpaceRelatedSpacesParams } from '@holi/core/screens/spaces/relatedSpaces/RelatedSpaces'
 import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
 import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
 import SpaceTasks, { SpaceTasksParams } from '@holi/core/screens/spaces/tasks/SpaceTasks'
@@ -41,6 +42,7 @@ import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
+  [RouteName.SpaceRelatedSpaces]: SpaceRelatedSpacesParams
   [RouteName.CreateSpace]: undefined
   [RouteName.EditSpace]: EditSpaceParams
   [RouteName.CreateDigitalTool]: CreateDigitalToolParams
@@ -87,6 +89,7 @@ const SpacesNavigator = () => {
       }}
     >
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />
+      <SpacesStack.Screen name={RouteName.SpaceRelatedSpaces} component={RelatedSpaces} />
       <SpacesStack.Screen name={RouteName.CreateSpace} component={CreateSpace} />
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
       <SpacesStack.Screen name={RouteName.CreateDigitalTool} component={CreateDigitalTool} />
