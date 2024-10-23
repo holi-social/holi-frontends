@@ -151,13 +151,27 @@ const AppointmentInputForm = ({
 
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
-  const inviteOnlyOptions = INVITE_ONLY_OPTIONS.map((option) => ({
-    ...option,
-    title: t(`spaces.appointments.input.inviteOnly.${option.id}.title`),
-    description: t(`spaces.appointments.input.inviteOnly.${option.id}.description`),
-    disabled: !isAdmin && option.id === INVITE_ONLY_TYPE.PUBLIC,
-    selected: option.id === INVITE_ONLY_TYPE.INVITE_ONLY ? appointment.inviteOnly : !appointment.inviteOnly,
-  }))
+  const inviteOnlyOptions = INVITE_ONLY_OPTIONS.map((option) => {
+    const checkSelection = () => {
+      switch (option.id) {
+        case INVITE_ONLY_TYPE.PUBLIC: {
+          if (!isAdmin) return false
+          return !appointment.inviteOnly
+        }
+        case INVITE_ONLY_TYPE.INVITE_ONLY:
+          if (!isAdmin) return true
+          return appointment.inviteOnly
+      }
+    }
+
+    return {
+      ...option,
+      title: t(`spaces.appointments.input.inviteOnly.${option.id}.title`),
+      description: t(`spaces.appointments.input.inviteOnly.${option.id}.description`),
+      disabled: !isAdmin && option.id === INVITE_ONLY_TYPE.PUBLIC,
+      selected: checkSelection(),
+    }
+  })
 
   const permissionTypeOptions = PERMISSION_TYPE_OPTIONS.map((option) => ({
     ...option,
