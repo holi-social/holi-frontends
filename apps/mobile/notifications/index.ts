@@ -1,4 +1,4 @@
-import type { NotificationResponse, PushNotificationTrigger } from 'expo-notifications'
+import type { NotificationResponse } from 'expo-notifications'
 
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -13,26 +13,28 @@ import {
   SpacePostPushNotification,
 } from '@holi/mobile/notifications/spacePushNotifications'
 
-export type NotificationPayload = Record<string, unknown>
+export type NotificationData = Record<string, unknown>
 
 const logger = getLogger('Notifications')
 
-const extractPayloadFromNotification = (response: NotificationResponse): NotificationPayload | undefined => {
-  const request = response?.notification?.request
-  if (request?.trigger?.type === 'push') {
-    // background or closed app push
-    const trigger = request.trigger as Partial<PushNotificationTrigger>
-    const triggerData = trigger?.remoteMessage?.data ?? trigger.payload // android ?? ios
-    if (triggerData) {
-      return triggerData
-    }
-  } else if (request?.content?.data) {
-    // active app push
+const extractDataFromNotificationResponse = (
+  notificationResponse: NotificationResponse
+): NotificationData | undefined => {
+  const request = notificationResponse?.notification?.request
+  // true when:
+  // * iOS - active app push aka. scheduled notification (scheduled by holi app itself when receiving notification while in foreground)
+  // * Android - all cases
+  if (request?.content?.data) {
     return request?.content?.data
+  } else if (request?.trigger?.type === 'push') {
+    // iOS - background or closed app push
+    // IMHO, expo-notifications should copy this into `request.content.data` but doesn't, so take it from original message
+    if (request.trigger.payload) return request.trigger.payload
   }
+  return undefined
 }
 
-const createUrlFromChatNotification = (data: NotificationPayload) => {
+const chatRoomScreenUrlFrom = (data: NotificationData) => {
   const roomId = data?.room_id
   if (roomId && typeof roomId === 'string') {
     logger.debug('createUrlFromChatNotification', 'navigating to room', roomId)
@@ -152,7 +154,7 @@ const spaceUpdatesUrlFrom = (notification: SpacePostPushNotification) => {
   }
 }
 
-const spaceUrl = (notification: NotificationPayload, tab?: string): string => {
+const spaceUrl = (notification: NotificationData, tab?: string): string => {
   const { space } = extractData(notification)
   const url = new URL(`holi://spaces/${space.name}`)
   if (tab) {
@@ -161,7 +163,7 @@ const spaceUrl = (notification: NotificationPayload, tab?: string): string => {
   return url.toString()
 }
 
-const spaceAppointmentUrl = (notification: NotificationPayload, refresh = false) => {
+const spaceAppointmentUrl = (notification: NotificationData, refresh = false) => {
   try {
     const { space, appointment } = extractData(notification)
     const url = new URL(`holi://spaces/${space.name}/appointments/${appointment.id}`)
@@ -176,7 +178,7 @@ const spaceAppointmentUrl = (notification: NotificationPayload, refresh = false)
   }
 }
 
-const challengeUrl = (notification: NotificationPayload) => {
+const challengeUrl = (notification: NotificationData) => {
   try {
     const { link } = extractData(notification)
 
@@ -192,23 +194,24 @@ const challengeUrl = (notification: NotificationPayload) => {
   }
 }
 
-const extractData = (notification: NotificationPayload) => {
-  const data = typeof notification.data === 'string' ? JSON.parse(notification.data) : notification.data || notification
-  return data
-}
+const extractData = (notificationData: NotificationData) =>
+  typeof notificationData.data === 'string'
+    ? JSON.parse(notificationData.data)
+    : notificationData.data || notificationData
 
-const isChatNotification = (notification: NotificationPayload) => !!notification.room_id
+const isChatNotification = (data: NotificationData) => !!data.room_id
 
-export const transformPushInteractionToUrl = (response: NotificationResponse) => {
-  const payload: NotificationPayload | undefined = extractPayloadFromNotification(response)
-  if (!payload) {
-    return null
+export const screenUrlFromNotificationResponse = (notificationResponse: NotificationResponse): string | undefined => {
+  logger.debug('screenUrlFromNotificationResponse', 'response', JSON.stringify(notificationResponse))
+  const data: NotificationData | undefined = extractDataFromNotificationResponse(notificationResponse)
+  if (!data) {
+    return undefined
   }
-
-  if (isChatNotification(payload)) {
-    return createUrlFromChatNotification(payload)
+  logger.debug('screenUrlFromNotificationResponse', 'data', data)
+  if (isChatNotification(data)) {
+    return chatRoomScreenUrlFrom(data)
   } else {
-    switch (payload.notificationType) {
+    switch (data.notificationType) {
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:
       case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_ADMIN:
@@ -219,29 +222,29 @@ export const transformPushInteractionToUrl = (response: NotificationResponse) =>
       case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_ADMIN:
       case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_USER:
       case NovuNotificationType.SPACE_MEMBERSHIP_INVITE_DECLINE_ADMIN:
-        return spaceMemberShipUrlFrom(payload as unknown as SpaceMembershipPushNotification)
+        return spaceMemberShipUrlFrom(data as unknown as SpaceMembershipPushNotification)
       case NovuNotificationType.POST_COMMENT_MENTION:
       case NovuNotificationType.POST_COMMENT_AUTHOR:
-        return commentUrlFrom(payload as unknown as PostCommentPushNotification)
+        return commentUrlFrom(data as unknown as PostCommentPushNotification)
       case NovuNotificationType.SPACE_NEW_POST:
-        return spaceUpdatesUrlFrom(payload as unknown as SpacePostPushNotification)
+        return spaceUpdatesUrlFrom(data as unknown as SpacePostPushNotification)
       case NovuNotificationType.SPACE_APPOINTMENT_CREATION:
-        return spaceAppointmentUrl(payload)
+        return spaceAppointmentUrl(data)
       case NovuNotificationType.SPACE_APPOINTMENT_UPDATE:
-        return spaceAppointmentUrl(payload, true)
+        return spaceAppointmentUrl(data, true)
       case NovuNotificationType.SPACE_APPOINTMENT_DELETION:
-        return spaceUrl(payload, 'involvement')
+        return spaceUrl(data, 'involvement')
       case NovuNotificationType.CHALLENGE_APPROVAL:
       case NovuNotificationType.CHALLENGE_NEW_COMMENT:
       case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
       case NovuNotificationType.CHALLENGE_KEEP_STREAK:
-        return challengeUrl(payload)
+        return challengeUrl(data)
       case NovuNotificationType.POST_REACTION:
-        return toPostReactionUrl(payload as unknown as PostReactionPushNotification)
+        return toPostReactionUrl(data as unknown as PostReactionPushNotification)
       case NovuNotificationType.COMMENT_REACTION:
-        return toCommentReactionUrl(payload as unknown as CommentReactionPushNotification)
+        return toCommentReactionUrl(data as unknown as CommentReactionPushNotification)
       default:
-        return null
+        return undefined
     }
   }
 }

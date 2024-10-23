@@ -13,10 +13,7 @@ import { subscribeToDeviceTokenChanges } from '@holi/core/screens/notifications/
 import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
-import {
-  initNotifications,
-  registerHandleNotificationsWhenAppIsInBackground,
-} from '@holi/mobile/notifications/initNotifications'
+import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
@@ -26,11 +23,13 @@ initialiseComponentLibrary()
 
 SplashScreen.preventAutoHideAsync()
 
+/*
+commented out as the background handler is currently not doing anything other than logging for demonstration purposes
 registerHandleNotificationsWhenAppIsInBackground().catch((error) =>
   logError(error, 'Failed to register notifications backgound task', {
     location: 'App.registerHandleNotificationsWhenAppIsInBackground',
   })
-)
+)*/
 
 logger.debug('App', 'starting app with config', config)
 
