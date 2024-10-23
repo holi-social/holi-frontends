@@ -10,7 +10,7 @@ import { getLogger } from '@holi/core/helpers/logging'
 import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import { appendLocaleSubPaths } from '@holi/mobile/navigation/helpers/appendLocaleSubPaths'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
-import { transformPushInteractionToUrl } from '@holi/mobile/notifications'
+import { screenUrlFromNotificationResponse } from '@holi/mobile/notifications'
 import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/tracing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -59,7 +59,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
         'received response from push interaction, while app was closed',
         JSON.stringify(response)
       )
-      const url = transformPushInteractionToUrl(response)
+      const url = screenUrlFromNotificationResponse(response)
       if (url) {
         logger.debug('LinkingOptions.getInitialURL', 'navigate to deep link from push interaction', url)
         return url
@@ -76,7 +76,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
     // listen to expo push notifications, while app is active or in background
     const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
       logger.debug('LinkingOptions.subscribe', 'received response from push interaction', JSON.stringify(response))
-      const url = transformPushInteractionToUrl(response)
+      const url = screenUrlFromNotificationResponse(response)
       if (url) {
         logger.debug('LinkingOptions.subscribe', 'navigate to deep link from push interaction', url)
         listener(url)

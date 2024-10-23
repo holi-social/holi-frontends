@@ -5,7 +5,7 @@ import { type Route } from '@react-navigation/native'
 
 import { getLogger } from '@holi/core/helpers/logging'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { NotificationPayload } from '@holi/mobile/notifications'
+import { NotificationData } from '@holi/mobile/notifications'
 
 const logger = getLogger('Notifications')
 
@@ -73,39 +73,21 @@ type SygnalEvent =
   | IosMessageWithContent
   | IosEventAnonymized
 
-const parseToSygnalEvent = (
-  remoteData:
-    | {
-        [key: string]: unknown
-      }
-    | undefined
-): SygnalEvent | undefined => {
-  if (!remoteData) {
+const tryParseSygnalEvent = (data: { [key: string]: unknown } | undefined): SygnalEvent | undefined => {
+  if (!data) {
     return undefined
   }
   try {
-    const { content, ...rest } = remoteData
-
+    const { content, ...rest } = data
     return {
       // Android events benefit from parsing the content JSON
       content: content && typeof content === 'string' ? JSON.parse(content) : undefined,
       ...rest,
     } as SygnalEvent
   } catch (e) {
-    logger.debug('parseToSygnalEvent', 'error while parsing', e)
+    logger.debug('tryParseSygnalEvent', 'error while parsing', e)
     return undefined
   }
-}
-
-const navigationStateAllowsPushDisplayFor = (
-  pushRoomId: string | undefined,
-  currentRoute: Route<string> | undefined
-): boolean => {
-  const name = currentRoute?.name
-  const params = currentRoute?.params
-  const isInChatHome = name === RouteName.ChatHome
-  const isInSameRoom = name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === pushRoomId
-  return !isInChatHome && !isInSameRoom
 }
 
 const createIosMessagePush = (locArgs: [string, string], roomId: string | undefined) => {
@@ -184,30 +166,50 @@ const generateNotificationContent = (event: SygnalEvent): NotificationContentInp
   }
 }
 
-export const isChatNotification = (data: NotificationPayload | undefined) => !data?.notificationType
+const isInChatHome = (currentRoute: Route<string> | undefined): boolean => currentRoute?.name === RouteName.ChatHome
 
-export const handleForegroundChatMessage = async (
+const isInSameChatRoom = (pushRoomId: string | undefined, currentRoute: Route<string> | undefined): boolean => {
+  const name = currentRoute?.name
+  const params = currentRoute?.params
+  return name === RouteName.ChatRoom && !!params && 'roomId' in params && params.roomId === pushRoomId
+}
+
+export const isChatNotification = (data: NotificationData | undefined) => !data?.notificationType
+
+export const maybeScheduleChatNotification = async (
   currentRoute: Route<string> | undefined,
-  data: NotificationPayload | undefined
-) => {
-  const event = parseToSygnalEvent(data)
-  logger.debug('handleForegroundChatMessage', 'using sygnal event', JSON.stringify(event))
+  data: NotificationData | undefined
+): Promise<void> => {
+  const sygnalEvent = tryParseSygnalEvent(data)
+  logger.debug('maybeScheduleChatNotification', 'parsed sygnal event', JSON.stringify(sygnalEvent))
 
-  if (event && navigationStateAllowsPushDisplayFor(event.room_id, currentRoute)) {
-    const content = generateNotificationContent(event)
+  if (sygnalEvent) {
+    const content = generateNotificationContent(sygnalEvent)
     if (content) {
-      logger.debug('handleForegroundChatMessage', 'scheduling notification', JSON.stringify(content))
-      await Notifications.scheduleNotificationAsync({
-        content,
-        // Android:
-        // - automatically uses a notification channel that supports pop over screen and sound
-        // TODO(SF) check this in HOLI-6190
-        // - Disclaimer: last time we checked, providing a (valid) notification channel id
-        //   caused an error "Failed to schedule notification" and we don't know why
-        trigger: null, // `null` means to schedule directly
-      })
+      const inChatHome = isInChatHome(currentRoute)
+      const inSameChatRoom = isInSameChatRoom(sygnalEvent.room_id, currentRoute)
+
+      if (!inChatHome && !inSameChatRoom) {
+        logger.debug('maybeScheduleChatNotification', 'scheduling chat notification', JSON.stringify(content))
+        await Notifications.scheduleNotificationAsync({
+          content,
+          // Android:
+          // - automatically uses a notification channel that supports pop over screen and sound
+          // TODO(SF) check this in HOLI-6190
+          // - Disclaimer: last time we checked, providing a (valid) notification channel id
+          //   caused an error "Failed to schedule notification" and we don't know why
+          trigger: null, // `null` means to schedule directly
+        })
+      } else {
+        logger.debug('maybeScheduleChatNotification', 'not scheduling chat notification', {
+          inChatHome,
+          inSameChatRoom,
+          currentRoute,
+        })
+      }
     } else {
-      logger.debug('handleForegroundChatMessage', 'skipping push notification')
+      logger.debug('maybeScheduleChatNotification', 'ignoring unknown push notification', data)
     }
   }
+  return Promise.resolve()
 }

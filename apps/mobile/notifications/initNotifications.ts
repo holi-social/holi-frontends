@@ -1,12 +1,12 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { PermissionStatus } from 'expo-modules-core'
-import * as Notifications from 'expo-notifications'
 import type {
   Notification,
   NotificationBehavior,
   NotificationRequest,
   PushNotificationTrigger,
 } from 'expo-notifications'
+import * as Notifications from 'expo-notifications'
 import * as TaskManager from 'expo-task-manager'
 import { TaskManagerTaskBody } from 'expo-task-manager'
 import { Platform } from 'react-native'
@@ -16,7 +16,8 @@ import { isDevice } from '@holi/core/helpers/isDevice'
 import { getLogger } from '@holi/core/helpers/logging'
 import { initDeviceToken, markDeviceTokenAsInitialized } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { navigationRef } from '@holi/mobile/navigation/NavigationProvider'
-import { handleForegroundChatMessage, isChatNotification } from '@holi/mobile/notifications/chatNotifications'
+import { isChatNotification, maybeScheduleChatNotification } from '@holi/mobile/notifications/chatNotifications'
+import { NotificationData } from '@holi/mobile/notifications/index'
 
 const logger = getLogger('Notifications')
 
@@ -68,27 +69,33 @@ export const initNotifications = async () => {
   }
 }
 
-const handleForegroundNotification = async (notification: Notification): Promise<NotificationBehavior> => {
+const parseNotificationPayload = (request: Partial<NotificationRequest>): NotificationData => {
+  const trigger = request.trigger as Partial<PushNotificationTrigger>
+  return trigger.remoteMessage?.data /* Android */ ?? trigger.payload /* iOS */ ?? {}
+}
+
+const handleNotification = async (notification: Notification): Promise<NotificationBehavior> => {
   // defensive programming, since types don't show all null-possibilities
   const request: Partial<NotificationRequest> = notification.request
   if (request.trigger?.type === 'push') {
-    const trigger = request.trigger as Partial<PushNotificationTrigger>
-    const payload = trigger.remoteMessage?.data ?? trigger.payload // android ?? ios
-    // Only chat notifications might be displayed in the foreground
-    if (isChatNotification(payload)) {
+    const data = parseNotificationPayload(request)
+    // Only chat notifications may be displayed in the foreground
+    // It's a product decision, that Novu notifications are not shown while the App is active
+    if (isChatNotification(data)) {
       const currentRoute = navigationRef.current?.getCurrentRoute()
-      await handleForegroundChatMessage(currentRoute, payload)
+      await maybeScheduleChatNotification(currentRoute, data)
     }
+    // Push Notifications are never shown directly
     return {
       shouldShowAlert: false,
       shouldPlaySound: false,
       shouldSetBadge: false,
     }
   }
-  // Android: only with `shouldPlaySound: true`, the notification pops over the screen
+  // Scheduled notifications are always shown
   return {
     shouldShowAlert: true,
-    shouldPlaySound: true,
+    shouldPlaySound: true, // Android: only with `shouldPlaySound: true`, the notification pops over the screen
     shouldSetBadge: false,
   }
 }
@@ -98,7 +105,7 @@ const registerHandleNotificationsWhenAppIsInForeground = () => {
   Notifications.setNotificationHandler({
     handleNotification: async (notification: Notification): Promise<NotificationBehavior> => {
       logger.debug('foregroundNotificationHandler', 'received notification', JSON.stringify(notification))
-      return handleForegroundNotification(notification)
+      return handleNotification(notification)
     },
     handleSuccess: async (notificationId) => {
       // could be used for tracking
