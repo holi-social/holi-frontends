@@ -32,7 +32,9 @@ const AlreadyHaveAccountText = ({
           mobileNavigateBackFirst={mobileNavigateBackFirst}
           testID="btn-to-login-form"
           trackingEvent={trackingEvent}
-        />
+        >
+          {t('auth.login')}
+        </HoliTextLinkTracked>
       </Trans>
     </HoliText>
   )
