@@ -1,5 +1,6 @@
+import { mockPlatformOS, setupPlatformOSMock } from '@holi/core/helpers/__mocks__/mockPlatformOS'
+
 import { NotificationResponse } from 'expo-notifications'
-import { Platform } from 'react-native'
 
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { transformPushInteractionToUrl } from '@holi/mobile/notifications'
@@ -8,21 +9,7 @@ const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
 
 describe('transformPushInteractionToUrl', () => {
-  const originalOS = Platform.OS
-  const mockPlatformOS = jest.fn()
-
-  beforeEach(() => {
-    Object.defineProperty(Platform, 'OS', {
-      get: mockPlatformOS,
-    })
-  })
-
-  afterAll(() => {
-    Object.defineProperty(Platform, 'OS', {
-      get: () => originalOS,
-    })
-  })
-
+  setupPlatformOSMock()
   const createAndroidNotificationResponse = (
     payload: { [key: string]: string },
     type: 'push' | 'unknown' = 'push'
@@ -89,25 +76,25 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for Android chat notification', () => {
-    mockPlatformOS.mockReturnValue('android')
+    mockPlatformOS('android')
     const url = transformPushInteractionToUrl(createAndroidNotificationResponse({ room_id: '123' }))
     expect(url).toEqual('holi://chat/rooms/123')
   })
 
   it('should create correct url for iOS chat notification', () => {
-    mockPlatformOS.mockReturnValue('ios')
+    mockPlatformOS('ios')
     const url = transformPushInteractionToUrl(createIOSNotificationResponse({ room_id: '123' }))
     expect(url).toEqual('holi://chat/rooms/123')
   })
 
   it('should not create url for Android chat notification if room id is missing', () => {
-    mockPlatformOS.mockReturnValue('android')
+    mockPlatformOS('android')
     const url = transformPushInteractionToUrl(createAndroidNotificationResponse({}))
     expect(url).toBeFalsy()
   })
 
   it('should not create url for iOS chat notification if room id is missing', () => {
-    mockPlatformOS.mockReturnValue('ios')
+    mockPlatformOS('ios')
     const url = transformPushInteractionToUrl(createIOSNotificationResponse({}))
     expect(url).toBeFalsy()
   })
@@ -163,7 +150,7 @@ describe('transformPushInteractionToUrl', () => {
   ]
 
   it.each(tests)('should create correct url for $notificationType on Android', ({ notificationType, expectedUrl }) => {
-    mockPlatformOS.mockReturnValue('android')
+    mockPlatformOS('android')
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
         notificationType,
@@ -177,7 +164,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it.each(tests)('should create correct url for $notificationType on iOS', ({ notificationType, expectedUrl }) => {
-    mockPlatformOS.mockReturnValue('ios')
+    mockPlatformOS('ios')
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
         notificationType,
@@ -191,7 +178,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for space membership request notification if user id is missing on Android', () => {
-    mockPlatformOS.mockReturnValue('android')
+    mockPlatformOS('android')
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
         notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
@@ -204,7 +191,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for space membership request notification if user id is missing on iOS', () => {
-    mockPlatformOS.mockReturnValue('ios')
+    mockPlatformOS('ios')
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
         notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
@@ -217,7 +204,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should not create url for space membership request notification if space name is missing on Android', () => {
-    mockPlatformOS.mockReturnValue('android')
+    mockPlatformOS('android')
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
         notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
@@ -228,7 +215,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should not create url for space membership request notification if space name is missing on iOS', () => {
-    mockPlatformOS.mockReturnValue('ios')
+    mockPlatformOS('ios')
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
         notificationType: NovuNotificationType.SPACE_MEMBERSHIP_REQUEST,
@@ -239,7 +226,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for post comment mention notification on Android', () => {
-    mockPlatformOS.mockReturnValue('android')
+    mockPlatformOS('android')
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
         notificationType: NovuNotificationType.POST_COMMENT_MENTION,
@@ -255,7 +242,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for post comment mention notification on iOS', () => {
-    mockPlatformOS.mockReturnValue('ios')
+    mockPlatformOS('ios')
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
         notificationType: NovuNotificationType.POST_COMMENT_MENTION,
@@ -271,7 +258,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for post comment author notification on Android', () => {
-    mockPlatformOS.mockReturnValue('android')
+    mockPlatformOS('android')
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
         notificationType: NovuNotificationType.POST_COMMENT_AUTHOR,
@@ -287,7 +274,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for post comment author notification on iOS', () => {
-    mockPlatformOS.mockReturnValue('ios')
+    mockPlatformOS('ios')
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
         notificationType: NovuNotificationType.POST_COMMENT_AUTHOR,
@@ -303,7 +290,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for space new post notification on Android', () => {
-    mockPlatformOS.mockReturnValue('android')
+    mockPlatformOS('android')
     const url = transformPushInteractionToUrl(
       createAndroidNotificationResponse({
         notificationType: NovuNotificationType.SPACE_NEW_POST,
@@ -318,7 +305,7 @@ describe('transformPushInteractionToUrl', () => {
   })
 
   it('should create correct url for space new post notification on iOS', () => {
-    mockPlatformOS.mockReturnValue('ios')
+    mockPlatformOS('ios')
     const url = transformPushInteractionToUrl(
       createIOSNotificationResponse({
         notificationType: NovuNotificationType.SPACE_NEW_POST,
@@ -334,7 +321,7 @@ describe('transformPushInteractionToUrl', () => {
 
   describe('Appointment notifications', () => {
     it('should create a url to a newly created appointment', () => {
-      mockPlatformOS.mockReturnValue('ios')
+      mockPlatformOS('ios')
       const url = transformPushInteractionToUrl(
         createIOSNotificationResponse({
           notificationType: NovuNotificationType.SPACE_APPOINTMENT_CREATION,
@@ -348,7 +335,7 @@ describe('transformPushInteractionToUrl', () => {
     })
 
     it('should create a url to an updated appointment', () => {
-      mockPlatformOS.mockReturnValue('ios')
+      mockPlatformOS('ios')
       const url = transformPushInteractionToUrl(
         createIOSNotificationResponse({
           notificationType: NovuNotificationType.SPACE_APPOINTMENT_UPDATE,
@@ -362,7 +349,7 @@ describe('transformPushInteractionToUrl', () => {
     })
 
     it("should create a url to it's Space for a deleted appointment", () => {
-      mockPlatformOS.mockReturnValue('ios')
+      mockPlatformOS('ios')
       const url = transformPushInteractionToUrl(
         createIOSNotificationResponse({
           notificationType: NovuNotificationType.SPACE_APPOINTMENT_DELETION,
@@ -383,7 +370,7 @@ describe('transformPushInteractionToUrl', () => {
       ${NovuNotificationType.CHALLENGE_NEW_COMMENT}         | ${{ link: '/comment' }}                      | ${'holi://apps/challenges?path=%2Fcomment'}
       ${NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST} | ${{ link: '/quest?overlay=false' }}          | ${'holi://apps/challenges?path=%2Fquest%3Foverlay%3Dfalse'}
     `('should route to the correct URL for $notificationType notifications', ({ type, data, expectedUrl }) => {
-      mockPlatformOS.mockReturnValue('ios')
+      mockPlatformOS('ios')
       const url = transformPushInteractionToUrl(
         createIOSNotificationResponse({
           notificationType: type,

@@ -1,7 +1,8 @@
+import { mockPlatformOS, setupPlatformOSMock } from '@holi/core/helpers/__mocks__/mockPlatformOS'
+
 import { t } from 'i18next'
 import { ClientEvent, IPushRule, PushRuleKind, RuleId } from 'matrix-js-sdk'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
-import { Platform } from 'react-native'
 
 import { IGNORE_CHAT_ADMIN_RULE_ID, ignoreChatAdminPushRule } from '@holi/chat/src/client/pusher'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
@@ -13,7 +14,6 @@ import { StoredCredentials } from '../utils'
 
 let mockSetPusher: jest.Mock | undefined
 let mockRemovePusher: jest.Mock | undefined
-const mockPlatformOS = jest.fn()
 const mockAddPushRule = jest.fn().mockImplementation(
   (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -97,20 +97,8 @@ jest.mock('@holi/chat/src/utils/storage', () => ({
 }))
 
 describe('startChat', () => {
+  setupPlatformOSMock()
   const testToken = 'some pushkey'
-  const originalOS = Platform.OS
-
-  beforeAll(() => {
-    Object.defineProperty(Platform, 'OS', {
-      get: mockPlatformOS,
-    })
-  })
-
-  afterAll(() => {
-    Object.defineProperty(Platform, 'OS', {
-      get: () => originalOS,
-    })
-  })
 
   it('should call the push rule configuration defining custom rules', async () => {
     const irgnoreChatAdminRuleArgs = [
@@ -128,7 +116,7 @@ describe('startChat', () => {
 
   describe('Android', () => {
     beforeEach(() => {
-      mockPlatformOS.mockReturnValue('android')
+      mockPlatformOS('android')
     })
 
     it('should call configure pusher, which removes correct pusher and sets new one', async () => {
@@ -168,7 +156,7 @@ describe('startChat', () => {
 
   describe('iOS', () => {
     beforeEach(() => {
-      mockPlatformOS.mockReturnValue('ios')
+      mockPlatformOS('ios')
     })
 
     it('should call configure pusher, which removes correct pusher and sets new one', async () => {

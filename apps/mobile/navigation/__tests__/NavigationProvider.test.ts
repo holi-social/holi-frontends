@@ -1,5 +1,6 @@
+import { mockPlatformOS, setupPlatformOSMock } from '@holi/core/helpers/__mocks__/mockPlatformOS'
+
 import { NotificationResponse } from 'expo-notifications'
-import { Platform } from 'react-native'
 
 import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
 
@@ -190,21 +191,7 @@ const notificationResponseForLocalTriggerIosMock: NotificationResponse = {
 }
 
 describe('rootLinkingConfig', () => {
-  const originalOS = Platform.OS
-  const mockPlatformOS = jest.fn()
-
-  beforeEach(() => {
-    Object.defineProperty(Platform, 'OS', {
-      get: mockPlatformOS,
-    })
-  })
-
-  afterAll(() => {
-    Object.defineProperty(Platform, 'OS', {
-      get: () => originalOS,
-    })
-  })
-
+  setupPlatformOSMock()
   describe('getInitialURL', () => {
     it('should call getInitialURL and respond accordingly', async () => {
       mockGetInitialURL = jest.fn().mockReturnValue('https://app.holi.social/some/link')
@@ -217,7 +204,7 @@ describe('rootLinkingConfig', () => {
 
     describe('Android', () => {
       it('should call getLastNotificationResponseAsync and respond correctly on remote trigger', async () => {
-        mockPlatformOS.mockReturnValue('android')
+        mockPlatformOS('android')
         mockGetLastNotificationResponseAsync = jest
           .fn()
           .mockReturnValue(notificationResponseForRemoteTriggerAndroidMock)
@@ -240,7 +227,7 @@ describe('rootLinkingConfig', () => {
 
     describe('iOS', () => {
       it('should call getLastNotificationResponseAsync and respond correctly on iOS remote trigger', async () => {
-        mockPlatformOS.mockReturnValue('ios')
+        mockPlatformOS('ios')
         mockGetLastNotificationResponseAsync = jest.fn().mockReturnValue(notificationResponseForRemoteTriggerIosMock)
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
@@ -280,7 +267,7 @@ describe('rootLinkingConfig', () => {
 
     describe('Android', () => {
       it('should call addNotificationResponseReceivedListener let it react appropriately', async () => {
-        mockPlatformOS.mockReturnValue('android')
+        mockPlatformOS('android')
         mockAddNotificationResponseReceivedListener = jest.fn()
         const urlResultCatcher = jest.fn()
 
@@ -307,7 +294,7 @@ describe('rootLinkingConfig', () => {
 
     describe('iOS', () => {
       it('should call addNotificationResponseReceivedListener let it react appropriately', async () => {
-        mockPlatformOS.mockReturnValue('ios')
+        mockPlatformOS('ios')
         mockAddNotificationResponseReceivedListener = jest.fn()
         const urlResultCatcher = jest.fn()
 

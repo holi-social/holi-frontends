@@ -1,6 +1,7 @@
+import { mockPlatformOS, setupPlatformOSMock } from '@holi/core/helpers/__mocks__/mockPlatformOS'
+
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import { Platform } from 'react-native'
 
 import {
   FirstVisitOnboardingSelection,
@@ -8,8 +9,7 @@ import {
 } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingSelection'
 
 describe('FirstVisitOnboardingSelection', () => {
-  const originalOS = Platform.OS
-  const mockPlatformOS = jest.fn()
+  setupPlatformOSMock()
   const onSelect = jest.fn()
   const step = 'SMALL_ACTIONS'
   const options: FirstVisitOnboardingSelectionOption[] = [
@@ -21,18 +21,6 @@ describe('FirstVisitOnboardingSelection', () => {
     { id: 'DONATIONS' },
     { id: 'SPACES' },
   ]
-
-  beforeEach(() => {
-    Object.defineProperty(Platform, 'OS', {
-      get: mockPlatformOS,
-    })
-  })
-
-  afterAll(() => {
-    Object.defineProperty(Platform, 'OS', {
-      get: () => originalOS,
-    })
-  })
 
   it('should render step with options', () => {
     render(<FirstVisitOnboardingSelection onSelect={onSelect} step={step} options={options} />)
@@ -46,7 +34,7 @@ describe('FirstVisitOnboardingSelection', () => {
   })
 
   it('should filter mobile only options on web', () => {
-    mockPlatformOS.mockReturnValue('web')
+    mockPlatformOS('web')
 
     render(<FirstVisitOnboardingSelection onSelect={onSelect} step={step} options={options} />)
 
