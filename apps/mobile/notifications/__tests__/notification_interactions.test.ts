@@ -256,6 +256,58 @@ const androidScheduledNotificationWhenAppInForeground = {
 const androidNovuNotificationResponseWhenAppInBackgroundOrKilled = {
   notification: {
     request: {
+      trigger: {
+        remoteMessage: {
+          originalPriority: 2,
+          sentTime: 1729674707370,
+          notification: null,
+          data: {
+            notificationType: 'SPACE_MEMBERSHIP_REQUEST',
+            message: 'q3 LastName wants to join Space 4\n',
+            title: 'Request for Space 4 on holi',
+            data: '{"requestMessage":"","user":{"id":"34274674-088f-4dad-9d93-18aae88615be","fullName":"q3 LastName","avatar":"","avatarBlurhash":"","avatarDefaultColor":"#F8F860","avatarLabel":"QL"},"space":{"id":"2eb51ccf-e811-4686-a62e-c1d03ea93a74","name":"space-4","title":"Space 4","avatar":"","avatarBlurhash":"","avatarDefaultColor":"#F8F860"},"requestDatetime":"2024-10-23T11:11:46.175665","collaboratorsLink":"https://staging.dev.holi.social/spaces/space-4/collaborators/manage?tab=pending&userId=34274674-088f-4dad-9d93-18aae88615be"}',
+            notificationVersion: '1.0.0',
+            body: 'q3 LastName wants to join Space 4\n',
+          },
+          to: null,
+          ttl: 2419200,
+          collapseKey: null,
+          messageType: null,
+          priority: 2,
+          from: '984061681268',
+          messageId: '0:1729674707379356%90033c7ff9fd7ecd',
+        },
+        channelId: null,
+        type: 'push',
+      },
+      content: {
+        title: 'Request for Space 4 on holi',
+        badge: null,
+        body: 'q3 LastName wants to join Space 4\n',
+        sound: 'default',
+        sticky: false,
+        autoDismiss: true,
+        data: {
+          notificationType: 'SPACE_MEMBERSHIP_REQUEST',
+          message: 'q3 LastName wants to join Space 4\n',
+          title: 'Request for Space 4 on holi',
+          data: '{"requestMessage":"","user":{"id":"34274674-088f-4dad-9d93-18aae88615be","fullName":"q3 LastName","avatar":"","avatarBlurhash":"","avatarDefaultColor":"#F8F860","avatarLabel":"QL"},"space":{"id":"2eb51ccf-e811-4686-a62e-c1d03ea93a74","name":"space-4","title":"Space 4","avatar":"","avatarBlurhash":"","avatarDefaultColor":"#F8F860"},"requestDatetime":"2024-10-23T11:11:46.175665","collaboratorsLink":"https://staging.dev.holi.social/spaces/space-4/collaborators/manage?tab=pending&userId=34274674-088f-4dad-9d93-18aae88615be"}',
+          notificationVersion: '1.0.0',
+          body: 'q3 LastName wants to join Space 4\n',
+        },
+        priority: 'default',
+        subtitle: null,
+      },
+      identifier: '0:1729674707379356%90033c7ff9fd7ecd',
+    },
+    date: 1729674707370,
+  },
+  actionIdentifier: 'expo.modules.notifications.actions.DEFAULT',
+}
+
+const androidNovuDataNotificationResponseWhenAppInBackgroundOrKilled = {
+  notification: {
+    request: {
       trigger: { channelId: null, type: 'push' },
       content: {
         title: null,
