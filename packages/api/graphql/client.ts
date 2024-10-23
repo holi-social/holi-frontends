@@ -134,6 +134,8 @@ export const createCache = () =>
           members: pagedPolicy(),
           membershipRequests: pagedPolicy(),
           invites: pagedPolicy(),
+          parentSpace: alwaysReplacePolicy,
+          childSpaces: pagedPolicy(),
         },
       },
       Query: {

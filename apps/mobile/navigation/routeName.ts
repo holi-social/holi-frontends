@@ -18,6 +18,7 @@ export enum RouteName {
   // Spaces
   SpacesHome = 'SpacesHome',
   SpaceDetails = 'SpaceDetails',
+  SpaceRelatedSpaces = 'SpaceRelatedSpaces',
   FilteredSpaces = 'FilteredSpaces',
   CreateSpace = 'CreateSpace',
   EditSpace = 'EditSpace',

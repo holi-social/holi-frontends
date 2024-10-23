@@ -5,6 +5,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import InfoModal from '@holi/core/components/InfoModal'
 import { termsBySortNumberComparator } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
@@ -35,6 +36,7 @@ const RELATED_SPACE_CARD_WIDTH = 256
 
 const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfoViewProps) => {
   const { t } = useTranslation()
+  const { navigate } = useRouting()
   const { theme } = useTheme()
   const { colors } = theme
 
@@ -80,11 +82,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
                 <HoliLink
                   label={t('spaces.spaceDetails.relatedSpaces.viewAll')}
                   testID="related-spaces-view-all-btn"
-                  // TODO: change in next MR to href to navigate to related screen
-                  onPress={(event) => {
-                    event.preventDefault()
-                    null
-                  }}
+                  href={`/spaces/${space.id}/relatedSpaces`}
                 >
                   <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <HoliText>{t('spaces.spaceDetails.relatedSpaces.viewAll')}</HoliText>
@@ -101,7 +99,11 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
             slideGap={8}
             seeMoreButton={
               space.childSpaces.totalResults > 4 ? (
-                <SpacesSeeMore style={{ paddingVertical: Spacing['3xs'] }} testID={'related-spaces-see-more'} />
+                <SpacesSeeMore
+                  style={{ paddingVertical: Spacing['3xs'] }}
+                  onPress={() => navigate(`/spaces/${space.id}/relatedSpaces`)}
+                  testID={'related-spaces-see-more'}
+                />
               ) : undefined
             }
             style={{ width: '100%' }}

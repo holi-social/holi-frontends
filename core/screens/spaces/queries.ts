@@ -92,6 +92,7 @@ export const RelatedSpaceFragment = gql`
     cover
     coverBlurhash
     name
+    avatarDefaultColor
     members(limit: 3) {
       totalResults
       data {
@@ -252,6 +253,27 @@ export const spaceByIdQuery = gql`
   query SpaceById($idOrName: String!) {
     spaceById(idOrName: $idOrName) {
       ...FullSpace
+    }
+  }
+`
+
+export const spaceRelatedSpacesQuery = gql`
+  ${RelatedSpaceFragment}
+
+  query SpaceRealatedSpaces($idOrName: String!, $offset: Int, $limit: Int) {
+    spaceById(idOrName: $idOrName) {
+      id
+      name
+      title
+      parentSpace {
+        ...RelatedSpace
+      }
+      childSpaces(offset: $offset, limit: $limit) {
+        totalResults
+        data {
+          ...RelatedSpace
+        }
+      }
     }
   }
 `

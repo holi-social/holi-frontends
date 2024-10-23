@@ -10,6 +10,7 @@ import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
@@ -164,12 +165,13 @@ const getStylesSmall = (theme: HoliTheme) =>
     },
     mainSection: {
       flexGrow: 2,
-      marginRight: 4,
+      marginRight: Spacing['4xs'],
     },
     blockItemInner: {
       display: 'flex',
       flexDirection: 'row',
       flexWrap: 'nowrap',
+      gap: Spacing.xs,
     },
     imageContainer: {
       position: 'relative',
@@ -182,7 +184,7 @@ const getStylesSmall = (theme: HoliTheme) =>
     },
     usersPile: {
       maxWidth: '100%',
-      paddingVertical: 4,
+      paddingVertical: Spacing['4xs'],
       paddingRight: 8,
     },
     usersPileText: {
@@ -191,7 +193,6 @@ const getStylesSmall = (theme: HoliTheme) =>
     textContainer: {
       flex: 1,
       marginTop: 6,
-      marginLeft: 8,
       justifyContent: 'center',
     },
     title: {},
@@ -203,8 +204,8 @@ const getStylesSmall = (theme: HoliTheme) =>
     },
     optionsButton: {
       display: 'flex',
-      padding: 8,
-      borderRadius: 8,
+      padding: Spacing['3xs'],
+      borderRadius: Spacing['3xs'],
       maxHeight: 36,
       backgroundColor: theme.colors.background10,
     },
@@ -226,7 +227,7 @@ const getStylesLarge = (theme: HoliTheme) =>
     imageContainer: {
       position: 'relative',
       width: '100%',
-      marginBottom: 16,
+      marginBottom: Spacing.xs,
     },
     image: {
       aspectRatio: LARGE_IMAGE_ASPECT_RATIO,
@@ -237,9 +238,9 @@ const getStylesLarge = (theme: HoliTheme) =>
       position: 'absolute',
       left: 10,
       bottom: 10,
-      padding: 4,
-      paddingRight: 8,
-      borderRadius: 24,
+      padding: Spacing['4xs'],
+      paddingRight: Spacing['3xs'],
+      borderRadius: Spacing.md,
       backgroundColor: theme.colors.background10,
     },
     usersPileText: {},
@@ -247,7 +248,7 @@ const getStylesLarge = (theme: HoliTheme) =>
       width: '100%',
     },
     title: {
-      marginTop: 4,
+      marginTop: Spacing['4xs'],
     },
     subtitle: {
       display: 'flex',
@@ -255,7 +256,7 @@ const getStylesLarge = (theme: HoliTheme) =>
     },
     description: {
       color: theme.colors.foreground20,
-      marginTop: 4,
+      marginTop: Spacing['4xs'],
     },
     optionsButton: {},
   })
