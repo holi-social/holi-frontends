@@ -170,7 +170,7 @@ mobile_review_e2e_android:
     TEST_SUITES: (smoke|journey)
   rules:
     - !reference [.rules_mobile_review]
-    - !reference [.rule_templates, manually_on_any_other]
+    - !reference [.rule_templates, automatically_on_any_other]
 
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
@@ -179,7 +179,7 @@ mobile_review_e2e_ios:
     TEST_SUITES: (smoke|journey)
   rules:
     - !reference [.rules_mobile_review]
-    - !reference [.rule_templates, manually_on_any_other]
+    - !reference [.rule_templates, automatically_on_any_other]
 
 ## staging environment
 
