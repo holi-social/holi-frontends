@@ -9,6 +9,7 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -19,6 +20,8 @@ import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggesti
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
@@ -30,6 +33,8 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
   else if (hours >= 18 && hours < 23) return t('homeFeed.headerTitle.goodEvening')
   else return t('homeFeed.headerTitle.goodNight')
 }
+
+const surveyUrl = 'https://tally.so/r/nrdGxX'
 
 const HomeFeed = () => {
   const { isLoggedIn } = useLoggedInUser()
@@ -56,7 +61,10 @@ const HomeFeed = () => {
         </Animated.View>
       ),
       headerRight: (props) => (
-        <Animated.View entering={FadeInRight}>
+        <Animated.View entering={FadeInRight} style={styles.headerRight}>
+          <HoliLink external href={surveyUrl} label={t('homeFeed.feedback')}>
+            <HoliText>{t('homeFeed.feedback')}</HoliText>
+          </HoliLink>
           <NotificationAndSearchHeader {...props} />
         </Animated.View>
       ),
@@ -97,6 +105,12 @@ const styles = StyleSheet.create({
   },
   sections: {
     gap: 32,
+  },
+  headerRight: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: Spacing.md,
+    alignItems: 'center',
   },
 })
 
