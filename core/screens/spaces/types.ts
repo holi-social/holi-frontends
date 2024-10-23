@@ -78,6 +78,21 @@ export interface Onboarding {
   steps: OnboardingStep[]
 }
 
+export type RelatedSpace = Pick<
+  Space,
+  | 'id'
+  | 'avatar'
+  | 'avatarBlurhash'
+  | 'avatarDefaultColor'
+  | 'title'
+  | 'members'
+  | 'location'
+  | 'description'
+  | 'cover'
+  | 'coverBlurhash'
+  | 'name'
+>
+
 export interface Space {
   id: string
   title: string
@@ -108,6 +123,8 @@ export interface Space {
   hasPublicPosts?: boolean
   hasPrivatePosts?: boolean
   onboarding?: Onboarding
+  parentSpace?: RelatedSpace
+  childSpaces?: Paged<RelatedSpace>
 }
 
 export enum SpaceSectionType {

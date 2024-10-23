@@ -1,20 +1,17 @@
 import React, { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Edit2, Information } from '@holi/icons/src/generated'
+import { Information } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-type SpaceSectionProps = {
+export interface SpaceSectionProps {
   title: string
   infoIcon?: boolean
   onPressInfo?: (event: React.SyntheticEvent | GestureResponderEvent) => void
-  editable?: boolean
-  onPressEdit?: (event: React.SyntheticEvent | GestureResponderEvent) => void
+  actionButton?: React.ReactNode
   style?: StyleProp<ViewStyle>
   testID?: string
 }
@@ -23,13 +20,11 @@ const SpaceSection = ({
   title,
   infoIcon,
   onPressInfo,
-  editable,
-  onPressEdit,
+  actionButton,
   style,
   testID = 'space-section',
   children,
 }: React.PropsWithChildren<SpaceSectionProps>) => {
-  const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -40,26 +35,17 @@ const SpaceSection = ({
           <View style={styles.title}>
             <HoliHeading level="2">{title}</HoliHeading>
           </View>
+
           {infoIcon && (
             <HoliButton label={'infoLabel'} transparent inline onPress={onPressInfo}>
               <HoliIcon icon={Information} color={theme.colors.foreground10} />
             </HoliButton>
           )}
         </View>
-        {editable && (
-          <HoliButton
-            style={styles.editButton}
-            label={t('global.edit')}
-            type="secondary"
-            inline
-            onPress={onPressEdit}
-            testID={`btn-${testID}`}
-          >
-            <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
-            <HoliIcon icon={Edit2} />
-          </HoliButton>
-        )}
+
+        {actionButton}
       </View>
+
       {children && <View style={styles.body}>{children}</View>}
     </View>
   )
@@ -93,13 +79,5 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       flexWrap: 'wrap',
       flexShrink: 1,
-    },
-    editButton: {
-      marginLeft: 12,
-      paddingHorizontal: 12,
-      paddingVertical: 8,
-    },
-    editButtonText: {
-      marginRight: 6,
     },
   })

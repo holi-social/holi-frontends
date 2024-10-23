@@ -1,38 +1,34 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 import { View } from 'react-native'
-import renderer from 'react-test-renderer'
 
 import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
+import SpaceSectionEditable from '@holi/core/screens/spaces/components/SpaceSectionEditable'
 
 describe('SpaceSection', () => {
-  it('renders correctly', () => {
-    const generic = renderer.create(<SpaceSection title="editable section" editable />).toJSON()
-    expect(generic).toHaveTextContent('global.edit')
+  it('renders correctly', async () => {
+    render(<SpaceSectionEditable title="editable section" onEditPress={jest.fn()} />)
+    expect(await screen.findByRole('button', { name: 'global.edit' })).toBeOnTheScreen()
 
-    const location = renderer.create(<SpaceSection title="not editable section" />).toJSON()
-    expect(location).toHaveTextContent('not editable section')
+    render(<SpaceSection title="editable section" />)
+    expect(screen.queryByRole('button', { name: 'global.edit' })).not.toBeOnTheScreen()
   })
 
   it('triggers the onPress method correctly', async () => {
     const onPress = jest.fn()
-    const { getByTestId } = render(
-      <SpaceSection title="onpress test" editable onPressEdit={onPress} testID="test-onpress" />
-    )
+    render(<SpaceSectionEditable title="onpress test" onEditPress={onPress} testID="test-onpress" />)
 
-    fireEvent.press(getByTestId('btn-test-onpress'))
-
+    await userEvent.press(screen.getByRole('button', { name: 'global.edit' }))
     expect(onPress).toHaveBeenCalled()
   })
 
   it('displays children correctly', () => {
-    const { getByTestId } = render(
+    render(
       <SpaceSection title="children test">
         <View testID="child-view" />
       </SpaceSection>
     )
 
-    const view = getByTestId('child-view')
-    expect(view).toBeDefined()
+    expect(screen.getByTestId('child-view')).toBeOnTheScreen()
   })
 })

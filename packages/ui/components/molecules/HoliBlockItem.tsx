@@ -217,6 +217,7 @@ const getStylesLarge = (theme: HoliTheme) =>
       paddingBottom: 16,
       borderRadius: LARGE_OUTER_BORDER_RADIUS,
       backgroundColor: theme.colors.background10,
+      flex: 1,
     },
     mainSection: {
       flexGrow: 1,

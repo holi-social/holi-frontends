@@ -90,6 +90,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
             {seeAllPath && <HoliText style={styles.seeAll}>{t('global.seeAll')}</HoliText>}
           </View>
         </HoliButton>
+
         <FlatList
           horizontal
           ListHeaderComponentStyle={styles.listHeader}
