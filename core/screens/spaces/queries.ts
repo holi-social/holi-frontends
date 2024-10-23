@@ -82,9 +82,32 @@ export const FullTaskFragment = gql`
   }
 `
 
+export const RelatedSpaceFragment = gql`
+  ${UserAvatarFragment}
+  fragment RelatedSpace on Space {
+    id
+    title
+    location
+    description
+    cover
+    coverBlurhash
+    name
+    members(limit: 3) {
+      totalResults
+      data {
+        user {
+          identity
+          ...UserAvatar
+        }
+      }
+    }
+  }
+`
+
 // We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const FullSpaceFragment = gql`
   ${UserAvatarFragment}
+  ${RelatedSpaceFragment}
   ${FullTaskFragment}
   fragment FullSpace on Space {
     id
@@ -157,11 +180,21 @@ export const FullSpaceFragment = gql`
         text
       }
     }
+    parentSpace {
+      ...RelatedSpace
+    }
+    childSpaces(limit: 4) {
+      totalResults
+      data {
+        ...RelatedSpace
+      }
+    }
   }
 `
 
 // We only need 3 members for avatar pile and only a few properties are necessary for the members overlay
 export const SpaceOverviewFragment = gql`
+  ${UserAvatarFragment}
   fragment SpaceOverview on Space {
     id
     title
@@ -180,12 +213,8 @@ export const SpaceOverviewFragment = gql`
       totalResults
       data {
         user {
-          id
           identity
-          avatar
-          avatarBlurhash
-          avatarLabel
-          avatarDefaultColor
+          ...UserAvatar
         }
       }
     }

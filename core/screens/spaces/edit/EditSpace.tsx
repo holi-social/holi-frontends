@@ -16,7 +16,7 @@ import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceMainImage from '@holi/core/screens/spaces/components/SpaceMainImage'
 import SpaceOnboardCard from '@holi/core/screens/spaces/components/SpaceOnboardCard'
 import SpacePublicLink from '@holi/core/screens/spaces/components/SpacePublicLink'
-import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
+import SpaceSectionEditable from '@holi/core/screens/spaces/components/SpaceSectionEditable'
 import EditSpaceAvatar from '@holi/core/screens/spaces/edit/components/EditSpaceAvatar'
 import EditSpaceContact from '@holi/core/screens/spaces/edit/components/EditSpaceContact'
 import EditSpaceCoverImage from '@holi/core/screens/spaces/edit/components/EditSpaceCoverImage'
@@ -246,21 +246,19 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   editable
                 />
 
-                <SpaceSection
+                <SpaceSectionEditable
                   title={t('spaces.spaceDetails.goal')}
-                  editable
                   style={styles.noBorderSection}
-                  onPressEdit={() => openEditModal(EditFields.NAME)}
+                  onEditPress={() => openEditModal(EditFields.NAME)}
                 >
                   {!!space.description && (
                     <HoliRichTextOutput text={space.description} allowAllLinks testID="space-edit-goal" />
                   )}
-                </SpaceSection>
+                </SpaceSectionEditable>
 
-                <SpaceSection
+                <SpaceSectionEditable
                   title={t('spaces.spaceDetails.topics')}
-                  editable
-                  onPressEdit={() => openEditModal(EditFields.TOPICS)}
+                  onEditPress={() => openEditModal(EditFields.TOPICS)}
                   testID="space-edit-topics"
                 >
                   {!!space.topics?.length && (
@@ -272,23 +270,21 @@ const EditSpace: React.FC<ScreenProps> = () => {
                       ))}
                     </View>
                   )}
-                </SpaceSection>
+                </SpaceSectionEditable>
 
-                <SpaceSection
+                <SpaceSectionEditable
                   title={t('spaces.spaceDetails.location')}
-                  editable
-                  onPressEdit={() => openEditModal(EditFields.LOCATION)}
+                  onEditPress={() => openEditModal(EditFields.LOCATION)}
                   testID="space-edit-location"
                 >
                   {space.location && <HoliText>{space.location}</HoliText>}
-                </SpaceSection>
+                </SpaceSectionEditable>
 
-                <SpaceSection
+                <SpaceSectionEditable
                   title={t('spaces.spaceDetails.sdgs')}
                   infoIcon
                   onPressInfo={showInfoModal}
-                  editable
-                  onPressEdit={() => openEditModal(EditFields.SDGS)}
+                  onEditPress={() => openEditModal(EditFields.SDGS)}
                   testID="space-edit-sdgs"
                 >
                   {!!space.sdgs?.length && (
@@ -306,11 +302,10 @@ const EditSpace: React.FC<ScreenProps> = () => {
                     onDismiss={closeInfoModal}
                     i18nPrefix={'spaces.input.sdgs.infoModal'}
                   />
-                </SpaceSection>
-                <SpaceSection
+                </SpaceSectionEditable>
+                <SpaceSectionEditable
                   title={t('spaces.spaceDetails.contact')}
-                  editable
-                  onPressEdit={() => openEditModal(EditFields.CONTACT)}
+                  onEditPress={() => openEditModal(EditFields.CONTACT)}
                   testID="space-edit-contact"
                 >
                   {space.contactDescription || space.contactEmail || space.contactPhone ? (
@@ -336,11 +331,10 @@ const EditSpace: React.FC<ScreenProps> = () => {
                       )}
                     </View>
                   ) : null}
-                </SpaceSection>
-                <SpaceSection
+                </SpaceSectionEditable>
+                <SpaceSectionEditable
                   title={t('spaces.spaceDetails.publicLinks')}
-                  editable
-                  onPressEdit={() => openEditModal(EditFields.LINKS)}
+                  onEditPress={() => openEditModal(EditFields.LINKS)}
                   testID="space-edit-links"
                 >
                   {!!space.links?.length && (
@@ -350,7 +344,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                       ))}
                     </View>
                   )}
-                </SpaceSection>
+                </SpaceSectionEditable>
               </HoliContainer>
             </View>
           </View>

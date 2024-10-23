@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker'
+
 import { Skill, Topic, User } from '@holi/core/domain/shared/types'
 import { AppointmentInput, PermissionsType } from '@holi/core/screens/appointments/types'
 import { Post } from '@holi/core/screens/posts/types'
@@ -6,6 +8,7 @@ import {
   LocationType,
   Onboarding,
   Regularity,
+  RelatedSpace,
   Space,
   SpaceInvite,
   SpaceLink,
@@ -279,6 +282,24 @@ export const createSpaceList = (length = 3) =>
     },
     __typename: 'Space',
   }))
+
+export const createRelatedSpace = (space: Partial<RelatedSpace> = {}): RelatedSpace => {
+  return {
+    id: faker.string.uuid(),
+    avatar: faker.image.avatar(),
+    avatarDefaultColor: faker.internet.color(),
+    title: faker.lorem.words(),
+    members: {
+      totalResults: 1,
+      data: [membership],
+    },
+    location: faker.location.city(),
+    description: faker.lorem.sentence(),
+    cover: faker.image.url(),
+    name: faker.lorem.words(),
+    ...space,
+  }
+}
 
 export const spaces = createSpaceList()
 
