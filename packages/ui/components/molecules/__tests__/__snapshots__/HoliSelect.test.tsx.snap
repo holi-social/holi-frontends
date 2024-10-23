@@ -132,6 +132,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View
@@ -1428,6 +1429,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View
@@ -2662,6 +2664,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View
@@ -2941,6 +2944,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View
@@ -4081,6 +4085,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value={
             {
               "nativeEvent": {
@@ -5361,6 +5366,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View
@@ -5603,6 +5609,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View
@@ -5845,6 +5852,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View

@@ -134,6 +134,7 @@ exports[`PostTopics matches snapshot 1`] = `
                   ]
                 }
                 testID="input"
+                textAlignVertical="top"
                 value=""
               />
               <View

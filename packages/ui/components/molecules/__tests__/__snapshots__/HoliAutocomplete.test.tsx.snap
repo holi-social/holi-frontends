@@ -131,6 +131,7 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View
@@ -368,6 +369,7 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
             ]
           }
           testID="input"
+          textAlignVertical="top"
           value=""
         />
         <View

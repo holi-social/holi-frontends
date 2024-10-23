@@ -121,6 +121,7 @@ exports[`HoliTextInput renders correctly when disabled 1`] = `
           ]
         }
         testID="holi-text-input"
+        textAlignVertical="top"
         value=""
       />
     </View>
@@ -293,6 +294,7 @@ exports[`HoliTextInput renders correctly when multiline starting with more than 
           ]
         }
         testID="holi-text-input"
+        textAlignVertical="top"
         value=""
       />
     </View>
@@ -465,6 +467,7 @@ exports[`HoliTextInput renders correctly when multiline starting with one line 1
           ]
         }
         testID="holi-text-input"
+        textAlignVertical="top"
         value=""
       />
     </View>
@@ -646,6 +649,7 @@ exports[`HoliTextInput renders correctly with default props 1`] = `
           ]
         }
         testID="holi-text-input"
+        textAlignVertical="top"
         value=""
       />
     </View>
@@ -818,6 +822,7 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
           ]
         }
         testID="holi-text-input"
+        textAlignVertical="top"
         value=""
       />
       <View
@@ -1066,6 +1071,7 @@ exports[`HoliTextInput renders correctly with type password 1`] = `
           ]
         }
         testID="holi-text-input"
+        textAlignVertical="top"
         textContentType="password"
         value=""
       />
@@ -1205,6 +1211,7 @@ exports[`HoliTextInput renders correctly without label 1`] = `
           ]
         }
         testID="holi-text-input"
+        textAlignVertical="top"
         value=""
       />
     </View>
