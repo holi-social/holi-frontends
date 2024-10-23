@@ -46,6 +46,9 @@ export interface HoliButtonProps {
   accessibilityState?: AccessibilityState
 }
 
+/**
+ * @deprecated Use `Button` from 'holi-bricks/components/button/Button' instead.
+ */
 const HoliButton = ({
   inline = false,
   type = 'primary',

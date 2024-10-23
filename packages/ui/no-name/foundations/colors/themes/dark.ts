@@ -1,4 +1,4 @@
-import { black, blue, byShade, mono, white } from '@holi/ui/no-name/foundations/colors/primitives'
+import { black, blue, byShade, mono, red, white, yellow } from '@holi/ui/no-name/foundations/colors/primitives'
 
 const theme = {
   colors: {
@@ -7,6 +7,33 @@ const theme = {
     focus: `${mono[700]} 0px 0px 0px 1.5px, ${blue[600]} 0px 0px 0px 3px`,
   },
   components: {
+    button: {
+      primary: {
+        background: yellow[700],
+        border: yellow[600],
+        text: yellow[300],
+      },
+      secondary: {
+        background: mono[700],
+        border: mono[200],
+        text: mono[100],
+      },
+      selected: {
+        background: mono[700],
+        border: mono[400],
+        text: mono[100],
+      },
+      disabled: {
+        background: mono[700],
+        border: mono[600],
+        text: mono[500],
+      },
+      danger: {
+        background: red[800],
+        border: red[400],
+        text: red[300],
+      },
+    },
     chipSelect: {
       text: mono[200],
       border: mono[200],
