@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { ReactNode } from 'react'
 import { GestureResponderEvent, Pressable } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -6,10 +7,9 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
 import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
-import Typography from '@holi/ui/no-name/components/typography/Typography'
 import { Color, byShade } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import { ChipSize, chipSizeToTypographySize } from './size'
+import { ChipSize, chipSizeToTextSize } from './size'
 import { pill } from './styles'
 
 type ChipSelectProps = {
@@ -60,9 +60,9 @@ const ChipSelect = ({
         />
       )}
       {children && (
-        <Typography size={chipSizeToTypographySize[size]} color={theme.components.chipSelect.text} selectable={false}>
+        <Text size={chipSizeToTextSize[size]} color={theme.components.chipSelect.text} selectable={false}>
           {children}
-        </Typography>
+        </Text>
       )}
       <HoliIcon icon={icon} size={iconSize} color={theme.components.chipSelect.text} />
     </Pressable>

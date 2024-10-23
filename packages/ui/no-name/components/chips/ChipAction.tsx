@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { GestureResponderEvent, Pressable } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -5,10 +6,9 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import Spacing from '@holi/ui/foundations/Spacing'
-import Typography from '@holi/ui/no-name/components/typography/Typography'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import { ChipSize, chipSizeToTypographySize } from './size'
+import { ChipSize, chipSizeToTextSize } from './size'
 import { pill } from './styles'
 
 type ChipColor = Color | 'white'
@@ -50,9 +50,9 @@ const ChipAction = ({
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
       {children && (
-        <Typography size={chipSizeToTypographySize[size]} color={styles.text.color} selectable={false}>
+        <Text size={chipSizeToTextSize[size]} color={styles.text.color} selectable={false}>
           {children}
-        </Typography>
+        </Text>
       )}
       {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} color={styles.text.color} />}
     </Pressable>

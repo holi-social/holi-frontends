@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals'
+import 'holi-bricks/libs/init'
 import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 

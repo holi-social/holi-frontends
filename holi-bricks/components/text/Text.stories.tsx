@@ -1,10 +1,9 @@
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Text, TextSize } from 'holi-bricks/components/text/Text'
+import { black, mono, purple, red, white } from 'holi-bricks/tokens'
 import React from 'react'
 
-import Typography, { TypographySize } from '@holi/ui/no-name/components/typography/Typography'
-import { black, mono, purple, red, white } from '@holi/ui/no-name/foundations/colors/primitives'
-
-const availableSizes: TypographySize[] = ['4xl', '3xl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs']
+const availableSizes: TextSize[] = ['4xl', '3xl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs']
 const availableHeadingLevels = {
   none: undefined,
   '1': '1',
@@ -20,9 +19,9 @@ const exampleColors = {
   purple: purple[600],
 }
 
-const meta: Meta<typeof Typography> = {
-  title: 'No Name/Components/Typography (draft)',
-  component: Typography,
+const meta: Meta<typeof Text> = {
+  title: 'Components/Text',
+  component: Text,
   argTypes: {
     children: { description: 'Text content', required: true },
   },
@@ -32,7 +31,7 @@ const meta: Meta<typeof Typography> = {
   },
 }
 
-type Story = StoryObj<typeof Typography>
+type Story = StoryObj<typeof Text>
 
 export const Playground: Story = {
   argTypes: {
@@ -52,7 +51,7 @@ export const Playground: Story = {
     size: 'md',
   },
   render: function Render(args) {
-    return <Typography {...args} />
+    return <Text {...args} />
   },
 }
 
@@ -63,9 +62,9 @@ export const BySize: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {availableSizes.map((size) => (
-          <Typography key={size} {...args} size={size}>
+          <Text key={size} {...args} size={size}>
             This is a text in size {size}.
-          </Typography>
+          </Text>
         ))}
       </div>
     )
@@ -79,9 +78,9 @@ export const ByColor: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {Object.entries(exampleColors).map(([name, color]) => (
-          <Typography key={name} {...args} color={color}>
+          <Text key={name} {...args} color={color}>
             This is a text in color {name}.
-          </Typography>
+          </Text>
         ))}
       </div>
     )

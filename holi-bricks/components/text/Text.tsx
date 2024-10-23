@@ -1,15 +1,25 @@
+import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
+import { useStyles } from 'holi-bricks/hooks/useStyles'
+import { createStyleSheet } from 'holi-bricks/utils/createStyleSheet'
 import * as React from 'react'
-import { AccessibilityProps, ColorValue, Platform, Text, TextProps, TextStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import {
+  AccessibilityProps,
+  ColorValue,
+  Platform, // eslint-disable-next-line no-restricted-imports
+  Text as RNText, // eslint-disable-next-line no-restricted-imports
+  TextProps as RNTextProps,
+  TextStyle,
+} from 'react-native'
 
+// Change import in HOLI-10369
+// eslint-disable-next-line no-restricted-imports
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-import { fontFamilies } from '@holi/ui/no-name/components/typography/fontFamilies'
 
-export type TypographySize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
-export type TypographyHeadingLevel = '1' | '2' | '3'
+export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
+export type TextHeadingLevel = '1' | '2' | '3'
 
-export interface TypographyProps {
-  size: TypographySize
+export interface TextProps {
+  size: TextSize
   /**
    * For usage inside buttons it is advised to set this to `false`, so selecting the text does not interfere with button taps.
    */
@@ -17,13 +27,11 @@ export interface TypographyProps {
   numberOfLines?: number
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
-  ellipsizeMode?: TextProps['ellipsizeMode']
-  headingLevel?: TypographyHeadingLevel
+  ellipsizeMode?: RNTextProps['ellipsizeMode']
+  headingLevel?: TextHeadingLevel
 }
 
-const createAccessibilityProps = (
-  headingLevel?: TypographyHeadingLevel
-): AccessibilityProps & AccessibilityPropsWeb => {
+const createAccessibilityProps = (headingLevel?: TextHeadingLevel): AccessibilityProps & AccessibilityPropsWeb => {
   if (!headingLevel) {
     return {
       accessible: false,
@@ -41,7 +49,7 @@ const createAccessibilityProps = (
   })
 }
 
-const Typography = ({
+export const Text = ({
   size,
   selectable = true,
   numberOfLines,
@@ -50,28 +58,26 @@ const Typography = ({
   ellipsizeMode,
   headingLevel,
   children,
-}: React.PropsWithChildren<TypographyProps>) => {
+}: React.PropsWithChildren<TextProps>) => {
   const { styles } = useStyles(stylesheet, { size })
 
   const accessibilityProps = createAccessibilityProps(headingLevel)
 
   return (
-    <Text
+    <RNText
       {...accessibilityProps}
       selectable={Platform.OS !== 'web' ? selectable : undefined}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
-      style={styles.typography(selectable, color, textAlign)}
+      style={styles.text(selectable, color, textAlign)}
     >
       {children}
-    </Text>
+    </RNText>
   )
 }
 
-export default Typography
-
 const stylesheet = createStyleSheet((theme) => ({
-  typography: (selectable: boolean, color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (selectable: boolean, color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.regular,

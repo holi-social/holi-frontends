@@ -1,4 +1,3 @@
-import { dirname, join } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
 /** @type{import('@storybook/react-webpack5').StorybookConfig} */
@@ -11,6 +10,7 @@ module.exports = {
     '@storybook/addon-react-native-web',
     '@storybook/addon-webpack5-compiler-babel',
     '@chromatic-com/storybook',
+    '@storybook/addon-a11y',
   ],
 
   framework: {
@@ -27,6 +27,21 @@ module.exports = {
         }),
       ]
     }
+
+    const fileTypesWithOverrides = ['txt']
+    const excludeRegex = new RegExp(`\\.(${fileTypesWithOverrides.join('|')})$`)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config?.module?.rules?.forEach((rule: any) => {
+      if (!rule || typeof rule !== 'object') return
+      if (rule.test instanceof RegExp && fileTypesWithOverrides.some((ending) => rule.test.test(`.${ending}`))) {
+        rule.exclude = excludeRegex
+      }
+    })
+    config?.module?.rules?.push({
+      test: /\.txt$/,
+      type: 'asset/source',
+    })
+
     return config
   },
 
