@@ -178,7 +178,9 @@ const getStyles = (theme: HoliTheme) =>
       overflow: 'visible',
       right: '50%',
     },
-    buttonTitle: { marginRight: 6 },
+    buttonTitle: {
+      marginRight: 6,
+    },
     modalContent: {
       paddingHorizontal: 10,
     },
@@ -186,6 +188,7 @@ const getStyles = (theme: HoliTheme) =>
       gap: 7,
       flexWrap: 'wrap',
       flexDirection: 'row',
+      alignItems: 'flex-start',
       marginTop: 20,
       marginBottom: 48,
     },
