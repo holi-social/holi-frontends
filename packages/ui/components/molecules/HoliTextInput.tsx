@@ -237,6 +237,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
                 { borderColor: inputBorderColor },
               ]}
               numberOfLines={noOfVisibleLines}
+              textAlignVertical="top"
               multiline={multiline}
               onFocus={handleFocus}
               onBlur={handleBlur}
