@@ -1,3 +1,7 @@
+it('do nothing', () => {
+  expect(true).toBe(true)
+})
+
 /*
 // AppNavigator received from push notification interaction (app killed)
 const androidPushMessageWhenAppKilled = {

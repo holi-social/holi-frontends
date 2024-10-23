@@ -1,4 +1,5 @@
 import { NotificationResponse } from 'expo-notifications'
+import { Platform } from 'react-native'
 
 import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
 
@@ -64,13 +65,24 @@ const notificationResponseForRemoteTriggerAndroidMock: NotificationResponse = {
       },
       content: {
         title: 'holi Chat',
-        badge: null,
-        autoDismiss: true,
-        // @ts-ignore null can happen if no data is provided
-        data: null,
+        data: {
+          channelId: 'expo_notifications_fallback_notification_channel',
+          message: 'You have a new message or invitation.',
+          content_body: 'hello world!',
+          content_msgtype: 'm.text',
+          room_id: '!fefGYdkrNAqHkNfbVh:development-chat.holi.social',
+          sender: '@malte1:development-chat.holi.social',
+          type: 'm.room.message',
+          sender_display_name: 'malte1',
+          prio: 'high',
+          unread: '1',
+          experienceId: '@holistic-foundation/projectholi',
+          scopeKey: '@holistic-foundation/projectholi',
+          event_id: '$iEfUuhURTKVUoZNuUlJeMDpyIK0kSMTmhOSR1kJoGeY',
+          title: 'holihat',
+        },
         body: 'You have a new message or invitation.',
         sound: 'default',
-        sticky: false,
         subtitle: null,
       },
       identifier: '0:1692015244354449%b0aa3b58f9fd7ecd',
@@ -178,6 +190,21 @@ const notificationResponseForLocalTriggerIosMock: NotificationResponse = {
 }
 
 describe('rootLinkingConfig', () => {
+  const originalOS = Platform.OS
+  const mockPlatformOS = jest.fn()
+
+  beforeEach(() => {
+    Object.defineProperty(Platform, 'OS', {
+      get: mockPlatformOS,
+    })
+  })
+
+  afterAll(() => {
+    Object.defineProperty(Platform, 'OS', {
+      get: () => originalOS,
+    })
+  })
+
   describe('getInitialURL', () => {
     it('should call getInitialURL and respond accordingly', async () => {
       mockGetInitialURL = jest.fn().mockReturnValue('https://app.holi.social/some/link')
@@ -190,6 +217,7 @@ describe('rootLinkingConfig', () => {
 
     describe('Android', () => {
       it('should call getLastNotificationResponseAsync and respond correctly on remote trigger', async () => {
+        mockPlatformOS.mockReturnValue('android')
         mockGetLastNotificationResponseAsync = jest
           .fn()
           .mockReturnValue(notificationResponseForRemoteTriggerAndroidMock)
@@ -212,6 +240,7 @@ describe('rootLinkingConfig', () => {
 
     describe('iOS', () => {
       it('should call getLastNotificationResponseAsync and respond correctly on iOS remote trigger', async () => {
+        mockPlatformOS.mockReturnValue('ios')
         mockGetLastNotificationResponseAsync = jest.fn().mockReturnValue(notificationResponseForRemoteTriggerIosMock)
 
         const initialUrl = await rootLinkingConfig.getInitialURL?.()
@@ -251,6 +280,7 @@ describe('rootLinkingConfig', () => {
 
     describe('Android', () => {
       it('should call addNotificationResponseReceivedListener let it react appropriately', async () => {
+        mockPlatformOS.mockReturnValue('android')
         mockAddNotificationResponseReceivedListener = jest.fn()
         const urlResultCatcher = jest.fn()
 
@@ -277,6 +307,7 @@ describe('rootLinkingConfig', () => {
 
     describe('iOS', () => {
       it('should call addNotificationResponseReceivedListener let it react appropriately', async () => {
+        mockPlatformOS.mockReturnValue('ios')
         mockAddNotificationResponseReceivedListener = jest.fn()
         const urlResultCatcher = jest.fn()
 
