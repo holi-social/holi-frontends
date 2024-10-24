@@ -5461,7 +5461,7 @@ __metadata:
     "@storybook/addon-essentials": "npm:^7.6.10"
     "@storybook/addon-interactions": "npm:^7.6.10"
     "@storybook/addon-links": "npm:^7.6.10"
-    "@storybook/addon-react-native-web": "npm:^0.0.24"
+    "@storybook/addon-react-native-web": "npm:^0.0.26"
     "@storybook/addon-storysource": "npm:^7.6.10"
     "@storybook/jest": "npm:^0.2.3"
     "@storybook/nextjs": "npm:^7.6.10"
@@ -10173,29 +10173,6 @@ __metadata:
   peerDependencies:
     storybook: ^8.3.5
   checksum: 10c0/d1d4d734e1770aa4af8fba2d789ad5c570ae0eb66301d8c5444a92a07428f66cde4a32e48fc1ea8627801c7d5c99ae40563554eef7f1a5ad14e4144ee74f9726
-  languageName: node
-  linkType: hard
-
-"@storybook/addon-react-native-web@npm:^0.0.24":
-  version: 0.0.24
-  resolution: "@storybook/addon-react-native-web@npm:0.0.24"
-  peerDependencies:
-    "@babel/preset-react": "*"
-    "@react-native/babel-preset": "*"
-    babel-plugin-react-native-web: "*"
-    metro-react-native-babel-preset: "*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@react-native/babel-preset":
-      optional: true
-    metro-react-native-babel-preset:
-      optional: true
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: 10c0/85a9fcf26d4feb02571d10581cbe617e77983b45a23fbdbaeb9557a95c7755557e894fb5c13a415805dea3d208e34c5f266da66ac44fc2b683e46e40db9efa20
   languageName: node
   linkType: hard
 
