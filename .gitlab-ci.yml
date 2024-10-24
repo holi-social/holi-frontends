@@ -7,7 +7,6 @@
 .pull_push_cache:
   key: $CI_COMMIT_REF_SLUG
   policy: pull-push
-  untracked: true
   paths:
     - './node_modules'
     - './*/node_modules'
