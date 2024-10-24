@@ -11,6 +11,8 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 import GradientBackground from './GradientBackground'
 
+const isIOS = Platform.OS === 'ios'
+
 interface UseHeaderAnimationStylesArgs {
   headerHeight?: number
   animatable?: boolean
@@ -51,8 +53,11 @@ const AnimatedWrapper = ({ animatable, backgroundColor, backgroundOptions, child
 
   return (
     <View>
-      {/* Gradient area for SafeArea to protect visibility of statusbar */}
-      {safeAreaTop > 0 && (
+      {/*
+				Gradient area for SafeArea to protect visibility of statusbar
+				Only for iOS. SafeArea is covered for Android and not relevant for Web
+			*/}
+      {isIOS && safeAreaTop > 0 && (
         <View style={{ height: safeAreaTop, position: 'absolute', top: 0, width: '100%' }}>
           <GradientBackground colors={[backgroundColor, gradientTransparentColor]} />
         </View>
