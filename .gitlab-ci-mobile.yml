@@ -133,7 +133,7 @@ mobile_review_destroy:
   dependencies: [] # explicitly disable artifact usage
   script:
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
-  allow_failure: false
+  allow_failure: true
   interruptible: false
   rules:
     - !reference [.rule_templates, any_but_production_staging]

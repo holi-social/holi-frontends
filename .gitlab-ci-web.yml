@@ -78,7 +78,7 @@ default:
     - git clone $CI_REPOSITORY_URL main-clone
     - cd main-clone
     - terraform/environments/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
-  allow_failure: false
+  allow_failure: true
   resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
   interruptible: false
 
