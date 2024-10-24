@@ -236,8 +236,11 @@ web_release_candidate_deploy:
     auto_stop_in: 1 week
   rules:
     - !reference [.rule_templates, only_on_production_release]
-  after_script: |
-    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'"$CI_COMMIT_TITLE"'\". and is available and/or updated under:\nhttps://'"$(cat $UI_DOMAIN_PATH)"'\nIf the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a 'PR_END_OF_FILE_ERROR' in your browser.\nTo deploy this version to web production go to this Pipeline: '$CI_PIPELINE_URL'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+  after_script: | # only wget is available in the terraform image
+    wget --header="Content-Type: application/json" \
+      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'"$CI_COMMIT_TITLE"'\". and is available and/or updated under:\nhttps://'"$(cat $UI_DOMAIN_PATH)"'\nIf the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a 'PR_END_OF_FILE_ERROR' in your browser.\nTo deploy this version to web production go to this Pipeline: '$CI_PIPELINE_URL'"}' \
+      --output-document - \
+      https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 web_release_candidate_destroy:
   extends: .web_destroy
@@ -260,5 +263,8 @@ web_release_deploy:
     ENVIRONMENT_ID: production
   rules:
     - !reference [.rule_templates, manually_on_production_release]
-  after_script: |
-    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The production web environment has been manually released from \"'$CI_COMMIT_REF_SLUG'\". It has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://app.holi.social"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+  after_script: | # only wget is available in the terraform image
+    wget --header="Content-Type: application/json" \
+      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The production web environment has been manually released from \"'$CI_COMMIT_REF_SLUG'\". It has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://app.holi.social"}' \
+      --output-document - \
+      https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
