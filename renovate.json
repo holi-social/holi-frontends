@@ -2,17 +2,23 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "npm:unpublishSafe",
-    ":approveMajorUpdates",
+    ":configMigration",
+    ":enableVulnerabilityAlertsWithLabel('renovatebot/security')",
+    ":semanticCommits",
+    ":automergePatch",
     ":automergeTesters",
-    ":automergeLinters"
+    ":automergeLinters",
+    "npm:unpublishSafe",
+    ":approveMajorUpdates"
   ],
   "configMigration": true,
   "prConcurrentLimit": 5,
   "osvVulnerabilityAlerts": true,
   "packageRules": [
     {
-      "matchSourceUrls": ["https://github.com/expo/expo"],
+      "matchSourceUrls": [
+        "https://github.com/expo/expo"
+      ],
       "matchPackageNames": [
         "@expo/vector-icons",
         "@stripe/stripe-react-native",
