@@ -27,7 +27,7 @@ type Type = 'default' | 'challenges' | 'connection' | 'spaces'
 interface NotificationOptInModalProps extends ModalProps {
   isVisible: boolean
   description: string
-  type: Type
+  type?: Type
   image?: HoliImageInfo | null
   onConfirm?: () => void
   onDismiss?: () => void
@@ -40,7 +40,7 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
   isVisible,
   image,
   description,
-  type,
+  type = 'default',
   onConfirm,
   onDismiss,
   confirmText,
