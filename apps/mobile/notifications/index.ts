@@ -238,6 +238,8 @@ export const screenUrlFromNotificationResponse = (notificationResponse: Notifica
       case NovuNotificationType.CHALLENGE_NEW_COMMENT:
       case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
       case NovuNotificationType.CHALLENGE_KEEP_STREAK:
+      case NovuNotificationType.CHALLENGE_EVENT_END:
+      case NovuNotificationType.CHALLENGE_EVENT_SUMMARY:
         return challengeUrl(data)
       case NovuNotificationType.POST_REACTION:
         return toPostReactionUrl(data as unknown as PostReactionPushNotification)

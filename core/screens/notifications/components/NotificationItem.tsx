@@ -55,6 +55,8 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.CHALLENGE_NEW_COMMENT,
   NovuNotificationType.CHALLENGE_KEEP_STREAK,
   NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST,
+  NovuNotificationType.CHALLENGE_EVENT_END,
+  NovuNotificationType.CHALLENGE_EVENT_SUMMARY,
   NovuNotificationType.POLL_UPDATES,
   NovuNotificationType.POST_REACTION,
   NovuNotificationType.COMMENT_REACTION,
@@ -107,6 +109,8 @@ const NotificationItem: React.FC<NotificationProps> = ({ notification, ...props 
     case NovuNotificationType.CHALLENGE_KEEP_STREAK:
     case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
     case NovuNotificationType.CHALLENGE_APPROVAL:
+    case NovuNotificationType.CHALLENGE_EVENT_END:
+    case NovuNotificationType.CHALLENGE_EVENT_SUMMARY:
       return <NotificationChallengesItem notification={notification} {...props} />
     case NovuNotificationType.POLL_UPDATES:
       return <NotificationPollUpdatesItem notification={notification} {...props} />
