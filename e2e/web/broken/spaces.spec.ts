@@ -286,7 +286,7 @@ const testCreateDeleteSpaceUpdatePost = async (page: Page) => {
   // delete the update post
   await clickElementByTestId(page, 'post-three-dot-menu-button')
   await clickElementByTestId(page, 'delete-post-button')
-  await clickElementByTestId(page, 'holi-confirmation-confirm')
+  await clickElementByTestId(page, 'holi-confirmation-primary')
 
   // wait for the update post to disappear
   await page.waitForSelector(byTestId('btn-to-post'), { state: 'detached' })
@@ -479,8 +479,8 @@ const testAddEditDeleteTask = async (browser: Browser, page: Page) => {
   // delete task
   await clickElementByTestId(page, 'btn-task-more-options')
   await clickElementByTestId(page, 'btn-to-delete-task')
-  await clickElementByTestId(page, 'task-delete-confirmation-confirm')
-  await page.waitForSelector(byTestId('task-delete-confirmation-confirm'), { state: 'hidden' })
+  await clickElementByTestId(page, 'task-delete-confirmation-primary')
+  await page.waitForSelector(byTestId('task-delete-confirmation-primary'), { state: 'hidden' })
 }
 
 const testAddEditDeleteDigitalTool = async (page: Page) => {
@@ -509,7 +509,7 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
   // Test deleting a tool
   await clickElementByTestId(page, 'digital-toolkit-btn')
   await clickElementByTestId(page, 'tool-delete-btn')
-  await clickElementByTestId(page, 'tool-delete-confirmation-confirm')
+  await clickElementByTestId(page, 'tool-delete-confirmation-primary')
   await expect.poll(numberOfTools).toBe(1)
 
   // Test Tool Details Modal

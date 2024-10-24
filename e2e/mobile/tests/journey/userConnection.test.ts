@@ -27,7 +27,7 @@ describe('@UserConnection', () => {
     await tapOnElementWithTestId('user-connection-button-REQUESTED')
 
     // click on confirm within the confirmation dialog and wait for NOT_CONNECTED state
-    await tapOnElementWithTestId('user-connection-confirmation-confirm')
+    await tapOnElementWithTestId('user-connection-confirmation-primary')
 
     // the connection button state should be back to NOT_CONNECTED
     await waitForElementWithTestId('user-connection-button-NOT_CONNECTED')
