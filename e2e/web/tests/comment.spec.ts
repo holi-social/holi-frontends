@@ -26,7 +26,7 @@ test.describe('@Comment', () => {
     // delete comment
     clickTreeDotsMenu(page, commentText)
     await clickElementByTestId(page, 'delete-comment-button')
-    await clickElementByTestIdAndWaitForToast(page, 'delete-comment-confirmation-confirm', 'toast-SUCCESS')
+    await clickElementByTestIdAndWaitForToast(page, 'delete-comment-confirmation-primary', 'toast-SUCCESS')
 
     await expect(page.getByText(commentText)).toBeHidden()
   })

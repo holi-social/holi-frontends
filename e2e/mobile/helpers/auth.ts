@@ -112,7 +112,7 @@ const logoutOrDelete = async (fn: () => Promise<void>) => {
 export const logout = async () => {
   await logoutOrDelete(async () => {
     await tapOnElementWithTestId('btn-to-logout')
-    await tapOnElementWithTestId('modal-logout-confirmation-confirm')
+    await tapOnElementWithTestId('modal-logout-confirmation-primary')
   })
 }
 
@@ -120,7 +120,7 @@ export const deleteAccount = async () => {
   await logoutOrDelete(async () => {
     await tapOnElementWithTestId('btn-your-account')
     await tapOnElementWithTestId('btn-delete-account')
-    await tapOnElementWithTestId('account-deletion-confirmation-confirmation-confirm')
+    await tapOnElementWithTestId('account-deletion-confirmation-confirmation-primary')
   })
 }
 

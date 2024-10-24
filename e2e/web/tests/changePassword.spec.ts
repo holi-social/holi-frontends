@@ -37,7 +37,7 @@ test.describe('@ChangePassword', () => {
     // // Logout
     // await clickElementByTestId(page, 'btn-to-settings')
     // await clickElementByTestId(page, 'btn-to-logout')
-    // await clickElementByTestIdAndWaitForToast(page, 'modal-logout-confirmation-confirm', 'toast-SUCCESS')
+    // await clickElementByTestIdAndWaitForToast(page, 'modal-logout-confirmation-primary', 'toast-SUCCESS')
 
     // // re-login with new password
     // await gotoFillAndSubmitLogin(context, page, email, newPassword)
