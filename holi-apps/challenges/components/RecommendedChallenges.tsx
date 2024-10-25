@@ -40,12 +40,19 @@ const RecommendedChallenges = () => {
       return
     }
     fetch(API_URL, { headers: new Headers(headers) })
-      .then((res) =>
-        res.json().then(({ allChallengePath, challenges }: RecommendedChallengesResult) => {
-          setChallenges(challenges)
-          setAllChallengePath(allChallengePath)
-        })
-      )
+      .then((res) => {
+        if (!res.ok) {
+          logError(new Error('Failed to fetch recommended challenges'), 'Error fetching recommended challenges', {
+            location: 'RecommendedChallenges.useEffect',
+          })
+          return
+        }
+        return res.json()
+      })
+      .then(({ allChallengePath, challenges }: RecommendedChallengesResult) => {
+        setChallenges(challenges)
+        setAllChallengePath(allChallengePath)
+      })
       .catch((error) => {
         logError(error, 'Error fetching challenges', {
           location: 'RecommendedChallenges.useEffect',
