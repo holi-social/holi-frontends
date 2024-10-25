@@ -94,11 +94,15 @@ web_build:
   script:
     - yarn web:build
     - ./scripts/generate-license-documents.sh
+    # The next.js web build cache can get too big. We delete it if it exceeds 2GB
+    - [ "$(du -s apps/web/.next/cache/|cut -f1)" -gt "2097152" ] && rm -r apps/web/.next/cache/*
   # Enable cache for Next.js web build as suggested on https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching#gitlab-ci
   cache: !reference [.pull_push_cache]
   artifacts:
     paths:
       - apps/web/.next
+    exclude:
+      - apps/web/.next/cache
     expire_in: 1 week
   interruptible: true
   tags:
@@ -217,7 +221,7 @@ web_staging_deploy:
 web_staging_e2e:
   extends: .web_e2e
   needs: ['web_staging_deploy']
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   dependencies:
     - web_staging_deploy
   rules:
