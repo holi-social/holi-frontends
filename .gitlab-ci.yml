@@ -8,15 +8,15 @@
   key: $CI_COMMIT_REF_SLUG
   policy: pull-push
   paths:
-    - './node_modules'
-    - './*/node_modules'
-    - './*/*/node_modules'
-    - './apps/web/.next/cache/'
+    - "./node_modules"
+    - "./*/node_modules"
+    - "./*/*/node_modules"
+    - "./apps/web/.next/cache/"
 
 # rules templates
 .rule_templates:
   not_on_git_tags:
-    - if: '$CI_COMMIT_TAG'
+    - if: "$CI_COMMIT_TAG"
       when: never
   skip_environment_for_web:
     - if: $CI_COMMIT_BRANCH =~ /^noenv\/.*|^noweb\/.*/
@@ -62,7 +62,7 @@ default:
     - env -0 | sort -z | tr '\0' '\n' | egrep -ve '^(DOCKER_AUTH_CONFIG|GOOGLE_APPLICATION_CREDENTIALS)=.*'
   tags:
     - 1cpu-4gb
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  image: "europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas"
   cache: # pull only, with branch name as key name
     key: $CI_COMMIT_REF_SLUG
     policy: pull
@@ -70,9 +70,9 @@ default:
 
 lint_compile_test:
   stage: build
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  image: "europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas"
   script:
-    - yarn install --immutable --check-cache
+    - yarn install --immutable
     - yarn lint
     - yarn test
   cache: !reference [.pull_push_cache]
@@ -85,5 +85,5 @@ lint_compile_test:
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:
-  - '/.gitlab-ci-web.yml'
-  - '/.gitlab-ci-mobile.yml'
+  - "/.gitlab-ci-web.yml"
+  - "/.gitlab-ci-mobile.yml"
