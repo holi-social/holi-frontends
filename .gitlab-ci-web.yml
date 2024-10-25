@@ -140,7 +140,7 @@ web_build_docker:
   needs: ['web_build']
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:27'
   services:
-    - 'docker:27-dind'
+    - 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:27-dind'
   cache: [] # explicitly disable caching
   dependencies:
     - web_build
