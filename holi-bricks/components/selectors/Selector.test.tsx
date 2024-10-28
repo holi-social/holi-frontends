@@ -1,9 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
+import { Selector } from 'holi-bricks/components/selectors/Selector'
+import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
 import React from 'react'
 
+// TODO: move ChipAction to holi-bricks
+// eslint-disable-next-line no-restricted-imports
 import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
-import { Selector } from '@holi/ui/no-name/components/selectors/Selector'
-import { SelectorCard } from '@holi/ui/no-name/components/selectors/SelectorCard'
 
 describe('Selector', () => {
   it('renders correctly with SelectorCards', () => {

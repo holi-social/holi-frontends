@@ -1,3 +1,4 @@
+import { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
 import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { GestureResponderEvent, Pressable } from 'react-native'
@@ -6,7 +7,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { SelectionElementProps } from '@holi/ui/no-name/components/selectors/Selector'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { ChipSize, chipSizeToTextSize } from './size'

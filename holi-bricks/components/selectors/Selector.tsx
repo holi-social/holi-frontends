@@ -1,7 +1,9 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import HoliText from '@holi/ui/components/atoms/HoliText'
+// TODO: move Spacing to holi-bricks
+// eslint-disable-next-line no-restricted-imports
 import Spacing from '@holi/ui/foundations/Spacing'
 
 import { SelectorCard, SelectorCardInputType } from './SelectorCard'
@@ -87,7 +89,7 @@ export const Selector = ({
 
   return (
     <View style={styles.container}>
-      {title && <HoliText bold>{title}</HoliText>}
+      {title && <Text size="lg">{title}</Text>}
       <View style={[styles.cardContainer, row && styles.row]}>{content}</View>
     </View>
   )

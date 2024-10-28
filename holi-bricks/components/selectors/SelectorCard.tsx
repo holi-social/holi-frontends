@@ -1,3 +1,7 @@
+/* eslint-disable no-restricted-imports */
+// TODO: add components for holi bricks for the following imports
+import { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { GestureResponderEvent, Pressable, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -6,12 +10,11 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
 import { BorderRadius } from '@holi/ui/foundations/BorderRadius'
+// TODO: move Spacing to holi-bricks
 import Spacing from '@holi/ui/foundations/Spacing'
-import { SelectionElementProps } from '@holi/ui/no-name/components/selectors/Selector'
 
 export type SelectorCardInputType = 'radio' | 'checkbox' | 'switch' | 'none'
 export type SelectorCardSize = 'lg' | 'md'
@@ -73,11 +76,11 @@ export const SelectorCard = ({
       )}
 
       <View style={styles.textContainer}>
-        <HoliText bold>{title}</HoliText>
+        <Text size="lg">{title}</Text>
         {description && variant === 'detailed' && (
-          <HoliText size="small" style={styles.text}>
+          <Text size="sm" color={styles.text.color}>
             {description}
-          </HoliText>
+          </Text>
         )}
       </View>
       <View style={styles.interactiveContainer(variant, description)} pointerEvents="none">
