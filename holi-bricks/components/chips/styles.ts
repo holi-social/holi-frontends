@@ -1,6 +1,5 @@
+import { Spacing } from 'holi-bricks/tokens'
 import { Platform, ViewStyle } from 'react-native'
-
-import Spacing from '@holi/ui/foundations/Spacing'
 
 export const pill = {
   display: 'flex',

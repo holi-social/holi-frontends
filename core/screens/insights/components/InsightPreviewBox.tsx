@@ -1,4 +1,5 @@
 import { withProfiler } from '@sentry/react'
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -17,7 +18,6 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {

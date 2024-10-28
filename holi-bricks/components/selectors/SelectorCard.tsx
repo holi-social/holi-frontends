@@ -1,17 +1,22 @@
+import { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
+import { useStyles } from 'holi-bricks/hooks'
+import { BorderRadius, Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { GestureResponderEvent, Pressable, View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
+// eslint-disable-next-line no-restricted-imports
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+// eslint-disable-next-line no-restricted-imports
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+// eslint-disable-next-line no-restricted-imports
 import HoliText from '@holi/ui/components/atoms/HoliText'
+// eslint-disable-next-line no-restricted-imports
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
+// eslint-disable-next-line no-restricted-imports
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
-import { BorderRadius } from '@holi/ui/foundations/BorderRadius'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { SelectionElementProps } from '@holi/ui/no-name/components/selectors/Selector'
 
 export type SelectorCardInputType = 'radio' | 'checkbox' | 'switch' | 'none'
 export type SelectorCardSize = 'lg' | 'md'

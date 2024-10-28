@@ -1,27 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import ChipAction from './ChipAction'
+import { ChipSelect } from './ChipSelect'
 
-describe('ChipAction', () => {
+describe('ChipSelect', () => {
   it('should render text/children', () => {
-    render(
-      <ChipAction onPress={jest.fn()} id={'1'}>
-        Hai
-      </ChipAction>
-    )
+    render(<ChipSelect onPress={jest.fn()}>Hai</ChipSelect>)
 
-    const chip = screen.getByText('Hai')
-    expect(chip).toBeOnTheScreen()
+    expect(screen.root).toHaveTextContent('Hai')
   })
 
   it('should raise press event', () => {
     const mockPressHandler = jest.fn()
-    render(
-      <ChipAction onPress={mockPressHandler} id={'1'}>
-        Click me!
-      </ChipAction>
-    )
+    render(<ChipSelect onPress={mockPressHandler}>Click me!</ChipSelect>)
 
     fireEvent.press(screen.getByText('Click me!'))
 
@@ -31,9 +22,9 @@ describe('ChipAction', () => {
   it('should not raise press event and be disabled, when disabled', () => {
     const mockPressHandler = jest.fn()
     render(
-      <ChipAction onPress={mockPressHandler} disabled id={'1'}>
+      <ChipSelect onPress={mockPressHandler} disabled>
         Click me, if you can
-      </ChipAction>
+      </ChipSelect>
     )
 
     const chip = screen.getByText('Click me, if you can')

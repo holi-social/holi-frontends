@@ -1,3 +1,4 @@
+import { ChipAction } from 'holi-bricks/components/chips'
 import React, { memo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -10,7 +11,6 @@ import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 

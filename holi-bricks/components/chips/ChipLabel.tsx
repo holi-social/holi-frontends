@@ -1,13 +1,14 @@
+import { pill } from 'holi-bricks/components/chips/styles'
 import { Text } from 'holi-bricks/components/text/Text'
+import { useStyles } from 'holi-bricks/hooks'
+import type { Color } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { pill } from '@holi/ui/no-name/components/chips/styles'
-import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { ChipSize, chipSizeToTextSize } from './size'
 
@@ -21,7 +22,7 @@ type ChipLabelProps = {
   iconTrailing?: HoliIconType
 }
 
-const ChipLabel = ({ children, color = 'mono', size = 'md', iconLeading, iconTrailing }: ChipLabelProps) => {
+export const ChipLabel = ({ children, color = 'mono', size = 'md', iconLeading, iconTrailing }: ChipLabelProps) => {
   const { styles, theme } = useStyles(stylesheet, { size })
   const iconSize = size === 'sm' ? 12 : 16
 
@@ -37,8 +38,6 @@ const ChipLabel = ({ children, color = 'mono', size = 'md', iconLeading, iconTra
     </View>
   )
 }
-
-export default ChipLabel
 
 const stylesheet = createStyleSheet((theme) => ({
   chip: (color: ChipColor) => {

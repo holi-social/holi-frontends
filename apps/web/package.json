@@ -18,6 +18,7 @@
     "@sentry/nextjs": "^8.27.0",
     "cookies": "^0.8.0",
     "cookies-next": "^2.1.1",
+    "holi-bricks": "*",
     "http-proxy": "^1.18.1",
     "lexical": "0.11.1",
     "locale": "0.1.0",

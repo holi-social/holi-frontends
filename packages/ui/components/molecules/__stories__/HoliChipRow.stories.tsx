@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React from 'react'
 
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 
 export default {
   title: 'Molecules/HoliChipRow',

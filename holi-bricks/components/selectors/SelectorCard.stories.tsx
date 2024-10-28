@@ -1,16 +1,16 @@
 import { useArgs } from '@storybook/preview-api'
 import { Meta, StoryObj } from '@storybook/react'
+import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
+import { Spacing } from 'holi-bricks/tokens'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import Cloud from '@holi/icons/src/generated/Cloud'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { SelectorCard } from '@holi/ui/no-name/components/selectors/SelectorCard'
 
 const availableInputTypes = ['radio', 'checkbox', 'switch', 'none'] as const
 
 const meta: Meta<typeof SelectorCard> = {
-  title: 'No Name/Components/Selectors (draft)/Selector Card',
+  title: 'Components/Selectors/Selector Card',
   component: SelectorCard,
   args: {
     disabled: false,

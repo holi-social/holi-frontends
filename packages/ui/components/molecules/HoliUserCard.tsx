@@ -1,3 +1,4 @@
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -6,7 +7,6 @@ import { User } from '@holi/core/domain/shared/types'
 import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliUserCardVariant = 'small' | 'normal'

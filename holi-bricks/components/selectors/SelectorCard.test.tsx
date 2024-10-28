@@ -1,7 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
+import { SelectorCard, SelectorCardProps } from 'holi-bricks/components/selectors/SelectorCard'
 import React from 'react'
-
-import { SelectorCard, SelectorCardProps } from '@holi/ui/no-name/components/selectors/SelectorCard'
 
 describe('SelectorCard', () => {
   const mockFn = jest.fn()
