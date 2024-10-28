@@ -13,7 +13,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 const availableInputTypes = ['radio', 'checkbox', 'switch', 'none'] as const
 
 const meta: Meta<typeof SelectorCard> = {
-  title: 'No Name/Components/Selectors (draft)/Selector Card',
+  title: 'Components/Selectors/Selector Card',
   component: SelectorCard,
   args: {
     disabled: false,

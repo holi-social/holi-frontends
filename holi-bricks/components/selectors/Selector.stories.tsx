@@ -10,7 +10,7 @@ import { Chat3, Megaphone, OpenArm, StarRounded } from '@holi/icons/src/generate
 import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
 
 const meta: Meta<typeof Selector> = {
-  title: 'No Name/Components/Selectors (draft)/Selector',
+  title: 'Components/Selectors/Selector',
   component: Selector,
 }
 
