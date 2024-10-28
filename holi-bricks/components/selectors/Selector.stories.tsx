@@ -1,13 +1,13 @@
 import { Meta, StoryObj } from '@storybook/react'
+import { ChipAction } from 'holi-bricks/components/chips'
+import { Selector } from 'holi-bricks/components/selectors/Selector'
+import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
 import React from 'react'
 
 import { Chat3, Megaphone, OpenArm, StarRounded } from '@holi/icons/src/generated'
-import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
-import { Selector } from '@holi/ui/no-name/components/selectors/Selector'
-import { SelectorCard } from '@holi/ui/no-name/components/selectors/SelectorCard'
 
 const meta: Meta<typeof Selector> = {
-  title: 'No Name/Components/Selectors (draft)/Selector',
+  title: 'Components/Selectors/Selector',
   component: Selector,
 }
 

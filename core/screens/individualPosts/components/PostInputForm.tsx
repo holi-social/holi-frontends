@@ -1,4 +1,5 @@
 import { withProfiler } from '@sentry/react'
+import { ChipAction } from 'holi-bricks/components/chips'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -33,7 +34,6 @@ import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/typ
 import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll

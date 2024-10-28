@@ -5,7 +5,7 @@
 import type { Config } from 'jest'
 
 const config: Config = {
-  preset: 'react-native',
+  preset: 'jest-expo',
   setupFiles: ['<rootDir>/jest.setup.ts'],
   clearMocks: true,
   // collectCoverage: true,

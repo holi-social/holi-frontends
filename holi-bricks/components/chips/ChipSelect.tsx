@@ -1,13 +1,17 @@
 import { Text } from 'holi-bricks/components/text/Text'
+import { useStyles } from 'holi-bricks/hooks'
+import type { Color } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { byShade } from 'holi-bricks/utils/byShade'
 import React, { ReactNode } from 'react'
 import { GestureResponderEvent, Pressable } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
+// TODO: Change this import to new avatar when finished.
+// eslint-disable-next-line no-restricted-imports
 import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { Color, byShade } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { ChipSize, chipSizeToTextSize } from './size'
 import { pill } from './styles'
@@ -28,7 +32,7 @@ const sizeToIconSize: Record<ChipSize, number> = {
   lg: 24,
 }
 
-const ChipSelect = ({
+export const ChipSelect = ({
   onPress,
   children,
   selected = false,
@@ -68,8 +72,6 @@ const ChipSelect = ({
     </Pressable>
   )
 }
-
-export default ChipSelect
 
 const stylesheet = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: Color) => {

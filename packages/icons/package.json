@@ -9,7 +9,7 @@
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.74.5",
-    "react-native-svg": "^15.2.0"
+    "react-native-svg": "15.2.0"
   },
   "devDependencies": {
     "@svgr/cli": "8.0.1"

@@ -44,6 +44,7 @@
     "fast-text-encoding": "^1.0.6",
     "global": "^4.4.0",
     "graphql": "^16.9.0",
+    "holi-bricks": "*",
     "i18next": "^23.14.0",
     "intl": "^1.2.5",
     "lodash.at": "^4.6.0",

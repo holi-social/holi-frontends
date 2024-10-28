@@ -1,6 +1,7 @@
 import { getApolloContext } from '@apollo/client'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { RenderPromises } from '@apollo/client/react/ssr'
+import 'holi-bricks/libs/init'
 import { AppPropsType } from 'next/dist/shared/lib/utils'
 import Document, { DocumentContext, DocumentProps, Head, Html, Main, NextScript } from 'next/document'
 import { Router } from 'next/router'
@@ -9,7 +10,6 @@ import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
-import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import { environmentId } from '@holi/web/environment'
 import { createApolloPageProps, createApolloWebClient } from '@holi/web/helpers/useApolloWebClient'
 import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
@@ -17,8 +17,6 @@ import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 interface ApolloDocumentProps {
   apolloClient: ApolloClient<NormalizedCacheObject>
 }
-
-initialiseComponentLibrary()
 
 // Handling of Apollo cache inspired by https://github.com/vercel/next.js/discussions/15736#discussioncomment-6385504
 export default class MyDocument extends Document<ApolloDocumentProps> {

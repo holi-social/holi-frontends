@@ -1,4 +1,5 @@
 import { getApolloContext } from '@apollo/client'
+import { BricksTheme } from 'holi-bricks/components/bricks-theme'
 import type { PropsWithChildren } from 'react'
 import React, { useContext } from 'react'
 
@@ -18,11 +19,13 @@ const WebRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
   const apolloClient = apolloContext.client ?? apolloWebClient
 
   return (
-    <ThemeProvider theme={defaultHoliTheme}>
-      <RootProvider apolloClient={apolloClient} posthogBootstrapState={pageProps.posthogBootstrapValues}>
-        {children}
-      </RootProvider>
-    </ThemeProvider>
+    <BricksTheme initialTheme={'light'}>
+      <ThemeProvider theme={defaultHoliTheme}>
+        <RootProvider apolloClient={apolloClient} posthogBootstrapState={pageProps.posthogBootstrapValues}>
+          {children}
+        </RootProvider>
+      </ThemeProvider>
+    </BricksTheme>
   )
 }
 

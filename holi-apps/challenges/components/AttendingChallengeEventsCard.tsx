@@ -1,3 +1,4 @@
+import { ChipLabel } from 'holi-bricks/components/chips'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +9,6 @@ import { CalendarEventLine } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 
 import { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'

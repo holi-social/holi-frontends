@@ -1,6 +1,6 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
-import { useStyles } from 'holi-bricks/hooks/useStyles'
-import { createStyleSheet } from 'holi-bricks/utils/createStyleSheet'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import * as React from 'react'
 import {
   AccessibilityProps,
