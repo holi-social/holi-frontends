@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { GestureResponderEvent, Pressable, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -11,55 +11,48 @@ import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
 import { BorderRadius } from '@holi/ui/foundations/BorderRadius'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { SelectionElementProps } from '@holi/ui/no-name/components/selectors/Selector'
 
-export type FormControl = 'radio' | 'checkbox' | 'switch' | 'none'
-export type SelectorSize = 'lg' | 'md'
-export type Variant = 'detailed' | 'list'
+export type SelectorCardInputType = 'radio' | 'checkbox' | 'switch' | 'none'
+export type SelectorCardSize = 'lg' | 'md'
+export type SelectorCardVariant = 'detailed' | 'list'
 
 export type SelectorCardProps = {
-  value: string
   title: string
   description?: string
   image?: StaticImageData
   icon?: HoliIconType
   defaultSelected?: boolean
   disabled?: boolean
-  size?: SelectorSize
+  size?: SelectorCardSize
   outlined?: boolean
   reverseOrder?: boolean
-  formControl?: FormControl
-  variant?: Variant
-  onPress: (event: GestureResponderEvent) => void
-}
+  inputType?: SelectorCardInputType
+  variant?: SelectorCardVariant
+  onPress?: (event: GestureResponderEvent) => void | Promise<void>
+  selected?: boolean
+} & SelectionElementProps
 
 export const SelectorCard = ({
   description,
   title,
   image,
   icon,
-  defaultSelected = false,
   disabled = false,
   size = 'md',
   outlined = true,
   reverseOrder = false,
-  formControl = 'radio',
+  inputType = 'radio',
   variant = 'detailed',
   onPress,
+  selected = false,
 }: SelectorCardProps) => {
-  const [selected, setSelected] = useState(defaultSelected)
-
   const { styles } = useStyles(stylesheet, { disabled, reverseOrder })
   const imageSize = size === 'lg' ? Spacing.xxl : Spacing.md
 
-  const handlePress = (e: GestureResponderEvent) => {
-    setSelected(!selected)
-    onPress(e)
-    return null
-  }
-
   return (
     <Pressable
-      onPress={(e) => handlePress(e)}
+      onPress={onPress}
       disabled={disabled}
       style={({ hovered, pressed }) => [styles.selector(!!hovered, !disabled && !!pressed, selected, outlined)]}
     >
@@ -88,11 +81,11 @@ export const SelectorCard = ({
         )}
       </View>
       <View style={styles.interactiveContainer(variant, description)} pointerEvents="none">
-        {formControl === 'radio' && (
+        {inputType === 'radio' && (
           <HoliCheckbox shape="round" checked={selected} autofocus={false} aria-label={title} />
         )}
-        {formControl === 'checkbox' && <HoliCheckbox checked={selected} aria-label={title} />}
-        {formControl === 'switch' && <HoliSwitch value={selected || false} size="small" />}
+        {inputType === 'checkbox' && <HoliCheckbox checked={selected} aria-label={title} />}
+        {inputType === 'switch' && <HoliSwitch value={selected || false} size="small" />}
       </View>
     </Pressable>
   )
@@ -101,13 +94,12 @@ export const SelectorCard = ({
 const stylesheet = createStyleSheet((theme) => ({
   selector: (hovered: boolean, pressed: boolean, selected: boolean, outlined: boolean) => {
     return {
-      alignSelf: 'center',
+      flex: 1,
+      alignSelf: 'stretch',
       minHeight: Spacing['3xl'],
       padding: Spacing.xxs,
       backgroundColor: theme.components.selector.backgroundColor,
-
       borderRadius: BorderRadius.sm,
-
       outlineStyle: 'solid',
       outlineWidth: pressed ? 3 : hovered ? 2 : outlined ? 1 : 0,
       outlineColor:
@@ -117,7 +109,6 @@ const stylesheet = createStyleSheet((theme) => ({
 
       flexDirection: 'row',
       justifyContent: 'space-between',
-      width: '100%',
       alignItems: 'center',
       gap: Spacing.xxs,
       variants: {
