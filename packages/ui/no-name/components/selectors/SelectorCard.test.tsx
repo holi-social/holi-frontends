@@ -6,13 +6,12 @@ import { SelectorCard, SelectorCardProps } from '@holi/ui/no-name/components/sel
 describe('SelectorCard', () => {
   const mockFn = jest.fn()
   const defaultProps = {
-    value: '1',
     title: 'Test SelectorCard',
     description: 'Test Description',
   }
 
   const renderSelectorCard = (props?: Partial<SelectorCardProps>) => {
-    return render(<SelectorCard {...defaultProps} {...props} onPress={mockFn} />)
+    return render(<SelectorCard {...defaultProps} {...props} id="1" onPress={mockFn} />)
   }
 
   it('renders the title and description', () => {
@@ -21,9 +20,15 @@ describe('SelectorCard', () => {
     expect(getByText('Test Description')).not.toBeNull()
   })
 
-  it('calls onAnswerSelect when pressed', () => {
+  it('calls onPress when pressed and not disabled', () => {
     const { getByText } = renderSelectorCard()
     fireEvent.press(getByText('Test SelectorCard'))
     expect(mockFn).toHaveBeenCalled()
+  })
+
+  it('does not call onPress when pressed but disabled', async () => {
+    const { getByText } = renderSelectorCard({ disabled: true })
+    fireEvent.press(getByText('Test SelectorCard'))
+    expect(mockFn).toHaveBeenCalledTimes(0)
   })
 })
