@@ -81,7 +81,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
     nodes: [HoliMentionsPluginNode],
     onError: (error: unknown) => {
       // we ignore this known issue, which is not our use case https://stackoverflow.com/questions/74030967/keyboard-navigation-across-text-and-decorator-nodes
-      if (error instanceof Error && error.message === 'lexical.$getDecoratorNode is not a function') {
+      if (error instanceof Error && error.message.indexOf('getDecoratorNode is not a function') > -1) {
         return
       }
       logError(error, 'Error in LexicalComposer', {
