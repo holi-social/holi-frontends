@@ -1,3 +1,4 @@
+import { ChipSelect } from 'holi-bricks/components/chips'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -9,7 +10,6 @@ import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import ChipSelect from '@holi/ui/no-name/components/chips/ChipSelect'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostTopicsProps = {

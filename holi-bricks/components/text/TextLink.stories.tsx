@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { TextLink, TextLinkSize } from 'holi-bricks/components/text/TextLink'
 import { black, mono, purple, red, white } from 'holi-bricks/tokens'
 import React from 'react'
+import { View } from 'react-native'
 
 const availableSizes: TextLinkSize[] = ['md', 'sm', 'xs']
 const exampleColors = {
@@ -51,13 +52,13 @@ export const BySize: Story = {
   args: {},
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {availableSizes.map((size) => (
           <TextLink key={size} {...args} size={size}>
             This is a text link in size {size}.
           </TextLink>
         ))}
-      </div>
+      </View>
     )
   },
 }
@@ -67,13 +68,13 @@ export const ByColor: Story = {
   args: {},
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {Object.entries(exampleColors).map(([name, color]) => (
           <TextLink key={name} {...args} color={color}>
             This is a text link in color {name}.
           </TextLink>
         ))}
-      </div>
+      </View>
     )
   },
 }

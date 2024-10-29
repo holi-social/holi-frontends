@@ -78,7 +78,6 @@ default:
     - git clone "$CI_REPOSITORY_URL" main-clone
     - cd main-clone
     - terraform/environments/scripts/destroy-env.sh "$CI_ENVIRONMENT_SLUG"
-  allow_failure: true
   resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
   interruptible: false
 
@@ -183,6 +182,7 @@ web_review_deploy:
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   dependencies:
     - web_review_deploy
   rules:
@@ -192,6 +192,7 @@ web_review_e2e:
 web_review_destroy:
   extends: .web_destroy
   needs: ['web_review_deploy']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   environment:
     name: web-review/$CI_COMMIT_REF_SLUG
     action: stop
@@ -246,6 +247,7 @@ web_release_candidate_deploy:
 web_release_candidate_destroy:
   extends: .web_destroy
   needs: ['web_release_candidate_deploy']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   environment:
     name: web-rc/${CI_COMMIT_BRANCH}
     action: stop

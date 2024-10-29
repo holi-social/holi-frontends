@@ -1,6 +1,7 @@
 import type { Decorator } from '@storybook/react'
 import { useBricks } from 'holi-bricks/hooks/useBricks'
 import React, { type ReactNode, useEffect } from 'react'
+import { View } from 'react-native'
 
 export const storybookThemeConfig = {
   theme: {
@@ -26,7 +27,7 @@ const ThemeWrapper = ({ children, theme = 'light' }: ThemeWrapperProps) => {
     setActiveTheme(theme)
   }, [getActiveTheme, setActiveTheme, theme])
 
-  return <div style={{ display: 'flex' }}>{children}</div>
+  return <View style={{ display: 'flex' }}>{children}</View>
 }
 
 export const withTheme: Decorator = (Story, { globals: { theme } }) => {

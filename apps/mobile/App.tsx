@@ -1,5 +1,7 @@
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { BricksTheme } from 'holi-bricks/components/bricks-theme'
+import 'holi-bricks/libs/init'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
@@ -14,12 +16,9 @@ import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
-import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const logger = getLogger('AppInit')
-
-initialiseComponentLibrary()
 
 SplashScreen.preventAutoHideAsync()
 
@@ -88,13 +87,15 @@ const App = () => {
   if (!isReady) return null
 
   return (
-    <ThemeProvider theme={defaultHoliTheme}>
-      <NavigationProvider>
-        <RootProvider apolloClient={apolloClient}>
-          <RootNavigator />
-        </RootProvider>
-      </NavigationProvider>
-    </ThemeProvider>
+    <BricksTheme initialTheme={'light'}>
+      <ThemeProvider theme={defaultHoliTheme}>
+        <NavigationProvider>
+          <RootProvider apolloClient={apolloClient}>
+            <RootNavigator />
+          </RootProvider>
+        </NavigationProvider>
+      </ThemeProvider>
+    </BricksTheme>
   )
 }
 

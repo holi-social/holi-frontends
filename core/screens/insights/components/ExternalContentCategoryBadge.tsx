@@ -1,3 +1,4 @@
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -16,7 +17,6 @@ import {
   Video,
 } from '@holi/icons/src/generated'
 import { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 
 export interface ExternalContentCategoryBadgeProps {
   category: ExternalContentCategory

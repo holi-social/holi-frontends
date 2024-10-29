@@ -1,14 +1,15 @@
 /* eslint-disable no-restricted-imports */
 import { TextLink } from 'holi-bricks/components/text/TextLink'
+import { useStyles } from 'holi-bricks/hooks'
+import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useCallback, useState } from 'react'
 import { GestureResponderEvent, Pressable, View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
-import Spacing from '@holi/ui/foundations/Spacing'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger'
 export type ButtonSize = 'sm' | 'md' | 'lg'
@@ -64,7 +65,7 @@ export const Button = ({
       disabled={isSpinning || disabled}
     >
       <View style={styles.content}>
-        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text.color}>
+        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text?.color as string}>
           {label}
         </TextLink>
         {isSpinning && !disabled && (
