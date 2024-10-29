@@ -17,7 +17,7 @@
   },
   "peerDependencies": {
     "react": "18.2.0",
-    "react-native": "0.74.5"
+    "react-native": "0.74.6"
   },
   "devDependencies": {
     "jest": "^29.6.4",
