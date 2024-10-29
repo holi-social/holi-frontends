@@ -22,7 +22,7 @@
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@graphql-eslint/eslint-plugin": "^3.18.0",
     "@types/react": "~18.2.45",
-    "@types/tinycolor2": "1.4.3",
+    "@types/tinycolor2": "1.4.6",
     "graphql-config": "^4.5.0",
     "graphql-scalars": "^1.21.3",
     "jest-offline": "^1.0.1",
