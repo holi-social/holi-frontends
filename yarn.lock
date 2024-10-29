@@ -6394,7 +6394,7 @@ __metadata:
     lodash.groupby: "npm:^4.6.0"
     lodash.partition: "npm:^4.6.0"
     lottie-ios: "npm:4.4.1"
-    lottie-react-native: "npm:6.7.0"
+    lottie-react-native: "npm:6.7.2"
     posthog-react-native: "npm:^3.1.2"
     react: "npm:18.2.0"
     react-devtools: "npm:4.14.0"
@@ -6477,7 +6477,7 @@ __metadata:
     "@storybook/react": "npm:^7.6.10"
     "@types/tinycolor2": "npm:1.4.6"
     lottie-react: "npm:2.4.0"
-    lottie-react-native: "npm:6.7.0"
+    lottie-react-native: "npm:6.7.2"
     react: "npm:18.2.0"
     react-i18next: "npm:^15.0.2"
     react-native: "npm:0.74.5"
@@ -6491,7 +6491,7 @@ __metadata:
   peerDependencies:
     "@react-native-community/datetimepicker": 8.0.1
     lottie-react: 2.4.0
-    lottie-react-native: 6.7.0
+    lottie-react-native: 6.7.2
     react: 18.2.0
     react-i18next: ^15.0.2
     react-native: 0.74.5
@@ -25108,9 +25108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-react-native@npm:6.7.0":
-  version: 6.7.0
-  resolution: "lottie-react-native@npm:6.7.0"
+"lottie-react-native@npm:6.7.2":
+  version: 6.7.2
+  resolution: "lottie-react-native@npm:6.7.2"
   peerDependencies:
     "@dotlottie/react-player": ^1.6.1
     "@lottiefiles/react-lottie-player": ^3.5.3
@@ -25124,7 +25124,7 @@ __metadata:
       optional: true
     react-native-windows:
       optional: true
-  checksum: 10c0/a1df65252eb349414550a405b4fbb09e567404c123e98668701fcc325b38157e3f31a84c0563b1a4426417080b2ce5b901b1032910a3db695db96ffaf41030d6
+  checksum: 10c0/a98ffa572b1f47edabec7e652926358bfe72b6ebce85ad91a52046859e097320f86b201c8848aec644673e8975b28ef8445abf42fac52812a38f9273f9bb4a5b
   languageName: node
   linkType: hard
 
