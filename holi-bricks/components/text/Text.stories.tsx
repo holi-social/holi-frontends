@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Text, TextSize } from 'holi-bricks/components/text/Text'
+import { Text, TextSize } from 'holi-bricks/components/text'
 import { black, mono, purple, red, white } from 'holi-bricks/tokens'
 import React from 'react'
 import { View } from 'react-native'
@@ -21,7 +21,7 @@ const exampleColors = {
 }
 
 const meta: Meta<typeof Text> = {
-  title: 'Components/Text',
+  title: 'Components/Text/Text',
   component: Text,
   argTypes: {
     children: { description: 'Text content', required: true },

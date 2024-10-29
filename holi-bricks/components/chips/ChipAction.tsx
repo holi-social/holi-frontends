@@ -1,5 +1,5 @@
 import { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
-import { Text } from 'holi-bricks/components/text/Text'
+import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import type { Color } from 'holi-bricks/tokens'
 import { Spacing } from 'holi-bricks/tokens'

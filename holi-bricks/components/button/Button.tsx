@@ -1,5 +1,4 @@
-/* eslint-disable no-restricted-imports */
-import { TextLink } from 'holi-bricks/components/text/TextLink'
+import { TextLink } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
