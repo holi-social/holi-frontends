@@ -142,6 +142,7 @@ const config: ExpoConfig = {
         category: ['BROWSABLE', 'DEFAULT'],
       },
     ],
+    softwareKeyboardLayoutMode: 'pan',
   },
   plugins: [
     'expo-localization',

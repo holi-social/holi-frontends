@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
@@ -72,13 +72,27 @@ const ChatRoomView = () => {
   const { openToast } = useToast()
 
   const handleBackPress = useCallback(async () => {
-    navigateBack()
     await setLatestMessagesAsRead(roomId)
+
+    /** WORKAROUND: probably bug in `useAnimatedStyle` from `react-native-reanimated` for Android
+     * For Android we need wait till keyboard is hidden before navigating back
+     * Otherwise the `useAnimatedStyle` in `HoliKeyboardSafeAreaView` will not get updated
+     * and the view will be stuck in the keyboard position
+     */
+    if (Platform.OS === 'android' && Keyboard.isVisible()) {
+      const unsubscribe = Keyboard.addListener('keyboardDidHide', () => {
+        navigateBack()
+        unsubscribe?.remove()
+      })
+      Keyboard.dismiss()
+    } else {
+      navigateBack()
+    }
   }, [navigateBack, roomId])
 
   useEffect(() => {
     setScreenOptions({
-      headerTransparent: true,
+      headerTransparent: false,
       headerRight: () =>
         !!chatPartner &&
         !isSpaceRoom && (
