@@ -52,7 +52,7 @@
     "lodash.groupby": "^4.6.0",
     "lodash.partition": "^4.6.0",
     "lottie-ios": "4.4.1",
-    "lottie-react-native": "6.7.0",
+    "lottie-react-native": "6.7.2",
     "posthog-react-native": "^3.1.2",
     "react": "18.2.0",
     "react-i18next": "^15.0.2",

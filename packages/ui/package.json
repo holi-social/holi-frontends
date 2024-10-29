@@ -21,7 +21,7 @@
     "@storybook/react": "^7.6.10",
     "@types/tinycolor2": "1.4.6",
     "lottie-react": "2.4.0",
-    "lottie-react-native": "6.7.0",
+    "lottie-react-native": "6.7.2",
     "react": "18.2.0",
     "react-i18next": "^15.0.2",
     "react-native": "0.74.5",
@@ -35,7 +35,7 @@
   "peerDependencies": {
     "@react-native-community/datetimepicker": "8.0.1",
     "lottie-react": "2.4.0",
-    "lottie-react-native": "6.7.0",
+    "lottie-react-native": "6.7.2",
     "react": "18.2.0",
     "react-i18next": "^15.0.2",
     "react-native": "0.74.5",
