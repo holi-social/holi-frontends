@@ -11,6 +11,7 @@ import Notifications from '@holi/core/screens/notifications/Notifications'
 import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
 import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
 import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
+import CreateReport from '@holi/core/screens/report/CreateReport'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
@@ -57,6 +58,7 @@ export type RootStackScreens = {
   [RouteName.FeedPosts]: undefined
 
   [RouteName.CreateSpace]: undefined
+  [RouteName.CreateReport]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -118,6 +120,15 @@ const RootNavigator = () => {
         component={ForgotPassword}
         options={{
           presentation: 'containedModal',
+          animation: 'slide_from_bottom',
+          headerShown: true,
+          headerTransparent: true,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.CreateReport}
+        component={CreateReport}
+        options={{
           animation: 'slide_from_bottom',
           headerShown: true,
           headerTransparent: true,

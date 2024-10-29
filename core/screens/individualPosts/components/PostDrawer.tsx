@@ -5,7 +5,6 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
@@ -34,12 +33,6 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   const { navigate } = useRouting()
   const { track } = useTracking()
 
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: post?.id || '',
-    contentType3k: ContentType3K.FEED_POST,
-    contentType: ContentType.FEED_POST,
-    successMsg: t('global.report.successMessage'),
-  })
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false)
 
   const [deleteFeedPost] = useMutation<DeleteFeedPostResponse>(deleteFeedPostMutation, {
@@ -109,20 +102,11 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
           </>
         ) : (
           <HoliActionDrawer.Action
-            isLoading={isLoadingReport}
             icon={Flag}
             title={t('global.report')}
             testID="btn-report-post"
-            showConfirmation
-          >
-            <HoliActionDrawer.Confirmation
-              title={t('insights.post.report.confirmation.title')}
-              description={t('insights.post.report.confirmation.description')}
-              handleConfirmation={reportContent}
-              hasDismissBtn
-              requireLogin
-            />
-          </HoliActionDrawer.Action>
+            handleAction={() => navigate(`/report/${post.id}/${ContentType.FEED_POST}/${ContentType3K.FEED_POST}`)}
+          />
         )}
       </HoliActionDrawer.Drawer>
       <HoliConfirmation

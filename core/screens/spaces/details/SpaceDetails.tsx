@@ -12,7 +12,6 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -62,12 +61,6 @@ const SpaceDetails = () => {
   const id = space?.id || `${spaceIdOrName}`
 
   const [isLoading, deleteSpace] = useDeleteSpace(id)
-  const [isLoadingReport, reportContent] = useReportContent({
-    id,
-    contentType3k: ContentType3K.SPACE,
-    contentType: ContentType.SPACE,
-    successMsg: t('global.report.successMessage'),
-  })
 
   const {
     confirmationTitle,
@@ -180,17 +173,11 @@ const SpaceDetails = () => {
               />
             </HoliActionDrawer.Action>
           )}
-
-          <HoliActionDrawer.Action isLoading={isLoadingReport} icon={Flag} title={t('global.report')} showConfirmation>
-            <HoliActionDrawer.Confirmation
-              title={t('spaces.spaceDetails.report.confirmation.title')}
-              description={t('spaces.spaceDetails.report.confirmation.description')}
-              testID="space-report"
-              handleConfirmation={reportContent}
-              hasDismissBtn
-              requireLogin
-            />
-          </HoliActionDrawer.Action>
+          <HoliActionDrawer.Action
+            icon={Flag}
+            title={t('global.report')}
+            handleAction={() => navigate(`/report/${id}/${ContentType.SPACE}/${ContentType3K.SPACE}`)}
+          />
 
           {isAdmin && (
             <HoliActionDrawer.Action
@@ -215,7 +202,6 @@ const SpaceDetails = () => {
       </>
     ),
     [
-      reportContent,
       deleteConfirmationAction,
       leaveSpaceAction,
       editAction,
@@ -223,9 +209,10 @@ const SpaceDetails = () => {
       manageCollaboratorsAction,
       isAdmin,
       t,
-      isLoadingReport,
       isLoading,
       confirmationDescription,
+      navigate,
+      id,
       confirmationTitle,
       isLoadingLeaveSpace,
       confirmLeaveSpaceText,

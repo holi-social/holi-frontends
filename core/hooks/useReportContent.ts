@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/client'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import type { ReportContentResponse } from '@holi/core/queries'
 import { ContentType, ContentType3K, ReportContentMutation } from '@holi/core/queries'
+import { ReportReason } from '@holi/core/screens/report/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 export type UseReportContent = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
@@ -13,9 +14,16 @@ export interface UseReportContentProps {
   contentType: ContentType
   contentType3k: ContentType3K
   successMsg: string
+  reason: ReportReason
 }
 
-const useReportContent = ({ id, contentType, contentType3k, successMsg }: UseReportContentProps): UseReportContent => {
+const useReportContent = ({
+  id,
+  contentType,
+  contentType3k,
+  successMsg,
+  reason,
+}: UseReportContentProps): UseReportContent => {
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
 
@@ -25,6 +33,7 @@ const useReportContent = ({ id, contentType, contentType3k, successMsg }: UseRep
       contentType,
       moderationContentType: contentType3k,
       details: 'no details',
+      reason,
     },
     onCompleted: () => {
       openToast(successMsg, HoliToastType.SUCCESS)

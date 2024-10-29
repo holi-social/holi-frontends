@@ -7,7 +7,6 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { User } from '@holi/core/domain/shared/types'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
@@ -51,13 +50,6 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
   const editAction = useCallback(() => {
     navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
   }, [insightId, navigate, post.id, spaceIdOrName])
-
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: post.id,
-    contentType3k: ContentType3K.POST,
-    contentType: ContentType.POST,
-    successMsg: t('global.report.successMessage'),
-  })
 
   const visibilityIcon = post.isPublic ? GlobalFilled : LockFilled
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
@@ -111,20 +103,11 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                     {/* reporting own content makes no sense, so we hide this option */}
                     {!isCurrentUserPostCreator && (
                       <HoliActionDrawer.Action
-                        isLoading={isLoadingReport}
                         icon={Flag}
                         title={t('global.report')}
                         testID="report-comment-button"
-                        showConfirmation
-                      >
-                        <HoliActionDrawer.Confirmation
-                          title={t('insights.post.report.confirmation.title')}
-                          description={t('insights.post.report.confirmation.description')}
-                          handleConfirmation={reportContent}
-                          hasDismissBtn
-                          requireLogin
-                        />
-                      </HoliActionDrawer.Action>
+                        handleAction={() => navigate(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
+                      />
                     )}
                   </HoliActionDrawer.Drawer>
                 </SafeAreaProvider>

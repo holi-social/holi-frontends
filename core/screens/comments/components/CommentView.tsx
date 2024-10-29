@@ -5,9 +5,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import CommentText from '@holi/core/screens/comments/components/CommentText'
@@ -54,16 +54,10 @@ const CommentView = ({
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { navigate } = useRouting()
 
   const { openSignupModal } = useSignupModal()
   const isInsight = commentableType === CommentableType.DISCUSSION
-
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: comment.id,
-    contentType: ContentType.POST_COMMENT,
-    contentType3k: ContentType3K.COMMENT,
-    successMsg: t('global.report.successMessage'),
-  })
 
   useEffect(() => {
     if (startWithOpenThread) {
@@ -126,21 +120,13 @@ const CommentView = ({
               {/* reporting own content makes no sense, so we hide this option */}
               {!isCurrentUserCommentCreator && (
                 <HoliActionDrawer.Action
-                  isLoading={isLoadingReport}
                   icon={Flag}
                   title={t('global.report')}
                   testID="report-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('comment.report.confirmation.title')}
-                    description={t('comment.report.confirmation.description')}
-                    testID="comment-report"
-                    handleConfirmation={reportContent}
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
+                  handleAction={() =>
+                    navigate(`/report/${comment.id}/${ContentType.POST_COMMENT}/${ContentType3K.COMMENT}`)
+                  }
+                />
               )}
               {/* deleting only allowed for own content */}
               {isCurrentUserCommentCreator && (
