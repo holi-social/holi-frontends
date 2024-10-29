@@ -6254,7 +6254,7 @@ __metadata:
     jest: "npm:^29.6.4"
     jest-offline: "npm:^1.0.1"
     jotai: "npm:2.4.3"
-    jotai-devtools: "npm:0.7.0"
+    jotai-devtools: "npm:0.7.1"
     matrix-js-sdk: "npm:^34.0.0"
   peerDependencies:
     react: 18.2.0
@@ -6525,7 +6525,7 @@ __metadata:
     holi-bricks: "npm:*"
     http-proxy: "npm:^1.18.1"
     jotai: "npm:2.4.3"
-    jotai-devtools: "npm:0.7.0"
+    jotai-devtools: "npm:0.7.1"
     lexical: "npm:0.11.1"
     locale: "npm:0.1.0"
     lottie-react: "npm:2.4.0"
@@ -10011,7 +10011,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redux-devtools/extension@npm:^3.2.5":
+"@redux-devtools/extension@npm:^3.2.6":
   version: 3.3.0
   resolution: "@redux-devtools/extension@npm:3.3.0"
   dependencies:
@@ -24110,14 +24110,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jotai-devtools@npm:0.7.0":
-  version: 0.7.0
-  resolution: "jotai-devtools@npm:0.7.0"
+"jotai-devtools@npm:0.7.1":
+  version: 0.7.1
+  resolution: "jotai-devtools@npm:0.7.1"
   dependencies:
     "@mantine/core": "npm:^6.0.21"
     "@mantine/hooks": "npm:^6.0.21"
     "@mantine/prism": "npm:^6.0.21"
-    "@redux-devtools/extension": "npm:^3.2.5"
+    "@redux-devtools/extension": "npm:^3.2.6"
     javascript-stringify: "npm:^2.1.0"
     jsondiffpatch: "npm:^0.5.0"
     react-error-boundary: "npm:^4.0.11"
@@ -24126,7 +24126,7 @@ __metadata:
   peerDependencies:
     "@emotion/react": ">=11.0.0"
     react: ">=17.0.0"
-  checksum: 10c0/20158a10e9d526a7e9a4e7cb9246f4faa233c82469e3e43e9f9f8f832ded12ebc7c98fc0422109a65c3fda8b66603d6bbfae9009f6d6eaeffbb73e014d5e485f
+  checksum: 10c0/c55f8229c6ccf6ae06c091f9425b98b64e02e36e8241d781f18e2272a7d36295e66f57bbd9aed7642046c004d424afb51175bf63d43b7bead705ad0055ca9c5d
   languageName: node
   linkType: hard
 
