@@ -30,12 +30,12 @@ export const createBricksManager = <T extends RuntimeType>(styleRuntime: T) => {
    *
    * @returns {string} The current active theme name.
    */
-  const getActiveTheme = (): string => {
+  const getActiveThemeName = (): string => {
     return styleRuntime.themeName
   }
 
   return {
-    getActiveTheme,
+    getActiveThemeName,
     setActiveTheme,
   }
 }

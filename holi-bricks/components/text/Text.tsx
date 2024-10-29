@@ -12,9 +12,6 @@ import {
 } from 'react-native'
 
 // Change import in HOLI-10369
-// eslint-disable-next-line no-restricted-imports
-import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
-
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
 export type TextHeadingLevel = '1' | '2' | '3'
 
