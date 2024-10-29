@@ -85,24 +85,15 @@ export const useNotifications = () => {
   }, [canFetchMore, fetchMessages, isFetchingMore, nextPage, novuService])
 
   const markAllNotificationsAsSeen = useCallback(async () => {
-    const messageIds = Object.values(notifications)
-      .filter((notification) => !notification.read && !notificationsMarkedAsSeen.current.includes(notification.id))
-      .map(({ id }) => id)
-    if (!messageIds.length) {
+    if (Object.values(notifications).length === 0) {
       return
     }
-    return novuService
-      ?.markMessageAs(messageIds, { seen: true })
-      .catch((error) =>
-        logError(error, 'Error marking novu notifications as seen', {
-          location: 'useNotifications.markAllNotificationsAsSeen',
-          messageIds,
-        })
-      )
-      .finally(() => {
-        notificationsMarkedAsSeen.current = notificationsMarkedAsSeen.current.concat(messageIds)
+    return novuService?.markAllMessagesAsSeen().catch((error) =>
+      logError(error, 'Error marking novu notifications as seen', {
+        location: 'useNotifications.markAllNotificationsAsSeen',
       })
-  }, [notifications, novuService])
+    )
+  }, [novuService, notifications])
 
   const refetch = useCallback(() => {
     return fetchMessages({
