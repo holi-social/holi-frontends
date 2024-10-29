@@ -11228,8 +11228,8 @@ __metadata:
   linkType: hard
 
 "@storybook/addon-ondevice-actions@npm:^8.3.8":
-  version: 8.3.8
-  resolution: "@storybook/addon-ondevice-actions@npm:8.3.8"
+  version: 8.3.10
+  resolution: "@storybook/addon-ondevice-actions@npm:8.3.10"
   dependencies:
     "@storybook/addon-actions": "npm:^8.3.5"
     "@storybook/core": "npm:^8.3.5"
@@ -11238,31 +11238,31 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/a79fe367f84d18f61722033c35b05fbb1fc2a7ce57d92ebb9597ce045a3f1bcdfacd813edc1c5f9832e82ca3c0ab182cff51285c07250d0562c78278df842e01
+  checksum: 10c0/a51a508cc3abe8297bc9f84065ee2e523c3ba03058ac04c5e0dbb8616797a22d707aec60405dc3ff86e678e0e063530cba8bbcdcf81836650e5c3bcfc02c5374
   languageName: node
   linkType: hard
 
 "@storybook/addon-ondevice-backgrounds@npm:^8.3.8":
-  version: 8.3.8
-  resolution: "@storybook/addon-ondevice-backgrounds@npm:8.3.8"
+  version: 8.3.10
+  resolution: "@storybook/addon-ondevice-backgrounds@npm:8.3.10"
   dependencies:
     "@storybook/core": "npm:^8.3.5"
-    "@storybook/react-native-theming": "npm:^8.3.8"
+    "@storybook/react-native-theming": "npm:^8.3.10"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/d0e6cd1df9583f6bfc68e9efe746cb5b6d7c55305f83f2a210a221efb1685eeca4b6472dc055ebe9b2debab54013b4dfb1838c455bea4f67b82f199ac2d30dc9
+  checksum: 10c0/2d1fa4fbcec2eb032d0281ab2d4a8ed975902b8895676d9ac12d5b2f144dc5ecfb402d011b26e4a2675d58dcad6513123f13b72db2ca79410d078ea9194701d4
   languageName: node
   linkType: hard
 
 "@storybook/addon-ondevice-controls@npm:^8.3.8":
-  version: 8.3.8
-  resolution: "@storybook/addon-ondevice-controls@npm:8.3.8"
+  version: 8.3.10
+  resolution: "@storybook/addon-ondevice-controls@npm:8.3.10"
   dependencies:
     "@storybook/addon-controls": "npm:^8.3.5"
     "@storybook/core": "npm:^8.3.5"
-    "@storybook/react-native-theming": "npm:^8.3.8"
-    "@storybook/react-native-ui": "npm:^8.3.8"
+    "@storybook/react-native-theming": "npm:^8.3.10"
+    "@storybook/react-native-ui": "npm:^8.3.10"
     deep-equal: "npm:^1.0.1"
     prop-types: "npm:^15.7.2"
     react-native-modal-datetime-picker: "npm:^14.0.0"
@@ -11274,21 +11274,21 @@ __metadata:
     "@react-native-community/slider": "*"
     react: "*"
     react-native: "*"
-  checksum: 10c0/900aeb83180e9eddaa42537d393c2d012448296b885817dbd262cb33576d3d70c0c28f0dbd7ed7949b65f800424742d91ab2dfd4d7d68b73f505f9cfa877d11e
+  checksum: 10c0/42ef303d9edcef90b8173d29b21ece05c1cc841636250a927c5f75d15966c667bb8cf07cbc4195099cc94eac7e3ead13f1fb2d7957e99088d87b04d2003eeb36
   languageName: node
   linkType: hard
 
 "@storybook/addon-ondevice-notes@npm:^8.3.8":
-  version: 8.3.8
-  resolution: "@storybook/addon-ondevice-notes@npm:8.3.8"
+  version: 8.3.10
+  resolution: "@storybook/addon-ondevice-notes@npm:8.3.10"
   dependencies:
     "@storybook/core": "npm:^8.3.5"
-    "@storybook/react-native-theming": "npm:^8.3.8"
+    "@storybook/react-native-theming": "npm:^8.3.10"
     react-native-markdown-display: "npm:^7.0.2"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/4cc92beac1a88ebf5b6b4dd6914c6a506dbd4a725a1ff4f6bea3c808504d52cdbb77470406a03f3df58efe3b73633f0a5b9535878ab2f4ce3837f1abf9c95038
+  checksum: 10c0/da1275f36981fc7e26ea5732d541b2d32b923b21160c8206a20a516e4970cb6dc48d032edefff136f237811f409aab26be4c3217982a570f756fd6e6b6e1dc8f
   languageName: node
   linkType: hard
 
@@ -12281,25 +12281,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-native-theming@npm:^8.3.8":
-  version: 8.3.8
-  resolution: "@storybook/react-native-theming@npm:8.3.8"
+"@storybook/react-native-theming@npm:^8.3.10":
+  version: 8.3.10
+  resolution: "@storybook/react-native-theming@npm:8.3.10"
   dependencies:
     polished: "npm:^4.3.1"
   peerDependencies:
     react: "*"
     react-native: ">=0.57.0"
-  checksum: 10c0/b72d8c4f5adbb196ea0bde4871493371408958f483b05c7438c17ffaeca0eaeb94e436bf72f7bd9311e272cca9b6205bd6e880c6e54dc211162c29ea5ecf2ce6
+  checksum: 10c0/f6e37204faf271bb74486ecc0fbe333fb59b5bdeec4adcfa9c6c421c72e8c6bf58c876b2ca1e5bff8dab116493c4275058ceb9a442c395f27cce6d2338652b33
   languageName: node
   linkType: hard
 
-"@storybook/react-native-ui@npm:^8.3.8":
-  version: 8.3.8
-  resolution: "@storybook/react-native-ui@npm:8.3.8"
+"@storybook/react-native-ui@npm:^8.3.10":
+  version: 8.3.10
+  resolution: "@storybook/react-native-ui@npm:8.3.10"
   dependencies:
     "@storybook/core": "npm:^8.3.5"
     "@storybook/react": "npm:^8.3.5"
-    "@storybook/react-native-theming": "npm:^8.3.8"
+    "@storybook/react-native-theming": "npm:^8.3.10"
     fuse.js: "npm:^7.0.0"
     memoizerific: "npm:^1.11.3"
     polished: "npm:^4.3.1"
@@ -12312,20 +12312,20 @@ __metadata:
     react-native-reanimated: ">=3"
     react-native-safe-area-context: "*"
     react-native-svg: ">=14"
-  checksum: 10c0/dc5393a29483d0f718258753b53446d0145824b910c81dcac73eb1cac309c28c6df40d5bd81cd2990a327782ef74a81643db85d32a6d69326a1e23ee6a8c8bd7
+  checksum: 10c0/caaf6054beadf58dee6ec3fe86146fb50a90ed429eff6e3a08d15f622d208bfd2d0c7afbc660931ef27b7cacd8af1d5636c38d752ffeff3e5d1509f67dae9e80
   languageName: node
   linkType: hard
 
 "@storybook/react-native@npm:^8.3.8":
-  version: 8.3.8
-  resolution: "@storybook/react-native@npm:8.3.8"
+  version: 8.3.10
+  resolution: "@storybook/react-native@npm:8.3.10"
   dependencies:
     "@storybook/core": "npm:^8.3.5"
     "@storybook/csf": "npm:^0.1.1"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/react": "npm:^8.3.5"
-    "@storybook/react-native-theming": "npm:^8.3.8"
-    "@storybook/react-native-ui": "npm:^8.3.8"
+    "@storybook/react-native-theming": "npm:^8.3.10"
+    "@storybook/react-native-ui": "npm:^8.3.10"
     chokidar: "npm:^3.5.1"
     commander: "npm:^8.2.0"
     dedent: "npm:^1.5.1"
@@ -12348,7 +12348,7 @@ __metadata:
   bin:
     sb-rn-get-stories: ./bin/get-stories.js
     sb-rn-watcher: ./bin/watcher.js
-  checksum: 10c0/234ec07e87a79bf747595f869cdb390b3948adb69a633045fad9c75b7765f4eca3c5243f90864f1d7f665e55a803d8e337cf5b4c138464de448dad5ef7d30ba1
+  checksum: 10c0/c9a6ac82cc8febd70f83f8468de4a077aef852952ac428c840097b18e6b1c6ed7de57b348ff3c2d665039786f5fd7f4381449d237183e0e9fd309380fcbd844b
   languageName: node
   linkType: hard
 
