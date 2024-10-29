@@ -1,5 +1,6 @@
 import type { Decorator } from '@storybook/react'
-import React, { ReactNode } from 'react'
+import { useBricks } from 'holi-bricks/hooks'
+import React, { ReactNode, useEffect } from 'react'
 
 import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
 import colorsLight from '@holi/ui/styles/globalVars/colors.light'
@@ -33,6 +34,12 @@ type ThemeWrapperProps = {
 }
 
 const ThemeWrapper = ({ children, showInLightMode = true, showInDarkMode = false }: ThemeWrapperProps) => {
+  const { setActiveTheme } = useBricks()
+
+  useEffect(() => {
+    setActiveTheme(showInDarkMode ? 'dark' : 'light')
+  }, [setActiveTheme, showInDarkMode, showInLightMode])
+
   return (
     <>
       {showInLightMode && (

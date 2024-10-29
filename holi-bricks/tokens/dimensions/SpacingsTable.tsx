@@ -1,12 +1,8 @@
+import { Colors } from 'holi-bricks/tokens/colors/primitives'
+import { Spacing, SpacingSize } from 'holi-bricks/tokens/dimensions/spacing'
 import React from 'react'
 
-import Spacing, { SpacingSize } from '@holi/ui/foundations/Spacing'
-import { useTheme } from '@holi/ui/styles/theme'
-
-const SpacingsTable = () => {
-  const { theme } = useTheme()
-  const { colors } = theme
-
+export const SpacingsTable = () => {
   return (
     <table style={{ width: '100%' }}>
       <thead>
@@ -27,7 +23,7 @@ const SpacingsTable = () => {
                 <span
                   style={{
                     display: 'inline-block',
-                    backgroundColor: colors.error200,
+                    backgroundColor: Colors.red,
                     width: Spacing[size],
                     height: Spacing[size],
                   }}
@@ -39,5 +35,3 @@ const SpacingsTable = () => {
     </table>
   )
 }
-
-export default SpacingsTable
