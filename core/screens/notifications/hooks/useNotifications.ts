@@ -202,6 +202,8 @@ function mapToNotification(
     case NovuNotificationType.CHALLENGE_NEW_COMMENT:
     case NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST:
     case NovuNotificationType.CHALLENGE_KEEP_STREAK:
+    case NovuNotificationType.CHALLENGE_EVENT_END:
+    case NovuNotificationType.CHALLENGE_EVENT_SUMMARY:
       return {
         id: message._id,
         notificationType,

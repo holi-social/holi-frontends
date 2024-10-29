@@ -202,7 +202,7 @@ xdescribe('Space follow button', () => {
     })
     fireEvent.press(await screen.findByTestId('unfollow-btn'))
     expect(await screen.findByTestId('unfollow-confirm-confirmation-dialog'))
-    fireEvent.press(await screen.findByTestId('unfollow-confirm-confirmation-confirm'))
+    fireEvent.press(await screen.findByTestId('unfollow-confirm-confirmation-primary'))
     expect(await unfollowSpaceMutation.newData).toHaveBeenCalled()
   })
 })

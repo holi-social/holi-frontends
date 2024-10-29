@@ -36,6 +36,7 @@
     "web:dev": "yarn workspace @holi/web dev",
     "web:build": "yarn workspace @holi/web build",
     "web:start": "yarn workspace @holi/web start",
+    "holi-bricks:web": "yarn workspace holi-bricks web",
     "check-types": "tsc --noemit",
     "lint": "turbo run lint --concurrency 100%",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\"",

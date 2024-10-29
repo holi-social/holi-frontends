@@ -148,6 +148,8 @@ export interface NotificationChallenges extends NotificationBase {
     | NovuNotificationType.CHALLENGE_NEW_COMMENT
     | NovuNotificationType.CHALLENGE_KEEP_STREAK
     | NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST
+    | NovuNotificationType.CHALLENGE_EVENT_END
+    | NovuNotificationType.CHALLENGE_EVENT_SUMMARY
   options: ChallengeNotificationData
 }
 

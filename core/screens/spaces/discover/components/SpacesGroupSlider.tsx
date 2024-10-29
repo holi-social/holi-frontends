@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client'
+import { ChipAction } from 'holi-bricks/components/chips'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
@@ -19,7 +20,6 @@ import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { MapPinLine } from '@holi/icons/src/generated'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
-import ChipAction from '@holi/ui/no-name/components/chips/ChipAction'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {

@@ -1,17 +1,16 @@
 import { action } from '@storybook/addon-actions'
 import { useArgs } from '@storybook/preview-api'
 import { Meta, StoryObj } from '@storybook/react'
+import { Colors } from 'holi-bricks/tokens'
 import React from 'react'
 
-import { Colors } from '@holi/ui/no-name/foundations/colors/primitives'
-
-import ChipSelect from './ChipSelect'
+import { ChipSelect } from './ChipSelect'
 
 const availableColors = Object.values(Colors)
 const availableSizes = ['sm', 'md', 'lg'] as const
 
 const meta: Meta<typeof ChipSelect> = {
-  title: 'No Name/Components/Chips (draft)/Chip Select',
+  title: 'Components/Chips/Chip Select',
   component: ChipSelect,
   argTypes: {
     children: { description: 'Text label', required: true },

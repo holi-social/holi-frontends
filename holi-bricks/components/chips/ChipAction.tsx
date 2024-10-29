@@ -1,12 +1,14 @@
+import { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
 import { Text } from 'holi-bricks/components/text/Text'
+import { useStyles } from 'holi-bricks/hooks'
+import type { Color } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { GestureResponderEvent, Pressable } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 import { ChipSize, chipSizeToTextSize } from './size'
 import { pill } from './styles'
@@ -23,9 +25,9 @@ type ChipActionProps = {
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
   'aria-label'?: string
-}
+} & SelectionElementProps
 
-const ChipAction = ({
+export const ChipAction = ({
   onPress,
   children,
   selected = false,
@@ -58,8 +60,6 @@ const ChipAction = ({
     </Pressable>
   )
 }
-
-export default ChipAction
 
 const stylesheet = createStyleSheet((theme) => ({
   chip: (hovered: boolean, focused: boolean, color: ChipColor) => {

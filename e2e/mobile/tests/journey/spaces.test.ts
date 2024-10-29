@@ -145,7 +145,7 @@ describe('@Spaces', () => {
     // delete the update post
     await tapOnElementWithTestId('post-three-dot-menu-button')
     await tapOnElementWithTestId('delete-post-button')
-    await tapOnElementWithTestId('holi-confirmation-confirm')
+    await tapOnElementWithTestId('holi-confirmation-primary')
   }
 
   const assertDeletingSpace = async () => {

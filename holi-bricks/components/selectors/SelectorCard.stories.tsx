@@ -1,15 +1,16 @@
+import { useArgs } from '@storybook/preview-api'
 import { Meta, StoryObj } from '@storybook/react'
+import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
+import { Spacing } from 'holi-bricks/tokens'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import Cloud from '@holi/icons/src/generated/Cloud'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { SelectorCard } from '@holi/ui/no-name/components/selectors/SelectorCard'
 
-const availableFormControls = ['radio', 'checkbox', 'switch', 'none'] as const
+const availableInputTypes = ['radio', 'checkbox', 'switch', 'none'] as const
 
 const meta: Meta<typeof SelectorCard> = {
-  title: 'No Name/Components/Selectors/Selector Card',
+  title: 'Components/Selectors/Selector Card',
   component: SelectorCard,
   args: {
     disabled: false,
@@ -21,40 +22,46 @@ type Story = StoryObj<typeof SelectorCard>
 
 export const Playground: Story = {
   argTypes: {
-    value: { control: 'text' },
     title: { control: 'text' },
     description: { control: 'text' },
     disabled: { control: 'boolean' },
     size: { control: 'select', options: ['md', 'lg'] },
     outlined: { control: 'boolean' },
     reverseOrder: { control: 'boolean' },
-    formControl: { control: 'select', options: ['radio', 'checkbox', 'switch', 'none'] },
+    inputType: { control: 'select', options: ['radio', 'checkbox', 'switch', 'none'] },
     variant: { control: 'select', options: ['detailed', 'list'] },
   },
   args: {
-    value: '1',
     title: 'Title',
     description: 'Description',
     disabled: false,
     size: 'lg',
     outlined: true,
     reverseOrder: false,
-    formControl: 'radio',
+    inputType: 'radio',
     variant: 'detailed',
+  },
+  render: function Render(args) {
+    const [{ selected }, updateArgs] = useArgs()
+
+    const handleOnPress = () => {
+      updateArgs({ selected: !selected })
+    }
+
+    return <SelectorCard {...args} onPress={handleOnPress} selected={selected} />
   },
 }
 
-export const ByFormControl: Story = {
+export const ByInputType: Story = {
   args: {
-    value: '1',
     description: 'Description',
   },
   render: function Render(args) {
     return (
       <View style={styles.container}>
-        {availableFormControls.map((s) => (
+        {availableInputTypes.map((s) => (
           <View key={s} style={styles.item}>
-            <SelectorCard {...args} title={s} formControl={s} />
+            <SelectorCard {...args} title={s} inputType={s} />
           </View>
         ))}
       </View>

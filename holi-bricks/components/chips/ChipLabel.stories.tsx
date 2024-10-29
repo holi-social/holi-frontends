@@ -1,16 +1,16 @@
 import { Meta, StoryObj } from '@storybook/react'
+import { Colors } from 'holi-bricks/tokens'
 import React from 'react'
 
 import { Cloud, Heart } from '@holi/icons/src/generated'
-import { Colors } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import ChipLabel from './ChipLabel'
+import { ChipLabel } from './ChipLabel'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
 const availableSizes = ['sm', 'md', 'lg'] as const
 
 const meta: Meta<typeof ChipLabel> = {
-  title: 'No Name/Components/Chips (draft)/Chip Label',
+  title: 'Components/Chips/Chip Label',
   component: ChipLabel,
   argTypes: {
     children: { description: 'Text label', required: true },
@@ -26,7 +26,11 @@ export const Playground: Story = {
   argTypes: {
     color: { control: 'select', options: availableColors },
     size: { control: 'select', options: availableSizes },
-    iconTrailing: { control: { type: false } },
+    iconTrailing: {
+      table: {
+        disable: true,
+      },
+    },
   },
   args: {
     color: Colors.yellow,

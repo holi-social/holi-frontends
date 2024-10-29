@@ -1,18 +1,18 @@
 import { action } from '@storybook/addon-actions'
 import { useArgs } from '@storybook/preview-api'
 import { Meta, StoryObj } from '@storybook/react'
+import { Colors } from 'holi-bricks/tokens'
 import React from 'react'
 
 import { Hearts, Pencil } from '@holi/icons/src/generated'
-import { Colors } from '@holi/ui/no-name/foundations/colors/primitives'
 
-import ChipAction from './ChipAction'
+import { ChipAction } from './ChipAction'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
 const availableSizes = ['sm', 'md', 'lg'] as const
 
 const meta: Meta<typeof ChipAction> = {
-  title: 'No Name/Components/Chips (draft)/Chip Action',
+  title: 'Components/Chips/Chip Action',
   component: ChipAction,
   argTypes: {
     children: { description: 'Text label', required: true },
@@ -30,8 +30,16 @@ export const Playground: Story = {
   argTypes: {
     color: { control: 'select', options: availableColors },
     size: { control: 'select', options: availableSizes },
-    iconLeading: { control: { type: false } },
-    iconTrailing: { control: { type: false } },
+    iconLeading: {
+      table: {
+        disable: true,
+      },
+    },
+    iconTrailing: {
+      table: {
+        disable: true,
+      },
+    },
   },
   args: {
     color: Colors.green,

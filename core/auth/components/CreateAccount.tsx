@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client'
 import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -32,7 +33,7 @@ const logger = getLogger('CreateAccount')
 const isWeb = Platform.OS === 'web'
 
 interface CreateAccountProps {
-  onRegister: () => void
+  onRegister: () => Promise<void>
   onDismiss: () => void
 }
 
@@ -40,6 +41,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
+  const client = useApolloClient()
   // use safe versions of this function to prevent updating state of destroyed component
   const safeSetFlow = useSafeDispatch(setFlow)
   const { displayError } = useErrorHandling()
@@ -99,6 +101,8 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
         const verificationFlowData = getVerificationFlowFromRegistration(data)
         // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
         setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
+
+        await client.clearStore()
 
         // update Onboarding state before loading a user
         await onRegister()

@@ -95,11 +95,11 @@ resource "google_cloud_run_service" "mvp_web" {
           limits = {
             # cpu can only be scaled down to 1000m as long as container_concurrency is set to != 1
             cpu    = local.environment == "production" ? "1000m" : "1000m"
-            memory = local.environment == "production" ? "512Mi" : "512Mi"
+            memory = local.environment == "production" ? "1024Mi" : "1024Mi"
           }
           requests = {
             cpu    = local.environment == "production" ? "1000m" : "1000m"
-            memory = local.environment == "production" ? "512Mi" : "512Mi"
+            memory = local.environment == "production" ? "1024Mi" : "1024Mi"
           }
         }
         startup_probe {
@@ -119,7 +119,7 @@ resource "google_cloud_run_service" "mvp_web" {
         "autoscaling.knative.dev/minScale"         = local.environment == "production" ? "1" : "0"
         "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "2"
         "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen1"
-        "run.googleapis.com/startup-cpu-boost"    = "true"
+        "run.googleapis.com/startup-cpu-boost"     = "true"
       }
       # labels set on the revision level
       labels = {

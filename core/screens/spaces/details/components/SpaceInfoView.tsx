@@ -1,3 +1,4 @@
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -24,7 +25,6 @@ import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import Spacing from '@holi/ui/foundations/Spacing'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInfoViewProps = {
