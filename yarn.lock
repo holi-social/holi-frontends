@@ -6278,7 +6278,7 @@ __metadata:
     "@novu/client": "npm:0.20.0"
     "@ory/kratos-client": "npm:^0.13.1"
     "@types/react": "npm:~18.2.45"
-    "@types/tinycolor2": "npm:1.4.3"
+    "@types/tinycolor2": "npm:1.4.6"
     graphql: "npm:^16.3.0"
     graphql-config: "npm:^4.5.0"
     graphql-scalars: "npm:^1.21.3"
@@ -6474,7 +6474,7 @@ __metadata:
     "@holi/icons": "npm:^1.0.0"
     "@react-native-community/datetimepicker": "npm:8.0.1"
     "@storybook/react": "npm:^7.6.10"
-    "@types/tinycolor2": "npm:1.4.3"
+    "@types/tinycolor2": "npm:1.4.6"
     lottie-react: "npm:2.4.0"
     lottie-react-native: "npm:6.7.0"
     react: "npm:18.2.0"
@@ -13764,10 +13764,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tinycolor2@npm:1.4.3":
-  version: 1.4.3
-  resolution: "@types/tinycolor2@npm:1.4.3"
-  checksum: 10c0/d2b937a5c6d19b7bca5af9c44972da8605140a900e29a1fa95f1b3898d838094ac4b3774497290a28e21d0d437aa5e06f74c6e5a940ebed74927f309e7aa9021
+"@types/tinycolor2@npm:1.4.6":
+  version: 1.4.6
+  resolution: "@types/tinycolor2@npm:1.4.6"
+  checksum: 10c0/922020c3326460e9d8502c8a98f80db69f06fd14e07fe5a48e8ffe66175762298a9bd51263f2a0c9a40632886a74975a3ff79396defcdbeac0dc176e3e5056e8
   languageName: node
   linkType: hard
 
