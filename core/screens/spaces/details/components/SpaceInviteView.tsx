@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client'
+import { Spacing } from 'holi-bricks/tokens'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
@@ -113,14 +114,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     whom: {
       display: 'flex',
-      ...Platform.select({
-        native: {
-          paddingTop: dimensions.topBarHeight + 52,
-        },
-        web: {
-          paddingTop: dimensions.topBarHeight + 24,
-        },
-      }),
+      paddingTop: dimensions.topBarHeight + Spacing.md,
       paddingBottom: 8,
       flexDirection: 'column',
       alignItems: 'flex-start',

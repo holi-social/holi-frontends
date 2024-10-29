@@ -1,6 +1,7 @@
+import { Spacing } from 'holi-bricks/tokens'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -9,6 +10,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -46,7 +48,7 @@ const NotFound = () => {
   }, [navigate, setScreenOptions, t, colors.background20])
 
   return (
-    <View style={styles.container}>
+    <SafeArea style={styles.container}>
       <View style={styles.card}>
         <HoliLocalImage
           imageSource={require('@holi/ui/assets/img/illustrations/Illustration_not_found.png')}
@@ -71,7 +73,7 @@ const NotFound = () => {
           </HoliButton>
         </View>
       </View>
-    </View>
+    </SafeArea>
   )
 }
 
@@ -98,7 +100,8 @@ const getStyles = (safeAreaInsetTop: number, theme: HoliTheme) =>
       height: '100%',
       backgroundColor: theme.colors.background20,
       paddingHorizontal: 16,
-      paddingTop: dimensions.topBarHeight + 24 + (Platform.OS !== 'web' ? safeAreaInsetTop : 0),
+      marginTop: dimensions.topBarHeight + Spacing.sm,
+      justifyContent: 'flex-start',
     },
     content: {
       alignItems: 'center',

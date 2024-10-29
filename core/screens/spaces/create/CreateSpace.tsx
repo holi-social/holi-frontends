@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import { Spacing } from 'holi-bricks/tokens'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
@@ -28,11 +29,11 @@ import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -143,7 +144,7 @@ const CreateSpace = () => {
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/spaces">
       <SpaceTermContextProvider>
-        <View style={styles.wrapper}>
+        <SafeArea style={styles.wrapper}>
           <View style={[mixins.container, styles.container]}>
             <HoliWizard
               isBackButtonAvailable={true}
@@ -162,7 +163,7 @@ const CreateSpace = () => {
               <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
             </HoliWizard>
           </View>
-        </View>
+        </SafeArea>
         <HoliConfirmation
           show={showConfirmationModal}
           label={exitConfirmationTitle}
@@ -204,7 +205,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     container: {
       flex: 1,
-      paddingTop: dimensions.topBarHeight + 24,
+      paddingTop: Spacing.md,
       width: '100%',
       paddingHorizontal: 0,
       ...Platform.select({

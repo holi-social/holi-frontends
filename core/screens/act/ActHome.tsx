@@ -56,7 +56,7 @@ const ActHome = () => {
   const sections = orderedSections(selectedContentType)
 
   return (
-    <ScrollHeaderLayout>
+    <ScrollHeaderLayout style={styles.wrapper}>
       <View style={styles.container}>
         <AttendingChallengeEvents />
         {sections.map((sectionName) => (
@@ -69,6 +69,9 @@ const ActHome = () => {
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    wrapper: {
+      backgroundColor: theme.colors.background20,
+    },
     container: {
       gap: dimensions.spacingL,
       backgroundColor: theme.colors.background20,

@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react'
-import { ImageBackground, Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { ImageBackground, Platform, StyleSheet, View } from 'react-native'
 import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
 
@@ -15,13 +15,9 @@ const isIOS = Platform.OS === 'ios'
 
 interface UseHeaderAnimationStylesArgs {
   headerHeight?: number
-  animatable?: boolean
 }
 
-const useHeaderAnimationStyles = ({
-  headerHeight = dimensions.topBarHeight,
-  animatable = false,
-}: UseHeaderAnimationStylesArgs) => {
+const useHeaderAnimationStyles = ({ headerHeight = dimensions.topBarHeight }: UseHeaderAnimationStylesArgs = {}) => {
   const headerAnimatedProgress = useHeaderAnimationProgress()
 
   const animatedStyle = useAnimatedStyle(
@@ -32,7 +28,7 @@ const useHeaderAnimationStyles = ({
     [headerAnimatedProgress]
   )
 
-  return animatable ? animatedStyle : styles.nonAnimatedHeader
+  return animatedStyle
 }
 
 interface Props {
@@ -45,8 +41,10 @@ const AnimatedWrapper = ({ animatable, backgroundColor, backgroundOptions, child
   const { theme } = useTheme()
   const { colors } = theme
   const { top: safeAreaTop } = useSafeAreaInsets()
+  const styles = getStyles(safeAreaTop)
 
-  const animatedStyle = useHeaderAnimationStyles({ animatable })
+  const animatedStyle = useHeaderAnimationStyles()
+  const headerStyle = animatable ? animatedStyle : styles.nonAnimatedHeader
 
   backgroundColor = backgroundOptions?.type === 'gradient' ? colors.dark : backgroundColor || colors.background10
   const gradientTransparentColor = tinycolor(backgroundColor).setAlpha(0).toRgbString()
@@ -63,7 +61,7 @@ const AnimatedWrapper = ({ animatable, backgroundColor, backgroundOptions, child
         </View>
       )}
 
-      <Animated.View style={[styles.header, animatedStyle]}>
+      <Animated.View style={[styles.header, headerStyle]}>
         {/* Default Background */}
         {backgroundOptions == undefined && (
           <View
@@ -95,17 +93,20 @@ const AnimatedWrapper = ({ animatable, backgroundColor, backgroundOptions, child
 
 export default AnimatedWrapper
 
-const styles = StyleSheet.create({
-  header: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    ...Platform.select({
-      web: {
-        height: dimensions.topBarHeight,
-      },
-    }),
-  },
-  nonAnimatedHeader: {
-    opacity: 1,
-    transform: [{ translateY: 0 }],
-  },
-})
+const getStyles = (safeAreaTop: number) =>
+  StyleSheet.create({
+    header: {
+      ...Platform.select({
+        android: {
+          paddingTop: safeAreaTop,
+        },
+        web: {
+          height: dimensions.topBarHeight,
+        },
+      }),
+    },
+    nonAnimatedHeader: {
+      opacity: 1,
+      transform: [{ translateY: 0 }],
+    },
+  })

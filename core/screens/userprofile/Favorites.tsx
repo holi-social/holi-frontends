@@ -14,7 +14,6 @@ import FavoritesList from '@holi/core/screens/favorites/components/FavoritesList
 import { favoritesQuery } from '@holi/core/screens/favorites/queries'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const Favorites = () => {
@@ -73,7 +72,6 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: Platform.OS === 'web' ? 10 : 0,
       minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
       backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.topBarHeight,
     },
   })
 

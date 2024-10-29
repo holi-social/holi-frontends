@@ -1,9 +1,8 @@
 import { ChipAction } from 'holi-bricks/components/chips'
 import React, { memo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { LayoutChangeEvent, ScrollView, StyleSheet, View } from 'react-native'
 
-import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import SearchResultsList from '@holi/core/screens/search/components/SearchResultsList'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -34,7 +33,6 @@ const SearchContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
-  const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const [query = ''] = useParam('query', singleParamConfig)
   const [selectedFilter] = useParam('filter', singleParamConfig)
   const updateParams = useUpdateParams(webReplaceQueryConfig)
@@ -60,10 +58,7 @@ const SearchContent = () => {
   }
 
   return (
-    <View
-      style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}
-      onLayout={calcItemsToLoad}
-    >
+    <View style={[mixins.container, styles.inner]} onLayout={calcItemsToLoad}>
       <HoliBox padding={16}>
         <HoliTextInput
           value={query}

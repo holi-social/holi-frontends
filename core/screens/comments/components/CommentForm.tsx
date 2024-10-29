@@ -325,6 +325,7 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
     scrollView: {
       flex: 1,
     },
+    content: {},
     verticalLine: {
       marginTop: Spacing['3xs'],
       marginBottom: Spacing['3xs'],

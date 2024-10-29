@@ -1,3 +1,4 @@
+import { Spacing } from 'holi-bricks/tokens'
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -35,6 +36,7 @@ const AboutSpaces = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,
+      headerTransparent: true,
       headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => (
         <HoliHeading level="1" size="s">
@@ -171,7 +173,7 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number, theme: HoliThe
       flexDirection: screenWidth > dimensions.breakpointM ? 'row' : 'column',
     },
     container: {
-      paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
+      paddingTop: Spacing.xxl,
       backgroundColor: theme.colors.background20,
       paddingBottom: 48,
       alignItems: 'center',

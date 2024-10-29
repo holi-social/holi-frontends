@@ -4,7 +4,6 @@ import Animated from 'react-native-reanimated'
 
 import { setScreenScrollY } from '@holi/core/helpers'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 
 import { ScrollHeaderLayoutProps } from './types'
 import { useHeaderOffsetOptions } from './useHeaderOffsetOptions'
@@ -59,9 +58,7 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
         onScroll={onScrollHandler}
         testID={testID}
       >
-        <Animated.View style={refreshControlStyle}>
-          <SafeArea>{children}</SafeArea>
-        </Animated.View>
+        <Animated.View style={refreshControlStyle}>{children}</Animated.View>
       </Animated.ScrollView>
     )
   }

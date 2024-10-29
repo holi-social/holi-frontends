@@ -19,7 +19,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
@@ -163,7 +163,7 @@ export const VolunteeringEngagementList = ({
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     list: {
-      paddingTop: dimensions.topBarHeight,
+      paddingTop: Spacing.md,
       backgroundColor: theme.colors.background20,
     },
     headingRow: {

@@ -268,11 +268,8 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
           paddingTop: dimensions.topBarHeight,
           paddingBottom: Spacing.lg,
         },
-        ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xxl,
-        },
-        android: {
-          paddingTop: dimensions.topBarHeight + Spacing.lg,
+        default: {
+          paddingTop: Spacing.md,
         },
       }),
     },
