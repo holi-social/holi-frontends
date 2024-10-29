@@ -39,6 +39,11 @@ module.exports = {
             importNames: ['Text', 'TextProps', 'Button'],
             message: 'Please use components from holi-bricks instead.',
           },
+          {
+            name: 'react-native-unistyles',
+            importNames: ['createStyleSheet', 'useStyles'],
+            message: 'Please use hooks and utils from holi-bricks instead.',
+          },
         ],
       },
     ],
