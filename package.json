@@ -102,6 +102,6 @@
     "eslint-plugin-jsx-a11y": "6.7.1",
     "metro": "0.80.8",
     "metro-resolver": "0.80.8",
-    "metro-config": "0.80.8"
+    "metro-config": "0.80.12"
   }
 }
