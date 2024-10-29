@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -106,13 +106,11 @@ const DiscussionDetailPage = () => {
         </HoliContainer>
       </ScrollHeaderLayout>
 
-      <SafeAreaView>
-        <View style={styles.commentWrapper}>
-          <HoliContainer flex={1}>
-            <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
-          </HoliContainer>
-        </View>
-      </SafeAreaView>
+      <View style={styles.commentWrapper}>
+        <HoliContainer flex={1}>
+          <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
+        </HoliContainer>
+      </View>
     </>
   )
 }

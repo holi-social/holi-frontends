@@ -1,14 +1,17 @@
 import React from 'react'
-import { Platform, SafeAreaView, View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 import { Header, getHeaderTitle } from '@react-navigation/elements'
 
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { type NavigationCustomOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import AnimatedWrapper from './AnimatedWrapper'
 import { HeaderAnimatedProps } from './types'
+
+const isIOS = Platform.OS === 'ios'
 
 /**
  *
@@ -50,7 +53,7 @@ const HeaderAnimated = (props: HeaderAnimatedProps) => {
       }
       backgroundOptions={bgOptions}
     >
-      <SafeAreaView>
+      <SafeArea edges={isIOS ? ['top'] : []}>
         {/**
          * Native iOS Header has 10px vertical marging. Add 6px according to our design (16px)
          * Android seems to have 16px vertical padding by default
@@ -87,7 +90,7 @@ const HeaderAnimated = (props: HeaderAnimatedProps) => {
             {...restOptions}
           />
         </View>
-      </SafeAreaView>
+      </SafeArea>
     </AnimatedWrapper>
   )
 }

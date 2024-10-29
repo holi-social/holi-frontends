@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
 import { urlRegex } from '@holi/core/helpers'
@@ -98,7 +98,7 @@ const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }:
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <SafeAreaView style={styles.safeArea}>
+      <View style={styles.safeArea}>
         <HoliKeyboardSaveView>
           <ScrollView keyboardShouldPersistTaps="handled">
             <EditSpaceModalWithFooter
@@ -119,7 +119,7 @@ const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }:
             </EditSpaceModalWithFooter>
           </ScrollView>
         </HoliKeyboardSaveView>
-      </SafeAreaView>
+      </View>
     </KeyboardAvoidingView>
   )
 }

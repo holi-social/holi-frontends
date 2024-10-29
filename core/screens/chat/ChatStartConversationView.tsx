@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Platform, Pressable, SafeAreaView, StyleSheet, View } from 'react-native'
+import { FlatList, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import { useLazyAbortableQuery } from '@holi/api/useLazyAbortableQuery'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
@@ -105,7 +105,7 @@ const ChatStartConversationView = () => {
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
       <KeyboardAvoidingViewWrapper
         renderProp={() => (
-          <SafeAreaView style={styles.wrapper}>
+          <View style={styles.wrapper}>
             <View style={[styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
               <HoliTextInput
                 value={searchUserInputValue}
@@ -178,7 +178,7 @@ const ChatStartConversationView = () => {
                 <StartChatButton user={selectedUser} label={t('chat.start.button.label')} doReplaceRoute={true} />
               </View>
             </View>
-          </SafeAreaView>
+          </View>
         )}
       />
     </PermissionsGuard>

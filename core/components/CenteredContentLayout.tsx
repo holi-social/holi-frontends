@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  ScrollViewProps,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { Platform, ScrollView, ScrollViewProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -24,7 +15,7 @@ export interface CenteredContentLayoutProps {
 const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildren<CenteredContentLayoutProps>>(
   ({ append, children, contentContainerStyle, keyboardShouldPersistTaps = 'never', testID }, ref) => {
     return (
-      <SafeAreaView style={[styles.outer]}>
+      <View style={[styles.outer]}>
         <View style={styles.inner} testID={testID}>
           <ScrollView
             style={styles.scrollView}
@@ -41,7 +32,7 @@ const CenteredContentLayout = React.forwardRef<ScrollView, React.PropsWithChildr
         </View>
 
         {append}
-      </SafeAreaView>
+      </View>
     )
   }
 )

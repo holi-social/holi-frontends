@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, SafeAreaView, StyleSheet } from 'react-native'
+import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -35,9 +35,9 @@ const Notifications = () => {
   )
 
   return (
-    <SafeAreaView style={styles.contentWrapper} testID="notifications-overview">
+    <View style={styles.contentWrapper} testID="notifications-overview">
       <NotificationsOverview />
-    </SafeAreaView>
+    </View>
   )
 }
 

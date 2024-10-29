@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import Animated, { FadeInLeft } from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -252,13 +252,11 @@ const PostDetailsPage = () => {
         </View>
       </ScrollHeaderLayout>
 
-      <SafeAreaView>
-        <View style={styles.commentWrapper}>
-          <HoliContainer flex={1}>
-            <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
-          </HoliContainer>
-        </View>
-      </SafeAreaView>
+      <View style={styles.commentWrapper}>
+        <HoliContainer flex={1}>
+          <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
+        </HoliContainer>
+      </View>
     </>
   )
 }

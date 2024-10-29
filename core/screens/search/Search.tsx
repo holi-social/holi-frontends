@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -23,9 +23,9 @@ const Search = () => {
   return (
     <KeyboardAvoidingViewWrapper
       renderProp={() => (
-        <SafeAreaView style={styles.wrapper}>
+        <View style={styles.wrapper}>
           <SearchContent />
-        </SafeAreaView>
+        </View>
       )}
     />
   )

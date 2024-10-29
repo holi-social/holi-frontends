@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   ScrollViewProps,
   StyleProp,
@@ -142,7 +141,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
               {renderProp(scrollToInputWithId)}
             </View>
           </ScrollView>
-          <SafeAreaView style={[styles.bottomBar, bottomBarStyle]}>
+          <View style={[styles.bottomBar, bottomBarStyle]}>
             <View style={[mixins.container, styles.buttonContainer]}>
               {showBackButton && (
                 <HoliButton
@@ -184,7 +183,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
                 {buttonLabel || t('global.save')}
               </HoliButtonLoading>
             </View>
-          </SafeAreaView>
+          </View>
         </HoliKeyboardSaveView>
       </KeyboardAvoidingView>
     )

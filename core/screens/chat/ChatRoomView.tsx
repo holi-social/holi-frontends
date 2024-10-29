@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
@@ -193,7 +193,7 @@ const ChatRoomView = () => {
       <View style={styles.layoutWarpper}>
         <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
           <Animated.View entering={FadeIn} style={{ flex: 1 }}>
-            <SafeAreaView style={styles.safeArea}>
+            <View style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
                   {room.hasInvitation ? (
@@ -233,7 +233,7 @@ const ChatRoomView = () => {
                   roomId={roomId}
                 />
               </View>
-            </SafeAreaView>
+            </View>
           </Animated.View>
         </PermissionsGuard>
       </View>

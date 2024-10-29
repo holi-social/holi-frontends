@@ -7,14 +7,12 @@ import {
   KeyboardAvoidingView,
   Linking,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   View,
   useWindowDimensions,
 } from 'react-native'
 import { LayoutChangeEvent } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { User } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
@@ -67,7 +65,6 @@ const CommentForm = ({
   const { height: screenHeight } = useWindowDimensions()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
-  const insets = useSafeAreaInsets()
 
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
@@ -219,14 +216,15 @@ const CommentForm = ({
   }
 
   return (
-    <HoliContainer noPadding>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.pageView}
-        keyboardVerticalOffset={dimensions.topBarHeight + insets.top}
-      >
-        <SafeAreaView style={styles.safeArea}>
-          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled" ref={scrollViewRef}>
+    <View style={styles.safeArea}>
+      <HoliContainer noPadding>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+          <ScrollView
+            style={styles.scrollView}
+            keyboardShouldPersistTaps="handled"
+            ref={scrollViewRef}
+            contentContainerStyle={styles.content}
+          >
             <View>
               {children}
 
@@ -290,16 +288,16 @@ const CommentForm = ({
               </View>
             </HoliContainer>
           </View>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
-      <NotificationOptInModal
-        type="default"
-        isVisible={modalVisible}
-        onConfirm={handleOptIn}
-        onDismiss={handleModalDismiss}
-        description={t('notifications.permission.description.default')}
-      />
-    </HoliContainer>
+        </KeyboardAvoidingView>
+        <NotificationOptInModal
+          type="default"
+          isVisible={modalVisible}
+          onConfirm={handleOptIn}
+          onDismiss={handleModalDismiss}
+          description={t('notifications.permission.description.default')}
+        />
+      </HoliContainer>
+    </View>
   )
 }
 

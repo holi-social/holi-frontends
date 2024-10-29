@@ -1,6 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import React, { useCallback, useMemo, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
 import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVerification'
@@ -21,7 +21,6 @@ import {
 } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
@@ -112,7 +111,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingState
   }, [communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy, track])
 
   return (
-    <SafeArea style={styles.container}>
+    <View style={styles.container}>
       <HoliStepper
         scrollEnabled={false}
         steps={[
@@ -144,7 +143,7 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingState
         ]}
         lazy
       />
-    </SafeArea>
+    </View>
   )
 }
 

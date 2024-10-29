@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -191,21 +191,19 @@ const PostDetailPage = () => {
         </View>
       </ScrollHeaderLayout>
 
-      <SafeAreaView>
-        <View style={styles.postCommentWrapper}>
-          <PostDetailFooter
-            style={[styles.postCommentButton, isWeb && mixins.container]}
-            onPress={() =>
-              isLoggedIn
-                ? navigate(getPostCommentUrl())
-                : openSignupModal({
-                    description: t('comments.loginRedirect.text'),
-                    trackTrigger: 'COMMENT_ON_POST',
-                  })
-            }
-          />
-        </View>
-      </SafeAreaView>
+      <View style={styles.postCommentWrapper}>
+        <PostDetailFooter
+          style={[styles.postCommentButton, isWeb && mixins.container]}
+          onPress={() =>
+            isLoggedIn
+              ? navigate(getPostCommentUrl())
+              : openSignupModal({
+                  description: t('comments.loginRedirect.text'),
+                  trackTrigger: 'COMMENT_ON_POST',
+                })
+          }
+        />
+      </View>
     </>
   )
 }
