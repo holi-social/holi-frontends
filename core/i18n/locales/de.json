@@ -663,6 +663,8 @@
   "profile.settings.notifications.workflow.CHALLENGE_EVENT_SUMMARY": "Ereigniszusammenfassung",
   "profile.settings.notifications.workflow.CHALLENGE_KEEP_STREAK": "Streak Erinnerungen",
   "profile.settings.notifications.workflow.CHALLENGE_NEW_COMMENT": "Jemand hat deinen Beitrag kommentiert",
+  "profile.settings.notifications.workflow.CHALLENGE_EVENT_STARTING_TOMORROW": "Ereignis beginnt morgen",
+  "profile.settings.notifications.workflow.CHALLENGE_EVENT_STARTS_NOW": "Ereignis beginnt jetzt",
   "profile.settings.notifications.workflow.CHAT": "Neue Nachrichten und Einladung zum Chat",
   "profile.settings.notifications.workflow.COMMENT_REACTION": "Reaktionen auf deine Kommentare",
   "profile.settings.notifications.workflow.GLOBAL": "Alle Mitteilungen",
