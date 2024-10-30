@@ -2,7 +2,7 @@ import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
 /** @type{import('@storybook/react-webpack5').StorybookConfig} */
 module.exports = {
-  stories: ['../components/**/*.stories.mdx', '../components/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../components/**/*.mdx', '../tokens/**/*.mdx', '../components/**/*.stories.@(js|jsx|ts|tsx)'],
 
   addons: [
     '@storybook/addon-links',

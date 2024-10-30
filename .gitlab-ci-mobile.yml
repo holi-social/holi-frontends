@@ -59,7 +59,6 @@
         curl -o artifacts_$CI_ARTIFACTS_ENVIRONMENT_NAME/$(basename $ARTIFACT_URL) $ARTIFACT_URL
       fi
   interruptible: true
-  allow_failure: false
 
 .mobile_e2e:
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
@@ -80,7 +79,6 @@
     - 'export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}" -F "ios_keychain_support=true")'
     - 'export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r ".app_url")'
     - 'APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand'
-  allow_failure: false
   interruptible: true
   timeout: 2 hours
   tags:
@@ -133,7 +131,7 @@ mobile_review_destroy:
   dependencies: [] # explicitly disable artifact usage
   script:
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
-  allow_failure: true
+  allow_failure: true  # optional build step, won't block the pipeline
   interruptible: false
   rules:
     - !reference [.rule_templates, any_but_production_staging]
@@ -147,7 +145,7 @@ mobile_review_build_android:
   variables:
     BUILD_PLATFORM: android
     ENVIRONMENT_FILE: .env.staging
-  allow_failure: true  # optional build step, won't block the pipeline
+  allow_failure: true # optional build step, won't block the pipeline
   rules:
     - !reference [.rules_mobile_review]
     - !reference [.rule_templates, manually_on_any_other]
@@ -155,7 +153,7 @@ mobile_review_build_android:
 mobile_review_build_ios:
   extends: .mobile_build
   needs: ['lint_compile_test']
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   variables:
     BUILD_PLATFORM: ios
     ENVIRONMENT_FILE: .env.staging
@@ -166,7 +164,7 @@ mobile_review_build_ios:
 mobile_review_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_review_build_android'] # e2e only runs if build succeeded
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
@@ -176,7 +174,7 @@ mobile_review_e2e_android:
 mobile_review_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_review_build_ios'] # e2e only runs if build succeeded
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
@@ -201,7 +199,7 @@ mobile_staging_publish:
 mobile_staging_build_android:
   extends: .mobile_build
   needs: ['lint_compile_test']
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   variables:
     ENVIRONMENT_FILE: .env.staging
     KEEP_ARTIFACTS: 'true'
@@ -218,7 +216,7 @@ mobile_staging_build_android:
 mobile_staging_build_ios:
   extends: .mobile_build
   needs: ['lint_compile_test']
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   variables:
     ENVIRONMENT_FILE: .env.staging
     KEEP_ARTIFACTS: 'true'
@@ -235,7 +233,7 @@ mobile_staging_build_ios:
 mobile_staging_e2e_android:
   extends: .mobile_e2e_android
   needs: ['mobile_staging_build_android'] # e2e only runs if build succeeded
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
@@ -245,7 +243,7 @@ mobile_staging_e2e_android:
 mobile_staging_e2e_ios:
   extends: .mobile_e2e_ios
   needs: ['mobile_staging_build_ios'] # e2e only runs if build succeeded
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   variables:
     TEST_SUITES: (smoke|journey)
   rules:
@@ -268,8 +266,7 @@ mobile_release_candidate_publish:
   rules:
     - !reference [.rule_templates, only_on_production_release]
   after_script: |
-    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The mobile release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available for testing via:\n'$CI_ENVIRONMENT_URL'"}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
-
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'"$CI_COMMIT_REF_SLUG"'", "text":"The mobile release candidate \"'"$CI_COMMIT_BRANCH"'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available for testing via:\n'"$CI_ENVIRONMENT_URL"'"}' "https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER"
 mobile_release_publish:
   extends: .mobile_publish
   needs: ['mobile_release_candidate_publish']
@@ -284,7 +281,7 @@ mobile_release_publish:
   rules:
     - !reference [.rule_templates, manually_on_production_release]
   after_script: |
-    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The mobile release \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and is published to the branch specific channel. You can find it at https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/\"'$EXPO_PUBLISH_RELEASE_CHANNEL'\" ."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'"$CI_COMMIT_REF_SLUG"'", "text":"The mobile release \"'"$CI_COMMIT_BRANCH"'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and is published to the branch specific channel. You can find it at https://expo.dev/accounts/holistic-foundation/projects/projectholi/channels/\"'"$EXPO_PUBLISH_RELEASE_CHANNEL"'\" ."}' "https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER"
 
 mobile_release_build_android:
   extends: .mobile_build
@@ -331,13 +328,13 @@ mobile_release_submit_android:
     - source .env.production
     - cd apps/mobile
     - yarn install
-    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform android --buildProfile production --limit=1  2> /dev/null | jq -r ".[0].id")
-    - eas submit -p android --profile production --id $BUILD_ID --verbose --non-interactive --wait
+    - export BUILD_ID=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform android --buildProfile production --limit=1  2> /dev/null | jq -r ".[0].id")
+    - eas submit -p android --profile production --id "$BUILD_ID" --verbose --non-interactive --wait
   rules:
     - !reference [.rule_templates, only_on_production_release]
   interruptible: false
   after_script: |
-    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The Android app for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the Play Store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The Android app for the release candidate \"'$CI_COMMIT_BRANCH'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the Play Store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 mobile_release_submit_ios:
   needs: ['mobile_release_build_ios']
@@ -348,10 +345,10 @@ mobile_release_submit_ios:
     - source .env.production
     - cd apps/mobile
     - yarn install
-    - export BUILD_ID=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform ios --buildProfile production --limit=1  2> /dev/null | jq -r ".[0].id")
-    - eas submit -p ios --profile production --id $BUILD_ID --verbose --non-interactive --wait
+    - export BUILD_ID=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform ios --buildProfile production --limit=1  2> /dev/null | jq -r ".[0].id")
+    - eas submit -p ios --profile production --id "$BUILD_ID" --verbose --non-interactive --wait
   rules:
     - !reference [.rule_templates, only_on_production_release]
   interruptible: false
   after_script: |
-    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The IOS app for the release candidate \"'$CI_COMMIT_BRANCH'\" has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the App Store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The IOS app for the release candidate \"'$CI_COMMIT_BRANCH'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and was submitted to the App Store."}' https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER

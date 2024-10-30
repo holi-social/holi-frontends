@@ -44,7 +44,7 @@ const HoliTabs = <D extends HoliTabItem>({
   const marginHorizontal = useHoliTabsMarginHorizontal()
 
   return (
-    <View testID={testID}>
+    <View testID={testID} style={{ flex: 1 }}>
       <View style={{ backgroundColor: theme.colors.background10 }}>
         <BotomLineSeperator />
 
@@ -85,15 +85,15 @@ const HoliTabs = <D extends HoliTabItem>({
               renderItem={renderTabContent}
               onScroll={onContentScroll}
               scrollEventThrottle={100}
-              testID={`${testID}-content-list`}
               tabsId={testID}
+              testID={`${testID}-content-list`}
             />
           ) : (
             <TabContentVirtualized
               {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
               renderItem={renderTabContent}
-              testID={`${testID}-content-list`}
               tabsId={testID}
+              testID={`${testID}-content-list`}
             />
           )}
         </HoliContainer>

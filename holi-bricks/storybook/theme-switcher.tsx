@@ -21,11 +21,11 @@ type ThemeWrapperProps = {
 }
 
 const ThemeWrapper = ({ children, theme = 'light' }: ThemeWrapperProps) => {
-  const { setActiveTheme, getActiveTheme } = useBricks()
+  const { setActiveTheme, getActiveThemeName } = useBricks()
 
   useEffect(() => {
     setActiveTheme(theme)
-  }, [getActiveTheme, setActiveTheme, theme])
+  }, [getActiveThemeName, setActiveTheme, theme])
 
   return <View style={{ display: 'flex' }}>{children}</View>
 }

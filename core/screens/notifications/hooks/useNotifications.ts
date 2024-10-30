@@ -1,5 +1,5 @@
 import { IMessage, IPaginatedResponse } from '@novu/shared'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -27,7 +27,6 @@ export const useNotifications = () => {
   const [canFetchMore, setCanFetchMore] = useState(true)
   const [nextPage, setNextPage] = useState(1)
   const { novuService, isInitializing } = useNotificationService()
-  const notificationsMarkedAsSeen = useRef<string[]>([])
 
   const processMessagesResponse = useCallback(
     (response: IPaginatedResponse<IMessage>) =>
@@ -85,24 +84,15 @@ export const useNotifications = () => {
   }, [canFetchMore, fetchMessages, isFetchingMore, nextPage, novuService])
 
   const markAllNotificationsAsSeen = useCallback(async () => {
-    const messageIds = Object.values(notifications)
-      .filter((notification) => !notification.read && !notificationsMarkedAsSeen.current.includes(notification.id))
-      .map(({ id }) => id)
-    if (!messageIds.length) {
+    if (Object.values(notifications).length === 0) {
       return
     }
-    return novuService
-      ?.markMessageAs(messageIds, { seen: true })
-      .catch((error) =>
-        logError(error, 'Error marking novu notifications as seen', {
-          location: 'useNotifications.markAllNotificationsAsSeen',
-          messageIds,
-        })
-      )
-      .finally(() => {
-        notificationsMarkedAsSeen.current = notificationsMarkedAsSeen.current.concat(messageIds)
+    novuService?.markAllMessagesAsSeen().catch((error) =>
+      logError(error, 'Error marking novu notifications as seen', {
+        location: 'useNotifications.markAllNotificationsAsSeen',
       })
-  }, [notifications, novuService])
+    )
+  }, [novuService, notifications])
 
   const refetch = useCallback(() => {
     return fetchMessages({
@@ -204,6 +194,8 @@ function mapToNotification(
     case NovuNotificationType.CHALLENGE_KEEP_STREAK:
     case NovuNotificationType.CHALLENGE_EVENT_END:
     case NovuNotificationType.CHALLENGE_EVENT_SUMMARY:
+    case NovuNotificationType.CHALLENGE_EVENT_STARTING_TOMORROW:
+    case NovuNotificationType.CHALLENGE_EVENT_STARTS_NOW:
       return {
         id: message._id,
         notificationType,

@@ -57,6 +57,8 @@ export const SHOWN_NOTIFICATIONS = [
   NovuNotificationType.CHALLENGE_LEVEL_UP_HOLI_QUEST,
   NovuNotificationType.CHALLENGE_EVENT_END,
   NovuNotificationType.CHALLENGE_EVENT_SUMMARY,
+  NovuNotificationType.CHALLENGE_EVENT_STARTING_TOMORROW,
+  NovuNotificationType.CHALLENGE_EVENT_STARTS_NOW,
   NovuNotificationType.POLL_UPDATES,
   NovuNotificationType.POST_REACTION,
   NovuNotificationType.COMMENT_REACTION,

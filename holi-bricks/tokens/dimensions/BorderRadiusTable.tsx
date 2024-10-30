@@ -1,10 +1,9 @@
+import { Colors } from 'holi-bricks/tokens/colors/primitives'
+import { BorderRadius, BorderRadiusSize } from 'holi-bricks/tokens/dimensions/border-radius'
+import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
 import React from 'react'
 
-import { BorderRadius, BorderRadiusSize } from '@holi/ui/foundations/BorderRadius'
-import Spacing from '@holi/ui/foundations/Spacing'
-import theme from '@holi/ui/no-name/foundations/colors/themes/dark'
-
-export const SpacingsTable = () => {
+export const BorderRadiusTable = () => {
   return (
     <table style={{ width: '100%' }}>
       <thead>
@@ -25,7 +24,7 @@ export const SpacingsTable = () => {
                 <span
                   style={{
                     display: 'inline-block',
-                    backgroundColor: theme.colors.background,
+                    backgroundColor: Colors.purple,
                     width: Spacing['4xl'],
                     height: Spacing['lg'],
                     borderRadius: BorderRadius[size],

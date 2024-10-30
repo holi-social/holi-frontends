@@ -17,7 +17,6 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -45,7 +44,7 @@ const { useParam } = createParamHooks<UserProfileParams>()
 
 const UserProfile = () => {
   const { t } = useTranslation()
-  const { replaceRoute } = useRouting()
+  const { navigate, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
@@ -88,12 +87,6 @@ const UserProfile = () => {
   const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
 
   const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: userId,
-    contentType3k: ContentType3K.USER,
-    contentType: ContentType.USER,
-    successMsg: t('global.report.successMessage'),
-  })
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -101,15 +94,11 @@ const UserProfile = () => {
       headerTransparent: false,
       headerRight: () => (
         <HoliActionDrawer.Drawer label="user-profile-drawer">
-          <HoliActionDrawer.Action icon={Flag} isLoading={isLoadingReport} title={t('global.report')} showConfirmation>
-            <HoliActionDrawer.Confirmation
-              title={t('user.profileView.report.confirmation.title', { name: userFullName })}
-              description={t('user.profileView.report.confirmation.description', { name: userFullName })}
-              handleConfirmation={reportContent}
-              hasDismissBtn
-              requireLogin
-            />
-          </HoliActionDrawer.Action>
+          <HoliActionDrawer.Action
+            icon={Flag}
+            title={t('global.report')}
+            handleAction={() => navigate(`/report/${userId}/${ContentType.USER}/${ContentType3K.USER}`)}
+          />
           <HoliActionDrawer.Action
             icon={CloseCircle}
             isLoading={isLoadingBlockUser}
@@ -127,7 +116,7 @@ const UserProfile = () => {
         </HoliActionDrawer.Drawer>
       ),
     })
-  }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
+  }, [isLoadingBlockUser, t, userFullName, blockUser, navigate, userId, setScreenOptions])
 
   if (!userId || (loading && !user)) {
     return (

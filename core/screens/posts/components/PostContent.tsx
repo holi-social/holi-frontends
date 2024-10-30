@@ -1,13 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { User } from '@holi/core/domain/shared/types'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
@@ -52,13 +50,6 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
     navigate(`${getPostUrl(post.id, insightId, spaceIdOrName)}/edit`)
   }, [insightId, navigate, post.id, spaceIdOrName])
 
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: post.id,
-    contentType3k: ContentType3K.POST,
-    contentType: ContentType.POST,
-    successMsg: t('global.report.successMessage'),
-  })
-
   const visibilityIcon = post.isPublic ? GlobalFilled : LockFilled
   const visibilityIconText = post.isPublic ? t('spaces.updates.filter.public') : t('spaces.updates.filter.members')
   const isCurrentUserPostCreator = post.creator.id === user?.id
@@ -95,39 +86,28 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
               {/* Action drawer (three dot menu) */}
               <HoliColumn>
-                <SafeAreaProvider>
-                  <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-                    {/* Edit Action */}
-                    {/* editing only allowed for own content */}
-                    {spaceIdOrName && isCurrentUserPostCreator && (
-                      <HoliActionDrawer.Action
-                        icon={Edit2}
-                        title={t('spaces.updates.edit')}
-                        testID="edit-update"
-                        handleAction={editAction}
-                      />
-                    )}
-                    {/* Report Action */}
-                    {/* reporting own content makes no sense, so we hide this option */}
-                    {!isCurrentUserPostCreator && (
-                      <HoliActionDrawer.Action
-                        isLoading={isLoadingReport}
-                        icon={Flag}
-                        title={t('global.report')}
-                        testID="report-comment-button"
-                        showConfirmation
-                      >
-                        <HoliActionDrawer.Confirmation
-                          title={t('insights.post.report.confirmation.title')}
-                          description={t('insights.post.report.confirmation.description')}
-                          handleConfirmation={reportContent}
-                          hasDismissBtn
-                          requireLogin
-                        />
-                      </HoliActionDrawer.Action>
-                    )}
-                  </HoliActionDrawer.Drawer>
-                </SafeAreaProvider>
+                <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+                  {/* Edit Action */}
+                  {/* editing only allowed for own content */}
+                  {spaceIdOrName && isCurrentUserPostCreator && (
+                    <HoliActionDrawer.Action
+                      icon={Edit2}
+                      title={t('spaces.updates.edit')}
+                      testID="edit-update"
+                      handleAction={editAction}
+                    />
+                  )}
+                  {/* Report Action */}
+                  {/* reporting own content makes no sense, so we hide this option */}
+                  {!isCurrentUserPostCreator && (
+                    <HoliActionDrawer.Action
+                      icon={Flag}
+                      title={t('global.report')}
+                      testID="report-comment-button"
+                      handleAction={() => navigate(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
+                    />
+                  )}
+                </HoliActionDrawer.Drawer>
               </HoliColumn>
             </HoliColumns>
           </View>

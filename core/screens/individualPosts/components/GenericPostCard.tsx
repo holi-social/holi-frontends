@@ -10,7 +10,6 @@ import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuth
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { Term, User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
@@ -55,13 +54,6 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
   const [description, setDescription] = useState<string>((post as Post).text ?? (post as FeedPost).description)
   const [title, setTitle] = useState<string>(post.title)
   const [loadingTranslation, setLoadingTranslation] = useState(false)
-
-  const [isLoadingSpacePostReport, reportSpacePostContent] = useReportContent({
-    id: post?.id || '',
-    contentType3k: ContentType3K.POST,
-    contentType: ContentType.POST,
-    successMsg: t('global.report.successMessage'),
-  })
 
   const { deletePost: deleteSpacePost, isLoadingPostDeletion: isLoadingSpacePostDeletion } = useDeletePost(
     post as Post,
@@ -244,20 +236,11 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             >
               {!isCurrentUserPostCreator && (
                 <HoliActionDrawer.Action
-                  isLoading={isLoadingSpacePostReport}
                   icon={Flag}
                   title={t('global.report')}
                   testID="report-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('insights.post.report.confirmation.title')}
-                    description={t('insights.post.report.confirmation.description')}
-                    handleConfirmation={reportSpacePostContent}
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
+                  handleAction={() => navigate(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
+                />
               )}
               {spacePost.space?.id && isCurrentUserPostCreator && (
                 <HoliActionDrawer.Action
