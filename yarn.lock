@@ -6569,7 +6569,7 @@ __metadata:
     http-proxy: "npm:^1.18.1"
     jotai: "npm:2.4.3"
     jotai-devtools: "npm:0.7.1"
-    lexical: "npm:0.11.1"
+    lexical: "npm:0.11.3"
     locale: "npm:0.1.0"
     lottie-react: "npm:2.4.0"
     msw: "npm:^2.3.1"
@@ -24833,10 +24833,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lexical@npm:0.11.1":
-  version: 0.11.1
-  resolution: "lexical@npm:0.11.1"
-  checksum: 10c0/2138b31844613f6d6559036e3526961f1de0acef2f6ae2757955f04e0a19cabf844522f7fd7b0267bd9b50323ea4dfdbed440c47435581c9cd248119d6a68ac8
+"lexical@npm:0.11.3":
+  version: 0.11.3
+  resolution: "lexical@npm:0.11.3"
+  checksum: 10c0/c948c8a175f501ca9f9bfa2fc6eafd9c897404f28f456539405af0325230214e47a4fc72981a01aac50643939513eed4afa3ae34881cd334e14ccfdab7ac24a5
   languageName: node
   linkType: hard
 
