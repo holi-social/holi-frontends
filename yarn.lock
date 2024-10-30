@@ -29264,11 +29264,11 @@ __metadata:
   linkType: hard
 
 "react-native-image-crop-picker@npm:^0.41.2":
-  version: 0.41.2
-  resolution: "react-native-image-crop-picker@npm:0.41.2"
+  version: 0.41.4
+  resolution: "react-native-image-crop-picker@npm:0.41.4"
   peerDependencies:
     react-native: ">=0.40.0"
-  checksum: 10c0/8df9baa7107ce5e6f1f9f84e6a0766e3019c6df3bbc95eb88a4d261065959df81c81dcb566a097ca780f8d745e489bed7e390d4fdfedde207b102080bdce81ad
+  checksum: 10c0/b229d6e12088bd651dc6106e81bd630a843b22ed5694518b68d707d88dd9a4ff0df0ec62779ff69f6052fb770f57ad97b5f04a30594b7cb6db320622bd4d4f78
   languageName: node
   linkType: hard
 
