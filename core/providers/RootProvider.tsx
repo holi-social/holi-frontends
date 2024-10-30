@@ -21,6 +21,11 @@ import PosthogProvider, { PosthogProviderProps } from '@holi/core/tracking/Posth
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
+const initialWindowMetricsForWeb = {
+  frame: { x: 0, y: 0, width: 0, height: 0 },
+  insets: { top: 0, left: 0, right: 0, bottom: 0 },
+}
+
 interface RootProviderProps {
   apolloClient: ApolloClient<object>
   posthogBootstrapState?: PosthogProviderProps['bootstrapState']
@@ -32,7 +37,7 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
   return (
     <ErrorBoundary showErrorMsg={isWeb} allowReload={isWeb}>
       <PosthogProvider bootstrapState={posthogBootstrapState}>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <SafeAreaProvider initialMetrics={isWeb ? initialWindowMetricsForWeb : initialWindowMetrics}>
           <ApolloProvider client={apolloClient}>
             <TrackingInitializer />
             <ToastProvider>
