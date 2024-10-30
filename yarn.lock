@@ -6390,7 +6390,7 @@ __metadata:
     "@ory/client": "npm:^1.1.21"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/datetimepicker": "npm:8.0.1"
-    "@react-native-community/netinfo": "npm:11.3.1"
+    "@react-native-community/netinfo": "npm:11.3.3"
     "@react-native-masked-view/masked-view": "npm:0.3.1"
     "@react-navigation/bottom-tabs": "npm:^6.4.0"
     "@react-navigation/native": "npm:^6.0.13"
@@ -9645,12 +9645,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/netinfo@npm:11.3.1":
-  version: 11.3.1
-  resolution: "@react-native-community/netinfo@npm:11.3.1"
+"@react-native-community/netinfo@npm:11.3.3":
+  version: 11.3.3
+  resolution: "@react-native-community/netinfo@npm:11.3.3"
   peerDependencies:
     react-native: ">=0.59"
-  checksum: 10c0/a74348321b262e6a99d01e5fa71473b34c12319845139cdf8e95fcd474b4022f9a3f50e506acecd7538ca44afbd75df09fce048184b1ea322edf45ed21ab134a
+  checksum: 10c0/286dbdf857946c4da5703fd73c76fa6c018fa895fbff83699386d8baebc359848401e2dff643198f7a37503c65a9d9a49b1c8e57b571afc8df8b0bb484a5461a
   languageName: node
   linkType: hard
 
