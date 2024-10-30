@@ -1,3 +1,5 @@
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, ViewStyle } from 'react-native'
@@ -17,7 +19,7 @@ export type LoginProfileButtonProps = {
 }
 
 const LoginProfileButton = ({
-  focused,
+  focused = false,
   children,
   style,
   ...props
@@ -26,8 +28,8 @@ const LoginProfileButton = ({
   const { user } = useLoggedInUser()
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles: unistyles } = useStyles(stylesheet)
 
   return (
     <HoliButton
@@ -51,10 +53,7 @@ const LoginProfileButton = ({
           testID="logged-in-profile"
         />
       ) : (
-        <HoliIcon
-          icon={focused ? AccountCircleFilled : AccountCircle}
-          color={focused ? colors.foreground30 : colors.foreground20}
-        />
+        <HoliIcon icon={focused ? AccountCircleFilled : AccountCircle} color={unistyles.icon(focused).color} />
       )}
 
       {children}
@@ -74,3 +73,9 @@ const getStyles = (theme: HoliTheme) =>
       borderWidth: 2,
     },
   })
+
+const stylesheet = createStyleSheet((theme) => ({
+  icon: (focused: boolean) => ({
+    color: focused ? theme.colors.text : theme.colors.textTertiary,
+  }),
+}))

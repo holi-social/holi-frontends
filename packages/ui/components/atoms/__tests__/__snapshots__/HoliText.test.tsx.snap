@@ -13,7 +13,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 16,
       "fontWeight": "400",
       "lineHeight": 22.4,
@@ -38,7 +38,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'fa
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 16,
       "fontWeight": "400",
       "lineHeight": 22.4,
@@ -63,7 +63,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 16,
       "fontWeight": "500",
       "lineHeight": 22.4,
@@ -88,7 +88,7 @@ exports[`renders correctly renders correctly when size is 'default', bold is 'tr
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 16,
       "fontWeight": "500",
       "lineHeight": 22.4,
@@ -113,7 +113,7 @@ exports[`renders correctly renders correctly when size is 'extralarge', bold is 
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 28,
       "fontWeight": "400",
       "lineHeight": 39.199999999999996,
@@ -138,7 +138,7 @@ exports[`renders correctly renders correctly when size is 'extralarge', bold is 
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 28,
       "fontWeight": "400",
       "lineHeight": 39.199999999999996,
@@ -163,7 +163,7 @@ exports[`renders correctly renders correctly when size is 'extralarge', bold is 
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 28,
       "fontWeight": "500",
       "lineHeight": 39.199999999999996,
@@ -188,7 +188,7 @@ exports[`renders correctly renders correctly when size is 'extralarge', bold is 
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 28,
       "fontWeight": "500",
       "lineHeight": 39.199999999999996,
@@ -213,7 +213,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 12,
       "fontWeight": "400",
       "lineHeight": 16.799999999999997,
@@ -238,7 +238,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 12,
       "fontWeight": "400",
       "lineHeight": 16.799999999999997,
@@ -263,7 +263,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 12,
       "fontWeight": "500",
       "lineHeight": 16.799999999999997,
@@ -288,7 +288,7 @@ exports[`renders correctly renders correctly when size is 'extrasmall', bold is 
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 12,
       "fontWeight": "500",
       "lineHeight": 16.799999999999997,
@@ -313,7 +313,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 21,
       "fontWeight": "400",
       "lineHeight": 29.4,
@@ -338,7 +338,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'fals
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 21,
       "fontWeight": "400",
       "lineHeight": 29.4,
@@ -363,7 +363,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 21,
       "fontWeight": "500",
       "lineHeight": 29.4,
@@ -388,7 +388,7 @@ exports[`renders correctly renders correctly when size is 'large', bold is 'true
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 21,
       "fontWeight": "500",
       "lineHeight": 29.4,
@@ -413,7 +413,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 14,
       "fontWeight": "400",
       "lineHeight": 19.599999999999998,
@@ -438,7 +438,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'fals
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 14,
       "fontWeight": "400",
       "lineHeight": 19.599999999999998,
@@ -463,7 +463,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 14,
       "fontWeight": "500",
       "lineHeight": 19.599999999999998,
@@ -488,7 +488,7 @@ exports[`renders correctly renders correctly when size is 'small', bold is 'true
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 14,
       "fontWeight": "500",
       "lineHeight": 19.599999999999998,

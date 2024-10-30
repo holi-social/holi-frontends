@@ -148,7 +148,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             style={
               {
                 "color": "#787777",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 14,
                 "fontWeight": "400",
                 "lineHeight": 19.599999999999998,
@@ -168,7 +168,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 14,
                   "fontWeight": "400",
                   "lineHeight": 19.599999999999998,
@@ -189,7 +189,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             style={
               {
                 "color": "#787777",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 12,
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
@@ -354,7 +354,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 14,
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
@@ -468,7 +468,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 14,
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
@@ -639,7 +639,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
               {
                 "alignContent": "flex-start",
                 "color": "#787777",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "justifyContent": "center",
@@ -660,7 +660,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
               style={
                 {
                   "color": "#787777",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 14,
                   "fontWeight": "400",
                   "lineHeight": 19.599999999999998,
@@ -687,7 +687,7 @@ I would like to join!
             style={
               {
                 "color": "#787777",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 12,
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
@@ -852,7 +852,7 @@ I would like to join!
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 14,
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
@@ -966,7 +966,7 @@ I would like to join!
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 14,
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,

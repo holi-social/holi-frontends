@@ -1,7 +1,7 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { loginStateLoggedIn, loginStateLoggedOut, loginStateUnknown } from '@holi/core/auth/loginState'
@@ -37,7 +37,7 @@ const TestComponent = () => {
 
   const state = isLoggedIn ? `isLoggedIn: ${user.id}` : isLoggedOut ? 'isLoggedOut' : 'isLoading'
 
-  return <Text>{state}</Text>
+  return <Text size="md">{state}</Text>
 }
 
 const mockUserRequest = () => {

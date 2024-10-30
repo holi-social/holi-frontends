@@ -10,7 +10,7 @@ const styles = (theme: HoliTheme) =>
     body: {
       color: theme.colors.foreground30,
       fontWeight: '400',
-      fontFamily: theme.fontFamily.default('Book'),
+      fontFamily: theme.fontFamily.default('Regular'),
     },
     h1: {
       marginBottom: 20,

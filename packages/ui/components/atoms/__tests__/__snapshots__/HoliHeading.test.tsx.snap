@@ -7,7 +7,7 @@ exports[`renders correctly renders correctly when size is 'l', level is '1', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 28,
       "fontWeight": "500",
       "lineHeight": 39.199999999999996,
@@ -26,7 +26,7 @@ exports[`renders correctly renders correctly when size is 'l', level is '1', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 28,
       "fontWeight": "500",
       "lineHeight": 39.199999999999996,
@@ -45,7 +45,7 @@ exports[`renders correctly renders correctly when size is 'l', level is '2', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 28,
       "fontWeight": "500",
       "lineHeight": 39.199999999999996,
@@ -64,7 +64,7 @@ exports[`renders correctly renders correctly when size is 'l', level is '2', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 28,
       "fontWeight": "500",
       "lineHeight": 39.199999999999996,
@@ -83,7 +83,7 @@ exports[`renders correctly renders correctly when size is 'l', level is '3', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 28,
       "fontWeight": "500",
       "lineHeight": 39.199999999999996,
@@ -102,7 +102,7 @@ exports[`renders correctly renders correctly when size is 'l', level is '3', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 28,
       "fontWeight": "500",
       "lineHeight": 39.199999999999996,
@@ -121,7 +121,7 @@ exports[`renders correctly renders correctly when size is 'm', level is '1', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 21,
       "fontWeight": "500",
       "lineHeight": 29.4,
@@ -140,7 +140,7 @@ exports[`renders correctly renders correctly when size is 'm', level is '1', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 21,
       "fontWeight": "500",
       "lineHeight": 29.4,
@@ -159,7 +159,7 @@ exports[`renders correctly renders correctly when size is 'm', level is '2', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 21,
       "fontWeight": "500",
       "lineHeight": 29.4,
@@ -178,7 +178,7 @@ exports[`renders correctly renders correctly when size is 'm', level is '2', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 21,
       "fontWeight": "500",
       "lineHeight": 29.4,
@@ -197,7 +197,7 @@ exports[`renders correctly renders correctly when size is 'm', level is '3', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 21,
       "fontWeight": "500",
       "lineHeight": 29.4,
@@ -216,7 +216,7 @@ exports[`renders correctly renders correctly when size is 'm', level is '3', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 21,
       "fontWeight": "500",
       "lineHeight": 29.4,
@@ -235,7 +235,7 @@ exports[`renders correctly renders correctly when size is 's', level is '1', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 16,
       "fontWeight": "500",
       "lineHeight": 22.4,
@@ -254,7 +254,7 @@ exports[`renders correctly renders correctly when size is 's', level is '1', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 16,
       "fontWeight": "500",
       "lineHeight": 22.4,
@@ -273,7 +273,7 @@ exports[`renders correctly renders correctly when size is 's', level is '2', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 16,
       "fontWeight": "500",
       "lineHeight": 22.4,
@@ -292,7 +292,7 @@ exports[`renders correctly renders correctly when size is 's', level is '2', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 16,
       "fontWeight": "500",
       "lineHeight": 22.4,
@@ -311,7 +311,7 @@ exports[`renders correctly renders correctly when size is 's', level is '3', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 16,
       "fontWeight": "500",
       "lineHeight": 22.4,
@@ -330,7 +330,7 @@ exports[`renders correctly renders correctly when size is 's', level is '3', sel
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 16,
       "fontWeight": "500",
       "lineHeight": 22.4,
@@ -349,7 +349,7 @@ exports[`renders correctly renders correctly when size is 'xl', level is '1', se
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 36,
       "fontWeight": "500",
       "lineHeight": 50.4,
@@ -368,7 +368,7 @@ exports[`renders correctly renders correctly when size is 'xl', level is '1', se
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 36,
       "fontWeight": "500",
       "lineHeight": 50.4,
@@ -387,7 +387,7 @@ exports[`renders correctly renders correctly when size is 'xl', level is '2', se
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 36,
       "fontWeight": "500",
       "lineHeight": 50.4,
@@ -406,7 +406,7 @@ exports[`renders correctly renders correctly when size is 'xl', level is '2', se
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 36,
       "fontWeight": "500",
       "lineHeight": 50.4,
@@ -425,7 +425,7 @@ exports[`renders correctly renders correctly when size is 'xl', level is '3', se
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 36,
       "fontWeight": "500",
       "lineHeight": 50.4,
@@ -444,7 +444,7 @@ exports[`renders correctly renders correctly when size is 'xl', level is '3', se
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Medium",
+      "fontFamily": "InstrumentSans-Medium",
       "fontSize": 36,
       "fontWeight": "500",
       "lineHeight": 50.4,

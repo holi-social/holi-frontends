@@ -1,3 +1,6 @@
+import { TextLink } from 'holi-bricks/components/text'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -24,7 +27,7 @@ import ChatHomeStackNavigator from '@holi/mobile/navigation/ChatHomeNavigator'
 import FeedNavigator from '@holi/mobile/navigation/FeedNavigator'
 import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -38,15 +41,27 @@ export type BottomTabsScreens = {
 
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 
+const BottomTabLabel = ({ label, focused }: { label: string; focused: boolean }) => {
+  const { styles } = useStyles(stylesheet)
+
+  return (
+    <HoliBox padding={[0, 0, 4, 0]}>
+      <TextLink size="xs" color={styles.label(focused).color}>
+        {label}
+      </TextLink>
+    </HoliBox>
+  )
+}
+
 const BottomTabsNavigator = () => {
   const { theme } = useTheme()
   const { colors } = theme
   const insets = useSafeAreaInsets()
 
-  const iconColor = (isActive: boolean) => (isActive ? colors.foreground30 : colors.foreground20)
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const styles = useMemo(() => getStyles(theme, insets), [theme, insets])
+  const { styles: unistyles } = useStyles(stylesheet)
 
   return (
     <BottomTabs.Navigator
@@ -64,13 +79,9 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} color={iconColor(focused)} />
+            return <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} color={unistyles.icon(focused).color} />
           },
-          tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
-              {t('navigation.home')}
-            </HoliText>
-          ),
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.home')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-home-view',
         }}
@@ -82,13 +93,9 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={iconColor(focused)} />
+            return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={unistyles.icon(focused).color} />
           },
-          tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
-              {t('navigation.spaces')}
-            </HoliText>
-          ),
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.spaces')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-spaces',
         }}
@@ -100,13 +107,9 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={iconColor(focused)} />
+            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={unistyles.icon(focused).color} />
           ),
-          tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
-              {t('navigation.act')}
-            </HoliText>
-          ),
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.act')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-act',
         }}
@@ -118,11 +121,7 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => <ChatBottomTabsNavigatorItem focused={focused} />,
-          tabBarLabel: ({ focused }) => (
-            <HoliText size="extrasmall" style={[{ color: iconColor(focused) }, styles.label]}>
-              {t('navigation.chat')}
-            </HoliText>
-          ),
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.chat')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-chat-view',
         }}
@@ -135,13 +134,7 @@ const BottomTabsNavigator = () => {
           headerShown: false,
           tabBarIcon: LoginProfileButton,
           tabBarLabel: ({ focused }) => (
-            <HoliText
-              size="extrasmall"
-              style={[{ color: iconColor(focused) }, styles.label]}
-              testID={isLoggedIn ? 'user-logged-in' : 'user-not-logged-in'}
-            >
-              {isLoggedIn ? t('navigation.profile') : t('navigation.login')}
-            </HoliText>
+            <BottomTabLabel label={isLoggedIn ? t('navigation.profile') : t('navigation.login')} focused={focused} />
           ),
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-profile-view',
@@ -167,7 +160,13 @@ const getStyles = (theme: HoliTheme, insets: EdgeInsets) =>
       borderTopWidth: StyleSheet.hairlineWidth,
       borderTopColor: theme.colors.foreground20,
     },
-    label: {
-      paddingBottom: 4,
-    },
   })
+
+const stylesheet = createStyleSheet((theme) => ({
+  label: (focused: boolean) => ({
+    color: focused ? theme.colors.text : theme.colors.textTertiary,
+  }),
+  icon: (focused: boolean) => ({
+    color: focused ? theme.colors.text : theme.colors.textTertiary,
+  }),
+}))

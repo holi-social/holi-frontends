@@ -53,7 +53,7 @@ exports[`FirstVisitOnboardingStep should render step with description about head
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "lineHeight": 22.4,
@@ -76,7 +76,7 @@ exports[`FirstVisitOnboardingStep should render step with description about head
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Medium",
+        "fontFamily": "InstrumentSans-Medium",
         "fontSize": 28,
         "fontWeight": "400",
         "lineHeight": 39.199999999999996,
@@ -136,7 +136,7 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Medium",
+        "fontFamily": "InstrumentSans-Medium",
         "fontSize": 21,
         "fontWeight": "500",
         "lineHeight": 29.4,
@@ -165,7 +165,7 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "lineHeight": 22.4,
@@ -266,7 +266,7 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
             {
               "color": "#262424",
               "flex": 1,
-              "fontFamily": "Circular Std Book",
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -366,7 +366,7 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
             {
               "color": "#262424",
               "flex": 1,
-              "fontFamily": "Circular Std Book",
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -466,7 +466,7 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
             {
               "color": "#262424",
               "flex": 1,
-              "fontFamily": "Circular Std Book",
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -566,7 +566,7 @@ exports[`FirstVisitOnboardingStep should render step with options 1`] = `
             {
               "color": "#262424",
               "flex": 1,
-              "fontFamily": "Circular Std Book",
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -645,7 +645,7 @@ exports[`FirstVisitOnboardingStep should render step without options 1`] = `
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Medium",
+        "fontFamily": "InstrumentSans-Medium",
         "fontSize": 21,
         "fontWeight": "500",
         "lineHeight": 29.4,
@@ -674,7 +674,7 @@ exports[`FirstVisitOnboardingStep should render step without options 1`] = `
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "lineHeight": 22.4,

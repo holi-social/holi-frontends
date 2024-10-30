@@ -138,7 +138,7 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
           style={
             {
               "color": "#262424",
-              "fontFamily": "Circular Std Book",
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -638,7 +638,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
           style={
             {
               "color": "#262424",
-              "fontFamily": "Circular Std Book",
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 16,
               "fontWeight": "400",
               "lineHeight": 22.4,
@@ -1305,7 +1305,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "Circular Std Book",
+                    "fontFamily": "InstrumentSans-Regular",
                     "fontSize": 16,
                     "fontWeight": "400",
                     "lineHeight": 22.4,
@@ -1327,7 +1327,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                 style={
                   {
                     "color": "#787777",
-                    "fontFamily": "Circular Std Book",
+                    "fontFamily": "InstrumentSans-Regular",
                     "fontSize": 14,
                     "fontWeight": "400",
                     "lineHeight": 19.599999999999998,
@@ -1348,7 +1348,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "Circular Std Book",
+                    "fontFamily": "InstrumentSans-Regular",
                     "fontSize": 16,
                     "fontWeight": "400",
                     "lineHeight": 22.4,
@@ -1494,7 +1494,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 16,
                           "fontWeight": "400",
                           "lineHeight": 22.4,
@@ -1669,7 +1669,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 16,
                           "fontWeight": "400",
                           "lineHeight": 22.4,
@@ -1845,7 +1845,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 16,
                           "fontWeight": "400",
                           "lineHeight": 22.4,
@@ -2020,7 +2020,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 16,
                           "fontWeight": "400",
                           "lineHeight": 22.4,

@@ -196,10 +196,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "Circular Std Medium",
-                    "fontSize": 21,
-                    "fontWeight": "500",
-                    "lineHeight": 29.4,
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
                     "userSelect": "auto",
                   }
                 }
@@ -208,20 +214,21 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
               </Text>
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
+                role="none"
                 selectable={true}
                 style={
                   {
-                    "color": "#787777",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 16,
+                    "color": "#8a8989",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
                     "fontWeight": "400",
-                    "lineHeight": 22.4,
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
                     "userSelect": "auto",
                   }
                 }
@@ -231,21 +238,21 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
             </View>
           </View>
           <Text
-            accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            selectable={true}
+            role="link"
+            selectable={false}
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Medium",
                 "fontSize": 15,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "500",
+                "letterSpacing": -0.03,
+                "lineHeight": 21,
+                "textAlign": undefined,
                 "userSelect": "auto",
               }
             }
@@ -538,7 +545,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     style={
                       {
                         "color": "#262424",
-                        "fontFamily": "Circular Std Medium",
+                        "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
                         "fontWeight": "500",
                         "lineHeight": 22.4,
@@ -570,7 +577,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     style={
                       {
                         "color": "#787777",
-                        "fontFamily": "Circular Std Book",
+                        "fontFamily": "InstrumentSans-Regular",
                         "fontSize": 12,
                         "fontWeight": "400",
                         "lineHeight": 16.799999999999997,
@@ -1026,7 +1033,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     style={
                       {
                         "color": "#262424",
-                        "fontFamily": "Circular Std Medium",
+                        "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
                         "fontWeight": "500",
                         "lineHeight": 22.4,
@@ -1058,7 +1065,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     style={
                       {
                         "color": "#787777",
-                        "fontFamily": "Circular Std Book",
+                        "fontFamily": "InstrumentSans-Regular",
                         "fontSize": 12,
                         "fontWeight": "400",
                         "lineHeight": 16.799999999999997,
@@ -1514,7 +1521,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     style={
                       {
                         "color": "#262424",
-                        "fontFamily": "Circular Std Medium",
+                        "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
                         "fontWeight": "500",
                         "lineHeight": 22.4,
@@ -1546,7 +1553,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     style={
                       {
                         "color": "#787777",
-                        "fontFamily": "Circular Std Book",
+                        "fontFamily": "InstrumentSans-Regular",
                         "fontSize": 12,
                         "fontWeight": "400",
                         "lineHeight": 16.799999999999997,
@@ -2002,7 +2009,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     style={
                       {
                         "color": "#262424",
-                        "fontFamily": "Circular Std Medium",
+                        "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
                         "fontWeight": "500",
                         "lineHeight": 22.4,
@@ -2034,7 +2041,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     style={
                       {
                         "color": "#787777",
-                        "fontFamily": "Circular Std Book",
+                        "fontFamily": "InstrumentSans-Regular",
                         "fontSize": 12,
                         "fontWeight": "400",
                         "lineHeight": 16.799999999999997,
@@ -2383,7 +2390,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                         style={
                           {
                             "color": "#000",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 10.8,
                             "fontWeight": "bold",
                             "lineHeight": 12.96,
@@ -2498,7 +2505,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                   style={
                     {
                       "color": "#262424",
-                      "fontFamily": "Circular Std Medium",
+                      "fontFamily": "InstrumentSans-Medium",
                       "fontSize": 14,
                       "fontWeight": "500",
                       "lineHeight": 19.599999999999998,
@@ -2714,10 +2721,16 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "Circular Std Medium",
-                    "fontSize": 21,
-                    "fontWeight": "500",
-                    "lineHeight": 29.4,
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 20,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": 0.2,
+                    "lineHeight": 24,
+                    "textAlign": undefined,
                     "userSelect": "auto",
                   }
                 }
@@ -2726,20 +2739,21 @@ exports[`ActHome Section shows DONATIONS 1`] = `
               </Text>
               <Text
                 accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
+                role="none"
                 selectable={true}
                 style={
                   {
-                    "color": "#787777",
-                    "fontFamily": "Circular Std Book",
-                    "fontSize": 16,
+                    "color": "#8a8989",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
                     "fontWeight": "400",
-                    "lineHeight": 22.4,
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
                     "userSelect": "auto",
                   }
                 }
@@ -2749,21 +2763,21 @@ exports[`ActHome Section shows DONATIONS 1`] = `
             </View>
           </View>
           <Text
-            accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            selectable={true}
+            role="link"
+            selectable={false}
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Medium",
                 "fontSize": 15,
-                "fontWeight": "400",
-                "lineHeight": 22.4,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "500",
+                "letterSpacing": -0.03,
+                "lineHeight": 21,
+                "textAlign": undefined,
                 "userSelect": "auto",
               }
             }
@@ -3096,7 +3110,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 14,
                           "fontWeight": "500",
                           "lineHeight": 19.599999999999998,
@@ -3177,7 +3191,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -3349,7 +3363,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 14,
                           "fontWeight": "500",
                           "lineHeight": 19.599999999999998,
@@ -3430,7 +3444,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -3602,7 +3616,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 14,
                           "fontWeight": "500",
                           "lineHeight": 19.599999999999998,
@@ -3683,7 +3697,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -3855,7 +3869,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 14,
                           "fontWeight": "500",
                           "lineHeight": 19.599999999999998,
@@ -3936,7 +3950,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -4108,7 +4122,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 14,
                           "fontWeight": "500",
                           "lineHeight": 19.599999999999998,
@@ -4189,7 +4203,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                         style={
                           {
                             "color": "#787777",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -4303,7 +4317,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                   style={
                     {
                       "color": "#262424",
-                      "fontFamily": "Circular Std Medium",
+                      "fontFamily": "InstrumentSans-Medium",
                       "fontSize": 14,
                       "fontWeight": "500",
                       "lineHeight": 19.599999999999998,
@@ -4556,10 +4570,16 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   style={
                     {
                       "color": "#262424",
-                      "fontFamily": "Circular Std Medium",
-                      "fontSize": 21,
-                      "fontWeight": "500",
-                      "lineHeight": 29.4,
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
                       "userSelect": "auto",
                     }
                   }
@@ -4568,20 +4588,21 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 </Text>
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
+                  role="none"
                   selectable={true}
                   style={
                     {
-                      "color": "#787777",
-                      "fontFamily": "Circular Std Book",
-                      "fontSize": 16,
+                      "color": "#8a8989",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
                       "fontWeight": "400",
-                      "lineHeight": 22.4,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
                       "userSelect": "auto",
                     }
                   }
@@ -5007,7 +5028,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                             style={
                               {
                                 "color": "#000",
-                                "fontFamily": "Circular Std Book",
+                                "fontFamily": "InstrumentSans-Regular",
                                 "fontSize": 10.8,
                                 "fontWeight": "bold",
                                 "lineHeight": 12.96,
@@ -5031,7 +5052,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -5068,7 +5089,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
@@ -5206,7 +5227,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -5336,7 +5357,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -5424,7 +5445,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 14,
                           "fontWeight": "400",
                           "lineHeight": 19.599999999999998,
@@ -5660,7 +5681,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -5697,7 +5718,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
@@ -5835,7 +5856,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -5965,7 +5986,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -6053,7 +6074,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 14,
                           "fontWeight": "400",
                           "lineHeight": 19.599999999999998,
@@ -6289,7 +6310,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -6326,7 +6347,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
@@ -6464,7 +6485,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -6594,7 +6615,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -6726,7 +6747,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 14,
                           "fontWeight": "400",
                           "lineHeight": 19.599999999999998,
@@ -6941,7 +6962,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                             style={
                               {
                                 "color": "#000",
-                                "fontFamily": "Circular Std Book",
+                                "fontFamily": "InstrumentSans-Regular",
                                 "fontSize": 10.8,
                                 "fontWeight": "bold",
                                 "lineHeight": 12.96,
@@ -6965,7 +6986,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -7002,7 +7023,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
@@ -7140,7 +7161,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -7270,7 +7291,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -7402,7 +7423,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 14,
                           "fontWeight": "400",
                           "lineHeight": 19.599999999999998,
@@ -7619,7 +7640,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                             style={
                               {
                                 "color": "#000",
-                                "fontFamily": "Circular Std Book",
+                                "fontFamily": "InstrumentSans-Regular",
                                 "fontSize": 10.8,
                                 "fontWeight": "bold",
                                 "lineHeight": 12.96,
@@ -7643,7 +7664,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -7680,7 +7701,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Medium",
+                          "fontFamily": "InstrumentSans-Medium",
                           "fontSize": 16,
                           "fontWeight": "500",
                           "lineHeight": 22.4,
@@ -7818,7 +7839,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -7948,7 +7969,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                           style={
                             {
                               "color": "#787777",
-                              "fontFamily": "Circular Std Book",
+                              "fontFamily": "InstrumentSans-Regular",
                               "fontSize": 12,
                               "fontWeight": "400",
                               "lineHeight": 16.799999999999997,
@@ -8036,7 +8057,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       style={
                         {
                           "color": "#262424",
-                          "fontFamily": "Circular Std Book",
+                          "fontFamily": "InstrumentSans-Regular",
                           "fontSize": 14,
                           "fontWeight": "400",
                           "lineHeight": 19.599999999999998,
@@ -8254,10 +8275,16 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   style={
                     {
                       "color": "#262424",
-                      "fontFamily": "Circular Std Medium",
-                      "fontSize": 21,
-                      "fontWeight": "500",
-                      "lineHeight": 29.4,
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
                       "userSelect": "auto",
                     }
                   }
@@ -8266,20 +8293,21 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                 </Text>
                 <Text
                   accessible={false}
-                  collapsable={false}
-                  jestAnimatedStyle={
-                    {
-                      "value": {},
-                    }
-                  }
+                  role="none"
                   selectable={true}
                   style={
                     {
-                      "color": "#787777",
-                      "fontFamily": "Circular Std Book",
-                      "fontSize": 16,
+                      "color": "#8a8989",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
                       "fontWeight": "400",
-                      "lineHeight": 22.4,
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
                       "userSelect": "auto",
                     }
                   }
@@ -8289,21 +8317,21 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
               </View>
             </View>
             <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={true}
+              role="link"
+              selectable={false}
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 15,
-                  "fontWeight": "400",
-                  "lineHeight": 22.4,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "500",
+                  "letterSpacing": -0.03,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
                   "userSelect": "auto",
                 }
               }
@@ -8813,7 +8841,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
+                            "fontFamily": "InstrumentSans-Medium",
                             "fontSize": 14,
                             "fontWeight": "500",
                             "lineHeight": 19.599999999999998,
@@ -8945,7 +8973,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -9130,7 +9158,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
+                            "fontFamily": "InstrumentSans-Medium",
                             "fontSize": 14,
                             "fontWeight": "500",
                             "lineHeight": 19.599999999999998,
@@ -9262,7 +9290,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -9447,7 +9475,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
+                            "fontFamily": "InstrumentSans-Medium",
                             "fontSize": 14,
                             "fontWeight": "500",
                             "lineHeight": 19.599999999999998,
@@ -9579,7 +9607,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -9764,7 +9792,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
+                            "fontFamily": "InstrumentSans-Medium",
                             "fontSize": 14,
                             "fontWeight": "500",
                             "lineHeight": 19.599999999999998,
@@ -9896,7 +9924,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -10179,7 +10207,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Medium",
+                            "fontFamily": "InstrumentSans-Medium",
                             "fontSize": 14,
                             "fontWeight": "500",
                             "lineHeight": 19.599999999999998,
@@ -10311,7 +10339,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                         style={
                           {
                             "color": "#262424",
-                            "fontFamily": "Circular Std Book",
+                            "fontFamily": "InstrumentSans-Regular",
                             "fontSize": 14,
                             "fontWeight": "400",
                             "lineHeight": 19.599999999999998,
@@ -10424,7 +10452,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                     style={
                       {
                         "color": "#262424",
-                        "fontFamily": "Circular Std Medium",
+                        "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 14,
                         "fontWeight": "500",
                         "lineHeight": 19.599999999999998,

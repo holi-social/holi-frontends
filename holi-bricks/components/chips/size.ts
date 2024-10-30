@@ -1,4 +1,4 @@
-import { TextSize } from 'holi-bricks/components/text/Text'
+import { TextSize } from 'holi-bricks/components/text'
 
 export const chipSizeToTextSize: Record<ChipSize, TextSize> = {
   sm: 'xs',

@@ -1,4 +1,6 @@
 import React, { useMemo } from 'react'
+// Will be resolved with HOLI-10367
+// eslint-disable-next-line no-restricted-imports
 import { StyleSheet, Text } from 'react-native'
 
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text } from 'react-native'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -20,14 +20,14 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({ throwError = true }) =>
     throw new HoliError('Test')
   }
 
-  return <Text>Child Content</Text>
+  return <Text size="md">Child Content</Text>
 }
 
 describe('ErrorBoundary', () => {
   it('renders child components without error', () => {
     const { queryByText } = render(
       <ErrorBoundary>
-        <Text>Child Content</Text>
+        <Text size="md">Child Content</Text>
       </ErrorBoundary>
     )
 

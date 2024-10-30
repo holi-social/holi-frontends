@@ -33,7 +33,7 @@ exports[`FilterPill renders correctly 1`] = `
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "lineHeight": 22.4,
@@ -79,7 +79,7 @@ exports[`FilterPill renders correctly 2`] = `
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "lineHeight": 22.4,
@@ -125,7 +125,7 @@ exports[`FilterPill renders correctly 3`] = `
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "lineHeight": 22.4,
@@ -171,7 +171,7 @@ exports[`FilterPill renders correctly 4`] = `
     style={
       {
         "color": "#262424",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "lineHeight": 22.4,

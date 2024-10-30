@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
-import { TextLink, TextLinkSize } from 'holi-bricks/components/text/TextLink'
+import { TextLink, TextLinkSize } from 'holi-bricks/components/text'
 import { black, mono, purple, red, white } from 'holi-bricks/tokens'
 import React from 'react'
 import { View } from 'react-native'
@@ -16,7 +16,7 @@ const exampleColors = {
 }
 
 const meta: Meta<typeof TextLink> = {
-  title: 'Components/TextLink',
+  title: 'Components/Text/TextLink',
   component: TextLink,
   argTypes: {
     children: { description: 'Text content', required: true },

@@ -109,7 +109,7 @@ exports[`React tree renders initials with colored background, when given image p
     style={
       {
         "color": "#fff",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 28.8,
         "fontWeight": "bold",
         "lineHeight": 34.56,

@@ -1,4 +1,5 @@
 import * as React from 'react'
+// eslint-disable-next-line no-restricted-imports
 import { AccessibilityProps, Platform, StyleSheet, Text, TextProps, TextStyle } from 'react-native'
 
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
@@ -31,6 +32,9 @@ export type HoliHeadingProps = {
   skeletonOptions?: SkeletonTextOptions
 }
 
+/**
+ * @deprecated Use `Text` from holi-bricks with `headingLevel` prop instead.
+ */
 export const HoliHeading = ({
   children,
   level = '2',

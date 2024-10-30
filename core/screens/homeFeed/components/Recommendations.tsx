@@ -1,4 +1,7 @@
 import { withProfiler } from '@sentry/react'
+import { Text } from 'holi-bricks/components/text'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -11,7 +14,6 @@ import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRe
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
@@ -28,11 +30,19 @@ export const useCardWidth = () => {
 const RecommendationsHeader = () => {
   const { t } = useTranslation()
   const subtitle = useRecosSubtitle()
+  const { styles } = useStyles(stylesheet)
 
   return (
     <HoliContainer>
-      <HoliHeading size="l">{t('recommendations.title')}</HoliHeading>
-      {subtitle && <HoliHeading size="m">{t(subtitle)}</HoliHeading>}
+      <Text headingLevel="2" size="3xl">
+        {t('recommendations.title')}
+      </Text>
+      <HoliGap size="xs" />
+      {subtitle && (
+        <Text size="md" color={styles.subtitle.color}>
+          {t(subtitle)}
+        </Text>
+      )}
     </HoliContainer>
   )
 }
@@ -73,3 +83,9 @@ const styles = StyleSheet.create({
     gap: dimensions.spacingL,
   },
 })
+
+const stylesheet = createStyleSheet((theme) => ({
+  subtitle: {
+    color: theme.colors.textSecondary,
+  },
+}))
