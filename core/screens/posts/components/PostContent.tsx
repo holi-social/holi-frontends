@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
@@ -95,39 +94,37 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
               {/* Action drawer (three dot menu) */}
               <HoliColumn>
-                <SafeAreaProvider>
-                  <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
-                    {/* Edit Action */}
-                    {/* editing only allowed for own content */}
-                    {spaceIdOrName && isCurrentUserPostCreator && (
-                      <HoliActionDrawer.Action
-                        icon={Edit2}
-                        title={t('spaces.updates.edit')}
-                        testID="edit-update"
-                        handleAction={editAction}
+                <HoliActionDrawer.Drawer label={t('insights.post.preview.more')} testID="post-three-dot-menu-button">
+                  {/* Edit Action */}
+                  {/* editing only allowed for own content */}
+                  {spaceIdOrName && isCurrentUserPostCreator && (
+                    <HoliActionDrawer.Action
+                      icon={Edit2}
+                      title={t('spaces.updates.edit')}
+                      testID="edit-update"
+                      handleAction={editAction}
+                    />
+                  )}
+                  {/* Report Action */}
+                  {/* reporting own content makes no sense, so we hide this option */}
+                  {!isCurrentUserPostCreator && (
+                    <HoliActionDrawer.Action
+                      isLoading={isLoadingReport}
+                      icon={Flag}
+                      title={t('global.report')}
+                      testID="report-comment-button"
+                      showConfirmation
+                    >
+                      <HoliActionDrawer.Confirmation
+                        title={t('insights.post.report.confirmation.title')}
+                        description={t('insights.post.report.confirmation.description')}
+                        handleConfirmation={reportContent}
+                        hasDismissBtn
+                        requireLogin
                       />
-                    )}
-                    {/* Report Action */}
-                    {/* reporting own content makes no sense, so we hide this option */}
-                    {!isCurrentUserPostCreator && (
-                      <HoliActionDrawer.Action
-                        isLoading={isLoadingReport}
-                        icon={Flag}
-                        title={t('global.report')}
-                        testID="report-comment-button"
-                        showConfirmation
-                      >
-                        <HoliActionDrawer.Confirmation
-                          title={t('insights.post.report.confirmation.title')}
-                          description={t('insights.post.report.confirmation.description')}
-                          handleConfirmation={reportContent}
-                          hasDismissBtn
-                          requireLogin
-                        />
-                      </HoliActionDrawer.Action>
-                    )}
-                  </HoliActionDrawer.Drawer>
-                </SafeAreaProvider>
+                    </HoliActionDrawer.Action>
+                  )}
+                </HoliActionDrawer.Drawer>
               </HoliColumn>
             </HoliColumns>
           </View>
