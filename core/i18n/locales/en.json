@@ -650,6 +650,8 @@
   "profile.settings.notifications.workflow.CHALLENGE_EVENT_SUMMARY": "Event summary",
   "profile.settings.notifications.workflow.CHALLENGE_KEEP_STREAK": "Streak reminders",
   "profile.settings.notifications.workflow.CHALLENGE_NEW_COMMENT": "Someone commented on your submission",
+  "profile.settings.notifications.workflow.CHALLENGE_EVENT_STARTING_TOMORROW": "Event starting tomorrow",
+  "profile.settings.notifications.workflow.CHALLENGE_EVENT_STARTS_NOW": "Event starts now",
   "profile.settings.notifications.workflow.CHAT": "New messages and invitation to chat",
   "profile.settings.notifications.workflow.COMMENT_REACTION": "Reactions to your comment",
   "profile.settings.notifications.workflow.GLOBAL": "All notifications",
