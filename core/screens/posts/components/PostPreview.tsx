@@ -7,7 +7,6 @@ import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import i18n from '@holi/core/i18n'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -63,12 +62,6 @@ const PostPreview = ({
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
   const { navigate } = useRouting()
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: post?.id || '',
-    contentType3k: ContentType3K.POST,
-    contentType: ContentType.POST,
-    successMsg: t('global.report.successMessage'),
-  })
 
   const { deletePost, isLoadingPostDeletion } = useDeletePost(post || ({} as Post), spaceIdOrName)
 
@@ -172,20 +165,11 @@ const PostPreview = ({
             {/* reporting own content makes no sense, so we hide this option */}
             {!isCurrentUserPostCreator && (
               <HoliActionDrawer.Action
-                isLoading={isLoadingReport}
                 icon={Flag}
                 title={t('global.report')}
                 testID="report-comment-button"
-                showConfirmation
-              >
-                <HoliActionDrawer.Confirmation
-                  title={t('insights.post.report.confirmation.title')}
-                  description={t('insights.post.report.confirmation.description')}
-                  handleConfirmation={reportContent}
-                  hasDismissBtn
-                  requireLogin
-                />
-              </HoliActionDrawer.Action>
+                handleAction={() => navigate(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
+              />
             )}
             {/* Edit Action */}
             {/* editing only allowed for own content */}

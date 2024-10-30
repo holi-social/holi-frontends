@@ -33,11 +33,14 @@ export const ReportContentMutation = gql`
     $contentType: ContentType!
     $moderationContentType: Moderation_ContentType!
     $details: String!
+    $reason: Moderation_Reason!
   ) {
     reportContent(contentType: $contentType, objectId: $objectId) {
       success
     }
-    moderation_createReport(input: { contentId: $objectId, details: $details, contentType: $moderationContentType }) {
+    moderation_createReport(
+      input: { contentId: $objectId, details: $details, contentType: $moderationContentType, reason: $reason }
+    ) {
       success
     }
   }
