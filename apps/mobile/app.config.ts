@@ -64,7 +64,9 @@ const config: ExpoConfig = {
     fallbackToCacheTimeout: 3000,
   },
   runtimeVersion: {
-    policy: 'fingerprint', // always target compatible native runtimes
+    // 'fingerprint' allows to always target compatible native runtimes, see https://expo.dev/blog/fingerprint-your-native-runtime
+    // temporarily reverted 'fingerprint' to 'sdkVersion' (see HOLI-10357)
+    policy: 'sdkVersion',
   },
   assetBundlePatterns: ['**/*'],
   ios: {
@@ -140,6 +142,7 @@ const config: ExpoConfig = {
         category: ['BROWSABLE', 'DEFAULT'],
       },
     ],
+    softwareKeyboardLayoutMode: 'pan',
   },
   plugins: [
     'expo-localization',

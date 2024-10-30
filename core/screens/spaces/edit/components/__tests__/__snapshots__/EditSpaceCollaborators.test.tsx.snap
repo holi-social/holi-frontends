@@ -545,7 +545,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
           }
         }
         exiting={[Function]}
-        id="undefined-panel-collaborators"
+        id="collaborator-tabs-panel-collaborators"
         jestAnimatedStyle={
           {
             "value": {},
@@ -1803,7 +1803,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
           }
         }
         exiting={[Function]}
-        id="undefined-panel-requests"
+        id="collaborator-tabs-panel-requests"
         jestAnimatedStyle={
           {
             "value": {},

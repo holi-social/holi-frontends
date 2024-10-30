@@ -1,9 +1,8 @@
+// eslint-disable-next-line no-restricted-imports
+import { Text } from 'holi-bricks/components/text/Text'
 import { Spacing } from 'holi-bricks/tokens'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-
-// eslint-disable-next-line no-restricted-imports
-import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { SelectorCard, SelectorCardInputType } from './SelectorCard'
 
@@ -88,7 +87,7 @@ export const Selector = ({
 
   return (
     <View style={styles.container}>
-      {title && <HoliText bold>{title}</HoliText>}
+      {title && <Text size="lg">{title}</Text>}
       <View style={[styles.cardContainer, row && styles.row]}>{content}</View>
     </View>
   )

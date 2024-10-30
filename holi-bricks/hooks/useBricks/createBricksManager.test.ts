@@ -18,16 +18,16 @@ describe('useBricks', () => {
   })
 
   it('should get the active theme', () => {
-    const { getActiveTheme } = createBricksManager(mockLibRuntime)
-    const theme = getActiveTheme()
+    const { getActiveThemeName } = createBricksManager(mockLibRuntime)
+    const theme = getActiveThemeName()
 
     expect(theme).toBe('light')
   })
 
   it('should update the themeName dynamically', () => {
     mockLibRuntime.themeName = 'dark'
-    const { getActiveTheme } = createBricksManager(mockLibRuntime)
+    const { getActiveThemeName } = createBricksManager(mockLibRuntime)
 
-    expect(getActiveTheme()).toBe('dark')
+    expect(getActiveThemeName()).toBe('dark')
   })
 })

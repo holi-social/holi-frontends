@@ -70,6 +70,7 @@ const DiscussionDetailPage = () => {
       navigationCustomOptions: {
         footerShown: false,
       },
+      headerTransparent: true,
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.discussions.pageTitle')}</HeaderTitle>
       ),

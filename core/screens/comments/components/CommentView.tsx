@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
@@ -115,44 +114,42 @@ const CommentView = ({
         </View>
 
         <HoliColumn>
-          <SafeAreaProvider>
-            <HoliActionDrawer.Drawer label={t('global.options')} testID="comment-three-dot-menu-button">
-              {/* reporting own content makes no sense, so we hide this option */}
-              {!isCurrentUserCommentCreator && (
-                <HoliActionDrawer.Action
-                  icon={Flag}
-                  title={t('global.report')}
-                  testID="report-comment-button"
-                  handleAction={() =>
-                    navigate(`/report/${comment.id}/${ContentType.POST_COMMENT}/${ContentType3K.COMMENT}`)
-                  }
-                />
-              )}
-              {/* deleting only allowed for own content */}
-              {isCurrentUserCommentCreator && (
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingDeleteComment}
-                  icon={Delete}
+          <HoliActionDrawer.Drawer label={t('global.options')} testID="comment-three-dot-menu-button">
+            {/* reporting own content makes no sense, so we hide this option */}
+            {!isCurrentUserCommentCreator && (
+              <HoliActionDrawer.Action
+                icon={Flag}
+                title={t('global.report')}
+                testID="report-comment-button"
+                handleAction={() =>
+                  navigate(`/report/${comment.id}/${ContentType.POST_COMMENT}/${ContentType3K.COMMENT}`)
+                }
+              />
+            )}
+            {/* deleting only allowed for own content */}
+            {isCurrentUserCommentCreator && (
+              <HoliActionDrawer.Action
+                isLoading={isLoadingDeleteComment}
+                icon={Delete}
+                title={t('comment.delete.title')}
+                variant="danger"
+                testID="delete-comment-button"
+                showConfirmation
+              >
+                <HoliActionDrawer.Confirmation
                   title={t('comment.delete.title')}
-                  variant="danger"
-                  testID="delete-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('comment.delete.title')}
-                    description={t('comment.delete.confirmation.description')}
-                    dismissText={t('comment.delete.confirmation.dismiss')}
-                    confirmText={t('comment.delete.confirmation.confirm')}
-                    testID="delete-comment"
-                    handleConfirmation={deleteComment}
-                    buttonType="warning"
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
-            </HoliActionDrawer.Drawer>
-          </SafeAreaProvider>
+                  description={t('comment.delete.confirmation.description')}
+                  dismissText={t('comment.delete.confirmation.dismiss')}
+                  confirmText={t('comment.delete.confirmation.confirm')}
+                  testID="delete-comment"
+                  handleConfirmation={deleteComment}
+                  buttonType="warning"
+                  hasDismissBtn
+                  requireLogin
+                />
+              </HoliActionDrawer.Action>
+            )}
+          </HoliActionDrawer.Drawer>
         </HoliColumn>
       </View>
 
