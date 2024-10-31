@@ -94,8 +94,8 @@ check_type_errors:
     - ./scripts/check-type-errors-count.sh $CI_COMMIT_SHA origin/main
   rules:
     - !reference [.rule_templates, not_on_git_tags]
-    - !reference [.rule_templates, automatically_on_any_other]
     - !reference [.rule_templates, any_but_production_staging]
+    - !reference [.rule_templates, automatically_on_any_other]
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:
