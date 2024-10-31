@@ -66,7 +66,7 @@ Primary.argTypes = {
 
 Primary.args = {
   data: tabs,
-  keyExtractor: ({ key }) => key,
+  keyExtractor: (item) => item.tabTitle,
   renderTabContent: ({ item }) => item.content(),
   activeTab: 'profile',
   onChange: () => {
