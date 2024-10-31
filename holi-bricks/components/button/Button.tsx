@@ -54,7 +54,6 @@ export const Button = ({
   )
 
   const isSpinning = loading || isProcessing
-
   return (
     <Pressable
       onPress={handlePress}
@@ -70,7 +69,7 @@ export const Button = ({
         {isSpinning && !disabled && (
           <View>
             <SpinningIconContainer spinning={loading}>
-              <HoliIcon icon={Loader} size={16} color={styles.text.color} />
+              <HoliIcon icon={Loader} size={16} color={styles.text} />
             </SpinningIconContainer>
           </View>
         )}
