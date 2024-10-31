@@ -66,8 +66,10 @@ Primary.argTypes = {
 
 Primary.args = {
   data: tabs,
-  keyExtractor: (item) => item.tabTitle,
-  renderTabContent: ({ item }) => item.content(),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  keyExtractor: (item) => (item as unknown as any).key,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderTabContent: ({ item }) => (item as unknown as any).content(),
   activeTab: 'profile',
   onChange: () => {
     null
