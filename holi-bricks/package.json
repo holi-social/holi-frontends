@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "web": "storybook dev -p 6006 -c storybook",
-    "build-storybook": "storybook build -c storybook",
+    "build": "storybook build -c storybook",
     "storybook-generate": "sb-rn-get-stories --config-path ondevice",
     "storybook": "cross-env STORYBOOK_ENABLED='true' expo start -c storybook",
     "build_ios": "npx eas-cli build --profile development-simulator --platform ios",
@@ -15,7 +15,8 @@
     "test": "jest",
     "clean": "npx rimraf storybook-static",
     "clean:all": "yarn clean && npx rimraf node_modules",
-    "lint": "TIMING=1 eslint ."
+    "lint": "TIMING=1 eslint .",
+    "publish-library": "npx chromatic --ci -b build --storybook-config-dir storybook --exit-zero-on-changes"
   },
   "peerDependencies": {
     "@react-native-community/datetimepicker": "8.0.1",
@@ -59,6 +60,7 @@
     "babel-loader": "^8.2.3",
     "babel-plugin-react-docgen-typescript": "^1.5.1",
     "babel-plugin-react-native-web": "^0.19.12",
+    "chromatic": "^11.16.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.33.0",
     "expo": "~51.0.38",

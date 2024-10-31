@@ -32,6 +32,7 @@
     "mobile:build_ios_dev_sim": "yarn workspace @holi/mobile build_ios_dev_sim",
     "storybook:dev": "yarn workspace @holi/storybook dev",
     "storybook:build": "yarn workspace @holi/storybook build",
+    "bricks:publish": "yarn workspace holi-bricks publish-library",
     "storybook:publish": "yarn workspace @holi/storybook publish-library",
     "web:dev": "yarn workspace @holi/web dev",
     "web:build": "yarn workspace @holi/web build",
