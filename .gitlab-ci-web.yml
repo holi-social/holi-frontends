@@ -136,6 +136,7 @@ storybook_publish:
         - '**/*.stories.tsx'
 holi_bricks_publish:
   needs: ['lint_compile_test']
+  when: manual
   environment:
     name: holi-bricks-main
     url: https://main--67210d8631103790622bc60c.chromatic.com
