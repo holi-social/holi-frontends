@@ -134,6 +134,30 @@ storybook_publish:
         - apps/storybook/**/*
         - packages/ui/**/*
         - '**/*.stories.tsx'
+holi_bricks_publish:
+  needs: ['lint_compile_test']
+  environment:
+    name: holi-bricks-main
+    url: https://main--67210d8631103790622bc60c.chromatic.com
+    deployment_tier: staging
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas' # too much, but since it is there...
+  script:
+    - yarn bricks:publish
+  dependencies: [] # explicitly disable artifact usage
+  artifacts:
+    paths:
+      - holi-bricks/build-storybook.log
+    expire_in: 1 week
+  interruptible: true
+  tags:
+    - 4cpu-16gb
+  rules:
+    - !reference [.rule_templates, not_on_git_tags]
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - holi-bricks/components/**/*
+        - '**/*.stories.tsx'
+        - '**/*.mdx'
 
 web_build_docker:
   needs: ['web_build']
