@@ -11,11 +11,7 @@ import {
   setLoginStateLoggedIn,
   setLoginStateLoggedOut,
 } from '@holi/core/auth/loginState'
-import {
-  AuthenticatedUserV2Response,
-  AuthenticatedUserV2Variables,
-  authenticatedUserV2Query,
-} from '@holi/core/domain/shared/queries'
+import { AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import {
   UpdateAuthenticatedUserInput,
@@ -112,9 +108,7 @@ const mockLocalStorage = (consentState?: ConsentState): void => {
   })
 }
 
-const mockAuthenticatedUserResponse = (
-  user: AuthenticatedUser
-): MockedResponse<AuthenticatedUserV2Response, AuthenticatedUserV2Variables> => ({
+const mockAuthenticatedUserResponse = (user: AuthenticatedUser): MockedResponse<AuthenticatedUserV2Response> => ({
   request: {
     query: authenticatedUserV2Query,
   },
@@ -367,7 +361,13 @@ describe('TrackingInitializer', () => {
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
-        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
+        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, {
+          isEmployee: user.isEmployee,
+          trackingConsentAnalytics: Consent.toBooleanOrNull(expectedConsentState[TrackingPurpose.Analytics]),
+          trackingConsentPersonalization: Consent.toBooleanOrNull(
+            expectedConsentState[TrackingPurpose.Personalization]
+          ),
+        })
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
       })
@@ -419,7 +419,13 @@ describe('TrackingInitializer', () => {
         await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
-        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
+        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, {
+          isEmployee: user.isEmployee,
+          trackingConsentAnalytics: Consent.toBooleanOrNull(expectedConsentState[TrackingPurpose.Analytics]),
+          trackingConsentPersonalization: Consent.toBooleanOrNull(
+            expectedConsentState[TrackingPurpose.Personalization]
+          ),
+        })
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
       })
@@ -469,7 +475,11 @@ describe('TrackingInitializer', () => {
         await waitFor(() => expect(onUpdateCompleted).toHaveBeenCalledTimes(1))
 
         expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
-        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
+        expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, {
+          isEmployee: user.isEmployee,
+          trackingConsentAnalytics: Consent.toBooleanOrNull(updatedConsentState[TrackingPurpose.Analytics]),
+          trackingConsentPersonalization: Consent.toBooleanOrNull(updatedConsentState[TrackingPurpose.Personalization]),
+        })
         const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
         expect(consentStateAfter).toEqual(updatedConsentState)
       })
@@ -563,7 +573,13 @@ describe('TrackingInitializer', () => {
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
-          expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, { isEmployee: user.isEmployee })
+          expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, {
+            isEmployee: user.isEmployee,
+            trackingConsentAnalytics: Consent.toBooleanOrNull(expectedMigratedConsentState[TrackingPurpose.Analytics]),
+            trackingConsentPersonalization: Consent.toBooleanOrNull(
+              expectedMigratedConsentState[TrackingPurpose.Personalization]
+            ),
+          })
           const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
           expect(consentStateAfter).toEqual(localStorageConsentState)
         })
