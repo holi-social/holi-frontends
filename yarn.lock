@@ -6447,8 +6447,8 @@ __metadata:
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
     lodash.partition: "npm:^4.6.0"
-    lottie-ios: "npm:4.4.3"
-    lottie-react-native: "npm:6.7.2"
+    lottie-ios: "npm:4.5.0"
+    lottie-react-native: "npm:7.0.0"
     posthog-react-native: "npm:^3.1.2"
     react: "npm:18.2.0"
     react-devtools: "npm:4.14.0"
@@ -25315,10 +25315,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-ios@npm:4.4.3":
-  version: 4.4.3
-  resolution: "lottie-ios@npm:4.4.3"
-  checksum: 10c0/d08f5f992726b16e65e3bfae4a1f4ad953baf3f2b0727c633281846a0b212595c74c16c763e4bdc18cca558f1d06cca07204faec59318d0065540d59372f9ac0
+"lottie-ios@npm:4.5.0":
+  version: 4.5.0
+  resolution: "lottie-ios@npm:4.5.0"
+  checksum: 10c0/5952324ea68303500dd9e79e04c25284f372a226b85a5bea09f96df0c136453c22ed0c3fa04a2ac9bce24dea125b69ec9328f75d7e79ea7dbe38652c230f1c23
   languageName: node
   linkType: hard
 
@@ -25339,6 +25339,26 @@ __metadata:
     react-native-windows:
       optional: true
   checksum: 10c0/a98ffa572b1f47edabec7e652926358bfe72b6ebce85ad91a52046859e097320f86b201c8848aec644673e8975b28ef8445abf42fac52812a38f9273f9bb4a5b
+  languageName: node
+  linkType: hard
+
+"lottie-react-native@npm:7.0.0":
+  version: 7.0.0
+  resolution: "lottie-react-native@npm:7.0.0"
+  peerDependencies:
+    "@dotlottie/react-player": ^1.6.1
+    "@lottiefiles/react-lottie-player": ^3.5.3
+    react: "*"
+    react-native: ">=0.46"
+    react-native-windows: ">=0.63.x"
+  peerDependenciesMeta:
+    "@dotlottie/react-player":
+      optional: true
+    "@lottiefiles/react-lottie-player":
+      optional: true
+    react-native-windows:
+      optional: true
+  checksum: 10c0/f3f5562d231bae8aa66a69af857b1664f913b6d404a2fb4c98722cd036d1121be9cb3f96e5ab8ec0d16b8d2a2ec067f43261d60b7dd96f4e117cf36c728db621
   languageName: node
   linkType: hard
 
