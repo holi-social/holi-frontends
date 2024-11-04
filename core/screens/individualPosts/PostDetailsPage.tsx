@@ -252,11 +252,7 @@ const PostDetailsPage = () => {
         </View>
       </ScrollHeaderLayout>
 
-      <View style={styles.commentWrapper}>
-        <HoliContainer flex={1}>
-          <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
-        </HoliContainer>
-      </View>
+      <PostDetailFooter onPress={onPressCreateComment} />
     </>
   )
 }
@@ -309,22 +305,6 @@ const getStyles = ({ colors }: HoliTheme, isSm = false) =>
     },
     reactions: {
       alignItems: 'flex-end',
-    },
-    commentWrapper: {
-      backgroundColor: colors.background10,
-      borderTopColor: colors.background30,
-      borderTopWidth: 1,
-      width: '100%',
-      height: 74,
-      ...Platform.select({
-        web: {
-          position: 'fixed',
-          bottom: 0,
-        },
-      }),
-    },
-    commentButton: {
-      flex: 1,
     },
     headerRight: {
       flexDirection: 'row',

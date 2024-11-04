@@ -106,11 +106,7 @@ const DiscussionDetailPage = () => {
         </HoliContainer>
       </ScrollHeaderLayout>
 
-      <View style={styles.commentWrapper}>
-        <HoliContainer flex={1}>
-          <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
-        </HoliContainer>
-      </View>
+      <PostDetailFooter onPress={onPressCreateComment} />
     </>
   )
 }
@@ -139,22 +135,6 @@ const getStyles = ({ colors }: HoliTheme) =>
       backgroundColor: colors.background10,
       borderBottomLeftRadius: Spacing.lg,
       borderBottomRightRadius: Spacing.lg,
-    },
-    commentWrapper: {
-      backgroundColor: colors.background10,
-      borderTopColor: colors.background30,
-      borderTopWidth: 1,
-      width: '100%',
-      height: 74,
-      ...Platform.select({
-        web: {
-          position: 'fixed',
-          bottom: 0,
-        },
-      }),
-    },
-    commentButton: {
-      flex: 1,
     },
   })
 

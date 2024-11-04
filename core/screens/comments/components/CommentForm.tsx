@@ -13,10 +13,12 @@ import {
   useWindowDimensions,
 } from 'react-native'
 import { LayoutChangeEvent } from 'react-native'
+import type { EdgeInsets } from 'react-native-safe-area-context'
 
 import { User } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
@@ -65,12 +67,13 @@ const CommentForm = ({
   const { height: screenHeight } = useWindowDimensions()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
+  const insets = useSafeAreaInsets()
 
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
 
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
+  const styles = useMemo(() => getStyles(screenHeight, insets, theme), [screenHeight, insets, theme])
 
   const commonQueries = [
     {
@@ -216,96 +219,95 @@ const CommentForm = ({
   }
 
   return (
-    <View style={styles.safeArea}>
-      <HoliContainer noPadding>
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-          <ScrollView
-            style={styles.scrollView}
-            keyboardShouldPersistTaps="handled"
-            ref={scrollViewRef}
-            contentContainerStyle={styles.content}
-          >
-            <View>
-              {children}
+    <HoliContainer noPadding flex={1}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
+        <ScrollView
+          style={styles.scrollView}
+          keyboardShouldPersistTaps="handled"
+          ref={scrollViewRef}
+          contentContainerStyle={styles.content}
+        >
+          <View>
+            {children}
 
-              {/* Comment input block */}
-              <HoliContainer>
-                {!parentComment && <VerticalLine style={styles.verticalLine} />}
-
-                <View style={styles.inputContainer}>
-                  <HoliAvatar
-                    imageSrc={user.avatar}
-                    imageBlurhash={user.avatarBlurhash}
-                    label={user.fullName || t('user.profileView.anonymous')}
-                    initials={user.avatarLabel || ''}
-                    defaultColor={user.avatarDefaultColor || ''}
-                    size={parentComment ? 'micro' : 'small'}
-                  />
-                  <HoliRichTextInput
-                    onLayout={onLayout}
-                    placeholder={t('comments.placeholder')}
-                    autofocus={true}
-                    onChange={setText}
-                    style={styles.textInput}
-                    testID="post-comment"
-                    showCharacterCount={true}
-                    maxNoOfCharacters={1500}
-                    maxSuggestionOptions={30}
-                    // initialValue is not yet supported on web
-                    {...(Platform.OS !== 'web' && parentComment && parentComment?.creator?.id !== user?.id
-                      ? {
-                          initialValue: ' ', // empty space after the parent comment's user mention
-                          initialSelectedSuggestion: {
-                            id: parentComment.creator.id,
-                            name: parentComment.creator.fullName,
-                          },
-                        }
-                      : {})}
-                  />
-                </View>
-              </HoliContainer>
-            </View>
-          </ScrollView>
-
-          {/* Bottom Bar */}
-          <View style={styles.bottomBar}>
-            {/* Suggestions*/}
-            <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
-
+            {/* Comment input block */}
             <HoliContainer>
-              <View style={styles.buttonContainer}>
-                <HoliButtonLoading
-                  disabled={!text.trim().length || createCommentLoading || detectLanguageLoading}
-                  loading={createCommentLoading || detectLanguageLoading}
-                  label={t('comments.button')}
-                  variant="small"
-                  inline
-                  onPress={handleCommentSubmit}
-                  testID="btn-submit-comment"
-                >
-                  {t('comments.button')}
-                </HoliButtonLoading>
+              {!parentComment && <VerticalLine style={styles.verticalLine} />}
+
+              <View style={styles.inputContainer}>
+                <HoliAvatar
+                  imageSrc={user.avatar}
+                  imageBlurhash={user.avatarBlurhash}
+                  label={user.fullName || t('user.profileView.anonymous')}
+                  initials={user.avatarLabel || ''}
+                  defaultColor={user.avatarDefaultColor || ''}
+                  size={parentComment ? 'micro' : 'small'}
+                />
+                <HoliRichTextInput
+                  onLayout={onLayout}
+                  placeholder={t('comments.placeholder')}
+                  autofocus={true}
+                  onChange={setText}
+                  style={styles.textInput}
+                  testID="post-comment"
+                  showCharacterCount={true}
+                  maxNoOfCharacters={1500}
+                  maxSuggestionOptions={30}
+                  // initialValue is not yet supported on web
+                  {...(Platform.OS !== 'web' && parentComment && parentComment?.creator?.id !== user?.id
+                    ? {
+                        initialValue: ' ', // empty space after the parent comment's user mention
+                        initialSelectedSuggestion: {
+                          id: parentComment.creator.id,
+                          name: parentComment.creator.fullName,
+                        },
+                      }
+                    : {})}
+                />
               </View>
             </HoliContainer>
           </View>
-        </KeyboardAvoidingView>
-        <NotificationOptInModal
-          type="default"
-          isVisible={modalVisible}
-          onConfirm={handleOptIn}
-          onDismiss={handleModalDismiss}
-          description={t('notifications.permission.description.default')}
-        />
-      </HoliContainer>
-    </View>
+        </ScrollView>
+
+        {/* Bottom Bar */}
+        <View style={styles.bottomBar}>
+          {/* Suggestions*/}
+          <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
+
+          <HoliContainer>
+            <View style={styles.buttonContainer}>
+              <HoliButtonLoading
+                disabled={!text.trim().length || createCommentLoading || detectLanguageLoading}
+                loading={createCommentLoading || detectLanguageLoading}
+                label={t('comments.button')}
+                variant="small"
+                inline
+                onPress={handleCommentSubmit}
+                testID="btn-submit-comment"
+              >
+                {t('comments.button')}
+              </HoliButtonLoading>
+            </View>
+          </HoliContainer>
+        </View>
+      </KeyboardAvoidingView>
+      <NotificationOptInModal
+        type="default"
+        isVisible={modalVisible}
+        onConfirm={handleOptIn}
+        onDismiss={handleModalDismiss}
+        description={t('notifications.permission.description.default')}
+      />
+    </HoliContainer>
   )
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
 const SUGGESTIONS_DROPDOWN_HEIGHT = 150
 const SMALL_DEVICE_HEIGHT = 600
+const CONTENT_PADDING_BOTTOM = 120
 
-const getStyles = (screenHeight: number, theme: HoliTheme) =>
+const getStyles = (screenHeight: number, insets: EdgeInsets, theme: HoliTheme) =>
   StyleSheet.create({
     pageView: {
       backgroundColor: theme.colors.background10,
@@ -316,16 +318,22 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
         web: {
           paddingBottom: dimensions.bottomBarHeight + Spacing.lg,
         },
+        android: {
+          marginBottom: insets.bottom,
+        },
       }),
+      flex: 1,
     },
     safeArea: {
       flex: 1,
-      overflow: 'hidden',
     },
     scrollView: {
       flex: 1,
+      paddingTop: dimensions.topBarHeight + insets.top,
     },
-    content: {},
+    content: {
+      paddingBottom: CONTENT_PADDING_BOTTOM,
+    },
     verticalLine: {
       marginTop: Spacing['3xs'],
       marginBottom: Spacing['3xs'],

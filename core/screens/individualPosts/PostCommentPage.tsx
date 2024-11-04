@@ -70,7 +70,7 @@ const PostCommentPage = () => {
     () =>
       setScreenOptions({
         title: t('comments.title'),
-        headerTransparent: false,
+        headerTransparent: true,
         navigationCustomOptions: {
           footerShown: false,
         },

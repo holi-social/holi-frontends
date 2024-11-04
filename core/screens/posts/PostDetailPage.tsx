@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useCallback, useMemo, useRef } from 'react'
+import React, { memo, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -31,7 +31,6 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type PostDetailPageParams = {
@@ -43,7 +42,6 @@ export type PostDetailPageParams = {
 
 const { useParam } = createParamHooks<PostDetailPageParams>()
 
-const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
 const PostDetailPage = () => {
@@ -63,8 +61,6 @@ const PostDetailPage = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { width: screenWidth } = useClientWindowDimensions()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
 
   const scrollViewRef = useRef<Animated.ScrollView>(null)
 
@@ -191,58 +187,39 @@ const PostDetailPage = () => {
         </View>
       </ScrollHeaderLayout>
 
-      <View style={styles.postCommentWrapper}>
-        <PostDetailFooter
-          style={[styles.postCommentButton, isWeb && mixins.container]}
-          onPress={() =>
-            isLoggedIn
-              ? navigate(getPostCommentUrl())
-              : openSignupModal({
-                  description: t('comments.loginRedirect.text'),
-                  trackTrigger: 'COMMENT_ON_POST',
-                })
-          }
-        />
-      </View>
+      <PostDetailFooter
+        onPress={() =>
+          isLoggedIn
+            ? navigate(getPostCommentUrl())
+            : openSignupModal({
+                description: t('comments.loginRedirect.text'),
+                trackTrigger: 'COMMENT_ON_POST',
+              })
+        }
+      />
     </>
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    postContent: {
-      marginTop: 12,
-    },
-    commentsView: {
-      paddingHorizontal: 20,
-      ...Platform.select({
-        web: {
-          paddingBottom: COMMENT_VIEW_PADDING_BOTTOM,
-        },
-      }),
-    },
-    commentConnector: {
-      marginTop: 12,
-      marginHorizontal: 20,
-    },
-    comment: {
-      marginTop: 12,
-    },
-    postCommentWrapper: {
-      borderTopColor: theme.colors.background30,
-      borderTopWidth: 1,
-      width: '100%',
-      height: COMMENT_BUTTON_CONTAINER_HEIGHT,
-      ...Platform.select({
-        web: {
-          position: 'fixed',
-          bottom: 0,
-        },
-      }),
-    },
-    postCommentButton: {
-      flex: 1,
-    },
-  })
+const styles = StyleSheet.create({
+  postContent: {
+    marginTop: 12,
+  },
+  commentsView: {
+    paddingHorizontal: 20,
+    ...Platform.select({
+      web: {
+        paddingBottom: COMMENT_VIEW_PADDING_BOTTOM,
+      },
+    }),
+  },
+  commentConnector: {
+    marginTop: 12,
+    marginHorizontal: 20,
+  },
+  comment: {
+    marginTop: 12,
+  },
+})
 
 export default withProfiler(memo(PostDetailPage), { name: 'PostDetailPage' })

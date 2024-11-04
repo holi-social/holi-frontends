@@ -15,6 +15,7 @@ import { CommentResponse, commentById } from '@holi/core/screens/comments/querie
 import { CommentableType } from '@holi/core/screens/comments/types'
 import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
 import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -71,7 +72,7 @@ const DiscussionCommentPage = () => {
     () =>
       setScreenOptions({
         title: t('comments.title'),
-        headerTransparent: false,
+        headerTransparent: true,
         navigationCustomOptions: {
           footerShown: false,
         },
@@ -94,22 +95,28 @@ const DiscussionCommentPage = () => {
         }`}
         parentComment={comment}
       >
-        <View style={styles.discussion}>
-          <DiscussionHeader question={discussion.question} />
-        </View>
-
-        {loadingComment && (
-          <View style={[styles.parentComment, styles.skeletonContainer]}>
-            <HoliSkeleton height={Spacing.xl} width={Spacing.xl} borderRadius={24} />
-            <HoliSkeleton height={Spacing['4xl']} width={'80%'} borderRadius={16} />
+        <HoliContainer noPadding>
+          <View style={styles.discussion}>
+            <DiscussionHeader question={discussion.question} />
           </View>
-        )}
 
-        {!!comment && (
-          <View style={styles.parentComment}>
-            <CommentView comment={comment} commentableId={discussion.id} commentableType={CommentableType.DISCUSSION} />
-          </View>
-        )}
+          {loadingComment && (
+            <View style={[styles.parentComment, styles.skeletonContainer]}>
+              <HoliSkeleton height={Spacing.xl} width={Spacing.xl} borderRadius={24} />
+              <HoliSkeleton height={Spacing['4xl']} width={'80%'} borderRadius={16} />
+            </View>
+          )}
+
+          {!!comment && (
+            <View style={styles.parentComment}>
+              <CommentView
+                comment={comment}
+                commentableId={discussion.id}
+                commentableType={CommentableType.DISCUSSION}
+              />
+            </View>
+          )}
+        </HoliContainer>
       </CommentForm>
     )
   )
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
   discussion: {
     ...Platform.select({
       ios: {
-        paddingTop: Spacing.xxs,
+        // paddingTop: Spacing.xxs,
       },
     }),
   },

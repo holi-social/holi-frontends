@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -19,11 +18,10 @@ const NotFound = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { navigate } = useRouting()
-  const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { theme } = useTheme()
   const { colors } = theme
 
-  const styles = getStyles(safeAreaInsetTop, theme)
+  const styles = getStyles(theme)
 
   useEffect(() => {
     setScreenOptions({
@@ -77,7 +75,7 @@ const NotFound = () => {
   )
 }
 
-const getStyles = (safeAreaInsetTop: number, theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     button: {
       marginTop: 24,
