@@ -18,8 +18,7 @@ import {
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError, logInfo, logInfoMsg } from '@holi/core/errors/helpers'
-import { chatServerLoginUrl } from '@holi/core/helpers/config'
-import { chatServerUrl } from '@holi/core/helpers/config'
+import { chatServerLoginUrl, chatServerUrl } from '@holi/core/helpers/config'
 import { getLogger } from '@holi/core/helpers/logging'
 import { registerDeviceTokenListener } from '@holi/core/screens/notifications/helpers/getDeviceToken'
 
@@ -43,10 +42,7 @@ let chatClient: ChatClient | undefined = undefined
 let isStarting = false
 let isStopping = false
 
-const unknownTokenHandler = async (
-  t: TFunction<'translation', undefined, 'translation'>,
-  deviceToken?: string
-): Promise<void> => {
+const unknownTokenHandler = async (t: TFunction, deviceToken?: string): Promise<void> => {
   if (!isStopping) {
     logInfoMsg('[chatSession] chat client has an invalid token: reconnecting')
     try {
@@ -59,10 +55,7 @@ const unknownTokenHandler = async (
   }
 }
 
-export const startChat = async (
-  t: TFunction<'translation', undefined, 'translation'>,
-  deviceToken?: string
-): Promise<void> => {
+export const startChat = async (t: TFunction, deviceToken?: string): Promise<void> => {
   if (isStarting || isStopping || chatClient?.isRunning()) return
 
   isStarting = true

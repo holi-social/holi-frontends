@@ -6,7 +6,7 @@ import { colors } from '@holi/ui/styles/globalVars'
 export const isString = (str: unknown): str is string => typeof str === 'string'
 export const isEmptyString = (str: string) => str.length === 0
 
-export const getChatMemberName = (t: TFunction<'translation', undefined, 'translation'>, name?: string): string => {
+export const getChatMemberName = (t: TFunction, name?: string): string => {
   if (!name || isMatrixId(name)) return t('chat.user.deleted')
   return name
 }
