@@ -49,7 +49,7 @@ describe('RelatedSpaces', () => {
       const parentSpace = createRelatedSpace()
       await renderComponent({ ...space, parentSpace })
 
-      expect(screen.queryByText('spaces.spaceDetails.parentSpace')).toBeOnTheScreen()
+      expect(screen.queryByText('spaces.spaceDetails.networkSpace')).toBeOnTheScreen()
       expect(screen.getByText(parentSpace.title)).toBeOnTheScreen()
     })
 
@@ -57,7 +57,7 @@ describe('RelatedSpaces', () => {
       await renderComponent({ ...space, childSpaces: { data: Array(5).fill(createRelatedSpace()), totalResults: 5 } })
 
       expect(screen.queryByTestId('main-space-item')).not.toBeOnTheScreen()
-      expect(screen.queryByText('spaces.spaceDetails.parentSpace')).not.toBeOnTheScreen()
+      expect(screen.queryByText('spaces.spaceDetails.networkSpace')).not.toBeOnTheScreen()
     })
   })
 
@@ -66,7 +66,7 @@ describe('RelatedSpaces', () => {
       const childSpaces = { data: Array.from({ length: 7 }, () => createRelatedSpace()), totalResults: 7 }
       await renderComponent({ ...space, childSpaces })
 
-      expect(screen.queryByText('spaces.spaceDetails.relatedSpaces')).toBeOnTheScreen()
+      expect(screen.queryByText('spaces.spaceDetails.linkedSpaces')).toBeOnTheScreen()
       expect(screen.queryAllByTestId('child-space-item')).toHaveLength(childSpaces.data.length)
       childSpaces.data.forEach((childSpace) => {
         expect(screen.getByText(childSpace.title)).toBeOnTheScreen()
@@ -77,7 +77,7 @@ describe('RelatedSpaces', () => {
       await renderComponent({ ...space, parentSpace: createRelatedSpace() })
 
       expect(screen.queryAllByTestId('child-spaces-section')).toHaveLength(0)
-      expect(screen.queryByText('spaces.spaceDetails.relatedSpaces')).not.toBeOnTheScreen()
+      expect(screen.queryByText('spaces.spaceDetails.linkedSpaces')).not.toBeOnTheScreen()
     })
   })
 })

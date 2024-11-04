@@ -85,14 +85,14 @@ const RelatedSpaces = () => {
         space?.parentSpace
           ? {
               id: 'parentSpace',
-              title: t('spaces.spaceDetails.parentSpace'),
+              title: t('spaces.spaceDetails.networkSpace'),
               data: space?.parentSpace ? [space?.parentSpace] : [],
             }
           : null,
         space?.childSpaces?.data.length
           ? {
               id: 'childSpaces',
-              title: t('spaces.spaceDetails.relatedSpaces'),
+              title: t('spaces.spaceDetails.linkedSpaces'),
               data: space?.childSpaces?.data ? [...space.childSpaces.data] : [],
             }
           : null,
