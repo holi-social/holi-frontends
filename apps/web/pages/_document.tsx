@@ -83,6 +83,11 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
           <link rel="icon" type="image/png" sizes="32x32" href={`/favicons/${env}/favicon-32x32.png`} />
           <link rel="icon" type="image/png" sizes="16x16" href={`/favicons/${env}/favicon-16x16.png`} />
           <link rel="manifest" href={`/favicons/${env}/site.webmanifest`} />;{promoteEnvVarToWindow('POSTHOG_KEY')}
+          {/*
+              FIXME: This script is needed for Matrix JS SDK version 4.3.*
+              because it uses global to reference the window object,
+              which does not seem to be exposed in next.js with webpack 5. Remember to remove this when it is solved.
+          */}
           <script
             dangerouslySetInnerHTML={{
               __html: 'var global=window;',
