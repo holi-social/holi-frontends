@@ -167,7 +167,7 @@ export default class ChatClient {
     return Object.fromEntries(spaceIdToChildIdsMap.entries())
   }
 
-  public constructor(credentials: ChatCredentials, t: TFunction<'translation', undefined, 'translation'>) {
+  public constructor(credentials: ChatCredentials, t: TFunction) {
     if (
       !credentials ||
       !credentials.baseUrl ||
@@ -231,10 +231,7 @@ export default class ChatClient {
     })
   }
 
-  public async updateDeviceToken(
-    deviceToken: string,
-    t: TFunction<'translation', undefined, 'translation'>
-  ): Promise<void> {
+  public async updateDeviceToken(deviceToken: string, t: TFunction): Promise<void> {
     this.deviceToken = deviceToken
     return this.configurePusher(t)
   }
@@ -244,7 +241,7 @@ export default class ChatClient {
    *
    * @returns a successful promise if succeed
    */
-  public async configurePusher(t: TFunction<'translation', undefined, 'translation'>): Promise<void> {
+  public async configurePusher(t: TFunction): Promise<void> {
     if (this.deviceToken) {
       // delegate to Platform-specific implementation (currently no-op for Web)
       return configurePusher(this.mxClient, this.deviceToken, t)

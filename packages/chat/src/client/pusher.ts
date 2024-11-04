@@ -21,11 +21,7 @@ const logger = getLogger('Chat')
  *
  * @returns a successful promise if succeed
  */
-export const configurePusher = async (
-  mxClient: MatrixClient,
-  pushkey: string,
-  t: TFunction<'translation', undefined, 'translation'>
-): Promise<void> => {
+export const configurePusher = async (mxClient: MatrixClient, pushkey: string, t: TFunction): Promise<void> => {
   const tokenType = Platform.OS
 
   const pushers: { pushers: IPusher[] } = await mxClient.getPushers()
