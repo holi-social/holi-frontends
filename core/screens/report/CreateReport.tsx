@@ -1,3 +1,5 @@
+import { Button } from 'holi-bricks/components/button/Button'
+import { Text } from 'holi-bricks/components/text'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, Pressable, StyleSheet, View } from 'react-native'
@@ -13,12 +15,8 @@ import FormLayout from '@holi/core/screens/individualPosts/components/FormLayout
 import GuidelinesModal from '@holi/core/screens/report/components/GuidelinesModal'
 import { ReportReason } from '@holi/core/screens/report/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft, Close, Information } from '@holi/icons/src/generated'
+import { Close, Information } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -61,7 +59,7 @@ const CreateReport = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
-      headerTitle: () => <HoliHeading size="s">{t('report.' + contentType + '.title')}</HoliHeading>,
+      headerTitle: () => <Text size="sm">{t('report.' + contentType + '.title')}</Text>,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={navigateBack} />,
       headerRight: () => (
         <Pressable onPress={showGuidelinesDrawer}>
@@ -104,28 +102,21 @@ const CreateReport = () => {
             <HoliContainer>
               <View style={styles.buttonContainer}>
                 {currentStep === 1 && (
-                  <HoliButton
+                  <Button
                     label={t('global.back')}
                     disabled={false}
+                    variant="secondary"
                     onPress={() => setCurrentStep(0)}
-                    inline
-                    testID="holi-wizard-back-btn"
-                    style={styles.backButton}
-                  >
-                    <HoliIcon icon={ArrowLeft} color={theme.colors.foreground30} />
-                  </HoliButton>
+                  />
                 )}
                 <Pressable
                   style={styles.submitButton}
                   onPress={() => currentStep === 1 && !termsAccepted && setShowTermsError(true)}
                 >
-                  <HoliButtonLoading
+                  <Button
                     label={currentStep === 0 ? t('global.next') : t('global.report')}
-                    inline
                     onPress={currentStep === 0 ? handleNext : handleSubmit}
-                    loading={currentStep === 1 && isLoadingReport}
-                    disabled={currentStep === 0 ? !selectedReason : !termsAccepted}
-                    style={styles.submitButton}
+                    disabled={isLoadingReport || (currentStep === 0 ? !selectedReason : !termsAccepted)}
                   />
                 </Pressable>
               </View>
@@ -137,9 +128,9 @@ const CreateReport = () => {
           {currentStep === 0 ? (
             <>
               <View style={styles.headingContainer}>
-                <HoliHeading size="m" weight="300">
+                <Text size="xl" headingLevel="2">
                   {t('report.reason.title')}
-                </HoliHeading>
+                </Text>
               </View>
               <View style={styles.reasonsContainer}>
                 {reasonsList.map((reason) => (
@@ -149,8 +140,10 @@ const CreateReport = () => {
                     style={[styles.card, selectedReason === reason && styles.selectedCard]}
                   >
                     <View style={styles.reasonTextContainer}>
-                      <HoliText bold>{t(`report.reason.${reason}.title`)}</HoliText>
-                      <HoliText color={'gray300'}>{t(`report.reason.${reason}.description`)}</HoliText>
+                      <Text size="lg">{t(`report.reason.${reason}.title`)}</Text>
+                      <Text size="sm" color="gray300">
+                        {t(`report.reason.${reason}.description`)}
+                      </Text>
                     </View>
                     <HoliCheckbox
                       shape="round"
@@ -168,16 +161,16 @@ const CreateReport = () => {
           ) : (
             <>
               <View style={styles.headingContainer}>
-                <HoliHeading size="m" weight="300">
+                <Text size="xl" headingLevel="2">
                   {t('report.details.title', { subject: t(`report.reason.${selectedReason}.title`).toLowerCase() })}
-                </HoliHeading>
-                <HoliText color="gray300" style={styles.description}>
+                </Text>
+                <Text size="sm" color="gray300">
                   {t(`report.reason.${selectedReason}.description`)}
-                </HoliText>
+                </Text>
               </View>
               <View style={styles.detailsContainer}>
                 <View style={styles.detailsInputContainer}>
-                  <HoliText>{t('report.details.label')}</HoliText>
+                  <Text size="sm">{t('report.details.label')}</Text>
                   <HoliTextInput
                     aria-label={t('report.details.placeholder')}
                     placeholder={t('report.details.placeholder')}
@@ -190,9 +183,9 @@ const CreateReport = () => {
                   />
                 </View>
                 {showTermsError && (
-                  <HoliText color="error200" style={styles.errorText} size="small">
+                  <Text color="red" size="sm">
                     {t('report.details.termsError')}
-                  </HoliText>
+                  </Text>
                 )}
                 <Pressable
                   style={styles.termsContainer}
@@ -208,7 +201,9 @@ const CreateReport = () => {
                     onSelect={() => setTermsAccepted(!termsAccepted)}
                     testID="terms-checkbox"
                   />
-                  <HoliText style={styles.termsText}>{t('report.guidelines.checkboxLabel')}</HoliText>
+                  <View style={styles.termsLabel}>
+                    <Text size="xs">{t('report.guidelines.checkboxLabel')}</Text>
+                  </View>
                 </Pressable>
               </View>
             </>
@@ -234,6 +229,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     headingContainer: {
       paddingTop: Platform.OS === 'web' ? Spacing.lg : Spacing.sm,
+      gap: Spacing['3xs'],
     },
     reasonsContainer: {
       gap: Spacing['3xs'],
@@ -272,19 +268,11 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       gap: Spacing['3xs'],
     },
-    backButton: {
-      borderRadius: Spacing['3xl'] / 2,
-      paddingHorizontal: 13,
-      flexWrap: 'nowrap',
-      backgroundColor: theme.colors.background10,
-    },
     submitButton: {
       alignSelf: 'center',
       flex: 1,
       width: '100%',
-    },
-    description: {
-      marginTop: Spacing.xs,
+      flexWrap: 'nowrap',
     },
     detailsContainer: {
       gap: Spacing['3xs'],
@@ -299,10 +287,7 @@ const getStyles = (theme: HoliTheme) =>
       gap: Spacing.xs,
       marginTop: Spacing.xs,
     },
-    termsText: {
+    termsLabel: {
       flex: 1,
-    },
-    errorText: {
-      marginBottom: -Spacing.xs,
     },
   })
