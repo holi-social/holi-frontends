@@ -1,9 +1,9 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar, { type AvatarShape } from '@holi/ui/components/molecules/HoliAvatar'
 
 interface Props {
@@ -22,7 +22,7 @@ const ChatRoomHeaderTitle = ({ href, name, ...avatarProps }: Props) => {
   const content = (
     <View style={styles.title}>
       <HoliAvatar label={name} {...avatarProps} size="micro" />
-      <HoliText bold>{name}</HoliText>
+      <Text size="lg">{name}</Text>
     </View>
   )
 

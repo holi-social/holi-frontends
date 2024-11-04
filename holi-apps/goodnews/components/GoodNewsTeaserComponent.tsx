@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -7,7 +8,6 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -88,7 +88,7 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
             resizeMode={'contain'}
           />
         )}
-        <HoliText style={styles.description}>
+        <Text size="md">
           <Trans t={t} i18nKey={'goodnews:listing.teaser.description'}>
             <HoliTextLink
               label={t('goodnews:listing.teaser.textLink.url')}
@@ -96,16 +96,16 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
               external
             />
           </Trans>
-        </HoliText>
+        </Text>
         <HoliButton
           label={t('goodnews:button.loadMoreArticles.label')}
           style={styles.loadMoreBtn}
           onPress={animateAndFetchMore}
           testID="btn-goodnews-list-load-more"
         >
-          <HoliText bold style={styles.btnText}>
-            {t('goodnews:listing.loadMoreButton.text')}
-          </HoliText>
+          <View style={styles.btnText}>
+            <Text size="lg">{t('goodnews:listing.loadMoreButton.text')}</Text>
+          </View>
         </HoliButton>
       </View>
       <Animated.View style={[styles.imageContainer, imageContainerAnimationStyle]}>
@@ -131,9 +131,6 @@ const getStyles = (theme: HoliTheme) =>
     loadMoreBtn: {
       width: 'auto',
       borderWidth: 1,
-    },
-    description: {
-      textAlign: 'center',
     },
     lookingForMore: {
       flex: 1,

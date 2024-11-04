@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useMemo } from 'react'
 import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -5,7 +6,6 @@ import CenteredContentLayout, { CenteredContentLayoutProps } from '@holi/core/co
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -59,7 +59,9 @@ const CenteredImageHeadlineDescriptionLayout = React.forwardRef<
                 {headlineText}
               </HoliHeading>
 
-              <HoliText style={styles.description}>{descriptionText}</HoliText>
+              <Text size={'md'} color={styles.description.color} textAlign="center">
+                {descriptionText}
+              </Text>
             </View>
             {children}
           </View>
@@ -84,7 +86,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     description: {
       color: theme.colors.foreground20,
-      textAlign: 'center',
     },
     textContainer: {
       gap: Spacing.xs,

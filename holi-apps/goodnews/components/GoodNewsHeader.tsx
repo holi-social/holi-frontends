@@ -1,8 +1,8 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { getCommonStyles } from '@holi-apps/goodnews/common_styles'
@@ -20,15 +20,17 @@ const GoodNewsHeader: React.FC<GoodNewsHeaderProps> = ({ formattedDate = undefin
 
   return (
     <View>
-      <HoliText style={[commonStyles.headerTextShadow, { color: colors.light }]}>{title}</HoliText>
+      <View style={commonStyles.headerTextShadow}>
+        <Text color={colors.light} size="md">
+          {title}
+        </Text>
+      </View>
       {formattedDate && (
-        <HoliText
-          size="extrasmall"
-          style={[commonStyles.headerTextShadow, { color: colors.light, alignSelf: 'center' }]}
-          testID="goodnews-header-date"
-        >
-          {formattedDate}
-        </HoliText>
+        <View style={[commonStyles.headerTextShadow, { alignSelf: 'center' }]}>
+          <Text size="xs" color={colors.light}>
+            {formattedDate}
+          </Text>
+        </View>
       )}
     </View>
   )

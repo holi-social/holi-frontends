@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -7,7 +8,6 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
 import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
@@ -67,7 +67,7 @@ export const VolunteeringRecosSliderCard = ({
         !!engagement.location && (
           <View style={styles.locationFooter}>
             <HoliIcon icon={Globe} testID={'volunteering-reco-slider-card-location-icon'} />
-            <HoliText size="small">{engagement.location}</HoliText>
+            <Text size="sm">{engagement.location}</Text>
           </View>
         )
       }

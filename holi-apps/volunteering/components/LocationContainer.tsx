@@ -1,16 +1,16 @@
+import { Text, TextSize } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe } from '@holi/icons/src/generated'
-import HoliText, { HoliTextSize } from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 
 type LocationContainerProps = {
   locationName: string
   iconSize?: number
   iconColor?: string
-  fontSize?: HoliTextSize
+  fontSize?: TextSize
   fontColor?: string
 }
 
@@ -18,7 +18,7 @@ const LocationContainer: React.FC<LocationContainerProps> = ({
   locationName,
   iconSize = 14,
   iconColor,
-  fontSize = 'small',
+  fontSize = 'sm',
   fontColor,
 }: LocationContainerProps) => {
   const { theme } = useTheme()
@@ -27,9 +27,9 @@ const LocationContainer: React.FC<LocationContainerProps> = ({
   return (
     <View style={styles.container}>
       <HoliIcon icon={Globe} size={iconSize} color={iconColor || colors.foreground20} style={styles.locationIcon} />
-      <HoliText size={fontSize} style={{ color: fontColor || colors.foreground20 }}>
+      <Text size={fontSize} color={fontColor || colors.foreground20}>
         {locationName}
-      </HoliText>
+      </Text>
     </View>
   )
 }

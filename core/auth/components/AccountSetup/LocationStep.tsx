@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, View } from 'react-native'
@@ -9,8 +10,6 @@ import PlacesAutocomplete, {
   PlacesAutocompleteProps,
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { ScrollToProps, useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -42,12 +41,12 @@ const LocationStep = ({ testID, scrollToInputWithId, ...placesAutocompleteProps 
 
   return (
     <View testID={testID}>
-      <HoliHeading level="1" size="l" testID="account-setup-location-step-headline">
+      <Text size="3xl" headingLevel="1">
         {t('registration.accountSetup.location.heading')}
-      </HoliHeading>
+      </Text>
 
       <HoliGap size="s" />
-      <HoliText>{t('registration.accountSetup.location.describtion')}</HoliText>
+      <Text size={'md'}>{t('registration.accountSetup.location.describtion')}</Text>
 
       <HoliGap size="m" />
       <PlacesAutocomplete

@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -5,7 +6,6 @@ import { StyleSheet, View } from 'react-native'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
@@ -60,16 +60,14 @@ const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engag
           <HoliGap size={'xs'} />
         </>
       )}
-      <HoliText size={'default'} bold={true}>
-        {title}
-      </HoliText>
+      <Text size={'lg'}>{title}</Text>
       <HoliGap size={'xxs'} />
       {!!engagement.location && (
         <View style={styles.locationContainer}>
           <HoliIcon icon={Globe} size={14} color={colors.foreground20} style={styles.locationIcon} />
-          <HoliText size={'small'} style={styles.locationText}>
+          <Text size={'sm'} color={styles.locationText.color}>
             {engagement.location}, {country}
-          </HoliText>
+          </Text>
         </View>
       )}
     </View>

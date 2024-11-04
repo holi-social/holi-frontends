@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
@@ -24,7 +25,6 @@ import { ShareBox } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -199,7 +199,7 @@ const VolunteeringEngagementDetail = () => {
   const Organizer = ({ organizer: organizer }: { organizer: Organizer }) => {
     return (
       <View style={{ marginTop: 10 }}>
-        <HoliText size={'large'}>{t('volunteering:engagementDetail.organizer')}</HoliText>
+        <Text size={'xxl'}>{t('volunteering:engagementDetail.organizer')}</Text>
         <View style={styles.organizerInfoRow}>
           {(!!organizer.imageUrl && (
             <HoliImage
@@ -209,7 +209,9 @@ const VolunteeringEngagementDetail = () => {
               resizeMode={'contain'}
             />
           )) || <></>}
-          <HoliText style={styles.organizerName}>{organizer.name}</HoliText>
+          <View style={styles.organizerName}>
+            <Text size={'md'}>{organizer.name}</Text>
+          </View>
         </View>
       </View>
     )
@@ -221,7 +223,7 @@ const VolunteeringEngagementDetail = () => {
         style={[styles.cardContainer, windowWidth > 0 && { maxWidth: windowWidth }]}
         testID="volunteering-engagement-description"
       >
-        <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
+        <Text size={'xxl'}>{t('volunteering:engagementDetail.aboutEngagement')}</Text>
         <RenderHtml source={{ html: `${description}` }} contentWidth={windowWidth} />
         {organizer && <Organizer organizer={organizer} />}
       </View>

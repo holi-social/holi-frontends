@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -5,7 +6,6 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 interface LoginRegistrationContainerProps {
@@ -24,7 +24,7 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
   if (isLoading) return <HoliLoader />
 
   return isLoggedIn ? (
-    <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
+    <Text size="md">{t('auth.login.alreadyLoggedIn')}</Text>
   ) : (
     <View style={[styles.viewContainer, style]}>{children}</View>
   )

@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
@@ -21,8 +22,6 @@ import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
@@ -134,11 +133,15 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
     <HoliKeyboardSaveView>
       <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="handled">
         <View style={styles.inner}>
-          <HoliHeading level="1" size="m" testID="sign-up-headline">
+          <Text headingLevel="1" size="xxl">
             {t('registration.signUp.heading')}
-          </HoliHeading>
+          </Text>
 
-          <HoliText style={styles.description}>{t('registration.signUp.description')}</HoliText>
+          <View style={styles.description}>
+            <Text color={styles.description.color} size="md">
+              {t('registration.signUp.description')}
+            </Text>
+          </View>
           <FormBuilder
             flow={flow}
             onSubmit={onSubmit}

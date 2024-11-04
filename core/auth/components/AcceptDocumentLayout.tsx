@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
@@ -9,7 +10,6 @@ import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliModal, { UseModalStateHook } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -92,7 +92,7 @@ const AcceptDocumentLayout = ({
         testID={`${testID}-checkbox`}
         aria-label={checkboxLabelTranslation}
       >
-        <HoliText size="small">
+        <Text size="sm">
           <Trans t={t} i18nKey={checkboxLabelTranslation}>
             {documents.map(({ url, navPath, modalHook }) => (
               <HoliTextLink
@@ -107,7 +107,7 @@ const AcceptDocumentLayout = ({
               />
             ))}
           </Trans>
-        </HoliText>
+        </Text>
       </HoliCheckbox>
       {documents.map((document) => (
         <HoliModal

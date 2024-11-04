@@ -1,9 +1,9 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
@@ -25,7 +25,11 @@ const VolunteeringPartnerCard: React.FC<VolunteeringPartnerContainerProps> = ({
   const styles = useMemo(() => getStyles(theme), [theme])
   return (
     <View style={styles.cardContainer}>
-      {!!headline && <HoliText size="large">{headline}</HoliText>}
+      {!!headline && (
+        <Text size="xxl" headingLevel="1">
+          {headline}
+        </Text>
+      )}
       <HoliGap size="s" />
       <PartnerInfoRow
         headline={headline}

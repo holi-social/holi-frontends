@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -14,7 +15,6 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -88,16 +88,16 @@ export const VolunteeringEngagementList = ({
           />
           {isFiltering ? (
             <View style={styles.headingRow}>
-              <HoliText bold style={{ color: colors.foreground20 }}>
+              <Text size="lg" color={colors.foreground20}>
                 {t('volunteering:filter.result', {
                   count: totalResults,
                 })}
-              </HoliText>
+              </Text>
             </View>
           ) : (
             <>
               <HoliGap size="ml" />
-              <HoliText size="large">{t(subtitle)}</HoliText>
+              <Text size="xxl">{t(subtitle)}</Text>
             </>
           )}
         </View>

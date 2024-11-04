@@ -4,13 +4,13 @@
    However, JanOle and Max couldn't get it running on shorthand so we simply use
    it in other apps from volunteering app now
  */
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { memo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -57,7 +57,7 @@ const PartnerInfoRow: React.FC<PartnerInfoRowProps> = ({
         }
         {!!rowText && (
           <View style={{ flex: 3 }}>
-            <HoliText>{rowText}</HoliText>
+            <Text size={'md'}>{rowText}</Text>
           </View>
         )}
         {showOutlinkIcon && partners[0]?.url && <HoliIcon icon={ShareBox} size={20} color={colors.foreground30} />}
