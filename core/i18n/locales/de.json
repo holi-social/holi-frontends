@@ -772,6 +772,12 @@
   "report.guidelines.howWeModerate": "Wie wir moderieren",
   "report.guidelines.close": "Schließen",
 
+  "report.details.title": "Möchtest du {{subject}} melden?",
+  "report.details.label": "Beschreibung",
+  "report.details.placeholder": "Beschreibe kurz worum es geht, damit wir effektiv handeln können...",
+  "report.guidelines.checkboxLabel": "Indem ich dies melde, versichere ich, dass ich glaube, eine richtige und vollständige Meldung abzugeben.*",
+  "report.details.termsError": "Checkbox ist notwending",
+
   "search.filter.all": "Alle",
   "search.filter.reset": "Filter löschen",
   "search.filter.spaces": "Spaces",
