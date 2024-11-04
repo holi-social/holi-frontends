@@ -771,6 +771,12 @@
   "report.guidelines.howWeModerate": "How we moderate",
   "report.guidelines.close": "Close",
 
+  "report.details.title": "You want to report {{subject}}?",
+  "report.details.label": "Description",
+  "report.details.placeholder": "Briefly describe what it's about so we can take effective action...",
+  "report.guidelines.checkboxLabel": "By reporting this, I assure that I believe I am making a correct and complete report.*",
+  "report.details.termsError": "Checkbox is mandatory",
+
   "search.filter.all": "All",
   "search.filter.reset": "Clear filter",
   "search.filter.spaces": "Spaces",

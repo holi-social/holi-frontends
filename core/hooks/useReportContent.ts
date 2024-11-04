@@ -15,6 +15,7 @@ export interface UseReportContentProps {
   contentType3k: ContentType3K
   successMsg: string
   reason: ReportReason
+  details?: string
 }
 
 const useReportContent = ({
@@ -22,6 +23,7 @@ const useReportContent = ({
   contentType,
   contentType3k,
   successMsg,
+  details = 'no details',
   reason,
 }: UseReportContentProps): UseReportContent => {
   const { openToast } = useToast()
@@ -32,7 +34,7 @@ const useReportContent = ({
       objectId: id,
       contentType,
       moderationContentType: contentType3k,
-      details: 'no details',
+      details,
       reason,
     },
     onCompleted: () => {
