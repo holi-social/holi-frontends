@@ -47,7 +47,7 @@ const useReportContent = ({
       let isOwnContent
 
       try {
-        isAlreadyReported = JSON.stringify(e.graphQLErrors).includes('You have already reported this post')
+        isAlreadyReported = JSON.stringify(e.graphQLErrors).includes('You have already reported')
         isOwnContent = JSON.stringify(e.graphQLErrors).includes('You cannot report your own')
       } catch (error) {
         // ignore
