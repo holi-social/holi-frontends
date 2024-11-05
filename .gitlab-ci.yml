@@ -99,6 +99,7 @@ lint_compile_test:
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   cache: !reference [.yarn-cache-readonly]
   script:
+    - corepack enable
     - yarn install --immutable --immutable-cache
     - yarn lint
     - yarn test
