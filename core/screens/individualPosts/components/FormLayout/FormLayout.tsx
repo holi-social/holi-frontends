@@ -1,11 +1,11 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useHeaderHeight } from '@react-navigation/elements'
 
 import { PortalGate } from '@holi/core/providers/PortalProvider'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface FormLayoutProps {
@@ -22,7 +22,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
   const headerHeight = useHeaderHeight()
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
+    <SafeArea style={styles.safeArea} edges={['bottom']}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -41,7 +41,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
           {bottomBar}
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeArea>
   )
 }
 

@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
@@ -31,6 +31,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
@@ -193,7 +194,7 @@ const ChatRoomView = () => {
       <View style={styles.layoutWarpper}>
         <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
           <Animated.View entering={FadeIn} style={{ flex: 1 }}>
-            <SafeAreaView style={styles.safeArea}>
+            <SafeArea style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
                   {room.hasInvitation ? (
@@ -233,7 +234,7 @@ const ChatRoomView = () => {
                   roomId={roomId}
                 />
               </View>
-            </SafeAreaView>
+            </SafeArea>
           </Animated.View>
         </PermissionsGuard>
       </View>

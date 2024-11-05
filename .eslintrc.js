@@ -40,6 +40,11 @@ module.exports = {
             message: 'Please use components from holi-bricks instead.',
           },
           {
+            name: 'react-native',
+            importNames: ['SafeAreaView'],
+            message: 'Please use SafeArea from packages/ui instead.',
+          },
+          {
             name: 'react-native-unistyles',
             importNames: ['createStyleSheet', 'useStyles'],
             message: 'Please use hooks and utils from holi-bricks instead.',
