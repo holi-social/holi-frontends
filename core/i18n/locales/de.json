@@ -232,6 +232,7 @@
   "global.proceed": "Fortfahren",
   "global.report": "Melden",
   "global.report.alreadyReportedMessage": "Du hast diesen Inhalt bereits gemeldet. Wir sind bereits dabei.",
+  "global.report.ownContentMessage": "Du kannst deinen eigenen Inhalt nicht melden.",
   "global.report.successMessage": "Danke für deine Meldung. Wir schauen uns das schnellstmöglich an",
   "global.reset": "Zurücksetzen",
   "global.save": "Speichern",

@@ -44,9 +44,11 @@ const useReportContent = ({
     },
     onError: (e) => {
       let isAlreadyReported = false
+      let isOwnContent
 
       try {
         isAlreadyReported = JSON.stringify(e.graphQLErrors).includes('You have already reported this post')
+        isOwnContent = JSON.stringify(e.graphQLErrors).includes('You cannot report your own')
       } catch (error) {
         // ignore
       }
@@ -55,7 +57,11 @@ const useReportContent = ({
         location: 'useReportContent',
         id,
         contentType,
-        ...(isAlreadyReported && { displayMessage: t('global.report.alreadyReportedMessage') }),
+        ...((isAlreadyReported || isOwnContent) && {
+          displayMessage: t(
+            isAlreadyReported ? 'global.report.alreadyReportedMessage' : 'global.report.ownContentMessage'
+          ),
+        }),
       })
     },
   })
