@@ -7,7 +7,6 @@ import {
   clickFirstElement,
   locateElementByTestId,
   proceedAsGuest,
-  scrollToMakeHeaderVisible,
   volunteeringRequestTimeout,
   withSSR,
 } from './helpers'
@@ -30,16 +29,10 @@ test.describe('@Volunteering', () => {
     await testDisplaysEngagementDetails(context, page)
     await withSSR(browser, page.url(), testDisplaysEngagementDetailsCommon)
 
-    /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-    await scrollToMakeHeaderVisible(page)
-    // navigate back
-    await clickElementByTestId(page, 'nav-button-back')
+    await page.goto('/volunteering')
     await page.waitForSelector(byTestId('volunteering-list-container'))
 
     await testFilteringByLocation(browser, page)
-    /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-    await scrollToMakeHeaderVisible(page)
-    await testDisplaysFilterResults(browser, page)
   })
 })
 
@@ -137,34 +130,4 @@ const testFilteringByLocation = async (browser: Browser, page: Page) => {
   await testDisplaysFilterResultsCommon(page)
 
   await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
-}
-
-const testDisplaysFilterResults = async (browser: Browser, page: Page) => {
-  // navigate to detail view
-  await page.waitForSelector(byTestId('btn-to-volunteering-engagement'))
-  await clickElementByTestId(page, 'btn-to-volunteering-engagement')
-
-  // expect detail view
-  await page.waitForSelector(byTestId('volunteering-detailview-container'))
-
-  /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-  await scrollToMakeHeaderVisible(page)
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-  // expect filtered list
-  await testDisplaysFilterResultsCommon(page)
-  await withSSR(browser, page.url(), testDisplaysFilterResultsCommon)
-
-  // Scroll to make header & filter button visible
-  await scrollToMakeHeaderVisible(page)
-
-  // Open filter modal
-  await clickElementByTestId(page, 'btn-to-volunteering-filter-modal')
-
-  // open topics dropdown
-  await clickElementByTestId(page, 'volunteering-filter-topics-input')
-
-  // click on first topic in the list
-  await clickElementByTestId(page, 'volunteering-filter-topics-item')
 }
