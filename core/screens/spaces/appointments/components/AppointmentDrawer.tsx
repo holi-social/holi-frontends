@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { Appointment } from '@holi/core/screens/appointments/types'
@@ -27,6 +28,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
 }: AppointmentDrawerProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const loginState = useLoggedInUser()
 
   const [isLoadingDeleteAppointment, deleteAppointment] = useDeleteAppointment({
@@ -85,7 +87,9 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
           title={t('global.report')}
           testID="btn-report-appointment"
           handleAction={() =>
-            navigate(`/report/${appointment?.id}/${ContentType.SPACE_APPOINTMENT}/${ContentType3K.SPACE_APPOINTMENT}`)
+            navigateWithAuth(
+              `/report/${appointment?.id}/${ContentType.SPACE_APPOINTMENT}/${ContentType3K.SPACE_APPOINTMENT}`
+            )
           }
         />
       )}

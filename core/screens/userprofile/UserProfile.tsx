@@ -17,6 +17,7 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -44,7 +45,8 @@ const { useParam } = createParamHooks<UserProfileParams>()
 
 const UserProfile = () => {
   const { t } = useTranslation()
-  const { navigate, replaceRoute } = useRouting()
+  const { replaceRoute } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
@@ -97,7 +99,7 @@ const UserProfile = () => {
           <HoliActionDrawer.Action
             icon={Flag}
             title={t('global.report')}
-            handleAction={() => navigate(`/report/${userId}/${ContentType.USER}/${ContentType3K.USER}`)}
+            handleAction={() => navigateWithAuth(`/report/${userId}/${ContentType.USER}/${ContentType3K.USER}`)}
           />
           <HoliActionDrawer.Action
             icon={CloseCircle}
@@ -116,7 +118,7 @@ const UserProfile = () => {
         </HoliActionDrawer.Drawer>
       ),
     })
-  }, [isLoadingBlockUser, t, userFullName, blockUser, navigate, userId, setScreenOptions])
+  }, [isLoadingBlockUser, t, userFullName, blockUser, navigateWithAuth, userId, setScreenOptions])
 
   if (!userId || (loading && !user)) {
     return (

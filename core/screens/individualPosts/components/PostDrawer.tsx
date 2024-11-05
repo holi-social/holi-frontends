@@ -6,6 +6,7 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { DeleteFeedPostResponse, deleteFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
@@ -31,6 +32,7 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
   const { openToast } = useToast()
   const loginState = useLoggedInUser()
   const { navigate } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const { track } = useTracking()
 
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false)
@@ -105,7 +107,9 @@ const PostDrawer: React.FC<PostDrawerProps> = ({ post, children, onDelete }: Pos
             icon={Flag}
             title={t('global.report')}
             testID="btn-report-post"
-            handleAction={() => navigate(`/report/${post.id}/${ContentType.FEED_POST}/${ContentType3K.FEED_POST}`)}
+            handleAction={() =>
+              navigateWithAuth(`/report/${post.id}/${ContentType.FEED_POST}/${ContentType3K.FEED_POST}`)
+            }
           />
         )}
       </HoliActionDrawer.Drawer>

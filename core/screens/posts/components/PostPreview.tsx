@@ -9,6 +9,7 @@ import { User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import i18n from '@holi/core/i18n'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { ContentType, ContentType3K } from '@holi/core/queries'
@@ -62,6 +63,7 @@ const PostPreview = ({
   const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
   const { navigate } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { deletePost, isLoadingPostDeletion } = useDeletePost(post || ({} as Post), spaceIdOrName)
 
@@ -168,7 +170,7 @@ const PostPreview = ({
                 icon={Flag}
                 title={t('global.report')}
                 testID="report-comment-button"
-                handleAction={() => navigate(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
+                handleAction={() => navigateWithAuth(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
               />
             )}
             {/* Edit Action */}
