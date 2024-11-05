@@ -75,6 +75,8 @@ install_deps:
   cache: !reference [.yarn-cache-rw]
   interruptible: true
   script:
+    # we've run before, cut the run short
+    - if [ -d ".yarn" ]; then exit 0; fi
     - corepack enable
     - yarn install --immutable
   rules:
