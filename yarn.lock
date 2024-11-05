@@ -6449,7 +6449,7 @@ __metadata:
     lodash.partition: "npm:^4.6.0"
     lottie-ios: "npm:4.5.0"
     lottie-react-native: "npm:7.0.0"
-    posthog-react-native: "npm:^3.1.2"
+    posthog-react-native: "npm:^3.3.9"
     react: "npm:18.2.0"
     react-devtools: "npm:4.14.0"
     react-i18next: "npm:^15.0.2"
@@ -28281,9 +28281,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-react-native@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "posthog-react-native@npm:3.1.2"
+"posthog-react-native@npm:^3.3.9":
+  version: 3.3.9
+  resolution: "posthog-react-native@npm:3.3.9"
   peerDependencies:
     "@react-native-async-storage/async-storage": ">=1.0.0"
     "@react-navigation/native": ">= 5.0.10"
@@ -28291,6 +28291,7 @@ __metadata:
     expo-device: ">= 4.0.0"
     expo-file-system: ">= 13.0.0"
     expo-localization: ">= 11.0.0"
+    posthog-react-native-session-replay: ^0.1.6
     react-native-device-info: ">= 10.0.0"
     react-native-navigation: ">=6.0.0"
   peerDependenciesMeta:
@@ -28306,11 +28307,13 @@ __metadata:
       optional: true
     expo-localization:
       optional: true
+    posthog-react-native-session-replay:
+      optional: true
     react-native-device-info:
       optional: true
     react-native-navigation:
       optional: true
-  checksum: 10c0/f01646d48114f5164736b623339d30159265181ad8f00760b1a129c1a973bcf0adf45ce37790777e61c21f1b67c74c5793db690060d890726e72525f3e5d7e87
+  checksum: 10c0/9008e959faa184d5a979a84d317d4a9d6d119620bf849b93f046852b8ba0a32df758c6fe906827cb99e279e6f7251645007b4c4e4f9a0218b5eb84f815f3a4c2
   languageName: node
   linkType: hard
 
