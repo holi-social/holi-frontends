@@ -231,6 +231,7 @@
   "global.permissions.mediaLibrary.text": "Die App greift auf deine Fotos zu, damit du sie veröffentlichen kannst.",
   "global.proceed": "Fortfahren",
   "global.report": "Melden",
+  "global.report.alreadyReportedMessage": "Du hast diesen Inhalt bereits gemeldet. Wir sind bereits dabei.",
   "global.report.successMessage": "Danke für deine Meldung. Wir schauen uns das schnellstmöglich an",
   "global.reset": "Zurücksetzen",
   "global.save": "Speichern",

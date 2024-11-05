@@ -1,5 +1,6 @@
 import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
 import { useMutation } from '@apollo/client'
+import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import type { ReportContentResponse } from '@holi/core/queries'
@@ -28,6 +29,7 @@ const useReportContent = ({
 }: UseReportContentProps): UseReportContent => {
   const { openToast } = useToast()
   const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
 
   const [reportContent, { loading: isLoading }] = useMutation<ReportContentResponse>(ReportContentMutation, {
     variables: {
@@ -41,10 +43,19 @@ const useReportContent = ({
       openToast(successMsg, HoliToastType.SUCCESS)
     },
     onError: (e) => {
+      let isAlreadyReported = false
+
+      try {
+        isAlreadyReported = JSON.stringify(e.graphQLErrors).includes('You have already reported this post')
+      } catch (error) {
+        // ignore
+      }
+
       displayError(e, 'Failed to report content', {
         location: 'useReportContent',
         id,
         contentType,
+        ...(isAlreadyReported && { displayMessage: t('global.report.alreadyReportedMessage') }),
       })
     },
   })

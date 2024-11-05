@@ -231,6 +231,7 @@
   "global.permissions.mediaLibrary.text": "The app accesses your photos to let you post them",
   "global.proceed": "Proceed",
   "global.report": "Report",
+  "global.report.alreadyReportedMessage": "You have already reported this content. We are already on it.",
   "global.report.successMessage": "Thanks for your report. We'll look into it asap",
   "global.reset": "Clear",
   "global.save": "Save",
