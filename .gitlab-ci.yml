@@ -1,22 +1,27 @@
-# TODO speed up yarn dependency caching https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
+variables:
+  YARN_CACHE_FOLDER: '$CI_PROJECT_DIR/.yarn/cache'
+  YARN_ENABLE_GLOBAL_CACHE: 'false'
 
-# caching strategy follows "Solution 1" taken from https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
-# first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it, and only if they need the cache
-# cache key corresponds to current branch name ($CI_COMMIT_REF_SLUG)
-
-.pull_push_cache:
-  key: $CI_COMMIT_REF_SLUG
-  policy: pull-push
+.yarn-cache-rw:
+  key:
+    files:
+      - yarn.lock
   paths:
-    - "./node_modules"
-    - "./*/node_modules"
-    - "./*/*/node_modules"
-    - "./apps/web/.next/cache/"
+    - .yarn/
+  policy: pull-push
+
+.yarn-cache-readonly:
+  key:
+    files:
+      - yarn.lock
+  paths:
+    - .yarn/
+  policy: pull
 
 # rules templates
 .rule_templates:
   not_on_git_tags:
-    - if: "$CI_COMMIT_TAG"
+    - if: '$CI_COMMIT_TAG'
       when: never
   skip_environment_for_web:
     - if: $CI_COMMIT_BRANCH =~ /^noenv\/.*|^noweb\/.*/
@@ -62,20 +67,41 @@ default:
     - env -0 | sort -z | tr '\0' '\n' | egrep -ve '^(DOCKER_AUTH_CONFIG|GOOGLE_APPLICATION_CREDENTIALS)=.*'
   tags:
     - 1cpu-4gb
-  image: "europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas"
-  cache: # pull only, with branch name as key name
-    key: $CI_COMMIT_REF_SLUG
-    policy: pull
-    paths: !reference [.pull_push_cache, paths]
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+
+install_deps:
+  stage: build
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  cache: !reference [.yarn-cache-rw]
+  interruptible: true
+  script:
+    - corepack enable
+    - yarn install --immutable
+  rules:
+    # Execute step if yarn.lock was changed or cache is missing
+    # Inspired by https://gitlab.com/gitlab-org/gitlab/-/issues/244932#note_1727726890
+    - if: $CI_COMMIT_BRANCH
+      changes:
+        - yarn.lock
+    - exists:
+        - .yarn
+      when: never
+    - if: $CI_COMMIT_BRANCH
+      exists:
+        - yarn.lock
+      when: always
 
 lint_compile_test:
   stage: build
-  image: "europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas"
+  needs:
+    - job: install_deps
+      optional: true
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  cache: !reference [.yarn-cache-readonly]
   script:
-    - yarn install --immutable
+    - yarn install --immutable --immutable-cache
     - yarn lint
     - yarn test
-  cache: !reference [.pull_push_cache]
   interruptible: true
   tags:
     - 4cpu-16gb
@@ -85,5 +111,5 @@ lint_compile_test:
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
 include:
-  - "/.gitlab-ci-web.yml"
-  - "/.gitlab-ci-mobile.yml"
+  - '/.gitlab-ci-web.yml'
+  - '/.gitlab-ci-mobile.yml'
