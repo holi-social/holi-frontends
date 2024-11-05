@@ -100,6 +100,8 @@ lint_compile_test:
   cache: !reference [.yarn-cache-readonly]
   script:
     - corepack enable
+    # Install dependencies if ci cache is empty
+    - if [ ! -d ".yarn" ]; then yarn install --immutable; done
     - yarn install --immutable --immutable-cache
     - yarn lint
     - yarn test
