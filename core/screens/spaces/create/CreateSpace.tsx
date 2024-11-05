@@ -29,7 +29,6 @@ import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -144,7 +143,7 @@ const CreateSpace = () => {
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/spaces">
       <SpaceTermContextProvider>
-        <SafeArea style={styles.wrapper}>
+        <View style={styles.wrapper}>
           <View style={[mixins.container, styles.container]}>
             <HoliWizard
               isBackButtonAvailable={true}
@@ -163,7 +162,7 @@ const CreateSpace = () => {
               <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
             </HoliWizard>
           </View>
-        </SafeArea>
+        </View>
         <HoliConfirmation
           show={showConfirmationModal}
           label={exitConfirmationTitle}

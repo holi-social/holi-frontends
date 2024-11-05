@@ -17,6 +17,7 @@ import AnimatedIntro from '@holi/core/screens/onboarding/components/AnimatedIntr
 import DocumentsFooter from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
@@ -41,7 +42,7 @@ const OnboardingWelcome = () => {
   usePreventBackNavigation(true)
 
   return (
-    <View style={styles.container}>
+    <SafeArea style={styles.container}>
       <CenteredContentLayout append={<DocumentsFooter />}>
         <AnimatedIntro />
         <View
@@ -67,7 +68,7 @@ const OnboardingWelcome = () => {
         </View>
         <HoliGap size="xl" />
       </CenteredContentLayout>
-    </View>
+    </SafeArea>
   )
 }
 

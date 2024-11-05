@@ -13,7 +13,6 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowLeftS } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -68,9 +67,7 @@ const SpaceInvitePage = () => {
       style={styles.layoutStyle}
       contentStyle={styles.contentStyle}
     >
-      <SafeArea>
-        <SpaceInviteView spaceId={space.id} idOrName={spaceIdOrName || space.name} />
-      </SafeArea>
+      <SpaceInviteView spaceId={space.id} idOrName={spaceIdOrName || space.name} />
     </DefaultLayout>
   )
 }

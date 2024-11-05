@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -210,7 +210,7 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
   testID = 'holi-wizard',
 }) => {
   return (
-    <SafeAreaView style={{ flex: 1 }} testID={testID}>
+    <View style={{ flex: 1 }} testID={testID}>
       <HoliStepperController stepCount={steps.length}>
         <HoliWizardContextProvider
           stepOptions={stepOptions}
@@ -230,7 +230,7 @@ const HoliWizard: React.FC<HoliWizardProps> = ({
           />
         </HoliWizardContextProvider>
       </HoliStepperController>
-    </SafeAreaView>
+    </View>
   )
 }
 

@@ -1,10 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic, { ModalBasicProps } from '@holi/ui/components/molecules/ModalBasic'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -29,7 +29,7 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
   return (
     <ModalBasic show={show} label={label} onDismiss={onDismiss} animationType="fade" testID={testID}>
       <View style={[styles.modalContent, style, { backgroundColor: backgroundColor || colors.foreground30 }]}>
-        <SafeAreaView style={styles.closeBtnSafeArea}>
+        <SafeArea style={styles.closeBtnSafeArea}>
           <View style={styles.closeBtnWrapper}>
             <HoliButton
               label={t('modal.close')}
@@ -42,7 +42,7 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
               <HoliIcon icon={Close} color={colors.background10} />
             </HoliButton>
           </View>
-        </SafeAreaView>
+        </SafeArea>
 
         {children}
       </View>
