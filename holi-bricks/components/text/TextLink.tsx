@@ -3,7 +3,7 @@ import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import * as React from 'react'
 // eslint-disable-next-line no-restricted-imports
-import { ColorValue, Platform, Text, TextProps, TextStyle } from 'react-native'
+import { ColorValue, Platform, Role, Text, TextProps, TextStyle } from 'react-native'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
 
@@ -14,6 +14,7 @@ export interface TextLinkProps {
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
   onPress?: TextProps['onPress']
+  role?: Role
 }
 
 export const TextLink = ({
@@ -24,13 +25,14 @@ export const TextLink = ({
   ellipsizeMode,
   children,
   onPress,
+  role = 'link',
 }: React.PropsWithChildren<TextLinkProps>) => {
   const { styles } = useStyles(stylesheet, { size })
 
   return (
     <Text
       selectable={Platform.OS !== 'web' ? false : undefined}
-      role="link"
+      role={role}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
       style={styles.text(color, textAlign)}
