@@ -33,7 +33,6 @@ const meta: Meta<typeof Text> = {
 }
 
 type Story = StoryObj<typeof Text>
-
 export const Playground: Story = {
   argTypes: {
     size: { control: 'select', options: availableSizes },
