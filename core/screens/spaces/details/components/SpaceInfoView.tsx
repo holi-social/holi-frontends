@@ -1,5 +1,5 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -50,6 +50,10 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
 
   const hasManyLinkedSpaces = !!(space.childSpaces && space.childSpaces.totalResults > 4)
 
+  const navigateToRelatedSpaces = useCallback(() => {
+    navigate(`/spaces/${space.id}/relatedSpaces`)
+  }, [navigate, space.id])
+
   return (
     <View style={style}>
       <SpaceWelcome space={space} />
@@ -61,8 +65,8 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
           id={space.id}
           networkSpace={space.parentSpace}
           linkedSpaces={space.childSpaces}
-          showViewAllButton={hasManyLinkedSpaces}
-          onSpaceClick={() => navigate(`/spaces/${space.id}/relatedSpaces`)}
+          showSeeMore={hasManyLinkedSpaces}
+          onSeeMorePress={navigateToRelatedSpaces}
         />
       )}
 
@@ -173,7 +177,7 @@ const ViewAllButton: React.FC<{ id: string }> = (props) => {
 }
 
 const LinkedSpacesCarousel: React.FC<{
-  onPress: () => void
+  onSeeMorePress: () => void
   linkedSpaces: Paged<RelatedSpace>
   showMoreCard: boolean
 }> = (props) => (
@@ -184,7 +188,7 @@ const LinkedSpacesCarousel: React.FC<{
       props.showMoreCard ? (
         <SpacesSeeMore
           style={{ paddingVertical: Spacing['3xs'] }}
-          onPress={props.onPress}
+          onPress={props.onSeeMorePress}
           testID={'related-spaces-see-more'}
         />
       ) : undefined
@@ -214,11 +218,11 @@ const LinkedSpacesCarousel: React.FC<{
 )
 
 const LinkedSpacesReference: React.FC<{
-  showViewAllButton: boolean
   id: string
   networkSpace: RelatedSpace | undefined
   linkedSpaces: Paged<RelatedSpace>
-  onSpaceClick: () => void
+  showSeeMore: boolean
+  onSeeMorePress: () => void
 }> = (props) => {
   const { t } = useTranslation()
   const {
@@ -230,13 +234,13 @@ const LinkedSpacesReference: React.FC<{
   return (
     <SpaceSection
       title={t('spaces.spaceDetails.linkedSpaces')}
-      actionButton={props.showViewAllButton && <ViewAllButton id={props.id} />}
+      actionButton={props.showSeeMore && <ViewAllButton id={props.id} />}
       style={!!props.networkSpace && styles.linkedSpacesSection}
     >
       <LinkedSpacesCarousel
-        onPress={showAboutSpacesRelationShipModal}
+        onSeeMorePress={props.onSeeMorePress}
         linkedSpaces={props.linkedSpaces}
-        showMoreCard={props.showViewAllButton}
+        showMoreCard={props.showSeeMore}
       />
 
       <View>
