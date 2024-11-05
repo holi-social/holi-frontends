@@ -8,6 +8,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
@@ -47,10 +48,27 @@ const RecommendationsHeader = () => {
   )
 }
 
-const Recommendations = () => {
+const useRecoOrderAB = (): 'loading' | 'tasksFirst' | 'volunteeringFirst' | 'tasksOnly' => {
   const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
+  const homeTaskOrderSwapExperimentCohort = useFeatureFlagAB(FeatureFlagKey.HOME_TASK_ORDER_SWAP)
+
+  if (!displayVolunteering) return 'tasksOnly'
+  else {
+    switch (homeTaskOrderSwapExperimentCohort) {
+      case 'control':
+        return 'tasksFirst'
+      case 'test':
+        return 'volunteeringFirst'
+      case undefined:
+        return 'loading'
+    }
+  }
+}
+
+const Recommendations = () => {
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayGoodNews = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
+  const recoOrderAB = useRecoOrderAB()
   const cardWidth = useCardWidth()
 
   return (
@@ -62,15 +80,45 @@ const Recommendations = () => {
           <SpaceRecommendations cardWidth={cardWidth} />
         </ErrorBoundary>
 
-        <ErrorBoundary>
-          <TaskRecommendations cardWidth={cardWidth} />
-        </ErrorBoundary>
+        {recoOrderAB === 'tasksOnly' && (
+          <ErrorBoundary>
+            <TaskRecommendations cardWidth={cardWidth} />
+          </ErrorBoundary>
+        )}
 
-        {displayVolunteering && <VolunteeringRecos cardWidth={cardWidth} />}
+        {recoOrderAB === 'tasksFirst' && (
+          <>
+            <ErrorBoundary>
+              <TaskRecommendations cardWidth={cardWidth} />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <VolunteeringRecos cardWidth={cardWidth} />
+            </ErrorBoundary>
+          </>
+        )}
 
-        {displayDonations && <DonationUpdates cardWidth={cardWidth} />}
+        {recoOrderAB === 'volunteeringFirst' && (
+          <>
+            <ErrorBoundary>
+              <VolunteeringRecos cardWidth={cardWidth} />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <TaskRecommendations cardWidth={cardWidth} />
+            </ErrorBoundary>
+          </>
+        )}
 
-        {displayGoodNews && <GoodNewsUpdates cardWidth={cardWidth} />}
+        {displayDonations && (
+          <ErrorBoundary>
+            <DonationUpdates cardWidth={cardWidth} />
+          </ErrorBoundary>
+        )}
+
+        {displayGoodNews && (
+          <ErrorBoundary>
+            <GoodNewsUpdates cardWidth={cardWidth} />
+          </ErrorBoundary>
+        )}
       </View>
     </View>
   )
