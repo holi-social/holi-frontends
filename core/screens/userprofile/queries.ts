@@ -58,7 +58,7 @@ export type UpdateConnectionWithUserResponse = {
 export const updateAuthenticatedUserV2Mutation = gql`
   ${FullAuthenticatedUserFragment}
 
-  mutation UpdateAuthenticatedUser($input: UpdateAuthenticatedUserInput!) {
+  mutation UpdateAuthenticatedUserV2($input: UpdateAuthenticatedUserInput!) {
     updateAuthenticatedUserV2(input: $input) {
       ...FullAuthenticatedUser
     }

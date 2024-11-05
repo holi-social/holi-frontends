@@ -11,11 +11,7 @@ import {
   setLoginStateLoggedIn,
   setLoginStateLoggedOut,
 } from '@holi/core/auth/loginState'
-import {
-  AuthenticatedUserV2Response,
-  AuthenticatedUserV2Variables,
-  authenticatedUserV2Query,
-} from '@holi/core/domain/shared/queries'
+import { AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import {
   UpdateAuthenticatedUserInput,
@@ -112,9 +108,7 @@ const mockLocalStorage = (consentState?: ConsentState): void => {
   })
 }
 
-const mockAuthenticatedUserResponse = (
-  user: AuthenticatedUser
-): MockedResponse<AuthenticatedUserV2Response, AuthenticatedUserV2Variables> => ({
+const mockAuthenticatedUserResponse = (user: AuthenticatedUser): MockedResponse<AuthenticatedUserV2Response> => ({
   request: {
     query: authenticatedUserV2Query,
   },
