@@ -82,7 +82,8 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
           <link rel="apple-touch-icon" sizes="180x180" href={`/favicons/${env}/apple-touch-icon.png`} />
           <link rel="icon" type="image/png" sizes="32x32" href={`/favicons/${env}/favicon-32x32.png`} />
           <link rel="icon" type="image/png" sizes="16x16" href={`/favicons/${env}/favicon-16x16.png`} />
-          <link rel="manifest" href={`/favicons/${env}/site.webmanifest`} />;{promoteEnvVarToWindow('POSTHOG_KEY')}
+          <link rel="manifest" href={`/favicons/${env}/site.webmanifest`} />
+          {promoteEnvVarToWindow('POSTHOG_KEY')}
           {/*
               FIXME: This script is needed for Matrix JS SDK version 4.3.*
               because it uses global to reference the window object,
