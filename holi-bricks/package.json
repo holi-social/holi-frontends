@@ -16,7 +16,7 @@
     "clean": "npx rimraf storybook-static",
     "clean:all": "yarn clean && npx rimraf node_modules",
     "lint": "TIMING=1 eslint .",
-    "publish-library": "npx chromatic --ci -b build --storybook-config-dir storybook --exit-zero-on-changes"
+    "publish-library": "npx chromatic --ci -b build --storybook-config-dir storybook --project-token $CHROMATIC_BRICKS_PROJECT_TOKEN --exit-zero-on-changes"
   },
   "peerDependencies": {
     "@react-native-community/datetimepicker": "8.0.1",
