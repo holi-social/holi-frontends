@@ -6,7 +6,7 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import CommentText from '@holi/core/screens/comments/components/CommentText'
@@ -53,8 +53,7 @@ const CommentView = ({
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { navigate } = useRouting()
-
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const { openSignupModal } = useSignupModal()
   const isInsight = commentableType === CommentableType.DISCUSSION
 
@@ -122,7 +121,7 @@ const CommentView = ({
                 title={t('global.report')}
                 testID="report-comment-button"
                 handleAction={() =>
-                  navigate(`/report/${comment.id}/${ContentType.POST_COMMENT}/${ContentType3K.COMMENT}`)
+                  navigateWithAuth(`/report/${comment.id}/${ContentType.POST_COMMENT}/${ContentType3K.COMMENT}`)
                 }
               />
             )}

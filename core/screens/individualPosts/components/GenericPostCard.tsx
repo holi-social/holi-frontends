@@ -10,6 +10,7 @@ import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuth
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { Term, User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
@@ -51,6 +52,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
   const { navigate } = useRouting()
   const { track } = useTracking()
   const { isLoggedIn, user } = useLoggedInUser()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const [description, setDescription] = useState<string>((post as Post).text ?? (post as FeedPost).description)
   const [title, setTitle] = useState<string>(post.title)
   const [loadingTranslation, setLoadingTranslation] = useState(false)
@@ -239,7 +241,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
                   icon={Flag}
                   title={t('global.report')}
                   testID="report-comment-button"
-                  handleAction={() => navigate(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
+                  handleAction={() => navigateWithAuth(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
                 />
               )}
               {spacePost.space?.id && isCurrentUserPostCreator && (

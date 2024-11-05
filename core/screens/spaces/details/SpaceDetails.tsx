@@ -14,6 +14,7 @@ import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
 import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -47,6 +48,7 @@ const { useParam } = createParamHooks<SpaceDetailsParams>()
 const SpaceDetails = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
@@ -176,7 +178,7 @@ const SpaceDetails = () => {
           <HoliActionDrawer.Action
             icon={Flag}
             title={t('global.report')}
-            handleAction={() => navigate(`/report/${id}/${ContentType.SPACE}/${ContentType3K.SPACE}`)}
+            handleAction={() => navigateWithAuth(`/report/${id}/${ContentType.SPACE}/${ContentType3K.SPACE}`)}
           />
 
           {isAdmin && (
@@ -211,7 +213,7 @@ const SpaceDetails = () => {
       t,
       isLoading,
       confirmationDescription,
-      navigate,
+      navigateWithAuth,
       id,
       confirmationTitle,
       isLoadingLeaveSpace,

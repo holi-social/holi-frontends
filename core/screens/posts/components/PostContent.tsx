@@ -7,6 +7,7 @@ import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { User } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
@@ -40,6 +41,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
   const { t, i18n } = useTranslation()
   const commenters = post.commenters.data
   const { navigate } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const { user } = useLoggedInUser()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -104,7 +106,9 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
                       icon={Flag}
                       title={t('global.report')}
                       testID="report-comment-button"
-                      handleAction={() => navigate(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
+                      handleAction={() =>
+                        navigateWithAuth(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)
+                      }
                     />
                   )}
                 </HoliActionDrawer.Drawer>

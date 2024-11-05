@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import {
   UpdateSpaceUserConnectionResponse,
@@ -55,7 +55,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { navigate } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { displayError } = useErrorHandling()
   const [showGrantAdminConfirmationModal, setShowGrantAdminConfirmationModal] = useState(false)
@@ -340,7 +340,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
               })}
               onDismiss={() => setShowReportMemberConfirmationModal(false)}
               testID="spaces-collaborators-report-user-confirmation"
-              onPrimary={() => navigate(`/report/${user.id}/${ContentType.USER}/${ContentType3K.USER}`)}
+              onPrimary={() => navigateWithAuth(`/report/${user.id}/${ContentType.USER}/${ContentType3K.USER}`)}
             />
           </View>
         </ScrollView>
