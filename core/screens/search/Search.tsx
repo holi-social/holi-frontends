@@ -1,11 +1,12 @@
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SearchContent from '@holi/core/screens/search/components/SearchContent'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const Search = () => {
@@ -23,9 +24,9 @@ const Search = () => {
   return (
     <KeyboardAvoidingViewWrapper
       renderProp={() => (
-        <SafeAreaView style={styles.wrapper}>
+        <SafeArea style={styles.wrapper}>
           <SearchContent />
-        </SafeAreaView>
+        </SafeArea>
       )}
     />
   )

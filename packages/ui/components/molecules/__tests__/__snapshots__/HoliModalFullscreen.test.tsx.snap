@@ -24,25 +24,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
       ]
     }
   >
-    <RNCSafeAreaView
-      edges={
-        {
-          "bottom": "additive",
-          "left": "additive",
-          "right": "additive",
-          "top": "additive",
-        }
-      }
-      style={
-        {
-          "left": 0,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-          "zIndex": 10,
-        }
-      }
-    >
+    <View>
       <View
         style={
           {
@@ -206,7 +188,7 @@ exports[`HoliModalFullscreen.tsx renders correctly when open 1`] = `
           </View>
         </View>
       </View>
-    </RNCSafeAreaView>
+    </View>
   </View>
 </Modal>
 `;

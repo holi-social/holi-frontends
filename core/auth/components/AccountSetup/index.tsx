@@ -1,17 +1,17 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 
 import AccountSetup, { AccountSetupProps } from '@holi/core/auth/components/AccountSetup/AccountSetup'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const AccountSetupGuard = (props: AccountSetupProps) => {
   const { isLoading: isNewUserLoading } = useLoggedInUser()
 
   return isNewUserLoading ? (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeArea style={{ flex: 1 }}>
       <HoliLoader />
-    </SafeAreaView>
+    </SafeArea>
   ) : (
     <AccountSetup {...props} />
   )

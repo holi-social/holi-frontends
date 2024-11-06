@@ -1,7 +1,7 @@
 import { atom, useAtomValue } from 'jotai'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatTabBar, { DEFAULT_TAB_ID } from '@holi/chat/src/components/ChatTabsBar'
@@ -24,6 +24,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
@@ -177,7 +178,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   }
 
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <SafeArea style={styles.wrapper}>
       <ChatTabBar selectedTabId={selectedTabId} />
 
       <RoomList roomAtoms={tabRoomAtomsRecord[selectedTabId]} loggedInUser={loggedInUser} />
@@ -193,7 +194,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
           <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
         </HoliButton>
       </View>
-    </SafeAreaView>
+    </SafeArea>
   )
 }
 
