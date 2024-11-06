@@ -6,10 +6,22 @@ import * as React from 'react'
 import { ColorValue, Platform, Text, TextProps, TextStyle } from 'react-native'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
+export type TextLinkVariant =
+  /** Primary, Headlines, Body */
+  | 'primary'
+  /** Body, Captions, Subtexts */
+  | 'secondary'
+  /** Unselected text, Bottom Navigation */
+  | 'tertiary'
+  /** Disabled */
+  | 'quaternary'
+  /** Mentions, Locations, Special cases */
+  | 'special'
 
 export interface TextLinkProps {
   size: TextLinkSize
   numberOfLines?: number
+  variant?: TextLinkVariant
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
@@ -19,13 +31,14 @@ export interface TextLinkProps {
 export const TextLink = ({
   size,
   numberOfLines,
+  variant = 'primary',
   color,
   textAlign,
   ellipsizeMode,
   children,
   onPress,
 }: React.PropsWithChildren<TextLinkProps>) => {
-  const { styles } = useStyles(stylesheet, { size })
+  const { styles } = useStyles(stylesheet, { size, variant })
 
   return (
     <Text
@@ -47,7 +60,6 @@ const stylesheet = createStyleSheet((theme) => ({
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.bold,
       fontWeight: '500',
-      color: color ?? theme.colors.text,
       userSelect: 'auto',
       textAlign: textAlign,
       ...Platform.select({
@@ -57,6 +69,23 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       }),
       variants: {
+        variant: {
+          primary: {
+            color: color ?? theme.components.text.primary,
+          },
+          secondary: {
+            color: color ?? theme.components.text.secondary,
+          },
+          tertiary: {
+            color: color ?? theme.components.text.tertiary,
+          },
+          quaternary: {
+            color: color ?? theme.components.text.quaternary,
+          },
+          special: {
+            color: color ?? theme.components.text.specialLink,
+          },
+        },
         size: {
           md: {
             fontSize: 16,

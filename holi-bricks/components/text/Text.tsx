@@ -11,9 +11,19 @@ import {
   TextStyle,
 } from 'react-native'
 
-// Change import in HOLI-10369
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
 export type TextHeadingLevel = '1' | '2' | '3'
+export type TextVariant =
+  /** Primary, Headlines, Body */
+  | 'primary'
+  /** Body, Captions, Subtexts */
+  | 'secondary'
+  /** Unselected text, Bottom Navigation */
+  | 'tertiary'
+  /** Disabled */
+  | 'quaternary'
+  /** Errors */
+  | 'error'
 
 export interface TextProps {
   size: TextSize
@@ -22,12 +32,15 @@ export interface TextProps {
    */
   selectable?: boolean
   numberOfLines?: number
+  variant?: TextVariant
+  /** Overrides color specified by `variant` */
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: RNTextProps['ellipsizeMode']
   headingLevel?: TextHeadingLevel
 }
 
+// Change import in HOLI-10369
 const createAccessibilityProps = (headingLevel?: TextHeadingLevel): AccessibilityProps & AccessibilityPropsWeb => {
   if (!headingLevel) {
     return {
@@ -50,13 +63,14 @@ export const Text = ({
   size,
   selectable = true,
   numberOfLines,
+  variant = 'primary',
   color,
   textAlign,
   ellipsizeMode,
   headingLevel,
   children,
 }: React.PropsWithChildren<TextProps>) => {
-  const { styles } = useStyles(stylesheet, { size })
+  const { styles } = useStyles(stylesheet, { size, variant })
 
   const accessibilityProps = createAccessibilityProps(headingLevel)
 
@@ -79,7 +93,6 @@ const stylesheet = createStyleSheet((theme) => ({
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.regular,
       fontWeight: '400',
-      color: color ?? theme.colors.text,
       userSelect: selectable ? 'auto' : 'none',
       textAlign: textAlign,
       ...Platform.select({
@@ -89,6 +102,23 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       }),
       variants: {
+        variant: {
+          primary: {
+            color: color ?? theme.components.text.primary,
+          },
+          secondary: {
+            color: color ?? theme.components.text.secondary,
+          },
+          tertiary: {
+            color: color ?? theme.components.text.tertiary,
+          },
+          quaternary: {
+            color: color ?? theme.components.text.quaternary,
+          },
+          error: {
+            color: color ?? theme.components.text.error,
+          },
+        },
         size: {
           '4xl': {
             fontSize: 36,
