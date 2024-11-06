@@ -16,13 +16,13 @@ echo "Branch-off point commit: $MERGE_BASE"
 # Check out merge-base commit and count errors
 git checkout "$MERGE_BASE"
 yarn install --immutable # merge-base might have had different dependencies with different types
-ERROR_COUNT_BEFORE=$(NODE_OPTIONS="--max-old-space-size=1024" npx tsc --noEmit --pretty | grep 'Found .* errors\?' | sed -E 's/Found ([0-9]+) errors?.*/\1/')
+ERROR_COUNT_BEFORE=$(npx tsc --noEmit --pretty | grep 'Found .* errors\?' | sed -E 's/Found ([0-9]+) errors?.*/\1/')
 echo "Errors at branch-off point: $ERROR_COUNT_BEFORE"
 
 # Check out MR branch and count errors
 git checkout "$SOURCE"
 yarn install --immutable # MR branch might have had different dependencies with different types
-ERROR_COUNT_AFTER=$(NODE_OPTIONS="--max-old-space-size=1024" npx tsc --noEmit --pretty | grep 'Found .* errors\?' | sed -E 's/Found ([0-9]+) errors?.*/\1/')
+ERROR_COUNT_AFTER=$(npx tsc --noEmit --pretty | grep 'Found .* errors\?' | sed -E 's/Found ([0-9]+) errors?.*/\1/')
 echo "Errors in current branch: ${ERROR_COUNT_AFTER}"  # Compare error counts and fail if errors increased
 
 if [ "$ERROR_COUNT_AFTER" -gt "$ERROR_COUNT_BEFORE" ]; then
