@@ -10,6 +10,8 @@
   cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   script:
+    - corepack enable
+    - yarn install --immutable --immutable-cache
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
     - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
