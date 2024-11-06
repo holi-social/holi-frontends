@@ -1,5 +1,7 @@
 import React from 'react'
-import Animated, { FadeInDown, FadeOutDown, LayoutAnimationConfig } from 'react-native-reanimated'
+import { View } from 'react-native'
+
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 
 import { HoliTabsProps } from './types'
 
@@ -28,15 +30,12 @@ const TabContentVirtualized = <D,>({
   const activeTabData = data[activeTabIndex]
 
   return (
-    <LayoutAnimationConfig skipEntering>
-      <Animated.View
-        key={activeTab + '-content'}
-        style={{ marginHorizontal, width: componentWidth - marginHorizontal * 2, zIndex: 10 }}
-        entering={FadeInDown.delay(200)}
-        exiting={FadeOutDown}
+    <HoliTransition.FadeDownSwitch animKey={keyExtractor(activeTabData)}>
+      <View
         testID={testID}
         role="tabpanel"
         id={`${tabsId}-panel-${activeTab}`}
+        style={{ marginHorizontal, width: componentWidth - marginHorizontal * 2, zIndex: 10 }}
       >
         {renderItem({
           item: activeTabData,
@@ -44,8 +43,8 @@ const TabContentVirtualized = <D,>({
           isActive: true,
           index: activeTabIndex,
         })}
-      </Animated.View>
-    </LayoutAnimationConfig>
+      </View>
+    </HoliTransition.FadeDownSwitch>
   )
 }
 

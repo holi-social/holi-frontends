@@ -1,5 +1,5 @@
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import HoliCalendarIcon, {
   HoliCalendarIconProps,
@@ -19,10 +19,8 @@ describe('renders correctly', () => {
           it(`renders correctly when day is '${day + 1}', month is '${
             month + 1
           }', disabled is '${disabled}', size is '${size}'`, () => {
-            const tree = renderer
-              .create(<HoliCalendarIcon day={day + 1} month={month + 1} size={size} disabled={disabled} />)
-              .toJSON()
-            expect(tree).toMatchSnapshot()
+            render(<HoliCalendarIcon day={day + 1} month={month + 1} size={size} disabled={disabled} />)
+            expect(screen).toMatchSnapshot()
           })
         })
       })
@@ -32,17 +30,17 @@ describe('renders correctly', () => {
 
 describe('HoliCalendarIcon', () => {
   it('renders the correct shortened and internationalized name of the month', () => {
-    const tree = renderer.create(<HoliCalendarIcon day={22} month={5} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliCalendarIcon day={22} month={5} />)
+    expect(screen).toMatchSnapshot()
   })
 
   it('renders the correct size of the component', () => {
-    const tree = renderer.create(<HoliCalendarIcon day={1} month={1} size="small" />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliCalendarIcon day={1} month={1} size="small" />)
+    expect(screen).toMatchSnapshot()
   })
 
   it('renders the correct disabled state of the component', () => {
-    const tree = renderer.create(<HoliCalendarIcon day={1} month={1} disabled />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliCalendarIcon day={1} month={1} disabled />)
+    expect(screen).toMatchSnapshot()
   })
 })

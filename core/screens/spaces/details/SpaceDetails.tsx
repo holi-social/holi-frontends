@@ -2,8 +2,7 @@ import { withProfiler } from '@sentry/react'
 import { useAtomValue } from 'jotai'
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -28,7 +27,10 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnboarding'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, UserSettings } from '@holi/icons/src/generated'
+import { Chat3, Delete, DoorClosed, Edit2, Flag, Pencil, Spaces, UserSettings } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -36,7 +38,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { useHoliTabQueryParamSetter } from '@holi/ui/components/organisms/HoliTabs/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -50,14 +52,15 @@ const SpaceDetails = () => {
   const { navigate } = useRouting()
   const { navigateWithAuth } = useAuthRequiredNavigation()
   const setScreenOptions = useSetScreenOptions()
-  const { width: screenWidth } = useWindowDimensions()
-  const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { theme } = useTheme()
   const { colors } = theme
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
   useOnRefresh(refetch)
+
+  const { show: showAddNewDrawerModal, props: addNewDrawerModalProps } = useModalState()
 
   const isWeb = Platform.OS === 'web'
   const id = space?.id || `${spaceIdOrName}`
@@ -269,6 +272,7 @@ const SpaceDetails = () => {
     t,
     colors.background10,
     colors.foreground30,
+    styles.headerRight,
   ])
 
   const onUpdateButtonPress = useCallback(() => {
@@ -287,53 +291,88 @@ const SpaceDetails = () => {
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout>
 
-      <AddNewDrawer spaceIdOrName={space.name} shown={isMember && activeTab === SpaceDetailsTabs.INVOLVEMENT} />
+      {isMember && (
+        <HoliTransition.FadeRightSwitch animKey={activeTab} style={styles.floatingButtonsContainer}>
+          <HoliContainer flexDirection="row-reverse">
+            {activeTab === SpaceDetailsTabs.INVOLVEMENT && (
+              <HoliButton
+                label={t('allTools.drawer.headline')}
+                type="secondary"
+                inline
+                testID="space-resources-add-button"
+                style={[styles.floatingButton, styles.addNewDrawerButton]}
+                onPress={showAddNewDrawerModal}
+              >
+                <HoliText style={styles.addNewDrawerButtonTitle}>{t('allTools.drawer.toolKit.button.label')}</HoliText>
+                <HoliIcon icon={Spaces} size={20} />
+              </HoliButton>
+            )}
 
-      {isMember && activeTab === SpaceDetailsTabs.UPDATES && (
-        <Animated.View
-          entering={SlideInDown.delay(150)}
-          exiting={SlideOutDown}
-          style={{ zIndex: 999 }}
-          key="add-post-button"
-        >
-          <HoliButton
-            label={t('spaces.toolKit.add.button.label')}
-            testID="space-add-post-button"
-            style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-            onPress={onUpdateButtonPress}
-          >
-            <HoliIcon icon={Pencil} size={20} />
-          </HoliButton>
-        </Animated.View>
+            {activeTab === SpaceDetailsTabs.UPDATES && (
+              <HoliButton
+                label={t('spaces.toolKit.add.button.label')}
+                testID="space-add-post-button"
+                style={[styles.floatingButton, styles.addPostButton]}
+                onPress={onUpdateButtonPress}
+              >
+                <HoliIcon icon={Pencil} size={20} />
+              </HoliButton>
+            )}
+          </HoliContainer>
+        </HoliTransition.FadeRightSwitch>
       )}
+
+      <AddNewDrawer spaceIdOrName={space.name} {...addNewDrawerModalProps} />
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  messageContainer: {
-    alignItems: 'center',
-    marginTop: dimensions.topBarHeight + 50,
-  },
-  overlayButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    borderWidth: 1,
-    marginRight: 10,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    bottom: dimensions.topBarHeight,
-    position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    justifyContent: 'center',
-    right: '50%',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    gap: 14,
-  },
-})
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    messageContainer: {
+      alignItems: 'center',
+      marginTop: dimensions.topBarHeight + 50,
+    },
+    floatingButtonsContainer: {
+      bottom: dimensions.topBarHeight,
+      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
+      width: '100%',
+    },
+    floatingButton: {
+      bottom: 0,
+    },
+    addPostButton: {
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      borderWidth: 1,
+      paddingHorizontal: 0,
+      paddingVertical: 0,
+    },
+    addNewDrawerButton: {
+      justifyContent: 'center',
+      paddingHorizontal: 20,
+      borderWidth: 1,
+      shadowColor: theme.colors.foreground30,
+      backgroundColor: theme.colors.background10,
+      shadowOffset: {
+        width: 2,
+        height: 2,
+      },
+      shadowOpacity: 0.1,
+      shadowRadius: 6,
+      elevation: 4,
+      overflow: 'visible',
+    },
+    addNewDrawerButtonTitle: {
+      marginRight: 6,
+    },
+    headerRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: 14,
+    },
+  })
 
 export default withProfiler(memo(SpaceDetails), { name: 'SpaceDetails' })

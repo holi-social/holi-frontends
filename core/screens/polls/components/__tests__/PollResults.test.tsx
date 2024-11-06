@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 
@@ -24,8 +23,8 @@ describe('PollResults', () => {
   })
 
   it('renders correctly as expected', () => {
-    const tree = renderer.create(<PollResults choice={choice1} votesSum={50} selected={true} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<PollResults choice={choice1} votesSum={50} selected={true} />)
+    expect(screen).toMatchSnapshot()
   })
 
   it('renders without crashing', () => {

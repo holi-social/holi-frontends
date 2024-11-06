@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import NotificationSpaceInviteItem from '@holi/core/screens/notifications/components/NotificationSpaceInviteItem'
@@ -66,14 +65,13 @@ describe('NotificationSpaceInviteItem', () => {
     it('matches snapshot', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
-      const tree = renderer
-        .create(
-          <MockedProvider mocks={MOCKS} addTypename={false}>
-            <NotificationSpaceInviteItem notification={notification} />
-          </MockedProvider>
-        )
-        .toJSON()
-      expect(tree).toMatchSnapshot()
+      render(
+        <MockedProvider mocks={MOCKS} addTypename={false}>
+          <NotificationSpaceInviteItem notification={notification} />
+        </MockedProvider>
+      )
+
+      expect(screen).toMatchSnapshot()
     })
 
     it('renders loader after declining an invite', async () => {
@@ -132,14 +130,13 @@ describe('NotificationSpaceInviteItem', () => {
     it('notification for membership request matches snapshot', () => {
       jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
-      const tree = renderer
-        .create(
-          <MockedProvider mocks={MOCKS} addTypename={false}>
-            <NotificationSpaceInviteItem notification={notification} />
-          </MockedProvider>
-        )
-        .toJSON()
-      expect(tree).toMatchSnapshot()
+      render(
+        <MockedProvider mocks={MOCKS} addTypename={false}>
+          <NotificationSpaceInviteItem notification={notification} />
+        </MockedProvider>
+      )
+
+      expect(screen).toMatchSnapshot()
     })
 
     it('renders loader after declining an invite', async () => {
