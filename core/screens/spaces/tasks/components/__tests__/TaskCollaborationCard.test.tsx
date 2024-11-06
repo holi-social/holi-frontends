@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import TaskCollaborationCard from '@holi/core/screens/spaces/tasks/components/TaskCollaborationCard'
@@ -13,26 +12,24 @@ describe('TaskCollaborationCard', () => {
   }
 
   it('renders correctly when there are tasks within space', () => {
-    const tree = renderer
-      .create(
-        <MockedProvider>
-          <TaskCollaborationCard isAdmin={false} space={space} isCollaborator={true} />
-        </MockedProvider>
-      )
-      .toJSON()
-    expect(tree).toHaveTextContent('spaces.spaceDetails.tasks.header.title')
-    expect(tree).toHaveTextContent('Task description')
+    render(
+      <MockedProvider>
+        <TaskCollaborationCard isAdmin={false} space={space} isCollaborator={true} />
+      </MockedProvider>
+    )
+
+    expect(screen.getByText(/spaces.spaceDetails.tasks.header.title/i)).toBeOnTheScreen()
+    expect(screen.getAllByText(/Task description/i)).toHaveLength(2)
   })
 
   it('renders correctly when there are no tasks within space', () => {
-    const tree = renderer
-      .create(
-        <MockedProvider>
-          <TaskCollaborationCard isAdmin={false} space={spaceWithoutTasks} isCollaborator={true} />
-        </MockedProvider>
-      )
-      .toJSON()
-    expect(tree).toHaveTextContent('spaces.spaceDetails.tasks.empty.message.forCreators')
+    render(
+      <MockedProvider>
+        <TaskCollaborationCard isAdmin={false} space={spaceWithoutTasks} isCollaborator={true} />
+      </MockedProvider>
+    )
+
+    expect(screen.getByText('spaces.spaceDetails.tasks.empty.message.forCreators')).toBeOnTheScreen()
   })
 
   it('correctly navigates to space creation screen', () => {

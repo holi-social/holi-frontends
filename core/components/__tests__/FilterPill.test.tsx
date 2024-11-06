@@ -1,22 +1,21 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import FilterPill, { FilterPillButton } from '@holi/core/components/FilterPill'
 
 describe('FilterPill', () => {
   it('renders correctly', () => {
-    const generic = renderer.create(<FilterPill filterType="generic" label="generic filter" />).toJSON()
-    expect(generic).toMatchSnapshot()
+    render(<FilterPill filterType="generic" label="generic filter" />)
+    expect(screen).toMatchSnapshot()
 
-    const location = renderer.create(<FilterPill filterType="location" label="location filter" />).toJSON()
-    expect(location).toMatchSnapshot()
+    render(<FilterPill filterType="location" label="location filter" />)
+    expect(screen).toMatchSnapshot()
 
-    const topic = renderer.create(<FilterPill filterType="topic" label="topic filter" />).toJSON()
-    expect(topic).toMatchSnapshot()
+    render(<FilterPill filterType="topic" label="topic filter" />)
+    expect(screen).toMatchSnapshot()
 
-    const skill = renderer.create(<FilterPill filterType="skill" label="skill filter" />).toJSON()
-    expect(skill).toMatchSnapshot()
+    render(<FilterPill filterType="skill" label="skill filter" />)
+    expect(screen).toMatchSnapshot()
   })
 
   it('triggers the onPress method correctly', async () => {

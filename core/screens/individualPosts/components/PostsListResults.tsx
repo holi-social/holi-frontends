@@ -1,6 +1,5 @@
-import React, { ReactNode, useContext, useEffect, useRef } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Animated, { FadeInDown } from 'react-native-reanimated'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
@@ -9,6 +8,7 @@ import { FeedPost } from '@holi/core/screens/individualPosts/types'
 import { Post } from '@holi/core/screens/posts/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 
 export type PostsListResultsProps = {
@@ -31,34 +31,36 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
   const numberOfColumns = useBreakpointMatcher() || 1
   const { topics: allTopics } = useContext(SpaceTermContext)
 
-  const prevCardIds = useRef(data.map((p) => p.id))
-  const newCardIds = data.filter((p) => !prevCardIds.current.includes(p.id)).map((p) => p.id)
-  useEffect(() => {
-    prevCardIds.current = data.map((p) => p.id)
-  }, [data])
-
-  if (loading) return <LoadingSkeleton columns={numberOfColumns} />
   if (totalResults == 0) return emptyMessage
 
   const dataByColumns = simpleColumnSortingByIndex(data, numberOfColumns)
+  const animKey = loading ? 'loading' : data.length > 0 ? 'ready' : 'empty'
 
   return (
-    <View style={styles.container} testID="posts-list-results">
-      {dataByColumns.map((column, index) => (
-        <View key={index} style={styles.column}>
-          {column.map((p) => (
-            <Animated.View
-              key={p.id}
-              entering={
-                newCardIds.includes(p.id) ? FadeInDown.delay(Math.max(0, newCardIds.indexOf(p.id) * 150)) : undefined
-              }
-            >
-              <GenericPostCard key={p.id} post={p} showVisibilityBadge={showVisibilityBadge} allTopics={allTopics} />
-            </Animated.View>
+    <HoliTransition.FadeSwitch animKey={animKey}>
+      {animKey === 'loading' && <LoadingSkeleton columns={numberOfColumns} />}
+
+      {animKey === 'ready' && (
+        <View style={styles.container} testID="posts-list-results">
+          {dataByColumns.map((column, index) => (
+            <View key={index} style={styles.column}>
+              {column.map((p) => (
+                <HoliTransition.FadeDown key={p.id} visible index={index}>
+                  <GenericPostCard
+                    key={p.id}
+                    post={p}
+                    showVisibilityBadge={showVisibilityBadge}
+                    allTopics={allTopics}
+                  />
+                </HoliTransition.FadeDown>
+              ))}
+            </View>
           ))}
         </View>
-      ))}
-    </View>
+      )}
+
+      {animKey === 'empty' && emptyMessage}
+    </HoliTransition.FadeSwitch>
   )
 }
 

@@ -3,7 +3,6 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -18,9 +17,10 @@ import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOf
 import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
-import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
+import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -56,17 +56,19 @@ const HomeFeed = () => {
       headerTitle: () => null,
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
-        <Animated.View entering={FadeInLeft}>
+        <HoliTransition.FadeLeft visible>
           <HoliLogo color={tintColor} />
-        </Animated.View>
+        </HoliTransition.FadeLeft>
       ),
       headerRight: (props) => (
-        <Animated.View entering={FadeInRight} style={styles.headerRight}>
-          <HoliLink external href={surveyUrl} label={t('homeFeed.feedback')}>
-            <HoliText>{t('homeFeed.feedback')}</HoliText>
-          </HoliLink>
-          <NotificationAndSearchHeader {...props} />
-        </Animated.View>
+        <HoliTransition.FadeRight visible>
+          <View style={styles.headerRight}>
+            <HoliLink external href={surveyUrl} label={t('homeFeed.feedback')}>
+              <HoliText>{t('homeFeed.feedback')}</HoliText>
+            </HoliLink>
+            <NotificationAndSearchHeader {...props} />
+          </View>
+        </HoliTransition.FadeRight>
       ),
     })
   }, [navigate, t, headerTitle, setScreenOptions, colors.black300])
@@ -75,9 +77,9 @@ const HomeFeed = () => {
     <GestureHandlerRootView>
       <ScrollHeaderLayout style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
         <View style={styles.sections}>
-          <Animated.View entering={FadeInDown}>
+          <HoliTransition.FadeDown visible>
             <HomeFeedHeader />
-          </Animated.View>
+          </HoliTransition.FadeDown>
 
           <AttendingChallengeEvents />
           <ErrorBoundary>
@@ -94,7 +96,9 @@ const HomeFeed = () => {
       </ScrollHeaderLayout>
 
       {/* Floating CreatePostButton needs to be outside the Layout */}
-      <CreatePostButton />
+      <ButtonFloatingWrapper>
+        <CreatePostButton />
+      </ButtonFloatingWrapper>
     </GestureHandlerRootView>
   )
 }
