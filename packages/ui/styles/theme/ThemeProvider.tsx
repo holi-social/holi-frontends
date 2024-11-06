@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { UnistylesRuntime } from 'react-native-unistyles'
 
 import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
 import colorsLight from '@holi/ui/styles/globalVars/colors.light'
@@ -26,12 +25,6 @@ export const ThemeProvider = ({ children, theme = defaultTheme }: React.PropsWit
     setColorScheme(newMode)
     setMode(newMode)
   }
-
-  useEffect(() => {
-    if (mode === 'dark' || mode === 'light') {
-      UnistylesRuntime.setTheme(mode)
-    }
-  }, [mode])
 
   const colors = useMemo(() => (isDark ? colorsDark : colorsLight), [isDark])
 

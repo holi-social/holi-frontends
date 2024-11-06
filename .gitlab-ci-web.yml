@@ -12,7 +12,7 @@ default:
 
 .web_deploy:
   image:
-    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.6.6'
+    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.9.8'
     # default entrypoint is terraform command, but we want to run shell scripts
     entrypoint: ['/bin/sh', '-c']
   variables:
@@ -28,8 +28,8 @@ default:
     when: always
     expire_in: 1 week
   script:
-    - terraform/environments/scripts/create-or-update-env.sh $ENVIRONMENT_ID $CI_COMMIT_SHA
-    - echo "$(terraform/environments/scripts/get-output.sh app_domain)" > $UI_DOMAIN_PATH
+    - terraform/environments/scripts/create-or-update-env.sh "$ENVIRONMENT_ID" "$CI_COMMIT_SHA"
+    - echo "$(terraform/environments/scripts/get-output.sh app_domain)" > "$UI_DOMAIN_PATH"
   resource_group: $ENVIRONMENT_ID # never execute terraform in parallel on the same environment
   interruptible: false
 
@@ -57,7 +57,7 @@ default:
 
 .web_destroy:
   image:
-    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.6.6'
+    name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/hashicorp/terraform:1.9.8'
     # default entrypoint is terraform command, but we want to run shell scripts
     entrypoint: ['/bin/sh', '-c']
   variables:
@@ -75,10 +75,9 @@ default:
   before_script:
   script:
     # branch may have been deleted, so we clone and checkout main
-    - git clone $CI_REPOSITORY_URL main-clone
+    - git clone "$CI_REPOSITORY_URL" main-clone
     - cd main-clone
-    - terraform/environments/scripts/destroy-env.sh $CI_ENVIRONMENT_SLUG
-  allow_failure: true
+    - terraform/environments/scripts/destroy-env.sh "$CI_ENVIRONMENT_SLUG"
   resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
   interruptible: false
 
@@ -139,12 +138,37 @@ storybook_publish:
         - apps/storybook/**/*
         - packages/ui/**/*
         - '**/*.stories.tsx'
+holi_bricks_publish:
+  needs: ['lint_compile_test']
+  environment:
+    name: holi-bricks-main
+    url: https://main--67210d8631103790622bc60c.chromatic.com
+    deployment_tier: staging
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas' # too much, but since it is there...
+  script:
+    - yarn bricks:publish
+  dependencies: [] # explicitly disable artifact usage
+  artifacts:
+    paths:
+      - holi-bricks/build-storybook.log
+    expire_in: 1 week
+  interruptible: true
+  tags:
+    - 4cpu-16gb
+  rules:
+    - !reference [.rule_templates, not_on_git_tags]
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        - holi-bricks/components/**/*
+        - '**/*.stories.tsx'
+        - '**/*.mdx'
 
 web_build_docker:
   needs: ['web_build']
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:27'
   services:
-    - 'docker:27-dind'
+    - name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:27-dind'
+      alias: 'docker'
   cache: [] # explicitly disable caching
   dependencies:
     - web_build
@@ -155,10 +179,10 @@ web_build_docker:
     DOCKER_TLS_CERTDIR: '/certs'
   script:
     - cd apps/web/
-    - docker pull $GCR_IMAGE || true # Allows us to use --cache-from, we need to tag with latest in the next command for this to work
-    - docker build --cache-from $GCR_IMAGE -t $GCR_IMAGE:latest -t $GCR_IMAGE:$CI_COMMIT_SHA -t $GCR_IMAGE:$CI_COMMIT_REF_SLUG .
-    - docker push $GCR_IMAGE:$CI_COMMIT_SHA # this is the tag that is used for deployment
-    - docker push $GCR_IMAGE:$CI_COMMIT_REF_SLUG # just for easyly knowing which is the last image for a branch
+    - docker pull "$GCR_IMAGE" || true # Allows us to use --cache-from, we need to tag with latest in the next command for this to work
+    - docker build --cache-from "$GCR_IMAGE" -t "$GCR_IMAGE":latest -t "$GCR_IMAGE":"$CI_COMMIT_SHA" -t "$GCR_IMAGE":"$CI_COMMIT_REF_SLUG" .
+    - docker push "$GCR_IMAGE":"$CI_COMMIT_SHA" # this is the tag that is used for deployment
+    - docker push "$GCR_IMAGE":"$CI_COMMIT_REF_SLUG" # just for easyly knowing which is the last image for a branch
   interruptible: true
   rules:
     - !reference [.rule_templates, not_on_git_tags]
@@ -186,6 +210,7 @@ web_review_deploy:
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   dependencies:
     - web_review_deploy
   rules:
@@ -195,6 +220,7 @@ web_review_e2e:
 web_review_destroy:
   extends: .web_destroy
   needs: ['web_review_deploy']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   environment:
     name: web-review/$CI_COMMIT_REF_SLUG
     action: stop
@@ -242,13 +268,14 @@ web_release_candidate_deploy:
     - !reference [.rule_templates, only_on_production_release]
   after_script: | # only wget is available in the terraform image
     wget --header="Content-Type: application/json" \
-      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" has been updated to \"'"$CI_COMMIT_TITLE"'\". and is available and/or updated under:\nhttps://'"$(cat $UI_DOMAIN_PATH)"'\nIf the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a 'PR_END_OF_FILE_ERROR' in your browser.\nTo deploy this version to web production go to this Pipeline: '$CI_PIPELINE_URL'"}' \
+      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")'. has been updated to \"'"$CI_COMMIT_TITLE"'\". and is available and/or updated under:\nhttps://'"$(cat $UI_DOMAIN_PATH)"'\nIf the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a 'PR_END_OF_FILE_ERROR' in your browser.\nTo deploy this version to web production go to this Pipeline: '$CI_PIPELINE_URL'"}' \
       --output-document - \
       https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
 
 web_release_candidate_destroy:
   extends: .web_destroy
   needs: ['web_release_candidate_deploy']
+  allow_failure: true  # optional build step, won't block the pipeline to succeed
   environment:
     name: web-rc/${CI_COMMIT_BRANCH}
     action: stop
@@ -269,6 +296,6 @@ web_release_deploy:
     - !reference [.rule_templates, manually_on_production_release]
   after_script: | # only wget is available in the terraform image
     wget --header="Content-Type: application/json" \
-      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The production web environment has been manually released from \"'$CI_COMMIT_REF_SLUG'\". It has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://app.holi.social"}' \
+      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The production web environment has been manually released from \"'$CI_COMMIT_REF_SLUG'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")'. It has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://app.holi.social"}' \
       --output-document - \
       https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER

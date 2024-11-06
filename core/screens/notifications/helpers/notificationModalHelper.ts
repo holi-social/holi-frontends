@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 const NOTIFICATION_MODAL_STORAGE_KEY = '@NotificationModalState'
 
 export interface ModalState {
+  minIntervalBetweenAttemptsMs: number
   attempts: number
   lastAttemptDate: string
   lastShowTime: number
@@ -17,6 +18,14 @@ export interface NotificationEligibilityConfig {
   pauseDays: number
   activeDays: number
   minIntervalBetweenAttemptsMs: number
+}
+
+// you can adjust the config as needed - for testing make sure to reset the local storage
+export const notificationConfig: NotificationEligibilityConfig = {
+  maxAttemptsPerDay: 2,
+  pauseDays: 3,
+  activeDays: 2,
+  minIntervalBetweenAttemptsMs: 6 * 60 * 60 * 1000, // 6 hours
 }
 
 const checkNotificationEligibility = async (config: NotificationEligibilityConfig): Promise<boolean> => {
@@ -38,7 +47,6 @@ const checkNotificationEligibility = async (config: NotificationEligibilityConfi
           configActiveDays: activeDays,
         }
 
-    // Reset state if config has changed
     if (modalState.configActiveDays !== activeDays) {
       modalState = { ...modalState, attempts: 0, activeDays: 0, configActiveDays: activeDays }
     }
@@ -64,9 +72,6 @@ const checkNotificationEligibility = async (config: NotificationEligibilityConfi
       return false
     }
 
-    // Update state for a valid attempt
-    modalState.attempts += 1
-    modalState.lastShowTime = currentTime.getTime()
     await AsyncStorage.setItem(NOTIFICATION_MODAL_STORAGE_KEY, JSON.stringify(modalState))
     return true
   } catch (error) {
@@ -83,7 +88,7 @@ export const getNotificationModalState = async (): Promise<ModalState | null> =>
   }
 }
 
-export const useNotificationEligibility = (config: NotificationEligibilityConfig) => {
+export const useNotificationEligibility = (config: NotificationEligibilityConfig = notificationConfig) => {
   const [isEligible, setIsEligible] = useState(false)
   const [modalState, setModalState] = useState<ModalState | null>(null)
 
@@ -99,4 +104,32 @@ export const useNotificationEligibility = (config: NotificationEligibilityConfig
   }, [checkEligibility])
 
   return { isEligible, modalState }
+}
+
+export const incrementModalAttempts = async (): Promise<void> => {
+  try {
+    const storedData = await AsyncStorage.getItem(NOTIFICATION_MODAL_STORAGE_KEY)
+    const currentTime = new Date().getTime()
+
+    const modalState: ModalState = storedData
+      ? JSON.parse(storedData)
+      : {
+          attempts: 0,
+          lastAttemptDate: '',
+          lastShowTime: 0,
+          expirationTime: 0,
+          activeDays: 0,
+          configActiveDays: 0,
+        }
+
+    modalState.attempts += 1
+    modalState.lastShowTime = currentTime
+
+    modalState.expirationTime = currentTime + modalState.minIntervalBetweenAttemptsMs
+
+    await AsyncStorage.setItem(NOTIFICATION_MODAL_STORAGE_KEY, JSON.stringify(modalState))
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to increment modal attempts:', error)
+  }
 }

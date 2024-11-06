@@ -10,7 +10,8 @@ build
 .envrc.local
 
 .holi-terraform.key
-.terraform*
+.terraform
+.terraform.lock.hcl
 terraform*.log
 build-storybook.log
 coverage

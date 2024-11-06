@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { type ReactNode } from 'react'
-import { Text } from 'react-native'
 
 import HoliModalFullscreen from '@holi/ui/components/molecules/HoliModalFullscreen'
 
@@ -37,7 +37,7 @@ describe('HoliModalFullscreen.tsx', () => {
     const text = 'Fullscreen modal content'
     const { getByText } = render(
       <HoliModalFullscreen label="test" show={true} onDismiss={() => null} testID="testmodal">
-        <Text>{text}</Text>
+        <Text size="md">{text}</Text>
       </HoliModalFullscreen>
     )
 

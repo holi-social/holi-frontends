@@ -7,10 +7,10 @@ import colorsLight from '@holi/ui/styles/globalVars/colors.light'
 const defaultTheme = {
   dark: false,
   fontFamily: {
-    default: (variant?: string) =>
+    default: (variant = 'Regular') =>
       Platform.select({
-        web: fonts.fontFamilyWeb,
-        default: variant ? `${fonts.fontFamilyMobile} ${variant}` : fonts.fontFamilyMobile,
+        web: `${fonts.fontFamilyBase}-${variant},${fonts.fontFamilyWebFallbacks}`,
+        default: `${fonts.fontFamilyBase}-${variant}`,
       }) as string,
   },
   colors: colorsLight,

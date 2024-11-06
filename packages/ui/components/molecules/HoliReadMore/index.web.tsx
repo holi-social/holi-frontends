@@ -1,6 +1,8 @@
 import type { PropsWithChildren } from 'react'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+// Will be resolved with HOLI-10365
+// eslint-disable-next-line no-restricted-imports
 import { GestureResponderEvent, LayoutChangeEvent, Text, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'

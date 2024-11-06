@@ -1,8 +1,7 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
-import Animated, { FadeIn } from 'react-native-reanimated'
+import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -26,11 +25,14 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { getInitials } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useShowHeaderOnScreenFocus } from '@holi/core/helpers/useShowHeaderOnScreenFocus'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
@@ -72,13 +74,27 @@ const ChatRoomView = () => {
   const { openToast } = useToast()
 
   const handleBackPress = useCallback(async () => {
-    navigateBack()
     await setLatestMessagesAsRead(roomId)
+
+    /** WORKAROUND: probably bug in `useAnimatedStyle` from `react-native-reanimated` for Android
+     * For Android we need wait till keyboard is hidden before navigating back
+     * Otherwise the `useAnimatedStyle` in `HoliKeyboardSafeAreaView` will not get updated
+     * and the view will be stuck in the keyboard position
+     */
+    if (Platform.OS === 'android' && Keyboard.isVisible()) {
+      const unsubscribe = Keyboard.addListener('keyboardDidHide', () => {
+        navigateBack()
+        unsubscribe?.remove()
+      })
+      Keyboard.dismiss()
+    } else {
+      navigateBack()
+    }
   }, [navigateBack, roomId])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: true,
+      headerTransparent: false,
       headerRight: () =>
         !!chatPartner &&
         !isSpaceRoom && (
@@ -178,7 +194,7 @@ const ChatRoomView = () => {
     <HoliKeyboardSafeAreaView>
       <View style={styles.layoutWarpper}>
         <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-          <Animated.View entering={FadeIn} style={{ flex: 1 }}>
+          <HoliTransition.Fade visible style={{ flex: 1 }}>
             <SafeAreaView style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
@@ -213,14 +229,16 @@ const ChatRoomView = () => {
                   )}
                 </View>
 
-                <ChatTextInput
-                  isVisible={!room.hasInvitation}
-                  userName={chatPartnerHoliUser?.fullName}
-                  roomId={roomId}
-                />
+                <HoliContainer noPadding>
+                  <ChatTextInput
+                    isVisible={!room.hasInvitation}
+                    userName={chatPartnerHoliUser?.fullName}
+                    roomId={roomId}
+                  />
+                </HoliContainer>
               </View>
             </SafeAreaView>
-          </Animated.View>
+          </HoliTransition.Fade>
         </PermissionsGuard>
       </View>
     </HoliKeyboardSafeAreaView>

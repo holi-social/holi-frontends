@@ -3,14 +3,9 @@ import React from 'react'
 
 import DiscussionDetailPage from '@holi/core/screens/insights/discussions/DiscussionDetailPage'
 import { discussionById } from '@holi/core/screens/insights/queries'
-import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
-const DiscussionPage = () => (
-  <SafeAreaProvider>
-    <DiscussionDetailPage />
-  </SafeAreaProvider>
-)
+const DiscussionPage = () => <DiscussionDetailPage />
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const { discussionId } = context.query

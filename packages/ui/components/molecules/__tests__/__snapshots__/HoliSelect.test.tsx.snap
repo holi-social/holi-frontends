@@ -55,7 +55,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
           style={
             {
               "color": "#6267e7",
-              "fontFamily": "Circular Std Medium",
+              "fontFamily": "InstrumentSans-Medium",
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
@@ -113,7 +113,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                 "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -394,7 +394,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -501,7 +501,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -667,7 +667,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -833,7 +833,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -940,7 +940,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1047,7 +1047,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1154,7 +1154,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1261,7 +1261,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1352,7 +1352,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
           style={
             {
               "color": "#6267e7",
-              "fontFamily": "Circular Std Medium",
+              "fontFamily": "InstrumentSans-Medium",
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
@@ -1410,7 +1410,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                 "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1691,7 +1691,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1798,7 +1798,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -1964,7 +1964,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2071,7 +2071,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2178,7 +2178,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2285,7 +2285,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2392,7 +2392,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2499,7 +2499,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2590,7 +2590,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
           style={
             {
               "color": "#262424",
-              "fontFamily": "Circular Std Medium",
+              "fontFamily": "InstrumentSans-Medium",
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
@@ -2645,7 +2645,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
                 "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -2868,7 +2868,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
           style={
             {
               "color": "#6267e7",
-              "fontFamily": "Circular Std Medium",
+              "fontFamily": "InstrumentSans-Medium",
               "fontSize": 14,
               "fontWeight": "500",
               "lineHeight": 19.599999999999998,
@@ -2925,7 +2925,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
                 "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3206,7 +3206,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3313,7 +3313,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3420,7 +3420,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3527,7 +3527,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3634,7 +3634,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3741,7 +3741,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3848,7 +3848,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -3955,7 +3955,7 @@ exports[`MultiSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4066,7 +4066,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                 "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4503,7 +4503,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4608,7 +4608,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4713,7 +4713,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4818,7 +4818,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -4923,7 +4923,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5028,7 +5028,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5133,7 +5133,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5238,7 +5238,7 @@ exports[`SingleSelect correctly filters options 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5347,7 +5347,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
                 "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5590,7 +5590,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
                 "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -5833,7 +5833,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
                 "borderWidth": 2,
                 "color": "#262424",
                 "flex": 1,
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -6114,7 +6114,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -6219,7 +6219,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -6324,7 +6324,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -6429,7 +6429,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -6534,7 +6534,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -6639,7 +6639,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -6744,7 +6744,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -6849,7 +6849,7 @@ exports[`SingleSelect renders correctly when opened 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,

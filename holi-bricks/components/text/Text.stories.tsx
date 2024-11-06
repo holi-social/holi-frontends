@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Text, TextSize } from 'holi-bricks/components/text/Text'
+import { Text, TextSize } from 'holi-bricks/components/text'
 import { black, mono, purple, red, white } from 'holi-bricks/tokens'
 import React from 'react'
+import { View } from 'react-native'
 
 const availableSizes: TextSize[] = ['4xl', '3xl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs']
 const availableHeadingLevels = {
@@ -20,7 +21,7 @@ const exampleColors = {
 }
 
 const meta: Meta<typeof Text> = {
-  title: 'Components/Text',
+  title: 'Components/Text/Text',
   component: Text,
   argTypes: {
     children: { description: 'Text content', required: true },
@@ -32,7 +33,6 @@ const meta: Meta<typeof Text> = {
 }
 
 type Story = StoryObj<typeof Text>
-
 export const Playground: Story = {
   argTypes: {
     size: { control: 'select', options: availableSizes },
@@ -60,13 +60,13 @@ export const BySize: Story = {
   args: {},
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {availableSizes.map((size) => (
           <Text key={size} {...args} size={size}>
             This is a text in size {size}.
           </Text>
         ))}
-      </div>
+      </View>
     )
   },
 }
@@ -76,13 +76,13 @@ export const ByColor: Story = {
   args: {},
   render: function Render(args) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {Object.entries(exampleColors).map(([name, color]) => (
           <Text key={name} {...args} color={color}>
             This is a text in color {name}.
           </Text>
         ))}
-      </div>
+      </View>
     )
   },
 }

@@ -4,7 +4,6 @@ import { Platform, ScrollView, StyleSheet } from 'react-native'
 import Default from '@holi/core/components/DefaultLayout/Default'
 import HeaderOffsetScrollView from '@holi/core/components/DefaultLayout/HeaderOffsetScrollView'
 import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
-import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 /**
@@ -29,9 +28,7 @@ const DefaultLayout = React.forwardRef<ScrollView, LayoutProps>(
     return headerOverlap ? (
       content
     ) : (
-      <SafeAreaProvider>
-        <HeaderOffsetScrollView backgroundColor={backgroundColor}>{content}</HeaderOffsetScrollView>
-      </SafeAreaProvider>
+      <HeaderOffsetScrollView backgroundColor={backgroundColor}>{content}</HeaderOffsetScrollView>
     )
   }
 )

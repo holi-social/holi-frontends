@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import useReportContent from '@holi/core/hooks/useReportContent'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import {
   UpdateSpaceUserConnectionResponse,
@@ -55,6 +55,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { displayError } = useErrorHandling()
   const [showGrantAdminConfirmationModal, setShowGrantAdminConfirmationModal] = useState(false)
@@ -62,13 +63,6 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   const [showRemoveMemberConfirmationModal, setShowRemoveMemberConfirmationModal] = useState(false)
   const [showReportMemberConfirmationModal, setShowReportMemberConfirmationModal] = useState(false)
   const { openToast } = useToast()
-
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: user.id,
-    contentType3k: ContentType3K.USER,
-    contentType: ContentType.USER,
-    successMsg: t('global.report.successMessage'),
-  })
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
@@ -137,13 +131,6 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
         connectionType: SpaceConnectionType.ADMINISTRATOR,
       },
     }).then(() => setShowRemoveMemberConfirmationModal(false))
-  }
-
-  const reportMember = () => {
-    reportContent().then(() => {
-      hidePermissions()
-      setShowReportMemberConfirmationModal(false)
-    })
   }
 
   return (
@@ -293,7 +280,6 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                 contentStyle={styles.actionsItem}
                 inline
                 transparent
-                disabled={isLoadingReport}
                 label={t('global.report')}
                 onPress={() => setShowReportMemberConfirmationModal(true)}
                 testID="report-user-button"
@@ -354,7 +340,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
               })}
               onDismiss={() => setShowReportMemberConfirmationModal(false)}
               testID="spaces-collaborators-report-user-confirmation"
-              onPrimary={reportMember}
+              onPrimary={() => navigateWithAuth(`/report/${user.id}/${ContentType.USER}/${ContentType3K.USER}`)}
             />
           </View>
         </ScrollView>

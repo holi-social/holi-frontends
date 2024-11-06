@@ -6,7 +6,7 @@ import { NovuNotificationType } from '@holi/core/screens/notifications/component
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 
 const mockGetNotificationsList = jest.fn()
-const mockMarkMessageAs = jest.fn()
+const mockMarkAllMessagesAsSeen = jest.fn()
 const mockUseNotificationService = jest.fn()
 
 jest.useFakeTimers()
@@ -37,7 +37,7 @@ describe('useNotifications', () => {
     mockUseNotificationService.mockReturnValue({
       novuService: {
         getNotificationsList: mockGetNotificationsList,
-        markMessageAs: mockMarkMessageAs,
+        markAllMessagesAsSeen: mockMarkAllMessagesAsSeen,
       },
       isInitializing: false,
     })
@@ -86,14 +86,14 @@ describe('useNotifications', () => {
       aMessage('n3', testMessage, aDateString),
     ])
     mockGetNotificationsList.mockResolvedValue(messageResponse)
-    mockMarkMessageAs.mockResolvedValue(undefined)
+    mockMarkAllMessagesAsSeen.mockResolvedValue(undefined)
     const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy())
 
     await result.current.markAllNotificationsAsSeen()
 
-    expect(mockMarkMessageAs).toHaveBeenCalledWith(['n1', 'n3'], { seen: true })
+    expect(mockMarkAllMessagesAsSeen).toHaveBeenCalled()
   })
 
   it('should mark unread messages as seen only once per message', async () => {
@@ -106,39 +106,25 @@ describe('useNotifications', () => {
     const messagePage2 = aMessageListPage([aMessage('n11', testMessage, aDateString)])
     mockGetNotificationsList.mockResolvedValueOnce(messagePage1)
     mockGetNotificationsList.mockResolvedValue(messagePage2)
-    mockMarkMessageAs.mockResolvedValue(undefined)
+    mockMarkAllMessagesAsSeen.mockResolvedValue(undefined)
     const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy())
 
     await result.current.markAllNotificationsAsSeen()
 
-    expect(mockMarkMessageAs).toHaveBeenCalledWith(['n1', 'n3'], { seen: true })
+    expect(mockMarkAllMessagesAsSeen).toHaveBeenCalled()
 
     await act(() => result.current.fetchNextPage())
 
     await result.current.markAllNotificationsAsSeen()
 
-    expect(mockMarkMessageAs).toHaveBeenCalledWith(['n11'], { seen: true })
-    expect(mockMarkMessageAs).toHaveBeenCalledTimes(2)
-  })
-
-  it('should not mark messages as seen if there are none', async () => {
-    const messageResponse = aMessageListPage([aMessage(testNotificationId, testMessage, aDateString, true)])
-    mockGetNotificationsList.mockResolvedValue(messageResponse)
-    mockMarkMessageAs.mockResolvedValue(undefined)
-    const { result } = renderHook(() => useNotifications())
-
-    await waitFor(() => expect(result.current.isLoading).toBeFalsy())
-
-    await result.current.markAllNotificationsAsSeen()
-
-    expect(mockMarkMessageAs).not.toHaveBeenCalled()
+    expect(mockMarkAllMessagesAsSeen).toHaveBeenCalledTimes(2)
   })
 
   it('should handle error when marking messages as seen failed', async () => {
     mockGetNotificationsList.mockResolvedValue(testResponse)
-    mockMarkMessageAs.mockRejectedValue(testError)
+    mockMarkAllMessagesAsSeen.mockRejectedValue(testError)
     const { result } = renderHook(() => useNotifications())
 
     await waitFor(() => expect(result.current.isLoading).toBeFalsy())
@@ -148,9 +134,7 @@ describe('useNotifications', () => {
     expect(console.warn).toHaveBeenCalledWith(
       '[useNotifications.markAllNotificationsAsSeen] Error marking novu notifications as seen',
       testError,
-      {
-        messageIds: [testNotificationId],
-      }
+      {}
     )
   })
 

@@ -1,26 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { Spacing } from 'holi-bricks/tokens'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, TextInputKeyPressEventData, View } from 'react-native'
-import Animated, {
-  FadeIn,
-  FadeOut,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
 
 import { sendMessage } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isAndroid = Platform.OS === 'android'
 const SEND_BUTTON_SIZE = 40
+const BORDER_WIDTH = 2
 
 interface TextInputKeyPressEventDataWeb extends TextInputKeyPressEventData {
   shiftKey: boolean
@@ -47,15 +41,6 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { colors } = theme
 
-  const visibilityProgress = useSharedValue(0)
-  const inputAnimatedStyle = useAnimatedStyle(
-    () => ({ transform: [{ translateY: interpolate(visibilityProgress.value, [0, 1], [300, 0]) }] }),
-    [visibilityProgress]
-  )
-  useEffect(() => {
-    visibilityProgress.value = withTiming(isVisible ? 1 : 0)
-  }, [isVisible, visibilityProgress])
-
   const handleSendMessage = async () => {
     const text = inputValue.trim()
 
@@ -74,48 +59,52 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
     }
   }
 
-  return isVisible ? (
-    <Animated.View style={[styles.container, inputAnimatedStyle]}>
-      <HoliTextInput
-        aria-label={t('chat.room.input.placeholder', { fullName: userName })}
-        placeholder={t('chat.room.input.placeholder', { fullName: userName })}
-        value={inputValue}
-        onChange={setInputValue}
-        style={styles.textInputContainer}
-        inputStyle={styles.textInput}
-        maxNoOfVisibleLines={5}
-        inputProps={{
-          onKeyPress: (event) => {
-            if (
-              isTextInputKeyPressEventDataWeb(event.nativeEvent) &&
-              event.nativeEvent.key === 'Enter' &&
-              event.nativeEvent.shiftKey
-            ) {
-              event.preventDefault()
-              handleSendMessage()
-            }
-          },
-        }}
-        testID={'chat-message-input'}
-      />
+  const PLACEHOLDER_MIN_HIGHT = SEND_BUTTON_SIZE + Spacing.xxs * 2 + BORDER_WIDTH * 2
 
-      <View style={{ width: SEND_BUTTON_SIZE, height: SEND_BUTTON_SIZE }}>
-        {inputValue.trim().length > 0 && (
-          <Animated.View entering={FadeIn} exiting={FadeOut}>
-            <HoliButton
-              label={t('chat.room.sendButton.label')}
-              disabled={inputValue.trim().length === 0}
-              onPress={handleSendMessage}
-              inline
-              style={styles.button}
-            >
-              <HoliIcon icon={SendPlane} size={SEND_BUTTON_SIZE / 2} color={colors.foreground30} />
-            </HoliButton>
-          </Animated.View>
-        )}
-      </View>
-    </Animated.View>
-  ) : null
+  return (
+    <View style={{ minHeight: PLACEHOLDER_MIN_HIGHT, width: '100%' }}>
+      <HoliTransition.SlideDown visible={isVisible} style={styles.container}>
+        <HoliTextInput
+          aria-label={t('chat.room.input.placeholder', { fullName: userName })}
+          placeholder={t('chat.room.input.placeholder', { fullName: userName })}
+          value={inputValue}
+          onChange={setInputValue}
+          style={styles.textInputContainer}
+          inputStyle={styles.textInput}
+          maxNoOfVisibleLines={5}
+          inputProps={{
+            onKeyPress: (event) => {
+              if (
+                isTextInputKeyPressEventDataWeb(event.nativeEvent) &&
+                event.nativeEvent.key === 'Enter' &&
+                event.nativeEvent.shiftKey
+              ) {
+                event.preventDefault()
+                handleSendMessage()
+              }
+            },
+          }}
+          testID={'chat-message-input'}
+        />
+
+        <View style={styles.buttonWrapper}>
+          {inputValue.trim().length > 0 && (
+            <HoliTransition.Fade visible>
+              <HoliButton
+                label={t('chat.room.sendButton.label')}
+                disabled={inputValue.trim().length === 0}
+                onPress={handleSendMessage}
+                inline
+                style={styles.button}
+              >
+                <HoliIcon icon={SendPlane} size={SEND_BUTTON_SIZE / 2} color={colors.foreground30} />
+              </HoliButton>
+            </HoliTransition.Fade>
+          )}
+        </View>
+      </HoliTransition.SlideDown>
+    </View>
+  )
 }
 
 const getStyles = (theme: HoliTheme) =>
@@ -123,15 +112,13 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 8,
-      width: '100%',
-      maxWidth: dimensions.maxScreenWidth,
-      paddingHorizontal: 16,
-      paddingVertical: 12,
-      borderTopLeftRadius: 24,
-      borderTopRightRadius: 24,
+      gap: Spacing['3xs'],
+      paddingHorizontal: Spacing.xs,
+      paddingVertical: Spacing.xxs,
+      borderTopLeftRadius: Spacing.md,
+      borderTopRightRadius: Spacing.md,
       borderBottomColor: theme.colors.white100,
-      borderWidth: 2,
+      borderWidth: BORDER_WIDTH,
       borderColor: theme.colors.background30,
       backgroundColor: theme.colors.white100,
     },
@@ -140,8 +127,8 @@ const getStyles = (theme: HoliTheme) =>
       height: SEND_BUTTON_SIZE,
     },
     button: {
-      paddingVertical: 8,
-      paddingHorizontal: 8,
+      paddingVertical: Spacing['3xs'],
+      paddingHorizontal: Spacing['3xs'],
       alignSelf: 'center',
     },
     textInputContainer: {

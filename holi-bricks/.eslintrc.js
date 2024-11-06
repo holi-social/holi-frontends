@@ -8,7 +8,7 @@ module.exports = {
       {
         // Allows relative imports only within the current directory, forbids all other relative imports as this breaks mobile builds
         // Also forbid imports to holi specific packages
-        patterns: ['..*', 'core/*', 'packages/*', 'holi-apps/*', '@holi/*'],
+        patterns: ['..*', 'core/*', 'packages/*', 'holi-apps/*', '@holi/*', '!@holi/icons'],
         paths: [
           {
             name: 'react-native',

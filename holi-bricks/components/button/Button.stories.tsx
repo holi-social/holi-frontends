@@ -15,6 +15,16 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     label: { description: 'Button text', required: false },
     variant: { control: 'select', options: availableVariants },
+    icon: {
+      table: {
+        disable: true,
+      },
+    },
+    onPress: {
+      table: {
+        disable: true,
+      },
+    },
   },
   args: {
     label: 'Label',
@@ -39,6 +49,7 @@ export const Playground: Story = {
     transparent: false,
     selected: false,
     icon: Chat3,
+    inline: false,
   },
   render: function Render(args) {
     const [, updateArgs] = useArgs()

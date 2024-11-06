@@ -4,15 +4,12 @@ import React from 'react'
 import PostDetailsPage from '@holi/core/screens/individualPosts/PostDetailsPage'
 import { postQuery } from '@holi/core/screens/individualPosts/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const FeedPostPage: NextPage = () => (
-  <SafeAreaProvider>
-    <SpaceTermContextProvider>
-      <PostDetailsPage />
-    </SpaceTermContextProvider>
-  </SafeAreaProvider>
+  <SpaceTermContextProvider>
+    <PostDetailsPage />
+  </SpaceTermContextProvider>
 )
 
 export const getServerSideProps = async (context: NextPageContext) => {

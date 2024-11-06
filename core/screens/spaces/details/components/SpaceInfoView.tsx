@@ -1,4 +1,5 @@
-import React from 'react'
+import { ChipLabel } from 'holi-bricks/components/chips'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
@@ -13,7 +14,8 @@ import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelc
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
 import { SDG_INFO_MODAL_SOURCES_MAPPING } from '@holi/core/screens/spaces/edit/EditSpace'
-import { Space } from '@holi/core/screens/spaces/types'
+import { RelatedSpace, Space } from '@holi/core/screens/spaces/types'
+import { Paged } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, At, Information, Phone } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -24,7 +26,6 @@ import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import Spacing from '@holi/ui/foundations/Spacing'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInfoViewProps = {
@@ -47,126 +48,28 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
 
   const links = space.links || []
 
-  const {
-    show: showAboutSpacesRelationShipModal,
-    hide: hideAboutSpacesRelationShipModal,
-    props: aboutSpacesRelationShipModalProps,
-  } = useModalState()
+  const hasManyLinkedSpaces = !!(space.childSpaces && space.childSpaces.totalResults > 4)
+
+  const navigateToRelatedSpaces = useCallback(() => {
+    navigate(`/spaces/${space.id}/relatedSpaces`)
+  }, [navigate, space.id])
 
   return (
     <View style={style}>
       <SpaceWelcome space={space} />
 
-      {/* Main Space */}
-      {!!space.parentSpace && (
-        <SpaceSection title={t('spaces.spaceDetails.parentSpace')}>
-          <HoliBlockItem
-            {...space.parentSpace}
-            label={space.parentSpace.title}
-            imageElement={<SpaceAvatar space={space} size="large" />}
-            users={space.parentSpace.members.data.map((membership) => membership.user)}
-            totalUserCount={space.parentSpace.members.totalResults}
-            href={`/spaces/${space.parentSpace.id}`}
-            testID="main-space-link"
-          />
-        </SpaceSection>
+      {!!space.parentSpace && <NetworkSpaceReference networkSpace={space.parentSpace} />}
+
+      {!!space.childSpaces?.data?.length && (
+        <LinkedSpacesReference
+          id={space.id}
+          networkSpace={space.parentSpace}
+          linkedSpaces={space.childSpaces}
+          showSeeMore={hasManyLinkedSpaces}
+          onSeeMorePress={navigateToRelatedSpaces}
+        />
       )}
 
-      {/* Related Spaces */}
-      {!!space.childSpaces?.data.length && (
-        <SpaceSection
-          title={t('spaces.spaceDetails.relatedSpaces')}
-          actionButton={
-            space.childSpaces.totalResults > 4 ? (
-              <View>
-                <HoliLink
-                  label={t('spaces.spaceDetails.relatedSpaces.viewAll')}
-                  testID="related-spaces-view-all-btn"
-                  href={`/spaces/${space.id}/relatedSpaces`}
-                >
-                  <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <HoliText>{t('spaces.spaceDetails.relatedSpaces.viewAll')}</HoliText>
-                    <HoliIcon icon={ArrowRightS} size={Spacing.lg} />
-                  </View>
-                </HoliLink>
-              </View>
-            ) : undefined
-          }
-          style={!!space.parentSpace && styles.childSpacesSection}
-        >
-          <SpacesHorizontalSlider
-            cardWidth={RELATED_SPACE_CARD_WIDTH}
-            slideGap={8}
-            seeMoreButton={
-              space.childSpaces.totalResults > 4 ? (
-                <SpacesSeeMore
-                  style={{ paddingVertical: Spacing['3xs'] }}
-                  onPress={() => navigate(`/spaces/${space.id}/relatedSpaces`)}
-                  testID={'related-spaces-see-more'}
-                />
-              ) : undefined
-            }
-            style={{ width: '100%' }}
-            paddingVertical={0}
-            testID="related-spaces-slider"
-          >
-            {space.childSpaces.data.map((space) => (
-              <HoliBlockItem
-                key={space.id}
-                label={space.title}
-                title={space.title}
-                subtitle={space.location}
-                description={space.description}
-                imageSrc={space.cover}
-                imageBlurhash={space.coverBlurhash}
-                users={space.members.data.map((membership) => membership.user)}
-                href={`/spaces/${space.name}`}
-                size="large"
-                totalUserCount={space.members.totalResults}
-                cardWidthForImageScaling={RELATED_SPACE_CARD_WIDTH}
-                testID="related-space-item"
-              />
-            ))}
-          </SpacesHorizontalSlider>
-
-          <View>
-            <HoliGap size="m" />
-            <HoliButton
-              label={t('spaces.spaceDetails.relatedSpaces.relationship.title')}
-              transparent
-              onPress={showAboutSpacesRelationShipModal}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <HoliText>{t('spaces.spaceDetails.relatedSpaces.relationship.title')}</HoliText>
-                <HoliGap size="xxs" direction="horizontal" />
-                <HoliIcon icon={Information} />
-              </View>
-            </HoliButton>
-          </View>
-
-          <HoliModal
-            {...aboutSpacesRelationShipModalProps}
-            label={t('spaces.spaceDetails.relatedSpaces.relationship.modal.title')}
-            testID="about-spaces-relationship-modal"
-          >
-            <HoliContainer>
-              <HoliHeading size="l">{t('spaces.spaceDetails.relatedSpaces.relationship.modal.title')}</HoliHeading>
-              <HoliGap size="xs" />
-              <HoliText>{t('spaces.spaceDetails.relatedSpaces.relationship.modal.description')}</HoliText>
-              <HoliGap size="s" />
-              <HoliButton
-                label={t('spaces.spaceDetails.relatedSpaces.relationship.modal.close')}
-                onPress={hideAboutSpacesRelationShipModal}
-              >
-                {t('spaces.spaceDetails.relatedSpaces.relationship.modal.close')}
-              </HoliButton>
-              <HoliGap size="s" />
-            </HoliContainer>
-          </HoliModal>
-        </SpaceSection>
-      )}
-
-      {/* Topics */}
       {!!space.topics?.length && (
         <SpaceSection title={t('spaces.spaceDetails.topics')}>
           <View style={styles.listContainer}>
@@ -179,14 +82,12 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
         </SpaceSection>
       )}
 
-      {/* Location */}
       {space.location && (
         <SpaceSection title={t('spaces.spaceDetails.location')}>
           <HoliText>{space.location}</HoliText>
         </SpaceSection>
       )}
 
-      {/* SDGs */}
       {!!sdgs.length && (
         <SpaceSection title={t('spaces.spaceDetails.sdgs')} infoIcon onPressInfo={showInfoModal}>
           <View style={styles.listContainer}>
@@ -196,14 +97,13 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
           </View>
           <InfoModal
             items={{ sdg: partner }}
-            show={!!infoModalVisible}
+            show={infoModalVisible}
             onDismiss={closeInfoModal}
             i18nPrefix={'spaces.input.sdgs.infoModal'}
           />
         </SpaceSection>
       )}
 
-      {/* Contact */}
       {(!!space.contactDescription || !!space.contactEmail || !!space.contactPhone) && (
         <SpaceSection title={t('spaces.spaceDetails.contact')}>
           <View style={styles.contactWrapper}>
@@ -228,7 +128,6 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
         </SpaceSection>
       )}
 
-      {/* Links */}
       {!!links.length && (
         <SpaceSection title={t('spaces.spaceDetails.publicLinks')}>
           <View style={styles.listContainer}>
@@ -241,6 +140,147 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
     </View>
   )
 }
+
+const NetworkSpaceReference: React.FC<{ networkSpace: RelatedSpace }> = (props) => {
+  const { t } = useTranslation()
+  return (
+    <SpaceSection title={t('spaces.spaceDetails.networkSpace')}>
+      <HoliBlockItem
+        {...props.networkSpace}
+        label={props.networkSpace.title}
+        imageElement={<SpaceAvatar space={props.networkSpace} size="large" />}
+        users={props.networkSpace.members.data.map((member) => member.user)}
+        totalUserCount={props.networkSpace.members.totalResults}
+        href={`/spaces/${props.networkSpace.id}`}
+        testID="main-space-link"
+      />
+    </SpaceSection>
+  )
+}
+
+const ViewAllButton: React.FC<{ id: string }> = (props) => {
+  const { t } = useTranslation()
+  return (
+    <View>
+      <HoliLink
+        label={t('spaces.spaceDetails.linkedSpaces.viewAll')}
+        testID="related-spaces-view-all-btn"
+        href={`/spaces/${props.id}/relatedSpaces`}
+      >
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+          <HoliText>{t('spaces.spaceDetails.linkedSpaces.viewAll')}</HoliText>
+          <HoliIcon icon={ArrowRightS} size={Spacing.lg} />
+        </View>
+      </HoliLink>
+    </View>
+  )
+}
+
+const LinkedSpacesCarousel: React.FC<{
+  onSeeMorePress: () => void
+  linkedSpaces: Paged<RelatedSpace>
+  showMoreCard: boolean
+}> = (props) => (
+  <SpacesHorizontalSlider
+    cardWidth={RELATED_SPACE_CARD_WIDTH}
+    slideGap={8}
+    seeMoreButton={
+      props.showMoreCard ? (
+        <SpacesSeeMore
+          style={{ paddingVertical: Spacing['3xs'] }}
+          onPress={props.onSeeMorePress}
+          testID={'related-spaces-see-more'}
+        />
+      ) : undefined
+    }
+    style={{ width: '100%' }}
+    paddingVertical={0}
+    testID="related-spaces-slider"
+  >
+    {props.linkedSpaces.data.map((space) => (
+      <HoliBlockItem
+        key={space.id}
+        label={space.title}
+        title={space.title}
+        subtitle={space.location}
+        description={space.description}
+        imageSrc={space.cover}
+        imageBlurhash={space.coverBlurhash}
+        users={space.members.data.map((membership) => membership.user)}
+        href={`/spaces/${space.name}`}
+        size="large"
+        totalUserCount={space.members.totalResults}
+        cardWidthForImageScaling={RELATED_SPACE_CARD_WIDTH}
+        testID="related-space-item"
+      />
+    ))}
+  </SpacesHorizontalSlider>
+)
+
+const LinkedSpacesReference: React.FC<{
+  id: string
+  networkSpace: RelatedSpace | undefined
+  linkedSpaces: Paged<RelatedSpace>
+  showSeeMore: boolean
+  onSeeMorePress: () => void
+}> = (props) => {
+  const { t } = useTranslation()
+  const {
+    show: showAboutSpacesRelationShipModal,
+    hide: hideAboutSpacesRelationShipModal,
+    props: aboutSpacesRelationShipModalProps,
+  } = useModalState()
+
+  return (
+    <SpaceSection
+      title={t('spaces.spaceDetails.linkedSpaces')}
+      actionButton={props.showSeeMore && <ViewAllButton id={props.id} />}
+      style={!!props.networkSpace && styles.linkedSpacesSection}
+    >
+      <LinkedSpacesCarousel
+        onSeeMorePress={props.onSeeMorePress}
+        linkedSpaces={props.linkedSpaces}
+        showMoreCard={props.showSeeMore}
+      />
+
+      <View>
+        <HoliGap size="m" />
+        <HoliButton
+          label={t('spaces.spaceDetails.linkedSpaces.relationship.title')}
+          transparent
+          onPress={showAboutSpacesRelationShipModal}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <HoliText>{t('spaces.spaceDetails.linkedSpaces.relationship.title')}</HoliText>
+            <HoliGap size="xxs" direction="horizontal" />
+            <HoliIcon icon={Information} />
+          </View>
+        </HoliButton>
+      </View>
+
+      <HoliModal
+        {...aboutSpacesRelationShipModalProps}
+        label={t('spaces.spaceDetails.linkedSpaces.relationship.title')}
+        testID="about-spaces-relationship-modal"
+      >
+        <HoliContainer>
+          <HoliHeading size="l">{t('spaces.spaceDetails.linkedSpaces.relationship.modal.title')}</HoliHeading>
+          <HoliGap size="xs" />
+          <HoliText>{t('spaces.spaceDetails.linkedSpaces.relationship.modal.description')}</HoliText>
+          <HoliGap size="s" />
+          <HoliButton
+            label={t('spaces.spaceDetails.linkedSpaces.relationship.modal.close')}
+            onPress={hideAboutSpacesRelationShipModal}
+          >
+            {t('spaces.spaceDetails.linkedSpaces.relationship.modal.close')}
+          </HoliButton>
+          <HoliGap size="s" />
+        </HoliContainer>
+      </HoliModal>
+    </SpaceSection>
+  )
+}
+
 export default SpaceInfoView
 
 const styles = StyleSheet.create({
@@ -255,7 +295,7 @@ const styles = StyleSheet.create({
     marginRight: Spacing['sm'],
     marginBottom: Spacing['sm'],
   },
-  childSpacesSection: {
+  linkedSpacesSection: {
     borderTopWidth: 0,
     paddingTop: 0,
   },

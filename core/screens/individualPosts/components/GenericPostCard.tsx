@@ -1,4 +1,5 @@
 import { withProfiler } from '@sentry/react'
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -9,7 +10,7 @@ import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuth
 import HoliTranslate from '@holi/core/components/HoliTranslate'
 import { Term, User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
-import useReportContent from '@holi/core/hooks/useReportContent'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
@@ -33,7 +34,6 @@ import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { colors } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -52,16 +52,10 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
   const { navigate } = useRouting()
   const { track } = useTracking()
   const { isLoggedIn, user } = useLoggedInUser()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const [description, setDescription] = useState<string>((post as Post).text ?? (post as FeedPost).description)
   const [title, setTitle] = useState<string>(post.title)
   const [loadingTranslation, setLoadingTranslation] = useState(false)
-
-  const [isLoadingSpacePostReport, reportSpacePostContent] = useReportContent({
-    id: post?.id || '',
-    contentType3k: ContentType3K.POST,
-    contentType: ContentType.POST,
-    successMsg: t('global.report.successMessage'),
-  })
 
   const { deletePost: deleteSpacePost, isLoadingPostDeletion: isLoadingSpacePostDeletion } = useDeletePost(
     post as Post,
@@ -244,20 +238,11 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
             >
               {!isCurrentUserPostCreator && (
                 <HoliActionDrawer.Action
-                  isLoading={isLoadingSpacePostReport}
                   icon={Flag}
                   title={t('global.report')}
                   testID="report-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('insights.post.report.confirmation.title')}
-                    description={t('insights.post.report.confirmation.description')}
-                    handleConfirmation={reportSpacePostContent}
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
+                  handleAction={() => navigateWithAuth(`/report/${post?.id}/${ContentType.POST}/${ContentType3K.POST}`)}
+                />
               )}
               {spacePost.space?.id && isCurrentUserPostCreator && (
                 <HoliActionDrawer.Action

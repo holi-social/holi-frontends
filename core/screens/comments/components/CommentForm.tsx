@@ -1,9 +1,11 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
+import * as Notifications from 'expo-notifications'
 import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Keyboard,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -25,6 +27,11 @@ import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/co
 import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { Comment, CommentableType } from '@holi/core/screens/comments/types'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
+import {
+  incrementModalAttempts,
+  useNotificationEligibility,
+} from '@holi/core/screens/notifications/helpers/notificationModalHelper'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -63,7 +70,6 @@ const CommentForm = ({
   const insets = useSafeAreaInsets()
 
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
-
   const scrollViewRef = useRef<ScrollView>(null)
 
   const { theme } = useTheme()
@@ -95,17 +101,33 @@ const CommentForm = ({
     [CommentableType.DISCUSSION]: [{ query: lastInsightsQuery }, ...commonQueries],
   }
 
+  const { isEligible } = useNotificationEligibility()
+  const [modalVisible, setModalVisible] = useState(false)
+
   // @ts-ignore
   const refetchQueries = refetchQueriesMap[commentableType] || commonQueries
 
+  const handleNavigation = () => {
+    if (redirectRoute) {
+      replaceRoute(redirectRoute)
+    } else {
+      navigateBack()
+    }
+  }
+
   const [addComment, { loading: createCommentLoading }] = useMutation<CreateCommentResponse>(AddCommentMutation, {
-    onCompleted: () => {
+    onCompleted: async () => {
       openToast(t('comments.success'), HoliToastType.SUCCESS)
       track(TrackingEvent.Engaging.commented(commentableType, commentableId))
-      if (redirectRoute) {
-        replaceRoute(redirectRoute)
+
+      // Check if the user has already granted notification permissions
+      const { status } = await Notifications.getPermissionsAsync()
+      const shouldShowModal = status !== 'granted' && isEligible
+
+      if (!shouldShowModal) {
+        handleNavigation()
       } else {
-        navigateBack()
+        setModalVisible(true)
       }
     },
     onError: (error) => {
@@ -148,6 +170,53 @@ const CommentForm = ({
       Keyboard.removeAllListeners('keyboardDidShow')
     }
   }, [onKeyboardDidShow])
+
+  const handleCommentSubmit = async () => {
+    const data = await detectLanguage({ variables: { text: text.trim() } })
+
+    await addComment({
+      variables: {
+        input: {
+          text: text.trim(),
+          commentableId,
+          commentableType,
+          parentCommentId: parentComment?.id,
+          language: data?.data?.detectedLanguage,
+        },
+      },
+    })
+  }
+
+  const handleOptIn = async () => {
+    const { status } = await Notifications.getPermissionsAsync()
+    const openSettings = () => Linking.openURL('app-settings:')
+
+    await incrementModalAttempts()
+
+    if (status !== 'granted') {
+      const { status: newStatus } = await Notifications.requestPermissionsAsync()
+
+      if (newStatus === 'granted') {
+        setModalVisible(false)
+        handleNavigation()
+      } else if (newStatus === 'undetermined') {
+        // Do nothing, keep the modal open
+      } else {
+        openSettings()
+        setModalVisible(false)
+        handleNavigation()
+      }
+    } else {
+      setModalVisible(false)
+      handleNavigation()
+    }
+  }
+
+  const handleModalDismiss = async () => {
+    setModalVisible(false)
+    await incrementModalAttempts()
+    redirectRoute ? replaceRoute(redirectRoute) : navigateBack()
+  }
 
   return (
     <HoliContainer noPadding>
@@ -213,20 +282,7 @@ const CommentForm = ({
                   label={t('comments.button')}
                   variant="small"
                   inline
-                  onPress={async () => {
-                    const data = await detectLanguage({ variables: { text: text.trim() } })
-                    addComment({
-                      variables: {
-                        input: {
-                          text: text.trim(),
-                          commentableId,
-                          commentableType,
-                          parentCommentId: parentComment?.id,
-                          language: data?.data?.detectedLanguage,
-                        },
-                      },
-                    })
-                  }}
+                  onPress={handleCommentSubmit}
                   testID="btn-submit-comment"
                 >
                   {t('comments.button')}
@@ -236,6 +292,13 @@ const CommentForm = ({
           </View>
         </SafeAreaView>
       </KeyboardAvoidingView>
+      <NotificationOptInModal
+        type="default"
+        isVisible={modalVisible}
+        onConfirm={handleOptIn}
+        onDismiss={handleModalDismiss}
+        description={t('notifications.permission.description.default')}
+      />
     </HoliContainer>
   )
 }

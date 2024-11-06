@@ -6,7 +6,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 
 const registerUserNamesMutation = gql`
   mutation RegisterUserNamesMutation($input: UpdateAuthenticatedUserInput!) {
-    updateAuthenticatedUser(input: $input) {
+    updateAuthenticatedUserV2(input: $input) {
       id
       fullName
       firstName
@@ -26,7 +26,7 @@ interface RegisterUserNamesInput {
 }
 
 interface RegisterUserNamesResponse {
-  updateAuthenticatedUser: {
+  updateAuthenticatedUserV2: {
     id: string
     firstName: string
     fullName: string

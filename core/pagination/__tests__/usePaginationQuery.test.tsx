@@ -1,8 +1,9 @@
 import { DocumentNode, OperationVariables } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 import { createCache } from '@holi/api/graphql/client'
 import {
@@ -63,13 +64,13 @@ const TestComponent: React.FC<TestComponentProps> = ({
 
   return (
     <View>
-      {loading && <Text>Loading</Text>}
-      {isFetchingMore && <Text>Fetching more</Text>}
-      {error && <Text>{error.message}</Text>}
-      {data && <Text>{totalResults} results</Text>}
+      {loading && <Text size="md">Loading</Text>}
+      {isFetchingMore && <Text size="md">Fetching more</Text>}
+      {error && <Text size="md">{error.message}</Text>}
+      {data && <Text size="md">{totalResults} results</Text>}
       {data.map((element) => (
-        <Text key={element.id} testID="element">
-          {element.id}
+        <Text size="md" key={element.id}>
+          Element {element.id}
         </Text>
       ))}
       {canFetchMore && <HoliButtonLoading onPress={fetchNextPage} testID="btn-fetch-more" label={'Fetch more'} />}
@@ -118,7 +119,7 @@ describe('usePaginationQuery', () => {
     )
 
     expect(await screen.findByText(totalResults + ' results'))
-    expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
+    expect((await screen.findAllByText(/Element/)).length).toBe(pageSize)
   })
 
   it('should expose flag if fetching more is possible', async () => {
@@ -159,20 +160,20 @@ describe('usePaginationQuery', () => {
 
     // See first page
     expect(await screen.findByText(totalResults + ' results'))
-    expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
+    expect((await screen.findAllByText(/Element/)).length).toBe(pageSize)
 
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
     // Fetch second page
     await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
     expect(await screen.findByText(totalResults + ' results'))
-    expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
+    expect((await screen.findAllByText(/Element/)).length).toBe(pageSize * 2)
 
     // Fetch last page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
     await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
 
     expect(await screen.findByText(totalResults + ' results'))
-    expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
+    expect((await screen.findAllByText(/Element/)).length).toBe(totalResults)
 
     // It should not be possible to fetch another page
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()
@@ -196,21 +197,21 @@ describe('usePaginationQuery', () => {
 
     // See first page
     expect(await screen.findByText(totalResults + ' results'))
-    expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
+    expect((await screen.findAllByText(/Element/)).length).toBe(pageSize)
 
     // Fetch second page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
     expect(await screen.findByText(totalResults + ' results'))
-    expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
+    expect((await screen.findAllByText(/Element/)).length).toBe(pageSize * 2)
 
     // Fetch last page
     fireEvent.press(screen.getByTestId('btn-fetch-more'))
 
     await waitForElementToBeRemoved(() => screen.getByText('Fetching more'))
     expect(await screen.findByText(totalResults + ' results'))
-    expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
+    expect((await screen.findAllByText(/Element/)).length).toBe(totalResults)
 
     // It should not be possible to fetch another page
     expect(screen.queryByTestId('btn-fetch-more')).toBeFalsy()

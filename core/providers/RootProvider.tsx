@@ -3,6 +3,7 @@ import { withProfiler } from '@sentry/react'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { Platform } from 'react-native'
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
 
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import ChatSessionInitializer from '@holi/chat/src/components/ChatSessionInitializer'
@@ -18,8 +19,12 @@ import DeviceRegistration from '@holi/core/screens/notifications/components/Devi
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import PosthogProvider, { PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
-import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+
+const initialWindowMetricsForWeb = {
+  frame: { x: 0, y: 0, width: 0, height: 0 },
+  insets: { top: 0, left: 0, right: 0, bottom: 0 },
+}
 
 interface RootProviderProps {
   apolloClient: ApolloClient<object>
@@ -32,7 +37,7 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
   return (
     <ErrorBoundary showErrorMsg={isWeb} allowReload={isWeb}>
       <PosthogProvider bootstrapState={posthogBootstrapState}>
-        <SafeAreaProvider>
+        <SafeAreaProvider initialMetrics={isWeb ? initialWindowMetricsForWeb : initialWindowMetrics}>
           <ApolloProvider client={apolloClient}>
             <TrackingInitializer />
             <ToastProvider>

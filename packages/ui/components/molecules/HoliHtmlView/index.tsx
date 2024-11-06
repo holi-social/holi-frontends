@@ -28,7 +28,7 @@ const HoliHtmlView = ({ html, style, testID }: HoliHtmlViewProps) => {
       baseStyle={StyleSheet.flatten(style) as MixedStyleDeclaration}
       tagsStyles={tagsStyles}
       enableCSSInlineProcessing={false}
-      systemFonts={[...defaultSystemFonts, theme.fontFamily.default('Medium'), theme.fontFamily.default('Book')]}
+      systemFonts={[...defaultSystemFonts, theme.fontFamily.default('Medium'), theme.fontFamily.default('Regular')]}
       defaultViewProps={{
         testID,
       }}

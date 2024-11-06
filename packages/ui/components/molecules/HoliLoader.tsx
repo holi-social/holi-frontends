@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import HoliLottie from '@holi/ui/components/atoms/HoliLottie'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 
 export interface HoliLoaderProps {
   style?: StyleProp<ViewStyle>
@@ -24,16 +24,11 @@ export const useLoader = () => {
 
 const HoliLoader: React.FC<HoliLoaderProps> = ({ style, testID }) => {
   return (
-    <Animated.View
-      style={[styles.loaderContainer, style]}
-      entering={FadeIn.delay(300)}
-      exiting={FadeOut.duration(500)}
-      testID={testID}
-    >
-      <View style={styles.loader}>
+    <HoliTransition.Fade visible style={[styles.loaderContainer, style]}>
+      <View style={styles.loader} testID={testID}>
         <HoliLottie animType="loader" />
       </View>
-    </Animated.View>
+    </HoliTransition.Fade>
   )
 }
 
@@ -45,7 +40,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 16,
-    zIndex: 2,
     backgroundColor: 'transparent',
   },
   loader: {

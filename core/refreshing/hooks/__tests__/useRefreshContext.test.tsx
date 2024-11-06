@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React, { useEffect } from 'react'
-import { Text } from 'react-native'
 
 import { RefreshContext, useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 
 const RefreshControlComponent = () => {
   const context = useRefreshContext()
 
-  return <Text>{context.refreshControlProps.refreshing && 'is refreshing'}</Text>
+  return <Text size="md">{context.refreshControlProps.refreshing && 'is refreshing'}</Text>
 }
 
 const RefreshCallbackRegisteringComponent = ({ callback }: { callback: () => unknown }) => {

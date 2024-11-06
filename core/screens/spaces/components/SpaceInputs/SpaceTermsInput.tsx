@@ -1,3 +1,4 @@
+import { ChipSelect } from 'holi-bricks/components/chips'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -6,7 +7,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import ChipSelect from '@holi/ui/no-name/components/chips/ChipSelect'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 

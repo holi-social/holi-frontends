@@ -1,0 +1,27 @@
+.fade {
+  &-appear,
+  &-enter {
+    opacity: 0;
+  }
+
+  &-appear-active,
+  &-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}n) {
+        transition-delay: #{$i * 200}ms;
+      }
+    }
+  }
+
+  &-exit {
+    opacity: 1;
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+  }
+}

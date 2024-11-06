@@ -28,7 +28,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/no-explicit-any': ['error'],
     'no-restricted-imports': [
-      'warn',
+      'error',
       {
         // Allows relative imports only within the current directory, forbids all other relative imports
         // Also forbid imports to yarn workspaces without @holi prefix as this breaks mobile builds
@@ -38,6 +38,11 @@ module.exports = {
             name: 'react-native',
             importNames: ['Text', 'TextProps', 'Button'],
             message: 'Please use components from holi-bricks instead.',
+          },
+          {
+            name: 'react-native-unistyles',
+            importNames: ['createStyleSheet', 'useStyles'],
+            message: 'Please use hooks and utils from holi-bricks instead.',
           },
         ],
       },

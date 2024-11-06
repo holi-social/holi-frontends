@@ -35,11 +35,22 @@ const AttendingChallengeEvents = () => {
     return fetch(API_URL, {
       headers: new Headers(headers),
     })
-      .then((res) =>
-        res.json().then((events: ChallengeEvent[]) => {
-          setEvents(events)
-        })
-      )
+      .then((res) => {
+        if (!res.ok) {
+          logError(
+            new Error('Failed to fetch attending challenge events'),
+            'Error fetching attending challenge events',
+            {
+              location: 'AttendingChallengeEvents.useEffect',
+            }
+          )
+          return
+        }
+        return res.json()
+      })
+      .then((events: ChallengeEvent[]) => {
+        setEvents(events)
+      })
       .catch((error) => {
         logError(error, 'Error fetching challenge events', {
           location: 'AttendingChallengeEvents.useEffect',

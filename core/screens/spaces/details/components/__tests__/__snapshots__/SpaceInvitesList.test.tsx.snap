@@ -36,7 +36,7 @@ exports[`SpaceInvitesList renders correctly if there are no pending invites 1`] 
       style={
         {
           "color": "#262424",
-          "fontFamily": "Circular Std Book",
+          "fontFamily": "InstrumentSans-Regular",
           "fontSize": 14,
           "fontWeight": "400",
           "lineHeight": 19.599999999999998,
@@ -60,7 +60,7 @@ exports[`SpaceInvitesList renders correctly if there are no pending invites 1`] 
       style={
         {
           "color": "#262424",
-          "fontFamily": "Circular Std Book",
+          "fontFamily": "InstrumentSans-Regular",
           "fontSize": 21,
           "fontWeight": "400",
           "lineHeight": 29.4,
@@ -215,7 +215,7 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -539,7 +539,7 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,
@@ -863,7 +863,7 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 22.4,

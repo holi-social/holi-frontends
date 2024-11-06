@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Text } from 'holi-bricks/components/text'
 import React from 'react'
-import { Text } from 'react-native'
 
 // FIXME: Using the Action inside the Drawer does not seem to work (HOLI-4496)
 // import Action from '@holi/ui/components/organisms/HoliActionDrawer/Action'
@@ -15,7 +15,7 @@ export default {
 export const Example: ComponentStory<typeof Drawer> = () => (
   <Drawer label="a11y-label">
     {/* <Action action="edit" title="Edit"> */}
-    <Text>Hi mom</Text>
+    <Text size="md">Hi mom</Text>
     {/* </Action> */}
   </Drawer>
 )

@@ -1,3 +1,6 @@
+import { Text, TextLink } from 'holi-bricks/components/text'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, GestureResponderEvent, ListRenderItem, StyleSheet, View } from 'react-native'
@@ -6,9 +9,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -49,6 +50,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
+  const { styles: unistyles } = useStyles(stylesheet)
 
   const handleHeaderTitlePress = () => {
     seeAllPath && navigate(seeAllPath)
@@ -83,11 +85,15 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
                 <HoliIcon icon={icon} size={20} color={colors.black300} />
               </View>
               <View style={{ gap: 4 }}>
-                <HoliHeading>{heading}</HoliHeading>
-                <HoliText style={{ color: colors.foreground20 }}>{subline}</HoliText>
+                <Text size="xxl" headingLevel="3">
+                  {heading}
+                </Text>
+                <Text size="sm" color={unistyles.subline.color}>
+                  {subline}
+                </Text>
               </View>
             </View>
-            {seeAllPath && <HoliText style={styles.seeAll}>{t('global.seeAll')}</HoliText>}
+            {seeAllPath && <TextLink size="sm">{t('global.seeAll')}</TextLink>}
           </View>
         </HoliButton>
 
@@ -139,9 +145,6 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       flexDirection: 'row',
       gap: 12,
     },
-    seeAll: {
-      fontSize: 15,
-    },
     headerContainer: {
       alignSelf: 'flex-start',
       paddingBottom: 24,
@@ -170,3 +173,9 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       paddingBottom: 32,
     },
   })
+
+const stylesheet = createStyleSheet((theme) => ({
+  subline: {
+    color: theme.colors.textTertiary,
+  },
+}))

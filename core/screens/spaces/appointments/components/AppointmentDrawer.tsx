@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
-import useReportContent from '@holi/core/hooks/useReportContent'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { Appointment } from '@holi/core/screens/appointments/types'
@@ -28,6 +28,7 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
 }: AppointmentDrawerProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const loginState = useLoggedInUser()
 
   const [isLoadingDeleteAppointment, deleteAppointment] = useDeleteAppointment({
@@ -35,13 +36,6 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
     spaceId: space.id,
     successMsg: t('appointment.delete.success'),
     handleDelete,
-  })
-
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: appointment?.id || '',
-    contentType3k: ContentType3K.SPACE_APPOINTMENT,
-    contentType: ContentType.SPACE_APPOINTMENT,
-    successMsg: t('global.report.successMessage'),
   })
 
   const isAppointmentCreator = loginState.isLoggedIn && appointment?.creator?.id === loginState.user.id
@@ -89,20 +83,15 @@ const AppointmentDrawer: React.FC<AppointmentDrawerProps> = ({
       )}
       {shouldDisplayReportAction && (
         <HoliActionDrawer.Action
-          isLoading={isLoadingReport}
           icon={Flag}
           title={t('global.report')}
           testID="btn-report-appointment"
-          showConfirmation
-        >
-          <HoliActionDrawer.Confirmation
-            title={t('spaces.appointments.report.title')}
-            description={t('insights.post.report.confirmation.description')}
-            handleConfirmation={reportContent}
-            hasDismissBtn
-            requireLogin
-          />
-        </HoliActionDrawer.Action>
+          handleAction={() =>
+            navigateWithAuth(
+              `/report/${appointment?.id}/${ContentType.SPACE_APPOINTMENT}/${ContentType3K.SPACE_APPOINTMENT}`
+            )
+          }
+        />
       )}
     </HoliActionDrawer.Drawer>
   )

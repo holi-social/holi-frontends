@@ -1,3 +1,4 @@
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
@@ -18,7 +19,6 @@ import HoliText, { type HoliTextProps } from '@holi/ui/components/atoms/HoliText
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export interface Props {

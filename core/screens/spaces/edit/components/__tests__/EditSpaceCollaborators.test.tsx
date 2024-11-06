@@ -144,7 +144,6 @@ describe('EditSpaceCollaborators', () => {
       </MockedProvider>
     )
     await waitForElementToBeRemoved(() => screen.queryByTestId('edit-space-collaborators-loader'))
-    screen.debug()
     await waitFor(() => screen.getByTestId('collaborator-tabs-button-requests-active'))
   })
 

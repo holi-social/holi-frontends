@@ -1,17 +1,20 @@
 import { withProfiler } from '@sentry/react'
+import { Text } from 'holi-bricks/components/text'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import SpaceRecommendations from '@holi/core/screens/homeFeed/components/SpaceRecommendations'
 import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskRecommendations'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
@@ -28,19 +31,44 @@ export const useCardWidth = () => {
 const RecommendationsHeader = () => {
   const { t } = useTranslation()
   const subtitle = useRecosSubtitle()
+  const { styles } = useStyles(stylesheet)
 
   return (
     <HoliContainer>
-      <HoliHeading size="l">{t('recommendations.title')}</HoliHeading>
-      {subtitle && <HoliHeading size="m">{t(subtitle)}</HoliHeading>}
+      <Text headingLevel="2" size="3xl">
+        {t('recommendations.title')}
+      </Text>
+      <HoliGap size="xs" />
+      {subtitle && (
+        <Text size="md" color={styles.subtitle.color}>
+          {t(subtitle)}
+        </Text>
+      )}
     </HoliContainer>
   )
 }
 
-const Recommendations = () => {
+const useRecoOrderAB = (): 'loading' | 'tasksFirst' | 'volunteeringFirst' | 'tasksOnly' => {
   const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
+  const homeTaskOrderSwapExperimentCohort = useFeatureFlagAB(FeatureFlagKey.HOME_TASK_ORDER_SWAP)
+
+  if (!displayVolunteering) return 'tasksOnly'
+  else {
+    switch (homeTaskOrderSwapExperimentCohort) {
+      case 'control':
+        return 'tasksFirst'
+      case 'test':
+        return 'volunteeringFirst'
+      case undefined:
+        return 'loading'
+    }
+  }
+}
+
+const Recommendations = () => {
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
   const displayGoodNews = useFeatureFlagWithMaintenance(FeatureFlagKey.GOODNEWS).isOn
+  const recoOrderAB = useRecoOrderAB()
   const cardWidth = useCardWidth()
 
   return (
@@ -52,15 +80,45 @@ const Recommendations = () => {
           <SpaceRecommendations cardWidth={cardWidth} />
         </ErrorBoundary>
 
-        <ErrorBoundary>
-          <TaskRecommendations cardWidth={cardWidth} />
-        </ErrorBoundary>
+        {recoOrderAB === 'tasksOnly' && (
+          <ErrorBoundary>
+            <TaskRecommendations cardWidth={cardWidth} />
+          </ErrorBoundary>
+        )}
 
-        {displayVolunteering && <VolunteeringRecos cardWidth={cardWidth} />}
+        {recoOrderAB === 'tasksFirst' && (
+          <>
+            <ErrorBoundary>
+              <TaskRecommendations cardWidth={cardWidth} />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <VolunteeringRecos cardWidth={cardWidth} />
+            </ErrorBoundary>
+          </>
+        )}
 
-        {displayDonations && <DonationUpdates cardWidth={cardWidth} />}
+        {recoOrderAB === 'volunteeringFirst' && (
+          <>
+            <ErrorBoundary>
+              <VolunteeringRecos cardWidth={cardWidth} />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <TaskRecommendations cardWidth={cardWidth} />
+            </ErrorBoundary>
+          </>
+        )}
 
-        {displayGoodNews && <GoodNewsUpdates cardWidth={cardWidth} />}
+        {displayDonations && (
+          <ErrorBoundary>
+            <DonationUpdates cardWidth={cardWidth} />
+          </ErrorBoundary>
+        )}
+
+        {displayGoodNews && (
+          <ErrorBoundary>
+            <GoodNewsUpdates cardWidth={cardWidth} />
+          </ErrorBoundary>
+        )}
       </View>
     </View>
   )
@@ -73,3 +131,9 @@ const styles = StyleSheet.create({
     gap: dimensions.spacingL,
   },
 })
+
+const stylesheet = createStyleSheet((theme) => ({
+  subtitle: {
+    color: theme.colors.textSecondary,
+  },
+}))

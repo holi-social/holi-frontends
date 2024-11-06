@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { SafeAreaProvider } from '@holi/ui/components/atoms/SafeAreaProvider.web'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 
@@ -21,7 +21,11 @@ const Template: ComponentStory<typeof HoliUserCardsModalContent> = (props) => (
 export const Example: ComponentStory<typeof HoliUserCardsModalContent> = Template.bind({})
 
 Example.argTypes = {
-  users: { description: 'Array of users', required: true, control: { type: 'object' } },
+  users: {
+    description: 'Array of users',
+    required: true,
+    control: { type: 'object' },
+  },
   onDismiss: { description: 'Close modal function', type: 'function' },
   category: { description: 'Insight category', type: 'string' },
   title: { description: 'Modal title', type: 'string' },

@@ -1,10 +1,10 @@
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { Skill, Topic } from '@holi/core/domain/shared/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 
 export type TopicLabelsProps = {
   topicSlugs: readonly string[] | undefined

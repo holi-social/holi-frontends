@@ -18,7 +18,7 @@ exports[`renders correctly with long text 1`] = `
       {
         "alignContent": "flex-start",
         "color": "#787777",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "justifyContent": "center",
@@ -39,7 +39,7 @@ exports[`renders correctly with long text 1`] = `
       style={
         {
           "color": "#262424",
-          "fontFamily": "Circular Std Book",
+          "fontFamily": "InstrumentSans-Regular",
           "fontSize": 16,
           "fontWeight": "400",
           "lineHeight": 22.4,
@@ -72,7 +72,7 @@ exports[`renders correctly with short text 1`] = `
       {
         "alignContent": "flex-start",
         "color": "#787777",
-        "fontFamily": "Circular Std Book",
+        "fontFamily": "InstrumentSans-Regular",
         "fontSize": 16,
         "fontWeight": "400",
         "justifyContent": "center",
@@ -93,7 +93,7 @@ exports[`renders correctly with short text 1`] = `
       style={
         {
           "color": "#262424",
-          "fontFamily": "Circular Std Book",
+          "fontFamily": "InstrumentSans-Regular",
           "fontSize": 16,
           "fontWeight": "400",
           "lineHeight": 22.4,

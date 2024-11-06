@@ -1,4 +1,5 @@
 import { withProfiler } from '@sentry/react'
+import { Text } from 'holi-bricks/components/text'
 import React, { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
@@ -21,7 +22,6 @@ import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -88,10 +88,10 @@ const HomeFeedHeader: React.FC = () => {
       )}
 
       {/*Headline */}
-      <HoliBox padding={[32, 0, 8, 0]} layout={styles.headlineContainer}>
-        <HoliHeading level="2" size="xl" testID="home-feed-insights-heading">
+      <HoliBox padding={[32, 0, 8, 0]} layout={styles.headlineContainer} testID="home-feed-insights-heading">
+        <Text size="3xl" headingLevel="2">
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
-        </HoliHeading>
+        </Text>
 
         {/* start waving animation after user state has been loaded and the screen is focused/active */}
         <Animated.View style={[!isLoading && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}>

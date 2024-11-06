@@ -1,8 +1,8 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { act, fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text, View } from 'react-native'
-import { act } from 'react-test-renderer'
+import { View } from 'react-native'
 
 import { createCache } from '@holi/api/graphql/client'
 import { Pagination, usePaginationContext } from '@holi/core/pagination/Pagination'
@@ -24,17 +24,17 @@ const TestComponent: React.FC = () => {
 
   return (
     <View>
-      <Text>{loading && 'Loading'}</Text>
-      <Text>{error && error.message}</Text>
-      <Text>{totalResults} results</Text>
+      <Text size="md">{loading && 'Loading'}</Text>
+      <Text size="md">{error && error.message}</Text>
+      <Text size="md">{totalResults} results</Text>
       {data.map((element) =>
         element ? (
-          <Text key={element.id} testID="element">
-            {element.id}
+          <Text size="md" key={element.id}>
+            Element {element.id}
           </Text>
         ) : (
           // eslint-disable-next-line react/jsx-key
-          <Text testID="errorElement">Erroneous element</Text>
+          <Text size="md">Erroneous element</Text>
         )
       )}
     </View>
@@ -80,7 +80,7 @@ describe('PaginationContext', () => {
     renderPagination([createPaginationMock()])
 
     expect(await screen.findByText(totalResults + ' results'))
-    expect((await screen.findAllByTestId('element')).length).toBe(pageSize)
+    expect((await screen.findAllByText(/Element/)).length).toBe(pageSize)
   })
 
   it('does not render button to fetch more if not possible', async () => {
@@ -102,7 +102,7 @@ describe('PaginationContext', () => {
       await waitFor(() => screen.getByText('global.loading'))
       await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
       expect(await screen.findByText('global.seeMore'))
-      expect((await screen.findAllByTestId('element')).length).toBe(pageSize * 2)
+      expect((await screen.findAllByText(/Element/)).length).toBe(pageSize * 2)
     })
 
     // Fetch last page
@@ -111,7 +111,7 @@ describe('PaginationContext', () => {
     await act(async () => {
       await waitFor(() => screen.getByText('global.loading'))
       await waitForElementToBeRemoved(() => screen.getByText('global.loading'))
-      expect((await screen.findAllByTestId('element')).length).toBe(totalResults)
+      expect((await screen.findAllByText(/Element/)).length).toBe(totalResults)
     })
 
     // The button to fetch more should be hidden now

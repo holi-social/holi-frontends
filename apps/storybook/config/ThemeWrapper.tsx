@@ -1,6 +1,6 @@
 import type { Decorator } from '@storybook/react'
-import React, { ReactNode } from 'react'
-import { UnistylesRuntime } from 'react-native-unistyles'
+import { useBricks } from 'holi-bricks/hooks'
+import React, { ReactNode, useEffect } from 'react'
 
 import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
 import colorsLight from '@holi/ui/styles/globalVars/colors.light'
@@ -34,12 +34,11 @@ type ThemeWrapperProps = {
 }
 
 const ThemeWrapper = ({ children, showInLightMode = true, showInDarkMode = false }: ThemeWrapperProps) => {
-  //  TODO: we can only really use 1 theme at a time with Unistyles, so no both :(
-  if (showInLightMode) {
-    UnistylesRuntime.setTheme('light')
-  } else {
-    UnistylesRuntime.setTheme('dark')
-  }
+  const { setActiveTheme } = useBricks()
+
+  useEffect(() => {
+    setActiveTheme(showInDarkMode ? 'dark' : 'light')
+  }, [setActiveTheme, showInDarkMode, showInLightMode])
 
   return (
     <>

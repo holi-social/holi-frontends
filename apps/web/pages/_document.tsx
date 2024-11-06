@@ -1,6 +1,7 @@
 import { getApolloContext } from '@apollo/client'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { RenderPromises } from '@apollo/client/react/ssr'
+import 'holi-bricks/libs/init'
 import { AppPropsType } from 'next/dist/shared/lib/utils'
 import Document, { DocumentContext, DocumentProps, Head, Html, Main, NextScript } from 'next/document'
 import { Router } from 'next/router'
@@ -9,7 +10,6 @@ import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
 
 import { EnvironmentId } from '@holi/core/helpers/models/EnvironmentId'
-import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import { environmentId } from '@holi/web/environment'
 import { createApolloPageProps, createApolloWebClient } from '@holi/web/helpers/useApolloWebClient'
 import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
@@ -17,8 +17,6 @@ import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
 interface ApolloDocumentProps {
   apolloClient: ApolloClient<NormalizedCacheObject>
 }
-
-initialiseComponentLibrary()
 
 // Handling of Apollo cache inspired by https://github.com/vercel/next.js/discussions/15736#discussioncomment-6385504
 export default class MyDocument extends Document<ApolloDocumentProps> {
@@ -86,6 +84,16 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
           <link rel="icon" type="image/png" sizes="16x16" href={`/favicons/${env}/favicon-16x16.png`} />
           <link rel="manifest" href={`/favicons/${env}/site.webmanifest`} />
           {promoteEnvVarToWindow('POSTHOG_KEY')}
+          {/*
+              FIXME: This script is needed for Matrix JS SDK version 4.3.*
+              because it uses global to reference the window object,
+              which does not seem to be exposed in next.js with webpack 5. Remember to remove this when it is solved.
+          */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: 'var global=window;',
+            }}
+          />
           {promoteEnvVarToWindow('POSTHOG_HOST')}
         </Head>
 

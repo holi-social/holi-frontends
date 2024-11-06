@@ -9,7 +9,7 @@ exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
       "callbackV": undefined,
       "dampingRatioV": undefined,
       "dampingV": undefined,
-      "delayV": 300,
+      "delayV": 0,
       "durationV": undefined,
       "easingV": undefined,
       "initialValues": undefined,
@@ -31,7 +31,7 @@ exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
       "dampingRatioV": undefined,
       "dampingV": undefined,
       "delayV": undefined,
-      "durationV": 500,
+      "durationV": undefined,
       "easingV": undefined,
       "initialValues": undefined,
       "massV": undefined,
@@ -62,7 +62,7 @@ exports[`SpaceInviteUserSearchResult displays loading while loading 1`] = `
       "position": "relative",
       "right": 0,
       "top": 0,
-      "zIndex": 2,
+      "zIndex": 9999,
     }
   }
 >
@@ -118,7 +118,7 @@ exports[`SpaceInviteUserSearchResult displays text if no results where found 1`]
   style={
     {
       "color": "#262424",
-      "fontFamily": "Circular Std Book",
+      "fontFamily": "InstrumentSans-Regular",
       "fontSize": 16,
       "fontWeight": "400",
       "lineHeight": 22.4,
@@ -245,7 +245,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#fff",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 23.400000000000002,
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
@@ -276,7 +276,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
@@ -538,7 +538,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#fff",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 23.400000000000002,
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
@@ -569,7 +569,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
@@ -599,7 +599,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               style={
                 {
                   "color": "#787777",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
@@ -854,7 +854,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#fff",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 23.400000000000002,
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
@@ -885,7 +885,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
@@ -915,7 +915,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               style={
                 {
                   "color": "#787777",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
@@ -937,7 +937,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               style={
                 {
                   "color": "#6267e7",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 16,
                   "fontWeight": "500",
                   "lineHeight": 22.4,
@@ -959,7 +959,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               style={
                 {
                   "color": "#787777",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
@@ -1081,7 +1081,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#fff",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 23.400000000000002,
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
@@ -1112,7 +1112,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
@@ -1142,7 +1142,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               style={
                 {
                   "color": "#787777",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
@@ -1397,7 +1397,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#fff",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 23.400000000000002,
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
@@ -1428,7 +1428,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
@@ -1458,7 +1458,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               style={
                 {
                   "color": "#787777",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
@@ -1580,7 +1580,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#fff",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 23.400000000000002,
                 "fontWeight": "bold",
                 "lineHeight": 28.080000000000002,
@@ -1611,7 +1611,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "lineHeight": 24,
@@ -1641,7 +1641,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
               style={
                 {
                   "color": "#787777",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 12,
                   "fontWeight": "400",
                   "lineHeight": 16.799999999999997,
