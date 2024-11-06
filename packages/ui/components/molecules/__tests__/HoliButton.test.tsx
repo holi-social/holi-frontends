@@ -1,6 +1,5 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2 } from '@holi/icons/src/generated'
@@ -21,21 +20,20 @@ describe('renders correctly', () => {
         typeValues.forEach((type) => {
           variantValues.forEach((variant) => {
             it(`renders correctly when inline is '${inline}', disabled is '${disabled}', disableFocusability is '${disableFocusability}', type is '${type}', variant is '${variant}'`, () => {
-              const tree = renderer
-                .create(
-                  <HoliButton
-                    label="test"
-                    inline={inline}
-                    disabled={disabled}
-                    disableFocusability={disableFocusability}
-                    type={type}
-                    variant={variant}
-                  >
-                    Test
-                  </HoliButton>
-                )
-                .toJSON()
-              expect(tree).toMatchSnapshot()
+              render(
+                <HoliButton
+                  label="test"
+                  inline={inline}
+                  disabled={disabled}
+                  disableFocusability={disableFocusability}
+                  type={type}
+                  variant={variant}
+                >
+                  Test
+                </HoliButton>
+              )
+
+              expect(screen).toMatchSnapshot()
             })
           })
         })

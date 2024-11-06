@@ -176,7 +176,7 @@ exports[`PollSelection renders poll selection correctly 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 14,
                 "fontWeight": "400",
                 "lineHeight": 19.599999999999998,
@@ -364,7 +364,7 @@ exports[`PollSelection renders poll selection correctly 1`] = `
             style={
               {
                 "color": "#262424",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 14,
                 "fontWeight": "400",
                 "lineHeight": 19.599999999999998,
@@ -558,7 +558,7 @@ exports[`PollSelection renders poll selection correctly with one option 1`] = `
           style={
             {
               "color": "#262424",
-              "fontFamily": "Circular Std Book",
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 14,
               "fontWeight": "400",
               "lineHeight": 19.599999999999998,

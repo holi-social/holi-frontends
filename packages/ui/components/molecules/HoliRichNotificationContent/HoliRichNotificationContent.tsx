@@ -24,7 +24,7 @@ const HoliRichNotificationContent = ({ html, testID }: HoliRichNotificationConte
       baseStyle={baseStyle.base}
       tagsStyles={tagStyles}
       enableCSSInlineProcessing={false}
-      systemFonts={[...defaultSystemFonts, theme.fontFamily.default('Medium'), theme.fontFamily.default('Book')]}
+      systemFonts={[...defaultSystemFonts, theme.fontFamily.default('Medium'), theme.fontFamily.default('Regular')]}
       defaultViewProps={{
         testID,
       }}

@@ -1,6 +1,6 @@
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Platform } from 'react-native'
-import renderer from 'react-test-renderer'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage/index.web'
 import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
@@ -23,31 +23,25 @@ describe('renders correctly for web', () => {
 
   ResizeModes.forEach((resizeMode) => {
     it(`renders image with single source correctly for resize mode '${resizeMode}'`, () => {
-      const tree = renderer
-        .create(
-          <HoliImage source={{ uri: allSources[0].uri } as ImageSource} label={'alt text'} resizeMode={resizeMode} />
-        )
-        .toJSON()
-      expect(tree).toMatchSnapshot()
+      render(
+        <HoliImage source={{ uri: allSources[0].uri } as ImageSource} label={'alt text'} resizeMode={resizeMode} />
+      )
+      expect(screen).toMatchSnapshot()
     })
 
     it(`renders responsive image  based on s 2 pixel density correctly for resize mode '${resizeMode}'`, () => {
-      const tree = renderer
-        .create(<HoliImage source={allSources} label={'alt text'} resizeMode={resizeMode} />)
-        .toJSON()
-      expect(tree).toMatchSnapshot()
+      render(<HoliImage source={allSources} label={'alt text'} resizeMode={resizeMode} />)
+      expect(screen).toMatchSnapshot()
     })
   })
 
   it('passes aspect ratio', () => {
-    const tree = renderer
-      .create(<HoliImage source={allSources} label={'alt text'} style={{ aspectRatio: 16 / 9 }} />)
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliImage source={allSources} label={'alt text'} style={{ aspectRatio: 16 / 9 }} />)
+    expect(screen).toMatchSnapshot()
   })
 
   it('passes sizes property  based on s 2 pixel density', () => {
-    const tree = renderer.create(<HoliImage source={allSources} label={'alt text'} sizes="500px" />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliImage source={allSources} label={'alt text'} sizes="500px" />)
+    expect(screen).toMatchSnapshot()
   })
 })

@@ -33,7 +33,11 @@ class Tracking {
         logger.debug('TrackingInitializer.initWithLoggedInUser', 'analytics consent given, opting in on posthog client')
         await this.posthog.optIn()
         logger.debug('TrackingInitializer.initWithLoggedInUser', 'identifying user on posthog client')
-        this.posthog.identify(user.id, { isEmployee: user.isEmployee })
+        this.posthog.identify(user.id, {
+          isEmployee: user.isEmployee,
+          trackingConsentAnalytics: Consent.toBooleanOrNull(consentState[TrackingPurpose.Analytics]),
+          trackingConsentPersonalization: Consent.toBooleanOrNull(consentState[TrackingPurpose.Personalization]),
+        })
         break
       case Consent.Unknown:
       case Consent.Denied:

@@ -3,7 +3,6 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, useWindowDimensions } from 'react-native'
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -14,7 +13,7 @@ import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import CreatePostButton from '@holi/core/screens/individualPosts/components/CreatePostButton'
+import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import OwnProfileView, { EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
@@ -22,6 +21,7 @@ import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfi
 import { interestsQuery } from '@holi/core/screens/userprofile/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -184,11 +184,11 @@ const OwnProfile = () => {
         )}
       </ScrollView>
 
-      {activeTab === Tab.POSTS && (
-        <Animated.View entering={SlideInDown} exiting={SlideOutDown} style={{ zIndex: 10 }}>
+      <ButtonFloatingWrapper>
+        <HoliTransition.FadeRight visible={activeTab === Tab.POSTS}>
           <CreatePostButton />
-        </Animated.View>
-      )}
+        </HoliTransition.FadeRight>
+      </ButtonFloatingWrapper>
     </LoginProtection>
   )
 }

@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
@@ -12,7 +13,6 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { UserSuggestionsResponse, userSuggestionsQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserCard from '@holi/ui/components/molecules/HoliUserCard'
@@ -62,9 +62,9 @@ const UserSuggestions: React.FC = () => {
     <HoliBox padding={[32, 0, 0, 0]}>
       <HoliContainer testID="user-suggestions">
         {/* Headline */}
-        <HoliHeading level="2" size="l">
+        <Text size="3xl" headingLevel="2">
           {t('homeFeed.userSuggestions.title')}
-        </HoliHeading>
+        </Text>
 
         <FlatList
           horizontal

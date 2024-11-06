@@ -15,7 +15,8 @@
       "@holi-apps/volunteering/*": ["holi-apps/volunteering/*"],
       "@holi-apps/challenges/*": ["holi-apps/challenges/*"],
       "@holi/e2e-mobile/*": ["e2e/mobile/*"],
-      "@holi/e2e-web/*": ["e2e/web/*"]
+      "@holi/e2e-web/*": ["e2e/web/*"],
+      "holi-bricks/*": ["holi-bricks/*"]
     },
     "jsx": "preserve",
     "strict": true,

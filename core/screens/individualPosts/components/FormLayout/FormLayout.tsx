@@ -28,7 +28,11 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={headerHeight}
       >
-        <ScrollView contentContainerStyle={styles.scrollViewContent} style={styles.scrollView}>
+        <ScrollView
+          contentContainerStyle={styles.scrollViewContent}
+          style={styles.scrollView}
+          keyboardShouldPersistTaps="handled"
+        >
           {children}
         </ScrollView>
 

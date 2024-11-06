@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text } from 'react-native'
 
 import HoliSeparatedList from '@holi/ui/components/molecules/HoliSeparatedList'
 
@@ -8,7 +8,7 @@ describe('HoliSeparatedList.tsx', () => {
   it('renders no comma or "and" word with only one child', () => {
     const { queryByText, getByText } = render(
       <HoliSeparatedList>
-        <Text>Some text</Text>
+        <Text size="md">Some text</Text>
       </HoliSeparatedList>
     )
 
@@ -20,8 +20,8 @@ describe('HoliSeparatedList.tsx', () => {
   it('renders "and" separator with two children', () => {
     const { queryByText, getByText } = render(
       <HoliSeparatedList>
-        <Text>Bonnie</Text>
-        <Text>Clyde</Text>
+        <Text size="md">Bonnie</Text>
+        <Text size="md">Clyde</Text>
       </HoliSeparatedList>
     )
 
@@ -35,7 +35,9 @@ describe('HoliSeparatedList.tsx', () => {
     const { getAllByText } = render(
       <HoliSeparatedList>
         {children.map((v) => (
-          <Text key={v}>{v}</Text>
+          <Text size="md" key={v}>
+            {v}
+          </Text>
         ))}
       </HoliSeparatedList>
     )

@@ -87,7 +87,7 @@ exports[`FirstVisitOnboardingSelection should handle initial option selection 1`
           {
             "color": "#262424",
             "flex": 1,
-            "fontFamily": "Circular Std Book",
+            "fontFamily": "InstrumentSans-Regular",
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
@@ -189,7 +189,7 @@ exports[`FirstVisitOnboardingSelection should handle initial option selection 1`
           {
             "color": "#262424",
             "flex": 1,
-            "fontFamily": "Circular Std Book",
+            "fontFamily": "InstrumentSans-Regular",
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
@@ -293,7 +293,7 @@ exports[`FirstVisitOnboardingSelection should handle initial option selection 1`
           {
             "color": "#262424",
             "flex": 1,
-            "fontFamily": "Circular Std Book",
+            "fontFamily": "InstrumentSans-Regular",
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
@@ -454,7 +454,7 @@ exports[`FirstVisitOnboardingSelection should handle initial option selection 1`
           {
             "color": "#262424",
             "flex": 1,
-            "fontFamily": "Circular Std Book",
+            "fontFamily": "InstrumentSans-Regular",
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
@@ -572,7 +572,7 @@ exports[`FirstVisitOnboardingSelection should render step with options 1`] = `
           {
             "color": "#262424",
             "flex": 1,
-            "fontFamily": "Circular Std Book",
+            "fontFamily": "InstrumentSans-Regular",
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
@@ -674,7 +674,7 @@ exports[`FirstVisitOnboardingSelection should render step with options 1`] = `
           {
             "color": "#262424",
             "flex": 1,
-            "fontFamily": "Circular Std Book",
+            "fontFamily": "InstrumentSans-Regular",
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
@@ -776,7 +776,7 @@ exports[`FirstVisitOnboardingSelection should render step with options 1`] = `
           {
             "color": "#262424",
             "flex": 1,
-            "fontFamily": "Circular Std Book",
+            "fontFamily": "InstrumentSans-Regular",
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,
@@ -878,7 +878,7 @@ exports[`FirstVisitOnboardingSelection should render step with options 1`] = `
           {
             "color": "#262424",
             "flex": 1,
-            "fontFamily": "Circular Std Book",
+            "fontFamily": "InstrumentSans-Regular",
             "fontSize": 16,
             "fontWeight": "400",
             "lineHeight": 22.4,

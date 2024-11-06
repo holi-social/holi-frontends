@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { PropsWithChildren, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -12,10 +12,13 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
+export const ButtonFloatingWrapper = (props: PropsWithChildren) => (
+  <View {...props} style={styles.floatingButtonWrapper} />
+)
+
 const CreatePostButton: React.FC = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const styles = useMemo(() => getStyles(), [])
   const { openSignupModal } = useSignupModal()
 
   const { isLoggedIn } = useLoggedInUser()
@@ -33,52 +36,50 @@ const CreatePostButton: React.FC = () => {
   }, [navigate, openSignupModal, t, isLoggedIn])
 
   return (
-    <View style={styles.floatingContainer}>
-      <HoliContainer flexDirection="row" justifyContent="flex-end">
-        <View>
-          <HoliButton
-            label={t('individuals.post.create.title')}
-            testID="create-post-button"
-            inline
-            style={styles.button}
-            onPress={() => {
-              navigateToCreatePost()
-            }}
-          >
-            <HoliIcon icon={Pencil} size={24} />
-          </HoliButton>
-        </View>
-      </HoliContainer>
-    </View>
+    <HoliContainer flexDirection="row" justifyContent="flex-end">
+      <View>
+        <HoliButton
+          label={t('individuals.post.create.title')}
+          testID="create-post-button"
+          inline
+          style={styles.button}
+          onPress={() => {
+            navigateToCreatePost()
+          }}
+        >
+          <HoliIcon icon={Pencil} size={24} />
+        </HoliButton>
+      </View>
+    </HoliContainer>
   )
 }
 
 export default CreatePostButton
 
-const getStyles = () =>
-  StyleSheet.create({
-    floatingContainer: {
-      ...Platform.select({
-        web: {
-          position: 'fixed',
-          bottom: dimensions.bottomBarHeight,
-        },
-        native: {
-          position: 'absolute',
-          bottom: 0,
-        },
-      }),
-      left: 0,
-      right: 0,
-    },
-    button: {
-      position: 'absolute',
-      bottom: Spacing.xxs,
-      right: 0,
-      marginRight: -4,
-      borderRadius: 28,
-      borderWidth: 1,
-      paddingHorizontal: 14,
-      paddingVertical: 14,
-    },
-  })
+const styles = StyleSheet.create({
+  button: {
+    position: 'absolute',
+    bottom: Spacing.xxs,
+    right: 0,
+    marginRight: -4,
+    borderRadius: 28,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+  },
+  floatingButtonWrapper: {
+    ...Platform.select({
+      web: {
+        position: 'fixed',
+        bottom: dimensions.bottomBarHeight,
+        zIndex: 9999,
+      },
+      native: {
+        position: 'absolute',
+        bottom: 0,
+      },
+    }),
+    left: 0,
+    right: 0,
+  },
+})

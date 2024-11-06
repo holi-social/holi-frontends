@@ -1,14 +1,14 @@
-/* eslint-disable no-restricted-imports */
-import { TextLink } from 'holi-bricks/components/text/TextLink'
+import { TextLink } from 'holi-bricks/components/text'
+import { useStyles } from 'holi-bricks/hooks'
+import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useCallback, useState } from 'react'
 import { GestureResponderEvent, Pressable, View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
-import Spacing from '@holi/ui/foundations/Spacing'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger'
 export type ButtonSize = 'sm' | 'md' | 'lg'
@@ -23,6 +23,7 @@ export type ButtonProps = {
   transparent?: boolean
   selected?: boolean
   icon?: HoliIconType
+  inline?: boolean
 }
 
 export const Button = ({
@@ -35,6 +36,7 @@ export const Button = ({
   transparent = false,
   selected = false,
   icon,
+  inline = false,
 }: ButtonProps) => {
   const [isProcessing, setProcessing] = useState(false)
   const { styles } = useStyles(stylesheet, { variant, size, selected, disabled })
@@ -54,23 +56,22 @@ export const Button = ({
   )
 
   const isSpinning = loading || isProcessing
-
   return (
     <Pressable
       onPress={handlePress}
       style={({ hovered, pressed }) =>
-        !transparent ? [styles.button(!disabled && !!hovered, !disabled && !!pressed)] : undefined
+        !transparent ? [styles.button(!disabled && !!hovered, !disabled && !!pressed, inline)] : undefined
       }
       disabled={isSpinning || disabled}
     >
       <View style={styles.content}>
-        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text.color}>
+        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text?.color as string}>
           {label}
         </TextLink>
         {isSpinning && !disabled && (
           <View>
             <SpinningIconContainer spinning={loading}>
-              <HoliIcon icon={Loader} size={16} color={styles.text.color} />
+              <HoliIcon icon={Loader} size={16} color={styles.text} />
             </SpinningIconContainer>
           </View>
         )}
@@ -81,12 +82,13 @@ export const Button = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  button: (hovered: boolean, pressed: boolean) => {
+  button: (hovered: boolean, pressed: boolean, inline) => {
     return {
       borderRadius: 1000, // pill
       outlineWidth: pressed ? 3 : hovered ? 2 : 1,
       outlineStyle: 'solid',
       display: 'flex',
+      width: inline ? 'auto' : '100%',
       variants: {
         variant: {
           primary: {
@@ -135,6 +137,7 @@ const stylesheet = createStyleSheet((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 4,
   },
   text: {

@@ -1,13 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
-import useReportContent from '@holi/core/hooks/useReportContent'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import CommentText from '@holi/core/screens/comments/components/CommentText'
@@ -54,16 +53,9 @@ const CommentView = ({
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const { openSignupModal } = useSignupModal()
   const isInsight = commentableType === CommentableType.DISCUSSION
-
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: comment.id,
-    contentType: ContentType.POST_COMMENT,
-    contentType3k: ContentType3K.COMMENT,
-    successMsg: t('global.report.successMessage'),
-  })
 
   useEffect(() => {
     if (startWithOpenThread) {
@@ -121,52 +113,42 @@ const CommentView = ({
         </View>
 
         <HoliColumn>
-          <SafeAreaProvider>
-            <HoliActionDrawer.Drawer label={t('global.options')} testID="comment-three-dot-menu-button">
-              {/* reporting own content makes no sense, so we hide this option */}
-              {!isCurrentUserCommentCreator && (
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingReport}
-                  icon={Flag}
-                  title={t('global.report')}
-                  testID="report-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('comment.report.confirmation.title')}
-                    description={t('comment.report.confirmation.description')}
-                    testID="comment-report"
-                    handleConfirmation={reportContent}
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
-              {/* deleting only allowed for own content */}
-              {isCurrentUserCommentCreator && (
-                <HoliActionDrawer.Action
-                  isLoading={isLoadingDeleteComment}
-                  icon={Delete}
+          <HoliActionDrawer.Drawer label={t('global.options')} testID="comment-three-dot-menu-button">
+            {/* reporting own content makes no sense, so we hide this option */}
+            {!isCurrentUserCommentCreator && (
+              <HoliActionDrawer.Action
+                icon={Flag}
+                title={t('global.report')}
+                testID="report-comment-button"
+                handleAction={() =>
+                  navigateWithAuth(`/report/${comment.id}/${ContentType.POST_COMMENT}/${ContentType3K.COMMENT}`)
+                }
+              />
+            )}
+            {/* deleting only allowed for own content */}
+            {isCurrentUserCommentCreator && (
+              <HoliActionDrawer.Action
+                isLoading={isLoadingDeleteComment}
+                icon={Delete}
+                title={t('comment.delete.title')}
+                variant="danger"
+                testID="delete-comment-button"
+                showConfirmation
+              >
+                <HoliActionDrawer.Confirmation
                   title={t('comment.delete.title')}
-                  variant="danger"
-                  testID="delete-comment-button"
-                  showConfirmation
-                >
-                  <HoliActionDrawer.Confirmation
-                    title={t('comment.delete.title')}
-                    description={t('comment.delete.confirmation.description')}
-                    dismissText={t('comment.delete.confirmation.dismiss')}
-                    confirmText={t('comment.delete.confirmation.confirm')}
-                    testID="delete-comment"
-                    handleConfirmation={deleteComment}
-                    buttonType="warning"
-                    hasDismissBtn
-                    requireLogin
-                  />
-                </HoliActionDrawer.Action>
-              )}
-            </HoliActionDrawer.Drawer>
-          </SafeAreaProvider>
+                  description={t('comment.delete.confirmation.description')}
+                  dismissText={t('comment.delete.confirmation.dismiss')}
+                  confirmText={t('comment.delete.confirmation.confirm')}
+                  testID="delete-comment"
+                  handleConfirmation={deleteComment}
+                  buttonType="warning"
+                  hasDismissBtn
+                  requireLogin
+                />
+              </HoliActionDrawer.Action>
+            )}
+          </HoliActionDrawer.Drawer>
         </HoliColumn>
       </View>
 

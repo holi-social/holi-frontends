@@ -16,7 +16,6 @@ export default {
     },
   },
 } as ComponentMeta<typeof HoliGap>
-
 const Template: ComponentStory<typeof HoliGap> = ({ ...args }) => {
   const { theme } = useTheme()
   const { colors } = theme

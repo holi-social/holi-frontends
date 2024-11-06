@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'
 import { notificationConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
@@ -14,15 +13,14 @@ describe('NotificationWithUserAvatar.tsx', () => {
   it('matches snapshot', () => {
     jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
-    const tree = renderer
-      .create(
-        <NotificationWithUserAvatar
-          notification={notificationConnectionRequest}
-          i18nKey="notifications.post.mention.message"
-        />
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    render(
+      <NotificationWithUserAvatar
+        notification={notificationConnectionRequest}
+        i18nKey="notifications.post.mention.message"
+      />
+    )
+
+    expect(screen).toMatchSnapshot()
   })
 
   it('renders user avatar component', () => {

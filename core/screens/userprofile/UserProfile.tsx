@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -16,7 +17,7 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
-import useReportContent from '@holi/core/hooks/useReportContent'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -32,7 +33,6 @@ import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -46,6 +46,7 @@ const { useParam } = createParamHooks<UserProfileParams>()
 const UserProfile = () => {
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
@@ -88,12 +89,6 @@ const UserProfile = () => {
   const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
 
   const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: userId,
-    contentType3k: ContentType3K.USER,
-    contentType: ContentType.USER,
-    successMsg: t('global.report.successMessage'),
-  })
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -101,15 +96,11 @@ const UserProfile = () => {
       headerTransparent: false,
       headerRight: () => (
         <HoliActionDrawer.Drawer label="user-profile-drawer">
-          <HoliActionDrawer.Action icon={Flag} isLoading={isLoadingReport} title={t('global.report')} showConfirmation>
-            <HoliActionDrawer.Confirmation
-              title={t('user.profileView.report.confirmation.title', { name: userFullName })}
-              description={t('user.profileView.report.confirmation.description', { name: userFullName })}
-              handleConfirmation={reportContent}
-              hasDismissBtn
-              requireLogin
-            />
-          </HoliActionDrawer.Action>
+          <HoliActionDrawer.Action
+            icon={Flag}
+            title={t('global.report')}
+            handleAction={() => navigateWithAuth(`/report/${userId}/${ContentType.USER}/${ContentType3K.USER}`)}
+          />
           <HoliActionDrawer.Action
             icon={CloseCircle}
             isLoading={isLoadingBlockUser}
@@ -127,7 +118,7 @@ const UserProfile = () => {
         </HoliActionDrawer.Drawer>
       ),
     })
-  }, [isLoadingBlockUser, t, userFullName, blockUser, reportContent, isLoadingReport, setScreenOptions])
+  }, [isLoadingBlockUser, t, userFullName, blockUser, navigateWithAuth, userId, setScreenOptions])
 
   if (!userId || (loading && !user)) {
     return (

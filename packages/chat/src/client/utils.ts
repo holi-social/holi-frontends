@@ -75,7 +75,7 @@ export const hasRoomUpdatesType = (type: unknown): type is RoomUpdatesType => {
  * @description A function passed on Matrix createClient to override default
  * room names.
  */
-export const roomNameGenerator = (t: TFunction<'translation', undefined, 'translation'>) => {
+export const roomNameGenerator = (t: TFunction) => {
   return (roomId: string, state: RoomNameState): string | null => {
     switch (state.type) {
       case RoomNameType.Actual:
@@ -96,7 +96,7 @@ export const roomNameGenerator = (t: TFunction<'translation', undefined, 'transl
   }
 }
 
-export const filterMatrixIds = (t: TFunction<'translation', undefined, 'translation'>, names: string[]): string[] => {
+export const filterMatrixIds = (t: TFunction, names: string[]): string[] => {
   return names.map((name) => getChatMemberName(t, name))
 }
 

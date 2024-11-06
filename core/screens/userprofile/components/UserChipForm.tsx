@@ -1,3 +1,4 @@
+import { ChipSelect } from 'holi-bricks/components/chips'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -7,7 +8,6 @@ import { Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import ChipSelect from '@holi/ui/no-name/components/chips/ChipSelect'
 import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
 
 export interface SelectableTerm extends Term {

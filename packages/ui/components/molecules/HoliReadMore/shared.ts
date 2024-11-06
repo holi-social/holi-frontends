@@ -1,3 +1,5 @@
+// Will be resolved with HOLI-10365
+// eslint-disable-next-line no-restricted-imports
 import { StyleSheet, TextLayoutLine, TextProps, TextStyle, ViewStyle } from 'react-native'
 
 import { HoliTextProps } from '@holi/ui/components/atoms/HoliText'

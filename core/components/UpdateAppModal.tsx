@@ -19,7 +19,9 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const ANDROID_PACKAGE_NAME = Constants.expoConfig?.android?.package
 const BUILD_NUMBER =
-  Constants.expoConfig?.ios?.buildNumber ?? Constants.expoConfig?.android?.versionCode?.toString() ?? null
+  (Platform.OS === 'ios'
+    ? Constants.expoConfig?.ios?.buildNumber
+    : Constants.expoConfig?.android?.versionCode?.toString()) ?? null
 
 const UpdateAppModal = () => {
   const { t } = useTranslation()

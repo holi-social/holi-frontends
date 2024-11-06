@@ -230,7 +230,6 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
         testID={(props.testID || 'richtext-component') + '-input'}
         inputAccessoryViewID={inputAccessoryViewID}
         scrollEnabled={scrollEnabled}
-        keyboardType="email-address" // in order to show the @ symbol for the suggestions
       />
       <CharactersCount />
     </View>

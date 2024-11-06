@@ -1,6 +1,6 @@
-import { render } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text } from 'react-native'
 
 import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -18,41 +18,41 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 
 describe('PermissionsGuard', () => {
   it('should render children when permissionType is AUTH and userId is not null', () => {
-    const { getByTestId } = render(
+    render(
       <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/">
-        <Text testID="child">Child Component</Text>
+        <Text size="md">Child Component</Text>
       </PermissionsGuard>
     )
 
-    expect(getByTestId('child')).toBeDefined()
+    expect(screen.getByText('Child Component')).toBeDefined()
   })
 
   it('should render children when permissionType is SPACES and spaceConnectionType is valid', () => {
-    const { getByTestId } = render(
+    render(
       <PermissionsGuard
         permissionType={PermissionsType.SPACES}
         spaceConnectionType={SpaceConnectionType.MEMBER}
         space={{ connectionStatusToMyself: [SpaceConnectionType.MEMBER] } as Space}
       >
-        <Text testID="child">Child Component</Text>
+        <Text size="md">Child Component</Text>
       </PermissionsGuard>
     )
 
-    expect(getByTestId('child')).toBeDefined()
+    expect(screen.getByText('Child Component')).toBeDefined()
   })
 
   it('should navigate and return an empty fragment when permissionType is SPACES and spaceConnectionType is invalid', () => {
-    const { queryByTestId } = render(
+    render(
       <PermissionsGuard
         permissionType={PermissionsType.SPACES}
         spaceConnectionType={SpaceConnectionType.FOLLOWER}
         space={{ connectionStatusToMyself: [SpaceConnectionType.MEMBER], name: 'space_name' } as Space}
       >
-        <Text testID="child">Child Component</Text>
+        <Text size="md">Child Component</Text>
       </PermissionsGuard>
     )
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces/space_name')
-    expect(queryByTestId('child')).toBeNull()
+    expect(screen.queryByText('Child Component')).toBeNull()
   })
 })

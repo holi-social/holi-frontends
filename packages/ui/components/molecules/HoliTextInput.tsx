@@ -352,7 +352,7 @@ const getStyles = (theme: HoliTheme) =>
       fontSize: FONT_SIZE,
       lineHeight: LINE_HEIGHT,
       fontWeight: '400',
-      fontFamily: theme.fontFamily.default('Book'),
+      fontFamily: theme.fontFamily.default('Regular'),
       color: theme.colors.foreground30,
       backgroundColor: theme.colors.background10,
       overflow: 'scroll',

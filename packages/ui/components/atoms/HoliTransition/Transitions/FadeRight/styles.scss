@@ -1,0 +1,33 @@
+.fade-right {
+  &-appear,
+  &-enter {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+
+  &-appear-active,
+  &-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+    z-index: 9999;
+
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}n) {
+        transition-delay: #{($i - 1) * 200}ms;
+      }
+    }
+  }
+
+  &-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transform: translateX(32px);
+    transition: opacity 300ms ease-in, transform 300ms ease-in;
+    z-index: 9999;
+  }
+}

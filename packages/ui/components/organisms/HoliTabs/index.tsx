@@ -77,12 +77,14 @@ const HoliTabs = <D extends HoliTabItem>({
               isUserDrag.value = false
               onChange(getKeyByIndex(Math.floor(contentScrollOffsetX.value / componentWidth)))
             }}
+            tabsId={testID}
             testID={`${testID}-content-list`}
           />
         ) : (
           <TabContentVirtualized
             {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
             renderItem={renderTabContent}
+            tabsId={testID}
             testID={`${testID}-content-list`}
           />
         )}

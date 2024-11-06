@@ -59,6 +59,6 @@ const getStyles = (theme: HoliTheme) =>
     textInput: {
       color: 'grey',
       fontWeight: '400',
-      fontFamily: theme.fontFamily.default('Book'),
+      fontFamily: theme.fontFamily.default('Regular'),
     },
   })

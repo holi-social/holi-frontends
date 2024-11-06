@@ -1,3 +1,4 @@
+import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
@@ -11,7 +12,6 @@ import { GlobeFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
-import ChipLabel from '@holi/ui/no-name/components/chips/ChipLabel'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import Image from './components/Image'

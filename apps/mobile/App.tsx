@@ -1,5 +1,7 @@
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { BricksTheme } from 'holi-bricks/components/bricks-theme'
+import 'holi-bricks/libs/init'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 
@@ -14,12 +16,9 @@ import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
-import initialiseComponentLibrary from '@holi/ui/no-name/config/initialiseComponentLibrary'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 
 const logger = getLogger('AppInit')
-
-initialiseComponentLibrary()
 
 SplashScreen.preventAutoHideAsync()
 
@@ -52,10 +51,6 @@ const App = () => {
 
   // HOLI-9792: Remove when moving font to app.config.js
   const fonts = {
-    ['Circular Std Book']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Book.otf'),
-    ['Circular Std Book Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-BookItalic.otf'),
-    ['Circular Std Medium']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-Medium.otf'),
-    ['Circular Std Medium Italic']: require('@holi/ui/assets/fonts/CircularStd/CircularStd-MediumItalic.otf'),
     ['InstrumentSans-Regular']: require('holi-bricks/components/text/fonts/InstrumentSans-Regular.ttf'),
     ['InstrumentSans-Medium']: require('holi-bricks/components/text/fonts/InstrumentSans-Medium.ttf'),
   }
@@ -88,13 +83,15 @@ const App = () => {
   if (!isReady) return null
 
   return (
-    <ThemeProvider theme={defaultHoliTheme}>
-      <NavigationProvider>
-        <RootProvider apolloClient={apolloClient}>
-          <RootNavigator />
-        </RootProvider>
-      </NavigationProvider>
-    </ThemeProvider>
+    <BricksTheme initialTheme={'light'}>
+      <ThemeProvider theme={defaultHoliTheme}>
+        <NavigationProvider>
+          <RootProvider apolloClient={apolloClient}>
+            <RootNavigator />
+          </RootProvider>
+        </NavigationProvider>
+      </ThemeProvider>
+    </BricksTheme>
   )
 }
 

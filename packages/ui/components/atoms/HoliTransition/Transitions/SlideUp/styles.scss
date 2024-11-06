@@ -1,0 +1,29 @@
+.slide-up {
+  &-appear,
+  &-enter {
+    transform: translateY(-100vh);
+  }
+
+  &-appear-active,
+  &-enter-active {
+    transform: translateY(0);
+    transition: transform 300ms ease-out;
+    z-index: 9999;
+
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}n) {
+        transition-delay: #{($i - 1) * 150}ms;
+      }
+    }
+  }
+
+  &-exit {
+    transform: translateY(0);
+  }
+
+  &-exit-active {
+    transform: translateY(-100vh);
+    transition: transform 300ms ease-in;
+    z-index: 9999;
+  }
+}

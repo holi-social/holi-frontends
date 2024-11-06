@@ -1,3 +1,6 @@
+import { TextLink } from 'holi-bricks/components/text'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +20,7 @@ import {
   SpacesFilled,
 } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -30,6 +33,7 @@ const FooterTabBar = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles: unistyles } = useStyles(stylesheet)
 
   const isHome = pathname === '/'
   const isSpaces = pathname.startsWith('/spaces')
@@ -55,16 +59,11 @@ const FooterTabBar = () => {
           testID="btn-to-home-view"
           contentStyle={styles.button}
         >
-          <HoliIcon
-            icon={isHome ? HomeSmile2Filled : HomeSmile2}
-            color={(isHome ? styles.activeTintColor : styles.inactiveTintColor).color}
-          />
-          <HoliText
-            size="extrasmall"
-            style={[styles.buttonLabel, isHome ? styles.activeTintColor : styles.inactiveTintColor]}
-          >
+          <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} color={unistyles.icon(isHome).color} />
+          <HoliGap size="xs" />
+          <TextLink size="xs" color={unistyles.label(isHome).color}>
             {t('navigation.home')}
-          </HoliText>
+          </TextLink>
         </HoliButton>
 
         <HoliButton
@@ -75,16 +74,11 @@ const FooterTabBar = () => {
           testID="btn-to-spaces"
           contentStyle={styles.button}
         >
-          <HoliIcon
-            icon={isSpaces ? SpacesFilled : Spaces}
-            color={(isSpaces ? styles.activeTintColor : styles.inactiveTintColor).color}
-          />
-          <HoliText
-            size="extrasmall"
-            style={[styles.buttonLabel, isSpaces ? styles.activeTintColor : styles.inactiveTintColor]}
-          >
+          <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} color={unistyles.icon(isSpaces).color} />
+          <HoliGap size="xs" />
+          <TextLink size="xs" color={unistyles.label(isSpaces).color}>
             {t('navigation.spaces')}
-          </HoliText>
+          </TextLink>
         </HoliButton>
 
         <HoliButton
@@ -95,16 +89,11 @@ const FooterTabBar = () => {
           testID="btn-to-act"
           contentStyle={styles.button}
         >
-          <HoliIcon
-            icon={isAct ? MegaphoneFilled : Megaphone}
-            color={(isAct ? styles.activeTintColor : styles.inactiveTintColor).color}
-          />
-          <HoliText
-            size="extrasmall"
-            style={[styles.buttonLabel, isSpaces ? styles.activeTintColor : styles.inactiveTintColor]}
-          >
+          <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} color={unistyles.icon(isAct).color} />
+          <HoliGap size="xs" />
+          <TextLink size="xs" color={unistyles.label(isAct).color}>
             {t('navigation.act')}
-          </HoliText>
+          </TextLink>
         </HoliButton>
 
         <HoliButton
@@ -116,24 +105,17 @@ const FooterTabBar = () => {
           contentStyle={styles.button}
         >
           <ChatBottomTabsNavigatorItem focused={isChat} />
-          <HoliText
-            size="extrasmall"
-            style={[styles.buttonLabel, isChat ? styles.activeTintColor : styles.inactiveTintColor]}
-          >
+          <HoliGap size="xs" />
+          <TextLink size="xs" color={unistyles.label(isChat).color}>
             {t('navigation.chat')}
-          </HoliText>
+          </TextLink>
         </HoliButton>
 
         <LoginProfileButton focused={isProfileLoginRegistrationForgotPassword} style={styles.button}>
-          <HoliText
-            size="extrasmall"
-            style={[
-              styles.buttonLabel,
-              isProfileLoginRegistrationForgotPassword ? styles.activeTintColor : styles.inactiveTintColor,
-            ]}
-          >
+          <HoliGap size="xs" />
+          <TextLink size="xs" color={unistyles.label(isProfileLoginRegistrationForgotPassword).color}>
             {isLoggedIn ? t('navigation.profile') : t('navigation.login')}
-          </HoliText>
+          </TextLink>
         </LoginProfileButton>
       </HoliContainer>
     </View>
@@ -158,13 +140,13 @@ const getStyles = (theme: HoliTheme) =>
       paddingVertical: Spacing['3xs'],
       alignItems: 'center',
     },
-    activeTintColor: {
-      color: theme.colors.foreground30,
-    },
-    inactiveTintColor: {
-      color: theme.colors.foreground20,
-    },
-    buttonLabel: {
-      paddingTop: Spacing['3xs'],
-    },
   })
+
+const stylesheet = createStyleSheet((theme) => ({
+  label: (focused: boolean) => ({
+    color: focused ? theme.colors.text : theme.colors.textTertiary,
+  }),
+  icon: (focused: boolean) => ({
+    color: focused ? theme.colors.text : theme.colors.textTertiary,
+  }),
+}))

@@ -1,9 +1,10 @@
 import React, { memo, useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated'
+import Animated, { LinearTransition } from 'react-native-reanimated'
 
 import { leaveRoom } from '@holi/chat/src/store'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import RoomItemDeletable from './RoomItemDeletable'
@@ -18,9 +19,9 @@ const RoomList = ({ roomAtoms, loggedInUser }: RoomListProps) => {
       <Animated.FlatList
         data={roomAtoms}
         renderItem={({ item: roomAtom, index }) => (
-          <Animated.View entering={FadeIn.delay(index * 60)} exiting={FadeOut}>
+          <HoliTransition.Fade visible index={index}>
             <RoomItemDeletable roomAtom={roomAtom} loggedInUser={loggedInUser} onDelete={leaveRoom} />
-          </Animated.View>
+          </HoliTransition.Fade>
         )}
         keyExtractor={(item) => item.toString()}
         ItemSeparatorComponent={() => <View style={styles.listItemSeparator} />}

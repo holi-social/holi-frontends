@@ -10,7 +10,7 @@ import { Props } from './types'
  */
 
 const HoliKeyboardSafeAreaView = ({ style, children, testID }: React.PropsWithChildren<Props>) => {
-  const keyboard = useAnimatedKeyboard()
+  const keyboard = useAnimatedKeyboard({ isStatusBarTranslucentAndroid: true })
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: -keyboard.height.value }],

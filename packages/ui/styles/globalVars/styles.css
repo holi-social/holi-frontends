@@ -1,8 +1,6 @@
 :root {
   /* Font variables */
-  --font-family-web: Circular Std, Helvetica, Arial, sans-serif;
-  /* HOLI-9766: Replace font */
-  /* --font-family-web: InstrumentSans-Regular, Helvetica, Arial, sans-serif; */
+  --font-family-web: InstrumentSans-Regular, Helvetica, Arial, sans-serif;
 
   /* Dimension variables */
   --top-bar-height: 56px;

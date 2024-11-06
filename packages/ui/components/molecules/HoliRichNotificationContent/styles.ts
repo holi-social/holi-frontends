@@ -7,7 +7,7 @@ export const getBaseStyle = (theme: HoliTheme) =>
   StyleSheet.create({
     base: {
       color: theme.colors.foreground20,
-      fontFamily: theme.fontFamily.default('Book'),
+      fontFamily: theme.fontFamily.default('Regular'),
       fontSize: fontStylesByHoliTextSize['small'].fontSize,
       lineHeight: fontStylesByHoliTextSize['small'].lineHeight,
     },

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
-import useReportContent from '@holi/core/hooks/useReportContent'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { Space, SpaceConnectionType, Task } from '@holi/core/screens/spaces/types'
@@ -17,6 +17,7 @@ export type TaskDrawerProps = {
 
 export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ task, space }) => {
   const { navigate } = useRouting()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
   const { t } = useTranslation()
   const loginState = useLoggedInUser()
 
@@ -24,13 +25,6 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ task, spa
     id: task.id,
     spaceIdOrName: space.name,
     successMsg: t('spaces.tasks.delete.success'),
-  })
-
-  const [isLoadingReport, reportContent] = useReportContent({
-    id: task?.id || '',
-    contentType3k: ContentType3K.SPACE_TASK,
-    contentType: ContentType.SPACE_TASK,
-    successMsg: t('global.report.successMessage'),
   })
 
   const isMember = !!space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -73,20 +67,13 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ task, spa
         </>
       ) : (
         <HoliActionDrawer.Action
-          isLoading={isLoadingReport}
           icon={Flag}
           title={t('global.report')}
           testID="btn-report-post"
-          showConfirmation
-        >
-          <HoliActionDrawer.Confirmation
-            title={t('spaces.tasks.report.title')}
-            description={t('spaces.tasks.report.confirmation')}
-            handleConfirmation={reportContent}
-            hasDismissBtn
-            requireLogin
-          />
-        </HoliActionDrawer.Action>
+          handleAction={() =>
+            navigateWithAuth(`/report/${task.id}/${ContentType.SPACE_TASK}/${ContentType3K.SPACE_TASK}`)
+          }
+        />
       )}
     </HoliActionDrawer.Drawer>
   )

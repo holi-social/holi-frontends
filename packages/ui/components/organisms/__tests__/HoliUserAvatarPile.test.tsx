@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { render, screen } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text, View } from 'react-native'
-import renderer from 'react-test-renderer'
+import { View } from 'react-native'
 
 import i18next from '@holi/core/i18n'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
@@ -11,8 +11,8 @@ import theme from '@holi/ui/styles/theme'
 
 describe('HoliUserAvatarPile', () => {
   it('renders correct snapshot', () => {
-    const tree = renderer.create(<HoliUserAvatarPile users={users} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliUserAvatarPile users={users} />)
+    expect(screen).toMatchSnapshot()
   })
 
   it('has limited avatars count', () => {
@@ -32,7 +32,7 @@ describe('HoliUserAvatarPile', () => {
     render(
       <HoliUserAvatarPile users={users} counter>
         <View>
-          <Text>{dummyText}</Text>
+          <Text size="md">{dummyText}</Text>
         </View>
       </HoliUserAvatarPile>
     )

@@ -23,6 +23,7 @@ import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -178,7 +179,9 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <ChatTabBar selectedTabId={selectedTabId} />
+      <HoliContainer noPadding>
+        <ChatTabBar selectedTabId={selectedTabId} />
+      </HoliContainer>
 
       <RoomList roomAtoms={tabRoomAtomsRecord[selectedTabId]} loggedInUser={loggedInUser} />
 

@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { ScrollView } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context/src/SafeAreaContext'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'

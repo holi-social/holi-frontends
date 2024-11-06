@@ -1,16 +1,16 @@
 import { render } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
-import { Text } from 'react-native'
 
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 
 describe('HoliSlider', () => {
   it('renders correctly', () => {
     const { getByText } = render(
-      <SpacesHorizontalSlider>
-        <Text>Card 1</Text>
-        <Text>Card 2</Text>
-        <Text>Card 3</Text>
+      <SpacesHorizontalSlider cardWidth={0} slideGap={0}>
+        <Text size="md">Card 1</Text>
+        <Text size="md">Card 2</Text>
+        <Text size="md">Card 3</Text>
       </SpacesHorizontalSlider>
     )
 

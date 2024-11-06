@@ -142,7 +142,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             style={
               {
                 "color": "#787777",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 14,
                 "fontWeight": "400",
                 "lineHeight": 19.599999999999998,
@@ -162,7 +162,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 14,
                   "fontWeight": "400",
                   "lineHeight": 19.599999999999998,
@@ -183,7 +183,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             style={
               {
                 "color": "#787777",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 12,
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
@@ -348,7 +348,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 14,
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
@@ -462,7 +462,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 14,
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
@@ -627,7 +627,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               {
                 "alignContent": "flex-start",
                 "color": "#787777",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 16,
                 "fontWeight": "400",
                 "justifyContent": "center",
@@ -648,7 +648,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               style={
                 {
                   "color": "#787777",
-                  "fontFamily": "Circular Std Book",
+                  "fontFamily": "InstrumentSans-Regular",
                   "fontSize": 14,
                   "fontWeight": "400",
                   "lineHeight": 19.599999999999998,
@@ -674,7 +674,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             style={
               {
                 "color": "#787777",
-                "fontFamily": "Circular Std Book",
+                "fontFamily": "InstrumentSans-Regular",
                 "fontSize": 12,
                 "fontWeight": "400",
                 "lineHeight": 16.799999999999997,
@@ -839,7 +839,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 14,
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
@@ -953,7 +953,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               style={
                 {
                   "color": "#262424",
-                  "fontFamily": "Circular Std Medium",
+                  "fontFamily": "InstrumentSans-Medium",
                   "fontSize": 14,
                   "fontWeight": "500",
                   "lineHeight": 19.599999999999998,
