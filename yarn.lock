@@ -27297,8 +27297,8 @@ __metadata:
   linkType: hard
 
 "posthog-react-native@npm:^3.3.9":
-  version: 3.3.9
-  resolution: "posthog-react-native@npm:3.3.9"
+  version: 3.3.10
+  resolution: "posthog-react-native@npm:3.3.10"
   peerDependencies:
     "@react-native-async-storage/async-storage": ">=1.0.0"
     "@react-navigation/native": ">= 5.0.10"
@@ -27328,7 +27328,7 @@ __metadata:
       optional: true
     react-native-navigation:
       optional: true
-  checksum: 10c0/9008e959faa184d5a979a84d317d4a9d6d119620bf849b93f046852b8ba0a32df758c6fe906827cb99e279e6f7251645007b4c4e4f9a0218b5eb84f815f3a4c2
+  checksum: 10c0/b5186962fce524f280492a71ea874bb5089ac4bc0603254bdcc73b08875c017e165beea9e102984e0bf47197216999539c7983d1db0f6c5d364dc4b7ef08b41f
   languageName: node
   linkType: hard
 
