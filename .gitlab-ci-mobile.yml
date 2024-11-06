@@ -7,6 +7,7 @@
     EXPO_PUBLISH_RELEASE_CHANNEL: $CI_COMMIT_REF_SLUG
     USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON: 'false'
     NODE_OPTIONS: '--max_old_space_size=4096' # helps against OOM errors
+  cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
@@ -133,7 +134,7 @@ mobile_review_destroy:
   dependencies: [] # explicitly disable artifact usage
   script:
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
-  allow_failure: true  # optional build step, won't block the pipeline
+  allow_failure: true # optional build step, won't block the pipeline
   interruptible: false
   rules:
     - !reference [.rule_templates, any_but_production_staging]
