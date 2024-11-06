@@ -69,6 +69,19 @@ default:
     - 1cpu-4gb
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
 
+install_deps:
+  stage: build
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  cache: !reference [.yarn-cache-rw]
+  interruptible: true
+  script:
+    - corepack enable
+    - yarn install --immutable
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      changes:
+        - yarn.lock
+
 lint_compile_test:
   stage: build
   needs:
