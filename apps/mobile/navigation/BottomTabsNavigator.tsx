@@ -42,11 +42,9 @@ export type BottomTabsScreens = {
 const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 
 const BottomTabLabel = ({ label, focused }: { label: string; focused: boolean }) => {
-  const { styles } = useStyles(stylesheet)
-
   return (
     <HoliBox padding={[0, 0, 4, 0]}>
-      <TextLink size="xs" color={styles.label(focused).color}>
+      <TextLink size="xs" variant={focused ? 'primary' : 'tertiary'}>
         {label}
       </TextLink>
     </HoliBox>
@@ -163,10 +161,7 @@ const getStyles = (theme: HoliTheme, insets: EdgeInsets) =>
   })
 
 const stylesheet = createStyleSheet((theme) => ({
-  label: (focused: boolean) => ({
-    color: focused ? theme.colors.text : theme.colors.textTertiary,
-  }),
   icon: (focused: boolean) => ({
-    color: focused ? theme.colors.text : theme.colors.textTertiary,
+    color: focused ? theme.components.text.primary : theme.components.text.tertiary,
   }),
 }))

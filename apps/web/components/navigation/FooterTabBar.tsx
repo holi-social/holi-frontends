@@ -61,7 +61,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} color={unistyles.icon(isHome).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" color={unistyles.label(isHome).color}>
+          <TextLink size="xs" variant={isHome ? 'primary' : 'tertiary'}>
             {t('navigation.home')}
           </TextLink>
         </HoliButton>
@@ -76,7 +76,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} color={unistyles.icon(isSpaces).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" color={unistyles.label(isSpaces).color}>
+          <TextLink size="xs" variant={isSpaces ? 'primary' : 'tertiary'}>
             {t('navigation.spaces')}
           </TextLink>
         </HoliButton>
@@ -91,7 +91,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} color={unistyles.icon(isAct).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" color={unistyles.label(isAct).color}>
+          <TextLink size="xs" variant={isAct ? 'primary' : 'tertiary'}>
             {t('navigation.act')}
           </TextLink>
         </HoliButton>
@@ -106,14 +106,14 @@ const FooterTabBar = () => {
         >
           <ChatBottomTabsNavigatorItem focused={isChat} />
           <HoliGap size="xs" />
-          <TextLink size="xs" color={unistyles.label(isChat).color}>
+          <TextLink size="xs" variant={isChat ? 'primary' : 'tertiary'}>
             {t('navigation.chat')}
           </TextLink>
         </HoliButton>
 
         <LoginProfileButton focused={isProfileLoginRegistrationForgotPassword} style={styles.button}>
           <HoliGap size="xs" />
-          <TextLink size="xs" color={unistyles.label(isProfileLoginRegistrationForgotPassword).color}>
+          <TextLink size="xs" variant={isProfileLoginRegistrationForgotPassword ? 'primary' : 'tertiary'}>
             {isLoggedIn ? t('navigation.profile') : t('navigation.login')}
           </TextLink>
         </LoginProfileButton>
@@ -143,10 +143,7 @@ const getStyles = (theme: HoliTheme) =>
   })
 
 const stylesheet = createStyleSheet((theme) => ({
-  label: (focused: boolean) => ({
-    color: focused ? theme.colors.text : theme.colors.textTertiary,
-  }),
   icon: (focused: boolean) => ({
-    color: focused ? theme.colors.text : theme.colors.textTertiary,
+    color: focused ? theme.components.text.primary : theme.components.text.tertiary,
   }),
 }))
