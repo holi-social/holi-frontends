@@ -31,7 +31,7 @@ export interface TextLinkProps {
 export const TextLink = ({
   size,
   numberOfLines,
-  variant = 'primary',
+  variant,
   color,
   textAlign,
   ellipsizeMode,
@@ -60,6 +60,7 @@ const stylesheet = createStyleSheet((theme) => ({
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.bold,
       fontWeight: '500',
+      color: color ?? theme.components.text.primary,
       userSelect: 'auto',
       textAlign: textAlign,
       ...Platform.select({
@@ -71,19 +72,19 @@ const stylesheet = createStyleSheet((theme) => ({
       variants: {
         variant: {
           primary: {
-            color: color ?? theme.components.text.primary,
+            color: theme.components.text.primary,
           },
           secondary: {
-            color: color ?? theme.components.text.secondary,
+            color: theme.components.text.secondary,
           },
           tertiary: {
-            color: color ?? theme.components.text.tertiary,
+            color: theme.components.text.tertiary,
           },
           quaternary: {
-            color: color ?? theme.components.text.quaternary,
+            color: theme.components.text.quaternary,
           },
           special: {
-            color: color ?? theme.components.text.specialLink,
+            color: theme.components.text.specialLink,
           },
         },
         size: {

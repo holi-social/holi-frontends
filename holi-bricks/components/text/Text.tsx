@@ -32,8 +32,8 @@ export interface TextProps {
    */
   selectable?: boolean
   numberOfLines?: number
+  /** Overrides `color` */
   variant?: TextVariant
-  /** Overrides color specified by `variant` */
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: RNTextProps['ellipsizeMode']
@@ -63,7 +63,7 @@ export const Text = ({
   size,
   selectable = true,
   numberOfLines,
-  variant = 'primary',
+  variant,
   color,
   textAlign,
   ellipsizeMode,
@@ -93,6 +93,7 @@ const stylesheet = createStyleSheet((theme) => ({
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.regular,
       fontWeight: '400',
+      color: color ?? theme.components.text.primary,
       userSelect: selectable ? 'auto' : 'none',
       textAlign: textAlign,
       ...Platform.select({
@@ -104,19 +105,19 @@ const stylesheet = createStyleSheet((theme) => ({
       variants: {
         variant: {
           primary: {
-            color: color ?? theme.components.text.primary,
+            color: theme.components.text.primary,
           },
           secondary: {
-            color: color ?? theme.components.text.secondary,
+            color: theme.components.text.secondary,
           },
           tertiary: {
-            color: color ?? theme.components.text.tertiary,
+            color: theme.components.text.tertiary,
           },
           quaternary: {
-            color: color ?? theme.components.text.quaternary,
+            color: theme.components.text.quaternary,
           },
           error: {
-            color: color ?? theme.components.text.error,
+            color: theme.components.text.error,
           },
         },
         size: {
