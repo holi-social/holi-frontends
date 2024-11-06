@@ -69,42 +69,17 @@ default:
     - 1cpu-4gb
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
 
-install_deps:
-  stage: build
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
-  cache: !reference [.yarn-cache-rw]
-  interruptible: true
-  script:
-    # we've run before, cut the run short
-    - if [ -d ".yarn" ]; then exit 0; fi
-    - corepack enable
-    - yarn install --immutable
-  rules:
-    # Execute step if yarn.lock was changed or cache is missing
-    # Inspired by https://gitlab.com/gitlab-org/gitlab/-/issues/244932#note_1727726890
-    - if: $CI_COMMIT_BRANCH
-      changes:
-        - yarn.lock
-    - exists:
-        - .yarn
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - yarn.lock
-      when: always
-
 lint_compile_test:
   stage: build
   needs:
     - job: install_deps
       optional: true
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
-  cache: !reference [.yarn-cache-readonly]
+  cache: !reference [.yarn-cache-rw]
   script:
     - corepack enable
-    # Install dependencies if ci cache is empty
-    - if [ ! -d ".yarn" ]; then yarn install --immutable; fi
-    - yarn install --immutable --immutable-cache
+    # If CI Cache is empty, install filling the cache, otherwise install from the cache
+    - '[ ! -d ".yarn/cache" ] && yarn install --immutable || yarn install --immutable --immutable-cache'
     - yarn lint
     - yarn test
   interruptible: true
