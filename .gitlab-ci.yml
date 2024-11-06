@@ -105,11 +105,13 @@ lint_compile_test:
 check_type_errors:
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   needs: ['lint_compile_test']
+  cache: !reference [.yarn-cache-readonly]
   script:
     - git fetch
     # if this was a merge request pipeline we could use $CI_MERGE_REQUEST_TARGET_BRANCH_NAME as target branch parameter
     # unfortunately all our build pipelines are branch pipelines. origin/main is good enough for our purposes as almost
     # all MRs go against staging (eventually)
+    - corepack enable
     - ./scripts/check-type-errors-count.sh $CI_COMMIT_SHA origin/main
   rules:
     - !reference [.rule_templates, not_on_git_tags]
