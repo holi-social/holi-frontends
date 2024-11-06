@@ -107,6 +107,7 @@ const CreateReport = () => {
                     disabled={false}
                     variant="secondary"
                     onPress={() => setCurrentStep(0)}
+                    inline
                   />
                 )}
                 <Pressable

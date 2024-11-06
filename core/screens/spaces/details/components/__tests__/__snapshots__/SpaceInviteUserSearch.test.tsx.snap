@@ -9,7 +9,7 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
       "callbackV": undefined,
       "dampingRatioV": undefined,
       "dampingV": undefined,
-      "delayV": 300,
+      "delayV": 0,
       "durationV": undefined,
       "easingV": undefined,
       "initialValues": undefined,
@@ -31,7 +31,7 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
       "dampingRatioV": undefined,
       "dampingV": undefined,
       "delayV": undefined,
-      "durationV": 500,
+      "durationV": undefined,
       "easingV": undefined,
       "initialValues": undefined,
       "massV": undefined,
@@ -62,7 +62,7 @@ exports[`SpaceInviteUserSearch displays loader if search input is empty 1`] = `
       "position": "relative",
       "right": 0,
       "top": 0,
-      "zIndex": 2,
+      "zIndex": 9999,
     }
   }
 >

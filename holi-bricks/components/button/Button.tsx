@@ -23,6 +23,7 @@ export type ButtonProps = {
   transparent?: boolean
   selected?: boolean
   icon?: HoliIconType
+  inline?: boolean
 }
 
 export const Button = ({
@@ -35,6 +36,7 @@ export const Button = ({
   transparent = false,
   selected = false,
   icon,
+  inline = false,
 }: ButtonProps) => {
   const [isProcessing, setProcessing] = useState(false)
   const { styles } = useStyles(stylesheet, { variant, size, selected, disabled })
@@ -58,7 +60,7 @@ export const Button = ({
     <Pressable
       onPress={handlePress}
       style={({ hovered, pressed }) =>
-        !transparent ? [styles.button(!disabled && !!hovered, !disabled && !!pressed)] : undefined
+        !transparent ? [styles.button(!disabled && !!hovered, !disabled && !!pressed, inline)] : undefined
       }
       disabled={isSpinning || disabled}
     >
@@ -80,12 +82,13 @@ export const Button = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  button: (hovered: boolean, pressed: boolean) => {
+  button: (hovered: boolean, pressed: boolean, inline) => {
     return {
       borderRadius: 1000, // pill
       outlineWidth: pressed ? 3 : hovered ? 2 : 1,
       outlineStyle: 'solid',
       display: 'flex',
+      width: inline ? 'auto' : '100%',
       variants: {
         variant: {
           primary: {
@@ -134,6 +137,7 @@ const stylesheet = createStyleSheet((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 4,
   },
   text: {

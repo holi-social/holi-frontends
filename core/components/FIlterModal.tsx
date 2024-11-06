@@ -1,11 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Filter3 } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -13,12 +13,12 @@ import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface Props extends HoliModalProps {
-  actionButtonVisible?: boolean
+  actionButtonVisible: boolean
   buttonLabel: string
   open: () => void
 }
 
-const FilterModal = ({ actionButtonVisible, open, testID = 'filter-modal', ...props }: Props) => {
+const FilterModal = ({ actionButtonVisible = false, open, testID = 'filter-modal', ...props }: Props) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { theme } = useTheme()
@@ -27,12 +27,8 @@ const FilterModal = ({ actionButtonVisible, open, testID = 'filter-modal', ...pr
   return (
     <View>
       {/* Floating filter button */}
-      {actionButtonVisible && (
-        <Animated.View
-          entering={SlideInDown}
-          exiting={SlideOutDown}
-          style={[mixins.container, styles.overlayButtonWrapper]}
-        >
+      <View style={[mixins.container, styles.overlayButtonWrapper]}>
+        <HoliTransition.FadeRight visible={actionButtonVisible}>
           <HoliButton
             label={props.label}
             testID={`${testID}--open-btn`}
@@ -45,8 +41,8 @@ const FilterModal = ({ actionButtonVisible, open, testID = 'filter-modal', ...pr
             </HoliText>
             <HoliIcon icon={Filter3} size={16} color={colors.foreground30} style={styles.icon} />
           </HoliButton>
-        </Animated.View>
-      )}
+        </HoliTransition.FadeRight>
+      </View>
 
       {/* Filter modal */}
       <HoliModal relativeHeight={1} autoHeight={false} testID={testID} {...props} />

@@ -1,5 +1,5 @@
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import HoliSwitch, { HoliSwitchProps } from '@holi/ui/components/molecules/HoliSwitch'
 
@@ -11,12 +11,12 @@ const props: HoliSwitchProps = {
 
 describe('HoliSwitch', () => {
   it('renders default styling correctly without any props', () => {
-    const tree = renderer.create(<HoliSwitch value={true} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliSwitch value={true} />)
+    expect(screen).toMatchSnapshot()
   })
 
   it('renders correctly with styling props', () => {
-    const tree = renderer.create(<HoliSwitch {...props} />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<HoliSwitch {...props} />)
+    expect(screen).toMatchSnapshot()
   })
 })

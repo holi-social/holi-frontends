@@ -2,7 +2,6 @@ import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, Platform, StyleSheet, View } from 'react-native'
-import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -26,11 +25,14 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { logError } from '@holi/core/errors/helpers'
 import { getInitials } from '@holi/core/helpers'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useShowHeaderOnScreenFocus } from '@holi/core/helpers/useShowHeaderOnScreenFocus'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -91,7 +93,7 @@ const ChatRoomView = () => {
     }
   }, [navigateBack, roomId])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTransparent: false,
       headerRight: () =>
@@ -193,7 +195,7 @@ const ChatRoomView = () => {
     <HoliKeyboardSafeAreaView>
       <View style={styles.layoutWarpper}>
         <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-          <Animated.View entering={FadeIn} style={{ flex: 1 }}>
+          <HoliTransition.Fade visible style={{ flex: 1 }}>
             <SafeArea style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
@@ -228,14 +230,16 @@ const ChatRoomView = () => {
                   )}
                 </View>
 
-                <ChatTextInput
-                  isVisible={!room.hasInvitation}
-                  userName={chatPartnerHoliUser?.fullName}
-                  roomId={roomId}
-                />
+                <HoliContainer noPadding>
+                  <ChatTextInput
+                    isVisible={!room.hasInvitation}
+                    userName={chatPartnerHoliUser?.fullName}
+                    roomId={roomId}
+                  />
+                </HoliContainer>
               </View>
             </SafeArea>
-          </Animated.View>
+          </HoliTransition.Fade>
         </PermissionsGuard>
       </View>
     </HoliKeyboardSafeAreaView>

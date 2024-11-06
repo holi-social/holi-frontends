@@ -3558,6 +3558,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.7":
+  version: 7.26.0
+  resolution: "@babel/runtime@npm:7.26.0"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/12c01357e0345f89f4f7e8c0e81921f2a3e3e101f06e8eaa18a382b517376520cd2fa8c237726eb094dab25532855df28a7baaf1c26342b52782f6936b07c287
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.0.0, @babel/template@npm:^7.18.10, @babel/template@npm:^7.20.7, @babel/template@npm:^7.24.7, @babel/template@npm:^7.25.0, @babel/template@npm:^7.3.3":
   version: 7.25.0
   resolution: "@babel/template@npm:7.25.0"
@@ -6544,6 +6553,7 @@ __metadata:
     react-test-renderer: "npm:18.3.1"
   peerDependencies:
     "@react-native-community/datetimepicker": 8.0.1
+    "@types/react-transition-group": ^4.4.11
     lottie-react: 2.4.0
     lottie-react-native: 6.7.2
     react: 18.2.0
@@ -6555,6 +6565,7 @@ __metadata:
     react-native-render-html: ^6.3.4
     react-native-safe-area-context: 4.10.9
     react-native-svg: 15.2.0
+    react-transition-group: ^4.4.5
   languageName: unknown
   linkType: soft
 
@@ -6572,6 +6583,7 @@ __metadata:
     "@types/locale": "npm:^0.1.4"
     "@types/react": "npm:~18.2.45"
     "@types/react-dom": "npm:~18.2.19"
+    "@types/react-transition-group": "npm:^4.4.11"
     cookies: "npm:^0.8.0"
     cookies-next: "npm:^2.1.1"
     eslint: "npm:^8.33.0"
@@ -6600,6 +6612,7 @@ __metadata:
     react-native-reanimated: "npm:~3.10.1"
     react-native-svg-web: "npm:^1.0.9"
     react-native-web: "npm:^0.19.12"
+    react-transition-group: "npm:^4.4.5"
     react-zoom-pan-pinch: "npm:^2.1.3"
     sharp: "npm:^0.32.0"
     swiper: "npm:^11.1.0"
@@ -13856,6 +13869,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-transition-group@npm:^4.4.11":
+  version: 4.4.11
+  resolution: "@types/react-transition-group@npm:4.4.11"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10c0/8fbf0dcc1b81985cdcebe3c59d769fe2ea3f4525f12c3a10a7429a59f93e303c82b2abb744d21cb762879f4514969d70a7ab11b9bf486f92213e8fe70e04098d
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*, @types/react@npm:>=16":
   version: 18.3.7
   resolution: "@types/react@npm:18.3.7"
@@ -18678,6 +18700,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dom-helpers@npm:^5.0.1":
+  version: 5.2.1
+  resolution: "dom-helpers@npm:5.2.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.8.7"
+    csstype: "npm:^3.0.2"
+  checksum: 10c0/f735074d66dd759b36b158fa26e9d00c9388ee0e8c9b16af941c38f014a37fc80782de83afefd621681b19ac0501034b4f1c4a3bff5caa1b8667f0212b5e124c
+  languageName: node
+  linkType: hard
+
 "dom-serializer@npm:^1.0.1":
   version: 1.4.1
   resolution: "dom-serializer@npm:1.4.1"
@@ -22256,7 +22288,6 @@ __metadata:
     node-gyp: "npm:^10.2.0"
     prettier: "npm:^2.8.3"
     react-native-web: "npm:^0.19.12"
-    react-test-renderer: "npm:18.3.1"
     ts-node: "npm:^10.9.2"
     turbo: "npm:^2.1.3"
     typescript: "npm:~5.3.3"
@@ -28574,7 +28605,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.5.10, prop-types@npm:^15.5.7, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.5.10, prop-types@npm:^15.5.7, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -29835,6 +29866,21 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/02dd38f6c40c4dd88b6c35370eaddc385c0a417c614b5ecb50d1121e99905da26fea9d5c05b580404b7f8a7d9a4964a8613654882be03963c36005779b96cca5
+  languageName: node
+  linkType: hard
+
+"react-transition-group@npm:^4.4.5":
+  version: 4.4.5
+  resolution: "react-transition-group@npm:4.4.5"
+  dependencies:
+    "@babel/runtime": "npm:^7.5.5"
+    dom-helpers: "npm:^5.0.1"
+    loose-envify: "npm:^1.4.0"
+    prop-types: "npm:^15.6.2"
+  peerDependencies:
+    react: ">=16.6.0"
+    react-dom: ">=16.6.0"
+  checksum: 10c0/2ba754ba748faefa15f87c96dfa700d5525054a0141de8c75763aae6734af0740e77e11261a1e8f4ffc08fd9ab78510122e05c21c2d79066c38bb6861a886c82
   languageName: node
   linkType: hard
 

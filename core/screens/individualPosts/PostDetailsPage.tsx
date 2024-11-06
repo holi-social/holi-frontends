@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
-import Animated, { FadeInLeft } from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -43,6 +42,7 @@ import { MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
@@ -121,11 +121,11 @@ const PostDetailsPage = () => {
     setScreenOptions({
       headerTintColor: theme.colors.black300,
       headerLeft: ({ tintColor }) => (
-        <Animated.View entering={FadeInLeft}>
+        <HoliTransition.FadeLeft visible>
           <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
             <HoliLogo color={tintColor} />
           </HoliButton>
-        </Animated.View>
+        </HoliTransition.FadeLeft>
       ),
       headerTitle: ({ tintColor }) => !loading && <HeaderTitle tintColor={tintColor}>{headerTitle}</HeaderTitle>,
       headerRight: () => {

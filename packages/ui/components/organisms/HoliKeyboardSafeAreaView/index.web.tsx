@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
+import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { dimensions } from '@holi/ui/styles/globalVars'
+
 import { Props } from './types'
 
 /**
@@ -9,13 +12,16 @@ import { Props } from './types'
  */
 const HoliKeyboardSafeAreaView = ({ style, children, testID }: React.PropsWithChildren<Props>) => {
   const { height: screenHeight } = useWindowDimensions()
+  const { headerTransparent } = useScreenOptions()
+
+  const maxHeight = headerTransparent ? screenHeight : screenHeight - dimensions.topBarHeight
 
   useEffect(() => {
     window?.scroll?.(0, 0)
   }, [screenHeight])
 
   return (
-    <View style={[styles.outer, style, { maxHeight: screenHeight }]} testID={testID}>
+    <View style={[styles.outer, style, { maxHeight }]} testID={testID}>
       {children}
     </View>
   )

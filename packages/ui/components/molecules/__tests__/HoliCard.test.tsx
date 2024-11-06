@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCard, { HoliCardProps } from '@holi/ui/components/molecules/HoliCard'
@@ -15,14 +14,12 @@ const props: HoliCardProps = {
 
 describe('HoliCard', () => {
   it('renders correctly', () => {
-    const tree = renderer
-      .create(
-        <HoliCard {...props}>
-          <HoliText>Holi card component</HoliText>
-        </HoliCard>
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    render(
+      <HoliCard {...props}>
+        <HoliText>Holi card component</HoliText>
+      </HoliCard>
+    )
+    expect(screen).toMatchSnapshot()
   })
 
   it('renders the image', () => {
