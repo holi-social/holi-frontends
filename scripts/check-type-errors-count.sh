@@ -7,6 +7,8 @@ TARGET="${2-main}"
 echo "Using source ${SOURCE}"
 echo "Using target ${TARGET}"
 
+trap 'git checkout "$SOURCE"' 0
+
 # Find the common ancestor commit (branch-off point)
 MERGE_BASE=$(git merge-base "${SOURCE}" "${TARGET}")
 echo "Branch-off point commit: $MERGE_BASE"
