@@ -121,8 +121,8 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
         <HistoryPlugin />
         <HoliFocusPlugin
           autofocus={autofocus}
-          onFocus={props?.onFocus as ((event: FocusEvent) => void) | undefined}
-          onBlur={props?.onBlur as ((event: FocusEvent) => void) | undefined}
+          onFocus={props?.onFocus as ((event: FocusEvent) => boolean) | undefined}
+          onBlur={props?.onBlur as ((event: FocusEvent) => boolean) | undefined}
         />
         <HoliMentionsPlugin
           findUsersByName={findUserMapped}
