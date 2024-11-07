@@ -21,7 +21,9 @@ export type TextLinkVariant =
 export interface TextLinkProps {
   size: TextLinkSize
   numberOfLines?: number
+  /** Specifies theme respecting text color, takes precedence over `color`. */
   variant?: TextLinkVariant
+  /** Use is discouraged in favor of `variant`. Requires manual theme handling. */
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']

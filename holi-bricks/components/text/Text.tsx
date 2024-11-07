@@ -32,8 +32,9 @@ export interface TextProps {
    */
   selectable?: boolean
   numberOfLines?: number
-  /** Overrides `color` */
+  /** Specifies theme respecting text color, takes precedence over `color`. */
   variant?: TextVariant
+  /** Use is discouraged in favor of `variant`. Requires manual theme handling. */
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: RNTextProps['ellipsizeMode']
