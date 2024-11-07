@@ -22,10 +22,10 @@ export interface NotificationEligibilityConfig {
 
 // you can adjust the config as needed - for testing make sure to reset the local storage
 export const notificationConfig: NotificationEligibilityConfig = {
-  maxAttemptsPerDay: 12,
+  maxAttemptsPerDay: 2,
   pauseDays: 3,
   activeDays: 2,
-  minIntervalBetweenAttemptsMs: 30 * 1000, // 30 seconds
+  minIntervalBetweenAttemptsMs: 6 * 60 * 60 * 1000, // 6 hours
 }
 
 const checkNotificationEligibility = async (config: NotificationEligibilityConfig): Promise<boolean> => {
