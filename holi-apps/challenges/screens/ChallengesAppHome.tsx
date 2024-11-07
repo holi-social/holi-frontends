@@ -1,6 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Camera } from 'expo-camera'
+import * as Notifications from 'expo-notifications'
 import React, { useEffect, useRef, useState } from 'react'
-import { Platform, Share } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { Linking, Platform, Share, View } from 'react-native'
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { useNavigation } from '@react-navigation/native'
@@ -10,6 +13,14 @@ import HoliWebView from '@holi/core/components/HoliWebView'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
+import {
+  ModalState,
+  incrementModalAttempts,
+  useNotificationEligibility,
+} from '@holi/core/screens/notifications/helpers/notificationModalHelper'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -25,10 +36,14 @@ const ChallengesAppHome = () => {
   const [pathQueryParam] = useParam('path')
   const { goBack } = useNavigation()
   const { displayError } = useErrorHandling()
+  const { t } = useTranslation()
 
   const headers = useChallengesHeaders()
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
   const webViewRef = useRef<WebView>(null)
+
+  const { isEligible, modalState } = useNotificationEligibility()
+  const [modalVisible, setModalVisible] = useState(false)
 
   const requestPermissions = async () => {
     const cameraPermissionResult = await Camera.requestCameraPermissionsAsync()
@@ -79,6 +94,9 @@ const ChallengesAppHome = () => {
       case 'share':
         await share(message.message, message.path)
         break
+      case 'video-submitted':
+        setTimeout(() => showOptInModal(), 3000)
+        break
     }
   }
 
@@ -92,27 +110,104 @@ const ChallengesAppHome = () => {
 
   const uri = createExternalChallengesPath(pathQueryParam)
 
+  const showOptInModal = async () => {
+    const { status } = await Notifications.getPermissionsAsync()
+    const shouldShowModal = status !== 'granted' && isEligible
+
+    if (shouldShowModal) {
+      setModalVisible(true)
+    }
+  }
+
+  const openSettings = async () => {
+    try {
+      await Linking.openURL('app-settings:')
+    } catch (error) {
+      console.error('Failed to open settings:', error)
+    }
+  }
+
+  const handleOptIn = async () => {
+    const { status } = await Notifications.getPermissionsAsync()
+
+    await incrementModalAttempts()
+
+    if (status !== 'granted') {
+      const { status: newStatus } = await Notifications.requestPermissionsAsync()
+
+      if (newStatus === 'granted') {
+        setModalVisible(false)
+      } else if (newStatus === 'undetermined') {
+        // Do nothing, keep the modal open
+      } else {
+        openSettings()
+        setModalVisible(false)
+      }
+    } else {
+      setModalVisible(false)
+    }
+  }
+
+  const handleModalDismiss = async () => {
+    await incrementModalAttempts()
+    setModalVisible(false)
+  }
+
+  //TODO: delete this after finish testing
+  const resetEligibilityState = async () => {
+    try {
+      await AsyncStorage.removeItem('@NotificationModalState')
+    } catch (error) {
+      // Remove console.error
+    }
+  }
+
   return (
-    <HoliWebView
-      webViewRef={webViewRef}
-      allowsBackForwardNavigationGesturesMultiOS={true}
-      webViewProps={{
-        setSupportMultipleWindows: false,
-        allowsBackForwardNavigationGestures: true,
-        allowsInlineMediaPlayback: true,
-        mediaCapturePermissionGrantType: 'grant',
-        sharedCookiesEnabled: true,
-        onMessage: handleMessageFromBackend,
-        source: {
-          uri,
-          headers: {
-            ...headers,
-            'X-Require-Camera-Permission': `${requireCameraPermission}`,
+    <>
+      <HoliWebView
+        webViewRef={webViewRef}
+        allowsBackForwardNavigationGesturesMultiOS={true}
+        webViewProps={{
+          setSupportMultipleWindows: false,
+          allowsBackForwardNavigationGestures: true,
+          allowsInlineMediaPlayback: true,
+          mediaCapturePermissionGrantType: 'grant',
+          sharedCookiesEnabled: true,
+          onMessage: handleMessageFromBackend,
+          source: {
+            uri,
+            headers: {
+              ...headers,
+              'X-Require-Camera-Permission': `${requireCameraPermission}`,
+            },
           },
-        },
-      }}
-      theme={theme}
-    />
+        }}
+        theme={theme}
+      />
+      <NotificationOptInModal
+        type="default"
+        isVisible={modalVisible}
+        onConfirm={handleOptIn}
+        onDismiss={handleModalDismiss}
+        description={t('notifications.permission.description.default')}
+      />
+      {/* This View displays the current modal state */}
+      <View
+        style={{ position: 'absolute', bottom: 350, left: 100, backgroundColor: 'rgba(255,255,255,0.8)', padding: 10 }}
+      >
+        <HoliText>Eligible: {isEligible ? 'Yes' : 'No'}</HoliText>
+        <HoliText>{modalState?.attempts}</HoliText>
+        <HoliButton
+          inline
+          label="Reset Eligibility"
+          onPress={() => resetEligibilityState()}
+          type="secondary"
+          style={{ marginTop: 10 }}
+        >
+          <HoliText>Reset Eligibility</HoliText>
+        </HoliButton>
+      </View>
+    </>
   )
 }
 
