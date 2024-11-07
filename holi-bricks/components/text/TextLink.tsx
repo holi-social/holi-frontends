@@ -6,10 +6,24 @@ import * as React from 'react'
 import { ColorValue, Platform, Text, TextProps, TextStyle } from 'react-native'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
+export type TextLinkVariant =
+  /** Primary, Headlines, Body */
+  | 'primary'
+  /** Body, Captions, Subtexts */
+  | 'secondary'
+  /** Unselected text, Bottom Navigation */
+  | 'tertiary'
+  /** Disabled */
+  | 'quaternary'
+  /** Mentions, Locations, Special cases */
+  | 'special'
 
 export interface TextLinkProps {
   size: TextLinkSize
   numberOfLines?: number
+  /** Specifies theme respecting text color, takes precedence over `color`. */
+  variant?: TextLinkVariant
+  /** Use is discouraged in favor of `variant`. Requires manual theme handling. */
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
@@ -19,13 +33,14 @@ export interface TextLinkProps {
 export const TextLink = ({
   size,
   numberOfLines,
+  variant,
   color,
   textAlign,
   ellipsizeMode,
   children,
   onPress,
 }: React.PropsWithChildren<TextLinkProps>) => {
-  const { styles } = useStyles(stylesheet, { size })
+  const { styles } = useStyles(stylesheet, { size, variant })
 
   return (
     <Text
@@ -47,7 +62,7 @@ const stylesheet = createStyleSheet((theme) => ({
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.bold,
       fontWeight: '500',
-      color: color ?? theme.colors.text,
+      color: color ?? theme.components.text.primary,
       userSelect: 'auto',
       textAlign: textAlign,
       ...Platform.select({
@@ -57,6 +72,23 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       }),
       variants: {
+        variant: {
+          primary: {
+            color: theme.components.text.primary,
+          },
+          secondary: {
+            color: theme.components.text.secondary,
+          },
+          tertiary: {
+            color: theme.components.text.tertiary,
+          },
+          quaternary: {
+            color: theme.components.text.quaternary,
+          },
+          special: {
+            color: theme.components.text.specialLink,
+          },
+        },
         size: {
           md: {
             fontSize: 16,

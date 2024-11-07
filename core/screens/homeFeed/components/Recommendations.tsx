@@ -1,7 +1,5 @@
 import { withProfiler } from '@sentry/react'
 import { Text } from 'holi-bricks/components/text'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
@@ -31,7 +29,6 @@ export const useCardWidth = () => {
 const RecommendationsHeader = () => {
   const { t } = useTranslation()
   const subtitle = useRecosSubtitle()
-  const { styles } = useStyles(stylesheet)
 
   return (
     <HoliContainer>
@@ -40,7 +37,7 @@ const RecommendationsHeader = () => {
       </Text>
       <HoliGap size="xs" />
       {subtitle && (
-        <Text size="md" color={styles.subtitle.color}>
+        <Text size="md" variant="secondary">
           {t(subtitle)}
         </Text>
       )}
@@ -131,9 +128,3 @@ const styles = StyleSheet.create({
     gap: dimensions.spacingL,
   },
 })
-
-const stylesheet = createStyleSheet((theme) => ({
-  subtitle: {
-    color: theme.colors.textSecondary,
-  },
-}))
