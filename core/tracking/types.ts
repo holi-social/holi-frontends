@@ -87,6 +87,8 @@ export interface PosthogCrossPlatform {
   capture: (event: string, properties?: Properties) => void
   identify: (distinctId: string, properties?: Properties) => void
   distinctId: () => string
+  updatePersonProperties: (properties?: Properties) => void
+  flush: () => Promise<void>
 }
 
 export type SignupModalPressedTrigger =

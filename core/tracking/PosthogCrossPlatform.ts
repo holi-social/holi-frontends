@@ -21,6 +21,14 @@ export class PosthogReactNative implements PosthogCrossPlatform {
     this.posthog.identify(distinctId, properties)
   }
 
+  updatePersonProperties(properties?: Properties | undefined): void {
+    this.posthog.capture('$set', { $set: properties })
+  }
+
+  async flush(): Promise<void> {
+    await this.posthog.flush()
+  }
+
   optedIn(): boolean {
     return !this.posthog.optedOut
   }

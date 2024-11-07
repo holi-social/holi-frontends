@@ -22,6 +22,15 @@ export class PosthogWeb implements PosthogCrossPlatform {
     this.posthog.identify(distinctId, properties)
   }
 
+  updatePersonProperties(properties?: Properties | undefined): void {
+    this.posthog.capture('$set', { $set: properties })
+  }
+
+  async flush(): Promise<void> {
+    // flush is not available for Web :/
+    return Promise.resolve()
+  }
+
   optedIn(): boolean {
     return this.posthog.has_opted_in_capturing()
   }
