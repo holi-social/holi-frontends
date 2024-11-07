@@ -172,11 +172,11 @@ const ChallengesAppHome = () => {
         theme={theme}
       />
       <NotificationOptInModal
-        type="default"
+        type="challenges"
         isVisible={modalVisible}
         onConfirm={handleOptIn}
         onDismiss={handleModalDismiss}
-        description={t('notifications.permission.description.default')}
+        description={t('notifications.permission.description.challenges')}
       />
     </>
   )
