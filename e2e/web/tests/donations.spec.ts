@@ -71,7 +71,8 @@ const testProjectListAndPagination = async (page: Page) => {
   // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
   await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThan(0)
   const listItemCountBefore = await countListItems()
-  await clickElementByTestId(page, 'btn-donation-list-load-more')
+  // using force here because the page doesn't scroll the button. Not ideal but more important we can page the results. IRL it does scroll.
+  await page.getByRole('button', { name: 'See more' }).click({ force: true })
   await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThanOrEqual(listItemCountBefore)
 }
 
