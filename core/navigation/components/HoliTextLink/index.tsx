@@ -1,9 +1,10 @@
+import { TextLink } from 'holi-bricks/components/text'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
+import { Pressable } from 'react-native'
 
 import { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
 import useLink from '@holi/core/navigation/hooks/useLink'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export const HoliTextLink = ({
   href,
@@ -13,24 +14,18 @@ export const HoliTextLink = ({
   children,
   mobileNavigateBackFirst,
   testID = 'text-link',
-  color,
+  variant,
   size,
-  align,
+  textAlign,
 }: PropsWithChildren<HoliTextLinkProps>) => {
   const handleLinkPress = useLink({ href, external, onPress, mobileNavigateBackFirst })
 
   return (
-    <HoliText
-      role="link"
-      aria-label={label}
-      onPress={handleLinkPress}
-      size={size}
-      color={color}
-      align={align}
-      bold
-      testID={testID}
-    >
-      {children}
-    </HoliText>
+    // TODO(SF) combine to one?
+    <Pressable onPress={handleLinkPress} testID={testID} aria-label={label}>
+      <TextLink size={size} variant={variant} textAlign={textAlign}>
+        {children}
+      </TextLink>
+    </Pressable>
   )
 }
