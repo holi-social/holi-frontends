@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -43,6 +43,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -252,13 +253,13 @@ const PostDetailsPage = () => {
         </View>
       </ScrollHeaderLayout>
 
-      <SafeAreaView>
+      <SafeArea edges={['bottom']}>
         <View style={styles.commentWrapper}>
           <HoliContainer flex={1}>
             <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
           </HoliContainer>
         </View>
-      </SafeAreaView>
+      </SafeArea>
     </>
   )
 }

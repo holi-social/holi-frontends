@@ -1,8 +1,9 @@
 import React, { PropsWithChildren, createContext, useContext, useState } from 'react'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import Swiper from 'react-native-swiper'
 
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { HoliSwiperProps, HoliSwiperSlideProps } from './types'
@@ -68,7 +69,7 @@ const HoliSwiperPagination = ({ maxPage }: HoliSwiperPaginationProps) => {
   const { colors } = theme
 
   return (
-    <SafeAreaView
+    <SafeArea
       style={styles.pagination}
       importantForAccessibility="no-hide-descendants"
       accessibilityElementsHidden={true}
@@ -80,7 +81,7 @@ const HoliSwiperPagination = ({ maxPage }: HoliSwiperPaginationProps) => {
         maxPage={maxPage}
         sizeRatio={1.0}
       />
-    </SafeAreaView>
+    </SafeArea>
   )
 }
 

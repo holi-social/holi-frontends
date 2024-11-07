@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import {
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   ScrollViewProps,
   StyleProp,
@@ -15,6 +14,7 @@ import {
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft, Close } from '@holi/icons/src/generated'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
@@ -142,7 +142,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
               {renderProp(scrollToInputWithId)}
             </View>
           </ScrollView>
-          <SafeAreaView style={[styles.bottomBar, bottomBarStyle]}>
+          <SafeArea edges={['bottom']} style={[styles.bottomBar, bottomBarStyle]}>
             <View style={[mixins.container, styles.buttonContainer]}>
               {showBackButton && (
                 <HoliButton
@@ -184,7 +184,7 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
                 {buttonLabel || t('global.save')}
               </HoliButtonLoading>
             </View>
-          </SafeAreaView>
+          </SafeArea>
         </HoliKeyboardSaveView>
       </KeyboardAvoidingView>
     )
