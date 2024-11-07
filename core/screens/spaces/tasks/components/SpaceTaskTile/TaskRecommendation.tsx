@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
+import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import Content from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Content'
 import { TrackingEvent } from '@holi/core/tracking'

@@ -2,7 +2,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
+import { HoliTextLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
@@ -28,7 +28,7 @@ const AlreadyHaveAccountText = ({
           label={t('auth.login')}
           onPress={onPress ? onPress : undefined}
           href="/login"
-          size="small"
+          size="sm"
           mobileNavigateBackFirst={mobileNavigateBackFirst}
           testID="btn-to-login-form"
           trackingEvent={trackingEvent}

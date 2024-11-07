@@ -13,11 +13,11 @@ import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import { HoliTextLinkTracked } from '@holi/core/components/Trackable'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
@@ -117,7 +117,7 @@ const Login = () => {
             <HoliTextLinkTracked
               label={t('auth.login.link.forgotPassword')}
               href="/forgotPassword"
-              size="small"
+              size="sm"
               mobileNavigateBackFirst
               testID="btn-to-forgot-password-form"
               trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}

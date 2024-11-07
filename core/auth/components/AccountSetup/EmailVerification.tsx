@@ -9,10 +9,9 @@ import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFl
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
-import { HoliButtonLoadingTracked } from '@holi/core/components/HoliButtonLoadingTracked'
+import { HoliButtonLoadingTracked, TextLinkTracked } from '@holi/core/components/Trackable'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
-import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -194,15 +193,14 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
         />
 
         <HoliBox padding={[16, 0, 0, 0]}>
-          <HoliTextLinkTracked
-            label={t('registration.emailVerification.resendEmail')}
-            href=""
+          <TextLinkTracked
             onPress={resendEmail}
-            size="small"
+            size="sm"
             trackingEvent={TrackingEvent.Auth.ResendEmailButtonPressed}
+            role="button"
           >
             {t('registration.emailVerification.resendEmail')}
-          </HoliTextLinkTracked>
+          </TextLinkTracked>
         </HoliBox>
 
         <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
