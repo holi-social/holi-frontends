@@ -15,7 +15,7 @@ const useLink = ({ onPress, external, href, mobileNavigateBackFirst }: UseLinkPr
   const { navigate, navigateBack } = useRouting()
 
   return useCallback(
-    async (event: GestureResponderEvent) => {
+    async (event: React.SyntheticEvent | GestureResponderEvent) => {
       if (onPress) {
         const stopPropagation = await onPress(event)
         if (stopPropagation === false) return

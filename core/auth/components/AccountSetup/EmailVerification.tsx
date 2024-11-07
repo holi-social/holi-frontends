@@ -197,7 +197,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
             onPress={resendEmail}
             size="sm"
             trackingEvent={TrackingEvent.Auth.ResendEmailButtonPressed}
-            role="button"
+            role="link"
           >
             {t('registration.emailVerification.resendEmail')}
           </TextLinkTracked>

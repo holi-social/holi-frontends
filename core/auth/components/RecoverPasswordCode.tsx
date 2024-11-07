@@ -1,5 +1,6 @@
 import { RecoveryFlow } from '@ory/kratos-client'
 import { AxiosError } from 'axios'
+import { TextLink } from 'holi-bricks/components/text'
 import React, { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
@@ -7,7 +8,6 @@ import { ScrollView, StyleSheet } from 'react-native'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { updatePasswordRecoveryFlowCode, updatePasswordRecoveryFlowEmail } from '@holi/core/auth/helpers/auth'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
@@ -136,14 +136,9 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
         />
 
         <HoliBox padding={[16, 0, 0, 0]}>
-          <HoliTextLink
-            label={t('registration.emailVerification.resendEmail')}
-            href="/"
-            onPress={resendEmail}
-            size="small"
-          >
+          <TextLink onPress={resendEmail} size="sm">
             {t('registration.emailVerification.resendEmail')}
-          </HoliTextLink>
+          </TextLink>
         </HoliBox>
 
         <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>

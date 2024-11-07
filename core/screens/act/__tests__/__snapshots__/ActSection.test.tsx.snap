@@ -238,7 +238,6 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
             </View>
           </View>
           <Text
-            role="link"
             selectable={false}
             style={
               {
@@ -2763,7 +2762,6 @@ exports[`ActHome Section shows DONATIONS 1`] = `
             </View>
           </View>
           <Text
-            role="link"
             selectable={false}
             style={
               {
@@ -8317,7 +8315,6 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
               </View>
             </View>
             <Text
-              role="link"
               selectable={false}
               style={
                 {

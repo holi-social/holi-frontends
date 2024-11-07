@@ -49,32 +49,61 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
   testID="the-rich-text-output-element"
 >
     
-  <Text
-    accessible={false}
-    aria-label="http://www.google.de"
+  <View
+    accessibilityLabel="http://www.google.de"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
     collapsable={false}
-    jestAnimatedStyle={
-      {
-        "value": {},
-      }
-    }
-    onPress={[Function]}
-    role="link"
-    selectable={true}
-    style={
-      {
-        "color": "#6267e7",
-        "fontFamily": "InstrumentSans-Medium",
-        "fontSize": 16,
-        "fontWeight": "500",
-        "lineHeight": 22.4,
-        "userSelect": "auto",
-      }
-    }
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     testID="text-link"
   >
-    http://www.google.de
-  </Text>
+    <Text
+      selectable={false}
+      style={
+        {
+          "color": "#5b60d6",
+          "fontFamily": "InstrumentSans-Medium",
+          "fontSize": 16,
+          "fontVariant": [
+            "lining-nums",
+            "tabular-nums",
+          ],
+          "fontWeight": "500",
+          "letterSpacing": -0.192,
+          "lineHeight": 23.68,
+          "textAlign": undefined,
+          "userSelect": "auto",
+        }
+      }
+    >
+      http://www.google.de
+    </Text>
+  </View>
    
 </Text>
 `;

@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text'
 import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
@@ -88,15 +89,11 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
             resizeMode={'contain'}
           />
         )}
-        <HoliText style={styles.description}>
+        <Text size="md" textAlign="center">
           <Trans t={t} i18nKey={'goodnews:listing.teaser.description'}>
-            <HoliTextLink
-              label={t('goodnews:listing.teaser.textLink.url')}
-              href={t('goodnews:listing.teaser.textLink.url')}
-              external
-            />
+            <HoliTextLink label="goodnews.eu" href={t('goodnews:listing.teaser.textLink.url')} external size="md" />
           </Trans>
-        </HoliText>
+        </Text>
         <HoliButton
           label={t('goodnews:button.loadMoreArticles.label')}
           style={styles.loadMoreBtn}
@@ -131,9 +128,6 @@ const getStyles = (theme: HoliTheme) =>
     loadMoreBtn: {
       width: 'auto',
       borderWidth: 1,
-    },
-    description: {
-      textAlign: 'center',
     },
     lookingForMore: {
       flex: 1,

@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -8,7 +9,6 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 
 interface RoomMessageListStartProps {
@@ -39,15 +39,16 @@ const RoomMessageListStart = ({ chatPartnerHoliUser, member }: RoomMessageListSt
       </HoliLink>
       <HoliGap size="s" />
 
-      <HoliText>
+      <Text size="md">
         <Trans t={t} i18nKey={'chat.room.start.description'} values={{ fullName: chatPartnerHoliUser.fullName }}>
           <HoliTextLink
             label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
             href={`/profile/${chatPartnerHoliUser.id}`}
-            color="brandB300"
+            size="md"
+            variant="special"
           />
         </Trans>
-      </HoliText>
+      </Text>
     </View>
   )
 }
