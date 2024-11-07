@@ -1,5 +1,5 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import { QueryMatch, useBasicTypeaheadTriggerMatch } from '@lexical/react/LexicalTypeaheadMenuPlugin'
+import { useBasicTypeaheadTriggerMatch } from '@lexical/react/LexicalTypeaheadMenuPlugin'
 import {
   $getSelection,
   $isRangeSelection,
@@ -23,7 +23,7 @@ import { usePortals } from '@holi/core/providers/PortalProvider'
 import HoliLexicalMentionsDropdown from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdown'
 import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
 import { $createMentionNode, MENTION_DATA_ATTR } from '@holi/ui/helper/lexical/HoliMentionsPlugin.node'
-import { findMentionMatches } from '@holi/ui/helper/richText'
+import { Mention, findMentionMatches } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
 
 export type HoliMentionsPluginProps = {
@@ -64,7 +64,7 @@ const HoliMentionsPlugin: React.FC<HoliMentionsPluginProps> = ({
   // check input text for mentions
   const checkForMentionMatch = useCallback(
     (text: string) => {
-      const mentionMatch = findMentionMatches(text) as QueryMatch
+      const mentionMatch = findMentionMatches(text)
       const slashMatch = checkForSlashTriggerMatch(text, editor)
       const match = !slashMatch && mentionMatch ? mentionMatch : null
       return match
@@ -97,7 +97,7 @@ const HoliMentionsPlugin: React.FC<HoliMentionsPluginProps> = ({
     return text
   }, [])
 
-  const splitNodeContainingQuery = useCallback((editor: LexicalEditor, match: QueryMatch): TextNode | null => {
+  const splitNodeContainingQuery = useCallback((editor: LexicalEditor, match: Mention): TextNode | null => {
     const selection = $getSelection()
     if (!$isRangeSelection(selection) || !selection.isCollapsed()) {
       return null
