@@ -14,8 +14,8 @@ export const HoliLink = ({
   testID = 'link',
 }: PropsWithChildren<HoliLinkProps>) => {
   const onLinkPress = useCallback(
-    (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
-      const stopPropagation = onPress?.(event)
+    async (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
+      const stopPropagation = await onPress?.(event)
       if (stopPropagation === false) {
         event?.preventDefault()
         event?.stopPropagation()
@@ -27,7 +27,7 @@ export const HoliLink = ({
 
   return (
     <Link
-      href={href || ''}
+      href={href}
       aria-label={label}
       title={label}
       target={external ? '_blank' : undefined}
