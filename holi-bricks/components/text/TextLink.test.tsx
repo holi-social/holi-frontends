@@ -7,13 +7,16 @@ describe('TextLink', () => {
   it('should render text', () => {
     render(<TextLink size="md">Foobar</TextLink>)
 
-    const link = screen.getByRole('link')
+    const link = screen.getByText('Foobar')
     expect(link).toBeOnTheScreen()
-    expect(link).toHaveTextContent('Foobar')
   })
 
-  it('should have role link', async () => {
-    render(<TextLink size="md">Foobar</TextLink>)
+  it('should have role passed as prop', async () => {
+    render(
+      <TextLink size="md" role="link">
+        Foobar
+      </TextLink>
+    )
 
     expect((await screen.findByText('Foobar')).props.role).toEqual('link')
   })
