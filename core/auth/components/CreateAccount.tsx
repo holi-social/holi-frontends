@@ -1,14 +1,14 @@
 import { useApolloClient } from '@apollo/client'
-import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
+import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, type ScrollView, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { getVerificationFlowFromRegistration, initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { type OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
@@ -26,7 +26,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const logger = getLogger('CreateAccount')
 
@@ -158,12 +158,9 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
             {t('auth.loginProtection.continueAsGuest')}
           </HoliButtonTracked>
 
-          <View style={{ alignItems: 'center' }}>
-            <AlreadyHaveAccountText
-              style={styles.loginHeadline}
-              trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
-            />
-          </View>
+          <HoliGap size="s" />
+
+          <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </View>
 
         {isLoaderShown && <HoliLoader />}
@@ -191,9 +188,5 @@ const getStyles = (theme: HoliTheme) =>
     },
     headline3: {
       marginTop: 16,
-    },
-    loginHeadline: {
-      marginTop: 16,
-      textAlign: 'center',
     },
   })
