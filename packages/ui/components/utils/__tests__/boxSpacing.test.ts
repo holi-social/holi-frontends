@@ -23,7 +23,7 @@ type CaseTupleBox = [
       paddingVertical?: number
       paddingHorizontal?: number
     }
-  }
+  },
 ][]
 
 // In the case tuple the first element is the input the second one is the expected result
@@ -78,7 +78,7 @@ type CaseBoundingBox = [
       paddingBottom?: number
       paddingLeft?: number
     }
-  }
+  },
 ][]
 
 // In the case tuple the first element is the input the second one is the expected result

@@ -1,6 +1,6 @@
-import { CodegenConfig } from '@graphql-codegen/cli'
 import fs from 'node:fs/promises'
 import path from 'path'
+import { CodegenConfig } from '@graphql-codegen/cli'
 
 const schema = process.env.UNIFIED_API_SCHEMA_ENDPOINT
 const filePath = 'packages/api/graphql/graphql-codegen.ts'
@@ -24,7 +24,7 @@ const config: CodegenConfig = {
     },
   },
   hooks: {
-    afterAllFileWrite: [addHeaderContent, 'prettier --write'],
+    afterAllFileWrite: [addHeaderContent, 'yarn format'],
   },
 }
 

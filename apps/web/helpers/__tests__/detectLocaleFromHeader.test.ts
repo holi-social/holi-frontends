@@ -9,7 +9,7 @@ const createApiHeaders = (acceptLanguage = '') => ({
 const createHeaders = (acceptLanguage = '') =>
   ({
     get: () => acceptLanguage,
-  } as unknown as NextRequest['headers'])
+  }) as unknown as NextRequest['headers']
 
 describe('detectLocaleFromHeader', () => {
   describe('api request', () => {

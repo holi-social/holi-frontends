@@ -64,7 +64,10 @@ const EditPost = () => {
   const [showCategories, setShowCategories] = useState(false)
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
-  const { data: { post } = {}, loading: loadingPost } = useQuery<PostQueryResponse>(postQuery, {
+  const {
+    data: { post } = {},
+    loading: loadingPost,
+  } = useQuery<PostQueryResponse>(postQuery, {
     variables: { idOrSlug },
     skip: !idOrSlug,
     notifyOnNetworkStatusChange: true,

@@ -62,7 +62,7 @@ const HoliWizardNavigationButtons = ({
       <View style={{ flex: 1 }}>
         <HoliButtonLoading
           disabled={!isNextButtonEnabled}
-          label={isLastStep ? submitButtonLabel : nextButtonLabel ?? t('global.next')}
+          label={isLastStep ? submitButtonLabel : (nextButtonLabel ?? t('global.next'))}
           loadingLabel={t('global.loading')}
           onPress={onNextPress}
           testID={testID ? `${testID}-next-btn` : 'holi-wizard-save-btn'}

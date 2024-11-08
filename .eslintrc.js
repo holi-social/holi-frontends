@@ -9,7 +9,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: ['eslint:recommended', 'prettier', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -18,9 +18,8 @@ module.exports = {
     ecmaVersion: '6',
     sourceType: 'module',
   },
-  plugins: ['react', 'react-native', 'react-hooks', '@typescript-eslint', 'prettier'],
+  plugins: ['react', 'react-native', 'react-hooks', '@typescript-eslint'],
   rules: {
-    'prettier/prettier': ['error'],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'never'],

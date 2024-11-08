@@ -106,7 +106,7 @@ const GoodNewsCarousel = () => {
   }
 
   const carouselItems: CarouselItem[] = articles
-    .map((article) => ({ type: 'article', article: article } as CarouselItem))
+    .map((article) => ({ type: 'article', article: article }) as CarouselItem)
     .concat(previousDateTeaser ? [{ type: 'teaser', article: previousDateTeaser }] : [])
 
   return (

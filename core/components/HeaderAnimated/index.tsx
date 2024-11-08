@@ -69,8 +69,8 @@ const HeaderAnimated = (props: HeaderAnimatedProps) => {
                       label: headerBackTitle,
                     })
                 : headerLeft === undefined && canGoBack
-                ? ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={navigation.goBack} />
-                : headerLeft
+                  ? ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={navigation.goBack} />
+                  : headerLeft
             }
             headerRight={
               typeof headerRight === 'function' ? ({ tintColor }) => headerRight({ tintColor, canGoBack }) : headerRight

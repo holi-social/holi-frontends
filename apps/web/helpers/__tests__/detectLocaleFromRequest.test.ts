@@ -10,7 +10,7 @@ const createRequest = (acceptLanguage = '', locale?: string) =>
     query: {
       locale,
     },
-  } as unknown as NextApiRequest)
+  }) as unknown as NextApiRequest
 
 describe('detectLocaleFromRequest', () => {
   it('should use locale from query parameter', () => {

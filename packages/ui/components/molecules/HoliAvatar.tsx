@@ -106,8 +106,8 @@ const HoliAvatar = ({
               color: initialsColor
                 ? initialsColor
                 : tinycolor(defaultColor || colors.background10).isLight()
-                ? colors.dark
-                : colors.light,
+                  ? colors.dark
+                  : colors.light,
               fontSize: fontSize ? fontSize : initialsFontSize,
               fontWeight: initialsFontWeight,
               lineHeight: initialsFontSize * 1.2,

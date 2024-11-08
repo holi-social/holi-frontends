@@ -87,7 +87,6 @@ const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
 
 export const createCache = () =>
   new InMemoryCache({
-    // eslint-disable-next-line prettier/prettier
     typePolicies: {
       User: {
         fields: {

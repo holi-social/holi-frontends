@@ -5,7 +5,7 @@ export type Config<
   Props extends Record<string, unknown>,
   Required extends boolean,
   ParsedType,
-  InitialValue
+  InitialValue,
 > = (Required extends false
   ? {
       parse?: (value?: string | string[]) => ParsedType
@@ -30,8 +30,8 @@ export type Params<
   ParsedType = InitialValue extends undefined
     ? NullableUnparsedParsedType
     : ParseFunction extends undefined
-    ? NullableUnparsedParsedType
-    : NonNullable<NullableUnparsedParsedType>
+      ? NullableUnparsedParsedType
+      : NonNullable<NullableUnparsedParsedType>,
 > = NonNullable<ParsedType> extends string
   ? [name: Name, config: Config<Props, false, ParsedType, InitialValue>] | [name: Name]
   : [name: Name, config: Config<Props, true, ParsedType, InitialValue>]
@@ -47,8 +47,8 @@ export type Returns<
   ParsedType = InitialValue extends undefined
     ? NullableUnparsedParsedType
     : ParseFunction extends undefined
-    ? NullableUnparsedParsedType
-    : NonNullable<NullableUnparsedParsedType>
+      ? NullableUnparsedParsedType
+      : NonNullable<NullableUnparsedParsedType>,
 > = readonly [state: ParsedType | InitialValue, setState: (value: ParsedType) => void]
 
 export type UpdateOptions = {

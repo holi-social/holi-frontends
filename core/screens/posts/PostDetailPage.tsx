@@ -87,7 +87,10 @@ const PostDetailPage = () => {
     },
   })
 
-  const { data: { commentable } = {}, refetch: refetchComments } = useQuery<CommentsResponse>(commentsByCommentable, {
+  const {
+    data: { commentable } = {},
+    refetch: refetchComments,
+  } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId: postId, commentableType: CommentableType.POST },
     skip: !postId,
     fetchPolicy: 'cache-and-network',

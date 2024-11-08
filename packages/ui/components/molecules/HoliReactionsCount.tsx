@@ -73,8 +73,8 @@ const HoliReactionsCount: React.FC<HoliReactionsCountProps> = ({
       ? HandHeartThinFilledRaised // active and hovered
       : HandHeartThinFilledDarker // active and !hovered
     : hovered
-    ? HandHeartThinFilledDarker // !active and hovered
-    : HandHeartThin // !active and !hovered
+      ? HandHeartThinFilledDarker // !active and hovered
+      : HandHeartThin // !active and !hovered
 
   const scale = useSharedValue(1)
 
