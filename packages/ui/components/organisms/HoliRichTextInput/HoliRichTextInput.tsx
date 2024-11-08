@@ -150,6 +150,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
             onChooseOptionRef.current({ id: user.id, name: user.fullName })
             props.onSelectSuggestion?.(user)
             inputRef?.current?.focus()
+            setSafeSuggestions([])
           }}
           testID={props.testID ? `${props.testID}-suggestions` : 'richtext-input-suggestions'}
         />
