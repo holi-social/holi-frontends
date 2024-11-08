@@ -30,7 +30,6 @@ const AlreadyHaveAccountText = ({
           href="/login"
           size="sm"
           mobileNavigateBackFirst={mobileNavigateBackFirst}
-          testID="btn-to-login-form"
           trackingEvent={trackingEvent}
         >
           {t('auth.login')}

@@ -12,7 +12,6 @@ export const HoliTextLink = ({
   onPress,
   children,
   mobileNavigateBackFirst,
-  testID = 'text-link',
   variant,
   textAlign,
   size,
@@ -25,7 +24,6 @@ export const HoliTextLink = ({
         external={external}
         onPress={onPress}
         mobileNavigateBackFirst={mobileNavigateBackFirst}
-        testID={testID}
       >
         {children}
       </HoliLink>

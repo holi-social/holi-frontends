@@ -1,9 +1,17 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import * as React from 'react'
-// eslint-disable-next-line no-restricted-imports
-import { ColorValue, GestureResponderEvent, Platform, Text, TextProps, TextStyle } from 'react-native'
+import type React from 'react'
+import {
+  type ColorValue,
+  type GestureResponderEvent,
+  Platform,
+  // eslint-disable-next-line no-restricted-imports
+  Text,
+  // eslint-disable-next-line no-restricted-imports
+  type TextProps,
+  type TextStyle,
+} from 'react-native'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
 export type TextLinkVariant =
@@ -29,6 +37,7 @@ export interface TextLinkProps {
   ellipsizeMode?: TextProps['ellipsizeMode']
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   role?: TextProps['role']
+  'aria-label'?: TextProps['aria-label']
 }
 
 export const TextLink = ({
@@ -40,6 +49,7 @@ export const TextLink = ({
   ellipsizeMode,
   children,
   role,
+  'aria-label': ariaLabel,
   onPress,
 }: React.PropsWithChildren<TextLinkProps>) => {
   const { styles } = useStyles(stylesheet, { size, variant })
@@ -48,6 +58,7 @@ export const TextLink = ({
     <Text
       selectable={Platform.OS !== 'web' ? false : undefined}
       role={role}
+      aria-label={ariaLabel}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
       // as TextStyle is required because ts

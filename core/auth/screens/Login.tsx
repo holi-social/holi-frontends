@@ -113,13 +113,12 @@ const Login = () => {
         <LoginRegistrationContainer>
           <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
 
-          <View style={styles.formItemContainer}>
+          <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
             <HoliTextLinkTracked
               label={t('auth.login.link.forgotPassword')}
               href="/forgotPassword"
               size="sm"
               mobileNavigateBackFirst
-              testID="btn-to-forgot-password-form"
               trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
             >
               {t('auth.login.link.forgotPassword')}

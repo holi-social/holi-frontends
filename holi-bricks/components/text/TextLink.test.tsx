@@ -18,7 +18,7 @@ describe('TextLink', () => {
       </TextLink>
     )
 
-    expect((await screen.findByText('Foobar')).props.role).toEqual('link')
+    expect(screen.getByRole('link')).toBeOnTheScreen()
   })
 
   it('should call onPress handler', async () => {

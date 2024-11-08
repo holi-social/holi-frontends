@@ -18,7 +18,7 @@ describe('Text', () => {
       </Text>
     )
 
-    expect((await screen.findByText('Foobar')).props.role).toEqual('heading')
+    expect(screen.getByRole('heading')).toBeOnTheScreen()
   })
 
   it('should set role to none if no level is specified', async () => {

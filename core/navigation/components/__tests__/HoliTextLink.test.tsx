@@ -18,7 +18,7 @@ describe('HoliTextLink', () => {
     const onPress = jest.fn()
     render(<HoliTextLink label="test" href="/" onPress={onPress} size="md" />)
 
-    fireEvent.press(screen.getByTestId('text-link'))
+    fireEvent.press(screen.getByRole('link'))
 
     expect(onPress).toHaveBeenCalled()
   })

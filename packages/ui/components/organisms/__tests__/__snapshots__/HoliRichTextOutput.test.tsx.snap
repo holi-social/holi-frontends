@@ -49,61 +49,29 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
   testID="the-rich-text-output-element"
 >
     
-  <View
-    accessibilityLabel="http://www.google.de"
-    accessibilityState={
+  <Text
+    onPress={[Function]}
+    role="link"
+    selectable={false}
+    style={
       {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
+        "color": "#5b60d6",
+        "fontFamily": "InstrumentSans-Medium",
+        "fontSize": 16,
+        "fontVariant": [
+          "lining-nums",
+          "tabular-nums",
+        ],
+        "fontWeight": "500",
+        "letterSpacing": -0.192,
+        "lineHeight": 23.68,
+        "textAlign": undefined,
+        "userSelect": "auto",
       }
     }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    testID="text-link"
   >
-    <Text
-      selectable={false}
-      style={
-        {
-          "color": "#5b60d6",
-          "fontFamily": "InstrumentSans-Medium",
-          "fontSize": 16,
-          "fontVariant": [
-            "lining-nums",
-            "tabular-nums",
-          ],
-          "fontWeight": "500",
-          "letterSpacing": -0.192,
-          "lineHeight": 23.68,
-          "textAlign": undefined,
-          "userSelect": "auto",
-        }
-      }
-    >
-      http://www.google.de
-    </Text>
-  </View>
+    http://www.google.de
+  </Text>
    
 </Text>
 `;
