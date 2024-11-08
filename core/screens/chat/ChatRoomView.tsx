@@ -1,7 +1,8 @@
 import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, StyleSheet, View } from 'react-native'
+// eslint-disable-next-line no-restricted-imports
+import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -33,7 +34,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
@@ -196,7 +196,7 @@ const ChatRoomView = () => {
       <View style={styles.layoutWarpper}>
         <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
           <HoliTransition.Fade visible style={{ flex: 1 }}>
-            <SafeArea style={styles.safeArea}>
+            <SafeAreaView style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
                   {room.hasInvitation ? (
@@ -238,7 +238,7 @@ const ChatRoomView = () => {
                   />
                 </HoliContainer>
               </View>
-            </SafeArea>
+            </SafeAreaView>
           </HoliTransition.Fade>
         </PermissionsGuard>
       </View>
