@@ -11,7 +11,8 @@ import {
   TextStyle,
 } from 'react-native'
 
-export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
+// Change import in HOLI-10369
+export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
 export type TextVariant =
   /** Primary, Headlines, Body */
@@ -165,6 +166,11 @@ const stylesheet = createStyleSheet((theme) => ({
           xs: {
             fontSize: 13,
             lineHeight: 13 * 1.2,
+            letterSpacing: 0.104,
+          },
+          xxs: {
+            fontSize: 11,
+            lineHeight: 11 * 1.2,
             letterSpacing: 0.104,
           },
         },
