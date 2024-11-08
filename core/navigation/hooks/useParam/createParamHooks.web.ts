@@ -46,8 +46,8 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
     ParsedType = InitialValue extends undefined
       ? NullableUnparsedParsedType
       : ParseFunction extends undefined
-      ? NullableUnparsedParsedType
-      : NonNullable<NullableUnparsedParsedType>
+        ? NullableUnparsedParsedType
+        : NonNullable<NullableUnparsedParsedType>,
   >(
     ...[name, maybeConfig]: Params<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType>
   ): Returns<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType> => {

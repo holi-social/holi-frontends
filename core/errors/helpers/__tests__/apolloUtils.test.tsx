@@ -7,7 +7,7 @@ const createGraphQLError = (extensions = {}): GraphQLError =>
     extensions,
     name: '',
     message: '',
-  } as GraphQLError)
+  }) as GraphQLError
 
 describe('apolloUtils', () => {
   const badUserInputError = createGraphQLError({ code: 'BAD_USER_INPUT' })

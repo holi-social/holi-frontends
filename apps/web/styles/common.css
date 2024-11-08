@@ -3,6 +3,6 @@ textarea:focus-visible {
   outline: transparent;
 }
 
-body:has([aria-modal='true']) {
+body:has([aria-modal="true"]) {
   overflow: hidden;
 }

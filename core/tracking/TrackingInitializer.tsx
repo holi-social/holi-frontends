@@ -24,7 +24,10 @@ import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@h
 const logger = getLogger('Tracking')
 
 class Tracking {
-  constructor(private posthog: PosthogCrossPlatform, private apollo: ApolloClient<object>) {}
+  constructor(
+    private posthog: PosthogCrossPlatform,
+    private apollo: ApolloClient<object>
+  ) {}
 
   public async initWithLoggedInUser(user: AuthenticatedUser): Promise<void> {
     const consentState = ConsentState.fromUser(user)

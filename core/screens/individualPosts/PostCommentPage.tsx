@@ -37,7 +37,9 @@ const PostCommentPage = () => {
   const { theme } = useTheme()
   const { colors } = theme
 
-  const { data: { post } = {} } = useQuery<PostQueryResponse>(postQuery, {
+  const {
+    data: { post } = {},
+  } = useQuery<PostQueryResponse>(postQuery, {
     variables: { idOrSlug },
     skip: !idOrSlug,
     onError: (error) => {
@@ -51,7 +53,10 @@ const PostCommentPage = () => {
     },
   })
 
-  const { data: { commentById: comment } = {}, loading: loadingComment } = useQuery<CommentResponse>(commentById, {
+  const {
+    data: { commentById: comment } = {},
+    loading: loadingComment,
+  } = useQuery<CommentResponse>(commentById, {
     variables: { commentId },
     notifyOnNetworkStatusChange: true,
     skip: !commentId,

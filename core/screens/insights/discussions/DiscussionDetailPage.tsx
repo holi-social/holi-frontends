@@ -48,7 +48,10 @@ const DiscussionDetailPage = () => {
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { data: { discussionById: discussion } = {}, refetch } = useQuery<DiscussionResponse>(discussionById, {
+  const {
+    data: { discussionById: discussion } = {},
+    refetch,
+  } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
     skip: !discussionId,
     onError: (error) => {

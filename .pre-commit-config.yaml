@@ -7,6 +7,12 @@ repos:
         entry: gitleaks protect --staged -v -c ../.gitleaks.toml
         pass_filenames: false
         always_run: true
+    -   id: format:check
+        name: format:check
+        language: system
+        entry: yarn format:check
+        pass_filenames: false
+        always_run: true
     -   id: lint
         name: lint
         language: system

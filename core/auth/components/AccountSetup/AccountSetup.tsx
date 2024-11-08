@@ -34,11 +34,11 @@ import HoliWizard, {
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
 
 export enum AccountSetupStep {
-  'NAMES',
-  'PRE_SUCCESS',
-  'INTERESTS',
-  'LOCATION',
-  'SUCCESS',
+  NAMES,
+  PRE_SUCCESS,
+  INTERESTS,
+  LOCATION,
+  SUCCESS,
 }
 
 export interface AccountSetupProps {

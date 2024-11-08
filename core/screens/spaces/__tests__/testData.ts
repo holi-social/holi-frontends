@@ -157,7 +157,7 @@ const appointmentInputs: AppointmentInput[] = [1, 2, 3].map(
       description: 'appointment-' + number,
       title: `invite-title-${number}`,
       __typename: 'AppointmentInput',
-    } as AppointmentInput)
+    }) as AppointmentInput
 )
 
 export const pagedMembershipRequests: Paged<SpaceMembershipRequest> & WithTypename = {

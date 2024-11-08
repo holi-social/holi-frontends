@@ -13,7 +13,7 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
       isLoggedIn: true,
       isLoggedOut: false,
       user: { id: 'userId' },
-    } as LoggedInState),
+    }) as LoggedInState,
 }))
 
 describe('PermissionsGuard', () => {

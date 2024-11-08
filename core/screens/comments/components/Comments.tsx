@@ -41,7 +41,10 @@ const Comments = ({
 }: CommentsProps) => {
   const { navigate } = useRouting()
   const { t } = useTranslation()
-  const { data: { commentable } = {}, refetch } = useQuery<CommentsResponse>(commentsByCommentable, {
+  const {
+    data: { commentable } = {},
+    refetch,
+  } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId, commentableType, parentCommentId },
     fetchPolicy: 'cache-and-network',
     onError: (error) => {

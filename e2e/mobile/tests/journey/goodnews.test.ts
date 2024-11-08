@@ -1,4 +1,3 @@
-// eslint-disable-next-line prettier/prettier
 import { navigateBackFromAppScreen, waitForHomeScreen } from '../../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
@@ -23,7 +22,9 @@ describe('@GoodNews', () => {
 
 const assertAllowsPagination = async () => {
   // swipe to the right until the teaser component is visible
-  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'right', { maxAttempts: 20 })
+  await scrollToElementWithTestId('btn-goodnews-list-load-more', 'right', {
+    maxAttempts: 20,
+  })
   // load more
   const loadMoreElement = await tapOnElementWithTestId('btn-goodnews-list-load-more')
   // wait a moment

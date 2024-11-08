@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react'
 
 import { colors } from '@holi/ui/styles/globalVars'

@@ -30,12 +30,7 @@ const TestStep = ({ idx }: { idx: number }) => {
 const TestStepper = ({ lazy, initialStep = 0 }: { initialStep?: number; lazy?: boolean }) => {
   return (
     <HoliStepperController initialStep={initialStep} stepCount={steps.length}>
-      <HoliStepper
-        steps={steps.map(([id, idx]) => (
-          <TestStep key={id} idx={idx} />
-        ))}
-        lazy={lazy}
-      />
+      <HoliStepper steps={steps.map(([id, idx]) => <TestStep key={id} idx={idx} />)} lazy={lazy} />
     </HoliStepperController>
   )
 }

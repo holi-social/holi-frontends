@@ -13,13 +13,13 @@ export enum ReactionType {
 }
 
 export enum ReactionAction {
-  'SET' = 'SET',
-  'REMOVE' = 'REMOVE',
+  SET = 'SET',
+  REMOVE = 'REMOVE',
 }
 
 export enum ImageAspectRatio {
-  'ONE_ONE' = 'ONE_ONE',
-  'SIXTEEN_NINE' = 'SIXTEEN_NINE',
+  ONE_ONE = 'ONE_ONE',
+  SIXTEEN_NINE = 'SIXTEEN_NINE',
 }
 
 export interface ReactionCounts {

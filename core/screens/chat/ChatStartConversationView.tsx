@@ -59,8 +59,15 @@ const ChatStartConversationView = () => {
   }, [setScreenOptions, t, colors.background20])
 
   // BE API
-  const [fetchUserByName, { data: { userByName: { data: users = [] } = {} } = {}, loading }] =
-    useLazyAbortableQuery<UserByNameResponse>(userByNameQuery)
+  const [
+    fetchUserByName,
+    {
+      data: {
+        userByName: { data: users = [] } = {},
+      } = {},
+      loading,
+    },
+  ] = useLazyAbortableQuery<UserByNameResponse>(userByNameQuery)
   const getUsersByName = useCallback(
     async (userNameSubstr: string, offset = 0) => {
       await fetchUserByName({

@@ -5,8 +5,8 @@ export enum ReactionType {
 }
 
 export enum ReactionAction {
-  'SET' = 'SET',
-  'REMOVE' = 'REMOVE',
+  SET = 'SET',
+  REMOVE = 'REMOVE',
 }
 
 export interface ReactionCounts {

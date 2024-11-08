@@ -38,7 +38,7 @@ export const createMatrixClientMock = () => {
   const mxClient = jest.mocked(new MatrixClient({ baseUrl: '' }))
   mxClient.getIgnoredUsers.mockReturnValue([])
   mxClient.getRooms.mockReturnValue([])
-  mxClient.roomState.mockImplementation(async () => ({} as Promise<IStateEventWithRoomId[]>))
+  mxClient.roomState.mockImplementation(async () => ({}) as Promise<IStateEventWithRoomId[]>)
 
   const createClientMock = jest.mocked(createClient)
   createClientMock.mockReturnValue(mxClient)
