@@ -25,7 +25,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
@@ -179,7 +178,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   }
 
   return (
-    <SafeArea style={styles.wrapper}>
+    <View style={styles.wrapper}>
       <HoliContainer noPadding>
         <ChatTabBar selectedTabId={selectedTabId} />
       </HoliContainer>
@@ -197,7 +196,7 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
           <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
         </HoliButton>
       </View>
-    </SafeArea>
+    </View>
   )
 }
 
