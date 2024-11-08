@@ -48,7 +48,10 @@ export const TextLink = ({
       role="link"
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
-      style={styles.text(color, textAlign)}
+      // as TextStyle is required because ts
+      // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
+      // this might be related to unistyle typings, needs more investigation
+      style={styles.text(color, textAlign) as unknown as TextStyle}
       onPress={onPress}
     >
       {children}
