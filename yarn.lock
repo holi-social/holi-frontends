@@ -21256,7 +21256,7 @@ __metadata:
     react-native-reanimated: "npm:~3.10.1"
     react-native-safe-area-context: "npm:4.10.9"
     react-native-svg: "npm:15.2.0"
-    react-native-unistyles: "npm:^2.10.0"
+    react-native-unistyles: "npm:^2.11.0"
     react-native-web: "npm:^0.19.12"
     storybook: "npm:^8.3.6"
     tsconfig-paths-webpack-plugin: "npm:^4.1.0"
@@ -28637,28 +28637,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-unistyles@npm:^2.10.0":
-  version: 2.10.0
-  resolution: "react-native-unistyles@npm:2.10.0"
-  peerDependencies:
-    "@react-native/normalize-colors": "*"
-    react: "*"
-    react-native: "*"
-    react-native-macos: "*"
-    react-native-web: "*"
-    react-native-windows: "*"
-  peerDependenciesMeta:
-    react-native-macos:
-      optional: true
-    react-native-web:
-      optional: true
-    react-native-windows:
-      optional: true
-  checksum: 10c0/e6770ccd785e7186a0e59907afa3fd2dba66a57def2d5e294955a50fe50149fdbfbe02b77d1856aef01224e86e93314f1c7f487b19b332ba4084d5787b47708d
-  languageName: node
-  linkType: hard
-
-"react-native-unistyles@npm:^2.9.1":
+"react-native-unistyles@npm:^2.11.0, react-native-unistyles@npm:^2.9.1":
   version: 2.11.0
   resolution: "react-native-unistyles@npm:2.11.0"
   peerDependencies:
