@@ -81,7 +81,10 @@ export const Text = ({
       selectable={Platform.OS !== 'web' ? selectable : undefined}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
-      style={styles.text(selectable, color, textAlign)}
+      // as TextStyle is required because ts
+      // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
+      // this might be related to unistyle typings, needs more investigation
+      style={styles.text(selectable, color, textAlign) as unknown as TextStyle}
     >
       {children}
     </RNText>
