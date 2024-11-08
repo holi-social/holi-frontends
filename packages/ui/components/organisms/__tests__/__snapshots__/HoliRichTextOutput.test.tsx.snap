@@ -50,6 +50,7 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
 >
     
   <Text
+    aria-label="http://www.google.de"
     onPress={[Function]}
     role="link"
     selectable={false}
