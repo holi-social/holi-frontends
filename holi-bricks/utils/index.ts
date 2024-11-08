@@ -1,1 +1,3 @@
-export { createStyleSheet } from 'react-native-unistyles'
+import { createStyleSheet as unistylesCreateStylesheet } from 'react-native-unistyles'
+
+export const createStyleSheet = unistylesCreateStylesheet

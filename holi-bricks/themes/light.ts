@@ -1,3 +1,4 @@
+import { lightAvatarTheme } from 'holi-bricks/components/avatar/avatar.theme'
 import { lightButtonTheme } from 'holi-bricks/components/button/button.theme'
 import { lightChipTheme } from 'holi-bricks/components/chips/chip.theme'
 import { lightSelectorTheme } from 'holi-bricks/components/selectors/selector.theme'
@@ -16,5 +17,6 @@ export const lightTheme = {
     chipLabel: lightChipTheme.chipLabel,
     chipSelect: lightChipTheme.chipSelect,
     selector: lightSelectorTheme,
+    avatar: lightAvatarTheme,
   },
 }

@@ -9,4 +9,4 @@ export const BorderRadius = {
   pill: 1000,
 } as const
 
-export type BorderRadiusSize = keyof typeof BorderRadius
+export type BorderRadius = keyof typeof BorderRadius
