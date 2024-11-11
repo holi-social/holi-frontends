@@ -60,8 +60,7 @@ const FooterTabBar = () => {
           contentStyle={styles.button}
         >
           <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} color={unistyles.icon(isHome).color} />
-          <HoliGap size="xs" />
-          <TextLink size="xs" variant={isHome ? 'primary' : 'tertiary'} role="none">
+          <TextLink size="xs" variant={isHome ? 'primary' : 'tertiary'} role="none" l={{ mt: '3xs' }}>
             {t('navigation.home')}
           </TextLink>
         </HoliButton>
@@ -75,8 +74,7 @@ const FooterTabBar = () => {
           contentStyle={styles.button}
         >
           <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} color={unistyles.icon(isSpaces).color} />
-          <HoliGap size="xs" />
-          <TextLink size="xs" variant={isSpaces ? 'primary' : 'tertiary'} role="none">
+          <TextLink size="xs" variant={isSpaces ? 'primary' : 'tertiary'} role="none" l={{ mt: '3xs' }}>
             {t('navigation.spaces')}
           </TextLink>
         </HoliButton>

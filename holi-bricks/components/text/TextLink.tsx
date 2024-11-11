@@ -1,9 +1,10 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import * as React from 'react'
+import { extractLayout, type LayoutProps } from 'holi-bricks/utils/layout'
+import type * as React from 'react'
 // eslint-disable-next-line no-restricted-imports
-import { ColorValue, Platform, Role, Text, TextProps, TextStyle } from 'react-native'
+import { type ColorValue, Platform, type Role, Text, type TextProps, type TextStyle } from 'react-native'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
 export type TextLinkVariant =
@@ -18,7 +19,7 @@ export type TextLinkVariant =
   /** Mentions, Locations, Special cases */
   | 'special'
 
-export interface TextLinkProps {
+export type TextLinkProps = LayoutProps & {
   size: TextLinkSize
   numberOfLines?: number
   /** Specifies theme respecting text color, takes precedence over `color`. */
@@ -41,6 +42,7 @@ export const TextLink = ({
   children,
   onPress,
   role = 'link',
+  ...other
 }: React.PropsWithChildren<TextLinkProps>) => {
   const { styles } = useStyles(stylesheet, { size, variant })
 
@@ -53,7 +55,7 @@ export const TextLink = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(color, textAlign) as unknown as TextStyle}
+      style={[styles.text(color, textAlign) as unknown as TextStyle, extractLayout(other)]}
       onPress={onPress}
     >
       {children}
