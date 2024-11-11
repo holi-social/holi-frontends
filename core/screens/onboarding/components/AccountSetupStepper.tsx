@@ -77,7 +77,7 @@ export const AccountSetupStepper = ({ onContentSelection }: AccountSetupStepperP
         steps={[
           <ScrollView key={stepKeys[0]}>
             <HoliBox padding={[0, 0, 96, 0]}>
-              <ContentSelectionStep onSelect={setSelectedContent} initialSelection={selectedContent} />
+              <ContentSelectionStep onSelect={setSelectedContent} selectedOption={selectedContent} />
             </HoliBox>
           </ScrollView>,
         ]}

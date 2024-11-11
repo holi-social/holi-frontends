@@ -1,7 +1,7 @@
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View, type ViewStyle } from 'react-native'
 import { useStyles } from 'holi-bricks/hooks'
@@ -11,7 +11,7 @@ import { SelectorCard } from 'holi-bricks/components/selectors'
 
 interface ContentSelectionStepProps {
   onSelect: (option: string) => void
-  initialSelection?: string
+  selectedOption?: string
 }
 
 const contentOptions = [
@@ -33,9 +33,8 @@ const contentOptions = [
   },
 ]
 
-export const ContentSelectionStep = ({ onSelect, initialSelection }: ContentSelectionStepProps) => {
+export const ContentSelectionStep = ({ onSelect, selectedOption }: ContentSelectionStepProps) => {
   const { t } = useTranslation()
-  const [selectedOption, setSelectedOption] = useState(initialSelection)
   const { styles } = useStyles(stylesheet)
 
   return (
@@ -55,10 +54,7 @@ export const ContentSelectionStep = ({ onSelect, initialSelection }: ContentSele
             id={id}
             size="lg"
             title={t(`onboarding.contentSelection.${id}`)}
-            onPress={() => {
-              setSelectedOption(id)
-              onSelect(id)
-            }}
+            onPress={() => onSelect(id)}
             selected={id === selectedOption}
             image={image}
           />
