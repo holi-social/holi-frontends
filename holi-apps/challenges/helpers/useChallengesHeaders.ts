@@ -1,7 +1,7 @@
 import Constants from 'expo-constants'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
+import { type AuthorizationHeaders, createAuthorizationHeaders } from '@holi/api/helpers'
 import { useLoginState } from '@holi/core/auth/loginState'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
@@ -21,21 +21,19 @@ export const useChallengesHeaders = () => {
     }
   }, [isLoggedIn])
 
-  const headers = useMemo(() => {
-    const anonymousTrackingHeader: { [key: string]: string } =
-      !isLoggedIn && consentState.ANALYTICS === Consent.Given
-        ? { 'X-Client-Platform-Anonymous-Tracking-Id': posthog.distinctId() }
-        : {}
+  const anonymousTrackingHeader: { [key: string]: string } =
+    !isLoggedIn && consentState.ANALYTICS === Consent.Given
+      ? { 'X-Client-Platform-Anonymous-Tracking-Id': posthog.distinctId() }
+      : {}
 
-    return {
-      ...authHeaders,
-      ...anonymousTrackingHeader,
-      'X-Client-Platform': 'holi',
-      'X-Client-Platform-Version': Constants.expoConfig?.version || '',
-      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
-      'X-Client-Platform-User-Consent': `${consentState.ANALYTICS === Consent.Given}`,
-    }
-  }, [authHeaders, consentState.ANALYTICS, posthog, isLoggedIn])
+  const headers = {
+    ...authHeaders,
+    ...anonymousTrackingHeader,
+    'X-Client-Platform': 'holi',
+    'X-Client-Platform-Version': Constants.expoConfig?.version || '',
+    'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
+    'X-Client-Platform-User-Consent': `${consentState.ANALYTICS === Consent.Given}`,
+  }
 
   if (isLoggedIn && (!authHeaders || !authHeaders.Authorization)) return undefined
   return headers

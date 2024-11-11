@@ -38,7 +38,7 @@ describe('useChallengesHeaders', () => {
       { loading: false },
     ])
     mockPosthog.mockReturnValue({
-      distinctId: () => '1234',
+      distinctId: () => 'anonymous-tracking-id-1234',
     })
   })
 
@@ -54,18 +54,36 @@ describe('useChallengesHeaders', () => {
     const { result } = renderHook(() => useChallengesHeaders())
 
     // @ts-ignore
-    await waitFor(() => expect(result.current['X-Session-Token']).not.toBeUndefined())
-
-    expect(mockCreateAuthorizationHeaders).toHaveBeenCalled()
+    await waitFor(() => expect(result.current['X-Session-Token']).toBe('testSessionToken'))
   })
 
   it('should not load auth headers if logged out', async () => {
-    renderHook(() => useChallengesHeaders())
+    const { result } = renderHook(() => useChallengesHeaders())
+
+    // @ts-ignore
+    await waitFor(() => expect(result.current['X-Session-Token']).toBeUndefined())
 
     expect(mockCreateAuthorizationHeaders).not.toHaveBeenCalled()
   })
 
-  it('should return correct headers for logged in user', async () => {
+  it('should load anonymous tracking id, if not signed in and consent given', async () => {
+    mockUseConsentState.mockReturnValue([
+      {
+        [TrackingPurpose.Analytics]: Consent.Given,
+      },
+      { loading: false },
+    ])
+    const { result } = renderHook(() => useChallengesHeaders())
+
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        'X-Client-Platform-User-Consent': 'true',
+        'X-Client-Platform-Anonymous-Tracking-Id': 'anonymous-tracking-id-1234',
+      })
+    )
+  })
+
+  it('should not load anonymous tracking id, if signed in and consent given', async () => {
     mockCreateAuthorizationHeaders.mockResolvedValue({
       Authorization: 'Bearer testSessionToken',
       'X-Session-Token': 'testSessionToken',
@@ -73,31 +91,22 @@ describe('useChallengesHeaders', () => {
     mockUseLoginState.mockReturnValue({
       isLoggedIn: true,
     })
+    mockUseConsentState.mockReturnValue([
+      {
+        [TrackingPurpose.Analytics]: Consent.Given,
+      },
+      { loading: false },
+    ])
+
     const { result } = renderHook(() => useChallengesHeaders())
 
-    // @ts-ignore
-    await waitFor(() => expect(result.current['X-Session-Token']).not.toBeUndefined())
-
-    expect(result.current).toEqual({
-      Authorization: 'Bearer testSessionToken',
-      'X-Session-Token': 'testSessionToken',
-      'X-Client-Platform': 'holi',
-      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
-      'X-Client-Platform-User-Consent': 'true',
-      'X-Client-Platform-Version': '',
-    })
-  })
-
-  it('should return correct headers for logged out user', async () => {
-    const { result } = renderHook(() => useChallengesHeaders())
-
-    expect(result.current).toEqual({
-      'X-Client-Platform': 'holi',
-      'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
-      'X-Client-Platform-User-Consent': 'true',
-      'X-Client-Platform-Anonymous-Tracking-Id': '1234',
-      'X-Client-Platform-Version': '',
-    })
+    await waitFor(() =>
+      expect(result.current).toEqual(
+        expect.not.objectContaining({
+          'X-Client-Platform-Anonymous-Tracking-Id': 'anonymous-tracking-id-1234',
+        })
+      )
+    )
   })
 
   it('should respect tracking consent', async () => {
@@ -114,9 +123,10 @@ describe('useChallengesHeaders', () => {
         'X-Client-Platform-User-Consent': 'false',
       })
     )
+
     expect(result.current).toEqual(
       expect.not.objectContaining({
-        'X-Client-Platform-Anonymous-Tracking-Id': '1234',
+        'X-Client-Platform-Anonymous-Tracking-Id': 'anonymous-tracking-id-1234',
       })
     )
   })
