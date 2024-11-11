@@ -3,7 +3,7 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, type ViewStyle } from 'react-native'
+import { Platform, View, type ViewStyle } from 'react-native'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -18,6 +18,7 @@ const contentOptions = [
   {
     id: 'CHALLENGES',
     image: require('@holi/ui/assets/img/onboarding/icon-challenges.svg'),
+    mobileOnly: true,
   },
   {
     id: 'POSTS',
@@ -36,6 +37,7 @@ const contentOptions = [
 export const ContentSelectionStep = ({ onSelect, selectedOption }: ContentSelectionStepProps) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
+  const availableOptions = contentOptions.filter(({ mobileOnly }) => !mobileOnly || Platform.OS !== 'web')
 
   return (
     <HoliContainer>
@@ -48,7 +50,7 @@ export const ContentSelectionStep = ({ onSelect, selectedOption }: ContentSelect
       <HoliGap size="ml" />
 
       <View style={styles.optionsContainer as ViewStyle}>
-        {contentOptions.map(({ id, image }) => (
+        {availableOptions.map(({ id, image }) => (
           <SelectorCard
             key={id}
             id={id}
