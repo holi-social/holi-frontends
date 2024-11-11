@@ -63,7 +63,7 @@ const AttendingChallengeEvents = () => {
   }, [fetchAttendingEvents])
   useOnRefresh(fetchAttendingEvents)
 
-  if (!isLoggedIn || !events.length) {
+  if (!isLoggedIn || !events?.length) {
     return null
   }
 
