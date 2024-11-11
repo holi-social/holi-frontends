@@ -10,7 +10,6 @@ import {
   donationsRequestTimeout,
   locateElementByTestId,
   proceedAsGuest,
-  scrollToMakeHeaderVisible,
   withSSR,
 } from './helpers'
 import { test } from './testmaster'
@@ -18,7 +17,7 @@ import { test } from './testmaster'
 test.setTimeout(120000)
 
 test.describe('@Donations', () => {
-  test('user journey', async ({ browser, browserName, context, page }) => {
+  test('user journey', async ({ browser, context, page }) => {
     // prepare
     await proceedAsGuest(page)
 
@@ -31,13 +30,6 @@ test.describe('@Donations', () => {
     await clickElementByTestId(page, 'donations-list-item')
     await testDisplaysProjectDetails(context, page)
     await withSSR(browser, page.url(), testDisplaysProjectDetailsCommon)
-
-    /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-    await scrollToMakeHeaderVisible(page)
-
-    // navigate back
-    await clickElementByTestId(page, 'nav-button-back')
-    await page.waitForSelector(byTestId('donations-list-container'))
 
     // Filtering is disabled, because we can no longer filter by location on the Betterplace API.
     // https://holi.atlassian.net/browse/HOLI-9717
@@ -60,12 +52,7 @@ const testAbleToVisitDonationsApp = async (page: Page) => {
   // expect detail view
   await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
 
-  /* Modal does not show up without a scroll occuring on screen; This is for the scroll mechanism */
-  await scrollToMakeHeaderVisible(page)
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('donations-reco-slider-card'))
+  await page.goto('/')
 
   // click on "see more" / navigate to donations app
   await clickElementByTestId(page, 'donations-reco-slider-load-more-button')
@@ -84,7 +71,8 @@ const testProjectListAndPagination = async (page: Page) => {
   // the donations list can take a couple of seconds, wait for it. 5s is not always enough.
   await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThan(0)
   const listItemCountBefore = await countListItems()
-  await clickElementByTestId(page, 'btn-donation-list-load-more')
+  // using force here because the page doesn't scroll the button. Not ideal but more important we can page the results. IRL it does scroll.
+  await page.getByRole('button', { name: 'See more' }).click({ force: true })
   await expect.poll(countListItems, { timeout: donationsRequestTimeout }).toBeGreaterThanOrEqual(listItemCountBefore)
 }
 

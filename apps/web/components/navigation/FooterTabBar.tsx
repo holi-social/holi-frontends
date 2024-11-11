@@ -24,7 +24,7 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const FooterTabBar = () => {
   const { navigate } = useRouting()
@@ -61,7 +61,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} color={unistyles.icon(isHome).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isHome ? 'primary' : 'tertiary'}>
+          <TextLink size="xs" variant={isHome ? 'primary' : 'tertiary'} role="none">
             {t('navigation.home')}
           </TextLink>
         </HoliButton>
@@ -76,7 +76,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} color={unistyles.icon(isSpaces).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isSpaces ? 'primary' : 'tertiary'}>
+          <TextLink size="xs" variant={isSpaces ? 'primary' : 'tertiary'} role="none">
             {t('navigation.spaces')}
           </TextLink>
         </HoliButton>
@@ -91,7 +91,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} color={unistyles.icon(isAct).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isAct ? 'primary' : 'tertiary'}>
+          <TextLink size="xs" variant={isAct ? 'primary' : 'tertiary'} role="none">
             {t('navigation.act')}
           </TextLink>
         </HoliButton>
@@ -106,14 +106,14 @@ const FooterTabBar = () => {
         >
           <ChatBottomTabsNavigatorItem focused={isChat} />
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isChat ? 'primary' : 'tertiary'}>
+          <TextLink size="xs" variant={isChat ? 'primary' : 'tertiary'} role="none">
             {t('navigation.chat')}
           </TextLink>
         </HoliButton>
 
         <LoginProfileButton focused={isProfileLoginRegistrationForgotPassword} style={styles.button}>
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isProfileLoginRegistrationForgotPassword ? 'primary' : 'tertiary'}>
+          <TextLink size="xs" variant={isProfileLoginRegistrationForgotPassword ? 'primary' : 'tertiary'} role="none">
             {isLoggedIn ? t('navigation.profile') : t('navigation.login')}
           </TextLink>
         </LoginProfileButton>
