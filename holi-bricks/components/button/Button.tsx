@@ -2,11 +2,12 @@ import { TextLink } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React, { useCallback, useState } from 'react'
-import { GestureResponderEvent, Pressable, View } from 'react-native'
+import type React from 'react'
+import { useCallback, useState } from 'react'
+import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
 
@@ -39,11 +40,18 @@ export const Button = ({
   inline = false,
 }: ButtonProps) => {
   const [isProcessing, setProcessing] = useState(false)
-  const { styles } = useStyles(stylesheet, { variant, size, selected, disabled })
+  const { styles } = useStyles(stylesheet, {
+    variant,
+    size,
+    selected,
+    disabled,
+  })
+
+  const isSpinning = loading || isProcessing
 
   const handlePress = useCallback(
     async (event: React.SyntheticEvent | GestureResponderEvent) => {
-      if (onPress && !disabled) {
+      if (onPress && !isSpinning && !disabled) {
         setProcessing(true)
         try {
           await onPress(event)
@@ -52,12 +60,19 @@ export const Button = ({
         }
       }
     },
-    [disabled, onPress]
+    [disabled, isSpinning, onPress]
   )
 
-  const isSpinning = loading || isProcessing
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{
+        disabled: isSpinning || disabled,
+        selected: selected,
+      }}
+      aria-disabled={isSpinning || disabled}
+      aria-pressed={selected}
       onPress={handlePress}
       style={({ hovered, pressed }) =>
         !transparent ? [styles.button(!disabled && !!hovered, !disabled && !!pressed, inline)] : undefined
@@ -65,17 +80,19 @@ export const Button = ({
       disabled={isSpinning || disabled}
     >
       <View style={styles.content}>
-        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text?.color as string}>
+        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text(disabled, selected, variant).color}>
           {label}
         </TextLink>
         {isSpinning && !disabled && (
-          <View>
+          <View testID="spinner">
             <SpinningIconContainer spinning={loading}>
-              <HoliIcon icon={Loader} size={16} color={styles.text} />
+              <HoliIcon icon={Loader} size={16} color={styles.text(disabled, selected, variant).color} />
             </SpinningIconContainer>
           </View>
         )}
-        {(!isSpinning || disabled) && icon && <HoliIcon icon={icon} color={styles.text.color} />}
+        {(!isSpinning || disabled) && icon && (
+          <HoliIcon icon={icon} color={styles.text(disabled, selected, variant).color} />
+        )}
       </View>
     </Pressable>
   )
@@ -140,29 +157,13 @@ const stylesheet = createStyleSheet((theme) => ({
     justifyContent: 'center',
     gap: 4,
   },
-  text: {
-    variants: {
-      variant: {
-        primary: {
-          color: theme.components.button.primary.text,
-        },
-        secondary: {
-          color: theme.components.button.secondary.text,
-        },
-        danger: {
-          color: theme.components.button.danger.text,
-        },
-      },
-      selected: {
-        true: {
-          color: theme.components.button.selected.text,
-        },
-      },
-      disabled: {
-        true: {
-          color: theme.components.button.disabled.text,
-        },
-      },
-    },
+  text: (disabled: boolean, selected: boolean, variant: ButtonVariant) => {
+    return {
+      color: disabled
+        ? theme.components.button.disabled.text
+        : selected
+          ? theme.components.button.selected.text
+          : theme.components.button[variant].text,
+    }
   },
 }))
