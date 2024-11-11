@@ -8,7 +8,7 @@ import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
-import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
+import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
 import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
 import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
 import CreateReport from '@holi/core/screens/report/CreateReport'
@@ -179,7 +179,7 @@ const RootNavigator = () => {
       />
       <RootStack.Screen
         name={RouteName.OnboardingAccountSetup}
-        component={OnboardingFirstVisit}
+        component={OnboardingAccountSetup}
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen

@@ -265,17 +265,7 @@ export namespace TrackingEvent {
     })
   }
 
-  export const OnboardingPressed = (
-    step:
-      | 'WELCOME'
-      | 'VOLUNTEERING_QUESTION'
-      | 'ALREADY_VOLUNTEERING'
-      | 'SMALL_ACTIONS'
-      | 'COLLABORATION'
-      | 'POST_FEATURE_PREVIEW'
-      | 'NOT_VOLUNTEERING',
-    answer: string
-  ): TrackingEvent => ({
+  export const OnboardingPressed = (step: 'WELCOME' | 'CONTENT_SELECTION', answer: string): TrackingEvent => ({
     name: 'onboarding_pressed',
     event_version__major: 1,
     event_version__minor: 0,

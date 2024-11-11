@@ -1,8 +1,7 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
-import { selectWizardOptions } from '@holi/core/screens/onboarding/components/__tests__/FirstVisitOnboardingStepper.test'
+import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
 
 jest.useFakeTimers()
 
@@ -21,7 +20,7 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
   storeOnboardingState: (value: string) => mockStoreOnboardingState(value),
 }))
 
-describe('OnboardingFirstVisit', () => {
+describe('OnboardingAccountSetup', () => {
   const mockSelectContentType = jest.fn()
 
   beforeEach(() => {
@@ -34,33 +33,15 @@ describe('OnboardingFirstVisit', () => {
   })
 
   it('should navigate back on first screen', () => {
-    render(<OnboardingFirstVisit />)
+    render(<OnboardingAccountSetup />)
 
     fireEvent.press(screen.getByTestId('holi-wizard-back-btn'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/')
   })
 
-  it('should navigate back to previous step', () => {
-    render(<OnboardingFirstVisit />)
-
-    // Select first option and continue
-    fireEvent.press(screen.getByTestId('option-ALREADY_VOLUNTEERING'))
-    fireEvent.press(screen.getByTestId('holi-wizard-save-btn'))
-
-    // Expect second step
-    expect(screen.findByText('onboarding.firstVisit.ALREADY_VOLUNTEERING.heading')).toBeTruthy()
-
-    // Navigate back to previous step
-    fireEvent.press(screen.getByTestId('holi-wizard-back-btn'))
-
-    // Expect first step
-    expect(screen.findByText('onboarding.firstVisit.VOLUNTEERING_QUESTION.heading')).toBeTruthy()
-    expect(mockNavigate).not.toHaveBeenCalled()
-  })
-
   it('should skip whole flow', async () => {
-    render(<OnboardingFirstVisit />)
+    render(<OnboardingAccountSetup />)
 
     fireEvent.press(screen.getByTestId('holi-wizard-skip-btn'))
 
@@ -68,7 +49,7 @@ describe('OnboardingFirstVisit', () => {
   })
 
   it('should set onboarding state to finished when skipping the flow', () => {
-    render(<OnboardingFirstVisit />)
+    render(<OnboardingAccountSetup />)
 
     fireEvent.press(screen.getByTestId('holi-wizard-skip-btn'))
 
@@ -76,11 +57,15 @@ describe('OnboardingFirstVisit', () => {
   })
 
   it('should store selected content', async () => {
-    const options = ['ALREADY_VOLUNTEERING', 'SMALL_ACTIONS', 'CHALLENGES']
+    render(<OnboardingAccountSetup />)
 
-    render(<OnboardingFirstVisit />)
+    await act(async () => {
+      await waitFor(() => expect(screen.getByText('onboarding.contentSelection.CHALLENGES')).toBeOnTheScreen())
+      fireEvent.press(screen.getByText('onboarding.contentSelection.CHALLENGES'))
 
-    await selectWizardOptions(options)
+      await waitFor(() => expect(screen.getByText('onboarding.accountSetup.continue')).toBeEnabled())
+      fireEvent.press(screen.getByText('onboarding.accountSetup.continue'))
+    })
 
     expect(mockSelectContentType).toHaveBeenCalledWith('CHALLENGES')
   })
@@ -99,7 +84,7 @@ describe('OnboardingFirstVisit', () => {
         selectedContentType: contentType,
         selectContentType: jest.fn(),
       })
-      render(<OnboardingFirstVisit />)
+      render(<OnboardingAccountSetup />)
 
       await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith(expectedRoute))
     }
@@ -110,7 +95,7 @@ describe('OnboardingFirstVisit', () => {
       selectedContentType: 'SPACES',
       selectContentType: jest.fn(),
     })
-    render(<OnboardingFirstVisit />)
+    render(<OnboardingAccountSetup />)
 
     expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
   })
@@ -120,14 +105,14 @@ describe('OnboardingFirstVisit', () => {
       selectedContentType: 'FOOBAR',
       selectContentType: jest.fn(),
     })
-    render(<OnboardingFirstVisit />)
+    render(<OnboardingAccountSetup />)
 
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'))
   })
 
   it('should navigate to home screen if user is already logged in', () => {
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: true })
-    render(<OnboardingFirstVisit />)
+    render(<OnboardingAccountSetup />)
 
     expect(mockNavigate).toHaveBeenCalledWith('/')
   })

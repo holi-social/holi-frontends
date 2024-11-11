@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import React from 'react'
 
-import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
+import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
 
-const OnboardingFirstVisitPage: NextPage = () => <OnboardingFirstVisit />
+const OnboardingAccountSetupPage: NextPage = () => <OnboardingAccountSetup />
 
-export default OnboardingFirstVisitPage
+export default OnboardingAccountSetupPage
