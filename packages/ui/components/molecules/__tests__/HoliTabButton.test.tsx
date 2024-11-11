@@ -1,6 +1,5 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HomeSmile2 } from '@holi/icons/src/generated'
@@ -12,54 +11,52 @@ describe('renders correctly', () => {
   booleanValues.forEach((disabled) => {
     booleanValues.forEach((disableFocusability) => {
       it(`renders correctly when disabled is '${disabled}', disableFocusability is '${disableFocusability}'`, () => {
-        const tree = renderer
-          .create(
-            <HoliTabButton label="test" disabled={disabled} disableFocusability={disableFocusability}>
-              Test
-            </HoliTabButton>
-          )
-          .toJSON()
-        expect(tree).toMatchSnapshot()
+        render(
+          <HoliTabButton label="test" disabled={disabled} disableFocusability={disableFocusability}>
+            Test
+          </HoliTabButton>
+        )
+        expect(screen).toMatchSnapshot()
       })
     })
   })
 })
 
 describe('calls onPress prop function correctly', () => {
-  it('calls onPress prop when not disabled', () => {
+  it('calls onPress prop when not disabled', async () => {
     const mockFn = jest.fn()
-    const { getByTestId } = render(
+    render(
       <HoliTabButton label="test" onPress={mockFn} testID="Tab">
         test
       </HoliTabButton>
     )
 
-    fireEvent.press(getByTestId('Tab'))
+    await userEvent.press(screen.getByTestId('Tab'))
     expect(mockFn).toHaveBeenCalledTimes(1)
   })
 
   it('does not call onPress prop when disabled', () => {
     const mockFn = jest.fn()
-    const { getByTestId } = render(
+    render(
       <HoliTabButton label="test" onPress={mockFn} testID="Tab" disabled>
         test
       </HoliTabButton>
     )
 
-    fireEvent.press(getByTestId('Tab'))
+    userEvent.press(screen.getByTestId('Tab'))
     expect(mockFn).toHaveBeenCalledTimes(0)
   })
 })
 
 describe('handles components as children', () => {
   it('renders the passed children', () => {
-    const { getByTestId } = render(
+    render(
       <HoliTabButton label="test" testID="Tab">
         <HoliText testID="Text">foobarbaz</HoliText>
         <HoliIcon icon={HomeSmile2} testID="Icon" />
       </HoliTabButton>
     )
-    expect(getByTestId('Text')).toBeDefined()
-    expect(getByTestId('Icon')).toBeDefined()
+    expect(screen.getByTestId('Text')).toBeDefined()
+    expect(screen.getByTestId('Icon')).toBeDefined()
   })
 })

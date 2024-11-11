@@ -1,6 +1,4 @@
 import { Text, TextLink } from 'holi-bricks/components/text'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, GestureResponderEvent, ListRenderItem, StyleSheet, View } from 'react-native'
@@ -50,7 +48,6 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
-  const { styles: unistyles } = useStyles(stylesheet)
 
   const handleHeaderTitlePress = () => {
     seeAllPath && navigate(seeAllPath)
@@ -88,7 +85,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
                 <Text size="xxl" headingLevel="3">
                   {heading}
                 </Text>
-                <Text size="sm" color={unistyles.subline.color}>
+                <Text size="sm" variant="secondary">
                   {subline}
                 </Text>
               </View>
@@ -173,9 +170,3 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       paddingBottom: 32,
     },
   })
-
-const stylesheet = createStyleSheet((theme) => ({
-  subline: {
-    color: theme.colors.textTertiary,
-  },
-}))

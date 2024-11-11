@@ -1,17 +1,22 @@
-# TODO speed up yarn dependency caching https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
+variables:
+  YARN_CACHE_FOLDER: '$CI_PROJECT_DIR/.yarn/cache'
+  YARN_ENABLE_GLOBAL_CACHE: 'false'
 
-# caching strategy follows "Solution 1" taken from https://medium.com/disdj/speed-up-npm-yarn-install-in-gitlab-1434437f9857
-# first job (lint_compile_test) warms the cache (read-write), subsequent jobs only read from it, and only if they need the cache
-# cache key corresponds to current branch name ($CI_COMMIT_REF_SLUG)
-
-.pull_push_cache:
-  key: $CI_COMMIT_REF_SLUG
-  policy: pull-push
+.yarn-cache-rw:
+  key:
+    files:
+      - yarn.lock
   paths:
-    - './node_modules'
-    - './*/node_modules'
-    - './*/*/node_modules'
-    - './apps/web/.next/cache/'
+    - .yarn/
+  policy: pull-push
+
+.yarn-cache-readonly:
+  key:
+    files:
+      - yarn.lock
+  paths:
+    - .yarn/
+  policy: pull
 
 # rules templates
 .rule_templates:
@@ -63,19 +68,36 @@ default:
   tags:
     - 1cpu-4gb
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
-  cache: # pull only, with branch name as key name
-    key: $CI_COMMIT_REF_SLUG
-    policy: pull
-    paths: !reference [.pull_push_cache, paths]
+
+install_deps:
+  stage: build
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  cache: !reference [.yarn-cache-rw]
+  interruptible: true
+  script:
+    - corepack enable
+    - yarn install --immutable
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      changes:
+        - yarn.lock
+        - .gitlab-ci.yml
 
 lint_compile_test:
   stage: build
+  needs:
+    - job: install_deps
+      optional: true
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  cache: !reference [.yarn-cache-rw]
   script:
-    - yarn install --immutable --check-cache
+    - corepack enable
+    # If CI Cache is empty because install_deps did not run, install filling the cache, otherwise install from the immutable cache
+    # install_deps does not run on long living branches, and it might not run on pipeline failures on the first build of a branch
+    - '[ ! -d ".yarn/cache" ] && yarn install --immutable || yarn install --immutable --immutable-cache'
+    - yarn format:check
     - yarn lint
     - yarn test
-  cache: !reference [.pull_push_cache]
   interruptible: true
   tags:
     - 4cpu-16gb
@@ -86,11 +108,13 @@ lint_compile_test:
 check_type_errors:
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   needs: ['lint_compile_test']
+  cache: !reference [.yarn-cache-readonly]
   script:
     - git fetch
     # if this was a merge request pipeline we could use $CI_MERGE_REQUEST_TARGET_BRANCH_NAME as target branch parameter
     # unfortunately all our build pipelines are branch pipelines. origin/main is good enough for our purposes as almost
     # all MRs go against staging (eventually)
+    - corepack enable
     - ./scripts/check-type-errors-count.sh $CI_COMMIT_SHA origin/main
   rules:
     - !reference [.rule_templates, not_on_git_tags]

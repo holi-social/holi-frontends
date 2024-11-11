@@ -1,10 +1,9 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
@@ -190,194 +189,188 @@ const AppointmentDetails = () => {
   }
 
   return (
-    <>
-      <ScrollHeaderLayout
-        style={styles.defaultLayout}
-        contentContainerStyle={styles.contentStyle}
-        headerRelation="none"
-      >
-        <View style={[mixins.container, deviceWidth < dimensions.breakpointL ? styles.smallScreenPadding : {}]}>
-          <View style={styles.imageContainer}>
-            {!imageError && !!appointment.thumbnail && (
-              <HoliImage
-                label={t('spaces.appointments.thumbnail.label')}
-                source={{ uri: appointment.thumbnail }}
-                style={styles.image}
-                onError={() => setImageError(true)}
-                {...(appointment.thumbnailBlurhash ? { blurhash: appointment.thumbnailBlurhash } : {})}
-              />
-            )}
+    <ScrollView style={styles.defaultLayout} contentContainerStyle={styles.contentStyle}>
+      <View style={[mixins.container, deviceWidth < dimensions.breakpointL && styles.smallScreenPadding]}>
+        <View style={styles.imageContainer}>
+          {!imageError && !!appointment.thumbnail && (
+            <HoliImage
+              label={t('spaces.appointments.thumbnail.label')}
+              source={{ uri: appointment.thumbnail }}
+              style={styles.image}
+              onError={() => setImageError(true)}
+              {...(appointment.thumbnailBlurhash ? { blurhash: appointment.thumbnailBlurhash } : {})}
+            />
+          )}
+        </View>
+        <View style={[styles.card, styles.firstCard]}>
+          <View style={styles.titleContainer}>
+            <HoliCalendarIcon
+              day={new Date(appointment.startDateTime).getDate()}
+              month={new Date(appointment.startDateTime).getMonth() + 1}
+              size="medium"
+            />
+            <View style={styles.infoText}>
+              <HoliHeading ellipsizeMode="tail" level="1" size="m" testID="appointment-title">
+                {appointment.title}
+              </HoliHeading>
+            </View>
           </View>
-          <View style={[styles.card, styles.firstCard]}>
-            <View style={styles.titleContainer}>
-              <HoliCalendarIcon
-                day={new Date(appointment.startDateTime).getDate()}
-                month={new Date(appointment.startDateTime).getMonth() + 1}
-                size="medium"
-              />
-              <View style={styles.infoText}>
-                <HoliHeading ellipsizeMode="tail" level="1" size="m" testID="appointment-title">
-                  {appointment.title}
-                </HoliHeading>
-              </View>
+          <View style={styles.firstIconContainer}>
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={Time} size={24} style={styles.iconGroupIcon} />
+              <HoliText bold style={styles.infoText}>
+                <SuppressSsrHydrationWarning>
+                  {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
+                  {endTime}
+                </SuppressSsrHydrationWarning>
+              </HoliText>
             </View>
-            <View style={styles.firstIconContainer}>
+          </View>
+          {!loginState.isLoggedIn && appointment.locationDetails && appointment.locationDetails.completeAddress && (
+            <>
               <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={Time} size={24} style={styles.iconGroupIcon} />
-                <HoliText bold style={styles.infoText}>
-                  <SuppressSsrHydrationWarning>
-                    {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
-                    {endTime}
-                  </SuppressSsrHydrationWarning>
-                </HoliText>
-              </View>
-            </View>
-            {!loginState.isLoggedIn && appointment.locationDetails && appointment.locationDetails.completeAddress && (
-              <>
-                <View style={styles.iconGroupContainer}>
-                  <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
-                  <HoliButton
-                    label={t('appointment.card.login.location')}
-                    transparent
-                    inline
-                    style={styles.iconGroupWithDescription}
-                    onPress={() => navigate('/login')}
-                  >
-                    <HoliText bold>{t('appointment.card.login.location')}</HoliText>
-                  </HoliButton>
-                </View>
-                <View style={styles.noIconsContainer}>
-                  <HoliButton
-                    label={appointment.locationDetails.completeAddress}
-                    transparent
-                    inline
-                    style={styles.iconGroupWithDescription}
-                    onPress={() => navigate('/login')}
-                  >
-                    <HoliText color="gray300" size="small">
-                      {appointment.locationDetails.completeAddress}
-                    </HoliText>
-                  </HoliButton>
-                </View>
-              </>
-            )}
-            {!loginState.isLoggedIn && appointment.hasVideoCallLink && (
-              <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
+                <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
                 <HoliButton
-                  label={t('appointment.card.login.videochat')}
+                  label={t('appointment.card.login.location')}
                   transparent
                   inline
                   style={styles.iconGroupWithDescription}
                   onPress={() => navigate('/login')}
                 >
-                  <HoliText bold>{t('appointment.card.login.videochat')}</HoliText>
+                  <HoliText bold>{t('appointment.card.login.location')}</HoliText>
                 </HoliButton>
               </View>
-            )}
-            {loginState.isLoggedIn && appointment.locationDetails && (
-              <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
+              <View style={styles.noIconsContainer}>
                 <HoliButton
-                  label={appointment.locationDetails.completeAddress as string}
+                  label={appointment.locationDetails.completeAddress}
                   transparent
                   inline
-                  style={styles.externalLinkButton}
-                  contentStyle={styles.iconGroupWithDescription}
-                  onPress={openMap}
+                  style={styles.iconGroupWithDescription}
+                  onPress={() => navigate('/login')}
                 >
-                  <HoliText bold style={styles.infoText}>
+                  <HoliText color="gray300" size="small">
                     {appointment.locationDetails.completeAddress}
                   </HoliText>
-                  <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
                 </HoliButton>
               </View>
-            )}
-            {loginState.isLoggedIn && appointment.videoCallLink?.url && (
-              <View style={styles.iconGroupContainer}>
-                <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
-                <HoliButton
-                  label={appointment.videoCallLink?.url}
-                  transparent
-                  inline
-                  style={styles.externalLinkButton}
-                  contentStyle={styles.iconGroupWithDescription}
-                  onPress={navigateToVideoCall}
-                >
-                  <View style={styles.infoText}>
-                    <HoliText bold ellipsizeMode="tail" numberOfLines={2}>
-                      {appointment.videoCallLink?.url}
+            </>
+          )}
+          {!loginState.isLoggedIn && appointment.hasVideoCallLink && (
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
+              <HoliButton
+                label={t('appointment.card.login.videochat')}
+                transparent
+                inline
+                style={styles.iconGroupWithDescription}
+                onPress={() => navigate('/login')}
+              >
+                <HoliText bold>{t('appointment.card.login.videochat')}</HoliText>
+              </HoliButton>
+            </View>
+          )}
+          {loginState.isLoggedIn && appointment.locationDetails && (
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={MapPin2} size={24} style={styles.iconGroupIcon} />
+              <HoliButton
+                label={appointment.locationDetails.completeAddress as string}
+                transparent
+                inline
+                style={styles.externalLinkButton}
+                contentStyle={styles.iconGroupWithDescription}
+                onPress={openMap}
+              >
+                <HoliText bold style={styles.infoText}>
+                  {appointment.locationDetails.completeAddress}
+                </HoliText>
+                <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
+              </HoliButton>
+            </View>
+          )}
+          {loginState.isLoggedIn && appointment.videoCallLink?.url && (
+            <View style={styles.iconGroupContainer}>
+              <HoliIcon icon={VideoChat} size={24} style={styles.iconGroupIcon} />
+              <HoliButton
+                label={appointment.videoCallLink?.url}
+                transparent
+                inline
+                style={styles.externalLinkButton}
+                contentStyle={styles.iconGroupWithDescription}
+                onPress={navigateToVideoCall}
+              >
+                <View style={styles.infoText}>
+                  <HoliText bold ellipsizeMode="tail" numberOfLines={2}>
+                    {appointment.videoCallLink?.url}
+                  </HoliText>
+                  {appointment.videoCallLink?.additionalInfo && (
+                    <HoliText style={styles.iconGroupContainerDescription} color="gray200">
+                      {appointment.videoCallLink.additionalInfo}
                     </HoliText>
-                    {appointment.videoCallLink?.additionalInfo && (
-                      <HoliText style={styles.iconGroupContainerDescription} color="gray200">
-                        {appointment.videoCallLink.additionalInfo}
-                      </HoliText>
-                    )}
-                  </View>
-                  <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
-                </HoliButton>
-              </View>
-            )}
-          </View>
+                  )}
+                </View>
+                <HoliIcon icon={ExternalLink} size={16} style={styles.externalLinkIcon} />
+              </HoliButton>
+            </View>
+          )}
+        </View>
 
-          <View style={styles.card}>
-            <HoliHeading level="2" size="m">
-              {t('spaces.appointments.details.about')}
-            </HoliHeading>
-            <HoliRichTextOutput
-              style={styles.description}
-              text={appointment.description}
-              color="gray300"
-              size="small"
-              allowAllLinks
-              testID="appointment-description"
-            />
-          </View>
-          <View style={styles.card}>
-            <AppointmentCalendarButton appointment={appointment} />
-            <HoliGap size="s" />
-            <ShareAppointment space={space} appointment={appointment} date={date} startTime={startTime} />
-          </View>
-          <View style={styles.card}>
-            <HoliHeading level="2" size="m">
-              {t('spaces.appointments.details.details')}
-            </HoliHeading>
-            {loginState.isLoggedIn && appointment.creator && (
-              <View style={styles.avatar}>
-                <HoliAvatar
-                  imageSrc={appointment.creator.avatar}
-                  imageBlurhash={appointment.creator.avatarBlurhash}
-                  label={appointment.creator.fullName || t('user.profileView.anonymous')}
-                  initials={appointment.creator.avatarLabel || ''}
-                  defaultColor={appointment.creator.avatarDefaultColor || ''}
-                  testID="appointment-contact-avatar"
-                />
-                <HoliText style={styles.avatarName}>
-                  {t('spaces.appointments.details.createdBy')}{' '}
-                  {appointment.creator.fullName || t('user.profileView.anonymous')}
-                </HoliText>
-              </View>
-            )}
-            {loginState.isLoggedIn && !appointment.creator && (
-              <View style={styles.avatar}>
-                <SpaceAvatar space={space} size="medium" />
-                <HoliText style={styles.avatarName}>
-                  {t('spaces.appointments.details.organisedBy')} {space.title}
-                </HoliText>
-              </View>
-            )}
-            <View style={styles.detailsIconGroup}>
-              <HoliIcon icon={appointment.inviteOnly ? LockFilled : Global} size={24} style={styles.detailsIcon} />
-              <HoliText>
-                {appointment.inviteOnly
-                  ? t('spaces.appointments.details.restricted')
-                  : t('spaces.appointments.details.public')}
+        <View style={styles.card}>
+          <HoliHeading level="2" size="m">
+            {t('spaces.appointments.details.about')}
+          </HoliHeading>
+          <HoliRichTextOutput
+            style={styles.description}
+            text={appointment.description}
+            color="gray300"
+            size="small"
+            allowAllLinks
+            testID="appointment-description"
+          />
+        </View>
+        <View style={styles.card}>
+          <AppointmentCalendarButton appointment={appointment} />
+          <HoliGap size="s" />
+          <ShareAppointment space={space} appointment={appointment} date={date} startTime={startTime} />
+        </View>
+        <View style={styles.card}>
+          <HoliHeading level="2" size="m">
+            {t('spaces.appointments.details.details')}
+          </HoliHeading>
+          {loginState.isLoggedIn && appointment.creator && (
+            <View style={styles.avatar}>
+              <HoliAvatar
+                imageSrc={appointment.creator.avatar}
+                imageBlurhash={appointment.creator.avatarBlurhash}
+                label={appointment.creator.fullName || t('user.profileView.anonymous')}
+                initials={appointment.creator.avatarLabel || ''}
+                defaultColor={appointment.creator.avatarDefaultColor || ''}
+                testID="appointment-contact-avatar"
+              />
+              <HoliText style={styles.avatarName}>
+                {t('spaces.appointments.details.createdBy')}{' '}
+                {appointment.creator.fullName || t('user.profileView.anonymous')}
               </HoliText>
             </View>
+          )}
+          {loginState.isLoggedIn && !appointment.creator && (
+            <View style={styles.avatar}>
+              <SpaceAvatar space={space} size="medium" />
+              <HoliText style={styles.avatarName}>
+                {t('spaces.appointments.details.organisedBy')} {space.title}
+              </HoliText>
+            </View>
+          )}
+          <View style={styles.detailsIconGroup}>
+            <HoliIcon icon={appointment.inviteOnly ? LockFilled : Global} size={24} style={styles.detailsIcon} />
+            <HoliText>
+              {appointment.inviteOnly
+                ? t('spaces.appointments.details.restricted')
+                : t('spaces.appointments.details.public')}
+            </HoliText>
           </View>
         </View>
-      </ScrollHeaderLayout>
-    </>
+      </View>
+    </ScrollView>
   )
 }
 
@@ -385,11 +378,6 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     defaultLayout: {
       backgroundColor: theme.colors.background20,
-      ...Platform.select({
-        web: {
-          minHeight: '100vh' as DimensionValue,
-        },
-      }),
     },
     contentStyle: {
       paddingBottom: 120,

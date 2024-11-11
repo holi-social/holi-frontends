@@ -1,6 +1,6 @@
-@import url('holi-bricks/components/text/fonts/style.css');
-@import url('@holi/ui/styles/globalVars/styles.css');
-@import url('@holi/web/styles/common.css');
+@import url("holi-bricks/components/text/fonts/style.css");
+@import url("@holi/ui/styles/globalVars/styles.css");
+@import url("@holi/web/styles/common.css");
 
 html,
 body {
@@ -43,9 +43,9 @@ body {
 
 /* Display a scrollbar on desktop to prevent page jumping during height changes */
 @media screen and (min-width: 768px) {
-	body {
-		overflow-y: scroll;
-	}
+  body {
+    overflow-y: scroll;
+  }
 }
 
 div#__next {
@@ -95,16 +95,16 @@ li {
   padding: 0;
 }
 
-[role='checkbox']:focus-visible>div:only-child {
+[role="checkbox"]:focus-visible > div:only-child {
   border: solid 1px var(--brandColorB30) !important;
 }
 
 /* "data-stepper-wrapper" is our custom data-set attributes for HoliStepper childe nodes
 set 100% height for next three levels of children */
-[data-stepper-wrapper='true'] {
-  &>*,
-  &>*>*,
-  &>*>*>* {
+[data-stepper-wrapper="true"] {
+  & > *,
+  & > * > *,
+  & > * > * > * {
     height: 100%;
   }
 }

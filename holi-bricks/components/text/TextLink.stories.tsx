@@ -1,19 +1,11 @@
 import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
-import { TextLink, TextLinkSize } from 'holi-bricks/components/text'
-import { black, mono, purple, red, white } from 'holi-bricks/tokens'
+import { TextLink, TextLinkSize, TextLinkVariant } from 'holi-bricks/components/text'
 import React from 'react'
 import { View } from 'react-native'
 
 const availableSizes: TextLinkSize[] = ['md', 'sm', 'xs']
-const exampleColors = {
-  default: undefined,
-  black: black,
-  white: white,
-  gray: mono[300],
-  red: red[400],
-  purple: purple[600],
-}
+const availableVariants: TextLinkVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'special']
 
 const meta: Meta<typeof TextLink> = {
   title: 'Components/Text/TextLink',
@@ -32,11 +24,7 @@ type Story = StoryObj<typeof TextLink>
 export const Playground: Story = {
   argTypes: {
     size: { control: 'select', options: availableSizes },
-    color: {
-      control: 'select',
-      options: Object.keys(exampleColors),
-      mapping: exampleColors,
-    },
+    variant: { control: 'select', options: availableVariants },
   },
   args: {
     size: 'md',
@@ -63,15 +51,15 @@ export const BySize: Story = {
   },
 }
 
-export const ByColor: Story = {
+export const ByVariant: Story = {
   argTypes: {},
   args: {},
   render: function Render(args) {
     return (
       <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {Object.entries(exampleColors).map(([name, color]) => (
-          <TextLink key={name} {...args} color={color}>
-            This is a text link in color {name}.
+        {availableVariants.map((variant) => (
+          <TextLink key={variant} {...args} variant={variant}>
+            This is a text link in variant {variant}.
           </TextLink>
         ))}
       </View>

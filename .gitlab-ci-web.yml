@@ -17,7 +17,6 @@ default:
     entrypoint: ['/bin/sh', '-c']
   variables:
     ENVIRONMENT_ID: $CI_ENVIRONMENT_SLUG
-  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
@@ -35,6 +34,7 @@ default:
 
 .web_e2e:
   image: 'mcr.microsoft.com/playwright:v1.40.0-focal'
+  cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     name: 'web e2e test report'
@@ -49,7 +49,8 @@ default:
     export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     terraform/environments/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
     cd e2e/web
-    yarn install
+    corepack enable
+    yarn install --immutable --immutable-cache
     BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
   interruptible: true
   tags:
@@ -63,7 +64,6 @@ default:
   variables:
     # has to be set to none for auto stop
     GIT_STRATEGY: none
-  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
@@ -91,10 +91,12 @@ web_build:
   needs: ['lint_compile_test']
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
   script:
+    - corepack enable
+    - yarn install --immutable --immutable-cache
     - yarn web:build
     - ./scripts/generate-license-documents.sh
-  # Enable cache for Next.js web build as suggested on https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching#gitlab-ci
-  cache: !reference [.pull_push_cache]
+  cache: !reference [.yarn-cache-readonly]
+  dependencies: [] # explicitly disable artifact usage
   artifacts:
     paths:
       - apps/web/.next
@@ -117,7 +119,10 @@ storybook_publish:
     url: https://main--63846e9768032326df3b0c75.chromatic.com
     deployment_tier: staging
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas' # too much, but since it is there...
+  cache: !reference [.yarn-cache-readonly]
   script:
+    - corepack enable
+    - yarn install --immutable --immutable-cache
     - yarn storybook:publish
   dependencies: [] # explicitly disable artifact usage
   artifacts:
@@ -134,6 +139,7 @@ storybook_publish:
         - apps/storybook/**/*
         - packages/ui/**/*
         - '**/*.stories.tsx'
+
 holi_bricks_publish:
   needs: ['lint_compile_test']
   environment:
@@ -141,7 +147,10 @@ holi_bricks_publish:
     url: https://main--67210d8631103790622bc60c.chromatic.com
     deployment_tier: staging
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas' # too much, but since it is there...
+  cache: !reference [.yarn-cache-readonly]
   script:
+    - corepack enable
+    - yarn install --immutable --immutable-cache
     - yarn bricks:publish
   dependencies: [] # explicitly disable artifact usage
   artifacts:
@@ -165,7 +174,6 @@ web_build_docker:
   services:
     - name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:27-dind'
       alias: 'docker'
-  cache: [] # explicitly disable caching
   dependencies:
     - web_build
   variables:
@@ -206,7 +214,7 @@ web_review_deploy:
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   dependencies:
     - web_review_deploy
   rules:
@@ -216,7 +224,7 @@ web_review_e2e:
 web_review_destroy:
   extends: .web_destroy
   needs: ['web_review_deploy']
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   environment:
     name: web-review/$CI_COMMIT_REF_SLUG
     action: stop
@@ -271,7 +279,7 @@ web_release_candidate_deploy:
 web_release_candidate_destroy:
   extends: .web_destroy
   needs: ['web_release_candidate_deploy']
-  allow_failure: true  # optional build step, won't block the pipeline to succeed
+  allow_failure: true # optional build step, won't block the pipeline to succeed
   environment:
     name: web-rc/${CI_COMMIT_BRANCH}
     action: stop

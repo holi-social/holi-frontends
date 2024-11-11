@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Text, TextSize } from 'holi-bricks/components/text'
-import { black, mono, purple, red, white } from 'holi-bricks/tokens'
+import { Text, TextSize, TextVariant } from 'holi-bricks/components/text'
 import React from 'react'
 import { View } from 'react-native'
 
@@ -11,14 +10,7 @@ const availableHeadingLevels = {
   '2': '2',
   '3': '3',
 }
-const exampleColors = {
-  default: undefined,
-  black: black,
-  white: white,
-  gray: mono[300],
-  red: red[400],
-  purple: purple[600],
-}
+const availableVariants: TextVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'error']
 
 const meta: Meta<typeof Text> = {
   title: 'Components/Text/Text',
@@ -36,11 +28,7 @@ type Story = StoryObj<typeof Text>
 export const Playground: Story = {
   argTypes: {
     size: { control: 'select', options: availableSizes },
-    color: {
-      control: 'select',
-      options: Object.keys(exampleColors),
-      mapping: exampleColors,
-    },
+    variant: { control: 'select', options: availableVariants },
     headingLevel: {
       control: 'select',
       options: Object.keys(availableHeadingLevels),
@@ -71,15 +59,15 @@ export const BySize: Story = {
   },
 }
 
-export const ByColor: Story = {
+export const ByVariant: Story = {
   argTypes: {},
   args: {},
   render: function Render(args) {
     return (
       <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {Object.entries(exampleColors).map(([name, color]) => (
-          <Text key={name} {...args} color={color}>
-            This is a text in color {name}.
+        {availableVariants.map((variant) => (
+          <Text key={variant} {...args} variant={variant}>
+            This is a text in variant {variant}.
           </Text>
         ))}
       </View>

@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Image } from 'react-native'
-import renderer from 'react-test-renderer'
 
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 
@@ -12,12 +11,12 @@ const postTitle = 'Post title'
 
 describe('PostImage', () => {
   it('renders correctly image', () => {
-    const tree = renderer.create(<PostImage uri={imageUri} postTitle={postTitle} key="postImage" />).toJSON()
-    expect(tree).toMatchSnapshot()
+    render(<PostImage uri={imageUri} postTitle={postTitle} key="postImage" height={100} width={100} />)
+    expect(screen).toMatchSnapshot()
   })
 
   it('shows Modal after clicking on post image', async () => {
-    render(<PostImage uri={imageUri} postTitle={postTitle} />)
+    render(<PostImage uri={imageUri} postTitle={postTitle} height={100} width={100} />)
 
     const imageButton = screen.getByRole('button', { name: /insights.posts.image.show/i })
     fireEvent.press(imageButton)

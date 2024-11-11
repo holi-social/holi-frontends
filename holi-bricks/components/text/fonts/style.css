@@ -1,13 +1,13 @@
 @font-face {
-  font-family: 'InstrumentSans-Regular';
-  src: url('InstrumentSans-Regular.ttf') format('truetype');
+  font-family: "InstrumentSans-Regular";
+  src: url("InstrumentSans-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'InstrumentSans-Medium';
-  src: url('InstrumentSans-Medium.ttf') format('truetype');
+  font-family: "InstrumentSans-Medium";
+  src: url("InstrumentSans-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }

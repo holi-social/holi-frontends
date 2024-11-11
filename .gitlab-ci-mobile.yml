@@ -7,8 +7,11 @@
     EXPO_PUBLISH_RELEASE_CHANNEL: $CI_COMMIT_REF_SLUG
     USE_PRODUCTION_RELEASE_CHANNEL_FROM_EAS_JSON: 'false'
     NODE_OPTIONS: '--max_old_space_size=4096' # helps against OOM errors
+  cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   script:
+    - corepack enable
+    - yarn install --immutable --immutable-cache
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
     - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
@@ -31,6 +34,7 @@
     KEEP_ARTIFACTS: 'false'
     CHECK_VERSION_RELEASED: 'false'
     CI_ARTIFACTS_ENVIRONMENT_NAME: $CI_COMMIT_REF_SLUG
+  cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   script:
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
@@ -62,6 +66,7 @@
 
 .mobile_e2e:
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
+  cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   variables:
     BUILD_PLATFORM: changeme
@@ -75,7 +80,8 @@
     - 'export EAS_APK_FILE=$(basename $EAS_APK_URL)'
     - 'curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL' # download .apk from EAS
     - 'cd ../../e2e/mobile'
-    - 'yarn install'
+    - corepack enable
+    - 'yarn install --immutable --immutable-cache'
     - 'export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}" -F "ios_keychain_support=true")'
     - 'export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r ".app_url")'
     - 'APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand'
@@ -127,11 +133,10 @@ mobile_review_destroy:
   environment:
     name: mob-review/$CI_COMMIT_REF_SLUG
     action: stop
-  cache: [] # explicitly disable caching
   dependencies: [] # explicitly disable artifact usage
   script:
     - echo "Nothing to do, you can't unpublish an expo release. This is only for cleaning up the gitlab environments"
-  allow_failure: true  # optional build step, won't block the pipeline
+  allow_failure: true # optional build step, won't block the pipeline
   interruptible: false
   rules:
     - !reference [.rule_templates, any_but_production_staging]
@@ -322,12 +327,13 @@ mobile_release_build_ios:
 mobile_release_submit_android:
   needs: ['mobile_release_build_android']
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
-  cache: [] # explicitly disable caching
+  cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   script:
     - source .env.production
     - cd apps/mobile
-    - yarn install
+    - corepack enable
+    - yarn install --immutable --immutable-cache
     - export BUILD_ID=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform android --buildProfile production --limit=1  2> /dev/null | jq -r ".[0].id")
     - eas submit -p android --profile production --id "$BUILD_ID" --verbose --non-interactive --wait
   rules:
@@ -339,12 +345,13 @@ mobile_release_submit_android:
 mobile_release_submit_ios:
   needs: ['mobile_release_build_ios']
   image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
-  cache: [] # explicitly disable caching
+  cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   script:
     - source .env.production
     - cd apps/mobile
-    - yarn install
+    - corepack enable
+    - yarn install --immutable --immutable-cache
     - export BUILD_ID=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform ios --buildProfile production --limit=1  2> /dev/null | jq -r ".[0].id")
     - eas submit -p ios --profile production --id "$BUILD_ID" --verbose --non-interactive --wait
   rules:

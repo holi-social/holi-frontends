@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native'
 
 import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
 import { urlRegex } from '@holi/core/helpers'
@@ -11,6 +11,7 @@ import { AddExternalLinkResponse, addExternalLinkMutation } from '@holi/core/scr
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { Space, SpaceLinkType } from '@holi/core/screens/spaces/types'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 
@@ -98,7 +99,7 @@ const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }:
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.pageView}>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeArea style={styles.safeArea}>
         <HoliKeyboardSaveView>
           <ScrollView keyboardShouldPersistTaps="handled">
             <EditSpaceModalWithFooter
@@ -119,7 +120,7 @@ const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }:
             </EditSpaceModalWithFooter>
           </ScrollView>
         </HoliKeyboardSaveView>
-      </SafeAreaView>
+      </SafeArea>
     </KeyboardAvoidingView>
   )
 }

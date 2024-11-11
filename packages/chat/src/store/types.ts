@@ -28,10 +28,10 @@ export type SpaceChatTab = SpaceChildChatRoom & Pick<ChatRoom, 'id' | 'members' 
 export type PrivateChatTab = PrivateRoom & Pick<ChatRoom, 'id' | 'members' | 'timestamp'>
 
 export enum RoomAtomsActionType {
-  'CREATE',
-  'UPDATE',
-  'DELETE',
-  'INIT',
+  CREATE,
+  UPDATE,
+  DELETE,
+  INIT,
 }
 
 export interface RoomUserData {

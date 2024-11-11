@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -29,6 +29,7 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -86,7 +87,10 @@ const PostDetailPage = () => {
     },
   })
 
-  const { data: { commentable } = {}, refetch: refetchComments } = useQuery<CommentsResponse>(commentsByCommentable, {
+  const {
+    data: { commentable } = {},
+    refetch: refetchComments,
+  } = useQuery<CommentsResponse>(commentsByCommentable, {
     variables: { commentableId: postId, commentableType: CommentableType.POST },
     skip: !postId,
     fetchPolicy: 'cache-and-network',
@@ -191,7 +195,7 @@ const PostDetailPage = () => {
         </View>
       </ScrollHeaderLayout>
 
-      <SafeAreaView>
+      <SafeArea edges={['bottom']}>
         <View style={styles.postCommentWrapper}>
           <PostDetailFooter
             style={[styles.postCommentButton, isWeb && mixins.container]}
@@ -205,7 +209,7 @@ const PostDetailPage = () => {
             }
           />
         </View>
-      </SafeAreaView>
+      </SafeArea>
     </>
   )
 }

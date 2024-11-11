@@ -39,7 +39,10 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
 
   const { styles } = useMemo(() => getStyles(theme), [theme])
 
-  const { data: { commentable } = {}, loading } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
+  const {
+    data: { commentable } = {},
+    loading,
+  } = useQuery<CommentsMetadataResponse>(commentsMetadata, {
     variables: { commentableId: discussion.id, commentableType: CommentableType.DISCUSSION },
     notifyOnNetworkStatusChange: true,
     onError: (error) => {

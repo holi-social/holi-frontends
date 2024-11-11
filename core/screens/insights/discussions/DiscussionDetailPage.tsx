@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
@@ -21,6 +21,7 @@ import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -47,7 +48,10 @@ const DiscussionDetailPage = () => {
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { data: { discussionById: discussion } = {}, refetch } = useQuery<DiscussionResponse>(discussionById, {
+  const {
+    data: { discussionById: discussion } = {},
+    refetch,
+  } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
     skip: !discussionId,
     onError: (error) => {
@@ -106,13 +110,13 @@ const DiscussionDetailPage = () => {
         </HoliContainer>
       </ScrollHeaderLayout>
 
-      <SafeAreaView>
+      <SafeArea edges={['bottom']}>
         <View style={styles.commentWrapper}>
           <HoliContainer flex={1}>
             <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
           </HoliContainer>
         </View>
-      </SafeAreaView>
+      </SafeArea>
     </>
   )
 }

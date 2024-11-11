@@ -37,7 +37,9 @@ const DiscussionCommentPage = () => {
   const { replaceRoute } = useRouting()
   const { theme } = useTheme()
 
-  const { data: { discussionById: discussion } = {} } = useQuery<DiscussionResponse>(discussionById, {
+  const {
+    data: { discussionById: discussion } = {},
+  } = useQuery<DiscussionResponse>(discussionById, {
     variables: { discussionId },
     notifyOnNetworkStatusChange: true,
     skip: !discussionId,
@@ -52,7 +54,10 @@ const DiscussionCommentPage = () => {
     },
   })
 
-  const { data: { commentById: comment } = {}, loading: loadingComment } = useQuery<CommentResponse>(commentById, {
+  const {
+    data: { commentById: comment } = {},
+    loading: loadingComment,
+  } = useQuery<CommentResponse>(commentById, {
     variables: { commentId },
     notifyOnNetworkStatusChange: true,
     skip: !commentId,

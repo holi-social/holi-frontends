@@ -41,6 +41,8 @@ const posthogCrossPlatformMock = {
   capture: jest.fn(),
   identify: jest.fn(),
   distinctId: jest.fn(),
+  updatePersonProperties: jest.fn(),
+  flush: jest.fn(), // to return a promise, beforeEach further mocks the return value (as mocks are reset globally before each test)
 } as PosthogCrossPlatform
 const usePosthogCrossPlatformMock = usePosthogCrossPlatform as jest.Mock
 
@@ -170,6 +172,11 @@ describe('TrackingInitializer', () => {
     // using afterEach instead of beforeEach leads to timeouts of tests we couldn't explain ourselves
     trackingInitializerTesting.initializerStateVar(initialState)
     loginStateTesting.resetLoggedInUserIdVar()
+    {
+      // formatter makes crazy stuff, therefore these extra brackets
+      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      ;(posthogCrossPlatformMock.flush as jest.Mock).mockReturnValue(Promise.resolve())
+    }
   })
 
   describe('while user login state is still loading', () => {
@@ -428,6 +435,107 @@ describe('TrackingInitializer', () => {
         })
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
+      })
+      describe('when the user retracts personalization consent', () => {
+        it('updates consent state on PostHogs person properties', async () => {
+          const consentState = {
+            [TrackingPurpose.Analytics]: Consent.Given,
+            [TrackingPurpose.Personalization]: Consent.Given,
+          }
+          const updatedConsentState = {
+            [TrackingPurpose.Analytics]: Consent.Given,
+            [TrackingPurpose.Personalization]: Consent.Denied,
+          }
+          mockEnv()
+          const user = mockUser(consentState)
+
+          const onUserLoggedInCompleted = jest.fn()
+          const onUpdateCompleted = jest.fn()
+          const component = (
+            <MockedProvider
+              mocks={[
+                mockAuthenticatedUserResponse(user),
+                mockUpdateAuthenticatedUserResponse(user, updatedConsentState),
+              ]}
+            >
+              <TrackingInitializer
+                enableTracking={true}
+                onUserLoggedInCompleted={onUserLoggedInCompleted}
+                onUpdateCompleted={onUpdateCompleted}
+              />
+            </MockedProvider>
+          )
+          const { rerender } = render(component)
+          await act(async () => await setLoginStateLoggedIn(mockSession))
+          rerender(component)
+          await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
+          expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
+
+          posthogCrossPlatformMock.reset()
+          await act(() => {
+            updateConsentState(updatedConsentState)
+          })
+          await waitFor(() => expect(onUpdateCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.updatePersonProperties).toHaveBeenCalledWith({
+            trackingConsentAnalytics: true,
+            trackingConsentPersonalization: false,
+          })
+          expect(posthogCrossPlatformMock.flush).toHaveBeenCalledTimes(1)
+        })
+      })
+      describe('when the user retracts analytics consent', () => {
+        it('updates consent state on PostHogs person properties', async () => {
+          const consentState = {
+            [TrackingPurpose.Analytics]: Consent.Given,
+            [TrackingPurpose.Personalization]: Consent.Given,
+          }
+          const updatedConsentState = {
+            [TrackingPurpose.Analytics]: Consent.Denied,
+            [TrackingPurpose.Personalization]: Consent.Given,
+          }
+          mockEnv()
+          const user = mockUser(consentState)
+
+          const onUserLoggedInCompleted = jest.fn()
+          const onUpdateCompleted = jest.fn()
+          const component = (
+            <MockedProvider
+              mocks={[
+                mockAuthenticatedUserResponse(user),
+                mockUpdateAuthenticatedUserResponse(user, updatedConsentState),
+              ]}
+            >
+              <TrackingInitializer
+                enableTracking={true}
+                onUserLoggedInCompleted={onUserLoggedInCompleted}
+                onUpdateCompleted={onUpdateCompleted}
+              />
+            </MockedProvider>
+          )
+          const { rerender } = render(component)
+          await act(async () => await setLoginStateLoggedIn(mockSession))
+          rerender(component)
+          await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
+          expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
+
+          posthogCrossPlatformMock.reset()
+
+          await act(() => {
+            updateConsentState(updatedConsentState)
+          })
+          await waitFor(() => expect(onUpdateCompleted).toHaveBeenCalledTimes(1))
+
+          expect(posthogCrossPlatformMock.updatePersonProperties).toHaveBeenCalledWith({
+            trackingConsentAnalytics: false,
+            trackingConsentPersonalization: true,
+          })
+          expect(posthogCrossPlatformMock.flush).toHaveBeenCalledTimes(1)
+        })
       })
     })
   })

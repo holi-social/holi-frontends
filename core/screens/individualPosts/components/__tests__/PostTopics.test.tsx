@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render } from '@testing-library/react-native'
+import { render, screen } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
 
@@ -36,13 +35,12 @@ describe('PostTopics', () => {
   })
 
   it('matches snapshot', () => {
-    const tree = renderer
-      .create(
-        <MockedProvider addTypename={false}>
-          <PostTopics selectedTopicsIds={[]} onChangeSelectedTopics={onChangeSelectedTopics} />
-        </MockedProvider>
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    render(
+      <MockedProvider addTypename={false}>
+        <PostTopics selectedTopicsIds={[]} onChangeSelectedTopics={onChangeSelectedTopics} />
+      </MockedProvider>
+    )
+
+    expect(screen).toMatchSnapshot()
   })
 })

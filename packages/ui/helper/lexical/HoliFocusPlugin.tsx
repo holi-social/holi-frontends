@@ -4,8 +4,8 @@ import React, { useEffect, useLayoutEffect } from 'react'
 
 export type HoliFocusPluginProps = {
   autofocus?: boolean
-  onFocus?: (event: FocusEvent) => void
-  onBlur?: (event: FocusEvent) => void
+  onFocus?: (event: FocusEvent) => boolean
+  onBlur?: (event: FocusEvent) => boolean
 }
 const HoliFocusPlugin: React.FC<HoliFocusPluginProps> = ({ autofocus = true, onFocus, onBlur }) => {
   const [editor] = useLexicalComposerContext()
@@ -15,10 +15,10 @@ const HoliFocusPlugin: React.FC<HoliFocusPluginProps> = ({ autofocus = true, onF
     let stopBlurListener: () => void
 
     if (onFocus) {
-      stopFocusListener = editor.registerCommand<FocusEvent | null>(FOCUS_COMMAND, onFocus, COMMAND_PRIORITY_EDITOR)
+      stopFocusListener = editor.registerCommand(FOCUS_COMMAND, onFocus, COMMAND_PRIORITY_EDITOR)
     }
     if (onBlur) {
-      stopBlurListener = editor.registerCommand<FocusEvent | null>(BLUR_COMMAND, onBlur, COMMAND_PRIORITY_EDITOR)
+      stopBlurListener = editor.registerCommand(BLUR_COMMAND, onBlur, COMMAND_PRIORITY_EDITOR)
     }
 
     return () => {

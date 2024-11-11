@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
-import renderer from 'react-test-renderer'
 
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
 import { notificationConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
@@ -50,14 +49,13 @@ describe('NotificationConnectionItem.tsx', () => {
   it('matches snapshot', () => {
     jest.useFakeTimers().setSystemTime(new Date('2023-01-04'))
 
-    const tree = renderer
-      .create(
-        <MockedProvider mocks={MOCKS} addTypename={false}>
-          <NotificationConnectionItem notification={notificationConnectionRequest} />
-        </MockedProvider>
-      )
-      .toJSON()
-    expect(tree).toMatchSnapshot()
+    render(
+      <MockedProvider mocks={MOCKS} addTypename={false}>
+        <NotificationConnectionItem notification={notificationConnectionRequest} />
+      </MockedProvider>
+    )
+
+    expect(screen).toMatchSnapshot()
   })
 
   it('renders loader after ignoring a connection request', async () => {

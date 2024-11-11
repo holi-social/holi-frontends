@@ -76,6 +76,6 @@ const getStyles = (theme: HoliTheme) =>
 
 const stylesheet = createStyleSheet((theme) => ({
   icon: (focused: boolean) => ({
-    color: focused ? theme.colors.text : theme.colors.textTertiary,
+    color: focused ? theme.components.text.primary : theme.components.text.tertiary,
   }),
 }))

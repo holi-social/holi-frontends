@@ -4,7 +4,7 @@ import { Subscription } from 'zen-observable-ts'
 
 type ReturnValue<TData, TVariables extends OperationVariables> = [
   (options: QueryHookOptions<TData, TVariables>) => void,
-  { data: TData | undefined; error: Error | null; loading: boolean; abort: () => void }
+  { data: TData | undefined; error: Error | null; loading: boolean; abort: () => void },
 ]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

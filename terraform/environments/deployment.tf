@@ -30,6 +30,17 @@ variable "image_tag" {
   nullable = false
 }
 
+locals {
+  service_min_scale = {
+    production = 1
+    staging    = 1
+  }
+  service_max_scale = {
+    production = 10
+    staging    = 10
+  }
+}
+
 resource "google_cloud_run_service" "mvp_web" {
   name     = random_id.main.hex
   location = local.default_region # finland, low CO2 emissions
@@ -116,9 +127,9 @@ resource "google_cloud_run_service" "mvp_web" {
     }
     metadata {
       annotations = {
-        "autoscaling.knative.dev/minScale"         = local.environment == "production" ? "1" : "0"
-        "autoscaling.knative.dev/maxScale"         = local.environment == "production" ? "10" : "2"
-        "run.googleapis.com/execution-environment" = local.environment == "production" ? "gen1" : "gen1"
+        "autoscaling.knative.dev/minScale"         = lookup(local.service_min_scale, local.environment, "0")
+        "autoscaling.knative.dev/maxScale"         = lookup(local.service_min_scale, local.environment, "2")
+        "run.googleapis.com/execution-environment" = "gen1"
         "run.googleapis.com/startup-cpu-boost"     = "true"
       }
       # labels set on the revision level

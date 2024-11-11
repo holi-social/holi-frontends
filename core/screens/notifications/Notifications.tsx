@@ -1,13 +1,14 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, SafeAreaView, StyleSheet } from 'react-native'
+import { DimensionValue, Platform, StyleSheet } from 'react-native'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import NotificationsOverview from '@holi/core/screens/notifications/components/NotificationsOverview'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const Notifications = () => {
@@ -35,9 +36,9 @@ const Notifications = () => {
   )
 
   return (
-    <SafeAreaView style={styles.contentWrapper} testID="notifications-overview">
+    <SafeArea style={styles.contentWrapper} testID="notifications-overview">
       <NotificationsOverview />
-    </SafeAreaView>
+    </SafeArea>
   )
 }
 

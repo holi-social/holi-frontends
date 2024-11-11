@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Linking,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   View,
@@ -36,6 +35,7 @@ import { PostById } from '@holi/core/screens/posts/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -225,7 +225,7 @@ const CommentForm = ({
         style={styles.pageView}
         keyboardVerticalOffset={dimensions.topBarHeight + insets.top}
       >
-        <SafeAreaView style={styles.safeArea}>
+        <SafeArea style={styles.safeArea}>
           <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled" ref={scrollViewRef}>
             <View>
               {children}
@@ -290,7 +290,7 @@ const CommentForm = ({
               </View>
             </HoliContainer>
           </View>
-        </SafeAreaView>
+        </SafeArea>
       </KeyboardAvoidingView>
       <NotificationOptInModal
         type="default"

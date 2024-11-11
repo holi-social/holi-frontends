@@ -98,7 +98,7 @@
     },
     "production": {
       "extends": "base",
-      "channel": "production-1-39",
+      "channel": "production-1-40",
       "env": {
         "APP_VARIANT": "production",
         "ENVIRONMENT_ID": "production",

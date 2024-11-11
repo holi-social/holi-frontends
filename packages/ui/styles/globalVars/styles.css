@@ -97,7 +97,7 @@
   --gradient-background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --foreground30: #fff;
   --foreground20: #ebebeb;
   --foreground10: #d3d3d3;

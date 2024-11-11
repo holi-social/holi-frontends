@@ -24,7 +24,10 @@ import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@h
 const logger = getLogger('Tracking')
 
 class Tracking {
-  constructor(private posthog: PosthogCrossPlatform, private apollo: ApolloClient<object>) {}
+  constructor(
+    private posthog: PosthogCrossPlatform,
+    private apollo: ApolloClient<object>
+  ) {}
 
   public async initWithLoggedInUser(user: AuthenticatedUser): Promise<void> {
     const consentState = ConsentState.fromUser(user)
@@ -119,6 +122,20 @@ class Tracking {
     logger.debug('TrackingInitializer.updateConsentOnUserProfile', 'updated consent on user profile')
     if (response.data?.updateAuthenticatedUserV2) return response.data?.updateAuthenticatedUserV2
     else throw new Error('updateAuthenticatedUserV2Mutation response did not contain updated authenticatedUser')
+  }
+
+  public updateConsentOnPostHog(newConsentState: ConsentState): void {
+    this.posthog.updatePersonProperties({
+      trackingConsentAnalytics: Consent.toBooleanOrNull(newConsentState[TrackingPurpose.Analytics]),
+      trackingConsentPersonalization: Consent.toBooleanOrNull(newConsentState[TrackingPurpose.Personalization]),
+    })
+    logger.debug('TrackingInitializer.updateConsentOnPostHog', 'updated consent state on user profile')
+  }
+
+  public flush(): Promise<void> {
+    const promise = this.posthog.flush()
+    logger.debug('TrackingInitializer.flush', 'flushed')
+    return promise
   }
 }
 
@@ -317,12 +334,18 @@ const TrackingInitializerInner = ({
                   onUserLoggedOutCompleted?.()
                 })
               break
-            case 'consentUpdatedByUser':
+            case 'consentUpdatedByUser': {
+              const newConsentState = state.processing.newConsentState
+              tracking.updateConsentOnPostHog(newConsentState)
+              // if the user retracted their analytics consent subsequent steps will result in an opt-out out.
+              // to ensure that the updated consent state shows up in the person properties on Profile we flush here
+              // only works on Mobile currently (!) as flush() is not implemented on posthog-js
               tracking
-                .updateConsentOnUserProfile(state.processing.newConsentState)
-                .then((au) => {
-                  tracking.initWithLoggedInUser(au)
-                  consentStateVar([ConsentState.fromUser(au), { loading: false }])
+                .flush()
+                .then(() => tracking.updateConsentOnUserProfile(newConsentState))
+                .then((authenticatedUser) => {
+                  tracking.initWithLoggedInUser(authenticatedUser)
+                  consentStateVar([ConsentState.fromUser(authenticatedUser), { loading: false }])
                 })
                 .then(() => {
                   initializerStateVar({
@@ -332,6 +355,7 @@ const TrackingInitializerInner = ({
                   onUpdateCompleted?.()
                 })
               break
+            }
           }
           break
         case 'loggedOut':

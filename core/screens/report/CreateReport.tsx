@@ -107,6 +107,7 @@ const CreateReport = () => {
                     disabled={false}
                     variant="secondary"
                     onPress={() => setCurrentStep(0)}
+                    inline
                   />
                 )}
                 <Pressable
@@ -141,7 +142,7 @@ const CreateReport = () => {
                   >
                     <View style={styles.reasonTextContainer}>
                       <Text size="lg">{t(`report.reason.${reason}.title`)}</Text>
-                      <Text size="sm" color="gray300">
+                      <Text size="sm" variant="secondary">
                         {t(`report.reason.${reason}.description`)}
                       </Text>
                     </View>
@@ -164,7 +165,7 @@ const CreateReport = () => {
                 <Text size="xl" headingLevel="2">
                   {t('report.details.title', { subject: t(`report.reason.${selectedReason}.title`).toLowerCase() })}
                 </Text>
-                <Text size="sm" color="gray300">
+                <Text size="sm" variant="secondary">
                   {t(`report.reason.${selectedReason}.description`)}
                 </Text>
               </View>
@@ -183,7 +184,7 @@ const CreateReport = () => {
                   />
                 </View>
                 {showTermsError && (
-                  <Text color="red" size="sm">
+                  <Text size="sm" variant="error">
                     {t('report.details.termsError')}
                   </Text>
                 )}

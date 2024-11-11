@@ -353,8 +353,8 @@ Notes:
 
 #### Code style
 
-We use `eslint` and `prettier` to lint and format the code.
-The rules are defined in `.eslintrc.js` resp. `.prettierrc` and are checked by our commit hooks as well as during the CI pipelines.
+We use `eslint` and `biome format` ([biomejs](https://biomejs.dev/)) to lint and format the code.
+The rules are defined in `.eslintrc.js` resp. `biome.json` and are checked by our commit hooks as well as during the CI pipelines.
 Make sure to install appropriate IDE plugins to assist writing properly linted code and automate formatting.
 
 ### Dependencies

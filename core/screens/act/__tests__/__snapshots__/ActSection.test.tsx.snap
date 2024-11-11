@@ -218,7 +218,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                 selectable={true}
                 style={
                   {
-                    "color": "#8a8989",
+                    "color": "#676565",
                     "fontFamily": "InstrumentSans-Regular",
                     "fontSize": 15,
                     "fontVariant": [
@@ -2743,7 +2743,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
                 selectable={true}
                 style={
                   {
-                    "color": "#8a8989",
+                    "color": "#676565",
                     "fontFamily": "InstrumentSans-Regular",
                     "fontSize": 15,
                     "fontVariant": [
@@ -4592,7 +4592,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   selectable={true}
                   style={
                     {
-                      "color": "#8a8989",
+                      "color": "#676565",
                       "fontFamily": "InstrumentSans-Regular",
                       "fontSize": 15,
                       "fontVariant": [
@@ -8297,7 +8297,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                   selectable={true}
                   style={
                     {
-                      "color": "#8a8989",
+                      "color": "#676565",
                       "fontFamily": "InstrumentSans-Regular",
                       "fontSize": 15,
                       "fontVariant": [

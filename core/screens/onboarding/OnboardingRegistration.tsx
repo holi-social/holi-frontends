@@ -30,11 +30,11 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 const { useParam } = createParamHooks()
 
 export enum RegistrationStep {
-  'COMMUNITY_GUIDELINES',
-  'PRIVACY_POLICY',
-  'CREATE_ACCOUNT',
-  'EMAIL_VERIFICATION',
-  'ACCOUNT_SETUP',
+  COMMUNITY_GUIDELINES,
+  PRIVACY_POLICY,
+  CREATE_ACCOUNT,
+  EMAIL_VERIFICATION,
+  ACCOUNT_SETUP,
 }
 
 interface OnboardingStepperProps {

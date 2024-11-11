@@ -187,8 +187,8 @@ const getStyles = (
           width: slideWidth
             ? slideWidth
             : screenWidth < horizontalScrollMinWidth
-            ? screenWidth - marginHorizontal * 2
-            : defaultSlideWidth,
+              ? screenWidth - marginHorizontal * 2
+              : defaultSlideWidth,
           paddingRight: 0,
         },
       }),
