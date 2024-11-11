@@ -6,4 +6,4 @@ import { HoliTransitionProps } from '../../types'
 import { BaseTransitionWEB } from '../BaseTransitionWEB'
 import './styles.scss'
 
-export const SlideDown = (props: HoliTransitionProps) => <BaseTransitionWEB {...props} classNames="slide-up" />
+export const SlideUp = (props: HoliTransitionProps) => <BaseTransitionWEB {...props} classNames="slide-up" />
