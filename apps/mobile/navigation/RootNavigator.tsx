@@ -14,7 +14,7 @@ import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
 import CreateReport from '@holi/core/screens/report/CreateReport'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
-import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
+import type { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import ActNavigator from '@holi/mobile/navigation/ActNavigator'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import ChallengesAppNavigator from '@holi/mobile/navigation/ChallengesAppNavigator'
@@ -38,7 +38,7 @@ export type RootStackScreens = {
 
   [RouteName.Onboarding]: undefined
   [RouteName.OnboardingRegistration]: undefined
-  [RouteName.OnboardingFirstVisit]: undefined
+  [RouteName.OnboardingAccountSetup]: undefined
 
   [RouteName.Login]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -178,7 +178,7 @@ const RootNavigator = () => {
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen
-        name={RouteName.OnboardingFirstVisit}
+        name={RouteName.OnboardingAccountSetup}
         component={OnboardingFirstVisit}
         options={{ headerShown: false, gestureEnabled: false }}
       />
