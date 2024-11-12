@@ -78,6 +78,7 @@
     "react-native-unistyles": "^2.11.0",
     "react-native-web": "^0.19.12",
     "storybook": "^8.3.6",
+    "storybook-dark-mode": "^4.0.2",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "~5.3.3"
   },

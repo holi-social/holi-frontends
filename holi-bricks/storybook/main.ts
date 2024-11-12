@@ -5,6 +5,7 @@ module.exports = {
   stories: ['../components/**/*.mdx', '../tokens/**/*.mdx', '../components/**/*.stories.@(js|jsx|ts|tsx)'],
 
   addons: [
+    'storybook-dark-mode',
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-react-native-web',
@@ -16,6 +17,9 @@ module.exports = {
   framework: {
     name: '@storybook/react-webpack5',
     options: {},
+  },
+  features: {
+    backgroundsStoryGlobals: true,
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   webpackFinal: async (config: any) => {

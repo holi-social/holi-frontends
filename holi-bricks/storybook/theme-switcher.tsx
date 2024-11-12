@@ -1,31 +1,29 @@
 import type { Decorator } from '@storybook/react'
 import { useBricks } from 'holi-bricks/hooks/useBricks'
-import React, { type ReactNode, useEffect } from 'react'
+import React, { type ReactNode, useEffect, useState } from 'react'
 import { View } from 'react-native'
-
-export const storybookThemeConfig = {
-  theme: {
-    name: 'Theme',
-    defaultValue: 'light',
-    toolbar: {
-      icon: 'mirror',
-      items: ['light', 'dark'],
-      dynamicTitle: true,
-    },
-  },
-}
+import { addons } from '@storybook/preview-api'
+import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode'
 
 type ThemeWrapperProps = {
   children?: ReactNode
   theme: AvailableThemes
 }
+const channel = addons.getChannel()
 
-const ThemeWrapper = ({ children, theme = 'light' }: ThemeWrapperProps) => {
-  const { setActiveTheme, getActiveThemeName } = useBricks()
+const ThemeWrapper = ({ children }: ThemeWrapperProps) => {
+  const { setActiveTheme } = useBricks()
+  const [isDark, setDark] = useState(false)
 
   useEffect(() => {
-    setActiveTheme(theme)
-  }, [getActiveThemeName, setActiveTheme, theme])
+    setActiveTheme(isDark ? 'dark' : 'light')
+  }, [isDark, setActiveTheme])
+
+  useEffect(() => {
+    // listen to DARK_MODE event
+    channel.on(DARK_MODE_EVENT_NAME, setDark)
+    return () => channel.off(DARK_MODE_EVENT_NAME, setDark)
+  }, [setDark])
 
   return <View style={{ display: 'flex', flexDirection: 'row' }}>{children}</View>
 }
