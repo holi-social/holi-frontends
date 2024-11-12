@@ -1,4 +1,4 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
 import { Text } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'

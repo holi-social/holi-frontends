@@ -1,4 +1,4 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { TextLink } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'

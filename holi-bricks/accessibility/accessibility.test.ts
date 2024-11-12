@@ -1,4 +1,4 @@
-import { accessibilityProps } from 'holi-bricks/accessiblity/accessibility'
+import { accessibilityProps } from './accessibility'
 
 describe('accessibility', () => {
   it('Should only extract acccessibility props', () => {

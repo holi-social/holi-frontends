@@ -1,4 +1,4 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { Text } from 'holi-bricks/components/text/Text'
 import { Spacing } from 'holi-bricks/tokens'
 import React, { type ReactElement, useEffect, useState } from 'react'

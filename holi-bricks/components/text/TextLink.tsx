@@ -1,4 +1,4 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'

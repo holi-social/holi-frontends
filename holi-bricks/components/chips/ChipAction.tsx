@@ -1,4 +1,4 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 
 import type { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
 import { Text } from 'holi-bricks/components/text'
