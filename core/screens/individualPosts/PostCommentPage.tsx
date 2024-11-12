@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -10,11 +10,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CommentForm from '@holi/core/screens/comments/components/CommentForm'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
-import { CommentResponse, commentById } from '@holi/core/screens/comments/queries'
+import { type CommentResponse, commentById } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
-import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { type PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -93,24 +92,20 @@ const PostCommentPage = () => {
         redirectRoute={`/feed-posts/${idOrSlug}${comment ? '?commentId=' + comment.id : ''}`}
         parentComment={comment}
       >
-        <HoliContainer>
-          <View style={styles.post}>
-            <PostContent post={post} />
+        <PostContent post={post} />
+
+        {loadingComment && (
+          <View style={[styles.parentComment, styles.skeletonContainer]}>
+            <HoliSkeleton height={Spacing.xl} width={Spacing.xl} borderRadius={24} />
+            <HoliSkeleton height={Spacing['4xl']} width={'80%'} borderRadius={16} />
           </View>
+        )}
 
-          {loadingComment && (
-            <View style={[styles.parentComment, styles.skeletonContainer]}>
-              <HoliSkeleton height={Spacing.xl} width={Spacing.xl} borderRadius={24} />
-              <HoliSkeleton height={Spacing['4xl']} width={'80%'} borderRadius={16} />
-            </View>
-          )}
-
-          {!!comment && (
-            <View style={styles.parentComment}>
-              <CommentView comment={comment} commentableId={post.id} commentableType={CommentableType.FEED_POST} />
-            </View>
-          )}
-        </HoliContainer>
+        {!!comment && (
+          <View style={styles.parentComment}>
+            <CommentView comment={comment} commentableId={post.id} commentableType={CommentableType.FEED_POST} />
+          </View>
+        )}
       </CommentForm>
     )
   )
@@ -119,13 +114,6 @@ const PostCommentPage = () => {
 export default PostCommentPage
 
 const styles = StyleSheet.create({
-  post: {
-    ...Platform.select({
-      ios: {
-        paddingTop: Spacing.xxs,
-      },
-    }),
-  },
   parentComment: {
     marginVertical: Spacing.xs,
     marginRight: Spacing.xs,

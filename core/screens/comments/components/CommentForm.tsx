@@ -238,14 +238,16 @@ const CommentForm = ({
           {!parentComment && <VerticalLine style={styles.verticalLine} />}
 
           <View style={styles.inputContainer}>
-            <HoliAvatar
-              imageSrc={user.avatar}
-              imageBlurhash={user.avatarBlurhash}
-              label={user.fullName || t('user.profileView.anonymous')}
-              initials={user.avatarLabel || ''}
-              defaultColor={user.avatarDefaultColor || ''}
-              size={parentComment ? 'micro' : 'small'}
-            />
+            <View style={styles.avatarContainer}>
+              <HoliAvatar
+                imageSrc={user.avatar}
+                imageBlurhash={user.avatarBlurhash}
+                label={user.fullName || t('user.profileView.anonymous')}
+                initials={user.avatarLabel || ''}
+                defaultColor={user.avatarDefaultColor || ''}
+                size={parentComment ? 'micro' : 'small'}
+              />
+            </View>
             <HoliRichTextInput
               onLayout={onLayout}
               placeholder={t('comments.placeholder')}
@@ -313,15 +315,15 @@ const getStyles = (theme: HoliTheme) =>
       lineHeight: 22,
       flexDirection: 'row',
     },
+    avatarContainer: {
+      marginTop: Spacing['3xs'],
+    },
     textInput: {
       flex: 1,
-      marginLeft: 10,
+      marginLeft: 2,
       ...Platform.select({
         web: {
-          marginLeft: 18,
-        },
-        ios: {
-          marginTop: 5,
+          marginLeft: Spacing['3xs'],
         },
       }),
     },
