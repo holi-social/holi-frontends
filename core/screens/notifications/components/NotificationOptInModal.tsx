@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  AccessibilityProps,
-  ModalProps,
+  type AccessibilityProps,
+  type ModalProps,
   Platform,
   Pressable,
   StyleSheet,
@@ -13,14 +14,14 @@ import {
 import { connectionTypes } from '@holi/core/screens/notifications/connectionTypes'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type Type = 'default' | 'challenges' | 'connection' | 'spaces'
 
@@ -28,7 +29,7 @@ interface NotificationOptInModalProps extends ModalProps {
   isVisible: boolean
   description: string
   type?: Type
-  image?: HoliImageInfo | null
+  image?: ImageSource
   onConfirm?: () => void
   onDismiss?: () => void
   confirmText?: string
@@ -66,7 +67,7 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
 
   return (
     <ModalBasic
-      label=""
+      label={t(`notifications.permission.${type}.headline`)}
       {...accessibilityProps}
       show={isVisible}
       transparent
@@ -78,7 +79,23 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
         <View style={styles.modalView}>
           <View style={styles.topContent}>
             {image ? (
-              <HoliImage source={image} resizeMode="contain" style={styles.image} label={''} />
+              <View style={styles.imageContainer}>
+                <HoliImage
+                  source={image}
+                  resizeMode="contain"
+                  style={styles.image}
+                  label={t(`notifications.permission.${type}.headline`)}
+                />
+                <HoliLocalImage
+                  imageSource={require('@holi/ui/assets/img/notifications/optin-check-illustrations.svg')}
+                  resizeMode="contain"
+                  isSvg
+                  width={31.51}
+                  height={31.04}
+                  label={t(`notifications.permission.${type}.headline`)}
+                  style={styles.check}
+                />
+              </View>
             ) : (
               <HoliLocalImage
                 imageSource={currentConnection?.imagePath}
@@ -169,7 +186,18 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       borderWidth: 1,
     },
     image: {
-      width: 72,
-      height: 72,
+      width: 64,
+      height: 64,
+      borderRadius: Spacing['3xs'],
+      borderWidth: 1,
+      borderColor: theme.colors.foreground30,
+    },
+    check: {
+      bottom: -9,
+      left: -8,
+      position: 'absolute',
+    },
+    imageContainer: {
+      marginBottom: 8,
     },
   })

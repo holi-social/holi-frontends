@@ -11,7 +11,8 @@
       "packages/*",
       "holi-bricks",
       "core",
-      "e2e/mobile"
+      "e2e/mobile",
+      "e2e/web"
     ],
     "installConfigs": {
       "hoistingLimits": [

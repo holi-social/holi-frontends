@@ -30,7 +30,9 @@ describe('Button component', () => {
     const mockFn = jest.fn()
     render(<Button label="Click me" onPress={mockFn} loading />)
 
+    expect(screen.getByTestId('spinner')).toBeOnTheScreen()
+
     fireEvent.press(screen.getByText('Click me'))
-    expect(mockFn).toHaveBeenCalledTimes(0)
+    expect(mockFn).not.toHaveBeenCalled()
   })
 })

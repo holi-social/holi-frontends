@@ -9,6 +9,9 @@ import { test } from './testmaster'
 const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-involvement-inactive'
 const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 
+// this is a long journey, but its as fast as our backends are
+test.setTimeout(180000)
+
 test.describe('@AppointmentNotifications', () => {
   test('space follower is notified about public appointment', async ({ sessions }) => {
     const spaceName = randomSpaceName()

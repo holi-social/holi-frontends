@@ -20,7 +20,6 @@ export interface NotificationEligibilityConfig {
   minIntervalBetweenAttemptsMs: number
 }
 
-// you can adjust the config as needed - for testing make sure to reset the local storage
 export const notificationConfig: NotificationEligibilityConfig = {
   maxAttemptsPerDay: 2,
   pauseDays: 3,
@@ -51,7 +50,6 @@ const checkNotificationEligibility = async (config: NotificationEligibilityConfi
       modalState = { ...modalState, attempts: 0, activeDays: 0, configActiveDays: activeDays }
     }
 
-    // Check if it's a new day and update modal state
     if (modalState.lastAttemptDate !== currentDate) {
       modalState.activeDays = modalState.activeDays < activeDays ? modalState.activeDays + 1 : 0
       modalState.expirationTime =
@@ -62,7 +60,6 @@ const checkNotificationEligibility = async (config: NotificationEligibilityConfi
       modalState.lastAttemptDate = currentDate
     }
 
-    // Check eligibility conditions
     const isInPausePeriod = currentTime.getTime() < modalState.expirationTime
     const hasReachedMaxAttempts = modalState.attempts >= maxAttemptsPerDay
     const hasNotWaitedLongEnough = currentTime.getTime() - modalState.lastShowTime < minIntervalBetweenAttemptsMs

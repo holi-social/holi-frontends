@@ -1,8 +1,13 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, clickElementByTestIdAndWaitForToast, locateElementByTestId } from './helpers'
-import { test } from './testmaster'
+import {
+  byTestId,
+  clickElementByTestId,
+  clickElementByTestIdAndWaitForToast,
+  locateElementByTestId,
+} from '../tests/helpers'
+import { test } from '../tests/testmaster'
 
 test.describe('@Comment', () => {
   // TODO: Commenting has been briefly removed from the insight detail page and should be back once HOLI-7390 is finished

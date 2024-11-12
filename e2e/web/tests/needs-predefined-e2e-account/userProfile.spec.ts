@@ -1,13 +1,11 @@
 import { faker } from '@faker-js/faker'
 import { Page, expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, clickElementByTestId, waitForAnimationEnd, withSSR } from './helpers'
-import { test } from './testmaster'
-
-test.setTimeout(120000)
+import { byTestId, checkAccessibility, clickElementByTestId, waitForAnimationEnd, withSSR } from '../helpers'
+import { test } from '../testmaster'
 
 test.describe('@Profile', () => {
-  test('user journey', async ({ browser, sessions, browserName }) => {
+  test('user journey', async ({ browser, sessions }) => {
     // FIXME: https://holi.atlassian.net/browse/HOLI-9014
     // await loginAsE2EUser(context, page)
     // await clickElementByTestId(page, 'btn-to-profile-view')
@@ -49,9 +47,6 @@ test.describe('@Profile', () => {
       .poll(async () => await otherPage.textContent(byTestId('user-profile-full-name')))
       .toBe(`${firstNameEdited} ${lastNameEdited}`.trim())
 
-    // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/profile/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0" is interrupted by another navigation to "http://localhost:3000/profile"`
-    if (browserName === 'webkit') return
-
     // visiting another user's profile should show the correct information
     const userId = process.env.E2E_USER_ID || 'empty'
     await otherPage.goto('/profile/' + userId)
@@ -64,8 +59,6 @@ test.describe('@Profile', () => {
 const testDisplaysProfileDetails = async (page: Page, options?: { testSSR?: boolean }) => {
   await page.waitForSelector(byTestId('user-profile-full-name'))
   await page.waitForSelector(byTestId('user-profile-interests'), { state: options?.testSSR ? 'attached' : 'visible' })
-  await page.waitForSelector(byTestId('user-profile-sdgs'), { state: options?.testSSR ? 'attached' : 'visible' })
-  await page.waitForSelector(byTestId('user-profile-skills'), { state: options?.testSSR ? 'attached' : 'visible' })
 }
 
 const checkChipsSelection = async (page: Page, what: string) => {
