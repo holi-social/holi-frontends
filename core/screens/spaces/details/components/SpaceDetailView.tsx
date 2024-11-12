@@ -1,19 +1,23 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Linking, Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
+import { incrementModalAttempts } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import { SpaceUpdatesTab } from '@holi/core/screens/spaces/updates/components/SpaceUpdatesTab'
 import { Flag2, Flag2Filled, Pushpin, PushpinFilled, Sun, SunFilled } from '@holi/icons/src/generated'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
+import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export enum SpaceDetailsTabs {
@@ -45,6 +49,17 @@ const SpaceDetailView = ({ space, activeTab, onTabChange }: SpaceDetailViewProps
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { useParam } = createParamHooks()
+  const [askOptIn] = useParam('askOptIn')
+
+  const [modalVisible, setModalVisible] = useState(false)
+  const openSettings = () => Linking.openURL('app-settings:')
+
+  useEffect(() => {
+    if (askOptIn === 'true') {
+      setModalVisible(true)
+    }
+  }, [askOptIn])
 
   const data: TabItem[] = useMemo(
     () => [
@@ -70,6 +85,17 @@ const SpaceDetailView = ({ space, activeTab, onTabChange }: SpaceDetailViewProps
     [space, styles.tabItem, t]
   )
 
+  const handleOptIn = async () => {
+    openSettings()
+    await incrementModalAttempts()
+    setModalVisible(false)
+  }
+
+  const handleModalDismiss = async () => {
+    await incrementModalAttempts()
+    setModalVisible(false)
+  }
+
   return (
     <>
       <HoliHead
@@ -94,6 +120,16 @@ const SpaceDetailView = ({ space, activeTab, onTabChange }: SpaceDetailViewProps
           backgroundColor={colors.background20}
           testID="space-tabs"
         />
+        {Platform.OS !== 'web' && (
+          <NotificationOptInModal
+            type="spaces"
+            isVisible={modalVisible}
+            image={{ uri: space.cover }}
+            onConfirm={() => handleOptIn()}
+            onDismiss={() => handleModalDismiss()}
+            description={t('notifications.permission.description.spaces', { name: space.title })}
+          />
+        )}
       </View>
     </>
   )

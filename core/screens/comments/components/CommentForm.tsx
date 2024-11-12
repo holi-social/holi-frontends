@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import * as Notifications from 'expo-notifications'
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { type PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Keyboard,
@@ -12,25 +12,25 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native'
-import { LayoutChangeEvent } from 'react-native'
+import type { LayoutChangeEvent } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { PortalGate } from '@holi/core/providers/PortalProvider'
-import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
+import { type DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
-import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
+import { AddCommentMutation, type CreateCommentResponse } from '@holi/core/screens/comments/mutations'
 import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comments/queries'
-import { Comment, CommentableType } from '@holi/core/screens/comments/types'
+import { type Comment, CommentableType } from '@holi/core/screens/comments/types'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
 import {
   incrementModalAttempts,
   useNotificationEligibility,
-} from '@holi/core/screens/notifications/helpers/notificationModalHelper'
+} from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -42,7 +42,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
@@ -292,13 +292,15 @@ const CommentForm = ({
           </View>
         </SafeArea>
       </KeyboardAvoidingView>
-      <NotificationOptInModal
-        type="default"
-        isVisible={modalVisible}
-        onConfirm={handleOptIn}
-        onDismiss={handleModalDismiss}
-        description={t('notifications.permission.description.default')}
-      />
+      {Platform.OS !== 'web' && (
+        <NotificationOptInModal
+          type="default"
+          isVisible={modalVisible}
+          onConfirm={handleOptIn}
+          onDismiss={handleModalDismiss}
+          description={t('notifications.permission.description.default')}
+        />
+      )}
     </HoliContainer>
   )
 }

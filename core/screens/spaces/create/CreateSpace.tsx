@@ -1,39 +1,41 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
+import * as Notifications from 'expo-notifications'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useLoginState } from '@holi/core/auth/loginState'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { Term } from '@holi/core/domain/shared/types'
+import type { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useNotificationEligibility } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import CreateSpaceCoverImage from '@holi/core/screens/spaces/create/components/CreateSpaceCoverImage'
 import CreateSpaceName from '@holi/core/screens/spaces/create/components/CreateSpaceName'
 import CreateSpaceTopics from '@holi/core/screens/spaces/create/components/CreateSpaceTopics'
 import {
-  CreateSpaceResponse,
-  ValidateSpaceResponse,
+  type CreateSpaceResponse,
+  type ValidateSpaceResponse,
   createSpaceMutation,
   validateSpaceMutation,
 } from '@holi/core/screens/spaces/create/mutations'
-import { MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
+import { type MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const CreateSpace = () => {
@@ -60,6 +62,7 @@ const CreateSpace = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { openToast } = useToast()
+  const { isEligible } = useNotificationEligibility()
 
   // FIXME: this is a dirty hack to circumvent using the file picker dialog in mobile e2e tests
   const loginState = useLoginState()
@@ -85,7 +88,20 @@ const CreateSpace = () => {
     onCompleted: async (data) => {
       const spaceDetailsRoute = `/spaces/${data.createSpace.name}`
       await replaceHistory(spaceDetailsRoute)
-      return navigate(`${spaceDetailsRoute}/edit${!hasOwnSpaces ? '?onboarding=true' : ''}`)
+
+      // Check if the user has already granted notification permissions
+      const { status } = await Notifications.getPermissionsAsync()
+      const shouldShowModal = status !== 'granted' && isEligible
+
+      const params = new URLSearchParams()
+      if (!hasOwnSpaces) {
+        params.set('onboarding', 'true')
+      }
+      if (shouldShowModal) {
+        params.set('askOptIn', 'true')
+      }
+
+      return navigate(`${spaceDetailsRoute}/edit?${params.toString()}`)
     },
     onError: (error) => {
       if (isMaliciousUrlError(error)) {

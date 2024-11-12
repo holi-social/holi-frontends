@@ -71,6 +71,7 @@ const editTitles: Record<EditFields, string> = {
 export type EditSpaceParams = {
   spaceIdOrName: string
   onboarding: string
+  askOptIn?: string
 }
 
 const { useParam } = createParamHooks<EditSpaceParams>()
@@ -122,6 +123,8 @@ export const SDG_INFO_MODAL_SOURCES_MAPPING: {
 const EditSpace: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [isOnboarding] = useParam('onboarding')
+  const [askOptIn] = useParam('askOptIn')
+
   const [editField, setEditField] = useState<EditFields | null>(null)
   const [isEdit, setIsEdit] = useState<boolean>(false)
 
@@ -191,6 +194,14 @@ const EditSpace: React.FC<ScreenProps> = () => {
       setIsEdit(false)
     }
     hide()
+  }
+
+  const handleNavigation = () => {
+    if (askOptIn === 'true') {
+      replaceRoute(`/spaces/${space.name}?askOptIn=true`)
+    } else {
+      navigateBack()
+    }
   }
 
   return (
@@ -353,7 +364,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
         <View style={styles.overlayContainer}>
           <HoliButton
             label={t('spaces.edit.close')}
-            onPress={() => navigateBack()}
+            onPress={handleNavigation}
             style={styles.overlayButton}
             testID="space-edit-close"
           >
