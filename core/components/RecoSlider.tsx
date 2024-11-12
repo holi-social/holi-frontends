@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, GestureResponderEvent, ListRenderItem, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
+import { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatList.shared'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -27,6 +29,7 @@ type RecoSliderProps = {
   loading?: boolean
   testID?: string
   cardWidth: number
+  viewTrackingParams?: TrackableFlatListParams
 }
 
 const RecoSlider: React.FC<RecoSliderProps> = ({
@@ -42,7 +45,8 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   loading,
   testID,
   cardWidth,
-}: RecoSliderProps) => {
+  viewTrackingParams,
+}) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { theme } = useTheme()
@@ -64,6 +68,36 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   if (loading) {
     return null
   }
+
+  const listProps = {
+    horizontal: true,
+    ListHeaderComponentStyle: styles.listHeader,
+    style: styles.itemsContainer,
+    data,
+    renderItem,
+    ListFooterComponent:
+      labelSeeMore && (seeAllPath || onPressSeeMore) ? (
+        <View style={styles.seeMoreButton}>
+          <HoliMoreCard
+            role="link"
+            label={labelSeeMore}
+            onPress={handleSeeMore}
+            testID={`${name}-reco-slider-load-more-button`}
+          >
+            {labelSeeMore}
+          </HoliMoreCard>
+        </View>
+      ) : (
+        <></>
+      ),
+    testID: `${name}-reco-slider-list`,
+  }
+
+  const ListComponent = viewTrackingParams ? (
+    <TrackableFlatList {...listProps} {...viewTrackingParams} />
+  ) : (
+    <FlatList {...listProps} />
+  )
 
   return (
     <HoliContainer>
@@ -94,30 +128,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
           </View>
         </HoliButton>
 
-        <FlatList
-          horizontal
-          ListHeaderComponentStyle={styles.listHeader}
-          style={styles.itemsContainer}
-          data={data}
-          renderItem={renderItem}
-          ListFooterComponent={
-            labelSeeMore && (seeAllPath || onPressSeeMore) ? (
-              <View style={styles.seeMoreButton}>
-                <HoliMoreCard
-                  role="link"
-                  label={labelSeeMore}
-                  onPress={handleSeeMore}
-                  testID={`${name}-reco-slider-load-more-button`}
-                >
-                  {labelSeeMore}
-                </HoliMoreCard>
-              </View>
-            ) : (
-              <></>
-            )
-          }
-          testID={`${name}-reco-slider-list`}
-        />
+        {ListComponent}
       </View>
     </HoliContainer>
   )
