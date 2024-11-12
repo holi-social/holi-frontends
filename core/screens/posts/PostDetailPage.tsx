@@ -29,7 +29,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import FormLayout from '@holi/core/screens/individualPosts/components/FormLayout/FormLayout'
+import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 export type PostDetailPageParams = {

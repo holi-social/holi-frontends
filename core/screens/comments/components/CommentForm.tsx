@@ -31,7 +31,7 @@ import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import FormLayout from '@holi/core/screens/individualPosts/components/FormLayout/FormLayout'
+import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 
 export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
