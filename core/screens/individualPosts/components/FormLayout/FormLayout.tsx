@@ -15,9 +15,16 @@ export interface FormLayoutProps {
   bottomBar: React.ReactNode
   hasSuggestions?: boolean
   backgroundColor?: string
+  scrollViewRef?: React.RefObject<ScrollView>
 }
 
-const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggestions = true, backgroundColor }) => {
+const FormLayout: React.FC<FormLayoutProps> = ({
+  children,
+  bottomBar,
+  hasSuggestions = true,
+  backgroundColor,
+  scrollViewRef,
+}) => {
   const { theme } = useTheme()
 
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -35,6 +42,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
           contentContainerStyle={styles.scrollViewContent}
           style={styles.scrollView}
           keyboardShouldPersistTaps="handled"
+          ref={scrollViewRef}
         >
           <HoliContainer>{children}</HoliContainer>
         </ScrollView>

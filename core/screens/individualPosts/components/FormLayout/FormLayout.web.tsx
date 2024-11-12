@@ -13,6 +13,7 @@ export interface FormLayoutProps {
   bottomBar: React.ReactNode
   hasSuggestions?: boolean
   backgroundColor?: string
+  scrollViewRef?: React.RefObject<ScrollView>
 }
 
 const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggestions = true, backgroundColor }) => {

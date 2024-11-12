@@ -217,9 +217,9 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     postContent: {
       marginTop: 12,
+      paddingBottom: 12,
     },
     commentsView: {
-      paddingHorizontal: 20,
       ...Platform.select({
         web: {
           paddingBottom: COMMENT_VIEW_PADDING_BOTTOM,
