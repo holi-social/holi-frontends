@@ -1,9 +1,9 @@
-import type { AccessibilityRoleWeb } from 'holi-bricks/main'
+import type { Role } from 'react-native'
 
 export type AccessibilityProps = {
   accessible?: boolean
   id?: string
-  role?: AccessibilityRoleWeb
+  role?: Role
   'aria-hidden'?: boolean
   'aria-label'?: string
   'aria-labelledby'?: string

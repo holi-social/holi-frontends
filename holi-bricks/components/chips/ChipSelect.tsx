@@ -1,22 +1,23 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import type { Color } from 'holi-bricks/tokens'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { byShade } from 'holi-bricks/utils/byShade'
-import React, { ReactNode } from 'react'
-import { GestureResponderEvent, Pressable } from 'react-native'
+import React, { type ReactNode } from 'react'
+import { type GestureResponderEvent, Pressable } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
 // TODO: Change this import to new avatar when finished.
 // eslint-disable-next-line no-restricted-imports
-import HoliAvatar, { AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
+import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 
-import { ChipSize, chipSizeToTextSize } from './size'
+import { type ChipSize, chipSizeToTextSize } from './size'
 import { pill } from './styles'
 
-type ChipSelectProps = {
+type ChipSelectProps = AccessibilityProps & {
   onPress: (event: GestureResponderEvent) => void
   children?: ReactNode
   selected?: boolean
@@ -40,6 +41,8 @@ export const ChipSelect = ({
   selectedColor = 'green',
   size = 'md',
   avatar,
+  role = 'switch',
+  ...rest
 }: ChipSelectProps) => {
   const { styles, theme } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = sizeToIconSize[size]
@@ -48,10 +51,11 @@ export const ChipSelect = ({
 
   return (
     <Pressable
-      role="switch"
-      aria-checked={selected}
       disabled={disabled}
       onPress={(e) => onPress?.(e)}
+      {...accessibilityProps(rest)}
+      role={role}
+      aria-checked={selected}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, selectedColor)]}
     >
       {avatar && (

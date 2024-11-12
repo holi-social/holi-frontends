@@ -1,5 +1,6 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
 import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
-import { Text, type TextSize } from 'holi-bricks/components/text/Text'
+import { Text } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 import { BorderWidth } from 'holi-bricks/tokens/dimensions/borderWidth'
@@ -16,7 +17,7 @@ import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 type AvatarSizes = 'lg' | 'md' | 'sm' | 'xs'
 
-type AvatarProps = {
+type AvatarProps = AccessibilityProps & {
   border?: 'strong' | 'light'
   shape?: 'squared' | 'circle'
   size?: AvatarSizes
@@ -38,7 +39,7 @@ const avatarSizeToTextSize = {
   sm: 'md',
   md: 'xxl',
   lg: '3xl',
-}
+} as const
 
 export const Avatar = ({
   label,
@@ -48,6 +49,7 @@ export const Avatar = ({
   imgSrc,
   initials,
   icon,
+  ...rest
 }: AvatarProps) => {
   const { styles } = useStyles(stylesheet, { border, shape, size })
   const [errorLoading, setErrorLoading] = useState(false)
@@ -64,14 +66,18 @@ export const Avatar = ({
     }
     return (
       <View style={styles.textWrapper}>
-        <Text color={styles.text.color} size={avatarSizeToTextSize[size] as TextSize}>
+        <Text color={styles.text.color} size={avatarSizeToTextSize[size]}>
           {initials?.substring(0, 2)}
         </Text>
       </View>
     )
   }
 
-  return <View style={styles.avatar(initials)}>{renderContent()}</View>
+  return (
+    <View {...accessibilityProps(rest)} style={styles.avatar(initials)}>
+      {renderContent()}
+    </View>
+  )
 }
 
 const stylesheet = createStyleSheet((theme) => ({

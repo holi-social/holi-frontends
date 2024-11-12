@@ -1,9 +1,10 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import * as React from 'react'
+import type * as React from 'react'
 // eslint-disable-next-line no-restricted-imports
-import { ColorValue, Platform, Role, Text, TextProps, TextStyle } from 'react-native'
+import { type ColorValue, Platform, Text, type TextProps, type TextStyle } from 'react-native'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
 export type TextLinkVariant =
@@ -18,7 +19,7 @@ export type TextLinkVariant =
   /** Mentions, Locations, Special cases */
   | 'special'
 
-export interface TextLinkProps {
+export interface TextLinkProps extends AccessibilityProps {
   size: TextLinkSize
   numberOfLines?: number
   /** Specifies theme respecting text color, takes precedence over `color`. */
@@ -28,7 +29,6 @@ export interface TextLinkProps {
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
   onPress?: TextProps['onPress']
-  role?: Role
 }
 
 export const TextLink = ({
@@ -41,12 +41,14 @@ export const TextLink = ({
   children,
   onPress,
   role = 'link',
+  ...rest
 }: React.PropsWithChildren<TextLinkProps>) => {
   const { styles } = useStyles(stylesheet, { size, variant })
 
   return (
     <Text
       selectable={Platform.OS !== 'web' ? false : undefined}
+      {...accessibilityProps(rest)}
       role={role}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}

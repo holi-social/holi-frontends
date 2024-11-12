@@ -1,10 +1,10 @@
-// eslint-disable-next-line no-restricted-imports
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
 import { Text } from 'holi-bricks/components/text/Text'
 import { Spacing } from 'holi-bricks/tokens'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { SelectorCard, SelectorCardInputType } from './SelectorCard'
+import { SelectorCard, type SelectorCardInputType } from './SelectorCard'
 
 export interface SelectionElementProps {
   selected?: boolean
@@ -12,7 +12,7 @@ export interface SelectionElementProps {
   id: string
 }
 
-type SelectorProps = {
+type SelectorProps = AccessibilityProps & {
   title?: string
   children: ReactElement<SelectionElementProps>[]
   inputType?: SelectorCardInputType
@@ -30,6 +30,7 @@ export const Selector = ({
   onSelect,
   onChange,
   initiallySelectedOptions,
+  ...rest
 }: SelectorProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([])
 
@@ -86,7 +87,7 @@ export const Selector = ({
   })
 
   return (
-    <View style={styles.container}>
+    <View {...accessibilityProps(rest)} style={styles.container}>
       {title && <Text size="lg">{title}</Text>}
       <View style={[styles.cardContainer, row && styles.row]}>{content}</View>
     </View>

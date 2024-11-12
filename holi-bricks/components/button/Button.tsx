@@ -1,19 +1,21 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
 import { TextLink } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React, { useCallback, useState } from 'react'
-import { GestureResponderEvent, Pressable, View } from 'react-native'
+import type React from 'react'
+import { useCallback, useState } from 'react'
+import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
-export type ButtonProps = {
+export type ButtonProps = AccessibilityProps & {
   label: string
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   variant?: ButtonVariant
@@ -37,6 +39,7 @@ export const Button = ({
   selected = false,
   icon,
   inline = false,
+  ...rest
 }: ButtonProps) => {
   const [isProcessing, setProcessing] = useState(false)
   const { styles } = useStyles(stylesheet, { variant, size, selected, disabled })
@@ -63,15 +66,16 @@ export const Button = ({
         !transparent ? [styles.button(!disabled && !!hovered, !disabled && !!pressed, inline)] : undefined
       }
       disabled={isSpinning || disabled}
+      {...accessibilityProps(rest)}
     >
       <View style={styles.content}>
-        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text?.color as string}>
+        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text.color}>
           {label}
         </TextLink>
         {isSpinning && !disabled && (
           <View>
             <SpinningIconContainer spinning={loading}>
-              <HoliIcon icon={Loader} size={16} color={styles.text} />
+              <HoliIcon icon={Loader} size={16} color={styles.text.color} />
             </SpinningIconContainer>
           </View>
         )}

@@ -1,14 +1,14 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessiblity'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import * as React from 'react'
+import type * as React from 'react'
 import {
-  AccessibilityProps,
-  ColorValue,
+  type ColorValue,
   Platform, // eslint-disable-next-line no-restricted-imports
   Text as RNText, // eslint-disable-next-line no-restricted-imports
-  TextProps as RNTextProps,
-  TextStyle,
+  type TextProps as RNTextProps,
+  type TextStyle,
 } from 'react-native'
 
 // Change import in HOLI-10369
@@ -71,14 +71,16 @@ export const Text = ({
   ellipsizeMode,
   headingLevel,
   children,
+  ...rest
 }: React.PropsWithChildren<TextProps>) => {
   const { styles } = useStyles(stylesheet, { size, variant })
 
-  const accessibilityProps = createAccessibilityProps(headingLevel)
+  const textAccessibilityProps = createAccessibilityProps(headingLevel)
 
   return (
     <RNText
-      {...accessibilityProps}
+      {...textAccessibilityProps}
+      {...accessibilityProps(rest)}
       selectable={Platform.OS !== 'web' ? selectable : undefined}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
