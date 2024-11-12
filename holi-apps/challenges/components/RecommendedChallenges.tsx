@@ -9,6 +9,7 @@ import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
+import { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { StarSmileFilled } from '@holi/icons/src/generated'
 
 import { ChallengeCard, calculateCardWidth } from '@holi-apps/challenges/components/ChallengeCard'
@@ -70,9 +71,21 @@ const RecommendedChallenges = () => {
     return null
   }
 
+  const listItemTrackingEvent: ListItemTrackingEvent<Challenge> = ({ title, id }) => {
+    return TrackingEvent.RecommendationViewed('challenge', { title, id })
+  }
+
+  const listItemIdentifier: ListItemIdentifier<Challenge> = ({ id }) => {
+    return id
+  }
+
   return (
     <RecoSlider
       name="challenges"
+      viewTrackingParams={{
+        listItemTrackingEvent,
+        listItemIdentifier,
+      }}
       renderItem={({ item, index }: { item: Challenge; index: number }) => (
         <ChallengeCard challenge={item} trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, index)} />
       )}

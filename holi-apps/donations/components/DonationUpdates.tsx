@@ -8,6 +8,7 @@ import RecoSliderCard from '@holi/core/components/RecoSliderCard'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
+import { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { HandHeartsFilled } from '@holi/icons/src/generated'
 
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
@@ -69,9 +70,21 @@ const DonationUpdates = ({ locationQuery, cardWidth }: DonationUpdatesProps) => 
     )
   }
 
+  const listItemTrackingEvent: ListItemTrackingEvent<Project> = ({ title, id }) => {
+    return TrackingEvent.RecommendationViewed('donation', { title, id })
+  }
+
+  const listItemIdentifier: ListItemIdentifier<Project> = ({ id }) => {
+    return id
+  }
+
   return (
     <RecoSlider
       name="donations"
+      viewTrackingParams={{
+        listItemTrackingEvent,
+        listItemIdentifier,
+      }}
       renderItem={renderItem}
       data={projectsToRender}
       icon={HandHeartsFilled}
