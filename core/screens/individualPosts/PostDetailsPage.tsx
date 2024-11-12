@@ -47,7 +47,7 @@ import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import FormLayout from './components/FormLayout/FormLayout'
+import FormLayout from '@holi/core/screens/individualPosts/components/FormLayout/FormLayout'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
