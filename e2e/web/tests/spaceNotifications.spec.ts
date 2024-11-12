@@ -6,11 +6,11 @@ import { clickButtonByText, clickElementByTestId, locateElementByTestId, retry }
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
-test.describe('@SpaceNotifications', async () => {
-  test('multi user journey', async ({ sessions, browserName }) => {
-    // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/login" is interrupted by another navigation to "http://localhost:3000/profile"`
-    test.skip(browserName === 'webkit', 'FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug')
+// this is a long journey, but its as fast as our backends are
+test.setTimeout(180000)
 
+test.describe('@SpaceNotifications', async () => {
+  test('multi user journey', async ({ sessions }) => {
     const { page: adminA, user } = await sessions.signUp()
     const adminAId = user.id
 

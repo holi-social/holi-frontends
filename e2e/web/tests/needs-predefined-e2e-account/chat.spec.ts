@@ -1,5 +1,5 @@
-import { clickElementByTestId, locateElementByTestId } from './helpers'
-import { test } from './testmaster'
+import { clickElementByTestId, locateElementByTestId } from '../helpers'
+import { test } from '../testmaster'
 
 test.describe('@Chat', () => {
   test('starts a chat from a users profile', async ({ authenticatedSession: { page } }) => {
