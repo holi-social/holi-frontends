@@ -27,16 +27,13 @@ test.describe('@Registration', () => {
     await page.waitForSelector(byTestId('ory-password-input-error-message'))
   })
 
-  test('should be able to register with valid credentials', async ({ userHandler, browserName }) => {
+  test('should be able to register with valid credentials', async ({ userHandler }) => {
     //FIXME: Error: Wasn't able to intercept user id while finishing account setup flow at finishAccountSetup in appointmentNotifications.spec.ts
     // using a random user session implicitly tests user registration
     await userHandler.asRandomUser(async (page) => {
       // BUG: test-id: user-profile-full-name is not available on the page we are rendering. It is available on /profile. If that is intended behaviour, uncomment the next line
       // await page.goto('/profile')
       await page.waitForSelector(byTestId('user-profile-full-name'))
-
-      // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/login" is interrupted by another navigation to "http://localhost:3000/profile"`
-      if (browserName === 'webkit') return
 
       // trying to go to login page with logged in user should show home feed
       await page.goto('/login')

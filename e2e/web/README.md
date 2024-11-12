@@ -15,7 +15,7 @@ The test for the login require working credentials. Please provide them in the `
 You can test selective browsers from the command line by specifying an environment variable:
 
 ```sh
-E2E_WEB_BROWSERS=Desktop_WebKit,Mobile_WebKit yarn test
+E2E_WEB_BROWSERS=Mobile_Chrome,Desktop_Firefox yarn test
 ```
 
 Take a look in `playwright.config.ts` for valid browser names.

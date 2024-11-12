@@ -1,12 +1,15 @@
 import { Page, expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, clickElementByTestId, goodnewsRequestTimeout, proceedAsGuest } from './helpers'
-import { test } from './testmaster'
-
-test.setTimeout(120000)
+import { byTestId, checkAccessibility, clickElementByTestId, goodnewsRequestTimeout, proceedAsGuest } from '../helpers'
+import { test } from '../testmaster'
 
 test.describe('@GoodNews', () => {
   test('user journey', async ({ page }) => {
+    test.skip(
+      process.env.BASE_URL === 'http://localhost:3000',
+      'These features have no local test data and can only be tested on staging.'
+    )
+
     await proceedAsGuest(page)
 
     await testIsAccessibleFromHomeScreen(page)

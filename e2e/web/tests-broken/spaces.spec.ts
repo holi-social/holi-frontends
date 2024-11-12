@@ -13,14 +13,8 @@ import {
 import { inputSpaceNameAndGoal } from '@holi/e2e-web/tests/helpers/spaces'
 import { SessionHandler, test } from '@holi/e2e-web/tests/testmaster'
 
-test.setTimeout(240000)
-
 test.describe('@Spaces', () => {
   test('user journey', async ({ browser, browserName, page, sessions }) => {
-    test.skip(
-      browserName === 'webkit',
-      'webkit fails regularly due to timing, race conditions, in a flaky way. Due to time constraints, we disabled the suite.'
-    )
     page.on('console', (msg) => console.debug('  BROWSER LOG>', msg.text(), '<'))
 
     // prepare

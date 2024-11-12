@@ -9,16 +9,13 @@ import {
   proceedAsGuest,
   volunteeringRequestTimeout,
   withSSR,
-} from './helpers'
-import { test } from './testmaster'
-
-test.setTimeout(120000)
+} from '../helpers'
+import { test } from '../testmaster'
 
 test.describe('@HomeScreen', () => {
-  test('user journey', async ({ browser, context, page, browserName }) => {
+  test('user journey', async ({ browser, context, page }) => {
     await withSSR(browser, '/', testDisplaysHomeScreenContent)
 
-    // prepare
     await proceedAsGuest(page)
 
     await testInsightsSection(browser, page)
@@ -29,13 +26,14 @@ test.describe('@HomeScreen', () => {
 
     await testPostScreen(browser, page)
 
-    page.goto('/')
+    // These features have no local test data and can only be tested on staging
+    if (process.env.BASE_URL === 'http://localhost:3000') return
+
+    await page.goto('/')
     await testAppUpdatesVisible(page, 'donations', donationsRequestTimeout)
     await testAppUpdatesVisible(page, 'goodnews', goodnewsRequestTimeout)
     await testAppUpdatesVisible(page, 'volunteering', volunteeringRequestTimeout)
 
-    // FIXME: After Expo upgrade to 49 Mobile_WebKit has a bug `Error: page.goto: Navigation to "http://localhost:3000/profile/5dbeb15e-1fac-4292-96fc-9fbe2e6edbb0" is interrupted by another navigation to "http://localhost:3000/profile"`
-    if (browserName === 'webkit') return
     await testUserSuggestions(page, context)
   })
 })

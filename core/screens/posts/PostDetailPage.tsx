@@ -163,7 +163,7 @@ const PostDetailPage = () => {
       <StatusBar animated />
 
       <ScrollHeaderLayout ref={scrollViewRef}>
-        <View style={screenWidth > dimensions.breakpointXl && mixins.container} testID="post-detail-view">
+        <View style={screenWidth > dimensions.breakpointXl && mixins.container} testID="post-detail-page">
           <PostContent
             hasVisibilityIcon={hasVisibilityIcon}
             style={styles.postContent}

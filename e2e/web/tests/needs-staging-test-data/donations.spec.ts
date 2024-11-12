@@ -11,13 +11,15 @@ import {
   locateElementByTestId,
   proceedAsGuest,
   withSSR,
-} from './helpers'
-import { test } from './testmaster'
-
-test.setTimeout(120000)
+} from '../helpers'
+import { test } from '../testmaster'
 
 test.describe('@Donations', () => {
   test('user journey', async ({ browser, context, page }) => {
+    test.skip(
+      process.env.BASE_URL === 'http://localhost:3000',
+      'These features have no local test data and can only be tested on staging.'
+    )
     // prepare
     await proceedAsGuest(page)
 

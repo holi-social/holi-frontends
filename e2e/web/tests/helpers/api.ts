@@ -53,8 +53,9 @@ const simpleGQLClient = async (request: APIRequestContext, query: string, variab
 }
 
 export const deleteAuthenticatedAccount = async (context: BrowserContext) => {
-  await simpleGQLClient(context.request, deleteAuthenticatedUserMutation)
-  context.clearCookies()
+  const deleteResponse = await simpleGQLClient(context.request, deleteAuthenticatedUserMutation)
+  process.env.DEBUG && console.log('DELETE', deleteResponse)
+  await context.clearCookies()
 }
 
 export const signUp = async (
@@ -62,13 +63,15 @@ export const signUp = async (
   email: string = newUserEmail(),
   password: string = randomPassword()
 ): Promise<User> => {
-  context.clearCookies()
+  await context.clearCookies()
 
   const flowResponse = await context.request.get(`${baseURL}/api/.ory/self-service/registration/browser`, {
     headers: { Accept: 'application/json' },
   })
 
   const flow = await flowResponse.json()
+
+  process.env.DEBUG && console.log('FLOW', flow)
 
   const payload = {
     method: 'password',
@@ -79,6 +82,8 @@ export const signUp = async (
       email: email,
     },
   }
+
+  process.env.DEBUG && console.log('PAYLOAD', payload)
 
   const registeredResponse = await context.request.post(
     `${baseURL}/api/.ory/self-service/registration?flow=${flow.id}`,
@@ -91,7 +96,9 @@ export const signUp = async (
     }
   )
 
-  await registeredResponse.json()
+  const registered = await registeredResponse.json()
+
+  process.env.DEBUG && console.log('REGISTERED', registered)
 
   const firstName = faker.person.firstName()
   const lastName = faker.person.lastName()
@@ -104,6 +111,8 @@ export const signUp = async (
       trackingConsentPersonalization: false,
     },
   })
+
+  process.env.DEBUG && console.log('USER', JSON.stringify(userUpdateResponse, null, 2))
 
   return {
     id: userUpdateResponse.data.updateAuthenticatedUserV2.id,

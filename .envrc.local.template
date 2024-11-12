@@ -39,5 +39,5 @@ export SENTRY_AUTH_TOKEN=
 export EXPO_PROJECT_ID=
 export ORY_ADMIN_ACCESS_TOKEN=
 
-# Use http://localhost:4455/graphql when running frontend against the local environment
+# For graphql codegen - decide which schema to generate from, either staging (default) or e.g. http://localhost:4455/graphql
 export UNIFIED_API_SCHEMA_ENDPOINT=https://staging.unified.apis.holi.social/graphql
