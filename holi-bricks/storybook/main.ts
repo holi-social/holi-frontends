@@ -1,3 +1,4 @@
+import { dirname, join } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
 /** @type{import('@storybook/react-webpack5').StorybookConfig} */
@@ -5,17 +6,17 @@ module.exports = {
   stories: ['../components/**/*.mdx', '../tokens/**/*.mdx', '../components/**/*.stories.@(js|jsx|ts|tsx)'],
 
   addons: [
-    'storybook-dark-mode',
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-react-native-web',
-    '@storybook/addon-webpack5-compiler-babel',
-    '@chromatic-com/storybook',
-    '@storybook/addon-a11y',
+    getAbsolutePath('storybook-dark-mode'),
+    getAbsolutePath('@storybook/addon-links'),
+    getAbsolutePath('@storybook/addon-essentials'),
+    getAbsolutePath('@storybook/addon-react-native-web'),
+    getAbsolutePath('@storybook/addon-webpack5-compiler-babel'),
+    getAbsolutePath('@chromatic-com/storybook'),
+    getAbsolutePath('@storybook/addon-a11y'),
   ],
 
   framework: {
-    name: '@storybook/react-webpack5',
+    name: getAbsolutePath('@storybook/react-webpack5'),
     options: {},
   },
   features: {
@@ -50,4 +51,8 @@ module.exports = {
   },
 
   docs: {},
+}
+
+function getAbsolutePath(value: string): string {
+  return dirname(require.resolve(join(value, 'package.json')))
 }

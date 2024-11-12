@@ -1,9 +1,9 @@
 import { Image as ExpoImage } from 'expo-image'
 import React from 'react'
-import { AccessibilityProps, Image as ReactNativeImage } from 'react-native'
+import { type AccessibilityProps, Image as ReactNativeImage } from 'react-native'
 
 import { transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/resizing'
-import { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
+import type { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 
 // left in here for future possibility of speed comparison
 const debugWithReactNativeImage = false
