@@ -1,20 +1,23 @@
 import { withProfiler } from '@sentry/react'
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useHeaderHeight } from '@react-navigation/elements'
 
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 export interface FormLayoutProps {
   children: React.ReactNode
   bottomBar: React.ReactNode
   hasSuggestions?: boolean
+  backgroundColor?: string
 }
 
-const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggestions = true }) => {
+const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggestions = true, backgroundColor }) => {
   const { theme } = useTheme()
 
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -24,7 +27,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
   return (
     <SafeArea style={styles.safeArea} edges={['bottom']}>
       <KeyboardAvoidingView
-        style={styles.container}
+        style={[styles.container, backgroundColor ? { backgroundColor } : {}]}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={headerHeight}
       >
@@ -33,7 +36,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggest
           style={styles.scrollView}
           keyboardShouldPersistTaps="handled"
         >
-          {children}
+          <HoliContainer>{children}</HoliContainer>
         </ScrollView>
 
         <View>
@@ -50,6 +53,7 @@ const getStyles = (theme: HoliTheme) =>
     safeArea: {
       flex: 1,
       backgroundColor: theme.colors.background10,
+      width: '100%',
     },
     container: {
       flex: 1,

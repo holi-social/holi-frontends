@@ -1,26 +1,28 @@
 import { withProfiler } from '@sentry/react'
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { PortalGate } from '@holi/core/providers/PortalProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface FormLayoutProps {
   children: React.ReactNode
   bottomBar: React.ReactNode
   hasSuggestions?: boolean
+  backgroundColor?: string
 }
 
-const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggestions = true }) => {
+const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggestions = true, backgroundColor }) => {
   const { theme } = useTheme()
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.layout}>
+    <View style={[styles.wrapper]}>
+      <View style={[styles.layout, backgroundColor ? { backgroundColor } : {}]}>
         <ScrollView
           contentContainerStyle={styles.contentContainer}
           keyboardShouldPersistTaps="handled"

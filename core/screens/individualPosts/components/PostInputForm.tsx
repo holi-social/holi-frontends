@@ -1,12 +1,13 @@
 import { withProfiler } from '@sentry/react'
 import { ChipAction } from 'holi-bricks/components/chips'
-import React, { useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { Term, User } from '@holi/core/domain/shared/types'
-import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
-import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { Term, User } from '@holi/core/domain/shared/types'
+import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
+import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
 import FormLayout from '@holi/core/screens/individualPosts/components/FormLayout/FormLayout'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
@@ -18,8 +19,8 @@ import {
   FEED_POST_TITLE_MAX_CHARACTERS,
   FeedPostSchema,
 } from '@holi/core/screens/individualPosts/mutations'
-import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
-import { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
+import { type FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
+import type { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, Global, HoliLogoFilled, Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -30,11 +31,11 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -175,23 +176,24 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       >
         <>
           <View style={styles.pillContainer}>
-            <ChipAction onPress={showVisibility} iconTrailing={Pencil} color="white">
+            <ChipAction id="post-visibility-pill" onPress={showVisibility} iconTrailing={Pencil} color="white">
               {t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
             </ChipAction>
-            <ChipAction onPress={onClickCategoriesPill} iconTrailing={Pencil} color="yellow">
+            <ChipAction id="post-category-pill" onPress={onClickCategoriesPill} iconTrailing={Pencil} color="yellow">
               {categoryLabel ? categoryLabel : ''}
             </ChipAction>
 
             {selectedTopics &&
               (selectedTopics?.length < 1 ? (
-                <ChipAction onPress={showTopicsModal} iconTrailing={Add} color="green">
+                <ChipAction id="post-topic-pill" onPress={showTopicsModal} iconTrailing={Add} color="green">
                   {t('individuals.post.category.label.topic')}
                 </ChipAction>
               ) : (
-                <ChipAction onPress={showTopicsModal} color="green">{`${selectedTopics.length} ${` ${t(
-                  'individuals.post.category.label.topic',
-                  { count: selectedTopics.length }
-                )}`}`}</ChipAction>
+                <ChipAction id="post-topic-pill-selected" onPress={showTopicsModal} color="green">
+                  {`${selectedTopics.length} ${t('individuals.post.category.label.topic', {
+                    count: selectedTopics.length,
+                  })}`}
+                </ChipAction>
               ))}
           </View>
           <View style={styles.inputContainer}>
@@ -409,12 +411,10 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: 'transparent',
       borderWidth: 0,
       paddingTop: 6,
-      paddingHorizontal: 10,
       maxWidth: '100%',
     },
     inputContainer: {
       width: '100%',
-      paddingHorizontal: 6,
     },
     imageContainer: {
       paddingTop: Spacing.sm,
@@ -459,7 +459,6 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       zIndex: 1,
       gap: 8,
-      paddingHorizontal: 16,
     },
     input: {
       marginBottom: 16,

@@ -10,7 +10,7 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ContentType, ContentType3K } from '@holi/core/queries'
+import type { ContentType, ContentType3K } from '@holi/core/queries'
 import FormLayout from '@holi/core/screens/individualPosts/components/FormLayout/FormLayout'
 import GuidelinesModal from '@holi/core/screens/report/components/GuidelinesModal'
 import { ReportReason } from '@holi/core/screens/report/types'
@@ -21,7 +21,7 @@ import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateReportParams = {
   id: string
@@ -125,91 +125,91 @@ const CreateReport = () => {
           </View>
         }
       >
-        <HoliContainer noPadding={Platform.OS === 'web'}>
-          {currentStep === 0 ? (
-            <>
-              <View style={styles.headingContainer}>
-                <Text size="xl" headingLevel="2">
-                  {t('report.reason.title')}
-                </Text>
-              </View>
-              <View style={styles.reasonsContainer}>
-                {reasonsList.map((reason) => (
-                  <Pressable
-                    key={reason}
-                    onPress={() => setSelectedReason(reason)}
-                    style={[styles.card, selectedReason === reason && styles.selectedCard]}
-                  >
-                    <View style={styles.reasonTextContainer}>
-                      <Text size="lg">{t(`report.reason.${reason}.title`)}</Text>
-                      <Text size="sm" variant="secondary">
-                        {t(`report.reason.${reason}.description`)}
-                      </Text>
-                    </View>
-                    <HoliCheckbox
-                      shape="round"
-                      checked={selectedReason === reason}
-                      onSelect={() => setSelectedReason(reason)}
-                      autofocus={false}
-                      disabled={false}
-                      testID={`${selectedReason === reason ? 'checked-' : ''}${reason}`}
-                      aria-label={t(`report.reason.${reason}.title`)}
-                    />
-                  </Pressable>
-                ))}
-              </View>
-            </>
-          ) : (
-            <>
-              <View style={styles.headingContainer}>
-                <Text size="xl" headingLevel="2">
-                  {t('report.details.title', { subject: t(`report.reason.${selectedReason}.title`).toLowerCase() })}
-                </Text>
-                <Text size="sm" variant="secondary">
-                  {t(`report.reason.${selectedReason}.description`)}
-                </Text>
-              </View>
-              <View style={styles.detailsContainer}>
-                <View style={styles.detailsInputContainer}>
-                  <Text size="sm">{t('report.details.label')}</Text>
-                  <HoliTextInput
-                    aria-label={t('report.details.placeholder')}
-                    placeholder={t('report.details.placeholder')}
-                    value={details}
-                    onChange={setDetails}
-                    noOfVisibleLines={4}
-                    maxNoOfVisibleLines={12}
-                    maxNoOfCharacters={500}
-                    showCharacterCount
-                  />
-                </View>
-                {showTermsError && (
-                  <Text size="sm" variant="error">
-                    {t('report.details.termsError')}
-                  </Text>
-                )}
+        {currentStep === 0 ? (
+          <>
+            <View style={styles.headingContainer}>
+              <Text size="xl" headingLevel="2">
+                {t('report.reason.title')}
+              </Text>
+            </View>
+            <View style={styles.reasonsContainer}>
+              {reasonsList.map((reason) => (
                 <Pressable
-                  style={styles.termsContainer}
-                  onPress={() => {
-                    setTermsAccepted(!termsAccepted)
-                    setShowTermsError(false)
-                  }}
+                  key={reason}
+                  onPress={() => setSelectedReason(reason)}
+                  style={[styles.card, selectedReason === reason && styles.selectedCard]}
                 >
-                  <HoliCheckbox
-                    aria-label={t('report.details.terms')}
-                    shape="box"
-                    checked={termsAccepted}
-                    onSelect={() => setTermsAccepted(!termsAccepted)}
-                    testID="terms-checkbox"
-                  />
-                  <View style={styles.termsLabel}>
-                    <Text size="xs">{t('report.guidelines.checkboxLabel')}</Text>
+                  <View style={styles.reasonTextContainer}>
+                    <Text size="lg">{t(`report.reason.${reason}.title`)}</Text>
+                    <Text size="sm" variant="secondary">
+                      {t(`report.reason.${reason}.description`)}
+                    </Text>
                   </View>
+                  <HoliCheckbox
+                    shape="round"
+                    checked={selectedReason === reason}
+                    onSelect={() => setSelectedReason(reason)}
+                    autofocus={false}
+                    disabled={false}
+                    testID={`${selectedReason === reason ? 'checked-' : ''}${reason}`}
+                    aria-label={t(`report.reason.${reason}.title`)}
+                  />
                 </Pressable>
+              ))}
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={styles.headingContainer}>
+              <Text size="xl" headingLevel="2">
+                {t('report.details.title', {
+                  subject: t(`report.reason.${selectedReason}.title`).toLowerCase(),
+                })}
+              </Text>
+              <Text size="sm" variant="secondary">
+                {t(`report.reason.${selectedReason}.description`)}
+              </Text>
+            </View>
+            <View style={styles.detailsContainer}>
+              <View style={styles.detailsInputContainer}>
+                <Text size="sm">{t('report.details.label')}</Text>
+                <HoliTextInput
+                  aria-label={t('report.details.placeholder')}
+                  placeholder={t('report.details.placeholder')}
+                  value={details}
+                  onChange={setDetails}
+                  noOfVisibleLines={4}
+                  maxNoOfVisibleLines={12}
+                  maxNoOfCharacters={500}
+                  showCharacterCount
+                />
               </View>
-            </>
-          )}
-        </HoliContainer>
+              {showTermsError && (
+                <Text size="sm" variant="error">
+                  {t('report.details.termsError')}
+                </Text>
+              )}
+              <Pressable
+                style={styles.termsContainer}
+                onPress={() => {
+                  setTermsAccepted(!termsAccepted)
+                  setShowTermsError(false)
+                }}
+              >
+                <HoliCheckbox
+                  aria-label={t('report.details.terms')}
+                  shape="box"
+                  checked={termsAccepted}
+                  onSelect={() => setTermsAccepted(!termsAccepted)}
+                  testID="terms-checkbox"
+                />
+                <View style={styles.termsLabel}>
+                  <Text size="xs">{t('report.guidelines.checkboxLabel')}</Text>
+                </View>
+              </Pressable>
+            </View>
+          </>
+        )}
       </FormLayout>
 
       <GuidelinesModal visible={guidelinesVisible} hide={hideGuidelinesDrawer} />
