@@ -6,12 +6,12 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { FirstVisitOnboardingStepper } from '@holi/core/screens/onboarding/components/FirstVisitOnboardingStepper'
+import { AccountSetupStepper } from '@holi/core/screens/onboarding/components/AccountSetupStepper'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 
-const OnboardingFirstVisit = () => {
+const OnboardingAccountSetup = () => {
   const setScreenOptions = useSetScreenOptions()
   const { navigate } = useRouting()
   const { selectedContentType, selectContentType } = useFirstVisitContentSelection()
@@ -45,8 +45,8 @@ const OnboardingFirstVisit = () => {
   }, [selectedContentType, navigate, isLoggedIn])
 
   return (
-    <SafeArea style={styles.container}>
-      <FirstVisitOnboardingStepper onContentSelection={selectContentType} />
+    <SafeArea edges={['bottom']} style={styles.container}>
+      <AccountSetupStepper onContentSelection={selectContentType} />
     </SafeArea>
   )
 }
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withProfiler(OnboardingFirstVisit, { name: 'OnboardingFirstVisit' })
+export default withProfiler(OnboardingAccountSetup, { name: 'OnboardingAccountSetup' })
