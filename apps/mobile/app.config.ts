@@ -2,7 +2,6 @@
 import { ExpoConfig } from 'expo/config'
 
 require('ts-node/register')
-// eslint-disable-next-line
 
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
