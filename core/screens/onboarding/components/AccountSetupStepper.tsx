@@ -6,7 +6,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliWizard, {
   type BackPressHandlerOptions,
   type NextPressHandlerOptions,
@@ -76,9 +76,9 @@ export const AccountSetupStepper = ({ onContentSelection }: AccountSetupStepperP
       <HoliWizard
         steps={[
           <ScrollView key={stepKeys[0]}>
-            <HoliBox padding={[0, 0, 96, 0]}>
-              <ContentSelectionStep onSelect={setSelectedContent} selectedOption={selectedContent} />
-            </HoliBox>
+            <ContentSelectionStep onSelect={setSelectedContent} selectedOption={selectedContent} />
+            <HoliGap size="xl" />
+            <HoliGap size="ml" />
           </ScrollView>,
         ]}
         stepOptions={{
