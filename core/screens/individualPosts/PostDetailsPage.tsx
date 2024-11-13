@@ -2,12 +2,11 @@ import { useMutation, useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
-import { Term } from '@holi/core/domain/shared/types'
+import type { Term } from '@holi/core/domain/shared/types'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -28,9 +27,9 @@ import PostContent from '@holi/core/screens/individualPosts/components/PostConte
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import {
   UpdateFeedPostReactionMutation,
-  UpdateFeedPostReactionResponse,
+  type UpdateFeedPostReactionResponse,
 } from '@holi/core/screens/individualPosts/mutations'
-import { PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
+import { type PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -43,12 +42,12 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -67,7 +66,6 @@ const PostDetailsPage = () => {
   const loginState = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
-  const isWeb = Platform.OS === 'web'
   const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
   const { topics: allTopics } = useContext(SpaceTermContext)
   const { displayError } = useErrorHandling()
@@ -213,53 +211,54 @@ const PostDetailsPage = () => {
       />
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout headerRelation={isWeb ? 'overlap' : undefined}>
+      <FormLayout
+        backgroundColor={theme.colors.background10}
+        bottomBar={
+          <View style={styles.commentWrapper}>
+            <HoliContainer flex={1}>
+              <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
+            </HoliContainer>
+          </View>
+        }
+      >
         <View style={[styles.wrapper, styles.wrapperContent]}>
-          <HoliContainer noPadding={loading && !isWeb} testID="post-detail-page">
-            {post && !loading ? (
-              <>
-                <PostContent
-                  post={post}
-                  showVisibilityBadge={loginState.isLoggedIn && loginState.user.id === post.author.id}
-                  aggregatedTopics={aggregatedTopics}
-                />
-                <View style={styles.commentsContainer}>
-                  <Comments
-                    commentableType={CommentableType.FEED_POST}
-                    commentableId={post.id}
-                    replyRoute={`/feed-posts/${post.slug}/comment`}
-                    initialOpenThread={commentId}
-                    reactionButton={<FeedPostReactions post={post} />}
-                    isDiscussion={false}
-                  />
-                </View>
-              </>
-            ) : (
-              <LoadingSkeleton />
-            )}
-            {!post?.totalComments && (
-              <View style={styles.reactions}>
-                <HoliReactionsCount
-                  onPress={reactOnPost}
-                  type="post"
-                  count={heartReactions}
-                  active={currentUserHasReacted}
-                  fullName={post?.author.fullName}
-                  testID="btn-react-to-feed-post-HEART"
+          {/* <HoliContainer noPadding={loading} testID="post-detail-page"> */}
+          {post && !loading ? (
+            <>
+              <PostContent
+                post={post}
+                showVisibilityBadge={loginState.isLoggedIn && loginState.user.id === post.author.id}
+                aggregatedTopics={aggregatedTopics}
+              />
+              <View style={styles.commentsContainer}>
+                <Comments
+                  commentableType={CommentableType.FEED_POST}
+                  commentableId={post.id}
+                  replyRoute={`/feed-posts/${post.slug}/comment`}
+                  initialOpenThread={commentId}
+                  reactionButton={<FeedPostReactions post={post} />}
+                  isDiscussion={false}
                 />
               </View>
-            )}
-          </HoliContainer>
+            </>
+          ) : (
+            <LoadingSkeleton />
+          )}
+          {!post?.totalComments && (
+            <View style={styles.reactions}>
+              <HoliReactionsCount
+                onPress={reactOnPost}
+                type="post"
+                count={heartReactions}
+                active={currentUserHasReacted}
+                fullName={post?.author.fullName}
+                testID="btn-react-to-feed-post-HEART"
+              />
+            </View>
+          )}
+          {/* </HoliContainer> */}
         </View>
-      </ScrollHeaderLayout>
-
-      <SafeArea edges={['bottom']}>
-        <View style={styles.commentWrapper}>
-          <HoliContainer flex={1}>
-            <PostDetailFooter style={[styles.commentButton]} onPress={onPressCreateComment} />
-          </HoliContainer>
-        </View>
-      </SafeArea>
+      </FormLayout>
     </>
   )
 }
@@ -319,12 +318,6 @@ const getStyles = ({ colors }: HoliTheme, isSm = false) =>
       borderTopWidth: 1,
       width: '100%',
       height: 74,
-      ...Platform.select({
-        web: {
-          position: 'fixed',
-          bottom: 0,
-        },
-      }),
     },
     commentButton: {
       flex: 1,
