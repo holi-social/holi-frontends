@@ -33,11 +33,11 @@ const contentOptions = [
     image: require('@holi/ui/assets/img/onboarding/icon-spaces.svg'),
   },
 ]
+const availableOptions = contentOptions.filter(({ mobileOnly }) => !mobileOnly || Platform.OS !== 'web')
 
 export const ContentSelectionStep = ({ onSelect, selectedOption }: ContentSelectionStepProps) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-  const availableOptions = contentOptions.filter(({ mobileOnly }) => !mobileOnly || Platform.OS !== 'web')
 
   return (
     <HoliContainer>
