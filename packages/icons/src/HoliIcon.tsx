@@ -11,6 +11,7 @@ export type HoliIconProps = {
   color?: string
   testID?: string
   style?: StyleProp<ViewStyle>
+  accessibilityLabel?: string
 }
 
 export const HoliIcon: React.FC<HoliIconProps> = ({
@@ -19,6 +20,7 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
   size = 24,
   testID,
   style,
+  accessibilityLabel,
 }: HoliIconProps) => {
   const { theme } = useTheme()
   const { colors } = theme
@@ -27,7 +29,7 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
   const height = typeof size === 'number' ? size : size.height
 
   return (
-    <View testID={testID} style={style}>
+    <View testID={testID} style={style} accessibilityLabel={accessibilityLabel}>
       <SvgIcon width={width} height={height} color={color || colors.foreground30} />
     </View>
   )

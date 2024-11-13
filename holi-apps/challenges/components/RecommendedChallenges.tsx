@@ -1,21 +1,20 @@
-import { withProfiler } from '@sentry/react'
-import fetch from 'cross-fetch'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useWindowDimensions } from 'react-native'
-
-import RecoSlider from '@holi/core/components/RecoSlider'
-import { logError } from '@holi/core/errors/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import { TrackingEvent } from '@holi/core/tracking'
-import { StarSmileFilled } from '@holi/icons/src/generated'
-
 import { ChallengeCard, calculateCardWidth } from '@holi-apps/challenges/components/ChallengeCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
+import RecoSlider from '@holi/core/components/RecoSlider'
+import { logError } from '@holi/core/errors/helpers'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import { TrackingEvent } from '@holi/core/tracking'
+import { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
+import { StarSmileFilled } from '@holi/icons/src/generated'
+import { withProfiler } from '@sentry/react'
+import fetch from 'cross-fetch'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useWindowDimensions } from 'react-native'
 
 const API_URL = challengeAppBaseUrl + '/api/v1/challenge-with-submissions'
 const MAX_ITEMS_TO_DISPLAY = 5
@@ -35,30 +34,29 @@ const RecommendedChallenges = () => {
   const cardWidth = calculateCardWidth(screenWidth)
   const headers = useChallengesHeaders()
 
-  const fetchChallenges = useCallback(() => {
+  const fetchChallenges = useCallback(async () => {
     if (!headers) {
       return
     }
-    fetch(API_URL, { headers: new Headers(headers) })
-      .then((res) => {
-        if (!res.ok) {
-          logError(new Error('Failed to fetch recommended challenges'), 'Error fetching recommended challenges', {
-            location: 'RecommendedChallenges.useEffect',
-          })
-          return
-        }
-        return res.json()
+
+    try {
+      setIsLoading(true)
+      const response = await fetch(API_URL, { headers: new Headers(headers) })
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch recommended challenges')
+      }
+
+      const data: RecommendedChallengesResult = await response.json()
+      setChallenges(data.challenges)
+      setAllChallengePath(data.allChallengePath)
+    } catch (error) {
+      logError(error, 'Error fetching challenges', {
+        location: 'RecommendedChallenges.fetchChallenges',
       })
-      .then(({ allChallengePath, challenges }: RecommendedChallengesResult) => {
-        setChallenges(challenges)
-        setAllChallengePath(allChallengePath)
-      })
-      .catch((error) => {
-        logError(error, 'Error fetching challenges', {
-          location: 'RecommendedChallenges.useEffect',
-        })
-      })
-      .finally(() => setIsLoading(false))
+    } finally {
+      setIsLoading(false)
+    }
   }, [headers])
 
   useEffect(() => {
@@ -70,9 +68,21 @@ const RecommendedChallenges = () => {
     return null
   }
 
+  const listItemTrackingEvent: ListItemTrackingEvent<Challenge> = ({ title, id }) => {
+    return TrackingEvent.RecommendationViewed('challenge', { title, id })
+  }
+
+  const listItemIdentifier: ListItemIdentifier<Challenge> = ({ id }) => {
+    return id
+  }
+
   return (
     <RecoSlider
       name="challenges"
+      viewTrackingParams={{
+        listItemTrackingEvent,
+        listItemIdentifier,
+      }}
       renderItem={({ item, index }: { item: Challenge; index: number }) => (
         <ChallengeCard challenge={item} trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, index)} />
       )}
@@ -89,4 +99,6 @@ const RecommendedChallenges = () => {
   )
 }
 
-export default withProfiler(RecommendedChallenges, { name: 'RecommendedChallenges' })
+export default withProfiler(RecommendedChallenges, {
+  name: 'RecommendedChallenges',
+})

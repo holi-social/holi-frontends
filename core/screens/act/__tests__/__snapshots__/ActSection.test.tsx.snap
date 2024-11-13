@@ -435,6 +435,7 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
       onScroll={[Function]}
       onScrollBeginDrag={[Function]}
       onScrollEndDrag={[Function]}
+      onViewableItemsChanged={[Function]}
       removeClippedSubviews={false}
       renderItem={[Function]}
       scrollEventThrottle={0.0001}
@@ -448,7 +449,25 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
         }
       }
       testID="challenges-reco-slider-list"
-      viewabilityConfigCallbackPairs={[]}
+      viewabilityConfig={
+        {
+          "itemVisiblePercentThreshold": 80,
+          "minimumViewTime": 1000,
+          "waitForInteraction": true,
+        }
+      }
+      viewabilityConfigCallbackPairs={
+        [
+          {
+            "onViewableItemsChanged": [Function],
+            "viewabilityConfig": {
+              "itemVisiblePercentThreshold": 80,
+              "minimumViewTime": 1000,
+              "waitForInteraction": true,
+            },
+          },
+        ]
+      }
     >
       <View>
         <View
@@ -2937,6 +2956,7 @@ exports[`ActHome Section shows DONATIONS 1`] = `
       onScroll={[Function]}
       onScrollBeginDrag={[Function]}
       onScrollEndDrag={[Function]}
+      onViewableItemsChanged={[Function]}
       removeClippedSubviews={false}
       renderItem={[Function]}
       scrollEventThrottle={0.0001}
@@ -2950,7 +2970,25 @@ exports[`ActHome Section shows DONATIONS 1`] = `
         }
       }
       testID="donations-reco-slider-list"
-      viewabilityConfigCallbackPairs={[]}
+      viewabilityConfig={
+        {
+          "itemVisiblePercentThreshold": 80,
+          "minimumViewTime": 1000,
+          "waitForInteraction": true,
+        }
+      }
+      viewabilityConfigCallbackPairs={
+        [
+          {
+            "onViewableItemsChanged": [Function],
+            "viewabilityConfig": {
+              "itemVisiblePercentThreshold": 80,
+              "minimumViewTime": 1000,
+              "waitForInteraction": true,
+            },
+          },
+        ]
+      }
     >
       <View>
         <View
@@ -4811,6 +4849,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
         onScroll={[Function]}
         onScrollBeginDrag={[Function]}
         onScrollEndDrag={[Function]}
+        onViewableItemsChanged={[Function]}
         removeClippedSubviews={false}
         renderItem={[Function]}
         scrollEventThrottle={0.0001}
@@ -4824,7 +4863,25 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
           }
         }
         testID="tasks-reco-slider-list"
-        viewabilityConfigCallbackPairs={[]}
+        viewabilityConfig={
+          {
+            "itemVisiblePercentThreshold": 80,
+            "minimumViewTime": 1000,
+            "waitForInteraction": true,
+          }
+        }
+        viewabilityConfigCallbackPairs={
+          [
+            {
+              "onViewableItemsChanged": [Function],
+              "viewabilityConfig": {
+                "itemVisiblePercentThreshold": 80,
+                "minimumViewTime": 1000,
+                "waitForInteraction": true,
+              },
+            },
+          ]
+        }
       >
         <View>
           <View
@@ -8653,6 +8710,7 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
         onScroll={[Function]}
         onScrollBeginDrag={[Function]}
         onScrollEndDrag={[Function]}
+        onViewableItemsChanged={[Function]}
         removeClippedSubviews={false}
         renderItem={[Function]}
         scrollEventThrottle={0.0001}
@@ -8666,7 +8724,25 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
           }
         }
         testID="volunteering-reco-slider-list"
-        viewabilityConfigCallbackPairs={[]}
+        viewabilityConfig={
+          {
+            "itemVisiblePercentThreshold": 80,
+            "minimumViewTime": 1000,
+            "waitForInteraction": true,
+          }
+        }
+        viewabilityConfigCallbackPairs={
+          [
+            {
+              "onViewableItemsChanged": [Function],
+              "viewabilityConfig": {
+                "itemVisiblePercentThreshold": 80,
+                "minimumViewTime": 1000,
+                "waitForInteraction": true,
+              },
+            },
+          ]
+        }
       >
         <View>
           <View

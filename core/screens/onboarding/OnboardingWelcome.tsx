@@ -58,7 +58,7 @@ const OnboardingWelcome = () => {
             variant="default"
             style={[styles.forwardBtn]}
             label={t('onboarding.welcome.forward')}
-            onPress={() => navigate('/onboarding/first-visit')}
+            onPress={() => navigate('/onboarding/account-setup')}
             testID="btn-to-onboarding"
             trackingEvent={TrackingEvent.OnboardingPressed('WELCOME', 'CONTINUE')}
           >

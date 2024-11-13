@@ -94,7 +94,10 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
     if (initialValue === value) {
       return setValue(transformStringWithMentions(initialValue, mentions || []))
     }
-  }, [mentions, initialValue, value])
+    if (value === '') {
+      setSafeSuggestions([])
+    }
+  }, [mentions, initialValue, value, setSafeSuggestions])
 
   // on mount / unmount
   useEffect(() => {
@@ -150,6 +153,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
             onChooseOptionRef.current({ id: user.id, name: user.fullName })
             props.onSelectSuggestion?.(user)
             inputRef?.current?.focus()
+            setSafeSuggestions([])
           }}
           testID={props.testID ? `${props.testID}-suggestions` : 'richtext-input-suggestions'}
         />

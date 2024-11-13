@@ -1,5 +1,5 @@
 import { Colors } from 'holi-bricks/tokens/colors/primitives'
-import { BorderRadius, BorderRadiusSize } from 'holi-bricks/tokens/dimensions/border-radius'
+import { BorderRadius } from 'holi-bricks/tokens/dimensions/borderRadius'
 import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
 import React from 'react'
 
@@ -15,7 +15,7 @@ export const BorderRadiusTable = () => {
       </thead>
       <tbody>
         {Object.keys(BorderRadius)
-          .map((size) => size as BorderRadiusSize)
+          .map((size) => size as BorderRadius)
           .map((size) => (
             <tr key={size}>
               <td>{size}</td>

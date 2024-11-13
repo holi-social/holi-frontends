@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -13,7 +13,7 @@ import { ContentType, ContentType3K } from '@holi/core/queries'
 import PostImage from '@holi/core/screens/posts/components/PostImage'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
-import { Post } from '@holi/core/screens/posts/types'
+import type { Post } from '@holi/core/screens/posts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Flag, GlobalFilled, LockFilled } from '@holi/icons/src/generated'
@@ -26,7 +26,7 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostContentProps = {
   post: Post
@@ -44,7 +44,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
   const { navigateWithAuth } = useAuthRequiredNavigation()
   const { user } = useLoggedInUser()
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, post.numberOfComments), [theme, post.numberOfComments])
   const [text, setText] = useState(post.text)
   const [title, setTitle] = useState(post.title)
 
@@ -59,7 +59,7 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
   return (
     <View style={[styles.wrapper, style]} testID="post-content-container">
-      <View style={styles.paddingHorizontal}>
+      <View>
         <>
           <View style={styles.headerContainer}>
             <HoliColumns>
@@ -138,41 +138,33 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
 
       {/* Post image */}
       {post.image && (
-        <View style={styles.paddingHorizontal}>
-          <PostImage
-            uri={post.image.url}
-            imageBlurhash={post.image.imageBlurhash}
-            height={post.image.height}
-            width={post.image.width}
-            postTitle={post.title}
-          />
-        </View>
+        <PostImage
+          uri={post.image.url}
+          imageBlurhash={post.image.imageBlurhash}
+          height={post.image.height}
+          width={post.image.width}
+          postTitle={post.title}
+        />
       )}
 
       {/* Post link previews */}
       {!!post.links?.length &&
         post.links.map((link, index) => {
-          return (
-            <View style={styles.paddingHorizontal} key={index}>
-              <HoliLinkPreview style={styles.linkPreview} previewData={link} label={link.title} />
-            </View>
-          )
+          return <HoliLinkPreview key={index} style={styles.linkPreview} previewData={link} label={link.title} />
         })}
 
       {isTranslatable && (
-        <View style={styles.paddingHorizontal}>
-          <HoliTranslate
-            primaryText={{ text, setText }}
-            secondaryText={{ text: title, setText: setTitle }}
-            loading={loadingTranslation}
-            setLoading={setLoadingTranslation}
-            trackingEvent={TrackingEvent.ContentTranslated('feed_post', post.id)}
-          />
-        </View>
+        <HoliTranslate
+          primaryText={{ text, setText }}
+          secondaryText={{ text: title, setText: setTitle }}
+          loading={loadingTranslation}
+          setLoading={setLoadingTranslation}
+          trackingEvent={TrackingEvent.ContentTranslated('feed_post', post.id)}
+        />
       )}
 
       {/* Reaction bar with comments and likes */}
-      <View style={[styles.reactionsBar]}>
+      <View style={styles.reactionsBar}>
         {/* Comments */}
         {post.numberOfComments > 0 && (
           <HoliUserAvatarPile users={commenters as User[]} usersToShow={3} collapse>
@@ -186,13 +178,10 @@ const PostContent = ({ hasVisibilityIcon, post, style, insightId, spaceIdOrName 
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, numberOfComments: number) =>
   StyleSheet.create({
     wrapper: {
       backgroundColor: theme.colors.background10,
-    },
-    paddingHorizontal: {
-      paddingHorizontal: 24,
     },
     headerContainer: {
       justifyContent: 'space-between',
@@ -210,11 +199,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     reactionsBar: {
       marginTop: 21,
-      paddingLeft: 24,
-      paddingRight: 20,
       alignItems: 'center',
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: numberOfComments > 0 ? 'space-between' : 'flex-end',
     },
     reactionsLink: {
       height: 'auto',

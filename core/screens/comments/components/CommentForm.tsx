@@ -1,48 +1,37 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import * as Notifications from 'expo-notifications'
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { type PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Linking,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-} from 'react-native'
-import { LayoutChangeEvent } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Keyboard, Linking, Platform, type ScrollView, StyleSheet, View } from 'react-native'
+import type { LayoutChangeEvent } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { PortalGate } from '@holi/core/providers/PortalProvider'
-import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
+import { type DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
-import { AddCommentMutation, CreateCommentResponse } from '@holi/core/screens/comments/mutations'
+import { AddCommentMutation, type CreateCommentResponse } from '@holi/core/screens/comments/mutations'
 import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comments/queries'
-import { Comment, CommentableType } from '@holi/core/screens/comments/types'
+import { type Comment, CommentableType } from '@holi/core/screens/comments/types'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
 import {
   incrementModalAttempts,
   useNotificationEligibility,
-} from '@holi/core/screens/notifications/helpers/notificationModalHelper'
+} from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 
 export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
@@ -64,16 +53,14 @@ const CommentForm = ({
   const { navigateBack, replaceRoute } = useRouting()
   const { t } = useTranslation()
   const { openToast } = useToast()
-  const { height: screenHeight } = useWindowDimensions()
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
-  const insets = useSafeAreaInsets()
 
   const [scrollContentHeight, setScrollContentHeight] = useState(0)
   const scrollViewRef = useRef<ScrollView>(null)
 
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const commonQueries = [
     {
@@ -219,61 +206,13 @@ const CommentForm = ({
   }
 
   return (
-    <HoliContainer noPadding>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.pageView}
-        keyboardVerticalOffset={dimensions.topBarHeight + insets.top}
-      >
-        <SafeArea style={styles.safeArea}>
-          <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled" ref={scrollViewRef}>
-            <View>
-              {children}
-
-              {/* Comment input block */}
-              <HoliContainer>
-                {!parentComment && <VerticalLine style={styles.verticalLine} />}
-
-                <View style={styles.inputContainer}>
-                  <HoliAvatar
-                    imageSrc={user.avatar}
-                    imageBlurhash={user.avatarBlurhash}
-                    label={user.fullName || t('user.profileView.anonymous')}
-                    initials={user.avatarLabel || ''}
-                    defaultColor={user.avatarDefaultColor || ''}
-                    size={parentComment ? 'micro' : 'small'}
-                  />
-                  <HoliRichTextInput
-                    onLayout={onLayout}
-                    placeholder={t('comments.placeholder')}
-                    autofocus={true}
-                    onChange={setText}
-                    style={styles.textInput}
-                    testID="post-comment"
-                    showCharacterCount={true}
-                    maxNoOfCharacters={1500}
-                    maxSuggestionOptions={30}
-                    // initialValue is not yet supported on web
-                    {...(Platform.OS !== 'web' && parentComment && parentComment?.creator?.id !== user?.id
-                      ? {
-                          initialValue: ' ', // empty space after the parent comment's user mention
-                          initialSelectedSuggestion: {
-                            id: parentComment.creator.id,
-                            name: parentComment.creator.fullName,
-                          },
-                        }
-                      : {})}
-                  />
-                </View>
-              </HoliContainer>
-            </View>
-          </ScrollView>
-
-          {/* Bottom Bar */}
+    <>
+      <FormLayout
+        hasSuggestions
+        backgroundColor={theme.colors.background10}
+        scrollViewRef={scrollViewRef}
+        bottomBar={
           <View style={styles.bottomBar}>
-            {/* Suggestions*/}
-            <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />
-
             <HoliContainer>
               <View style={styles.buttonContainer}>
                 <HoliButtonLoading
@@ -290,24 +229,66 @@ const CommentForm = ({
               </View>
             </HoliContainer>
           </View>
-        </SafeArea>
-      </KeyboardAvoidingView>
-      <NotificationOptInModal
-        type="default"
-        isVisible={modalVisible}
-        onConfirm={handleOptIn}
-        onDismiss={handleModalDismiss}
-        description={t('notifications.permission.description.default')}
-      />
-    </HoliContainer>
+        }
+      >
+        <View>
+          {children}
+          {/* Comment input block */}
+
+          {!parentComment && <VerticalLine style={styles.verticalLine} />}
+
+          <View style={styles.inputContainer}>
+            <View style={styles.avatarContainer}>
+              <HoliAvatar
+                imageSrc={user.avatar}
+                imageBlurhash={user.avatarBlurhash}
+                label={user.fullName || t('user.profileView.anonymous')}
+                initials={user.avatarLabel || ''}
+                defaultColor={user.avatarDefaultColor || ''}
+                size={parentComment ? 'micro' : 'small'}
+              />
+            </View>
+            <HoliRichTextInput
+              onLayout={onLayout}
+              placeholder={t('comments.placeholder')}
+              autofocus={true}
+              onChange={setText}
+              style={styles.textInput}
+              testID="post-comment"
+              showCharacterCount={true}
+              maxNoOfCharacters={1500}
+              maxSuggestionOptions={30}
+              // initialValue is not yet supported on web
+              {...(Platform.OS !== 'web' && parentComment && parentComment?.creator?.id !== user?.id
+                ? {
+                    initialValue: ' ', // empty space after the parent comment's user mention
+                    initialSelectedSuggestion: {
+                      id: parentComment.creator.id,
+                      name: parentComment.creator.fullName,
+                    },
+                  }
+                : {})}
+            />
+          </View>
+        </View>
+      </FormLayout>
+
+      {Platform.OS !== 'web' && (
+        <NotificationOptInModal
+          type="default"
+          isVisible={modalVisible}
+          onConfirm={handleOptIn}
+          onDismiss={handleModalDismiss}
+          description={t('notifications.permission.description.default')}
+        />
+      )}
+    </>
   )
 }
 
 const SUBMIT_BUTTON_CONTAINER_HEIGHT = 64
-const SUGGESTIONS_DROPDOWN_HEIGHT = 150
-const SMALL_DEVICE_HEIGHT = 600
 
-const getStyles = (screenHeight: number, theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     pageView: {
       backgroundColor: theme.colors.background10,
@@ -324,9 +305,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       flex: 1,
       overflow: 'hidden',
     },
-    scrollView: {
-      flex: 1,
-    },
     verticalLine: {
       marginTop: Spacing['3xs'],
       marginBottom: Spacing['3xs'],
@@ -337,15 +315,15 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       lineHeight: 22,
       flexDirection: 'row',
     },
+    avatarContainer: {
+      marginTop: Spacing['3xs'],
+    },
     textInput: {
       flex: 1,
-      marginLeft: 10,
+      marginLeft: 2,
       ...Platform.select({
         web: {
-          marginLeft: 18,
-        },
-        ios: {
-          marginTop: 5,
+          marginLeft: Spacing['3xs'],
         },
       }),
     },
@@ -354,43 +332,6 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       borderTopWidth: 1,
       borderTopColor: theme.colors.background30,
       backgroundColor: theme.colors.background10,
-      ...Platform.select({
-        web: {
-          marginHorizontal: 'auto',
-          width: '100%',
-          alignSelf: 'center',
-          position: 'fixed',
-          bottom: 0,
-        },
-      }),
-    },
-    suggestionsScrollView: {
-      zIndex: screenHeight < SMALL_DEVICE_HEIGHT ? 3 : undefined,
-      height: SUGGESTIONS_DROPDOWN_HEIGHT,
-      maxHeight: SUGGESTIONS_DROPDOWN_HEIGHT,
-      paddingTop: 10,
-      marginBottom: screenHeight < SMALL_DEVICE_HEIGHT ? -75 : -10,
-      paddingBottom: 10,
-      backgroundColor: theme.colors.background10,
-      borderRadius: 12,
-      elevation: 4,
-      borderTopColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderRightColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderLeftColor: theme.dark ? theme.colors.brandColorB30 : theme.colors.background30,
-      borderWidth: 1,
-      borderBottomWidth: 0,
-      width: '100%',
-      ...Platform.select({
-        web: {
-          maxWidth: dimensions.maxScreenWidth,
-          marginHorizontal: 'auto',
-          width: '98%',
-        },
-      }),
-      position: 'absolute',
-      bottom: SUBMIT_BUTTON_CONTAINER_HEIGHT,
-      left: 0,
-      right: 0,
     },
     buttonContainer: {
       width: '100%',

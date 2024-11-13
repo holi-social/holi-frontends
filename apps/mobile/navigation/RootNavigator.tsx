@@ -8,13 +8,13 @@ import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
-import OnboardingFirstVisit from '@holi/core/screens/onboarding/OnboardingFirstVisit'
+import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
 import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
 import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
 import CreateReport from '@holi/core/screens/report/CreateReport'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
-import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
+import type { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import ActNavigator from '@holi/mobile/navigation/ActNavigator'
 import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import ChallengesAppNavigator from '@holi/mobile/navigation/ChallengesAppNavigator'
@@ -38,7 +38,7 @@ export type RootStackScreens = {
 
   [RouteName.Onboarding]: undefined
   [RouteName.OnboardingRegistration]: undefined
-  [RouteName.OnboardingFirstVisit]: undefined
+  [RouteName.OnboardingAccountSetup]: undefined
 
   [RouteName.Login]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -178,8 +178,8 @@ const RootNavigator = () => {
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen
-        name={RouteName.OnboardingFirstVisit}
-        component={OnboardingFirstVisit}
+        name={RouteName.OnboardingAccountSetup}
+        component={OnboardingAccountSetup}
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen

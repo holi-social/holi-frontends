@@ -9,7 +9,9 @@ import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 import TaskRecommendation from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/TaskRecommendation'
+import { Task } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
+import { ListItemIdentifier, type ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import CheckboxFilled from '@holi/icons/src/generated/CheckboxFilled'
 
 type TaskRecommendationsProps = {
@@ -39,9 +41,21 @@ const TaskRecommendations = ({ cardWidth }: TaskRecommendationsProps) => {
 
   const tasks = taskData?.recommendedTasks.data ?? []
 
+  const listItemTrackingEvent: ListItemTrackingEvent<Task> = ({ name, id }) => {
+    return TrackingEvent.RecommendationViewed('space_task', { name, id })
+  }
+
+  const listItemIdentifier: ListItemIdentifier<Task> = ({ id }) => {
+    return id
+  }
+
   return (
     <RecoSlider
       name="tasks"
+      viewTrackingParams={{
+        listItemTrackingEvent,
+        listItemIdentifier,
+      }}
       renderItem={({ item, index }) => {
         return item.space ? (
           <View

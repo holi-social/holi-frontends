@@ -27,35 +27,28 @@ const AttendingChallengeEvents = () => {
   const headers = useChallengesHeaders()
   const { isLoggedIn } = useLoginState()
 
-  const fetchAttendingEvents = useCallback(() => {
+  const fetchAttendingEvents = useCallback(async () => {
     // Events are only available to logged in users
     if (!isLoggedIn || !headers) {
       return
     }
-    return fetch(API_URL, {
-      headers: new Headers(headers),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          logError(
-            new Error('Failed to fetch attending challenge events'),
-            'Error fetching attending challenge events',
-            {
-              location: 'AttendingChallengeEvents.useEffect',
-            }
-          )
-          return
-        }
-        return res.json()
+
+    try {
+      const response = await fetch(API_URL, {
+        headers: new Headers(headers),
       })
-      .then((events: ChallengeEvent[]) => {
-        setEvents(events)
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch attending challenge events')
+      }
+
+      const events: ChallengeEvent[] = await response.json()
+      setEvents(events)
+    } catch (error) {
+      logError(error, 'Error fetching challenge events', {
+        location: 'AttendingChallengeEvents.fetchAttendingEvents',
       })
-      .catch((error) => {
-        logError(error, 'Error fetching challenge events', {
-          location: 'AttendingChallengeEvents.useEffect',
-        })
-      })
+    }
   }, [headers, isLoggedIn])
 
   useEffect(() => {
@@ -63,7 +56,7 @@ const AttendingChallengeEvents = () => {
   }, [fetchAttendingEvents])
   useOnRefresh(fetchAttendingEvents)
 
-  if (!isLoggedIn || !events.length) {
+  if (!isLoggedIn || !events?.length) {
     return null
   }
 
@@ -86,7 +79,9 @@ const AttendingChallengeEvents = () => {
   )
 }
 
-export default withProfiler(AttendingChallengeEvents, { name: 'AttendingChallengeEvents' })
+export default withProfiler(AttendingChallengeEvents, {
+  name: 'AttendingChallengeEvents',
+})
 
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({

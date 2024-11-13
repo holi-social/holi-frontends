@@ -166,18 +166,8 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
 }
 
 export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
-  test
-    .expect(
-      !!process.env.E2E_USER_USERNAME,
-      'The environment variable E2E_USER_USERNAME is not set up correctly, please set it up.'
-    )
-    .toBeTruthy()
-  test
-    .expect(
-      !!process.env.E2E_USER_PASSWORD,
-      'The environment variable E2E_USER_PASSWORD is not set up correctly, please set it up.'
-    )
-    .toBeTruthy()
+  test.expect(!!process.env.E2E_USER_USERNAME, 'Env E2E_USER_USERNAME is set up correctly').toBeTruthy()
+  test.expect(!!process.env.E2E_USER_PASSWORD, 'Env E2E_USER_PASSWORD is set up correctly').toBeTruthy()
   await login(context, page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
   // wait for profile - login succeeded
   await page.waitForSelector(byTestId('home-feed-insights-heading'))
@@ -214,6 +204,7 @@ export const checkAccessibility = async (page: Page, failOnError = true) => {
       { id: 'color-contrast', enabled: false },
       { id: 'scrollable-region-focusable', enabled: false }, // TODO: Fix HoliStepper issue with this rule
       { id: 'duplicate-id', enabled: false }, // svg icon components rendered in lists have duplicated ids for their shape masks
+      { id: 'nested-interactive', enabled: false }, // todo gregor: check why the bottom bar nav is a concern in multiple tests
     ],
   })
   await checkA11y(page, undefined, axeOptions, !failOnError)

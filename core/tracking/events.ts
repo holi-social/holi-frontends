@@ -2,6 +2,8 @@
 import type { NamesStepData } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 
+type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
+
 /**
  * The base type of all tracking events. `TrackingEvent` instances shall not be defined outside of this file to ensure
  * this file contains a complete reference of all tracking events.
@@ -208,11 +210,7 @@ export namespace TrackingEvent {
     },
   })
 
-  export const RecommendationPressed = (
-    type: 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task',
-    itemId: string,
-    index: number
-  ): TrackingEvent => ({
+  export const RecommendationPressed = (type: RecommendationType, itemId: string, index: number): TrackingEvent => ({
     name: 'recommendation_pressed',
     event_version__major: 1,
     event_version__minor: 0,
@@ -221,6 +219,18 @@ export namespace TrackingEvent {
       type: type,
       itemId: itemId,
       index: index,
+    },
+  })
+
+  export const RecommendationViewed = (
+    type: RecommendationType | 'challenge',
+    otherProperties: Record<string, string | number>
+  ): TrackingEvent => ({
+    ...versionOne,
+    name: 'recommendation_viewed',
+    properties: {
+      type,
+      ...otherProperties,
     },
   })
 
@@ -265,17 +275,7 @@ export namespace TrackingEvent {
     })
   }
 
-  export const OnboardingPressed = (
-    step:
-      | 'WELCOME'
-      | 'VOLUNTEERING_QUESTION'
-      | 'ALREADY_VOLUNTEERING'
-      | 'SMALL_ACTIONS'
-      | 'COLLABORATION'
-      | 'POST_FEATURE_PREVIEW'
-      | 'NOT_VOLUNTEERING',
-    answer: string
-  ): TrackingEvent => ({
+  export const OnboardingPressed = (step: 'WELCOME' | 'CONTENT_SELECTION', answer: string): TrackingEvent => ({
     name: 'onboarding_pressed',
     event_version__major: 1,
     event_version__minor: 0,

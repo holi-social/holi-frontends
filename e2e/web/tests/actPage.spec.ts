@@ -11,10 +11,10 @@ import { test } from './testmaster'
 
 test.describe('@ActPage', () => {
   test('user journey', async ({ page }) => {
-    // prepare
     await proceedAsGuest(page)
 
-    await page.goto('/act')
+    await clickElementByTestId(page, 'btn-to-act')
+
     // act page is open and contain apps
     await page.waitForSelector(byTestId('volunteering-reco-slider'))
     await page.waitForSelector(byTestId('donations-reco-slider'))

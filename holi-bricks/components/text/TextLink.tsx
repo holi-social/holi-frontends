@@ -5,6 +5,7 @@ import type React from 'react'
 import {
   type ColorValue,
   type GestureResponderEvent,
+  type Role,
   Platform,
   // eslint-disable-next-line no-restricted-imports
   Text,
@@ -36,8 +37,8 @@ export interface TextLinkProps {
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
-  role?: TextProps['role']
   'aria-label'?: TextProps['aria-label']
+  role?: Role
 }
 
 export const TextLink = ({

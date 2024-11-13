@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { faker } from '@faker-js/faker'
 import { APIRequestContext, BrowserContext } from '@playwright/test'
 
@@ -55,9 +54,8 @@ const simpleGQLClient = async (request: APIRequestContext, query: string, variab
 
 export const deleteAuthenticatedAccount = async (context: BrowserContext) => {
   const deleteResponse = await simpleGQLClient(context.request, deleteAuthenticatedUserMutation)
-  // eslint-disable-next-line no-console
-  console.log('DELETE', deleteResponse)
-  context.clearCookies()
+  process.env.DEBUG && console.log('DELETE', deleteResponse)
+  await context.clearCookies()
 }
 
 export const signUp = async (
@@ -65,7 +63,7 @@ export const signUp = async (
   email: string = newUserEmail(),
   password: string = randomPassword()
 ): Promise<User> => {
-  context.clearCookies()
+  await context.clearCookies()
 
   const flowResponse = await context.request.get(`${baseURL}/api/.ory/self-service/registration/browser`, {
     headers: { Accept: 'application/json' },
@@ -73,7 +71,7 @@ export const signUp = async (
 
   const flow = await flowResponse.json()
 
-  console.log('FLOW', flow)
+  process.env.DEBUG && console.log('FLOW', flow)
 
   const payload = {
     method: 'password',
@@ -85,7 +83,7 @@ export const signUp = async (
     },
   }
 
-  console.log('PAYLOAD', payload)
+  process.env.DEBUG && console.log('PAYLOAD', payload)
 
   const registeredResponse = await context.request.post(
     `${baseURL}/api/.ory/self-service/registration?flow=${flow.id}`,
@@ -100,7 +98,7 @@ export const signUp = async (
 
   const registered = await registeredResponse.json()
 
-  console.log('REGISTERED', registered)
+  process.env.DEBUG && console.log('REGISTERED', registered)
 
   const firstName = faker.person.firstName()
   const lastName = faker.person.lastName()
@@ -114,7 +112,7 @@ export const signUp = async (
     },
   })
 
-  console.log('USER', userUpdateResponse)
+  process.env.DEBUG && console.log('USER', JSON.stringify(userUpdateResponse, null, 2))
 
   return {
     id: userUpdateResponse.data.updateAuthenticatedUserV2.id,

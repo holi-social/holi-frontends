@@ -33,7 +33,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'mcr.microsoft.com/playwright:v1.40.0-focal'
+  image: 'mcr.microsoft.com/playwright:v1.48.2-noble'
   cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
@@ -42,7 +42,6 @@ default:
     expire_in: 1 week
     paths:
       - e2e/web/playwright-report # report including traces
-      # - e2e/web/test-results # contains artifacts (videos, screenshots, traces) organized by test case/run, redundant to playwright-report and doubling the artifacts size
       - e2e/web/artifacts # accessibility reports
     when: always
   script: |
@@ -51,7 +50,7 @@ default:
     cd e2e/web
     corepack enable
     yarn install --immutable --immutable-cache
-    BASE_URL="https://${UI_DOMAIN}" yarn run playwright test
+    BASE_URL="https://${UI_DOMAIN}" yarn run test
   interruptible: true
   tags:
     - 4cpu-16gb

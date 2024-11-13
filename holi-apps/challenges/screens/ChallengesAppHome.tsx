@@ -3,7 +3,7 @@ import * as Notifications from 'expo-notifications'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, Share } from 'react-native'
-import { WebView, WebViewMessageEvent } from 'react-native-webview'
+import type { WebView, WebViewMessageEvent } from 'react-native-webview'
 
 import { useNavigation } from '@react-navigation/native'
 
@@ -16,13 +16,13 @@ import NotificationOptInModal from '@holi/core/screens/notifications/components/
 import {
   incrementModalAttempts,
   useNotificationEligibility,
-} from '@holi/core/screens/notifications/helpers/notificationModalHelper'
+} from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { createExternalChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
-import { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
+import type { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
 
 const { useParam } = createParamHooks<ChallengesAppHomeParams>()
 
@@ -171,13 +171,15 @@ const ChallengesAppHome = () => {
         }}
         theme={theme}
       />
-      <NotificationOptInModal
-        type="challenges"
-        isVisible={modalVisible}
-        onConfirm={handleOptIn}
-        onDismiss={handleModalDismiss}
-        description={t('notifications.permission.description.challenges')}
-      />
+      {Platform.OS !== 'web' && (
+        <NotificationOptInModal
+          type="challenges"
+          isVisible={modalVisible}
+          onConfirm={handleOptIn}
+          onDismiss={handleModalDismiss}
+          description={t('notifications.permission.description.challenges')}
+        />
+      )}
     </>
   )
 }

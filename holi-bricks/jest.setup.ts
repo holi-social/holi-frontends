@@ -10,3 +10,7 @@ if (typeof window !== 'undefined') {
   global.window = window
   global.document = document
 }
+
+global.setImmediate = ((callback: () => void) => {
+  setTimeout(callback, 0)
+}) as typeof setImmediate & { __promisify__?: typeof setTimeout }
