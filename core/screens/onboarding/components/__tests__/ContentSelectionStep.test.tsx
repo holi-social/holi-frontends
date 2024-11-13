@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 import { ContentSelectionStep } from '@holi/core/screens/onboarding/components/ContentSelectionStep'
@@ -40,9 +40,10 @@ describe('ContentSelectionStep', () => {
   })
 
   it.each(options)('should call callback with selected option $option', async (option) => {
+    const user = userEvent.setup()
     render(<ContentSelectionStep onSelect={onSelect} />)
 
-    fireEvent.press(screen.getByText(`onboarding.contentSelection.${option}`))
+    await user.press(screen.getByText(`onboarding.contentSelection.${option}`))
 
     expect(onSelect).toHaveBeenCalledWith(option)
   })

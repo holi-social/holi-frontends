@@ -1,7 +1,8 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
+import { render, screen, waitFor, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
+import type { UserEventInstance } from '@testing-library/react-native/build/user-event/setup'
 
 jest.useFakeTimers()
 
@@ -22,8 +23,10 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
 
 describe('OnboardingAccountSetup', () => {
   const mockSelectContentType = jest.fn()
+  let user: UserEventInstance
 
   beforeEach(() => {
+    user = userEvent.setup()
     mockStoreOnboardingState.mockResolvedValue({})
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: false })
     mockUseFirstVisitContentSelection.mockReturnValue({
@@ -32,10 +35,10 @@ describe('OnboardingAccountSetup', () => {
     })
   })
 
-  it('should navigate back on first screen', () => {
+  it('should navigate back on first screen', async () => {
     render(<OnboardingAccountSetup />)
 
-    fireEvent.press(screen.getByTestId('holi-wizard-back-btn'))
+    await user.press(screen.getByTestId('holi-wizard-back-btn'))
 
     expect(mockNavigate).toHaveBeenCalledWith('/')
   })
@@ -43,15 +46,15 @@ describe('OnboardingAccountSetup', () => {
   it('should skip whole flow', async () => {
     render(<OnboardingAccountSetup />)
 
-    fireEvent.press(screen.getByTestId('holi-wizard-skip-btn'))
+    await user.press(screen.getByTestId('holi-wizard-skip-btn'))
 
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'))
   })
 
-  it('should set onboarding state to finished when skipping the flow', () => {
+  it('should set onboarding state to finished when skipping the flow', async () => {
     render(<OnboardingAccountSetup />)
 
-    fireEvent.press(screen.getByTestId('holi-wizard-skip-btn'))
+    await user.press(screen.getByTestId('holi-wizard-skip-btn'))
 
     expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
   })
@@ -59,13 +62,11 @@ describe('OnboardingAccountSetup', () => {
   it('should store selected content', async () => {
     render(<OnboardingAccountSetup />)
 
-    await act(async () => {
-      await waitFor(() => expect(screen.getByText('onboarding.contentSelection.CHALLENGES')).toBeOnTheScreen())
-      fireEvent.press(screen.getByText('onboarding.contentSelection.CHALLENGES'))
+    await waitFor(() => expect(screen.getByText('onboarding.contentSelection.CHALLENGES')).toBeOnTheScreen())
+    await user.press(screen.getByText('onboarding.contentSelection.CHALLENGES'))
 
-      await waitFor(() => expect(screen.getByText('onboarding.accountSetup.continue')).toBeEnabled())
-      fireEvent.press(screen.getByText('onboarding.accountSetup.continue'))
-    })
+    await waitFor(() => expect(screen.getByText('onboarding.accountSetup.continue')).toBeEnabled())
+    await user.press(screen.getByText('onboarding.accountSetup.continue'))
 
     expect(mockSelectContentType).toHaveBeenCalledWith('CHALLENGES')
   })
