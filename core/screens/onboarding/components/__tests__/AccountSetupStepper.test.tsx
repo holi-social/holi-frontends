@@ -1,4 +1,4 @@
-import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 import { AccountSetupStepper } from '@holi/core/screens/onboarding/components/AccountSetupStepper'
@@ -11,10 +11,10 @@ describe('AccountSetupStepper', () => {
     const user = userEvent.setup()
     render(<AccountSetupStepper onContentSelection={onContentSelection} />)
 
-    await waitFor(() => expect(screen.getByText('onboarding.contentSelection.VOLUNTEERING')).toBeOnTheScreen())
+    expect(screen.queryByText('onboarding.contentSelection.VOLUNTEERING')).toBeOnTheScreen()
     await user.press(screen.getByText('onboarding.contentSelection.VOLUNTEERING'))
 
-    await waitFor(() => expect(screen.getByText('onboarding.accountSetup.continue')).toBeEnabled())
+    expect(screen.queryByText('onboarding.accountSetup.continue')).toBeEnabled()
     await user.press(screen.getByText('onboarding.accountSetup.continue'))
 
     expect(onContentSelection).toHaveBeenCalledWith('VOLUNTEERING')

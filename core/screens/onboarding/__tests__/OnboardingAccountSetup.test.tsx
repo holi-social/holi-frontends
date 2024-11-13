@@ -1,4 +1,4 @@
-import { render, screen, waitFor, userEvent } from '@testing-library/react-native'
+import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
@@ -48,7 +48,7 @@ describe('OnboardingAccountSetup', () => {
 
     await user.press(screen.getByTestId('holi-wizard-skip-btn'))
 
-    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'))
+    expect(mockNavigate).toHaveBeenCalledWith('/')
   })
 
   it('should set onboarding state to finished when skipping the flow', async () => {
@@ -62,10 +62,10 @@ describe('OnboardingAccountSetup', () => {
   it('should store selected content', async () => {
     render(<OnboardingAccountSetup />)
 
-    await waitFor(() => expect(screen.getByText('onboarding.contentSelection.CHALLENGES')).toBeOnTheScreen())
+    expect(screen.queryByText('onboarding.contentSelection.CHALLENGES')).toBeOnTheScreen()
     await user.press(screen.getByText('onboarding.contentSelection.CHALLENGES'))
 
-    await waitFor(() => expect(screen.getByText('onboarding.accountSetup.continue')).toBeEnabled())
+    expect(screen.queryByText('onboarding.accountSetup.continue')).toBeEnabled()
     await user.press(screen.getByText('onboarding.accountSetup.continue'))
 
     expect(mockSelectContentType).toHaveBeenCalledWith('CHALLENGES')
