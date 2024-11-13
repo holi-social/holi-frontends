@@ -43,8 +43,8 @@
     - eas --version
     - >
       if [ "$CHECK_VERSION_RELEASED" == "true" ]; then
-        export LAST_VERSION_IOS=$(eas build:list --json --non-interactive --platform ios --buildProfile $BUILD_PROFILE --limit 1 2>/dev/null | jq -r '.[0].appBuildVersion')
-        export LAST_VERSION_ANDROID=$(eas build:list --json --non-interactive --platform android --buildProfile $BUILD_PROFILE --limit 1 2>/dev/null | jq -r '.[0].appBuildVersion')
+        export LAST_VERSION_IOS=$(eas build:list --json --non-interactive --platform ios --buildProfile $BUILD_PROFILE --limit=1 2>/dev/null | jq -r '.[0].appBuildVersion')
+        export LAST_VERSION_ANDROID=$(eas build:list --json --non-interactive --platform android --buildProfile $BUILD_PROFILE --limit=1 2>/dev/null | jq -r '.[0].appBuildVersion')
         export CURRENT_VERSION_IOS=$(expo config --json 2>/dev/null | jq -r '.ios.buildNumber')
         export CURRENT_VERSION_ANDROID=$(expo config --json 2>/dev/null | jq -r '.android.versionCode')
         if [[ "$BUILD_PLATFORM" == "ios" && "$LAST_VERSION_IOS" == "$CURRENT_VERSION_IOS" ]]; then
@@ -59,7 +59,7 @@
     - corepack enable
     - yarn install --immutable --immutable-cache
     - 'eas build --platform $BUILD_PLATFORM --profile $BUILD_PROFILE --non-interactive'
-    - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit=1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - >
       if [ "$KEEP_ARTIFACTS" == "true" ]; then
         mkdir -p artifacts_$CI_ARTIFACTS_ENVIRONMENT_NAME
@@ -79,7 +79,7 @@
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
     - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
-    - 'export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit 1 | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
+    - 'export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit=1 | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - 'export EAS_APK_FILE=$(basename $EAS_APK_URL)'
     - 'curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL' # download .apk from EAS
     - 'cd ../../e2e/mobile'
@@ -337,7 +337,7 @@ mobile_release_submit_android:
     - cd apps/mobile
     - corepack enable
     - yarn install --immutable --immutable-cache
-    - export BUILD_ID=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform android --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
+    - export BUILD_ID=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform android --buildProfile production --limit=1  2> /dev/null | jq -r ".[0].id")
     - eas submit -p android --profile production --id "$BUILD_ID" --verbose --non-interactive --wait
   rules:
     - !reference [.rule_templates, only_on_production_release]
@@ -355,7 +355,7 @@ mobile_release_submit_ios:
     - cd apps/mobile
     - corepack enable
     - yarn install --immutable --immutable-cache
-    - export BUILD_ID=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform ios --buildProfile production --limit 1  2> /dev/null | jq -r ".[0].id")
+    - export BUILD_ID=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform ios --buildProfile production --limit=1  2> /dev/null | jq -r ".[0].id")
     - eas submit -p ios --profile production --id "$BUILD_ID" --verbose --non-interactive --wait
   rules:
     - !reference [.rule_templates, only_on_production_release]
