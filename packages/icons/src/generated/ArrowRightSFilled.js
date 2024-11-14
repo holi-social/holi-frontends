@@ -1,10 +1,9 @@
 import * as React from 'react'
-import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
-
+import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg'
 const SvgArrowRightSFilled = (props) => (
-  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" {...props}>
     <G clipPath="url(#arrow-right-s-filled_svg__a)">
-      <Path fill="currentColor" d="m16 12-6 6V6l6 6Z" />
+      <Path fill="currentColor" d="m16 12-6 6V6z" />
     </G>
     <Defs>
       <ClipPath id="arrow-right-s-filled_svg__a">

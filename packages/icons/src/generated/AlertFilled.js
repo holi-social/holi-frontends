@@ -1,12 +1,11 @@
 import * as React from 'react'
-import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
-
+import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg'
 const SvgAlertFilled = (props) => (
-  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" {...props}>
     <G clipPath="url(#alert-filled_svg__a)">
       <Path
         fill="currentColor"
-        d="m12.865 3 9.526 16.5a1 1 0 0 1-.866 1.5H2.473a1 1 0 0 1-.866-1.5L11.133 3a1 1 0 0 1 1.732 0Zm-1.866 13v2h2v-2h-2Zm0-7v5h2V9h-2Z"
+        d="m12.865 3 9.526 16.5a1 1 0 0 1-.866 1.5H2.473a1 1 0 0 1-.866-1.5L11.133 3a1 1 0 0 1 1.732 0m-1.866 13v2h2v-2zm0-7v5h2V9z"
       />
     </G>
     <Defs>

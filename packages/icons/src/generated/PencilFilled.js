@@ -1,12 +1,11 @@
 import * as React from 'react'
-import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
-
+import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg'
 const SvgPencilFilled = (props) => (
-  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" {...props}>
     <G clipPath="url(#pencil-filled_svg__a)">
       <Path
         fill="currentColor"
-        d="m12.9 6.858 4.242 4.243-9.9 9.9H3v-4.244l9.9-9.9v.001Zm1.414-1.414 2.121-2.122a1 1 0 0 1 1.414 0l2.829 2.83a1 1 0 0 1 0 1.413l-2.122 2.121-4.242-4.242Z"
+        d="m12.9 6.858 4.242 4.243-9.9 9.9H3v-4.244zm1.414-1.414 2.121-2.122a1 1 0 0 1 1.414 0l2.829 2.83a1 1 0 0 1 0 1.413l-2.122 2.121z"
       />
     </G>
     <Defs>

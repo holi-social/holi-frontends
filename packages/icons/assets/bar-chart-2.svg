@@ -1,5 +1,1 @@
-<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="business/bar-chart-2-line">
-<path id="Vector" d="M1.16602 7.58333H4.66602V12.25H1.16602V7.58333ZM9.33268 4.66667H12.8327V12.25H9.33268V4.66667ZM5.24935 1.75H8.74935V12.25H5.24935V1.75ZM2.33268 8.75V11.0833H3.49935V8.75H2.33268ZM6.41602 2.91667V11.0833H7.58268V2.91667H6.41602ZM10.4993 5.83333V11.0833H11.666V5.83333H10.4993Z" fill="currentColor"/>
-</g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none"><path fill="currentColor" d="M1.166 7.583h3.5v4.667h-3.5zm8.167-2.916h3.5v7.583h-3.5zM5.249 1.75h3.5v10.5h-3.5zm-2.916 7v2.333h1.166V8.75zm4.083-5.833v8.166h1.167V2.917zm4.083 2.916v5.25h1.167v-5.25z"/></svg>

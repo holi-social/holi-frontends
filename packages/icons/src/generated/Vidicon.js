@@ -1,12 +1,11 @@
 import * as React from 'react'
-import Svg, { ClipPath, Defs, G, Path } from 'react-native-svg'
-
+import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg'
 const SvgVidicon = (props) => (
-  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+  <Svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" {...props}>
     <G clipPath="url(#vidicon_svg__a)">
       <Path
         fill="currentColor"
-        d="m17 9.2 5.213-3.65a.5.5 0 0 1 .787.41v12.08a.5.5 0 0 1-.787.41L17 14.8V19a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4.2Zm0 3.159 4 2.8V8.84l-4 2.8v.719ZM3 6v12h12V6H3Zm2 2h2v2H5V8Z"
+        d="m17 9.2 5.213-3.65a.5.5 0 0 1 .787.41v12.08a.5.5 0 0 1-.787.41L17 14.8V19a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1zm0 3.159 4 2.8V8.84l-4 2.8zM3 6v12h12V6zm2 2h2v2H5z"
       />
     </G>
     <Defs>
