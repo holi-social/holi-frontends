@@ -8,7 +8,6 @@ export function SearchBox(props) {
   const inputRef = useRef(null)
 
   function setQuery(newQuery) {
-    console.debug('SearchBox.setQuery', newQuery)
     setInputValue(newQuery)
     refine(newQuery)
   }

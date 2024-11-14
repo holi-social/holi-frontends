@@ -19,7 +19,7 @@ export function Highlight({ hit, attribute, separator = ', ' }) {
   const { value: attributeValue = '' } = getPropertyByPath(hit._highlightResult, attribute) || {}
   const parts = getHighlightedParts(attributeValue)
 
-  console.debug(parts)
+  //console.debug(parts)
 
   return (
     <View style={{ flexDirection: 'row' }}>

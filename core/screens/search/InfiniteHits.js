@@ -10,7 +10,7 @@ export function InfiniteHits({ hitComponent: Hit, ...props }) {
   })
 
   if (!items.length) {
-    return <Text>No search result</Text>
+    return <Text size={'md'}>No search result</Text>
   }
 
   return (

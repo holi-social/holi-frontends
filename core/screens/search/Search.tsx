@@ -11,8 +11,9 @@ import { SearchBox } from '@holi/core/screens/search/SearchBox'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ChipSelect } from 'holi-bricks/components/chips'
 import { Text } from 'holi-bricks/components/text/Text'
-import { InstantSearch } from 'react-instantsearch-core'
+import { InstantSearch, useClearRefinements, useRefinementList } from 'react-instantsearch-core'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 
 const typesenseInstantSearchAdapter = new TypesenseInstantSearchAdapter({
@@ -64,6 +65,39 @@ const Hit = ({ hit }: { hit: SearchHit }) => {
   )
 }
 
+const RefinementList = () => {
+  const { refine: clearRefinement } = useClearRefinements()
+  const { items, refine } = useRefinementList({
+    attribute: 'type',
+    sortBy: ['count'],
+  })
+  return (
+    <View style={{ flexDirection: 'row' }}>
+      <ChipSelect
+        selectedColor="blue"
+        size="md"
+        onPress={() => clearRefinement()}
+        selected={items.every((item) => !item.isRefined)}
+      >
+        All
+      </ChipSelect>
+      {items.map((item) => {
+        return (
+          <ChipSelect
+            selectedColor="blue"
+            size="md"
+            onPress={() => refine(item.value)}
+            selected={item.isRefined}
+            key={item.value}
+          >
+            {item.label} &middot; {item.count}
+          </ChipSelect>
+        )
+      })}
+    </View>
+  )
+}
+
 const Search = () => {
   const { t } = useTranslation()
   const title = t('search.title')
@@ -83,6 +117,7 @@ const Search = () => {
           <View style={styles.container}>
             <InstantSearch searchClient={searchClient} indexName="all">
               <SearchBox />
+              <RefinementList />
               <InfiniteHits hitComponent={Hit} />
             </InstantSearch>
           </View>
