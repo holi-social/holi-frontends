@@ -4,16 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import StyleSheet from 'react-native-media-query'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import CommentText from '@holi/core/screens/comments/components/CommentText'
-import { CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
+import { type CommentsMetadataResponse, commentsMetadata } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import ResponsesContainer from '@holi/core/screens/insights/discussions/ResponsesContainer'
-import { Discussion } from '@holi/core/screens/insights/types'
+import type { Discussion } from '@holi/core/screens/insights/types'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
@@ -21,9 +19,10 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import StartDiscussion from './StartDiscussion'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 type DiscussionCardProps = {
   discussion: Discussion
@@ -33,9 +32,8 @@ type DiscussionCardProps = {
 const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
-  const { openSignupModal } = useSignupModal()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { styles } = useMemo(() => getStyles(theme), [theme])
 
@@ -60,12 +58,10 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
     if (latestCommenters.length > 0) {
       navigate(`/insights/${insightId}/discussions/${discussion.id}`)
     } else {
-      isLoggedIn
-        ? navigate(`/insights/${insightId}/discussions/${discussion.id}/comment`)
-        : openSignupModal({
-            description: t('comments.loginRedirect.text'),
-            trackTrigger: 'VIEW_DISCUSSION_COMMENT_ON_INSIGHT',
-          })
+      navigateWithAuth(`/insights/${insightId}/discussions/${discussion.id}/comment`, {
+        description: t('comments.loginRedirect.text'),
+        trackTrigger: 'VIEW_DISCUSSION_COMMENT_ON_INSIGHT',
+      })
     }
   }
 

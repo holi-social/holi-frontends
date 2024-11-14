@@ -6,14 +6,12 @@ import { useTranslation } from 'react-i18next'
 import { type LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native'
 import type Animated from 'react-native-reanimated'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
@@ -31,6 +29,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 export type PostDetailPageParams = {
   postId: string
@@ -50,10 +49,9 @@ const PostDetailPage = () => {
   const [postId] = useParam('postId')
   // `commentId` can be a UUID of a comment or hardcoded 'first' string value
   const [commentId] = useParam('commentId')
-  const { navigate, replaceRoute } = useRouting()
-  const { isLoggedIn } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { space } = useSpace(spaceIdOrName)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
@@ -166,12 +164,10 @@ const PostDetailPage = () => {
               <PostDetailFooter
                 style={styles.postCommentButton}
                 onPress={() =>
-                  isLoggedIn
-                    ? navigate(getPostCommentUrl())
-                    : openSignupModal({
-                        description: t('comments.loginRedirect.text'),
-                        trackTrigger: 'COMMENT_ON_POST',
-                      })
+                  navigateWithAuth(getPostCommentUrl(), {
+                    description: t('comments.loginRedirect.text'),
+                    trackTrigger: 'COMMENT_ON_POST',
+                  })
                 }
               />
             </HoliContainer>

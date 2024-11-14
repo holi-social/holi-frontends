@@ -48,6 +48,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import FormLayout from '@holi/core/components/FormLayout/FormLayout'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -70,6 +71,7 @@ const PostDetailsPage = () => {
   const { topics: allTopics } = useContext(SpaceTermContext)
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const {
     data: { post } = {},
@@ -160,12 +162,10 @@ const PostDetailsPage = () => {
   useTrackOnce(post && TrackingEvent.FeedPosts.read(post.id))
 
   const onPressCreateComment = () =>
-    loginState.isLoggedIn
-      ? navigate(`/feed-posts/${idOrSlug}/comment`)
-      : openSignupModal({
-          description: t('comments.loginRedirect.text'),
-          trackTrigger: 'COMMENT_ON_POST',
-        })
+    navigateWithAuth(`/feed-posts/${idOrSlug}/comment`, {
+      description: t('comments.loginRedirect.text'),
+      trackTrigger: 'COMMENT_ON_POST',
+    })
 
   const heartReactions = post?.reactions.HEART
   const currentUserHasReacted = !!post?.myReaction.HEART
