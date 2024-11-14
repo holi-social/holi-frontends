@@ -38,6 +38,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 const logger = getLogger('CreateAccount')
 
 const isWeb = Platform.OS === 'web'
+const isAndroid = Platform.OS === 'android'
 
 interface CreateAccountProps {
   onRegister: () => Promise<void>
@@ -136,8 +137,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
 
   // in Web we navigate to the legal document page in profile settings
   // but on mobile we navigate to a scrren in the RootNavigator to open it as a modal
-  const legalDocPath =
-    Platform.OS === 'web' ? '/profile/settings/legalDocuments/document' : 'onboarding/registration/legalDocuments'
+  const legalDocPath = isWeb ? '/profile/settings/legalDocuments/document' : 'onboarding/registration/legalDocuments'
 
   return (
     <HoliKeyboardSaveView>
@@ -164,11 +164,11 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
                   </Text>
 
                   <HoliLocalImage
-                    imageSource={Platform.OS === 'android' ? GiveFiveFilledPng : GiveFiveFilled}
+                    imageSource={isAndroid ? GiveFiveFilledPng : GiveFiveFilled}
                     width={50}
                     height={40}
                     label={''}
-                    isSvg={Platform.OS !== 'android'}
+                    isSvg={!isAndroid}
                   />
                 </View>
 
