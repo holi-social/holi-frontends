@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react'
+import type React from 'react'
+import { createContext, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { SignupGuardModal } from '@holi/core/components/SignupGuardModal'
@@ -31,7 +32,9 @@ export const SignupModalProvider = ({ children }: React.PropsWithChildren<unknow
   const [customProps, setCustomProps] = useState<SignupModalProps>({})
   const { setShow: setShowLoginGuard, props: signupGuardModalProps } = useConfirmationState({
     onPrimary: () => {
-      setPathToRedirect(customProps.redirectPath)
+      if (customProps.redirectPath) {
+        setPathToRedirect(customProps.redirectPath)
+      }
     },
   })
 

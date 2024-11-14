@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -16,7 +16,6 @@ import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingErr
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -34,6 +33,7 @@ import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
 import { Spacing } from 'holi-bricks/tokens'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 
 const logger = getLogger('CreateAccount')
 
@@ -59,7 +59,6 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
-  const redirect = useRedirect()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { track } = useTracking()
@@ -81,7 +80,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   }, [isLoggedIn, t, safeSetFlow, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     initializeFlow()
   }, [initializeFlow])
 
@@ -121,8 +120,6 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
-
-        redirect()
       } catch (err) {
         handleFormSubmitError(
           setFlow,
