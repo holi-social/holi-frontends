@@ -120,6 +120,7 @@ export enum RouteName {
   Onboarding = 'Onboarding',
   OnboardingWelcome = 'OnboardingWelcome',
   OnboardingRegistration = 'OnboardingRegistration',
+  OnboardingRegistrationLegalDocuments = 'OnboardingRegistrationLegalDocuments',
   OnboardingAccountSetup = 'OnboardingAccountSetup',
 
   // Root Stack
