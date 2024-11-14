@@ -11,7 +11,7 @@ import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import { appendLocaleSubPaths } from '@holi/mobile/navigation/helpers/appendLocaleSubPaths'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 import { screenUrlFromNotificationResponse } from '@holi/mobile/notifications'
-import { reactNativeTracingRoutingInstrumentation } from '@holi/mobile/tracing'
+import { navigationIntegration } from '@holi/mobile/tracing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const logger = getLogger('NavigationProvider')
@@ -93,7 +93,6 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
 const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const { theme } = useTheme()
   const navigationTheme = getNavigationTheme(theme)
-
   return (
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
@@ -103,7 +102,7 @@ const NavigationProvider = ({ children }: React.PropsWithChildren<unknown>) => {
         theme={navigationTheme}
         linking={rootLinkingConfig}
         onReady={() => {
-          reactNativeTracingRoutingInstrumentation.registerNavigationContainer(navigationRef)
+          navigationIntegration.registerNavigationContainer(navigationRef)
         }}
       >
         {children}

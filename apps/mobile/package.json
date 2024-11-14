@@ -19,7 +19,7 @@
     "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
-    "@sentry/react-native": "~5.24.3",
+    "@sentry/react-native": "~6.1.0",
     "apollo-link-timeout": "^4.0.0",
     "expo": "~51.0.38",
     "expo-application": "^5.9.1",
