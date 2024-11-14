@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -17,15 +16,16 @@ import { ContentSelectionStep } from '@holi/core/screens/onboarding/components/C
 
 interface AccountSetupStepperProps {
   onContentSelection: (contentType: string) => Promise<void>
+  onFinish: () => void
 }
 
 const stepKeys = ['CONTENT_SELECTION']
 
-export const AccountSetupStepper = ({ onContentSelection }: AccountSetupStepperProps) => {
+export const AccountSetupStepper = ({ onContentSelection, onFinish }: AccountSetupStepperProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { t } = useTranslation()
-  const { navigate, navigateBack } = useRouting()
+  const { navigateBack } = useRouting()
   const { track } = useTracking()
   const [selectedContent, setSelectedContent] = useState<string>()
 
@@ -39,11 +39,12 @@ export const AccountSetupStepper = ({ onContentSelection }: AccountSetupStepperP
         setFinished(true)
         track(TrackingEvent.OnboardingPressed(stepKeys[currentStep], selectedContent))
         await onContentSelection(selectedContent)
+        onFinish()
       } else {
         goNext()
       }
     },
-    [selectedContent, track, onContentSelection]
+    [selectedContent, track, onContentSelection, onFinish]
   )
 
   const handleBackPress = useCallback(
@@ -62,13 +63,12 @@ export const AccountSetupStepper = ({ onContentSelection }: AccountSetupStepperP
       const stepKey = stepKeys[currentStep]
       if (stepKey === 'CONTENT_SELECTION') {
         track(TrackingEvent.OnboardingPressed(stepKey, 'SKIP'))
-        await storeOnboardingState('finished')
-        navigate('/')
+        onFinish()
       } else {
         goNext()
       }
     },
-    [track, navigate]
+    [track, onFinish]
   )
 
   return (
