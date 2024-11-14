@@ -8,6 +8,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { Highlight } from '@holi/core/screens/search/Highlight'
 import { InfiniteHits } from '@holi/core/screens/search/InfiniteHits'
 import { SearchBox } from '@holi/core/screens/search/SearchBox'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -39,7 +40,7 @@ const typesenseInstantSearchAdapter = new TypesenseInstantSearchAdapter({
 const searchClient = typesenseInstantSearchAdapter.searchClient
 
 export type SearchHit = {
-  type: 'volunteering'
+  type: 'volunteering' | 'person' | 'post'
   id: string
   title_de?: string
   title_en?: string
@@ -51,16 +52,35 @@ export type SearchHit = {
   link_path?: string
 }
 
+const types = {
+  volunteering: 'Volunteering',
+  person: 'People',
+  post: 'Posts',
+}
+
 const Hit = ({ hit }: { hit: SearchHit }) => {
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
   return (
-    <View style={{ rowGap: 6 }}>
-      {hit.title_de && <Highlight hit={hit} attribute={'title_de'} />}
-      {hit.title_en && <Highlight hit={hit} attribute={'title_en'} />}
-      {hit.description_de && <Highlight hit={hit} attribute={'description_de'} />}
-      {hit.description_en && <Highlight hit={hit} attribute={'description_en'} />}
-      <Text size={'xs'}>
-        {hit.location} {hit.location_lat_lng && '(' + hit.location_lat_lng[0] + ',' + hit.location_lat_lng[1] + ')'}
-      </Text>
+    <View style={{ flexDirection: 'row', columnGap: 6 }}>
+      <HoliImage
+        source={{ uri: hit.image_url, width: 80, height: 80 }}
+        label={hit.title_de ?? hit.title_en ?? ''}
+        style={styles.imageColumn}
+      />
+      <View style={{ flexDirection: 'column', rowGap: dimensions.spacingXxs }}>
+        <View style={{ flexDirection: 'row', columnGap: dimensions.spacingXxs }}>
+          <Text size={'md'} variant={'secondary'}>
+            {types[hit.type]} &middot; {hit.location}
+          </Text>
+        </View>
+        <View style={{ rowGap: 6 }}>
+          {hit.title_de && <Highlight hit={hit} attribute={'title_de'} />}
+          {hit.title_en && !hit.title_de && <Highlight hit={hit} attribute={'title_en'} />}
+          {hit.description_de && <Highlight hit={hit} attribute={'description_de'} />}
+          {hit.description_en && !hit.description_de && <Highlight hit={hit} attribute={'description_en'} />}
+        </View>
+      </View>
     </View>
   )
 }
@@ -90,7 +110,7 @@ const RefinementList = () => {
             selected={item.isRefined}
             key={item.value}
           >
-            {item.label} &middot; {item.count}
+            {types[item.label as SearchHit['type']]} &middot; {item.count}
           </ChipSelect>
         )
       })}
@@ -129,10 +149,20 @@ const Search = () => {
 
 export default memo(Search)
 
+const THUMBNAIL_SIZE = 64
+
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.spacingXl,
+      paddingTop: dimensions.topBarHeight,
+    },
+    imageColumn: {
+      paddingBottom: 40,
+      flexBasis: THUMBNAIL_SIZE,
+      width: THUMBNAIL_SIZE,
+      height: THUMBNAIL_SIZE,
+      borderRadius: 8,
+      backgroundColor: theme.colors.background20,
     },
   })
