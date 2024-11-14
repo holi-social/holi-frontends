@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
+import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'

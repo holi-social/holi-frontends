@@ -6,7 +6,7 @@ import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 describe('HoliTextLink', () => {
   it('renders child component', () => {
     render(
-      <HoliTextLink label="test" href="/">
+      <HoliTextLink label="test" href="/" size="md">
         inner
       </HoliTextLink>
     )
@@ -16,9 +16,9 @@ describe('HoliTextLink', () => {
 
   it('calls onPress handler', () => {
     const onPress = jest.fn()
-    render(<HoliTextLink label="test" href="/" onPress={onPress} />)
+    render(<HoliTextLink label="test" href="/" onPress={onPress} size="md" />)
 
-    fireEvent.press(screen.getByTestId('text-link'))
+    fireEvent.press(screen.getByRole('link'))
 
     expect(onPress).toHaveBeenCalled()
   })

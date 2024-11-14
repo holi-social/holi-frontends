@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliLinkTracked } from '@holi/core/navigation/components/HoliLinkTracked'
+import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'

@@ -1,3 +1,4 @@
+import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import { Platform, StyleProp, TextStyle, ViewStyle } from 'react-native'
 
@@ -32,7 +33,7 @@ const HoliRichTextOutput = ({
   onPressText,
   ...props
 }: Props) => {
-  const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'default' : size
+  const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'md' : 'sm'
 
   /**
    * Replaces each @<USER-ID>
@@ -61,16 +62,16 @@ const HoliRichTextOutput = ({
               href={`/profile/${user.id}`}
               key={index}
               size={linkSize}
-              color="brandB300"
+              variant="special"
             >
               {mentionPrefix}
               {replaced}
             </HoliTextLink>
           ) : (
-            <HoliText key={index} size={linkSize}>
+            <Text key={index} size={linkSize}>
               {mentionPrefix}
               {replaced}
-            </HoliText>
+            </Text>
           )
         ) : (
           textPart
@@ -104,7 +105,7 @@ const HoliRichTextOutput = ({
               size={linkSize}
               key={link.requestedUrl}
               external={isExternalLink(link.requestedUrl)}
-              color="brandB300"
+              variant="special"
             >
               {link.title}
             </HoliTextLink>

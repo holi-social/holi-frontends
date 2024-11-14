@@ -1,8 +1,8 @@
 import { useApolloClient } from '@apollo/client'
 import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
@@ -11,7 +11,7 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { type OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
-import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
+import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -225,17 +225,15 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
                   <HoliTextLink
                     label={t('auth.registration.privacyPolicy')}
                     href={`${legalDocPath}?type=privacyPolicy`}
-                    size="small"
+                    size="sm"
                     external={isWeb}
-                    testID="btn-to-privacy-policy"
                   />
 
                   <HoliTextLink
                     label={t('auth.registration.termsOfUse')}
                     href={`${legalDocPath}?type=termsOfUse`}
-                    size="small"
+                    size="sm"
                     external={isWeb}
-                    testID="btn-to-terms-of-use"
                   />
                 </Trans>
               </Text>

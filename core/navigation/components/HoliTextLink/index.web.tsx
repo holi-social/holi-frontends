@@ -1,9 +1,9 @@
+import { TextLink } from 'holi-bricks/components/text'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 
 export const HoliTextLink = ({
   href,
@@ -12,23 +12,21 @@ export const HoliTextLink = ({
   onPress,
   children,
   mobileNavigateBackFirst,
-  testID = 'text-link',
-  color,
-  align,
+  variant,
+  textAlign,
   size,
 }: PropsWithChildren<HoliTextLinkProps>) => {
   return (
-    <HoliText size={size} color={color} align={align} bold>
+    <TextLink size={size} variant={variant} textAlign={textAlign}>
       <HoliLink
         href={href}
         label={label}
         external={external}
         onPress={onPress}
         mobileNavigateBackFirst={mobileNavigateBackFirst}
-        testID={testID}
       >
         {children}
       </HoliLink>
-    </HoliText>
+    </TextLink>
   )
 }

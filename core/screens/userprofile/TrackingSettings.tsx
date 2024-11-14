@@ -1,6 +1,7 @@
+import { Text } from 'holi-bricks/components/text'
 import React, { memo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import { TrackingGeneralContentDescription } from '@holi/core/components/TrackingConsentModal'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -19,8 +20,6 @@ import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const logger = getLogger('Tracking')
-
-const isWeb = Platform.OS === 'web'
 
 const updateUserConsentState = ({
   personalization = false,
@@ -126,16 +125,16 @@ const TrackingSettings = () => {
 
             <HoliGap size="sm" />
 
-            <HoliText>
+            <Text size="md">
               <Trans t={t} i18nKey={'profile.settings.tracking.dataManagement.description'}>
                 <HoliTextLink
                   label={t('profile.settings.help.support')}
-                  href={isWeb ? t('global.support.mail.href') : ''}
-                  onPress={isWeb ? undefined : () => Linking.openURL(t('global.support.mail.href'))}
-                  color="brandB300"
+                  href={t('global.support.mail.href')}
+                  external={true}
+                  size="md"
                 />
               </Trans>
-            </HoliText>
+            </Text>
           </HoliBox>
         </HoliContainer>
       </View>
