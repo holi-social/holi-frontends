@@ -79,12 +79,12 @@
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
     - '. ${ENVIRONMENT_FILE}'
     - 'cd apps/mobile'
+    - corepack enable
+    - yarn install --immutable --immutable-cache
     - 'export EAS_APK_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit=1 | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
     - 'export EAS_APK_FILE=$(basename $EAS_APK_URL)'
     - 'curl -L -s -o ../../e2e/mobile/$EAS_APK_FILE $EAS_APK_URL' # download .apk from EAS
     - 'cd ../../e2e/mobile'
-    - corepack enable
-    - 'yarn install --immutable --immutable-cache'
     - 'export BROWSERSTACK_UPLOAD_RESPONSE=$(curl -s -u "${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}" -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@${EAS_APK_FILE}" -F "ios_keychain_support=true")'
     - 'export BROWSERSTACK_APP_URL=$(echo "${BROWSERSTACK_UPLOAD_RESPONSE}" | jq -r ".app_url")'
     - 'APPIUM_PLATFORM=$BUILD_PLATFORM yarn run jest --testPathPattern=/$TEST_SUITES/ --runInBand'
