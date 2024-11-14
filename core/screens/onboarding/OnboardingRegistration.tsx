@@ -1,12 +1,11 @@
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 
 import AccountSetup from '@holi/core/auth/components/AccountSetup'
 import EmailVerification from '@holi/core/auth/components/AccountSetup/EmailVerification'
-import CommunityGuidelines from '@holi/core/auth/components/CommunityGuidelines'
 import CreateAccount from '@holi/core/auth/components/CreateAccount'
-import DataConsent from '@holi/core/auth/components/DataConsent'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -14,27 +13,23 @@ import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBack
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import {
-  OnboardingStateValue,
+  type OnboardingStateValue,
   onboardingStateVar,
   storeOnboardingState,
   useStoredOnboardingState,
 } from '@holi/core/screens/onboarding/hooks/onboardingState'
-import { TrackingEvent } from '@holi/core/tracking'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const { useParam } = createParamHooks()
 
 export enum RegistrationStep {
-  COMMUNITY_GUIDELINES,
-  PRIVACY_POLICY,
-  CREATE_ACCOUNT,
-  EMAIL_VERIFICATION,
-  ACCOUNT_SETUP,
+  CREATE_ACCOUNT = 0,
+  EMAIL_VERIFICATION = 1,
+  ACCOUNT_SETUP = 2,
 }
 
 interface OnboardingStepperProps {
@@ -43,35 +38,13 @@ interface OnboardingStepperProps {
 
 const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingStateChange }) => {
   const { theme } = useTheme()
-  const { track } = useTracking()
+
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { currentStep, goNext, goBack } = useStepper()
-  const [{ communityGuidelines, privacyPolicy }, setOnboardingState] = useState({
-    communityGuidelines: false,
-    privacyPolicy: false,
-  })
+  const { currentStep, goNext } = useStepper()
 
   usePreventBackNavigation(true)
 
   const { navigate, navigateBack } = useRouting()
-
-  const onCommunityGuidelinesChange = useCallback(
-    () =>
-      setOnboardingState((prevValue) => ({
-        ...prevValue,
-        communityGuidelines: !prevValue.communityGuidelines,
-      })),
-    []
-  )
-
-  const onPrivacyPolicyChange = useCallback(
-    () =>
-      setOnboardingState((prevValue) => ({
-        ...prevValue,
-        privacyPolicy: !prevValue.privacyPolicy,
-      })),
-    []
-  )
 
   const onCreateAccountDismiss = useCallback(() => {
     const currentOnboardingState = onboardingStateVar()
@@ -86,18 +59,6 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingState
 
   const goToNextStep = useCallback(async () => {
     switch (currentStep) {
-      case RegistrationStep.COMMUNITY_GUIDELINES:
-        if (communityGuidelines) {
-          track(TrackingEvent.Auth.CommunityGuidelinesOnboardingStepCompleted)
-          goNext()
-        }
-        break
-      case RegistrationStep.PRIVACY_POLICY:
-        if (privacyPolicy) {
-          track(TrackingEvent.Auth.PrivacyPolicyOnboardingStepCompleted)
-          goNext()
-        }
-        break
       case RegistrationStep.CREATE_ACCOUNT:
         await onOnboardingStateChange('emailVerification')
         goNext()
@@ -109,27 +70,13 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingState
       default:
         return
     }
-  }, [communityGuidelines, currentStep, goNext, onOnboardingStateChange, privacyPolicy, track])
+  }, [currentStep, goNext, onOnboardingStateChange])
 
   return (
     <SafeArea style={styles.container}>
       <HoliStepper
         scrollEnabled={false}
         steps={[
-          <CommunityGuidelines
-            onNextPress={goToNextStep}
-            onBackPress={navigateBack}
-            agreementValue={communityGuidelines}
-            onAgreementChange={onCommunityGuidelinesChange}
-            key={RegistrationStep.COMMUNITY_GUIDELINES}
-          />,
-          <DataConsent
-            onNextPress={goToNextStep}
-            onBackPress={goBack}
-            agreementValue={privacyPolicy}
-            onAgreementChange={onPrivacyPolicyChange}
-            key={RegistrationStep.PRIVACY_POLICY}
-          />,
           <CreateAccount
             onRegister={goToNextStep}
             onDismiss={onCreateAccountDismiss}
@@ -152,7 +99,7 @@ const OnboardingRegistration = () => {
   const storedOnboardingState = useStoredOnboardingState()
   const [toRegistration] = useParam('registrationStep')
 
-  let initialStep = RegistrationStep.COMMUNITY_GUIDELINES
+  let initialStep = RegistrationStep.CREATE_ACCOUNT
 
   const setScreenOptions = useSetScreenOptions()
 
@@ -169,7 +116,7 @@ const OnboardingRegistration = () => {
   } else if (storedOnboardingState === 'accountSetup') {
     initialStep = RegistrationStep.ACCOUNT_SETUP
   } else if (toRegistration) {
-    initialStep = RegistrationStep.COMMUNITY_GUIDELINES
+    initialStep = RegistrationStep.CREATE_ACCOUNT
   }
 
   return (

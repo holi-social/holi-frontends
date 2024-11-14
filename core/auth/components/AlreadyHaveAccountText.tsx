@@ -1,28 +1,27 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
 
 import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
-import { TrackingEvent } from '@holi/core/tracking'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import type { TrackingEvent } from '@holi/core/tracking'
+import type { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
+import { Text } from 'holi-bricks/components/text'
 
 export interface AlreadyHaveAccountTextProps {
   mobileNavigateBackFirst?: boolean
-  style?: StyleProp<ViewStyle>
+  align?: HoliTextLinkProps['align']
   trackingEvent: TrackingEvent
   onPress?(): void
 }
 
 const AlreadyHaveAccountText = ({
   mobileNavigateBackFirst = false,
-  style,
   trackingEvent,
   onPress,
 }: AlreadyHaveAccountTextProps) => {
   const { t } = useTranslation()
 
   return (
-    <HoliText size="small" style={style} testID="already-have-account-text">
+    <Text size="md" textAlign="center">
       <Trans t={t} i18nKey={'auth.registration.alreadyHasAccount'}>
         <HoliTextLinkTracked
           label={t('auth.login')}
@@ -36,7 +35,7 @@ const AlreadyHaveAccountText = ({
           {t('auth.login')}
         </HoliTextLinkTracked>
       </Trans>
-    </HoliText>
+    </Text>
   )
 }
 
