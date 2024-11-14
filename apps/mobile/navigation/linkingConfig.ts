@@ -121,6 +121,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     // Onboarding
     [RouteName.Onboarding]: 'onboarding',
     [RouteName.OnboardingRegistration]: 'onboarding/registration',
+    [RouteName.OnboardingRegistrationLegalDocuments]: 'onboarding/registration/legalDocuments',
     [RouteName.OnboardingAccountSetup]: 'onboarding/account-setup',
 
     // Modals

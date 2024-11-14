@@ -25,7 +25,7 @@ const AlreadyHaveAccountText = ({
         <Trans t={t} i18nKey={'auth.registration.alreadyHasAccount'}>
           <HoliTextLinkTracked
             label={t('auth.login')}
-            onPress={onPress ? onPress : undefined}
+            onPress={onPress}
             href="/login"
             size="sm"
             mobileNavigateBackFirst={mobileNavigateBackFirst}
