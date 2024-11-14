@@ -45,9 +45,7 @@
     - eas --version
     - >
       if [ "$CHECK_VERSION_RELEASED" == "true" ]; then
-        eas build:list --json --non-interactive --platform ios --buildProfile $BUILD_PROFILE --limit=1
         export LAST_VERSION_IOS=$(eas build:list --json --non-interactive --platform ios --buildProfile $BUILD_PROFILE --limit=1 2>/dev/null | jq -r '.[0].appBuildVersion')
-        echo $LAST_VERSION_IOS
         export LAST_VERSION_ANDROID=$(eas build:list --json --non-interactive --platform android --buildProfile $BUILD_PROFILE --limit=1 2>/dev/null | jq -r '.[0].appBuildVersion')
         export CURRENT_VERSION_IOS=$(expo config --json 2>/dev/null | jq -r '.ios.buildNumber')
         export CURRENT_VERSION_ANDROID=$(expo config --json 2>/dev/null | jq -r '.android.versionCode')
