@@ -2,16 +2,14 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 
 import ActHome, { orderedSections } from '@holi/core/screens/act/ActHome'
+import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 
 const mockPosthog = jest.fn()
 jest.mock('@holi/core/tracking/PosthogCrossPlatform', () => ({
   usePosthogCrossPlatform: () => mockPosthog(),
 }))
 
-const mockUseFirstVisitContentSelection = jest.fn()
-jest.mock('@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection', () => ({
-  useFirstVisitContentSelection: () => mockUseFirstVisitContentSelection(),
-}))
+jest.mock('@holi/core/navigation/hooks/useParam')
 
 const mockActSection = jest.fn()
 jest.mock('@holi/core/screens/act/ActSection', () => ({
@@ -19,25 +17,24 @@ jest.mock('@holi/core/screens/act/ActSection', () => ({
 }))
 
 const cases = [
-  { selection: null, order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
-  { selection: 'SPACE', order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
-  { selection: 'DONATIONS', order: ['DONATIONS', 'CHALLENGES', 'VOLUNTEERING'] },
-  { selection: 'VOLUNTEERING', order: ['VOLUNTEERING', 'CHALLENGES', 'DONATIONS'] },
-  { selection: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
+  { section: undefined, order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
+  { section: 'SPACE', order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
+  { section: 'DONATIONS', order: ['DONATIONS', 'CHALLENGES', 'VOLUNTEERING'] },
+  { section: 'VOLUNTEERING', order: ['VOLUNTEERING', 'CHALLENGES', 'DONATIONS'] },
+  { section: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
 ]
 
 describe('ActHome Section', () => {
-  it.each(cases)('selection: $selection gives order: $order', ({ selection, order }) => {
-    const orderedSect = orderedSections(selection)
+  it.each(cases)('query parameter section=$section gives order: $order', ({ section, order }) => {
+    const orderedSect = orderedSections(section)
     expect(orderedSect).toStrictEqual(order)
+    mockParameters({ section })
 
     mockActSection.mockReturnValue(<></>)
-    mockUseFirstVisitContentSelection.mockReturnValue({ isLoading: false, selectedContentType: selection })
     render(<ActHome />)
-    expect(mockUseFirstVisitContentSelection).toHaveBeenCalled()
     const calls = mockActSection.mock.calls
     expect(mockActSection).toHaveBeenCalledTimes(order.length)
-    calls.forEach(function (call, i) {
+    calls.forEach((call, i) => {
       expect(call[0]).toStrictEqual({ type: order[i] })
     })
   })
