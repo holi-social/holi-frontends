@@ -22,7 +22,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
       logErrorLocal(err, 'GraphQL Error', { location: 'errorLink' })
 
-      Sentry.configureScope((scope: Sentry.Scope) => {
+      Sentry.withScope((scope: Sentry.Scope) => {
         scope.addBreadcrumb({
           type: 'default',
           category: 'graphql',
