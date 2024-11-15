@@ -44,9 +44,6 @@ interface CreateAccountProps {
   onDismiss: () => void
 }
 
-// TODO: remove this constant after connecting onboarding and registration
-const show_continueAsGuest_warning = false
-
 const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
@@ -200,15 +197,10 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
                   {t('auth.loginProtection.continueAsGuest')}
                 </HoliButtonTracked>
 
-                {/* TODO: remove this condition after connecting onboarding and registration */}
-                {show_continueAsGuest_warning && (
-                  <>
-                    <HoliGap size="xxs" />
-                    <Text size="xs" variant="secondary" textAlign="center">
-                      {t('auth.loginProtection.continueAsGuest.warning')}
-                    </Text>
-                  </>
-                )}
+                <HoliGap size="xxs" />
+                <Text size="xs" variant="secondary" textAlign="center">
+                  {t('auth.loginProtection.continueAsGuest.warning')}
+                </Text>
 
                 <HoliGap size="m" />
                 <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
