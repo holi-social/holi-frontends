@@ -1,9 +1,10 @@
-import React, { memo, useMemo } from 'react'
+import React, { memo, PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Highlight } from '@holi/core/screens/search/Highlight'
 import { InfiniteHits } from '@holi/core/screens/search/InfiniteHits'
@@ -39,23 +40,52 @@ const typesenseInstantSearchAdapter = new TypesenseInstantSearchAdapter({
 })
 const searchClient = typesenseInstantSearchAdapter.searchClient
 
+export type SearchHitType = 'volunteering' | 'profile' | 'post'
+export type SearchHitLinkLocatorIdOrSlug = string
 export type SearchHit = {
-  type: 'volunteering' | 'person' | 'post'
+  type: SearchHitType
   id: string
   title_de?: string
   title_en?: string
   description_de?: string
   description_en?: string
-  location?: string
+  location_de?: string
+  location_en?: string
   location_lat_lng?: [number, number]
   image_url?: string
-  link_path?: string
+  /**
+   * Used to construct links to the entity on client-side. E.g. for a space task, this would look as follows:
+   * {
+   *   // ...
+   *   link_locators: {
+   *     space: "kiezputz",
+   *     task: "1c83676f-5197-44c7-bea6-51a7e2f41959"
+   *   }
+   * }
+   * This can then be used to reconstruct the URI path /$lang/spaces/kiezputz/tasks/1c83676f-5197-44c7-bea6-51a7e2f41959
+   */
+  link_locators?: Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>
 }
 
 const types = {
   volunteering: 'Volunteering',
-  person: 'People',
+  profile: 'People',
   post: 'Posts',
+}
+
+const HitLink = ({ hit, children }: { hit: SearchHit } & PropsWithChildren) => {
+  const toPath = (locs: Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>): string => {
+    if ('volunteering' in locs && locs['volunteering'] !== undefined) return `volunteering/${locs['volunteering']}`
+    else if ('profile' in locs && locs['profile'] !== undefined) return `profile/${locs['profile']}`
+    else if ('post' in locs && locs['post'] !== undefined) return `feed-posts/${locs['post']}`
+    else return '#'
+  }
+  const path = toPath(hit.link_locators || ({} as Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>))
+  return (
+    <HoliLink label={hit.title_de ?? hit.title_en ?? ''} href={path}>
+      {children}
+    </HoliLink>
+  )
 }
 
 const Hit = ({ hit }: { hit: SearchHit }) => {
@@ -71,14 +101,16 @@ const Hit = ({ hit }: { hit: SearchHit }) => {
       <View style={{ flexDirection: 'column', rowGap: dimensions.spacingXxs }}>
         <View style={{ flexDirection: 'row', columnGap: dimensions.spacingXxs }}>
           <Text size={'md'} variant={'secondary'}>
-            {types[hit.type]} &middot; {hit.location}
+            {types[hit.type]} &middot; {hit.location_de ?? hit.location_en}
           </Text>
         </View>
         <View style={{ rowGap: 6 }}>
-          {hit.title_de && <Highlight hit={hit} attribute={'title_de'} />}
-          {hit.title_en && !hit.title_de && <Highlight hit={hit} attribute={'title_en'} />}
-          {hit.description_de && <Highlight hit={hit} attribute={'description_de'} />}
-          {hit.description_en && !hit.description_de && <Highlight hit={hit} attribute={'description_en'} />}
+          <HitLink hit={hit}>
+            {hit.title_de && <Highlight hit={hit} attribute={'title_de'} />}
+            {hit.title_en && !hit.title_de && <Highlight hit={hit} attribute={'title_en'} />}
+            {hit.description_de && <Highlight hit={hit} attribute={'description_de'} />}
+            {hit.description_en && !hit.description_de && <Highlight hit={hit} attribute={'description_en'} />}
+          </HitLink>
         </View>
       </View>
     </View>
