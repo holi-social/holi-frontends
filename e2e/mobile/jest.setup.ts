@@ -13,13 +13,16 @@ beforeEach(
   async () => {
     // make test name visible in BrowserStack
     if (target === 'browserstack') {
+      // @ts-ignore custom capabilities are not covered by the type
       appiumConfig.capabilities['bstack:options'].sessionName = expect.getState().currentTestName
     }
+    // @ts-ignore custom capabilities are not covered by the type
     Appium = await webdriverio.remote(appiumConfig)
 
     // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
     await resetImplicitTimeout()
 
+    // @ts-ignore custom capabilities are not covered by the type
     if (appiumConfig.capabilities['appium:app']) {
       let numAttempts = 5
       let appRunning = false
