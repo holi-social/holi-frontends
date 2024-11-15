@@ -1,38 +1,39 @@
-import { ReactNativeFile } from '@holi/api/graphql/client'
-import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import { ReactNativeFile } from "@holi/api/graphql/client";
+import { HoliButtonProps } from "@holi/ui/components/molecules/HoliButton";
 
 export interface HoliImageInfo {
-  uri: string
-  blob: ReactNativeFile | File
-  base64?: string | null
-  height: number
-  width: number
+	uri: string;
+	blob: ReactNativeFile | File;
+	base64?: string | null;
+	height: number;
+	width: number;
+	fileBlob?: Blob;
 }
 
 export type FileSizeLimitationResize = {
-  type: 'resize'
-  limitBytes: number
-  resizeWidth: number
-}
+	type: "resize";
+	limitBytes: number;
+	resizeWidth: number;
+};
 
 export type FileSizeLimitationReject = {
-  type: 'reject'
-  limitBytes: number
-}
+	type: "reject";
+	limitBytes: number;
+};
 
 export type FileSizeLimitationUnlimited = {
-  type: 'unlimited'
-}
+	type: "unlimited";
+};
 
 export type HoliImagePickerFileSizeLimitation =
-  | FileSizeLimitationUnlimited
-  | FileSizeLimitationResize
-  | FileSizeLimitationReject
+	| FileSizeLimitationUnlimited
+	| FileSizeLimitationResize
+	| FileSizeLimitationReject;
 
 export interface HoliImagePickerProps {
-  buttonProps: Omit<HoliButtonProps, 'children' | 'onPress'>
-  onPickImage?: (image: HoliImageInfo) => void
-  onPickImages?: (images: HoliImageInfo[]) => void
-  allowsMultipleSelection?: boolean
-  fileSizeLimitation: HoliImagePickerFileSizeLimitation
+	buttonProps: Omit<HoliButtonProps, "children" | "onPress">;
+	onPickImage?: (image: HoliImageInfo) => void;
+	onPickImages?: (images: HoliImageInfo[]) => void;
+	allowsMultipleSelection?: boolean;
+	fileSizeLimitation: HoliImagePickerFileSizeLimitation;
 }

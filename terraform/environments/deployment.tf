@@ -48,6 +48,9 @@ resource "google_cloud_run_service" "mvp_web" {
   autogenerate_revision_name = true
 
   template {
+
+    
+
     spec {
       service_account_name = data.terraform_remote_state.holi_frontends_common_state.outputs.cloud_run_service_account_email
       containers {
@@ -100,6 +103,14 @@ resource "google_cloud_run_service" "mvp_web" {
         env {
           name  = "NEXT_PUBLIC_OWNCLOUD_BASE_URL"
           value = local.environment == "production" ? "https://production.cloud.holi.social" : "https://development.cloud.holi.social"
+        }
+        env {
+          name  = "NEXT_PUBLIC_IMAGEKIT_URL"
+          value = "https://ik.imagekit.io/holi"
+        }
+        env {
+          name = "NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY"
+          value = "public_OzWNUH27nFYPksu8PEs2A+TOxyM="
         }
 
         resources {
