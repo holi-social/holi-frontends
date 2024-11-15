@@ -157,6 +157,7 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
     clickElementByTestId(page, 'btn-to-onboarding'),
   ])
   await clickElementByTestId(page, 'holi-wizard-skip-btn')
+  await clickElementByTestId(page, 'btn-to-continue-as-guest')
 }
 
 export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
