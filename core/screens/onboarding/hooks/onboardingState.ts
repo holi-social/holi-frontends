@@ -1,10 +1,11 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { Platform } from 'react-native'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 
@@ -72,15 +73,28 @@ export const useOnboardingRedirect = () => {
   const onboardingState = useStoredOnboardingState()
   const pathname = usePathname()
   const { navigate } = useRouting()
+  // FIXME Using setTimeout as navigation might not be properly set up yet
+  // and is only needed on mobile
+  // Crude hack to workaround a react-navigation issue: https://github.com/react-navigation/react-navigation/issues/9170
+  // Should be fixed with react-navigation v7
+  const navigateWithTimeout = useCallback(
+    (path: string) => {
+      if (Platform.OS !== 'web') {
+        setTimeout(() => {
+          navigate(path)
+        }, 100)
+      } else {
+        navigate(path)
+      }
+    },
+    [navigate]
+  )
 
   useEffect(() => {
-    // FIXME Using setTimeout as navigation might not be properly set up yet
-    // Crude hack to workaround a react-navigation issue: https://github.com/react-navigation/react-navigation/issues/9170
-    // Should be fixed with react-navigation v7
     if (onboardingState === 'accountSetup' && pathname !== '/onboarding/registration') {
-      setTimeout(() => navigate('/onboarding/registration'), 100)
+      navigateWithTimeout('/onboarding/registration')
     } else if (onboardingState === 'onboarding' && pathname === '/') {
-      setTimeout(() => navigate('/onboarding'), 100)
+      navigateWithTimeout('/onboarding')
     }
-  }, [navigate, onboardingState, pathname])
+  }, [navigateWithTimeout, onboardingState, pathname])
 }

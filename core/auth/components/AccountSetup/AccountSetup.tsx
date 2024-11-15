@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 
@@ -8,15 +8,13 @@ import LocationStep, { useLocationStep } from '@holi/core/auth/components/Accoun
 import NamesStep, { useNamesStep } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useLoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { UserChipTypes, useUserChips } from '@holi/core/helpers/useUserChips'
 import { useRegisterUserNames } from '@holi/core/hooks/useRegisterUserNames'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
-  UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserV2Response,
+  type UpdateAuthenticatedUserInput,
+  type UpdateAuthenticatedUserV2Response,
   interestsQuery,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
@@ -28,17 +26,17 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { BUTTON_RECTS } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import HoliWizard, {
-  HoliWizardCurrentStepOptions,
-  NextPressHandlerOptions,
-  SkipPressHandlerOptions,
+  type HoliWizardCurrentStepOptions,
+  type NextPressHandlerOptions,
+  type SkipPressHandlerOptions,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNew'
 
 export enum AccountSetupStep {
-  NAMES,
-  PRE_SUCCESS,
-  INTERESTS,
-  LOCATION,
-  SUCCESS,
+  NAMES = 0,
+  PRE_SUCCESS = 1,
+  INTERESTS = 2,
+  LOCATION = 3,
+  SUCCESS = 4,
 }
 
 export interface AccountSetupProps {
@@ -70,9 +68,7 @@ const ACCOUNT_SETUP_STEP_OPTIONS: Record<AccountSetupStep, HoliWizardCurrentStep
 
 const AccountSetup = ({ onFinish }: AccountSetupProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
-  const { isLoggedOut } = useLoginState()
   const { user, isLoading } = useLoggedInUser()
   const { track } = useTracking()
 
@@ -172,10 +168,8 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
       }
 
       case AccountSetupStep.SUCCESS:
-        // wait for AsyncStorage to be set
-        await onFinish()
         track(TrackingEvent.Auth.SuccessOnboardingStepCompleted)
-        navigate('/')
+        await onFinish()
         break
 
       default:
@@ -204,13 +198,6 @@ const AccountSetup = ({ onFinish }: AccountSetupProps) => {
     }
     goNext()
   }
-
-  useEffect(() => {
-    if (isLoggedOut) {
-      onFinish()
-      navigate('/')
-    }
-  }, [isLoggedOut, onFinish, navigate])
 
   const getSubmitButtonLabel = useCallback(
     (stepNumber: number) =>

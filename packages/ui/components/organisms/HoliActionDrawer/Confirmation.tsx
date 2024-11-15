@@ -8,6 +8,8 @@ import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
 import { useActionContext } from './Action'
 import { useActionDrawerContext } from './Drawer'
+import { usePathname } from '@holi/core/navigation/hooks/usePathname'
+import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 interface Props {
   description: string
@@ -37,6 +39,9 @@ export const Confirmation = ({
   const { isLoggedIn } = useLoggedInUser()
   const { hideDrawer } = useActionDrawerContext()
   const { isVisibleConfirmation, setShowConfirmation, confirmationProps } = useActionContext()
+  const pathname = usePathname()
+
+  const enableRedirect = () => setPathToRedirect(pathname)
 
   const handleAction = () => {
     handleConfirmation()
@@ -49,7 +54,7 @@ export const Confirmation = ({
   return (
     <>
       {requireLogin && !isLoggedIn ? (
-        <SignupGuardModal {...confirmationProps} />
+        <SignupGuardModal enableRedirect={enableRedirect} {...confirmationProps} />
       ) : (
         <HoliConfirmation
           show={isVisibleConfirmation}

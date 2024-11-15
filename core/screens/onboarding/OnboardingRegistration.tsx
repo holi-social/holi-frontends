@@ -23,6 +23,11 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliStepper, useStepper } from '@holi/ui/components/organisms/HoliStepper'
 import { HoliStepperController } from '@holi/ui/components/organisms/HoliStepper'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import {
+  clearFirstVisitContentSelection,
+  useFirstVisitContentSelection,
+} from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 const { useParam } = createParamHooks()
 
@@ -34,9 +39,10 @@ export enum RegistrationStep {
 
 interface OnboardingStepperProps {
   onOnboardingStateChange: (value: OnboardingStateValue) => Promise<void>
+  onFinish: () => void
 }
 
-const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingStateChange }) => {
+const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingStateChange, onFinish }) => {
   const { theme } = useTheme()
 
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -46,13 +52,14 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingState
 
   const { navigate, navigateBack } = useRouting()
 
-  const onCreateAccountDismiss = useCallback(() => {
+  const onCreateAccountDismiss = useCallback(async () => {
+    await clearFirstVisitContentSelection()
     const currentOnboardingState = onboardingStateVar()
 
     if (currentOnboardingState === 'finished') {
       navigateBack()
     } else {
-      onOnboardingStateChange('finished')
+      await onOnboardingStateChange('finished')
       navigate('/')
     }
   }, [navigate, navigateBack, onOnboardingStateChange])
@@ -87,7 +94,10 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingState
             onSuccess={goToNextStep}
             key={RegistrationStep.EMAIL_VERIFICATION}
           />,
-          <AccountSetup onFinish={() => onOnboardingStateChange('finished')} key={RegistrationStep.ACCOUNT_SETUP} />,
+          <AccountSetup
+            onFinish={() => onOnboardingStateChange('finished').then(onFinish)}
+            key={RegistrationStep.ACCOUNT_SETUP}
+          />,
         ]}
         lazy
       />
@@ -98,6 +108,14 @@ const OnboardingStepper: React.FC<OnboardingStepperProps> = ({ onOnboardingState
 const OnboardingRegistration = () => {
   const storedOnboardingState = useStoredOnboardingState()
   const [toRegistration] = useParam('registrationStep')
+
+  const { routeForSelectedContentType } = useFirstVisitContentSelection()
+  const redirect = useRedirect(routeForSelectedContentType)
+
+  const onFinish = async () => {
+    await clearFirstVisitContentSelection()
+    redirect(true)
+  }
 
   let initialStep = RegistrationStep.CREATE_ACCOUNT
 
@@ -121,7 +139,7 @@ const OnboardingRegistration = () => {
 
   return (
     <HoliStepperController initialStep={initialStep} stepCount={6}>
-      <OnboardingStepper onOnboardingStateChange={storeOnboardingState} />
+      <OnboardingStepper onOnboardingStateChange={storeOnboardingState} onFinish={onFinish} />
     </HoliStepperController>
   )
 }

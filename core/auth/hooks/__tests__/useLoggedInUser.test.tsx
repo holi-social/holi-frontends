@@ -40,7 +40,7 @@ const TestComponent = () => {
   return <Text size="md">{state}</Text>
 }
 
-const mockUserRequest = () => {
+const mockUserRequest = (userId?: string) => {
   const querySpy = jest.fn().mockReturnValue({
     data: {
       authenticatedUserV2: {
@@ -73,6 +73,7 @@ const mockUserRequest = () => {
   const mockedResponse = {
     request: {
       query: authenticatedUserV2Query,
+      variables: userId ? { userId } : undefined,
     },
     newData: querySpy,
   }
@@ -81,6 +82,7 @@ const mockUserRequest = () => {
 const mockedFailedRequest = {
   request: {
     query: authenticatedUserV2Query,
+    variables: { userId: 'test-user-id' },
   },
   error: new Error('Test'),
 }
@@ -118,7 +120,7 @@ describe('useLoggedInUser', () => {
 
   it('should query user if logged in', () => {
     mockUseLoginState.mockReturnValue(loginStateLoggedIn('test-user-id'))
-    const { mocks, querySpy } = mockUserRequest()
+    const { mocks, querySpy } = mockUserRequest('test-user-id')
 
     render(
       <MockedProvider mocks={mocks}>
@@ -144,7 +146,7 @@ describe('useLoggedInUser', () => {
 
   it('should expose loading state while loading the user', async () => {
     mockUseLoginState.mockReturnValue(loginStateLoggedIn('test-user-id'))
-    const { mocks } = mockUserRequest()
+    const { mocks } = mockUserRequest('test-user-id')
 
     render(
       <MockedProvider mocks={mocks}>

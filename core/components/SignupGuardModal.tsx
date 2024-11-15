@@ -3,19 +3,18 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
-import { usePathname } from '@holi/core/navigation/hooks/usePathname'
-import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
-import HoliConfirmation, { HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
+import HoliConfirmation, { type HoliConfirmationProps } from '@holi/ui/components/molecules/HoliConfirmation'
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SignupGuardModalProps extends Partial<HoliConfirmationProps> {
   trackTrigger?: SignupModalPressedTrigger
+  enableRedirect: () => void
 }
 
 export const SignupGuardModal = ({
@@ -29,25 +28,25 @@ export const SignupGuardModal = ({
   onDismiss,
   primaryButtonType,
   trackTrigger,
+  enableRedirect,
   testID = 'login-guard-modal',
 }: SignupGuardModalProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { props } = useConfirmationState()
-  const pathname = usePathname()
   const { track } = useTracking()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const primaryHandler = useCallback(() => {
     if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'signUp'))
-    setPathToRedirect(pathname)
+    enableRedirect()
     navigate('/onboarding/registration')
 
     const confirmPropagation = onPrimary?.()
     if (confirmPropagation !== false) {
       props.onPrimary?.()
     }
-  }, [navigate, onPrimary, pathname, props, trackTrigger, track])
+  }, [trackTrigger, track, enableRedirect, navigate, onPrimary, props])
 
   const dismissHandler = useCallback(() => {
     if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'x'))
@@ -77,7 +76,10 @@ export const SignupGuardModal = ({
       footerComponent={
         <View style={styles.footerContainer}>
           <AlreadyHaveAccountText
-            onPress={dismissHandler}
+            onPress={() => {
+              enableRedirect()
+              return dismissHandler()
+            }}
             trackingEvent={
               trackTrigger
                 ? TrackingEvent.SignUpModalPressed(trackTrigger, 'login')
