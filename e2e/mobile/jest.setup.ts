@@ -43,7 +43,6 @@ beforeEach(
     } else {
       // Logout + navigate back to the home screen before each test
       await logout()
-      await tapOnElementWithTestId('btn-to-home-view', 100)
     }
   },
   20 * 60 * 1000
