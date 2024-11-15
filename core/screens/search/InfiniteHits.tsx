@@ -17,8 +17,9 @@ export function InfiniteHits(props: InfiniteHitsProps) {
     escapeHTML: false,
   })
 
+  // TODO i18n
   if (!items.length) {
-    return <Text size={'md'}>No search result</Text>
+    return <Text size={'md'}>No search results</Text>
   }
 
   return (

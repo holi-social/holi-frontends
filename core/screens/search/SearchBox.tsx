@@ -1,13 +1,18 @@
 import React, { useRef, useState } from 'react'
 import { useSearchBox } from 'react-instantsearch-core'
+import { UseSearchBoxProps } from 'react-instantsearch-core/dist/es/connectors/useSearchBox.js'
 import { StyleSheet, TextInput } from 'react-native'
 
-export function SearchBox(props) {
+export type SearchBoxProps = {
+  props?: UseSearchBoxProps
+}
+
+export function SearchBox({ props }: SearchBoxProps) {
   const { query, refine } = useSearchBox(props)
   const [inputValue, setInputValue] = useState(query)
-  const inputRef = useRef(null)
+  const inputRef = useRef<TextInput>(null)
 
-  function setQuery(newQuery) {
+  function setQuery(newQuery: string) {
     setInputValue(newQuery)
     refine(newQuery)
   }
@@ -21,6 +26,7 @@ export function SearchBox(props) {
   }
 
   return (
+    // TODO holi-fy
     <TextInput
       ref={inputRef}
       style={styles.input}
@@ -35,6 +41,7 @@ export function SearchBox(props) {
   )
 }
 
+// TODO holi-fy
 const styles = StyleSheet.create({
   input: {
     height: 48,

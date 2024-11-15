@@ -8,29 +8,25 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { InfiniteHits } from '@holi/core/screens/search/InfiniteHits'
 import { RefinementList } from '@holi/core/screens/search/RefinementList'
 import { SearchBox } from '@holi/core/screens/search/SearchBox'
-import { SearchHitData } from '@holi/core/screens/search/types'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { InstantSearch } from 'react-instantsearch-core'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 
+// TODO receive host, port, protocol and apiKey from environment
 const typesenseInstantSearchAdapter = new TypesenseInstantSearchAdapter({
   server: {
     apiKey: 'xyz', // Be sure to use an API key that only allows search operations
     nodes: [
       {
         host: '192.168.0.124',
-        path: '', // Optional. Example: If you have your typesense mounted in localhost:8108/typesense, path should be equal to '/typesense'
         port: 8108,
         protocol: 'http',
       },
     ],
-    cacheSearchResultsForSeconds: 2 * 60, // Cache search results from server. Defaults to 2 minutes. Set to 0 to disable caching.
+    cacheSearchResultsForSeconds: 2 * 60,
   },
-  // The following parameters are directly passed to Typesense's search API endpoint.
-  //  So you can pass any parameters supported by the search endpoint below.
-  //  query_by is required.
   additionalSearchParameters: {
     query_by: 'title_de,title_en,description_de,description_en,location',
   },
@@ -55,9 +51,15 @@ const Search = () => {
         <SafeArea>
           <View style={styles.container}>
             <InstantSearch searchClient={searchClient} indexName="all">
-              <SearchBox />
-              <RefinementList />
-              <InfiniteHits<SearchHitData> />
+              <View style={styles.searchBoxContainer}>
+                <SearchBox />
+              </View>
+              <View style={styles.refinementListContainer}>
+                <RefinementList />
+              </View>
+              <View style={styles.hitsContainer}>
+                <InfiniteHits />
+              </View>
             </InstantSearch>
           </View>
         </SafeArea>
@@ -72,8 +74,19 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       backgroundColor: theme.colors.background20,
-      padding: dimensions.spacingS,
-      paddingTop: dimensions.topBarHeight + dimensions.spacingS,
       gap: dimensions.spacingS,
+      paddingTop: dimensions.topBarHeight + dimensions.spacingS, // TODO probably not the right way to do this
+      paddingBottom: dimensions.bottomBarHeight, // TODO probably not the right way to do this
+    },
+    searchBoxContainer: {
+      paddingLeft: dimensions.spacingS,
+      paddingRight: dimensions.spacingS,
+    },
+    refinementListContainer: {
+      paddingLeft: dimensions.spacingS,
+    },
+    hitsContainer: {
+      paddingLeft: dimensions.spacingS,
+      height: '100%',
     },
   })
