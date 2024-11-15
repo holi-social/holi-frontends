@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { useSearchBox } from 'react-instantsearch-core'
-import { StyleSheet, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput } from 'react-native'
 
 export function SearchBox(props) {
   const { query, refine } = useSearchBox(props)
@@ -21,27 +21,21 @@ export function SearchBox(props) {
   }
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        ref={inputRef}
-        style={styles.input}
-        value={inputValue}
-        onChangeText={setQuery}
-        clearButtonMode="while-editing"
-        autoCapitalize="none"
-        autoCorrect={false}
-        spellCheck={false}
-        autoComplete="off"
-      />
-    </View>
+    <TextInput
+      ref={inputRef}
+      style={styles.input}
+      value={inputValue}
+      onChangeText={setQuery}
+      clearButtonMode="while-editing"
+      autoCapitalize="none"
+      autoCorrect={false}
+      spellCheck={false}
+      autoComplete="off"
+    />
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#252b33',
-    padding: 18,
-  },
   input: {
     height: 48,
     padding: 12,
