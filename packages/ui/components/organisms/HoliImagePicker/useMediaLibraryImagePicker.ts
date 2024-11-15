@@ -1,8 +1,8 @@
 import { getInfoAsync } from 'expo-file-system'
 import { SaveFormat, manipulateAsync } from 'expo-image-manipulator'
 import {
-  ImagePickerAsset,
-  ImagePickerResult,
+  type ImagePickerAsset,
+  type ImagePickerResult,
   PermissionStatus,
   launchImageLibraryAsync,
   useMediaLibraryPermissions,
@@ -12,7 +12,7 @@ import { useCallback } from 'react'
 import { Image } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_HEIGHT, CONTENT_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
-import { HoliImagePickerFileSizeLimitation } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImagePickerFileSizeLimitation } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 const getImageSize = async (imageUri: string): Promise<{ width: number; height: number }> => {
   return new Promise((resolve, reject) => {
@@ -56,13 +56,13 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
   const verifyPermissions = useCallback(async () => {
     if (!mediaLibraryPermissionInfo) return false
 
-    if (mediaLibraryPermissionInfo.status === PermissionStatus.UNDETERMINED) {
+    // it is necessary to request even if already denied, because the user might have changed settings while the value of mediaLibraryPermissionInfo is still "denied"
+    if (
+      mediaLibraryPermissionInfo.status === PermissionStatus.UNDETERMINED ||
+      mediaLibraryPermissionInfo.status === PermissionStatus.DENIED
+    ) {
       const permissionResponse = await requestMediaLibraryPermission()
       return permissionResponse.granted
-    }
-
-    if (mediaLibraryPermissionInfo.status === PermissionStatus.DENIED) {
-      return false
     }
 
     return true
@@ -82,7 +82,6 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
           base64: true,
           allowsMultipleSelection,
           selectionLimit,
-          aspect: [16, 9],
         })
       } catch (error) {
         return 'technicalError'
