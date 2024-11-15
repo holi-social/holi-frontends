@@ -48,4 +48,26 @@ describe('useFirstVisitContentSelection', () => {
 
     await waitFor(() => expect(result.current.selectedContentType).toEqual('POSTS'))
   })
+
+  const testCasesRoutes = [
+    { contentType: 'CHALLENGES', expectedRoute: '/act?section=CHALLENGES' },
+    { contentType: 'DONATIONS', expectedRoute: '/act?section=DONATIONS' },
+    { contentType: 'VOLUNTEERING', expectedRoute: '/act?section=VOLUNTEERING' },
+    { contentType: 'SPACES', expectedRoute: '/spaces' },
+    { contentType: 'HOME', expectedRoute: '/' },
+    { contentType: 'invalid', expectedRoute: '/' },
+  ]
+  it.each(testCasesRoutes)(
+    'should expose route $expectedRoute for content type $contentType',
+    async ({ contentType, expectedRoute }) => {
+      const { result } = renderHook(() => useFirstVisitContentSelection())
+
+      // Await initialization
+      await waitFor(() => expect(result.current.isLoading).toBeFalsy())
+
+      await act(() => result.current.selectContentType(contentType))
+
+      await waitFor(() => expect(result.current.routeForSelectedContentType).toEqual(expectedRoute))
+    }
+  )
 })
