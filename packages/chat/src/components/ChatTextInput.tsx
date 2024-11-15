@@ -1,7 +1,7 @@
 import { Spacing } from 'holi-bricks/tokens'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, TextInputKeyPressEventData, View } from 'react-native'
+import { Platform, StyleSheet, type TextInputKeyPressEventData, View } from 'react-native'
 
 import { sendMessage } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -10,7 +10,7 @@ import { SendPlane } from '@holi/icons/src/generated'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isAndroid = Platform.OS === 'android'
 const SEND_BUTTON_SIZE = 40
@@ -59,51 +59,49 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
     }
   }
 
-  const PLACEHOLDER_MIN_HIGHT = SEND_BUTTON_SIZE + Spacing.xxs * 2 + BORDER_WIDTH * 2
+  //  const PLACEHOLDER_MIN_HIGHT = SEND_BUTTON_SIZE + Spacing.xxs * 2 + BORDER_WIDTH * 2
 
   return (
-    <View style={{ minHeight: PLACEHOLDER_MIN_HIGHT, width: '100%' }}>
-      <HoliTransition.SlideDown visible={isVisible} style={styles.container}>
-        <HoliTextInput
-          aria-label={t('chat.room.input.placeholder', { fullName: userName })}
-          placeholder={t('chat.room.input.placeholder', { fullName: userName })}
-          value={inputValue}
-          onChange={setInputValue}
-          style={styles.textInputContainer}
-          inputStyle={styles.textInput}
-          maxNoOfVisibleLines={5}
-          inputProps={{
-            onKeyPress: (event) => {
-              if (
-                isTextInputKeyPressEventDataWeb(event.nativeEvent) &&
-                event.nativeEvent.key === 'Enter' &&
-                event.nativeEvent.shiftKey
-              ) {
-                event.preventDefault()
-                handleSendMessage()
-              }
-            },
-          }}
-          testID={'chat-message-input'}
-        />
+    <HoliTransition.SlideDown visible={isVisible} style={styles.container}>
+      <HoliTextInput
+        aria-label={t('chat.room.input.placeholder', { fullName: userName })}
+        placeholder={t('chat.room.input.placeholder', { fullName: userName })}
+        value={inputValue}
+        onChange={setInputValue}
+        style={styles.textInputContainer}
+        inputStyle={styles.textInput}
+        maxNoOfVisibleLines={5}
+        inputProps={{
+          onKeyPress: (event) => {
+            if (
+              isTextInputKeyPressEventDataWeb(event.nativeEvent) &&
+              event.nativeEvent.key === 'Enter' &&
+              event.nativeEvent.shiftKey
+            ) {
+              event.preventDefault()
+              handleSendMessage()
+            }
+          },
+        }}
+        testID={'chat-message-input'}
+      />
 
-        <View style={styles.buttonWrapper}>
-          {inputValue.trim().length > 0 && (
-            <HoliTransition.Fade visible>
-              <HoliButton
-                label={t('chat.room.sendButton.label')}
-                disabled={inputValue.trim().length === 0}
-                onPress={handleSendMessage}
-                inline
-                style={styles.button}
-              >
-                <HoliIcon icon={SendPlane} size={SEND_BUTTON_SIZE / 2} color={colors.foreground30} />
-              </HoliButton>
-            </HoliTransition.Fade>
-          )}
-        </View>
-      </HoliTransition.SlideDown>
-    </View>
+      <View style={styles.buttonWrapper}>
+        {inputValue.trim().length > 0 && (
+          <HoliTransition.Fade visible>
+            <HoliButton
+              label={t('chat.room.sendButton.label')}
+              disabled={inputValue.trim().length === 0}
+              onPress={handleSendMessage}
+              inline
+              style={styles.button}
+            >
+              <HoliIcon icon={SendPlane} size={SEND_BUTTON_SIZE / 2} color={colors.foreground30} />
+            </HoliButton>
+          </HoliTransition.Fade>
+        )}
+      </View>
+    </HoliTransition.SlideDown>
   )
 }
 

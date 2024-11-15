@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 // eslint-disable-next-line no-restricted-imports
-import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -32,13 +32,10 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import Reanimated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { useKeyboardHandler } from 'react-native-keyboard-controller'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -48,13 +45,31 @@ export type ChatRoomPageParams = {
 
 const { useParam } = createParamHooks<ChatRoomPageParams>()
 
+const useGradualAnimation = () => {
+  const height = useSharedValue(0)
+
+  useKeyboardHandler(
+    {
+      onMove: (e) => {
+        'worklet'
+        height.value = e.height
+      },
+      onEnd: (e) => {
+        'worklet'
+        height.value = e.height
+      },
+    },
+    []
+  )
+
+  return { height }
+}
+
 const ChatRoomView = () => {
   const { t } = useTranslation()
   const { navigateBack, replaceRoute } = useRouting()
   const chatInitialized = useChatInitialized()
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  //const styles = useMemo(() => getStyles(theme), [theme])
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
@@ -63,7 +78,13 @@ const ChatRoomView = () => {
 
   const requestMessages = useRequestRoomMessages()
   const setScreenOptions = useSetScreenOptions()
-
+  const { height } = useGradualAnimation()
+  const fakeView = useAnimatedStyle(
+    () => ({
+      height: Math.abs(height.value),
+    }),
+    []
+  )
   const roomMemberIds = room?.members.map((m) => m.id) ?? []
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(roomMemberIds)
 
@@ -149,18 +170,7 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [
-    handleBackPress,
-    chatPartner,
-    setScreenOptions,
-    chatPartnerHoliUser,
-    roomId,
-    room,
-    isSpaceRoom,
-    t,
-    loadingUsers,
-    colors.brandColorD20,
-  ])
+  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom, t, loadingUsers])
 
   useEffect(() => {
     if (chatInitialized && !room) {
@@ -192,95 +202,107 @@ const ChatRoomView = () => {
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
 
   return (
-    <HoliKeyboardSafeAreaView>
-      <View style={styles.layoutWarpper}>
-        <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
-          <HoliTransition.Fade visible style={{ flex: 1 }}>
-            <SafeAreaView style={styles.safeArea}>
-              <View style={styles.container}>
-                <View style={styles.listContainer}>
-                  {room.hasInvitation ? (
-                    <ChatProfileCard
-                      member={chatPartner}
-                      roomId={roomId}
-                      user={chatPartnerHoliUser}
-                      userIsLoading={loadingUsers}
-                    />
-                  ) : (
-                    <RoomMessageList
-                      roomId={room.id}
-                      messages={messages || []}
-                      matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
-                      starter={
-                        amIRoomCreator &&
-                        chatPartnerHoliUser && (
-                          <View style={styles.listStage}>
-                            <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
-                          </View>
-                        )
-                      }
-                      onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
-                        const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
+    <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
+      <View style={styles.container}>
+        {room.hasInvitation ? (
+          <ChatProfileCard
+            member={chatPartner}
+            roomId={roomId}
+            user={chatPartnerHoliUser}
+            userIsLoading={loadingUsers}
+          />
+        ) : (
+          <RoomMessageList
+            roomId={room.id}
+            messages={messages || []}
+            matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
+            starter={
+              amIRoomCreator &&
+              chatPartnerHoliUser && (
+                <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+              )
+            }
+            onScroll={({ nativeEvent: { contentOffset, contentSize, layoutMeasurement } }) => {
+              const needToLoad = contentSize.height - contentOffset.y < layoutMeasurement.height * 2
 
-                        if (needToLoad) {
-                          requestMessages(roomId, false)
-                        }
-                      }}
-                    />
-                  )}
-                </View>
-
-                <HoliContainer noPadding>
-                  <ChatTextInput
-                    isVisible={!room.hasInvitation}
-                    userName={chatPartnerHoliUser?.fullName}
-                    roomId={roomId}
-                  />
-                </HoliContainer>
-              </View>
-            </SafeAreaView>
-          </HoliTransition.Fade>
-        </PermissionsGuard>
+              if (needToLoad) {
+                requestMessages(roomId, false)
+              }
+            }}
+          />
+        )}
       </View>
-    </HoliKeyboardSafeAreaView>
+
+      <ChatTextInput isVisible={!room.hasInvitation} userName={chatPartnerHoliUser?.fullName} roomId={roomId} />
+      <Reanimated.View style={fakeView} />
+    </PermissionsGuard>
   )
 }
 
 export default ChatRoomView
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    layoutWarpper: {
-      ...Platform.select({
-        web: {
-          height: '100%',
-        },
-        native: {
-          flex: 1,
-        },
-      }),
-    },
-    safeArea: {
-      flex: 1,
-    },
-    headerTitle: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      gap: 8,
-    },
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      backgroundColor: theme.colors.background20,
-    },
-    listContainer: {
-      flex: 1,
-      height: '100%',
-      width: '100%',
-    },
-    listStage: {
-      alignSelf: 'center',
-      paddingHorizontal: 16,
-      maxWidth: dimensions.maxScreenWidth,
-    },
-  })
+// const getStyles = (theme: HoliTheme) =>
+//   StyleSheet.create({
+//     layoutWarpper: {
+//       ...Platform.select({
+//         web: {
+//           height: '100%',
+//         },
+//         native: {
+//           flex: 1,
+//         },
+//       }),
+//     },
+//     safeArea: {
+//       flex: 1,
+//     },
+//     headerTitle: {
+//       alignItems: 'center',
+//       flexDirection: 'row',
+//       gap: 8,
+//     },
+//     container: {
+//       flex: 1,
+//       alignItems: 'center',
+//       backgroundColor: theme.colors.background20,
+//     },
+//     listContainer: {
+//       flex: 1,
+//       height: '100%',
+//       width: '100%',
+//     },
+//     listStage: {
+//       alignSelf: 'center',
+//       paddingHorizontal: 16,
+//       maxWidth: dimensions.maxScreenWidth,
+//     },
+//   })
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
+  header: {
+    color: 'black',
+    marginRight: 12,
+  },
+  inverted: {
+    transform: [
+      {
+        rotate: '180deg',
+      },
+    ],
+  },
+  senderContainer: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#e0e0e0',
+  },
+  recipientContainer: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#50FF00',
+  },
+  message: {
+    color: '#000000',
+  },
+})
