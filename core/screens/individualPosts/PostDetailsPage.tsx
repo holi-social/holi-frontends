@@ -221,8 +221,7 @@ const PostDetailsPage = () => {
           </View>
         }
       >
-        <View style={[styles.wrapper, styles.wrapperContent]}>
-          {/* <HoliContainer noPadding={loading} testID="post-detail-page"> */}
+        <View style={[styles.wrapper, styles.wrapperContent]} testID="post-detail-page">
           {post && !loading ? (
             <>
               <PostContent
@@ -256,7 +255,6 @@ const PostDetailsPage = () => {
               />
             </View>
           )}
-          {/* </HoliContainer> */}
         </View>
       </FormLayout>
     </>
