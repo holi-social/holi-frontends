@@ -1,4 +1,3 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -6,12 +5,7 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 
 const FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME = 'first_visit_content_value'
 
-const firstVisitSelectedContentTypeVar = makeVar<string | null>(null)
-
-export const clearFirstVisitContentSelection = async () => {
-  await AsyncStore.removeItem(FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME)
-  firstVisitSelectedContentTypeVar(null)
-}
+export const clearFirstVisitContentSelection = () => AsyncStore.removeItem(FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME)
 
 const createRouteForContentType = (selectedContentType?: string | null) => {
   switch (selectedContentType) {
@@ -29,7 +23,7 @@ const createRouteForContentType = (selectedContentType?: string | null) => {
 
 export const useFirstVisitContentSelection = () => {
   const [isLoading, setIsLoading] = useState(!isSSR)
-  const selectedContentType = useReactiveVar(firstVisitSelectedContentTypeVar)
+  const [selectedContentType, setSelectedContentType] = useState<string | null>()
   const routeForSelectedContentType = useMemo(
     () => createRouteForContentType(selectedContentType),
     [selectedContentType]
@@ -38,7 +32,7 @@ export const useFirstVisitContentSelection = () => {
   useEffect(() => {
     AsyncStore.getItem(FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME)
       .then((storedValue) => {
-        firstVisitSelectedContentTypeVar(storedValue)
+        setSelectedContentType(storedValue)
       })
       .finally(() => setIsLoading(false))
   }, [])
@@ -47,7 +41,7 @@ export const useFirstVisitContentSelection = () => {
     isLoading,
     selectedContentType,
     selectContentType: async (contentType: string) => {
-      firstVisitSelectedContentTypeVar(contentType)
+      setSelectedContentType(contentType)
       await AsyncStore.setItem(FIRST_VISIT_CONTENT_SELECTION_STORAGE_NAME, contentType)
     },
     routeForSelectedContentType,

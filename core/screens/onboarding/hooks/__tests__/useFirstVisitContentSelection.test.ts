@@ -20,8 +20,8 @@ describe('useFirstVisitContentSelection', () => {
 
     const { result } = renderHook(() => useFirstVisitContentSelection())
 
-    // Loading state is null
-    expect(result.current.selectedContentType).toBeNull()
+    // Loading state is undefined
+    expect(result.current.selectedContentType).toBeUndefined()
     expect(result.current.isLoading).toBeTruthy()
 
     expect(mockGetItem).toHaveBeenCalled()
@@ -67,7 +67,7 @@ describe('useFirstVisitContentSelection', () => {
 
       await act(() => result.current.selectContentType(contentType))
 
-      await waitFor(() => expect(result.current.routeForSelectedContentType).toEqual(expectedRoute))
+      expect(result.current.routeForSelectedContentType).toEqual(expectedRoute)
     }
   )
 })
