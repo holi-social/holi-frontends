@@ -46,6 +46,10 @@
   - [Mobile](#mobile)
   - [Web](#web)
   - [OAuth2](#oauth2)
+- [Tracking](#tracking)
+  - [Impression tracking](#impression-tracking)
+    - [FlatList as a render component](#flatlist-as-a-render-component)
+    - [View as a render component](#view-as-a-render-component)
 - [Exploring the GraphQL API (via graphiql)](#exploring-the-graphql-api-via-graphiql)
   - [Linting and Autocomplete](#linting-and-autocomplete)
   - [Code Generation](#code-generation)
@@ -632,6 +636,40 @@ The URLs pointing to these pages have to be configured in the OAuth2 Configurati
 ```
 
 However, as the locally running web frontend only answers to http and port 3000, you might have to manually adjust the urls when being redirected.
+
+## Tracking
+
+For tracking purposes (such as click tracking, impression tracking, etc.), we use [Posthog](https://eu.posthog.com/).
+
+### Impression tracking
+
+#### FlatList as a render component
+
+`TrackableFlatList` is a wrapper around RN FlatList component. It allows consumers to track list items in-view appearance. 
+Its usage example can be found in the `TaskRecommendations` component. It can be used for both vertical and horizontal lists.
+
+There are few required and optional props:
+* `listItemTrackingEvent` (required): a callback that returns a tracking event for the provided list item. Example:
+```
+  const listItemTrackingEvent: ListItemTrackingEvent<Task> = ({ name, id }) => {
+    return TrackingEvent.RecommendationViewed('space_task', { name, id })
+  }
+```
+* `listItemIdentifier` (required): a callback that returns an identifier for the provided list item. Example:
+```
+  const listItemIdentifier: ListItemIdentifier<Task> = ({ id }) => {
+    return id
+  }
+```
+* `itemVisiblePercentThreshold` (optional, default value = 80): an item visible percent threshold (more docs: https://reactnative.dev/docs/flatlist#viewabilityconfig)
+* `minimumViewTime` (optional, default value = 1000): a minimum view time before item is considered as "viewed" (more docs: https://reactnative.dev/docs/flatlist#viewabilityconfig)
+* `trackOnce` (optional, default value = false): a flag that defines whether an item should be tracked only once or every time it's viewed
+
+#### View as a render component
+
+Currently, we don't have a solution for tracking impressions with non-`FlatList` components, as the `View` component doesn't natively support `viewabilityConfig` settings. 
+A potential custom implementation involves manual measurement of all necessary layout information (such as window size, scroll positions, and element sizes) every ~100ms and, therefore,
+is considered to be quite inefficient. If possible, using `FlatList` is recommended for rendering large data lists."
 
 ## Exploring the GraphQL API (via graphiql)
 
