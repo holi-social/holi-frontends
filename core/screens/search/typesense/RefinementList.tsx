@@ -1,4 +1,4 @@
-import { SearchHitData, SearchHitTypes } from '@holi/core/screens/search/types'
+import { SearchHitData, SearchHitTypes } from '@holi/core/screens/search/typesense/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { ChipSelect } from 'holi-bricks/components/chips'
 import React from 'react'

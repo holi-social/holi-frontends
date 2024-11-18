@@ -1,5 +1,5 @@
-import { SearchHit } from '@holi/core/screens/search/SearchHit'
-import { SearchHitData } from '@holi/core/screens/search/types'
+import { SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
+import { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'

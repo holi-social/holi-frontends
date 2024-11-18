@@ -1,5 +1,5 @@
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { SearchHitData, SearchHitLinkLocatorIdOrSlug, SearchHitType } from '@holi/core/screens/search/types'
+import { SearchHitData, SearchHitLinkLocatorIdOrSlug, SearchHitType } from '@holi/core/screens/search/typesense/types'
 import React, { PropsWithChildren } from 'react'
 
 export const SearchHitLink = ({ hit, children }: { hit: SearchHitData } & PropsWithChildren) => {

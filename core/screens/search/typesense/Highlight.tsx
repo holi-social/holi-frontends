@@ -1,4 +1,4 @@
-import { SearchHitData } from '@holi/core/screens/search/types'
+import { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { Text, TextSize } from 'holi-bricks/components/text/Text'
 import { Hit } from 'instantsearch.js'
 import { getHighlightedParts, getPropertyByPath } from 'instantsearch.js/es/lib/utils'
