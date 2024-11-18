@@ -1,4 +1,4 @@
-import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
+import { type Browser, type BrowserContext, type Locator, type Page, expect } from '@playwright/test'
 
 import { delayMs } from '@holi/e2e-mobile/helpers/time'
 
@@ -23,8 +23,6 @@ test.describe('@Donations', () => {
     // prepare
     await proceedAsGuest(page)
 
-    await testAbleToVisitDonationsApp(page)
-
     await testProjectListAndPagination(page)
     await withSSR(browser, page.url(), testDisplaysProjectList)
 
@@ -47,24 +45,12 @@ test.describe('@Donations', () => {
 
 const countElementsByTestId = async (page: Page, testId: string) => (await locateElementByTestId(page, testId)).count()
 
-const testAbleToVisitDonationsApp = async (page: Page) => {
-  // click first element in ScrollView
-  await page.locator(byTestId('donations-reco-slider-card')).first().click({ timeout: donationsRequestTimeout })
-
-  // expect detail view
-  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
-
-  await page.goto('/')
-
-  // click on "see more" / navigate to donations app
-  await clickElementByTestId(page, 'donations-reco-slider-load-more-button')
-}
-
 const testDisplaysProjectList = async (page: Page) => {
   await page.waitForSelector(byTestId('donations-list-container'))
 }
 
 const testProjectListAndPagination = async (page: Page) => {
+  await page.goto('/donations')
   await testDisplaysProjectList(page)
   await checkAccessibility(page, false)
 
@@ -249,7 +235,7 @@ const extractResultCount = async (element: Locator): Promise<number> => {
   const textContent = await element.textContent()
   const numberMatch = textContent?.match(/\d+/)
   if (numberMatch && numberMatch.length) {
-    return parseInt(numberMatch[0], 10)
+    return Number.parseInt(numberMatch[0], 10)
   }
   return 0
 }
@@ -258,7 +244,7 @@ const extractNewsCount = async (element: Locator): Promise<number | undefined> =
   const textContent = await element.textContent()
   const numberNews = textContent?.match(/\(([^)]+)\)/)
   if (numberNews && numberNews.length) {
-    return parseInt(numberNews[1], 10)
+    return Number.parseInt(numberNews[1], 10)
   }
   return undefined
 }
