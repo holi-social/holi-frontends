@@ -83,7 +83,14 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
           <link rel="icon" type="image/png" sizes="32x32" href={`/favicons/${env}/favicon-32x32.png`} />
           <link rel="icon" type="image/png" sizes="16x16" href={`/favicons/${env}/favicon-16x16.png`} />
           <link rel="manifest" href={`/favicons/${env}/site.webmanifest`} />
-          {promoteEnvVarToWindow('POSTHOG_KEY')}
+          {promoteEnvVarsToWindow([
+            'POSTHOG_KEY',
+            'POSTHOG_HOST',
+            'TYPESENSE_HOST',
+            'TYPESENSE_PORT',
+            'TYPESENSE_PROTOCOL',
+            'TYPESENSE_API_KEY',
+          ])}
           {/*
               FIXME: This script is needed for Matrix JS SDK version 4.3.*
               because it uses global to reference the window object,
@@ -94,7 +101,6 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
               __html: 'var global=window;',
             }}
           />
-          {promoteEnvVarToWindow('POSTHOG_HOST')}
         </Head>
 
         <body>
@@ -106,7 +112,7 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
   }
 }
 
-const promoteEnvVarToWindow = (varName: string) => {
-  const varValue = process.env[varName]
-  return <script dangerouslySetInnerHTML={{ __html: `window.${varName} = "${varValue}"` }} />
+const promoteEnvVarsToWindow = (varNames: string[]) => {
+  const varsHtml = varNames.map((varName) => `window.${varName} = "${process.env[varName]}"`).join(';\n') + ';'
+  return <script dangerouslySetInnerHTML={{ __html: varsHtml }} />
 }

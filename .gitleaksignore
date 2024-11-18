@@ -17,3 +17,12 @@ apps/mobile/eas.json:generic-api-key:33
 apps/mobile/eas.json:generic-api-key:61
 apps/mobile/eas.json:generic-api-key:92
 apps/mobile/eas.json:generic-api-key:144
+.env.staging:generic-api-key:51
+.env.staging:generic-api-key:56
+.env.production:generic-api-key:51
+.env.production:generic-api-key:56
+apps/mobile/eas.json:generic-api-key:41
+apps/mobile/eas.json:generic-api-key:73
+apps/mobile/eas.json:generic-api-key:108
+apps/mobile/eas.json:generic-api-key:138
+apps/mobile/eas.json:generic-api-key:175

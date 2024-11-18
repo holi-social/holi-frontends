@@ -7,8 +7,7 @@ export type SearchHitData = {
   title_en?: string
   description_de?: string
   description_en?: string
-  location_de?: string
-  location_en?: string
+  location?: string
   location_lat_lng?: [number, number]
   image_url?: string
   /**

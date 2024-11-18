@@ -13,6 +13,7 @@ export type SearchHitProps = {
   hit: Hit<SearchHitData>
 }
 
+// TODO do 18n correctly
 export const SearchHit = ({ hit }: SearchHitProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -36,7 +37,7 @@ export const SearchHit = ({ hit }: SearchHitProps) => {
             &middot;
           </Text>
           <Text size={'xs'} variant={'secondary'}>
-            {hit.location_de ?? hit.location_en}
+            {hit.location}
           </Text>
         </View>
         <SearchHitLink hit={hit}>
