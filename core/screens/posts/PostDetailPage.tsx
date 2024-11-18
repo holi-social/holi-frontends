@@ -75,7 +75,12 @@ const PostDetailPage = () => {
     variables: { id: postId },
     skip: !postId,
     onError: (error) => {
-      if (isNotFoundError(error) || isForbiddenError(error)) {
+      // if the post is not found, forbidden or the id is not a valid UUID, redirect to 404
+      if (
+        isNotFoundError(error) ||
+        isForbiddenError(error) ||
+        error.message.includes('badly formed hexadecimal UUID string')
+      ) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId })
