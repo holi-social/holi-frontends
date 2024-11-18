@@ -81,7 +81,8 @@ const PostDetailsPage = () => {
     variables: { idOrSlug },
     skip: !idOrSlug,
     onError: (error) => {
-      if (isNotFoundError(error)) {
+      // if the post is not found, or the id is not a valid UUID, redirect to 404
+      if (isNotFoundError(error) || error.message.includes('badly formed hexadecimal UUID string')) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load feed post', {
