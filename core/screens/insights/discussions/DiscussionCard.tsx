@@ -14,7 +14,6 @@ import ResponsesContainer from '@holi/core/screens/insights/discussions/Response
 import type { Discussion } from '@holi/core/screens/insights/types'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -23,6 +22,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import StartDiscussion from './StartDiscussion'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 type DiscussionCardProps = {
   discussion: Discussion
@@ -81,15 +81,13 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
           {topComment && (
             <ResponsesContainer>
               <View style={styles.topComment}>
-                <HoliAvatar
-                  imageSrc={topComment.creator.avatar}
-                  imageBlurhash={topComment.creator.avatarBlurhash}
+                <Avatar
+                  imgSrc={topComment.creator.avatar}
+                  imgPlaceholder={topComment.creator.avatarBlurhash}
                   label={topComment.creator.fullName || t('user.profileView.anonymous')}
                   initials={topComment.creator.avatarLabel}
-                  defaultColor={topComment.creator.avatarDefaultColor}
-                  size="micro"
+                  size="xs"
                 />
-
                 <View style={styles.comment}>
                   <HoliText size="small" bold>
                     {topComment.creator.fullName || t('user.profileView.anonymous')}

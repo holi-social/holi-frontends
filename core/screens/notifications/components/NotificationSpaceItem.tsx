@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -6,10 +7,10 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
-import { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
+import type { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface NotificationWithSpaceAvatarProps extends NotificationProps<NotificationSpaceConnection> {
   href?: string
@@ -40,7 +41,7 @@ const NotificationSpaceItem = ({
       <HoliLink href={href} label={title} mobileNavigateBackFirst>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <SpaceAvatar space={notification.options.space} size="small" style={{ borderColor: 'transparent' }} />
+            <SpaceAvatar space={notification.options.space} size="sm" />
           </View>
           <View style={styles.content}>
             <>

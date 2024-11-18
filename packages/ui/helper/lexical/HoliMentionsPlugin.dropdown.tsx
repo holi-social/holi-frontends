@@ -1,11 +1,13 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type DropdownOption from '@holi/ui/helper/lexical/HoliMentionsPlugin.dropdownOption'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
+import { Spacing } from 'holi-bricks/tokens'
 
 export type HoliLexicalMentionsDropdownProps = {
   optionsList: DropdownOption[]
@@ -59,16 +61,16 @@ const HoliLexicalMentionsDropdown: React.FC<HoliLexicalMentionsDropdownProps> = 
               contentStyle={{ alignItems: 'center', flexDirection: 'row' }}
               testID={'holi-rich-text-input-suggestions-item'}
             >
-              <HoliAvatar
-                imageSrc={option.user.avatar}
-                imageBlurhash={option.user.avatarBlurhash}
-                label={option.user.fullName}
-                initials={option.user.avatarLabel}
-                defaultColor={option.user.avatarDefaultColor}
-                size="micro"
-                style={{ marginRight: 10 }}
-              />
-              <HoliText style={{ whiteSpace: 'nowrap' }}>{option.user.fullName}</HoliText>
+              <View style={styles.suggestionText}>
+                <Avatar
+                  imgSrc={option.user.avatar}
+                  imgPlaceholder={option.user.avatarBlurhash}
+                  label={option.user.fullName}
+                  initials={option.user.avatarLabel}
+                  size="xs"
+                />
+                <HoliText style={{ whiteSpace: 'nowrap' }}>{option.user.fullName}</HoliText>
+              </View>
             </HoliButton>
           </div>
         ))
@@ -84,6 +86,10 @@ const getStyles = (theme: HoliTheme) =>
     suggestionsContainer: {
       width: '100%',
       backgroundColor: theme.colors.background10,
+    },
+    suggestionText: {
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
     },
     suggestionItem: {
       display: 'flex',

@@ -24,7 +24,6 @@ import { PostById } from '@holi/core/screens/posts/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
@@ -32,6 +31,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import FormLayout from '@holi/core/components/FormLayout/FormLayout'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
@@ -239,13 +239,12 @@ const CommentForm = ({
 
           <View style={styles.inputContainer}>
             <View style={styles.avatarContainer}>
-              <HoliAvatar
-                imageSrc={user.avatar}
-                imageBlurhash={user.avatarBlurhash}
+              <Avatar
+                imgSrc={user.avatar}
+                imgPlaceholder={user.avatarBlurhash}
                 label={user.fullName || t('user.profileView.anonymous')}
+                size={parentComment ? 'xs' : 'sm'}
                 initials={user.avatarLabel || ''}
-                defaultColor={user.avatarDefaultColor || ''}
-                size={parentComment ? 'micro' : 'small'}
               />
             </View>
             <HoliRichTextInput

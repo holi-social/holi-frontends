@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -6,17 +7,17 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FavoriteDrawer from '@holi/core/screens/favorites/components/FavoritesDrawer'
 import { FavoriteType } from '@holi/core/screens/favorites/model'
-import { Favorites } from '@holi/core/screens/favorites/types'
-import { Insight } from '@holi/core/screens/insights/types'
+import type { Favorites } from '@holi/core/screens/favorites/types'
+import type { Insight } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import AccountCircleFilled from '@holi/icons/src/generated/AccountCircleFilled'
 import MoreFilled from '@holi/icons/src/generated/MoreFilled'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface FavoriteCardProps {
   item: Favorites
@@ -61,15 +62,15 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({ item }) => {
               {insight.creator && (
                 <View style={styles.curatorContainer}>
                   {insight.creator.avatar ? (
-                    <HoliAvatar
-                      imageSrc={insight.creator.avatar}
-                      imageBlurhash={insight.creator.avatarBlurhash}
-                      label={insight.creator.fullName}
-                      initials={insight.creator.avatarLabel || ''}
-                      defaultColor={insight.creator.avatarDefaultColor || ''}
-                      size="micro"
-                      style={styles.curatorAvatar}
-                    />
+                    <View style={styles.curatorAvatar}>
+                      <Avatar
+                        size="xs"
+                        initials={insight.creator.avatarLabel || ''}
+                        label={insight.creator.fullName}
+                        imgSrc={insight.creator.avatar}
+                        imgPlaceholder={insight.creator.avatarBlurhash}
+                      />
+                    </View>
                   ) : (
                     <HoliIcon style={styles.curatorAvatar} icon={AccountCircleFilled} color={colors.gray200} />
                   )}

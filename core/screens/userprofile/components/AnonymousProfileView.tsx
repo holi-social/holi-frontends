@@ -17,8 +17,8 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 const AnonymousProfileView = () => {
   const { t } = useTranslation()
@@ -52,13 +52,7 @@ const AnonymousProfileView = () => {
           <HoliBox padding={[16, 0, 24, 0]}>
             <View style={styles.header}>
               <View style={styles.avatarName}>
-                <HoliAvatar
-                  label={t('profile.anonymous.you')}
-                  initials=":)"
-                  defaultColor={'#FFAE86'}
-                  initialsColor={colors.black300at48percent}
-                  size="large"
-                />
+                <Avatar label={t('profile.anonymous.you')} initials=":)" size="lg" />
 
                 <HoliGap size="s" direction="horizontal" />
 

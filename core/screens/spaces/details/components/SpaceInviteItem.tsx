@@ -1,26 +1,27 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacePermissions from '@holi/core/screens/spaces/details/components/SpacePermissions'
 import {
-  UpdateSpaceUserConnectionResponse,
+  type UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { Space, SpaceConnectionAction, SpaceInvite } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionAction, type SpaceInvite } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 const PAGE_SIZE = 10
 
@@ -114,14 +115,12 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
         contentStyle={styles.userButtonContent}
         onPress={showPermissions}
       >
-        <HoliAvatar
-          imageSrc={invite.invitedUser.avatar}
-          imageBlurhash={invite.invitedUser.avatarBlurhash}
+        <Avatar
+          imgSrc={invite.invitedUser.avatar}
+          imgPlaceholder={invite.invitedUser.avatarBlurhash}
           label={invitedName}
           initials={invite.invitedUser.avatarLabel}
-          defaultColor={invite.invitedUser.avatarDefaultColor}
-          size="small"
-          style={styles.avatar}
+          size="sm"
         />
         <View style={styles.name}>
           <HoliText ellipsizeMode="tail" numberOfLines={1}>
@@ -174,9 +173,6 @@ const getStyles = (theme: HoliTheme) =>
     userButtonContent: {
       flexDirection: 'row',
       alignItems: 'center',
-    },
-    avatar: {
-      borderWidth: 1,
     },
     name: {
       marginLeft: 16,

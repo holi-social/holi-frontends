@@ -7,7 +7,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
+import { Color } from 'holi-bricks/tokens/colors/primitives'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceTermsInputProps {

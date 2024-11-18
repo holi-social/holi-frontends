@@ -1,13 +1,14 @@
-import React, { memo } from 'react'
+import type React from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native'
+import type { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliMediaHeader from '@holi/ui/components/molecules/HoliMediaHeader'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import type { AvatarSizes } from 'holi-bricks/components/avatar'
 
 type OnPressHandler = (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
 
@@ -18,7 +19,7 @@ export type Author = Pick<
 interface Props {
   style?: StyleProp<ViewStyle>
   testID?: string
-  avatarSize?: AvatarSize
+  avatarSize?: AvatarSizes
   author: Author
   role?: string
   authorBold?: boolean
@@ -50,11 +51,8 @@ const HoliMediaAuthorHeader = ({
       <HoliMediaHeader
         loading
         avatarProps={{
-          imageSrc: '',
-          imageBlurhash: '',
           label: authorName,
           initials: '',
-          defaultColor: '',
           size: avatarSize,
         }}
         style={style}
@@ -72,11 +70,9 @@ const HoliMediaAuthorHeader = ({
       titleLabel={author.fullName}
       titleBold={authorBold}
       avatarProps={{
-        imageSrc: author.avatar || '',
-        imageBlurhash: author.avatarBlurhash || '',
+        imgSrc: author.avatar ? author.avatar : undefined,
         label: author.fullName,
         initials: author.avatarLabel,
-        defaultColor: author.avatarDefaultColor,
         size: avatarSize,
       }}
       role={role}

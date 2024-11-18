@@ -6,24 +6,38 @@ import { BorderWidth } from 'holi-bricks/tokens/dimensions/borderWidth'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 // eslint-disable-next-line no-restricted-imports
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-// eslint-disable-next-line no-restricted-imports
-import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
-type AvatarSizes = 'lg' | 'md' | 'sm' | 'xs'
-
-type AvatarProps = {
-  border?: 'strong' | 'light'
-  shape?: 'squared' | 'circle'
+/*
+  xl: 128
+  lg: 64
+  md: 48
+  sm: 40
+  xs: 24
+*/
+export const AvatarSizesValues = {
+  xl: 128,
+  lg: 64,
+  md: 48,
+  sm: 40,
+  xs: 24,
+}
+export type AvatarSizes = keyof typeof AvatarSizesValues
+export type AvatarShape = 'square' | 'circle'
+export type AvatarBorder = 'strong' | 'light'
+export type AvatarProps = {
+  border?: AvatarBorder
+  shape?: AvatarShape
   size?: AvatarSizes
   label?: string
   icon?: HoliIconType
-  imgSrc?: ImageSource
+  imgSrc?: string
   initials: string
+  testID?: string
+  imgPlaceholder?: string
 }
 
 const avatarSizeToIconSize = {
@@ -31,6 +45,7 @@ const avatarSizeToIconSize = {
   sm: 20,
   md: 24,
   lg: 24,
+  xl: 32,
 }
 
 const avatarSizeToTextSize = {
@@ -38,15 +53,18 @@ const avatarSizeToTextSize = {
   sm: 'md',
   md: 'xxl',
   lg: '3xl',
+  xl: '4xl',
 }
 
 export const Avatar = ({
   label,
   size = 'md',
   border = 'strong',
-  shape = 'squared',
+  shape = 'circle',
   imgSrc,
   initials,
+  testID,
+  imgPlaceholder,
   icon,
 }: AvatarProps) => {
   const { styles } = useStyles(stylesheet, { border, shape, size })
@@ -55,7 +73,18 @@ export const Avatar = ({
 
   const renderContent = () => {
     if (!errorLoading && imgSrc) {
-      return <HoliImage label={label || ''} source={imgSrc} onError={handleImageError} />
+      return (
+        <HoliImage
+          label={label || ''}
+          blurhash={imgPlaceholder}
+          source={{
+            uri: imgSrc,
+            width: avatarSizeToIconSize[size],
+            height: avatarSizeToIconSize[size],
+          }}
+          onError={handleImageError}
+        />
+      )
     }
     if (icon) {
       return (
@@ -63,9 +92,9 @@ export const Avatar = ({
       )
     }
     return (
-      <View style={styles.textWrapper}>
+      <View style={styles.textWrapper} testID={testID}>
         <Text color={styles.text.color} size={avatarSizeToTextSize[size] as TextSize}>
-          {initials?.substring(0, 2)}
+          {initials?.substring(0, 2)?.toUpperCase()}
         </Text>
       </View>
     )
@@ -105,11 +134,15 @@ const stylesheet = createStyleSheet((theme) => ({
           circle: {
             borderRadius: BorderRadius.pill,
           },
-          squared: {
+          square: {
             borderRadius: BorderRadius.xs,
           },
         },
         size: {
+          xl: {
+            width: Spacing['4xl'] * 2,
+            height: Spacing['4xl'] * 2,
+          },
           lg: {
             width: Spacing['4xl'],
             height: Spacing['4xl'],

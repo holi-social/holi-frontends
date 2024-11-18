@@ -4,13 +4,13 @@ import { StyleSheet, View } from 'react-native'
 
 import type { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent } from '@holi/chat/src/client/utils'
-import { getChatInitials, getChatMemberName, getDefaultAvatarColor } from '@holi/chat/src/utils'
-import { User } from '@holi/core/domain/shared/types'
+import { getChatInitials, getChatMemberName } from '@holi/chat/src/utils'
+import type { User } from '@holi/core/domain/shared/types'
 import { chatAdminUserId } from '@holi/core/helpers/config'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface RoomMembershipBadgeProps {
   message: ChatRoomMessage
@@ -46,13 +46,12 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
           <HoliBox padding={[4, 8, 4, 4]}>
             <View style={styles.content}>
               <HoliBox padding={[0, 6, 0, 0]}>
-                <HoliAvatar
-                  imageSrc={member?.avatar}
-                  imageBlurhash={user?.avatarBlurhash}
+                <Avatar
+                  imgPlaceholder={user?.avatarBlurhash}
+                  imgSrc={member?.avatar}
                   label={name}
                   initials={getChatInitials(member?.name)}
-                  defaultColor={getDefaultAvatarColor(member?.name)}
-                  size="micro"
+                  size="xs"
                 />
               </HoliBox>
 

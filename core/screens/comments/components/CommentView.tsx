@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewProps, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
@@ -13,19 +13,19 @@ import CommentText from '@holi/core/screens/comments/components/CommentText'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
 import useDeleteComment from '@holi/core/screens/comments/hooks/useDeleteComment'
 import useReactOnComment from '@holi/core/screens/comments/hooks/useReactOnComment'
-import { Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
+import { type Comment, CommentableType, ReactionType } from '@holi/core/screens/comments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Comments as CommentsIcon, Delete, Flag } from '@holi/icons/src/generated'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar, { AvatarSize } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReactionsCount from '@holi/ui/components/molecules/HoliReactionsCount'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import Comments from './Comments'
+import { Avatar, type AvatarSizes } from 'holi-bricks/components/avatar'
 
 export interface CommentProps extends ViewProps {
   comment: Comment
@@ -33,7 +33,7 @@ export interface CommentProps extends ViewProps {
   commentableType: CommentableType
   created?: string
   onPressComment?: () => void
-  avatarSize?: AvatarSize
+  avatarSize?: AvatarSizes
   startWithOpenThread?: boolean
   style?: StyleProp<ViewStyle>
 }
@@ -43,7 +43,7 @@ const CommentView = ({
   commentableId,
   commentableType,
   onPressComment,
-  avatarSize = 'small',
+  avatarSize = 'sm',
   startWithOpenThread,
   style,
   ...props
@@ -105,7 +105,7 @@ const CommentView = ({
           <HoliLink href={`/profile/${creator.id}`} label={name} testID="btn-to-commenter-profile">
             <HoliMediaAuthorHeader
               author={creator}
-              date={avatarSize !== 'micro' ? comment.created : undefined} // don't show the date when it's a reply (show it above the text instead)
+              date={avatarSize !== 'xs' ? comment.created : undefined} // don't show the date when it's a reply (show it above the text instead)
               avatarSize={avatarSize}
               role={creator.role}
             />
@@ -153,10 +153,10 @@ const CommentView = ({
       </View>
 
       <View style={styles.body}>
-        <VerticalLine style={avatarSize === 'micro' ? styles.commentConnectorMicro : styles.commentConnector} />
+        <VerticalLine style={avatarSize === 'xs' ? styles.commentConnectorMicro : styles.commentConnector} />
         <View style={styles.commentContent}>
           <View style={styles.text}>
-            {avatarSize === 'micro' && (
+            {avatarSize === 'xs' && (
               <HoliText size="small" color="gray300" style={{ marginBottom: 12 }}>
                 {formattedDate}
               </HoliText>
@@ -185,13 +185,12 @@ const CommentView = ({
                 }}
               >
                 {!!loggedInUser && (
-                  <HoliAvatar
-                    imageSrc={loggedInUser.avatar}
-                    imageBlurhash={loggedInUser.avatarBlurhash}
+                  <Avatar
+                    imgSrc={loggedInUser.avatar}
+                    imgPlaceholder={loggedInUser.avatarBlurhash}
                     label={loggedInUser.fullName ?? ''}
-                    initials={loggedInUser.avatarLabel || ''}
-                    defaultColor={loggedInUser.avatarDefaultColor || ''}
-                    size="micro"
+                    initials={loggedInUser.avatarLabel}
+                    size="xs"
                   />
                 )}
                 <HoliText disabled size="small" color="gray300">
