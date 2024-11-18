@@ -24,6 +24,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.THEME_TOGGLE]: false, // not yet fully done
     [FeatureFlagKey.VIDEO_CALL]: 'on',
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: 'control',
+    [FeatureFlagKey.TYPESENSE_SEARCH]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -35,5 +36,6 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.THEME_TOGGLE]: null,
     [FeatureFlagKey.VIDEO_CALL]: null,
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: null,
+    [FeatureFlagKey.TYPESENSE_SEARCH]: null,
   },
 }

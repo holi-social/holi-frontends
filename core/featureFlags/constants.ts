@@ -8,4 +8,5 @@ export enum FeatureFlagKey {
   THEME_TOGGLE = 'THEME_TOGGLE', // boolean
   VIDEO_CALL = 'VIDEO_CALL', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   HOME_TASK_ORDER_SWAP = 'home-task-order-swap', // multivariate ('control', 'test') -> FeatureFlagAB
+  TYPESENSE_SEARCH = 'typesense-search', // boolean
 }
