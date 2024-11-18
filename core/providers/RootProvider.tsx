@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloProvider } from '@apollo/client'
+import { type ApolloClient, ApolloProvider } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
@@ -17,9 +17,10 @@ import SignupModalProvider from '@holi/core/providers/SignupModalProvider'
 import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
 import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
-import PosthogProvider, { PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
+import PosthogProvider, { type PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import { RegistrationFinishModal } from '@holi/core/auth/components/RegistrationFinishModal'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -59,6 +60,7 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
             </ToastProvider>
 
             <TrackingConsentModal />
+            <RegistrationFinishModal />
           </ApolloProvider>
         </SafeAreaProvider>
       </PosthogProvider>
