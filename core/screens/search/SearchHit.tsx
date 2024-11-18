@@ -40,6 +40,8 @@ export const SearchHit = ({ hit }: SearchHitProps) => {
           </Text>
         </View>
         <SearchHitLink hit={hit}>
+          {/* TODO these grow outside the container, how to constrain them? */}
+          {/* TODO can we build highlighting with one text component? */}
           {hit.title_de && <Highlight size={'sm'} hit={hit} attribute={'title_de'} />}
           {hit.title_en && !hit.title_de && <Highlight size={'sm'} hit={hit} attribute={'title_en'} />}
         </SearchHitLink>

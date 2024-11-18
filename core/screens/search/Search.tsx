@@ -33,6 +33,7 @@ const typesenseInstantSearchAdapter = new TypesenseInstantSearchAdapter({
 })
 const searchClient = typesenseInstantSearchAdapter.searchClient
 
+// TODO restore old implementation, put new implementation behind feature flag
 const Search = () => {
   const { t } = useTranslation()
   const title = t('search.title')
@@ -87,6 +88,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     hitsContainer: {
       paddingLeft: dimensions.spacingS,
+      paddingRight: dimensions.spacingS,
       height: '100%',
     },
   })
