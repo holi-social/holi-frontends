@@ -1,16 +1,16 @@
 import { useQuery } from '@apollo/client'
-import React, { ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
-import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
-import { CommentableType } from '@holi/core/screens/comments/types'
+import { type CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
+import type { CommentableType } from '@holi/core/screens/comments/types'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -105,7 +105,7 @@ const Comments = ({
             commentableId={commentableId}
             commentableType={commentableType}
             {...(replyRoute ? { onPressComment: () => navigate(`${replyRoute}?commentId=${comment.id}`) } : {})}
-            avatarSize={parentCommentId ? 'micro' : 'small'}
+            avatarSize={parentCommentId ? 'xs' : 'sm'}
             startWithOpenThread={initialOpenThread == comment.id}
           />
         ))}

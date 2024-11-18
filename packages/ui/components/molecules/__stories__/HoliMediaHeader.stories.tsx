@@ -26,7 +26,7 @@ Primary.args = {
   avatarProps: {
     label: 'Saving the foxes',
     initials: 'SF',
-    size: 'medium',
+    size: 'lg',
   },
   title: 'Saving the foxes',
   titleLabel: 'Saving the foxes',

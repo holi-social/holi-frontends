@@ -4,15 +4,15 @@ import { StyleSheet, View } from 'react-native'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import Content from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Content'
-import { TrackingEvent } from '@holi/core/tracking'
+import type { TrackingEvent } from '@holi/core/tracking'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import Image from './components/Image'
 import Skeleton from './components/Skeleton'
-import { BaseProps } from './types'
+import type { BaseProps } from './types'
 
 const TaskRecommendation = ({
   loading,
@@ -38,7 +38,7 @@ const TaskRecommendation = ({
       <HoliCardComponent.CardContainer hasBorder borderColor="gray200" borderRadius={16}>
         <Image imageUrl={task.thumbnail} imageBlurhash={task.thumbnailBlurhash} imageWidth={cardWidth}>
           <View style={[styles.imageCaption, styles.spaceCaption]}>
-            <SpaceAvatar space={space} size="micro" />
+            <SpaceAvatar space={space} size="xs" />
             <HoliText size="extrasmall" color="gray300">
               {space.title}
             </HoliText>

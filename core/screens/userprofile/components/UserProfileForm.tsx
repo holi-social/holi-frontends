@@ -1,35 +1,36 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, type ScrollView, StyleSheet, View } from 'react-native'
 
 import { IMAGE_MAX_FILE_SIZE_BYTES, PROFILE_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
-import { User } from '@holi/core/domain/shared/types'
-import { FieldError, isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import type { User } from '@holi/core/domain/shared/types'
+import { type FieldError, isMaliciousUrlError } from '@holi/core/errors/helpers'
+import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, {
   GeolocationLevel,
-  GeolocationSuggestion,
+  type GeolocationSuggestion,
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { replaceSpecialChars } from '@holi/core/helpers'
 import {
-  UpdateAuthenticatedUserInput,
+  type UpdateAuthenticatedUserInput,
   UpdateAuthenticatedUserInputSchema,
-  UpdateAuthenticatedUserV2Response,
+  type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Image } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, ToastProvider, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { Position, delayAnimation, usePositions } from '@holi/ui/helper'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { type Position, delayAnimation, usePositions } from '@holi/ui/helper'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 type UserProfileFormProps = {
   user: User
@@ -128,14 +129,12 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
 
   const header = (
     <View style={[mixins.container, styles.headerContainer]}>
-      <HoliAvatar
-        imageSrc={pickedAvatar?.uri ?? user?.avatar ?? ''}
-        imageBlurhash={user.avatarBlurhash}
+      <Avatar
+        imgSrc={pickedAvatar?.uri || user?.avatar}
+        imgPlaceholder={user.avatarBlurhash}
         label={user?.fullName || t('user.profileView.anonymous')}
         initials={user?.avatarLabel || ''}
-        defaultColor={user?.avatarDefaultColor || '#FFAE86'}
-        size="medium"
-        style={styles.avatar}
+        size="md"
       />
 
       <HoliImagePicker
@@ -297,10 +296,6 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       marginTop: 16,
-    },
-    avatar: {
-      borderColor: theme.colors.foreground30,
-      borderWidth: 2,
     },
     input: {
       marginBottom: 16,

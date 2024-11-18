@@ -2,10 +2,10 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export type HoliRichTextInputSuggestionsProps = {
   options?: User[]
@@ -32,16 +32,16 @@ const HoliRichTextInputSuggestions: React.FC<HoliRichTextInputSuggestionsProps> 
           onPress={() => onChooseSuggestion(item)}
           testID={testID ? `${testID}-item` : 'holi-rich-text-input-suggestions-item'}
         >
-          <HoliAvatar
-            imageSrc={item.avatar}
-            imageBlurhash={item.avatarBlurhash}
-            label={item.fullName}
-            initials={item.avatarLabel}
-            defaultColor={item.avatarDefaultColor}
-            size="micro"
-            style={styles.suggestionItemImage}
-          />
-          <HoliText>{item.fullName}</HoliText>
+          <View style={styles.suggestionItemImage}>
+            <Avatar
+              imgSrc={item.avatar}
+              label={item.fullName}
+              initials={item.avatarLabel}
+              imgPlaceholder={item.avatarBlurhash}
+              size="xs"
+            />
+            <HoliText>{item.fullName}</HoliText>
+          </View>
         </HoliButton>
       ))}
     </View>
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   suggestionItemImage: {
-    marginRight: 10,
+    flexDirection: 'column',
+    gap: 10,
   },
 })

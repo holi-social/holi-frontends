@@ -2,13 +2,13 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
+import type { TrackingEvent } from '@holi/core/tracking'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
 
-import { Submission } from '@holi-apps/challenges/components/types'
+import type { Submission } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 const IMAGE_HEIGHT = 195
 
@@ -35,14 +35,14 @@ export const SubmissionCard = ({ challengeTitle, submission, width, trackingEven
           label={label}
           style={styles.image}
         />
-        <HoliAvatar
-          size="micro"
-          imageSrc={submission.submitter.avatarUrl || undefined}
-          label={submission.submitter.username}
-          loading={false}
-          style={styles.avatar}
-          initials={initials}
-        />
+        <View style={styles.avatar}>
+          <Avatar
+            size="xs"
+            imgSrc={submission.submitter.avatarUrl || undefined}
+            label={submission.submitter.username}
+            initials={initials}
+          />
+        </View>
       </HoliLinkTracked>
     </View>
   )
@@ -62,8 +62,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: dimensions.spacingXs,
     left: dimensions.spacingXs,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: colors.white100,
   },
 })

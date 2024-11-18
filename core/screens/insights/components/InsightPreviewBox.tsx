@@ -1,24 +1,26 @@
 import { withProfiler } from '@sentry/react'
 import { ChipLabel } from 'holi-bricks/components/chips'
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { Insight } from '@holi/core/screens/insights/types'
+import type { Insight } from '@holi/core/screens/insights/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
+import { Spacing } from 'holi-bricks/tokens'
 
 interface Props {
   insight: Insight
@@ -86,25 +88,25 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
             <HoliBox padding={[8, 0, 0, 0]}>
               <View style={styles.container}>
                 <View style={styles.row}>
-                  <HoliAvatar
-                    imageSrc={insight.creator.avatar}
-                    imageBlurhash={insight.creator.avatarBlurhash}
+                  <Avatar
+                    size="xs"
+                    imgSrc={insight.creator.avatar}
+                    imgPlaceholder={insight.creator.avatarBlurhash}
                     label={insight.creator.fullName || t('user.profileView.anonymous')}
-                    initials={insight.creator.avatarLabel}
-                    defaultColor={insight.creator.avatarDefaultColor}
-                    size="micro"
                     testID="insight-curator"
-                    style={styles.avatar}
+                    initials={insight.creator.avatarLabel}
                   />
-                  <HoliText size="small" style={styles.textGrey}>
-                    {insight.creator.fullName}
-                  </HoliText>
-                  <HoliText size="large" style={styles.dot}>
-                    &middot;
-                  </HoliText>
-                  <HoliText size="small" style={styles.textGrey}>
-                    {getRelativeDateString(insight.datePublished, i18n.language)}
-                  </HoliText>
+                  <View>
+                    <HoliText size="small" style={styles.textGrey}>
+                      {insight.creator.fullName}
+                    </HoliText>
+                    <HoliText size="large" style={styles.dot}>
+                      &middot;
+                    </HoliText>
+                    <HoliText size="small" style={styles.textGrey}>
+                      {getRelativeDateString(insight.datePublished, i18n.language)}
+                    </HoliText>
+                  </View>
                 </View>
               </View>
             </HoliBox>
@@ -136,9 +138,6 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
       backgroundColor: theme.colors.background30,
     },
-    avatar: {
-      marginRight: 8,
-    },
     dot: {
       color: theme.colors.brandB300,
       marginRight: 4,
@@ -156,6 +155,7 @@ const getStyles = (theme: HoliTheme) =>
     row: {
       flexDirection: 'row',
       alignItems: 'center',
+      gap: Spacing['3xs'],
     },
     skeletonWrapper: {
       borderWidth: 1,

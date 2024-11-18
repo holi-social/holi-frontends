@@ -3,13 +3,13 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import { ChatRoomMember } from '@holi/chat/src/client/types'
-import { User } from '@holi/core/domain/shared/types'
+import type { ChatRoomMember } from '@holi/chat/src/client/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface RoomMessageListStartProps {
   chatPartnerHoliUser: User
@@ -25,13 +25,12 @@ const RoomMessageListStart = ({ chatPartnerHoliUser, member }: RoomMessageListSt
         href={`/profile/${chatPartnerHoliUser.id}`}
         label={t('user.visitProfile', { name: chatPartnerHoliUser.fullName })}
       >
-        <HoliAvatar
-          imageSrc={member?.avatar}
-          imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
+        <Avatar
+          imgSrc={member?.avatar}
+          imgPlaceholder={chatPartnerHoliUser.avatarBlurhash}
           label={chatPartnerHoliUser.fullName}
           initials={chatPartnerHoliUser.avatarLabel}
-          defaultColor={chatPartnerHoliUser.avatarDefaultColor}
-          size="large"
+          size="lg"
         />
         <HoliGap size="xs" />
 

@@ -1,7 +1,8 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
-import React, { useCallback } from 'react'
+import type React from 'react'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import InfoModal from '@holi/core/components/InfoModal'
 import { termsBySortNumberComparator } from '@holi/core/domain/shared/types'
@@ -14,8 +15,8 @@ import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelc
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
 import { SDG_INFO_MODAL_SOURCES_MAPPING } from '@holi/core/screens/spaces/edit/EditSpace'
-import { RelatedSpace, Space } from '@holi/core/screens/spaces/types'
-import { Paged } from '@holi/core/types'
+import type { RelatedSpace, Space } from '@holi/core/screens/spaces/types'
+import type { Paged } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, At, Information, Phone } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -148,7 +149,7 @@ const NetworkSpaceReference: React.FC<{ networkSpace: RelatedSpace }> = (props) 
       <HoliBlockItem
         {...props.networkSpace}
         label={props.networkSpace.title}
-        imageElement={<SpaceAvatar space={props.networkSpace} size="large" />}
+        imageElement={<SpaceAvatar space={props.networkSpace} size="lg" />}
         users={props.networkSpace.members.data.map((member) => member.user)}
         totalUserCount={props.networkSpace.members.totalResults}
         href={`/spaces/${props.networkSpace.id}`}

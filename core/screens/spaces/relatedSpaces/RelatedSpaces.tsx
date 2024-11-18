@@ -7,13 +7,13 @@ import { SectionList, View, useWindowDimensions } from 'react-native'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
-import { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
+import type { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
+import type { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { spaceRelatedSpacesQuery } from '@holi/core/screens/spaces/queries'
-import { RelatedSpace, Space } from '@holi/core/screens/spaces/types'
+import type { RelatedSpace, Space } from '@holi/core/screens/spaces/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -119,7 +119,7 @@ const RelatedSpaces = () => {
               <HoliBlockItem
                 {...relatedSpace}
                 label={relatedSpace.title}
-                imageElement={<SpaceAvatar space={relatedSpace} size="large" />}
+                imageElement={<SpaceAvatar space={relatedSpace} size="lg" />}
                 users={relatedSpace.members.data.map((membership) => membership.user)}
                 totalUserCount={relatedSpace.members.totalResults}
                 href={`/spaces/${relatedSpace.id}`}

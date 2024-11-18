@@ -1,15 +1,17 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
-import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar, { sizes } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
+import { AvatarSizesValues } from 'holi-bricks/components/avatar/Avatar'
 
 type SpaceCollaboratorsProps = {
   space: Space
@@ -46,15 +48,12 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
             key={collaborator.id}
             testID={'spaces-collaborators-item'}
           >
-            <HoliAvatar
-              imageSrc={collaborator.avatar}
-              imageBlurhash={collaborator.avatarBlurhash}
+            <Avatar
+              imgSrc={collaborator.avatar}
+              imgPlaceholder={collaborator.avatarBlurhash}
               label={collaborator.fullName || t('user.profileView.anonymous')}
-              aria-hidden
               initials={collaborator.avatarLabel}
-              defaultColor={collaborator.avatarDefaultColor}
-              size="small"
-              style={styles.avatar}
+              size="sm"
             />
             <View style={styles.titleContainer}>
               <HoliText ellipsizeMode="tail" numberOfLines={1}>
@@ -79,11 +78,8 @@ const getStyles = (theme: HoliTheme) =>
       color: theme.colors.foreground20,
       paddingLeft: 8,
     },
-    avatar: {
-      borderWidth: 1,
-    },
     avatarButton: {
-      minHeight: sizes.medium,
+      minHeight: AvatarSizesValues.md,
     },
     collaborators: {
       flex: 1,

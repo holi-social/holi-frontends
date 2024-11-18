@@ -6,20 +6,24 @@ import { StyleSheet, View } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import {
-  UpdateSpaceUserConnectionResponse,
+  type UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
-import { Space, SpaceConnectionAction, SpaceConnectionType, SpaceSectionType } from '@holi/core/screens/spaces/types'
+import {
+  type Space,
+  SpaceConnectionAction,
+  SpaceConnectionType,
+  SpaceSectionType,
+} from '@holi/core/screens/spaces/types'
 import { Loader } from '@holi/icons/src/generated'
-import { sizes } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 // the accept and decline buttons for space invites under the HoliBlockItem should be aligned to the right of the avatar
-const avatarSize = 'large'
+const avatarSize = 'lg'
 
 interface SpaceMineTileProps {
   space: Space
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   buttonContainer: {
-    paddingLeft: sizes[avatarSize] + 6, // aligned to the right of the avatar in HoliBlockItem
+    paddingLeft: 70, // aligned to the right of the avatar in HoliBlockItem
   },
   button: {
     paddingVertical: 8,

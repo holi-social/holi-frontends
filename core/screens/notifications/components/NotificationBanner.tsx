@@ -1,16 +1,17 @@
-import React, { useMemo, useState } from 'react'
+import type React from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import i18n from '@holi/core/i18n'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Close } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface NotificationBannerProps {
   member?: User
@@ -99,14 +100,12 @@ const NotificationBanner = ({
                 resizeMode="contain"
               />
             ) : (
-              <HoliAvatar
-                imageSrc={member?.avatar}
-                size="small"
-                style={{ borderColor: 'transparent' }}
+              <Avatar
+                imgSrc={member?.avatar}
+                size="sm"
                 label={t('user.profileForm.avatar')}
-                imageBlurhash={member?.avatarBlurhash}
+                imgPlaceholder={member?.avatarBlurhash}
                 initials={member?.avatarLabel || ''}
-                defaultColor={member?.avatarDefaultColor || ''}
               />
             )}
             {matchingStatus &&

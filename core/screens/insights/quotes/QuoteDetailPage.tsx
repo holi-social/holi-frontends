@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -14,7 +14,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
-import { InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
+import { type InsightWithQuoteByIdResponse, insightWithQuoteById } from '@holi/core/screens/insights/queries'
 import QuoteCard from '@holi/core/screens/insights/quotes/QuoteCard'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
@@ -22,14 +22,14 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export type QuoteDetailPageParams = {
   insightId: string
@@ -125,13 +125,12 @@ const QuoteDetailPage = () => {
 
             <View style={[mixins.container, styles.section, styles.curvedTop, styles.curvedBottom]}>
               <View style={{ flexDirection: 'row', gap: Spacing.xxs }}>
-                <HoliAvatar
-                  size="micro"
-                  imageSrc={insight.creator.avatar}
-                  imageBlurhash={insight.creator.avatarBlurhash}
+                <Avatar
+                  size="xs"
+                  imgSrc={insight.creator.avatar}
+                  imgPlaceholder={insight.creator.avatarBlurhash}
                   label={insight.creator.fullName ?? ''}
                   initials={insight.creator.avatarLabel ?? ''}
-                  defaultColor={insight.creator.avatarDefaultColor}
                 />
 
                 <HoliHeading level="3">{t('insights.quotes.detail.subtitle')}</HoliHeading>

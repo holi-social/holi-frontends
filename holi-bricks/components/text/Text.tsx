@@ -1,14 +1,14 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import * as React from 'react'
+import type * as React from 'react'
 import {
-  AccessibilityProps,
-  ColorValue,
+  type AccessibilityProps,
+  type ColorValue,
   Platform, // eslint-disable-next-line no-restricted-imports
   Text as RNText, // eslint-disable-next-line no-restricted-imports
-  TextProps as RNTextProps,
-  TextStyle,
+  type TextProps as RNTextProps,
+  type TextStyle,
 } from 'react-native'
 
 // Change import in HOLI-10369
@@ -171,7 +171,7 @@ const stylesheet = createStyleSheet((theme) => ({
           xxs: {
             fontSize: 11,
             lineHeight: 11 * 1.2,
-            letterSpacing: 0.104,
+            letterSpacing: 0.2,
           },
         },
       },

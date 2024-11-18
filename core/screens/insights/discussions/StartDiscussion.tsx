@@ -5,8 +5,8 @@ import { StyleSheet, View } from 'react-native'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ResponsesContainer from '@holi/core/screens/insights/discussions/ResponsesContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import Spacing from '@holi/ui/foundations/Spacing'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 const StartDiscussion = () => {
   const { t } = useTranslation()
@@ -16,13 +16,12 @@ const StartDiscussion = () => {
     <ResponsesContainer>
       <View style={styles.container}>
         {isLoggedIn && user && (
-          <HoliAvatar
-            imageSrc={user.avatar}
-            imageBlurhash={user.avatarBlurhash}
-            label={user.fullName || t('user.profileView.anonymous')}
+          <Avatar
+            size="xs"
             initials={user.avatarLabel}
-            defaultColor={user.avatarDefaultColor}
-            size="micro"
+            imgPlaceholder={user.avatarBlurhash}
+            label={user.fullName || t('user.profileView.anonymous')}
+            imgSrc={user.avatar}
           />
         )}
         <HoliText color="gray300" bold size="small">

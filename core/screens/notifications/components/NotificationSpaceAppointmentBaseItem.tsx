@@ -5,11 +5,11 @@ import { StyleSheet, View } from 'react-native'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
-import { NotificationAppointments, NotificationProps } from '@holi/core/screens/notifications/components/types'
+import type { NotificationAppointments, NotificationProps } from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliRichNotificationContent from '@holi/ui/components/molecules/HoliRichNotificationContent/HoliRichNotificationContent'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const NotificationSpaceAppointmentBaseItem = ({
   notification,
@@ -37,7 +37,7 @@ export const NotificationSpaceAppointmentBaseItem = ({
     >
       <HoliLink href={link ?? '/'} label={space.title} mobileNavigateBackFirst>
         <View style={styles.link}>
-          <SpaceAvatar space={space} size="small" style={{ borderColor: 'transparent' }} />
+          <SpaceAvatar space={space} size="sm" />
 
           <View style={styles.content}>
             {content && <HoliRichNotificationContent html={content} />}

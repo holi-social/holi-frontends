@@ -209,51 +209,49 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            [
-              {
-                "alignItems": "center",
-                "justifyContent": "center",
-                "overflow": "hidden",
-              },
-              {
-                "backgroundColor": "#000000",
-                "borderColor": undefined,
-                "borderRadius": 26,
-                "borderWidth": 1,
-                "height": 52,
-                "width": 52,
-              },
-              {
-                "borderWidth": 1,
-              },
-              false,
-            ]
+            {
+              "alignItems": "center",
+              "backgroundColor": "#90ddff",
+              "borderColor": "#262424",
+              "borderRadius": 1000,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 48,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "width": 48,
+            }
           }
         >
-          <Text
-            accessible={false}
-            aria-hidden={true}
-            aria-label="No Connection"
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            role="img"
-            selectable={true}
+          <View
             style={
               {
-                "color": "#fff",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 23.400000000000002,
-                "fontWeight": "bold",
-                "lineHeight": 28.080000000000002,
-                "textTransform": "uppercase",
-                "userSelect": "auto",
+                "opacity": 0.8,
               }
             }
-          />
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 20,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": 0.2,
+                  "lineHeight": 24,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                }
+              }
+            />
+          </View>
         </View>
         <View
           style={
@@ -502,51 +500,49 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            [
-              {
-                "alignItems": "center",
-                "justifyContent": "center",
-                "overflow": "hidden",
-              },
-              {
-                "backgroundColor": "#000000",
-                "borderColor": undefined,
-                "borderRadius": 26,
-                "borderWidth": 1,
-                "height": 52,
-                "width": 52,
-              },
-              {
-                "borderWidth": 1,
-              },
-              false,
-            ]
+            {
+              "alignItems": "center",
+              "backgroundColor": "#90ddff",
+              "borderColor": "#262424",
+              "borderRadius": 1000,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 48,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "width": 48,
+            }
           }
         >
-          <Text
-            accessible={false}
-            aria-hidden={true}
-            aria-label="Connected"
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            role="img"
-            selectable={true}
+          <View
             style={
               {
-                "color": "#fff",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 23.400000000000002,
-                "fontWeight": "bold",
-                "lineHeight": 28.080000000000002,
-                "textTransform": "uppercase",
-                "userSelect": "auto",
+                "opacity": 0.8,
               }
             }
-          />
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 20,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": 0.2,
+                  "lineHeight": 24,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                }
+              }
+            />
+          </View>
         </View>
         <View
           style={
@@ -818,51 +814,49 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            [
-              {
-                "alignItems": "center",
-                "justifyContent": "center",
-                "overflow": "hidden",
-              },
-              {
-                "backgroundColor": "#000000",
-                "borderColor": undefined,
-                "borderRadius": 26,
-                "borderWidth": 1,
-                "height": 52,
-                "width": 52,
-              },
-              {
-                "borderWidth": 1,
-              },
-              false,
-            ]
+            {
+              "alignItems": "center",
+              "backgroundColor": "#90ddff",
+              "borderColor": "#262424",
+              "borderRadius": 1000,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 48,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "width": 48,
+            }
           }
         >
-          <Text
-            accessible={false}
-            aria-hidden={true}
-            aria-label="Connected and Space connection"
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            role="img"
-            selectable={true}
+          <View
             style={
               {
-                "color": "#fff",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 23.400000000000002,
-                "fontWeight": "bold",
-                "lineHeight": 28.080000000000002,
-                "textTransform": "uppercase",
-                "userSelect": "auto",
+                "opacity": 0.8,
               }
             }
-          />
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 20,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": 0.2,
+                  "lineHeight": 24,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                }
+              }
+            />
+          </View>
         </View>
         <View
           style={
@@ -1045,51 +1039,49 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            [
-              {
-                "alignItems": "center",
-                "justifyContent": "center",
-                "overflow": "hidden",
-              },
-              {
-                "backgroundColor": "#000000",
-                "borderColor": undefined,
-                "borderRadius": 26,
-                "borderWidth": 1,
-                "height": 52,
-                "width": 52,
-              },
-              {
-                "borderWidth": 1,
-              },
-              false,
-            ]
+            {
+              "alignItems": "center",
+              "backgroundColor": "#90ddff",
+              "borderColor": "#262424",
+              "borderRadius": 1000,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 48,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "width": 48,
+            }
           }
         >
-          <Text
-            accessible={false}
-            aria-hidden={true}
-            aria-label="Follower"
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            role="img"
-            selectable={true}
+          <View
             style={
               {
-                "color": "#fff",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 23.400000000000002,
-                "fontWeight": "bold",
-                "lineHeight": 28.080000000000002,
-                "textTransform": "uppercase",
-                "userSelect": "auto",
+                "opacity": 0.8,
               }
             }
-          />
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 20,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": 0.2,
+                  "lineHeight": 24,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                }
+              }
+            />
+          </View>
         </View>
         <View
           style={
@@ -1361,51 +1353,49 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            [
-              {
-                "alignItems": "center",
-                "justifyContent": "center",
-                "overflow": "hidden",
-              },
-              {
-                "backgroundColor": "#000000",
-                "borderColor": undefined,
-                "borderRadius": 26,
-                "borderWidth": 1,
-                "height": 52,
-                "width": 52,
-              },
-              {
-                "borderWidth": 1,
-              },
-              false,
-            ]
+            {
+              "alignItems": "center",
+              "backgroundColor": "#90ddff",
+              "borderColor": "#262424",
+              "borderRadius": 1000,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 48,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "width": 48,
+            }
           }
         >
-          <Text
-            accessible={false}
-            aria-hidden={true}
-            aria-label="Member"
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            role="img"
-            selectable={true}
+          <View
             style={
               {
-                "color": "#fff",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 23.400000000000002,
-                "fontWeight": "bold",
-                "lineHeight": 28.080000000000002,
-                "textTransform": "uppercase",
-                "userSelect": "auto",
+                "opacity": 0.8,
               }
             }
-          />
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 20,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": 0.2,
+                  "lineHeight": 24,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                }
+              }
+            />
+          </View>
         </View>
         <View
           style={
@@ -1544,51 +1534,49 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
       >
         <View
           style={
-            [
-              {
-                "alignItems": "center",
-                "justifyContent": "center",
-                "overflow": "hidden",
-              },
-              {
-                "backgroundColor": "#000000",
-                "borderColor": undefined,
-                "borderRadius": 26,
-                "borderWidth": 1,
-                "height": 52,
-                "width": 52,
-              },
-              {
-                "borderWidth": 1,
-              },
-              false,
-            ]
+            {
+              "alignItems": "center",
+              "backgroundColor": "#90ddff",
+              "borderColor": "#262424",
+              "borderRadius": 1000,
+              "borderWidth": 1,
+              "display": "flex",
+              "height": 48,
+              "justifyContent": "center",
+              "overflow": "hidden",
+              "width": 48,
+            }
           }
         >
-          <Text
-            accessible={false}
-            aria-hidden={true}
-            aria-label="Admin"
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
-            role="img"
-            selectable={true}
+          <View
             style={
               {
-                "color": "#fff",
-                "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 23.400000000000002,
-                "fontWeight": "bold",
-                "lineHeight": 28.080000000000002,
-                "textTransform": "uppercase",
-                "userSelect": "auto",
+                "opacity": 0.8,
               }
             }
-          />
+          >
+            <Text
+              accessible={false}
+              role="none"
+              selectable={true}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Regular",
+                  "fontSize": 20,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "400",
+                  "letterSpacing": 0.2,
+                  "lineHeight": 24,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                }
+              }
+            />
+          </View>
         </View>
         <View
           style={

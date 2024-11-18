@@ -21,11 +21,11 @@ import type { ColorValue } from 'react-native'
 export const getAvatarColorBg = (colors: string[], initials: string): ColorValue => {
   if (!colors?.length) throw "Colors can't be empty"
   let hash = 0
-  for (let i = 0; i < initials.length; i++) {
+  for (let i = 0; i < initials?.length; i++) {
     hash = initials.charCodeAt(i) + ((hash << 5) - hash)
   }
 
   const index = Math.abs(hash) % colors.length
 
-  return colors[index]
+  return colors[index || 0]
 }

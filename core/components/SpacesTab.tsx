@@ -8,7 +8,7 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import type { SpacesByMemberIdResponse } from '@holi/core/screens/spaces/queries'
 import { spacesByMemberIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceForMember } from '@holi/core/types'
+import type { SpaceForMember } from '@holi/core/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
@@ -60,7 +60,7 @@ const SpacesTab = ({ emptyText, emptyCallToAction, memberId }: SpacesTabProps) =
               <HoliBlockItem
                 label={space.title}
                 title={space.title}
-                imageElement={<SpaceAvatar space={space} size={'large'} />}
+                imageElement={<SpaceAvatar space={space} size={'lg'} />}
                 users={space.members.data.map((membership) => membership.user)}
                 href={`/spaces/${space.name}`}
                 testID="space-tab"

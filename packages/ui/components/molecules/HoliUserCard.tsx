@@ -1,13 +1,14 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
-import { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
+import type { User } from '@holi/core/domain/shared/types'
+import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 type HoliUserCardVariant = 'small' | 'normal'
 
@@ -43,18 +44,17 @@ const HoliUserCard: React.FC<HoliUserCardProps> = ({
     return <View style={[styles.cardContainer, style]} />
   }
 
-  const { fullName, avatar, avatarBlurhash, avatarLabel, avatarDefaultColor, aboutMe } = user
+  const { fullName, avatar, avatarBlurhash, avatarLabel, aboutMe } = user
 
   return (
     <>
       <View {...accessibilityProps} style={[styles.cardContainer, style]} testID={testID || 'user-card'}>
-        <HoliAvatar
-          imageSrc={avatar}
-          imageBlurhash={avatarBlurhash}
+        <Avatar
+          imgSrc={avatar}
+          imgPlaceholder={avatarBlurhash}
           label={fullName || t('user.profileView.anonymous')}
           initials={avatarLabel}
-          defaultColor={avatarDefaultColor}
-          size="extralarge"
+          size="xl"
         />
         {variant === 'normal' && (
           <>
