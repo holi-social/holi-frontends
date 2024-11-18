@@ -1,4 +1,4 @@
-export type SearchHitType = 'volunteering' | 'profile' | 'post'
+export type SearchHitType = 'volunteering' | 'profile' | 'space'
 export type SearchHitLinkLocatorIdOrSlug = string
 export type SearchHitData = {
   type: SearchHitType
@@ -24,9 +24,8 @@ export type SearchHitData = {
   link_locators?: Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>
 }
 
-// TODO move to i18n file
-export const SearchHitTypes = {
-  volunteering: 'Volunteering',
-  profile: 'People',
-  post: 'Posts',
+export const facet18nKey = {
+  volunteering: 'search.typesense.hit.type.volunteering',
+  profile: 'search.typesense.hit.type.profile',
+  space: 'search.typesense.hit.type.space',
 }

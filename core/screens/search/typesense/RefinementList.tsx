@@ -1,4 +1,4 @@
-import { SearchHitData, SearchHitTypes } from '@holi/core/screens/search/typesense/types'
+import { SearchHitData, facet18nKey } from '@holi/core/screens/search/typesense/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { ChipSelect } from 'holi-bricks/components/chips'
 import React from 'react'
@@ -44,7 +44,7 @@ export const RefinementList = () => {
               selected={item.isRefined}
               key={item.value}
             >
-              {SearchHitTypes[item.label as SearchHitData['type']]} &middot; {item.count}
+              {facet18nKey[item.label as SearchHitData['type']]} &middot; {item.count}
             </ChipSelect>
           )
         })}
