@@ -1,3 +1,4 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import type { Color } from 'holi-bricks/tokens'
@@ -16,7 +17,7 @@ import { chipSizeToTextSize, type ChipSelectSize } from './size'
 import { pill } from './styles'
 import { Avatar } from 'holi-bricks/components/avatar'
 
-type ChipSelectProps = {
+type ChipSelectProps = AccessibilityProps & {
   onPress: (event: GestureResponderEvent) => void
   children?: ReactNode
   selected?: boolean
@@ -39,6 +40,8 @@ export const ChipSelect = ({
   selectedColor = 'green',
   size = 'md',
   avatar,
+  role = 'switch',
+  ...rest
 }: ChipSelectProps) => {
   const { styles, theme } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = sizeToIconSize[size]
@@ -47,10 +50,11 @@ export const ChipSelect = ({
 
   return (
     <Pressable
-      role="switch"
-      aria-checked={selected}
       disabled={disabled}
       onPress={(e) => onPress?.(e)}
+      {...accessibilityProps(rest)}
+      role={role}
+      aria-checked={selected}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, selectedColor)]}
     >
       {avatar && (

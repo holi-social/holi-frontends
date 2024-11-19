@@ -1,3 +1,4 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
@@ -5,7 +6,6 @@ import type React from 'react'
 import {
   type ColorValue,
   type GestureResponderEvent,
-  type Role,
   Platform,
   // eslint-disable-next-line no-restricted-imports
   Text,
@@ -27,7 +27,7 @@ export type TextLinkVariant =
   /** Mentions, Locations, Special cases */
   | 'special'
 
-export interface TextLinkProps {
+export interface TextLinkProps extends AccessibilityProps {
   size: TextLinkSize
   numberOfLines?: number
   /** Specifies theme respecting text color, takes precedence over `color`. */
@@ -37,8 +37,6 @@ export interface TextLinkProps {
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
-  'aria-label'?: TextProps['aria-label']
-  role?: Role
 }
 
 export const TextLink = ({
@@ -49,17 +47,17 @@ export const TextLink = ({
   textAlign,
   ellipsizeMode,
   children,
-  role,
-  'aria-label': ariaLabel,
   onPress,
+  role = 'link',
+  ...rest
 }: React.PropsWithChildren<TextLinkProps>) => {
   const { styles } = useStyles(stylesheet, { size, variant })
 
   return (
     <Text
       selectable={Platform.OS !== 'web' ? false : undefined}
+      {...accessibilityProps(rest)}
       role={role}
-      aria-label={ariaLabel}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
       // as TextStyle is required because ts
