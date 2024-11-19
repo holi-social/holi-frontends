@@ -24,6 +24,7 @@ type ChipSelectProps = {
   selectedColor?: Color
   size?: ChipSelectSize
   avatar?: Pick<AvatarProps, 'initials' | 'label' | 'imgSrc'>
+  testID?: string
 }
 
 const sizeToIconSize: Record<ChipSelectSize, number> = {
@@ -39,6 +40,7 @@ export const ChipSelect = ({
   selectedColor = 'green',
   size = 'md',
   avatar,
+  testID,
 }: ChipSelectProps) => {
   const { styles, theme } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = sizeToIconSize[size]
@@ -52,6 +54,7 @@ export const ChipSelect = ({
       disabled={disabled}
       onPress={(e) => onPress?.(e)}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, selectedColor)]}
+      testID={testID}
     >
       {avatar && (
         <View style={styles.avatar}>

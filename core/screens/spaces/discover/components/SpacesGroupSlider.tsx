@@ -2,9 +2,9 @@ import { useQuery } from '@apollo/client'
 import { ChipAction } from 'holi-bricks/components/chips'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from 'react-native'
+import { Platform, type StyleProp, StyleSheet, View, type ViewStyle, useWindowDimensions } from 'react-native'
 
-import { Skill, Topic } from '@holi/core/domain/shared/types'
+import type { Skill, Topic } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -12,15 +12,15 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
 import {
-  DiscoverSpacesData,
-  DiscoverSpacesVariables,
+  type DiscoverSpacesData,
+  type DiscoverSpacesVariables,
   discoverSpacesQuery,
 } from '@holi/core/screens/spaces/discover/queries'
-import { Space, SpaceMember } from '@holi/core/screens/spaces/types'
+import type { Space, SpaceMember } from '@holi/core/screens/spaces/types'
 import { MapPinLine } from '@holi/icons/src/generated'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -111,17 +111,32 @@ const SpacesGroupSlider = ({
     <View style={[styles.sliderContainer, style]} testID={testID}>
       <View style={styles.sliderHeader}>
         {topic && (
-          <ChipAction onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)} color="green">
+          <ChipAction
+            onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
+            color="green"
+            id="spaces-topic-title"
+            testID="spaces-topic-title"
+          >
             {topic.title}
           </ChipAction>
         )}
         {!!locationId && (
-          <ChipAction onPress={() => navigate(`/spaces/filter?location=${locationId}`)} iconLeading={MapPinLine}>
+          <ChipAction
+            onPress={() => navigate(`/spaces/filter?location=${locationId}`)}
+            iconLeading={MapPinLine}
+            id="spaces-location-title"
+            testID="spaces-location-title"
+          >
             {geolocationDetails?.name ?? ''}
           </ChipAction>
         )}
         {skill && (
-          <ChipAction onPress={() => navigate(`/spaces/filter?skill=${skill.slug}`)} color="blue">
+          <ChipAction
+            onPress={() => navigate(`/spaces/filter?skill=${skill.slug}`)}
+            color="blue"
+            id="spaces-skill-title"
+            testID="spaces-skill-title"
+          >
             {skill.title}
           </ChipAction>
         )}

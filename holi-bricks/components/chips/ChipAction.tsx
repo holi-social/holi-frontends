@@ -1,16 +1,16 @@
-import { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
+import type { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import type { Color } from 'holi-bricks/tokens'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
-import { GestureResponderEvent, Pressable } from 'react-native'
+import { type GestureResponderEvent, Pressable } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 
-import { ChipSize, chipSizeToTextSize } from './size'
+import { type ChipSize, chipSizeToTextSize } from './size'
 import { pill } from './styles'
 
 type ChipColor = Color | 'white'
@@ -25,6 +25,7 @@ type ChipActionProps = {
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
   'aria-label'?: string
+  testID?: string
 } & SelectionElementProps
 
 export const ChipAction = ({
@@ -37,6 +38,7 @@ export const ChipAction = ({
   iconLeading,
   iconTrailing,
   'aria-label': ariaLabel,
+  testID,
 }: ChipActionProps) => {
   const { styles } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = size === 'sm' ? 14 : 18
@@ -49,6 +51,7 @@ export const ChipAction = ({
       disabled={disabled}
       onPress={(e) => onPress?.(e)}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
+      testID={testID}
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
       {children && (

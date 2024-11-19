@@ -1,16 +1,22 @@
 import { ChipSelect } from 'holi-bricks/components/chips'
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import { SortedTerm, Term, termsBySortNumberComparator, termsByTitleComparator } from '@holi/core/domain/shared/types'
+import {
+  type SortedTerm,
+  type Term,
+  termsBySortNumberComparator,
+  termsByTitleComparator,
+} from '@holi/core/domain/shared/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostTopicsProps = {
   selectedTopicsIds: Term[]
@@ -84,7 +90,12 @@ const PostTopics: React.FC<PostTopicsProps> = ({ selectedTopicsIds, onChangeSele
           <View style={styles.termsListContainer}>
             {filteredTerms &&
               filteredTerms.map((term) => (
-                <ChipSelect key={term.id} selected={selectedTopics?.includes(term)} onPress={() => updateValues(term)}>
+                <ChipSelect
+                  key={term.id}
+                  selected={selectedTopics?.includes(term)}
+                  onPress={() => updateValues(term)}
+                  testID={`post-topics-list-item${selectedTopics?.includes(term) ? '-checked' : ''}`}
+                >
                   {showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
                 </ChipSelect>
               ))}

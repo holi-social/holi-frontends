@@ -8,7 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { chipSizeToTextSize, type ChipSize } from './size'
 
 type ChipColor = Color | 'white'
@@ -19,14 +19,22 @@ type ChipLabelProps = {
   size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
+  testID?: string
 }
 
-export const ChipLabel = ({ children, color = 'mono', size = 'md', iconLeading, iconTrailing }: ChipLabelProps) => {
+export const ChipLabel = ({
+  children,
+  color = 'mono',
+  size = 'md',
+  iconLeading,
+  iconTrailing,
+  testID,
+}: ChipLabelProps) => {
   const { styles, theme } = useStyles(stylesheet, { size })
   const iconSize = size === 'sm' ? 12 : 16
 
   return (
-    <View style={styles.chip(color)}>
+    <View style={styles.chip(color)} testID={testID}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={theme.components.chipLabel.text} />}
       {children && (
         <Text size={chipSizeToTextSize[size]} color={theme.components.chipLabel.text}>
