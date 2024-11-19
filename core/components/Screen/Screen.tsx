@@ -13,7 +13,6 @@ import {
   View,
   type ViewStyle,
 } from 'react-native'
-
 import { type ExtendedEdge, useSafeAreaInsetsStyle } from './useSafeAreaInsetsStyle'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { useBricks } from 'holi-bricks/hooks'
@@ -176,8 +175,8 @@ function useAutoPreset(props: AutoScreenProps): {
 function ScreenWithoutScrolling(props: ScreenProps) {
   const { style, contentContainerStyle, children, preset } = props
   return (
-    <View style={[$outerStyle, style]}>
-      <View style={[$innerStyle, preset === 'fixed' && $justifyFlexEnd, contentContainerStyle]}>{children}</View>
+    <View style={[outerStyle, style]}>
+      <View style={[innerStyle, preset === 'fixed' && justifyFlexEnd, contentContainerStyle]}>{children}</View>
     </View>
   )
 }
@@ -217,8 +216,8 @@ function ScreenWithScrolling(props: ScreenProps) {
         onContentSizeChange(w, h)
         ScrollViewProps?.onContentSizeChange?.(w, h)
       }}
-      style={[$outerStyle, ScrollViewProps?.style, style]}
-      contentContainerStyle={[$innerStyle, ScrollViewProps?.contentContainerStyle, contentContainerStyle]}
+      style={[outerStyle, ScrollViewProps?.style, style]}
+      contentContainerStyle={[innerStyle, ScrollViewProps?.contentContainerStyle, contentContainerStyle]}
     >
       {children}
     </KeyboardAwareScrollView>
@@ -243,11 +242,10 @@ export function Screen(props: ScreenProps) {
     StatusBarProps,
     statusBarStyle,
   } = props
-
-  const $containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
+  const containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
 
   return (
-    <View style={[$containerStyle, { backgroundColor: backgroundColor || mono[200] }, $containerInsets]}>
+    <View style={[containerStyle, { backgroundColor: backgroundColor || mono[200] }, containerInsets]}>
       <StatusBar style={statusBarStyle || (getActiveThemeName() === 'dark' ? 'light' : 'dark')} {...StatusBarProps} />
 
       <KeyboardAvoidingView
@@ -262,23 +260,23 @@ export function Screen(props: ScreenProps) {
   )
 }
 
-const $containerStyle: ViewStyle = {
+const containerStyle: ViewStyle = {
   flex: 1,
   height: '100%',
   width: '100%',
 }
 
-const $outerStyle: ViewStyle = {
+const outerStyle: ViewStyle = {
   flex: 1,
   height: '100%',
   width: '100%',
 }
 
-const $justifyFlexEnd: ViewStyle = {
+const justifyFlexEnd: ViewStyle = {
   justifyContent: 'flex-end',
 }
 
-const $innerStyle: ViewStyle = {
+const innerStyle: ViewStyle = {
   justifyContent: 'flex-start',
   alignItems: 'stretch',
 }

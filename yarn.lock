@@ -5364,6 +5364,7 @@ __metadata:
   resolution: "@holi/chat@workspace:packages/chat"
   dependencies:
     cross-fetch: "npm:^3.1.6"
+    holi-bricks: "npm:*"
     immer: "npm:^10.0.2"
     jest: "npm:^29.6.4"
     jest-offline: "npm:^1.0.1"
