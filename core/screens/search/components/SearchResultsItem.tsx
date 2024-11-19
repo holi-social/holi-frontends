@@ -2,14 +2,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import { isHoliUser } from '@holi/core/screens/userprofile/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface SearchResultsItemProps {
   item: User | Space
@@ -30,16 +30,15 @@ const SearchResultsItem = ({ item }: SearchResultsItemProps) => {
       <View style={[styles.flexRow, styles.flex]}>
         <HoliBox padding={[0, 16, 0, 0]}>
           {isHoliUser(item) ? (
-            <HoliAvatar
-              imageSrc={item.avatar ?? ''}
-              imageBlurhash={item.avatarBlurhash ?? ''}
+            <Avatar
+              imgSrc={item.avatar ?? ''}
+              imgPlaceholder={item?.avatarBlurhash}
               label={item.avatarLabel ?? ''}
               initials={item.avatarLabel ?? ''}
-              defaultColor={item.avatarDefaultColor ?? ''}
-              size="medium"
+              size="md"
             />
           ) : (
-            <SpaceAvatar space={item} size="medium" />
+            <SpaceAvatar space={item} size="md" />
           )}
         </HoliBox>
 

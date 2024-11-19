@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react'
+import { Text } from 'holi-bricks/components/text'
+import type React from 'react'
+import { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Animated, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Animated, Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -9,12 +11,12 @@ import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/H
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { GOODNEWS_IMG_SOURCES_MAPPING } from '@holi-apps/goodnews/components/GoodNewsArticleComponent'
 import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 type GoodNewsTeaserComponentProps = {
   article: GoodNewsArticle
@@ -88,15 +90,16 @@ const GoodNewsTeaserComponent: React.FC<GoodNewsTeaserComponentProps> = ({
             resizeMode={'contain'}
           />
         )}
-        <HoliText style={styles.description}>
+        <Text size="md" textAlign="center">
           <Trans t={t} i18nKey={'goodnews:listing.teaser.description'}>
             <HoliTextLink
-              label={t('goodnews:listing.teaser.textLink.url')}
+              label={t('goodnews:listing.teaser.textLink.label')}
               href={t('goodnews:listing.teaser.textLink.url')}
               external
+              size="md"
             />
           </Trans>
-        </HoliText>
+        </Text>
         <HoliButton
           label={t('goodnews:button.loadMoreArticles.label')}
           style={styles.loadMoreBtn}
@@ -131,9 +134,6 @@ const getStyles = (theme: HoliTheme) =>
     loadMoreBtn: {
       width: 'auto',
       borderWidth: 1,
-    },
-    description: {
-      textAlign: 'center',
     },
     lookingForMore: {
       flex: 1,

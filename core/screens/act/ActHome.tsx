@@ -2,6 +2,7 @@ import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -9,13 +10,18 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ActSection } from '@holi/core/screens/act/ActSection'
-import { useFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 
-export const orderedSections = (selectedContentType: string | null) => {
+type ActHomeParams = {
+  section: string
+}
+
+const { useParam } = createParamHooks<ActHomeParams>()
+
+export const orderedSections = (selectedContentType?: string) => {
   const sections = ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS']
 
   if (selectedContentType) {
@@ -34,6 +40,7 @@ const ActHome = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const setScreenOptions = useSetScreenOptions()
   const title = t('act.title')
+  const [selectedContentType] = useParam('section')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -50,8 +57,6 @@ const ActHome = () => {
       headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
   }, [title, setScreenOptions])
-
-  const { selectedContentType } = useFirstVisitContentSelection()
 
   const sections = orderedSections(selectedContentType)
 

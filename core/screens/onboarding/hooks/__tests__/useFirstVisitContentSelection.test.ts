@@ -20,8 +20,8 @@ describe('useFirstVisitContentSelection', () => {
 
     const { result } = renderHook(() => useFirstVisitContentSelection())
 
-    // Loading state is null
-    expect(result.current.selectedContentType).toBeNull()
+    // Loading state is undefined
+    expect(result.current.selectedContentType).toBeUndefined()
     expect(result.current.isLoading).toBeTruthy()
 
     expect(mockGetItem).toHaveBeenCalled()
@@ -48,4 +48,26 @@ describe('useFirstVisitContentSelection', () => {
 
     await waitFor(() => expect(result.current.selectedContentType).toEqual('POSTS'))
   })
+
+  const testCasesRoutes = [
+    { contentType: 'CHALLENGES', expectedRoute: '/act?section=CHALLENGES' },
+    { contentType: 'DONATIONS', expectedRoute: '/act?section=DONATIONS' },
+    { contentType: 'VOLUNTEERING', expectedRoute: '/act?section=VOLUNTEERING' },
+    { contentType: 'SPACES', expectedRoute: '/spaces' },
+    { contentType: 'HOME', expectedRoute: '/' },
+    { contentType: 'invalid', expectedRoute: '/' },
+  ]
+  it.each(testCasesRoutes)(
+    'should expose route $expectedRoute for content type $contentType',
+    async ({ contentType, expectedRoute }) => {
+      const { result } = renderHook(() => useFirstVisitContentSelection())
+
+      // Await initialization
+      await waitFor(() => expect(result.current.isLoading).toBeFalsy())
+
+      await act(() => result.current.selectContentType(contentType))
+
+      expect(result.current.routeForSelectedContentType).toEqual(expectedRoute)
+    }
+  )
 })

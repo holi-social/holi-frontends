@@ -45,10 +45,6 @@ export const defaultAuthSteps = async (
     await tapOnElementWithTestId('anonymous-profile-login-btn')
   } else {
     await tapOnElementWithTestId('btn-to-registration-form')
-    await tapOnElementWithTestId('community-guidelines-checkbox')
-    await tapOnElementWithTestId('community-guidelines-navbtn-next-btn')
-    await tapOnElementWithTestId('privacy-policy-checkbox')
-    await tapOnElementWithTestId('privacy-policy-navbtn-next-btn')
   }
 
   // inspect login modal

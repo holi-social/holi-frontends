@@ -50,28 +50,26 @@ exports[`HoliRichTextOutput link surrounded by whitespace is rendered as a link 
 >
     
   <Text
-    accessible={false}
     aria-label="http://www.google.de"
-    collapsable={false}
-    jestAnimatedStyle={
-      {
-        "value": {},
-      }
-    }
     onPress={[Function]}
     role="link"
-    selectable={true}
+    selectable={false}
     style={
       {
-        "color": "#6267e7",
+        "color": "#5b60d6",
         "fontFamily": "InstrumentSans-Medium",
         "fontSize": 16,
+        "fontVariant": [
+          "lining-nums",
+          "tabular-nums",
+        ],
         "fontWeight": "500",
-        "lineHeight": 22.4,
+        "letterSpacing": -0.192,
+        "lineHeight": 23.68,
+        "textAlign": undefined,
         "userSelect": "auto",
       }
     }
-    testID="text-link"
   >
     http://www.google.de
   </Text>

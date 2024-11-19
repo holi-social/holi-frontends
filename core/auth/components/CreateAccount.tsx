@@ -1,32 +1,39 @@
 import { useApolloClient } from '@apollo/client'
-import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { getVerificationFlowFromRegistration, initRegistrationFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { type OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
-import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
-import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
+import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
-import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { Text } from 'holi-bricks/components/text'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
+import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
+import { Spacing } from 'holi-bricks/tokens'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 
 const logger = getLogger('CreateAccount')
 
@@ -49,7 +56,6 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
 
   const scrollViewRef = useRef<ScrollView>(null)
   const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
-  const redirect = useRedirect()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { track } = useTracking()
@@ -71,7 +77,7 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
   }, [isLoggedIn, t, safeSetFlow, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     initializeFlow()
   }, [initializeFlow])
 
@@ -111,8 +117,6 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
-
-        redirect()
       } catch (err) {
         handleFormSubmitError(
           setFlow,
@@ -130,44 +134,105 @@ const CreateAccount = ({ onRegister, onDismiss }: CreateAccountProps) => {
     }
   }
 
+  // in Web we navigate to the legal document page in profile settings
+  // but on mobile we navigate to a scrren in the RootNavigator to open it as a modal
+  const legalDocPath =
+    Platform.OS === 'web' ? '/profile/settings/legalDocuments/document' : 'onboarding/registration/legalDocuments'
+
   return (
     <HoliKeyboardSaveView>
-      <CenteredContentLayout ref={scrollViewRef} keyboardShouldPersistTaps="handled">
-        <View style={styles.inner}>
-          <HoliHeading level="1" size="m" testID="sign-up-headline">
-            {t('registration.signUp.heading')}
-          </HoliHeading>
+      <ScrollView
+        ref={scrollViewRef}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flex: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <HoliContainer flex={1}>
+          <View style={{ justifyContent: 'space-between', flex: 1 }}>
+            <View>
+              <HoliGap size="xs" />
+              <HoliTransition.FadeDown visible style={styles.logo}>
+                <HoliLogo color={theme.colors.black300} />
+              </HoliTransition.FadeDown>
 
-          <HoliText style={styles.description}>{t('registration.signUp.description')}</HoliText>
-          <FormBuilder
-            flow={flow}
-            onSubmit={onSubmit}
-            style={styles.loginForm}
-            scrollToInputWithId={scrollToInputWithId}
-          />
+              <HoliGap size="m" />
 
-          <HoliGap size="m" />
+              <HoliTransition.FadeDown visible index={1}>
+                <View style={styles.title}>
+                  <Text headingLevel="1" size="4xl">
+                    {t('registration.signUp.heading')}
+                  </Text>
 
-          <HoliButtonTracked
-            label={t('auth.loginProtection.continueAsGuest')}
-            onPress={onDismiss}
-            type="secondary"
-            testID="btn-to-continue-as-guest"
-            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-          >
-            {t('auth.loginProtection.continueAsGuest')}
-          </HoliButtonTracked>
+                  <HoliLocalImage
+                    imageSource={Platform.OS === 'android' ? GiveFiveFilledPng : GiveFiveFilled}
+                    width={50}
+                    height={40}
+                    label={''}
+                    isSvg={Platform.OS !== 'android'}
+                  />
+                </View>
 
-          <View style={{ alignItems: 'center' }}>
-            <AlreadyHaveAccountText
-              style={styles.loginHeadline}
-              trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
-            />
+                <HoliGap size="xs" />
+                <Text size="md">{t('registration.signUp.description')}</Text>
+              </HoliTransition.FadeDown>
+
+              <HoliTransition.FadeDown visible index={2}>
+                <FormBuilder
+                  flow={flow}
+                  onSubmit={onSubmit}
+                  style={styles.loginForm}
+                  scrollToInputWithId={scrollToInputWithId}
+                />
+              </HoliTransition.FadeDown>
+
+              <HoliGap size="s" />
+              <HoliTransition.FadeDown visible index={3}>
+                <HoliButtonTracked
+                  label={t('auth.loginProtection.continueAsGuest')}
+                  onPress={onDismiss}
+                  type="secondary"
+                  testID="btn-to-continue-as-guest"
+                  trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+                >
+                  {t('auth.loginProtection.continueAsGuest')}
+                </HoliButtonTracked>
+
+                <HoliGap size="xxs" />
+                <Text size="xs" variant="secondary" textAlign="center">
+                  {t('auth.loginProtection.continueAsGuest.warning')}
+                </Text>
+
+                <HoliGap size="m" />
+                <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
+              </HoliTransition.FadeDown>
+            </View>
+
+            <HoliTransition.FadeDown visible index={4}>
+              <HoliGap size="xs" />
+              <Text size="sm" textAlign="center">
+                <Trans t={t} i18nKey={'auth.registration.privacyPolicyAndTermsOfUse'}>
+                  <HoliTextLink
+                    label={t('auth.registration.privacyPolicy')}
+                    href={`${legalDocPath}?type=privacyPolicy`}
+                    size="sm"
+                    external={isWeb}
+                  />
+
+                  <HoliTextLink
+                    label={t('auth.registration.termsOfUse')}
+                    href={`${legalDocPath}?type=termsOfUse`}
+                    size="sm"
+                    external={isWeb}
+                  />
+                </Trans>
+              </Text>
+              <HoliGap size="xs" />
+            </HoliTransition.FadeDown>
           </View>
-        </View>
 
-        {isLoaderShown && <HoliLoader />}
-      </CenteredContentLayout>
+          {isLoaderShown && <HoliLoader />}
+        </HoliContainer>
+      </ScrollView>
     </HoliKeyboardSaveView>
   )
 }
@@ -176,8 +241,13 @@ export default memo(CreateAccount)
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    inner: {
-      width: '100%',
+    logo: {
+      alignItems: 'center',
+    },
+    title: {
+      flexDirection: 'row',
+      gap: Spacing['3xs'],
+      justifyContent: 'center',
     },
     description: {
       color: theme.colors.foreground20,
@@ -185,15 +255,10 @@ const getStyles = (theme: HoliTheme) =>
     },
     loginForm: {
       // reserves space for inputs plus submit until ory flow is done
-      marginTop: 32,
       minHeight: 235,
       width: '100%',
     },
     headline3: {
       marginTop: 16,
-    },
-    loginHeadline: {
-      marginTop: 16,
-      textAlign: 'center',
     },
   })

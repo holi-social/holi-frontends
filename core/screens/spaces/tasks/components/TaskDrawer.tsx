@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -6,7 +6,7 @@ import useDeleteTask from '@holi/core/hooks/spaces/useDeleteTask'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
-import { Space, SpaceConnectionType, Task } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionType, type Task } from '@holi/core/screens/spaces/types'
 import { Delete, Edit2, Flag } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 

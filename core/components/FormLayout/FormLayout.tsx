@@ -1,71 +1,78 @@
 import { withProfiler } from '@sentry/react'
-import React, { useMemo } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import type React from 'react'
+import { useMemo } from 'react'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
+
+import { useHeaderHeight } from '@react-navigation/elements'
 
 import { PortalGate } from '@holi/core/providers/PortalProvider'
+import SafeArea from '@holi/ui/components/atoms/SafeArea'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface FormLayoutProps {
   children: React.ReactNode
   bottomBar: React.ReactNode
   hasSuggestions?: boolean
+  backgroundColor?: string
+  scrollViewRef?: React.RefObject<ScrollView>
 }
 
-const FormLayout: React.FC<FormLayoutProps> = ({ children, bottomBar, hasSuggestions = true }) => {
+const FormLayout: React.FC<FormLayoutProps> = ({
+  children,
+  bottomBar,
+  hasSuggestions = true,
+  backgroundColor,
+  scrollViewRef,
+}) => {
   const { theme } = useTheme()
 
   const styles = useMemo(() => getStyles(theme), [theme])
 
+  const headerHeight = useHeaderHeight()
+
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.layout}>
+    <SafeArea style={styles.safeArea} edges={['bottom']}>
+      <KeyboardAvoidingView
+        style={[styles.container, backgroundColor ? { backgroundColor } : {}]}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={headerHeight}
+      >
         <ScrollView
-          contentContainerStyle={styles.contentContainer}
+          contentContainerStyle={styles.scrollViewContent}
+          style={styles.scrollView}
           keyboardShouldPersistTaps="handled"
-          style={styles.container}
+          ref={scrollViewRef}
         >
           <HoliContainer>{children}</HoliContainer>
         </ScrollView>
-      </View>
-      <View style={styles.submitBarContainer}>
-        <HoliContainer>
+
+        <View>
           {hasSuggestions && <PortalGate gateName="suggestions" style={styles.suggestionsScrollView} />}
-        </HoliContainer>
-        {bottomBar}
-      </View>
-    </View>
+          {bottomBar}
+        </View>
+      </KeyboardAvoidingView>
+    </SafeArea>
   )
 }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    wrapper: {
+    safeArea: {
       flex: 1,
-      width: '100%',
       backgroundColor: theme.colors.background10,
-    },
-    layout: {
-      backgroundColor: theme.colors.background20,
       width: '100%',
-      height: '100%',
-      flexDirection: 'column',
-      paddingBottom: 120,
     },
     container: {
       flex: 1,
-      width: '100%',
-    },
-    contentContainer: {
-      flexGrow: 1,
-      paddingBottom: Spacing.md,
-    },
-    submitBarContainer: {
-      width: '100%',
       backgroundColor: theme.colors.background20,
-      position: 'fixed',
-      bottom: 0,
+    },
+    scrollViewContent: {
+      flexGrow: 1,
+    },
+    scrollView: {
+      flex: 1,
+      flexGrow: 1,
     },
     suggestionsScrollView: {
       zIndex: 1,

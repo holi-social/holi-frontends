@@ -16,10 +16,10 @@ import {
 } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText, { type HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export interface Props {
   task: Task
@@ -104,13 +104,12 @@ const Content = ({
           </HoliText>
 
           <View style={styles.avatar}>
-            <HoliAvatar
-              imageSrc={task.creator.avatar}
-              imageBlurhash={task.creator.avatarBlurhash}
+            <Avatar
+              imgSrc={task.creator.avatar}
+              imgPlaceholder={task.creator.avatarBlurhash}
               label={task.creator?.fullName || t('user.profileView.anonymous')}
               initials={task.creator.avatarLabel || ''}
-              defaultColor={task.creator.avatarDefaultColor || ''}
-              size="medium"
+              size="md"
               testID="task-contact-avatar"
             />
             <HoliText>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>

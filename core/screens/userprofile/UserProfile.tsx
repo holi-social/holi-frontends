@@ -10,7 +10,7 @@ import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import SpacesTab from '@holi/core/components/SpacesTab'
-import { UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
+import { type UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -34,7 +34,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type UserProfileParams = {
@@ -57,7 +57,7 @@ const UserProfile = () => {
   const loginState = useLoggedInUser()
   const [userId = ''] = useParam('userId')
 
-  const [activeTab, setActiveTab] = useState<string>('profile')
+  const [activeTab, setActiveTab] = useState<string>('posts')
 
   useEffect(() => {
     if (loginState.isLoggedIn && userId === loginState.user.id) {
@@ -156,6 +156,11 @@ const UserProfile = () => {
         onChange={setActiveTab}
         data={[
           {
+            key: 'posts',
+            tabTitle: t('individuals.post.name'),
+            content: () => <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
+          },
+          {
             key: 'profile',
             tabTitle: t('profile.tabs.profile'),
             content: () => (
@@ -194,11 +199,6 @@ const UserProfile = () => {
                 )}
               </View>
             ),
-          },
-          {
-            key: 'posts',
-            tabTitle: t('individuals.post.name'),
-            content: () => <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
           },
           {
             key: 'insights',

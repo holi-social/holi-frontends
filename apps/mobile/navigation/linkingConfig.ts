@@ -1,6 +1,6 @@
 import type { LinkingOptions } from '@react-navigation/native'
 
-import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
@@ -121,7 +121,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     // Onboarding
     [RouteName.Onboarding]: 'onboarding',
     [RouteName.OnboardingRegistration]: 'onboarding/registration',
-    [RouteName.OnboardingFirstVisit]: 'onboarding/first-visit',
+    [RouteName.OnboardingRegistrationLegalDocuments]: 'onboarding/registration/legalDocuments',
+    [RouteName.OnboardingAccountSetup]: 'onboarding/account-setup',
 
     // Modals
     [RouteName.Notifications]: 'notifications',

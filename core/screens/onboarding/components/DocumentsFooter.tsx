@@ -8,7 +8,6 @@ import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestErr
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -18,7 +17,6 @@ const isWeb = Platform.OS === 'web'
 
 const DocumentsFooter = () => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
 
@@ -57,8 +55,8 @@ const DocumentsFooter = () => {
             label={t(`profile.loggedOut.footer.${docType}`)}
             onPress={() => showModalFor(docType)}
             href={`/profile/settings/legalDocuments/document?type=${docType}`}
-            size="small"
-            color="gray300"
+            size="xs"
+            variant="secondary"
           >
             {t(`profile.loggedOut.footer.${docType}`)}
           </HoliTextLink>
@@ -66,10 +64,9 @@ const DocumentsFooter = () => {
         {Platform.OS !== 'web' && (
           <HoliTextLink
             label={t('profile.loggedOut.footer.aboutholiapp')}
-            onPress={() => navigate('/profile/settings/aboutholiapp')}
             href={'/profile/settings/aboutholiapp'}
-            size="small"
-            color="gray300"
+            size="xs"
+            variant="secondary"
           >
             {t('profile.loggedOut.footer.aboutholiapp')}
           </HoliTextLink>

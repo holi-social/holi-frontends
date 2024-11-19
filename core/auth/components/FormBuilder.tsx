@@ -1,5 +1,5 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/SelfServiceFlow.tsx
-import {
+import type {
   LoginFlow,
   RecoveryFlow,
   RegistrationFlow,
@@ -12,7 +12,7 @@ import {
 } from '@ory/kratos-client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, ViewStyle } from 'react-native'
+import { View, type ViewStyle } from 'react-native'
 
 import type { TextInputOverride } from '@holi/core/auth/components/FormInputField'
 import FormNode from '@holi/core/auth/components/FormNode'
@@ -20,6 +20,7 @@ import { getNodeId, oryNodeIsInput, oryNodeIsSubmit } from '@holi/core/auth/help
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
+import Spacing from '@holi/ui/foundations/Spacing'
 
 type NodeId = string
 
@@ -149,11 +150,11 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
       {!flow ? (
         <HoliLoader />
       ) : (
-        nodes.map((node: UiNode, k) => {
+        nodes.map((node: UiNode, index) => {
           const name = getNodeId(node)
           return (
             <FormNode
-              key={`form-field-${flow?.ui.action || ''}-${name}-${k}`}
+              key={`form-field-${flow?.ui.action || ''}-${name}-${index}`}
               textInputOverride={textInputOverride}
               translationPrefix={translationPrefix}
               value={getValue(name)}
@@ -162,7 +163,7 @@ const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | Up
               onSubmitPress={() => onSubmit({ ...values, ...submitType })}
               scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
-              style={{ marginTop: 30 }}
+              style={{ marginTop: Spacing.md }}
               isSignin={isSignin}
             />
           )

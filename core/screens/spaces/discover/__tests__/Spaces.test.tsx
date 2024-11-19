@@ -1,8 +1,7 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import { LoginStateLoggedIn } from '@holi/core/auth/loginState'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import {
   authenticatedUserMock,
@@ -16,17 +15,17 @@ import { mySpaces } from '@holi/core/screens/spaces/__tests__/testData'
 import Spaces from '@holi/core/screens/spaces/discover/Spaces'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
 
-const loginStateLoggedIn: LoginStateLoggedIn = {
-  isUnknown: false,
-  isLoggedOut: false,
+const loginStateLoggedIn = {
+  isLoading: false,
   isLoggedIn: true,
-  userId: '123',
-}
+  isLoggedOut: false,
+  user: { id: '123' },
+} as LoggedInState
 
-jest.mock('@holi/core/auth/loginState', () => ({
-  useLoginState: () => loginStateLoggedIn,
-  setUserLoggedOut: async () => null,
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: () => loginStateLoggedIn,
 }))
 
 jest.mock('@holi/core/helpers/useLogout', () => ({
@@ -104,7 +103,7 @@ describe.only('Spaces screen', () => {
     )
 
   it('displays loading screen while loading', async () => {
-    renderSpaces(MOCKS_WITH_MY_SPACES)
+    renderSpaces(MOCKS_WITHOUT_MY_SPACES)
 
     expect(await screen.findByTestId('spaces-group-slider-skeletons')).toBeOnTheScreen()
   })

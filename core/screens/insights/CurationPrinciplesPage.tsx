@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useMemo, useState } from 'react'
+import type React from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
@@ -8,7 +9,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { InsightAuthorsResponse, insightAuthors } from '@holi/core/screens/insights/queries'
+import { type InsightAuthorsResponse, insightAuthors } from '@holi/core/screens/insights/queries'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
@@ -20,7 +21,8 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 const CircledNumber = ({ number }: { number: number }) => {
   const { theme } = useTheme()
@@ -171,12 +173,10 @@ const CurationPrinciplesPage: React.FC = () => {
                     style={styles.contributor}
                     onPress={() => navigate(`/profile/${author.id}`)}
                   >
-                    <HoliAvatar
-                      imageSrc={author.avatar}
-                      loading={loading || !author}
-                      imageBlurhash={author.avatarBlurhash}
+                    <Avatar
+                      imgSrc={author.avatar}
+                      imgPlaceholder={author.avatarBlurhash}
                       label={author.avatarLabel}
-                      defaultColor={author.avatarDefaultColor}
                       initials={author.avatarLabel}
                     />
                     <HoliText size="small" align="center">

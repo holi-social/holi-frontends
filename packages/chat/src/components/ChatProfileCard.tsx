@@ -5,17 +5,17 @@ import { StyleSheet, View } from 'react-native'
 
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import { joinRoom, leaveRoom } from '@holi/chat/src/store'
-import { getChatInitials, getDefaultAvatarColor } from '@holi/chat/src/utils'
-import { User } from '@holi/core/domain/shared/types'
+import { getChatInitials } from '@holi/chat/src/utils'
+import type { User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface Props {
   roomId: string
@@ -24,6 +24,7 @@ interface Props {
   userIsLoading: boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -50,14 +51,12 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
         <HoliCardBoard.Slot>
           {user ? (
             <>
-              <HoliAvatar
-                imageSrc={member?.avatar ?? user?.avatar}
-                imageBlurhash={user?.avatarBlurhash}
+              <Avatar
+                imgSrc={member?.avatar ?? user?.avatar}
+                imgPlaceholder={user?.avatarBlurhash}
                 label={chatPartnerName}
                 initials={getChatInitials(member?.name) || user?.avatarLabel || ''}
-                defaultColor={getDefaultAvatarColor(member?.name) || user?.avatarDefaultColor || ''}
-                size="large"
-                loading={userIsLoading}
+                size="lg"
               />
               <View>
                 <HoliHeading size="m">{chatPartnerName}</HoliHeading>

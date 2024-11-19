@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import CenteredContentLayout from '@holi/core/components/CenteredContentLayout'
-import { HoliButtonTracked } from '@holi/core/components/HoliButtonTracked'
+import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -58,7 +58,7 @@ const OnboardingWelcome = () => {
             variant="default"
             style={[styles.forwardBtn]}
             label={t('onboarding.welcome.forward')}
-            onPress={() => navigate('/onboarding/first-visit')}
+            onPress={() => navigate('/onboarding/account-setup')}
             testID="btn-to-onboarding"
             trackingEvent={TrackingEvent.OnboardingPressed('WELCOME', 'CONTINUE')}
           >

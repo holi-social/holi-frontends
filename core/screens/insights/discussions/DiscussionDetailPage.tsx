@@ -17,14 +17,14 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import Comments from '@holi/core/screens/comments/components/Comments'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
-import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
+import { type DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type DiscussionDetailPageParams = {
   discussionId: string
@@ -81,13 +81,16 @@ const DiscussionDetailPage = () => {
     })
   }, [t, setScreenOptions])
 
-  const onPressCreateComment = () =>
-    isLoggedIn
-      ? replaceRoute(`/insights/${insightId}/discussions/${discussionId}/comment`)
+  const onPressCreateComment = () => {
+    const commentPath = `/insights/${insightId}/discussions/${discussionId}/comment`
+    return isLoggedIn
+      ? replaceRoute(commentPath)
       : openSignupModal({
           description: t('insight.discussion.comment.loginRedirect.text'),
           trackTrigger: 'COMMENT_ON_INSIGHT',
+          redirectPath: commentPath,
         })
+  }
 
   return (
     <>

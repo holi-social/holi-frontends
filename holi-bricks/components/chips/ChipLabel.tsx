@@ -10,8 +10,7 @@ import { View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-
-import { type ChipSize, chipSizeToTextSize } from './size'
+import { chipSizeToTextSize, type ChipSize } from './size'
 
 type ChipColor = Color | 'white'
 

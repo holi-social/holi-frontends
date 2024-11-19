@@ -1,5 +1,5 @@
 import { useApolloClient } from '@apollo/client'
-import { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
+import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -9,15 +9,15 @@ import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistra
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/helpers/form'
-import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
+import { HoliTextLinkTracked } from '@holi/core/components/Trackable'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { HoliTextLinkTracked } from '@holi/core/navigation/components/HoliTextLinkTracked'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
@@ -28,6 +28,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
+import { clearFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
 
 const Login = () => {
   const { isLoggedOut } = useLoginState()
@@ -82,8 +83,8 @@ const Login = () => {
     try {
       const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
+      await clearFirstVisitContentSelection()
       await setLoginStateLoggedIn(data)
-      await storeOnboardingState('finished')
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)
@@ -113,13 +114,12 @@ const Login = () => {
         <LoginRegistrationContainer>
           <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
 
-          <View style={styles.formItemContainer}>
+          <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
             <HoliTextLinkTracked
               label={t('auth.login.link.forgotPassword')}
               href="/forgotPassword"
-              size="small"
+              size="sm"
               mobileNavigateBackFirst
-              testID="btn-to-forgot-password-form"
               trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
             >
               {t('auth.login.link.forgotPassword')}

@@ -9,7 +9,7 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
+import useRefreshOnNavigation, { type RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -17,7 +17,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import AppointmentCalendarButton from '@holi/core/screens/appointments/components/AppointmentCalendarButton'
-import { appointmentByIdOrSlugQuery, appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
+import { appointmentByIdOrSlugQuery, type appointmentByIdOrSlugResponse } from '@holi/core/screens/appointments/queries'
 import ShareAppointment from '@holi/core/screens/spaces/appointments/ShareAppointment'
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
@@ -29,15 +29,15 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
@@ -338,12 +338,11 @@ const AppointmentDetails = () => {
           </HoliHeading>
           {loginState.isLoggedIn && appointment.creator && (
             <View style={styles.avatar}>
-              <HoliAvatar
-                imageSrc={appointment.creator.avatar}
-                imageBlurhash={appointment.creator.avatarBlurhash}
+              <Avatar
+                imgSrc={appointment.creator.avatar}
+                imgPlaceholder={appointment.creator.avatarBlurhash}
                 label={appointment.creator.fullName || t('user.profileView.anonymous')}
                 initials={appointment.creator.avatarLabel || ''}
-                defaultColor={appointment.creator.avatarDefaultColor || ''}
                 testID="appointment-contact-avatar"
               />
               <HoliText style={styles.avatarName}>
@@ -354,7 +353,7 @@ const AppointmentDetails = () => {
           )}
           {loginState.isLoggedIn && !appointment.creator && (
             <View style={styles.avatar}>
-              <SpaceAvatar space={space} size="medium" />
+              <SpaceAvatar space={space} size="md" />
               <HoliText style={styles.avatarName}>
                 {t('spaces.appointments.details.organisedBy')} {space.title}
               </HoliText>

@@ -2,9 +2,17 @@ import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessi
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import type * as React from 'react'
-// eslint-disable-next-line no-restricted-imports
-import { type ColorValue, Platform, Text, type TextProps, type TextStyle } from 'react-native'
+import type React from 'react'
+import {
+  type ColorValue,
+  type GestureResponderEvent,
+  Platform,
+  // eslint-disable-next-line no-restricted-imports
+  Text,
+  // eslint-disable-next-line no-restricted-imports
+  type TextProps,
+  type TextStyle,
+} from 'react-native'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
 export type TextLinkVariant =
@@ -28,7 +36,7 @@ export interface TextLinkProps extends AccessibilityProps {
   color?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
-  onPress?: TextProps['onPress']
+  onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
 }
 
 export const TextLink = ({

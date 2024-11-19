@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
+import { type DimensionValue, type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -13,21 +13,21 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
-import { InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
+import { type InsightWithRecommendationResponse, insightWithRecommendation } from '@holi/core/screens/insights/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export type RecommendationDetailPageParams = {
   insightId: string
@@ -127,13 +127,12 @@ const RecommendationDetailPage = () => {
             <View style={styles.comment}>
               {creator && (
                 <View style={styles.recommender}>
-                  <HoliAvatar
-                    size="micro"
-                    imageSrc={creator.avatar}
-                    imageBlurhash={creator.avatarBlurhash}
+                  <Avatar
+                    size="xs"
+                    imgSrc={creator.avatar}
+                    imgPlaceholder={creator.avatarBlurhash}
                     label={creator.fullName ?? ''}
                     initials={creator.avatarLabel || ''}
-                    defaultColor={creator.avatarDefaultColor || ''}
                   />
                   <HoliText bold>{t('insights.recommendations.creator_reason')}</HoliText>
                 </View>

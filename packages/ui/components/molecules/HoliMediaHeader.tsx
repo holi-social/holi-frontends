@@ -5,11 +5,11 @@ import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { VerifiedExternal, VerifiedInternal } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { PropsWithSkeleton } from '@holi/ui/components/types'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 
 const roleMapping: { [key: string]: string } = {
   EDITOR: 'user.profileView.role.editor',
@@ -59,7 +59,7 @@ const HoliMediaHeader = ({
   if (loading) {
     return (
       <View style={[styles.row, style]} testID={testID}>
-        <HoliAvatar {...avatarProps} size={avatarProps?.size || 'small'} loading label={''} />
+        <Avatar {...avatarProps} size={avatarProps?.size || 'sm'} label={''} initials="" shape="circle" />
 
         <View style={[styles.titleContainer]}>
           <HoliText loading />
@@ -71,15 +71,24 @@ const HoliMediaHeader = ({
 
   return (
     <View style={[styles.row, style]} testID={testID}>
-      <HoliButton inline transparent label={avatarProps.label} onPress={onAvatarPressed} style={styles.avatarButton}>
-        <HoliAvatar {...avatarProps} size={avatarProps.size || 'small'} />
+      <HoliButton
+        inline
+        transparent
+        label={avatarProps.label || ''}
+        onPress={onAvatarPressed}
+        style={styles.avatarButton}
+      >
+        <Avatar {...avatarProps} shape="circle" border="light" size={avatarProps.size || 'sm'} />
         {!!secondaryAvatarProps && (
-          <HoliAvatar
-            {...secondaryAvatarProps}
-            size={secondaryAvatarProps?.size || 'micro'}
-            label={''}
-            style={styles.secondaryAvatar}
-          />
+          <View style={styles.secondaryAvatar}>
+            <Avatar
+              {...secondaryAvatarProps}
+              shape="circle"
+              size={secondaryAvatarProps?.size || 'xs'}
+              label={''}
+              border="strong"
+            />
+          </View>
         )}
       </HoliButton>
       <View style={[styles.titleContainer]}>
@@ -142,8 +151,6 @@ const getStyles = (theme: HoliTheme) =>
       position: 'absolute',
       right: -Spacing['4xs'],
       bottom: -Spacing['4xs'],
-      borderWidth: 2,
-      borderColor: theme.colors.background10,
     },
     titleContainer: {
       flexDirection: 'column',

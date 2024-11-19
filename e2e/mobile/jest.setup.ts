@@ -1,7 +1,7 @@
 import * as webdriverio from 'webdriverio'
 
 import appiumConfig, { target as appiumConfigTarget } from './appiumConfig'
-import { PlatformType, TargetType } from './global'
+import type { PlatformType, TargetType } from './global'
 import { logout } from './helpers/auth'
 import { waitForHomeScreen } from './helpers/navigation'
 import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId } from './helpers/selectors'
@@ -13,13 +13,16 @@ beforeEach(
   async () => {
     // make test name visible in BrowserStack
     if (target === 'browserstack') {
+      // @ts-ignore custom capabilities are not covered by the type
       appiumConfig.capabilities['bstack:options'].sessionName = expect.getState().currentTestName
     }
+    // @ts-ignore custom capabilities are not covered by the type
     Appium = await webdriverio.remote(appiumConfig)
 
     // https://appium.io/docs/en/commands/session/timeouts/implicit-wait/
     await resetImplicitTimeout()
 
+    // @ts-ignore custom capabilities are not covered by the type
     if (appiumConfig.capabilities['appium:app']) {
       let numAttempts = 5
       let appRunning = false
@@ -39,11 +42,11 @@ beforeEach(
       await tapOnElementWithTestId('btn-consentModal-declineAll')
       await tapOnElementWithTestId('btn-to-onboarding')
       await tapOnElementWithTestId('holi-wizard-skip-btn')
+      await tapOnElementWithTestId('btn-to-continue-as-guest')
       await waitForHomeScreen(homeScreenTimeout)
     } else {
       // Logout + navigate back to the home screen before each test
       await logout()
-      await tapOnElementWithTestId('btn-to-home-view', 100)
     }
   },
   20 * 60 * 1000

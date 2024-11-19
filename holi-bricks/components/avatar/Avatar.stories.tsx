@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { Avatar } from 'holi-bricks/components/avatar/Avatar'
 import React from 'react'
 
@@ -66,9 +66,7 @@ export const AvatarWithImage: Story = {
   args: {
     label: 'Label',
     size: 'md',
-    imgSrc: {
-      uri: 'https://picsum.photos/id/64/100/100',
-    },
+    imgSrc: 'https://picsum.photos/id/64/100/100',
   },
   render: function Render(args) {
     return <Avatar {...args} />

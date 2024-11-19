@@ -1,3 +1,4 @@
+import { Text, TextLink } from 'holi-bricks/components/text'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
@@ -6,7 +7,6 @@ import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
-import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -45,11 +45,11 @@ const TrackingGeneralContentDescription = ({ checkTextCountList = [1, 2, 3] }: P
 
   return (
     <>
-      <HoliText>
+      <Text size="md">
         <Trans t={t} i18nKey={'tracking.consentModal.general.description'}>
-          <HoliTextLink label="" href="" onPress={show} />
+          <TextLink size="md" onPress={show} role="link" />
         </Trans>
-      </HoliText>
+      </Text>
 
       <HoliGap size="m" />
 

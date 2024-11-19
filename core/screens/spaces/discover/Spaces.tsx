@@ -1,9 +1,9 @@
-import { DocumentNode, useApolloClient, useQuery } from '@apollo/client'
+import { type DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
-import Animated from 'react-native-reanimated'
+import type Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import FilterModal from '@holi/core/components/FIlterModal'
@@ -17,20 +17,20 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
-import { type SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
+import type { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
-import { MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
+import { type MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 export enum Tab {
   MINE = 'mine',
@@ -42,13 +42,13 @@ const Spaces = () => {
   const { navigate } = useRouting()
   const { user, isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<Animated.ScrollView>(null)
-  const { openSignupModal } = useSignupModal()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const client = useApolloClient()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
@@ -74,18 +74,13 @@ const Spaces = () => {
     })
   )
 
-  const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn
-      ? navigate('/spaces/create')
-      : openSignupModal({
-          description: t('spaces.create.loginRedirect.text'),
-          redirectPath: '/spaces/create',
-          trackTrigger: 'CREATE_SPACE',
-        })
-  }, [isLoggedIn, navigate, openSignupModal, t])
-
   useIsomorphicLayoutEffect(() => {
     const title = t('spaces.title')
+    const handleCreateSpaceButtonPress = () =>
+      navigateWithAuth('/spaces/create', {
+        description: t('spaces.create.loginRedirect.text'),
+        trackTrigger: 'CREATE_SPACE',
+      })
     setScreenOptions({
       title,
       headerBackTitleVisible: true,
@@ -104,7 +99,7 @@ const Spaces = () => {
         </HoliHorizontalRow>
       ),
     })
-  }, [navigate, t, handleCreateSpaceButtonPress, setScreenOptions])
+  }, [navigate, t, setScreenOptions, navigateWithAuth])
 
   const { visible: isFilterModalShown, show: openFilterModal, hide: closeFilterModal } = useModalState()
 

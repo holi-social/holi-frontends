@@ -4,18 +4,18 @@ import { useStyles } from 'holi-bricks/hooks'
 import type { Color } from 'holi-bricks/tokens'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { byShade } from 'holi-bricks/utils/byShade'
 import React, { type ReactNode } from 'react'
-import { type GestureResponderEvent, Pressable } from 'react-native'
+import { type GestureResponderEvent, Pressable, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Deselect, Select } from '@holi/icons/src/generated'
 // TODO: Change this import to new avatar when finished.
 // eslint-disable-next-line no-restricted-imports
-import HoliAvatar, { type AvatarProps } from '@holi/ui/components/molecules/HoliAvatar'
+import type { AvatarProps } from 'holi-bricks/components/avatar'
 
-import { type ChipSize, chipSizeToTextSize } from './size'
+import { chipSizeToTextSize, type ChipSelectSize } from './size'
 import { pill } from './styles'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 type ChipSelectProps = AccessibilityProps & {
   onPress: (event: GestureResponderEvent) => void
@@ -23,12 +23,11 @@ type ChipSelectProps = AccessibilityProps & {
   selected?: boolean
   disabled?: boolean
   selectedColor?: Color
-  size?: ChipSize
-  avatar?: Pick<AvatarProps, 'initials' | 'label' | 'imageSrc' | 'imageBlurhash'>
+  size?: ChipSelectSize
+  avatar?: Pick<AvatarProps, 'initials' | 'label' | 'imgSrc'>
 }
 
-const sizeToIconSize: Record<ChipSize, number> = {
-  sm: 12,
+const sizeToIconSize: Record<ChipSelectSize, number> = {
   md: 18,
   lg: 24,
 }
@@ -47,7 +46,7 @@ export const ChipSelect = ({
   const { styles, theme } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = sizeToIconSize[size]
   const icon = selected ? Deselect : Select
-  const avatarSize = size === 'lg' ? 'small' : 'micro'
+  const avatarSize = size === 'lg' ? 'lg' : 'xs'
 
   return (
     <Pressable
@@ -59,13 +58,9 @@ export const ChipSelect = ({
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, selectedColor)]}
     >
       {avatar && (
-        <HoliAvatar
-          {...avatar}
-          size={avatarSize}
-          defaultColor={byShade('600')[selectedColor]}
-          initialsColor={theme.components.chipSelect.text}
-          style={styles.avatar}
-        />
+        <View style={styles.avatar}>
+          <Avatar {...avatar} size={avatarSize} />
+        </View>
       )}
       {children && (
         <Text size={chipSizeToTextSize[size]} color={theme.components.chipSelect.text} selectable={false}>
@@ -91,10 +86,6 @@ const stylesheet = createStyleSheet((theme) => ({
       boxShadow: focused ? theme.colors.focus : 'none',
       variants: {
         size: {
-          sm: {
-            paddingHorizontal: Spacing['3xs'],
-            minHeight: Spacing.md,
-          },
           md: {
             paddingHorizontal: Spacing['3xs'],
             minHeight: Spacing.lg,
@@ -120,11 +111,6 @@ const stylesheet = createStyleSheet((theme) => ({
   avatar: {
     variants: {
       size: {
-        sm: {
-          width: 18,
-          height: 18,
-          marginLeft: -(Spacing['3xs'] - 2),
-        },
         md: {
           width: Spacing.md,
           height: Spacing.md,

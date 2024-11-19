@@ -238,7 +238,6 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
             </View>
           </View>
           <Text
-            role="link"
             selectable={false}
             style={
               {
@@ -785,53 +784,45 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     />
                     <View
                       style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "overflow": "hidden",
-                          },
-                          {
-                            "backgroundColor": "#f5f5f5",
-                            "borderColor": undefined,
-                            "borderRadius": 12,
-                            "borderWidth": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                          {
-                            "borderColor": "#fff",
-                            "borderStyle": "solid",
-                            "borderWidth": 1,
-                            "bottom": 8,
-                            "left": 8,
-                            "position": "absolute",
-                          },
-                          false,
-                        ]
+                        {
+                          "bottom": 8,
+                          "left": 8,
+                          "position": "absolute",
+                        }
                       }
                     >
-                      <Image
-                        accessibilityRole="image"
-                        accessible={true}
-                        aria-label="release 1320 release testing account"
-                        contentFit="cover"
-                        role="img"
-                        source={
+                      <View
+                        style={
                           {
+                            "alignItems": "center",
+                            "backgroundColor": "#8b95ff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
                             "height": 24,
-                            "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/a5558cd1-0ccd-469d-8318-e0b1c37c42f9_HhQ7euc5n1.jpeg?tr=w-48%2Ch-48",
+                            "justifyContent": "center",
+                            "overflow": "hidden",
                             "width": 24,
                           }
                         }
-                        style={
-                          {
-                            "height": "100%",
-                            "resizeMode": "contain",
-                            "width": "100%",
+                      >
+                        <Image
+                          accessibilityRole="image"
+                          accessible={true}
+                          aria-label="release 1320 release testing account"
+                          contentFit="cover"
+                          onError={[Function]}
+                          role="img"
+                          source={
+                            {
+                              "height": 14,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/a5558cd1-0ccd-469d-8318-e0b1c37c42f9_HhQ7euc5n1.jpeg?tr=w-28%2Ch-28",
+                              "width": 14,
+                            }
                           }
-                        }
-                      />
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -905,53 +896,45 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     />
                     <View
                       style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "overflow": "hidden",
-                          },
-                          {
-                            "backgroundColor": "#f5f5f5",
-                            "borderColor": undefined,
-                            "borderRadius": 12,
-                            "borderWidth": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                          {
-                            "borderColor": "#fff",
-                            "borderStyle": "solid",
-                            "borderWidth": 1,
-                            "bottom": 8,
-                            "left": 8,
-                            "position": "absolute",
-                          },
-                          false,
-                        ]
+                        {
+                          "bottom": 8,
+                          "left": 8,
+                          "position": "absolute",
+                        }
                       }
                     >
-                      <Image
-                        accessibilityRole="image"
-                        accessible={true}
-                        aria-label="The Mailinator Account Not to be confused with the Terminator account"
-                        contentFit="cover"
-                        role="img"
-                        source={
+                      <View
+                        style={
                           {
+                            "alignItems": "center",
+                            "backgroundColor": "#8b95ff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
                             "height": 24,
-                            "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-48%2Ch-48",
+                            "justifyContent": "center",
+                            "overflow": "hidden",
                             "width": 24,
                           }
                         }
-                        style={
-                          {
-                            "height": "100%",
-                            "resizeMode": "contain",
-                            "width": "100%",
+                      >
+                        <Image
+                          accessibilityRole="image"
+                          accessible={true}
+                          aria-label="The Mailinator Account Not to be confused with the Terminator account"
+                          contentFit="cover"
+                          onError={[Function]}
+                          role="img"
+                          source={
+                            {
+                              "height": 14,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-28%2Ch-28",
+                              "width": 14,
+                            }
                           }
-                        }
-                      />
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -1273,53 +1256,45 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     />
                     <View
                       style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "overflow": "hidden",
-                          },
-                          {
-                            "backgroundColor": "#f5f5f5",
-                            "borderColor": undefined,
-                            "borderRadius": 12,
-                            "borderWidth": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                          {
-                            "borderColor": "#fff",
-                            "borderStyle": "solid",
-                            "borderWidth": 1,
-                            "bottom": 8,
-                            "left": 8,
-                            "position": "absolute",
-                          },
-                          false,
-                        ]
+                        {
+                          "bottom": 8,
+                          "left": 8,
+                          "position": "absolute",
+                        }
                       }
                     >
-                      <Image
-                        accessibilityRole="image"
-                        accessible={true}
-                        aria-label="mailinator 11 "
-                        contentFit="cover"
-                        role="img"
-                        source={
+                      <View
+                        style={
                           {
+                            "alignItems": "center",
+                            "backgroundColor": "#8b95ff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
                             "height": 24,
-                            "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/5d91a785-5bad-45f1-98be-a29473a4d362_E_MBZCQeh.jpg?tr=w-48%2Ch-48",
+                            "justifyContent": "center",
+                            "overflow": "hidden",
                             "width": 24,
                           }
                         }
-                        style={
-                          {
-                            "height": "100%",
-                            "resizeMode": "contain",
-                            "width": "100%",
+                      >
+                        <Image
+                          accessibilityRole="image"
+                          accessible={true}
+                          aria-label="mailinator 11 "
+                          contentFit="cover"
+                          onError={[Function]}
+                          role="img"
+                          source={
+                            {
+                              "height": 14,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/5d91a785-5bad-45f1-98be-a29473a4d362_E_MBZCQeh.jpg?tr=w-28%2Ch-28",
+                              "width": 14,
+                            }
                           }
-                        }
-                      />
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -1393,53 +1368,45 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     />
                     <View
                       style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "overflow": "hidden",
-                          },
-                          {
-                            "backgroundColor": "#f5f5f5",
-                            "borderColor": undefined,
-                            "borderRadius": 12,
-                            "borderWidth": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                          {
-                            "borderColor": "#fff",
-                            "borderStyle": "solid",
-                            "borderWidth": 1,
-                            "bottom": 8,
-                            "left": 8,
-                            "position": "absolute",
-                          },
-                          false,
-                        ]
+                        {
+                          "bottom": 8,
+                          "left": 8,
+                          "position": "absolute",
+                        }
                       }
                     >
-                      <Image
-                        accessibilityRole="image"
-                        accessible={true}
-                        aria-label="Hans la"
-                        contentFit="cover"
-                        role="img"
-                        source={
+                      <View
+                        style={
                           {
+                            "alignItems": "center",
+                            "backgroundColor": "#abff8b",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
                             "height": 24,
-                            "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/4f4ff9a7-6880-46ce-b3a0-34c7b33061ef__klXP1H8h.png?tr=w-48%2Ch-48",
+                            "justifyContent": "center",
+                            "overflow": "hidden",
                             "width": 24,
                           }
                         }
-                        style={
-                          {
-                            "height": "100%",
-                            "resizeMode": "contain",
-                            "width": "100%",
+                      >
+                        <Image
+                          accessibilityRole="image"
+                          accessible={true}
+                          aria-label="Hans la"
+                          contentFit="cover"
+                          onError={[Function]}
+                          role="img"
+                          source={
+                            {
+                              "height": 14,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/4f4ff9a7-6880-46ce-b3a0-34c7b33061ef__klXP1H8h.png?tr=w-28%2Ch-28",
+                              "width": 14,
+                            }
                           }
-                        }
-                      />
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -1761,53 +1728,45 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     />
                     <View
                       style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "overflow": "hidden",
-                          },
-                          {
-                            "backgroundColor": "#f5f5f5",
-                            "borderColor": undefined,
-                            "borderRadius": 12,
-                            "borderWidth": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                          {
-                            "borderColor": "#fff",
-                            "borderStyle": "solid",
-                            "borderWidth": 1,
-                            "bottom": 8,
-                            "left": 8,
-                            "position": "absolute",
-                          },
-                          false,
-                        ]
+                        {
+                          "bottom": 8,
+                          "left": 8,
+                          "position": "absolute",
+                        }
                       }
                     >
-                      <Image
-                        accessibilityRole="image"
-                        accessible={true}
-                        aria-label="The Mailinator Account Not to be confused with the Terminator account"
-                        contentFit="cover"
-                        role="img"
-                        source={
+                      <View
+                        style={
                           {
+                            "alignItems": "center",
+                            "backgroundColor": "#8b95ff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
                             "height": 24,
-                            "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-48%2Ch-48",
+                            "justifyContent": "center",
+                            "overflow": "hidden",
                             "width": 24,
                           }
                         }
-                        style={
-                          {
-                            "height": "100%",
-                            "resizeMode": "contain",
-                            "width": "100%",
+                      >
+                        <Image
+                          accessibilityRole="image"
+                          accessible={true}
+                          aria-label="The Mailinator Account Not to be confused with the Terminator account"
+                          contentFit="cover"
+                          onError={[Function]}
+                          role="img"
+                          source={
+                            {
+                              "height": 14,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-28%2Ch-28",
+                              "width": 14,
+                            }
                           }
-                        }
-                      />
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -1881,53 +1840,45 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     />
                     <View
                       style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "overflow": "hidden",
-                          },
-                          {
-                            "backgroundColor": "#f5f5f5",
-                            "borderColor": undefined,
-                            "borderRadius": 12,
-                            "borderWidth": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                          {
-                            "borderColor": "#fff",
-                            "borderStyle": "solid",
-                            "borderWidth": 1,
-                            "bottom": 8,
-                            "left": 8,
-                            "position": "absolute",
-                          },
-                          false,
-                        ]
+                        {
+                          "bottom": 8,
+                          "left": 8,
+                          "position": "absolute",
+                        }
                       }
                     >
-                      <Image
-                        accessibilityRole="image"
-                        accessible={true}
-                        aria-label="account number 6 of the series "
-                        contentFit="cover"
-                        role="img"
-                        source={
+                      <View
+                        style={
                           {
+                            "alignItems": "center",
+                            "backgroundColor": "#abff8b",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
                             "height": 24,
-                            "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/5e92eddc-0b91-40b8-8e65-8fb42b2dcb90_iLHw5vbC3.jpeg?tr=w-48%2Ch-48",
+                            "justifyContent": "center",
+                            "overflow": "hidden",
                             "width": 24,
                           }
                         }
-                        style={
-                          {
-                            "height": "100%",
-                            "resizeMode": "contain",
-                            "width": "100%",
+                      >
+                        <Image
+                          accessibilityRole="image"
+                          accessible={true}
+                          aria-label="account number 6 of the series "
+                          contentFit="cover"
+                          onError={[Function]}
+                          role="img"
+                          source={
+                            {
+                              "height": 14,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/5e92eddc-0b91-40b8-8e65-8fb42b2dcb90_iLHw5vbC3.jpeg?tr=w-28%2Ch-28",
+                              "width": 14,
+                            }
                           }
-                        }
-                      />
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -2249,53 +2200,45 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     />
                     <View
                       style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "overflow": "hidden",
-                          },
-                          {
-                            "backgroundColor": "#f5f5f5",
-                            "borderColor": undefined,
-                            "borderRadius": 12,
-                            "borderWidth": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                          {
-                            "borderColor": "#fff",
-                            "borderStyle": "solid",
-                            "borderWidth": 1,
-                            "bottom": 8,
-                            "left": 8,
-                            "position": "absolute",
-                          },
-                          false,
-                        ]
+                        {
+                          "bottom": 8,
+                          "left": 8,
+                          "position": "absolute",
+                        }
                       }
                     >
-                      <Image
-                        accessibilityRole="image"
-                        accessible={true}
-                        aria-label="namm "
-                        contentFit="cover"
-                        role="img"
-                        source={
+                      <View
+                        style={
                           {
+                            "alignItems": "center",
+                            "backgroundColor": "#90ddff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
                             "height": 24,
-                            "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/a22a06f4-dee6-4ac1-ac05-cafe1f2b4989_YN8SD7ulw.jpeg?tr=w-48%2Ch-48",
+                            "justifyContent": "center",
+                            "overflow": "hidden",
                             "width": 24,
                           }
                         }
-                        style={
-                          {
-                            "height": "100%",
-                            "resizeMode": "contain",
-                            "width": "100%",
+                      >
+                        <Image
+                          accessibilityRole="image"
+                          accessible={true}
+                          aria-label="namm "
+                          contentFit="cover"
+                          onError={[Function]}
+                          role="img"
+                          source={
+                            {
+                              "height": 14,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/a22a06f4-dee6-4ac1-ac05-cafe1f2b4989_YN8SD7ulw.jpeg?tr=w-28%2Ch-28",
+                              "width": 14,
+                            }
                           }
-                        }
-                      />
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -2369,57 +2312,61 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                     />
                     <View
                       style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "justifyContent": "center",
-                            "overflow": "hidden",
-                          },
-                          {
-                            "backgroundColor": "#fff",
-                            "borderColor": undefined,
-                            "borderRadius": 12,
-                            "borderWidth": 0,
-                            "height": 24,
-                            "width": 24,
-                          },
-                          {
-                            "borderColor": "#fff",
-                            "borderStyle": "solid",
-                            "borderWidth": 1,
-                            "bottom": 8,
-                            "left": 8,
-                            "position": "absolute",
-                          },
-                          false,
-                        ]
+                        {
+                          "bottom": 8,
+                          "left": 8,
+                          "position": "absolute",
+                        }
                       }
                     >
-                      <Text
-                        accessible={false}
-                        aria-label="Tom "
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        role="img"
-                        selectable={true}
+                      <View
                         style={
                           {
-                            "color": "#000",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 10.8,
-                            "fontWeight": "bold",
-                            "lineHeight": 12.96,
-                            "textTransform": "uppercase",
-                            "userSelect": "auto",
+                            "alignItems": "center",
+                            "backgroundColor": "#90ddff",
+                            "borderColor": "#262424",
+                            "borderRadius": 1000,
+                            "borderWidth": 1,
+                            "display": "flex",
+                            "height": 24,
+                            "justifyContent": "center",
+                            "overflow": "hidden",
+                            "width": 24,
                           }
                         }
                       >
-                        To
-                      </Text>
+                        <View
+                          style={
+                            {
+                              "opacity": 0.8,
+                            }
+                          }
+                        >
+                          <Text
+                            accessible={false}
+                            role="none"
+                            selectable={true}
+                            style={
+                              {
+                                "color": "#262424",
+                                "fontFamily": "InstrumentSans-Regular",
+                                "fontSize": 11,
+                                "fontVariant": [
+                                  "lining-nums",
+                                  "tabular-nums",
+                                ],
+                                "fontWeight": "400",
+                                "letterSpacing": 0.2,
+                                "lineHeight": 13.2,
+                                "textAlign": undefined,
+                                "userSelect": "auto",
+                              }
+                            }
+                          >
+                            TO
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -2782,7 +2729,6 @@ exports[`ActHome Section shows DONATIONS 1`] = `
             </View>
           </View>
           <Text
-            role="link"
             selectable={false}
             style={
               {
@@ -5039,63 +4985,52 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "alignItems": "center",
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                              },
-                              {
-                                "backgroundColor": "#78EDA8",
-                                "borderColor": undefined,
-                                "borderRadius": 12,
-                                "borderWidth": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                              [
-                                {
-                                  "alignItems": "center",
-                                  "borderColor": "#262424",
-                                  "borderRadius": 8,
-                                  "borderWidth": 2,
-                                  "justifyContent": "center",
-                                  "maxHeight": 128,
-                                  "maxWidth": 128,
-                                  "overflow": "hidden",
-                                },
-                                undefined,
-                              ],
-                              false,
-                            ]
-                          }
-                          testID="space-avatar"
-                        >
-                          <Text
-                            accessible={false}
-                            aria-label="Space 5"
-                            collapsable={false}
-                            jestAnimatedStyle={
-                              {
-                                "value": {},
-                              }
+                            {
+                              "alignItems": "center",
+                              "backgroundColor": "#8b95ff",
+                              "borderColor": "#262424",
+                              "borderRadius": 8,
+                              "borderWidth": 1,
+                              "display": "flex",
+                              "height": 24,
+                              "justifyContent": "center",
+                              "overflow": "hidden",
+                              "width": 24,
                             }
-                            role="img"
-                            selectable={true}
+                          }
+                        >
+                          <View
                             style={
                               {
-                                "color": "#000",
-                                "fontFamily": "InstrumentSans-Regular",
-                                "fontSize": 10.8,
-                                "fontWeight": "bold",
-                                "lineHeight": 12.96,
-                                "textTransform": "uppercase",
-                                "userSelect": "auto",
+                                "opacity": 0.8,
                               }
                             }
+                            testID="space-avatar"
                           >
-                            S5
-                          </Text>
+                            <Text
+                              accessible={false}
+                              role="none"
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#262424",
+                                  "fontFamily": "InstrumentSans-Regular",
+                                  "fontSize": 11,
+                                  "fontVariant": [
+                                    "lining-nums",
+                                    "tabular-nums",
+                                  ],
+                                  "fontWeight": "400",
+                                  "letterSpacing": 0.2,
+                                  "lineHeight": 13.2,
+                                  "textAlign": undefined,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              SP
+                            </Text>
+                          </View>
                         </View>
                         <Text
                           accessible={false}
@@ -5671,57 +5606,33 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "alignItems": "center",
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                              },
-                              {
-                                "backgroundColor": "#f5f5f5",
-                                "borderColor": undefined,
-                                "borderRadius": 12,
-                                "borderWidth": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                              [
-                                {
-                                  "alignItems": "center",
-                                  "borderColor": "#262424",
-                                  "borderRadius": 8,
-                                  "borderWidth": 2,
-                                  "justifyContent": "center",
-                                  "maxHeight": 128,
-                                  "maxWidth": 128,
-                                  "overflow": "hidden",
-                                },
-                                undefined,
-                              ],
-                              false,
-                            ]
+                            {
+                              "alignItems": "center",
+                              "backgroundColor": "#90ddff",
+                              "borderColor": "#262424",
+                              "borderRadius": 8,
+                              "borderWidth": 1,
+                              "display": "flex",
+                              "height": 24,
+                              "justifyContent": "center",
+                              "overflow": "hidden",
+                              "width": 24,
+                            }
                           }
-                          testID="space-avatar"
                         >
                           <Image
                             accessibilityRole="image"
                             accessible={true}
                             aria-label="Space 3"
                             contentFit="cover"
+                            onError={[Function]}
                             placeholder="LYDvsB?bt8V?~WxZj[ay%2jEWAkW"
                             role="img"
                             source={
                               {
-                                "height": 24,
-                                "uri": "https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png?tr=w-48%2Ch-48",
-                                "width": 24,
-                              }
-                            }
-                            style={
-                              {
-                                "height": "100%",
-                                "resizeMode": "contain",
-                                "width": "100%",
+                                "height": 14,
+                                "uri": "https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png?tr=w-28%2Ch-28",
+                                "width": 14,
                               }
                             }
                           />
@@ -6300,57 +6211,33 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "alignItems": "center",
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                              },
-                              {
-                                "backgroundColor": "#f5f5f5",
-                                "borderColor": undefined,
-                                "borderRadius": 12,
-                                "borderWidth": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                              [
-                                {
-                                  "alignItems": "center",
-                                  "borderColor": "#262424",
-                                  "borderRadius": 8,
-                                  "borderWidth": 2,
-                                  "justifyContent": "center",
-                                  "maxHeight": 128,
-                                  "maxWidth": 128,
-                                  "overflow": "hidden",
-                                },
-                                undefined,
-                              ],
-                              false,
-                            ]
+                            {
+                              "alignItems": "center",
+                              "backgroundColor": "#90ddff",
+                              "borderColor": "#262424",
+                              "borderRadius": 8,
+                              "borderWidth": 1,
+                              "display": "flex",
+                              "height": 24,
+                              "justifyContent": "center",
+                              "overflow": "hidden",
+                              "width": 24,
+                            }
                           }
-                          testID="space-avatar"
                         >
                           <Image
                             accessibilityRole="image"
                             accessible={true}
                             aria-label="Space 3"
                             contentFit="cover"
+                            onError={[Function]}
                             placeholder="LYDvsB?bt8V?~WxZj[ay%2jEWAkW"
                             role="img"
                             source={
                               {
-                                "height": 24,
-                                "uri": "https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png?tr=w-48%2Ch-48",
-                                "width": 24,
-                              }
-                            }
-                            style={
-                              {
-                                "height": "100%",
-                                "resizeMode": "contain",
-                                "width": "100%",
+                                "height": 14,
+                                "uri": "https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png?tr=w-28%2Ch-28",
+                                "width": 14,
                               }
                             }
                           />
@@ -6973,63 +6860,52 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "alignItems": "center",
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                              },
-                              {
-                                "backgroundColor": "#7571EC",
-                                "borderColor": undefined,
-                                "borderRadius": 12,
-                                "borderWidth": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                              [
-                                {
-                                  "alignItems": "center",
-                                  "borderColor": "#262424",
-                                  "borderRadius": 8,
-                                  "borderWidth": 2,
-                                  "justifyContent": "center",
-                                  "maxHeight": 128,
-                                  "maxWidth": 128,
-                                  "overflow": "hidden",
-                                },
-                                undefined,
-                              ],
-                              false,
-                            ]
-                          }
-                          testID="space-avatar"
-                        >
-                          <Text
-                            accessible={false}
-                            aria-label="Space 2"
-                            collapsable={false}
-                            jestAnimatedStyle={
-                              {
-                                "value": {},
-                              }
+                            {
+                              "alignItems": "center",
+                              "backgroundColor": "#8b95ff",
+                              "borderColor": "#262424",
+                              "borderRadius": 8,
+                              "borderWidth": 1,
+                              "display": "flex",
+                              "height": 24,
+                              "justifyContent": "center",
+                              "overflow": "hidden",
+                              "width": 24,
                             }
-                            role="img"
-                            selectable={true}
+                          }
+                        >
+                          <View
                             style={
                               {
-                                "color": "#000",
-                                "fontFamily": "InstrumentSans-Regular",
-                                "fontSize": 10.8,
-                                "fontWeight": "bold",
-                                "lineHeight": 12.96,
-                                "textTransform": "uppercase",
-                                "userSelect": "auto",
+                                "opacity": 0.8,
                               }
                             }
+                            testID="space-avatar"
                           >
-                            S2
-                          </Text>
+                            <Text
+                              accessible={false}
+                              role="none"
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#262424",
+                                  "fontFamily": "InstrumentSans-Regular",
+                                  "fontSize": 11,
+                                  "fontVariant": [
+                                    "lining-nums",
+                                    "tabular-nums",
+                                  ],
+                                  "fontWeight": "400",
+                                  "letterSpacing": 0.2,
+                                  "lineHeight": 13.2,
+                                  "textAlign": undefined,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              SP
+                            </Text>
+                          </View>
                         </View>
                         <Text
                           accessible={false}
@@ -7651,63 +7527,52 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "alignItems": "center",
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                              },
-                              {
-                                "backgroundColor": "#7571EC",
-                                "borderColor": undefined,
-                                "borderRadius": 12,
-                                "borderWidth": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                              [
-                                {
-                                  "alignItems": "center",
-                                  "borderColor": "#262424",
-                                  "borderRadius": 8,
-                                  "borderWidth": 2,
-                                  "justifyContent": "center",
-                                  "maxHeight": 128,
-                                  "maxWidth": 128,
-                                  "overflow": "hidden",
-                                },
-                                undefined,
-                              ],
-                              false,
-                            ]
-                          }
-                          testID="space-avatar"
-                        >
-                          <Text
-                            accessible={false}
-                            aria-label="Space 2"
-                            collapsable={false}
-                            jestAnimatedStyle={
-                              {
-                                "value": {},
-                              }
+                            {
+                              "alignItems": "center",
+                              "backgroundColor": "#8b95ff",
+                              "borderColor": "#262424",
+                              "borderRadius": 8,
+                              "borderWidth": 1,
+                              "display": "flex",
+                              "height": 24,
+                              "justifyContent": "center",
+                              "overflow": "hidden",
+                              "width": 24,
                             }
-                            role="img"
-                            selectable={true}
+                          }
+                        >
+                          <View
                             style={
                               {
-                                "color": "#000",
-                                "fontFamily": "InstrumentSans-Regular",
-                                "fontSize": 10.8,
-                                "fontWeight": "bold",
-                                "lineHeight": 12.96,
-                                "textTransform": "uppercase",
-                                "userSelect": "auto",
+                                "opacity": 0.8,
                               }
                             }
+                            testID="space-avatar"
                           >
-                            S2
-                          </Text>
+                            <Text
+                              accessible={false}
+                              role="none"
+                              selectable={true}
+                              style={
+                                {
+                                  "color": "#262424",
+                                  "fontFamily": "InstrumentSans-Regular",
+                                  "fontSize": 11,
+                                  "fontVariant": [
+                                    "lining-nums",
+                                    "tabular-nums",
+                                  ],
+                                  "fontWeight": "400",
+                                  "letterSpacing": 0.2,
+                                  "lineHeight": 13.2,
+                                  "textAlign": undefined,
+                                  "userSelect": "auto",
+                                }
+                              }
+                            >
+                              SP
+                            </Text>
+                          </View>
                         </View>
                         <Text
                           accessible={false}
@@ -8374,7 +8239,6 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
               </View>
             </View>
             <Text
-              role="link"
               selectable={false}
               style={
                 {

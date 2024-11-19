@@ -3,37 +3,33 @@ import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native'
-import Animated from 'react-native-reanimated'
+import { type LayoutChangeEvent, Platform, StyleSheet, View } from 'react-native'
+import type Animated from 'react-native-reanimated'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
-import { CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
-import { Comment, CommentableType } from '@holi/core/screens/comments/types'
+import { type CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
+import { type Comment, CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
-import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { PostById, type PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import FormLayout from '@holi/core/components/FormLayout/FormLayout'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 export type PostDetailPageParams = {
   postId: string
@@ -53,17 +49,14 @@ const PostDetailPage = () => {
   const [postId] = useParam('postId')
   // `commentId` can be a UUID of a comment or hardcoded 'first' string value
   const [commentId] = useParam('commentId')
-  const { navigate, replaceRoute } = useRouting()
-  const { isLoggedIn } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
+  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { space } = useSpace(spaceIdOrName)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
 
   const { t } = useTranslation()
-  const mixins = useStyleMixins()
-  const { width: screenWidth } = useClientWindowDimensions()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -80,7 +73,12 @@ const PostDetailPage = () => {
     variables: { id: postId },
     skip: !postId,
     onError: (error) => {
-      if (isNotFoundError(error) || isForbiddenError(error)) {
+      // if the post is not found, forbidden or the id is not a valid UUID, redirect to 404
+      if (
+        isNotFoundError(error) ||
+        isForbiddenError(error) ||
+        error.message.includes('badly formed hexadecimal UUID string')
+      ) {
         return replaceRoute('/404')
       }
       logError(error, 'Failed to load post', { location: 'PostDetailPage.PostById', postId })
@@ -115,6 +113,7 @@ const PostDetailPage = () => {
         navigationCustomOptions: {
           footerShown: false,
         },
+        headerTransparent: false,
       }),
     [setScreenOptions, title]
   )
@@ -162,8 +161,25 @@ const PostDetailPage = () => {
       />
       <StatusBar animated />
 
-      <ScrollHeaderLayout ref={scrollViewRef}>
-        <View style={screenWidth > dimensions.breakpointXl && mixins.container} testID="post-detail-page">
+      <FormLayout
+        backgroundColor={theme.colors.background10}
+        bottomBar={
+          <View style={styles.postCommentWrapper}>
+            <HoliContainer flex={1}>
+              <PostDetailFooter
+                style={styles.postCommentButton}
+                onPress={() =>
+                  navigateWithAuth(getPostCommentUrl(), {
+                    description: t('comments.loginRedirect.text'),
+                    trackTrigger: 'COMMENT_ON_POST',
+                  })
+                }
+              />
+            </HoliContainer>
+          </View>
+        }
+      >
+        <View testID="post-detail-page">
           <PostContent
             hasVisibilityIcon={hasVisibilityIcon}
             style={styles.postContent}
@@ -193,23 +209,7 @@ const PostDetailPage = () => {
             </View>
           )}
         </View>
-      </ScrollHeaderLayout>
-
-      <SafeArea edges={['bottom']}>
-        <View style={styles.postCommentWrapper}>
-          <PostDetailFooter
-            style={[styles.postCommentButton, isWeb && mixins.container]}
-            onPress={() =>
-              isLoggedIn
-                ? navigate(getPostCommentUrl())
-                : openSignupModal({
-                    description: t('comments.loginRedirect.text'),
-                    trackTrigger: 'COMMENT_ON_POST',
-                  })
-            }
-          />
-        </View>
-      </SafeArea>
+      </FormLayout>
     </>
   )
 }
@@ -218,9 +218,9 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     postContent: {
       marginTop: 12,
+      paddingBottom: 12,
     },
     commentsView: {
-      paddingHorizontal: 20,
       ...Platform.select({
         web: {
           paddingBottom: COMMENT_VIEW_PADDING_BOTTOM,
@@ -236,15 +236,10 @@ const getStyles = (theme: HoliTheme) =>
     },
     postCommentWrapper: {
       borderTopColor: theme.colors.background30,
+      backgroundColor: theme.colors.background10,
       borderTopWidth: 1,
       width: '100%',
       height: COMMENT_BUTTON_CONTAINER_HEIGHT,
-      ...Platform.select({
-        web: {
-          position: 'fixed',
-          bottom: 0,
-        },
-      }),
     },
     postCommentButton: {
       flex: 1,

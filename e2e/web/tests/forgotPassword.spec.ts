@@ -4,6 +4,7 @@ import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
+  clickFirstElement,
   dismissConsentDialog,
   locateElementByTestId,
 } from './helpers'
@@ -13,11 +14,12 @@ test.describe('@ForgotPassword', () => {
   test('user journey', async ({ page }) => {
     await page.goto('/')
     await dismissConsentDialog(page)
-    await clickElementByTestId(page, 'btn-to-login-form')
+    const loginLink = (await locateElementByTestId(page, 'already-have-account-text')).getByRole('link')
+    await clickFirstElement(loginLink)
     await clickElementByTestId(page, 'btn-to-forgot-password-form')
 
     // shows also login link
-    await page.waitForSelector(byTestId('btn-to-login-form'))
+    await page.waitForSelector(byTestId('already-have-account-text'))
 
     // shows also registration link
     await page.waitForSelector(byTestId('btn-to-registration-form'))

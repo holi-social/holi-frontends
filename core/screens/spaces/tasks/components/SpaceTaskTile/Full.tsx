@@ -7,12 +7,12 @@ import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
 
 import Content from './components/Content'
 import Image from './components/Image'
 import Skeleton from './components/Skeleton'
-import { BaseProps } from './types'
+import type { BaseProps } from './types'
 
 const IMAGE_HEIGHT = 166
 const IMAGE_WIDTH = 311
@@ -44,7 +44,7 @@ const List = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) => {
           href={`/spaces/${space.name}`}
         >
           <View style={styles.space}>
-            <SpaceAvatar space={space} size="micro" />
+            <SpaceAvatar space={space} size="xs" />
             <HoliText size="small">
               <Trans t={t} i18nKey="spaces.tasks.details.space" values={{ space: space.title }}>
                 <HoliText size="small" bold />

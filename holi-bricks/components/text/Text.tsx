@@ -173,7 +173,7 @@ const stylesheet = createStyleSheet((theme) => ({
           xxs: {
             fontSize: 11,
             lineHeight: 11 * 1.2,
-            letterSpacing: 0.104,
+            letterSpacing: 0.2,
           },
         },
       },

@@ -1,14 +1,14 @@
-import { DefaultOptions } from '@apollo/client'
+import type { DefaultOptions } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
 import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { createStore } from 'jotai'
-import { EventType, IEvent, IRoomEvent, MatrixClient } from 'matrix-js-sdk'
+import { EventType, type IEvent, type IRoomEvent, type MatrixClient } from 'matrix-js-sdk'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
-import ChatClient from '@holi/chat/src/client/ChatClient'
+import type ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatConnected, setChatInitialized } from '@holi/chat/src/client/chatState'
-import { ChatRoomEvent, ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatRoomEvent, type ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import { initChatClient } from '@holi/chat/src/store'
 import {
@@ -38,9 +38,9 @@ import {
   createMatrixEventMock,
   createRoomMock,
 } from '@holi/chat/src/test-utils'
-import { LoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
+import { type LoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query, usersByChatIdentitiesQuery } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { mockParameters as useParamMock } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 
@@ -67,6 +67,7 @@ const getLoggedUserQueryMock = (user: User) => {
   return {
     request: {
       query: authenticatedUserV2Query,
+      variables: { userId: user.id },
     },
     result: {
       data: {

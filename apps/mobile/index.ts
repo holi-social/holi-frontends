@@ -15,7 +15,7 @@ import { environment } from '@holi/core/helpers/environment'
 import App from './App'
 import { config } from './config'
 import { CodedError } from './expo-error'
-import { reactNativeTracing } from './tracing'
+import { navigationIntegration, reactNativeTracing } from './tracing'
 
 // Only set this to `true` if on a dev client! Keep this `false` in all commits!
 // (`enableInExpoDevelopment: true` crashes on expo go)
@@ -24,6 +24,7 @@ const debugSentry = false
 Sentry.init({
   dsn: config.sentry.dsn,
   enabled: !__DEV__,
+  enableAppHangTracking: true,
   environment: environment,
   debug: debugSentry, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event.
   onReady: (response) => {
@@ -55,8 +56,14 @@ Sentry.init({
 
     return event
   },
-  integrations: [reactNativeTracing],
+  integrations: [reactNativeTracing, navigationIntegration],
+  tracePropagationTargets: ['localhost', /^\//, /(^|\.)holi\.social$/], // enable tracePropagationTargets to apex domain and subdomains
+  enableAppStartTracking: true,
+  enableNativeFramesTracking: true,
+  enableStallTracking: true,
+  enableUserInteractionTracing: true,
   tracesSampleRate: debugSentry ? 1 : 0.1,
+  profilesSampleRate: debugSentry ? 1 : 0.1,
 })
 
 const SentryInstrumentedApp = Sentry.wrap(App)

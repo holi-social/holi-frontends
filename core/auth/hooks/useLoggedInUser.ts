@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client'
 
 import { useLoginState } from '@holi/core/auth/loginState'
-import { AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import { type AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 
@@ -57,6 +57,9 @@ export const useLoggedInUser = (): LoggedInState => {
     error,
   } = useQuery<AuthenticatedUserV2Response>(authenticatedUserV2Query, {
     skip: loginState.isLoggedOut,
+    // Prevents leaking data of a previously logged in user (FIXME: seems to happen despite clearing the cache)
+    // Exceptions are SSR and initial hydration as the loginState is missing there
+    variables: 'userId' in loginState ? { userId: loginState.userId } : undefined,
     // The user is pre-loaded during SSR and the result is already present in the cache (if it's missing, the user is not logged in)
     fetchPolicy: isSSR ? 'cache-only' : 'cache-first',
     onError: (error) => {

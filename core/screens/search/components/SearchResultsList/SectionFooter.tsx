@@ -10,7 +10,7 @@ import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-import { SearchSection } from './types'
+import type { SearchSection } from './types'
 
 type SectionFooterProps = SearchSection & {
   isFilterAll: boolean

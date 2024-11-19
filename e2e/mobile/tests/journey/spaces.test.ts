@@ -24,7 +24,6 @@ describe('@Spaces', () => {
     // Speeds up local execution
     if (target === 'local') {
       await logout()
-      await tapOnElementWithTestId('btn-to-home-view', 100)
     }
   })
 
