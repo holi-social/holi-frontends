@@ -77,12 +77,14 @@ export const Avatar = ({
     if (!errorLoading && imgSrc) {
       return (
         <HoliImage
+          style={styles.image}
+          resizeMode="cover"
           label={label || ''}
           blurhash={imgPlaceholder}
           source={{
             uri: imgSrc,
-            width: avatarSizeToIconSize[size],
-            height: avatarSizeToIconSize[size],
+            width: avatarSizeToIconSize[size] * 2,
+            height: avatarSizeToIconSize[size] * 2,
           }}
           onError={handleImageError}
         />
@@ -116,11 +118,19 @@ const stylesheet = createStyleSheet((theme) => ({
   text: {
     color: theme.components.avatar.text,
   },
+  image: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   avatar: (initials) => {
     const bgs = Object.values(theme.components.avatar.bg)
     const getBg = getAvatarColorBg(bgs, initials)
 
     return {
+      position: 'relative',
       overflow: 'hidden',
       borderWidth: BorderWidth.sm,
       display: 'flex',

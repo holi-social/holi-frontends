@@ -63,6 +63,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
             "height": 24,
             "justifyContent": "center",
             "overflow": "hidden",
+            "position": "relative",
             "width": 24,
           }
         }

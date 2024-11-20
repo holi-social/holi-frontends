@@ -13,6 +13,7 @@ exports[`React tree renders correctly 1`] = `
       "height": 64,
       "justifyContent": "center",
       "overflow": "hidden",
+      "position": "relative",
       "width": 64,
     }
   }
@@ -27,9 +28,18 @@ exports[`React tree renders correctly 1`] = `
     role="img"
     source={
       {
-        "height": 24,
-        "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-        "width": 24,
+        "height": 48,
+        "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+        "width": 48,
+      }
+    }
+    style={
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
       }
     }
   />
@@ -49,6 +59,7 @@ exports[`React tree renders initials with colored background, when given image p
       "height": 64,
       "justifyContent": "center",
       "overflow": "hidden",
+      "position": "relative",
       "width": 64,
     }
   }
