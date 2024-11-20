@@ -222,7 +222,11 @@ const VolunteeringEngagementDetail = () => {
         testID="volunteering-engagement-description"
       >
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
-        <RenderHtml source={{ html: `${description}` }} contentWidth={windowWidth} />
+        <RenderHtml
+          source={{ html: `${description}` }}
+          contentWidth={windowWidth}
+          defaultTextProps={{ selectable: true }}
+        />
         {organizer && <Organizer organizer={organizer} />}
       </View>
     )

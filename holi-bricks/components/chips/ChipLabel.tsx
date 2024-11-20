@@ -1,3 +1,4 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { pill } from 'holi-bricks/components/chips/styles'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
@@ -13,7 +14,7 @@ import { chipSizeToTextSize, type ChipSize } from './size'
 
 type ChipColor = Color | 'white'
 
-type ChipLabelProps = {
+type ChipLabelProps = AccessibilityProps & {
   children?: string
   color?: ChipColor
   size?: ChipSize
@@ -29,12 +30,13 @@ export const ChipLabel = ({
   iconLeading,
   iconTrailing,
   testID,
+  ...rest
 }: ChipLabelProps) => {
   const { styles, theme } = useStyles(stylesheet, { size })
   const iconSize = size === 'sm' ? 12 : 16
 
   return (
-    <View style={styles.chip(color)} testID={testID}>
+    <View {...accessibilityProps(rest)} style={styles.chip(color)} testID={testID}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={theme.components.chipLabel.text} />}
       {children && (
         <Text size={chipSizeToTextSize[size]} color={theme.components.chipLabel.text}>

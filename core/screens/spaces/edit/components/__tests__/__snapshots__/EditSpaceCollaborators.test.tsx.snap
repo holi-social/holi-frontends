@@ -672,6 +672,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           "height": 40,
                           "justifyContent": "center",
                           "overflow": "hidden",
+                          "position": "relative",
                           "width": 40,
                         }
                       }
@@ -686,9 +687,18 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         role="img"
                         source={
                           {
-                            "height": 20,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:40:40/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                            "width": 20,
+                            "height": 40,
+                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                            "width": 40,
+                          }
+                        }
+                        style={
+                          {
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "right": 0,
+                            "top": 0,
                           }
                         }
                       />
@@ -803,6 +813,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           "height": 40,
                           "justifyContent": "center",
                           "overflow": "hidden",
+                          "position": "relative",
                           "width": 40,
                         }
                       }
@@ -817,9 +828,18 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         role="img"
                         source={
                           {
-                            "height": 20,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:40:40/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                            "width": 20,
+                            "height": 40,
+                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                            "width": 40,
+                          }
+                        }
+                        style={
+                          {
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "right": 0,
+                            "top": 0,
                           }
                         }
                       />
@@ -934,6 +954,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                           "height": 40,
                           "justifyContent": "center",
                           "overflow": "hidden",
+                          "position": "relative",
                           "width": 40,
                         }
                       }
@@ -948,9 +969,18 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         role="img"
                         source={
                           {
-                            "height": 20,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:40:40/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                            "width": 20,
+                            "height": 40,
+                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                            "width": 40,
+                          }
+                        }
+                        style={
+                          {
+                            "bottom": 0,
+                            "left": 0,
+                            "position": "absolute",
+                            "right": 0,
+                            "top": 0,
                           }
                         }
                       />
@@ -1896,6 +1926,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "height": 40,
                             "justifyContent": "center",
                             "overflow": "hidden",
+                            "position": "relative",
                             "width": 40,
                           }
                         }
@@ -1910,9 +1941,18 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 20,
-                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:40:40/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                              "width": 20,
+                              "height": 40,
+                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                              "width": 40,
+                            }
+                          }
+                          style={
+                            {
+                              "bottom": 0,
+                              "left": 0,
+                              "position": "absolute",
+                              "right": 0,
+                              "top": 0,
                             }
                           }
                         />
@@ -2380,6 +2420,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "height": 40,
                             "justifyContent": "center",
                             "overflow": "hidden",
+                            "position": "relative",
                             "width": 40,
                           }
                         }
@@ -2394,9 +2435,18 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 20,
-                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:40:40/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                              "width": 20,
+                              "height": 40,
+                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                              "width": 40,
+                            }
+                          }
+                          style={
+                            {
+                              "bottom": 0,
+                              "left": 0,
+                              "position": "absolute",
+                              "right": 0,
+                              "top": 0,
                             }
                           }
                         />
@@ -2864,6 +2914,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "height": 40,
                             "justifyContent": "center",
                             "overflow": "hidden",
+                            "position": "relative",
                             "width": 40,
                           }
                         }
@@ -2878,9 +2929,18 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 20,
-                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:40:40/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                              "width": 20,
+                              "height": 40,
+                              "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                              "width": 40,
+                            }
+                          }
+                          style={
+                            {
+                              "bottom": 0,
+                              "left": 0,
+                              "position": "absolute",
+                              "right": 0,
+                              "top": 0,
                             }
                           }
                         />

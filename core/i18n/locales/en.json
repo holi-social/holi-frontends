@@ -981,6 +981,8 @@
   "spaces.follow.btn.follow": "Follow",
   "spaces.follow.btn.following": "Following",
   "spaces.follow.btn.unfollow": "Unfollow space",
+  "spaces.feed.follow.btn.follow": "Follow the Space",
+  "spaces.feed.follow.btn.unfollow": "Unfollow the Space",
   "spaces.follow.error": "Oops! A technical error occurred!",
   "spaces.follow.loginRedirect.text": "To follow {{spaceName}}, you have to sign up first.",
   "spaces.follow.unfollow.confirm.headline": "Unfollow {{spaceName}}",

@@ -1,5 +1,6 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
-import { Text, type TextSize } from 'holi-bricks/components/text/Text'
+import { Text } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 import { BorderWidth } from 'holi-bricks/tokens/dimensions/borderWidth'
@@ -28,7 +29,7 @@ export const AvatarSizesValues = {
 export type AvatarSizes = keyof typeof AvatarSizesValues
 export type AvatarShape = 'square' | 'circle'
 export type AvatarBorder = 'strong' | 'light'
-export type AvatarProps = {
+export type AvatarProps = AccessibilityProps & {
   border?: AvatarBorder
   shape?: AvatarShape
   size?: AvatarSizes
@@ -54,7 +55,7 @@ const avatarSizeToTextSize = {
   md: 'xxl',
   lg: '3xl',
   xl: '4xl',
-}
+} as const
 
 export const Avatar = ({
   label,
@@ -66,6 +67,7 @@ export const Avatar = ({
   testID,
   imgPlaceholder,
   icon,
+  ...rest
 }: AvatarProps) => {
   const { styles } = useStyles(stylesheet, { border, shape, size })
   const [errorLoading, setErrorLoading] = useState(false)
@@ -75,12 +77,14 @@ export const Avatar = ({
     if (!errorLoading && imgSrc) {
       return (
         <HoliImage
+          style={styles.image}
+          resizeMode="cover"
           label={label || ''}
           blurhash={imgPlaceholder}
           source={{
             uri: imgSrc,
-            width: avatarSizeToIconSize[size],
-            height: avatarSizeToIconSize[size],
+            width: avatarSizeToIconSize[size] * 2,
+            height: avatarSizeToIconSize[size] * 2,
           }}
           onError={handleImageError}
         />
@@ -93,14 +97,18 @@ export const Avatar = ({
     }
     return (
       <View style={styles.textWrapper} testID={testID}>
-        <Text color={styles.text.color} size={avatarSizeToTextSize[size] as TextSize}>
+        <Text color={styles.text.color} size={avatarSizeToTextSize[size]}>
           {initials?.substring(0, 2)?.toUpperCase()}
         </Text>
       </View>
     )
   }
 
-  return <View style={styles.avatar(initials)}>{renderContent()}</View>
+  return (
+    <View {...accessibilityProps(rest)} style={styles.avatar(initials)}>
+      {renderContent()}
+    </View>
+  )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
@@ -110,11 +118,19 @@ const stylesheet = createStyleSheet((theme) => ({
   text: {
     color: theme.components.avatar.text,
   },
+  image: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   avatar: (initials) => {
     const bgs = Object.values(theme.components.avatar.bg)
     const getBg = getAvatarColorBg(bgs, initials)
 
     return {
+      position: 'relative',
       overflow: 'hidden',
       borderWidth: BorderWidth.sm,
       display: 'flex',

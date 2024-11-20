@@ -1,3 +1,5 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
+
 import type { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
@@ -15,7 +17,7 @@ import { pill } from './styles'
 
 type ChipColor = Color | 'white'
 
-type ChipActionProps = {
+type ChipActionProps = AccessibilityProps & {
   onPress: (event: GestureResponderEvent) => void
   children?: string
   selected?: boolean
@@ -24,7 +26,6 @@ type ChipActionProps = {
   size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
-  'aria-label'?: string
   testID?: string
 } & SelectionElementProps
 
@@ -37,19 +38,20 @@ export const ChipAction = ({
   size = 'md',
   iconLeading,
   iconTrailing,
-  'aria-label': ariaLabel,
   testID,
+  role = 'switch',
+  ...rest
 }: ChipActionProps) => {
   const { styles } = useStyles(stylesheet, { size, selected, disabled })
   const iconSize = size === 'sm' ? 14 : 18
 
   return (
     <Pressable
-      role="switch"
-      aria-checked={selected}
-      aria-label={ariaLabel}
       disabled={disabled}
       onPress={(e) => onPress?.(e)}
+      {...accessibilityProps(rest)}
+      aria-checked={selected}
+      role={role}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
       testID={testID}
     >

@@ -1,14 +1,15 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type GestureResponderEvent, Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { VerifiedExternal, VerifiedInternal } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 
 const roleMapping: { [key: string]: string } = {

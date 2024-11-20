@@ -216,7 +216,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
           <View style={styles.wrapper} testID="space-edit-container">
             {/* Header */}
             <View style={styles.header} testID="space-edit-header">
-              <SpaceAvatar space={space} testID="space-edit-avatar" />
+              <SpaceAvatar space={space} testID="space-edit-avatar" size="xl" />
               <HoliButton
                 label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
                 type="secondary"
