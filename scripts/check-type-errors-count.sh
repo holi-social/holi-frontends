@@ -18,6 +18,8 @@ git checkout "$MERGE_BASE"
 yarn install --immutable # merge-base might have had different dependencies with different types
 ERROR_COUNT_BEFORE=$(yarn run tsc --noEmit --pretty | grep 'Found .* errors\?' | sed -E 's/Found ([0-9]+) errors?.*/\1/')
 echo "Errors at branch-off point: $ERROR_COUNT_BEFORE"
+# Revert any changes that yarn might have made (like adding a missing newline to package.json)
+git checkout -- .
 
 # Check out MR branch and count errors
 git checkout "$SOURCE"
