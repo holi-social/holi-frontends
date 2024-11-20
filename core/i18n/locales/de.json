@@ -982,6 +982,8 @@
   "spaces.follow.btn.follow": "Folgen",
   "spaces.follow.btn.following": "Du folgst",
   "spaces.follow.btn.unfollow": "Space entfolgen",
+  "spaces.feed.follow.btn.follow": "Space folgen",
+  "spaces.feed.follow.btn.unfollow": "Space entfolgen",
   "spaces.follow.error": "Es gab einen technischen Fehler. Bitte probiere es später nochmal",
   "spaces.follow.loginRedirect.text": "Um {{spaceName}} folgen zu können, musst du dich erst registrieren.",
   "spaces.follow.unfollow.confirm.headline": "Entfolge {{spaceName}}",

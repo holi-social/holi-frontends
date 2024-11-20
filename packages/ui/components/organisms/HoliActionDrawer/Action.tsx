@@ -4,7 +4,7 @@ import type { GestureResponderEvent } from 'react-native'
 import { StyleSheet } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Edit2 } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
