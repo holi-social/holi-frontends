@@ -2,10 +2,12 @@ import { SearchHitData, facet18nKey } from '@holi/core/screens/search/typesense/
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { ChipSelect } from 'holi-bricks/components/chips'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useClearRefinements, useRefinementList } from 'react-instantsearch-core'
 import { ScrollView, View } from 'react-native'
 
 export const RefinementList = () => {
+  const { t } = useTranslation()
   const { refine: clearRefinement } = useClearRefinements()
   const { items, refine } = useRefinementList({
     attribute: 'type',
@@ -36,6 +38,7 @@ export const RefinementList = () => {
           All
         </ChipSelect>
         {items.map((item) => {
+          const facetTitle = t(facet18nKey[item.label as SearchHitData['type']])
           return (
             <ChipSelect
               selectedColor="blue"
@@ -44,7 +47,7 @@ export const RefinementList = () => {
               selected={item.isRefined}
               key={item.value}
             >
-              {facet18nKey[item.label as SearchHitData['type']]} &middot; {item.count}
+              {facetTitle} &middot; {item.count}
             </ChipSelect>
           )
         })}
