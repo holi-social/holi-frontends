@@ -79,6 +79,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "height": 40,
                 "justifyContent": "center",
                 "overflow": "hidden",
+                "position": "relative",
                 "width": 40,
               }
             }
@@ -92,9 +93,18 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               role="img"
               source={
                 {
-                  "height": 20,
-                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-40%2Ch-40",
-                  "width": 20,
+                  "height": 40,
+                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                  "width": 40,
+                }
+              }
+              style={
+                {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
                 }
               }
             />
@@ -540,6 +550,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                 "height": 40,
                 "justifyContent": "center",
                 "overflow": "hidden",
+                "position": "relative",
                 "width": 40,
               }
             }
@@ -553,9 +564,18 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
               role="img"
               source={
                 {
-                  "height": 20,
-                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-40%2Ch-40",
-                  "width": 20,
+                  "height": 40,
+                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
+                  "width": 40,
+                }
+              }
+              style={
+                {
+                  "bottom": 0,
+                  "left": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
                 }
               }
             />
