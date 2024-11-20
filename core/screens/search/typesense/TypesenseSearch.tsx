@@ -66,7 +66,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     hitsContainer: {
       paddingLeft: dimensions.spacingS,
-      paddingRight: dimensions.spacingS,
       height: '100%',
     },
   })

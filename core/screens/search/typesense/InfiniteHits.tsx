@@ -19,15 +19,12 @@ export function InfiniteHits(props: InfiniteHitsProps) {
     escapeHTML: false,
   })
 
-  if (!items.length) {
-    return <Text size={'md'}>{t('global.noSearchResults')}</Text>
-  }
-
   return (
     <FlatList
       data={items}
       keyExtractor={(item) => item.objectID}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
+      ListEmptyComponent={<Text size={'md'}>{t('global.noSearchResults')}</Text>}
       onEndReached={() => {
         if (!isLastPage) {
           showMore()
