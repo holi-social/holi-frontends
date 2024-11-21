@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { type DimensionValue, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers/logError'
@@ -12,10 +12,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import InsightList, { INSIGHT_PAGE_SIZE } from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import { Insight } from '@holi/core/screens/insights/types'
+import type { Insight } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -31,7 +31,8 @@ import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const InsightsList = () => {
   const { t } = useTranslation()
@@ -184,6 +185,7 @@ const InsightsList = () => {
 }
 
 const InsightsPage = () => {
+  const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -203,8 +205,11 @@ const InsightsPage = () => {
           <Pagination
             query={lastInsightsQuery}
             queryOptions={queryOptions}
-            loadMoreOnScroll
             scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
+            fetchMoreButtonProps={{
+              type: 'secondary',
+              style: mixins.moreButton,
+            }}
           >
             <InsightsList />
           </Pagination>
@@ -237,6 +242,7 @@ const getStyles = (theme: HoliTheme) =>
     sections: {
       gap: 32,
       marginTop: 24,
+      marginBottom: 64,
     },
     loader: {
       ...(Platform.OS === 'web' && {
