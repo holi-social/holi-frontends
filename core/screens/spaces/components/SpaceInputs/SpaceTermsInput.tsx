@@ -116,7 +116,6 @@ const SpaceTermsInput = ({
               selected={selected.includes(term)}
               onPress={() => updateValues(term)}
               selectedColor={color}
-              testID={`space-terms-list-item${selected.includes(term) ? '-checked' : ''}`}
             >
               {showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
             </ChipSelect>

@@ -25,7 +25,6 @@ type ChipSelectProps = AccessibilityProps & {
   selectedColor?: Color
   size?: ChipSelectSize
   avatar?: Pick<AvatarProps, 'initials' | 'label' | 'imgSrc'>
-  testID?: string
 }
 
 const sizeToIconSize: Record<ChipSelectSize, number> = {
@@ -41,7 +40,6 @@ export const ChipSelect = ({
   selectedColor = 'green',
   size = 'md',
   avatar,
-  testID,
   role = 'switch',
   ...rest
 }: ChipSelectProps) => {
@@ -58,7 +56,6 @@ export const ChipSelect = ({
       role={role}
       aria-checked={selected}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, selectedColor)]}
-      testID={testID}
     >
       {avatar && (
         <View style={styles.avatar}>

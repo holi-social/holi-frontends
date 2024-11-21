@@ -3,6 +3,7 @@ import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
   locateMultipleElementsWithTestId,
+  // locateElementsByRoleAndCheckedState,
   scrollToElementWithTestId,
   seeTextWithTestId,
   tapOnElementWithTestId,
@@ -173,6 +174,8 @@ describe('@Spaces', () => {
   }
 
   const selectSomeTerms = async (numberOfTermsToSelect = 3) => {
+    // const unselectedTerms = await locateElementsByRoleAndCheckedState('checkbox', false)
+    // const selectedTerms = await locateElementsByRoleAndCheckedState('checkbox', true)
     const unselectedTerms = await locateMultipleElementsWithTestId('space-terms-list-item')
     const selectedTerms = await locateMultipleElementsWithTestId('space-terms-list-item-checked')
 

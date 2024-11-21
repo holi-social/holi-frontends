@@ -26,7 +26,6 @@ type ChipActionProps = AccessibilityProps & {
   size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
-  testID?: string
 } & SelectionElementProps
 
 export const ChipAction = ({
@@ -38,7 +37,6 @@ export const ChipAction = ({
   size = 'md',
   iconLeading,
   iconTrailing,
-  testID,
   role = 'switch',
   ...rest
 }: ChipActionProps) => {
@@ -53,7 +51,6 @@ export const ChipAction = ({
       aria-checked={selected}
       role={role}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
-      testID={testID}
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
       {children && (

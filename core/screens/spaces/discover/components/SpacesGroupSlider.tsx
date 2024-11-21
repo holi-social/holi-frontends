@@ -115,7 +115,6 @@ const SpacesGroupSlider = ({
             onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
             color="green"
             id="spaces-topic-title"
-            testID="spaces-topic-title"
           >
             {topic.title}
           </ChipAction>
@@ -125,7 +124,6 @@ const SpacesGroupSlider = ({
             onPress={() => navigate(`/spaces/filter?location=${locationId}`)}
             iconLeading={MapPinLine}
             id="spaces-location-title"
-            testID="spaces-location-title"
           >
             {geolocationDetails?.name ?? ''}
           </ChipAction>
@@ -135,7 +133,6 @@ const SpacesGroupSlider = ({
             onPress={() => navigate(`/spaces/filter?skill=${skill.slug}`)}
             color="blue"
             id="spaces-skill-title"
-            testID="spaces-skill-title"
           >
             {skill.title}
           </ChipAction>

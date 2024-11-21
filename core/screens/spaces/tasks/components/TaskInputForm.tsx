@@ -291,7 +291,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           {!!skills?.length && (
             <View style={styles.listContainer}>
               {skills.map((skill, index) => (
-                <ChipLabel key={`skill_${index}`} color="blue" testID="task-edit-skills-chip">
+                <ChipLabel key={`skill_${index}`} color="blue">
                   {`${skill.title}`}
                 </ChipLabel>
               ))}
