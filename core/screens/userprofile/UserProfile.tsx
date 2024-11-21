@@ -146,7 +146,12 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <ScrollHeaderLayout headerRelation="none" style={styles.layout} contentContainerStyle={styles.content}>
+    <ScrollHeaderLayout
+      headerRelation="none"
+      style={styles.layout}
+      contentContainerStyle={styles.content}
+      refreshBackgroundColor={colors.background10}
+    >
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -233,6 +238,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     content: {
       minHeight: '100%',
+      backgroundColor: theme.colors.background20,
     },
     container: {
       alignItems: 'baseline',

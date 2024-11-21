@@ -1,11 +1,11 @@
-import React, { PropsWithChildren, forwardRef, useCallback } from 'react'
+import React, { type PropsWithChildren, forwardRef, useCallback } from 'react'
 import { type NativeScrollEvent, type NativeSyntheticEvent, RefreshControl } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import { setScreenScrollY } from '@holi/core/helpers'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 
-import { ScrollHeaderLayoutProps } from './types'
+import type { ScrollHeaderLayoutProps } from './types'
 import { useHeaderOffsetOptions } from './useHeaderOffsetOptions'
 import { useSyncWithHeader } from './useSyncWithHeader'
 
@@ -20,6 +20,7 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
       testID,
       onScroll,
       noRefresh,
+      refreshBackgroundColor,
       ...scrollViewProps
     },
     ref
@@ -50,7 +51,11 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
         }}
         refreshControl={
           refreshControlProps && !noRefresh ? (
-            <RefreshControl {...refreshControlProps} progressViewOffset={refreshControlOffset} />
+            <RefreshControl
+              style={refreshBackgroundColor ? { backgroundColor: refreshBackgroundColor } : undefined}
+              {...refreshControlProps}
+              progressViewOffset={refreshControlOffset}
+            />
           ) : undefined
         }
         style={[!!backgroundColor && { backgroundColor }, style]}
