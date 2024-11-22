@@ -17,6 +17,7 @@ exports[`React tree renders correctly 1`] = `
       "width": 64,
     }
   }
+  testID="space-avatar"
 >
   <Image
     accessibilityRole="image"
@@ -63,6 +64,7 @@ exports[`React tree renders initials with colored background, when given image p
       "width": 64,
     }
   }
+  testID="space-avatar"
 >
   <View
     style={
@@ -70,7 +72,6 @@ exports[`React tree renders initials with colored background, when given image p
         "opacity": 0.8,
       }
     }
-    testID="space-avatar"
   >
     <Text
       accessible={false}

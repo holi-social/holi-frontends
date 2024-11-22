@@ -83,6 +83,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "width": 40,
               }
             }
+            testID="space-avatar"
           >
             <Image
               accessibilityRole="image"
@@ -554,6 +555,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                 "width": 40,
               }
             }
+            testID="space-avatar"
           >
             <Image
               accessibilityRole="image"
