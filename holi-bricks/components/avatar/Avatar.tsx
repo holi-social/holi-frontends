@@ -96,7 +96,7 @@ export const Avatar = ({
       )
     }
     return (
-      <View style={styles.textWrapper} testID={testID}>
+      <View style={styles.textWrapper}>
         <Text color={styles.text.color} size={avatarSizeToTextSize[size]}>
           {initials?.substring(0, 2)?.toUpperCase()}
         </Text>
@@ -105,7 +105,7 @@ export const Avatar = ({
   }
 
   return (
-    <View {...accessibilityProps(rest)} style={styles.avatar(initials)}>
+    <View {...accessibilityProps(rest)} style={styles.avatar(initials)} testID={testID}>
       {renderContent()}
     </View>
   )
