@@ -32,6 +32,7 @@ export const TypesenseSearch = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
+  // TODO replace `staging_all` with env-dependent
   return (
     <View style={styles.container}>
       <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName="staging_all">

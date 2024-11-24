@@ -1,4 +1,3 @@
-import { Highlight } from '@holi/core/screens/search/typesense/Highlight'
 import { SearchHitLink } from '@holi/core/screens/search/typesense/SearchHitLink'
 import { SearchHitData, facet18nKey } from '@holi/core/screens/search/typesense/types'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -46,8 +45,8 @@ export const SearchHit = ({ hit }: SearchHitProps) => {
         <SearchHitLink hit={hit} label={(useTitleEn ? hit.title_en : hit.title_de) || ''}>
           {/* TODO these grow outside the container, how to constrain them? */}
           {/* TODO can we build highlighting with one text component? */}
-          {useTitleEn && <Highlight size={'sm'} hit={hit} attribute={'title_en'} />}
-          {!useTitleEn && <Highlight size={'sm'} hit={hit} attribute={'title_de'} />}
+          {useTitleEn && <Text size={'sm'}>{hit.title_en}</Text>}
+          {!useTitleEn && <Text size={'sm'}>{hit.title_de}</Text>}
         </SearchHitLink>
       </View>
     </View>
