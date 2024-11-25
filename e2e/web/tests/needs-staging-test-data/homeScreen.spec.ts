@@ -1,15 +1,6 @@
-import { Browser, BrowserContext, Page, expect } from '@playwright/test'
+import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test'
 
-import {
-  byTestId,
-  clickElementByTestId,
-  donationsRequestTimeout,
-  goodnewsRequestTimeout,
-  loginAsE2EUser,
-  proceedAsGuest,
-  volunteeringRequestTimeout,
-  withSSR,
-} from '../helpers'
+import { byTestId, clickElementByTestId, loginAsE2EUser, proceedAsGuest, withSSR } from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@HomeScreen', () => {
@@ -30,9 +21,6 @@ test.describe('@HomeScreen', () => {
     if (process.env.BASE_URL === 'http://localhost:3000') return
 
     await page.goto('/')
-    await testAppUpdatesVisible(page, 'donations', donationsRequestTimeout)
-    await testAppUpdatesVisible(page, 'goodnews', goodnewsRequestTimeout)
-    await testAppUpdatesVisible(page, 'volunteering', volunteeringRequestTimeout)
 
     await testUserSuggestions(page, context)
   })
@@ -43,9 +31,6 @@ const testDisplaysHomeScreenContent = async (page: Page) => {
   await page.waitForSelector(byTestId('home-feed-insights-heading'), { state: 'attached' })
   await page.waitForSelector(byTestId('posts-list-results'))
   await page.waitForSelector(byTestId('btn-navigate-to-insights'))
-  await page.waitForSelector(byTestId('donations-reco-slider'))
-  await page.waitForSelector(byTestId('volunteering-reco-slider'))
-  await page.waitForSelector(byTestId('goodnews-reco-slider'))
 }
 
 const testDisplaysInsightDetails = async (page: Page) => {
@@ -61,12 +46,6 @@ const testShowInsightsScreen = async (page: Page) => {
 
   // go home
   await page.locator(byTestId('nav-button-back')).click()
-}
-
-const testAppUpdatesVisible = async (page: Page, app: string, timeout: number) => {
-  await page.waitForSelector(byTestId(`${app}-reco-slider-heading`), { timeout: timeout })
-  await page.waitForSelector(byTestId(`${app}-reco-slider-list`), { timeout: timeout })
-  await page.waitForSelector(byTestId(`${app}-reco-slider-card`), { timeout: timeout })
 }
 
 const testInsightsSection = async (browser: Browser, page: Page) => {

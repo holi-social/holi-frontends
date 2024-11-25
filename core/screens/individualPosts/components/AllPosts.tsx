@@ -6,7 +6,7 @@ import PostsList from '@holi/core/screens/individualPosts/components/PostsList'
 import { allPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
-export const allPostPageSize = Platform.OS == 'web' ? 4 : 2
+export const allPostPageSize = Platform.OS == 'web' ? 8 : 6
 
 export const AllPosts = () => {
   return (
