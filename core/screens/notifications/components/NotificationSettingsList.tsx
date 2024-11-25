@@ -148,8 +148,10 @@ const WorkflowSettings = ({
   const styles = useMemo(() => getStyles(theme), [theme])
   const { track } = useTracking()
 
+  const workflowName = t(`profile.settings.notifications.workflow.${workflow.id}`)
+
   const onSelect = (channel: Channel, checked: boolean) => {
-    track(TrackingEvent.NotificationPreferenceChanged(workflow.id, channel, checked))
+    track(TrackingEvent.NotificationPreferenceChanged(workflow.id, workflowName, channel, checked))
 
     updatePreference(workflow.id, channel, checked)
   }
@@ -158,7 +160,7 @@ const WorkflowSettings = ({
     <View style={[styles.row, style]} testID={workflow.id}>
       <HoliColumns>
         <SettingsNameColumn>
-          <HoliText>{t(`profile.settings.notifications.workflow.${workflow.id}`)}</HoliText>
+          <HoliText>{workflowName}</HoliText>
         </SettingsNameColumn>
         <SettingsCheckBoxColumn>
           {workflow.preferences.push !== null && (

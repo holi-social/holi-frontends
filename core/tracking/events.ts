@@ -289,6 +289,7 @@ export namespace TrackingEvent {
 
   export const NotificationPreferenceChanged = (
     workflowId: string,
+    workflowName: string,
     channel: Channel,
     newState: boolean
   ): TrackingEvent => ({
