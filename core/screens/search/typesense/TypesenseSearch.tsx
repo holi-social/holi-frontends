@@ -23,7 +23,7 @@ const createTypesenseInstantSearchAdapter = () => {
       cacheSearchResultsForSeconds: 2 * 60,
     },
     additionalSearchParameters: {
-      query_by: 'title_de,title_en,description_de,description_en,location',
+      query_by: 'title_de,title_en,description_de,description_en,location,embedding',
     },
   })
 }
