@@ -51,27 +51,23 @@ Follow [this tutorial](https://www.robincussol.com/build-standalone-expo-apk-ipa
 
 ### Prerequisites
 
-You need to install [Appium](https://appium.io/docs/en/about-appium/getting-started/) in order to run the tests locally.
+You no loger need to follow the standard install instructions for [Appium](https://appium.io/docs/en/about-appium/getting-started/), as Appium and it's drivers are now installed locally & managed by `yarn install`.
 
-1. `npm i -g appium@next`
-2. `npm install @appium/doctor --location=global`
-3. `appium driver install xcuitest`
-4. `appium driver install uiautomator2`
-5. run `appium-doctor`
-   (Then do all the things appium-doctor tells you to do / shows as error.)
-   (You can also pass arguments to only check for a specific platform: `--ios` resp. `--android`)
+1. `yarn install`
+2. `yarn doctor:ios` and `yarn doctor:android` for the platforms you want to test on
+   (Then do all the things appium doctor tells you to do / shows as error.)
 
    appium needs the following Android SDK Tools, that are not automatically installed and need to be installed via Android Studios SDK Manager:
 
    - Android SDK Platform-Tools
    - Android SDK Tools (Obsolete) <- This is only shown when you uncheck "Hide Obsolete Packages"
 
-When appium-doctor is successful, you can run appium:
+When appium doctor is successful, you can run appium:
 
-6. run `appium`
-7. On some systems it might be necessary to add `export APPIUM_PATH='/wd/hub'` to the `.envrc.local` file (if you see errors like `No route found for /session` while executing the tests) and also pass this to `appium` as `base-path`:
+3. run `yarn appium`
+4. On some systems it might be necessary to add `export APPIUM_PATH='/wd/hub'` to the `.envrc.local` file (if you see errors like `No route found for /session` while executing the tests) and also pass this to `appium` as `base-path`:
 
-    `appium --base-path $APPIUM_PATH`
+    `yarn appium --base-path $APPIUM_PATH`
 
 ### Local Test Execution Against Expo Dev Mode
 
@@ -178,18 +174,16 @@ There already are some helper functions, e.g. to locate and interact with elemen
 
 ## Troubleshooting
 
+### Driver/s not installed
+
+If see any message about drivers not being installed when running `appium`, ensure APPIUM_HOME is set to the root dir of holi-frontends. The drivers are installed and managed via yarn and their versions defined in package.json but there's an [issue with mono-repos](https://github.com/appium/appium/issues/19819). So it needs a nudge to tell it that they've been hoisted to holi-frontends and not here in this project (e2e/mobile).
+
 ### "browser driver is not running"
 
 When running the tests, if you see an error message along the lines of
 
 > Unable to connect to "127.0.0.1:4444", make sure browser driver is running on that address.
 
-it might be necessary to manually run the `appium` process in a separate terminal session, via:
-
-```sh
-npm install -g appium
-appium
-```
 
 ### Can't find simctl SDKs
 
