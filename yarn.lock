@@ -164,27 +164,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@appium/doctor@npm:^2.1.13":
-  version: 2.1.13
-  resolution: "@appium/doctor@npm:2.1.13"
-  dependencies:
-    "@appium/support": "npm:^5.1.6"
-    "@colors/colors": "npm:1.6.0"
-    "@types/bluebird": "npm:3.5.42"
-    "@types/teen_process": "npm:2.0.4"
-    appium-adb: "npm:12.6.0"
-    bluebird: "npm:3.7.2"
-    inquirer: "npm:9.2.12"
-    lodash: "npm:4.17.21"
-    source-map-support: "npm:0.5.21"
-    teen_process: "npm:2.2.0"
-    yargs: "npm:17.7.2"
-  bin:
-    appium-doctor: ./appium-doctor.js
-  checksum: 10c0/982ca9eda60da28a519b34661a7de465e65c12829e3e3c4aaf74f87ef887d30cf96d98492cf6d3a152a01cd26e90e3217a80c9e52b5a769653b463a66ec64e24
-  languageName: node
-  linkType: hard
-
 "@appium/docutils@npm:^1.0.23":
   version: 1.0.23
   resolution: "@appium/docutils@npm:1.0.23"
@@ -5661,7 +5640,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@holi/e2e-mobile@workspace:e2e/mobile"
   dependencies:
-    "@appium/doctor": "npm:^2.1.13"
     "@faker-js/faker": "npm:^8.1.0"
     "@types/jest": "npm:^29.5.1"
     appium: "npm:^2.12.1"
@@ -6849,15 +6827,6 @@ __metadata:
   peerDependencies:
     yjs: ">=13.5.22"
   checksum: 10c0/c3427556ddc08e492a75415f53fdb8c179c33869c8506111f3b2ab438c15a5ddbd56d26c0875173b80fdc59a4769c032434e38e6b8c1307bdc8e68affe3af4e6
-  languageName: node
-  linkType: hard
-
-"@ljharb/through@npm:^2.3.11":
-  version: 2.3.13
-  resolution: "@ljharb/through@npm:2.3.13"
-  dependencies:
-    call-bind: "npm:^1.0.7"
-  checksum: 10c0/fb60b2fb2c674a674d8ebdb8972ccf52f8a62a9c1f5a2ac42557bc0273231c65d642aa2d7627cbb300766a25ae4642acd0f95fba2f8a1ff891086f0cb15807c3
   languageName: node
   linkType: hard
 
@@ -14821,24 +14790,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"appium-adb@npm:12.6.0":
-  version: 12.6.0
-  resolution: "appium-adb@npm:12.6.0"
-  dependencies:
-    "@appium/support": "npm:^5.0.3"
-    async-lock: "npm:^1.0.0"
-    asyncbox: "npm:^3.0.0"
-    bluebird: "npm:^3.4.7"
-    ini: "npm:^5.0.0"
-    lodash: "npm:^4.0.0"
-    lru-cache: "npm:^10.0.0"
-    semver: "npm:^7.0.0"
-    source-map-support: "npm:^0.x"
-    teen_process: "npm:^2.2.0"
-  checksum: 10c0/436a0f912e220a2bc27bcd5c0201f320d84465934a7c81adcf6bc3c5fe5ffae975ae29ce2eccb9a7e78eb63a047e5d26a0a1df2770d2ee9a95f0517cc50ce983
-  languageName: node
-  linkType: hard
-
 "appium-adb@npm:^12.0.0, appium-adb@npm:^12.7.0":
   version: 12.7.0
   resolution: "appium-adb@npm:12.7.0"
@@ -16761,13 +16712,6 @@ __metadata:
     escape-string-regexp: "npm:^1.0.5"
     supports-color: "npm:^5.3.0"
   checksum: 10c0/e6543f02ec877732e3a2d1c3c3323ddb4d39fbab687c23f526e25bd4c6a9bf3b83a696e8c769d078e04e5754921648f7821b2a2acfd16c550435fd630026e073
-  languageName: node
-  linkType: hard
-
-"chalk@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "chalk@npm:5.3.0"
-  checksum: 10c0/8297d436b2c0f95801103ff2ef67268d362021b8210daf8ddbe349695333eb3610a71122172ff3b0272f1ef2cf7cc2c41fdaa4715f52e49ffe04c56340feed09
   languageName: node
   linkType: hard
 
@@ -19636,13 +19580,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"escape-string-regexp@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "escape-string-regexp@npm:5.0.0"
-  checksum: 10c0/6366f474c6f37a802800a435232395e04e9885919873e382b157ab7e8f0feb8fed71497f84a6f6a81a49aab41815522f5839112bd38026d203aea0c91622df95
-  languageName: node
-  linkType: hard
-
 "escodegen@npm:^2.0.0, escodegen@npm:^2.1.0":
   version: 2.1.0
   resolution: "escodegen@npm:2.1.0"
@@ -20622,7 +20559,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"external-editor@npm:^3.0.3, external-editor@npm:^3.1.0":
+"external-editor@npm:^3.0.3":
   version: 3.1.0
   resolution: "external-editor@npm:3.1.0"
   dependencies:
@@ -20933,16 +20870,6 @@ __metadata:
   dependencies:
     escape-string-regexp: "npm:^1.0.5"
   checksum: 10c0/9c421646ede432829a50bc4e55c7a4eb4bcb7cc07b5bab2f471ef1ab9a344595bbebb6c5c21470093fbb730cd81bbca119624c40473a125293f656f49cb47629
-  languageName: node
-  linkType: hard
-
-"figures@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "figures@npm:5.0.0"
-  dependencies:
-    escape-string-regexp: "npm:^5.0.0"
-    is-unicode-supported: "npm:^1.2.0"
-  checksum: 10c0/ce0f17d4ea8b0fc429c5207c343534a2f5284ecfb22aa08607da7dc84ed9e1cf754f5b97760e8dcb98d3c9d1a1e4d3d578fe3b5b99c426f05d0f06c7ba618e16
   languageName: node
   linkType: hard
 
@@ -23020,29 +22947,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inquirer@npm:9.2.12":
-  version: 9.2.12
-  resolution: "inquirer@npm:9.2.12"
-  dependencies:
-    "@ljharb/through": "npm:^2.3.11"
-    ansi-escapes: "npm:^4.3.2"
-    chalk: "npm:^5.3.0"
-    cli-cursor: "npm:^3.1.0"
-    cli-width: "npm:^4.1.0"
-    external-editor: "npm:^3.1.0"
-    figures: "npm:^5.0.0"
-    lodash: "npm:^4.17.21"
-    mute-stream: "npm:1.0.0"
-    ora: "npm:^5.4.1"
-    run-async: "npm:^3.0.0"
-    rxjs: "npm:^7.8.1"
-    string-width: "npm:^4.2.3"
-    strip-ansi: "npm:^6.0.1"
-    wrap-ansi: "npm:^6.2.0"
-  checksum: 10c0/efc19864bea5f4b22a47e686aa88684ee42352db4e96dd6307da7140496c16e5ef0e74be664fba490b068714dc24d72f66dc1907a1ccbaf9d58d6156cbdc5908
-  languageName: node
-  linkType: hard
-
 "inquirer@npm:^8.0.0":
   version: 8.2.6
   resolution: "inquirer@npm:8.2.6"
@@ -23704,13 +23608,6 @@ __metadata:
   version: 0.1.0
   resolution: "is-unicode-supported@npm:0.1.0"
   checksum: 10c0/00cbe3455c3756be68d2542c416cab888aebd5012781d6819749fefb15162ff23e38501fe681b3d751c73e8ff561ac09a5293eba6f58fdf0178462ce6dcb3453
-  languageName: node
-  linkType: hard
-
-"is-unicode-supported@npm:^1.2.0":
-  version: 1.3.0
-  resolution: "is-unicode-supported@npm:1.3.0"
-  checksum: 10c0/b8674ea95d869f6faabddc6a484767207058b91aea0250803cbf1221345cb0c56f466d4ecea375dc77f6633d248d33c47bd296fb8f4cdba0b4edba8917e83d8a
   languageName: node
   linkType: hard
 
@@ -27000,13 +26897,6 @@ __metadata:
   version: 0.0.8
   resolution: "mute-stream@npm:0.0.8"
   checksum: 10c0/18d06d92e5d6d45e2b63c0e1b8f25376af71748ac36f53c059baa8b76ffac31c5ab225480494e7d35d30215ecdb18fed26ec23cafcd2f7733f2f14406bcd19e2
-  languageName: node
-  linkType: hard
-
-"mute-stream@npm:1.0.0":
-  version: 1.0.0
-  resolution: "mute-stream@npm:1.0.0"
-  checksum: 10c0/dce2a9ccda171ec979a3b4f869a102b1343dee35e920146776780de182f16eae459644d187e38d59a3d37adf85685e1c17c38cf7bfda7e39a9880f7a1d10a74c
   languageName: node
   linkType: hard
 
@@ -31409,13 +31299,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"run-async@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "run-async@npm:3.0.0"
-  checksum: 10c0/b18b562ae37c3020083dcaae29642e4cc360c824fbfb6b7d50d809a9d5227bb986152d09310255842c8dce40526e82ca768f02f00806c91ba92a8dfa6159cb85
-  languageName: node
-  linkType: hard
-
 "run-parallel@npm:^1.1.9":
   version: 1.2.0
   resolution: "run-parallel@npm:1.2.0"
@@ -31432,7 +31315,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.5.5, rxjs@npm:^7.8.1":
+"rxjs@npm:^7.5.5":
   version: 7.8.1
   resolution: "rxjs@npm:7.8.1"
   dependencies:

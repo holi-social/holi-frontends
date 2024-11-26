@@ -3,7 +3,6 @@
     "@faker-js/faker": "^8.1.0"
   },
   "devDependencies": {
-    "@appium/doctor": "^2.1.13",
     "@types/jest": "^29.5.1",
     "appium": "^2.12.1",
     "appium-uiautomator2-driver": "^3.9.0",
