@@ -38,7 +38,8 @@
         "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
-        "TYPESENSE_API_KEY": "VqDKcPklWiD9qQRaXFnxOGDYZbspLHcY"
+        "TYPESENSE_API_KEY": "VqDKcPklWiD9qQRaXFnxOGDYZbspLHcY",
+        "TYPESENSE_COLLECTION": "staging_all"
       }
     },
     "development-simulator": {
@@ -70,7 +71,8 @@
         "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
-        "TYPESENSE_API_KEY": "VqDKcPklWiD9qQRaXFnxOGDYZbspLHcY"
+        "TYPESENSE_API_KEY": "VqDKcPklWiD9qQRaXFnxOGDYZbspLHcY",
+        "TYPESENSE_COLLECTION": "staging_all"
       },
       "ios": {
         "simulator": true
@@ -105,7 +107,8 @@
         "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
-        "TYPESENSE_API_KEY": "VqDKcPklWiD9qQRaXFnxOGDYZbspLHcY"
+        "TYPESENSE_API_KEY": "VqDKcPklWiD9qQRaXFnxOGDYZbspLHcY",
+        "TYPESENSE_COLLECTION": "staging_all"
       }
     },
     "production": {
@@ -135,7 +138,8 @@
         "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
-        "TYPESENSE_API_KEY": "DR8MbYWQocp4vayNsV2jzCOKXTGPVAdQ"
+        "TYPESENSE_API_KEY": "DR8MbYWQocp4vayNsV2jzCOKXTGPVAdQ",
+        "TYPESENSE_COLLECTION": "production_all"
       }
     },
     "production-apk": {
@@ -172,7 +176,8 @@
         "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
         "TYPESENSE_PORT": "443",
         "TYPESENSE_PROTOCOL": "https",
-        "TYPESENSE_API_KEY": "VqDKcPklWiD9qQRaXFnxOGDYZbspLHcY"
+        "TYPESENSE_API_KEY": "VqDKcPklWiD9qQRaXFnxOGDYZbspLHcY",
+        "TYPESENSE_COLLECTION": "staging_all"
       },
       "ios": {
         "simulator": true

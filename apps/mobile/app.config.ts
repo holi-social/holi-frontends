@@ -250,6 +250,7 @@ const config: ExpoConfig = {
       port: requiredEnvVar('TYPESENSE_PORT'),
       protocol: requiredEnvVar('TYPESENSE_PROTOCOL'),
       apiKey: requiredEnvVar('TYPESENSE_API_KEY'),
+      collection: requiredEnvVar('TYPESENSE_COLLECTION'),
     },
   },
 }

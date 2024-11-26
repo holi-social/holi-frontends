@@ -90,6 +90,7 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
             'TYPESENSE_PORT',
             'TYPESENSE_PROTOCOL',
             'TYPESENSE_API_KEY',
+            'TYPESENSE_COLLECTION',
           ])}
           {/*
               FIXME: This script is needed for Matrix JS SDK version 4.3.*

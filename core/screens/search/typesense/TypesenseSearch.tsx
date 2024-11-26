@@ -1,4 +1,10 @@
-import { typesenseApiKey, typesenseHost, typesensePort, typesenseProtocol } from '@holi/core/helpers/config'
+import {
+  typesenseApiKey,
+  typesenseCollection,
+  typesenseHost,
+  typesensePort,
+  typesenseProtocol,
+} from '@holi/core/helpers/config'
 import { InfiniteHits } from '@holi/core/screens/search/typesense/InfiniteHits'
 import { RefinementList } from '@holi/core/screens/search/typesense/RefinementList'
 import { SearchBox } from '@holi/core/screens/search/typesense/SearchBox'
@@ -8,6 +14,10 @@ import React, { useMemo } from 'react'
 import { InstantSearch } from 'react-instantsearch-core'
 import { StyleSheet, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
+
+const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location']
+
+const embeddingFields = ['embedding']
 
 const createTypesenseInstantSearchAdapter = () => {
   return new TypesenseInstantSearchAdapter({
@@ -23,7 +33,8 @@ const createTypesenseInstantSearchAdapter = () => {
       cacheSearchResultsForSeconds: 2 * 60,
     },
     additionalSearchParameters: {
-      query_by: 'title_de,title_en,description_de,description_en,location,embedding',
+      query_by: searchFields.join(',') + ',' + embeddingFields.join(','),
+      highlight_full_fields: searchFields.join(','),
     },
   })
 }
@@ -32,10 +43,9 @@ export const TypesenseSearch = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
-  // TODO replace `staging_all` with env-dependent
   return (
     <View style={styles.container}>
-      <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName="staging_all">
+      <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
         <View style={styles.searchBoxContainer}>
           <SearchBox />
         </View>
