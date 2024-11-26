@@ -17,6 +17,7 @@ import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
 import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
+import { KeyboardProvider } from 'react-native-keyboard-controller'
 
 const logger = getLogger('AppInit')
 
@@ -85,11 +86,13 @@ const App = () => {
   return (
     <BricksTheme initialTheme={'light'}>
       <ThemeProvider theme={defaultHoliTheme}>
-        <NavigationProvider>
-          <RootProvider apolloClient={apolloClient}>
-            <RootNavigator />
-          </RootProvider>
-        </NavigationProvider>
+        <KeyboardProvider>
+          <NavigationProvider>
+            <RootProvider apolloClient={apolloClient}>
+              <RootNavigator />
+            </RootProvider>
+          </NavigationProvider>
+        </KeyboardProvider>
       </ThemeProvider>
     </BricksTheme>
   )

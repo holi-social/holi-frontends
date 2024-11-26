@@ -1,24 +1,48 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
-import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated'
+import type React from 'react'
+import { Platform, StyleSheet } from 'react-native'
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 
-import { Props } from './types'
+import type { Props } from './types'
 
+import { useKeyboardHandler } from 'react-native-keyboard-controller'
 /**
  * @description this is mobile version. It uses 'useAnimatedKeyboard()' hook from 'react-native-reanimated'
  * to animate the view 'translateY' when the keyboard is shown.
  */
 
-const HoliKeyboardSafeAreaView = ({ style, children, testID }: React.PropsWithChildren<Props>) => {
-  const keyboard = useAnimatedKeyboard({ isStatusBarTranslucentAndroid: true })
+const useGradualAnimation = () => {
+  const height = useSharedValue(0)
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: -keyboard.height.value }],
-  }))
+  useKeyboardHandler(
+    {
+      onMove: (e) => {
+        'worklet'
+        height.value = e.height
+      },
+      onEnd: (e) => {
+        'worklet'
+        height.value = e.height
+      },
+    },
+    []
+  )
+
+  return { height }
+}
+
+const HoliKeyboardSafeAreaView = ({ style, children, testID }: React.PropsWithChildren<Props>) => {
+  const { height } = useGradualAnimation()
+  const fakeView = useAnimatedStyle(
+    () => ({
+      height: Math.abs(height.value),
+    }),
+    []
+  )
 
   return (
-    <Animated.View style={[styles.outer, style, animatedStyle]} testID={testID}>
+    <Animated.View style={[styles.outer, style]} testID={testID}>
       {children}
+      {Platform.OS !== 'web' ? <Animated.View style={fakeView} /> : null}
     </Animated.View>
   )
 }

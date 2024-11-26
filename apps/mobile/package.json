@@ -63,6 +63,7 @@
     "react-native-gesture-handler": "~2.16.1",
     "react-native-image-crop-picker": "^0.41.2",
     "react-native-image-pan-zoom": "^2.1.12",
+    "react-native-keyboard-controller": "^1.14.4",
     "react-native-media-query": "^2.0.1",
     "react-native-reanimated": "~3.10.1",
     "react-native-reanimated-carousel": "^3.5.1",
