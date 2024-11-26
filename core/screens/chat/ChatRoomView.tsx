@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 // eslint-disable-next-line no-restricted-imports
-import { Keyboard, Platform, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Keyboard, Platform, SafeAreaView, View } from 'react-native'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import ChatProfileCard from '@holi/chat/src/components/ChatProfileCard'
@@ -38,7 +38,8 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -52,9 +53,7 @@ const ChatRoomView = () => {
   const { t } = useTranslation()
   const { navigateBack, replaceRoute } = useRouting()
   const chatInitialized = useChatInitialized()
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles } = useStyles(stylesheet)
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
@@ -149,18 +148,7 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [
-    handleBackPress,
-    chatPartner,
-    setScreenOptions,
-    chatPartnerHoliUser,
-    roomId,
-    room,
-    isSpaceRoom,
-    t,
-    loadingUsers,
-    colors.brandColorD20,
-  ])
+  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom, t, loadingUsers])
 
   useEffect(() => {
     if (chatInitialized && !room) {
@@ -193,7 +181,7 @@ const ChatRoomView = () => {
 
   return (
     <HoliKeyboardSafeAreaView>
-      <View style={styles.layoutWarpper}>
+      <View style={styles.layoutWrapper}>
         <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/chat">
           <HoliTransition.Fade visible style={{ flex: 1 }}>
             <SafeAreaView style={styles.safeArea}>
@@ -248,39 +236,38 @@ const ChatRoomView = () => {
 
 export default ChatRoomView
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    layoutWarpper: {
-      ...Platform.select({
-        web: {
-          height: '100%',
-        },
-        native: {
-          flex: 1,
-        },
-      }),
-    },
-    safeArea: {
-      flex: 1,
-    },
-    headerTitle: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      gap: 8,
-    },
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      backgroundColor: theme.colors.background20,
-    },
-    listContainer: {
-      flex: 1,
-      height: '100%',
-      width: '100%',
-    },
-    listStage: {
-      alignSelf: 'center',
-      paddingHorizontal: 16,
-      maxWidth: dimensions.maxScreenWidth,
-    },
-  })
+const stylesheet = createStyleSheet((theme) => ({
+  layoutWrapper: {
+    ...Platform.select({
+      web: {
+        height: '100%',
+      },
+      native: {
+        flex: 1,
+      },
+    }),
+  },
+  safeArea: {
+    flex: 1,
+  },
+  headerTitle: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: theme.colors.background,
+  },
+  listContainer: {
+    flex: 1,
+    height: '100%',
+    width: '100%',
+  },
+  listStage: {
+    alignSelf: 'center',
+    paddingHorizontal: 16,
+    maxWidth: dimensions.maxScreenWidth,
+  },
+}))

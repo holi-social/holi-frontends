@@ -54,6 +54,7 @@ import type { User } from '@holi/core/domain/shared/types'
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher')
 jest.mock('@holi/core/auth/loginState')
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const loggedIn = (userId: string): LoginState => ({
   isUnknown: false,
