@@ -138,7 +138,12 @@ const Spaces = () => {
         ogTitle={t('metatags.spaces.og.title')}
         ogDescription={t('metatags.spaces.og.description')}
       />
-      <ScrollHeaderLayout ref={pageViewRef} style={styles.layout} onScroll={onScreenScroll}>
+      <ScrollHeaderLayout
+        ref={pageViewRef}
+        style={styles.layout}
+        refreshBackgroundColor={colors.background10}
+        onScroll={onScreenScroll}
+      >
         {!hasOwnSpaces ? (
           /* User has NO spaces => show discover view */
           <HoliContainer flex={1}>
