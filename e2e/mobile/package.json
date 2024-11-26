@@ -21,7 +21,7 @@
     "format": "yarn biome format --write",
     "format:check": "yarn biome format",
     "lint": "TIMING=1 eslint .",
-    "prepare:android": "APPIUM_HOME=../../ ./scripts/prepare_android.sh",
+    "prepare:android": "./scripts/prepare_android.sh",
     "test:android": "APPIUM_TARGET=local APPIUM_PLATFORM=android yarn run jest --runInBand",
     "test:android:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=android yarn run jest --testPathPattern=/smoke/ --runInBand",
     "test:ios": "APPIUM_TARGET=local APPIUM_PLATFORM=ios yarn run jest --runInBand",
