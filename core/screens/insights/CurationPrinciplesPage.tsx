@@ -114,11 +114,14 @@ const CurationPrinciplesPage: React.FC = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: true,
+      headerStyle: {
+        backgroundColor: theme.colors.background20,
+      },
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.curationPrinciples.title')}</HeaderTitle>
       ),
     })
-  }, [t, setScreenOptions])
+  }, [t, setScreenOptions, theme.colors.background20])
 
   return (
     <ScrollHeaderLayout noRefresh style={styles.wrapper}>
@@ -268,12 +271,6 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
           paddingTop: dimensions.topBarHeight,
           paddingBottom: Spacing.lg,
         },
-        ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xxl,
-        },
-        android: {
-          paddingTop: dimensions.topBarHeight + Spacing.lg,
-        },
       }),
     },
 
@@ -348,6 +345,8 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
     partnersSection: {
       ...(isWideLayout ? { marginTop: Spacing.lg } : { marginTop: -1 }),
       backgroundColor: theme.colors.brandA200,
+      marginTop: Spacing.sm,
+      marginBottom: Spacing.xl,
     },
 
     partner: {
