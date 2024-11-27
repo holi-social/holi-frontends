@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TextLayoutEventData, TextLayoutLine } from 'react-native'
 // Will be resolved with HOLI-10365
@@ -68,11 +68,6 @@ const HoliReadMore = ({
       setButtonState((previousState) => (previousState === 'readMore' ? 'readLess' : 'readMore'))
     }
   }
-
-  useEffect(() => {
-    setTruncatedText(children || '')
-    setButtonState('hidden')
-  }, [children])
 
   if (textProps.loading) {
     return <HoliText loading skeletonOptions={textProps.skeletonOptions} style={{ width: '100%' }} />
