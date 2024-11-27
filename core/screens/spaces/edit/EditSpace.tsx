@@ -302,9 +302,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   {!!space.sdgs?.length && (
                     <View style={styles.listContainer}>
                       {sdgs.map((sdg, index) => (
-                        <ChipLabel key={`sdg_${index}`} color="white">
-                          {`${sdg.number}. ${sdg.title}`}
-                        </ChipLabel>
+                        <ChipLabel key={`sdg_${index}`} color="white">{`${sdg.number}. ${sdg.title}`}</ChipLabel>
                       ))}
                     </View>
                   )}
