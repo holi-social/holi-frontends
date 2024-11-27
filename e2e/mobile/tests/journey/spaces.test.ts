@@ -182,7 +182,7 @@ describe('@Spaces', () => {
     }
 
     // select new terms
-    for (let i = 0; i < numberOfTermsToSelect; i++) {
+    for (let i = 0; i < Math.min(unselectedTerms.length, numberOfTermsToSelect); i++) {
       await Appium.touchAction({ element: unselectedTerms[i], action: 'tap' })
     }
   }
