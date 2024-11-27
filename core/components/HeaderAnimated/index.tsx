@@ -4,12 +4,12 @@ import { Platform, View } from 'react-native'
 import { Header, getHeaderTitle } from '@react-navigation/elements'
 
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { type NavigationCustomOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
+import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import AnimatedWrapper from './AnimatedWrapper'
-import { HeaderAnimatedProps } from './types'
+import type { HeaderAnimatedProps } from './types'
 
 /**
  *

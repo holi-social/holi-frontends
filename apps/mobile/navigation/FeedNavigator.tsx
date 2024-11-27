@@ -6,7 +6,7 @@ import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import NotFound from '@holi/core/screens/404/NotFound'
 import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import Search from '@holi/core/screens/search/Search'
-import UserProfile, { UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
+import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { useTheme } from '@holi/ui/styles/theme'
 
