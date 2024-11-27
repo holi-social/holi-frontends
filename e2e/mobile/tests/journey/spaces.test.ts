@@ -182,8 +182,12 @@ describe('@Spaces', () => {
     }
 
     // select new terms
-    for (let i = 0; i < Math.min(unselectedTerms.length, numberOfTermsToSelect); i++) {
-      await Appium.touchAction({ element: unselectedTerms[i], action: 'tap' })
+    for (let i = 0; i < numberOfTermsToSelect; i++) {
+      try {
+        await Appium.touchAction({ element: unselectedTerms[i], action: 'tap' })
+      } catch (err) {
+        throw new Error("Couldn't tap on " + (i + 1) + 'th element of unselectedTerms: ' + unselectedTerms[i])
+      }
     }
   }
 
