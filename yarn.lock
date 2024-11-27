@@ -5534,7 +5534,7 @@ __metadata:
     react-native-gesture-handler: "npm:~2.16.1"
     react-native-image-crop-picker: "npm:^0.41.2"
     react-native-image-pan-zoom: "npm:^2.1.12"
-    react-native-keyboard-controller: "npm:^1.14.4"
+    react-native-keyboard-controller: "npm:^1.14.5"
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.10.1"
     react-native-reanimated-carousel: "npm:^3.5.1"
@@ -28571,16 +28571,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-keyboard-controller@npm:^1.14.4":
-  version: 1.14.4
-  resolution: "react-native-keyboard-controller@npm:1.14.4"
+"react-native-keyboard-controller@npm:^1.14.4, react-native-keyboard-controller@npm:^1.14.5":
+  version: 1.14.5
+  resolution: "react-native-keyboard-controller@npm:1.14.5"
   dependencies:
     react-native-is-edge-to-edge: "npm:^1.1.6"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-reanimated: ">=3.0.0"
-  checksum: 10c0/65609abf45a969c402bbfb2cb121505f1c250804e70ab6ea092cbb9e33d6a816e3133aa7184c4d32af89575c94a55d0af002b4341e531dbaa9fe4ecf60775167
+  checksum: 10c0/ca9e67b7685f8f4f96efde849b9bca107dbc086fafb57b72793e3c3dea03a726f026be2fd3867a22e1e9b51e60d9eaea9050f030211d16829ac814547ac9eb73
   languageName: node
   linkType: hard
 
