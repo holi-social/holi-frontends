@@ -43,7 +43,7 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
 export const setImplicitTimeout = async (timeout: number) => {
   // @ts-ignores
   Appium.options.currentImplicitTimeout = timeout
-  await Appium.setImplicitTimeout(timeout)
+  Appium.setTimeout({ implicit: timeout })
 }
 
 export const resetImplicitTimeout = async () => {
@@ -165,7 +165,7 @@ export const scrollToElementWithTestId = async (
   })
 }
 
-const locateMultipleElements = async (elementSelector: string): Promise<ElementArray> => {
+export const locateMultipleElements = async (elementSelector: string): Promise<ElementArray> => {
   // https://webdriver.io/docs/api/browser/$$
   return await Appium.$$(elementSelector)
 }
@@ -181,13 +181,10 @@ export const seeTextWithTestId = async (expectedText: string, testId: string, ti
 
 export const tapOnElementWithTestId = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/element/touchAction
-  try {
-    const element = await waitForElementWithTestId(testId, timeout)
-    await Appium.touchAction({ element, action: 'tap' })
-    return element
-  } catch (err) {
-    throw new Error("Couldn't tap on element with testID: " + testId)
-  }
+
+  const element = await waitForElementWithTestId(testId, timeout)
+  await element.click()
+  return element
 }
 
 export const tapOnLoginLinkInText = async (selector = 'already-have-account-text') => {
