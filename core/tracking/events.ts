@@ -294,7 +294,7 @@ export namespace TrackingEvent {
     newState: boolean
   ): TrackingEvent => ({
     ...versionOne,
-    name: 'notificationPreference_changed',
+    name: 'notificationPreferenceChanged',
     properties: {
       workflowId,
       channel,
