@@ -16,7 +16,7 @@ import {
   type DiscoverSpacesVariables,
   discoverSpacesQuery,
 } from '@holi/core/screens/spaces/discover/queries'
-import type { Space, SpaceMember } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import { MapPinLine } from '@holi/icons/src/generated'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
@@ -166,11 +166,9 @@ const SpacesGroupSlider = ({
                 description={space.description}
                 imageSrc={space.cover}
                 imageBlurhash={space.coverBlurhash}
-                users={space.members.data.map((membership: SpaceMember) => membership.user)}
                 href={`/spaces/${space.name}`}
                 size="large"
                 testID="space-link"
-                totalUserCount={space.members.totalResults}
                 cardWidthForImageScaling={cardWidth}
               />
             ))}
