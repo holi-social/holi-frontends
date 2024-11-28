@@ -1,4 +1,4 @@
-import type { Element, ElementArray } from 'webdriverio'
+import type { ChainablePromiseElement } from 'webdriverio'
 
 import { doSwipe, getDeviceScreenSize, scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
 import { delayMs } from './time'
@@ -10,7 +10,7 @@ const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `andro
 
 const byText = (text: string) => `*${text}`
 
-const elementBySelector = async (elementSelector: string): Promise<Element<'async'>> => await Appium.$(elementSelector)
+const elementBySelector = async (elementSelector: string) => await Appium.$(elementSelector)
 
 export const elementByTestId = async (testId: string) => await elementBySelector(byTestId(testId))
 
@@ -67,7 +67,7 @@ export const checkIfElementWithTestIdExists = async (testId: string, timeout = 1
 }
 
 export interface FoundElementPair {
-  element: Element<'async'>
+  element: ChainablePromiseElement
   testId: string
 }
 
@@ -134,7 +134,7 @@ const scrollElementIntoView = async (testId: string, direction: ScrollDirection,
 /**
  * during up or down scroll, ensure the element is within the middle 50% of the screen and not in the upper or lower 25%, to ensure it's touchable
  */
-const scrollElementToCenter = async (element: Element<'async'>, direction: ScrollDirection) => {
+const scrollElementToCenter = async (element: ChainablePromiseElement, direction: ScrollDirection) => {
   const { width: screenWidth, height: screenHeight } = await getDeviceScreenSize()
   const { y, height } = await getElementCoordinates(element)
   if (direction === 'up' || direction === 'down') {
@@ -165,7 +165,7 @@ export const scrollToElementWithTestId = async (
   })
 }
 
-export const locateMultipleElements = async (elementSelector: string): Promise<ElementArray> => {
+export const locateMultipleElements = async (elementSelector: string) => {
   // https://webdriver.io/docs/api/browser/$$
   return await Appium.$$(elementSelector)
 }
@@ -194,7 +194,7 @@ export const tapOnLoginLinkInText = async (selector = 'already-have-account-text
   await Appium.touchAction({ action: 'tap', x: x + width - 20, y: y + height / 2 })
 }
 
-export const getElementCoordinates = async (element: Element<'async'>) => {
+export const getElementCoordinates = async (element: ChainablePromiseElement) => {
   const { x, y } = (await element.getLocation()) as { x: number; y: number }
   const { width, height } = (await element.getSize()) as { width: number; height: number }
   return { x, y, width, height }
