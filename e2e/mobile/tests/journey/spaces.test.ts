@@ -173,17 +173,11 @@ describe('@Spaces', () => {
   }
 
   const selectSomeTerms = async (numberOfTermsToSelect = 3) => {
-    const unselectedTerms = await locateMultipleElementsWithTestId('space-terms-list-item')
-    const selectedTerms = await locateMultipleElementsWithTestId('space-terms-list-item-checked')
-
-    // unselect previous terms
-    for (let i = 0; i < selectedTerms.length; i++) {
-      await Appium.touchAction({ element: selectedTerms[i], action: 'tap' })
-    }
+    const terms = await Appium.$$('[checkable=true]')
 
     // select new terms
     for (let i = 0; i < numberOfTermsToSelect; i++) {
-      await Appium.touchAction({ element: unselectedTerms[i], action: 'tap' })
+      await terms[i].click()
     }
   }
 
