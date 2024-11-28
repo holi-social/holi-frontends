@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react'
 import 'holi-bricks/libs/init'
-import { storybookThemeConfig, withThemeReactNative } from 'holi-bricks/storybook/theme-switcher'
+import { withThemeReactNative } from 'holi-bricks/ondevice/theme-switcher'
+import { storybookThemeConfig } from 'holi-bricks/ondevice/theme-config'
 
 const preview: Preview = {
   parameters: {},
