@@ -22,9 +22,9 @@
     "lint": "TIMING=1 eslint .",
     "prepare:android": "./scripts/prepare_android.sh",
     "test:android": "APPIUM_TARGET=local APPIUM_PLATFORM=android NODE_OPTIONS=\"--experimental-vm-modules\" jest --runInBand",
-    "test:android:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=android NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --testPathPattern=/smoke/ --runInBand",
-    "test:ios": "APPIUM_TARGET=local APPIUM_PLATFORM=ios NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --runInBand",
-    "test:ios:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --testPathPattern=/smoke/ --runInBand",
+    "test:android:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=android NODE_OPTIONS=\"--experimental-vm-modules\" jest --testPathPattern=/smoke/ --runInBand",
+    "test:ios": "APPIUM_TARGET=local APPIUM_PLATFORM=ios NODE_OPTIONS=\"--experimental-vm-modules\" jest --runInBand",
+    "test:ios:smoke": "APPIUM_TARGET=local APPIUM_PLATFORM=ios LOCAL_IOS_SIMULATOR_UDID=$(xcrun simctl list devices | grep \"(Booted)\" | grep -E -o -i \"([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})\") NODE_OPTIONS=\"--experimental-vm-modules\" jest --testPathPattern=/smoke/ --runInBand",
     "doctor:android": "appium driver doctor uiautomator2",
     "doctor:ios": "appium driver doctor xcuitest"
   },

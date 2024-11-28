@@ -75,6 +75,7 @@
     BUILD_PLATFORM: changeme
     TEST_SUITES: changeme
     ENVIRONMENT_FILE: .env.staging
+    NODE_OPTIONS: '--experimental-vm-modules'
   script:
     - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
     - '. ${ENVIRONMENT_FILE}'
