@@ -134,6 +134,11 @@ export const engagementByIdQuery = gql`
     }
   }
 `
+
+export type AppVolunteeringEngagementByIdVariables = {
+  id: string
+}
+
 export type AppVolunteeringEngagementByIdResponse = {
   appVolunteering_engagement: VolunteeringEngagement
 }
