@@ -1,9 +1,12 @@
 import { gql } from '@apollo/client/core'
 
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
-import { Task } from '@holi/core/screens/spaces/types'
-import { Paged } from '@holi/core/types'
+import type { User } from '@holi/core/domain/shared/types'
+import { FeedPostDetailsFragment, GenericPostPagedFragment } from '@holi/core/screens/individualPosts/fragments'
+import { InsightFragment } from '@holi/core/screens/insights/queries'
+import { PostFragment } from '@holi/core/screens/posts/queries'
+import type { Task } from '@holi/core/screens/spaces/types'
+import type { Paged } from '@holi/core/types'
 
 export type NumberOfItems = {
   numberOfItems: number
@@ -93,3 +96,25 @@ export const recommendedTasksQuery = gql`
 export type RecommendedTasksQueryResponse = {
   recommendedTasks: Paged<Task>
 }
+
+export const feedQuery = gql`
+  ${PostFragment}
+  ${InsightFragment}
+  ${FeedPostDetailsFragment}
+  query feed($offset: Int! = 0, $limit: Int! = 2) {
+    feed(offset: $offset, limit: $limit) {
+      data {
+        feedPost {
+          ...FeedPostFull
+        }
+        spacePost {
+          ...PostFragment
+        }
+        insight {
+          ...InsightFragment
+        }
+      }
+      totalResults
+    }
+  }
+`

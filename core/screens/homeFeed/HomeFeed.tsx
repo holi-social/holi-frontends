@@ -27,6 +27,9 @@ import { useTheme } from '@holi/ui/styles/theme'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { feedQuery } from '@holi/core/screens/homeFeed/queries'
+import ContentList from '@holi/core/screens/homeFeed/components/ContentList'
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -88,7 +91,9 @@ const HomeFeed = () => {
 
           <AttendingChallengeEvents />
           <ErrorBoundary>
-            <AllPosts />
+            <HoliContainer>
+              <ContentList postsQuery={feedQuery} paginationOptions={{ queryPath: 'feed', pageSize: 20 }} />
+            </HoliContainer>
           </ErrorBoundary>
           <ErrorBoundary>
             <InsightsOfTheWeek />
