@@ -94,6 +94,7 @@
     ]
   },
   "dependencies": {
+    "react-native-keyboard-controller": "^1.14.5",
     "react-native-web": "^0.19.12"
   },
   "resolutions": {

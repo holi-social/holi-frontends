@@ -20,7 +20,6 @@ import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingIniti
 import PosthogProvider, { type PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
-import { KeyboardProvider } from 'react-native-keyboard-controller'
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
   insets: { top: 0, left: 0, right: 0, bottom: 0 },
@@ -38,30 +37,27 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
     <ErrorBoundary showErrorMsg={isWeb} allowReload={isWeb}>
       <PosthogProvider bootstrapState={posthogBootstrapState}>
         <SafeAreaProvider initialMetrics={isWeb ? initialWindowMetricsForWeb : initialWindowMetrics}>
-          <KeyboardProvider>
-            <ApolloProvider client={apolloClient}>
-              <TrackingInitializer />
-              <ToastProvider>
-                <PortalProvider>
-                  <SessionExpiryProtection>
-                    <RefreshContextProvider>
-                      <FeatureFlagsFetcher />
-                      <OnboardingInitializer />
-                      {isMobile ? <DeviceRegistration /> : null}
-                      {isMobile ? <UpdateAppModal /> : null}
-                      <SignupModalProvider>
-                        <ChatSessionInitializer>
-                          <ChatProvider>{children}</ChatProvider>
-                        </ChatSessionInitializer>
-                      </SignupModalProvider>
-                    </RefreshContextProvider>
-                  </SessionExpiryProtection>
-                </PortalProvider>
-              </ToastProvider>
-
-              <TrackingConsentModal />
-            </ApolloProvider>
-          </KeyboardProvider>
+          <ApolloProvider client={apolloClient}>
+            <TrackingInitializer />
+            <ToastProvider>
+              <PortalProvider>
+                <SessionExpiryProtection>
+                  <RefreshContextProvider>
+                    <FeatureFlagsFetcher />
+                    <OnboardingInitializer />
+                    {isMobile ? <DeviceRegistration /> : null}
+                    {isMobile ? <UpdateAppModal /> : null}
+                    <SignupModalProvider>
+                      <ChatSessionInitializer>
+                        <ChatProvider>{children}</ChatProvider>
+                      </ChatSessionInitializer>
+                    </SignupModalProvider>
+                  </RefreshContextProvider>
+                </SessionExpiryProtection>
+              </PortalProvider>
+            </ToastProvider>
+            <TrackingConsentModal />
+          </ApolloProvider>
         </SafeAreaProvider>
       </PosthogProvider>
     </ErrorBoundary>
