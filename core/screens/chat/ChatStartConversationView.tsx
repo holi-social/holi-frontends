@@ -5,8 +5,8 @@ import { FlatList, Platform, Pressable, StyleSheet, View } from 'react-native'
 import { useLazyAbortableQuery } from '@holi/api/useLazyAbortableQuery'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import { type UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
+import type { User } from '@holi/core/domain/shared/types'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { StartChatButton } from '@holi/core/screens/userprofile/components/StartChatButton'
@@ -17,12 +17,12 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { isWebTouchDevice, useDebounce } from '@holi/ui/helper'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 const FIND_USER_BY_NAME_LIMIT = 30
 const MIN_USER_NAME_CHARACTERS = 2
@@ -137,13 +137,12 @@ const ChatStartConversationView = () => {
                       <Pressable style={[styles.flexRow, styles.userItem]} onPress={() => onUserSelect(user)}>
                         <View style={[styles.flexRow, styles.userItemContent]}>
                           <HoliBox padding={[0, 16, 0, 0]}>
-                            <HoliAvatar
-                              imageSrc={user.avatar}
-                              imageBlurhash={user.avatarBlurhash}
+                            <Avatar
+                              imgSrc={user.avatar}
+                              imgPlaceholder={user.avatarBlurhash}
                               label={user.avatarLabel}
                               initials={user.avatarLabel}
-                              defaultColor={user.avatarDefaultColor}
-                              size="medium"
+                              size="md"
                             />
                           </HoliBox>
 

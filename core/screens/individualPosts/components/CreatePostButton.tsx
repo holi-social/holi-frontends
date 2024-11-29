@@ -1,16 +1,15 @@
-import React, { PropsWithChildren, useCallback } from 'react'
+import type React from 'react'
+import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 export const ButtonFloatingWrapper = (props: PropsWithChildren) => (
   <View {...props} style={styles.floatingButtonWrapper} />
@@ -18,22 +17,7 @@ export const ButtonFloatingWrapper = (props: PropsWithChildren) => (
 
 const CreatePostButton: React.FC = () => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
-  const { openSignupModal } = useSignupModal()
-
-  const { isLoggedIn } = useLoggedInUser()
-
-  const navigateToCreatePost = useCallback(() => {
-    if (!isLoggedIn) {
-      openSignupModal({
-        title: t('individuals.post.login.title'),
-        description: t('individuals.post.login.text'),
-        trackTrigger: 'CREATE_POST',
-      })
-    } else {
-      navigate('/feed-posts/create')
-    }
-  }, [navigate, openSignupModal, t, isLoggedIn])
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   return (
     <HoliContainer flexDirection="row" justifyContent="flex-end">
@@ -44,7 +28,11 @@ const CreatePostButton: React.FC = () => {
           inline
           style={styles.button}
           onPress={() => {
-            navigateToCreatePost()
+            navigateWithAuth('/feed-posts/create', {
+              title: t('individuals.post.login.title'),
+              description: t('individuals.post.login.text'),
+              trackTrigger: 'CREATE_POST',
+            })
           }}
         >
           <HoliIcon icon={Pencil} size={24} />

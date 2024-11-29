@@ -1,4 +1,4 @@
-import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
+import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
@@ -16,18 +16,12 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
 
-const mockStoreOnboardingState = jest.fn()
-jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
-  storeOnboardingState: (value: string) => mockStoreOnboardingState(value),
-}))
-
 describe('OnboardingAccountSetup', () => {
   const mockSelectContentType = jest.fn()
   let user: UserEventInstance
 
   beforeEach(() => {
     user = userEvent.setup()
-    mockStoreOnboardingState.mockResolvedValue({})
     mockUseLoggedInUser.mockReturnValue({ isLoggedIn: false })
     mockUseFirstVisitContentSelection.mockReturnValue({
       selectedContentType: undefined,
@@ -43,20 +37,12 @@ describe('OnboardingAccountSetup', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/')
   })
 
-  it('should skip whole flow', async () => {
+  it('should navigate to registration when skipping the flow', async () => {
     render(<OnboardingAccountSetup />)
 
     await user.press(screen.getByTestId('holi-wizard-skip-btn'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/')
-  })
-
-  it('should set onboarding state to finished when skipping the flow', async () => {
-    render(<OnboardingAccountSetup />)
-
-    await user.press(screen.getByTestId('holi-wizard-skip-btn'))
-
-    expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
+    expect(mockNavigate).toHaveBeenCalledWith('/onboarding/registration')
   })
 
   it('should store selected content', async () => {
@@ -71,44 +57,20 @@ describe('OnboardingAccountSetup', () => {
     expect(mockSelectContentType).toHaveBeenCalledWith('CHALLENGES')
   })
 
-  const testCasesRoutes = [
-    { contentType: 'CHALLENGES', expectedRoute: '/act' },
-    { contentType: 'DONATIONS', expectedRoute: '/act' },
-    { contentType: 'VOLUNTEERING', expectedRoute: '/act' },
-    { contentType: 'SPACES', expectedRoute: '/spaces' },
-    { contentType: 'HOME', expectedRoute: '/' },
-  ]
-  it.each(testCasesRoutes)(
-    'should navigate to route $expectedRoute for content type $contentType',
-    async ({ contentType, expectedRoute }) => {
-      mockUseFirstVisitContentSelection.mockReturnValue({
-        selectedContentType: contentType,
-        selectContentType: jest.fn(),
-      })
-      render(<OnboardingAccountSetup />)
-
-      await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith(expectedRoute))
-    }
-  )
-
-  it('should set onboarding state to finished on content selection', () => {
+  it('should navigate to registration after content selection', async () => {
     mockUseFirstVisitContentSelection.mockReturnValue({
       selectedContentType: 'SPACES',
       selectContentType: jest.fn(),
     })
     render(<OnboardingAccountSetup />)
 
-    expect(mockStoreOnboardingState).toHaveBeenCalledWith('finished')
-  })
+    expect(screen.queryByText('onboarding.contentSelection.CHALLENGES')).toBeOnTheScreen()
+    await user.press(screen.getByText('onboarding.contentSelection.CHALLENGES'))
 
-  it('should navigate to home screen for invalid content type', async () => {
-    mockUseFirstVisitContentSelection.mockReturnValue({
-      selectedContentType: 'FOOBAR',
-      selectContentType: jest.fn(),
-    })
-    render(<OnboardingAccountSetup />)
+    expect(screen.queryByText('onboarding.accountSetup.continue')).toBeEnabled()
+    await user.press(screen.getByText('onboarding.accountSetup.continue'))
 
-    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/'))
+    expect(mockNavigate).toHaveBeenCalledWith('/onboarding/registration')
   })
 
   it('should navigate to home screen if user is already logged in', () => {

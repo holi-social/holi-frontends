@@ -2,7 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
-import { LoginState, useLoginState } from '@holi/core/auth/loginState'
+import { type LoginState, useLoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import Notifications from '@holi/core/screens/notifications/Notifications'
 import { LastSeenNotificationMutation, notificationsQuery } from '@holi/core/screens/notifications/queries'
@@ -38,6 +38,7 @@ jest.mock('@holi/core/screens/notifications/hooks/useNotifications', () => ({
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserV2Query,
+    variables: { userId: '123' },
   },
   result: {
     data: {

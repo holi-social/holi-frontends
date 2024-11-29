@@ -1,16 +1,17 @@
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, ViewStyle } from 'react-native'
+import { StyleSheet, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { AccountCircle, AccountCircleFilled } from '@holi/icons/src/generated'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export type LoginProfileButtonProps = {
   focused?: boolean
@@ -30,7 +31,6 @@ const LoginProfileButton = ({
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { styles: unistyles } = useStyles(stylesheet)
-
   return (
     <HoliButton
       label={t('profile.title')}
@@ -42,15 +42,13 @@ const LoginProfileButton = ({
       testID="btn-to-profile-view"
     >
       {user ? (
-        <HoliAvatar
-          imageSrc={user.avatar}
-          imageBlurhash={user.avatarBlurhash}
+        <Avatar
+          imgSrc={user.avatar}
           label={user.fullName || t('user.profileView.anonymous')}
           initials={user.avatarLabel}
-          defaultColor={user.avatarDefaultColor}
-          size="micro"
-          style={focused && styles.userAvatarHighlighted}
+          size="xs"
           testID="logged-in-profile"
+          border="light"
         />
       ) : (
         <HoliIcon icon={focused ? AccountCircleFilled : AccountCircle} color={unistyles.icon(focused).color} />

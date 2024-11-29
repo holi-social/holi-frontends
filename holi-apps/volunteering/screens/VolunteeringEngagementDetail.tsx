@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
-import { HoliButtonLoadingTracked } from '@holi/core/components/HoliButtonLoadingTracked'
 import HoliHead from '@holi/core/components/HoliHead'
 import { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { HoliButtonLoadingTracked } from '@holi/core/components/Trackable'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
@@ -222,7 +222,11 @@ const VolunteeringEngagementDetail = () => {
         testID="volunteering-engagement-description"
       >
         <HoliText size={'large'}>{t('volunteering:engagementDetail.aboutEngagement')}</HoliText>
-        <RenderHtml source={{ html: `${description}` }} contentWidth={windowWidth} />
+        <RenderHtml
+          source={{ html: `${description}` }}
+          contentWidth={windowWidth}
+          defaultTextProps={{ selectable: true }}
+        />
         {organizer && <Organizer organizer={organizer} />}
       </View>
     )

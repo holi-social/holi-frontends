@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -6,10 +7,10 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
-import { NotificationProps, NotificationWithUser } from '@holi/core/screens/notifications/components/types'
+import type { NotificationProps, NotificationWithUser } from '@holi/core/screens/notifications/components/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface NotificationWithUserAvatarProps extends NotificationProps<NotificationWithUser> {
   href?: string
@@ -28,7 +29,7 @@ const NotificationWithUserAvatar = ({
 }: React.PropsWithChildren<NotificationWithUserAvatarProps>) => {
   const { t, i18n } = useTranslation()
   const { created, read } = notification
-  const { id: userId, avatar, avatarBlurhash, avatarDefaultColor, avatarLabel, fullName } = notification.options.user
+  const { id: userId, avatar, avatarLabel, fullName, avatarBlurhash } = notification.options.user
   href = href || `/profile/${userId}`
   const userFullName = fullName || t('user.profileView.anonymous')
   const { theme } = useTheme()
@@ -39,13 +40,12 @@ const NotificationWithUserAvatar = ({
     <View style={style} testID={testID}>
       <HoliLink href={href} label={userFullName} mobileNavigateBackFirst>
         <View style={styles.link}>
-          <HoliAvatar
-            imageSrc={avatar}
-            imageBlurhash={avatarBlurhash}
+          <Avatar
+            imgPlaceholder={avatarBlurhash}
+            imgSrc={avatar}
             label={userFullName}
             initials={avatarLabel || ''}
-            defaultColor={avatarDefaultColor || ''}
-            size="small"
+            size="xs"
           />
 
           <View style={styles.content}>

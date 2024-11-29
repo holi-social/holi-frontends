@@ -1,11 +1,12 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import InfoModal, { InfoModalItemProps } from '@holi/core/components/InfoModal'
+import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { termsBySortNumberComparator } from '@holi/core/domain/shared/types'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -35,7 +36,7 @@ import type { SpacesScreens } from '@holi/mobile/navigation/SpacesNavigator'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -44,7 +45,7 @@ import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalCont
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { constants, dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 enum EditFields {
   NAME = 'NAME',
@@ -215,7 +216,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
           <View style={styles.wrapper} testID="space-edit-container">
             {/* Header */}
             <View style={styles.header} testID="space-edit-header">
-              <SpaceAvatar space={space} testID="space-edit-avatar" />
+              <SpaceAvatar space={space} testID="space-edit-avatar" size="xl" />
               <HoliButton
                 label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
                 type="secondary"
@@ -301,9 +302,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   {!!space.sdgs?.length && (
                     <View style={styles.listContainer}>
                       {sdgs.map((sdg, index) => (
-                        <ChipLabel key={`sdg_${index}`} color="white">
-                          {`${sdg.number}. ${sdg.title}`}
-                        </ChipLabel>
+                        <ChipLabel key={`sdg_${index}`} color="white">{`${sdg.number}. ${sdg.title}`}</ChipLabel>
                       ))}
                     </View>
                   )}

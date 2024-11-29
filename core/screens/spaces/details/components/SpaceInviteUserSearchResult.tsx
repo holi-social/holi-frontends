@@ -1,18 +1,19 @@
-import React, { useCallback, useMemo } from 'react'
+import type React from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import SpaceInviteUserButton from '@holi/core/screens/spaces/details/components/SpaceInviteUserButton'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 type SpaceInviteUserSearchResultProps = {
   spaceId: string
@@ -64,15 +65,12 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
               onPress={() => navigateToUser(user)}
               testID={'user-list-item'}
             >
-              <HoliAvatar
-                imageSrc={user.avatar}
-                imageBlurhash={user.avatarBlurhash}
+              <Avatar
+                imgSrc={user.avatar}
+                imgPlaceholder={user.avatarBlurhash}
                 label={user.fullName || t('user.profileView.anonymous')}
-                aria-hidden
                 initials={user.avatarLabel}
-                defaultColor={user.avatarDefaultColor}
-                size="medium"
-                style={styles.avatar}
+                size="md"
               />
               <View style={styles.textContainer}>
                 <HoliText ellipsizeMode="tail" numberOfLines={1} style={styles.listItemTitle}>
@@ -138,9 +136,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     dot: {
       color: theme.colors.brandColorB30,
-    },
-    avatar: {
-      borderWidth: 1,
     },
     textContainer: {
       paddingHorizontal: 16,

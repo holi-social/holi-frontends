@@ -3,12 +3,13 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuthorHeader'
-import HoliTranslate from '@holi/core/components/HoliTranslate'
-import { Term, User } from '@holi/core/domain/shared/types'
+import type { Term, User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -17,9 +18,9 @@ import FeedPostReactions from '@holi/core/screens/individualPosts/components/Fee
 import ImageCarousel from '@holi/core/screens/individualPosts/components/ImageCarousel'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
-import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import { type FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import PostReactions from '@holi/core/screens/posts/components/PostReactions'
-import { Post } from '@holi/core/screens/posts/types'
+import type { Post } from '@holi/core/screens/posts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -35,7 +36,9 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import SpaceFeedFollow from '@holi/core/screens/spaces/details/components/SpaceFeedFollow'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 
 type GenericPostCardProps = {
   post: FeedPost | Post
@@ -61,8 +64,8 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     post as Post,
     (post as Post).space?.id
   )
-
   const isTranslatable = post.language && post.language !== i18n.language
+  const showTranslation = useFeatureFlagToggle(FeatureFlagKey.POST_TRANSLATION) && isTranslatable
 
   const editSpacePost = useCallback(() => {
     navigate(`/spaces/${(post as Post).space?.id}/updates/${post.id}/edit`)
@@ -163,13 +166,13 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={feedPost.mentionedUsers}
             />
           </HoliReadMore>
-          {isTranslatable && (
+          {showTranslation && (
             <HoliTranslate
               primaryText={{ text: description, setText: setDescription }}
               secondaryText={{ text: title, setText: setTitle }}
               loading={loadingTranslation}
               setLoading={setLoadingTranslation}
-              trackingEvent={TrackingEvent.ContentTranslated('comment', feedPost.id)}
+              trackingEvent={TrackingEvent.ContentTranslated('feed_post', feedPost.id)}
             />
           )}
         </View>
@@ -236,6 +239,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               testID="post-three-dot-menu-button"
               buttonElement={<HoliIcon icon={MoreFilled} />}
             >
+              {spacePost.space && !isCurrentUserPostCreator && <SpaceFeedFollow space={spacePost.space} />}
               {!isCurrentUserPostCreator && (
                 <HoliActionDrawer.Action
                   icon={Flag}
@@ -318,7 +322,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={spacePost.mentions}
             />
           </HoliReadMore>
-          {isTranslatable && (
+          {showTranslation && (
             <HoliTranslate
               primaryText={{ text: description, setText: setDescription }}
               secondaryText={{ text: title, setText: setTitle }}
@@ -434,7 +438,7 @@ const getStyles = (theme: HoliTheme) =>
       gap: Spacing.xs,
     },
     imageCarousel: {
-      marginTop: Spacing['3xs'],
+      marginTop: Spacing.xs,
     },
     description: {
       marginTop: Spacing.xxs,

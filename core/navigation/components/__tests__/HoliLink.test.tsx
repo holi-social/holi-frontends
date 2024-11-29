@@ -1,14 +1,14 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
+import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 
 describe('HoliLink', () => {
   it('renders child component', () => {
     render(
       <HoliLink label="test" href="/">
-        <HoliText>inner</HoliText>
+        <Text size="md">inner</Text>
       </HoliLink>
     )
 

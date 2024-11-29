@@ -1,14 +1,15 @@
 {
   "app.name": "Gute Nachrichten",
   "app.subline": "kuratiert von goodnews.eu",
-  "maintenance.feature": "Die Goodnews App",
-  "listing.partnerModal.goodnews.eu.headline": "Die tägliche Dosis Optimismus",
-  "listing.partnerModal.goodnews.eu.text": "Die wichtigsten guten Nachrichten, Innovationen und Lösungen aus der ganzen Welt, jeden Tag von Montag bis Freitag.",
-  "listing.partnerModal.goodnews.eu.buttonText": "kuratiert von goodnews.eu",
-  "listing.loadMoreButton.text": "Weiterlesen",
-  "listing.teaser.description": "Du liest von <0>goodsnews.eu</0> kuratierte Artikel. Lies weiter für die vorherige Ausgabe.",
-  "listing.teaser.textLink.url": "https://goodnews.eu",
   "button.loadMoreArticles.label": "Weitere Artikel lesen",
   "button.readArticle": "Artikel lesen",
-  "goodnewsListing.loadMoreButton.text": "Weitere Artikel"
+  "goodnewsListing.loadMoreButton.text": "Weitere Artikel",
+  "listing.loadMoreButton.text": "Weiterlesen",
+  "listing.partnerModal.goodnews.eu.buttonText": "kuratiert von goodnews.eu",
+  "listing.partnerModal.goodnews.eu.headline": "Die tägliche Dosis Optimismus",
+  "listing.partnerModal.goodnews.eu.text": "Die wichtigsten guten Nachrichten, Innovationen und Lösungen aus der ganzen Welt, jeden Tag von Montag bis Freitag.",
+  "listing.teaser.description": "Du liest von <0>goodsnews.eu</0> kuratierte Artikel. Lies weiter für die vorherige Ausgabe.",
+  "listing.teaser.textLink.label": "goodnews.eu",
+  "listing.teaser.textLink.url": "https://goodnews.eu",
+  "maintenance.feature": "Die Goodnews App"
 }

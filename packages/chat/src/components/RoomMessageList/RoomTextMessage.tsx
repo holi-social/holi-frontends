@@ -3,18 +3,18 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
+import type { ChatRoomMember, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgTextContent } from '@holi/chat/src/client/utils'
 import { loggedInMemberIdAtom } from '@holi/chat/src/store'
-import { getChatInitials, getChatMemberName, getDefaultAvatarColor } from '@holi/chat/src/utils'
-import { User } from '@holi/core/domain/shared/types'
+import { getChatInitials, getChatMemberName } from '@holi/chat/src/utils'
 import { getTimeFormat } from '@holi/core/i18n/helpers/dateHelper'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
+import type { User } from '@holi/core/domain/shared/types'
 
 interface Props {
   message: ChatRoomMessage
@@ -55,13 +55,12 @@ const RoomTextMessage = ({
       <View style={[styles.rowWrapper, { flexDirection: isMyMessage ? 'row-reverse' : 'row' }]}>
         {showAvatar ? (
           <HoliBox padding={isMyMessage ? [0, 0, 0, 8] : [0, 8, 0, 0]}>
-            <HoliAvatar
-              imageSrc={member?.avatar}
-              imageBlurhash={holiUser?.avatarBlurhash}
+            <Avatar
+              imgSrc={member?.avatar}
+              imgPlaceholder={holiUser?.avatarBlurhash}
               label={getChatMemberName(t, member?.name)}
               initials={getChatInitials(member?.name)}
-              defaultColor={getDefaultAvatarColor(member?.name)}
-              size="micro"
+              size="xs"
             />
           </HoliBox>
         ) : (

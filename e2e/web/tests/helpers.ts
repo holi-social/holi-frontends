@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
+import { type Browser, type BrowserContext, type Locator, type Page, expect } from '@playwright/test'
 import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 
 import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
@@ -94,12 +94,6 @@ export const registerUser = async (
 
   await clickElementByTestId(page, 'btn-to-registration-form')
   await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-  await clickElementByTestId(page, 'community-guidelines-checkbox')
-  await clickElementByTestId(page, 'community-guidelines-navbtn-next-btn')
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
-  await clickElementByTestId(page, 'privacy-policy-checkbox')
-  await clickElementByTestId(page, 'privacy-policy-navbtn-next-btn')
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
@@ -163,6 +157,12 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
     clickElementByTestId(page, 'btn-to-onboarding'),
   ])
   await clickElementByTestId(page, 'holi-wizard-skip-btn')
+  await clickElementByTestId(page, 'btn-to-continue-as-guest')
+  if (page.context().browser()?.browserType().name() === 'firefox') {
+    // If straight after proceedAsGuest() you use page.goto() Firefox will fail with NS_BINDING_ABORTED error.
+    // So, just for FF wait until the page has fully finished loading it's content.
+    await page.waitForLoadState('networkidle')
+  }
 }
 
 export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {

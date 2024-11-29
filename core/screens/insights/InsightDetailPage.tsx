@@ -2,11 +2,12 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { StatusBar } from 'expo-status-bar'
 import { ChipLabel } from 'holi-bricks/components/chips'
-import React, { memo, useMemo, useState } from 'react'
+import type React from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
-import { Discussion } from '@holi/api/graphql/graphql-codegen'
+import type { Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
 import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -22,14 +23,14 @@ import InsightDrawer from '@holi/core/screens/insights/components/InsightDrawer'
 import DiscussionCard from '@holi/core/screens/insights/discussions/DiscussionCard'
 import DiscussionsSection from '@holi/core/screens/insights/discussions/DiscussionsSection'
 import InitiativesCarousel from '@holi/core/screens/insights/initiatives/InitiativesCarousel'
-import { InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
+import { type InsightByIdResponse, insightById } from '@holi/core/screens/insights/queries'
 import QuotesCarousel from '@holi/core/screens/insights/quotes/QuotesCarousel'
 import RecommendationsCarousel from '@holi/core/screens/insights/recommendations/RecommendationsCarousel'
-import { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
+import type { Initiative, Quote, Recommendation } from '@holi/core/screens/insights/types'
 import PollComponent from '@holi/core/screens/polls/PollComponent'
-import { Poll } from '@holi/core/screens/polls/types'
+import type { Poll } from '@holi/core/screens/polls/types'
 import PostPreview from '@holi/core/screens/posts/components/PostPreview'
-import { Post } from '@holi/core/screens/posts/types'
+import type { Post } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -37,10 +38,9 @@ import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
@@ -48,8 +48,9 @@ import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -146,13 +147,12 @@ const InsightDetailPage = () => {
       <View style={styles.slideWrapper}>
         {creator && (
           <>
-            <HoliAvatar
-              imageSrc={creator.avatar}
-              imageBlurhash={creator.avatarBlurhash}
+            <Avatar
+              imgSrc={creator.avatar}
+              imgPlaceholder={creator.avatarBlurhash}
               label={creator.fullName || t('user.profileView.anonymous')}
               initials={creator.avatarLabel}
-              defaultColor={creator.avatarDefaultColor}
-              size="extralarge"
+              size="lg"
             />
             <HoliText style={{ marginTop: 8 }} size="large">
               {creator.fullName}
@@ -258,13 +258,10 @@ const InsightDetailPage = () => {
                       }}
                     >
                       <View style={styles.creatorInfo}>
-                        <HoliAvatar
-                          imageSrc={creator.avatar}
-                          imageBlurhash={creator.avatarBlurhash}
+                        <Avatar
+                          imgSrc={creator.avatar}
                           label={creator.fullName ?? ''}
                           initials={creator.avatarLabel || ''}
-                          defaultColor={creator.avatarDefaultColor || ''}
-                          style={styles.creatorAvatar}
                         />
                         <View>
                           <HoliText bold>{creator.fullName}</HoliText>
@@ -523,9 +520,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       flexDirection: 'row',
       alignItems: 'center',
       padding: Spacing.xxs,
-    },
-    creatorAvatar: {
-      marginRight: Spacing.xxs,
+      gap: Spacing.xxs,
     },
     creationDetails: {
       marginBottom: Spacing['3xs'],

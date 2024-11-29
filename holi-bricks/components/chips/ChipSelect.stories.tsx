@@ -1,13 +1,13 @@
 import { action } from '@storybook/addon-actions'
 import { useArgs } from '@storybook/preview-api'
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { Colors } from 'holi-bricks/tokens'
 import React from 'react'
 
 import { ChipSelect } from './ChipSelect'
 
 const availableColors = Object.values(Colors)
-const availableSizes = ['sm', 'md', 'lg'] as const
+const availableSizes = ['md', 'lg'] as const
 
 const meta: Meta<typeof ChipSelect> = {
   title: 'Components/Chips/Chip Select',
@@ -126,7 +126,7 @@ export const ByAvatar: Story = {
           avatar={{
             initials: 'TP',
             label: 'pick me',
-            imageSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+            imgSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
           }}
         />
       </>

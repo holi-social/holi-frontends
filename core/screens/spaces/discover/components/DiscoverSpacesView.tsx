@@ -1,13 +1,13 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import type React from 'react'
+import { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
-import { Skill, Topic } from '@holi/core/domain/shared/types'
+import type { Skill, Topic } from '@holi/core/domain/shared/types'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
 import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -19,7 +19,8 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 interface DiscoverSpacesViewProps {
   userTopics: Topic[]
@@ -49,11 +50,11 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { navigate } = useRouting()
-  const { openSignupModal } = useSignupModal()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { width: screenWidth } = useClientWindowDimensions()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { topics = [] } = useContext(SpaceTermContext)
 
@@ -65,16 +66,6 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
       ),
     [topics, userTopics]
   )
-
-  const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn
-      ? navigate('/spaces/create')
-      : openSignupModal({
-          description: t('spaces.create.loginRedirect.text'),
-          redirectPath: '/spaces/create',
-          trackTrigger: 'CREATE_SPACE',
-        })
-  }, [isLoggedIn, navigate, openSignupModal, t])
 
   const aspectRatio = 188 / 324
 
@@ -90,7 +81,12 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
       <View style={styles.createSpaceButtonContainer}>
         <HoliButton
           label={t('spaces.discover.create.button')}
-          onPress={handleCreateSpaceButtonPress}
+          onPress={() =>
+            navigateWithAuth('/spaces/create', {
+              description: t('spaces.create.loginRedirect.text'),
+              trackTrigger: 'CREATE_SPACE',
+            })
+          }
           testID="discover-spaces-create-button"
           style={styles.createSpaceButton}
         >

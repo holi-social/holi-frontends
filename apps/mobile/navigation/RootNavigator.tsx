@@ -27,6 +27,9 @@ import SpacesNavigator from '@holi/mobile/navigation/SpacesNavigator'
 import VolunteeringAppNavigator from '@holi/mobile/navigation/VolunteeringAppNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { useTheme } from '@holi/ui/styles/theme'
+import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { ArrowDownS } from '@holi/icons/src/generated'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -38,6 +41,7 @@ export type RootStackScreens = {
 
   [RouteName.Onboarding]: undefined
   [RouteName.OnboardingRegistration]: undefined
+  [RouteName.OnboardingRegistrationLegalDocuments]: undefined
   [RouteName.OnboardingAccountSetup]: undefined
 
   [RouteName.Login]: undefined
@@ -176,6 +180,11 @@ const RootNavigator = () => {
         name={RouteName.OnboardingRegistration}
         component={OnboardingRegistration}
         options={{ headerShown: false, gestureEnabled: false }}
+      />
+      <RootStack.Screen
+        name={RouteName.OnboardingRegistrationLegalDocuments}
+        component={LegalDocumentItem}
+        options={{ presentation: 'modal', headerLeft: () => <HeaderBackButton icon={ArrowDownS} /> }}
       />
       <RootStack.Screen
         name={RouteName.OnboardingAccountSetup}

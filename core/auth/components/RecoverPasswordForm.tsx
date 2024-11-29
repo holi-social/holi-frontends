@@ -1,7 +1,7 @@
-import { RecoveryFlow, UpdateRecoveryFlowWithCodeMethod } from '@ory/kratos-client'
+import type { RecoveryFlow, UpdateRecoveryFlowWithCodeMethod } from '@ory/kratos-client'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View, type ViewStyle } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
@@ -71,11 +71,8 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
       <FormBuilder flow={flow} onSubmit={requestPasswordRecovery} style={styles.recoverPasswordForm} />
       {!props.webview && (
         <>
-          <AlreadyHaveAccountText
-            mobileNavigateBackFirst
-            style={styles.loginHeadline}
-            trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
-          />
+          <HoliGap size="s" />
+          <AlreadyHaveAccountText mobileNavigateBackFirst trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
           <HoliGap size="l" />
           <HoliHeading level="2" align="center">
             {t('auth.login.signUp.link.headline')}
@@ -99,9 +96,5 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
-  },
-  loginHeadline: {
-    marginTop: 16,
-    textAlign: 'center',
   },
 })

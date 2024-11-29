@@ -1,4 +1,5 @@
-import { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
-import { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
+import { TextLinkProps } from 'holi-bricks/components/text'
 
-export type HoliTextLinkProps = HoliLinkProps & Pick<HoliTextProps, 'color' | 'size' | 'align'>
+import { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
+
+export type HoliTextLinkProps = Omit<HoliLinkProps, 'testID'> & Pick<TextLinkProps, 'variant' | 'size' | 'textAlign'>

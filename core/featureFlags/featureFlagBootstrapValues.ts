@@ -25,6 +25,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.VIDEO_CALL]: 'on',
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: 'control',
     [FeatureFlagKey.TYPESENSE_SEARCH]: false,
+    [FeatureFlagKey.FEEDBACK_LINK]: 'on',
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -37,5 +38,6 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.VIDEO_CALL]: null,
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: null,
     [FeatureFlagKey.TYPESENSE_SEARCH]: null,
+    [FeatureFlagKey.FEEDBACK_LINK]: null,
   },
 }

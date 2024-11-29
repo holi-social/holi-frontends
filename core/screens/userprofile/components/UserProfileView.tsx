@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { StartChatButton } from '@holi/core/screens/userprofile/components/StartChatButton'
 import UserConnectionButtons from '@holi/core/screens/userprofile/components/UserConnectionButtons'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -10,9 +10,9 @@ import { VerifiedExternal, VerifiedInternal } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface UserProfileViewProps {
   user: User
@@ -40,13 +40,12 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
     <View style={styles.header}>
       <View style={styles.avatarName}>
         <View>
-          <HoliAvatar
-            imageSrc={user.avatar}
-            imageBlurhash={user.avatarBlurhash}
+          <Avatar
+            imgPlaceholder={user.avatarBlurhash}
+            imgSrc={user.avatar}
             label={fullName}
             initials={user.avatarLabel}
-            defaultColor={user.avatarDefaultColor}
-            size="large"
+            size="xl"
           />
         </View>
         <View style={styles.nameContainer}>

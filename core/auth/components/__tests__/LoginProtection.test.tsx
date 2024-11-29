@@ -4,7 +4,7 @@ import { Text } from 'holi-bricks/components/text/Text'
 import React from 'react'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
-import { LoginState, useLoginState } from '@holi/core/auth/loginState'
+import { type LoginState, useLoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 
 const loggedIn = (): LoginState => {
@@ -39,6 +39,7 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
 const authenticatedUserRequest = {
   request: {
     query: authenticatedUserV2Query,
+    variables: { userId: '123' },
   },
   result: {
     data: {

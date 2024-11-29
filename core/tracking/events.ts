@@ -159,10 +159,6 @@ export namespace TrackingEvent {
       name: 'resendEmailButtonPressed',
       ...versionOne,
     }
-    export const CommunityGuidelinesOnboardingStepCompleted: TrackingEvent = {
-      name: 'communityGuidelinesOnboardingStepCompleted',
-      ...versionOne,
-    }
     export const RegisterNamesOnboardingStepCompleted = (updatedValues: NamesStepData): TrackingEvent => ({
       name: 'registerNamesOnboardingStepCompleted',
       properties: { updatedValues },
@@ -184,10 +180,6 @@ export namespace TrackingEvent {
     })
     export const LocationOnboardingStepSkipped: TrackingEvent = {
       name: 'locationOnboardingStepSkipped',
-      ...versionOne,
-    }
-    export const PrivacyPolicyOnboardingStepCompleted: TrackingEvent = {
-      name: 'privacyPolicyOnboardingStepCompleted',
       ...versionOne,
     }
     export const SuccessOnboardingStepCompleted: TrackingEvent = {

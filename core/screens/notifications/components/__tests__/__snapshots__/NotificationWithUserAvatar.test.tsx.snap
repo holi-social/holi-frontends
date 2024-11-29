@@ -53,50 +53,52 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
     >
       <View
         style={
-          [
-            {
-              "alignItems": "center",
-              "justifyContent": "center",
-              "overflow": "hidden",
-            },
-            {
-              "backgroundColor": "#7BD7EA",
-              "borderColor": undefined,
-              "borderRadius": 20,
-              "borderWidth": 0,
-              "height": 40,
-              "width": 40,
-            },
-            undefined,
-            false,
-          ]
+          {
+            "alignItems": "center",
+            "backgroundColor": "#90ddff",
+            "borderColor": "#262424",
+            "borderRadius": 1000,
+            "borderWidth": 1,
+            "display": "flex",
+            "height": 24,
+            "justifyContent": "center",
+            "overflow": "hidden",
+            "position": "relative",
+            "width": 24,
+          }
         }
       >
-        <Text
-          accessible={false}
-          aria-label="Some User"
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          role="img"
-          selectable={true}
+        <View
           style={
             {
-              "color": "#000",
-              "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 18,
-              "fontWeight": "bold",
-              "lineHeight": 21.599999999999998,
-              "textTransform": "uppercase",
-              "userSelect": "auto",
+              "opacity": 0.8,
             }
           }
         >
-          SU
-        </Text>
+          <Text
+            accessible={false}
+            role="none"
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 11,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": 0.2,
+                "lineHeight": 13.2,
+                "textAlign": undefined,
+                "userSelect": "auto",
+              }
+            }
+          >
+            SU
+          </Text>
+        </View>
       </View>
       <View
         style={

@@ -7,15 +7,15 @@ import type { ChatRoom, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent, isMsgTextContent } from '@holi/chat/src/client/utils'
 import { chatPartnerAtomCreator, setLatestMessagesAsRead, useLastRoomMessage } from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
-import { getChatInitials, getChatMemberName, getDefaultAvatarColor, isMatrixId } from '@holi/chat/src/utils'
-import { User } from '@holi/core/domain/shared/types'
+import { getChatInitials, getChatMemberName, isMatrixId } from '@holi/chat/src/utils'
+import type { User } from '@holi/core/domain/shared/types'
 import { getInitials } from '@holi/core/helpers'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 interface RoomItemProps {
   room: ChatRoom
@@ -74,32 +74,27 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
           {/* View below is used to position message indicator regarding the HoliAvatar */}
           <View>
             {isSpaceRoom ? (
-              <HoliAvatar
+              <Avatar
                 label={roomName}
                 initials={getInitials(room.content.spaceName)}
-                imageSrc={room.avatar}
-                defaultColor={room.content.avatarDefaultColor}
+                imgSrc={room.avatar}
                 shape="square"
-                size="medium"
+                size="md"
               />
             ) : chatPartner ? (
               isMatrixId(chatPartner.name) ? (
-                <HoliAvatar
+                <Avatar
                   label={roomName}
-                  imageSrc={chatPartner.avatar ?? ''}
+                  imgSrc={chatPartner.avatar ?? ''}
                   initials={getChatInitials(chatPartner.name)}
-                  defaultColor={getDefaultAvatarColor(chatPartner.name)}
-                  initialsColor={theme.colors.foreground30at48Percent}
-                  initialsFontWeight="500"
-                  size="medium"
+                  size="md"
                 />
               ) : (
-                <HoliAvatar
+                <Avatar
                   label={roomName}
-                  imageSrc={chatPartner.avatar ?? ''}
+                  imgSrc={chatPartner.avatar ?? ''}
                   initials={getChatInitials(chatPartner.name)}
-                  defaultColor={getDefaultAvatarColor(chatPartner.name)}
-                  size="medium"
+                  size="md"
                 />
               )
             ) : null}

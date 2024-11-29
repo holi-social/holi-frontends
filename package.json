@@ -96,6 +96,7 @@
   "dependencies": {
     "@babel/runtime": "^7.26.0",
     "react-instantsearch-core": "^7.13.8",
+    "react-native-keyboard-controller": "^1.14.5",
     "react-native-web": "^0.19.12",
     "typesense-instantsearch-adapter": "^2.8.0"
   },

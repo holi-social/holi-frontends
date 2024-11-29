@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import { skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { ActSection } from '@holi/core/screens/act/ActSection'
 import { recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
@@ -795,11 +795,6 @@ jest.mock('cross-fetch', () => () => {
 const mockPosthog = jest.fn()
 jest.mock('@holi/core/tracking/PosthogCrossPlatform', () => ({
   usePosthogCrossPlatform: () => mockPosthog(),
-}))
-
-const mockUseFirstVisitContentSelection = jest.fn()
-jest.mock('@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection', () => ({
-  useFirstVisitContentSelection: () => mockUseFirstVisitContentSelection(),
 }))
 
 describe('ActHome Section', () => {

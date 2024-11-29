@@ -1,7 +1,6 @@
-import { CSSProperties } from 'react'
-import { ScrollViewProps } from 'react-native'
-
-import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
+import type { CSSProperties } from 'react'
+import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
+import type { KeyboardAwareScrollViewProps } from 'react-native-keyboard-controller'
 
 export type RefreshableScrollHeaderLayoutProps<T extends LayoutProps> = T & {
   headerOverlap?: boolean
@@ -18,8 +17,16 @@ export type RefreshableScrollViewProps<T extends LayoutProps> = Omit<
 // add here more props from ScrollViewProps if needed
 export interface ScrollHeaderLayoutProps
   extends Pick<
-    ScrollViewProps,
-    'style' | 'contentContainerStyle' | 'bounces' | 'keyboardShouldPersistTaps' | 'keyboardDismissMode' | 'onScroll'
+    KeyboardAwareScrollViewProps,
+    | 'style'
+    | 'contentContainerStyle'
+    | 'bounces'
+    | 'keyboardShouldPersistTaps'
+    | 'keyboardDismissMode'
+    | 'onScroll'
+    | 'onLayout'
+    | 'onContentSizeChange'
+    | 'bottomOffset'
   > {
   /**
    * @description use 'headerRelation' to adjust the ScrollView offset top in relation to the header
@@ -31,4 +38,5 @@ export interface ScrollHeaderLayoutProps
   backgroundColor?: string
   testID?: string
   noRefresh?: boolean
+  refreshBackgroundColor?: string
 }

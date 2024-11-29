@@ -1,9 +1,10 @@
 import partition from 'lodash.partition'
-import React, { useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceAcceptInvitation from '@holi/core/screens/spaces/details/components/SpaceAcceptInvitation'
@@ -13,13 +14,13 @@ import SpaceInvite from '@holi/core/screens/spaces/details/components/SpaceInvit
 import SpaceJoin from '@holi/core/screens/spaces/details/components/SpaceJoin'
 import SpaceMoreActions from '@holi/core/screens/spaces/details/components/SpaceMoreActions'
 import SpaceShare from '@holi/core/screens/spaces/details/components/SpaceShare'
-import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceHeaderProps = {
   space: Space
@@ -58,7 +59,7 @@ const SpaceHeader: React.FC<SpaceHeaderProps> = ({ space, style }) => {
   return (
     <View style={[styles.container, style]} testID="space-header">
       <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
-      <SpaceAvatar space={space} />
+      <SpaceAvatar space={space} size="xl" />
       <HoliGap />
       <HoliHeading level="1" size="m" testID="space-title">
         {space.title}

@@ -1,31 +1,29 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { ArrowLeft, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 const AboutSpaces = () => {
   const setScreenOptions = useSetScreenOptions()
-  const { navigate, navigateBack } = useRouting()
+  const { navigateBack } = useRouting()
   const { t } = useTranslation()
-  const { isLoggedIn } = useLoggedInUser()
-  const { openSignupModal } = useSignupModal()
   const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { width: screenWidth } = useClientWindowDimensions()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { theme } = useTheme()
   const { colors } = theme
@@ -45,12 +43,6 @@ const AboutSpaces = () => {
       headerRight: () => (Platform.OS === 'web' ? <HeaderBackButton icon={Close} /> : null),
     })
   }, [setScreenOptions, t, colors.background20])
-
-  const handleCreateSpaceButtonPress = useCallback(() => {
-    isLoggedIn
-      ? navigate('/spaces/create')
-      : openSignupModal({ description: t('spaces.create.loginRedirect.text'), trackTrigger: 'CREATE_SPACE' })
-  }, [isLoggedIn, navigate, openSignupModal, t])
 
   return (
     <ScrollView contentContainerStyle={styles.container} style={styles.scrollViewBackground}>
@@ -128,7 +120,12 @@ const AboutSpaces = () => {
           <HoliButton
             style={styles.actionButton}
             label="Create a Space"
-            onPress={handleCreateSpaceButtonPress}
+            onPress={() =>
+              navigateWithAuth('/spaces/create', {
+                description: t('spaces.create.loginRedirect.text'),
+                trackTrigger: 'CREATE_SPACE',
+              })
+            }
             testID="discover-spaces-create-button"
           >
             {t('spaces.about.page.button.primary')}

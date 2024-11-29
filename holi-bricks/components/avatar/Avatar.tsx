@@ -1,29 +1,44 @@
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
-import { Text, type TextSize } from 'holi-bricks/components/text/Text'
+import { Text } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 import { BorderWidth } from 'holi-bricks/tokens/dimensions/borderWidth'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
-
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 // eslint-disable-next-line no-restricted-imports
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-// eslint-disable-next-line no-restricted-imports
-import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
-type AvatarSizes = 'lg' | 'md' | 'sm' | 'xs'
-
-type AvatarProps = {
-  border?: 'strong' | 'light'
-  shape?: 'squared' | 'circle'
+/*
+  xl: 128
+  lg: 64
+  md: 48
+  sm: 40
+  xs: 24
+*/
+export const AvatarSizesValues = {
+  xl: 128,
+  lg: 64,
+  md: 48,
+  sm: 40,
+  xs: 24,
+}
+export type AvatarSizes = keyof typeof AvatarSizesValues
+export type AvatarShape = 'square' | 'circle'
+export type AvatarBorder = 'strong' | 'light'
+export type AvatarProps = AccessibilityProps & {
+  border?: AvatarBorder
+  shape?: AvatarShape
   size?: AvatarSizes
   label?: string
   icon?: HoliIconType
-  imgSrc?: ImageSource
+  imgSrc?: string
   initials: string
+  testID?: string
+  imgPlaceholder?: string
 }
 
 const avatarSizeToIconSize = {
@@ -31,6 +46,7 @@ const avatarSizeToIconSize = {
   sm: 20,
   md: 24,
   lg: 24,
+  xl: 32,
 }
 
 const avatarSizeToTextSize = {
@@ -38,16 +54,20 @@ const avatarSizeToTextSize = {
   sm: 'md',
   md: 'xxl',
   lg: '3xl',
-}
+  xl: '4xl',
+} as const
 
 export const Avatar = ({
   label,
   size = 'md',
   border = 'strong',
-  shape = 'squared',
+  shape = 'circle',
   imgSrc,
   initials,
+  testID,
+  imgPlaceholder,
   icon,
+  ...rest
 }: AvatarProps) => {
   const { styles } = useStyles(stylesheet, { border, shape, size })
   const [errorLoading, setErrorLoading] = useState(false)
@@ -55,7 +75,20 @@ export const Avatar = ({
 
   const renderContent = () => {
     if (!errorLoading && imgSrc) {
-      return <HoliImage label={label || ''} source={imgSrc} onError={handleImageError} />
+      return (
+        <HoliImage
+          style={styles.image}
+          resizeMode="cover"
+          label={label || ''}
+          blurhash={imgPlaceholder}
+          source={{
+            uri: imgSrc,
+            width: avatarSizeToIconSize[size] * 2,
+            height: avatarSizeToIconSize[size] * 2,
+          }}
+          onError={handleImageError}
+        />
+      )
     }
     if (icon) {
       return (
@@ -64,14 +97,18 @@ export const Avatar = ({
     }
     return (
       <View style={styles.textWrapper}>
-        <Text color={styles.text.color} size={avatarSizeToTextSize[size] as TextSize}>
-          {initials?.substring(0, 2)}
+        <Text color={styles.text.color} size={avatarSizeToTextSize[size]}>
+          {initials?.substring(0, 2)?.toUpperCase()}
         </Text>
       </View>
     )
   }
 
-  return <View style={styles.avatar(initials)}>{renderContent()}</View>
+  return (
+    <View {...accessibilityProps(rest)} style={styles.avatar(initials)} testID={testID}>
+      {renderContent()}
+    </View>
+  )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
@@ -81,11 +118,19 @@ const stylesheet = createStyleSheet((theme) => ({
   text: {
     color: theme.components.avatar.text,
   },
+  image: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   avatar: (initials) => {
     const bgs = Object.values(theme.components.avatar.bg)
     const getBg = getAvatarColorBg(bgs, initials)
 
     return {
+      position: 'relative',
       overflow: 'hidden',
       borderWidth: BorderWidth.sm,
       display: 'flex',
@@ -105,11 +150,15 @@ const stylesheet = createStyleSheet((theme) => ({
           circle: {
             borderRadius: BorderRadius.pill,
           },
-          squared: {
+          square: {
             borderRadius: BorderRadius.xs,
           },
         },
         size: {
+          xl: {
+            width: Spacing['4xl'] * 2,
+            height: Spacing['4xl'] * 2,
+          },
           lg: {
             width: Spacing['4xl'],
             height: Spacing['4xl'],

@@ -1,28 +1,30 @@
 import { useMutation } from '@apollo/client'
-import React, { useMemo, useState } from 'react'
+import type React from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import {
-  UpdateSpaceUserConnectionResponse,
+  type UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
-import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Close, Flag, ShieldMinus, ShieldPlus, User as UserIcon, UserUnfollow } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Avatar } from 'holi-bricks/components/avatar'
+import { Spacing } from 'holi-bricks/tokens'
 
 type SpacePermissionsProps = {
   space: Space
@@ -144,21 +146,23 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
       >
         <ScrollView>
           <View style={[styles.modalContent, mixins.container]}>
-            <HoliAvatar
-              imageSrc={user.avatar}
-              imageBlurhash={user.avatarBlurhash}
-              label={user.fullName || t('user.profileView.anonymous')}
-              initials={user.avatarLabel}
-              defaultColor={user.avatarDefaultColor}
-              style={[styles.avatar, styles.avatar]}
-            />
-            <HoliText>{user.fullName || t('user.profileView.anonymous')}</HoliText>
-            <HoliText size="small" style={styles.details}>
-              {user.pronouns || ''}
-              {user.pronouns && (isAdministrator || isMember) && <> &#183; </>}
-              {isAdministrator && t('spaces.collaborators.permissions.role.admin')}
-              {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
-            </HoliText>
+            <View style={styles.infoContainer}>
+              <Avatar
+                imgSrc={user.avatar}
+                imgPlaceholder={user.avatarBlurhash}
+                label={user.fullName || t('user.profileView.anonymous')}
+                initials={user.avatarLabel}
+              />
+              <View>
+                <HoliText>{user.fullName || t('user.profileView.anonymous')}</HoliText>
+                <HoliText size="small" style={styles.details}>
+                  {user.pronouns || ''}
+                  {user.pronouns && (isAdministrator || isMember) && <> &#183; </>}
+                  {isAdministrator && t('spaces.collaborators.permissions.role.admin')}
+                  {!isAdministrator && isMember && t('spaces.collaborators.permissions.role.member')}
+                </HoliText>
+              </View>
+            </View>
 
             {isMember && !!user.aboutMe && <HoliText style={styles.description}>{user.aboutMe}</HoliText>}
             {!isMember && !!extraDescription && <HoliText style={styles.description}>{extraDescription}</HoliText>}
@@ -354,11 +358,12 @@ const getStyles = (theme: HoliTheme) =>
     wrapper: {
       padding: 24,
     },
+    infoContainer: {
+      flexDirection: 'column',
+      gap: Spacing.xs,
+    },
     modalContent: {
       paddingHorizontal: 10,
-    },
-    avatar: {
-      marginBottom: 16,
     },
     details: {
       marginTop: 6,

@@ -72,25 +72,19 @@ exports[`SpaceInviteItem renders correctly 1`] = `
     >
       <View
         style={
-          [
-            {
-              "alignItems": "center",
-              "justifyContent": "center",
-              "overflow": "hidden",
-            },
-            {
-              "backgroundColor": "#f5f5f5",
-              "borderColor": undefined,
-              "borderRadius": 20,
-              "borderWidth": 0,
-              "height": 40,
-              "width": 40,
-            },
-            {
-              "borderWidth": 1,
-            },
-            false,
-          ]
+          {
+            "alignItems": "center",
+            "backgroundColor": "#8b95ff",
+            "borderColor": "#262424",
+            "borderRadius": 1000,
+            "borderWidth": 1,
+            "display": "flex",
+            "height": 40,
+            "justifyContent": "center",
+            "overflow": "hidden",
+            "position": "relative",
+            "width": 40,
+          }
         }
       >
         <Image
@@ -98,6 +92,7 @@ exports[`SpaceInviteItem renders correctly 1`] = `
           accessible={true}
           aria-label="Some Body"
           contentFit="cover"
+          onError={[Function]}
           placeholder=""
           role="img"
           source={
@@ -109,9 +104,11 @@ exports[`SpaceInviteItem renders correctly 1`] = `
           }
           style={
             {
-              "height": "100%",
-              "resizeMode": "contain",
-              "width": "100%",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
             }
           }
         />

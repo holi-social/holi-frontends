@@ -1,14 +1,22 @@
-import { DefaultOptions } from '@apollo/client'
+import type { DefaultOptions } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
 import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { createStore } from 'jotai'
-import { ClientEvent, EventType, IEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
+import {
+  ClientEvent,
+  EventType,
+  type IEvent,
+  type MatrixClient,
+  type MatrixEvent,
+  type Room,
+  RoomEvent,
+} from 'matrix-js-sdk'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
-import ChatClient from '@holi/chat/src/client/ChatClient'
+import type ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatConnected, setChatInitialized } from '@holi/chat/src/client/chatState'
-import { ChatRoomEvent, ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
+import { ChatRoomEvent, type ChatRoomMember, MembershipStatus } from '@holi/chat/src/client/types'
 import ChatHomeContent from '@holi/chat/src/components/ChatHomeContent'
 import ChatProvider from '@holi/chat/src/components/ChatProvider'
 import { initChatClient } from '@holi/chat/src/store'
@@ -39,13 +47,14 @@ import {
   createRoomMock,
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
-import { LoginState, useLoginState } from '@holi/core/auth/loginState'
+import { type LoginState, useLoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query, usersByChatIdentitiesQuery } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher')
 jest.mock('@holi/core/auth/loginState')
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const loggedIn = (userId: string): LoginState => ({
   isUnknown: false,
@@ -70,6 +79,7 @@ const getLoggedUserQueryMock = (user: User) => {
   return {
     request: {
       query: authenticatedUserV2Query,
+      variables: { userId: user.id },
     },
     result: {
       data: {

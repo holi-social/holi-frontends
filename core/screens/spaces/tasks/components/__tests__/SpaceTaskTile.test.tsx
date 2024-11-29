@@ -4,7 +4,7 @@ import React from 'react'
 
 import { task } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 
 describe('SpaceTaskTile', () => {
   it('renders correctly', () => {
@@ -22,9 +22,9 @@ describe('SpaceTaskTile', () => {
 
     const avatarImage = getAllByRole('image')[1] // the avatar is the second image (after thumbnail)
     expect(avatarImage.props.source).toStrictEqual({
-      height: 52,
-      uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:104:104/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg',
-      width: 52,
+      height: 48,
+      uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg',
+      width: 48,
     })
     expect(avatarImage.props['aria-label']).toEqual('Some Body')
   })

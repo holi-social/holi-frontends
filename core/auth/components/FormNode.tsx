@@ -1,10 +1,10 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/components/Ory/Ui/Node/Node.tsx
-import { UiNode, UiNodeAttributes } from '@ory/kratos-client'
+import type { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ViewStyle } from 'react-native'
+import type { StyleProp, ViewStyle } from 'react-native'
 
-import FormInputField, { InputProps } from '@holi/core/auth/components/FormInputField'
+import FormInputField, { type InputProps } from '@holi/core/auth/components/FormInputField'
 import {
   getNodeId,
   getNodeTranslationKey,
@@ -27,7 +27,7 @@ interface Props extends InputProps {
   onSubmitPress: () => void
   isSignin?: boolean
   scrollToInputWithId?: (id: string) => ScrollToProps
-  style?: ViewStyle | Record<string, unknown>
+  style?: StyleProp<ViewStyle>
 }
 
 const FormNode = (props: Props) => {
@@ -39,7 +39,7 @@ const FormNode = (props: Props) => {
   const mobileInputFieldScrollIntoViewProps = isTouchDevice ? scrollToInputWithId(fieldName) : {}
 
   if (oryNodeIsHiddenField(node.attributes as UiNodeAttributes & { name: string })) {
-    return <></>
+    return null
   }
 
   if (oryNodeIsText(node.attributes)) {
@@ -57,7 +57,7 @@ const FormNode = (props: Props) => {
         translationPrefix={props.translationPrefix}
         onEnterPress={props.onSubmitPress}
         {...mobileInputFieldScrollIntoViewProps}
-        style={[props.style || {}, { marginTop: 10 }]}
+        style={props.style}
       />
     )
   }

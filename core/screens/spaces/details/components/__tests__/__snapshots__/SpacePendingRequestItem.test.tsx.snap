@@ -72,25 +72,19 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
     >
       <View
         style={
-          [
-            {
-              "alignItems": "center",
-              "justifyContent": "center",
-              "overflow": "hidden",
-            },
-            {
-              "backgroundColor": "#f5f5f5",
-              "borderColor": undefined,
-              "borderRadius": 20,
-              "borderWidth": 0,
-              "height": 40,
-              "width": 40,
-            },
-            {
-              "borderWidth": 1,
-            },
-            false,
-          ]
+          {
+            "alignItems": "center",
+            "backgroundColor": "#8b95ff",
+            "borderColor": "#262424",
+            "borderRadius": 1000,
+            "borderWidth": 1,
+            "display": "flex",
+            "height": 40,
+            "justifyContent": "center",
+            "overflow": "hidden",
+            "position": "relative",
+            "width": 40,
+          }
         }
       >
         <Image
@@ -98,6 +92,7 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
           accessible={true}
           aria-label="Some Body"
           contentFit="cover"
+          onError={[Function]}
           placeholder=""
           role="img"
           source={
@@ -109,9 +104,11 @@ exports[`SpacePendingRequestItem renders correctly 1`] = `
           }
           style={
             {
-              "height": "100%",
-              "resizeMode": "contain",
-              "width": "100%",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
             }
           }
         />
@@ -572,25 +569,19 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
     >
       <View
         style={
-          [
-            {
-              "alignItems": "center",
-              "justifyContent": "center",
-              "overflow": "hidden",
-            },
-            {
-              "backgroundColor": "#f5f5f5",
-              "borderColor": undefined,
-              "borderRadius": 20,
-              "borderWidth": 0,
-              "height": 40,
-              "width": 40,
-            },
-            {
-              "borderWidth": 1,
-            },
-            false,
-          ]
+          {
+            "alignItems": "center",
+            "backgroundColor": "#8b95ff",
+            "borderColor": "#262424",
+            "borderRadius": 1000,
+            "borderWidth": 1,
+            "display": "flex",
+            "height": 40,
+            "justifyContent": "center",
+            "overflow": "hidden",
+            "position": "relative",
+            "width": 40,
+          }
         }
       >
         <Image
@@ -598,6 +589,7 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
           accessible={true}
           aria-label="Some Body"
           contentFit="cover"
+          onError={[Function]}
           placeholder=""
           role="img"
           source={
@@ -609,9 +601,11 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
           }
           style={
             {
-              "height": "100%",
-              "resizeMode": "contain",
-              "width": "100%",
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
             }
           }
         />
@@ -1244,98 +1238,101 @@ exports[`SpacePendingRequestItem renders correctly when the modal is initially o
             >
               <View
                 style={
-                  [
-                    {
-                      "alignItems": "center",
-                      "justifyContent": "center",
-                      "overflow": "hidden",
-                    },
-                    {
-                      "backgroundColor": "#f5f5f5",
-                      "borderColor": undefined,
-                      "borderRadius": 26,
-                      "borderWidth": 1,
-                      "height": 52,
-                      "width": 52,
-                    },
-                    [
-                      {
-                        "marginBottom": 16,
-                      },
-                      {
-                        "marginBottom": 16,
-                      },
-                    ],
-                    false,
-                  ]
+                  {
+                    "flexDirection": "column",
+                    "gap": 16,
+                  }
                 }
               >
-                <Image
-                  accessibilityRole="image"
-                  accessible={true}
-                  aria-label="Some Body"
-                  contentFit="cover"
-                  placeholder=""
-                  role="img"
-                  source={
-                    {
-                      "height": 52,
-                      "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:104:104/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                      "width": 52,
-                    }
-                  }
+                <View
                   style={
                     {
-                      "height": "100%",
-                      "resizeMode": "contain",
-                      "width": "100%",
+                      "alignItems": "center",
+                      "backgroundColor": "#8b95ff",
+                      "borderColor": "#262424",
+                      "borderRadius": 1000,
+                      "borderWidth": 1,
+                      "display": "flex",
+                      "height": 48,
+                      "justifyContent": "center",
+                      "overflow": "hidden",
+                      "position": "relative",
+                      "width": 48,
                     }
                   }
-                />
+                >
+                  <Image
+                    accessibilityRole="image"
+                    accessible={true}
+                    aria-label="Some Body"
+                    contentFit="cover"
+                    onError={[Function]}
+                    placeholder=""
+                    role="img"
+                    source={
+                      {
+                        "height": 48,
+                        "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
+                        "width": 48,
+                      }
+                    }
+                    style={
+                      {
+                        "bottom": 0,
+                        "left": 0,
+                        "position": "absolute",
+                        "right": 0,
+                        "top": 0,
+                      }
+                    }
+                  />
+                </View>
+                <View>
+                  <Text
+                    accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
+                    selectable={true}
+                    style={
+                      {
+                        "color": "#262424",
+                        "fontFamily": "InstrumentSans-Regular",
+                        "fontSize": 16,
+                        "fontWeight": "400",
+                        "lineHeight": 22.4,
+                        "userSelect": "auto",
+                      }
+                    }
+                  >
+                    Some Body
+                  </Text>
+                  <Text
+                    accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
+                    selectable={true}
+                    style={
+                      {
+                        "color": "#787777",
+                        "fontFamily": "InstrumentSans-Regular",
+                        "fontSize": 14,
+                        "fontWeight": "400",
+                        "lineHeight": 19.599999999999998,
+                        "marginTop": 6,
+                        "userSelect": "auto",
+                      }
+                    }
+                  />
+                </View>
               </View>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 16,
-                    "fontWeight": "400",
-                    "lineHeight": 22.4,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                Some Body
-              </Text>
-              <Text
-                accessible={false}
-                collapsable={false}
-                jestAnimatedStyle={
-                  {
-                    "value": {},
-                  }
-                }
-                selectable={true}
-                style={
-                  {
-                    "color": "#787777",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 14,
-                    "fontWeight": "400",
-                    "lineHeight": 19.599999999999998,
-                    "marginTop": 6,
-                    "userSelect": "auto",
-                  }
-                }
-              />
               <Text
                 accessible={false}
                 collapsable={false}

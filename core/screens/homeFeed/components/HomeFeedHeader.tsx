@@ -23,12 +23,9 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useTheme } from '@holi/ui/styles/theme'
 
 const HomeFeedHeader: React.FC = () => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
   const isFocused = useIsFocused()
 
   const { user, isLoading } = useLoggedInUser()
@@ -71,18 +68,17 @@ const HomeFeedHeader: React.FC = () => {
         <>
           <HoliGap size="s" />
           <AnnouncementBanner>
-            <HoliText color={theme.dark ? 'white200' : 'black300'}>
+            <Text size="md">
               <Trans t={t} i18nKey="homeFeed.banner.privacyPolicyUpdated">
                 <HoliTextLink
                   label={t('profile.settings.legalDocuments.privacyPolicy')}
                   href="/profile/settings/legalDocuments/document?type=privacyPolicy"
+                  size="md"
                 >
-                  <HoliText style={{ textDecorationLine: 'underline' }} color={theme.dark ? 'white200' : 'black300'}>
-                    Datenschutzhinweise
-                  </HoliText>
+                  {t('profile.settings.legalDocuments.privacyPolicy')}
                 </HoliTextLink>
               </Trans>
-            </HoliText>
+            </Text>
           </AnnouncementBanner>
         </>
       )}

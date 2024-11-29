@@ -14,7 +14,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
-import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
+import RecommendationsNoAct from '@holi/core/screens/homeFeed/components/RecommendationsNoAct'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
@@ -25,6 +25,8 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -45,6 +47,7 @@ const HomeFeed = () => {
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
+  const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
 
   // TODO: when SSR is enabled we need to lazy load the header because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
@@ -63,15 +66,17 @@ const HomeFeed = () => {
       headerRight: (props) => (
         <HoliTransition.FadeRight visible>
           <View style={styles.headerRight}>
-            <HoliLink external href={surveyUrl} label={t('homeFeed.feedback')}>
-              <HoliText>{t('homeFeed.feedback')}</HoliText>
-            </HoliLink>
+            {displayFeedbackLink && (
+              <HoliLink external href={surveyUrl} label={t('homeFeed.feedback')}>
+                <HoliText>{t('homeFeed.feedback')}</HoliText>
+              </HoliLink>
+            )}
             <NotificationAndSearchHeader {...props} />
           </View>
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, headerTitle, setScreenOptions, colors.black300])
+  }, [navigate, t, headerTitle, setScreenOptions, colors.black300, displayFeedbackLink])
 
   return (
     <GestureHandlerRootView>
@@ -89,7 +94,7 @@ const HomeFeed = () => {
             <InsightsOfTheWeek />
           </ErrorBoundary>
           <ErrorBoundary>
-            <Recommendations />
+            <RecommendationsNoAct />
           </ErrorBoundary>
           {isLoggedIn && <UserSuggestions />}
         </View>
