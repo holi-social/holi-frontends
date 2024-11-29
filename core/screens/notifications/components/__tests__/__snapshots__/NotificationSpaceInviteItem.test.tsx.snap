@@ -77,6 +77,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 "width": 40,
               }
             }
+            testID="space-avatar"
           >
             <Image
               accessibilityRole="image"
@@ -542,6 +543,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 "width": 40,
               }
             }
+            testID="space-avatar"
           >
             <Image
               accessibilityRole="image"

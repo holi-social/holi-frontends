@@ -10,7 +10,7 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ActSection } from '@holi/core/screens/act/ActSection'
-import { dimensions } from '@holi/ui/styles/globalVars'
+import { colors, dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
@@ -61,7 +61,7 @@ const ActHome = () => {
   const sections = orderedSections(selectedContentType)
 
   return (
-    <ScrollHeaderLayout>
+    <ScrollHeaderLayout style={styles.layout} refreshBackgroundColor={colors.background10}>
       <View style={styles.container}>
         <AttendingChallengeEvents />
         {sections.map((sectionName) => (
@@ -79,6 +79,9 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background20,
       paddingTop: dimensions.spacingM,
       paddingBottom: dimensions.spacingL,
+    },
+    layout: {
+      backgroundColor: theme.colors.background20,
     },
   })
 

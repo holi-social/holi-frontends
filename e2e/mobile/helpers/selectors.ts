@@ -172,6 +172,14 @@ const locateMultipleElements = async (elementSelector: string): Promise<ElementA
 
 export const locateMultipleElementsWithTestId = async (testId: string) => locateMultipleElements(byTestId(testId))
 
+export const locateElementsByRoleAndCheckedState = async (role: string, checked: boolean): Promise<ElementArray> => {
+  if (checked) {
+    return await Appium.$$(`[role="${role}"]:checked`)
+  } else {
+    return await Appium.$$(`[role="${role}"]:not(:checked)`)
+  }
+}
+
 export const seeTextWithTestId = async (expectedText: string, testId: string, timeout?: number) => {
   const element = await waitForElementWithTestId(testId, timeout)
   // https://webdriver.io/docs/api/element/getText

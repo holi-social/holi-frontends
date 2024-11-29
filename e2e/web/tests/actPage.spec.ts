@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -13,7 +13,7 @@ test.describe('@ActPage', () => {
   test('user journey', async ({ page }) => {
     await proceedAsGuest(page)
 
-    await clickElementByTestId(page, 'btn-to-act')
+    await page.goto('/act')
 
     // act page is open and contain apps
     await page.waitForSelector(byTestId('volunteering-reco-slider'))

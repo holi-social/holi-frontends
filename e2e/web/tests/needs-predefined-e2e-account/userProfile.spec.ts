@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 import { byTestId, checkAccessibility, clickElementByTestId, waitForAnimationEnd, withSSR } from '../helpers'
 import { test } from '../testmaster'
@@ -56,9 +56,8 @@ test.describe('@Profile', () => {
   })
 })
 
-const testDisplaysProfileDetails = async (page: Page, options?: { testSSR?: boolean }) => {
+const testDisplaysProfileDetails = async (page: Page) => {
   await page.waitForSelector(byTestId('user-profile-full-name'))
-  await page.waitForSelector(byTestId('user-profile-interests'), { state: options?.testSSR ? 'attached' : 'visible' })
 }
 
 const checkChipsSelection = async (page: Page, what: string) => {

@@ -56,6 +56,7 @@ const HoliMediaHeader = ({
   const { t } = useTranslation()
   const badge = role !== 'JOURNALIST' ? VerifiedInternal : VerifiedExternal
   const showBadge = role !== 'INTERNAL' && role !== 'REGULAR'
+  const avatarShape = secondaryAvatarProps ? 'square' : 'circle'
 
   if (loading) {
     return (
@@ -79,7 +80,7 @@ const HoliMediaHeader = ({
         onPress={onAvatarPressed}
         style={styles.avatarButton}
       >
-        <Avatar {...avatarProps} shape="circle" border="light" size={avatarProps.size || 'sm'} />
+        <Avatar {...avatarProps} shape={avatarShape} border="light" size={avatarProps.size || 'sm'} />
         {!!secondaryAvatarProps && (
           <View style={styles.secondaryAvatar}>
             <Avatar
@@ -87,7 +88,7 @@ const HoliMediaHeader = ({
               shape="circle"
               size={secondaryAvatarProps?.size || 'xs'}
               label={''}
-              border="strong"
+              border="light"
             />
           </View>
         )}

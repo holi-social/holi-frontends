@@ -1,7 +1,7 @@
-import { CSSProperties } from 'react'
-import { ScrollViewProps } from 'react-native'
+import type { CSSProperties } from 'react'
+import type { ScrollViewProps } from 'react-native'
 
-import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
+import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 
 export type RefreshableScrollHeaderLayoutProps<T extends LayoutProps> = T & {
   headerOverlap?: boolean
@@ -31,4 +31,5 @@ export interface ScrollHeaderLayoutProps
   backgroundColor?: string
   testID?: string
   noRefresh?: boolean
+  refreshBackgroundColor?: string
 }

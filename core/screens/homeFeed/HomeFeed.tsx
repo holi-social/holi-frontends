@@ -14,7 +14,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HomeFeedHeader from '@holi/core/screens/homeFeed/components/HomeFeedHeader'
 import InsightsOfTheWeek from '@holi/core/screens/homeFeed/components/InsightsOfTheWeek'
-import Recommendations from '@holi/core/screens/homeFeed/components/Recommendations'
+import RecommendationsNoAct from '@holi/core/screens/homeFeed/components/RecommendationsNoAct'
 import UserSuggestions from '@holi/core/screens/homeFeed/components/UserSuggestions'
 import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
@@ -99,7 +99,7 @@ const HomeFeed = () => {
             <InsightsOfTheWeek />
           </ErrorBoundary>
           <ErrorBoundary>
-            <Recommendations />
+            <RecommendationsNoAct />
           </ErrorBoundary>
           {isLoggedIn && <UserSuggestions />}
         </View>
