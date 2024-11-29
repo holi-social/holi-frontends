@@ -30,7 +30,7 @@ export const SearchHit = ({ hit }: SearchHitProps) => {
         label={(useTitleEn ? hit.title_en : hit.title_de) || ''}
         style={styles.imageColumn}
       />
-      <View style={{ flexDirection: 'column', rowGap: dimensions.spacingXs }}>
+      <View style={{ flexDirection: 'column', flex: 1, rowGap: dimensions.spacingXs }}>
         <View style={{ flexDirection: 'row', columnGap: dimensions.spacingXs }}>
           <Text size={'xs'} variant={'secondary'}>
             {t(facet18nKey[hit.type])}

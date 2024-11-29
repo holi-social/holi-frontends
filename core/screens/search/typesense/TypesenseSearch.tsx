@@ -1,3 +1,4 @@
+import { Screen } from '@holi/core/components/Screen'
 import {
   typesenseApiKey,
   typesenseCollection,
@@ -8,11 +9,12 @@ import {
 import { InfiniteHits } from '@holi/core/screens/search/typesense/InfiniteHits'
 import { RefinementList } from '@holi/core/screens/search/typesense/RefinementList'
 import { SearchBox } from '@holi/core/screens/search/typesense/SearchBox'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useStyles } from 'holi-bricks/hooks'
+import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { InstantSearch } from 'react-instantsearch-core'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location']
@@ -40,43 +42,39 @@ const createTypesenseInstantSearchAdapter = () => {
 }
 
 export const TypesenseSearch = () => {
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles, theme } = useStyles(stylesheet)
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
   return (
-    <View style={styles.container}>
-      <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
-        <View style={styles.searchBoxContainer}>
-          <SearchBox />
-        </View>
-        <View style={styles.refinementListContainer}>
-          <RefinementList />
-        </View>
-        <View style={styles.hitsContainer}>
-          <InfiniteHits />
-        </View>
-      </InstantSearch>
-    </View>
+    <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
+      <Screen
+        backgroundColor={theme.colors.background}
+        preset={'fixed'}
+        contentPadding={{ left: 'xs', top: 'xs' }}
+        StickyTopComponent={
+          <>
+            <View style={styles.searchBoxContainer}>
+              <SearchBox />
+            </View>
+            <View style={styles.refinementListContainer}>
+              <RefinementList />
+            </View>
+          </>
+        }
+      >
+        <InfiniteHits />
+      </Screen>
+    </InstantSearch>
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      backgroundColor: theme.colors.background20,
-      gap: dimensions.spacingS,
-      paddingTop: dimensions.topBarHeight + dimensions.spacingS, // TODO probably not the right way to do this
-      paddingBottom: dimensions.bottomBarHeight, // TODO probably not the right way to do this
-    },
-    searchBoxContainer: {
-      paddingLeft: dimensions.spacingS,
-      paddingRight: dimensions.spacingS,
-    },
-    refinementListContainer: {
-      paddingLeft: dimensions.spacingS,
-    },
-    hitsContainer: {
-      paddingLeft: dimensions.spacingS,
-      height: '100%',
-    },
-  })
+const stylesheet = createStyleSheet(() => ({
+  searchBoxContainer: {
+    paddingTop: Spacing.xxs,
+    paddingLeft: Spacing.xs,
+    paddingRight: Spacing.xs,
+  },
+  refinementListContainer: {
+    paddingTop: Spacing.xxs,
+    paddingLeft: Spacing.xs,
+  },
+}))
