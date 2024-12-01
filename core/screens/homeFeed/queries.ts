@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 import type { User } from '@holi/core/domain/shared/types'
-import { FeedPostDetailsFragment, GenericPostPagedFragment } from '@holi/core/screens/individualPosts/fragments'
+import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
 import { InsightFragment } from '@holi/core/screens/insights/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import type { Task } from '@holi/core/screens/spaces/types'

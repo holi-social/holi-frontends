@@ -3,7 +3,7 @@ import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -21,7 +21,6 @@ import AnnouncementBanner from '@holi/core/screens/homeFeed/components/Announcem
 import HandWaveFilledPng from '@holi/ui/assets/img/icons/hand-wave-filled.png'
 import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 
@@ -64,7 +63,7 @@ const HomeFeedHeader: React.FC = () => {
   }, [rotation])
 
   return (
-    <HoliContainer>
+    <View>
       {new Date() < bannerShowCutoff && (
         <>
           <HoliGap size="s" />
@@ -102,7 +101,7 @@ const HomeFeedHeader: React.FC = () => {
           />
         </Animated.View>
       </HoliBox>
-    </HoliContainer>
+    </View>
   )
 }
 

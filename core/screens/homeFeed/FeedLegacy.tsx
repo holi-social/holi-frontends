@@ -27,6 +27,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -82,9 +83,11 @@ const HomeFeed = () => {
     <GestureHandlerRootView>
       <ScrollHeaderLayout style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
         <View style={styles.sections}>
-          <HoliTransition.FadeDown visible>
-            <HomeFeedHeader />
-          </HoliTransition.FadeDown>
+          <HoliContainer>
+            <HoliTransition.FadeDown visible>
+              <HomeFeedHeader />
+            </HoliTransition.FadeDown>
+          </HoliContainer>
 
           <AttendingChallengeEvents />
           <ErrorBoundary>

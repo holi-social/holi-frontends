@@ -1,6 +1,6 @@
 import type { NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
-import { ApolloClientOptions, HttpOptions } from '@apollo/react-hooks'
+import { ApolloClient, type ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import type { ApolloClientOptions, HttpOptions } from '@apollo/react-hooks'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
@@ -197,6 +197,7 @@ export const createCache = () =>
           translate: {
             keyArgs: [],
           },
+          feed: pagedPolicy(),
         },
       },
     },
