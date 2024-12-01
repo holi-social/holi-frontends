@@ -1,6 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import { Text } from 'holi-bricks/components/text'
-import React, { useEffect } from 'react'
+import type React from 'react'
+import { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Platform, StyleSheet } from 'react-native'
 import Animated, {

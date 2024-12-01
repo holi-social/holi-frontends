@@ -12,6 +12,10 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import type { Insight } from '@holi/core/screens/insights/types'
 import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
+import { useQuery } from '@apollo/client'
+import { feedQuery } from '@holi/core/screens/homeFeed/queries'
+
+const PAGE_SIZE = 20
 
 export type PostsListResultsProps = {
   emptyMessage?: ReactNode
@@ -29,18 +33,24 @@ export const simpleColumnSortingByIndex = <T,>(posts: readonly T[], numberOfColu
 }
 
 const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResultsProps) => {
-  const { data, loading, totalResults } = usePaginationContext<{
-    feedPost?: FeedPost
-    spacePost?: Post
-    insight?: Insight
-  }>()
-  const numberOfColumns = useBreakpointMatcher() || 1
+  const numberOfColumns = useBreakpointMatcher() || 2
   const { topics: allTopics } = useContext(SpaceTermContext)
+  const { data, loading, fetchMore } = useQuery(feedQuery, {
+    variables: {
+      offset: 0,
+      limit: PAGE_SIZE,
+    },
+  })
+
+  const feedData = data?.feed?.data || []
+  const totalResults = data?.feed?.totalResults || 0
 
   if (totalResults == 0) return emptyMessage
 
-  const dataByColumns = simpleColumnSortingByIndex(data, numberOfColumns)
-  const animKey = loading ? 'loading' : data.length > 0 ? 'ready' : 'empty'
+  console.log('data', data)
+
+  const dataByColumns = simpleColumnSortingByIndex(feedData, numberOfColumns)
+  const animKey = loading ? 'loading' : feedData.length > 0 ? 'ready' : 'empty'
 
   return (
     <HoliTransition.FadeSwitch animKey={animKey}>
@@ -50,7 +60,7 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
         <View style={styles.container} testID="posts-list-results">
           {dataByColumns.map((column, index) => (
             <View key={index} style={styles.column}>
-              {column.map((item) => (
+              {column.map((item: any) => (
                 <HoliTransition.FadeDown key={item.feedPost?.id} visible index={index}>
                   {item.feedPost && (
                     <GenericPostCard

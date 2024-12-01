@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -20,6 +20,7 @@ import AllPosts from '@holi/core/screens/individualPosts/components/AllPosts'
 import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import GenericPostCard from '@holi/core/screens/individualPosts/components/GenericPostCard'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -30,6 +31,17 @@ import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/use
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import ContentList from '@holi/core/screens/homeFeed/components/ContentList'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import SpaceTermContextProvider, {
+  SpaceTermContext,
+} from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { simpleColumnSortingByIndex } from '@holi/core/screens/homeFeed/components/ContentListResults'
+import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
+import { useQuery } from '@apollo/client'
+
+const PAGE_SIZE = 20
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -42,7 +54,6 @@ const temporalGreeting = (hours: number, t: (key: string) => string) => {
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
 const HomeFeed = () => {
-  const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
   const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
@@ -52,13 +63,32 @@ const HomeFeed = () => {
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
 
+  const numberOfColumns = useBreakpointMatcher() || 2
+  const { topics: allTopics } = useContext(SpaceTermContext)
+  const { data, loading, fetchMore } = useQuery(feedQuery, {
+    variables: {
+      offset: 0,
+      limit: PAGE_SIZE,
+    },
+  })
+
+  const feedData = data?.feed?.data || []
+  const totalResults = data?.feed?.totalResults || 0
+
+  if (totalResults == 0) return <></>
+
+  console.log('data', data)
+
+  const dataByColumns = simpleColumnSortingByIndex(feedData, numberOfColumns)
+  const animKey = loading ? 'loading' : feedData.length > 0 ? 'ready' : 'empty'
+
   // TODO: when SSR is enabled we need to lazy load the header because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: headerTitle,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
+      headerTransparent: false,
       headerTitle: () => null,
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
@@ -82,49 +112,110 @@ const HomeFeed = () => {
   }, [navigate, t, headerTitle, setScreenOptions, colors.black300, displayFeedbackLink])
 
   return (
-    <GestureHandlerRootView>
-      <ScrollHeaderLayout style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
-        <View style={styles.sections}>
-          <HoliTransition.FadeDown visible>
-            <HomeFeedHeader />
-          </HoliTransition.FadeDown>
+    <SpaceTermContextProvider>
+      <GestureHandlerRootView style={{ backgroundColor: colors.white200 }}>
+        <ScrollView>
+          <View style={styles.sections}>
+            <HoliTransition.FadeDown visible>
+              <HomeFeedHeader />
+            </HoliTransition.FadeDown>
 
-          <AttendingChallengeEvents />
-          <ErrorBoundary>
-            <HoliContainer>
-              <ContentList postsQuery={feedQuery} paginationOptions={{ queryPath: 'feed', pageSize: 20 }} />
-            </HoliContainer>
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <InsightsOfTheWeek />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <RecommendationsNoAct />
-          </ErrorBoundary>
-          {isLoggedIn && <UserSuggestions />}
-        </View>
-      </ScrollHeaderLayout>
+            <AttendingChallengeEvents />
+            <ErrorBoundary>
+              <HoliContainer>
+                <HoliTransition.FadeSwitch animKey={animKey}>
+                  {animKey === 'loading' && <LoadingSkeleton columns={numberOfColumns} />}
 
-      {/* Floating CreatePostButton needs to be outside the Layout */}
+                  {animKey === 'ready' && (
+                    <View style={styles.container} testID="posts-list-results">
+                      {dataByColumns.map((column, index) => (
+                        <View key={index} style={styles.column}>
+                          {column.map((item: any) => (
+                            <HoliTransition.FadeDown key={item.feedPost?.id} visible index={index}>
+                              {item.feedPost && (
+                                <GenericPostCard key={item.feedPost.id} post={item.feedPost} allTopics={allTopics} />
+                              )}
+                              {item.spacePost && (
+                                <GenericPostCard key={item.spacePost.id} post={item.spacePost} allTopics={allTopics} />
+                              )}
+                              {item.insight && <InsightPreviewBox key={item.insight.id} insight={item.insight} />}
+                            </HoliTransition.FadeDown>
+                          ))}
+                        </View>
+                      ))}
+                    </View>
+                  )}
+
+                  {animKey === 'empty' && <></>}
+                </HoliTransition.FadeSwitch>
+              </HoliContainer>
+            </ErrorBoundary>
+          </View>
+
+          {/* Floating CreatePostButton needs to be outside the Layout */}
+        </ScrollView>
+      </GestureHandlerRootView>
       <ButtonFloatingWrapper>
         <CreatePostButton />
       </ButtonFloatingWrapper>
-    </GestureHandlerRootView>
+    </SpaceTermContextProvider>
   )
 }
 
+const PostSkeleton = () => (
+  <View style={styles.skeletonPost}>
+    <View style={styles.skeletonUserContainer}>
+      <HoliSkeleton height={44} width={44} borderRadius={80} />
+      <View style={styles.skeletonMetadata}>
+        <HoliSkeleton height={22} width={120} borderRadius={10} />
+        <HoliSkeleton height={14} width={80} borderRadius={10} />
+      </View>
+    </View>
+    <HoliSkeleton height={22} width={200} borderRadius={20} />
+    <HoliSkeleton height={60} width="100%" borderRadius={10} />
+    <HoliSkeleton height={160} width="100%" borderRadius={20} />
+  </View>
+)
+
+const LoadingSkeleton = ({ columns }: { columns: number }) => (
+  <View style={styles.container}>
+    {new Array(columns).fill(0).map((_, index) => (
+      <View style={styles.column} key={index}>
+        <PostSkeleton />
+        <PostSkeleton />
+      </View>
+    ))}
+  </View>
+)
+
 const styles = StyleSheet.create({
-  layout: {
-    paddingBottom: 80,
-  },
   sections: {
-    gap: 32,
+    gap: Spacing.xxs,
   },
   headerRight: {
     flex: 1,
     flexDirection: 'row',
     gap: Spacing.md,
     alignItems: 'center',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: Spacing.xs,
+  },
+  column: {
+    flex: 1,
+    gap: Spacing.xs,
+  },
+  skeletonPost: {
+    gap: 10,
+  },
+  skeletonUserContainer: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  skeletonMetadata: {
+    gap: 6,
   },
 })
 
