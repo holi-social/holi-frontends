@@ -17,7 +17,7 @@ interface Props {
   title: string
   subtitle?: string
   description?: string
-  users: User[]
+  users?: User[]
   imageSrc?: string
   imageBlurhash?: string
   imageElement?: React.ReactNode
@@ -102,7 +102,7 @@ const HoliBlockItem = ({
               ) : (
                 imageElement
               )}
-              {size === 'large' && (
+              {size === 'large' && users && (
                 <HoliUserAvatarPile
                   users={users}
                   usersToShow={3}
@@ -129,7 +129,7 @@ const HoliBlockItem = ({
                   {description}
                 </HoliText>
               )}
-              {isSmall && (
+              {isSmall && users && (
                 <HoliUserAvatarPile
                   users={users}
                   usersToShow={3}
