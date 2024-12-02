@@ -4,20 +4,20 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet } from 'react-native'
 
 import CenteredImageHeadlineDescriptionLayout, {
-  CenteredImageHeadlineDescriptionLayoutProps,
+  type CenteredImageHeadlineDescriptionLayoutProps,
 } from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
-import HoliModal, { UseModalStateHook } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { type UseModalStateHook } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliWizardNavigationButtons, {
   BUTTON_RECTS,
 } from '@holi/ui/components/organisms/HoliWizard/HoliWizardNavigationButtons'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface AgreementProps {
   agreementValue: boolean

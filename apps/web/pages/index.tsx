@@ -1,8 +1,8 @@
 import type { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
-import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
+import HomeFeed from '@holi/core/screens/homeFeed/HomeFeed'
 
 const HomeFeedPage: NextPage = () => <HomeFeed />
 

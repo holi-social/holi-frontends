@@ -1,5 +1,5 @@
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { FeatureFlagsAndPayloads } from '@holi/core/featureFlags/types'
+import type { FeatureFlagsAndPayloads } from '@holi/core/featureFlags/types'
 
 /**
  * These values are being used when bootstrapping feature flag values and payloads. When the application starts up,
@@ -25,6 +25,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.VIDEO_CALL]: 'on',
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: 'control',
     [FeatureFlagKey.FEEDBACK_LINK]: 'on',
+    [FeatureFlagKey.NEW_FEED]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -37,5 +38,6 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.VIDEO_CALL]: null,
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: null,
     [FeatureFlagKey.FEEDBACK_LINK]: null,
+    [FeatureFlagKey.NEW_FEED]: null,
   },
 }
