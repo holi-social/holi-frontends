@@ -47,18 +47,18 @@ const HomeFeed = () => {
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
   const { topics: allTopics } = useContext(SpaceTermContext)
-  const [feedData, setFeedData] = useState<FeedItem[]>([])
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
 
-  const { loading, fetchMore, refetch } = useQuery(feedQuery, {
+  const { loading, fetchMore, refetch, data } = useQuery(feedQuery, {
     fetchPolicy: 'cache-and-network',
     variables: {
       limit: PAGE_SIZE,
       offset: 0,
     },
-    onCompleted: (data) => setFeedData(data?.feed?.data),
   })
+
+  const feedData = data?.feed?.data || []
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -69,26 +69,31 @@ const HomeFeed = () => {
     setIsLoadingMore(true)
 
     try {
-      const data = await fetchMore({
+      await fetchMore({
         variables: {
           offset: feedData.length,
           limit: PAGE_SIZE,
         },
-      })
-
-      if (!data?.data?.feed?.data) return
-      setFeedData((prev) => {
-        const newItems = data?.data?.feed?.data || []
-        const uniqueItems = newItems.filter(
-          (newItem: FeedItem) =>
-            !prev.some(
-              (existingPost) =>
-                (newItem.feedPost?.id && existingPost.feedPost?.id === newItem.feedPost.id) ||
-                (newItem.spacePost?.id && existingPost.spacePost?.id === newItem.spacePost.id) ||
-                (newItem.insight?.id && existingPost.insight?.id === newItem.insight.id)
-            )
-        )
-        return [...prev, ...uniqueItems]
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult?.feed?.data) return prev
+          return {
+            feed: {
+              ...prev.feed,
+              data: [
+                ...prev.feed.data,
+                ...fetchMoreResult.feed.data.filter(
+                  (newItem: FeedItem) =>
+                    !prev.feed.data.some(
+                      (existingPost: FeedItem) =>
+                        (newItem.feedPost?.id && existingPost.feedPost?.id === newItem.feedPost.id) ||
+                        (newItem.spacePost?.id && existingPost.spacePost?.id === newItem.spacePost.id) ||
+                        (newItem.insight?.id && existingPost.insight?.id === newItem.insight.id)
+                    )
+                ),
+              ],
+            },
+          }
+        },
       })
     } finally {
       setIsLoadingMore(false)
@@ -98,8 +103,7 @@ const HomeFeed = () => {
   const handleRefresh = async () => {
     setRefreshing(true)
     try {
-      const { data } = await refetch()
-      setFeedData(data?.feed?.data || [])
+      await refetch()
     } finally {
       setRefreshing(false)
     }
@@ -121,10 +125,13 @@ const HomeFeed = () => {
     </View>
   )
 
-  const renderHeader = () => (
-    <HoliTransition.FadeDown visible>
-      <HomeFeedHeader />
-    </HoliTransition.FadeDown>
+  const renderHeader = useMemo(
+    () => (
+      <HoliTransition.FadeDown visible>
+        <HomeFeedHeader />
+      </HoliTransition.FadeDown>
+    ),
+    []
   )
 
   useIsomorphicLayoutEffect(() => {

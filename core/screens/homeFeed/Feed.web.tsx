@@ -57,14 +57,19 @@ const HomeFeed = () => {
   const [isLoading, setIsLoading] = useState(false)
   const loaders = new Array(2).fill({ loader: true })
 
-  const { loading, fetchMore } = useQuery(feedQuery, {
+  const { loading, fetchMore, data } = useQuery(feedQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     variables: {
       limit: PAGE_SIZE,
       offset: 0,
     },
-    onCompleted: (data) => setFeedData(data?.feed?.data),
   })
+
+  useEffect(() => {
+    if (data?.feed?.data) {
+      setFeedData(data.feed.data)
+    }
+  }, [data])
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()

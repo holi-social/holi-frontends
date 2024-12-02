@@ -4,7 +4,7 @@ import FeedLegacy from '@holi/core/screens/homeFeed/FeedLegacy'
 import Feed from '@holi/core/screens/homeFeed/Feed'
 
 const HomeFeed = () => {
-  const legacy = true
+  const legacy = false
 
   if (legacy) return <FeedLegacy />
   return <Feed />
