@@ -13,7 +13,10 @@ export type InfiniteHitsProps = {
 }
 
 export function InfiniteHits(props: InfiniteHitsProps) {
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const { items, isLastPage, showMore } = useInfiniteHits<SearchHitData>({
     ...props,
     escapeHTML: false,
@@ -30,7 +33,7 @@ export function InfiniteHits(props: InfiniteHitsProps) {
           showMore()
         }
       }}
-      renderItem={({ item }) => <SearchHit hit={item} />}
+      renderItem={({ item }) => <SearchHit hit={item} language={language} />}
     />
   )
 }

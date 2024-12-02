@@ -4,21 +4,20 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
-import { Hit } from 'instantsearch.js'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 export type SearchHitProps = {
-  hit: Hit<SearchHitData>
+  hit: SearchHitData
+  language: string
 }
 
-export const SearchHit = ({ hit }: SearchHitProps) => {
+export const SearchHit = ({ hit, language }: SearchHitProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const language = useTranslation().i18n.language
-  const useTitleEn = language === 'en' && hit.title_en
+  const useTitleEn = (language === 'en' && hit.title_en) || (language === 'de' && !hit.title_de)
   return (
     <View style={{ flexDirection: 'row', columnGap: dimensions.spacingSM }}>
       <HoliImage
@@ -43,8 +42,6 @@ export const SearchHit = ({ hit }: SearchHitProps) => {
           </Text>
         </View>
         <SearchHitLink hit={hit} label={(useTitleEn ? hit.title_en : hit.title_de) || ''}>
-          {/* TODO these grow outside the container, how to constrain them? */}
-          {/* TODO can we build highlighting with one text component? */}
           {useTitleEn && <Text size={'sm'}>{hit.title_en}</Text>}
           {!useTitleEn && <Text size={'sm'}>{hit.title_de}</Text>}
         </SearchHitLink>

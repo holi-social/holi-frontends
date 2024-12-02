@@ -21,7 +21,7 @@ export type SearchHitData = {
    * }
    * This can then be used to reconstruct the URI path /$lang/spaces/kiezputz/tasks/1c83676f-5197-44c7-bea6-51a7e2f41959
    */
-  link_locators?: Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>
+  link_locators?: Partial<Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>>
 }
 
 export const facet18nKey = {
