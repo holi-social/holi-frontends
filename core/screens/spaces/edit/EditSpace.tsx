@@ -276,7 +276,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   {!!space.topics?.length && (
                     <View style={styles.listContainer}>
                       {space.topics?.map((topic, index) => (
-                        <ChipLabel key={`topic_${index}`} color="green">
+                        <ChipLabel key={`topic_${index}`} color="green" testID="space-edit-topics-chip">
                           {topic.title}
                         </ChipLabel>
                       ))}
@@ -302,7 +302,11 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   {!!space.sdgs?.length && (
                     <View style={styles.listContainer}>
                       {sdgs.map((sdg, index) => (
-                        <ChipLabel key={`sdg_${index}`} color="white">{`${sdg.number}. ${sdg.title}`}</ChipLabel>
+                        <ChipLabel
+                          key={`sdg_${index}`}
+                          color="white"
+                          testID="space-edit-sdgs-chip"
+                        >{`${sdg.number}. ${sdg.title}`}</ChipLabel>
                       ))}
                     </View>
                   )}

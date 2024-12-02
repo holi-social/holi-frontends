@@ -90,7 +90,12 @@ const PostTopics: React.FC<PostTopicsProps> = ({ selectedTopicsIds, onChangeSele
           <View style={styles.termsListContainer}>
             {filteredTerms &&
               filteredTerms.map((term) => (
-                <ChipSelect key={term.id} selected={selectedTopics?.includes(term)} onPress={() => updateValues(term)}>
+                <ChipSelect
+                  key={term.id}
+                  selected={selectedTopics?.includes(term)}
+                  onPress={() => updateValues(term)}
+                  testID={`post-topics-list-item${selectedTopics?.includes(term) ? '-checked' : ''}`}
+                >
                   {showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
                 </ChipSelect>
               ))}
