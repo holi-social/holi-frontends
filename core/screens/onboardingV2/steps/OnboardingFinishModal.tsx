@@ -38,7 +38,7 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
 
   const { visible, hide } = useOnboardingFinishModalState()
 
-  const legalDocPath = isWeb ? '/profile/settings/legalDocuments/document' : 'onboarding/registration/legalDocuments'
+  const legalDocPath = isWeb ? '/profile/settings/legalDocuments/document' : 'onboarding/legalDocuments'
 
   return (
     <HoliModal label="" show={visible} style={styles.modal} testID={testID}>
@@ -80,7 +80,7 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
             <Trans t={t} i18nKey={'onboarding.communityGuidelines.readDocument'}>
               <HoliTextLink
                 label={t('onboarding.communityGuidelines.term')}
-                href={`${legalDocPath}?type=termsOfUse`}
+                href={`${legalDocPath}?type=communityGuidelines`}
                 size="sm"
                 external={isWeb}
               />
