@@ -142,7 +142,6 @@ exports[`HoliAutocomplete renders correctly with default props 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -380,7 +379,6 @@ exports[`HoliAutocomplete renders correctly with error 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >

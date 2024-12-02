@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import type { FlexStyle } from 'react-native'
+import type { FlexStyle, ViewStyle } from 'react-native'
 
 import { createBoxPadding } from '@holi/ui/components/utils/boxSpacing'
 
@@ -30,7 +30,7 @@ const generateStyles = (padding: number | number[] | undefined, layout: Omit<Pro
  * `align-self`. It also accepts a padding like the `HoliBox`.
  */
 const HoliColumn = ({ children, padding, testID, ...laoutProps }: PropsWithChildren<Props>) => (
-  <View style={generateStyles(padding, laoutProps)} testID={testID}>
+  <View style={generateStyles(padding, laoutProps) as ViewStyle} testID={testID}>
     {children}
   </View>
 )

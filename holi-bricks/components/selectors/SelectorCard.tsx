@@ -1,7 +1,7 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import type { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
 import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius, Spacing } from 'holi-bricks/tokens'
+import { BorderRadius, mono, Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
@@ -102,12 +102,13 @@ export const SelectorCard = ({
 const stylesheet = createStyleSheet((theme) => ({
   selector: (hovered: boolean, pressed: boolean, selected: boolean, outlined: boolean) => {
     return {
-      flex: 1,
       alignSelf: 'stretch',
       minHeight: Spacing['3xl'],
       padding: Spacing.xxs,
       backgroundColor: theme.components.selector.backgroundColor,
       borderRadius: BorderRadius.sm,
+      borderWidth: 1,
+      borderColor: mono[400],
       outlineStyle: 'solid',
       outlineWidth: pressed ? 3 : hovered ? 2 : outlined ? 1 : 0,
       outlineColor:
