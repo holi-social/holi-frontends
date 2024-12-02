@@ -1,12 +1,12 @@
 import { useApolloClient } from '@apollo/client'
-import { VerificationFlow } from '@ory/kratos-client'
+import type { VerificationFlow } from '@ory/kratos-client'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { type ScrollView, StyleSheet } from 'react-native'
 
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
-import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { HoliButtonLoadingTracked, TextLinkTracked } from '@holi/core/components/Trackable'
@@ -20,7 +20,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const CODE_MAX_COUNT = 6
 

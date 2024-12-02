@@ -145,7 +145,6 @@ exports[`PostTopics matches snapshot 1`] = `
                     "position": "absolute",
                     "right": 12,
                     "top": 0,
-                    "zIndex": -1,
                   }
                 }
               >

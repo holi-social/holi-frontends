@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import React from 'react'
-import { FlexStyle, StyleSheet, View } from 'react-native'
-import type { FlexAlignType } from 'react-native'
+import { type FlexStyle, StyleSheet, View } from 'react-native'
+import type { FlexAlignType, ViewStyle } from 'react-native'
 
 import { createBoxPadding } from '@holi/ui/components/utils/boxSpacing'
 
@@ -38,7 +38,7 @@ interface Props {
  * TODO: Ideally, we use the future pre-defined space atoms instead of passing any
  * possible padding value. */
 const HoliBox = ({ children, layout, padding, testID }: PropsWithChildren<Props>) => (
-  <View style={generateStyles(padding, layout)} testID={testID}>
+  <View style={generateStyles(padding, layout) as ViewStyle} testID={testID}>
     {children}
   </View>
 )

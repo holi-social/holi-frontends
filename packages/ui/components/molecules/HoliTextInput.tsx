@@ -1,28 +1,28 @@
-import React, { ReactChild, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { type ReactChild, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  KeyboardTypeOptions,
-  LayoutChangeEvent,
-  NativeSyntheticEvent,
+  type KeyboardTypeOptions,
+  type LayoutChangeEvent,
+  type NativeSyntheticEvent,
   Platform,
-  StyleProp,
+  type StyleProp,
   StyleSheet,
   TextInput,
-  TextInputFocusEventData,
-  TextInputIOSProps,
-  TextInputProps,
-  TextStyle,
+  type TextInputFocusEventData,
+  type TextInputIOSProps,
+  type TextInputProps,
+  type TextStyle,
   View,
-  ViewStyle,
+  type ViewStyle,
   useWindowDimensions,
 } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ErrorWarningFilled } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface HoliTextInputProps {
   inputLabel?: string
@@ -160,7 +160,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
       // use value from predefined inputProps
       if (props?.inputProps?.textContentType) return props?.inputProps?.textContentType
 
-      const iOS12Plus = Platform.OS === 'ios' && parseInt(String(Platform.Version), 10) >= 12
+      const iOS12Plus = Platform.OS === 'ios' && Number.parseInt(String(Platform.Version), 10) >= 12
       if (type === 'password') return iOS12Plus ? 'newPassword' : 'password'
       if (type === 'email') return Platform.OS === 'ios' ? 'username' : 'emailAddress'
     })()
@@ -434,7 +434,6 @@ const getStyles = (theme: HoliTheme) =>
       right: 12,
       top: 0,
       bottom: 0,
-      zIndex: -1,
     },
     descriptionContainer: {
       flexDirection: 'row',

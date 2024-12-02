@@ -40,7 +40,7 @@ export const SignupGuardModal = ({
   const primaryHandler = useCallback(() => {
     if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'signUp'))
     enableRedirect()
-    navigate('/onboarding/registration')
+    navigate('/onboarding')
 
     const confirmPropagation = onPrimary?.()
     if (confirmPropagation !== false) {

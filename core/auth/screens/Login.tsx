@@ -18,9 +18,8 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { storeOnboardingState } from '@holi/core/screens/onboardingV2/hooks/onboardingState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
@@ -28,14 +27,12 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
-import { clearFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
 
 const Login = () => {
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const setScreenOptions = useSetScreenOptions()
@@ -83,14 +80,11 @@ const Login = () => {
     try {
       const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
-      await clearFirstVisitContentSelection()
       await setLoginStateLoggedIn(data)
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)
         await storeOnboardingState('emailVerification')
-
-        navigate('/onboarding/registration')
       } else {
         handleFormSubmitError(
           safeSetFlow,

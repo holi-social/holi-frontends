@@ -2,6 +2,7 @@ import { FadeDownSwitch } from './SwitchTransitions/FadeDownSwitch'
 import { FadeRightSwitch } from './SwitchTransitions/FadeRightSwitch'
 import { FadeSwitch } from './SwitchTransitions/FadeSwitch'
 import { Fade } from './Transitions/Fade'
+import { FadeUp } from './Transitions/FadeUp'
 import { FadeDown } from './Transitions/FadeDown'
 import { FadeLeft } from './Transitions/FadeLeft'
 import { FadeRight } from './Transitions/FadeRight'
@@ -12,6 +13,7 @@ import { SlideUp } from './Transitions/SlideUp'
 
 export const HoliTransition = {
   Fade,
+  FadeUp,
   FadeDown,
   FadeLeft,
   FadeRight,

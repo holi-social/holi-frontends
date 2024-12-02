@@ -1,15 +1,15 @@
 // based on https://github.com/onmotion/react-native-autocomplete-dropdown/
 import React, { memo, useMemo, useState } from 'react'
-import { Keyboard, StyleProp, StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import { Keyboard, type StyleProp, StyleSheet, type TextInputProps, View, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type Suggestion = {
   id: string
@@ -91,7 +91,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
       onChange,
       loading,
       inputProps,
-      trailingIcon,
+      trailingIcon = Search,
       suggestions = [],
       id, // think about encapsulating the selection mechanism from the ground up
       testID,
@@ -157,7 +157,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
     }
 
     const trailingComponent = useMemo(() => {
-      const icon = loading ? Loader : trailingIcon || Search
+      const icon = loading ? Loader : trailingIcon
       return (
         <SpinningIconContainer spinning={loading}>
           <HoliIcon icon={icon} size={22} />

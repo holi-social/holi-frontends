@@ -20,7 +20,7 @@ const OnboardingAccountSetup = () => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
   }, [setScreenOptions])
 
-  const onFinish = useCallback(() => navigate('/onboarding/registration'), [navigate])
+  const onFinish = useCallback(() => navigate('/onboarding'), [navigate])
 
   useEffect(() => {
     if (isLoggedIn) {

@@ -42,7 +42,7 @@ describe('OnboardingAccountSetup', () => {
 
     await user.press(screen.getByTestId('holi-wizard-skip-btn'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/onboarding/registration')
+    expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
   })
 
   it('should store selected content', async () => {
@@ -70,7 +70,7 @@ describe('OnboardingAccountSetup', () => {
     expect(screen.queryByText('onboarding.accountSetup.continue')).toBeEnabled()
     await user.press(screen.getByText('onboarding.accountSetup.continue'))
 
-    expect(mockNavigate).toHaveBeenCalledWith('/onboarding/registration')
+    expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
   })
 
   it('should navigate to home screen if user is already logged in', () => {

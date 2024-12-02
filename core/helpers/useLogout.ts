@@ -6,7 +6,7 @@ import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers
 import { setLoginStateLoggedOut, useLoginState } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { storeOnboardingState } from '@holi/core/screens/onboardingV2/hooks/onboardingState'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const logger = getLogger('Auth')
@@ -14,6 +14,7 @@ const logger = getLogger('Auth')
 interface LogoutOptions {
   message?: string
   skipLogoutFlow?: boolean
+  skipRedirect?: boolean
   redirectPath?: string
   redirectTimeout?: number
   showToastAfter?: boolean
@@ -35,6 +36,7 @@ export const useLogout = () => {
       async ({
         message,
         skipLogoutFlow = false,
+        skipRedirect = false,
         redirectPath = '/profile',
         redirectTimeout = undefined,
         showToastAfter = true,
@@ -50,7 +52,7 @@ export const useLogout = () => {
         }
 
         if (isProcessingLogout || isLoggingOut || loginState.isLoggedOut) {
-          redirect()
+          !skipRedirect && redirect()
           return
         }
         isProcessingLogout = true
@@ -61,7 +63,7 @@ export const useLogout = () => {
             const session = await getSessionFromStorage()
             await submitLogoutFlow({ session_token: session?.session_token || '' })
           }
-          await Promise.all([setLoginStateLoggedOut(), clearOnboardingState()])
+          await Promise.all([setLoginStateLoggedOut(), storeOnboardingState('finished')])
           await client.clearStore()
 
           logger.debug('useLogout', 'logout successful')
@@ -70,7 +72,7 @@ export const useLogout = () => {
         } catch (err) {
           logger.debug('useLogout', 'logout failed, removing session from storage', err)
           try {
-            await Promise.all([setLoginStateLoggedOut(), clearOnboardingState()])
+            await Promise.all([setLoginStateLoggedOut(), storeOnboardingState('finished')])
           } catch (e) {
             logger.debug('useLogout', 'cleaning up after logout error failed as well', e)
             openToast(message || t('auth.logout.error'), HoliToastType.ERROR, { testID: 'logout-failed' })
@@ -80,7 +82,7 @@ export const useLogout = () => {
         } finally {
           isLoggingOutVar(false)
           isProcessingLogout = false
-          redirect()
+          !skipRedirect && redirect()
         }
       },
       [isLoggingOut, loginState, navigate, client, openToast, t]

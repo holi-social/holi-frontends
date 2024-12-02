@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import type { NamesStepData } from '@holi/core/auth/components/AccountSetup/NamesStep'
+import type { NamesSelectionData } from '@holi/core/screens/onboardingV2/steps/NamesSelection'
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 
 type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
@@ -159,7 +159,7 @@ export namespace TrackingEvent {
       name: 'resendEmailButtonPressed',
       ...versionOne,
     }
-    export const RegisterNamesOnboardingStepCompleted = (updatedValues: NamesStepData): TrackingEvent => ({
+    export const RegisterNamesOnboardingStepCompleted = (updatedValues: NamesSelectionData): TrackingEvent => ({
       name: 'registerNamesOnboardingStepCompleted',
       properties: { updatedValues },
       ...versionOne,

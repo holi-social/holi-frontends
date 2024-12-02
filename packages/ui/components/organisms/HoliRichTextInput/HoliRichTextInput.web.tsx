@@ -109,7 +109,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
           ErrorBoundary={LexicalErrorBoundary}
           contentEditable={
             <ContentEditable
-              testid={props.testID ? `${props.testID}-input` : 'richtext-component-input'}
+              data-testid={props.testID ? `${props.testID}-input` : 'richtext-component-input'}
               style={StyleSheet.flatten(styles.inputDiv)}
             />
           }

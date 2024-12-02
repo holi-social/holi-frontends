@@ -9,6 +9,9 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import type { Color } from 'holi-bricks/tokens'
+import type { ChipSelectSize } from 'holi-bricks/components/chips/size'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 export interface SelectableTerm extends Term {
   selected?: boolean
@@ -20,7 +23,10 @@ type UserChipFormProps = {
   onFilterStringChange: (value: string) => void
   terms: SelectableTerm[]
   onTermSelect: (id: string) => void
+  loading?: boolean
   color?: Color
+  size?: ChipSelectSize
+  testID?: string
 }
 
 const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
@@ -29,32 +35,49 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
   terms,
   onTermSelect,
   keyInUserObject,
+  loading = false,
   color = 'green',
+  size = 'md',
+  testID = 'user-chip-form',
 }: UserChipFormProps) => {
   const { t } = useTranslation()
 
   return (
-    <View>
-      <HoliText style={styles.subline}>{t(`user.${keyInUserObject}.form.subline`)}</HoliText>
+    <View testID={testID}>
+      <HoliText style={styles.subline}>{t(`onboarding.${keyInUserObject}.subline`)}</HoliText>
 
       <HoliTextInput
-        aria-label={t(`profile.${keyInUserObject}.filter.placeholder`)}
+        aria-label={t(`onboarding.${keyInUserObject}.inputPlaceholder`)}
         value={filterString}
-        placeholder={t(`profile.${keyInUserObject}.filter.placeholder`)}
+        placeholder={t(`onboarding.${keyInUserObject}.inputPlaceholder`)}
         onChange={onFilterStringChange}
         trailingIcon={Search}
         style={styles.input}
+        testID={`${testID}-search-input`}
       />
 
-      <HoliChipRow editable={false} editButtonLabel="">
-        {terms.map(({ id, selected, title }) => (
-          <ChipSelect key={id} onPress={() => onTermSelect(id)} selected={selected} selectedColor={color}>
-            {title}
-          </ChipSelect>
-        ))}
-      </HoliChipRow>
-
-      {terms.length === 0 && <HoliText style={styles.subline}>{t(`profile.${keyInUserObject}.filter.empty`)}</HoliText>}
+      <HoliTransition.FadeSwitch animKey={loading ? 'loader' : 'chips'}>
+        {loading ? (
+          <HoliLoader testID={`${testID}-loader`} />
+        ) : terms.length > 0 ? (
+          <HoliChipRow editable={false} editButtonLabel="">
+            {terms.map(({ id, selected, title }) => (
+              <ChipSelect
+                key={id}
+                onPress={() => onTermSelect(id)}
+                selected={selected}
+                selectedColor={color}
+                size={size}
+                testID={`${testID}--${id}-chip`}
+              >
+                {title}
+              </ChipSelect>
+            ))}
+          </HoliChipRow>
+        ) : (
+          <HoliText style={styles.subline}>{t(`profile.${keyInUserObject}.filter.empty`)}</HoliText>
+        )}
+      </HoliTransition.FadeSwitch>
     </View>
   )
 }

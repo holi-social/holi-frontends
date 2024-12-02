@@ -36,7 +36,7 @@ interface RegisterUserNamesResponse {
 
 export const useRegisterUserNames = () => {
   const { displayError } = useErrorHandling()
-  const [registerUserNames] = useMutation<RegisterUserNamesResponse, RegisterUserNamesInput>(
+  const [registerUserNames, registerUserNamesOptions] = useMutation<RegisterUserNamesResponse, RegisterUserNamesInput>(
     registerUserNamesMutation,
     {
       onError: (error) =>
@@ -49,5 +49,6 @@ export const useRegisterUserNames = () => {
   return {
     parseRegisterUserNamesInput: <UserInput>(input: UserInput) => RegisterUserNamesInputSchema.parse(input),
     registerUserNames,
+    registerUserNamesOptions,
   }
 }

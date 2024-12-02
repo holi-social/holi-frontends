@@ -1,12 +1,13 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { onboardingStateVar } from '@holi/core/screens/onboardingV2/hooks/onboardingState'
 
 interface LoginRegistrationContainerProps {
   style?: StyleProp<ViewStyle>
@@ -18,7 +19,13 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
   const redirect = useRedirect('/')
 
   useIsomorphicLayoutEffect(() => {
-    isLoggedIn && redirect(true)
+    // ONBOARDING-ISSUE: prevuosly this watcher could cause problems with the onboarding and redirected
+    // to HomeFeed after user logged in and onboarding was not finished.
+    // We can login and continue onboarding if it's not finished (missing Email verification or User names)
+    // so, check onboarding state and redirect user only when it's finished
+    if (isLoggedIn && onboardingStateVar() === 'finished') {
+      redirect(true)
+    }
   }, [isLoggedIn, redirect])
 
   if (isLoading) return <HoliLoader />

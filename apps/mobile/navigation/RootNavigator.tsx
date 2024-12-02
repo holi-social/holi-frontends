@@ -8,9 +8,6 @@ import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
-import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
-import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
-import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
 import CreateReport from '@holi/core/screens/report/CreateReport'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
@@ -30,6 +27,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
+import Onboarding from '@holi/core/screens/onboardingV2/Onboarding'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -40,9 +38,7 @@ export type RootStackScreens = {
   [RouteName.ChatStack]: undefined
 
   [RouteName.Onboarding]: undefined
-  [RouteName.OnboardingRegistration]: undefined
-  [RouteName.OnboardingRegistrationLegalDocuments]: undefined
-  [RouteName.OnboardingAccountSetup]: undefined
+  [RouteName.OnboardingLegalDocuments]: undefined
 
   [RouteName.Login]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -173,23 +169,13 @@ const RootNavigator = () => {
       {/* Onboarding */}
       <RootStack.Screen
         name={RouteName.Onboarding}
-        component={OnboardingWelcome}
+        component={Onboarding}
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen
-        name={RouteName.OnboardingRegistration}
-        component={OnboardingRegistration}
-        options={{ headerShown: false, gestureEnabled: false }}
-      />
-      <RootStack.Screen
-        name={RouteName.OnboardingRegistrationLegalDocuments}
+        name={RouteName.OnboardingLegalDocuments}
         component={LegalDocumentItem}
         options={{ presentation: 'modal', headerLeft: () => <HeaderBackButton icon={ArrowDownS} /> }}
-      />
-      <RootStack.Screen
-        name={RouteName.OnboardingAccountSetup}
-        component={OnboardingAccountSetup}
-        options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen
         name={RouteName.CreatePost}
