@@ -173,7 +173,7 @@ describe('@Spaces', () => {
   }
 
   const selectSomeTerms = async (numberOfTermsToSelect = 3) => {
-    const terms = await Appium.$$('[checkable=true]')
+    const terms = await locateMultipleElementsWithTestId('space-terms-list-item')
 
     // select new terms
     for (let i = 0; i < numberOfTermsToSelect; i++) {
