@@ -8,6 +8,7 @@ import {
   clickElementByTestId,
   clickFirstElement,
   donationsRequestTimeout,
+  isRunningOnStaging,
   locateElementByTestId,
   proceedAsGuest,
   withSSR,
@@ -16,10 +17,7 @@ import { test } from '../testmaster'
 
 test.describe('@Donations', () => {
   test('user journey', async ({ browser, context, page }) => {
-    test.skip(
-      process.env.BASE_URL === 'http://localhost:3000',
-      'These features have no local test data and can only be tested on staging.'
-    )
+    test.skip(isRunningOnStaging(), 'These features have no local test data and can only be tested on staging.')
     // prepare
     await proceedAsGuest(page)
 

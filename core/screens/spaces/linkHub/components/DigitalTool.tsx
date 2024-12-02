@@ -119,7 +119,7 @@ const DigitalTool = ({
                   showConfirmation
                 >
                   <HoliActionDrawer.Confirmation
-                    title={t('spaces.delete.confirmation.title')}
+                    title={t('spaces.digitalTool.delete.confirmation.title')}
                     description={t('spaces.digitalTool.delete.confirmation.description')}
                     testID="tool-delete"
                     handleConfirmation={deleteTool}

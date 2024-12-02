@@ -1,6 +1,6 @@
 import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, loginAsE2EUser, proceedAsGuest, withSSR } from '../helpers'
+import { byTestId, clickElementByTestId, isRunningOnStaging, loginAsE2EUser, proceedAsGuest, withSSR } from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@HomeScreen', () => {
@@ -18,7 +18,7 @@ test.describe('@HomeScreen', () => {
     await testPostScreen(browser, page)
 
     // These features have no local test data and can only be tested on staging
-    if (process.env.BASE_URL === 'http://localhost:3000') return
+    if (isRunningOnStaging()) return
 
     await page.goto('/')
 

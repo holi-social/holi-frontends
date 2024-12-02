@@ -39,14 +39,15 @@ const testIgnoringAndAcceptingConnectionRequests = async (
 }
 
 const testUserMentionInPostComment = async (context: BrowserContext, user: Page, sessions: SessionHandler) => {
-  const { page: commentAuthor } = await sessions.signUp()
+  const { page: commentAuthor, user: commentAuthorUser } = await sessions.signUp()
   const writtenComment = await createCommentWithE2EUserMention(commentAuthor)
 
   await loginAsE2EUser(context, user)
 
   // go to notifications and click first one post-comment-notification
   await user.goto('/notifications')
-  await expect(user.getByTestId('post-comment').first()).toBeVisible()
+  await expect(user.getByTestId('post-comment').first()).toBeVisible({ timeout: 10_000 })
+  await expect(user.getByTestId('post-comment').first()).toContainText(commentAuthorUser.firstName)
   await clickElementByTestId(user, 'post-comment')
 
   // after clicking on notification we should go to post detail page and scroll to the comment

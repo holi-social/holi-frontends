@@ -19,7 +19,6 @@ test.describe('@AppointmentNotifications', () => {
     const { page: admin } = await sessions.signUp()
 
     // because we do a hard navigation we need to wait for logged in user to be fetched from BE. So, wait for 'logged-in-profile'
-
     await admin.waitForSelector(byTestId('logged-in-profile'))
 
     await createSpace(admin, spaceName)
@@ -28,9 +27,11 @@ test.describe('@AppointmentNotifications', () => {
     await followSpace(follower, spaceName)
 
     await createSpaceAppointment(admin)
+    await editAppointmentTitle(admin)
 
     await retry(async () => {
       await follower.goto('/notifications')
+      // only one appointment here, the edit-update is not notifying as its just a title change
       await expect(await locateElementByTestId(follower, 'space-appointment')).toBeVisible()
     })
 
@@ -66,5 +67,21 @@ async function createSpaceAppointment(adminA: Page) {
     await descriptionField.fill('Best E2E Party Description')
 
     await clickElementByTestId(adminA, 'form-wrapper-save-btn')
+  })
+}
+
+async function editAppointmentTitle(user: Page) {
+  await test.step('admin can edit appointment', async () => {
+    await clickElementByTestId(user, GET_INVOLVED_SPACE_TAB_TEST_ID)
+    await clickElementByTestId(user, 'btn-appointment-more-options')
+    await clickElementByTestId(user, 'btn-to-edit-appointment')
+    user.getByText('Edit appointment')
+    const titleField = await locateElementByTestId(user, 'appointment-title-input')
+    await titleField.fill('E2E Party Edited')
+    await clickElementByTestId(user, 'form-wrapper-save-btn')
+
+    await clickElementByTestId(user, GET_INVOLVED_SPACE_TAB_TEST_ID)
+    const appointmentCard = await locateElementByTestId(user, 'space-appointment-tile')
+    await expect(appointmentCard).toContainText('E2E Party Edited')
   })
 }

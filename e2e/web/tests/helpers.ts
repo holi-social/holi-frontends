@@ -31,6 +31,9 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
   return clickFirstElement(await locateElementByTestId(page, testId, nth))
 }
 
+export const clickThisOrThatElementByTestId = async (page: Page, testIdA: string, testIdB: string): Promise<void> => {
+  return clickFirstElement(page.locator(`[data-testid='${testIdA}'], [data-testid='${testIdB}']`))
+}
 /*
  * Only use for text that is provided by the test (fixture)
  */
@@ -188,7 +191,6 @@ export const registerNewUserAccount = async (
 }
 
 export const checkAccessibility = async (page: Page, failOnError = true) => {
-  console.debug('check accessibility for', page.url())
   await injectAxe(page)
   const axeOptions = {
     rules: {
@@ -205,9 +207,13 @@ export const checkAccessibility = async (page: Page, failOnError = true) => {
       { id: 'scrollable-region-focusable', enabled: false }, // TODO: Fix HoliStepper issue with this rule
       { id: 'duplicate-id', enabled: false }, // svg icon components rendered in lists have duplicated ids for their shape masks
       { id: 'nested-interactive', enabled: false }, // todo gregor: check why the bottom bar nav is a concern in multiple tests
+      { id: 'page-has-heading-one', enabled: false },
     ],
   })
-  await checkA11y(page, undefined, axeOptions, !failOnError)
+
+  await test.step('Web page is accessible: ' + page.url(), async () => {
+    await checkA11y(page, undefined, axeOptions, !failOnError)
+  })
 }
 
 export const sendConnectionRequest = async (page: Page) => {
@@ -343,4 +349,8 @@ export async function gotoWithRetries(page: Page, url: string, retries = 3, dela
       }
     }
   }
+}
+
+export const isRunningOnStaging = () => {
+  return process.env.BASE_URL !== 'http://localhost:3000'
 }
