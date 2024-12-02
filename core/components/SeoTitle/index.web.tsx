@@ -10,5 +10,9 @@ export const SeoTitle = ({ seoTitle }: SeoTitleProps) => {
     return null
   }
 
-  return <h1 style={{ position: 'absolute', top: '-100%' }}>{t(seoTitle)}</h1>
+  return (
+    <h1 style={{ position: 'absolute', top: '-100%' }} aria-hidden={true}>
+      {t(seoTitle)}
+    </h1>
+  )
 }
