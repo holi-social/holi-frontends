@@ -236,6 +236,15 @@ export namespace TrackingEvent {
         insightId: insightId,
       },
     })
+    export const CardViewed = (insightId: string): TrackingEvent => ({
+      name: 'insightCard_viewed',
+      event_version__major: 1,
+      event_version__minor: 0,
+      event_version__patch: 0,
+      properties: {
+        insightId: insightId,
+      },
+    })
   }
 
   export namespace ChallengeCard {
@@ -285,4 +294,9 @@ export namespace TrackingEvent {
     event_version__patch: 0,
     properties: { trigger, answer },
   })
+}
+
+export const Unknown: TrackingEvent = {
+  name: 'unknown',
+  ...versionOne,
 }
