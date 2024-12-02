@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useContext, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, FlatList, RefreshControl } from 'react-native'
+import { StyleSheet, View, RefreshControl } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -28,6 +28,9 @@ import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { useQuery } from '@apollo/client'
 import { Text } from 'holi-bricks/components/text'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
+import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
+import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
+import { TrackingEvent, Unknown } from '@holi/core/tracking/events'
 
 const PAGE_SIZE = 20
 
@@ -134,6 +137,21 @@ const HomeFeed = () => {
     []
   )
 
+  const listItemTrackingEvent: ListItemTrackingEvent<FeedItem> = (item) => {
+    if (item.feedPost) {
+      return TrackingEvent.FeedPosts.read(item.feedPost.id)
+    } else if (item.spacePost) {
+      return TrackingEvent.SpacePosts.read(item.spacePost.id)
+    } else if (item.insight) {
+      return TrackingEvent.InsightCard.CardViewed(item.insight.id)
+    }
+    return Unknown
+  }
+
+  const listItemIdentifier: ListItemIdentifier<FeedItem> = (item) => {
+    return item.feedPost?.id || item.spacePost?.id || item.insight?.id || Math.random().toString()
+  }
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: headerTitle,
@@ -179,7 +197,7 @@ const HomeFeed = () => {
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]}>
         <View style={styles.sections} testID="posts-list-results">
           <ErrorBoundary>
-            <FlatList
+            <TrackableFlatList
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
               data={feedData}
               renderItem={renderItem}
@@ -192,6 +210,11 @@ const HomeFeed = () => {
               ListFooterComponent={renderFooter}
               contentContainerStyle={styles.flatListContent}
               testID="posts-list-results"
+              listItemTrackingEvent={listItemTrackingEvent}
+              listItemIdentifier={listItemIdentifier}
+              itemVisiblePercentThreshold={80}
+              minimumViewTime={1000}
+              trackOnce={true}
             />
           </ErrorBoundary>
         </View>
