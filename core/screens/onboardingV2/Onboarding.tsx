@@ -29,6 +29,7 @@ import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataA
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { getRouteForContentType } from '@holi/core/screens/onboardingV2/helpers/getRouteForContentType'
 import { showOnboardingFinishModal } from '@holi/core/screens/onboardingV2/hooks/useOnboardingFinishModalState'
+import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 
 const Onboarding = () => {
   const { t } = useTranslation()
@@ -163,7 +164,7 @@ const Onboarding = () => {
   }
 
   return (
-    <View style={styles.wrapper}>
+    <HoliKeyboardSafeAreaView style={styles.wrapper}>
       <HoliStepper
         data={onboardingSteps.map(modifyStepWithNextButtonLabel)}
         activeStepKey={currentStep}
@@ -173,7 +174,7 @@ const Onboarding = () => {
         paddingTop={safeAreaTop ? safeAreaTop : Spacing.xxs}
         paddingBottom={safeAreaBottom ? safeAreaBottom : Spacing.xxs}
       />
-    </View>
+    </HoliKeyboardSafeAreaView>
   )
 }
 
