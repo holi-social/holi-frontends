@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import type React from 'react'
+import { useEffect } from 'react'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-import { Props } from './types'
+import type { Props } from './types'
 
 /**
  * @description this is Web version. It uses 'useWindowDimensions()' hookthat reacts on soft keyboard open
@@ -12,9 +13,9 @@ import { Props } from './types'
  */
 const HoliKeyboardSafeAreaView = ({ style, children, testID }: React.PropsWithChildren<Props>) => {
   const { height: screenHeight } = useWindowDimensions()
-  const { headerTransparent } = useScreenOptions()
+  const { headerTransparent, headerShown } = useScreenOptions()
 
-  const maxHeight = headerTransparent ? screenHeight : screenHeight - dimensions.topBarHeight
+  const maxHeight = headerTransparent || !headerShown ? screenHeight : screenHeight - dimensions.topBarHeight
 
   useEffect(() => {
     window?.scroll?.(0, 0)
