@@ -176,9 +176,11 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
         <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
       </View>
 
-      <HoliGap size="xs" />
-      <PrivacyPolicyAndTermsOfUseText />
-      <HoliGap size="xs" />
+      <View>
+        <HoliGap size="xs" />
+        <PrivacyPolicyAndTermsOfUseText />
+        <HoliGap size="xs" />
+      </View>
 
       {isLoaderShown && <HoliLoader />}
     </View>

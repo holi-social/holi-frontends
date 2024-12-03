@@ -17,8 +17,11 @@ import { Spacing } from 'holi-bricks/tokens'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import { useOnboardingFinishModalState } from '@holi/core/screens/onboardingV2/hooks/useOnboardingFinishModalState'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+// eslint-disable-next-line no-restricted-imports
+import { useOnboardingFinishModalState } from '../hooks/useOnboardingFinishModalState'
+// eslint-disable-next-line no-restricted-imports
+import { DocumentModal, useDocumentModal } from '../components/DocumentModal'
 
 const isWeb = Platform.OS === 'web'
 const isAndroid = Platform.OS === 'android'
@@ -37,6 +40,7 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
   const { user } = useLoggedInUser()
 
   const { visible, hide } = useOnboardingFinishModalState()
+  const { show: showDocModal, modalProps } = useDocumentModal()
 
   const legalDocPath = isWeb ? '/profile/settings/legalDocuments/document' : 'onboarding/legalDocuments'
 
@@ -81,6 +85,10 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
               <HoliTextLink
                 label={t('onboarding.communityGuidelines.term')}
                 href={`${legalDocPath}?type=communityGuidelines`}
+                onPress={() => {
+                  showDocModal('communityGuidelines')
+                  return false
+                }}
                 size="sm"
                 external={isWeb}
               />
@@ -98,6 +106,8 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
           </HoliBox>
         </HoliContainer>
       </ScrollView>
+
+      <DocumentModal {...modalProps} />
     </HoliModal>
   )
 }
