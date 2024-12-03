@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import { useCallback } from 'react'
 
 import {
-  UpdateConnectionWithUserResponse,
+  type UpdateConnectionWithUserResponse,
   updateConnectionWithUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import { UpdateConnectionWithUserActions } from '@holi/core/screens/userprofile/types'

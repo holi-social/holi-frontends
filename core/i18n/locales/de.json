@@ -605,6 +605,8 @@
   "onboarding.communityGuidelines.acceptButton": "Ich werde freundlich sein, lass mich rein!",
   "profile.anonymous.you": "Du",
   "profile.avatar.add": "Füge ein Profilbild hinzu",
+  "profile.avatar.edit.success": "Profilbild erfolgreich geändert",
+  "profile.avatar.edit.error": "Profilbild konnte nicht geändert werden",
   "profile.block": "{{name}} blockieren",
   "profile.edit": "Bearbeiten",
   "profile.edit.changeEmail": "E-Mail-Adresse ändern",
