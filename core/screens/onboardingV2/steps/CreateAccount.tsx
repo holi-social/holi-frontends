@@ -26,7 +26,6 @@ import { Text } from 'holi-bricks/components/text'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
 import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
-import { Spacing } from 'holi-bricks/tokens'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import PrivacyPolicyAndTermsOfUseText from '@holi/core/screens/onboardingV2/components/PrivacyPolicyAndTermsOfUseText'
 
@@ -137,10 +136,8 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
 
         <HoliGap size="m" />
 
-        <View style={styles.title}>
-          <Text headingLevel="1" size="4xl">
-            {t('registration.signUp.heading')}
-          </Text>
+        <Text headingLevel="1" size="4xl" textAlign="center">
+          {t('registration.signUp.heading')}
 
           <HoliLocalImage
             imageSource={isAndroid ? GiveFiveFilledPng : GiveFiveFilled}
@@ -149,7 +146,7 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
             label={''}
             isSvg={!isAndroid}
           />
-        </View>
+        </Text>
 
         <HoliGap size="xs" />
         <Text size="md">{t('registration.signUp.description')}</Text>
@@ -197,11 +194,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     logo: {
       alignItems: 'center',
-    },
-    title: {
-      flexDirection: 'row',
-      gap: Spacing['3xs'],
-      justifyContent: 'center',
     },
     description: {
       color: theme.colors.foreground20,
