@@ -1,8 +1,8 @@
 import { useApolloClient } from '@apollo/client'
 import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
-import { Keyboard, Platform, ScrollView, StyleSheet, View } from 'react-native'
-import { Trans, useTranslation } from 'react-i18next'
+import React, { memo, useCallback, useMemo, useState } from 'react'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
@@ -20,17 +20,14 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
-import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
-import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { Text } from 'holi-bricks/components/text'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
 import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
-import { Spacing } from 'holi-bricks/tokens'
-import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import PrivacyPolicyAndTermsOfUseText from '@holi/core/screens/onboardingV2/components/PrivacyPolicyAndTermsOfUseText'
 
 const logger = getLogger('CreateAccount')
 
@@ -53,8 +50,6 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
 
-  const scrollViewRef = useRef<ScrollView>(null)
-  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { track } = useTracking()
@@ -131,102 +126,61 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
     }
   }
 
-  // in Web we navigate to the legal document page in profile settings
-  // but on mobile we navigate to a scrren in the RootNavigator to open it as a modal
-  const legalDocPath = isAndroid ? '/profile/settings/legalDocuments/document' : 'onboarding/legalDocuments'
-
   return (
-    <ScrollView
-      ref={scrollViewRef}
-      style={{ flex: 1 }}
-      contentContainerStyle={{ flex: 1 }}
-      keyboardShouldPersistTaps="handled"
-      testID={testID}
-    >
-      <View style={{ justifyContent: 'space-between', flex: 1 }}>
-        <View>
-          <HoliGap size="xs" />
-          <HoliTransition.FadeDown visible style={styles.logo}>
-            <HoliLogo color={theme.colors.black300} />
-          </HoliTransition.FadeDown>
-
-          <HoliGap size="m" />
-
-          <HoliTransition.FadeDown visible index={1}>
-            <View style={styles.title}>
-              <Text headingLevel="1" size="4xl">
-                {t('registration.signUp.heading')}
-              </Text>
-
-              <HoliLocalImage
-                imageSource={isAndroid ? GiveFiveFilledPng : GiveFiveFilled}
-                width={50}
-                height={40}
-                label={''}
-                isSvg={!isAndroid}
-              />
-            </View>
-
-            <HoliGap size="xs" />
-            <Text size="md">{t('registration.signUp.description')}</Text>
-          </HoliTransition.FadeDown>
-
-          <HoliTransition.FadeDown visible index={2}>
-            <FormBuilder
-              flow={flow}
-              onSubmit={onSubmit}
-              style={styles.loginForm}
-              scrollToInputWithId={scrollToInputWithId}
-            />
-          </HoliTransition.FadeDown>
-
-          <HoliGap size="s" />
-          <HoliTransition.FadeDown visible index={3}>
-            <HoliButtonTracked
-              label={t('auth.loginProtection.continueAsGuest')}
-              onPress={onDismiss}
-              type="secondary"
-              testID={`${testID}-btn-continue-as-guest`}
-              trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-            >
-              {t('auth.loginProtection.continueAsGuest')}
-            </HoliButtonTracked>
-
-            <HoliGap size="xxs" />
-            <Text size="xs" variant="secondary" textAlign="center">
-              {t('auth.loginProtection.continueAsGuest.warning')}
-            </Text>
-
-            <HoliGap size="m" />
-            <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
-          </HoliTransition.FadeDown>
+    <View style={styles.contentContainer} testID={testID}>
+      <View>
+        <HoliGap size="xs" />
+        <View style={styles.logo}>
+          <HoliLogo color={theme.colors.black300} />
         </View>
 
-        <HoliTransition.FadeDown visible index={4}>
-          <HoliGap size="xs" />
-          <Text size="sm" textAlign="center">
-            <Trans t={t} i18nKey={'auth.registration.privacyPolicyAndTermsOfUse'}>
-              <HoliTextLink
-                label={t('auth.registration.privacyPolicy')}
-                href={`${legalDocPath}?type=privacyPolicy`}
-                size="sm"
-                external={isWeb}
-              />
+        <HoliGap size="m" />
 
-              <HoliTextLink
-                label={t('auth.registration.termsOfUse')}
-                href={`${legalDocPath}?type=termsOfUse`}
-                size="sm"
-                external={isWeb}
-              />
-            </Trans>
-          </Text>
-          <HoliGap size="xs" />
-        </HoliTransition.FadeDown>
+        <Text headingLevel="1" size="4xl" textAlign="center">
+          {t('registration.signUp.heading')}
+
+          <HoliLocalImage
+            imageSource={isAndroid ? GiveFiveFilledPng : GiveFiveFilled}
+            width={50}
+            height={40}
+            label={''}
+            isSvg={!isAndroid}
+          />
+        </Text>
+
+        <HoliGap size="xs" />
+        <Text size="md">{t('registration.signUp.description')}</Text>
+
+        <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
+
+        <HoliGap size="s" />
+        <HoliButtonTracked
+          label={t('auth.loginProtection.continueAsGuest')}
+          onPress={onDismiss}
+          type="secondary"
+          testID={`${testID}-btn-continue-as-guest`}
+          trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+        >
+          {t('auth.loginProtection.continueAsGuest')}
+        </HoliButtonTracked>
+
+        <HoliGap size="xxs" />
+        <Text size="xs" variant="secondary" textAlign="center">
+          {t('auth.loginProtection.continueAsGuest.warning')}
+        </Text>
+
+        <HoliGap size="m" />
+        <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
+      </View>
+
+      <View>
+        <HoliGap size="xs" />
+        <PrivacyPolicyAndTermsOfUseText />
+        <HoliGap size="xs" />
       </View>
 
       {isLoaderShown && <HoliLoader />}
-    </ScrollView>
+    </View>
   )
 }
 
@@ -234,13 +188,12 @@ export default memo(CreateAccount)
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    contentContainer: {
+      justifyContent: 'space-between',
+      flex: 1,
+    },
     logo: {
       alignItems: 'center',
-    },
-    title: {
-      flexDirection: 'row',
-      gap: Spacing['3xs'],
-      justifyContent: 'center',
     },
     description: {
       color: theme.colors.foreground20,
