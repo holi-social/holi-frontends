@@ -153,27 +153,7 @@ export const lastInsightsQuery = gql`
   query LastInsights($offset: Int! = 0, $limit: Int! = 4) {
     lastInsights(offset: $offset, limit: $limit) {
       data {
-        id
-        title
-        description
-        datePublished
-        creator {
-          ...UserAvatar
-          aboutMe
-        }
-        headerImage
-        headerImageBlurhash
-        topic {
-          id
-          title
-        }
-        numberOfPosts
-        involvedUsers {
-          totalResults
-          data {
-            ...UserAvatar
-          }
-        }
+        ...InsightFragment
       }
       totalResults
     }
