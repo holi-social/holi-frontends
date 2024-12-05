@@ -2,12 +2,13 @@ import { renderHook, waitFor } from '@testing-library/react-native'
 
 import {
   ONBOARDING_STATE_STORAGE_NAME,
-  OnboardingStateValue,
+  type OnboardingStateValue,
   clearOnboardingState,
   onboardingStateVar,
   useOnboardingInitialization,
   useOnboardingRedirect,
 } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { MockedProvider } from '@apollo/client/testing'
 
 jest.useFakeTimers()
 
@@ -20,6 +21,16 @@ const mockUseLoggedInUser = jest.fn()
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => mockUseLoggedInUser(),
 }))
+const mockVerificationFlowDataVar = jest.fn()
+jest.mock('@holi/core/auth/helpers/useVerificationFlowData', () => ({
+  verificationFlowDataVar: () => mockVerificationFlowDataVar(),
+}))
+const mockUseLoggout = jest.fn()
+jest.mock('@holi/core/helpers/useLogout', () => ({
+  useLogout: () => ({
+    logout: () => mockUseLoggout(),
+  }),
+}))
 const mockGetStorage = jest.fn()
 const mockWriteStorage = jest.fn()
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -27,6 +38,9 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: (key: string, value: string) => mockWriteStorage(key, value),
   removeItem: jest.fn(),
 }))
+
+const renderOnboardingInitialization = () =>
+  renderHook(() => useOnboardingInitialization(), { wrapper: MockedProvider })
 
 describe('useOnboardingInitialization', () => {
   beforeEach(() => {
@@ -42,19 +56,19 @@ describe('useOnboardingInitialization', () => {
       isLoading: true,
     })
 
-    renderHook(() => useOnboardingInitialization())
+    renderOnboardingInitialization()
 
     expect(mockGetStorage).not.toHaveBeenCalled()
     expect(mockWriteStorage).not.toHaveBeenCalled()
   })
 
   it('should read onboarding state from storage', () => {
-    renderHook(() => useOnboardingInitialization())
+    renderOnboardingInitialization()
 
     expect(mockGetStorage).toHaveBeenCalledWith(ONBOARDING_STATE_STORAGE_NAME)
   })
 
-  const onboardingStates = [null, 'invalid', 'onboarding', 'emailVerification', 'accountSetup', 'finished']
+  const onboardingStates = [null, 'invalid', 'onboarding', 'accountSetup', 'finished']
   it.each(onboardingStates)(
     'should force account completion if logged in with incomplete profile and state is %s',
     async (state) => {
@@ -64,7 +78,7 @@ describe('useOnboardingInitialization', () => {
       })
       mockGetStorage.mockResolvedValue(state)
 
-      renderHook(() => useOnboardingInitialization())
+      renderOnboardingInitialization()
 
       await waitFor(() => expect(onboardingStateVar()).toEqual('accountSetup'))
       if (state === 'accountSetup') {
@@ -74,6 +88,37 @@ describe('useOnboardingInitialization', () => {
       }
     }
   )
+
+  it.each(onboardingStates)(
+    'should force email verification if logged in with verification flow data and state is not emailVerification',
+    async (state) => {
+      mockUseLoggedInUser.mockReturnValue({
+        isLoggedIn: true,
+        user: {},
+      })
+      mockGetStorage.mockResolvedValue(state)
+      mockVerificationFlowDataVar.mockReturnValue({})
+
+      renderOnboardingInitialization()
+
+      await waitFor(() => expect(onboardingStateVar()).toEqual('emailVerification'))
+      expect(mockWriteStorage).toHaveBeenCalledWith(ONBOARDING_STATE_STORAGE_NAME, 'emailVerification')
+    }
+  )
+
+  it('should force force logout if logged in without verification flow data and state is emailVerification', async () => {
+    mockUseLoggedInUser.mockReturnValue({
+      isLoggedIn: true,
+      user: {},
+    })
+    mockGetStorage.mockResolvedValue('emailVerification')
+    mockVerificationFlowDataVar.mockReturnValue(undefined)
+
+    renderOnboardingInitialization()
+
+    await waitFor(() => expect(onboardingStateVar()).toEqual('finished'))
+    expect(mockWriteStorage).toHaveBeenCalledWith(ONBOARDING_STATE_STORAGE_NAME, 'finished')
+  })
 
   const testCasesLoggedIn = [
     {
@@ -113,7 +158,7 @@ describe('useOnboardingInitialization', () => {
       })
       mockGetStorage.mockResolvedValue(state)
 
-      renderHook(() => useOnboardingInitialization())
+      renderOnboardingInitialization()
 
       await waitFor(() => expect(onboardingStateVar()).toEqual(expectedState))
       if (state === expectedState) {
@@ -139,7 +184,13 @@ describe('useOnboardingInitialization', () => {
     },
     {
       state: 'emailVerification',
+      expectedState: 'finished',
+      verificationFlow: undefined,
+    },
+    {
+      state: 'emailVerification',
       expectedState: 'emailVerification',
+      verificationFlow: {},
     },
     {
       state: 'accountSetup',
@@ -152,13 +203,14 @@ describe('useOnboardingInitialization', () => {
   ]
   it.each(testCasesLoggedOut)(
     'should set state to $expectedState for logged out user if state is $state',
-    async ({ state, expectedState }) => {
+    async ({ state, expectedState, verificationFlow }) => {
       mockUseLoggedInUser.mockReturnValue({
         isLoggedIn: false,
       })
       mockGetStorage.mockResolvedValue(state)
+      if (verificationFlow !== undefined) mockVerificationFlowDataVar.mockReturnValue(verificationFlow)
 
-      renderHook(() => useOnboardingInitialization())
+      renderOnboardingInitialization()
 
       await waitFor(() => expect(onboardingStateVar()).toEqual(expectedState))
       if (state === expectedState) {
@@ -184,7 +236,11 @@ describe('useOnboardingRedirect', () => {
     },
     {
       state: 'accountSetup',
-      expectedRoute: '/onboarding/registration',
+      expectedRoute: '/onboarding',
+    },
+    {
+      state: 'emailVerification',
+      expectedRoute: '/onboarding',
     },
   ]
   it.each(testCasesRedirects)('should redirect to $expectedRoute if state is $state', ({ state, expectedRoute }) => {
@@ -209,7 +265,7 @@ describe('useOnboardingRedirect', () => {
 
   it('should not navigate to onboarding registration if already there', () => {
     onboardingStateVar('emailVerification')
-    mockUsePathname.mockReturnValue('/onboarding/registration')
+    mockUsePathname.mockReturnValue('/onboarding')
 
     renderHook(() => useOnboardingRedirect())
     jest.runOnlyPendingTimers()
@@ -217,9 +273,8 @@ describe('useOnboardingRedirect', () => {
     expect(mockNavigate).not.toHaveBeenCalled()
   })
 
-  const testCasesNoRedirects: OnboardingStateValue[] = ['emailVerification', 'finished']
-  it.each(testCasesNoRedirects)('should not redirect if state is %s', (state) => {
-    onboardingStateVar(state)
+  it('should not redirect if state is finished', () => {
+    onboardingStateVar('finished')
     mockUsePathname.mockReturnValue('/')
 
     renderHook(() => useOnboardingRedirect())

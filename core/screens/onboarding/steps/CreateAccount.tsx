@@ -27,7 +27,8 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
 import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import PrivacyPolicyAndTermsOfUseText from '@holi/core/screens/onboardingV2/components/PrivacyPolicyAndTermsOfUseText'
+// eslint-disable-next-line no-restricted-imports
+import PrivacyPolicyAndTermsOfUseText from '../components/PrivacyPolicyAndTermsOfUseText'
 
 const logger = getLogger('CreateAccount')
 

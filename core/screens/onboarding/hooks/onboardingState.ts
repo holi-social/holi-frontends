@@ -6,6 +6,9 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Platform } from 'react-native'
+import { verificationFlowDataVar } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { useLogout } from '@holi/core/helpers'
 
 export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
 
@@ -39,18 +42,28 @@ const determineTargetState = ({
   isLoggedIn: boolean
   accountCompleted: boolean
   value: OnboardingStateValue | null
-}): OnboardingStateValue => {
-  if (isLoggedIn && !accountCompleted) {
-    return 'accountSetup'
+}): OnboardingStateValue | never => {
+  // In case the user restarts the app on Email Verification step,
+  // on throw error to react on it and logout the user
+  if (value === 'emailVerification' && verificationFlowDataVar() === undefined) {
+    throw new HoliError('Onboarding: Verification flow data is missing - logout user')
+  } else {
+    if (isLoggedIn && !!verificationFlowDataVar()) {
+      return 'emailVerification'
+    }
+    if (isLoggedIn && !accountCompleted) {
+      return 'accountSetup'
+    }
+    if (isLoggedIn && value !== 'accountSetup') {
+      return 'finished'
+    }
+    return value || 'onboarding'
   }
-  if (isLoggedIn && value !== 'accountSetup') {
-    return 'finished'
-  }
-  return value || 'onboarding'
 }
 
 export const useOnboardingInitialization = () => {
   const loginState = useLoggedInUser()
+  const { logout } = useLogout()
 
   useEffect(() => {
     if (loginState.isLoading) return
@@ -58,15 +71,20 @@ export const useOnboardingInitialization = () => {
     AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
       const value = isOnboardingStateValue(storedValue) ? storedValue : null
       const accountCompleted = !!loginState.user?.identity && !!loginState.user?.firstName
-      const targetState = determineTargetState({ isLoggedIn: loginState.isLoggedIn, accountCompleted, value })
 
-      if (value !== targetState) {
-        await storeOnboardingState(targetState)
-      } else {
-        onboardingStateVar(value)
+      try {
+        const targetState = determineTargetState({ isLoggedIn: loginState.isLoggedIn, accountCompleted, value })
+        value !== targetState ? await storeOnboardingState(targetState) : onboardingStateVar(value)
+      } catch (error) {
+        if (error instanceof HoliError) {
+          logout({ redirectPath: '/' })
+          storeOnboardingState('finished')
+        } else {
+          throw error
+        }
       }
     })
-  }, [loginState])
+  }, [loginState, logout])
 }
 
 export const useOnboardingRedirect = () => {
@@ -91,9 +109,13 @@ export const useOnboardingRedirect = () => {
   )
 
   useEffect(() => {
-    if (onboardingState === 'accountSetup' && pathname !== '/onboarding/registration') {
-      navigateWithTimeout('/onboarding/registration')
-    } else if (onboardingState === 'onboarding' && pathname === '/') {
+    const isOnboarding = onboardingState === 'onboarding'
+    const isEmailVerification = onboardingState === 'emailVerification'
+    const isAccoutSetup = onboardingState === 'accountSetup'
+
+    if ((isAccoutSetup || isEmailVerification) && pathname !== '/onboarding') {
+      navigateWithTimeout('/onboarding')
+    } else if (isOnboarding && pathname === '/') {
       navigateWithTimeout('/onboarding')
     }
   }, [navigateWithTimeout, onboardingState, pathname])

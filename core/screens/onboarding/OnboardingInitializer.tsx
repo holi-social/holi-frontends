@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import { memo } from 'react'
 
-import { useOnboardingInitialization, useOnboardingRedirect } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { useOnboardingInitialization, useOnboardingRedirect } from './hooks/onboardingState'
 
 const OnboardingInitializer = () => {
   useOnboardingInitialization()

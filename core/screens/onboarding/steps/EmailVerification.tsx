@@ -7,12 +7,15 @@ import { type ScrollView, StyleSheet } from 'react-native'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import { setVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import {
+  clearVerificationFlowData,
+  setVerificationFlowData,
+  useVerificationFlowData,
+} from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { HoliButtonLoadingTracked, TextLinkTracked } from '@holi/core/components/Trackable'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
@@ -21,17 +24,23 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+// eslint-disable-next-line no-restricted-imports
+import { storeOnboardingState } from '../hooks/onboardingState'
 
 const CODE_MAX_COUNT = 6
 
 export interface EmailVerificationProps {
   onDismiss?: () => void
   onSuccess: () => void
+  testID?: string
 }
 
-const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificationProps) => {
+const EmailVerification = ({
+  onDismiss = () => null,
+  onSuccess,
+  testID = 'email-verification',
+}: EmailVerificationProps) => {
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const { isLoggedIn } = useLoginState()
@@ -53,11 +62,12 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
   // get verification flow from Ory
   useEffect(() => {
     if (data === 'verification-disabled') {
-      // disabled verification in Ory: skip EmailVerification step
+      // Email Verification is disabled in Ory: skip EmailVerification step
+      clearVerificationFlowData()
       onSuccess()
     } else {
       showLoader()
-      // enabled verification in Ory
+      // Email verification is enabled in Ory
       getOrCreateVerificationFlow(verificationFlowData)
         .then(setFlow)
         .catch((error) => {
@@ -65,7 +75,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
             location: 'EmailVerification.getOrCreateVerificationFlow',
           })
 
-          isLoggedIn ? logout({ redirectPath: '/', showToastAfter: false }) : navigate('/')
+          isLoggedIn && logout({ skipRedirect: true, showToastAfter: false })
           onDismiss()
         })
         .finally(hideLoader)
@@ -104,11 +114,15 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
       const session = await login({
         payload: verificationFlowData,
       })
+      await storeOnboardingState('accountSetup')
       await client.clearStore()
       await setLoginStateLoggedIn(session as OrySessionContext)
+    } else {
+      await storeOnboardingState('accountSetup')
     }
 
     openToast(toastMessage, HoliToastType.SUCCESS)
+    clearVerificationFlowData()
     onSuccess()
   }
 
@@ -170,7 +184,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
         imageLabelText={t('registration.emailVerification.activateAccount')}
         headlineText={t('registration.emailVerification.heading')}
         descriptionText={t('registration.emailVerification.description')}
-        testID="email-verification"
+        testID={testID}
         ref={scrollViewRef}
         contentStyle={styles.inner}
       >
@@ -188,7 +202,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
             autoComplete: 'one-time-code',
           }}
           style={[styles.limitedBox, { alignSelf: 'center' }]}
-          testID="email-verification-code"
+          testID={`${testID}-code-input`}
           {...scrollToInputWithId('code')}
         />
 
@@ -209,7 +223,7 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
             disabled={code.length !== CODE_MAX_COUNT}
             onPress={verifyEmail}
             type="primary"
-            testID="btn-submit-code"
+            testID={`${testID}-btn-submit`}
             trackingEvent={TrackingEvent.Auth.ActivateAccountButtonPressed}
           >
             {t('registration.emailVerification.activateAccount')}
@@ -220,13 +234,12 @@ const EmailVerification = ({ onDismiss = () => null, onSuccess }: EmailVerificat
           <HoliButtonLoadingTracked
             label={t('auth.loginProtection.continueAsGuest')}
             onPress={async () => {
-              isLoggedIn && (await logout({ redirectPath: '/', showToastAfter: false }).catch(() => null)) // ignore logout error
-              onDismiss()
-              navigate('/')
+              isLoggedIn && (await logout({ skipRedirect: true, showToastAfter: false }).catch(() => null)) // ignore logout error
               setVerificationFlowData(undefined)
+              onDismiss()
             }}
             type="secondary"
-            testID="btn-to-continue-as-guest"
+            testID={`${testID}-btn-continue-as-guest`}
             trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
           >
             {t('auth.loginProtection.continueAsGuest')}

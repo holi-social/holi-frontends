@@ -8,6 +8,9 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliStepper } from '@holi/ui/components/organisms/HoliStepperV2'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
+import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
+
 import CreateAccount from './steps/CreateAccount'
 import EmailVerification from './steps/EmailVerification'
 import NamesStep from './steps/NamesSelection'
@@ -19,6 +22,8 @@ import { mono, Spacing } from 'holi-bricks/tokens'
 import LocationSelection from './steps/LocationSelection'
 import { ChipsSelection } from './steps/ChipsSelection'
 import { useUserData } from './hooks/useUserData'
+import { getRouteForContentType } from './helpers/getRouteForContentType'
+import { showOnboardingFinishModal } from './hooks/useOnboardingFinishModalState'
 import {
   type OnboardingStepItem,
   type OnboardingStepKey,
@@ -26,10 +31,6 @@ import {
   useOnbaordingCurrentStepKey,
 } from './hooks/useOnbaordingCurrentStepKey'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
-import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import { getRouteForContentType } from '@holi/core/screens/onboardingV2/helpers/getRouteForContentType'
-import { showOnboardingFinishModal } from '@holi/core/screens/onboardingV2/hooks/useOnboardingFinishModalState'
-import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 
 const Onboarding = () => {
   const { t } = useTranslation()

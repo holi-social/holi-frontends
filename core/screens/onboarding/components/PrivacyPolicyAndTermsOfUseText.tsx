@@ -4,7 +4,8 @@ import { Trans, useTranslation } from 'react-i18next'
 
 import { Text } from 'holi-bricks/components/text'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
-import { DocumentModal, useDocumentModal } from '@holi/core/screens/onboardingV2/components/DocumentModal'
+// eslint-disable-next-line no-restricted-imports
+import { DocumentModal, useDocumentModal } from '../components/DocumentModal'
 
 const isWeb = Platform.OS === 'web'
 const isAndroid = Platform.OS === 'android'

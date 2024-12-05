@@ -15,11 +15,11 @@ import PortalProvider from '@holi/core/providers/PortalProvider'
 import SignupModalProvider from '@holi/core/providers/SignupModalProvider'
 import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
-import OnboardingInitializer from '@holi/core/screens/onboardingV2/OnboardingInitializer'
+import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 import PosthogProvider, { type PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
-import { OnboardingFinishModal } from '@holi/core/screens/onboardingV2/steps/OnboardingFinishModal'
+import { OnboardingFinishModal } from '@holi/core/screens/onboarding/steps/OnboardingFinishModal'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },

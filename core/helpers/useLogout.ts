@@ -6,7 +6,7 @@ import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers
 import { setLoginStateLoggedOut, useLoginState } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { storeOnboardingState } from '@holi/core/screens/onboardingV2/hooks/onboardingState'
+import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const logger = getLogger('Auth')

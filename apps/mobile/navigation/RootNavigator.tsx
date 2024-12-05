@@ -27,7 +27,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
-import Onboarding from '@holi/core/screens/onboardingV2/Onboarding'
+import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
