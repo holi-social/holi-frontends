@@ -1,7 +1,6 @@
-import { ApolloClient, ApolloProvider } from '@apollo/client'
+import { type ApolloClient, ApolloProvider } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import type { PropsWithChildren } from 'react'
-import React from 'react'
+import React, { type PropsWithChildren } from 'react'
 import { Platform } from 'react-native'
 import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
 
@@ -16,10 +15,11 @@ import PortalProvider from '@holi/core/providers/PortalProvider'
 import SignupModalProvider from '@holi/core/providers/SignupModalProvider'
 import { RefreshContextProvider } from '@holi/core/refreshing/providers/RefreshContextProvider'
 import DeviceRegistration from '@holi/core/screens/notifications/components/DeviceRegistration'
-import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
-import PosthogProvider, { PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
+import OnboardingInitializer from '@holi/core/screens/onboardingV2/OnboardingInitializer'
+import PosthogProvider, { type PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import { OnboardingFinishModal } from '@holi/core/screens/onboardingV2/steps/OnboardingFinishModal'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
@@ -34,6 +34,7 @@ interface RootProviderProps {
 const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWithChildren<RootProviderProps>) => {
   const isWeb = Platform.OS === 'web'
   const isMobile = !isWeb
+
   return (
     <ErrorBoundary showErrorMsg={isWeb} allowReload={isWeb}>
       <PosthogProvider bootstrapState={posthogBootstrapState}>
@@ -46,6 +47,7 @@ const RootProvider = ({ apolloClient, posthogBootstrapState, children }: PropsWi
                   <RefreshContextProvider>
                     <FeatureFlagsFetcher />
                     <OnboardingInitializer />
+                    <OnboardingFinishModal />
                     {isMobile ? <DeviceRegistration /> : null}
                     {isMobile ? <UpdateAppModal /> : null}
                     <SignupModalProvider>

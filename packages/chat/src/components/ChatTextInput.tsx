@@ -1,7 +1,7 @@
 import { Spacing } from 'holi-bricks/tokens'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, TextInputKeyPressEventData, View } from 'react-native'
+import { Platform, StyleSheet, type TextInputKeyPressEventData, View } from 'react-native'
 
 import { sendMessage } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -10,7 +10,7 @@ import { SendPlane } from '@holi/icons/src/generated'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isAndroid = Platform.OS === 'android'
 const SEND_BUTTON_SIZE = 40

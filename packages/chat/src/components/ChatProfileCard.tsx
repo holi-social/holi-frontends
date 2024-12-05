@@ -16,6 +16,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { Spacing } from 'holi-bricks/tokens'
 
 interface Props {
   roomId: string
@@ -95,12 +96,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     maxWidth: dimensions.maxScreenWidth,
-    paddingHorizontal: 16,
+    paddingHorizontal: Spacing.xs,
     paddingVertical: dimensions.bottomBarHeight,
   },
   buttons: {
     flexDirection: 'row',
-    columnGap: 20,
+    columnGap: Spacing.sm,
     maxWidth: '100%',
   },
 })

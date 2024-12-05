@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client/core'
 
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { LinkFragment } from '@holi/core/screens/comments/queries'
-import { Initiative, Insight, InsightWithQuote, Recommendation } from '@holi/core/screens/insights/types'
+import type { Initiative, Insight, InsightWithQuote, Recommendation } from '@holi/core/screens/insights/types'
 import { PollFragment } from '@holi/core/screens/polls/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
-import { Paged } from '@holi/core/types'
+import type { Paged } from '@holi/core/types'
 
 export const QuoteFragment = gql`
   ${LinkFragment}
@@ -119,8 +119,36 @@ const InsightWithPostsFragment = gql`
   }
 `
 
-export const lastInsightsQuery = gql`
+export const InsightFragment = gql`
   ${UserAvatarFragment}
+
+  fragment InsightFragment on Insight {
+    id
+    title
+    description
+    datePublished
+    creator {
+      ...UserAvatar
+      aboutMe
+    }
+    headerImage
+    headerImageBlurhash
+    topic {
+      id
+      title
+    }
+    numberOfPosts
+    involvedUsers {
+      totalResults
+      data {
+        ...UserAvatar
+      }
+    }
+  }
+`
+
+export const lastInsightsQuery = gql`
+  ${InsightFragment}
 
   query LastInsights($offset: Int! = 0, $limit: Int! = 4) {
     lastInsights(offset: $offset, limit: $limit) {

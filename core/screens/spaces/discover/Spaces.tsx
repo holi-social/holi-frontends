@@ -1,6 +1,6 @@
 import { type DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import type Animated from 'react-native-reanimated'
@@ -31,11 +31,18 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 
 export enum Tab {
   MINE = 'mine',
   DISCOVER = 'discover',
 }
+
+export type SpacesTabParams = {
+  tab?: Tab
+}
+
+const { useParam, useUpdateParams } = createParamHooks<SpacesTabParams>()
 
 const Spaces = () => {
   const { t } = useTranslation()
@@ -62,9 +69,10 @@ const Spaces = () => {
 
   hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length
 
-  const [activeTab, setActiveTab] = useState<string>(Tab.MINE)
+  const [activeTab = Tab.MINE] = useParam('tab', singleParamConfig)
+  const updateParams = useUpdateParams()
   const onChangeTab = (tabKey: string) => {
-    setActiveTab(tabKey)
+    updateParams({ tab: tabKey as Tab })
     pageViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
   }
 

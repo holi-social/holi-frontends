@@ -1,11 +1,11 @@
-import { act, fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import { ListRenderItem, View } from 'react-native'
-// @ts-ignore
-import { ReactTestInstance } from 'react-test-renderer'
+import { type ListRenderItem, View } from 'react-native'
 
+// @ts-ignore
+import type { ReactTestInstance } from 'react-test-renderer'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
-import { TrackableFlatListParams, defaultViewabilityConfig } from '@holi/core/tracking/TrackableFlatList.shared'
+import { type TrackableFlatListParams, defaultViewabilityConfig } from '@holi/core/tracking/TrackableFlatList.shared'
 
 const data = [{ index: 1 }, { index: 2 }, { index: 3 }, { index: 4 }, { index: 5 }]
 
@@ -22,8 +22,7 @@ const renderTrackableFlatList = ({
   trackOnce = false,
 }: TrackableFlatListParams) => {
   const renderItem: ListRenderItem<{ index: number }> = ({ item: { index } }) => <View testID="list-item">{index}</View>
-
-  const { getByTestId, getAllByTestId } = render(
+  render(
     <TrackableFlatList
       minimumViewTime={minimumViewTime}
       data={data}
@@ -36,8 +35,8 @@ const renderTrackableFlatList = ({
     />
   )
 
-  listElement = getByTestId('list')
-  listItems = getAllByTestId(/^list-item/)
+  listElement = screen.getByTestId('list')
+  listItems = screen.getAllByTestId(/^list-item/)
 }
 
 const scrollTrackableFlatList = ({

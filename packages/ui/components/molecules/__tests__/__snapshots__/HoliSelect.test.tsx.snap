@@ -143,7 +143,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -1440,7 +1439,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -2675,7 +2673,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -2955,7 +2952,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -4102,7 +4098,6 @@ exports[`SingleSelect correctly filters options 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -5377,7 +5372,6 @@ exports[`SingleSelect renders correctly after selection 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -5620,7 +5614,6 @@ exports[`SingleSelect renders correctly when closed 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -5863,7 +5856,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >

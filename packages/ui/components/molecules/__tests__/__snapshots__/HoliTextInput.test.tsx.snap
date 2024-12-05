@@ -833,7 +833,6 @@ exports[`HoliTextInput renders correctly with trailing icon 1`] = `
             "position": "absolute",
             "right": 12,
             "top": 0,
-            "zIndex": -1,
           }
         }
       >

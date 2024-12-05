@@ -130,18 +130,13 @@ describe('SpacesGroupSlider', () => {
 
       const images = getAllByRole('image')
 
-      // expect 5 spaces with 4 images each (space cover + 3 user avatars)
-      expect(images).toHaveLength(20)
-      const [coverImage, avatarImage] = images
+      // expect 5 spaces with 1 cover image each
+      expect(images).toHaveLength(5)
+      const [coverImage] = images
       expect(coverImage.props.source).toEqual({
         height: 315,
         uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:944:630/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fspace-cover.jpg',
         width: 472,
-      })
-      expect(avatarImage.props.source).toEqual({
-        height: 24,
-        uri: 'https://dev-images.holi.social/crop:0:0/resize:fill-down:48:48/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg',
-        width: 24,
       })
 
       expect(getByTestId('spaces-group-slider-see-more')).toBeDefined()

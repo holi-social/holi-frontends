@@ -32,8 +32,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
 import VolunteeringPartnerCard from '@holi-apps/volunteering/components/VolunteeringPartnerCard'
 import VolunteeringSimilarRecosSlider from '@holi-apps/volunteering/components/VolunteeringSimilarRecosSlider'
+import { useSimilarRecos } from '@holi-apps/volunteering/hooks/useSimilarRecos'
 import {
   AppVolunteeringEngagementByIdResponse,
+  AppVolunteeringEngagementByIdVariables,
   TrackEngagementViewResponse,
   engagementByIdQuery,
   trackEngagementViewMutation,
@@ -133,7 +135,7 @@ interface AboutVolunteeringProps {
   organizer?: Organizer
 }
 
-const VolunteeringEngagementDetail = () => {
+const UnwrappedVolunteeringEngagementDetail = () => {
   const [engagementId] = useParam('engagementId')
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
@@ -147,9 +149,12 @@ const VolunteeringEngagementDetail = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const cardWidth = useCardWidth()
 
-  const { loading, data, refetch } = useQuery<AppVolunteeringEngagementByIdResponse>(engagementByIdQuery, {
+  const { loading, data, refetch } = useQuery<
+    AppVolunteeringEngagementByIdResponse,
+    AppVolunteeringEngagementByIdVariables
+  >(engagementByIdQuery, {
     variables: {
-      id: engagementId,
+      id: engagementId!,
     },
     skip: !engagementId,
     onError: (error) => {
@@ -163,6 +168,14 @@ const VolunteeringEngagementDetail = () => {
       })
     },
   })
+
+  const similarRecosQueryResult = useSimilarRecos(engagementId ?? '')
+  useOnRefresh(similarRecosQueryResult.refetch)
+  const viewSimilarRecos =
+    !similarRecosQueryResult.loading &&
+    similarRecosQueryResult.data &&
+    similarRecosQueryResult.data?.appVolunteering_similarRecommendations.totalResults > 0
+
   const [trackEngagementView] = useMutation<TrackEngagementViewResponse>(trackEngagementViewMutation, {
     variables: { id: engagementId },
     onError: (error) =>
@@ -178,10 +191,10 @@ const VolunteeringEngagementDetail = () => {
   const { windowHeight, windowWidth, imageWidth } = useWindowDimensionsWithImageScaling()
 
   useEffect(() => {
-    if (engagementId) {
+    if (!loading && engagement) {
       trackEngagementView()
     }
-  }, [trackEngagementView, engagementId])
+  }, [trackEngagementView, engagement, loading])
 
   if (!engagementId || loading || !engagement) {
     return <HoliLoader />
@@ -252,12 +265,17 @@ const VolunteeringEngagementDetail = () => {
               name={'Voltastics'}
               partner={VOLUNTEERING_IMG_SOURCES_MAPPING['Voltastics']}
             />
-            <View style={styles.similarRecos}>
-              <HoliHeading size={'m'} weight={'400'}>
-                {t('volunteering:engagementDetail.similarRecosHeading')}
-              </HoliHeading>
-              <VolunteeringSimilarRecosSlider engagementId={engagement.id} cardWidth={cardWidth} />
-            </View>
+            {viewSimilarRecos && (
+              <View style={styles.similarRecos}>
+                <HoliHeading size={'m'} weight={'400'}>
+                  {t('volunteering:engagementDetail.similarRecosHeading')}
+                </HoliHeading>
+                <VolunteeringSimilarRecosSlider
+                  cardWidth={cardWidth}
+                  recos={similarRecosQueryResult.data?.appVolunteering_similarRecommendations.data || []}
+                />
+              </View>
+            )}
           </View>
         )}
       </ScrollHeaderLayout>
@@ -277,11 +295,15 @@ const VolunteeringEngagementDetail = () => {
 
 const WrappedVolunteeringEngagementDetail = () => (
   <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.VOLUNTEERING} i18nKey="volunteering:maintenance.feature">
-    <VolunteeringEngagementDetail />
+    <UnwrappedVolunteeringEngagementDetail />
   </PosthogFeatureFlagGuard>
 )
 
 export default withProfiler(memo(WrappedVolunteeringEngagementDetail), { name: 'VolunteeringEngagementDetail' })
+
+export const ExportedForTesting = {
+  UnwrappedVolunteeringEngagementDetail,
+}
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
