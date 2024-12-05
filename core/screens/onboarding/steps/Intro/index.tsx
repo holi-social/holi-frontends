@@ -14,7 +14,8 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import AnimatedIntro from './AnimatedIntro'
-import PrivacyPolicyAndTermsOfUseText from '@holi/core/screens/onboardingV2/components/PrivacyPolicyAndTermsOfUseText'
+// eslint-disable-next-line no-restricted-imports
+import PrivacyPolicyAndTermsOfUseText from '../../components/PrivacyPolicyAndTermsOfUseText'
 
 interface Props {
   onContinue: () => void

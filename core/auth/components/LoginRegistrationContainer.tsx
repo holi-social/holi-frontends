@@ -7,7 +7,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { onboardingStateVar } from '@holi/core/screens/onboardingV2/hooks/onboardingState'
+import { onboardingStateVar } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 interface LoginRegistrationContainerProps {
   style?: StyleProp<ViewStyle>

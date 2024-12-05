@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import type { NamesSelectionData } from '@holi/core/screens/onboardingV2/steps/NamesSelection'
+import type { NamesSelectionData } from '@holi/core/screens/onboarding/steps/NamesSelection'
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 
 type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
