@@ -6,7 +6,7 @@ import {
   clickElementByTestId,
   clickFirstElement,
   clickThisOrThatElementByTestId,
-  isRunningOnStaging,
+  isRunningLocally,
   locateElementByTestId,
   proceedAsGuest,
   retry,
@@ -205,7 +205,7 @@ const testCreatingEditingSpace = async (page: Page) => {
   await expect(topicChips.count()).resolves.toBe(numberOfEditedTerms)
 
   // set location if we have a real geoservice
-  if (isRunningOnStaging()) {
+  if (isRunningLocally()) {
     const editedLocation = 'Berlin'
     await clickElementByTestId(page, 'btn-space-edit-location')
     await inputSpaceLocation(page, editedLocation)

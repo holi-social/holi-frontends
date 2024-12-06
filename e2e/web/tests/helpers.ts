@@ -351,6 +351,6 @@ export async function gotoWithRetries(page: Page, url: string, retries = 3, dela
   }
 }
 
-export const isRunningOnStaging = () => {
-  return process.env.BASE_URL !== 'http://localhost:3000'
+export const isRunningLocally = () => {
+  return process.env.BASE_URL === 'http://localhost:3000'
 }

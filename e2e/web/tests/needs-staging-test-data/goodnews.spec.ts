@@ -1,11 +1,11 @@
 import { expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, isRunningOnStaging, proceedAsGuest } from '../helpers'
+import { byTestId, checkAccessibility, isRunningLocally, proceedAsGuest } from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@GoodNews', () => {
   test('should display Good News  articles', async ({ page }) => {
-    test.skip(isRunningOnStaging(), 'These features have no local test data and can only be tested on staging.')
+    test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
 
     await proceedAsGuest(page)
 
