@@ -1,10 +1,11 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 import { clickElementByTestId, clickElementByTestIdAndWaitForToast } from './helpers'
 import { test } from './testmaster'
 
+// These tests are currently disabled until we have a final plan for insights in the home feed
 test.describe('@Insights', () => {
-  test('Favorites work', async ({ authenticatedSession: { page } }) => {
+  test.skip('Favorites work', async ({ authenticatedSession: { page } }) => {
     await goToFirstInsight(page)
     const insightHeadline = await page.getByTestId('insight-headline').innerText()
 
