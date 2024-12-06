@@ -185,17 +185,9 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
       <View style={styles.thumbnailContainer}>
         {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
         {thumbnail?.uri ? (
-          <ReactNativeImage
-            source={{ uri: thumbnail?.uri ?? '' }}
-            aria-label={t('spaces.input.task.thumbnail.label')}
-            style={styles.thumbnail}
-          />
+          <ReactNativeImage source={{ uri: thumbnail?.uri ?? '' }} aria-hidden={true} style={styles.thumbnail} />
         ) : currentThumbnail ? (
-          <ReactNativeImage
-            source={{ uri: currentThumbnail }}
-            aria-label={t('spaces.input.task.thumbnail.label')}
-            style={styles.thumbnail}
-          />
+          <ReactNativeImage source={{ uri: currentThumbnail }} aria-hidden={true} style={styles.thumbnail} />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
             <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
