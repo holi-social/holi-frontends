@@ -1,11 +1,9 @@
 import type React from 'react'
-import { useTranslation } from 'react-i18next'
 import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { onboardingStateVar } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
@@ -15,11 +13,10 @@ interface LoginRegistrationContainerProps {
 
 const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren<LoginRegistrationContainerProps>) => {
   const { isLoggedIn, isLoading } = useLoggedInUser()
-  const { t } = useTranslation()
   const redirect = useRedirect('/')
 
   useIsomorphicLayoutEffect(() => {
-    // ONBOARDING-ISSUE: prevuosly this watcher could cause problems with the onboarding and redirected
+    // ONBOARDING-ISSUE: previuosly this watcher could cause problems with the onboarding and redirected
     // to HomeFeed after user logged in and onboarding was not finished.
     // We can login and continue onboarding if it's not finished (missing Email verification or User names)
     // so, check onboarding state and redirect user only when it's finished
@@ -28,13 +25,14 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
     }
   }, [isLoggedIn, redirect])
 
-  if (isLoading) return <HoliLoader />
+  if (isLoading || isLoggedIn)
+    return (
+      <View style={styles.viewContainer}>
+        <HoliLoader />
+      </View>
+    )
 
-  return isLoggedIn ? (
-    <HoliText>{t('auth.login.alreadyLoggedIn')}</HoliText>
-  ) : (
-    <View style={[styles.viewContainer, style]}>{children}</View>
-  )
+  return <View style={[styles.viewContainer, style]}>{children}</View>
 }
 
 const styles = StyleSheet.create({

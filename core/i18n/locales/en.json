@@ -67,7 +67,6 @@
   "auth.forgotPassword.success.text": "If we found your email address, we sent you a mail with a link to reset your password.",
   "auth.loggingOut": "Your session is invalid. Your are being logged out.",
   "auth.login": "Log in",
-  "auth.login.alreadyLoggedIn": "You are already logged in",
   "auth.login.checkbox.hint-Consent": "Accept our Community Guidelines to proceed",
   "auth.login.checkbox.label-Consent": "I accept the <0>Community Guidelines</0> and understand that there is zero tolerance for objectionable content or abusive users",
   "auth.login.checkbox.message.4000002": "Please accept our Community Guidelines",

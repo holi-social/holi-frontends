@@ -67,7 +67,6 @@
   "auth.forgotPassword.success.text": "Wenn wir deine E-Mail-Adresse finden konnten, haben wir dir eine Mail mit einem Link zum Ändern deines Passworts geschickt.",
   "auth.loggingOut": "Deine Session ist ungültig. Du wirst ausgeloggt.",
   "auth.login": "Einloggen",
-  "auth.login.alreadyLoggedIn": "Du bist bereits eingeloggt",
   "auth.login.checkbox.hint-Consent": "Akzeptiere unsere Community Guidelines, um fortzufahren",
   "auth.login.checkbox.label-Consent": "Ich akzeptiere die <0>Community Guidelines</0> und verstehe, dass es keine Toleranz für anstößige Inhalte oder beleidigende Nutzer:innen gibt",
   "auth.login.checkbox.message.4000002": "Bitte akzeptiere unsere Community Guidelines",
