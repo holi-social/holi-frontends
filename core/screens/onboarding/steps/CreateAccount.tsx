@@ -205,7 +205,4 @@ const getStyles = (theme: HoliTheme) =>
       minHeight: 235,
       width: '100%',
     },
-    headline3: {
-      marginTop: 16,
-    },
   })
