@@ -183,7 +183,7 @@ const HomeFeed = () => {
 
   return (
     <SpaceTermContextProvider>
-      <GestureHandlerRootView style={{ backgroundColor: colors.white200, flex: 1 }}>
+      <GestureHandlerRootView style={{ backgroundColor: colors.white200, flex: 1 }} testID="home-feed-listing">
         <View style={styles.sections} testID="posts-list-results">
           <HoliContainer>
             <HoliTransition.FadeDown visible>

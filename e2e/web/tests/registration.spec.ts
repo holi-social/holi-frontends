@@ -37,7 +37,7 @@ test.describe('@Registration', () => {
 
       // trying to go to login page with logged in user should show home feed
       await page.goto('/login')
-      await page.waitForSelector(byTestId('home-feed-insights-heading'))
+      await page.waitForSelector(byTestId('home-feed-listing'))
     })
   })
 })

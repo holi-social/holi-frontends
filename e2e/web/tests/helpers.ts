@@ -173,7 +173,7 @@ export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promi
   test.expect(!!process.env.E2E_USER_PASSWORD, 'Env E2E_USER_PASSWORD is set up correctly').toBeTruthy()
   await login(context, page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
   // wait for profile - login succeeded
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.waitForSelector(byTestId('home-feed-listing'))
 }
 
 export const registerNewUserAccount = async (
@@ -186,7 +186,7 @@ export const registerNewUserAccount = async (
   const passwordToUse = password || newUserPassword
   const newAccount = await registerUserAccount(context, page, emailToUse, passwordToUse)
   // wait for home feed - registration succeeded
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.waitForSelector(byTestId('home-feed-listing'))
   return newAccount
 }
 
