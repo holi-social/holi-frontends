@@ -14,8 +14,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import AnimatedIntro from './AnimatedIntro'
-// eslint-disable-next-line no-restricted-imports
-import PrivacyPolicyAndTermsOfUseText from '../../components/PrivacyPolicyAndTermsOfUseText'
+import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 
 interface Props {
   onContinue: () => void
@@ -56,7 +55,7 @@ export const Intro = ({ onContinue }: Props) => {
         <HoliGap size="xl" />
       </View>
 
-      <PrivacyPolicyAndTermsOfUseText />
+      <DocumentsFooter displayImprint={true} />
     </View>
   )
 }

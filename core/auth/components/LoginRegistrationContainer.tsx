@@ -16,7 +16,7 @@ const LoginRegistrationContainer = ({ children, style }: React.PropsWithChildren
   const redirect = useRedirect('/')
 
   useIsomorphicLayoutEffect(() => {
-    // ONBOARDING-ISSUE: previuosly this watcher could cause problems with the onboarding and redirected
+    // ONBOARDING-ISSUE: previously this watcher could cause problems with the onboarding and redirected
     // to HomeFeed after user logged in and onboarding was not finished.
     // We can login and continue onboarding if it's not finished (missing Email verification or User names)
     // so, check onboarding state and redirect user only when it's finished

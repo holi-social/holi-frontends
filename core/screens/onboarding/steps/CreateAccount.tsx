@@ -27,8 +27,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
 import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-// eslint-disable-next-line no-restricted-imports
-import PrivacyPolicyAndTermsOfUseText from '../components/PrivacyPolicyAndTermsOfUseText'
+import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 
 const logger = getLogger('CreateAccount')
 
@@ -176,7 +175,7 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
 
       <View>
         <HoliGap size="xs" />
-        <PrivacyPolicyAndTermsOfUseText />
+        <DocumentsFooter />
         <HoliGap size="xs" />
       </View>
 
