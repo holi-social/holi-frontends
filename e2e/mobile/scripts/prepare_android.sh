@@ -11,4 +11,4 @@ echo 'starting or connecting to emulator...'
 echo 'You should start your local env using mprocs'
 
 echo 'starting appium...'
-npx appium -p ${APPIUM_PORT:-4723} --base-path ${APPIUM_PATH:-/}
+yarn appium -p ${APPIUM_PORT:-4723} --base-path ${APPIUM_PATH:-/}

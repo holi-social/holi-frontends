@@ -82,7 +82,7 @@ const assertAllowsPagination = async () => {
   await waitForElementWithTestIdToBeNull('btn-donation-list-load-more-processing', 20000)
   // expect more elements in viewport than before (as the button has been pushed down)
   const listItemsAfter = await locateMultipleElementsWithTestId('donations-list-item')
-  expect(listItemsAfter.length).toBeGreaterThan(listItemsBefore.length)
+  expect(listItemsAfter.length).toBeGreaterThan(await listItemsBefore.length)
 }
 
 const assertDisplaysMultipleProjects = async () => {
