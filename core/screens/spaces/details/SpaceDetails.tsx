@@ -1,6 +1,6 @@
 import { withProfiler } from '@sentry/react'
 import { useAtomValue } from 'jotai'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
@@ -14,7 +14,7 @@ import useRefreshOnNavigation, { type RefreshOnNavigationParams } from '@holi/co
 import type { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
-import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType, ContentType3K } from '@holi/core/queries'
@@ -105,18 +105,16 @@ const SpaceDetails = () => {
     return SpaceDetailsTabs.UPDATES
   }, [space?.collaborationTools?.length, space?.connectionStatusToMyself, space?.tasks?.length])
 
-  const [activeTab, setActiveTab] = useState<string>(SpaceDetailsTabs.INFO)
+  const [activeTab] = useParam('tab', singleParamConfig)
   const setHoliTabQueryParam = useHoliTabQueryParamSetter(activeTab)
-  const onChangeHandler = (key: string) => {
+  const onTabChange = (key: string) => {
     setHoliTabQueryParam(key)
-    setActiveTab(key)
   }
 
-  const isReadyToDetermineTab = !loading && !isSSR
+  const isReadyToDetermineTab = !activeTab && !loading && !isSSR
   useEffect(() => {
     if (isReadyToDetermineTab) {
       const tabKey = determineInitialTab()
-      setActiveTab(tabKey)
       setHoliTabQueryParam(tabKey)
     }
   }, [determineInitialTab, isReadyToDetermineTab, setHoliTabQueryParam])
@@ -291,11 +289,11 @@ const SpaceDetails = () => {
         refreshBackgroundColor={colors.background10}
         keyboardShouldPersistTaps="handled"
       >
-        <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onChangeHandler} />
+        {activeTab && <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onTabChange} />}
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
       </ScrollHeaderLayout>
 
-      {isMember && (
+      {isMember && activeTab && (
         <HoliTransition.FadeRightSwitch animKey={activeTab} style={styles.floatingButtonsContainer}>
           <HoliContainer flexDirection="row-reverse">
             {activeTab === SpaceDetailsTabs.INVOLVEMENT && (
