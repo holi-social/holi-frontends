@@ -52,7 +52,7 @@ export const Intro = ({ onContinue }: Props) => {
           </HoliButtonTracked>
           <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </View>
-        <HoliGap size="xl" />
+        <HoliGap size="l" />
       </View>
 
       <DocumentsFooter displayImprint={true} />
