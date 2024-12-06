@@ -13,7 +13,6 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { type DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
-import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
 import { type CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
@@ -30,6 +29,7 @@ import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicke
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -53,7 +53,6 @@ const CreatePost = () => {
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [images, setImages] = useState<HoliImageInfo[]>([])
-  const [showCategories, setShowCategories] = useState(true)
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
@@ -131,11 +130,6 @@ const CreatePost = () => {
 
   const selectCategory = (categoryId: string) => {
     setSelectedCategoryId(categoryId)
-    setShowCategories(false)
-  }
-
-  const toggleShowCategories = () => {
-    setShowCategories((value) => !value)
   }
 
   const handleModalClose = () => {
@@ -144,33 +138,35 @@ const CreatePost = () => {
 
   return (
     <View style={styles.grayExtendingBackground}>
-      {showCategories ? (
-        <CategorySelection loading={categoriesLoading} categories={categories} onCategorySelection={selectCategory} />
+      {categoriesLoading ? (
+        <HoliLoader />
       ) : (
-        <PostInputForm
-          title={title}
-          onChangeTitle={setTitle}
-          description={description}
-          onChangeDescription={setDescription}
-          images={images}
-          onChangeImages={setImages}
-          selectedCategoryId={selectedCategoryId}
-          onChangeSelectedCategoryId={setSelectedCategoryId}
-          selectedVisibility={selectedVisibility}
-          onChangeSelectedVisibility={setSelectedVisibility}
-          selectedTopics={selectedTopics}
-          onChangeSelectedTopics={setSelectedTopics}
-          selectedLocation={selectedLocation || undefined}
-          onChangeSelectedLocation={setSelectedLocation}
-          onSubmit={createPost}
-          submitting={submitting}
-          categories={categories}
-          onClickCategoriesPill={toggleShowCategories}
-          aspectRatio={aspectRatio}
-          onChangeAspectRatio={setAspectRatio}
-        />
+        <>
+          <PostInputForm
+            title={title}
+            onChangeTitle={setTitle}
+            description={description}
+            onChangeDescription={setDescription}
+            images={images}
+            onChangeImages={setImages}
+            selectedCategoryId={selectedCategoryId}
+            onChangeSelectedCategoryId={setSelectedCategoryId}
+            selectedVisibility={selectedVisibility}
+            onChangeSelectedVisibility={setSelectedVisibility}
+            selectedTopics={selectedTopics}
+            onChangeSelectedTopics={setSelectedTopics}
+            selectedLocation={selectedLocation || undefined}
+            onChangeSelectedLocation={setSelectedLocation}
+            onSubmit={createPost}
+            submitting={submitting}
+            categories={categories}
+            aspectRatio={aspectRatio}
+            onChangeAspectRatio={setAspectRatio}
+            selectCategory={selectCategory}
+          />
+          <PostOnboardModal visible={visible} handleModalClose={handleModalClose} />
+        </>
       )}
-      <PostOnboardModal visible={visible} handleModalClose={handleModalClose} />
     </View>
   )
 }
