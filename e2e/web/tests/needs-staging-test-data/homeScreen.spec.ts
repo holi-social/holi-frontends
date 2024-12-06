@@ -28,7 +28,7 @@ test.describe('@HomeScreen', () => {
 
 const testDisplaysHomeScreenContent = async (page: Page) => {
   // Heading is initially hidden, so it can animate in
-  await page.waitForSelector(byTestId('home-feed-insights-heading'), { state: 'attached' })
+  await page.waitForSelector(byTestId('home-feed-listing'), { state: 'attached' })
   await page.waitForSelector(byTestId('posts-list-results'))
   await page.waitForSelector(byTestId('btn-navigate-to-insights'))
 }
@@ -50,7 +50,7 @@ const testShowInsightsScreen = async (page: Page) => {
 
 const testInsightsSection = async (browser: Browser, page: Page) => {
   // has feed insight headline
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.waitForSelector(byTestId('home-feed-listing'))
 
   // has feed insight items and clicking them leads to insight detail page
   await clickElementByTestId(page, 'feed-insight-image-link')
@@ -61,7 +61,7 @@ const testInsightsSection = async (browser: Browser, page: Page) => {
 
   // navigate back
   await page.locator(byTestId('btn-to-home-view')).click()
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.waitForSelector(byTestId('home-feed-listing'))
 }
 const testInsightsEditors = async (page: Page) => {
   // opens editors list upon clicking in avatar pile and shows insight editor cards
@@ -71,7 +71,7 @@ const testInsightsEditors = async (page: Page) => {
   await clickElementByTestId(page, 'insight-editors-close-btn')
 }
 const testUserSuggestions = async (page: Page, context: BrowserContext) => {
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.waitForSelector(byTestId('home-feed-listing'))
   // shows no user suggestions if logged out
   await expect(page.locator(byTestId('user-suggestions'))).toHaveCount(0)
 
