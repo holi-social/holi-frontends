@@ -80,7 +80,7 @@ const HomeFeed = () => {
   }, [navigate, t, headerTitle, setScreenOptions, colors.black300, displayFeedbackLink])
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView testID="home-feed-listing">
       <ScrollHeaderLayout style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
         <View style={styles.sections}>
           <HoliContainer>

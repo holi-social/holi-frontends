@@ -5,7 +5,7 @@ import {
   checkAccessibility,
   clickElementByTestId,
   clickFirstElement,
-  isRunningOnStaging,
+  isRunningLocally,
   locateElementByTestId,
   proceedAsGuest,
   volunteeringRequestTimeout,
@@ -15,7 +15,7 @@ import { test } from '../testmaster'
 
 test.describe('@Volunteering', () => {
   test('user journey', async ({ browser, context, page }) => {
-    test.skip(isRunningOnStaging(), 'These features have no local test data and can only be tested on staging.')
+    test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
 
     //prepare
     await proceedAsGuest(page)
