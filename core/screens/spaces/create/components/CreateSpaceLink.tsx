@@ -4,8 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native'
 
 import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
-import { urlRegex } from '@holi/core/helpers'
-import { withProtocol } from '@holi/core/helpers/url'
+import { validateUrl, withProtocol } from '@holi/core/helpers/url'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
 import { AddExternalLinkResponse, addExternalLinkMutation } from '@holi/core/screens/spaces/create/mutations'
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
@@ -68,7 +67,7 @@ const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }:
 
   useEffect(() => {
     // Check if the input URL is in a valid format
-    if (!urlRegex.test(url) && url.length > 0) {
+    if (url.length > 0 && !validateUrl(url)) {
       setValidationErrorTextUrl(t('global.validation.url.invalid'))
     } else {
       setValidationErrorTextUrl(undefined)

@@ -1,4 +1,4 @@
-import { shortHost, withProtocol } from '@holi/core/helpers/url'
+import { shortHost, validateUrl, withProtocol } from '@holi/core/helpers/url'
 
 describe('url', () => {
   describe('withProtocol', () => {
@@ -20,5 +20,30 @@ describe('url', () => {
     it('should return the host without www and other uninformative sub-domains', () => {
       expect(shortHost('https://www.example.com/great-page.html')).toEqual('example.com')
     })
+  })
+
+  describe('validateUrl', () => {
+    it.each([
+      'https://holi.social',
+      'holi.social/about',
+      'http://holi.social',
+      'https://meet.holi.social',
+      'https://meet.holi.social/foo',
+      'https://meet.holi.social/foo?test=1',
+      'https://meet.holi.social/foo?test=1#test',
+      'holi.social:443',
+      'https://holi.social:443/foo',
+      'https://docs.google.com/spreadsheets/d/1n0PRSCtUcCiKHGSa495FND2rPXngNNuQ4jsmssT7758/htmlview#gid=259025765', // HOLI-7308
+      'https://t.me/holitestsomething', // HOLI-10551
+    ])('should match valid URL "%s"', (url) => {
+      expect(validateUrl(url)).toBe(true)
+    })
+
+    it.each(['https://holi/foo', 'ftp://data.holi.social/foo', 'https://holi.local'])(
+      'should not match invalid URL "%s"',
+      (url) => {
+        expect(validateUrl(url)).toBe(false)
+      }
+    )
   })
 })

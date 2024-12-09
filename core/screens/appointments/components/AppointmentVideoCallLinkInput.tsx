@@ -2,7 +2,7 @@ import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
-import { urlRegex } from '@holi/core/helpers'
+import { validateUrl } from '@holi/core/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
 import digitalTools from '@holi/core/static/digitalTools'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -75,7 +75,7 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
 
   useEffect(() => {
     // Check if the input URL is in a valid format
-    if (!!url && !urlRegex.test(url) && url.length > 0) {
+    if (!!url && url.length > 0 && !validateUrl(url)) {
       setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)

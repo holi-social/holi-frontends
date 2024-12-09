@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
-import { urlRegex } from '@holi/core/helpers'
-import { withProtocol } from '@holi/core/helpers/url'
+import { validateUrl, withProtocol } from '@holi/core/helpers/url'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -96,7 +95,7 @@ const EditDigitalTool = () => {
   }
 
   useEffect(() => {
-    if (!urlRegex.test(url)) {
+    if (!validateUrl(url)) {
       setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
