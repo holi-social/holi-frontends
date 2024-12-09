@@ -151,6 +151,12 @@ export const FullSpaceFragment = gql`
       thumbnail
       thumbnailBlurhash
     }
+    representatives {
+      user {
+        id
+        identity
+      }
+    },
     members(limit: 3) {
       totalResults
       data {

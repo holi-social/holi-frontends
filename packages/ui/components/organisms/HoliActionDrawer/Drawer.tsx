@@ -1,13 +1,14 @@
-import type { PropsWithChildren } from 'react'
-import React, { createContext, useContext } from 'react'
+import type { PropsWithChildren, ReactNode } from 'react'
+import type React from 'react'
+import { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleSheet } from 'react-native'
+import { type GestureResponderEvent, StyleSheet } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { More } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import HoliButton, { type HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -34,6 +35,7 @@ export interface ActionDrawerProps {
   variant?: 'default' | 'dark'
   buttonElement?: React.ReactNode
   buttonProps?: Partial<HoliButtonProps>
+  customTrigger?: (onPress: () => void, testID?: string) => ReactNode
   onShow?: CallableFunction
   onHide?: CallableFunction
 }
@@ -64,6 +66,7 @@ export const Drawer = ({
   buttonProps,
   onShow,
   onHide,
+  customTrigger,
 }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
@@ -79,34 +82,32 @@ export const Drawer = ({
 
   return (
     <ActionDrawerContext.Provider value={contextValue}>
-      <HoliButton
-        transparent
-        inline
-        label={label}
-        onPress={safeSideEffect(showModal, onShow)}
-        testID={testID}
-        {...buttonProps}
-      >
-        {buttonElement || (
-          <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
-        )}
-      </HoliButton>
+      {customTrigger ? (
+        customTrigger(safeSideEffect(showModal, onShow), testID)
+      ) : (
+        <HoliButton
+          transparent
+          inline
+          label={label}
+          onPress={safeSideEffect(showModal, onShow)}
+          testID={testID}
+          {...buttonProps}
+        >
+          {buttonElement || (
+            <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
+          )}
+        </HoliButton>
+      )}
 
       <HoliModal
         show={visibleModal}
         onDismiss={safeSideEffect(hideModal, onHide)}
         testID="more-options-modal"
         label={t('global.moreOptions')}
-        style={StyleSheet.flatten([styles.modal, { paddingBottom: safeAreaBottom || 18 }])}
+        style={StyleSheet.flatten([{ paddingBottom: safeAreaBottom || 18 }])}
       >
         <HoliContainer>{children}</HoliContainer>
       </HoliModal>
     </ActionDrawerContext.Provider>
   )
 }
-
-const styles = StyleSheet.create({
-  modal: {
-    paddingHorizontal: 24,
-  },
-})

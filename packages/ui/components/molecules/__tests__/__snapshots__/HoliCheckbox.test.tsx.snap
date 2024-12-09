@@ -313,7 +313,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
               }
             >
               <RNSVGPath
-                d="M5 11h14v2H5v-2Z"
+                d="M5 11h14v2H5z"
                 fill={
                   {
                     "type": 2,
@@ -470,7 +470,7 @@ exports[`HoliCheckbox renders correctly for checked value mixed and is disabled 
               }
             >
               <RNSVGPath
-                d="M5 11h14v2H5v-2Z"
+                d="M5 11h14v2H5z"
                 fill={
                   {
                     "type": 2,
@@ -627,7 +627,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled f
               }
             >
               <RNSVGPath
-                d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                 fill={
                   {
                     "type": 2,
@@ -784,7 +784,7 @@ exports[`HoliCheckbox renders correctly for checked value true and is disabled t
               }
             >
               <RNSVGPath
-                d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                 fill={
                   {
                     "type": 2,
@@ -941,7 +941,7 @@ exports[`HoliCheckbox renders correctly with error message 1`] = `
               }
             >
               <RNSVGPath
-                d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                 fill={
                   {
                     "type": 2,
