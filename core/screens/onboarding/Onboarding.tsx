@@ -1,5 +1,4 @@
 import type React from 'react'
-import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -17,7 +16,6 @@ import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { getRouteForContentType } from './helpers/getRouteForContentType'
-import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
 import {
   type OnboardingStepItem,
@@ -38,6 +36,8 @@ import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
+import { useCallback, useEffect } from 'react'
 
 const Onboarding = () => {
   const { t } = useTranslation()

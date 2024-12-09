@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useReducer, useState } from 'react'
 
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-// eslint-disable-next-line no-restricted-imports
-import type { ContentValue, OnboardingUserData } from '../types'
-// eslint-disable-next-line no-restricted-imports
+import type { ContentValue, OnboardingUserData } from '@holi/core/screens/onboarding/types'
 import {
   getOnboardingUserDataAsyncStore,
   storeOnboardingUserDataAsyncStore,
-} from '../helpers/onboardingUserDataAsyncStore'
+} from '@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore'
 
 interface SetUserDataAction {
   type: 'SET_USER_DATA'

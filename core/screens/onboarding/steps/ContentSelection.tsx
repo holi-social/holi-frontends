@@ -41,7 +41,7 @@ const availableOptions = contentOptions.filter(({ mobileOnly }) => !mobileOnly |
 
 interface ContentSelectionProps {
   onChange: (option: ContentValue) => void
-  selectedOption?: ContentValue | null
+  selectedOption?: ContentValue | undefined
   testID?: string
 }
 
