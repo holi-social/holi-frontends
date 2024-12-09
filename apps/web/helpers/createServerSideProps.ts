@@ -1,4 +1,4 @@
-import { type QueryOptions } from '@apollo/client'
+import type { QueryOptions } from '@apollo/client'
 import type { GetServerSidePropsResult, NextPageContext } from 'next'
 
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
@@ -74,4 +74,23 @@ export const createServerSideProps = async (
     apolloState: createApolloPageProps(client),
     user: createUserPageProps(userId),
   })
+}
+
+export const createServerSidePropsWithLoggedInUserGuard: typeof createServerSideProps = async (...args) => {
+  const result = await createServerSideProps(...args)
+
+  if ('props' in result) {
+    const props = await Promise.resolve(result.props)
+
+    if (props.__USER__?.id) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      }
+    }
+  }
+
+  return result
 }

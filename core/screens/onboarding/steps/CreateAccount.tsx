@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
@@ -41,7 +41,7 @@ interface CreateAccountProps {
   testID?: string
 }
 
-const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: CreateAccountProps) => {
+export const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: CreateAccountProps) => {
   const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -184,8 +184,6 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
     </View>
   )
 }
-
-export default memo(CreateAccount)
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
