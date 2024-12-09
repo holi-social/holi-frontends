@@ -97,7 +97,7 @@ export interface NamesSelectionProps {
   testID?: string
 }
 
-const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: NamesSelectionProps) => {
+export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: NamesSelectionProps) => {
   const { t } = useTranslation()
   const { user, isLoading } = useLoggedInUser()
   const { track } = useTracking()
@@ -159,7 +159,7 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
           onChange={(value: string) => onNamesChange('firstName', replaceSpecialChars(value))}
           validationErrorText={namesFieldErrors?.firstName?.join()}
           isRequired
-          testID={`${testID}-input-first-name`}
+          testID={`${testID}-first-name`}
         />
 
         <HoliGap size="s" />
@@ -171,7 +171,7 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
           maxNoOfCharacters={100}
           onChange={(value: string) => onNamesChange('lastName', replaceSpecialChars(value))}
           validationErrorText={namesFieldErrors?.lastName?.join()}
-          testID={`${testID}-input-last-name`}
+          testID={`${testID}-last-name`}
         />
 
         <HoliGap size="s" />
@@ -182,7 +182,7 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           maxNoOfCharacters={100}
           onChange={(value: string) => onNamesChange('pronouns', value)}
-          testID={`${testID}-input-pronouns`}
+          testID={`${testID}-pronouns`}
         />
         <HoliGap size="xxs" />
         <Text size="xs" variant="secondary">
@@ -204,5 +204,3 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
     </View>
   )
 }
-
-export default NamesSelection

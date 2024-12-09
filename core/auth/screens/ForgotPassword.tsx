@@ -1,10 +1,9 @@
-import { RecoveryFlow } from '@ory/kratos-client'
+import type { RecoveryFlow } from '@ory/kratos-client'
 import React, { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 
 import { holiNextJSApiUrl } from '@holi/api/config'
-import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RecoverPasswordCode from '@holi/core/auth/components/RecoverPasswordCode'
 import RecoverPasswordForm from '@holi/core/auth/components/RecoverPasswordForm'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
@@ -15,6 +14,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useTheme } from '@holi/ui/styles/theme'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 export interface ForgotPasswordProps {
   webview?: boolean
@@ -55,25 +55,27 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
     if (email) setEmail(email)
   }
 
-  return Platform.OS === 'web' ? (
-    <DefaultLayout keyboardShouldPersistTaps="handled" headerOverlap={true}>
-      <LoginRegistrationContainer>
-        {success ? (
-          <RecoverPasswordCode email={email} flow={flow} webview={webview} />
-        ) : (
-          <RecoverPasswordForm onSubmit={onSubmit} webview={webview} />
-        )}
-      </LoginRegistrationContainer>
-    </DefaultLayout>
-  ) : (
-    <HoliWebView
-      webViewProps={{
-        setSupportMultipleWindows: false,
-        source: { uri: holiNextJSApiUrl + '/forgotPasswordWebView' },
-        incognito: true,
-      }}
-      theme={theme}
-    />
+  return (
+    <HoliContainer>
+      {Platform.OS === 'web' ? (
+        <DefaultLayout keyboardShouldPersistTaps="handled" headerOverlap={true}>
+          {success ? (
+            <RecoverPasswordCode email={email} flow={flow} webview={webview} />
+          ) : (
+            <RecoverPasswordForm onSubmit={onSubmit} webview={webview} />
+          )}
+        </DefaultLayout>
+      ) : (
+        <HoliWebView
+          webViewProps={{
+            setSupportMultipleWindows: false,
+            source: { uri: holiNextJSApiUrl + '/forgotPasswordWebView' },
+            incognito: true,
+          }}
+          theme={theme}
+        />
+      )}
+    </HoliContainer>
   )
 }
 

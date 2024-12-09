@@ -1,8 +1,8 @@
 import { useApolloClient } from '@apollo/client'
 import type { VerificationFlow } from '@ory/kratos-client'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ScrollView, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
@@ -21,8 +21,6 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
-import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 // eslint-disable-next-line no-restricted-imports
 import { storeOnboardingState } from '../hooks/onboardingState'
@@ -35,7 +33,7 @@ export interface EmailVerificationProps {
   testID?: string
 }
 
-const EmailVerification = ({
+export const EmailVerification = ({
   onDismiss = () => null,
   onSuccess,
   testID = 'email-verification',
@@ -49,9 +47,6 @@ const EmailVerification = ({
   const client = useApolloClient()
 
   const [code, setCode] = useState('')
-
-  const scrollViewRef = useRef<ScrollView>(null)
-  const scrollToInputWithId = useScrollToInputOnFocus(scrollViewRef)
 
   const data = useVerificationFlowData()
   const verificationFlowData = typeof data === 'object' ? data : undefined
@@ -178,77 +173,73 @@ const EmailVerification = ({
   if (!flow) return <HoliLoader />
 
   return (
-    <HoliKeyboardSaveView>
-      <CenteredImageHeadlineDescriptionLayout
-        imageSource={require('@holi/ui/assets/img/illustrations/registration_email_verification.svg')}
-        imageLabelText={t('registration.emailVerification.activateAccount')}
-        headlineText={t('registration.emailVerification.heading')}
-        descriptionText={t('registration.emailVerification.description')}
-        testID={testID}
-        ref={scrollViewRef}
-        contentStyle={styles.inner}
-      >
-        <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox} />
-        <HoliTextInput
-          value={code}
-          onChange={setCode}
-          placeholder={t('registration.emailVerification.inputPlaceholder')}
-          aria-label={t('registration.emailVerification.inputLabel')}
-          maxNoOfCharacters={CODE_MAX_COUNT}
-          showCharacterCount
-          inputProps={{
-            keyboardType: 'number-pad',
-            inputMode: 'decimal',
-            autoComplete: 'one-time-code',
+    <CenteredImageHeadlineDescriptionLayout
+      imageSource={require('@holi/ui/assets/img/illustrations/registration_email_verification.svg')}
+      imageLabelText={t('registration.emailVerification.activateAccount')}
+      headlineText={t('registration.emailVerification.heading')}
+      descriptionText={t('registration.emailVerification.description')}
+      testID={testID}
+      contentStyle={styles.inner}
+    >
+      <HoliBox padding={[32, 0, 0, 0]} layout={styles.limitedBox} />
+      <HoliTextInput
+        value={code}
+        onChange={setCode}
+        placeholder={t('registration.emailVerification.inputPlaceholder')}
+        aria-label={t('registration.emailVerification.inputLabel')}
+        maxNoOfCharacters={CODE_MAX_COUNT}
+        showCharacterCount
+        inputProps={{
+          keyboardType: 'number-pad',
+          inputMode: 'decimal',
+          autoComplete: 'one-time-code',
+        }}
+        style={[styles.limitedBox, { alignSelf: 'center' }]}
+        testID={`${testID}-code-input`}
+      />
+
+      <HoliBox padding={[16, 0, 0, 0]}>
+        <TextLinkTracked
+          onPress={resendEmail}
+          size="sm"
+          trackingEvent={TrackingEvent.Auth.ResendEmailButtonPressed}
+          role="link"
+        >
+          {t('registration.emailVerification.resendEmail')}
+        </TextLinkTracked>
+      </HoliBox>
+
+      <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
+        <HoliButtonLoadingTracked
+          label={t('registration.emailVerification.activateAccount')}
+          disabled={code.length !== CODE_MAX_COUNT}
+          onPress={verifyEmail}
+          type="primary"
+          testID={`${testID}-btn-submit`}
+          trackingEvent={TrackingEvent.Auth.ActivateAccountButtonPressed}
+        >
+          {t('registration.emailVerification.activateAccount')}
+        </HoliButtonLoadingTracked>
+      </HoliBox>
+
+      <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
+        <HoliButtonLoadingTracked
+          label={t('auth.loginProtection.continueAsGuest')}
+          onPress={async () => {
+            isLoggedIn && (await logout({ skipRedirect: true, showToastAfter: false }).catch(() => null)) // ignore logout error
+            setVerificationFlowData(undefined)
+            onDismiss()
           }}
-          style={[styles.limitedBox, { alignSelf: 'center' }]}
-          testID={`${testID}-code-input`}
-          {...scrollToInputWithId('code')}
-        />
+          type="secondary"
+          testID={`${testID}-btn-continue-as-guest`}
+          trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
+        >
+          {t('auth.loginProtection.continueAsGuest')}
+        </HoliButtonLoadingTracked>
+      </HoliBox>
 
-        <HoliBox padding={[16, 0, 0, 0]}>
-          <TextLinkTracked
-            onPress={resendEmail}
-            size="sm"
-            trackingEvent={TrackingEvent.Auth.ResendEmailButtonPressed}
-            role="link"
-          >
-            {t('registration.emailVerification.resendEmail')}
-          </TextLinkTracked>
-        </HoliBox>
-
-        <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-          <HoliButtonLoadingTracked
-            label={t('registration.emailVerification.activateAccount')}
-            disabled={code.length !== CODE_MAX_COUNT}
-            onPress={verifyEmail}
-            type="primary"
-            testID={`${testID}-btn-submit`}
-            trackingEvent={TrackingEvent.Auth.ActivateAccountButtonPressed}
-          >
-            {t('registration.emailVerification.activateAccount')}
-          </HoliButtonLoadingTracked>
-        </HoliBox>
-
-        <HoliBox padding={[24, 0, 0, 0]} layout={styles.limitedBox}>
-          <HoliButtonLoadingTracked
-            label={t('auth.loginProtection.continueAsGuest')}
-            onPress={async () => {
-              isLoggedIn && (await logout({ skipRedirect: true, showToastAfter: false }).catch(() => null)) // ignore logout error
-              setVerificationFlowData(undefined)
-              onDismiss()
-            }}
-            type="secondary"
-            testID={`${testID}-btn-continue-as-guest`}
-            trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-          >
-            {t('auth.loginProtection.continueAsGuest')}
-          </HoliButtonLoadingTracked>
-        </HoliBox>
-
-        {isLoaderShown && <HoliLoader />}
-      </CenteredImageHeadlineDescriptionLayout>
-    </HoliKeyboardSaveView>
+      {isLoaderShown && <HoliLoader />}
+    </CenteredImageHeadlineDescriptionLayout>
   )
 }
 
@@ -275,5 +266,3 @@ const getStyles = (theme: HoliTheme) =>
       width: '100%',
     },
   })
-
-export default EmailVerification

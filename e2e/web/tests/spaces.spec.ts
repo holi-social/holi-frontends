@@ -9,7 +9,6 @@ import {
   isRunningLocally,
   locateElementByTestId,
   proceedAsGuest,
-  retry,
   waitForAnimationEnd,
   withSSR,
 } from '@holi/e2e-web/tests/helpers'
@@ -21,6 +20,8 @@ test.setTimeout(120_000)
 test.describe('@Spaces', () => {
   test('user journey', async ({ browser, browserName, page, sessions }) => {
     process.env.DEBUG && page.on('console', (msg) => console.debug('  BROWSER LOG>', msg.text(), '<'))
+    const { page: spaceAdmin } = await sessions.signUp()
+    await testCreatingEditingSpace(spaceAdmin)
 
     await proceedAsGuest(page)
 
@@ -31,25 +32,19 @@ test.describe('@Spaces', () => {
     await testDisplaysMultipleGroups(page)
     await withSSR(browser, page.url(), testDisplaysMultipleGroupsCommon)
 
-    const { page: spaceAdmin } = await sessions.signUp()
-    await testCreatingEditingSpace(spaceAdmin)
-
     // open first space displayed
     await clickElementByTestId(page, 'space-link')
     await testDisplaysSpaceDetails(page)
-    await withSSR(browser, page.url(), testDisplaysSpaceDetailsCommon)
 
     await testShareSpace(browserName, page)
 
     await test.step('space can be deleted', async () => {
-      await retry(async () => {
-        await clickElementByTestId(spaceAdmin, 'space-options-btn')
-        await clickElementByTestId(spaceAdmin, 'space-delete')
-        await clickElementByTestId(spaceAdmin, 'space-delete-confirmation-primary')
+      await clickElementByTestId(spaceAdmin, 'space-options-btn')
+      await clickElementByTestId(spaceAdmin, 'space-delete')
+      await clickElementByTestId(spaceAdmin, 'space-delete-confirmation-primary')
 
-        // end up at the spaces dashboard (mine/discover)
-        expect(spaceAdmin.waitForSelector('btn-create-space'))
-      })
+      // end up at the spaces dashboard (mine/discover)
+      await spaceAdmin.waitForSelector(byTestId('btn-create-space'))
     })
   })
 })
@@ -205,7 +200,7 @@ const testCreatingEditingSpace = async (page: Page) => {
   await expect(topicChips.count()).resolves.toBe(numberOfEditedTerms)
 
   // set location if we have a real geoservice
-  if (isRunningLocally()) {
+  if (!isRunningLocally()) {
     const editedLocation = 'Berlin'
     await clickElementByTestId(page, 'btn-space-edit-location')
     await inputSpaceLocation(page, editedLocation)
