@@ -2,7 +2,6 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import Spaces from '@holi/core/screens/spaces/discover/Spaces'
 import FilteredSpaces from '@holi/core/screens/spaces/filter/FilteredSpaces'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -16,13 +15,7 @@ const SpacesStack = createNativeStackNavigator<SpacesStackScreensList>()
 
 const SpacesHomeNavigator = () => {
   return (
-    <SpacesStack.Navigator
-      initialRouteName={RouteName.SpacesHome}
-      screenOptions={{
-        header: HeaderAnimated,
-        headerTransparent: true,
-      }}
-    >
+    <SpacesStack.Navigator initialRouteName={RouteName.SpacesHome} screenOptions={{ headerShadowVisible: false }}>
       <SpacesStack.Screen name={RouteName.SpacesHome} component={Spaces} />
       <SpacesStack.Screen name={RouteName.FilteredSpaces} component={FilteredSpaces} />
     </SpacesStack.Navigator>

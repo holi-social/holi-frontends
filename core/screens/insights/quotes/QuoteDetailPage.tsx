@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Linking, Platform, StyleSheet, View, ScrollView } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -83,7 +82,6 @@ const QuoteDetailPage = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,
       headerRight: () => {
         return (
@@ -105,7 +103,7 @@ const QuoteDetailPage = () => {
 
   return (
     <>
-      <ScrollHeaderLayout contentContainerStyle={styles.wrapper} backgroundColor={theme.colors.background20}>
+      <ScrollView contentContainerStyle={styles.wrapper} backgroundColor={theme.colors.background20}>
         {quote && !loading ? (
           <>
             {quote.linkPreview.image && (
@@ -150,7 +148,7 @@ const QuoteDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout>
+      </ScrollView>
 
       <View style={[mixins.container, styles.openLinkButton]}>
         {(!quote || loading) && <HoliButtonLoading loading loadingLabel={t('global.loading')} label="" />}

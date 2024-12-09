@@ -112,7 +112,6 @@ const AppointmentDetails = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
-      headerTransparent: false,
       headerTitle: () => <HoliText>{t('spaces.appointments.details.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,

@@ -2,14 +2,13 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
 import VolunteeringEngagementDetail, {
-  VolunteeringEngagementDetailParams,
+  type VolunteeringEngagementDetailParams,
 } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
-import { VolunteeringFilterParams } from '@holi-apps/volunteering/types'
+import type { VolunteeringFilterParams } from '@holi-apps/volunteering/types'
 
 export type VolunteeringAppScreensList = {
   [RouteName.VolunteeringAppHome]: VolunteeringFilterParams
@@ -27,9 +26,8 @@ const VolunteeringAppNavigator = () => {
     <VolunteeringAppStack.Navigator
       initialRouteName={RouteName.VolunteeringAppHome}
       screenOptions={{
-        header: HeaderAnimated,
         headerShown: true,
-        headerTransparent: true,
+        headerShadowVisible: false,
       }}
     >
       <VolunteeringAppStack.Screen name={RouteName.VolunteeringAppHome} component={VolunteeringAppHome} />

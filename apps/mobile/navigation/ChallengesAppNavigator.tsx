@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 import ChallengesAppHome from '@holi-apps/challenges/screens/ChallengesAppHome'
-import { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
+import type { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
 
 export type ChallengesAppScreensList = {
   [RouteName.ChallengesAppHome]: ChallengesAppHomeParams
@@ -17,10 +17,7 @@ const ChallengesAppNavigator = () => {
   return (
     <ChallengesAppStack.Navigator
       initialRouteName={RouteName.ChallengesAppHome}
-      screenOptions={{
-        headerShown: false,
-        headerTransparent: true,
-      }}
+      screenOptions={{ headerShown: false, headerShadowVisible: false }}
     >
       <ChallengesAppStack.Screen name={RouteName.ChallengesAppHome} component={ChallengesAppHome} />
     </ChallengesAppStack.Navigator>

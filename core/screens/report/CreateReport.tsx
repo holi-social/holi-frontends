@@ -66,7 +66,6 @@ const CreateReport = () => {
           <HoliIcon icon={Information} />
         </Pressable>
       ),
-      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },

@@ -1,16 +1,15 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 import FilterModal from '@holi/core/components/FIlterModal'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
-import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
+import type { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import {
   type FilteredSpacesPageParams,
   useSpaceInitialFilters,
@@ -23,7 +22,7 @@ import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceT
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const { useUpdateParams } = createParamHooks<FilteredSpacesPageParams>()
 
@@ -73,7 +72,7 @@ const FilteredSpaces = () => {
 
   return (
     <SpaceTermContextProvider>
-      <ScrollHeaderLayout headerRelation="offset" style={styles.container} testID="filtered-spaces-container">
+      <ScrollView style={styles.container} testID="filtered-spaces-container">
         <HoliContainer>
           <FilteredSpacesHeading locationId={locationId} topicSlugs={topicSlugs} skillSlugs={skillSlugs} />
           {isLoading ? (
@@ -91,7 +90,7 @@ const FilteredSpaces = () => {
         </HoliContainer>
 
         <HoliGap size="xl" />
-      </ScrollHeaderLayout>
+      </ScrollView>
 
       <FilterModal
         actionButtonVisible

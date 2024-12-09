@@ -6,7 +6,6 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
@@ -40,6 +39,7 @@ import { useHoliTabQueryParamSetter } from '@holi/ui/components/organisms/HoliTa
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { AskQuestion } from '@holi/core/screens/spaces/details/components/AskQuestion'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -230,7 +230,6 @@ const SpaceDetails = () => {
   useEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
-      headerTransparent: true,
       headerTintColor: colors.foreground30,
       headerTitle: '',
       headerLeft: () => <HeaderBackButton />,
@@ -285,14 +284,13 @@ const SpaceDetails = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollHeaderLayout
-        backgroundColor={colors.background20}
-        refreshBackgroundColor={colors.background10}
+      <KeyboardAwareScrollView
+        style={{ backgroundColor: colors.background20, flex: 1 }}
         keyboardShouldPersistTaps="handled"
       >
         {activeTab && <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onTabChange} />}
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
-      </ScrollHeaderLayout>
+      </KeyboardAwareScrollView>
 
       {isMember && activeTab && (
         <HoliTransition.FadeRightSwitch animKey={activeTab} style={styles.floatingButtonsContainer}>
@@ -334,10 +332,6 @@ const SpaceDetails = () => {
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
-    },
     floatingButtonsContainer: {
       bottom: dimensions.topBarHeight,
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',

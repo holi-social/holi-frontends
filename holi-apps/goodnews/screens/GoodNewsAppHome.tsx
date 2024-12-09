@@ -1,9 +1,8 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -24,7 +23,6 @@ const GoodNewsAppHome = () => {
     setScreenOptions({
       headerTitle: () => <GoodNewsHeader />,
       headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
-      headerTransparent: true,
       headerTintColor: colors.light,
       navigationCustomOptions: {
         background: { type: 'gradient' },
@@ -38,13 +36,9 @@ const GoodNewsAppHome = () => {
       <View testID={'goodnews-app-home'}>
         <StatusBar style="light" animated />
 
-        <ScrollHeaderLayout
-          bounces={false}
-          headerRelation="overlap"
-          style={{ paddingBottom: 0, backgroundColor: colors.background30 }}
-        >
+        <ScrollView bounces={false} style={{ paddingBottom: 0, backgroundColor: colors.background30 }}>
           <GoodNewsCarousel />
-        </ScrollHeaderLayout>
+        </ScrollView>
       </View>
     </PosthogFeatureFlagGuard>
   )

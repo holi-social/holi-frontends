@@ -15,7 +15,7 @@ import { ArrowLeftS } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceInviteViewParams = {
   spaceIdOrName: string
@@ -37,7 +37,6 @@ const SpaceInvitePage = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerLeft: () => (Platform.OS === 'web' ? <HeaderBackButton /> : <HeaderBackButton icon={ArrowLeftS} />),
-      headerTransparent: true,
       headerTitle: () => <HoliText>{t('spaces.invite.btn.invite')}</HoliText>,
       navigationCustomOptions: {
         footerShown: false,

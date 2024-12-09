@@ -37,7 +37,6 @@ const SpaceCollaboratorsManage = () => {
       animation: 'slide_from_bottom',
       title: t('spaces.collaborators.manage.modal.title'),
       headerLeft: () => <HeaderBackButton icon={ArrowLeft} />,
-      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },

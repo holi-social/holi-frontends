@@ -2,7 +2,6 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import PostCommentPage, { type PostCommentPageParams } from '@holi/core/screens/individualPosts/PostCommentPage'
 import PostDetailsPage, { type PostDetailsPageParams } from '@holi/core/screens/individualPosts/PostDetailsPage'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -22,8 +21,6 @@ const FeedPostsNavigator = () => {
         initialRouteName={RouteName.FeedPostDetailsPage}
         screenOptions={{
           headerShown: true,
-          headerTransparent: false,
-          header: HeaderAnimated,
           headerShadowVisible: false,
         }}
       >

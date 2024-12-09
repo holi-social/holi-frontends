@@ -16,7 +16,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import TabContentScrollView from '@holi/ui/components/organisms/HoliTabs/TabContentScrollViewLayout'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceRolesPermissionsParams = {
   spaceIdOrName: string
@@ -223,7 +223,6 @@ const SpaceRolesPermissions = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       title: t('spaces.rolesAndPermissions.title'),
-      headerTransparent: false,
       headerLeft: () => <HeaderBackButton icon={Platform.OS === 'web' ? ArrowLeft : ArrowDownS} />,
       navigationCustomOptions: {
         footerShown: false,

@@ -1,16 +1,14 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ActSection } from '@holi/core/screens/act/ActSection'
-import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
@@ -47,7 +45,6 @@ const ActHome = () => {
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
@@ -61,14 +58,14 @@ const ActHome = () => {
   const sections = orderedSections(selectedContentType)
 
   return (
-    <ScrollHeaderLayout style={styles.layout} refreshBackgroundColor={colors.background10}>
+    <ScrollView style={styles.layout}>
       <View style={styles.container}>
         <AttendingChallengeEvents />
         {sections.map((sectionName) => (
           <ActSection type={sectionName} key={sectionName} />
         ))}
       </View>
-    </ScrollHeaderLayout>
+    </ScrollView>
   )
 }
 

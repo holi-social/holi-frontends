@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { z } from 'zod'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
@@ -9,13 +10,15 @@ import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHead
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceInviteUserSearch from '@holi/core/screens/spaces/details/components/SpaceInviteUserSearch'
 import SpaceInviteUserConnectionsList from '@holi/core/screens/spaces/details/components/UserConnectionsList'
-import { InviteToSpaceByEmailResponse, inviteToSpaceByEmailMutation } from '@holi/core/screens/spaces/details/mutations'
+import {
+  type InviteToSpaceByEmailResponse,
+  inviteToSpaceByEmailMutation,
+} from '@holi/core/screens/spaces/details/mutations'
 import { spaceInvitesQuery } from '@holi/core/screens/spaces/details/queries'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
@@ -113,14 +116,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     whom: {
       display: 'flex',
-      ...Platform.select({
-        native: {
-          paddingTop: dimensions.topBarHeight + 52,
-        },
-        web: {
-          paddingTop: dimensions.topBarHeight + 24,
-        },
-      }),
       paddingBottom: 8,
       flexDirection: 'column',
       alignItems: 'flex-start',

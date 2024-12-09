@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { type DimensionValue, Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
@@ -17,7 +17,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceOnboardingParams = {
   spaceIdOrName: string
@@ -37,7 +37,6 @@ const SpaceOnboarding = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.onboarding.title'),
-      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },
