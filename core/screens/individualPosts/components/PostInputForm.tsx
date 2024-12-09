@@ -36,6 +36,7 @@ import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { CategorySelectionModal } from '@holi/core/screens/individualPosts/components/CategorySelectionModal'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -73,8 +74,8 @@ export interface PostInputFormProps {
   fieldErrors?: TranslatedFieldErrors
   submitting: boolean
   categories: FeedPostCategories | null
-  onClickCategoriesPill: () => void
   mentions?: User[]
+  selectCategory: (categoryId: string) => void
 }
 
 const PostInputForm: React.FC<PostInputFormProps> = ({
@@ -100,7 +101,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   isEdit = false,
   submitting,
   categories,
-  onClickCategoriesPill,
+  selectCategory,
 }) => {
   const { theme } = useTheme()
   const { t } = useTranslation()
@@ -113,6 +114,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
   const { show: showLocationModal, hide: hideLocationModal, visible: visibleLocationModal } = useModalState()
   const { show: showEditImagesModal, hide: hideEditImagesModal, visible: visibleEditImagesModal } = useModalState()
+  const { show: showCategoryModal, hide: hideCategoryModal, visible: visibleCategoryModal } = useModalState()
 
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
@@ -179,8 +181,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             <ChipAction id="post-visibility-pill" onPress={showVisibility} iconTrailing={Pencil} color="white">
               {t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
             </ChipAction>
-            <ChipAction id="post-category-pill" onPress={onClickCategoriesPill} iconTrailing={Pencil} color="yellow">
-              {categoryLabel ? categoryLabel : ''}
+            <ChipAction id="post-category-pill" onPress={showCategoryModal} iconTrailing={Pencil} color="yellow">
+              {categoryLabel ? categoryLabel : t('individuals.post.category.label.category')}
             </ChipAction>
 
             {selectedTopics &&
@@ -391,6 +393,13 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           aspectRatio={aspectRatio}
         />
       </HoliModal>
+      <CategorySelectionModal
+        visible={visibleCategoryModal}
+        categories={categories}
+        selectedCategoryId={selectedCategoryId}
+        onCategorySelection={selectCategory}
+        handleModalClose={hideCategoryModal}
+      />
     </>
   )
 }
