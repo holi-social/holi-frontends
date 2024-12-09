@@ -27258,8 +27258,8 @@ __metadata:
   linkType: hard
 
 "posthog-react-native@npm:^3.3.9":
-  version: 3.3.10
-  resolution: "posthog-react-native@npm:3.3.10"
+  version: 3.5.0
+  resolution: "posthog-react-native@npm:3.5.0"
   peerDependencies:
     "@react-native-async-storage/async-storage": ">=1.0.0"
     "@react-navigation/native": ">= 5.0.10"
@@ -27267,7 +27267,7 @@ __metadata:
     expo-device: ">= 4.0.0"
     expo-file-system: ">= 13.0.0"
     expo-localization: ">= 11.0.0"
-    posthog-react-native-session-replay: ^0.1.6
+    posthog-react-native-session-replay: ^0.1
     react-native-device-info: ">= 10.0.0"
     react-native-navigation: ">=6.0.0"
   peerDependenciesMeta:
@@ -27289,7 +27289,7 @@ __metadata:
       optional: true
     react-native-navigation:
       optional: true
-  checksum: 10c0/b5186962fce524f280492a71ea874bb5089ac4bc0603254bdcc73b08875c017e165beea9e102984e0bf47197216999539c7983d1db0f6c5d364dc4b7ef08b41f
+  checksum: 10c0/b3ff2b03376f4cbd7e9defe19c6622d3d1354baeafcef187f21e97fba24f459f460c8f0099d23731b5e2dad6fef5ab9cbd0e625592391beef2d5481c57d648fe
   languageName: node
   linkType: hard
 
