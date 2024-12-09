@@ -39,6 +39,7 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { useHoliTabQueryParamSetter } from '@holi/ui/components/organisms/HoliTabs/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { AskQuestion } from '@holi/core/screens/spaces/details/components/AskQuestion'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -59,7 +60,6 @@ const SpaceDetails = () => {
 
   const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
   useOnRefresh(refetch)
-
   const { show: showAddNewDrawerModal, props: addNewDrawerModalProps } = useModalState()
 
   const isWeb = Platform.OS === 'web'
@@ -225,6 +225,7 @@ const SpaceDetails = () => {
   )
 
   const spaceRoom = useAtomValue(useMemo(() => spaceRoomAtomCreator(id), [id]))
+  const representative = space?.representatives?.[0].user
 
   useEffect(() => {
     setScreenOptions({
@@ -323,6 +324,8 @@ const SpaceDetails = () => {
           </HoliContainer>
         </HoliTransition.FadeRightSwitch>
       )}
+
+      <AskQuestion representativeIdentity={representative?.identity} isMember={isMember} />
 
       <AddNewDrawer spaceIdOrName={space.name} {...addNewDrawerModalProps} />
     </View>

@@ -116,7 +116,7 @@ exports[`SpaceInviteUserButton displays button if the user already requested mem
             }
           >
             <RNSVGPath
-              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"
+              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
               fill={
                 {
                   "type": 2,
@@ -252,7 +252,7 @@ exports[`SpaceInviteUserButton displays button if the user can be invited 1`] = 
             }
           >
             <RNSVGPath
-              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"
+              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
               fill={
                 {
                   "type": 2,
