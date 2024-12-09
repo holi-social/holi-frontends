@@ -11,7 +11,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const NotFound = () => {
   const { t } = useTranslation()
@@ -27,7 +27,6 @@ const NotFound = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
       headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => null,
       headerLeft: () => (

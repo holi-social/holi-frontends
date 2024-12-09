@@ -2,7 +2,6 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import ChatRoomView from '@holi/core/screens/chat/ChatRoomView'
 import ChatStartConversationView from '@holi/core/screens/chat/ChatStartConversationView'
 import { RouteName } from '@holi/mobile/navigation/routeName'
@@ -18,10 +17,7 @@ const ChatStackNavigator = () => {
   return (
     <ChatStack.Navigator
       initialRouteName={RouteName.ChatRoom}
-      screenOptions={{
-        header: HeaderAnimated,
-        headerTransparent: false,
-      }}
+      screenOptions={{ headerShown: true, headerShadowVisible: false }}
     >
       <ChatStack.Screen name={RouteName.ChatRoom} component={ChatRoomView} />
       <ChatStack.Screen name={RouteName.ChatStartConversation} component={ChatStartConversationView} />

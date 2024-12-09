@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -19,7 +18,8 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 export type SpaceTasksParams = {
   spaceIdOrName: string
@@ -51,7 +51,6 @@ const SpaceTasks = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.rolesAndPermissions.tasks.title'),
-      headerTransparent: true,
       headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
         footerShown: false,
@@ -76,7 +75,7 @@ const SpaceTasks = () => {
           <HoliIcon icon={Add} size={24} />
         </HoliButton>
       )}
-      <ScrollHeaderLayout style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
+      <KeyboardAwareScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
           <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
@@ -84,7 +83,7 @@ const SpaceTasks = () => {
             </HoliBox>
           </HoliContainer>
         </HoliBox>
-      </ScrollHeaderLayout>
+      </KeyboardAwareScrollView>
     </>
   )
 }

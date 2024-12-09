@@ -168,7 +168,6 @@ const EditPost = () => {
           {t('individuals.post.edit.title')}
         </HoliHeading>
       ),
-      headerTransparent: false,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor={colors.black300} />,
       navigationCustomOptions: {
         footerShown: false,

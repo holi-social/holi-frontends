@@ -2,10 +2,9 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -74,7 +73,6 @@ const DiscussionDetailPage = () => {
       navigationCustomOptions: {
         footerShown: false,
       },
-      headerTransparent: true,
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.discussions.pageTitle')}</HeaderTitle>
       ),
@@ -96,7 +94,7 @@ const DiscussionDetailPage = () => {
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollHeaderLayout style={styles.wrapper} contentContainerStyle={styles.wrapperContent}>
+      <ScrollView style={styles.wrapper} contentContainerStyle={styles.wrapperContent}>
         <HoliContainer noPadding>
           {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
           {discussionId && (
@@ -111,7 +109,7 @@ const DiscussionDetailPage = () => {
             </View>
           )}
         </HoliContainer>
-      </ScrollHeaderLayout>
+      </ScrollView>
 
       <SafeArea edges={['bottom']}>
         <View style={styles.commentWrapper}>

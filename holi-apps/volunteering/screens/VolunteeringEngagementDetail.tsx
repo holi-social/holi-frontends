@@ -2,12 +2,11 @@ import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleSheet, View, ScrollView } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import HoliHead from '@holi/core/components/HoliHead'
-import { InfoModalItemProps } from '@holi/core/components/InfoModal'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import type { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import { HoliButtonLoadingTracked } from '@holi/core/components/Trackable'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -26,7 +25,7 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import VolunteeringDetailHeader from '@holi-apps/volunteering/components/VolunteeringDetailHeader'
@@ -34,13 +33,13 @@ import VolunteeringPartnerCard from '@holi-apps/volunteering/components/Voluntee
 import VolunteeringSimilarRecosSlider from '@holi-apps/volunteering/components/VolunteeringSimilarRecosSlider'
 import { useSimilarRecos } from '@holi-apps/volunteering/hooks/useSimilarRecos'
 import {
-  AppVolunteeringEngagementByIdResponse,
-  AppVolunteeringEngagementByIdVariables,
-  TrackEngagementViewResponse,
+  type AppVolunteeringEngagementByIdResponse,
+  type AppVolunteeringEngagementByIdVariables,
+  type TrackEngagementViewResponse,
   engagementByIdQuery,
   trackEngagementViewMutation,
 } from '@holi-apps/volunteering/queries'
-import { Organizer } from '@holi-apps/volunteering/types'
+import type { Organizer } from '@holi-apps/volunteering/types'
 
 export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
   [name: string]: InfoModalItemProps
@@ -141,7 +140,7 @@ const UnwrappedVolunteeringEngagementDetail = () => {
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('volunteering:app.name'), headerTransparent: true })
+    setScreenOptions({ title: t('volunteering:app.name') })
   }, [setScreenOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
@@ -209,7 +208,7 @@ const UnwrappedVolunteeringEngagementDetail = () => {
     />
   )
 
-  const Organizer = ({ organizer: organizer }: { organizer: Organizer }) => {
+  const Organizer = ({ organizer }: { organizer: Organizer }) => {
     return (
       <View style={{ marginTop: 10 }}>
         <HoliText size={'large'}>{t('volunteering:engagementDetail.organizer')}</HoliText>
@@ -254,7 +253,7 @@ const UnwrappedVolunteeringEngagementDetail = () => {
         ogDescription={engagement.description}
         ogImage={engagement.imageUrl}
       />
-      <ScrollHeaderLayout style={styles.header}>
+      <ScrollView style={styles.header}>
         {engagement && (
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
@@ -278,7 +277,7 @@ const UnwrappedVolunteeringEngagementDetail = () => {
             )}
           </View>
         )}
-      </ScrollHeaderLayout>
+      </ScrollView>
 
       <View style={styles.volunteeringButton}>
         <HoliButtonLoadingTracked

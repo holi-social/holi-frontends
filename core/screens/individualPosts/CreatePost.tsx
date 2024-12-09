@@ -9,7 +9,6 @@ import type { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { type DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
@@ -21,8 +20,6 @@ import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPos
 import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
 import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Close } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -30,6 +27,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { Text } from 'holi-bricks/components/text'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -112,16 +110,14 @@ const CreatePost = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: false,
       headerTitle: () => (
-        <HoliHeading level="1" size="s">
+        <Text headingLevel="1" size="lg">
           {t('individuals.post.input.title')}
-        </HoliHeading>
+        </Text>
       ),
       headerStyle: {
         backgroundColor: colors.background20,
       },
-      headerLeft: () => <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor={colors.black300} />,
       navigationCustomOptions: {
         footerShown: false,
       },

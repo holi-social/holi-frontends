@@ -17,7 +17,7 @@ import { ArrowRightS, CalendarCheck, VideoChat } from '@holi/icons/src/generated
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceVideoCallListParams = {
   spaceIdOrName: string
@@ -39,7 +39,6 @@ const SpaceVideoCallList = () => {
   useLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.videocall.header'),
-      headerTransparent: false,
       headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
         footerShown: false,

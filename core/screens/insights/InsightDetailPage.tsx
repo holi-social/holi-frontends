@@ -5,11 +5,10 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Platform, Pressable, StyleSheet, View, ScrollView } from 'react-native'
 
 import type { Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -92,7 +91,6 @@ const InsightDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: true,
       headerTintColor: colors.light,
       title: '',
       navigationCustomOptions: {
@@ -219,7 +217,7 @@ const InsightDetailPage = () => {
       />
       <StatusBar style="light" animated />
 
-      <ScrollHeaderLayout headerRelation="overlap" style={styles.wrapper}>
+      <ScrollView style={styles.wrapper}>
         {insight && !loading ? (
           <>
             <HoliImageBackground
@@ -377,7 +375,7 @@ const InsightDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout>
+      </ScrollView>
     </>
   )
 }

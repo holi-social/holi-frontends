@@ -1,8 +1,6 @@
 import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import ActHome from '@holi/core/screens/act/ActHome'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
@@ -14,13 +12,7 @@ const ActStack = createNativeStackNavigator<ActStackScreensList>()
 
 const ActNavigator = () => {
   return (
-    <ActStack.Navigator
-      initialRouteName={RouteName.ActHome}
-      screenOptions={{
-        header: HeaderAnimated,
-        headerTransparent: false,
-      }}
-    >
+    <ActStack.Navigator initialRouteName={RouteName.ActHome} screenOptions={{ headerShadowVisible: false }}>
       <ActStack.Screen name={RouteName.ActHome} component={ActHome} />
     </ActStack.Navigator>
   )

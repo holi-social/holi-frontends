@@ -113,7 +113,6 @@ const PostDetailPage = () => {
         navigationCustomOptions: {
           footerShown: false,
         },
-        headerTransparent: false,
       }),
     [setScreenOptions, title]
   )

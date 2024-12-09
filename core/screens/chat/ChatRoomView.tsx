@@ -94,7 +94,6 @@ const ChatRoomView = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: false,
       headerRight: () =>
         !!chatPartner &&
         !isSpaceRoom && (

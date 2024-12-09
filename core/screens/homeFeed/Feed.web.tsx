@@ -138,7 +138,6 @@ const HomeFeed = () => {
       title: headerTitle,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: false,
       headerTitle: () => null,
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (

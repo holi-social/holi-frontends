@@ -102,7 +102,6 @@ const CreateDigitalTool = () => {
       animation: 'slide_from_bottom',
       title: '',
       headerStyle: styles.background,
-      headerTransparent: false,
       headerLeft: () => <HeaderBackButton icon={ArrowDownS} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,

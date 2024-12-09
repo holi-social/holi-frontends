@@ -12,7 +12,7 @@ import CommentForm from '@holi/core/screens/comments/components/CommentForm'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import { getPostUrl } from '@holi/core/screens/posts/components/helpers'
-import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
+import { PostById, type PostByIdResponse } from '@holi/core/screens/posts/queries'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type CommentInputPageParams = {
@@ -50,7 +50,6 @@ const CommentInputPage = () => {
     () =>
       setScreenOptions({
         title: t('comments.title'),
-        headerTransparent: false,
         navigationCustomOptions: {
           footerShown: false,
         },
