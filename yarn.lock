@@ -27248,12 +27248,12 @@ __metadata:
   linkType: hard
 
 "posthog-node@npm:^4.2.0":
-  version: 4.2.1
-  resolution: "posthog-node@npm:4.2.1"
+  version: 4.3.1
+  resolution: "posthog-node@npm:4.3.1"
   dependencies:
     axios: "npm:^1.7.4"
     rusha: "npm:^0.8.14"
-  checksum: 10c0/f44c7ab3be782d8d056ae8a284079ae1eb1f4f98adf91ecd3c43f7da5bd2dea1be987bc581378dae5918cab8de4efb30166b7419391ec0a82abc715f1c3ab37b
+  checksum: 10c0/49d2899ca89379b4b8982c49075378c00345a579c5f55fa5d99c852cc8e07c92a121eef1ff0b1f2feb3c7d132577973363bb71a9f6775ab10eb1efd66349b69c
   languageName: node
   linkType: hard
 
