@@ -18,10 +18,8 @@ import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-// eslint-disable-next-line no-restricted-imports
-import { useOnboardingFinishModalState } from '../hooks/useOnboardingFinishModalState'
-// eslint-disable-next-line no-restricted-imports
-import { DocumentModal, useDocumentModal } from '../components/DocumentModal'
+import { useOnboardingFinishModalState } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
+import { DocumentModal, useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 
 const isWeb = Platform.OS === 'web'
 const isAndroid = Platform.OS === 'android'
