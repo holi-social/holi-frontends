@@ -28314,15 +28314,15 @@ __metadata:
   linkType: hard
 
 "react-native-keyboard-controller@npm:^1.14.4":
-  version: 1.14.4
-  resolution: "react-native-keyboard-controller@npm:1.14.4"
+  version: 1.14.5
+  resolution: "react-native-keyboard-controller@npm:1.14.5"
   dependencies:
     react-native-is-edge-to-edge: "npm:^1.1.6"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-reanimated: ">=3.0.0"
-  checksum: 10c0/65609abf45a969c402bbfb2cb121505f1c250804e70ab6ea092cbb9e33d6a816e3133aa7184c4d32af89575c94a55d0af002b4341e531dbaa9fe4ecf60775167
+  checksum: 10c0/ca9e67b7685f8f4f96efde849b9bca107dbc086fafb57b72793e3c3dea03a726f026be2fd3867a22e1e9b51e60d9eaea9050f030211d16829ac814547ac9eb73
   languageName: node
   linkType: hard
 
