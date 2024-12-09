@@ -78,7 +78,10 @@ const EditPost = () => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
       }
-      logError(error, 'Failed to load quote', { location: 'EditPost.postQuery', idOrSlug })
+      logError(error, 'Failed to load quote', {
+        location: 'EditPost.postQuery',
+        idOrSlug,
+      })
     },
   })
 
@@ -146,10 +149,14 @@ const EditPost = () => {
       setTitle(post.title)
       setDescription(post.description)
       setCurrentImages(post.images)
-      setSelectedCategoryId(post.category.id)
+      setSelectedCategoryId(post.category?.id || null)
       setSelectedVisibility(Visibility[post.visibility])
       setSelectedTopics(post.topics)
-      setSelectedLocation({ label: post.location || '', id: '', coordinates: post.geolocation || undefined })
+      setSelectedLocation({
+        label: post.location || '',
+        id: '',
+        coordinates: post.geolocation || undefined,
+      })
       setAspectRatio(post.images?.[0]?.aspectRatio || ImageAspectRatio.SIXTEEN_NINE) // all images should be the same aspect ratio
     }
   }, [post])

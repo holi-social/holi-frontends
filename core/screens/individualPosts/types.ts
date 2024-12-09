@@ -65,7 +65,7 @@ export interface FeedPost {
   location?: string
   geolocation?: GeolocationPoint
   topics?: Topic[]
-  category: Category
+  category?: Category
   author: User
   createdAt: string
   imageBlurhash?: string
