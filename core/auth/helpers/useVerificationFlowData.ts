@@ -3,7 +3,9 @@ import type { ContinueWithVerificationUiFlow, UpdateLoginFlowWithPasswordMethod 
 
 export type VerificationFlowData = UpdateLoginFlowWithPasswordMethod | ContinueWithVerificationUiFlow
 
-export const verificationFlowDataVar = makeVar<VerificationFlowData | 'verification-disabled' | undefined>(undefined)
+export type VerificationFlowState = VerificationFlowData | 'verification-disabled' | undefined
+
+export const verificationFlowDataVar = makeVar<VerificationFlowState>(undefined)
 
 export const setVerificationFlowData = verificationFlowDataVar
 export const clearVerificationFlowData = () => verificationFlowDataVar(undefined)

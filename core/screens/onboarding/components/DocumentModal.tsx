@@ -7,39 +7,29 @@ import HtmlDocument from '@holi/core/components/HtmlDocument'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Spacing } from 'holi-bricks/tokens'
+import type { DocType } from '@holi/core/documents/DocType'
 
 interface Props extends Pick<HoliModalProps, 'show' | 'onDismiss'> {
   documentURL?: string
 }
 
-type DocumentType = 'privacyPolicy' | 'termsOfUse' | 'communityGuidelines'
-
 interface UseDocumentModalReturnValue {
   visible: boolean
-  show: (document: DocumentType) => void
+  show: (document: DocType) => void
   modalProps: Props
 }
 
 export const useDocumentModal = (): UseDocumentModalReturnValue => {
-  const [document, setDocument] = useState<DocumentType | null>(null)
-
-  const privacyPolicyURL = useDocumentURL('privacyPolicy')
-  const termsOfUseURL = useDocumentURL('termsOfUse')
-  const communityGuidelinesURL = useDocumentURL('communityGuidelines')
-
-  const documentURLs = {
-    privacyPolicy: privacyPolicyURL,
-    termsOfUse: termsOfUseURL,
-    communityGuidelines: communityGuidelinesURL,
-  }
+  const [document, setDocument] = useState<DocType | undefined>(undefined)
+  const documentUrl = useDocumentURL(document)
 
   return {
-    visible: document !== null,
-    show: (document: 'privacyPolicy' | 'termsOfUse' | 'communityGuidelines') => setDocument(document),
+    visible: !!document,
+    show: (document: DocType) => setDocument(document),
     modalProps: {
-      show: document !== null,
-      onDismiss: () => setDocument(null),
-      documentURL: document ? documentURLs[document] : undefined,
+      show: !!document,
+      onDismiss: () => setDocument(undefined),
+      documentURL: document ? documentUrl : undefined,
     },
   }
 }

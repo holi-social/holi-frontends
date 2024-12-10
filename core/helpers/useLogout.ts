@@ -6,7 +6,7 @@ import { getSessionFromStorage, submitLogoutFlow } from '@holi/core/auth/helpers
 import { setLoginStateLoggedOut, useLoginState } from '@holi/core/auth/loginState'
 import { getLogger } from '@holi/core/helpers/logging'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 const logger = getLogger('Auth')
@@ -63,7 +63,7 @@ export const useLogout = () => {
             const session = await getSessionFromStorage()
             await submitLogoutFlow({ session_token: session?.session_token || '' })
           }
-          await Promise.all([setLoginStateLoggedOut(), storeOnboardingState('finished')])
+          await Promise.all([setLoginStateLoggedOut(), clearOnboardingState()])
           await client.clearStore()
 
           logger.debug('useLogout', 'logout successful')
@@ -72,7 +72,7 @@ export const useLogout = () => {
         } catch (err) {
           logger.debug('useLogout', 'logout failed, removing session from storage', err)
           try {
-            await Promise.all([setLoginStateLoggedOut(), storeOnboardingState('finished')])
+            await Promise.all([setLoginStateLoggedOut(), clearOnboardingState()])
           } catch (e) {
             logger.debug('useLogout', 'cleaning up after logout error failed as well', e)
             openToast(message || t('auth.logout.error'), HoliToastType.ERROR, { testID: 'logout-failed' })

@@ -82,12 +82,12 @@ const Login = () => {
       const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
       await setLoginStateLoggedIn(data)
-      await storeOnboardingState('finished')
+      storeOnboardingState('finished')
       redirect(true)
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)
-        await storeOnboardingState('emailVerification')
+        storeOnboardingState('emailVerification')
       } else {
         handleFormSubmitError(
           safeSetFlow,

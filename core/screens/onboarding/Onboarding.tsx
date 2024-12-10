@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { mono, Spacing } from 'holi-bricks/tokens'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 
-import { storeOnboardingState } from './hooks/onboardingState'
+import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
 import { CreateAccount } from './steps/CreateAccount'
 import { EmailVerification } from './steps/EmailVerification'
 import { NamesSelection } from './steps/NamesSelection'
@@ -29,6 +29,7 @@ import {
   useOnbaordingCurrentStepKey,
 } from './hooks/useOnbaordingCurrentStepKey'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
+import { useCallback, useEffect } from 'react'
 import { getRouteForContentType } from './helpers/getRouteForContentType'
 import { showOnboardingFinishModal } from './hooks/useOnboardingFinishModalState'
 
@@ -37,6 +38,7 @@ const Onboarding = () => {
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
+  const onboardingState = useOnboardingState()
 
   const [currentStep, setCurrentStep] = useOnbaordingCurrentStepKey()
   const {
@@ -56,15 +58,23 @@ const Onboarding = () => {
   usePreventBackNavigation(true)
 
   const cleanUp = () => Promise.all([storeOnboardingState('finished'), clearOnboardingUserDataAsyncStore()])
-  const breakOnboarding = async () => {
+  const breakOnboarding = useCallback(async () => {
     const path = getRouteForContentType(userData.content)
     await cleanUp()
     replaceRoute(path)
-  }
+  }, [replaceRoute, userData.content])
+
   const finishOnboarding = async () => {
     breakOnboarding()
     showOnboardingFinishModal()
   }
+
+  // Abort and clean-up onboarding if user already is logged in when entering the screen
+  useEffect(() => {
+    if (onboardingState === 'finished') {
+      breakOnboarding()
+    }
+  }, [breakOnboarding, onboardingState])
 
   const renderStep = (key: OnboardingStepKey) => {
     switch (key) {

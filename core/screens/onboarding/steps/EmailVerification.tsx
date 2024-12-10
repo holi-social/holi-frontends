@@ -109,11 +109,11 @@ export const EmailVerification = ({
       const session = await login({
         payload: verificationFlowData,
       })
-      await storeOnboardingState('accountSetup')
+      storeOnboardingState('accountSetup')
       await client.clearStore()
       await setLoginStateLoggedIn(session as OrySessionContext)
     } else {
-      await storeOnboardingState('accountSetup')
+      storeOnboardingState('accountSetup')
     }
 
     openToast(toastMessage, HoliToastType.SUCCESS)

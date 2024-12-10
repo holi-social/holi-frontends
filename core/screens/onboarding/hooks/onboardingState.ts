@@ -6,89 +6,87 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Platform } from 'react-native'
-import { verificationFlowDataVar } from '@holi/core/auth/helpers/useVerificationFlowData'
-import { HoliError } from '@holi/core/errors/classes/HoliError'
-import { useLogout } from '@holi/core/helpers'
+import { useVerificationFlowData, type VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 
-export const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
+const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
+
+/** @deprecated since v1.43: Clean up local state that is no longer needed */
+export const cleanUpStoredOnboardingState = () => AsyncStore.removeItem(ONBOARDING_STATE_STORAGE_NAME)
 
 const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const
 export type OnboardingStateValue = (typeof onboardingValues)[number]
 
-const isOnboardingStateValue = (value: string | null): value is OnboardingStateValue =>
-  onboardingValues.some((v) => value === v)
-
 export const onboardingStateVar = makeVar<OnboardingStateValue | null>(null)
 
-export const clearOnboardingState = async () => {
-  await AsyncStore.removeItem(ONBOARDING_STATE_STORAGE_NAME)
+export const clearOnboardingState = () => {
   onboardingStateVar(null)
 }
 
-export const storeOnboardingState = async (value: OnboardingStateValue) => {
+export const storeOnboardingState = (value: OnboardingStateValue) => {
   if (!value) return
 
-  await AsyncStore.setItem(ONBOARDING_STATE_STORAGE_NAME, value)
   onboardingStateVar(value)
 }
 
-export const useStoredOnboardingState = () => useReactiveVar(onboardingStateVar)
+export const useOnboardingState = () => useReactiveVar(onboardingStateVar)
 
 const determineTargetState = ({
   isLoggedIn,
   accountCompleted,
+  emailVerificationState,
   value,
 }: {
   isLoggedIn: boolean
   accountCompleted: boolean
+  emailVerificationState: VerificationFlowState
   value: OnboardingStateValue | null
 }): OnboardingStateValue | never => {
-  // In case the user restarts the app on Email Verification step,
-  // on throw error to react on it and logout the user
-  if (value === 'emailVerification' && verificationFlowDataVar() === undefined) {
-    throw new HoliError('Onboarding: Verification flow data is missing - logout user')
-  } else {
-    if (isLoggedIn && !!verificationFlowDataVar()) {
-      return 'emailVerification'
-    }
-    if (isLoggedIn && !accountCompleted) {
-      return 'accountSetup'
-    }
-    if (isLoggedIn && value !== 'accountSetup') {
-      return 'finished'
-    }
-    return value || 'onboarding'
+  if (emailVerificationState) {
+    return 'emailVerification'
   }
+  if (isLoggedIn && !accountCompleted) {
+    return 'accountSetup'
+  }
+  if (isLoggedIn && value !== 'accountSetup') {
+    return 'finished'
+  }
+  if (!isLoggedIn) {
+    return 'onboarding'
+  }
+  return value || 'onboarding'
 }
 
 export const useOnboardingInitialization = () => {
   const loginState = useLoggedInUser()
-  const { logout } = useLogout()
+  const currentOnboardingState = useOnboardingState()
+  const emailVerificationState = useVerificationFlowData()
 
   useEffect(() => {
     if (loginState.isLoading) return
 
-    AsyncStore.getItem(ONBOARDING_STATE_STORAGE_NAME)?.then(async (storedValue) => {
-      const value = isOnboardingStateValue(storedValue) ? storedValue : null
-      const accountCompleted = !!loginState.user?.identity && !!loginState.user?.firstName
+    const accountCompleted = !!loginState.user?.identity && !!loginState.user?.firstName
 
-      try {
-        const targetState = determineTargetState({ isLoggedIn: loginState.isLoggedIn, accountCompleted, value })
-        value !== targetState ? await storeOnboardingState(targetState) : onboardingStateVar(value)
-      } catch (error) {
-        if (error instanceof HoliError) {
-          logout({ redirectPath: '/' })
-          storeOnboardingState('finished')
-        } else {
-          throw error
-        }
-      }
+    const targetState = determineTargetState({
+      isLoggedIn: loginState.isLoggedIn,
+      accountCompleted,
+      emailVerificationState,
+      value: currentOnboardingState,
     })
-  }, [loginState, logout])
+    if (currentOnboardingState !== targetState) {
+      storeOnboardingState(targetState)
+    }
+  }, [
+    emailVerificationState,
+    loginState.isLoading,
+    loginState.isLoggedIn,
+    loginState.user?.firstName,
+    loginState.user?.identity,
+    currentOnboardingState,
+  ])
 }
 
 export const useOnboardingRedirect = () => {
-  const onboardingState = useStoredOnboardingState()
+  const onboardingState = useOnboardingState()
   const pathname = usePathname()
   const { navigate } = useRouting()
   // FIXME Using setTimeout as navigation might not be properly set up yet
@@ -111,9 +109,9 @@ export const useOnboardingRedirect = () => {
   useEffect(() => {
     const isOnboarding = onboardingState === 'onboarding'
     const isEmailVerification = onboardingState === 'emailVerification'
-    const isAccoutSetup = onboardingState === 'accountSetup'
+    const isAccountSetup = onboardingState === 'accountSetup'
 
-    if ((isAccoutSetup || isEmailVerification) && pathname !== '/onboarding') {
+    if ((isAccountSetup || isEmailVerification) && pathname !== '/onboarding') {
       navigateWithTimeout('/onboarding')
     } else if (isOnboarding && pathname === '/') {
       navigateWithTimeout('/onboarding')

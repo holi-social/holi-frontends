@@ -21,9 +21,8 @@ import {
   updateAuthenticatedUserV2Mutation,
   type UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
-// eslint-disable-next-line no-restricted-imports
-import type { OnboardingUserData } from '../types'
 import { Text } from 'holi-bricks/components/text'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 export interface NamesSelectionData {
   firstName?: string
@@ -122,14 +121,12 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
             interests,
             skills,
           },
-          onCompleted: () => {
-            track(TrackingEvent.Auth.RegisterNamesOnboardingStepCompleted(names))
-            onFinish()
-          },
+        },
+        onCompleted: () => {
+          track(TrackingEvent.Auth.RegisterNamesOnboardingStepCompleted(names))
+          onFinish()
         },
       })
-
-      onFinish()
     } catch (error) {
       logError(error, '[Onboarding]: Failed to update user data', {
         location: 'Onboarding.NamesSelection.onSubmit',
