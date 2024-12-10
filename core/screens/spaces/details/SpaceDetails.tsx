@@ -105,7 +105,11 @@ const SpaceDetails = () => {
     return SpaceDetailsTabs.UPDATES
   }, [space?.collaborationTools?.length, space?.connectionStatusToMyself, space?.tasks?.length])
 
-  const [activeTab] = useParam('tab', singleParamConfig)
+  const onlyAllowKnownTabs = (value: string | undefined): string | undefined =>
+    !!value && Object.values(SpaceDetailsTabs).includes(value as SpaceDetailsTabs) ? value : undefined
+
+  const [tabParam] = useParam('tab', singleParamConfig)
+  const activeTab = onlyAllowKnownTabs(tabParam)
   const setHoliTabQueryParam = useHoliTabQueryParamSetter(activeTab)
   const onTabChange = (key: string) => {
     setHoliTabQueryParam(key)
