@@ -168,7 +168,6 @@ const EditSpace: React.FC<ScreenProps> = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
-      headerTransparent: false,
       headerTitle: () => <HoliText>{t('spaces.edit.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton icon={Close} />,
       navigationCustomOptions: {

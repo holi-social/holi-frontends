@@ -2,7 +2,6 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import NotificationSettings from '@holi/core/screens/notifications/NotificationSettings'
 import AboutHoliApp from '@holi/core/screens/userprofile/AboutHoliApp'
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
@@ -40,108 +39,21 @@ const AuthStackNavigator = () => {
   return (
     <AuthStack.Navigator
       initialRouteName={RouteName.Profile}
-      screenOptions={{
-        header: HeaderAnimated,
-        headerTransparent: false,
-      }}
+      screenOptions={{ headerShown: true, headerShadowVisible: false, headerTitleAlign: 'center' }}
     >
       <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} />
-      <AuthStack.Screen
-        name={RouteName.SettingsOverview}
-        component={SettingsOverview}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.AccountSettings}
-        component={AccountSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.NotificationSettings}
-        component={NotificationSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.TrackingSettings}
-        component={TrackingSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.ChangePassword}
-        component={ChangePassword}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.ChangeEmail}
-        component={ChangeEmail}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.ChangeEmailVerification}
-        component={ChangeEmailVerification}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.HelpSettings}
-        component={HelpSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.LegalDocuments}
-        component={LegalDocuments}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.Document}
-        component={LegalDocumentItem}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.AboutHoliApp}
-        component={AboutHoliApp}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.Favorites}
-        component={Favorites}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
+      <AuthStack.Screen name={RouteName.SettingsOverview} component={SettingsOverview} />
+      <AuthStack.Screen name={RouteName.AccountSettings} component={AccountSettings} />
+      <AuthStack.Screen name={RouteName.NotificationSettings} component={NotificationSettings} />
+      <AuthStack.Screen name={RouteName.TrackingSettings} component={TrackingSettings} />
+      <AuthStack.Screen name={RouteName.ChangePassword} component={ChangePassword} />
+      <AuthStack.Screen name={RouteName.ChangeEmail} component={ChangeEmail} />
+      <AuthStack.Screen name={RouteName.ChangeEmailVerification} component={ChangeEmailVerification} />
+      <AuthStack.Screen name={RouteName.HelpSettings} component={HelpSettings} />
+      <AuthStack.Screen name={RouteName.LegalDocuments} component={LegalDocuments} />
+      <AuthStack.Screen name={RouteName.Document} component={LegalDocumentItem} />
+      <AuthStack.Screen name={RouteName.AboutHoliApp} component={AboutHoliApp} />
+      <AuthStack.Screen name={RouteName.Favorites} component={Favorites} />
     </AuthStack.Navigator>
   )
 }

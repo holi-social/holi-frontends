@@ -58,11 +58,13 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
         )}
         <HoliMediaAuthorHeader author={post.author} authorBold date={post.createdAt} role={post.author.role} />
         <View style={styles.pillContainer}>
-          <View style={[styles.pill, styles.categoryPill]}>
-            <HoliText size="small" numberOfLines={1}>
-              {post.category.label}
-            </HoliText>
-          </View>
+          {post.category && (
+            <View style={[styles.pill, styles.categoryPill]}>
+              <HoliText size="small" numberOfLines={1}>
+                {post.category.label}
+              </HoliText>
+            </View>
+          )}
           {aggregatedTopics?.map((topic) => (
             <View style={[styles.pill, styles.topicPill]} key={topic.id}>
               <HoliText size="small" numberOfLines={1}>

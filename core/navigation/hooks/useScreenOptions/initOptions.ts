@@ -1,4 +1,4 @@
-import { NavigationCustomOptions } from './types'
+import type { NavigationCustomOptions } from './types'
 
 export const initialScreenOptions: NavigationCustomOptions = {
   title: undefined,
@@ -14,8 +14,8 @@ export const initialScreenOptions: NavigationCustomOptions = {
   headerLargeTitleStyle: undefined,
   headerShown: undefined,
   headerStyle: undefined,
-  headerShadowVisible: undefined,
-  headerTransparent: undefined,
+  headerShadowVisible: false,
+  headerTransparent: false,
   headerBlurEffect: undefined,
   headerTintColor: undefined,
   headerBackground: undefined,

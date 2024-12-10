@@ -4,7 +4,7 @@ import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { type EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
@@ -29,7 +29,7 @@ import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined

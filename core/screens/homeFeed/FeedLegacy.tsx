@@ -1,11 +1,10 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
@@ -56,7 +55,6 @@ const HomeFeed = () => {
       title: headerTitle,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
       headerTitle: () => null,
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
@@ -80,8 +78,8 @@ const HomeFeed = () => {
   }, [navigate, t, headerTitle, setScreenOptions, colors.black300, displayFeedbackLink])
 
   return (
-    <GestureHandlerRootView>
-      <ScrollHeaderLayout style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
+    <GestureHandlerRootView testID="home-feed-listing">
+      <ScrollView style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
         <View style={styles.sections}>
           <HoliContainer>
             <HoliTransition.FadeDown visible>
@@ -101,7 +99,7 @@ const HomeFeed = () => {
           </ErrorBoundary>
           {isLoggedIn && <UserSuggestions />}
         </View>
-      </ScrollHeaderLayout>
+      </ScrollView>
 
       {/* Floating CreatePostButton needs to be outside the Layout */}
       <ButtonFloatingWrapper>

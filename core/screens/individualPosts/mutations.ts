@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import { FeedPostDetailsFragment } from '@holi/core/screens/individualPosts/fragments'
-import { FeedPost } from '@holi/core/screens/individualPosts/types'
+import type { FeedPost } from '@holi/core/screens/individualPosts/types'
 
 export const FEED_POST_TITLE_MAX_CHARACTERS = 128
 export const FEED_POST_DESCRIPTION_MAX_CHARACTERS = 5000
@@ -10,7 +10,7 @@ export const FEED_POST_DESCRIPTION_MAX_CHARACTERS = 5000
 export const FeedPostSchema = z.object({
   title: z.string().min(2).max(FEED_POST_TITLE_MAX_CHARACTERS),
   description: z.string().trim().min(2).max(FEED_POST_DESCRIPTION_MAX_CHARACTERS),
-  categoryId: z.string(),
+  categoryId: z.string().optional().nullable(),
   topicIds: z.array(z.string()).max(6).optional(),
   visibility: z.string() /* VisibilityLevel */,
   image: z.instanceof(Object).optional().nullable(),

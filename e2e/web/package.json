@@ -16,7 +16,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "yarn@4.5.1",
+  "packageManager": "yarn@4.5.3",
   "devDependencies": {
     "@playwright/test": "1.48.2",
     "axe-playwright": "2.0.3",

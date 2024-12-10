@@ -87,6 +87,24 @@ export const registerUserAccount = async (
   return await finishAccountSetup(page)
 }
 
+export const skipOnboardingInitialSteps = async (page: Page) => {
+  await Promise.all([
+    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
+    clickElementByTestId(page, 'btn-to-onboarding'),
+  ])
+
+  const onboardingStepsToSkip = [
+    'onboarding-content-selection',
+    'onboarding-location-selection',
+    'onboarding-intrests-selection',
+    'onboarding-skills-selection',
+  ]
+  for (const step of onboardingStepsToSkip) {
+    await page.waitForSelector(byTestId(step))
+    await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
+  }
+}
+
 export const registerUser = async (
   context: BrowserContext,
   page: Page,
@@ -96,7 +114,9 @@ export const registerUser = async (
   await prepareForLoginOrRegistration(context, page)
 
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+  await waitForAnimationEnd(page, byTestId('onboarding-stepper'))
+
+  await skipOnboardingInitialSteps(page)
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
@@ -124,26 +144,13 @@ export const finishAccountSetup = async (
 ): Promise<{ fullName: string }> => {
   // go through account setup
   // provide user names
-  const firstNameInput = await locateElementByTestId(page, 'first-name-input')
+  const firstNameInput = await locateElementByTestId(page, 'onboarding-name-selection-first-name-input')
   await firstNameInput.fill(firstName)
 
-  const lastNameInput = await locateElementByTestId(page, 'last-name-input')
+  const lastNameInput = await locateElementByTestId(page, 'onboarding-name-selection-last-name-input')
   await lastNameInput.fill(lastName)
   // submit
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
-
-  // submit pre-success step
-  await page.waitForSelector(byTestId('account-setup-pre-registration-success-step'))
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
-  // skip interests step
-  await page.waitForSelector(byTestId('account-setup-interests-step-headline'))
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
-  // skip location step
-  await page.waitForSelector(byTestId('account-setup-location-step-headline'))
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
-  // skip interests step
-  await page.waitForSelector(byTestId('account-setup-success-step'))
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
+  await clickElementByTestId(page, 'onboarding-name-selection-btn-submit')
 
   return {
     fullName: firstName + ' ' + lastName,
@@ -155,12 +162,10 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await gotoWithRetries(page, '/')
 
   await denyConsent(page)
-  await Promise.all([
-    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
-    clickElementByTestId(page, 'btn-to-onboarding'),
-  ])
-  await clickElementByTestId(page, 'holi-wizard-skip-btn')
-  await clickElementByTestId(page, 'btn-to-continue-as-guest')
+
+  await skipOnboardingInitialSteps(page)
+
+  await clickElementByTestId(page, 'onboarding-account-creation-btn-continue-as-guest')
   if (page.context().browser()?.browserType().name() === 'firefox') {
     // If straight after proceedAsGuest() you use page.goto() Firefox will fail with NS_BINDING_ABORTED error.
     // So, just for FF wait until the page has fully finished loading it's content.
@@ -172,8 +177,8 @@ export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promi
   test.expect(!!process.env.E2E_USER_USERNAME, 'Env E2E_USER_USERNAME is set up correctly').toBeTruthy()
   test.expect(!!process.env.E2E_USER_PASSWORD, 'Env E2E_USER_PASSWORD is set up correctly').toBeTruthy()
   await login(context, page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
-  // wait for profile - login succeeded
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+
+  await page.waitForSelector(byTestId('home-feed-listing'))
 }
 
 export const registerNewUserAccount = async (
@@ -185,8 +190,10 @@ export const registerNewUserAccount = async (
   const emailToUse = email || newUserEmail()
   const passwordToUse = password || newUserPassword
   const newAccount = await registerUserAccount(context, page, emailToUse, passwordToUse)
+  await page.waitForSelector(byTestId('community-guidelines-modal-btn-submit'))
+  await clickElementByTestId(page, 'community-guidelines-modal-btn-submit')
   // wait for home feed - registration succeeded
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  await page.waitForSelector(byTestId('home-feed-listing'))
   return newAccount
 }
 
@@ -351,6 +358,6 @@ export async function gotoWithRetries(page: Page, url: string, retries = 3, dela
   }
 }
 
-export const isRunningOnStaging = () => {
-  return process.env.BASE_URL !== 'http://localhost:3000'
+export const isRunningLocally = () => {
+  return process.env.BASE_URL === 'http://localhost:3000'
 }

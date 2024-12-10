@@ -1,12 +1,11 @@
 import { withProfiler } from '@sentry/react'
 import { useAtomValue } from 'jotai'
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { spaceRoomAtomCreator } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useDeleteSpace from '@holi/core/hooks/spaces/useDeleteSpace'
 import { useLeaveSpace } from '@holi/core/hooks/spaces/useLeaveSpace'
@@ -14,7 +13,7 @@ import useRefreshOnNavigation, { type RefreshOnNavigationParams } from '@holi/co
 import type { TabNavigationParams } from '@holi/core/hooks/useTabNavigation'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
-import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { ContentType, ContentType3K } from '@holi/core/queries'
@@ -39,6 +38,8 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { useHoliTabQueryParamSetter } from '@holi/ui/components/organisms/HoliTabs/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { AskQuestion } from '@holi/core/screens/spaces/details/components/AskQuestion'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -59,7 +60,6 @@ const SpaceDetails = () => {
 
   const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
   useOnRefresh(refetch)
-
   const { show: showAddNewDrawerModal, props: addNewDrawerModalProps } = useModalState()
 
   const isWeb = Platform.OS === 'web'
@@ -105,18 +105,20 @@ const SpaceDetails = () => {
     return SpaceDetailsTabs.UPDATES
   }, [space?.collaborationTools?.length, space?.connectionStatusToMyself, space?.tasks?.length])
 
-  const [activeTab, setActiveTab] = useState<string>(SpaceDetailsTabs.INFO)
+  const onlyAllowKnownTabs = (value: string | undefined): string | undefined =>
+    !!value && Object.values(SpaceDetailsTabs).includes(value as SpaceDetailsTabs) ? value : undefined
+
+  const [tabParam] = useParam('tab', singleParamConfig)
+  const activeTab = onlyAllowKnownTabs(tabParam)
   const setHoliTabQueryParam = useHoliTabQueryParamSetter(activeTab)
-  const onChangeHandler = (key: string) => {
+  const onTabChange = (key: string) => {
     setHoliTabQueryParam(key)
-    setActiveTab(key)
   }
 
-  const isReadyToDetermineTab = !loading && !isSSR
+  const isReadyToDetermineTab = !activeTab && !loading && !isSSR
   useEffect(() => {
     if (isReadyToDetermineTab) {
       const tabKey = determineInitialTab()
-      setActiveTab(tabKey)
       setHoliTabQueryParam(tabKey)
     }
   }, [determineInitialTab, isReadyToDetermineTab, setHoliTabQueryParam])
@@ -227,11 +229,11 @@ const SpaceDetails = () => {
   )
 
   const spaceRoom = useAtomValue(useMemo(() => spaceRoomAtomCreator(id), [id]))
+  const representative = space?.representatives?.[0].user
 
   useEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
-      headerTransparent: true,
       headerTintColor: colors.foreground30,
       headerTitle: '',
       headerLeft: () => <HeaderBackButton />,
@@ -286,16 +288,15 @@ const SpaceDetails = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollHeaderLayout
-        backgroundColor={colors.background20}
-        refreshBackgroundColor={colors.background10}
+      <KeyboardAwareScrollView
+        style={{ backgroundColor: colors.background20, flex: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onChangeHandler} />
+        {activeTab && <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onTabChange} />}
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
-      </ScrollHeaderLayout>
+      </KeyboardAwareScrollView>
 
-      {isMember && (
+      {isMember && activeTab && (
         <HoliTransition.FadeRightSwitch animKey={activeTab} style={styles.floatingButtonsContainer}>
           <HoliContainer flexDirection="row-reverse">
             {activeTab === SpaceDetailsTabs.INVOLVEMENT && (
@@ -326,6 +327,8 @@ const SpaceDetails = () => {
         </HoliTransition.FadeRightSwitch>
       )}
 
+      <AskQuestion representativeIdentity={representative?.identity} isMember={isMember} />
+
       <AddNewDrawer spaceIdOrName={space.name} {...addNewDrawerModalProps} />
     </View>
   )
@@ -333,10 +336,6 @@ const SpaceDetails = () => {
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    messageContainer: {
-      alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
-    },
     floatingButtonsContainer: {
       bottom: dimensions.topBarHeight,
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',

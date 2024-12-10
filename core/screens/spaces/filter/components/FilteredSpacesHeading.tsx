@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
+import type { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 
 export interface FilteredSpacesHeadingProps extends Pick<Partial<SpaceFilter>, 'skillSlugs' | 'topicSlugs'> {
@@ -34,7 +34,7 @@ const FilteredSpacesHeading = ({ locationId, topicSlugs = [], skillSlugs = [] }:
   const title = useFallbackTitle ? fallbackTitle : titles[0]
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title, headerTransparent: true })
+    setScreenOptions({ title })
   }, [setScreenOptions, title])
 
   return <></>

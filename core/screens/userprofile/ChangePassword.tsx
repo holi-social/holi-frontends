@@ -1,13 +1,13 @@
-import { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
+import type { LoginFlow, SettingsFlow, UiNode } from '@ory/kratos-client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import {
-  NativeSyntheticEvent,
+  type NativeSyntheticEvent,
   Platform,
   ScrollView,
   StyleSheet,
-  TextInputKeyPressEventData,
-  TextInputProps,
+  type TextInputKeyPressEventData,
+  type TextInputProps,
   View,
 } from 'react-native'
 
@@ -27,7 +27,6 @@ import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingV
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
@@ -39,7 +38,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface ChangePasswordProps {
@@ -67,7 +66,6 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
-  const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { openToast } = useToast()
   const mixins = useStyleMixins()
   const { theme } = useTheme()
@@ -116,7 +114,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   useIsomorphicLayoutEffect(() => {
     if (webview)
       setScreenOptions({
-        headerLeft: () => null,
+        headerLeft: () => <View />,
         headerRight: () => null,
         navigationCustomOptions: {
           footerShown: false,
@@ -124,6 +122,9 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
       })
     else
       setScreenOptions({
+        headerShadowVisible: false,
+        headerTitleAlign: 'center',
+        headerBackButtonMenuEnabled: true,
         headerTitle: () => (
           <HoliHeading level="1" size="s">
             {t('auth.changePassword.heading')}
@@ -133,7 +134,8 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
           footerShown: !forgotPasswordFlow,
         },
       })
-  }, [setScreenOptions, t, forgotPasswordFlow, webview])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [forgotPasswordFlow, webview])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -209,11 +211,10 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
 
   return (
     <KeyboardAvoidingViewWrapper
+      style={{ backgroundColor: theme.colors.background20, flex: 1 }}
       renderProp={() => (
-        <ScrollView keyboardShouldPersistTaps="handled">
-          <View
-            style={[mixins.container, styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}
-          >
+        <ScrollView keyboardShouldPersistTaps="handled" style={{ backgroundColor: theme.colors.background20, flex: 1 }}>
+          <View style={[mixins.container, styles.inner]}>
             <HoliBox padding={[24, 0, 0, 0]}>
               {!((forgotPasswordFlow || reauthFlow) && settingsFlow) ? (
                 <HoliBox padding={16}>

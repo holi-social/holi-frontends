@@ -34,9 +34,9 @@ import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 const CreateSpace = () => {
   const { navigateBack } = useRouting()
@@ -121,7 +121,6 @@ const CreateSpace = () => {
           {t('spaces.create.title')}
         </HoliHeading>
       ),
-      headerTransparent: true,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,
@@ -159,7 +158,7 @@ const CreateSpace = () => {
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/spaces">
       <SpaceTermContextProvider>
-        <View style={styles.wrapper}>
+        <KeyboardAwareScrollView style={styles.wrapper} contentContainerStyle={styles.wrapper}>
           <View style={[mixins.container, styles.container]}>
             <HoliWizard
               isBackButtonAvailable={true}
@@ -178,7 +177,7 @@ const CreateSpace = () => {
               <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
             </HoliWizard>
           </View>
-        </View>
+        </KeyboardAwareScrollView>
         <HoliConfirmation
           show={showConfirmationModal}
           label={exitConfirmationTitle}
@@ -203,14 +202,8 @@ export default withProfiler(CreateSpace, { name: 'CreateSpace' })
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      alignItems: 'center',
       flex: 1,
       backgroundColor: theme.colors.background10,
-      ...Platform.select({
-        web: {
-          height: '100%',
-        },
-      }),
     },
     defaultLayout: {
       backgroundColor: theme.colors.background10,
@@ -220,7 +213,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     container: {
       flex: 1,
-      paddingTop: dimensions.topBarHeight + 24,
       width: '100%',
       paddingHorizontal: 0,
       ...Platform.select({

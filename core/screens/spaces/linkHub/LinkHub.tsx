@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -19,7 +19,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import TabContentScrollView from '@holi/ui/components/organisms/HoliTabs/TabContentScrollViewLayout'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type LinkHubParams = {
   spaceIdOrName: string
@@ -46,7 +46,6 @@ const LinkHub = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       title: t('spaces.toolKit.title'),
-      headerTransparent: false,
       headerLeft: () => <HeaderBackButton />,
       navigationCustomOptions: {
         footerShown: false,

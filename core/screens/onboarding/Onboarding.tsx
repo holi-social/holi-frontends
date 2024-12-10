@@ -8,22 +8,20 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliStepper } from '@holi/ui/components/organisms/HoliStepperV2'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
+import { mono, Spacing } from 'holi-bricks/tokens'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 
-import CreateAccount from './steps/CreateAccount'
-import EmailVerification from './steps/EmailVerification'
-import NamesSelection from './steps/NamesSelection'
+import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
+import { CreateAccount } from './steps/CreateAccount'
+import { EmailVerification } from './steps/EmailVerification'
+import { NamesSelection } from './steps/NamesSelection'
 import { Intro } from './steps/Intro'
 import { ContentSelection } from './steps/ContentSelection'
-import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { mono, Spacing } from 'holi-bricks/tokens'
 import LocationSelection from './steps/LocationSelection'
 import { ChipsSelection } from './steps/ChipsSelection'
 import { useUserData } from './hooks/useUserData'
-import { getRouteForContentType } from './helpers/getRouteForContentType'
-import { showOnboardingFinishModal } from './hooks/useOnboardingFinishModalState'
 import {
   type OnboardingStepItem,
   type OnboardingStepKey,
@@ -32,6 +30,8 @@ import {
 } from './hooks/useOnbaordingCurrentStepKey'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { useCallback, useEffect } from 'react'
+import { getRouteForContentType } from './helpers/getRouteForContentType'
+import { showOnboardingFinishModal } from './hooks/useOnboardingFinishModalState'
 
 const Onboarding = () => {
   const { t } = useTranslation()
@@ -143,7 +143,7 @@ const Onboarding = () => {
       case 'USER_NAME_SELECTION':
         return (
           <View style={styles.nameSelectionWrapper}>
-            <NamesSelection userData={userData} onFinish={finishOnboarding} testID="onboarding-finish-modal" />
+            <NamesSelection userData={userData} onFinish={finishOnboarding} testID="onboarding-name-selection" />
           </View>
         )
       default:
@@ -184,6 +184,7 @@ const Onboarding = () => {
         onChange={(key) => setCurrentStep(key as OnboardingStepKey)}
         paddingTop={safeAreaTop ? safeAreaTop : Spacing.xxs}
         paddingBottom={safeAreaBottom ? safeAreaBottom : Spacing.xxs}
+        testID="onboarding-stepper"
       />
     </HoliKeyboardSafeAreaView>
   )

@@ -33,6 +33,12 @@ import { Text } from 'holi-bricks/components/text'
 import { simpleColumnSortingByIndex } from '@holi/core/screens/homeFeed/helpers'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import { isSSR } from '@holi/core/helpers/isSSR'
+import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import type { GoodNewsArticlesQueryArgs } from '@holi-apps/goodnews/queries'
+import type { GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
+import { logError } from '@holi/core/errors/helpers'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 
 const PAGE_SIZE = 20
 
@@ -64,6 +70,19 @@ const HomeFeed = () => {
       offset: 0,
     },
   })
+
+  const { data: dataGoodNews } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
+    goodNewsArticlesQuery,
+    {
+      variables: {
+        lastDate: undefined,
+      },
+      onError: (error) =>
+        logError(error, 'Failed to load good news articles', {
+          location: 'HomeFeed.GoodNewsArticlesQuery',
+        }),
+    }
+  )
 
   useEffect(() => {
     if (data?.feed?.data) {
@@ -119,7 +138,6 @@ const HomeFeed = () => {
       title: headerTitle,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: false,
       headerTitle: () => null,
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
@@ -142,12 +160,29 @@ const HomeFeed = () => {
     })
   }, [navigate, t, headerTitle, setScreenOptions, colors.black300, displayFeedbackLink])
 
-  const dataByColumns = simpleColumnSortingByIndex([...feedData, ...loaders], numberOfColumns)
+  // Combine feed data with good news articles
+  const combinedFeedData = useMemo(() => {
+    const combined: (FeedItem & { goodNewsArticle?: GoodNewsArticle })[] = [...feedData]
+    const articles = dataGoodNews?.appGoodNews_articles?.articles || []
+
+    // Insert a good news article after every 10 feed items
+    articles.forEach((article, index) => {
+      const insertPosition = (index + 1) * 10
+      if (insertPosition < combined.length) {
+        combined.splice(insertPosition, 0, { goodNewsArticle: article })
+      }
+    })
+
+    return combined
+  }, [feedData, dataGoodNews?.appGoodNews_articles?.articles])
+
+  // Update the data sorting to use combinedFeedData
+  const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)
   const animKey = loading ? 'loading' : feedData.length > 0 ? 'ready' : 'empty'
 
   return (
     <SpaceTermContextProvider>
-      <GestureHandlerRootView style={{ backgroundColor: colors.white200, flex: 1 }}>
+      <GestureHandlerRootView style={{ backgroundColor: colors.white200, flex: 1 }} testID="home-feed-listing">
         <View style={styles.sections} testID="posts-list-results">
           <HoliContainer>
             <HoliTransition.FadeDown visible>
@@ -162,27 +197,39 @@ const HomeFeed = () => {
                   <View style={styles.container} testID="posts-list-results">
                     {dataByColumns.map((column, columnIndex) => (
                       <View key={columnIndex} style={styles.column}>
-                        {column.map((item: FeedItem & { loader?: boolean }, index: number) => (
-                          <HoliTransition.FadeDown key={item.feedPost?.id} visible index={index}>
-                            {item.feedPost && (
-                              <GenericPostCard key={item.feedPost.id} post={item.feedPost} allTopics={allTopics} />
-                            )}
-                            {item.spacePost && (
-                              <GenericPostCard key={item.spacePost.id} post={item.spacePost} allTopics={allTopics} />
-                            )}
-                            {item.insight && <InsightPreviewBox key={item.insight.id} insight={item.insight} />}
-                            {item.loader && columnIndex === 0 && (
-                              <View testID="load-more-ref" ref={loadMoreRef1 as LegacyRef<View>}>
-                                <HoliSkeleton height={420} width="100%" borderRadius={20} />
-                              </View>
-                            )}
-                            {item.loader && columnIndex === 1 && (
-                              <View testID="load-more-ref" ref={loadMoreRef2 as LegacyRef<View>}>
-                                <HoliSkeleton height={420} width="100%" borderRadius={20} />
-                              </View>
-                            )}
-                          </HoliTransition.FadeDown>
-                        ))}
+                        {column.map(
+                          (
+                            item: FeedItem & { loader?: boolean } & { goodNewsArticle?: GoodNewsArticle },
+                            index: number
+                          ) => (
+                            <HoliTransition.FadeDown
+                              key={item.feedPost?.id || item.goodNewsArticle?.id}
+                              visible
+                              index={index}
+                            >
+                              {item.feedPost && (
+                                <GenericPostCard key={item.feedPost.id} post={item.feedPost} allTopics={allTopics} />
+                              )}
+                              {item.spacePost && (
+                                <GenericPostCard key={item.spacePost.id} post={item.spacePost} allTopics={allTopics} />
+                              )}
+                              {item.insight && <InsightPreviewBox key={item.insight.id} insight={item.insight} />}
+                              {item.goodNewsArticle && (
+                                <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />
+                              )}
+                              {item.loader && columnIndex === 0 && (
+                                <View testID="load-more-ref" ref={loadMoreRef1 as LegacyRef<View>}>
+                                  <HoliSkeleton height={420} width="100%" borderRadius={20} />
+                                </View>
+                              )}
+                              {item.loader && columnIndex === 1 && (
+                                <View testID="load-more-ref" ref={loadMoreRef2 as LegacyRef<View>}>
+                                  <HoliSkeleton height={420} width="100%" borderRadius={20} />
+                                </View>
+                              )}
+                            </HoliTransition.FadeDown>
+                          )
+                        )}
                       </View>
                     ))}
                   </View>

@@ -2,10 +2,9 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View } from 'react-native'
+import { Linking, Platform, StyleSheet, View, ScrollView } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -25,15 +24,15 @@ import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/H
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
-import { constants, dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { constants } from '@holi/ui/styles/globalVars'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationImage from '@holi-apps/donations/components/DonationImage'
 import DonationInitiativeButton from '@holi-apps/donations/components/DonationInitiativeButton'
 import DonationNews from '@holi-apps/donations/components/DonationNews'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
-import { AppDonationsProjectByIdResponse, donationProjectByIdQuery } from '@holi-apps/donations/queries'
+import { type AppDonationsProjectByIdResponse, donationProjectByIdQuery } from '@holi-apps/donations/queries'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -99,7 +98,7 @@ const DonationsAppProjectDetail = () => {
         style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
         testID="donations-detailview-container"
       >
-        <ScrollHeaderLayout style={{ backgroundColor: colors.background30 }}>
+        <ScrollView style={{ backgroundColor: colors.background30 }}>
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
             <View style={styles.header}>
@@ -135,7 +134,7 @@ const DonationsAppProjectDetail = () => {
               />
             )}
           </View>
-        </ScrollHeaderLayout>
+        </ScrollView>
 
         <View style={[mixins.container, styles.donateButtonContainer]}>
           <HoliLink
@@ -177,9 +176,6 @@ const getStyles = (statusBarHeight: number, theme: HoliTheme) =>
       ...Platform.select({
         native: {
           maxWidth: '100%',
-        },
-        web: {
-          paddingTop: statusBarHeight + dimensions.topBarHeight,
         },
       }),
     },

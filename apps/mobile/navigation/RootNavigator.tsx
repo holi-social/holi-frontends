@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
@@ -13,7 +12,7 @@ import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import type { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import ActNavigator from '@holi/mobile/navigation/ActNavigator'
-import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
+import BottomTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import ChallengesAppNavigator from '@holi/mobile/navigation/ChallengesAppNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
@@ -70,16 +69,20 @@ const RootNavigator = () => {
     <RootStack.Navigator
       initialRouteName={RouteName.BottomTabs}
       screenOptions={{
-        header: HeaderAnimated,
+        headerShadowVisible: false,
       }}
     >
-      <RootStack.Screen name={RouteName.BottomTabs} component={BottmTabsNavigator} options={{ headerShown: false }} />
+      <RootStack.Screen name={RouteName.BottomTabs} component={BottomTabsNavigator} options={{ headerShown: false }} />
 
       {/* HomeFeed (InsightsHome) is in BottomTabs */}
       <RootStack.Screen name={RouteName.Insights} component={InsightsNavigator} options={{ headerShown: false }} />
 
       {/* SpacesHome is in BottomTabs */}
-      <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} options={{ headerShown: false }} />
+      <RootStack.Screen
+        name={RouteName.Spaces}
+        component={SpacesNavigator}
+        options={{ headerShown: true, headerShadowVisible: false }}
+      />
 
       {/* ActHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.ActHome} component={ActNavigator} options={{ headerShown: false }} />
@@ -94,7 +97,6 @@ const RootNavigator = () => {
         component={VideoCall}
         options={{
           headerShown: true,
-          headerTransparent: true,
         }}
       />
 
@@ -112,7 +114,6 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
         }}
       />
       <RootStack.Screen
@@ -122,7 +123,6 @@ const RootNavigator = () => {
           presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
         }}
       />
       <RootStack.Screen
@@ -131,7 +131,6 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
         }}
       />
       <RootStack.Screen
@@ -183,7 +182,6 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
           headerStyle: {
             backgroundColor: colors.background20,
           },
@@ -195,7 +193,6 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
           headerStyle: {
             backgroundColor: colors.background20,
           },

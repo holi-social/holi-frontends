@@ -31,6 +31,11 @@ import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { TrackingEvent, Unknown } from '@holi/core/tracking/events'
+import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import type { GoodNewsArticlesQueryArgs, GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
+import { logError } from '@holi/core/errors/helpers/logError'
 
 const PAGE_SIZE = 20
 
@@ -61,7 +66,33 @@ const HomeFeed = () => {
     },
   })
 
-  const feedData = data?.feed?.data || []
+  const { data: dataGoodNews } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
+    goodNewsArticlesQuery,
+    {
+      variables: {
+        lastDate: undefined,
+      },
+      onError: (error) =>
+        logError(error, 'Failed to load good news articles', {
+          location: 'HomeFeed.GoodNewsArticlesQuery',
+        }),
+    }
+  )
+
+  const combinedFeedData = useMemo(() => {
+    const feedData = data?.feed?.data || []
+    const combined: (FeedItem & { goodNewsArticle?: GoodNewsArticle })[] = [...feedData]
+    const articles = dataGoodNews?.appGoodNews_articles?.articles || []
+
+    articles.forEach((article, index) => {
+      const insertPosition = (index + 1) * 10
+      if (insertPosition < combined.length) {
+        combined.splice(insertPosition, 0, { goodNewsArticle: article })
+      }
+    })
+
+    return combined
+  }, [data?.feed?.data, dataGoodNews?.appGoodNews_articles?.articles])
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -74,7 +105,7 @@ const HomeFeed = () => {
     try {
       await fetchMore({
         variables: {
-          offset: feedData.length,
+          offset: combinedFeedData.length,
           limit: PAGE_SIZE,
         },
         updateQuery: (prev, { fetchMoreResult }) => {
@@ -112,11 +143,12 @@ const HomeFeed = () => {
     }
   }
 
-  const renderItem = ({ item }: { item: FeedItem }) => (
+  const renderItem = ({ item }: { item: FeedItem & { goodNewsArticle?: GoodNewsArticle } }) => (
     <HoliTransition.FadeDown visible>
       {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
       {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
       {item.insight && <InsightPreviewBox insight={item.insight} />}
+      {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
     </HoliTransition.FadeDown>
   )
 
@@ -148,8 +180,14 @@ const HomeFeed = () => {
     return Unknown
   }
 
-  const listItemIdentifier: ListItemIdentifier<FeedItem> = (item) => {
-    return item.feedPost?.id || item.spacePost?.id || item.insight?.id || Math.random().toString()
+  const listItemIdentifier: ListItemIdentifier<FeedItem & { goodNewsArticle?: GoodNewsArticle }> = (item) => {
+    return (
+      item.feedPost?.id ||
+      item.spacePost?.id ||
+      item.insight?.id ||
+      item.goodNewsArticle?.id ||
+      Math.random().toString()
+    )
   }
 
   useIsomorphicLayoutEffect(() => {
@@ -180,7 +218,7 @@ const HomeFeed = () => {
     })
   }, [navigate, t, headerTitle, setScreenOptions, colors.black300, displayFeedbackLink])
 
-  if (loading && !feedData.length)
+  if (loading && !combinedFeedData.length)
     return (
       <View style={[styles.wrapper, { backgroundColor: colors.white200 }]}>
         <View style={styles.screenLoader}>
@@ -194,16 +232,20 @@ const HomeFeed = () => {
 
   return (
     <SpaceTermContextProvider>
-      <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]}>
+      <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
         <View style={styles.sections} testID="posts-list-results">
           <ErrorBoundary>
             <TrackableFlatList
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-              data={feedData}
+              data={combinedFeedData}
               renderItem={renderItem}
               ListHeaderComponent={renderHeader}
               keyExtractor={(item) =>
-                item.feedPost?.id || item.spacePost?.id || item.insight?.id || Math.random().toString()
+                item.feedPost?.id ||
+                item.spacePost?.id ||
+                item.insight?.id ||
+                item.goodNewsArticle?.id ||
+                Math.random().toString()
               }
               onEndReached={handleLoadMore}
               onEndReachedThreshold={0.6}

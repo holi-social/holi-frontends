@@ -123,9 +123,11 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
         >
           <View style={styles.clickableArea}>
             <View style={styles.pillContainer}>
-              <ChipLabel size="sm" color="yellow">
-                {feedPost.category.label}
-              </ChipLabel>
+              {feedPost.category && (
+                <ChipLabel size="sm" color="yellow">
+                  {feedPost.category.label}
+                </ChipLabel>
+              )}
               {aggregatedTopics && aggregatedTopics?.length > 0 && (
                 <ChipLabel size="sm" color="green">{`${aggregatedTopics[0]?.title} ${
                   aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''

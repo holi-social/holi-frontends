@@ -1,13 +1,11 @@
 import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
-import DonationsAppHome, { DonationsAppHomeParams } from '@holi-apps/donations/screens/DonationsAppHome'
+import DonationsAppHome, { type DonationsAppHomeParams } from '@holi-apps/donations/screens/DonationsAppHome'
 import DonationsAppProjectDetail, {
-  DonationsAppProjectDetailParams,
+  type DonationsAppProjectDetailParams,
 } from '@holi-apps/donations/screens/DonationsAppProjectDetail'
 
 export type DonationsAppScreensList = {
@@ -26,9 +24,8 @@ const DonationsAppNavigator = () => {
     <DonationsAppStack.Navigator
       initialRouteName={RouteName.DonationsAppHome}
       screenOptions={{
-        header: HeaderAnimated,
         headerShown: true,
-        headerTransparent: true,
+        headerShadowVisible: false,
       }}
     >
       <DonationsAppStack.Screen name={RouteName.DonationsAppHome} component={DonationsAppHome} />
