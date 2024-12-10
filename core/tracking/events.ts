@@ -80,10 +80,6 @@ export namespace TrackingEvent {
       name: 'feedPostCreateStart',
       ...versionOne,
     },
-    feedPostCreateChooseCategory: {
-      name: 'feedPostCreateChooseCategory',
-      ...versionOne,
-    },
   }
 
   export const Spaces = {

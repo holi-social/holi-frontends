@@ -26,8 +26,6 @@ import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicke
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
-import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
-import { TrackingEvent } from '@holi/core/tracking/events'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Text } from 'holi-bricks/components/text'
 
@@ -133,8 +131,6 @@ const CreatePost = () => {
   const handleModalClose = () => {
     setIsOnboarded().finally(hide)
   }
-
-  useTrackOnce(showCategories ? TrackingEvent.FeedPosts.feedPostCreateChooseCategory : undefined)
 
   return (
     <View style={styles.grayExtendingBackground}>
