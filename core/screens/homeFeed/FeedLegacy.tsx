@@ -28,20 +28,11 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
-const temporalGreeting = (hours: number, t: (key: string) => string) => {
-  if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
-  else if (hours >= 11 && hours < 14) return t('homeFeed.headerTitle.goodDay')
-  else if (hours >= 14 && hours < 18) return t('homeFeed.headerTitle.goodAfternoon')
-  else if (hours >= 18 && hours < 23) return t('homeFeed.headerTitle.goodEvening')
-  else return t('homeFeed.headerTitle.goodNight')
-}
-
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
 const HomeFeed = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { t } = useTranslation()
-  const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
 
@@ -52,7 +43,7 @@ const HomeFeed = () => {
   // TODO: when SSR is enabled we need to lazy load the header because it can only be rendered on the client.
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      title: headerTitle,
+      title: '',
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTitle: () => null,
@@ -75,7 +66,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, headerTitle, setScreenOptions, colors.black300, displayFeedbackLink])
+  }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink])
 
   return (
     <GestureHandlerRootView testID="home-feed-listing">

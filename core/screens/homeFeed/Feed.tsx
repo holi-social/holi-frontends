@@ -45,19 +45,10 @@ const PAGE_SIZE = 20
 const VOLUNTEERING_FREQUENCY = 10 // every 10 items, one volunteering engagement
 const GOOD_NEWS_FREQUENCY = 5 // every 5 items, one good news article
 
-const temporalGreeting = (hours: number, t: (key: string) => string) => {
-  if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
-  else if (hours >= 11 && hours < 14) return t('homeFeed.headerTitle.goodDay')
-  else if (hours >= 14 && hours < 18) return t('homeFeed.headerTitle.goodAfternoon')
-  else if (hours >= 18 && hours < 23) return t('homeFeed.headerTitle.goodEvening')
-  else return t('homeFeed.headerTitle.goodNight')
-}
-
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
-  const headerTitle = temporalGreeting(new Date().getHours(), t)
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
   const { topics: allTopics } = useContext(SpaceTermContext)
@@ -258,7 +249,7 @@ const HomeFeed = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      title: headerTitle,
+      title: '',
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerTransparent: false,
@@ -282,7 +273,7 @@ const HomeFeed = () => {
         </HoliTransition.FadeRight>
       ),
     })
-  }, [navigate, t, headerTitle, setScreenOptions, colors.black300, displayFeedbackLink])
+  }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink])
 
   if (loading && !combinedFeedData.length)
     return (
