@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState, useEffect } from 'react'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
@@ -9,10 +9,14 @@ import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import type { Insight } from '@holi/core/screens/insights/types'
 
-const PAGE_SIZE = 20
-const VOLUNTEERING_FREQUENCY = 10 // every 10 items, one volunteering engagement
-const GOOD_NEWS_FREQUENCY = 5 // every 5 items, one good news article
+const PAGE_SIZE_EXTERNAL_DATA = 10
+const PAGE_SIZE_FEED = 20
+const VOLUNTEERING_FREQUENCY = 10 // every X items, one volunteering engagement
+const GOOD_NEWS_FREQUENCY = 8 // every X items, one good news article
+const INSIGHTS_FREQUENCY = 5 // every X items, one insight
 
 export const useFeedQuery = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false)
@@ -22,10 +26,9 @@ export const useFeedQuery = () => {
   const { loading, fetchMore, refetch, data } = useQuery(feedQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     variables: {
-      limit: PAGE_SIZE,
+      limit: PAGE_SIZE_FEED,
       offset: 0,
     },
-    onCompleted: () => setInitialLoading(false),
   })
 
   const { data: dataGoodNews, refetch: refetchGoodNews } = useQuery(goodNewsArticlesQuery, {
@@ -41,13 +44,27 @@ export const useFeedQuery = () => {
   const { queryVariables, loading: loadingQueryVariables } = useVolunteeringRecosQueryVariables()
 
   const { data: dataVolunteering, refetch: refetchVolunteering } = useQuery(volunteeringRecosQuery, {
-    variables: { ...queryVariables, offset: 0, limit: PAGE_SIZE },
+    variables: { ...queryVariables, offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
     skip: loadingQueryVariables,
     onError: (error) =>
       logError(error, 'Failed to load volunteering recommendations', {
         location: 'useFeedQuery.volunteeringRecosQuery',
       }),
   })
+
+  const {
+    data: dataInsights,
+    loading: loadingInsights,
+    refetch: refetchInsights,
+  } = useQuery(lastInsightsQuery, {
+    variables: { offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
+  })
+
+  useEffect(() => {
+    if (!loading && !loadingInsights) {
+      setInitialLoading(false)
+    }
+  }, [loading, loadingInsights])
 
   const combinedFeedData = useMemo(() => {
     const feedData = data?.feed?.data || []
@@ -57,8 +74,9 @@ export const useFeedQuery = () => {
     })[] = [...feedData]
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
     const engagements = dataVolunteering?.appVolunteering_engagementRecos?.data || []
+    const insights = dataInsights?.lastInsights?.data || []
 
-    // Insert a good news article after every 5 feed items
+    // Insert a good news article after every GOOD_NEWS_FREQUENCY feed items
     articles.forEach((article: GoodNewsArticle, index: number) => {
       const insertPosition = (index + 1) * GOOD_NEWS_FREQUENCY
       if (insertPosition < combined.length) {
@@ -66,11 +84,19 @@ export const useFeedQuery = () => {
       }
     })
 
-    // Insert volunteering engagement after every 10 feed items
+    // Insert volunteering engagement after every VOLUNTEERING_FREQUENCY feed items
     engagements.forEach((recommendation: VolunteeringReco, index: number) => {
       const insertPosition = (index + 1) * VOLUNTEERING_FREQUENCY
       if (insertPosition < combined.length) {
         combined.splice(insertPosition, 0, { volunteeringReco: recommendation })
+      }
+    })
+
+    // Insert insights after every INSIGHTS_FREQUENCY feed items
+    insights.forEach((insight: Insight, index: number) => {
+      const insertPosition = (index + 1) * INSIGHTS_FREQUENCY
+      if (insertPosition < combined.length) {
+        combined.splice(insertPosition, 0, { insight })
       }
     })
 
@@ -79,6 +105,7 @@ export const useFeedQuery = () => {
     data?.feed?.data,
     dataGoodNews?.appGoodNews_articles?.articles,
     dataVolunteering?.appVolunteering_engagementRecos?.data,
+    dataInsights?.lastInsights?.data,
   ])
 
   const handleFetchMore = useCallback(async () => {
@@ -89,7 +116,7 @@ export const useFeedQuery = () => {
       await fetchMore({
         variables: {
           offset: data?.feed?.data?.length || 0,
-          limit: PAGE_SIZE,
+          limit: PAGE_SIZE_EXTERNAL_DATA,
         },
         updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult?.feed?.data) return prev
@@ -125,10 +152,11 @@ export const useFeedQuery = () => {
       await refetch()
       await refetchGoodNews()
       await refetchVolunteering()
+      await refetchInsights()
     } finally {
       setRefreshing(false)
     }
-  }, [refetch, refetchGoodNews, refetchVolunteering])
+  }, [refetch, refetchGoodNews, refetchVolunteering, refetchInsights])
 
   return {
     initialLoading,
