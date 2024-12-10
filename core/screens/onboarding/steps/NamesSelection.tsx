@@ -1,92 +1,22 @@
 import type React from 'react'
-import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 
-import { useMutation } from '@apollo/client'
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import type { User } from '@holi/core/domain/shared/types'
-import { type FieldError, logError } from '@holi/core/errors/helpers'
-import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { replaceSpecialChars } from '@holi/core/helpers'
-import { RegisterUserNamesInputSchema } from '@holi/core/hooks/useRegisterUserNames'
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
-import {
-  type UpdateAuthenticatedUserV2Response,
-  updateAuthenticatedUserV2Mutation,
-} from '@holi/core/screens/userprofile/queries'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { Text } from 'holi-bricks/components/text'
 
-export interface NamesSelectionData {
-  firstName?: string
-  lastName?: string
-  pronouns?: string
-}
-
-interface UseNamesSelectionOptions {
-  user?: User | null
-}
-
-export const useNamesSelection = ({ user }: UseNamesSelectionOptions) => {
-  const [names, setNames] = useState<NamesSelectionData>({
-    firstName: user?.firstName ?? '',
-    lastName: user?.lastName ?? '',
-    pronouns: user?.pronouns ?? '',
-  })
-
-  const { translateFieldErrors } = useFieldErrors({
-    i18nPrefix: 'registration.accountSetup.names',
-    handledFieldErrors: ['firstName', 'lastName'],
-  })
-
-  const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
-
-  const resetErrorsForField = useCallback(
-    (fieldName: string) =>
-      setFieldErrors((currentErrors: TranslatedFieldErrors) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { [fieldName]: _, ...otherErrors } = currentErrors
-        return otherErrors
-      }),
-    []
-  )
-
-  const onNamesChange = (fieldName: keyof NamesSelectionData, value: string) => {
-    setNames((names) => ({
-      ...names,
-      [fieldName]: value,
-    }))
-    resetErrorsForField(fieldName)
-  }
-
-  const validateOnBlur = () => {
-    const validationResult = RegisterUserNamesInputSchema.safeParse(names)
-
-    if (!validationResult.success) {
-      const { fieldErrors } = validationResult.error.flatten<FieldError>()
-      setFieldErrors(translateFieldErrors(fieldErrors))
-    }
-  }
-  const namesScrollViewRef = useRef<ScrollView>(null)
-  const scrollToNamesInputWithId = useScrollToInputOnFocus(namesScrollViewRef)
-
-  const scrollToNamesInputWithIdValidateOnBlur = (fieldName: keyof NamesSelectionData) =>
-    scrollToNamesInputWithId(fieldName, undefined, validateOnBlur)
-
-  return {
-    names,
-    namesScrollViewRef,
-    scrollToNamesInputWithId: scrollToNamesInputWithIdValidateOnBlur,
-    onNamesChange,
-    namesFieldErrors: fieldErrors,
-    nameStepIsValid: RegisterUserNamesInputSchema.safeParse(names).success ?? false,
-  }
-}
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { useMutation } from '@apollo/client'
+import {
+  updateAuthenticatedUserV2Mutation,
+  type UpdateAuthenticatedUserV2Response,
+} from '@holi/core/screens/userprofile/queries'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
+import { useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'
 
 export interface NamesSelectionProps {
   userData: OnboardingUserData
@@ -98,7 +28,7 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
   const { t } = useTranslation()
   const { user, isLoading } = useLoggedInUser()
 
-  const { names, onNamesChange, namesFieldErrors, nameStepIsValid } = useNamesSelection({
+  const { names, onNamesChange, namesFieldErrors, nameStepIsValid, handleBackendError } = useNamesSelection({
     user,
   })
   const { firstName, lastName, pronouns } = names
@@ -106,31 +36,25 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
   const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
 
   const onSubmit = async () => {
-    try {
-      const { location, interests, skills } = userData
-      await updateUser({
-        variables: {
-          input: {
-            ...names,
-            // geolocationId: location?.id,
-            location: location?.label,
-            geolocation: location?.geolocation,
-            interests,
-            skills,
-          },
+    const { location, interests, skills } = userData
+    await updateUser({
+      variables: {
+        input: {
+          ...names,
+          location: location?.label,
+          geolocation: location?.geolocation,
+          interests,
+          skills,
         },
-        onCompleted: () => {
-          onFinish()
-        },
-      })
-    } catch (error) {
-      logError(error, '[Onboarding]: Failed to update user data', {
-        location: 'Onboarding.NamesSelection.onSubmit',
-      })
-    }
+      },
+      onError: (error) => handleBackendError(error),
+      onCompleted: () => {
+        onFinish()
+      },
+    })
   }
 
-  if (isLoading) return <HoliLoader />
+  if (isLoading) return <HoliLoader testID="loader" />
 
   return (
     <View style={{ justifyContent: 'space-between', flex: 1 }} testID={testID}>

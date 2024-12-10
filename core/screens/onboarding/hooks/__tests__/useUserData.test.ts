@@ -57,7 +57,7 @@ describe('useUserData', () => {
   it('should update content selection', () => {
     const { result } = renderHook(() => useUserData())
 
-    expect(result.current.userData.content).toBeNull()
+    expect(result.current.userData.content).toBeUndefined()
 
     act(() => {
       result.current.updateContent('SPACES')
