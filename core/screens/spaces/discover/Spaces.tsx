@@ -2,13 +2,12 @@ import { type DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import type Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import FilterModal from '@holi/core/components/FIlterModal'
 import HoliHead from '@holi/core/components/HoliHead'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -93,7 +92,6 @@ const Spaces = () => {
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
       headerTitle: () => null,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
@@ -146,12 +144,7 @@ const Spaces = () => {
         ogTitle={t('metatags.spaces.og.title')}
         ogDescription={t('metatags.spaces.og.description')}
       />
-      <ScrollHeaderLayout
-        ref={pageViewRef}
-        style={styles.layout}
-        refreshBackgroundColor={colors.background10}
-        onScroll={onScreenScroll}
-      >
+      <ScrollView ref={pageViewRef} style={styles.layout} onScroll={onScreenScroll}>
         {!hasOwnSpaces ? (
           /* User has NO spaces => show discover view */
           <HoliContainer flex={1}>
@@ -182,7 +175,7 @@ const Spaces = () => {
             />
           </View>
         )}
-      </ScrollHeaderLayout>
+      </ScrollView>
 
       <FilterModal
         actionButtonVisible={!hasOwnSpaces || activeTab === Tab.DISCOVER}

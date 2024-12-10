@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -16,7 +16,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/VolunteeringListingDiscovery'
@@ -64,14 +64,13 @@ const VolunteeringAppHome = () => {
           {title}
         </HoliHeading>
       ),
-      headerTransparent: true,
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, styles.dot])
 
   return (
-    <ScrollHeaderLayout
+    <KeyboardAwareScrollView
       style={styles.defaultLayout}
       testID="volunteering-list-container"
       keyboardShouldPersistTaps="handled"
@@ -95,7 +94,7 @@ const VolunteeringAppHome = () => {
         loadingFilters={loadingGeolocation}
         loadingFiltersFailed={!!geolocationError}
       />
-    </ScrollHeaderLayout>
+    </KeyboardAwareScrollView>
   )
 }
 

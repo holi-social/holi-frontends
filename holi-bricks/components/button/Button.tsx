@@ -1,7 +1,7 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { TextLink } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
-import { Spacing } from 'holi-bricks/tokens'
+import { Spacing, type SpacingSize } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import type React from 'react'
 import { useCallback, useState } from 'react'
@@ -25,6 +25,7 @@ export type ButtonProps = AccessibilityProps & {
   transparent?: boolean
   selected?: boolean
   icon?: HoliIconType
+  iconSize?: SpacingSize
   inline?: boolean
 }
 
@@ -39,6 +40,7 @@ export const Button = ({
   selected = false,
   icon,
   inline = false,
+  iconSize = 'xs',
   ...rest
 }: ButtonProps) => {
   const [isProcessing, setProcessing] = useState(false)
@@ -94,7 +96,7 @@ export const Button = ({
           </View>
         )}
         {(!isSpinning || disabled) && icon && (
-          <HoliIcon icon={icon} color={styles.text(disabled, selected, variant).color} />
+          <HoliIcon icon={icon} color={styles.text(disabled, selected, variant).color} size={Spacing[iconSize]} />
         )}
       </View>
     </Pressable>

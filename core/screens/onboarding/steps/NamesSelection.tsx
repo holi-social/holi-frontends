@@ -21,9 +21,8 @@ import {
   updateAuthenticatedUserV2Mutation,
   type UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
-// eslint-disable-next-line no-restricted-imports
-import type { OnboardingUserData } from '../types'
 import { Text } from 'holi-bricks/components/text'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 export interface NamesSelectionData {
   firstName?: string
@@ -97,7 +96,7 @@ export interface NamesSelectionProps {
   testID?: string
 }
 
-const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: NamesSelectionProps) => {
+export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: NamesSelectionProps) => {
   const { t } = useTranslation()
   const { user, isLoading } = useLoggedInUser()
   const { track } = useTracking()
@@ -122,14 +121,12 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
             interests,
             skills,
           },
-          onCompleted: () => {
-            track(TrackingEvent.Auth.RegisterNamesOnboardingStepCompleted(names))
-            onFinish()
-          },
+        },
+        onCompleted: () => {
+          track(TrackingEvent.Auth.RegisterNamesOnboardingStepCompleted(names))
+          onFinish()
         },
       })
-
-      onFinish()
     } catch (error) {
       logError(error, '[Onboarding]: Failed to update user data', {
         location: 'Onboarding.NamesSelection.onSubmit',
@@ -159,7 +156,7 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
           onChange={(value: string) => onNamesChange('firstName', replaceSpecialChars(value))}
           validationErrorText={namesFieldErrors?.firstName?.join()}
           isRequired
-          testID={`${testID}-input-first-name`}
+          testID={`${testID}-first-name`}
         />
 
         <HoliGap size="s" />
@@ -171,7 +168,7 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
           maxNoOfCharacters={100}
           onChange={(value: string) => onNamesChange('lastName', replaceSpecialChars(value))}
           validationErrorText={namesFieldErrors?.lastName?.join()}
-          testID={`${testID}-input-last-name`}
+          testID={`${testID}-last-name`}
         />
 
         <HoliGap size="s" />
@@ -182,7 +179,7 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
           placeholder={t('user.profileForm.pronounsPlaceholder')}
           maxNoOfCharacters={100}
           onChange={(value: string) => onNamesChange('pronouns', value)}
-          testID={`${testID}-input-pronouns`}
+          testID={`${testID}-pronouns`}
         />
         <HoliGap size="xxs" />
         <Text size="xs" variant="secondary">
@@ -204,5 +201,3 @@ const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: Names
     </View>
   )
 }
-
-export default NamesSelection

@@ -6,29 +6,33 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { Term } from '@holi/core/domain/shared/types'
+import type { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
-import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
+import { type DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
-import { UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
-import { PostQueryResponse, allPostsQuery, myPostsQuery, postQuery } from '@holi/core/screens/individualPosts/queries'
-import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
+import { type UpdateFeedPostResponse, updateFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
+import {
+  type PostQueryResponse,
+  allPostsQuery,
+  myPostsQuery,
+  postQuery,
+} from '@holi/core/screens/individualPosts/queries'
+import { type FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type EditPostParams = {
   idOrSlug: string
@@ -61,7 +65,6 @@ const EditPost = () => {
   const [images, setImages] = useState<HoliImageInfo[] | null>([])
   const [currentImages, setCurrentImages] = useState<FeedPostImage[]>()
   const [selectedTopics, setSelectedTopics] = useState<Term[] | []>()
-  const [showCategories, setShowCategories] = useState(false)
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
   const {
@@ -75,7 +78,10 @@ const EditPost = () => {
       if (isNotFoundError(error)) {
         return replaceRoute('/404')
       }
-      logError(error, 'Failed to load quote', { location: 'EditPost.postQuery', idOrSlug })
+      logError(error, 'Failed to load quote', {
+        location: 'EditPost.postQuery',
+        idOrSlug,
+      })
     },
   })
 
@@ -143,10 +149,14 @@ const EditPost = () => {
       setTitle(post.title)
       setDescription(post.description)
       setCurrentImages(post.images)
-      setSelectedCategoryId(post.category.id)
+      setSelectedCategoryId(post.category?.id || null)
       setSelectedVisibility(Visibility[post.visibility])
       setSelectedTopics(post.topics)
-      setSelectedLocation({ label: post.location || '', id: '', coordinates: post.geolocation || undefined })
+      setSelectedLocation({
+        label: post.location || '',
+        id: '',
+        coordinates: post.geolocation || undefined,
+      })
       setAspectRatio(post.images?.[0]?.aspectRatio || ImageAspectRatio.SIXTEEN_NINE) // all images should be the same aspect ratio
     }
   }, [post])
@@ -158,7 +168,6 @@ const EditPost = () => {
           {t('individuals.post.edit.title')}
         </HoliHeading>
       ),
-      headerTransparent: false,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor={colors.black300} />,
       navigationCustomOptions: {
         footerShown: false,
@@ -168,11 +177,6 @@ const EditPost = () => {
 
   const selectCategory = (categoryId: string) => {
     setSelectedCategoryId(categoryId)
-    setShowCategories(false)
-  }
-
-  const toggleShowCategories = () => {
-    setShowCategories((value) => !value)
   }
 
   if (loadingPost) {
@@ -185,12 +189,6 @@ const EditPost = () => {
         <View style={styles.grayExtendingBackground}>
           {categoriesLoading ? (
             <HoliLoader />
-          ) : showCategories ? (
-            <CategorySelection
-              categories={categories}
-              onCategorySelection={selectCategory}
-              loading={categoriesLoading}
-            />
           ) : (
             <PostInputForm
               title={title}
@@ -212,10 +210,10 @@ const EditPost = () => {
               onChangeSelectedLocation={setSelectedLocation as (_: GeolocationSuggestion | null) => void}
               onSubmit={editPost}
               submitting={submitting}
-              onClickCategoriesPill={toggleShowCategories}
               categories={categories}
               aspectRatio={aspectRatio}
               onChangeAspectRatio={setAspectRatio}
+              selectCategory={selectCategory}
               isEdit
             />
           )}

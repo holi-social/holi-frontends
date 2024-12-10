@@ -16,7 +16,8 @@ test.describe('@ForgotPassword', () => {
     await dismissConsentDialog(page)
     const loginLink = (await locateElementByTestId(page, 'already-have-account-text')).getByRole('link')
     await clickFirstElement(loginLink)
-    await clickElementByTestId(page, 'btn-to-forgot-password-form')
+    const forgotPasswordLink = (await locateElementByTestId(page, 'btn-to-forgot-password-form')).getByRole('link')
+    await clickFirstElement(forgotPasswordLink)
 
     // shows also login link
     await page.waitForSelector(byTestId('already-have-account-text'))

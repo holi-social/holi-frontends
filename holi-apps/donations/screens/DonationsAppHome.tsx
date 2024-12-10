@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -12,7 +12,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
@@ -78,7 +78,6 @@ const DonationsAppHome = () => {
           {title}
         </HoliHeading>
       ),
-      headerTransparent: true,
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       // headerRight: () =>
       //   Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
@@ -87,7 +86,7 @@ const DonationsAppHome = () => {
 
   return (
     <>
-      <ScrollHeaderLayout style={styles.defaultLayout} keyboardShouldPersistTaps="always">
+      <KeyboardAwareScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="always">
         <HoliModal
           show={showSearchModal}
           onDismiss={closeModal}
@@ -103,7 +102,7 @@ const DonationsAppHome = () => {
         <View style={[mixins.container]} testID={'donations-list-container'}>
           <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
         </View>
-      </ScrollHeaderLayout>
+      </KeyboardAwareScrollView>
     </>
   )
 }

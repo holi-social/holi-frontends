@@ -1,6 +1,6 @@
 import React from 'react'
 
-import EmailVerification from '@holi/core/screens/onboarding/steps/EmailVerification'
+import { EmailVerification } from '@holi/core/screens/onboarding/steps/EmailVerification'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'

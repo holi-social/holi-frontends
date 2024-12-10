@@ -1,11 +1,12 @@
-import React, { useCallback, useRef, useState } from 'react'
-import { FlatList, LayoutChangeEvent } from 'react-native'
-
+import type React from 'react'
+import { useCallback, useRef, useState } from 'react'
+import { FlatList, type LayoutChangeEvent } from 'react-native'
+import { FlashList, type FlashListProps } from '@shopify/flash-list'
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
 import {
-  CustomViewabilityConfig,
-  TrackableFlatListItem,
-  TrackableFlatListProps,
+  type CustomViewabilityConfig,
+  type TrackableFlatListItem,
+  type TrackableFlatListProps,
   defaultViewabilityConfig,
 } from '@holi/core/tracking/TrackableFlatList.shared'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -16,11 +17,13 @@ const TrackableFlatList = ({
   listItemTrackingEvent,
   listItemIdentifier,
   trackOnce,
+  withFlashList = false,
+  estimatedItemSize,
   ...restProps
 }: TrackableFlatListProps) => {
   const { track } = useTracking()
 
-  const list = useRef<FlatList>(null)
+  const list = useRef<FlatList | FlashList<TrackableFlatListItem>>(null)
 
   const [listBelowFoldThreshold, setListBelowFoldThreshold] = useState(0)
   const [isListTrackingInitialized, setIsListTrackingInitialized] = useState(false)
@@ -106,13 +109,24 @@ const TrackableFlatList = ({
           placeholder={<></>}
         />
       ) : null}
-      <FlatList
-        {...restProps}
-        ref={list}
-        onLayout={onListLayout}
-        viewabilityConfig={viewabilityConfig}
-        onViewableItemsChanged={onViewableItemsChangedCallback}
-      />
+      {withFlashList ? (
+        <FlashList
+          {...(restProps as FlashListProps<TrackableFlatListItem>)}
+          ref={list as React.RefObject<FlashList<TrackableFlatListItem>>}
+          onLayout={onListLayout}
+          viewabilityConfig={viewabilityConfig}
+          onViewableItemsChanged={onViewableItemsChangedCallback}
+          estimatedItemSize={estimatedItemSize}
+        />
+      ) : (
+        <FlatList
+          {...restProps}
+          ref={list as React.RefObject<FlatList>}
+          onLayout={onListLayout}
+          viewabilityConfig={viewabilityConfig}
+          onViewableItemsChanged={onViewableItemsChangedCallback}
+        />
+      )}
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useContext, useMemo, useState } from 'react'
+import React, { memo, useContext, useMemo, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, RefreshControl } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -36,8 +36,14 @@ import type { GoodNewsArticlesQueryArgs, GoodNewsArticlesQueryResponse } from '@
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 import { logError } from '@holi/core/errors/helpers/logError'
+import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
+import type { VolunteeringReco } from '@holi-apps/volunteering/types'
+import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
+import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 
 const PAGE_SIZE = 20
+const VOLUNTEERING_FREQUENCY = 10 // every 10 items, one volunteering engagement
+const GOOD_NEWS_FREQUENCY = 5 // every 5 items, one good news article
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -79,20 +85,48 @@ const HomeFeed = () => {
     }
   )
 
+  const { queryVariables, loading: loadingQueryVariables } = useVolunteeringRecosQueryVariables()
+
+  const { data: dataVolunteering } = useQuery(volunteeringRecosQuery, {
+    variables: { ...queryVariables, offset: 0, limit: PAGE_SIZE },
+    skip: loadingQueryVariables,
+    onError: (error) =>
+      logError(error, 'Failed to load volunteering recommendations', {
+        location: 'HomeFeed.volunteeringRecosQuery',
+      }),
+  })
+
   const combinedFeedData = useMemo(() => {
     const feedData = data?.feed?.data || []
-    const combined: (FeedItem & { goodNewsArticle?: GoodNewsArticle })[] = [...feedData]
+    const combined: (FeedItem & {
+      goodNewsArticle?: GoodNewsArticle
+      volunteeringReco?: VolunteeringReco
+    })[] = [...feedData]
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
+    const engagements = dataVolunteering?.appVolunteering_engagementRecos?.data || []
 
+    // Insert a good news article after every 5 feed items
     articles.forEach((article, index) => {
-      const insertPosition = (index + 1) * 10
+      const insertPosition = (index + 1) * GOOD_NEWS_FREQUENCY
       if (insertPosition < combined.length) {
         combined.splice(insertPosition, 0, { goodNewsArticle: article })
       }
     })
 
+    // Insert volunteering engagement after every 10 feed items, but only use available items
+    engagements.forEach((recommendation: VolunteeringReco, index: number) => {
+      const insertPosition = (index + 1) * VOLUNTEERING_FREQUENCY
+      if (insertPosition < combined.length) {
+        combined.splice(insertPosition, 0, { volunteeringReco: recommendation })
+      }
+    })
+
     return combined
-  }, [data?.feed?.data, dataGoodNews?.appGoodNews_articles?.articles])
+  }, [
+    data?.feed?.data,
+    dataGoodNews?.appGoodNews_articles?.articles,
+    dataVolunteering?.appVolunteering_engagementRecos?.data,
+  ])
 
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
@@ -105,7 +139,7 @@ const HomeFeed = () => {
     try {
       await fetchMore({
         variables: {
-          offset: combinedFeedData.length,
+          offset: data?.feed?.data?.length || 0,
           limit: PAGE_SIZE,
         },
         updateQuery: (prev, { fetchMoreResult }) => {
@@ -143,27 +177,56 @@ const HomeFeed = () => {
     }
   }
 
-  const renderItem = ({ item }: { item: FeedItem & { goodNewsArticle?: GoodNewsArticle } }) => (
-    <HoliTransition.FadeDown visible>
-      {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
-      {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
-      {item.insight && <InsightPreviewBox insight={item.insight} />}
-      {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
-    </HoliTransition.FadeDown>
+  const keyExtractor = useCallback(
+    (
+      item: FeedItem & {
+        goodNewsArticle?: GoodNewsArticle
+        volunteeringReco?: VolunteeringReco
+      },
+      index: number
+    ) => {
+      return (
+        item.feedPost?.id ||
+        item.spacePost?.id ||
+        item.insight?.id ||
+        item.goodNewsArticle?.id ||
+        item.volunteeringReco?.engagement.id ||
+        index.toString()
+      )
+    },
+    []
   )
 
-  const renderFooter = () => (
-    <View style={styles.loaderFooter}>
-      <HoliSkeleton height={260} width="100%" borderRadius={20} />
-      <HoliSkeleton height={260} width="100%" borderRadius={20} />
-      <HoliSkeleton height={260} width="100%" borderRadius={20} />
-    </View>
+  const renderItem = useCallback(
+    ({ item }: { item: FeedItem & { goodNewsArticle?: GoodNewsArticle; volunteeringReco?: VolunteeringReco } }) => (
+      <HoliTransition.FadeDown visible>
+        {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
+        {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
+        {item.insight && <InsightPreviewBox insight={item.insight} />}
+        {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
+        {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
+      </HoliTransition.FadeDown>
+    ),
+    [allTopics]
+  )
+
+  const renderFooter = useCallback(
+    () => (
+      <View style={styles.loaderFooter}>
+        <HoliSkeleton height={260} width="100%" borderRadius={20} />
+        <HoliSkeleton height={260} width="100%" borderRadius={20} />
+        <HoliSkeleton height={260} width="100%" borderRadius={20} />
+      </View>
+    ),
+    []
   )
 
   const renderHeader = useMemo(
     () => (
       <HoliTransition.FadeDown visible>
-        <HomeFeedHeader />
+        <View style={styles.listHeader}>
+          <HomeFeedHeader />
+        </View>
       </HoliTransition.FadeDown>
     ),
     []
@@ -180,12 +243,15 @@ const HomeFeed = () => {
     return Unknown
   }
 
-  const listItemIdentifier: ListItemIdentifier<FeedItem & { goodNewsArticle?: GoodNewsArticle }> = (item) => {
+  const listItemIdentifier: ListItemIdentifier<
+    FeedItem & { goodNewsArticle?: GoodNewsArticle; volunteeringReco?: VolunteeringReco }
+  > = (item) => {
     return (
       item.feedPost?.id ||
       item.spacePost?.id ||
       item.insight?.id ||
       item.goodNewsArticle?.id ||
+      item.volunteeringReco?.engagement.id ||
       Math.random().toString()
     )
   }
@@ -236,27 +302,29 @@ const HomeFeed = () => {
         <View style={styles.sections} testID="posts-list-results">
           <ErrorBoundary>
             <TrackableFlatList
+              removeClippedSubviews={true}
+              windowSize={5}
+              maxToRenderPerBatch={5}
+              initialNumToRender={10}
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
               data={combinedFeedData}
               renderItem={renderItem}
               ListHeaderComponent={renderHeader}
-              keyExtractor={(item) =>
-                item.feedPost?.id ||
-                item.spacePost?.id ||
-                item.insight?.id ||
-                item.goodNewsArticle?.id ||
-                Math.random().toString()
-              }
+              keyExtractor={keyExtractor}
               onEndReached={handleLoadMore}
-              onEndReachedThreshold={0.6}
+              onEndReachedThreshold={0.9}
               ListFooterComponent={renderFooter}
-              contentContainerStyle={styles.flatListContent}
+              contentContainerStyle={styles.listContent}
               testID="posts-list-results"
               listItemTrackingEvent={listItemTrackingEvent}
               listItemIdentifier={listItemIdentifier}
+              ItemSeparatorComponent={() => <View style={{ height: Spacing.sm }} />}
               itemVisiblePercentThreshold={80}
               minimumViewTime={1000}
+              showsVerticalScrollIndicator={false}
               trackOnce={true}
+              withFlashList={true}
+              estimatedItemSize={260}
             />
           </ErrorBoundary>
         </View>
@@ -272,6 +340,7 @@ const styles = StyleSheet.create({
   wrapper: { flex: 1 },
   sections: {
     gap: Spacing.xxs,
+    flex: 1,
   },
   headerRight: {
     flex: 1,
@@ -279,8 +348,11 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
     alignItems: 'center',
   },
-  flatListContent: {
-    gap: Spacing.xs,
+  listHeader: {
+    paddingBottom: Spacing.xs,
+    flex: 1,
+  },
+  listContent: {
     paddingHorizontal: Spacing.sm,
   },
   screenLoader: {
@@ -289,7 +361,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.sm,
   },
   loaderFooter: {
-    marginTop: Spacing['4xs'],
+    marginVertical: Spacing.sm,
     gap: Spacing.sm,
   },
 })

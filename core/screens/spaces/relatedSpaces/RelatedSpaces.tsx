@@ -70,7 +70,6 @@ const RelatedSpaces = () => {
     setScreenOptions({
       title: space?.title,
       headerStyle: { backgroundColor },
-      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },

@@ -2,42 +2,51 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
-import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
-import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
-import SpaceStorage, { SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
+import CommentInputPage, { type CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
+import PostDetailPage, { type PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
+import SpaceStorage, { type SpaceStorageParams } from '@holi/core/screens/spaces/SpaceStorage'
 import AboutSpaces from '@holi/core/screens/spaces/about/AboutSpaces'
-import AppointmentDetails, { AppointmentDetailsParams } from '@holi/core/screens/spaces/appointments/AppointmentDetails'
-import CreateAppointment, { CreateAppointmentParams } from '@holi/core/screens/spaces/appointments/CreateAppointment'
-import EditAppointment, { EditAppointmentParams } from '@holi/core/screens/spaces/appointments/EditAppointment'
-import SpaceAppointments, { SpaceAppointmentsParams } from '@holi/core/screens/spaces/appointments/SpaceAppointments'
+import AppointmentDetails, {
+  type AppointmentDetailsParams,
+} from '@holi/core/screens/spaces/appointments/AppointmentDetails'
+import CreateAppointment, {
+  type CreateAppointmentParams,
+} from '@holi/core/screens/spaces/appointments/CreateAppointment'
+import EditAppointment, { type EditAppointmentParams } from '@holi/core/screens/spaces/appointments/EditAppointment'
+import SpaceAppointments, {
+  type SpaceAppointmentsParams,
+} from '@holi/core/screens/spaces/appointments/SpaceAppointments'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
-import SpaceDetails, { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
+import SpaceDetails, { type SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import SpaceCollaboratorsManage, {
-  SpaceCollaboratorsManageParams,
+  type SpaceCollaboratorsManageParams,
 } from '@holi/core/screens/spaces/details/components/SpaceCollaboratorsManage'
-import SpaceInvitePage, { SpaceInviteViewParams } from '@holi/core/screens/spaces/details/components/SpaceInvitePage'
+import SpaceInvitePage, {
+  type SpaceInviteViewParams,
+} from '@holi/core/screens/spaces/details/components/SpaceInvitePage'
 import SpaceRolesPermissions, {
-  SpaceRolesPermissionsParams,
+  type SpaceRolesPermissionsParams,
 } from '@holi/core/screens/spaces/details/components/SpaceRolesPermissions'
-import EditSpace, { EditSpaceParams } from '@holi/core/screens/spaces/edit/EditSpace'
+import EditSpace, { type EditSpaceParams } from '@holi/core/screens/spaces/edit/EditSpace'
 import EditSpaceCollaborators, {
-  EditSpaceCollaboratorsParams,
+  type EditSpaceCollaboratorsParams,
 } from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
-import CreateDigitalTool, { CreateDigitalToolParams } from '@holi/core/screens/spaces/linkHub/CreateDigitalTool'
-import EditDigitalTool, { EditDigitalToolParams } from '@holi/core/screens/spaces/linkHub/EditDigitalTool'
-import LinkHub, { LinkHubParams } from '@holi/core/screens/spaces/linkHub/LinkHub'
-import SpaceOnboarding, { SpaceOnboardingParams } from '@holi/core/screens/spaces/onboarding/SpaceOnboarding'
+import CreateDigitalTool, { type CreateDigitalToolParams } from '@holi/core/screens/spaces/linkHub/CreateDigitalTool'
+import EditDigitalTool, { type EditDigitalToolParams } from '@holi/core/screens/spaces/linkHub/EditDigitalTool'
+import LinkHub, { type LinkHubParams } from '@holi/core/screens/spaces/linkHub/LinkHub'
+import SpaceOnboarding, { type SpaceOnboardingParams } from '@holi/core/screens/spaces/onboarding/SpaceOnboarding'
 import SpaceOnboardingSteps, {
-  SpaceOnboardingStepsParams,
+  type SpaceOnboardingStepsParams,
 } from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingSteps'
-import RelatedSpaces, { SpaceRelatedSpacesParams } from '@holi/core/screens/spaces/relatedSpaces/RelatedSpaces'
-import CreateTask, { CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
-import EditTask, { EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
-import SpaceTasks, { SpaceTasksParams } from '@holi/core/screens/spaces/tasks/SpaceTasks'
-import TaskDetails, { TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
-import CreateSpaceUpdate, { CreateUpdateParams } from '@holi/core/screens/spaces/updates/CreateUpdate'
-import SpaceVideoCallList, { SpaceVideoCallListParams } from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
+import RelatedSpaces, { type SpaceRelatedSpacesParams } from '@holi/core/screens/spaces/relatedSpaces/RelatedSpaces'
+import CreateTask, { type CreateTaskParams } from '@holi/core/screens/spaces/tasks/CreateTask'
+import EditTask, { type EditTaskParams } from '@holi/core/screens/spaces/tasks/EditTask'
+import SpaceTasks, { type SpaceTasksParams } from '@holi/core/screens/spaces/tasks/SpaceTasks'
+import TaskDetails, { type TaskDetailsParams } from '@holi/core/screens/spaces/tasks/TaskDetails'
+import CreateSpaceUpdate, { type CreateUpdateParams } from '@holi/core/screens/spaces/updates/CreateUpdate'
+import SpaceVideoCallList, {
+  type SpaceVideoCallListParams,
+} from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 export type SpacesScreens = {
@@ -82,10 +91,8 @@ const SpacesNavigator = () => {
     <SpacesStack.Navigator
       initialRouteName={RouteName.SpaceDetails}
       screenOptions={{
-        header: HeaderAnimated,
+        headerShown: false,
         headerShadowVisible: false,
-        headerTransparent: true,
-        headerShown: true,
       }}
     >
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />

@@ -5,9 +5,8 @@ import { StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
-import { urlRegex } from '@holi/core/helpers'
-import { withProtocol } from '@holi/core/helpers/url'
+import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { validateUrl, withProtocol } from '@holi/core/helpers/url'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -17,7 +16,7 @@ import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFor
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import DigitalToolInputForm from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
-  AddCollaborationToolResponse,
+  type AddCollaborationToolResponse,
   AddCollaborationToolSchema,
   addCollaborationToolMutation,
 } from '@holi/core/screens/spaces/linkHub/mutations'
@@ -26,9 +25,9 @@ import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateDigitalToolParams = {
   spaceIdOrName: string
@@ -91,7 +90,7 @@ const CreateDigitalTool = () => {
   }
 
   useEffect(() => {
-    if (!urlRegex.test(url) && url.length > 0) {
+    if (url.length > 0 && !validateUrl(url)) {
       setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
@@ -103,7 +102,6 @@ const CreateDigitalTool = () => {
       animation: 'slide_from_bottom',
       title: '',
       headerStyle: styles.background,
-      headerTransparent: false,
       headerLeft: () => <HeaderBackButton icon={ArrowDownS} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,

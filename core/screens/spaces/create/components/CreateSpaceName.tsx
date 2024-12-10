@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo } from 'react'
+import type React from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,7 +8,7 @@ import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/Spa
 import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/create/mutations'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateSpaceNameProps = {
   onChangeSpaceName: (name: string) => void

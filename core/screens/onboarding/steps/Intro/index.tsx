@@ -14,8 +14,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import AnimatedIntro from './AnimatedIntro'
-// eslint-disable-next-line no-restricted-imports
-import PrivacyPolicyAndTermsOfUseText from '../../components/PrivacyPolicyAndTermsOfUseText'
+import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 
 interface Props {
   onContinue: () => void
@@ -53,10 +52,10 @@ export const Intro = ({ onContinue }: Props) => {
           </HoliButtonTracked>
           <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </View>
-        <HoliGap size="xl" />
+        <HoliGap size="l" />
       </View>
 
-      <PrivacyPolicyAndTermsOfUseText />
+      <DocumentsFooter displayImprint={true} />
     </View>
   )
 }

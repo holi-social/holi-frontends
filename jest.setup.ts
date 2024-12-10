@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 
 import i18n from '@holi/core/i18n'
-import { TrackingHook } from '@holi/core/tracking/types'
+import type { TrackingHook } from '@holi/core/tracking/types'
 
 // Added to fix the following error: https://github.com/facebook/react-native/issues/42904#issuecomment-2306382117
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unused-vars
@@ -48,6 +48,8 @@ jest.mock('@react-navigation/native', () => {
 jest.mock('react-native/Libraries/Linking/Linking', () => ({
   openURL: global.mockOpenURL,
 }))
+
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 jest.mock('expo-linking', () => {
   const module: typeof import('expo-linking') = {

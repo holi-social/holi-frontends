@@ -1,9 +1,9 @@
 import { Image as ExpoImage } from 'expo-image'
 import React from 'react'
-import { AccessibilityProps, Image as ReactNativeImage } from 'react-native'
+import { type AccessibilityProps, Image as ReactNativeImage } from 'react-native'
 
 import { transformSourcesURL } from '@holi/ui/components/atoms/HoliImage/resizing'
-import { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
+import type { MobileImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 
 // left in here for future possibility of speed comparison
 const debugWithReactNativeImage = false
@@ -18,6 +18,7 @@ const HoliImage = ({
   testID,
   onLayout,
   onError,
+  onLoadEnd,
   'aria-hidden': ariaHidden,
 }: MobileImageProps) => {
   const accessibilityProps: AccessibilityProps = {
@@ -39,6 +40,7 @@ const HoliImage = ({
         resizeMode={resizeMode}
         testID={testID}
         onLayout={onLayout}
+        onLoadEnd={onLoadEnd}
         {...accessibilityProps}
       />
     )
@@ -53,6 +55,7 @@ const HoliImage = ({
       testID={testID}
       onError={onError}
       onLayout={onLayout}
+      onLoadEnd={onLoadEnd}
       {...accessibilityProps}
     />
   )

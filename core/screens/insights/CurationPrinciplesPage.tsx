@@ -2,9 +2,8 @@ import { useQuery } from '@apollo/client'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -113,7 +112,6 @@ const CurationPrinciplesPage: React.FC = () => {
     setScreenOptions({
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
       headerStyle: {
         backgroundColor: theme.colors.background20,
       },
@@ -124,7 +122,7 @@ const CurationPrinciplesPage: React.FC = () => {
   }, [t, setScreenOptions, theme.colors.background20])
 
   return (
-    <ScrollHeaderLayout noRefresh style={styles.wrapper}>
+    <ScrollView style={styles.wrapper}>
       <HoliContainer noPadding>
         <HoliContainer>
           <View style={styles.intro}>
@@ -252,7 +250,7 @@ const CurationPrinciplesPage: React.FC = () => {
           </View>
         </View>
       </HoliContainer>
-    </ScrollHeaderLayout>
+    </ScrollView>
   )
 }
 

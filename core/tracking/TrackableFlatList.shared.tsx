@@ -1,6 +1,6 @@
-import { FlatListProps } from 'react-native'
+import type { FlatListProps } from 'react-native'
 
-import { TrackingEvent } from '@holi/core/tracking/events'
+import type { TrackingEvent } from '@holi/core/tracking/events'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TrackableFlatListItem = any
@@ -27,7 +27,11 @@ export type TrackableFlatListParams = {
   trackOnce?: boolean
 }
 
-export type TrackableFlatListProps = FlatListProps<TrackableFlatListItem> & TrackableFlatListParams
+export type TrackableFlatListProps = FlatListProps<TrackableFlatListItem> &
+  TrackableFlatListParams & {
+    withFlashList?: boolean
+    estimatedItemSize?: number
+  }
 
 export type CustomViewabilityConfig = {
   itemVisiblePercentThreshold: number

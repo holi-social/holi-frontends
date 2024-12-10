@@ -11,10 +11,10 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CommentForm from '@holi/core/screens/comments/components/CommentForm'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
-import { CommentResponse, commentById } from '@holi/core/screens/comments/queries'
+import { type CommentResponse, commentById } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import DiscussionHeader from '@holi/core/screens/insights/discussions/DiscussionHeader'
-import { DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
+import { type DiscussionResponse, discussionById } from '@holi/core/screens/insights/queries'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -76,7 +76,6 @@ const DiscussionCommentPage = () => {
     () =>
       setScreenOptions({
         title: t('comments.title'),
-        headerTransparent: false,
         navigationCustomOptions: {
           footerShown: false,
         },

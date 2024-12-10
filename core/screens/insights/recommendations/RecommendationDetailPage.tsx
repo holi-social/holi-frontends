@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
+import { type DimensionValue, type ImageStyle, Linking, Platform, StyleSheet, View, ScrollView } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -107,7 +106,7 @@ const RecommendationDetailPage = () => {
 
   return (
     <>
-      <ScrollHeaderLayout style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
+      <ScrollView style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
         {recommendation && !loading ? (
           <View style={styles.content}>
             {recommendation.linkPreview.image && (
@@ -143,7 +142,7 @@ const RecommendationDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout>
+      </ScrollView>
 
       {recommendation && !loading && (
         <View style={styles.footer}>

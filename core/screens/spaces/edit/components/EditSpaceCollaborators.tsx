@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -9,12 +9,12 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
+import useRefreshOnNavigation, { type RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpaceInvitesList from '@holi/core/screens/spaces/details/components/SpaceInvitesList'
 import SpacePendingRequestsList from '@holi/core/screens/spaces/details/components/SpacePendingRequestsList'
@@ -24,8 +24,8 @@ import {
   spaceMembersQuery,
   spaceMembershipRequestsQuery,
 } from '@holi/core/screens/spaces/details/queries'
-import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
+import { type SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType, type SpaceMember } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { UserAdd } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -90,7 +90,6 @@ const EditSpaceCollaborators = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.collaborators'),
-      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },

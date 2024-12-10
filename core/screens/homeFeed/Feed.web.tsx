@@ -39,8 +39,15 @@ import type { GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
 import { logError } from '@holi/core/errors/helpers'
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
+import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
+import type { VolunteeringReco } from '@holi-apps/volunteering/types'
+
+import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 
 const PAGE_SIZE = 20
+const VOLUNTEERING_FREQUENCY = 10 // every 10 items, one volunteering engagement
+const GOOD_NEWS_FREQUENCY = 5 // every 5 items, one good news article
 
 const temporalGreeting = (hours: number, t: (key: string) => string) => {
   if (hours >= 5 && hours < 11) return t('homeFeed.headerTitle.goodMorning')
@@ -84,6 +91,17 @@ const HomeFeed = () => {
     }
   )
 
+  const { queryVariables, loading: loadingQueryVariables } = useVolunteeringRecosQueryVariables()
+
+  const { data: dataVolunteering } = useQuery(volunteeringRecosQuery, {
+    variables: { ...queryVariables, offset: 0, limit: PAGE_SIZE },
+    skip: loadingQueryVariables,
+    onError: (error) =>
+      logError(error, 'Failed to load volunteering recommendations', {
+        location: 'VolunteeringRecos.volunteeringRecosQuery',
+      }),
+  })
+
   useEffect(() => {
     if (data?.feed?.data) {
       setFeedData(data.feed.data)
@@ -108,16 +126,18 @@ const HomeFeed = () => {
   useEffect(() => {
     if ((!inView1 && !inView2) || isLoading) return
     setIsLoading(true)
+
+    // Fetch more feed data
     fetchMore({
       variables: {
         offset: feedData.length,
         limit: PAGE_SIZE,
       },
     })
-      .then((data) => {
-        if (!data?.data?.feed?.data) return
+      .then((feedResult) => {
+        if (!feedResult?.data?.feed?.data) return
         setFeedData((prev) => {
-          const newItems = data?.data?.feed?.data || []
+          const newItems = feedResult?.data?.feed?.data || []
           const uniqueItems = newItems.filter(
             (newItem: FeedItem) =>
               !prev.some(
@@ -138,7 +158,6 @@ const HomeFeed = () => {
       title: headerTitle,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: false,
       headerTitle: () => null,
       headerTintColor: colors.black300,
       headerLeft: ({ tintColor }) => (
@@ -163,19 +182,31 @@ const HomeFeed = () => {
 
   // Combine feed data with good news articles
   const combinedFeedData = useMemo(() => {
-    const combined: (FeedItem & { goodNewsArticle?: GoodNewsArticle })[] = [...feedData]
+    const combined: (FeedItem & {
+      goodNewsArticle?: GoodNewsArticle
+      volunteeringReco?: VolunteeringReco
+    })[] = [...feedData]
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
+    const engagements = dataVolunteering?.appVolunteering_engagementRecos?.data || []
 
     // Insert a good news article after every 10 feed items
     articles.forEach((article, index) => {
-      const insertPosition = (index + 1) * 10
+      const insertPosition = (index + 1) * GOOD_NEWS_FREQUENCY
       if (insertPosition < combined.length) {
         combined.splice(insertPosition, 0, { goodNewsArticle: article })
       }
     })
 
+    // Insert volunteering engagement after every 8 feed items
+    engagements.forEach((recommendation: VolunteeringReco, index: number) => {
+      const insertPosition = (index + 1) * VOLUNTEERING_FREQUENCY
+      if (insertPosition < combined.length) {
+        combined.splice(insertPosition, 0, { volunteeringReco: recommendation })
+      }
+    })
+
     return combined
-  }, [feedData, dataGoodNews?.appGoodNews_articles?.articles])
+  }, [feedData, dataGoodNews?.appGoodNews_articles?.articles, dataVolunteering?.appVolunteering_engagementRecos?.data])
 
   // Update the data sorting to use combinedFeedData
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)
@@ -200,7 +231,9 @@ const HomeFeed = () => {
                       <View key={columnIndex} style={styles.column}>
                         {column.map(
                           (
-                            item: FeedItem & { loader?: boolean } & { goodNewsArticle?: GoodNewsArticle },
+                            item: FeedItem & { loader?: boolean } & { goodNewsArticle?: GoodNewsArticle } & {
+                              volunteeringReco?: VolunteeringReco
+                            },
                             index: number
                           ) => (
                             <HoliTransition.FadeDown
@@ -218,13 +251,22 @@ const HomeFeed = () => {
                               {item.goodNewsArticle && (
                                 <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />
                               )}
+                              {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
                               {item.loader && columnIndex === 0 && (
-                                <View testID="load-more-ref" ref={loadMoreRef1 as LegacyRef<View>}>
+                                <View
+                                  testID="load-more-ref"
+                                  ref={loadMoreRef1 as LegacyRef<View>}
+                                  style={styles.skeleton}
+                                >
                                   <HoliSkeleton height={420} width="100%" borderRadius={20} />
                                 </View>
                               )}
                               {item.loader && columnIndex === 1 && (
-                                <View testID="load-more-ref" ref={loadMoreRef2 as LegacyRef<View>}>
+                                <View
+                                  testID="load-more-ref"
+                                  ref={loadMoreRef2 as LegacyRef<View>}
+                                  style={styles.skeleton}
+                                >
                                   <HoliSkeleton height={420} width="100%" borderRadius={20} />
                                 </View>
                               )}
@@ -248,7 +290,7 @@ const HomeFeed = () => {
 }
 
 const LoadingSkeleton = ({ columns }: { columns: number }) => (
-  <View style={styles.container}>
+  <View style={[styles.container, styles.skeleton]}>
     {new Array(columns).fill(0).map((_, index) => (
       <View style={styles.column} key={index}>
         <HoliSkeleton height={160} width="100%" borderRadius={20} />
@@ -277,6 +319,9 @@ const styles = StyleSheet.create({
   column: {
     flex: 1,
     gap: Spacing.xs,
+  },
+  skeleton: {
+    paddingBottom: Spacing.xs,
   },
 })
 

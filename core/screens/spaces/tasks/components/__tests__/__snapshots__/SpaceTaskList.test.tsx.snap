@@ -344,7 +344,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGPath
-                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
                         fill={
                           {
                             "type": 2,
@@ -474,7 +474,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGPath
-                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
+                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
                         fill={
                           {
                             "type": 2,
@@ -1049,7 +1049,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGPath
-                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
                         fill={
                           {
                             "type": 2,
@@ -1179,7 +1179,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGPath
-                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
+                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
                         fill={
                           {
                             "type": 2,
@@ -1754,7 +1754,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGPath
-                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0ZM12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+                        d="M18.364 17.364 12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4"
                         fill={
                           {
                             "type": 2,
@@ -1884,7 +1884,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                       }
                     >
                       <RNSVGPath
-                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10Zm1-10V7h-2v7h6v-2h-4Z"
+                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m1-10V7h-2v7h6v-2z"
                         fill={
                           {
                             "type": 2,

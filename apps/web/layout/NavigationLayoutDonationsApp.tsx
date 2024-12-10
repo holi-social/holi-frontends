@@ -1,7 +1,6 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import HoliHead from '@holi/core/components/HoliHead'
 
 import donationsLayoutStyles from './NavigationLayoutDonationsApp.module.css'

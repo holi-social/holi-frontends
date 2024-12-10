@@ -1,8 +1,8 @@
 import React from 'react'
-import { AccessibilityProps } from 'react-native'
+import type { AccessibilityProps } from 'react-native'
 
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
-import { ImageSource, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
+import type { ImageSource, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import styles from './styles.module.css'
@@ -39,6 +39,7 @@ const HoliImage = ({
   sizes,
   resizeMode = 'cover',
   onError,
+  onLoadEnd,
   'aria-hidden': ariaHidden,
 }: WebImageProps) => {
   const srcSet = createSrcSet(source)
@@ -60,6 +61,7 @@ const HoliImage = ({
       sizes={sizes || (srcSet && `(min-width:${dimensions.maxScreenWidth}px) ${dimensions.maxScreenWidth}px, 100vw`)}
       alt={label}
       onError={onError}
+      onLoad={onLoadEnd}
       {...accessibilityProps}
       style={{ ...style, ...aspectRatio, objectFit: resizeMode }}
     />

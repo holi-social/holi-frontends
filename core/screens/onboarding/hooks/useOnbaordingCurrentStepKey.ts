@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { HoliStepperItem } from '@holi/ui/components/organisms/HoliStepperV2'
-import { type OnboardingStateValue, useStoredOnboardingState } from './onboardingState'
+import { type OnboardingStateValue, useOnboardingState } from './onboardingState'
 
 const OnboardingStepKeys = [
   'WELCOME_SCREEN',
@@ -60,14 +60,14 @@ const determineOnboardingInitialStepKey = (onboardingState: OnboardingStateValue
 }
 
 export const useOnbaordingCurrentStepKey = () => {
-  const onboardingState = useStoredOnboardingState()
+  const onboardingState = useOnboardingState()
   const prevOnboardingState = useRef(onboardingState)
   const [currentStepKey, setCurrentStepKey] = useState<OnboardingStepKey | null>(
     determineOnboardingInitialStepKey(onboardingState)
   )
 
   useEffect(() => {
-    if (prevOnboardingState.current === null && prevOnboardingState.current !== onboardingState) {
+    if (prevOnboardingState.current === null || prevOnboardingState.current !== onboardingState) {
       setCurrentStepKey(determineOnboardingInitialStepKey(onboardingState))
     }
   }, [onboardingState])

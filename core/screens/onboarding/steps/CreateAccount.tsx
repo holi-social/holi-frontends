@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
-import React, { memo, useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
@@ -27,8 +27,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
 import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-// eslint-disable-next-line no-restricted-imports
-import PrivacyPolicyAndTermsOfUseText from '../components/PrivacyPolicyAndTermsOfUseText'
+import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 
 const logger = getLogger('CreateAccount')
 
@@ -41,7 +40,7 @@ interface CreateAccountProps {
   testID?: string
 }
 
-const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: CreateAccountProps) => {
+export const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: CreateAccountProps) => {
   const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -176,7 +175,7 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
 
       <View>
         <HoliGap size="xs" />
-        <PrivacyPolicyAndTermsOfUseText />
+        <DocumentsFooter />
         <HoliGap size="xs" />
       </View>
 
@@ -184,8 +183,6 @@ const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: Cre
     </View>
   )
 }
-
-export default memo(CreateAccount)
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
@@ -204,8 +201,5 @@ const getStyles = (theme: HoliTheme) =>
       // reserves space for inputs plus submit until ory flow is done
       minHeight: 235,
       width: '100%',
-    },
-    headline3: {
-      marginTop: 16,
     },
   })
