@@ -46,7 +46,7 @@ const GoodNewsCard: React.FC<GoodNewsCardProps> = ({ article, style }: GoodNewsC
         </View>
         <Text size="xs">{t('goodnews:listing.partnerModal.goodnews.eu.buttonText')}</Text>
         <ImagePreview currentImage={article.pictureUrl} />
-        <Text size="sm">{article.headline}</Text>
+        <Text size="lg">{article.headline}</Text>
         <Text size="xs">{date}</Text>
       </View>
     </HoliLink>
@@ -71,7 +71,6 @@ const getStyles = (theme: HoliTheme) =>
     seeMore: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: Spacing['4xs'],
     },
   })
 

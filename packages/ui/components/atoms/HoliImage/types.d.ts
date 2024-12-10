@@ -1,8 +1,8 @@
-import { Property } from 'csstype'
-import { ImageContentFit as ExpoResizeMode } from 'expo-image'
-import { ImageProps as ExpoImageProps } from 'expo-image/build/Image.types'
-import { CSSProperties } from 'react'
-import { ViewProps } from 'react-native'
+import type { Property } from 'csstype'
+import type { ImageContentFit as ExpoResizeMode } from 'expo-image'
+import type { ImageProps as ExpoImageProps } from 'expo-image/build/Image.types'
+import type { CSSProperties } from 'react'
+import type { ViewProps } from 'react-native'
 
 type WebResizeMode = Property.ObjectFit
 
@@ -43,10 +43,12 @@ export interface MobileImageProps extends HoliImageProps {
   testID?: ExpoImageProps['testID']
   onError?: ExpoImageProps['onError']
   onLayout?: ViewProps['onLayout']
+  onLoadEnd?: ExpoImageProps['onLoadEnd']
 }
 
 interface WebImageProps extends HoliImageProps {
   // careful, make sure any parameter here works in mobile as well
   style?: CSSProperties
   onError?: () => void
+  onLoadEnd?: () => void
 }
