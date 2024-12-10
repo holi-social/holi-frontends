@@ -10,6 +10,8 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export const ButtonFloatingWrapper = (props: PropsWithChildren) => (
   <View {...props} style={styles.floatingButtonWrapper} />
@@ -18,6 +20,7 @@ export const ButtonFloatingWrapper = (props: PropsWithChildren) => (
 const CreatePostButton: React.FC = () => {
   const { t } = useTranslation()
   const { navigateWithAuth } = useAuthRequiredNavigation()
+  const { track } = useTracking()
 
   return (
     <HoliContainer flexDirection="row" justifyContent="flex-end">
@@ -28,6 +31,7 @@ const CreatePostButton: React.FC = () => {
           inline
           style={styles.button}
           onPress={() => {
+            track(TrackingEvent.FeedPosts.feedPostCreateStart)
             navigateWithAuth('/feed-posts/create', {
               title: t('individuals.post.login.title'),
               description: t('individuals.post.login.text'),

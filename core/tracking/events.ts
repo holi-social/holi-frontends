@@ -67,19 +67,19 @@ export namespace TrackingEvent {
       properties: {
         postId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
     shared: (postId: string): TrackingEvent => ({
       name: 'sharedFeedPost',
       properties: {
         postId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
+    feedPostCreateStart: {
+      name: 'feedPostCreateStart',
+      ...versionOne,
+    },
   }
 
   export const Spaces = {
