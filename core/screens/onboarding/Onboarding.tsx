@@ -37,6 +37,7 @@ import LocationSelection from './steps/LocationSelection'
 import { NamesSelection } from './steps/NamesSelection'
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 const Onboarding = () => {
   const { t } = useTranslation()
@@ -47,6 +48,7 @@ const Onboarding = () => {
   const { track } = useTracking()
   const { topics } = useTopics()
   const { skills } = useSkills()
+  const { isLoggedIn } = useLoggedInUser()
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
   const {
@@ -79,10 +81,10 @@ const Onboarding = () => {
 
   // Abort and clean-up onboarding if user already is logged in when entering the screen
   useEffect(() => {
-    if (onboardingState === 'finished') {
+    if (isLoggedIn && onboardingState === 'finished') {
       breakOnboarding()
     }
-  }, [breakOnboarding, onboardingState])
+  }, [breakOnboarding, isLoggedIn, onboardingState])
 
   const topicById = (id: string) => topics.find((topic) => topic.id === id)
   const skillById = (id: string) => skills.find((skill) => skill.id === id)

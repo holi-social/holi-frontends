@@ -47,7 +47,7 @@ export const CreateAccount = ({
   onLogin,
   testID = 'create-account',
 }: CreateAccountProps) => {
-  const { isLoggedIn } = useLoginState()
+  const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
   const client = useApolloClient()
@@ -61,7 +61,7 @@ export const CreateAccount = ({
   const { track } = useTracking()
 
   const initializeFlow = useCallback(() => {
-    if (isLoggedIn) return
+    if (!isLoggedOut) return
 
     initRegistrationFlow()
       // The flow was initialized successfully, let's set the form data:
@@ -74,7 +74,7 @@ export const CreateAccount = ({
           location: 'CreateAccount.initRegistrationFlow',
         })
       )
-  }, [isLoggedIn, t, safeSetFlow, displayError])
+  }, [isLoggedOut, t, safeSetFlow, displayError])
 
   // When the component is mounted, we initialize a new use login flow:
   useIsomorphicLayoutEffect(() => {
