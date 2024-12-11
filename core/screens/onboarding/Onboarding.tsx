@@ -265,10 +265,10 @@ const Onboarding = () => {
         keyExtractor={(item) => item.key}
         renderStep={({ key }) => renderStep(key as OnboardingStepKey)}
         onChange={(key, previousKey, buttonPressed) => {
-          trackOnboardingStepCompletion(previousKey as OnboardingStepKey, buttonPressed)
           if (buttonPressed === 'skip') {
             clearSelection(previousKey as OnboardingStepKey)
           }
+          trackOnboardingStepCompletion(previousKey as OnboardingStepKey, buttonPressed)
           setCurrentStep(key as OnboardingStepKey)
         }}
         paddingTop={safeAreaTop ? safeAreaTop : Spacing.xxs}
