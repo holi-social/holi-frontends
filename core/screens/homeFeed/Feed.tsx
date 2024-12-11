@@ -20,7 +20,6 @@ import { useTheme } from '@holi/ui/styles/theme'
 import SpaceTermContextProvider, {
   SpaceTermContext,
 } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -34,6 +33,7 @@ import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
 import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
+import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -45,7 +45,8 @@ const HomeFeed = () => {
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
   const { topics: allTopics } = useContext(SpaceTermContext)
-  const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing } = useFeedQuery()
+  const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing, insightsCreators } =
+    useFeedQuery()
 
   const keyExtractor = useCallback(
     (
@@ -72,12 +73,12 @@ const HomeFeed = () => {
       <HoliTransition.FadeDown visible>
         {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
         {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
-        {item.insight && <InsightPreviewBox insight={item.insight} />}
+        {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
         {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
         {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
       </HoliTransition.FadeDown>
     ),
-    [allTopics]
+    [allTopics, insightsCreators]
   )
 
   const renderFooter = useCallback(
