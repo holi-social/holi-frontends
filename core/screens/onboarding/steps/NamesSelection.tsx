@@ -15,8 +15,6 @@ import {
   type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import { TrackingEvent } from '@holi/core/tracking'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -99,7 +97,6 @@ export interface NamesSelectionProps {
 export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: NamesSelectionProps) => {
   const { t } = useTranslation()
   const { user, isLoading } = useLoggedInUser()
-  const { track } = useTracking()
 
   const { names, onNamesChange, namesFieldErrors, nameStepIsValid } = useNamesSelection({
     user,
@@ -123,7 +120,6 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
           },
         },
         onCompleted: () => {
-          track(TrackingEvent.Auth.RegisterNamesOnboardingStepCompleted(names))
           onFinish()
         },
       })
