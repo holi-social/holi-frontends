@@ -276,6 +276,7 @@
   "homeFeed.headerTitle.goodNight": "Good night",
   "homeFeed.heading": "Hey!",
   "homeFeed.heading.loggedIn": "Hey {{firstname}}!",
+  "homeFeed.insights.card.heading": "Insight",
   "homeFeed.insights.error.notFound": "Document not found",
   "homeFeed.insights.heading": "Insights",
   "homeFeed.insights.loadMoreText": "See more Insights",

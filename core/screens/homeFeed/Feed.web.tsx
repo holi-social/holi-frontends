@@ -22,7 +22,6 @@ import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
 import SpaceTermContextProvider, {
   SpaceTermContext,
 } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPreviewBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -36,6 +35,7 @@ import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
+import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -48,7 +48,7 @@ const HomeFeed = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
-  const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading } = useFeedQuery()
+  const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
 
   const loaders = new Array(2).fill({ loader: true })
 
@@ -141,16 +141,28 @@ const HomeFeed = () => {
                                     allTopics={allTopics}
                                   />
                                 )}
-                                {item.insight && <InsightPreviewBox key={item.insight.id} insight={item.insight} />}
+                                {item.insight && insightsCreators && (
+                                  <InsightCard
+                                    key={item.insight.id}
+                                    insight={item.insight}
+                                    creators={insightsCreators}
+                                  />
+                                )}
                                 {item.goodNewsArticle && (
                                   <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />
                                 )}
-                                {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
+                                {item.volunteeringReco && (
+                                  <VolunteeringCard
+                                    key={item.volunteeringReco.engagement.id}
+                                    recommendation={item.volunteeringReco}
+                                  />
+                                )}
                                 {item.loader && columnIndex === 0 && (
                                   <View
                                     testID="load-more-ref"
                                     ref={loadMoreRef1 as LegacyRef<View>}
                                     style={styles.skeleton}
+                                    key={`${item.loader}-${columnIndex}-${index}`}
                                   >
                                     <HoliSkeleton height={420} width="100%" borderRadius={20} />
                                   </View>
@@ -160,6 +172,7 @@ const HomeFeed = () => {
                                     testID="load-more-ref"
                                     ref={loadMoreRef2 as LegacyRef<View>}
                                     style={styles.skeleton}
+                                    key={`${item.loader}-${columnIndex}-${index}`}
                                   >
                                     <HoliSkeleton height={420} width="100%" borderRadius={20} />
                                   </View>

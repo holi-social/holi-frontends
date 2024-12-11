@@ -11,6 +11,7 @@ import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
+import type { User } from '@holi/core/domain/shared/types'
 
 const PAGE_SIZE_EXTERNAL_DATA = 10
 const PAGE_SIZE_FEED = 20
@@ -22,6 +23,7 @@ export const useFeedQuery = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
+  const [insightsCreators, setInsightsCreators] = useState<User[]>([])
 
   const { loading, fetchMore, refetch, data } = useQuery(feedQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
@@ -58,6 +60,9 @@ export const useFeedQuery = () => {
     refetch: refetchInsights,
   } = useQuery(lastInsightsQuery, {
     variables: { offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
+    onCompleted: (data) => {
+      setInsightsCreators(data.lastInsights.data.map((insight: Insight) => insight.creator))
+    },
   })
 
   useEffect(() => {
@@ -166,5 +171,6 @@ export const useFeedQuery = () => {
     fetchMore: handleFetchMore,
     refetch: handleRefresh,
     refreshing,
+    insightsCreators,
   }
 }
