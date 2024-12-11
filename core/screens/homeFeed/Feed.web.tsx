@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { type LegacyRef, memo, useContext, useEffect, useMemo, useState } from 'react'
+import React, { type LegacyRef, memo, useContext, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -18,7 +18,6 @@ import GenericPostCard from '@holi/core/screens/individualPosts/components/Gener
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
-import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
 import SpaceTermContextProvider, {
   SpaceTermContext,
@@ -28,26 +27,15 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import { useQuery } from '@apollo/client'
 import { Text } from 'holi-bricks/components/text'
 import { simpleColumnSortingByIndex } from '@holi/core/screens/homeFeed/helpers'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
-import { isSSR } from '@holi/core/helpers/isSSR'
-import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-import type { GoodNewsArticlesQueryArgs } from '@holi-apps/goodnews/queries'
-import type { GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
-import { logError } from '@holi/core/errors/helpers'
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
-import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
-import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
 import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
-
-const PAGE_SIZE = 20
-const VOLUNTEERING_FREQUENCY = 10 // every 10 items, one volunteering engagement
-const GOOD_NEWS_FREQUENCY = 5 // every 5 items, one good news article
+import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -57,51 +45,12 @@ const HomeFeed = () => {
   const colors = useMemo(() => theme.colors, [theme])
   const numberOfColumns = useBreakpointMatcher() || 2
   const { topics: allTopics } = useContext(SpaceTermContext)
-  const [feedData, setFeedData] = useState<FeedItem[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const loaders = new Array(2).fill({ loader: true })
-
-  const { loading, fetchMore, data } = useQuery(feedQuery, {
-    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    variables: {
-      limit: PAGE_SIZE,
-      offset: 0,
-    },
-  })
-
-  const { data: dataGoodNews } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
-    goodNewsArticlesQuery,
-    {
-      variables: {
-        lastDate: undefined,
-      },
-      onError: (error) =>
-        logError(error, 'Failed to load good news articles', {
-          location: 'HomeFeed.GoodNewsArticlesQuery',
-        }),
-    }
-  )
-
-  const { queryVariables, loading: loadingQueryVariables } = useVolunteeringRecosQueryVariables()
-
-  const { data: dataVolunteering } = useQuery(volunteeringRecosQuery, {
-    variables: { ...queryVariables, offset: 0, limit: PAGE_SIZE },
-    skip: loadingQueryVariables,
-    onError: (error) =>
-      logError(error, 'Failed to load volunteering recommendations', {
-        location: 'VolunteeringRecos.volunteeringRecosQuery',
-      }),
-  })
-
-  useEffect(() => {
-    if (data?.feed?.data) {
-      setFeedData(data.feed.data)
-    }
-  }, [data])
-
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
+  const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading } = useFeedQuery()
+
+  const loaders = new Array(2).fill({ loader: true })
 
   // when we have two columns, we are not sure which one shows the loader first
   // so we use two inView hooks to trigger the loading of the next page
@@ -116,33 +65,8 @@ const HomeFeed = () => {
 
   useEffect(() => {
     if ((!inView1 && !inView2) || isLoading) return
-    setIsLoading(true)
-
-    // Fetch more feed data
-    fetchMore({
-      variables: {
-        offset: feedData.length,
-        limit: PAGE_SIZE,
-      },
-    })
-      .then((feedResult) => {
-        if (!feedResult?.data?.feed?.data) return
-        setFeedData((prev) => {
-          const newItems = feedResult?.data?.feed?.data || []
-          const uniqueItems = newItems.filter(
-            (newItem: FeedItem) =>
-              !prev.some(
-                (existingPost) =>
-                  (newItem.feedPost?.id && existingPost.feedPost?.id === newItem.feedPost.id) ||
-                  (newItem.spacePost?.id && existingPost.spacePost?.id === newItem.spacePost.id) ||
-                  (newItem.insight?.id && existingPost.insight?.id === newItem.insight.id)
-              )
-          )
-          return [...prev, ...uniqueItems]
-        })
-      })
-      .finally(() => setIsLoading(false))
-  }, [inView1, inView2, fetchMore, feedData.length, isLoading])
+    fetchMore()
+  }, [inView1, inView2, fetchMore, isLoading])
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -171,37 +95,9 @@ const HomeFeed = () => {
     })
   }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink])
 
-  // Combine feed data with good news articles
-  const combinedFeedData = useMemo(() => {
-    const combined: (FeedItem & {
-      goodNewsArticle?: GoodNewsArticle
-      volunteeringReco?: VolunteeringReco
-    })[] = [...feedData]
-    const articles = dataGoodNews?.appGoodNews_articles?.articles || []
-    const engagements = dataVolunteering?.appVolunteering_engagementRecos?.data || []
-
-    // Insert a good news article after every 10 feed items
-    articles.forEach((article, index) => {
-      const insertPosition = (index + 1) * GOOD_NEWS_FREQUENCY
-      if (insertPosition < combined.length) {
-        combined.splice(insertPosition, 0, { goodNewsArticle: article })
-      }
-    })
-
-    // Insert volunteering engagement after every 8 feed items
-    engagements.forEach((recommendation: VolunteeringReco, index: number) => {
-      const insertPosition = (index + 1) * VOLUNTEERING_FREQUENCY
-      if (insertPosition < combined.length) {
-        combined.splice(insertPosition, 0, { volunteeringReco: recommendation })
-      }
-    })
-
-    return combined
-  }, [feedData, dataGoodNews?.appGoodNews_articles?.articles, dataVolunteering?.appVolunteering_engagementRecos?.data])
-
   // Update the data sorting to use combinedFeedData
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)
-  const animKey = loading ? 'loading' : feedData.length > 0 ? 'ready' : 'empty'
+  const animKey = initialLoading ? 'loading' : combinedFeedData.length > 0 ? 'ready' : 'empty'
 
   return (
     <SpaceTermContextProvider>
@@ -226,43 +122,50 @@ const HomeFeed = () => {
                               volunteeringReco?: VolunteeringReco
                             },
                             index: number
-                          ) => (
-                            <HoliTransition.FadeDown
-                              key={item.feedPost?.id || item.goodNewsArticle?.id}
-                              visible
-                              index={index}
-                            >
-                              {item.feedPost && (
-                                <GenericPostCard key={item.feedPost.id} post={item.feedPost} allTopics={allTopics} />
-                              )}
-                              {item.spacePost && (
-                                <GenericPostCard key={item.spacePost.id} post={item.spacePost} allTopics={allTopics} />
-                              )}
-                              {item.insight && <InsightPreviewBox key={item.insight.id} insight={item.insight} />}
-                              {item.goodNewsArticle && (
-                                <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />
-                              )}
-                              {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
-                              {item.loader && columnIndex === 0 && (
-                                <View
-                                  testID="load-more-ref"
-                                  ref={loadMoreRef1 as LegacyRef<View>}
-                                  style={styles.skeleton}
-                                >
-                                  <HoliSkeleton height={420} width="100%" borderRadius={20} />
-                                </View>
-                              )}
-                              {item.loader && columnIndex === 1 && (
-                                <View
-                                  testID="load-more-ref"
-                                  ref={loadMoreRef2 as LegacyRef<View>}
-                                  style={styles.skeleton}
-                                >
-                                  <HoliSkeleton height={420} width="100%" borderRadius={20} />
-                                </View>
-                              )}
-                            </HoliTransition.FadeDown>
-                          )
+                          ) =>
+                            item.loader && !canLoadMore ? (
+                              <></>
+                            ) : (
+                              <HoliTransition.FadeDown
+                                key={item.feedPost?.id || item.goodNewsArticle?.id}
+                                visible
+                                index={index}
+                              >
+                                {item.feedPost && (
+                                  <GenericPostCard key={item.feedPost.id} post={item.feedPost} allTopics={allTopics} />
+                                )}
+                                {item.spacePost && (
+                                  <GenericPostCard
+                                    key={item.spacePost.id}
+                                    post={item.spacePost}
+                                    allTopics={allTopics}
+                                  />
+                                )}
+                                {item.insight && <InsightPreviewBox key={item.insight.id} insight={item.insight} />}
+                                {item.goodNewsArticle && (
+                                  <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />
+                                )}
+                                {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
+                                {item.loader && columnIndex === 0 && (
+                                  <View
+                                    testID="load-more-ref"
+                                    ref={loadMoreRef1 as LegacyRef<View>}
+                                    style={styles.skeleton}
+                                  >
+                                    <HoliSkeleton height={420} width="100%" borderRadius={20} />
+                                  </View>
+                                )}
+                                {item.loader && columnIndex === 1 && (
+                                  <View
+                                    testID="load-more-ref"
+                                    ref={loadMoreRef2 as LegacyRef<View>}
+                                    style={styles.skeleton}
+                                  >
+                                    <HoliSkeleton height={420} width="100%" borderRadius={20} />
+                                  </View>
+                                )}
+                              </HoliTransition.FadeDown>
+                            )
                         )}
                       </View>
                     ))}
