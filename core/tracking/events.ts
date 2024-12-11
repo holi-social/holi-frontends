@@ -224,12 +224,14 @@ export namespace TrackingEvent {
 
   export const OnboardingStepCompleted = (
     step: 'welcome' | 'contentSelection' | 'locationSelection' | 'interestsSelection' | 'skillsSelection',
-    answers: string[]
+    answers: string[],
+    buttonPressed: 'continue' | 'skip' | 'back'
   ): TrackingEvent => ({
     name: 'onboardingStepCompleted',
     properties: {
-      step: step,
-      answers: answers,
+      step,
+      answers,
+      buttonPressed,
     },
     ...versionOne,
   })

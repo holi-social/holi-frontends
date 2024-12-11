@@ -11,7 +11,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
-import { HoliStepper } from '@holi/ui/components/organisms/HoliStepperV2'
+import { HoliStepper, type StepperButtonType } from '@holi/ui/components/organisms/HoliStepperV2'
 import { Spacing, mono } from 'holi-bricks/tokens'
 
 import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
@@ -87,26 +87,26 @@ const Onboarding = () => {
   const topicById = (id: string) => topics.find((topic) => topic.id === id)
   const skillById = (id: string) => skills.find((skill) => skill.id === id)
 
-  // events shall only be emitted when user clicks on continue, not during answer selection
+  // events shall only be emitted when user clicks on continue/skip/back, not during answer selection
   // therefore this callback hooks into HoliStepper.onChange
-  const trackOnboardingStepCompletion = (key: OnboardingStepKey) => {
+  const trackOnboardingStepCompletion = (key: OnboardingStepKey, buttonPressed: StepperButtonType) => {
     switch (key) {
       case 'CONTENT_SELECTION': {
-        track(OnboardingStepCompleted('contentSelection', [userData.content as string]))
+        track(OnboardingStepCompleted('contentSelection', [userData.content as string], buttonPressed))
         break
       }
       case 'LOCATION_SELECTION': {
-        track(OnboardingStepCompleted('locationSelection', [userData.location?.label as string]))
+        track(OnboardingStepCompleted('locationSelection', [userData.location?.label as string], buttonPressed))
         break
       }
       case 'INTERESTS_SELECTION': {
         const selectedInterests = userData.interests ? userData.interests.map((id) => topicById(id)?.slug) : []
-        track(OnboardingStepCompleted('interestsSelection', selectedInterests as string[]))
+        track(OnboardingStepCompleted('interestsSelection', selectedInterests as string[], buttonPressed))
         break
       }
       case 'SKILLS_SELECTION': {
         const selectedSkills = userData.skills ? userData.skills.map((id) => skillById(id)?.slug) : []
-        track(OnboardingStepCompleted('skillsSelection', selectedSkills as string[]))
+        track(OnboardingStepCompleted('skillsSelection', selectedSkills as string[], buttonPressed))
         break
       }
     }
@@ -118,7 +118,7 @@ const Onboarding = () => {
         return (
           <Intro
             onContinue={() => {
-              track(OnboardingStepCompleted('welcome', ['continue']))
+              track(OnboardingStepCompleted('welcome', ['continue'], 'continue'))
               setCurrentStep('CONTENT_SELECTION')
             }}
           />
@@ -246,8 +246,8 @@ const Onboarding = () => {
         activeStepKey={currentStep}
         keyExtractor={(item) => item.key}
         renderStep={({ key }) => renderStep(key as OnboardingStepKey)}
-        onChange={(key, previousKey) => {
-          trackOnboardingStepCompletion(previousKey as OnboardingStepKey)
+        onChange={(key, previousKey, buttonPressed) => {
+          trackOnboardingStepCompletion(previousKey as OnboardingStepKey, buttonPressed)
           setCurrentStep(key as OnboardingStepKey)
         }}
         paddingTop={safeAreaTop ? safeAreaTop : Spacing.xxs}

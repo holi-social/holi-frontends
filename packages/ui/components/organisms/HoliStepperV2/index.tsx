@@ -17,12 +17,14 @@ export interface RenderFuncOptions<D> {
   index: number
 }
 
+export type StepperButtonType = 'continue' | 'back' | 'skip'
+
 export interface HoliStepperProps<D> extends Pick<ScrollViewProps, 'keyboardShouldPersistTaps'> {
   data: D[]
   keyExtractor: (item: D) => string
   renderStep: (options: RenderFuncOptions<D>) => React.ReactNode
   activeStepKey: string
-  onChange: (key: string, previousKey?: string) => void
+  onChange: (key: string, previousKey: string, buttonPressed: StepperButtonType) => void
   WrapperComponent?: (preop: React.PropsWithChildren) => React.JSX.Element
   paddingTop?: number
   paddingBottom?: number
@@ -56,12 +58,12 @@ export const HoliStepper = <D extends HoliStepperItem>({
   const stepsWithProgressBar = data.filter((item) => item.progressBar)
   const currentIndexInProgressBar = stepsWithProgressBar.findIndex((item) => keyExtractor(item) === activeStepKey)
 
-  const onContinue = () => {
+  const onContinue = (buttonPressed: StepperButtonType) => {
     const nextStepIndex = activeStepIndex + 1
     if (nextStepIndex < data.length) {
       const previousStepKey = keyExtractor(data[activeStepIndex])
       const nextStepKey = keyExtractor(data[nextStepIndex])
-      onChange(nextStepKey, previousStepKey)
+      onChange(nextStepKey, previousStepKey, buttonPressed)
     }
   }
 
@@ -70,7 +72,7 @@ export const HoliStepper = <D extends HoliStepperItem>({
     if (nextStepIndex >= 0) {
       const previousStepKey = keyExtractor(data[activeStepIndex])
       const nextStepKey = keyExtractor(data[nextStepIndex])
-      onChange(nextStepKey, previousStepKey)
+      onChange(nextStepKey, previousStepKey, 'back')
     }
   }
 
@@ -105,7 +107,7 @@ export const HoliStepper = <D extends HoliStepperItem>({
           <ProgressBar
             currentStep={currentIndexInProgressBar}
             totalCount={stepsWithProgressBar.length}
-            onSkipPress={onContinue}
+            onSkipPress={() => onContinue('skip')}
             testID={`${testID}-progress-bar`}
           />
         </WrapperComponent>
@@ -119,7 +121,7 @@ export const HoliStepper = <D extends HoliStepperItem>({
         <WrapperComponent>
           <HoliBox padding={[Spacing['4xs'], 0]}>
             <NavigationButtons
-              onNextPress={onContinue}
+              onNextPress={() => onContinue('continue')}
               onBackPress={onGoBack}
               {...(activeStepData?.footerNavigation ?? {})}
               testID={`${testID}-nav-buttons`}
