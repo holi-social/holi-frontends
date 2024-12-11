@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import type { NamesSelectionData } from '@holi/core/screens/onboarding/steps/NamesSelection'
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 
 type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
@@ -45,9 +44,7 @@ export namespace TrackingEvent {
         reactableType,
         reactableId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
     commented: (commentableType: string, commentableId: string): TrackingEvent => ({
       name: 'commented',
@@ -55,9 +52,7 @@ export namespace TrackingEvent {
         commentableType,
         commentableId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
   }
 
@@ -123,16 +118,6 @@ export namespace TrackingEvent {
   }
 
   export namespace Auth {
-    // Login Modal
-    export const CloseLoginModalButtonPressed: TrackingEvent = {
-      name: 'closeLoginModalButtonPressed',
-      ...versionOne,
-    }
-    export const SignupLoginModalButtonPressed: TrackingEvent = {
-      name: 'signupLoginModalButtonPressed',
-      ...versionOne,
-    }
-
     // Others
     export const RegisterButtonPressed: TrackingEvent = {
       name: 'registerButtonPressed',
@@ -159,33 +144,6 @@ export namespace TrackingEvent {
       name: 'resendEmailButtonPressed',
       ...versionOne,
     }
-    export const RegisterNamesOnboardingStepCompleted = (updatedValues: NamesSelectionData): TrackingEvent => ({
-      name: 'registerNamesOnboardingStepCompleted',
-      properties: { updatedValues },
-      ...versionOne,
-    })
-    export const InterestsOnboardingStepCompleted = (updatedValues: string[]): TrackingEvent => ({
-      name: 'interestsOnboardingStepCompleted',
-      properties: { updatedValues },
-      ...versionOne,
-    })
-    export const InterestsOnboardingStepSkipped: TrackingEvent = {
-      name: 'interestsOnboardingStepSkipped',
-      ...versionOne,
-    }
-    export const LocationOnboardingStepCompleted = (updatedValues: string): TrackingEvent => ({
-      name: 'locationOnboardingStepCompleted',
-      properties: { updatedValues },
-      ...versionOne,
-    })
-    export const LocationOnboardingStepSkipped: TrackingEvent = {
-      name: 'locationOnboardingStepSkipped',
-      ...versionOne,
-    }
-    export const SuccessOnboardingStepCompleted: TrackingEvent = {
-      name: 'successOnboardingStepCompleted',
-      ...versionOne,
-    }
   }
 
   export const ContentTranslated = (
@@ -193,9 +151,7 @@ export namespace TrackingEvent {
     contentId: string
   ): TrackingEvent => ({
     name: 'content_translated',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+    ...versionOne,
     properties: {
       type: type,
       contentId: contentId,
@@ -204,9 +160,7 @@ export namespace TrackingEvent {
 
   export const RecommendationPressed = (type: RecommendationType, itemId: string, index: number): TrackingEvent => ({
     name: 'recommendation_pressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+    ...versionOne,
     properties: {
       type: type,
       itemId: itemId,
@@ -229,34 +183,28 @@ export namespace TrackingEvent {
   export namespace InsightCard {
     export const CardPressed = (insightId: string): TrackingEvent => ({
       name: 'insightCard_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         insightId: insightId,
       },
+      ...versionOne,
     })
     export const CardViewed = (insightId: string): TrackingEvent => ({
       name: 'insightCard_viewed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         insightId: insightId,
       },
+      ...versionOne,
     })
   }
 
   export namespace ChallengeCard {
     export const CardPressed = (challengeId: string, index: number): TrackingEvent => ({
       name: 'challengeCard_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         challengeId: challengeId,
         index: index,
       },
+      ...versionOne,
     })
 
     export const SubmissionPressed = (
@@ -265,34 +213,44 @@ export namespace TrackingEvent {
       submissionIndex: number
     ): TrackingEvent => ({
       name: 'challengeCardSubmission_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         challengeId: challengeId,
         submissionId: submissionId,
         submissionIndex: submissionIndex,
       },
+      ...versionOne,
     })
   }
 
-  export const OnboardingPressed = (step: 'WELCOME' | 'CONTENT_SELECTION', answer: string): TrackingEvent => ({
-    name: 'onboarding_pressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+  export const OnboardingStepCompleted = (
+    step: 'welcome' | 'contentSelection' | 'locationSelection' | 'interestsSelection' | 'skillsSelection',
+    answers: string[],
+    buttonPressed: 'continue' | 'skip' | 'back'
+  ): TrackingEvent => ({
+    name: 'onboardingStepCompleted',
     properties: {
-      step: step,
-      answer: answer,
+      step,
+      answers,
+      buttonPressed,
     },
+    ...versionOne,
+  })
+
+  export const SignupStepCompleted = (
+    properties:
+      | { step: 'emailAndPassword'; answer: 'signUp' | 'continueAsGuest' | 'login' }
+      | { step: 'verificationCode'; answer: 'verifyAccount' | 'continueAsGuest' }
+      | { step: 'name'; answer: 'continue' }
+  ): TrackingEvent => ({
+    name: 'onboardingStepCompleted',
+    properties,
+    ...versionOne,
   })
 
   export const SignUpModalPressed = (trigger: SignupModalPressedTrigger, answer: string): TrackingEvent => ({
     name: 'signUpModalPressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
     properties: { trigger, answer },
+    ...versionOne,
   })
 }
 
