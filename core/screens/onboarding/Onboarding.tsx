@@ -24,8 +24,8 @@ import {
   type OnboardingStepItem,
   type OnboardingStepKey,
   onboardingSteps,
-  useOnbaordingCurrentStepKey,
-} from './hooks/useOnbaordingCurrentStepKey'
+  useOnboardingCurrentStepKey,
+} from './hooks/useOnboardingCurrentStepKey'
 import { showOnboardingFinishModal } from './hooks/useOnboardingFinishModalState'
 import { useUserData } from './hooks/useUserData'
 import { ChipsSelection } from './steps/ChipsSelection'
@@ -48,7 +48,7 @@ const Onboarding = () => {
   const { topics } = useTopics()
   const { skills } = useSkills()
 
-  const [currentStep, setCurrentStep] = useOnbaordingCurrentStepKey()
+  const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
   const {
     userData,
     updateContent,
