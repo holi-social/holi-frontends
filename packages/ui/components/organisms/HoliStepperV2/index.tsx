@@ -1,12 +1,12 @@
 import type React from 'react'
 import { Platform, ScrollView, type ScrollViewProps, StyleSheet, View } from 'react-native'
 
-import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import { PROGRESS_BAR_HEIGHT, ProgressBar } from '@holi/ui/components/organisms/HoliStepperV2/ProgressBar'
 import { Spacing } from 'holi-bricks/tokens'
 import NavigationButtons, { BUTTON_RECT, type NavigationButtonsProps } from './NavigationButtons'
-import { PROGRESS_BAR_HEIGHT, ProgressBar } from '@holi/ui/components/organisms/HoliStepperV2/ProgressBar'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 const ONBOARDING_HEADER_OFFSET = PROGRESS_BAR_HEIGHT + Spacing.xxs
 const ONBOARDING_FOOTER_OFFSET = BUTTON_RECT.height + Spacing.xxs + Spacing.lg
@@ -22,7 +22,7 @@ export interface HoliStepperProps<D> extends Pick<ScrollViewProps, 'keyboardShou
   keyExtractor: (item: D) => string
   renderStep: (options: RenderFuncOptions<D>) => React.ReactNode
   activeStepKey: string
-  onChange: (key: string) => void
+  onChange: (key: string, previousKey?: string) => void
   WrapperComponent?: (preop: React.PropsWithChildren) => React.JSX.Element
   paddingTop?: number
   paddingBottom?: number
@@ -59,16 +59,18 @@ export const HoliStepper = <D extends HoliStepperItem>({
   const onContinue = () => {
     const nextStepIndex = activeStepIndex + 1
     if (nextStepIndex < data.length) {
+      const previousStepKey = keyExtractor(data[activeStepIndex])
       const nextStepKey = keyExtractor(data[nextStepIndex])
-      onChange(nextStepKey)
+      onChange(nextStepKey, previousStepKey)
     }
   }
 
   const onGoBack = () => {
     const nextStepIndex = activeStepIndex - 1
     if (nextStepIndex >= 0) {
+      const previousStepKey = keyExtractor(data[activeStepIndex])
       const nextStepKey = keyExtractor(data[nextStepIndex])
-      onChange(nextStepKey)
+      onChange(nextStepKey, previousStepKey)
     }
   }
 

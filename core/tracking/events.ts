@@ -45,9 +45,7 @@ export namespace TrackingEvent {
         reactableType,
         reactableId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
     commented: (commentableType: string, commentableId: string): TrackingEvent => ({
       name: 'commented',
@@ -55,9 +53,7 @@ export namespace TrackingEvent {
         commentableType,
         commentableId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
   }
 
@@ -124,10 +120,12 @@ export namespace TrackingEvent {
 
   export namespace Auth {
     // Login Modal
+    // TODO remove because unused?
     export const CloseLoginModalButtonPressed: TrackingEvent = {
       name: 'closeLoginModalButtonPressed',
       ...versionOne,
     }
+    // TODO remove because unused?
     export const SignupLoginModalButtonPressed: TrackingEvent = {
       name: 'signupLoginModalButtonPressed',
       ...versionOne,
@@ -193,9 +191,7 @@ export namespace TrackingEvent {
     contentId: string
   ): TrackingEvent => ({
     name: 'content_translated',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+    ...versionOne,
     properties: {
       type: type,
       contentId: contentId,
@@ -204,9 +200,7 @@ export namespace TrackingEvent {
 
   export const RecommendationPressed = (type: RecommendationType, itemId: string, index: number): TrackingEvent => ({
     name: 'recommendation_pressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+    ...versionOne,
     properties: {
       type: type,
       itemId: itemId,
@@ -229,34 +223,28 @@ export namespace TrackingEvent {
   export namespace InsightCard {
     export const CardPressed = (insightId: string): TrackingEvent => ({
       name: 'insightCard_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         insightId: insightId,
       },
+      ...versionOne,
     })
     export const CardViewed = (insightId: string): TrackingEvent => ({
       name: 'insightCard_viewed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         insightId: insightId,
       },
+      ...versionOne,
     })
   }
 
   export namespace ChallengeCard {
     export const CardPressed = (challengeId: string, index: number): TrackingEvent => ({
       name: 'challengeCard_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         challengeId: challengeId,
         index: index,
       },
+      ...versionOne,
     })
 
     export const SubmissionPressed = (
@@ -265,34 +253,42 @@ export namespace TrackingEvent {
       submissionIndex: number
     ): TrackingEvent => ({
       name: 'challengeCardSubmission_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         challengeId: challengeId,
         submissionId: submissionId,
         submissionIndex: submissionIndex,
       },
+      ...versionOne,
     })
   }
 
-  export const OnboardingPressed = (step: 'WELCOME' | 'CONTENT_SELECTION', answer: string): TrackingEvent => ({
-    name: 'onboarding_pressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+  export const OnboardingStepCompleted = (
+    step: 'welcome' | 'contentSelection' | 'locationSelection' | 'interestsSelection' | 'skillsSelection',
+    answers: string[]
+  ): TrackingEvent => ({
+    name: 'onboardingStepCompleted',
     properties: {
       step: step,
-      answer: answer,
+      answers: answers,
     },
+    ...versionOne,
+  })
+
+  export const SignupStepCompleted = (
+    properties:
+      | { step: 'emailAndPassword'; answer: 'signUp' | 'continueAsGuest' | 'login' }
+      | { step: 'verificationCode'; answer: 'verifyAccount' | 'continueAsGuest' }
+      | { step: 'name'; answer: 'continue' }
+  ): TrackingEvent => ({
+    name: 'onboardingStepCompleted',
+    properties,
+    ...versionOne,
   })
 
   export const SignUpModalPressed = (trigger: SignupModalPressedTrigger, answer: string): TrackingEvent => ({
     name: 'signUpModalPressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
     properties: { trigger, answer },
+    ...versionOne,
   })
 }
 

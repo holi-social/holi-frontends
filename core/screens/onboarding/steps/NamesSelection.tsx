@@ -3,26 +3,26 @@ import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type ScrollView, View } from 'react-native'
 
+import { useMutation } from '@apollo/client'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
-import { logError, type FieldError } from '@holi/core/errors/helpers'
+import { type FieldError, logError } from '@holi/core/errors/helpers'
 import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import { replaceSpecialChars } from '@holi/core/helpers'
 import { RegisterUserNamesInputSchema } from '@holi/core/hooks/useRegisterUserNames'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
-import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
+import {
+  type UpdateAuthenticatedUserV2Response,
+  updateAuthenticatedUserV2Mutation,
+} from '@holi/core/screens/userprofile/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import { useMutation } from '@apollo/client'
-import {
-  updateAuthenticatedUserV2Mutation,
-  type UpdateAuthenticatedUserV2Response,
-} from '@holi/core/screens/userprofile/queries'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { Text } from 'holi-bricks/components/text'
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 export interface NamesSelectionData {
   firstName?: string

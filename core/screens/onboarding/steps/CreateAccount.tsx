@@ -1,8 +1,8 @@
 import { useApolloClient } from '@apollo/client'
 import type { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/kratos-client'
 import React, { useCallback, useMemo, useState } from 'react'
-import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
@@ -16,18 +16,18 @@ import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingErr
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
-import { TrackingEvent } from '@holi/core/tracking'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
-import { Text } from 'holi-bricks/components/text'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
-import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
+import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
+import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Text } from 'holi-bricks/components/text'
 
 const logger = getLogger('CreateAccount')
 
@@ -36,11 +36,17 @@ const isAndroid = Platform.OS === 'android'
 
 interface CreateAccountProps {
   onRegister: () => void
-  onDismiss: () => void
+  onContinueAsGuest: () => void
+  onLogin: () => void
   testID?: string
 }
 
-export const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account' }: CreateAccountProps) => {
+export const CreateAccount = ({
+  onRegister,
+  onContinueAsGuest,
+  onLogin,
+  testID = 'create-account',
+}: CreateAccountProps) => {
   const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -133,9 +139,7 @@ export const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account'
         <View style={styles.logo}>
           <HoliLogo color={theme.colors.black300} />
         </View>
-
         <HoliGap size="m" />
-
         <Text headingLevel="1" size="4xl" textAlign="center">
           {t('registration.signUp.heading')}
 
@@ -147,30 +151,25 @@ export const CreateAccount = ({ onRegister, onDismiss, testID = 'create-account'
             isSvg={!isAndroid}
           />
         </Text>
-
         <HoliGap size="xs" />
         <Text size="md">{t('registration.signUp.description')}</Text>
-
         <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
-
         <HoliGap size="s" />
         <HoliButtonTracked
           label={t('auth.loginProtection.continueAsGuest')}
-          onPress={onDismiss}
+          onPress={onContinueAsGuest}
           type="secondary"
           testID={`${testID}-btn-continue-as-guest`}
           trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
         >
           {t('auth.loginProtection.continueAsGuest')}
         </HoliButtonTracked>
-
         <HoliGap size="xxs" />
         <Text size="xs" variant="secondary" textAlign="center">
           {t('auth.loginProtection.continueAsGuest.warning')}
         </Text>
-
         <HoliGap size="m" />
-        <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
+        <AlreadyHaveAccountText onPress={onLogin} trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
       </View>
 
       <View>
