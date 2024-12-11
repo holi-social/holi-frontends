@@ -7,7 +7,6 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
@@ -38,10 +37,10 @@ import { NamesSelection } from './steps/NamesSelection'
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 const Onboarding = () => {
   const { t } = useTranslation()
-  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
   const onboardingState = useOnboardingState()
@@ -63,6 +62,9 @@ const Onboarding = () => {
     clearSkills,
   } = useUserData()
 
+  const routeForSelectedContentType = getRouteForContentType(userData.content)
+  const redirect = useRedirect(routeForSelectedContentType)
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
   }, [setScreenOptions])
@@ -71,10 +73,9 @@ const Onboarding = () => {
 
   const cleanUp = () => Promise.all([storeOnboardingState('finished'), clearOnboardingUserDataAsyncStore()])
   const breakOnboarding = useCallback(async () => {
-    const path = getRouteForContentType(userData.content)
     await cleanUp()
-    replaceRoute(path)
-  }, [replaceRoute, userData.content])
+    redirect(true)
+  }, [redirect])
 
   const finishOnboarding = async () => {
     breakOnboarding()
