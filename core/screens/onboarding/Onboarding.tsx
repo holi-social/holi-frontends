@@ -59,6 +59,8 @@ const Onboarding = () => {
     updateSkills,
     interestsSearchProps,
     skillsSearchProps,
+    clearInterests,
+    clearSkills,
   } = useUserData()
 
   useIsomorphicLayoutEffect(() => {
@@ -88,6 +90,19 @@ const Onboarding = () => {
 
   const topicById = (id: string) => topics.find((topic) => topic.id === id)
   const skillById = (id: string) => skills.find((skill) => skill.id === id)
+
+  const clearSelection = (key: OnboardingStepKey) => {
+    switch (key) {
+      case 'CONTENT_SELECTION':
+        return updateContent(undefined)
+      case 'LOCATION_SELECTION':
+        return updateLocation(undefined)
+      case 'INTERESTS_SELECTION':
+        return clearInterests()
+      case 'SKILLS_SELECTION':
+        return clearSkills()
+    }
+  }
 
   // events shall only be emitted when user clicks on continue/skip/back, not during answer selection
   // therefore this callback hooks into HoliStepper.onChange
@@ -250,6 +265,9 @@ const Onboarding = () => {
         renderStep={({ key }) => renderStep(key as OnboardingStepKey)}
         onChange={(key, previousKey, buttonPressed) => {
           trackOnboardingStepCompletion(previousKey as OnboardingStepKey, buttonPressed)
+          if (buttonPressed === 'skip') {
+            clearSelection(previousKey as OnboardingStepKey)
+          }
           setCurrentStep(key as OnboardingStepKey)
         }}
         paddingTop={safeAreaTop ? safeAreaTop : Spacing.xxs}
