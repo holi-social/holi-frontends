@@ -96,7 +96,7 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
                     testID="insight-curator"
                     initials={insight.creator.avatarLabel}
                   />
-                  <View>
+                  <View style={styles.creatorInfo}>
                     <HoliText size="small" style={styles.textGrey}>
                       {insight.creator.fullName}
                     </HoliText>
@@ -151,6 +151,11 @@ const getStyles = (theme: HoliTheme) =>
     },
     container: {
       flex: 1,
+    },
+    creatorInfo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: Spacing['4xs'],
     },
     row: {
       flexDirection: 'row',
