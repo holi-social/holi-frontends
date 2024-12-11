@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useContext, useMemo, useState, useCallback } from 'react'
+import React, { memo, useContext, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, RefreshControl } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -17,7 +17,6 @@ import GenericPostCard from '@holi/core/screens/individualPosts/components/Gener
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
-import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import SpaceTermContextProvider, {
   SpaceTermContext,
 } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -25,25 +24,16 @@ import InsightPreviewBox from '@holi/core/screens/insights/components/InsightPre
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
-import { useQuery } from '@apollo/client'
 import { Text } from 'holi-bricks/components/text'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { TrackingEvent, Unknown } from '@holi/core/tracking/events'
-import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-import type { GoodNewsArticlesQueryArgs, GoodNewsArticlesQueryResponse } from '@holi-apps/goodnews/queries'
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
-import { logError } from '@holi/core/errors/helpers/logError'
-import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
 import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
-import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
-
-const PAGE_SIZE = 20
-const VOLUNTEERING_FREQUENCY = 10 // every 10 items, one volunteering engagement
-const GOOD_NEWS_FREQUENCY = 5 // every 5 items, one good news article
+import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -51,122 +41,11 @@ const HomeFeed = () => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
-  const { topics: allTopics } = useContext(SpaceTermContext)
-  const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const [refreshing, setRefreshing] = useState(false)
-
-  const { loading, fetchMore, refetch, data } = useQuery(feedQuery, {
-    fetchPolicy: 'cache-and-network',
-    variables: {
-      limit: PAGE_SIZE,
-      offset: 0,
-    },
-  })
-
-  const { data: dataGoodNews } = useQuery<GoodNewsArticlesQueryResponse, GoodNewsArticlesQueryArgs>(
-    goodNewsArticlesQuery,
-    {
-      variables: {
-        lastDate: undefined,
-      },
-      onError: (error) =>
-        logError(error, 'Failed to load good news articles', {
-          location: 'HomeFeed.GoodNewsArticlesQuery',
-        }),
-    }
-  )
-
-  const { queryVariables, loading: loadingQueryVariables } = useVolunteeringRecosQueryVariables()
-
-  const { data: dataVolunteering } = useQuery(volunteeringRecosQuery, {
-    variables: { ...queryVariables, offset: 0, limit: PAGE_SIZE },
-    skip: loadingQueryVariables,
-    onError: (error) =>
-      logError(error, 'Failed to load volunteering recommendations', {
-        location: 'HomeFeed.volunteeringRecosQuery',
-      }),
-  })
-
-  const combinedFeedData = useMemo(() => {
-    const feedData = data?.feed?.data || []
-    const combined: (FeedItem & {
-      goodNewsArticle?: GoodNewsArticle
-      volunteeringReco?: VolunteeringReco
-    })[] = [...feedData]
-    const articles = dataGoodNews?.appGoodNews_articles?.articles || []
-    const engagements = dataVolunteering?.appVolunteering_engagementRecos?.data || []
-
-    // Insert a good news article after every 5 feed items
-    articles.forEach((article, index) => {
-      const insertPosition = (index + 1) * GOOD_NEWS_FREQUENCY
-      if (insertPosition < combined.length) {
-        combined.splice(insertPosition, 0, { goodNewsArticle: article })
-      }
-    })
-
-    // Insert volunteering engagement after every 10 feed items, but only use available items
-    engagements.forEach((recommendation: VolunteeringReco, index: number) => {
-      const insertPosition = (index + 1) * VOLUNTEERING_FREQUENCY
-      if (insertPosition < combined.length) {
-        combined.splice(insertPosition, 0, { volunteeringReco: recommendation })
-      }
-    })
-
-    return combined
-  }, [
-    data?.feed?.data,
-    dataGoodNews?.appGoodNews_articles?.articles,
-    dataVolunteering?.appVolunteering_engagementRecos?.data,
-  ])
-
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
-
-  const handleLoadMore = async () => {
-    if (isLoadingMore) return
-    setIsLoadingMore(true)
-
-    try {
-      await fetchMore({
-        variables: {
-          offset: data?.feed?.data?.length || 0,
-          limit: PAGE_SIZE,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult?.feed?.data) return prev
-          return {
-            feed: {
-              ...prev.feed,
-              data: [
-                ...prev.feed.data,
-                ...fetchMoreResult.feed.data.filter(
-                  (newItem: FeedItem) =>
-                    !prev.feed.data.some(
-                      (existingPost: FeedItem) =>
-                        (newItem.feedPost?.id && existingPost.feedPost?.id === newItem.feedPost.id) ||
-                        (newItem.spacePost?.id && existingPost.spacePost?.id === newItem.spacePost.id) ||
-                        (newItem.insight?.id && existingPost.insight?.id === newItem.insight.id)
-                    )
-                ),
-              ],
-            },
-          }
-        },
-      })
-    } finally {
-      setIsLoadingMore(false)
-    }
-  }
-
-  const handleRefresh = async () => {
-    setRefreshing(true)
-    try {
-      await refetch()
-    } finally {
-      setRefreshing(false)
-    }
-  }
+  const { topics: allTopics } = useContext(SpaceTermContext)
+  const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing } = useFeedQuery()
 
   const keyExtractor = useCallback(
     (
@@ -202,14 +81,17 @@ const HomeFeed = () => {
   )
 
   const renderFooter = useCallback(
-    () => (
-      <View style={styles.loaderFooter}>
-        <HoliSkeleton height={260} width="100%" borderRadius={20} />
-        <HoliSkeleton height={260} width="100%" borderRadius={20} />
-        <HoliSkeleton height={260} width="100%" borderRadius={20} />
-      </View>
-    ),
-    []
+    () =>
+      canLoadMore ? (
+        <View style={styles.loaderFooter}>
+          <HoliSkeleton height={260} width="100%" borderRadius={20} />
+          <HoliSkeleton height={260} width="100%" borderRadius={20} />
+          <HoliSkeleton height={260} width="100%" borderRadius={20} />
+        </View>
+      ) : (
+        <></>
+      ),
+    [canLoadMore]
   )
 
   const renderHeader = useMemo(
@@ -275,7 +157,7 @@ const HomeFeed = () => {
     })
   }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink])
 
-  if (loading && !combinedFeedData.length)
+  if (initialLoading)
     return (
       <View style={[styles.wrapper, { backgroundColor: colors.white200 }]}>
         <View style={styles.screenLoader}>
@@ -297,12 +179,12 @@ const HomeFeed = () => {
               windowSize={5}
               maxToRenderPerBatch={5}
               initialNumToRender={10}
-              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refetch} />}
               data={combinedFeedData}
               renderItem={renderItem}
               ListHeaderComponent={renderHeader}
               keyExtractor={keyExtractor}
-              onEndReached={handleLoadMore}
+              onEndReached={fetchMore}
               onEndReachedThreshold={0.9}
               ListFooterComponent={renderFooter}
               contentContainerStyle={styles.listContent}
