@@ -118,18 +118,6 @@ export namespace TrackingEvent {
   }
 
   export namespace Auth {
-    // Login Modal
-    // TODO remove because unused?
-    export const CloseLoginModalButtonPressed: TrackingEvent = {
-      name: 'closeLoginModalButtonPressed',
-      ...versionOne,
-    }
-    // TODO remove because unused?
-    export const SignupLoginModalButtonPressed: TrackingEvent = {
-      name: 'signupLoginModalButtonPressed',
-      ...versionOne,
-    }
-
     // Others
     export const RegisterButtonPressed: TrackingEvent = {
       name: 'registerButtonPressed',
