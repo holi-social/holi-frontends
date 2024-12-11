@@ -23,36 +23,38 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ recommendation, sty
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <HoliLink label={recommendation.engagement.title} href={`/volunteering/${recommendation.engagement.id}`}>
-      <View style={[styles.container, style]} testID="volunteering-card">
-        <HoliLink label={t('volunteering:recommended.title')} href={'/volunteering'}>
-          <View style={styles.header}>
-            <Text size="xs" color={theme.colors.gray300}>
-              {t('volunteering:recommended.title')}
-            </Text>
-            <View style={styles.seeMore}>
-              <Text size="xs">{t('global.seeMore')}</Text>
-              <HoliIcon icon={ArrowRightS} size={16} />
-            </View>
-          </View>
-        </HoliLink>
-        <ImagePreview currentImage={recommendation.engagement.imageUrl} />
-        <View>
-          <VolunteeringLabels
-            displayAll={false}
-            topicSlugs={recommendation.matchedTopics}
-            skillSlugs={recommendation.matchedSkills}
-          />
-        </View>
-        <Text size="lg">{recommendation.engagement.title}</Text>
-        <View style={styles.locationFooter}>
-          <HoliIcon icon={MapPin2} size={16} color={theme.colors.gray300} />
+    <View style={[styles.container, style]} testID="volunteering-card">
+      <HoliLink label={t('volunteering:recommended.title')} href={'/volunteering'}>
+        <View style={styles.header}>
           <Text size="xs" color={theme.colors.gray300}>
-            {recommendation.engagement.location}
+            {t('volunteering:recommended.title')}
           </Text>
+          <View style={styles.seeMore}>
+            <Text size="xs">{t('global.seeMore')}</Text>
+            <HoliIcon icon={ArrowRightS} size={16} />
+          </View>
         </View>
-      </View>
-    </HoliLink>
+      </HoliLink>
+      <HoliLink label={recommendation.engagement.title} href={`/volunteering/${recommendation.engagement.id}`}>
+        <View style={styles.content}>
+          <ImagePreview currentImage={recommendation.engagement.imageUrl} />
+          <View>
+            <VolunteeringLabels
+              displayAll={false}
+              topicSlugs={recommendation.matchedTopics}
+              skillSlugs={recommendation.matchedSkills}
+            />
+          </View>
+          <Text size="lg">{recommendation.engagement.title}</Text>
+          <View style={styles.locationFooter}>
+            <HoliIcon icon={MapPin2} size={16} color={theme.colors.gray300} />
+            <Text size="xs" color={theme.colors.gray300}>
+              {recommendation.engagement.location}
+            </Text>
+          </View>
+        </View>
+      </HoliLink>
+    </View>
   )
 }
 
@@ -61,15 +63,21 @@ const getStyles = (theme: HoliTheme) =>
     container: {
       backgroundColor: theme.colors.background10,
       borderRadius: Spacing.xs,
-      padding: Spacing.xs,
       borderColor: theme.colors.gray200,
       borderWidth: 1,
       gap: Spacing['xxs'],
     },
     header: {
+      paddingHorizontal: Spacing.xs,
+      paddingTop: Spacing.xs,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
+    },
+    content: {
+      paddingHorizontal: Spacing.xs,
+      paddingBottom: Spacing.xs,
+      gap: Spacing['xxs'],
     },
     seeMore: {
       flexDirection: 'row',

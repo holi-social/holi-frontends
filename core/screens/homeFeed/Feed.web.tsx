@@ -127,7 +127,13 @@ const HomeFeed = () => {
                               <></>
                             ) : (
                               <HoliTransition.FadeDown
-                                key={item.feedPost?.id || item.goodNewsArticle?.id}
+                                key={
+                                  item.feedPost?.id ||
+                                  item.goodNewsArticle?.id ||
+                                  item.volunteeringReco?.engagement.id ||
+                                  item.insight?.id ||
+                                  `${index}-${columnIndex}`
+                                }
                                 visible
                                 index={index}
                               >
