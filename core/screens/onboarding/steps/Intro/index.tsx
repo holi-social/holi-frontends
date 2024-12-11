@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
-import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import { SMALL_DEVICE_HEIGHT } from '@holi/core/constants/constants'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
@@ -13,8 +12,9 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-import AnimatedIntro from './AnimatedIntro'
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import AnimatedIntro from './AnimatedIntro'
 
 interface Props {
   onContinue: () => void
@@ -40,16 +40,15 @@ export const Intro = ({ onContinue }: Props) => {
             },
           ]}
         >
-          <HoliButtonTracked
+          <HoliButton
             variant="default"
             style={[styles.forwardBtn]}
             label={t('onboarding.welcome.forward')}
             onPress={onContinue}
             testID="btn-to-onboarding"
-            trackingEvent={TrackingEvent.OnboardingPressed('WELCOME', 'CONTINUE')}
           >
             {t('onboarding.welcome.forward')}
-          </HoliButtonTracked>
+          </HoliButton>
           <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </View>
         <HoliGap size="l" />
