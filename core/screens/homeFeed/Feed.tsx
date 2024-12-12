@@ -238,6 +238,9 @@ const styles = StyleSheet.create({
     marginVertical: Spacing.sm,
     gap: Spacing.sm,
   },
+  container: {
+    marginTop: Spacing.xs,
+  },
 })
 
 export default withProfiler(memo(HomeFeed), { name: 'HomeFeed' })

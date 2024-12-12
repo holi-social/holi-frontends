@@ -23,6 +23,7 @@ import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 
 const HomeFeedHeader: React.FC = () => {
   const { t } = useTranslation()
@@ -88,7 +89,6 @@ const HomeFeedHeader: React.FC = () => {
         <Text size="3xl" headingLevel="2">
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
         </Text>
-
         {/* start waving animation after user state has been loaded and the screen is focused/active */}
         <Animated.View style={[!isLoading && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}>
           <HoliLocalImage
@@ -101,6 +101,7 @@ const HomeFeedHeader: React.FC = () => {
           />
         </Animated.View>
       </HoliBox>
+      <ProfileCompletionCard style={styles.container} />
     </View>
   )
 }
@@ -114,5 +115,8 @@ const styles = StyleSheet.create({
   },
   handwaveFilled: {
     paddingLeft: 8,
+  },
+  container: {
+    marginTop: 16,
   },
 })
