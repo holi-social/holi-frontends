@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   type AccessibilityProps,
@@ -22,6 +22,7 @@ import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { dismissNotificationModal } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 
 type Type = 'default' | 'challenges' | 'connection' | 'spaces'
 
@@ -58,6 +59,8 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
     [screenWidth, smallDeviceWidth, isSmallDevice, theme]
   )
 
+  const [visibility, setVisibility] = useState(isVisible)
+
   const accessibilityProps: AccessibilityProps & AccessibilityPropsWeb = {
     ...(Platform.OS === 'web' ? { 'aria-modal': true } : {}),
     'aria-label': description,
@@ -65,11 +68,16 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
 
   const currentConnection = connectionTypes.find((conn) => conn.type === type)
 
+  const handleDismissNotification = async () => {
+    await dismissNotificationModal()
+    setVisibility(false)
+  }
+
   return (
     <ModalBasic
       label={t(`notifications.permission.${type}.headline`)}
       {...accessibilityProps}
-      show={isVisible}
+      show={visibility}
       transparent
       animationType="fade"
       testID={`${testID}-modal`}
@@ -134,6 +142,16 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
                 <HoliText>{dismissText || t('notifications.permission.button.dismiss')}</HoliText>
               </HoliButton>
             )}
+            <HoliButton
+              inline
+              label={t('notifications.permission.dismiss.label')}
+              onPress={handleDismissNotification}
+              style={styles.dismiss}
+              testID={`${testID}-dismiss-notification`}
+              transparent
+            >
+              <HoliText size="extrasmall">{t('notifications.permission.dismiss.label')}</HoliText>
+            </HoliButton>
           </View>
         </View>
       </View>
@@ -171,7 +189,7 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       ...(isSmallDevice ? { minWidth: screenWidth * 0.7 } : { minWidth: smallDeviceWidth }),
     },
     description: {
-      marginTop: 12,
+      marginTop: Spacing.xxs,
     },
     buttonContainer: {
       padding: Spacing.md,
@@ -198,6 +216,10 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       position: 'absolute',
     },
     imageContainer: {
-      marginBottom: 8,
+      marginBottom: Spacing['3xs'],
+    },
+    dismiss: {
+      alignSelf: 'center',
+      marginTop: Spacing['3xs'],
     },
   })

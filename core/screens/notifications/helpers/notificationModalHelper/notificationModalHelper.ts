@@ -11,6 +11,7 @@ export interface ModalState {
   expirationTime: number
   activeDays: number
   configActiveDays: number
+  dismissed: boolean
 }
 
 export interface NotificationEligibilityConfig {
@@ -21,10 +22,10 @@ export interface NotificationEligibilityConfig {
 }
 
 export const notificationConfig: NotificationEligibilityConfig = {
-  maxAttemptsPerDay: 2,
+  maxAttemptsPerDay: 100,
   pauseDays: 3,
   activeDays: 2,
-  minIntervalBetweenAttemptsMs: 6 * 60 * 60 * 1000, // 6 hours
+  minIntervalBetweenAttemptsMs: 10 * 1000, // 10 seconds
 }
 
 const checkNotificationEligibility = async (config: NotificationEligibilityConfig): Promise<boolean> => {
@@ -44,7 +45,12 @@ const checkNotificationEligibility = async (config: NotificationEligibilityConfi
           expirationTime: 0,
           activeDays: 0,
           configActiveDays: activeDays,
+          dismissed: false,
         }
+
+    if (modalState.dismissed === true) {
+      return false
+    }
 
     if (modalState.configActiveDays !== activeDays) {
       modalState = { ...modalState, attempts: 0, activeDays: 0, configActiveDays: activeDays }
@@ -128,5 +134,40 @@ export const incrementModalAttempts = async (): Promise<void> => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to increment modal attempts:', error)
+  }
+}
+
+export const dismissNotificationModal = async (): Promise<void> => {
+  try {
+    const storedData = await AsyncStorage.getItem(NOTIFICATION_MODAL_STORAGE_KEY)
+    const modalState: ModalState = storedData
+      ? JSON.parse(storedData)
+      : {
+          attempts: 0,
+          lastAttemptDate: '',
+          lastShowTime: 0,
+          expirationTime: 0,
+          activeDays: 0,
+          configActiveDays: 0,
+          dismissed: false,
+        }
+
+    modalState.dismissed = true
+
+    await AsyncStorage.setItem(NOTIFICATION_MODAL_STORAGE_KEY, JSON.stringify(modalState))
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to dismiss notification modal:', error)
+  }
+}
+
+export const resetEligibilityState = async () => {
+  try {
+    await AsyncStorage.removeItem('@NotificationModalState')
+    // eslint-disable-next-line no-console
+    console.log('Eligibility state reset successfully')
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to reset eligibility state:', error)
   }
 }

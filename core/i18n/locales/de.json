@@ -529,6 +529,7 @@
   "notifications.permission.description.connections": "Möchtest du benachrichtigt werden, wenn {{name}} eine Kontaktanfrage akzeptiert?",
   "notifications.permission.description.default": "Möchtest du benachrichtigt werden, wenn jemand auf deinen Kommentar antwortet?",
   "notifications.permission.description.spaces": "Möchtest du benachrichtigt werden, wenn jemand {{name}} beitreten möchte?",
+  "notifications.permission.dismiss.label": "Ich möchte nicht benachrichtigt werden",
   "notifications.post.mention.message": "<0>{{name}}</0> hat dich in einem Kommentar erwähnt",
   "notifications.releaseinfo.message": "Ein neues App-Update ist verfügbar. Schau, was drin ist!",
   "notifications.space.connection.accept": "Annehmen",
