@@ -22,6 +22,8 @@ export const AskQuestion = ({ isMember, representativeIdentity }: AskQuestionPro
   const { startChat, isLoading } = useChat()
   const { t } = useTranslation()
 
+  if (!spaceIdOrName) return null
+
   return (
     !isMember && (
       <HoliActionDrawer.Drawer

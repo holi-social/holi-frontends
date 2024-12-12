@@ -229,7 +229,6 @@ const SpaceDetails = () => {
   )
 
   const spaceRoom = useAtomValue(useMemo(() => spaceRoomAtomCreator(id), [id]))
-  const representative = space?.representatives?.[0].user
 
   useEffect(() => {
     setScreenOptions({
@@ -327,8 +326,7 @@ const SpaceDetails = () => {
         </HoliTransition.FadeRightSwitch>
       )}
 
-      <AskQuestion representativeIdentity={representative?.identity} isMember={isMember} />
-
+      <AskQuestion spaceIdOrName={spaceIdOrName} />
       <AddNewDrawer spaceIdOrName={space.name} {...addNewDrawerModalProps} />
     </View>
   )
