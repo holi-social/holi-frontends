@@ -20,7 +20,6 @@ import { dismissNotificationModal } from '@holi/core/screens/notifications/helpe
 import {
   incrementModalAttempts,
   useNotificationEligibility,
-  resetEligibilityState,
 } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import { PostById } from '@holi/core/screens/posts/queries'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -34,8 +33,6 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import { Avatar } from 'holi-bricks/components/avatar'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export interface CommentFormProps extends PropsWithChildren {
   commentableId: string
@@ -92,7 +89,7 @@ const CommentForm = ({
     [CommentableType.DISCUSSION]: [{ query: lastInsightsQuery }, ...commonQueries],
   }
 
-  const { isEligible, modalState } = useNotificationEligibility()
+  const { isEligible } = useNotificationEligibility()
   const [modalVisible, setModalVisible] = useState(false)
 
   // @ts-ignore
@@ -278,26 +275,6 @@ const CommentForm = ({
                   }
                 : {})}
             />
-          </View>
-          {/* show modal state for testing */}
-          <View>
-            <HoliText>Test modal: </HoliText>
-            <HoliText>Is dismissed: {modalState?.dismissed ? 'true' : 'false'}</HoliText>
-            <HoliText>Attempts: {modalState?.dismissed}</HoliText>
-            <HoliText>Expiration time: {modalState?.expirationTime}</HoliText>
-            <HoliText>Active days: {modalState?.activeDays}</HoliText>
-            <HoliText>Config active days: {modalState?.configActiveDays}</HoliText>
-            <HoliText>Last show time: {modalState?.lastShowTime}</HoliText>
-            <HoliButton
-              onPress={() => resetEligibilityState()}
-              type="primary"
-              variant="small"
-              inline
-              testID="reset-eligibility-state"
-              label={''}
-            >
-              <HoliText>Reset eligibility state</HoliText>
-            </HoliButton>
           </View>
         </View>
       </FormLayout>
