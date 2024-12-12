@@ -23,6 +23,8 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
   const { startChat, isLoading } = useChat()
   const { t } = useTranslation()
 
+  if (!spaceIdOrName) return null
+
   return (
     <HoliActionDrawer.Drawer
       customTrigger={(onPress, testID) => (

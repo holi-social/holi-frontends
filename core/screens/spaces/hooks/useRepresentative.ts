@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { type RepresentativeBySpaceIdResponse, spaceRepresentative } from '@holi/core/screens/spaces/queries'
+import { spaceRepresentative, type RepresentativeBySpaceIdResponse } from '@holi/core/screens/spaces/queries'
 
 export const useRepresentative = (spaceIdOrName?: string) => {
   const { displayError } = useErrorHandling()
