@@ -16,6 +16,7 @@ import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comm
 import { type Comment, CommentableType } from '@holi/core/screens/comments/types'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
+import { dismissNotificationModal } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import {
   incrementModalAttempts,
   useNotificationEligibility,
@@ -203,8 +204,14 @@ const CommentForm = ({
   }
 
   const handleModalDismiss = async () => {
-    setModalVisible(false)
     await incrementModalAttempts()
+    setModalVisible(false)
+    redirectRoute ? replaceRoute(redirectRoute) : navigateBack()
+  }
+
+  const handleDismissNotification = async () => {
+    await dismissNotificationModal()
+    setModalVisible(false)
     redirectRoute ? replaceRoute(redirectRoute) : navigateBack()
   }
 
@@ -299,9 +306,9 @@ const CommentForm = ({
         <NotificationOptInModal
           type="default"
           isVisible={modalVisible}
-          // isVisible={true}
           onConfirm={handleOptIn}
           onDismiss={handleModalDismiss}
+          dismissModal={handleDismissNotification}
           description={t('notifications.permission.description.default')}
         />
       )}
