@@ -177,16 +177,41 @@ describe('useOnboardingInitialization', () => {
     }
   )
 
-  it.each(onboardingStates)('should set state to onboarding for logged out user if state is %s', async (state) => {
-    mockUseLoggedInUser.mockReturnValue({
-      isLoggedIn: false,
-    })
-    state && storeOnboardingState(state)
+  const testCasesLoggedOut: { state: OnboardingStateValue | null; expectedState: OnboardingStateValue }[] = [
+    {
+      state: null,
+      expectedState: 'onboarding',
+    },
+    {
+      state: 'onboarding',
+      expectedState: 'onboarding',
+    },
+    {
+      state: 'emailVerification',
+      expectedState: 'onboarding',
+    },
+    {
+      state: 'accountSetup',
+      expectedState: 'onboarding',
+    },
+    {
+      state: 'finished',
+      expectedState: 'finished',
+    },
+  ]
+  it.each(testCasesLoggedOut)(
+    'should set state to $expectedState for logged out user if state is $state',
+    async ({ state, expectedState }) => {
+      mockUseLoggedInUser.mockReturnValue({
+        isLoggedIn: false,
+      })
+      state && storeOnboardingState(state)
 
-    renderOnboardingInitialization()
+      renderOnboardingInitialization()
 
-    expect(onboardingStateVar()).toEqual('onboarding')
-  })
+      expect(onboardingStateVar()).toEqual(expectedState)
+    }
+  )
 })
 
 describe('useOnboardingRedirect', () => {

@@ -16,7 +16,7 @@ interface SetUserDataAction {
 
 interface UpdateContentAction {
   type: 'UPDATE_CONTENT'
-  payload: ContentValue
+  payload: ContentValue | undefined
 }
 
 interface UpdateLocationAction {
@@ -42,7 +42,7 @@ type OnboardingAction =
   | UpdateSkillsAction
 
 const initialUserData = {
-  content: null,
+  content: undefined,
   location: undefined,
   interests: [],
   skills: [],
@@ -94,7 +94,7 @@ export const useUserData = () => {
     [userData]
   )
 
-  const updateContent = (content: ContentValue) => {
+  const updateContent = (content: ContentValue | undefined) => {
     dispatch({ type: 'UPDATE_CONTENT', payload: content })
   }
 
@@ -108,6 +108,14 @@ export const useUserData = () => {
 
   const updateSkills = (skillId: string) => {
     dispatch({ type: 'UPDATE_SKILLS', payload: onChipSelect('skills', skillId) })
+  }
+
+  const clearInterests = () => {
+    dispatch({ type: 'UPDATE_INTERESTS', payload: [] })
+  }
+
+  const clearSkills = () => {
+    dispatch({ type: 'UPDATE_SKILLS', payload: [] })
   }
 
   return {
@@ -124,5 +132,7 @@ export const useUserData = () => {
       filterString: skillsSearchString,
       onFilterStringChange: setSkillsSearchString,
     },
+    clearInterests,
+    clearSkills,
   }
 }

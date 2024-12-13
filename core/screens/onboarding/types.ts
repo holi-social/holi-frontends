@@ -4,7 +4,7 @@ const contentValues = ['CHALLENGES', 'POSTS', 'VOLUNTEERING', 'SPACES'] as const
 export type ContentValue = (typeof contentValues)[number]
 
 export interface OnboardingUserData {
-  content: ContentValue | null
+  content: ContentValue | undefined
   location: GeolocationSuggestion | undefined
   interests: string[]
   skills: string[]

@@ -7,7 +7,6 @@ import { HoliError } from '@holi/core/errors/classes/HoliError'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
@@ -24,8 +23,8 @@ import {
   type OnboardingStepItem,
   type OnboardingStepKey,
   onboardingSteps,
-  useOnbaordingCurrentStepKey,
-} from './hooks/useOnbaordingCurrentStepKey'
+  useOnboardingCurrentStepKey,
+} from './hooks/useOnboardingCurrentStepKey'
 import { showOnboardingFinishModal } from './hooks/useOnboardingFinishModalState'
 import { useUserData } from './hooks/useUserData'
 import { ChipsSelection } from './steps/ChipsSelection'
@@ -37,18 +36,20 @@ import LocationSelection from './steps/LocationSelection'
 import { NamesSelection } from './steps/NamesSelection'
 import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 
 const Onboarding = () => {
   const { t } = useTranslation()
-  const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
   const onboardingState = useOnboardingState()
   const { track } = useTracking()
   const { topics } = useTopics()
   const { skills } = useSkills()
+  const { isLoggedIn } = useLoggedInUser()
 
-  const [currentStep, setCurrentStep] = useOnbaordingCurrentStepKey()
+  const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
   const {
     userData,
     updateContent,
@@ -57,7 +58,12 @@ const Onboarding = () => {
     updateSkills,
     interestsSearchProps,
     skillsSearchProps,
+    clearInterests,
+    clearSkills,
   } = useUserData()
+
+  const routeForSelectedContentType = getRouteForContentType(userData.content)
+  const redirect = useRedirect(routeForSelectedContentType)
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ headerShown: false, navigationCustomOptions: { footerShown: false } })
@@ -67,10 +73,9 @@ const Onboarding = () => {
 
   const cleanUp = () => Promise.all([storeOnboardingState('finished'), clearOnboardingUserDataAsyncStore()])
   const breakOnboarding = useCallback(async () => {
-    const path = getRouteForContentType(userData.content)
     await cleanUp()
-    replaceRoute(path)
-  }, [replaceRoute, userData.content])
+    redirect(true)
+  }, [redirect])
 
   const finishOnboarding = async () => {
     breakOnboarding()
@@ -79,13 +84,26 @@ const Onboarding = () => {
 
   // Abort and clean-up onboarding if user already is logged in when entering the screen
   useEffect(() => {
-    if (onboardingState === 'finished') {
+    if (isLoggedIn && onboardingState === 'finished') {
       breakOnboarding()
     }
-  }, [breakOnboarding, onboardingState])
+  }, [breakOnboarding, isLoggedIn, onboardingState])
 
   const topicById = (id: string) => topics.find((topic) => topic.id === id)
   const skillById = (id: string) => skills.find((skill) => skill.id === id)
+
+  const clearSelection = (key: OnboardingStepKey) => {
+    switch (key) {
+      case 'CONTENT_SELECTION':
+        return updateContent(undefined)
+      case 'LOCATION_SELECTION':
+        return updateLocation(undefined)
+      case 'INTERESTS_SELECTION':
+        return clearInterests()
+      case 'SKILLS_SELECTION':
+        return clearSkills()
+    }
+  }
 
   // events shall only be emitted when user clicks on continue/skip/back, not during answer selection
   // therefore this callback hooks into HoliStepper.onChange
@@ -247,6 +265,9 @@ const Onboarding = () => {
         keyExtractor={(item) => item.key}
         renderStep={({ key }) => renderStep(key as OnboardingStepKey)}
         onChange={(key, previousKey, buttonPressed) => {
+          if (buttonPressed === 'skip') {
+            clearSelection(previousKey as OnboardingStepKey)
+          }
           trackOnboardingStepCompletion(previousKey as OnboardingStepKey, buttonPressed)
           setCurrentStep(key as OnboardingStepKey)
         }}
