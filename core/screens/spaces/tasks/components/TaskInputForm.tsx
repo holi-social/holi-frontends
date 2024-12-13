@@ -389,7 +389,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
       </View>
 
       <HoliModal
-        show={skillsFormVisibile}
+        shown={skillsFormVisibile}
         onDismiss={hideSkillsForm}
         testID="task-skills-modal"
         label={t('spaces.input.task.skills')}

@@ -5,7 +5,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Platform, Pressable, StyleSheet, View, ScrollView } from 'react-native'
+import { type ImageStyle, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 
 import type { Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -62,7 +62,7 @@ const InsightDetailPage = () => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate, replaceRoute } = useRouting()
-  const [showCuratorModal, setShowCuratorModal] = useState(false)
+  const [curatorModalShown, setCuratorModalShown] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
   const { width: screenWidth } = useClientWindowDimensions()
@@ -250,7 +250,7 @@ const InsightDetailPage = () => {
                       <HoliText color="gray300">{t('insight.curatedBy')}</HoliText>
                     </HoliText>
                     <Pressable
-                      onPress={() => setShowCuratorModal(true)}
+                      onPress={() => setCuratorModalShown(true)}
                       style={({ hovered }) => {
                         return hovered ? [styles.creatorInfoButtonHovered] : [styles.creatorInfoButton]
                       }}
@@ -271,8 +271,8 @@ const InsightDetailPage = () => {
 
                   <HoliModal
                     label={t('user.cards.modal.showInfo', { name: creator.fullName })}
-                    show={showCuratorModal}
-                    onDismiss={() => setShowCuratorModal(false)}
+                    shown={curatorModalShown}
+                    onDismiss={() => setCuratorModalShown(false)}
                     style={{ backgroundColor: colors.background30 }}
                   >
                     <HoliCarousel
@@ -285,7 +285,7 @@ const InsightDetailPage = () => {
                     <HoliButton
                       inline
                       style={styles.close}
-                      onPress={() => setShowCuratorModal(false)}
+                      onPress={() => setCuratorModalShown(false)}
                       label={t('modal.close')}
                     >
                       {t('insights.curatorModal.close')}

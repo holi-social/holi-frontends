@@ -47,7 +47,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
     visible: permissionsVisible,
     show: showPermissions,
     hide: hidePermissions,
-  } = useModalState({ visible: initiallyOpen })
+  } = useModalState({ initiallyVisible: initiallyOpen })
   const handleNavigation = useCallback(
     (id: string) => {
       hidePermissions()

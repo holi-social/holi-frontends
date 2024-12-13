@@ -82,7 +82,7 @@ export const VolunteeringEngagementList = ({
           <InfoModal
             headline={t('volunteering:listing.partnerModal.headline')}
             items={allPartners}
-            show={partnerModalVisible}
+            shown={partnerModalVisible}
             onDismiss={closeModal}
             i18nPrefix={'volunteering:listing.partnerModal'}
           />

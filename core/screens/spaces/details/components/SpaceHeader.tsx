@@ -1,6 +1,6 @@
 import partition from 'lodash.partition'
 import type React from 'react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
@@ -8,7 +8,7 @@ import type { User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import SpaceAcceptInvitation from '@holi/core/screens/spaces/details/components/SpaceAcceptInvitation'
-import SpaceCollaborators from '@holi/core/screens/spaces/details/components/SpaceCollaborators'
+import SpaceCollaboratorsModal from '@holi/core/screens/spaces/details/components/SpaceCollaboratorsModal'
 import SpaceFollow from '@holi/core/screens/spaces/details/components/SpaceFollow'
 import SpaceInvite from '@holi/core/screens/spaces/details/components/SpaceInvite'
 import SpaceJoin from '@holi/core/screens/spaces/details/components/SpaceJoin'
@@ -19,6 +19,7 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -35,7 +36,8 @@ const SpaceHeader: React.FC<SpaceHeaderProps> = ({ space, style }) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const [modalVisible, setModalVisible] = useState(false)
+  const { show: showCollaboratorsModal, props: showCollaboratorModalProps } = useModalState()
+
   const [adminMemberships, regularMemberships] = useMemo(
     () => partition(space.members.data, 'isAdministrator'),
     [space]
@@ -52,13 +54,12 @@ const SpaceHeader: React.FC<SpaceHeaderProps> = ({ space, style }) => {
     if (isAdmin) {
       navigate(`/spaces/${space.name}/collaborators/manage`)
     } else {
-      setModalVisible(true)
+      showCollaboratorsModal()
     }
-  }, [isAdmin, navigate, space.name])
+  }, [isAdmin, navigate, space.name, showCollaboratorsModal])
 
   return (
     <View style={[styles.container, style]} testID="space-header">
-      <SpaceCollaborators space={space} show={modalVisible} onDismiss={() => setModalVisible(false)} />
       <SpaceAvatar space={space} size="xl" />
       <HoliGap />
       <HoliHeading level="1" size="m" testID="space-title">
@@ -88,6 +89,8 @@ const SpaceHeader: React.FC<SpaceHeaderProps> = ({ space, style }) => {
         <SpaceJoin space={space} />
         <SpaceAcceptInvitation space={space} />
       </View>
+
+      <SpaceCollaboratorsModal {...showCollaboratorModalProps} space={space} />
     </View>
   )
 }

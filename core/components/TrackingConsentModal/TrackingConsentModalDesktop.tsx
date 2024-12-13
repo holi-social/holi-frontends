@@ -34,7 +34,7 @@ export const TrackingConsentModalDesktop = () => {
   } = useConsentModalState(hide)
 
   return (
-    <HoliModal label="" show={visible} style={styles.modal} desktop>
+    <HoliModal label="" shown={visible} style={styles.modal} desktop>
       <ScrollView>
         <HoliBox padding={32}>
           <GeneralContent hideDescription />

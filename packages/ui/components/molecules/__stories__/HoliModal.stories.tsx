@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof HoliModal> = ({ ...args }) => {
 export const Primary: ComponentStory<typeof HoliModal> = Template.bind({})
 
 Primary.argTypes = {
-  show: { description: 'Show state', type: 'boolean', control: { type: 'boolean' } },
+  shown: { description: 'Show state', type: 'boolean', control: { type: 'boolean' } },
   autoHeight: { description: 'Use auto height based on content', type: 'boolean', control: { type: 'boolean' } },
   relativeHeight: { description: 'Relative height of modal', type: 'number', control: { type: 'number' } },
   heading: { description: 'Modal heading title', type: 'string', control: { type: 'string' } },
@@ -28,7 +28,7 @@ Primary.argTypes = {
 }
 
 Primary.args = {
-  show: true,
+  shown: true,
   relativeHeight: 0.75,
   autoHeight: false,
   heading: 'Holi Modal Heading',

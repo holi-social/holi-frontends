@@ -100,7 +100,7 @@ const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
         ))}
       </View>
       <HoliModal
-        show={visibleCreate}
+        shown={visibleCreate}
         onDismiss={hideCreate}
         testID="more-options-modal"
         label={t('global.moreOptions')}
@@ -111,7 +111,7 @@ const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
         <CreateSpaceLinks space={space} onDismiss={hideCreate} />
       </HoliModal>
       <HoliModal
-        show={visibleEdit}
+        shown={visibleEdit}
         onDismiss={hideEdit}
         testID="more-options-modal"
         label={t('global.moreOptions')}

@@ -31,9 +31,9 @@ const VolunteeringAppHome = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
-  const [showFilterModal, setShowFilterModal] = useState(false)
+  const [filterModalShown, setFilterModalShown] = useState(false)
   const closeModal = useCallback(() => {
-    setShowFilterModal(false)
+    setFilterModalShown(false)
   }, [])
 
   const { submit, filters, clearFilters, isFiltering, loadingGeolocation, geolocationError } =
@@ -49,8 +49,8 @@ const VolunteeringAppHome = () => {
           // if pressed too soon, the state is set to true, but the modal is not shown.
           // crude mechanism to recover from this state.
           // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-          showFilterModal && setShowFilterModal(false)
-          setShowFilterModal(true)
+          filterModalShown && setFilterModalShown(false)
+          setFilterModalShown(true)
         }}
         testID="btn-to-volunteering-filter-modal"
       >
@@ -67,7 +67,7 @@ const VolunteeringAppHome = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, styles.dot])
+  }, [navigate, t, title, isFiltering, filterModalShown, setScreenOptions, styles.dot])
 
   return (
     <KeyboardAwareScrollView
@@ -77,7 +77,7 @@ const VolunteeringAppHome = () => {
       onScroll={onScreenScroll}
     >
       <HoliModal
-        show={showFilterModal}
+        shown={filterModalShown}
         onDismiss={closeModal}
         testID="volunteering-filter-modal"
         label={t('volunteering:filter.heading')}

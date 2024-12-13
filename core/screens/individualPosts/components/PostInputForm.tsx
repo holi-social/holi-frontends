@@ -5,11 +5,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import type { Term, User } from '@holi/core/domain/shared/types'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { CategorySelectionModal } from '@holi/core/screens/individualPosts/components/CategorySelectionModal'
 import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
-import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
@@ -36,7 +37,6 @@ import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { CategorySelectionModal } from '@holi/core/screens/individualPosts/components/CategorySelectionModal'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -318,7 +318,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       <HoliModal
         label={t('individuals.post.input.topics.title')}
         autoHeight={true}
-        show={visibleTopicsModal}
+        shown={visibleTopicsModal}
         onDismiss={hideTopicsModal}
         testID="post-selectedTopics-input"
       >
@@ -333,7 +333,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       </HoliModal>
       <HoliModal
         label={t('individuals.post.input.topics.title')}
-        show={visibleLocationModal}
+        shown={visibleLocationModal}
         onDismiss={hideLocationModal}
         testID="post-location-input"
         style={styles.modal}
@@ -378,7 +378,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
       <HoliModal
         label={t('individuals.post.input.topics.title')}
-        show={visibleEditImagesModal}
+        shown={visibleEditImagesModal}
         onDismiss={hideEditImagesModal}
         style={{ backgroundColor: theme.colors.background20 }}
         testID="post-location-input"

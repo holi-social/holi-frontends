@@ -53,7 +53,7 @@ export const TrackingConsentModalMobile = () => {
   return (
     <>
       {/* General layer */}
-      <HoliModal label="" show={generalLayerVisible} style={styles.modal}>
+      <HoliModal label="" shown={generalLayerVisible} style={styles.modal}>
         <ScrollView>
           <HoliContainer>
             <GeneralContent />
@@ -99,7 +99,7 @@ export const TrackingConsentModalMobile = () => {
       {/* Manage Options layer */}
       <HoliModal
         label={t('tracking.consentModal.general.button.manageOptions')}
-        show={optionsLayerVisible}
+        shown={optionsLayerVisible}
         style={styles.modal}
         heading={t('tracking.consentModal.general.button.manageOptions')}
         onDismiss={goBackToGeneralLayer}

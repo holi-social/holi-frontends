@@ -20,7 +20,7 @@ const HoliTimePicker = ({
   testID = 'holi-time-picker',
   isRequired,
 }: HoliTimePickerProps) => {
-  const [showPickerIOS, setShowPickerIOS] = useState(false)
+  const [iOSPickerShown, setIOSPickerShown] = useState(false)
 
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -42,7 +42,7 @@ const HoliTimePicker = ({
         display: 'clock',
       })
     } else {
-      setShowPickerIOS(true)
+      setIOSPickerShown(true)
     }
   }
 
@@ -78,11 +78,11 @@ const HoliTimePicker = ({
 
       {Platform.OS === 'ios' && (
         <HoliModal
-          show={showPickerIOS}
+          shown={iOSPickerShown}
           label={t('global.time')}
           autoHeight
           onDismiss={() => {
-            setShowPickerIOS(false)
+            setIOSPickerShown(false)
           }}
           style={styles.modal}
         >

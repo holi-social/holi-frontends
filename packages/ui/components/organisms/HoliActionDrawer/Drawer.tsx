@@ -100,7 +100,7 @@ export const Drawer = ({
       )}
 
       <HoliModal
-        show={visibleModal}
+        shown={visibleModal}
         onDismiss={safeSideEffect(hideModal, onHide)}
         testID="more-options-modal"
         label={t('global.moreOptions')}

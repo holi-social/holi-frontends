@@ -31,7 +31,7 @@ const UpdateAppModal = () => {
     onError: (error) =>
       logError(error, 'Failed to check app version', { location: 'UpdateAppModal.checkAppVersionQuery' }),
   })
-  const [showModal, setShowModal] = useState(false)
+  const [modalShown, setModalShown] = useState(false)
   const [modalDismissedOnce, setModalDismissedOnce] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
@@ -54,7 +54,7 @@ const UpdateAppModal = () => {
     }
   }
   const dismissModal = () => {
-    setShowModal(false)
+    setModalShown(false)
     setModalDismissedOnce(true)
   }
 
@@ -85,16 +85,16 @@ const UpdateAppModal = () => {
 
   useEffect(() => {
     if ((isMandatory || isRecommended) && !modalDismissedOnce) {
-      setShowModal(true)
+      setModalShown(true)
       return
     }
-    setShowModal(false)
-  }, [data, error, showModal, isMandatory, isRecommended, modalDismissedOnce])
+    setModalShown(false)
+  }, [data, error, modalShown, isMandatory, isRecommended, modalDismissedOnce])
 
   return (
     <HoliModal
       label={t(`update.modal.${updateStatus}.headline`)}
-      show={showModal}
+      shown={modalShown}
       style={{ backgroundColor: colors.background20 }}
       onDismiss={isRecommended ? dismissModal : undefined}
     >

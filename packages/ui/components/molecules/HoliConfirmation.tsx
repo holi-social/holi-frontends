@@ -125,7 +125,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
     <ModalBasic
       label=""
       {...accessibilityProps}
-      show={show}
+      shown={show}
       transparent
       animationType="fade"
       testID={`${testID}-confirmation-dialog`}

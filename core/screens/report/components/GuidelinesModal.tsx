@@ -19,7 +19,7 @@ const GuidelinesModal = ({ visible, hide }: { visible: boolean; hide: () => void
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <HoliModal show={visible} label={t('report.guidelines.title')} onDismiss={hide} headerStyle={styles.modalHeader}>
+    <HoliModal shown={visible} label={t('report.guidelines.title')} onDismiss={hide} headerStyle={styles.modalHeader}>
       <View style={styles.modalContainer}>
         <View style={styles.header}>
           <HoliHeading>{t('report.guidelines.title')}</HoliHeading>

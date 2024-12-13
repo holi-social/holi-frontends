@@ -77,7 +77,7 @@ const HoliDatePicker = ({
       </View>
       {Platform.OS === 'ios' && (
         <HoliModal
-          show={showPickerIOS}
+          shown={showPickerIOS}
           label={title}
           autoHeight
           onDismiss={() => setShowPickerIOS(false)}

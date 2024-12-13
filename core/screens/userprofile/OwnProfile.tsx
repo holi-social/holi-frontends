@@ -31,10 +31,10 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 const OwnProfile = () => {
   const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setshowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
-    setShowModal(false)
+    setshowModal(false)
   }, [])
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
@@ -52,8 +52,8 @@ const OwnProfile = () => {
       // if pressed too soon, the state is set to true, but the modal is not shown.
       // crude mechanism to recover from this state.
       // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-      showModal && setShowModal(false)
-      setShowModal(true)
+      showModal && setshowModal(false)
+      setshowModal(true)
     },
     [showModal]
   )
@@ -129,7 +129,7 @@ const OwnProfile = () => {
           <>
             {editMode && (
               <HoliModal
-                show={showModal}
+                shown={showModal}
                 onDismiss={closeModal}
                 testID="user-profile-modal"
                 label={t(`profile.${editMode}.edit`)}
