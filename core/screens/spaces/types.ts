@@ -93,7 +93,7 @@ export type RelatedSpace = Pick<
   | 'name'
 >
 
-type Representative = {
+export type Representative = {
   user: User
 }
 
@@ -120,7 +120,6 @@ export interface Space {
   avatar?: string
   avatarBlurhash?: string
   tasks?: Task[]
-  representatives: Representative[]
   topics?: Topic[]
   sdgs?: SDG[]
   collaborationTools?: SpaceCollaborationTool[]
