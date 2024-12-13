@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ActHome from '@holi/core/screens/act/ActHome'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type ActStackScreensList = {
   [RouteName.ActHome]: undefined
@@ -12,7 +13,10 @@ const ActStack = createNativeStackNavigator<ActStackScreensList>()
 
 const ActNavigator = () => {
   return (
-    <ActStack.Navigator initialRouteName={RouteName.ActHome} screenOptions={{ headerShadowVisible: false }}>
+    <ActStack.Navigator
+      initialRouteName={RouteName.ActHome}
+      screenOptions={{ headerShadowVisible: false, headerTintColor: colors.black300 }}
+    >
       <ActStack.Screen name={RouteName.ActHome} component={ActHome} />
     </ActStack.Navigator>
   )

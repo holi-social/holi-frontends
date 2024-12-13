@@ -13,7 +13,7 @@ const Search = () => {
   const setScreenOptions = useSetScreenOptions()
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title })
+    setScreenOptions({ title, headerTitleAlign: 'center' })
   }, [setScreenOptions, title])
 
   return <KeyboardAvoidingViewWrapper renderProp={() => <SearchContent />} />

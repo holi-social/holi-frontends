@@ -1,12 +1,12 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
+import type { StyleProp, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowLeft } from '@holi/icons/src/generated'
-import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import HoliButton, { type HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HeaderBackButtonProps extends Partial<HoliButtonProps> {

@@ -9,6 +9,8 @@ import VolunteeringEngagementDetail, {
   type VolunteeringEngagementDetailParams,
 } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 import type { VolunteeringFilterParams } from '@holi-apps/volunteering/types'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { ArrowDownS } from '@holi/icons/src/generated'
 
 export type VolunteeringAppScreensList = {
   [RouteName.VolunteeringAppHome]: VolunteeringFilterParams
@@ -28,6 +30,7 @@ const VolunteeringAppNavigator = () => {
       screenOptions={{
         headerShown: true,
         headerShadowVisible: false,
+        headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
       }}
     >
       <VolunteeringAppStack.Screen name={RouteName.VolunteeringAppHome} component={VolunteeringAppHome} />

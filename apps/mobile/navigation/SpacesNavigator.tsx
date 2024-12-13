@@ -48,6 +48,7 @@ import SpaceVideoCallList, {
   type SpaceVideoCallListParams,
 } from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
@@ -91,8 +92,10 @@ const SpacesNavigator = () => {
     <SpacesStack.Navigator
       initialRouteName={RouteName.SpaceDetails}
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         headerShadowVisible: false,
+        headerBackTitleVisible: false,
+        headerTintColor: colors.black300,
       }}
     >
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />

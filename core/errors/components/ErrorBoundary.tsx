@@ -1,4 +1,4 @@
-import React, { ErrorInfo } from 'react'
+import React, { type ErrorInfo } from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
 import i18n from '@holi/core/i18n'
