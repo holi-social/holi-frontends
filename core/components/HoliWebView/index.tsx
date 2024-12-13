@@ -1,18 +1,19 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import type React from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
-import { WebView, WebViewNavigation } from 'react-native-webview'
-import { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
+import { WebView, type WebViewNavigation } from 'react-native-webview'
+import type { ShouldStartLoadRequest, WebViewSource, WebViewSourceUri } from 'react-native-webview/lib/WebViewTypes'
 
 import { useNavigation } from '@react-navigation/native'
 
 import { mobileWebviewHeader } from '@holi/core/auth/helpers/oauth2'
-import { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
+import type { HoliWebViewProps } from '@holi/core/components/HoliWebView/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme } from '@holi/ui/styles/theme'
+import type { HoliTheme } from '@holi/ui/styles/theme'
 
 const isWebViewSourceUri = (value: WebViewSource | undefined): value is WebViewSourceUri => {
   return !!value && 'uri' in value

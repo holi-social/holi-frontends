@@ -44,6 +44,8 @@ const Login = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: () => (
         <HoliHeading level="1" size="s">
           {t('auth.login')}
