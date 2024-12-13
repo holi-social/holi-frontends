@@ -68,6 +68,8 @@ const TaskDetails = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: () => <HoliText>{t('spaces.tasks.details.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,

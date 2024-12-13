@@ -33,9 +33,9 @@ const ChatHome = () => {
   useEffect(() => {
     setScreenOptions({
       title,
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTitle: () => null,
+      headerBackTitleVisible: false,
+      headerBackVisible: false,
+      headerTitle: () => '',
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
           {title}

@@ -1,7 +1,7 @@
-import React from 'react'
-import { StyleProp, View, ViewStyle, useWindowDimensions } from 'react-native'
+import type React from 'react'
+import { type StyleProp, View, type ViewStyle, useWindowDimensions } from 'react-native'
 
-import HoliText, { HoliTextColor, HoliTextProps } from '@holi/ui/components/atoms/HoliText'
+import HoliText, { type HoliTextColor, type HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export interface HeaderTitleProps extends Partial<HoliTextProps> {

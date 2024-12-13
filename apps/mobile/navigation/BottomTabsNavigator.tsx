@@ -65,6 +65,7 @@ const BottomTabsNavigator = () => {
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
       screenOptions={{
+        headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: colors.foreground30,
@@ -90,6 +91,8 @@ const BottomTabsNavigator = () => {
         component={SpacesHomeNavigator}
         options={{
           headerShown: false,
+          headerTitle: () => null,
+          headerTitleAlign: 'center',
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={unistyles.icon(focused).color} />
           },

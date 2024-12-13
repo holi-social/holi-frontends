@@ -1,14 +1,13 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, StyleSheet } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import NotificationsOverview from '@holi/core/screens/notifications/components/NotificationsOverview'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const Notifications = () => {
@@ -24,6 +23,7 @@ const Notifications = () => {
       setScreenOptions({
         title,
         headerStyle: { backgroundColor: colors.background30 },
+        headerTitleAlign: 'center',
         headerLeft: () => (Platform.OS === 'web' ? null : <HeaderBackButton icon={ArrowDownS} />),
         headerRight: ({ tintColor }) =>
           Platform.OS === 'web' ? <HeaderBackButton icon={Close} tintColor={tintColor} /> : undefined,
@@ -35,9 +35,9 @@ const Notifications = () => {
   )
 
   return (
-    <SafeArea style={styles.contentWrapper} testID="notifications-overview">
+    <View style={styles.contentWrapper} testID="notifications-overview">
       <NotificationsOverview />
-    </SafeArea>
+    </View>
   )
 }
 

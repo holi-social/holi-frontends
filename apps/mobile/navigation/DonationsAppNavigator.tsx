@@ -7,6 +7,8 @@ import DonationsAppHome, { type DonationsAppHomeParams } from '@holi-apps/donati
 import DonationsAppProjectDetail, {
   type DonationsAppProjectDetailParams,
 } from '@holi-apps/donations/screens/DonationsAppProjectDetail'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { ArrowDownS } from '@holi/icons/src/generated'
 
 export type DonationsAppScreensList = {
   DonationsAppHome: DonationsAppHomeParams
@@ -26,6 +28,7 @@ const DonationsAppNavigator = () => {
       screenOptions={{
         headerShown: true,
         headerShadowVisible: false,
+        headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
       }}
     >
       <DonationsAppStack.Screen name={RouteName.DonationsAppHome} component={DonationsAppHome} />

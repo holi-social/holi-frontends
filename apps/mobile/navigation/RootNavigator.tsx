@@ -69,6 +69,7 @@ const RootNavigator = () => {
     <RootStack.Navigator
       initialRouteName={RouteName.BottomTabs}
       screenOptions={{
+        headerShown: false,
         headerShadowVisible: false,
       }}
     >
@@ -81,7 +82,7 @@ const RootNavigator = () => {
       <RootStack.Screen
         name={RouteName.Spaces}
         component={SpacesNavigator}
-        options={{ headerShown: true, headerShadowVisible: false }}
+        options={{ headerShown: false, headerShadowVisible: false }}
       />
 
       {/* ActHome is in BottomTabs */}
@@ -181,6 +182,8 @@ const RootNavigator = () => {
         component={CreatePost}
         options={{
           animation: 'slide_from_bottom',
+          headerTintColor: colors.black300,
+          headerBackTitleVisible: false,
           headerShown: true,
           headerStyle: {
             backgroundColor: colors.background20,
