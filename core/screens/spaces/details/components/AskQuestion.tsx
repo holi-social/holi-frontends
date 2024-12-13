@@ -1,4 +1,5 @@
 import { useChat } from '@holi/core/hooks/useStartChat'
+import { useRepresentative } from '@holi/core/screens/spaces/hooks/useRepresentative'
 import { QuestionAnswerLine } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
@@ -13,14 +14,16 @@ import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
 
 type AskQuestionProps = {
-  isMember?: boolean
-  representativeIdentity?: string
+  spaceIdOrName?: string
 }
 
-export const AskQuestion = ({ representativeIdentity }: AskQuestionProps) => {
+export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
+  const { representativeIdentity } = useRepresentative(spaceIdOrName)
   const { styles } = useStyles(stylesheet)
   const { startChat, isLoading } = useChat()
   const { t } = useTranslation()
+
+  if (!spaceIdOrName) return null
 
   return (
     <HoliActionDrawer.Drawer

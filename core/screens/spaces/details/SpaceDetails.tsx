@@ -97,8 +97,6 @@ const SpaceDetails = () => {
     }
   }, [determineInitialTab, isReadyToDetermineTab, setHoliTabQueryParam])
 
-  const representative = space?.representatives?.[0].user
-
   useEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
@@ -166,7 +164,7 @@ const SpaceDetails = () => {
         </HoliTransition.FadeRightSwitch>
       )}
 
-      {isNonMember && <AskQuestion representativeIdentity={representative?.identity} />}
+      {isNonMember && <AskQuestion spaceIdOrName={spaceIdOrName} />}
 
       <ToolkitModal {...toolkitModalProps} spaceIdOrName={space.name} />
       <SpaceOnboardModal {...onboardingModalProps} />

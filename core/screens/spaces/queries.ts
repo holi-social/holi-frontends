@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 import { MemberSpacesFragment } from '@holi/core/queries'
-import type { Space } from '@holi/core/screens/spaces/types'
+import type { Representative, Space } from '@holi/core/screens/spaces/types'
 import type { MemberSpaces } from '@holi/core/types'
 
 const SpaceMemberPermissionsFragment = gql`
@@ -151,12 +151,6 @@ export const FullSpaceFragment = gql`
       thumbnail
       thumbnailBlurhash
     }
-    representatives {
-      user {
-        id
-        identity
-      }
-    },
     members(limit: 3) {
       totalResults
       data {
@@ -297,6 +291,27 @@ export const spaceMembershipByIdQuery = gql`
       membershipRequests(limit: 0) {
         totalResults
       }
+    }
+  }
+`
+
+export type RepresentativeBySpaceIdResponse = {
+  spaceById: {
+    representatives: Representative[]
+    connectionStatusToMyself: Space['connectionStatusToMyself']
+  }
+}
+
+export const spaceRepresentative = gql`
+  query RepresentativeBySpaceId($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
+      connectionStatusToMyself
+      representatives {
+        user {
+          id
+          identity
+        }
+      },
     }
   }
 `
