@@ -11,6 +11,7 @@ import HoliConfirmation, { type HoliConfirmationProps } from '@holi/ui/component
 import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 export interface SignupGuardModalProps extends Partial<HoliConfirmationProps> {
   trackTrigger?: SignupModalPressedTrigger
@@ -40,6 +41,8 @@ export const SignupGuardModal = ({
   const primaryHandler = useCallback(() => {
     if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'signUp'))
     enableRedirect()
+    // Skip onboarding and start directly with account creation
+    storeOnboardingState('finished')
     navigate('/onboarding')
 
     const confirmPropagation = onPrimary?.()

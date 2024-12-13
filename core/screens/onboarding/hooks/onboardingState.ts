@@ -50,7 +50,7 @@ const determineTargetState = ({
   if (isLoggedIn && value !== 'accountSetup') {
     return 'finished'
   }
-  if (!isLoggedIn) {
+  if (!isLoggedIn && value !== 'finished') {
     return 'onboarding'
   }
   return value || 'onboarding'

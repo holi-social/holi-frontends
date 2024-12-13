@@ -59,7 +59,7 @@ const determineOnboardingInitialStepKey = (onboardingState: OnboardingStateValue
   }
 }
 
-export const useOnbaordingCurrentStepKey = () => {
+export const useOnboardingCurrentStepKey = () => {
   const onboardingState = useOnboardingState()
   const prevOnboardingState = useRef(onboardingState)
   const [currentStepKey, setCurrentStepKey] = useState<OnboardingStepKey | null>(
