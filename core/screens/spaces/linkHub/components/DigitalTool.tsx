@@ -39,7 +39,7 @@ const DigitalTool = ({
 }: DigitalToolProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const [showDetailModal, setShowDetailModal] = useState(false)
+  const [detailModalShown, setDetailModalShown] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -60,7 +60,7 @@ const DigitalTool = ({
       <MoreOptionItem
         label={''}
         onPress={() => {
-          setShowDetailModal(true)
+          setDetailModalShown(true)
         }}
         testID={'btn-show-tool-details'}
         transparent
@@ -134,8 +134,8 @@ const DigitalTool = ({
         </View>
       </View>
       <HoliModal
-        show={showDetailModal}
-        onDismiss={() => setShowDetailModal(false)}
+        shown={detailModalShown}
+        onDismiss={() => setDetailModalShown(false)}
         testID="tool-details-modal"
         label={t('spaces.digitalTool.showDetails')}
       >

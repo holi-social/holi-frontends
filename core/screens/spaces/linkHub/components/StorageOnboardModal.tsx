@@ -30,11 +30,11 @@ const onboardingContent: OnboardingCard = {
 }
 
 interface StorageOnboardModalProps {
-  visible: boolean
-  handleModalClose: () => void
+  shown: boolean
+  onDismiss: () => void
 }
 
-const StorageOnboardModal = ({ visible, handleModalClose }: StorageOnboardModalProps) => {
+const StorageOnboardModal = ({ shown, onDismiss }: StorageOnboardModalProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -43,7 +43,7 @@ const StorageOnboardModal = ({ visible, handleModalClose }: StorageOnboardModalP
     return (
       <HoliModalContentWrapper
         actionButtonText={t('spaces.storage.onboarding.button')}
-        onActionButtonPress={() => handleModalClose()}
+        onActionButtonPress={() => onDismiss()}
         headlineText={t('spaces.storage.onboarding.title')}
         headlineAlign="center"
         testID={'space-onboard-content'}
@@ -67,12 +67,7 @@ const StorageOnboardModal = ({ visible, handleModalClose }: StorageOnboardModalP
   }
 
   return (
-    <HoliModal
-      show={visible}
-      label={t('spaces.storage.onboarding.title')}
-      onDismiss={() => handleModalClose()}
-      style={styles.modal}
-    >
+    <HoliModal shown={shown} label={t('spaces.storage.onboarding.title')} onDismiss={onDismiss} style={styles.modal}>
       <OnboardContent />
     </HoliModal>
   )

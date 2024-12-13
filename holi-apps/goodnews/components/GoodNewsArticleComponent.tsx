@@ -90,7 +90,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
         <HoliGap size="s" />
         <InfoModal
           items={{ 'goodnews.eu': partner }}
-          show={partnerModalState.visible}
+          shown={partnerModalState.visible}
           onDismiss={partnerModalState.hide}
           i18nPrefix={'goodnews:listing.partnerModal'}
         />

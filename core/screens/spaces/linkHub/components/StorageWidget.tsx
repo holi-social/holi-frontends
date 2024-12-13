@@ -92,7 +92,7 @@ const StorageWidget: React.FC<StorageWidgetProps> = ({ space, style }) => {
           </HoliText>
         </HoliButton>
 
-        <HoliModal label={t('spaces.storage.widget.owncloud.modal')} show={visible} onDismiss={hide}>
+        <HoliModal label={t('spaces.storage.widget.owncloud.modal')} shown={visible} onDismiss={hide}>
           <HoliModalContentWrapper
             actionButtonText={t('global.gotIt')}
             onActionButtonPress={hide}

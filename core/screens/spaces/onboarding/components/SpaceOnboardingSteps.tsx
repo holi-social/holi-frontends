@@ -196,7 +196,7 @@ const SpaceOnboardingSteps = () => {
           )}
         />
         <HoliModal
-          show={exampleVisible}
+          shown={exampleVisible}
           label={t('spaces.onboarding.steps.example.label')}
           onDismiss={hideExample}
           style={styles.exampleWrapper}
@@ -205,7 +205,7 @@ const SpaceOnboardingSteps = () => {
         </HoliModal>
 
         <HoliModal
-          show={previewVisible}
+          shown={previewVisible}
           label={t('spaces.onboarding.steps.preview.label')}
           onDismiss={hidePreview}
           style={styles.previewModal}

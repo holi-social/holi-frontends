@@ -307,7 +307,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   )}
                   <InfoModal
                     items={{ sdg: partner }}
-                    show={!!infoModalVisible}
+                    shown={!!infoModalVisible}
                     onDismiss={closeInfoModal}
                     i18nPrefix={'spaces.input.sdgs.infoModal'}
                   />
@@ -371,7 +371,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
         </View>
         <HoliModal
           heading={editField ? t(editTitles[editField]) : ''}
-          show={visible}
+          shown={visible}
           autoHeight={!isEdit}
           label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
           onDismiss={handleModalClose}

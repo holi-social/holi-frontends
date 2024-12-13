@@ -29,7 +29,7 @@ const InsightsOfTheWeek = () => {
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
+  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState()
 
   const mixins = useStyleMixins()
 

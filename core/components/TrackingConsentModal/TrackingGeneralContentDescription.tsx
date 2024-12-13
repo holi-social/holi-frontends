@@ -63,7 +63,7 @@ const TrackingGeneralContentDescription = ({ checkTextCountList = [1, 2, 3] }: P
         </View>
       ))}
 
-      <HoliModal label="" show={visible} onShow={show} onDismiss={hide} autoHeight={false} relativeHeight={1}>
+      <HoliModal label="" shown={visible} onShow={show} onDismiss={hide} autoHeight={false} relativeHeight={1}>
         <ScrollView>
           <HoliContainer>
             <HtmlDocument url={documentURL} onError={onDocumentLoadError} />

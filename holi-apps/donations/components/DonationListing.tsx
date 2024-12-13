@@ -99,7 +99,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
           />
           <InfoModal
             items={{ 'betterplace.org': partner }}
-            show={partnerModalVisible}
+            shown={partnerModalVisible}
             onDismiss={closeModal}
             i18nPrefix={'donations:listing.partnerModal'}
           />

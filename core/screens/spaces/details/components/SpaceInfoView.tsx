@@ -98,7 +98,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
           </View>
           <InfoModal
             items={{ sdg: partner }}
-            show={infoModalVisible}
+            shown={infoModalVisible}
             onDismiss={closeInfoModal}
             i18nPrefix={'spaces.input.sdgs.infoModal'}
           />

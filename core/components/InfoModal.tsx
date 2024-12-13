@@ -18,7 +18,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 export interface InfoModalProps {
   headline?: string
   items: { [name: string]: InfoModalItemProps }
-  show: boolean
+  shown: boolean
   onDismiss: () => void
   i18nPrefix: string
 }
@@ -42,7 +42,7 @@ export type InfoModalAssetProps = {
 const InfoModal: React.FC<InfoModalProps> = ({
   headline,
   items,
-  show = false,
+  shown = false,
   onDismiss,
   i18nPrefix = '',
 }: InfoModalProps) => {
@@ -95,7 +95,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
       style={[isMultipleItems ? styles.flexWrapper : null, isMultipleItems ? styles.modal : null]}
       autoHeight={isMultipleItems ? false : undefined}
       relativeHeight={isMultipleItems ? 1 : undefined}
-      show={show}
+      shown={shown}
       onDismiss={onDismiss}
       testID={'goodnews-partner-modal'}
     >

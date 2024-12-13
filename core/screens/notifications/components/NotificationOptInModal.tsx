@@ -69,7 +69,7 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
     <ModalBasic
       label={t(`notifications.permission.${type}.headline`)}
       {...accessibilityProps}
-      show={isVisible}
+      shown={isVisible}
       transparent
       animationType="fade"
       testID={`${testID}-modal`}
