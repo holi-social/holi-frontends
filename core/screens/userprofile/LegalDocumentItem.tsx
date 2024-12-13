@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import HtmlDocument from '@holi/core/components/HtmlDocument'
-import { DocType, parseDocType } from '@holi/core/documents/DocType'
+import { type DocType, parseDocType } from '@holi/core/documents/DocType'
 import { HoliBadRequestError } from '@holi/core/errors/classes/HoliBadRequestError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'

@@ -89,10 +89,11 @@ const Spaces = () => {
         trackTrigger: 'CREATE_SPACE',
       })
     setScreenOptions({
-      title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTitle: () => null,
+      headerShown: true,
+      headerTitle: () => '',
+      headerShadowVisible: false,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
           {title}

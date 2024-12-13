@@ -45,7 +45,7 @@ const ActHome = () => {
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTitle: () => null,
+      headerTitle: () => '',
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
           {title}
