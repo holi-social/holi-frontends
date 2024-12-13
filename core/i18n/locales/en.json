@@ -529,6 +529,7 @@
   "notifications.permission.description.connections": "Would you like to be notified when {{name}} accepts your request?",
   "notifications.permission.description.default": "Would you like to be notified  when someone responds to your comment?",
   "notifications.permission.description.spaces": "Would you like to be notified when someone requests to join {{name}}?",
+  "notifications.permission.dismiss.label": "I don't want to be notified",
   "notifications.post.mention.message": "<0>{{name}}</0> mentioned you in a comment",
   "notifications.releaseinfo.message": "We shipped an app update. See what's in it!",
   "notifications.space.connection.accept": "Accept",

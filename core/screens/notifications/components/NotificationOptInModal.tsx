@@ -32,6 +32,7 @@ interface NotificationOptInModalProps extends ModalProps {
   image?: ImageSource
   onConfirm?: () => void
   onDismiss?: () => void
+  dismissModal?: () => void
   confirmText?: string
   dismissText?: string
   testID?: string
@@ -44,6 +45,7 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
   type = 'default',
   onConfirm,
   onDismiss,
+  dismissModal,
   confirmText,
   dismissText,
   testID = 'notification-opt-in',
@@ -134,6 +136,18 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
                 <HoliText>{dismissText || t('notifications.permission.button.dismiss')}</HoliText>
               </HoliButton>
             )}
+            {dismissModal && (
+              <HoliButton
+                inline
+                label={t('notifications.permission.dismiss.label')}
+                onPress={dismissModal}
+                style={styles.dismiss}
+                testID={`${testID}-dismiss-notification`}
+                transparent
+              >
+                <HoliText size="extrasmall">{t('notifications.permission.dismiss.label')}</HoliText>
+              </HoliButton>
+            )}
           </View>
         </View>
       </View>
@@ -171,7 +185,7 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       ...(isSmallDevice ? { minWidth: screenWidth * 0.7 } : { minWidth: smallDeviceWidth }),
     },
     description: {
-      marginTop: 12,
+      marginTop: Spacing.xxs,
     },
     buttonContainer: {
       padding: Spacing.md,
@@ -198,6 +212,10 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       position: 'absolute',
     },
     imageContainer: {
-      marginBottom: 8,
+      marginBottom: Spacing['3xs'],
+    },
+    dismiss: {
+      alignSelf: 'center',
+      marginTop: Spacing['3xs'],
     },
   })
