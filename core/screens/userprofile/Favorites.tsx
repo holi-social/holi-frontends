@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, ScrollView, StyleSheet } from 'react-native'
+import { type DimensionValue, Platform, ScrollView, StyleSheet } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -9,13 +9,14 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import FavoritesList from '@holi/core/screens/favorites/components/FavoritesList'
 import { favoritesQuery } from '@holi/core/screens/favorites/queries'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { Spacing } from 'holi-bricks/tokens'
 
 const Favorites = () => {
   const { t } = useTranslation()
@@ -24,7 +25,10 @@ const Favorites = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('profile.settings.favorites.title') })
+    setScreenOptions({
+      title: t('profile.settings.favorites.title'),
+      headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>,
+    })
   }, [setScreenOptions, t])
 
   const { displayError } = useErrorHandling()
@@ -44,7 +48,7 @@ const Favorites = () => {
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
       <LoginProtection>
         <ScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
-          <HoliBox padding={[24, 0]}>
+          <HoliBox padding={[0, 0]}>
             <HoliContainer>
               <Pagination
                 query={favoritesQuery}
@@ -73,7 +77,7 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: Platform.OS === 'web' ? 10 : 0,
       minHeight: Platform.OS === 'web' ? ('100vh' as DimensionValue) : ('100%' as DimensionValue),
       backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.topBarHeight,
+      paddingTop: Spacing.xs,
     },
   })
 

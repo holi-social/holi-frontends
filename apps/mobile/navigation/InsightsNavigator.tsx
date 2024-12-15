@@ -21,6 +21,8 @@ import RecommendationDetailPage, {
 import CommentInputPage, { type CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
 import PostDetailPage, { type PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import { colors } from '@holi/ui/styles/globalVars'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type InsightsScreens = {
   [RouteName.InsightDetailPage]: InsightDetailPageParams
@@ -46,6 +48,9 @@ const InsightsNavigator = () => {
       screenOptions={{
         headerShown: true,
         headerShadowVisible: false,
+        headerTintColor: colors.black300,
+        headerLeft: () => <HeaderBackButton />,
+        headerBackVisible: false,
       }}
     >
       <InsightsStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />
