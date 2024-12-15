@@ -50,6 +50,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -93,6 +94,8 @@ const InsightDetailPage = () => {
     setScreenOptions({
       headerTintColor: colors.light,
       title: '',
+      headerTransparent: true,
+      headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
       navigationCustomOptions: {
         background: { type: 'gradient' },
       },
