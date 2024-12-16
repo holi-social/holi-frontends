@@ -85,7 +85,7 @@ export const Button = ({
       {...accessibilityProps(rest)}
     >
       <View style={styles.content}>
-        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text(disabled, selected, variant).color}>
+        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text(disabled, selected, variant).color} role="none">
           {label}
         </TextLink>
         {isSpinning && !disabled && (

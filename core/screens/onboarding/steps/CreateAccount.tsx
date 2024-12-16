@@ -34,7 +34,7 @@ const logger = getLogger('CreateAccount')
 const isWeb = Platform.OS === 'web'
 const isAndroid = Platform.OS === 'android'
 
-interface CreateAccountProps {
+export interface CreateAccountProps {
   onRegister: () => void
   onContinueAsGuest: () => void
   onLogin: () => void
