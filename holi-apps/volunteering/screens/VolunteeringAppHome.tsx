@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, StyleSheet, View } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
@@ -10,10 +10,8 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Filter3 } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -21,6 +19,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/VolunteeringListingDiscovery'
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
+import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
@@ -41,10 +40,10 @@ const VolunteeringAppHome = () => {
 
   useIsomorphicLayoutEffect(() => {
     const filterButton = (
-      <HoliButton
+      <HoliButtonBell
         label={t('volunteering:filter.heading')}
-        inline
-        transparent
+        icon={Filter3}
+        showBell={isFiltering}
         onPress={() => {
           // if pressed too soon, the state is set to true, but the modal is not shown.
           // crude mechanism to recover from this state.
@@ -53,10 +52,7 @@ const VolunteeringAppHome = () => {
           setFilterModalShown(true)
         }}
         testID="btn-to-volunteering-filter-modal"
-      >
-        <HoliIcon icon={Filter3} />
-        {isFiltering && <View style={styles.dot} />}
-      </HoliButton>
+      />
     )
     setScreenOptions({
       headerTitle: () => (

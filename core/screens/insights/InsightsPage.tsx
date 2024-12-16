@@ -213,7 +213,7 @@ const InsightsPage = () => {
             queryOptions={queryOptions}
             scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
             fetchMoreButtonProps={{
-              type: 'secondary',
+              variant: 'secondary',
               style: mixins.moreButton,
             }}
           >

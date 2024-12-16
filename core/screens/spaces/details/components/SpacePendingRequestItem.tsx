@@ -14,7 +14,6 @@ import {
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { type Space, SpaceConnectionAction, type SpaceMembershipRequest } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Close } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -23,6 +22,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { ButtonIcon } from 'holi-bricks/components/button'
 
 const PAGE_SIZE = 20
 
@@ -164,30 +164,26 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
       )}
       {(loading || connectionStatus === 'PENDING') && (
         <HoliHorizontalRow gap={8} style={styles.buttonContainer}>
-          <HoliButton
+          <ButtonIcon
             key="decline"
-            type="secondary"
-            variant="small"
+            variant="secondary"
+            size="sm"
             label={t('notifications.connection.ignore')}
             onPress={declineConnectionRequest}
             disabled={loading}
             testID="ignore-connection-request-button"
-            style={styles.button}
-          >
-            <HoliIcon icon={Close} size={22} />
-          </HoliButton>
-          <HoliButton
+            icon={Close}
+          />
+          <ButtonIcon
             key="accept"
-            type="primary"
-            variant="small"
+            variant="primary"
+            size="sm"
             label={t('notifications.connection.accept')}
             onPress={approveConnectionRequest}
             disabled={loading}
             testID="accept-connection-request-button"
-            style={styles.button}
-          >
-            <HoliIcon icon={Check} size={22} />
-          </HoliButton>
+            icon={Check}
+          />
         </HoliHorizontalRow>
       )}
       <SpacePermissions
@@ -235,11 +231,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     buttonContainer: {
       paddingLeft: 48,
-    },
-    button: {
-      borderRadius: 50,
-      width: 40,
-      zIndex: 4,
     },
   })
 

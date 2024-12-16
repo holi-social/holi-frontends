@@ -3,24 +3,23 @@ import {
   Keyboard,
   Platform,
   ScrollView,
-  ScrollViewProps,
-  StyleProp,
+  type ScrollViewProps,
+  type StyleProp,
   StyleSheet,
-  TextStyle,
+  type TextStyle,
   TouchableWithoutFeedback,
   View,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native'
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { type EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 export interface HoliModalContentWrapperProps {
   actionButtonText: string
@@ -55,7 +54,6 @@ const HoliModalContentWrapper = (
   }: React.PropsWithChildren<HoliModalContentWrapperProps>,
   ref: React.ForwardedRef<ScrollView>
 ) => {
-  const mixins = useStyleMixins()
   const { isKeyboardOpen } = useKeyboard()
   const { isSoftkeyboardOpen } = useSoftKeyboard()
   const showFooter = !hideFooterWhenKeyboardIsOpen || !(isKeyboardOpen || isSoftkeyboardOpen)
@@ -104,16 +102,14 @@ const HoliModalContentWrapper = (
       )}
 
       {showFooter && (
-        <View style={styles.actionButtonContainer}>
-          <HoliButton
+        <View style={styles.button}>
+          <Button
+            inline
             label={actionButtonText}
             onPress={onActionButtonPress}
             disabled={actionButtonDisabled}
-            style={[mixins.moreButton, styles.button]}
             testID={`${testID}-close-btn`}
-          >
-            {actionButtonText}
-          </HoliButton>
+          />
         </View>
       )}
     </View>
@@ -139,21 +135,14 @@ const getStyles = (theme: HoliTheme, insets: EdgeInsets) =>
       height: 120,
     },
     scrollViewContent: {
-      paddingBottom: insets.bottom + 96,
-    },
-    actionButtonContainer: {
-      position: 'absolute',
-      zIndex: 1,
-      bottom: 32,
-      right: 0,
-      left: 0,
-      marginHorizontal: 24,
-      opacity: 1,
+      paddingBottom: insets.bottom,
     },
     button: {
-      marginTop: 0,
+      paddingHorizontal: 24,
+      paddingBottom: 24,
       maxWidth: dimensions.maxButtonWidth,
-      marginBottom: insets.bottom,
+      alignSelf: 'center',
+      width: '100%',
     },
     saveLoaderContainer: {
       backgroundColor: theme.colors.background10,

@@ -10,15 +10,14 @@ import EditSpaceLink from '@holi/core/screens/spaces/edit/components/EditSpaceLi
 import EditSpaceModal from '@holi/core/screens/spaces/edit/components/EditSpaceModal'
 import { deleteSpaceLinkMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { Space, SpaceLink } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
 import { Add } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 interface EditSpaceLinksProps {
   space: Space
@@ -75,23 +74,20 @@ const EditSpaceLinks = ({ space, onDismiss }: EditSpaceLinksProps) => {
     <EditSpaceModal
       scrollable={false}
       footer={
-        <HoliButton label={t('global.done')} style={styles.doneButton} onPress={onDismiss}>
-          {t('global.done')}
-        </HoliButton>
+        <View style={styles.doneButton}>
+          <Button label={t('global.done')} onPress={onDismiss} />
+        </View>
       }
     >
       <HoliText style={styles.subTitle}>{t('spaces.input.publicLinks.manage.subtitle')}</HoliText>
       <View style={styles.buttonContainer}>
-        <HoliButton
+        <Button
           label={t('spaces.input.publicLinks.add.label')}
-          type="secondary"
-          style={styles.button}
+          variant="secondary"
           onPress={showCreate}
           inline
-        >
-          <HoliText style={styles.buttonText}>{t('spaces.input.publicLinks.add.label')}</HoliText>
-          <HoliIcon icon={Add} />
-        </HoliButton>
+          icon={Add}
+        />
       </View>
 
       <View style={styles.wrapper}>
@@ -138,6 +134,7 @@ const getStyles = (theme: HoliTheme) =>
     doneButton: {
       maxWidth: dimensions.maxButtonWidth,
       marginHorizontal: 'auto',
+      width: '100%',
     },
     modal: {
       backgroundColor: theme.colors.background20,
@@ -148,8 +145,6 @@ const getStyles = (theme: HoliTheme) =>
     buttonContainer: {
       display: 'flex',
       alignItems: 'center',
-    },
-    button: {
       marginBottom: 32,
     },
     buttonText: {

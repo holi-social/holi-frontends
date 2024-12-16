@@ -25,7 +25,7 @@ import { PostById } from '@holi/core/screens/posts/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { Button } from 'holi-bricks/components/button'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -222,17 +222,15 @@ const CommentForm = ({
           <View style={styles.bottomBar}>
             <HoliContainer>
               <View style={styles.buttonContainer}>
-                <HoliButtonLoading
+                <Button
                   disabled={!text.trim().length || createCommentLoading || detectLanguageLoading}
                   loading={createCommentLoading || detectLanguageLoading}
                   label={t('comments.button')}
-                  variant="small"
+                  size="sm"
                   inline
                   onPress={handleCommentSubmit}
                   testID="btn-submit-comment"
-                >
-                  {t('comments.button')}
-                </HoliButtonLoading>
+                />
               </View>
             </HoliContainer>
           </View>

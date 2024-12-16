@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
-import { GeolocationPoint } from '@holi/core/types'
+import type { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, ExternalLink, MapPinLine, Pencil } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ButtonIcon } from 'holi-bricks/components/button'
 
 const PostLocationCard = ({
   location,
@@ -47,17 +47,11 @@ const PostLocationCard = ({
       </View>
       {removeLocation || editLocation ? (
         <View style={styles.buttonContainer}>
-          <HoliButton transparent onPress={removeLocation} label={'remove-location'} style={styles.button}>
-            <HoliIcon icon={Delete} size={16} style={styles.icon} />
-          </HoliButton>
-          <HoliButton transparent onPress={editLocation} label={'edit-location'} style={styles.button}>
-            <HoliIcon icon={Pencil} size={16} style={styles.icon} />
-          </HoliButton>
+          <ButtonIcon variant="secondary" onPress={removeLocation} label={'remove-location'} icon={Delete} size="sm" />
+          <ButtonIcon variant="secondary" onPress={editLocation} label={'edit-location'} icon={Pencil} size="sm" />
         </View>
       ) : (
-        <HoliButton transparent onPress={handleOpenMap} label={'edit-location'} style={styles.share}>
-          <HoliIcon icon={ExternalLink} size={20} color={theme.colors.gray300} style={styles.icon} />
-        </HoliButton>
+        <ButtonIcon transparent onPress={handleOpenMap} label={'edit-location'} icon={ExternalLink} />
       )}
     </View>
   )

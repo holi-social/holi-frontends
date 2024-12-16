@@ -26,7 +26,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   <RCTScrollView
     contentContainerStyle={
       {
-        "paddingBottom": 96,
+        "paddingBottom": 0,
       }
     }
   >
@@ -1929,13 +1929,11 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
   <View
     style={
       {
-        "bottom": 32,
-        "left": 0,
-        "marginHorizontal": 24,
-        "opacity": 1,
-        "position": "absolute",
-        "right": 0,
-        "zIndex": 1,
+        "alignSelf": "center",
+        "maxWidth": 400,
+        "paddingBottom": 24,
+        "paddingHorizontal": 24,
+        "width": "100%",
       }
     }
   >
@@ -1948,7 +1946,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           "checked": undefined,
           "disabled": false,
           "expanded": undefined,
-          "selected": undefined,
+          "selected": false,
         }
       }
       accessibilityValue={
@@ -1960,6 +1958,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         }
       }
       accessible={true}
+      aria-pressed={false}
       collapsable={false}
       focusable={true}
       onBlur={[Function]}
@@ -1973,80 +1972,65 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         [
-          [
-            {
-              "width": "100%",
-            },
-            {
-              "backgroundColor": "#fff",
-              "borderColor": "#262424",
-              "borderRadius": 28,
-              "borderWidth": 2,
-              "display": "flex",
-              "elevation": 0,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "paddingHorizontal": 32,
-              "paddingVertical": 13,
-            },
-            {
-              "backgroundColor": "#f5ef3f",
-            },
-          ],
-          [
-            {
-              "alignSelf": "center",
-              "marginVertical": 24,
-              "maxWidth": 400,
-            },
-            {
-              "marginBottom": 0,
-              "marginTop": 0,
-              "maxWidth": 400,
-            },
-          ],
+          {
+            "backgroundColor": "#fdfd80",
+            "borderColor": "#262424",
+            "borderRadius": 1000,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "boxShadow": "0 0 0 0px #262424",
+            "display": "flex",
+            "paddingHorizontal": 16,
+            "paddingVertical": 12,
+            "width": "auto",
+          },
         ]
       }
       testID="holi-modal-content-close-btn"
     >
       <View
         style={
-          [
-            {
-              "pointerEvents": "none",
-            },
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-            },
-            undefined,
-          ]
+          {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "gap": 4,
+            "justifyContent": "center",
+          }
         }
       >
-        <Text
-          accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          selectable={false}
+        <View
           style={
             {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 16,
-              "fontWeight": "500",
-              "lineHeight": 22.4,
-              "textAlign": "center",
-              "userSelect": "none",
+              "height": 16,
+              "justifyContent": "center",
             }
           }
         >
-          user.cards.modal.close
-        </Text>
+          <Text
+            accessible={false}
+            role="none"
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "auto",
+              }
+            }
+          >
+            user.cards.modal.close
+          </Text>
+        </View>
       </View>
     </View>
   </View>

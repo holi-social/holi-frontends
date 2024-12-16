@@ -4,7 +4,8 @@ import { logError } from '@holi/core/errors/helpers'
 import i18n from '@holi/core/i18n'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { Button } from 'holi-bricks/components/button'
+import { View, StyleSheet } from 'react-native'
 
 type ErrorBoundaryProps = {
   children?: React.ReactNode
@@ -36,25 +37,26 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   render() {
     const { t } = i18n
+    const styles = getStyles()
 
     if (this.state.error) {
       return (
-        <SafeArea style={{ padding: 12, alignItems: 'center' }}>
+        <SafeArea style={styles.container}>
           <HoliText>{t('global.technicalError')}</HoliText>
           {this.props.showErrorMsg && (
-            <HoliText style={{ marginTop: 12 }} align="center">
+            <HoliText style={styles.text} align="center">
               {this.state.error?.message}
             </HoliText>
           )}
           {this.props.allowReload && (
-            <HoliButton
-              label={t('error.errorBoundary.retry')}
-              inline
-              onPress={() => this.setState({ error: null })}
-              style={{ marginTop: 24 }}
-            >
-              <HoliText>{t('error.errorBoundary.retry')}</HoliText>
-            </HoliButton>
+            <View style={styles.button}>
+              <Button
+                label="{t('error.errorBoundary.retry')}"
+                inline
+                onPress={() => this.setState({ error: null })}
+                testID="error.errorBoundary.retry"
+              />
+            </View>
           )}
         </SafeArea>
       )
@@ -63,5 +65,19 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     return <>{this.props.children}</>
   }
 }
+
+const getStyles = () =>
+  StyleSheet.create({
+    button: {
+      marginTop: 24,
+    },
+    container: {
+      padding: 12,
+      alignItems: 'center',
+    },
+    text: {
+      marginTop: 12,
+    },
+  })
 
 export default ErrorBoundary

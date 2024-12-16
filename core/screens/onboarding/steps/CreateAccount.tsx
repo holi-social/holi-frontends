@@ -11,7 +11,7 @@ import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { type OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
-import { HoliButtonTracked } from '@holi/core/components/Trackable'
+import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
@@ -155,15 +155,14 @@ export const CreateAccount = ({
         <Text size="md">{t('registration.signUp.description')}</Text>
         <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
         <HoliGap size="s" />
-        <HoliButtonTracked
+        <ButtonTracked
           label={t('auth.loginProtection.continueAsGuest')}
           onPress={onContinueAsGuest}
-          type="secondary"
+          variant="secondary"
           testID={`${testID}-btn-continue-as-guest`}
           trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}
-        >
-          {t('auth.loginProtection.continueAsGuest')}
-        </HoliButtonTracked>
+        />
+
         <HoliGap size="xxs" />
         <Text size="xs" variant="secondary" textAlign="center">
           {t('auth.loginProtection.continueAsGuest.warning')}

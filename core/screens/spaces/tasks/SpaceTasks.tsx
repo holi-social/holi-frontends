@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, StyleSheet } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, View } from 'react-native'
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -12,13 +12,12 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskList from '@holi/core/screens/spaces/tasks/components/SpaceTaskList'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ButtonIcon } from 'holi-bricks/components/button'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 export type SpaceTasksParams = {
@@ -65,15 +64,15 @@ const SpaceTasks = () => {
   return (
     <>
       {isCollaborator && (
-        <HoliButton
-          label={t('allTools.drawer.headline')}
-          inline
-          testID="space-resources-add-button"
-          style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-          onPress={navigateToCreateTask}
-        >
-          <HoliIcon icon={Add} size={24} />
-        </HoliButton>
+        <View style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}>
+          <ButtonIcon
+            label={t('allTools.drawer.headline')}
+            testID="space-resources-add-button"
+            onPress={navigateToCreateTask}
+            icon={Add}
+            size="lg"
+          />
+        </View>
       )}
       <KeyboardAwareScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
@@ -108,21 +107,9 @@ const getStyles = (theme: HoliTheme) =>
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',
       bottom: 40,
       right: '50%',
-      justifyContent: 'center',
-      borderWidth: 1,
-      shadowColor: theme.colors.foreground30,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
       elevation: 4,
       overflow: 'visible',
       zIndex: 1,
-      borderRadius: 84,
-      width: 56,
-      height: 56,
       paddingHorizontal: 0,
     },
   })

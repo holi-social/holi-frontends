@@ -26,10 +26,7 @@ import {
 } from '@holi/core/screens/spaces/details/queries'
 import { type SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType, type SpaceMember } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { UserAdd } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -37,6 +34,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Button } from 'holi-bricks/components/button'
 
 export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
@@ -245,19 +243,14 @@ const EditSpaceCollaborators = () => {
         />
       )}
 
-      <View style={[styles.overlayButtonWrapper]}>
-        <HoliButton
+      <View style={[styles.overlayButtonWrapper, mixins.container, styles.overlayButton]}>
+        <Button
           label={t('spaces.members.invite')}
           testID="btn-filter-spaces"
           inline
-          style={[mixins.container, styles.overlayButton]}
           onPress={() => navigate(`/spaces/${spaceIdOrName}/invite`)}
-        >
-          <HoliText size="small" bold>
-            {t('spaces.members.invite')}
-          </HoliText>
-          <HoliIcon icon={UserAdd} size={16} color={colors.foreground30} style={styles.icon} />
-        </HoliButton>
+          icon={UserAdd}
+        />
       </View>
     </PermissionsGuard>
   )
@@ -281,7 +274,6 @@ const styles = StyleSheet.create({
     maxWidth: 420,
     flex: 1,
     bottom: Platform.OS === 'web' ? 32 : 16,
-    borderWidth: 1,
     paddingVertical: 12,
     paddingHorizontal: 16,
   },

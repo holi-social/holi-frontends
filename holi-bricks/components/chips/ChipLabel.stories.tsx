@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { Colors } from 'holi-bricks/tokens'
 import React from 'react'
 
@@ -8,12 +8,24 @@ import { ChipLabel } from './ChipLabel'
 
 const availableColors = ['white' as const, ...Object.values(Colors)]
 const availableSizes = ['sm', 'md', 'lg'] as const
+const disabledProps = [
+  'accessible',
+  'id',
+  'role',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'aria-disabled',
+  'tabIndex',
+  'iconLeading',
+]
 
 const meta: Meta<typeof ChipLabel> = {
   title: 'Components/Chips/Chip Label',
   component: ChipLabel,
   argTypes: {
     children: { description: 'Text label', required: true },
+    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     children: 'Chip',

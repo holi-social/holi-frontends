@@ -19,15 +19,14 @@ import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLo
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import { interestsQuery } from '@holi/core/screens/userprofile/queries'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useTheme } from '@holi/ui/styles/theme'
+import { ButtonIcon } from 'holi-bricks/components/button'
 
 const OwnProfile = () => {
   const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
@@ -79,33 +78,33 @@ const OwnProfile = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: ({ tintColor }) => (
+      headerRight: () => (
         <HoliHorizontalRow>
-          <HoliButton
+          <ButtonIcon
             label={t('profile.edit')}
             onPress={() => {
               toggleEditMode('profile')
             }}
             transparent
-            inline
             testID="btn-open-profile-edit-view"
-          >
-            <HoliIcon icon={Edit2} color={tintColor} />
-          </HoliButton>
-
-          <HoliButton label={t('profile.share')} inline transparent onPress={showFeatureNotImplementedToast}>
-            <HoliIcon icon={Share} color={tintColor} />
-          </HoliButton>
-
-          <HoliButton
+            icon={Edit2}
+            size="lg"
+          />
+          <ButtonIcon
+            label={t('profile.share')}
+            transparent
+            onPress={showFeatureNotImplementedToast}
+            icon={Share}
+            size="lg"
+          />
+          <ButtonIcon
             label={t('profile.settings.overview.title')}
-            inline
             transparent
             onPress={() => navigate('/profile/settings')}
             testID="btn-to-settings"
-          >
-            <HoliIcon icon={Settings3} color={tintColor} />
-          </HoliButton>
+            icon={Settings3}
+            size="lg"
+          />
         </HoliHorizontalRow>
       ),
     })

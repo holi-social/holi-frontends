@@ -22,12 +22,10 @@ import {
 } from '@holi/core/screens/individualPosts/mutations'
 import { type FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import type { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, Global, HoliLogoFilled, Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -37,6 +35,7 @@ import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -237,17 +236,14 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
             {((!!images && images.length > 0) || (currentImages && currentImages.length > 0)) && (
               <View style={styles.imageContainer}>
-                <HoliButton
-                  type="secondary"
-                  variant="small"
+                <Button
+                  variant="secondary"
+                  size="sm"
                   label={t('global.edit')}
                   inline
-                  style={styles.editImages}
                   onPress={showEditImagesModal}
-                >
-                  <HoliText>{t('global.edit')}</HoliText>
-                  <HoliIcon size={16} icon={Edit2} style={styles.buttonIcon} />
-                </HoliButton>
+                  icon={Edit2}
+                />
                 {Platform.OS !== 'web' && (
                   <HoliCarousel
                     marginHorizontal={Spacing.sm}
@@ -346,15 +342,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                 <HoliHeading level="1" size="m">
                   {t('individuals.post.input.location.title')}
                 </HoliHeading>
-                <HoliButton
-                  type="secondary"
-                  inline
-                  variant="small"
-                  label={t('global.done')}
-                  onPress={hideLocationModal}
-                >
-                  <HoliText>{t('global.done')}</HoliText>
-                </HoliButton>
+                <Button variant="secondary" inline size="sm" label={t('global.done')} onPress={hideLocationModal} />
               </View>
               <HoliText color="gray300" size="small">
                 {t('individuals.post.input.location.description')}
@@ -428,10 +416,6 @@ const getStyles = (theme: HoliTheme) =>
     imageContainer: {
       paddingTop: Spacing.sm,
       alignItems: 'flex-end',
-    },
-    editImages: {
-      borderRadius: 28,
-      marginRight: Spacing['3xs'],
     },
     buttonIcon: {
       marginLeft: Spacing['4xs'],

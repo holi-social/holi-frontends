@@ -25,6 +25,7 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 
@@ -172,16 +173,9 @@ const SpaceOnboardingSteps = () => {
                     isNewStep={isNewStep}
                   />
                 ))}
-                <HoliButton
-                  label={t('spaces.onboarding.steps.add')}
-                  onPress={addStep}
-                  variant="medium"
-                  type="secondary"
-                  style={styles.addStepBtn}
-                >
-                  <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
-                  <HoliIcon icon={Add} size={16} />
-                </HoliButton>
+                <View style={styles.addStepBtn}>
+                  <Button label={t('spaces.onboarding.steps.add')} onPress={addStep} variant="secondary" icon={Add} />
+                </View>
                 {stepsList.length > 0 && (
                   <HoliButton
                     label={t('spaces.onboarding.steps.preview.link')}
@@ -271,6 +265,7 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: 24,
       marginBottom: 24,
       maxWidth: 320,
+      width: '100%',
       alignSelf: 'center',
     },
   })

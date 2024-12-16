@@ -1,16 +1,11 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Search } from '@holi/icons/src/generated'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { ButtonIcon } from 'holi-bricks/components/button'
 
 export const SearchButton: React.FC<{ onPress: () => void; color: string | undefined }> = (props) => {
   const { t } = useTranslation()
 
-  return (
-    <HoliButton label={t('navigation.search')} inline transparent onPress={props.onPress}>
-      <HoliIcon icon={Search} color={props.color} />
-    </HoliButton>
-  )
+  return <ButtonIcon label={t('navigation.search')} icon={Search} transparent onPress={props.onPress} size="lg" />
 }
