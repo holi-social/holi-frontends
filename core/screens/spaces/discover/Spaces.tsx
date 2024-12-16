@@ -23,7 +23,7 @@ import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterFor
 import type { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
-import { type MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
+import { discoverSpacesQuery, mySpaceQuery, type MySpacesResponse } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -92,7 +92,7 @@ const Spaces = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerShown: true,
-      headerTitle: () => null,
+      headerTitle: '',
       headerShadowVisible: false,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
