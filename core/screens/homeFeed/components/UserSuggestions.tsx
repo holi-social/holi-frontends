@@ -23,7 +23,7 @@ const UserSuggestions: React.FC = () => {
   const limit = 10
 
   // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature({ feature: 'USER_SUGGESTIONS_SHOW_MORE' })
 
   const { loading, error, data, refetch } = useQuery<UserSuggestionsResponse>(userSuggestionsQuery, {
     variables: { limit },
