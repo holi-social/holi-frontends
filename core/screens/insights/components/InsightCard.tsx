@@ -2,7 +2,7 @@ import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
@@ -61,20 +61,22 @@ const InsightCard: React.FC<InsightCardProps> = ({ insight, creators, style }: I
           </View>
           <ImagePreview currentImage={insight.headerImage} />
           <Text size="lg">{insight.title}</Text>
-          <View style={styles.creatorRow}>
-            <Avatar
-              size="xs"
-              imgSrc={insight.creator.avatar}
-              imgPlaceholder={insight.creator.avatarBlurhash}
-              label={insight.creator.fullName || t('user.profileView.anonymous')}
-              testID="insight-curator"
-              initials={insight.creator.avatarLabel}
-            />
+          {insight.creator && (
+            <View style={styles.creatorRow}>
+              <Avatar
+                size="xs"
+                imgSrc={insight.creator.avatar}
+                imgPlaceholder={insight.creator.avatarBlurhash}
+                label={insight.creator.fullName || t('user.profileView.anonymous')}
+                testID="insight-curator"
+                initials={insight.creator.avatarLabel}
+              />
 
-            <Text size="xs">{insight.creator.fullName}</Text>
-            <Text size="lg">&middot;</Text>
-            <Text size="xs">{date}</Text>
-          </View>
+              <Text size="xs">{insight.creator.fullName}</Text>
+              <Text size="lg">&middot;</Text>
+              <Text size="xs">{date}</Text>
+            </View>
+          )}
           {!!editors.length && (
             <HoliUserAvatarPile
               users={[...editors]}

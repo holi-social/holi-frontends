@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { useCallback, useMemo, useState, useEffect } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
@@ -61,7 +61,9 @@ export const useFeedQuery = () => {
   } = useQuery(lastInsightsQuery, {
     variables: { offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
     onCompleted: (data) => {
-      setInsightsCreators(data.lastInsights.data.map((insight: Insight) => insight.creator))
+      setInsightsCreators(
+        data.lastInsights.data.map((insight: Insight) => insight.creator).filter((creator: User) => !!creator)
+      )
     },
   })
 
