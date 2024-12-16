@@ -83,11 +83,44 @@ export namespace TrackingEvent {
       properties: { spaceId, isLoggedIn },
       ...versionOne,
     }),
+
     joinSpaceButtonPressed: (spaceId: string, isLoggedIn: boolean): TrackingEvent => ({
       name: 'joinSpaceButtonPressed',
       properties: { spaceId, isLoggedIn },
       ...versionOne,
     }),
+
+    FileStorage: {
+      accessed: (spaceId: string): TrackingEvent => ({
+        name: 'spaceFileStorageAccessed',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
+
+    LinkHub: {
+      linkAdded: (spaceId: string, linkType: string): TrackingEvent => ({
+        name: 'spaceLinkHubLinkAdded',
+        properties: { spaceId, linkType },
+        ...versionOne,
+      }),
+    },
+
+    Onboarding: {
+      updated: (spaceId: string): TrackingEvent => ({
+        name: 'spaceOnboardingUpdated',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
+
+    Profile: {
+      externalLinkAdded: (spaceId: string): TrackingEvent => ({
+        name: 'spaceProfileExternalLinkAdded',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
   }
 
   export const Donations = {

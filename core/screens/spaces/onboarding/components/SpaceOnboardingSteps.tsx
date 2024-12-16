@@ -16,7 +16,7 @@ import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
-import { OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Information } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -24,7 +24,9 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
@@ -43,6 +45,7 @@ const SpaceOnboardingSteps = () => {
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const { loading: fetchingSpace, space, error: errorSpace } = useSpace(spaceIdOrName)
 
@@ -73,6 +76,7 @@ const SpaceOnboardingSteps = () => {
   const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.onboarding.steps.save.success'), HoliToastType.SUCCESS)
+      track(TrackingEvent.Spaces.Onboarding.updated(space?.id ?? spaceIdOrName ?? ''))
       navigate(`/spaces/${spaceIdOrName}`)
     },
     onError: (error) => {

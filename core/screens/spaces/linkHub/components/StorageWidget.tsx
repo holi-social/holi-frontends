@@ -1,13 +1,14 @@
-import React, { useCallback, useMemo } from 'react'
+import type React from 'react'
+import { useCallback, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Linking, Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ExternalLink, FolderOpen, Information } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -17,7 +18,9 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 interface StorageWidgetProps {
   space: Space
@@ -30,14 +33,17 @@ const StorageWidget: React.FC<StorageWidgetProps> = ({ space, style }) => {
   const { visible, show, hide } = useModalState()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const navigateToStorageScreen = useCallback(() => {
+    track(TrackingEvent.Spaces.FileStorage.accessed(space.id))
+
     if (Platform.OS === 'web') {
       Linking.openURL(getUrlForSpaceStorage(space))
     } else {
       navigate(`/spaces/${space.name}/storage`)
     }
-  }, [navigate, space])
+  }, [track, navigate, space])
 
   const storageWidgetList = [
     {
