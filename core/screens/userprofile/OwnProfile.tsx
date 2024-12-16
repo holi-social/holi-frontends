@@ -59,7 +59,7 @@ const OwnProfile = () => {
   )
 
   // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature({ feature: 'USER_PROFILE_SHARE' })
 
   useIsomorphicLayoutEffect(() => {
     const title = t('profile.title')

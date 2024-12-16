@@ -252,6 +252,12 @@ export namespace TrackingEvent {
     properties: { trigger, answer },
     ...versionOne,
   })
+
+  export const NotYetAvailableFeaturePressed = (feature: string): TrackingEvent => ({
+    name: 'notYetAvailableFeaturePressed',
+    properties: { feature },
+    ...versionOne,
+  })
 }
 
 export const Unknown: TrackingEvent = {
