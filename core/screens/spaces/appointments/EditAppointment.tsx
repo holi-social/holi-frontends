@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
+import type { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'

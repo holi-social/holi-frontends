@@ -31,6 +31,8 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
   useIsomorphicLayoutEffect(() => {
     if (!webview)
       setScreenOptions({
+        headerBackVisible: false,
+        headerTitleAlign: 'center',
         headerTitle: () => (
           <HoliHeading level="1" size="s">
             {t('auth.forgotPassword')}
@@ -56,7 +58,7 @@ const ForgotPassword = ({ webview = false }: ForgotPasswordProps) => {
   }
 
   return (
-    <HoliContainer>
+    <HoliContainer flex={1}>
       {Platform.OS === 'web' ? (
         <DefaultLayout keyboardShouldPersistTaps="handled" headerOverlap={true}>
           {success ? (

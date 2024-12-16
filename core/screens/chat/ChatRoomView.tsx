@@ -105,7 +105,7 @@ const ChatRoomView = () => {
         ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
       headerTitle: () => {
-        if (loadingUsers) return null
+        if (loadingUsers) return ''
 
         switch (room?.type) {
           case 'private':

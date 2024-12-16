@@ -25,15 +25,15 @@ export const ActSection = ({ type }: { type: string }) => {
     case 'VOLUNTEERING':
       return (
         <>
-          <ErrorBoundary>
-            <TaskRecommendations cardWidth={cardWidth} />
-          </ErrorBoundary>
-
           {displayVolunteering && (
             <ErrorBoundary>
               <VolunteeringRecos cardWidth={cardWidth} />
             </ErrorBoundary>
           )}
+
+          <ErrorBoundary>
+            <TaskRecommendations cardWidth={cardWidth} />
+          </ErrorBoundary>
         </>
       )
     case 'DONATIONS':

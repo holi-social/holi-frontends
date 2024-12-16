@@ -3,11 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import { useLazyAbortableQuery } from '@holi/api/useLazyAbortableQuery'
-import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { type UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
 import type { User } from '@holi/core/domain/shared/types'
-import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { StartChatButton } from '@holi/core/screens/userprofile/components/StartChatButton'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -16,13 +14,15 @@ import { Loader, Search } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { isWebTouchDevice, useDebounce } from '@holi/ui/helper'
+import { useDebounce } from '@holi/ui/helper'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
+import { Spacing } from 'holi-bricks/tokens'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 
 const FIND_USER_BY_NAME_LIMIT = 30
 const MIN_USER_NAME_CHARACTERS = 2
@@ -30,12 +30,9 @@ const MIN_USER_NAME_CHARACTERS = 2
 const USER_ITEM_HEIGHT = 48
 const USER_ITEM_GAP = 16
 
-const isWeb = Platform.OS === 'web'
-
 const ChatStartConversationView = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const { top: safeAreaInsetTop } = useSafeAreaInsets()
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -49,6 +46,11 @@ const ChatStartConversationView = () => {
   useEffect(() => {
     setScreenOptions({
       title: t('chat.start.title'),
+      headerTitle: ({ tintColor, children }) => (
+        <HeaderTitle size="large" tintColor={tintColor}>
+          {children}
+        </HeaderTitle>
+      ),
       headerStyle: {
         backgroundColor: colors.background20,
       },
@@ -111,83 +113,81 @@ const ChatStartConversationView = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
-      <KeyboardAvoidingViewWrapper
-        renderProp={() => (
-          <SafeArea style={styles.wrapper}>
-            <View style={[styles.inner, { paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 0 }]}>
-              <HoliTextInput
-                value={searchUserInputValue}
-                placeholder={t('chat.start.input.placeholder')}
-                aria-label={t('chat.start.input.placeholder')}
-                trailingComponent={trailingComponent}
-                onChange={onSearchUserInputChange}
-                validationErrorText={
-                  !initialInput.current && searchUserInputValue.length < MIN_USER_NAME_CHARACTERS
-                    ? t('chat.start.input.error', { count: MIN_USER_NAME_CHARACTERS })
-                    : ''
-                }
-                style={mixins.container}
-              />
+      <KeyboardAvoidingView
+        behavior={'padding'}
+        contentContainerStyle={styles.wrapper}
+        keyboardVerticalOffset={100}
+        style={styles.content}
+      >
+        <HoliTextInput
+          value={searchUserInputValue}
+          placeholder={t('chat.start.input.placeholder')}
+          aria-label={t('chat.start.input.placeholder')}
+          trailingComponent={trailingComponent}
+          onChange={onSearchUserInputChange}
+          validationErrorText={
+            !initialInput.current && searchUserInputValue.length < MIN_USER_NAME_CHARACTERS
+              ? t('chat.start.input.error', { count: MIN_USER_NAME_CHARACTERS })
+              : ''
+          }
+          style={mixins.container}
+        />
+        {users.length ? (
+          <FlatList
+            data={users}
+            renderItem={({ item: user }) => {
+              return (
+                <Pressable style={[styles.flexRow, styles.userItem]} onPress={() => onUserSelect(user)}>
+                  <View style={[styles.flexRow, styles.userItemContent]}>
+                    <HoliBox padding={[0, 16, 0, 0]}>
+                      <Avatar
+                        imgSrc={user.avatar}
+                        imgPlaceholder={user.avatarBlurhash}
+                        label={user.avatarLabel}
+                        initials={user.avatarLabel}
+                        size="md"
+                      />
+                    </HoliBox>
 
-              {users.length ? (
-                <FlatList
-                  data={users}
-                  renderItem={({ item: user }) => {
-                    return (
-                      <Pressable style={[styles.flexRow, styles.userItem]} onPress={() => onUserSelect(user)}>
-                        <View style={[styles.flexRow, styles.userItemContent]}>
-                          <HoliBox padding={[0, 16, 0, 0]}>
-                            <Avatar
-                              imgSrc={user.avatar}
-                              imgPlaceholder={user.avatarBlurhash}
-                              label={user.avatarLabel}
-                              initials={user.avatarLabel}
-                              size="md"
-                            />
-                          </HoliBox>
+                    <HoliText>{user.fullName}</HoliText>
+                  </View>
 
-                          <HoliText>{user.fullName}</HoliText>
-                        </View>
-
-                        <HoliBox padding={[0, 0, 0, 16]}>
-                          <HoliCheckbox
-                            shape="round"
-                            checked={user.id === selectedUser?.id}
-                            autofocus={false}
-                            aria-label={t('chat.start.userItem.checkbox.label', { user: user.fullName })}
-                            onSelect={() => onUserSelect(user)}
-                          />
-                        </HoliBox>
-                      </Pressable>
-                    )
-                  }}
-                  keyExtractor={(item) => item.id}
-                  ListFooterComponent={() => <View style={{ height: 98 }} />}
-                  getItemLayout={(_, index) => ({
-                    length: USER_ITEM_HEIGHT,
-                    offset: USER_ITEM_HEIGHT * index,
-                    index,
-                  })}
-                  ItemSeparatorComponent={() => <View style={{ height: USER_ITEM_GAP }} />}
-                  style={[mixins.container, styles.list]}
-                  keyboardShouldPersistTaps="handled"
-                  keyboardDismissMode="on-drag"
-                />
-              ) : (
-                <View style={[mixins.container, styles.listDescription]}>
-                  <HoliHeading level="3" align="center">
-                    {t('chat.start.description')}
-                  </HoliHeading>
-                </View>
-              )}
-
-              <View style={[mixins.container, styles.overlayButtonWrapper]}>
-                <StartChatButton user={selectedUser} label={t('chat.start.button.label')} doReplaceRoute={true} />
-              </View>
-            </View>
-          </SafeArea>
+                  <HoliBox padding={[0, 0, 0, 16]}>
+                    <HoliCheckbox
+                      shape="round"
+                      checked={user.id === selectedUser?.id}
+                      autofocus={false}
+                      aria-label={t('chat.start.userItem.checkbox.label', { user: user.fullName })}
+                      onSelect={() => onUserSelect(user)}
+                    />
+                  </HoliBox>
+                </Pressable>
+              )
+            }}
+            keyExtractor={(item) => item.id}
+            ListFooterComponent={() => <View style={{ height: 98 }} />}
+            getItemLayout={(_, index) => ({
+              length: USER_ITEM_HEIGHT,
+              offset: USER_ITEM_HEIGHT * index,
+              index,
+            })}
+            ItemSeparatorComponent={() => <View style={{ height: USER_ITEM_GAP }} />}
+            style={[mixins.container, styles.list]}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+          />
+        ) : (
+          <View style={[mixins.container, styles.listDescription]}>
+            <HoliHeading level="3" align="center">
+              {t('chat.start.description')}
+            </HoliHeading>
+          </View>
         )}
-      />
+
+        <View style={[mixins.container, styles.overlayButtonWrapper]}>
+          <StartChatButton user={selectedUser} label={t('chat.start.button.label')} doReplaceRoute={true} />
+        </View>
+      </KeyboardAvoidingView>
     </PermissionsGuard>
   )
 }
@@ -197,6 +197,10 @@ export default ChatStartConversationView
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
+      flex: 1,
+    },
+    content: {
+      position: 'relative',
       backgroundColor: theme.colors.background20,
       flex: 1,
       ...Platform.select({
@@ -224,8 +228,11 @@ const getStyles = (theme: HoliTheme) =>
       flexShrink: 1,
     },
     overlayButtonWrapper: {
-      position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-      bottom: (!isWebTouchDevice() && isWeb ? 20 : 0) + 8,
+      position: Platform.OS === 'web' ? 'fixed' : 'relative',
+      bottom: 0,
+      paddingBottom: Spacing.sm,
+      paddingTop: 1,
+      backgroundColor: 'transparent',
     },
     flexRow: {
       flexDirection: 'row',

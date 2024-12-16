@@ -16,6 +16,9 @@ import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import TrackingSettings from '@holi/core/screens/userprofile/TrackingSettings'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import { colors } from '@holi/ui/styles/globalVars'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 
 export type AuthStackScreensList = {
   Profile: undefined
@@ -39,7 +42,20 @@ const AuthStackNavigator = () => {
   return (
     <AuthStack.Navigator
       initialRouteName={RouteName.Profile}
-      screenOptions={{ headerShown: true, headerShadowVisible: false, headerTitleAlign: 'center' }}
+      screenOptions={{
+        headerShown: true,
+        headerShadowVisible: false,
+        headerTitleAlign: 'center',
+        headerTintColor: colors.black300,
+        headerBackTitleVisible: false,
+        headerBackVisible: false,
+        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+        headerTitle: ({ children, tintColor }) => (
+          <HeaderTitle size="large" tintColor={tintColor}>
+            {children}
+          </HeaderTitle>
+        ),
+      }}
     >
       <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} />
       <AuthStack.Screen name={RouteName.SettingsOverview} component={SettingsOverview} />
