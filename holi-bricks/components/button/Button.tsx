@@ -1,8 +1,8 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
+import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/accessibility'
+import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
@@ -92,7 +92,7 @@ export const Button = ({
       {...accessibilityProps(rest)}
     >
       <View style={styles.content}>
-        <View style={styles.textContainer}>
+        <View style={styles.textContainer(size)}>
           <Text size={size === 'lg' ? 'md' : 'sm'} color={styles.text(disabled, selected, variant).color}>
             {labelToShow}
           </Text>
@@ -141,14 +141,11 @@ const stylesheet = createStyleSheet((theme) => ({
         size: {
           sm: {
             paddingHorizontal: Spacing.xxs,
-            paddingVertical: Spacing['3xs'],
           },
           md: {
             paddingHorizontal: Spacing.xs,
-            paddingVertical: Spacing.xxs,
           },
           lg: {
-            paddingVertical: Spacing.xs,
             paddingHorizontal: Spacing.md,
           },
         },
@@ -174,9 +171,17 @@ const stylesheet = createStyleSheet((theme) => ({
     justifyContent: 'center',
     gap: 4,
   },
-  textContainer: {
-    height: Spacing.xs,
-    justifyContent: 'center',
+
+  textContainer: (size: ButtonSize) => {
+    const heightBySize = {
+      sm: Spacing.lg,
+      md: Spacing.xl,
+      lg: Spacing.xxl,
+    }
+    return {
+      height: heightBySize[size],
+      justifyContent: 'center',
+    }
   },
   text: (disabled: boolean, selected: boolean, variant: ButtonVariant) => {
     return {

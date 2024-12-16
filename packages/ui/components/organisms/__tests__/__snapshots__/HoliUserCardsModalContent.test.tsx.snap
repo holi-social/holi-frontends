@@ -1981,7 +1981,6 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             "boxShadow": "0 0 0 0px #262424",
             "display": "flex",
             "paddingHorizontal": 16,
-            "paddingVertical": 12,
             "width": "auto",
           },
         ]
@@ -2002,7 +2001,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
         <View
           style={
             {
-              "height": 16,
+              "height": 40,
               "justifyContent": "center",
             }
           }

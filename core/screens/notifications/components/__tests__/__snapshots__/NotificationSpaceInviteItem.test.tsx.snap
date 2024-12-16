@@ -288,7 +288,6 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
                 "paddingHorizontal": 12,
-                "paddingVertical": 8,
                 "width": "auto",
               },
             ]
@@ -309,7 +308,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             <View
               style={
                 {
-                  "height": 16,
+                  "height": 32,
                   "justifyContent": "center",
                 }
               }
@@ -392,7 +391,6 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
                 "paddingHorizontal": 12,
-                "paddingVertical": 8,
                 "width": "auto",
               },
             ]
@@ -413,7 +411,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             <View
               style={
                 {
-                  "height": 16,
+                  "height": 32,
                   "justifyContent": "center",
                 }
               }
@@ -748,7 +746,6 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
                 "paddingHorizontal": 12,
-                "paddingVertical": 8,
                 "width": "auto",
               },
             ]
@@ -769,7 +766,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             <View
               style={
                 {
-                  "height": 16,
+                  "height": 32,
                   "justifyContent": "center",
                 }
               }
@@ -852,7 +849,6 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
                 "paddingHorizontal": 12,
-                "paddingVertical": 8,
                 "width": "auto",
               },
             ]
@@ -873,7 +869,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             <View
               style={
                 {
-                  "height": 16,
+                  "height": 32,
                   "justifyContent": "center",
                 }
               }

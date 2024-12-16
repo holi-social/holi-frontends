@@ -1096,7 +1096,6 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
             "boxShadow": "0 0 0 0px #262424",
             "display": "flex",
             "paddingHorizontal": 16,
-            "paddingVertical": 12,
             "width": "auto",
           },
         ]
@@ -1117,7 +1116,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
         <View
           style={
             {
-              "height": 16,
+              "height": 40,
               "justifyContent": "center",
             }
           }
@@ -3275,7 +3274,6 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
             "boxShadow": "0 0 0 0px #262424",
             "display": "flex",
             "paddingHorizontal": 16,
-            "paddingVertical": 12,
             "width": "auto",
           },
         ]
@@ -3296,7 +3294,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
         <View
           style={
             {
-              "height": 16,
+              "height": 40,
               "justifyContent": "center",
             }
           }

@@ -294,7 +294,6 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
                 "paddingHorizontal": 12,
-                "paddingVertical": 8,
                 "width": "auto",
               },
             ]
@@ -315,7 +314,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             <View
               style={
                 {
-                  "height": 16,
+                  "height": 32,
                   "justifyContent": "center",
                 }
               }
@@ -398,7 +397,6 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
                 "paddingHorizontal": 12,
-                "paddingVertical": 8,
                 "width": "auto",
               },
             ]
@@ -419,7 +417,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             <View
               style={
                 {
-                  "height": 16,
+                  "height": 32,
                   "justifyContent": "center",
                 }
               }
@@ -761,7 +759,6 @@ I would like to join!
                 "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
                 "paddingHorizontal": 12,
-                "paddingVertical": 8,
                 "width": "auto",
               },
             ]
@@ -782,7 +779,7 @@ I would like to join!
             <View
               style={
                 {
-                  "height": 16,
+                  "height": 32,
                   "justifyContent": "center",
                 }
               }
@@ -865,7 +862,6 @@ I would like to join!
                 "boxShadow": "0 0 0 0px #262424",
                 "display": "flex",
                 "paddingHorizontal": 12,
-                "paddingVertical": 8,
                 "width": "auto",
               },
             ]
@@ -886,7 +882,7 @@ I would like to join!
             <View
               style={
                 {
-                  "height": 16,
+                  "height": 32,
                   "justifyContent": "center",
                 }
               }
