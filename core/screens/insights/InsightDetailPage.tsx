@@ -40,7 +40,6 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
@@ -50,6 +49,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { Button } from 'holi-bricks/components/button'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type InsightDetailPageParams = {
@@ -161,15 +161,14 @@ const InsightDetailPage = () => {
             <HoliText size="small" style={styles.subline}>
               {t('insights.curatorModal.subline')}
             </HoliText>
-            <HoliButton
-              variant="small"
-              inline
-              onPress={() => navigate(`/profile/${creator.id}`)}
-              label={t('modal.close')}
-              style={{ width: 120 }}
-            >
-              {t('insights.curatorModal.profileLink')}
-            </HoliButton>
+            <View style={{ width: 120 }}>
+              <Button
+                size="sm"
+                inline
+                onPress={() => navigate(`/profile/${creator.id}`)}
+                label={t('insights.curatorModal.profileLink')}
+              />
+            </View>
             <HoliText style={{ marginTop: 8 }} numberOfLines={4} ellipsizeMode="tail">
               {creator.aboutMe}
             </HoliText>
@@ -285,14 +284,13 @@ const InsightDetailPage = () => {
                         children: slide,
                       }))}
                     />
-                    <HoliButton
-                      inline
-                      style={styles.close}
-                      onPress={() => setCuratorModalShown(false)}
-                      label={t('modal.close')}
-                    >
-                      {t('insights.curatorModal.close')}
-                    </HoliButton>
+                    <View style={styles.close}>
+                      <Button
+                        inline
+                        onPress={() => setCuratorModalShown(false)}
+                        label={t('insights.curatorModal.close')}
+                      />
+                    </View>
                   </HoliModal>
                 </>
               )}

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import { getOrCreateRoom } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -12,9 +12,8 @@ import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/use
 import { chatServerName } from '@holi/core/helpers/config'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { Button, type ButtonProps } from 'holi-bricks/components/button'
 
 export function StartChatButton({
   label,
@@ -25,7 +24,7 @@ export function StartChatButton({
   user: User | null
   label: string
   doReplaceRoute?: boolean
-} & HoliButtonProps) {
+} & ButtonProps) {
   const { t } = useTranslation()
   const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
   const isChatInitialized = useChatInitialized()
@@ -73,14 +72,12 @@ export function StartChatButton({
   }
 
   return (
-    <HoliButtonLoading
+    <Button
       disabled={!chatFeatureFlag.isOn || !isChatInitialized || !identity}
       label={label}
       onPress={handleChat}
       testID="user-profile-open-chat"
       {...rest}
-    >
-      {label}
-    </HoliButtonLoading>
+    />
   )
 }

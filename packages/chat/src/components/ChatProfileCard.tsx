@@ -11,7 +11,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { Button } from 'holi-bricks/components/button'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -70,17 +70,8 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
         <HoliCardBoard.Slot>
           <HoliText color="gray300">{t('chat.invitation.copy', { fullName: chatPartnerName })}</HoliText>
           <View style={styles.buttons}>
-            <HoliButton inline label={t('chat.invitation.reject')} type="secondary" onPress={handleRejectRoom}>
-              {t('chat.invitation.reject')}
-            </HoliButton>
-            <HoliButton
-              inline
-              label={t('chat.invitation.accept')}
-              testID={'chat-invitation-accept'}
-              onPress={handleJoin}
-            >
-              {t('chat.invitation.accept')}
-            </HoliButton>
+            <Button inline label={t('chat.invitation.reject')} variant="secondary" onPress={handleRejectRoom} />
+            <Button inline label={t('chat.invitation.accept')} testID={'chat-invitation-accept'} onPress={handleJoin} />
           </View>
         </HoliCardBoard.Slot>
       </HoliCardBoard.Card>

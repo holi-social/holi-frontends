@@ -129,7 +129,9 @@ const Login = () => {
           {t('auth.login.signUp.link.headline')}
         </HoliHeading>
 
-        <RegistrationButton style={styles.formItemContainer} trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+        <View style={styles.formItemContainer}>
+          <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} variant="secondary" />
+        </View>
       </HoliContainer>
       {isLoaderShown && <HoliLoader />}
     </DefaultLayout>

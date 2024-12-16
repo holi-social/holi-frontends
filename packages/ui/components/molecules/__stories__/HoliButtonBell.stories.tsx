@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 import { Chat3, Notification2, PhoneFilled } from '@holi/icons/src/generated'
@@ -48,16 +48,11 @@ Primary.argTypes = {
     description: 'boolean to show the bell',
   },
   onPress: { description: 'onPress event handler' },
-  color: {
-    control: 'color',
-    description: 'color of the icon',
-  },
 }
 
 Primary.args = {
   label: 'Label',
   showBell: true,
   onPress: () => alert('Button clicked'),
-  color: 'black',
   icon: Chat3,
 }

@@ -13,9 +13,9 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/tokens'
 // eslint-disable-next-line no-restricted-imports
@@ -96,13 +96,11 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
           </Text>
 
           <HoliBox padding={[Spacing.lg, 0, Spacing.xs + bottom, 0]}>
-            <HoliButton
+            <Button
               label={t('onboarding.communityGuidelines.acceptButton')}
               onPress={hide}
               testID={`${testID}-btn-submit`}
-            >
-              {t('onboarding.communityGuidelines.acceptButton')}
-            </HoliButton>
+            />
           </HoliBox>
         </HoliContainer>
       </ScrollView>

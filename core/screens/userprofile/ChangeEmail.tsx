@@ -30,7 +30,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { Button } from 'holi-bricks/components/button'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -236,14 +236,13 @@ const ChangeEmail = () => {
                   type="email"
                   testID={'new-email-retype'}
                 />
-                <HoliButtonLoading
-                  label={t('auth.changeEmail.input.label-Save')}
-                  onPress={performEmailChange}
-                  style={mixins.moreButton}
-                  testID={'btn-submit-change-email'}
-                >
-                  {t('auth.changeEmail.input.label-Save')}
-                </HoliButtonLoading>
+                <View style={styles.button}>
+                  <Button
+                    label={t('auth.changeEmail.input.label-Save')}
+                    onPress={performEmailChange}
+                    testID={'btn-submit-change-email'}
+                  />
+                </View>
               </KeyboardAwareScrollView>
             </>
           )}
@@ -271,6 +270,12 @@ const getStyles = (theme: HoliTheme) =>
     inputFieldsContainer: {
       paddingTop: 24,
       gap: 16,
+    },
+    button: {
+      marginVertical: 24,
+      maxWidth: dimensions.maxButtonWidth,
+      alignSelf: 'center',
+      width: '100%',
     },
   })
 

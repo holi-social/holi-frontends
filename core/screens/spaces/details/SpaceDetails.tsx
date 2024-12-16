@@ -18,19 +18,17 @@ import { determineSpaceViewerRelation } from '@holi/core/screens/spaces/details/
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceOnboardings, useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnboarding'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil, Spaces } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { useHoliTabQueryParamSetter } from '@holi/ui/components/organisms/HoliTabs/helpers'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useTheme } from '@holi/ui/styles/theme'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import { withProfiler } from '@sentry/react'
-import React, { memo, useCallback, useEffect, useMemo } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
@@ -49,7 +47,7 @@ const SpaceDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { theme } = useTheme()
   const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = getStyles()
 
   const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
 
@@ -137,28 +135,26 @@ const SpaceDetails = () => {
         <HoliTransition.FadeRightSwitch animKey={activeTab} style={styles.floatingButtonsContainer}>
           <HoliContainer flexDirection="row-reverse">
             {activeTab === SpaceDetailsTabs.INVOLVEMENT && (
-              <HoliButton
-                label={t('allTools.drawer.headline')}
-                type="secondary"
-                inline
-                testID="space-resources-add-button"
-                style={[styles.floatingButton, styles.addNewDrawerButton]}
-                onPress={showToolkitModal}
-              >
-                <HoliText style={styles.addNewDrawerButtonTitle}>{t('allTools.drawer.toolKit.button.label')}</HoliText>
-                <HoliIcon icon={Spaces} size={20} />
-              </HoliButton>
+              <View>
+                <Button
+                  label={t('allTools.drawer.toolKit.button.label')}
+                  variant="secondary"
+                  inline
+                  testID="space-resources-add-button"
+                  onPress={showToolkitModal}
+                  icon={Spaces}
+                />
+              </View>
             )}
 
             {activeTab === SpaceDetailsTabs.UPDATES && (
-              <HoliButton
+              <ButtonIcon
                 label={t('spaces.toolKit.add.button.label')}
                 testID="space-add-post-button"
-                style={[styles.floatingButton, styles.addPostButton]}
                 onPress={onUpdateButtonPress}
-              >
-                <HoliIcon icon={Pencil} size={20} />
-              </HoliButton>
+                icon={Pencil}
+                size="lg"
+              />
             )}
           </HoliContainer>
         </HoliTransition.FadeRightSwitch>
@@ -172,38 +168,12 @@ const SpaceDetails = () => {
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
     floatingButtonsContainer: {
       bottom: dimensions.topBarHeight,
       position: Platform.OS === 'web' ? 'fixed' : 'absolute',
       width: '100%',
-    },
-    floatingButton: {
-      bottom: 0,
-    },
-    addPostButton: {
-      width: 56,
-      height: 56,
-      borderRadius: 28,
-      borderWidth: 1,
-      paddingHorizontal: 0,
-      paddingVertical: 0,
-    },
-    addNewDrawerButton: {
-      justifyContent: 'center',
-      paddingHorizontal: 20,
-      borderWidth: 1,
-      shadowColor: theme.colors.foreground30,
-      backgroundColor: theme.colors.background10,
-      shadowOffset: {
-        width: 2,
-        height: 2,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 4,
-      overflow: 'visible',
     },
     addNewDrawerButtonTitle: {
       marginRight: 6,

@@ -1,19 +1,19 @@
-import React, { memo, useMemo } from 'react'
+import type React from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 export interface InfoModalProps {
   headline?: string
@@ -77,12 +77,14 @@ const InfoModal: React.FC<InfoModalProps> = ({
           <HoliGap size="s" />
           <HoliText>{t(`${i18nPrefix}.${itemKey}.text`)}</HoliText>
           <HoliBox padding={[32, 0, 0, 0]} layout={{ alignSelf: 'stretch' }}>
-            <HoliButton transparent onPress={() => (item.url ? Linking.openURL(item.url) : null)} label={''}>
-              <View style={styles.outlink}>
-                <HoliText>{t(`${i18nPrefix}.${itemKey}.buttonText`)}</HoliText>
-                <HoliIcon icon={ShareBox} />
-              </View>
-            </HoliButton>
+            <View style={styles.outlink}>
+              <Button
+                transparent
+                onPress={() => (item.url ? Linking.openURL(item.url) : null)}
+                label={t(`${i18nPrefix}.${itemKey}.buttonText`)}
+                icon={ShareBox}
+              />
+            </View>
           </HoliBox>
         </HoliBox>
       </View>
@@ -100,7 +102,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
       testID={'goodnews-partner-modal'}
     >
       <HoliModalContentWrapper
-        actionButtonText={t('volunteering:shared.partner.modal.close')}
+        actionButtonText={t('global.gotIt')}
         onActionButtonPress={onDismiss}
         style={isMultipleItems ? styles.flexWrapper : null}
       >

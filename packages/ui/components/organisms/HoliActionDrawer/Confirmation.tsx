@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { SignupGuardModal } from '@holi/core/components/SignupGuardModal'
-import type { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
 import { useActionContext } from './Action'
 import { useActionDrawerContext } from './Drawer'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import type { ButtonVariant } from 'holi-bricks/components/button'
 
 interface Props {
   description: string
@@ -19,7 +19,7 @@ interface Props {
   dismissText?: string
   confirmText?: string
   testID?: string
-  buttonType?: HoliButtonType
+  buttonVariant?: ButtonVariant
   requireLogin?: boolean
 }
 
@@ -31,7 +31,7 @@ export const Confirmation = ({
   handleConfirmation,
   title,
   testID,
-  buttonType = 'primary',
+  buttonVariant = 'primary',
   requireLogin,
 }: Props) => {
   const { t } = useTranslation()
@@ -66,7 +66,7 @@ export const Confirmation = ({
           primaryText={confirmText ?? t('confirmation.confirm')}
           testID={testID}
           onPrimary={handleAction}
-          primaryButtonType={buttonType}
+          primaryButtonVariant={buttonVariant}
         />
       )}
     </>

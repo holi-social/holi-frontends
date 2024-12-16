@@ -37,14 +37,7 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
           ]}
           testID={testID}
         >
-          <Button
-            onPress={onPress}
-            variant="primary"
-            icon={QuestionAnswerLine}
-            size="lg"
-            iconSize="xs"
-            label={t('spaces.askInfo')}
-          />
+          <Button onPress={onPress} variant="primary" icon={QuestionAnswerLine} size="lg" label={t('spaces.askInfo')} />
         </View>
       )}
       label={t('global.options')}
