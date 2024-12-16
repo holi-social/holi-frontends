@@ -2,6 +2,7 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import { colors } from '@holi/ui/styles/globalVars'
 
 import DonationsAppHome, { type DonationsAppHomeParams } from '@holi-apps/donations/screens/DonationsAppHome'
 import DonationsAppProjectDetail, {
@@ -28,6 +29,7 @@ const DonationsAppNavigator = () => {
       screenOptions={{
         headerShown: true,
         headerShadowVisible: false,
+        headerTintColor: colors.black300,
         headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
       }}
     >

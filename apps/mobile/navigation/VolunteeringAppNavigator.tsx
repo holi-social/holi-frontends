@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
+import { colors } from '@holi/ui/styles/globalVars'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 import VolunteeringAppHome from '@holi-apps/volunteering/screens/VolunteeringAppHome'
@@ -29,6 +29,7 @@ const VolunteeringAppNavigator = () => {
       initialRouteName={RouteName.VolunteeringAppHome}
       screenOptions={{
         headerShown: true,
+        headerTintColor: colors.black300,
         headerShadowVisible: false,
         headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
       }}
