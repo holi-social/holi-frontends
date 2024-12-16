@@ -234,7 +234,7 @@ const SpaceDetails = () => {
     setScreenOptions({
       animation: 'slide_from_bottom',
       headerTintColor: colors.foreground30,
-      headerTitle: '',
+      headerTitle: undefined,
       headerLeft: () => <HeaderBackButton />,
       headerRight: (props) => (
         <View style={styles.headerRight}>
