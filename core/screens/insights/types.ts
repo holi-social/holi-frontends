@@ -35,7 +35,7 @@ export interface Insight {
   title: string
   description: string
   datePublished: string
-  creator: User
+  creator?: User
   headerImage: string
   headerImageBlurhash?: string
   topic: Topic

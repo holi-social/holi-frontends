@@ -69,7 +69,14 @@ const HomeFeed = () => {
   )
 
   const renderItem = useCallback(
-    ({ item }: { item: FeedItem & { goodNewsArticle?: GoodNewsArticle; volunteeringReco?: VolunteeringReco } }) => (
+    ({
+      item,
+    }: {
+      item: FeedItem & {
+        goodNewsArticle?: GoodNewsArticle
+        volunteeringReco?: VolunteeringReco
+      }
+    }) => (
       <HoliTransition.FadeDown visible>
         {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
         {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
@@ -118,7 +125,10 @@ const HomeFeed = () => {
   }
 
   const listItemIdentifier: ListItemIdentifier<
-    FeedItem & { goodNewsArticle?: GoodNewsArticle; volunteeringReco?: VolunteeringReco }
+    FeedItem & {
+      goodNewsArticle?: GoodNewsArticle
+      volunteeringReco?: VolunteeringReco
+    }
   > = (item) => {
     return (
       item.feedPost?.id ||
@@ -197,7 +207,7 @@ const HomeFeed = () => {
               minimumViewTime={1000}
               showsVerticalScrollIndicator={false}
               trackOnce={true}
-              withFlashList={true}
+              withFlashList={false}
               estimatedItemSize={260}
             />
           </ErrorBoundary>

@@ -92,7 +92,7 @@ const Spaces = () => {
       headerBackTitleVisible: true,
       headerBackVisible: true,
       headerShown: true,
-      headerTitle: () => '',
+      headerTitle: () => null,
       headerShadowVisible: false,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
