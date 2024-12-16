@@ -117,6 +117,7 @@ const Login = () => {
             label={t('auth.login.link.forgotPassword')}
             href="/forgotPassword"
             size="sm"
+            textAlign="center"
             mobileNavigateBackFirst
             trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
           >
