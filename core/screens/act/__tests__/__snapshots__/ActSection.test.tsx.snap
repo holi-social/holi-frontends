@@ -4429,6 +4429,2415 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
           "minHeight": "auto",
         }
       }
+      testID="volunteering-reco-slider"
+    >
+      <View
+        accessibilityLabel="app.name"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            [
+              {
+                "width": "auto",
+              },
+            ],
+            {
+              "alignSelf": "flex-start",
+              "paddingBottom": 24,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="volunteering-reco-slider-heading-button"
+      >
+        <View
+          style={
+            [
+              {
+                "pointerEvents": "none",
+              },
+              false,
+              undefined,
+            ]
+          }
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "flex-start",
+                "flexDirection": "row",
+                "gap": 12,
+                "justifyContent": "space-between",
+                "width": "100%",
+              }
+            }
+            testID="volunteering-reco-slider-heading"
+          >
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                  "gap": 12,
+                }
+              }
+            >
+              <View
+                style={
+                  {
+                    "backgroundColor": "#fff",
+                    "borderColor": "#bfbebe",
+                    "borderRadius": 12,
+                    "borderWidth": 1,
+                    "padding": 13,
+                  }
+                }
+              >
+                <View>
+                  <RNSVGSvgView
+                    align="xMidYMid"
+                    bbHeight={20}
+                    bbWidth={20}
+                    color="#262424"
+                    fill="none"
+                    focusable={false}
+                    height={20}
+                    meetOrSlice={0}
+                    minX={0}
+                    minY={0}
+                    style={
+                      [
+                        {
+                          "backgroundColor": "transparent",
+                          "borderWidth": 0,
+                        },
+                        {
+                          "flex": 0,
+                          "height": 20,
+                          "width": 20,
+                        },
+                      ]
+                    }
+                    tintColor="#262424"
+                    vbHeight={17}
+                    vbWidth={20}
+                    width={20}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <RNSVGGroup
+                      fill={null}
+                      propList={
+                        [
+                          "fill",
+                        ]
+                      }
+                    >
+                      <RNSVGPath
+                        d="M14.47 7.454a3.01 3.01 0 0 1 4.236 0 2.96 2.96 0 0 1 0 4.206l-4.54 4.507-4.539-4.507a2.96 2.96 0 0 1 0-4.206 3.01 3.01 0 0 1 4.237 0l.303.3zm1.566-5.24a5 5 0 0 1 1.407 2.782 4.68 4.68 0 0 0-3.276.594 4.68 4.68 0 0 0-5.714.682 4.625 4.625 0 0 0-.148 6.417l.148.154 2.018 2.004-1.304 1.307L2.1 9.077a5 5 0 0 1 7.067-7.053 5 5 0 0 1 6.869.19"
+                        fill={
+                          {
+                            "type": 2,
+                          }
+                        }
+                        propList={
+                          [
+                            "fill",
+                          ]
+                        }
+                      />
+                    </RNSVGGroup>
+                  </RNSVGSvgView>
+                </View>
+              </View>
+              <View
+                style={
+                  {
+                    "gap": 4,
+                  }
+                }
+              >
+                <Text
+                  role="heading"
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#262424",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 20,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": 0.2,
+                      "lineHeight": 24,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  app.name
+                </Text>
+                <Text
+                  accessible={false}
+                  role="none"
+                  selectable={true}
+                  style={
+                    {
+                      "color": "#676565",
+                      "fontFamily": "InstrumentSans-Regular",
+                      "fontSize": 15,
+                      "fontVariant": [
+                        "lining-nums",
+                        "tabular-nums",
+                      ],
+                      "fontWeight": "400",
+                      "letterSpacing": -0.12,
+                      "lineHeight": 21,
+                      "textAlign": undefined,
+                      "userSelect": "auto",
+                    }
+                  }
+                >
+                  app.subline
+                </Text>
+              </View>
+            </View>
+            <Text
+              role="link"
+              selectable={false}
+              style={
+                {
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 15,
+                  "fontVariant": [
+                    "lining-nums",
+                    "tabular-nums",
+                  ],
+                  "fontWeight": "500",
+                  "letterSpacing": -0.03,
+                  "lineHeight": 21,
+                  "textAlign": undefined,
+                  "userSelect": "auto",
+                }
+              }
+            >
+              global.seeAll
+            </Text>
+          </View>
+        </View>
+      </View>
+      <RCTScrollView
+        ListFooterComponent={
+          <View
+            style={
+              {
+                "flex": 1,
+                "marginRight": 44,
+                "width": 546.9230769230769,
+              }
+            }
+          >
+            <HoliMoreCard
+              label="listing.loadMoreButton.text"
+              onPress={[Function]}
+              role="link"
+              testID="volunteering-reco-slider-load-more-button"
+            >
+              listing.loadMoreButton.text
+            </HoliMoreCard>
+          </View>
+        }
+        ListHeaderComponentStyle={
+          {
+            "paddingBottom": 32,
+            "paddingTop": 80,
+          }
+        }
+        data={
+          [
+            {
+              "__typename": "AppVolunteering_EngagementReco",
+              "engagement": {
+                "__typename": "AppVolunteering_Engagement",
+                "description": "<p>Sie unterstützen einen jungen Mann beim Erlernen der deutschen Sprache in Wort und Schrift. Er kann bereits sehr gut Deutsch sprechen und verstehen. </p>",
+                "id": "83200",
+                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D83200-ehrenamtliche-unterstutzung-beim-schreiben-und-lesen-in-deutsch",
+                "latitude": 50.937531,
+                "location": "Köln",
+                "longitude": 6.9602786,
+                "organizer": {
+                  "__typename": "AppVolunteering_Organizer",
+                  "imageUrl": "https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/276/AWO_Logo_840x360_px_neu_19_3_2014.JPG",
+                  "name": "Büro für Bürgerengagement der AWO Kreisverband Köln",
+                },
+                "skills": [
+                  "commitment",
+                  "communication-skills",
+                  "empathy",
+                  "motivation",
+                  "openness",
+                  "teaching-education",
+                  "coaching & mentoring",
+                  "discipline",
+                  "inclusive-mindset-intercultural-competence",
+                  "initiative-and-energy",
+                  "moderation-facilitation",
+                  "relationship-skills",
+                  "self-confident",
+                  "solution-orientedness",
+                  "teamwork",
+                  "willingness-to-learn",
+                  "writing-translation",
+                ],
+                "source": "vostel.de",
+                "title": "Ehrenamtliche Unterstützung beim Schreiben und Lesen in Deutsch",
+                "topics": [
+                  "education-science",
+                  "biodiversity-animal-welfare",
+                  "climate-protection",
+                ],
+                "url": "https://vostel.de/de/volunteering/projects/4023_Buero-fuer-Buergerengagement-der-AWO-Kreisverband-Koeln_Ehrenamtliche-Unterstuetzung-beim-Schreiben-und-Lesen-in-Deutsch_Koeln?utm_source=voltastics",
+              },
+              "matchedSkills": [
+                "motivation",
+                "openness",
+                "commitment",
+                "communication-skills",
+                "empathy",
+                "teaching-education",
+                "coaching & mentoring",
+                "discipline",
+                "inclusive-mindset-intercultural-competence",
+                "initiative-and-energy",
+                "moderation-facilitation",
+                "relationship-skills",
+                "self-confident",
+                "solution-orientedness",
+                "teamwork",
+                "willingness-to-learn",
+                "writing-translation",
+              ],
+              "matchedTopics": [
+                "education-science",
+                "climate-protection",
+                "biodiversity-animal-welfare",
+              ],
+            },
+            {
+              "__typename": "AppVolunteering_EngagementReco",
+              "engagement": {
+                "__typename": "AppVolunteering_Engagement",
+                "description": "<p>Es wird eine Betreuung der Bibliothek in den Pausen gewünscht.</p>
+<p>Einzelheiten sind mit der Lehrerin Frau Frieske klären.</p>",
+                "id": "124064",
+                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D124064-bibliothek-betreuen",
+                "latitude": 52.2994511,
+                "location": "Königs Wusterhausen",
+                "longitude": 13.6244389,
+                "organizer": {
+                  "__typename": "AppVolunteering_Organizer",
+                  "imageUrl": null,
+                  "name": "Freiwilligen Zentrum Königs Wusterhausen",
+                },
+                "skills": [
+                  "commitment",
+                  "communication-skills",
+                  "initiative-and-energy",
+                  "motivation",
+                  "openness",
+                  "solution-orientedness",
+                  "teamwork",
+                  "willingness-to-learn",
+                ],
+                "source": "Aktion Mensch",
+                "title": "Bibliothek betreuen",
+                "topics": [
+                  "education-science",
+                ],
+                "url": "https://www.aktion-mensch.de/was-du-tun-kannst/ehrenamt/engagement-plattform#/lokale-angebote/c9ddc509-9f6f-4bc8-ad80-0303e2bf0f7b?utm_source=voltastics",
+              },
+              "matchedSkills": [
+                "motivation",
+                "openness",
+                "commitment",
+                "communication-skills",
+                "initiative-and-energy",
+                "solution-orientedness",
+                "teamwork",
+                "willingness-to-learn",
+              ],
+              "matchedTopics": [
+                "education-science",
+              ],
+            },
+            {
+              "__typename": "AppVolunteering_EngagementReco",
+              "engagement": {
+                "__typename": "AppVolunteering_Engagement",
+                "description": "<p><strong>Worum geht es bei diesem Engagement?</strong></p><p>Öffentliche Bücherschränke sind eine fantastische Möglichkeit, bereits gelesene Bücher anderen Menschen kostenfrei zur Verfügung zu stellen und gleichzeitig für sich selbst tolles neues Lesematerial zu finden.</p><p>Auf der Seite des <a href="https://openbookcase.de/map">OpenBookCase</a> findest du eine Karte, auf der du viele Bücherschränke in deiner Stadt finden kannst. Sollte ein Bücherschrank in deiner Nähe nicht dabei sein, kannst du diesen ganz einfach selbst ergänzen.</p><p>----------------------</p><p><strong>Was sind 5-Minuten Engagements?</strong></p><p>Mit unseren 5-Minuten Engagements wollen wir dich dazu inspirieren, Engagement ganz einfach in deinen Alltag zu integrieren. Sie sind unabhängig von gemeinnützigen Organisationen und ermöglichen es dir, dich individuell für Menschen und Natur in deiner Nachbarschaft einzusetzen.</p>",
+                "id": "93629",
+                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D93629-nutze-offentliche-bucherschranke-in-deiner-stadt",
+                "latitude": null,
+                "location": "Bundesweit",
+                "longitude": null,
+                "organizer": {
+                  "__typename": "AppVolunteering_Organizer",
+                  "imageUrl": "https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/65/logo-de-rot-medium.png",
+                  "name": "vostel.de",
+                },
+                "skills": [
+                  "commitment",
+                  "communication-skills",
+                  "hands-on-support",
+                  "initiative-and-energy",
+                  "openness",
+                  "solution-orientedness",
+                  "teamwork",
+                ],
+                "source": "vostel.de",
+                "title": "Nutze öffentliche Bücherschränke in deiner Stadt",
+                "topics": [
+                  "education-science",
+                ],
+                "url": "https://vostel.de/de/volunteering/projects/5961_vostel-de_Nutze-oeffentliche-Buecherschraenke-in-deiner-Stadt?utm_source=voltastics",
+              },
+              "matchedSkills": [
+                "openness",
+                "commitment",
+                "communication-skills",
+                "hands-on-support",
+                "initiative-and-energy",
+                "solution-orientedness",
+                "teamwork",
+              ],
+              "matchedTopics": [
+                "education-science",
+              ],
+            },
+            {
+              "__typename": "AppVolunteering_EngagementReco",
+              "engagement": {
+                "__typename": "AppVolunteering_Engagement",
+                "description": "<p>Wir suchen laufend Nachhilfe für junge Erwachsene in verschiedensten Fächern, vor allem aber in Mathe und Deutsch.</p><p>Für dieses Projekt benötigt ihr ca. 1-Mal pro Woche 1-2 Stunden Zeit. </p>",
+                "id": "68892",
+                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D68892-nachhilfe-fur-junge-erwachsene",
+                "latitude": 48.1351253,
+                "location": "München",
+                "longitude": 11.5819806,
+                "organizer": {
+                  "__typename": "AppVolunteering_Organizer",
+                  "imageUrl": "https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/688/Logoeinfach.jpg",
+                  "name": "Münchner Flüchtlingsrat e.V. - Gemeinsam Aktiv",
+                },
+                "skills": [
+                  "coaching & mentoring",
+                  "commitment",
+                  "communication-skills",
+                  "initiative-and-energy",
+                  "motivation",
+                  "openness",
+                  "solution-orientedness",
+                  "teaching-education",
+                  "willingness-to-learn",
+                ],
+                "source": "vostel.de",
+                "title": "Nachhilfe für junge Erwachsene",
+                "topics": [
+                  "education-science",
+                ],
+                "url": "https://vostel.de/de/volunteering/projects/3106_Muenchner-Fluechtlingsrat-e-V-Gemeinsam-Aktiv_Nachhilfe-fuer-junge-Erwachsene_Muenchen?utm_source=voltastics",
+              },
+              "matchedSkills": [
+                "motivation",
+                "openness",
+                "coaching & mentoring",
+                "commitment",
+                "communication-skills",
+                "initiative-and-energy",
+                "solution-orientedness",
+                "teaching-education",
+                "willingness-to-learn",
+              ],
+              "matchedTopics": [
+                "education-science",
+              ],
+            },
+            {
+              "__typename": "AppVolunteering_EngagementReco",
+              "engagement": {
+                "__typename": "AppVolunteering_Engagement",
+                "description": "<ul>
+<li>Marketing</li>
+<li>Design (UI/UX)</li>
+<li>Programming (Frontend/Mobile)</li>
+<li>Programming (Backend) - Python, PHP, Node.Js over TypeScript</li>
+</ul>
+<p>All experience levels are welcome!</p>",
+                "id": "101572",
+                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D101572-bookla-foundation",
+                "latitude": 52.5170365,
+                "location": "Berlin",
+                "longitude": 13.3888599,
+                "organizer": {
+                  "__typename": "AppVolunteering_Organizer",
+                  "imageUrl": "https://app.voltastics.com/media/headers/search.png",
+                  "name": "Bookla",
+                },
+                "skills": [
+                  "commitment",
+                  "communication-skills",
+                  "creativity",
+                  "design",
+                  "hands-on-support",
+                  "initiative-and-energy",
+                  "it-technology",
+                  "marketing-social-media",
+                  "motivation",
+                  "openness",
+                  "solution-orientedness",
+                  "teamwork",
+                  "willingness-to-learn",
+                ],
+                "source": "GoVolunteer",
+                "title": "Bookla Foundation",
+                "topics": [
+                  "climate-protection",
+                  "education-science",
+                  "energy-transition",
+                ],
+                "url": "https://govolunteer.com/projekte/bookla-foundation?utm_source=voltastics",
+              },
+              "matchedSkills": [
+                "motivation",
+                "openness",
+                "commitment",
+                "communication-skills",
+                "creativity",
+                "design",
+                "hands-on-support",
+                "initiative-and-energy",
+                "it-technology",
+                "marketing-social-media",
+                "solution-orientedness",
+                "teamwork",
+                "willingness-to-learn",
+              ],
+              "matchedTopics": [
+                "climate-protection",
+                "education-science",
+                "energy-transition",
+              ],
+            },
+          ]
+        }
+        getItem={[Function]}
+        getItemCount={[Function]}
+        horizontal={true}
+        keyExtractor={[Function]}
+        onContentSizeChange={[Function]}
+        onLayout={[Function]}
+        onMomentumScrollBegin={[Function]}
+        onMomentumScrollEnd={[Function]}
+        onScroll={[Function]}
+        onScrollBeginDrag={[Function]}
+        onScrollEndDrag={[Function]}
+        onViewableItemsChanged={[Function]}
+        removeClippedSubviews={false}
+        renderItem={[Function]}
+        scrollEventThrottle={0.0001}
+        stickyHeaderIndices={[]}
+        style={
+          {
+            "flex": 1,
+            "marginHorizontal": -20,
+            "paddingBottom": 0,
+            "paddingLeft": 24,
+          }
+        }
+        testID="volunteering-reco-slider-list"
+        viewabilityConfig={
+          {
+            "itemVisiblePercentThreshold": 80,
+            "minimumViewTime": 1000,
+            "waitForInteraction": true,
+          }
+        }
+        viewabilityConfigCallbackPairs={
+          [
+            {
+              "onViewableItemsChanged": [Function],
+              "viewabilityConfig": {
+                "itemVisiblePercentThreshold": 80,
+                "minimumViewTime": 1000,
+                "waitForInteraction": true,
+              },
+            },
+          ]
+        }
+      >
+        <View>
+          <View
+            onFocusCapture={[Function]}
+            onLayout={[Function]}
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "marginRight": 12,
+                  "width": 546.9230769230769,
+                }
+              }
+              testID="volunteering-reco-slider-card"
+            >
+              <View
+                accessibilityLabel="engagement.title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  [
+                    {
+                      "flex": 1,
+                    },
+                  ]
+                }
+                testID="volunteering-reco-slider-card-link"
+              >
+                <View
+                  style={
+                    {
+                      "alignItems": "stretch",
+                      "backgroundColor": "#fff",
+                      "borderColor": "#bfbebe",
+                      "borderRadius": 16,
+                      "borderStyle": "solid",
+                      "borderWidth": 1,
+                      "display": "flex",
+                      "flex": 1,
+                      "flexDirection": undefined,
+                      "height": "100%",
+                      "padding": 8,
+                      "paddingBottom": 16,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "flexGrow": 0,
+                          "flexShrink": 0,
+                          "overflow": "hidden",
+                          "position": "relative",
+                        },
+                        {
+                          "borderRadius": 8,
+                          "flexBasis": undefined,
+                          "marginBottom": 16,
+                        },
+                      ]
+                    }
+                    testID="volunteering-reco-slider-card-image-container"
+                  >
+                    <Image
+                      accessibilityRole="image"
+                      accessible={true}
+                      aria-label="engagement.title"
+                      contentFit="cover"
+                      role="img"
+                      source={
+                        {
+                          "height": undefined,
+                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D83200-ehrenamtliche-unterstutzung-beim-schreiben-und-lesen-in-deutsch",
+                          "width": 546.9230769230769,
+                        }
+                      }
+                      style={
+                        {
+                          "aspectRatio": 1.5,
+                          "borderRadius": 8,
+                          "flex": 1,
+                          "width": "100%",
+                        }
+                      }
+                      testID="volunteering-reco-slider-card-card-image"
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": undefined,
+                        "flex": 1,
+                        "paddingHorizontal": 8,
+                      }
+                    }
+                    testID="volunteering-reco-slider-card-content-container"
+                  >
+                    <View
+                      style={
+                        {
+                          "height": 4,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "flex": 1,
+                          "height": "100%",
+                          "marginBottom": 6,
+                          "minHeight": 38,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        numberOfLines={2}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 14,
+                            "fontWeight": "500",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        engagement.title
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "gap": 6,
+                        }
+                      }
+                    >
+                      <View
+                        testID="volunteering-reco-slider-card-location-icon"
+                      >
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#262424"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
+                            [
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          tintColor="#262424"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <RNSVGGroup
+                            fill={null}
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          >
+                            <RNSVGGroup
+                              clipPath="globe_svg__a"
+                              fill={
+                                {
+                                  "payload": 4278190080,
+                                  "type": 0,
+                                }
+                              }
+                            >
+                              <RNSVGPath
+                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
+                                fill={
+                                  {
+                                    "type": 2,
+                                  }
+                                }
+                                propList={
+                                  [
+                                    "fill",
+                                  ]
+                                }
+                              />
+                            </RNSVGGroup>
+                            <RNSVGDefs>
+                              <RNSVGClipPath
+                                fill={
+                                  {
+                                    "payload": 4278190080,
+                                    "type": 0,
+                                  }
+                                }
+                                name="globe_svg__a"
+                              >
+                                <RNSVGPath
+                                  d="M0 0h24v24H0z"
+                                  fill={
+                                    {
+                                      "payload": 4294967295,
+                                      "type": 0,
+                                    }
+                                  }
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                />
+                              </RNSVGClipPath>
+                            </RNSVGDefs>
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 14,
+                            "fontWeight": "400",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        Köln
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onFocusCapture={[Function]}
+            onLayout={[Function]}
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "marginRight": 12,
+                  "width": 546.9230769230769,
+                }
+              }
+              testID="volunteering-reco-slider-card"
+            >
+              <View
+                accessibilityLabel="engagement.title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  [
+                    {
+                      "flex": 1,
+                    },
+                  ]
+                }
+                testID="volunteering-reco-slider-card-link"
+              >
+                <View
+                  style={
+                    {
+                      "alignItems": "stretch",
+                      "backgroundColor": "#fff",
+                      "borderColor": "#bfbebe",
+                      "borderRadius": 16,
+                      "borderStyle": "solid",
+                      "borderWidth": 1,
+                      "display": "flex",
+                      "flex": 1,
+                      "flexDirection": undefined,
+                      "height": "100%",
+                      "padding": 8,
+                      "paddingBottom": 16,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "flexGrow": 0,
+                          "flexShrink": 0,
+                          "overflow": "hidden",
+                          "position": "relative",
+                        },
+                        {
+                          "borderRadius": 8,
+                          "flexBasis": undefined,
+                          "marginBottom": 16,
+                        },
+                      ]
+                    }
+                    testID="volunteering-reco-slider-card-image-container"
+                  >
+                    <Image
+                      accessibilityRole="image"
+                      accessible={true}
+                      aria-label="engagement.title"
+                      contentFit="cover"
+                      role="img"
+                      source={
+                        {
+                          "height": undefined,
+                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D124064-bibliothek-betreuen",
+                          "width": 546.9230769230769,
+                        }
+                      }
+                      style={
+                        {
+                          "aspectRatio": 1.5,
+                          "borderRadius": 8,
+                          "flex": 1,
+                          "width": "100%",
+                        }
+                      }
+                      testID="volunteering-reco-slider-card-card-image"
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": undefined,
+                        "flex": 1,
+                        "paddingHorizontal": 8,
+                      }
+                    }
+                    testID="volunteering-reco-slider-card-content-container"
+                  >
+                    <View
+                      style={
+                        {
+                          "height": 4,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "flex": 1,
+                          "height": "100%",
+                          "marginBottom": 6,
+                          "minHeight": 38,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        numberOfLines={2}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 14,
+                            "fontWeight": "500",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        engagement.title
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "gap": 6,
+                        }
+                      }
+                    >
+                      <View
+                        testID="volunteering-reco-slider-card-location-icon"
+                      >
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#262424"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
+                            [
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          tintColor="#262424"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <RNSVGGroup
+                            fill={null}
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          >
+                            <RNSVGGroup
+                              clipPath="globe_svg__a"
+                              fill={
+                                {
+                                  "payload": 4278190080,
+                                  "type": 0,
+                                }
+                              }
+                            >
+                              <RNSVGPath
+                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
+                                fill={
+                                  {
+                                    "type": 2,
+                                  }
+                                }
+                                propList={
+                                  [
+                                    "fill",
+                                  ]
+                                }
+                              />
+                            </RNSVGGroup>
+                            <RNSVGDefs>
+                              <RNSVGClipPath
+                                fill={
+                                  {
+                                    "payload": 4278190080,
+                                    "type": 0,
+                                  }
+                                }
+                                name="globe_svg__a"
+                              >
+                                <RNSVGPath
+                                  d="M0 0h24v24H0z"
+                                  fill={
+                                    {
+                                      "payload": 4294967295,
+                                      "type": 0,
+                                    }
+                                  }
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                />
+                              </RNSVGClipPath>
+                            </RNSVGDefs>
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 14,
+                            "fontWeight": "400",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        Königs Wusterhausen
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onFocusCapture={[Function]}
+            onLayout={[Function]}
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "marginRight": 12,
+                  "width": 546.9230769230769,
+                }
+              }
+              testID="volunteering-reco-slider-card"
+            >
+              <View
+                accessibilityLabel="engagement.title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  [
+                    {
+                      "flex": 1,
+                    },
+                  ]
+                }
+                testID="volunteering-reco-slider-card-link"
+              >
+                <View
+                  style={
+                    {
+                      "alignItems": "stretch",
+                      "backgroundColor": "#fff",
+                      "borderColor": "#bfbebe",
+                      "borderRadius": 16,
+                      "borderStyle": "solid",
+                      "borderWidth": 1,
+                      "display": "flex",
+                      "flex": 1,
+                      "flexDirection": undefined,
+                      "height": "100%",
+                      "padding": 8,
+                      "paddingBottom": 16,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "flexGrow": 0,
+                          "flexShrink": 0,
+                          "overflow": "hidden",
+                          "position": "relative",
+                        },
+                        {
+                          "borderRadius": 8,
+                          "flexBasis": undefined,
+                          "marginBottom": 16,
+                        },
+                      ]
+                    }
+                    testID="volunteering-reco-slider-card-image-container"
+                  >
+                    <Image
+                      accessibilityRole="image"
+                      accessible={true}
+                      aria-label="engagement.title"
+                      contentFit="cover"
+                      role="img"
+                      source={
+                        {
+                          "height": undefined,
+                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D93629-nutze-offentliche-bucherschranke-in-deiner-stadt",
+                          "width": 546.9230769230769,
+                        }
+                      }
+                      style={
+                        {
+                          "aspectRatio": 1.5,
+                          "borderRadius": 8,
+                          "flex": 1,
+                          "width": "100%",
+                        }
+                      }
+                      testID="volunteering-reco-slider-card-card-image"
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": undefined,
+                        "flex": 1,
+                        "paddingHorizontal": 8,
+                      }
+                    }
+                    testID="volunteering-reco-slider-card-content-container"
+                  >
+                    <View
+                      style={
+                        {
+                          "height": 4,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "flex": 1,
+                          "height": "100%",
+                          "marginBottom": 6,
+                          "minHeight": 38,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        numberOfLines={2}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 14,
+                            "fontWeight": "500",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        engagement.title
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "gap": 6,
+                        }
+                      }
+                    >
+                      <View
+                        testID="volunteering-reco-slider-card-location-icon"
+                      >
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#262424"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
+                            [
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          tintColor="#262424"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <RNSVGGroup
+                            fill={null}
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          >
+                            <RNSVGGroup
+                              clipPath="globe_svg__a"
+                              fill={
+                                {
+                                  "payload": 4278190080,
+                                  "type": 0,
+                                }
+                              }
+                            >
+                              <RNSVGPath
+                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
+                                fill={
+                                  {
+                                    "type": 2,
+                                  }
+                                }
+                                propList={
+                                  [
+                                    "fill",
+                                  ]
+                                }
+                              />
+                            </RNSVGGroup>
+                            <RNSVGDefs>
+                              <RNSVGClipPath
+                                fill={
+                                  {
+                                    "payload": 4278190080,
+                                    "type": 0,
+                                  }
+                                }
+                                name="globe_svg__a"
+                              >
+                                <RNSVGPath
+                                  d="M0 0h24v24H0z"
+                                  fill={
+                                    {
+                                      "payload": 4294967295,
+                                      "type": 0,
+                                    }
+                                  }
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                />
+                              </RNSVGClipPath>
+                            </RNSVGDefs>
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 14,
+                            "fontWeight": "400",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        Bundesweit
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onFocusCapture={[Function]}
+            onLayout={[Function]}
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "marginRight": 12,
+                  "width": 546.9230769230769,
+                }
+              }
+              testID="volunteering-reco-slider-card"
+            >
+              <View
+                accessibilityLabel="engagement.title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  [
+                    {
+                      "flex": 1,
+                    },
+                  ]
+                }
+                testID="volunteering-reco-slider-card-link"
+              >
+                <View
+                  style={
+                    {
+                      "alignItems": "stretch",
+                      "backgroundColor": "#fff",
+                      "borderColor": "#bfbebe",
+                      "borderRadius": 16,
+                      "borderStyle": "solid",
+                      "borderWidth": 1,
+                      "display": "flex",
+                      "flex": 1,
+                      "flexDirection": undefined,
+                      "height": "100%",
+                      "padding": 8,
+                      "paddingBottom": 16,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "flexGrow": 0,
+                          "flexShrink": 0,
+                          "overflow": "hidden",
+                          "position": "relative",
+                        },
+                        {
+                          "borderRadius": 8,
+                          "flexBasis": undefined,
+                          "marginBottom": 16,
+                        },
+                      ]
+                    }
+                    testID="volunteering-reco-slider-card-image-container"
+                  >
+                    <Image
+                      accessibilityRole="image"
+                      accessible={true}
+                      aria-label="engagement.title"
+                      contentFit="cover"
+                      role="img"
+                      source={
+                        {
+                          "height": undefined,
+                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D68892-nachhilfe-fur-junge-erwachsene",
+                          "width": 546.9230769230769,
+                        }
+                      }
+                      style={
+                        {
+                          "aspectRatio": 1.5,
+                          "borderRadius": 8,
+                          "flex": 1,
+                          "width": "100%",
+                        }
+                      }
+                      testID="volunteering-reco-slider-card-card-image"
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": undefined,
+                        "flex": 1,
+                        "paddingHorizontal": 8,
+                      }
+                    }
+                    testID="volunteering-reco-slider-card-content-container"
+                  >
+                    <View
+                      style={
+                        {
+                          "height": 4,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "flex": 1,
+                          "height": "100%",
+                          "marginBottom": 6,
+                          "minHeight": 38,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        numberOfLines={2}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 14,
+                            "fontWeight": "500",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        engagement.title
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "gap": 6,
+                        }
+                      }
+                    >
+                      <View
+                        testID="volunteering-reco-slider-card-location-icon"
+                      >
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#262424"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
+                            [
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          tintColor="#262424"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <RNSVGGroup
+                            fill={null}
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          >
+                            <RNSVGGroup
+                              clipPath="globe_svg__a"
+                              fill={
+                                {
+                                  "payload": 4278190080,
+                                  "type": 0,
+                                }
+                              }
+                            >
+                              <RNSVGPath
+                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
+                                fill={
+                                  {
+                                    "type": 2,
+                                  }
+                                }
+                                propList={
+                                  [
+                                    "fill",
+                                  ]
+                                }
+                              />
+                            </RNSVGGroup>
+                            <RNSVGDefs>
+                              <RNSVGClipPath
+                                fill={
+                                  {
+                                    "payload": 4278190080,
+                                    "type": 0,
+                                  }
+                                }
+                                name="globe_svg__a"
+                              >
+                                <RNSVGPath
+                                  d="M0 0h24v24H0z"
+                                  fill={
+                                    {
+                                      "payload": 4294967295,
+                                      "type": 0,
+                                    }
+                                  }
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                />
+                              </RNSVGClipPath>
+                            </RNSVGDefs>
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 14,
+                            "fontWeight": "400",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        München
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onFocusCapture={[Function]}
+            onLayout={[Function]}
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "marginRight": 12,
+                  "width": 546.9230769230769,
+                }
+              }
+              testID="volunteering-reco-slider-card"
+            >
+              <View
+                accessibilityLabel="engagement.title"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  [
+                    {
+                      "flex": 1,
+                    },
+                  ]
+                }
+                testID="volunteering-reco-slider-card-link"
+              >
+                <View
+                  style={
+                    {
+                      "alignItems": "stretch",
+                      "backgroundColor": "#fff",
+                      "borderColor": "#bfbebe",
+                      "borderRadius": 16,
+                      "borderStyle": "solid",
+                      "borderWidth": 1,
+                      "display": "flex",
+                      "flex": 1,
+                      "flexDirection": undefined,
+                      "height": "100%",
+                      "padding": 8,
+                      "paddingBottom": 16,
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "flexGrow": 0,
+                          "flexShrink": 0,
+                          "overflow": "hidden",
+                          "position": "relative",
+                        },
+                        {
+                          "borderRadius": 8,
+                          "flexBasis": undefined,
+                          "marginBottom": 16,
+                        },
+                      ]
+                    }
+                    testID="volunteering-reco-slider-card-image-container"
+                  >
+                    <Image
+                      accessibilityRole="image"
+                      accessible={true}
+                      aria-label="engagement.title"
+                      contentFit="cover"
+                      role="img"
+                      source={
+                        {
+                          "height": undefined,
+                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D101572-bookla-foundation",
+                          "width": 546.9230769230769,
+                        }
+                      }
+                      style={
+                        {
+                          "aspectRatio": 1.5,
+                          "borderRadius": 8,
+                          "flex": 1,
+                          "width": "100%",
+                        }
+                      }
+                      testID="volunteering-reco-slider-card-card-image"
+                    />
+                  </View>
+                  <View
+                    style={
+                      {
+                        "alignItems": undefined,
+                        "flex": 1,
+                        "paddingHorizontal": 8,
+                      }
+                    }
+                    testID="volunteering-reco-slider-card-content-container"
+                  >
+                    <View
+                      style={
+                        {
+                          "flexDirection": "row",
+                          "gap": 6,
+                        }
+                      }
+                      testID="topic-labels-list-view"
+                    >
+                      <View
+                        style={
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d6ffc7",
+                            "borderColor": "#abff8b",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
+                        }
+                      >
+                        <Text
+                          accessible={false}
+                          role="none"
+                          selectable={true}
+                          style={
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
+                              "fontWeight": "400",
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
+                              "userSelect": "auto",
+                            }
+                          }
+                        >
+                          climate-protection
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "flex-start",
+                            "backgroundColor": "#d6ffc7",
+                            "borderColor": "#abff8b",
+                            "borderRadius": 50,
+                            "borderWidth": 1,
+                            "color": "#262424",
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "gap": 4,
+                            "maxWidth": "100%",
+                            "minHeight": 24,
+                            "overflow": "hidden",
+                            "paddingHorizontal": 8,
+                          }
+                        }
+                      >
+                        <Text
+                          accessible={false}
+                          role="none"
+                          selectable={true}
+                          style={
+                            {
+                              "color": "#262424",
+                              "fontFamily": "InstrumentSans-Regular",
+                              "fontSize": 13,
+                              "fontVariant": [
+                                "lining-nums",
+                                "tabular-nums",
+                              ],
+                              "fontWeight": "400",
+                              "letterSpacing": 0.104,
+                              "lineHeight": 15.6,
+                              "textAlign": undefined,
+                              "userSelect": "auto",
+                            }
+                          }
+                        >
+                          +2
+                        </Text>
+                      </View>
+                    </View>
+                    <View
+                      style={
+                        {
+                          "height": 4,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "flex": 1,
+                          "height": "100%",
+                          "marginBottom": 6,
+                          "minHeight": 38,
+                        }
+                      }
+                    >
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        numberOfLines={2}
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Medium",
+                            "fontSize": 14,
+                            "fontWeight": "500",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        engagement.title
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        {
+                          "height": 8,
+                        }
+                      }
+                    />
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "gap": 6,
+                        }
+                      }
+                    >
+                      <View
+                        testID="volunteering-reco-slider-card-location-icon"
+                      >
+                        <RNSVGSvgView
+                          align="xMidYMid"
+                          bbHeight={24}
+                          bbWidth={24}
+                          color="#262424"
+                          fill="none"
+                          focusable={false}
+                          height={24}
+                          meetOrSlice={0}
+                          minX={0}
+                          minY={0}
+                          style={
+                            [
+                              {
+                                "backgroundColor": "transparent",
+                                "borderWidth": 0,
+                              },
+                              {
+                                "flex": 0,
+                                "height": 24,
+                                "width": 24,
+                              },
+                            ]
+                          }
+                          tintColor="#262424"
+                          vbHeight={24}
+                          vbWidth={24}
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <RNSVGGroup
+                            fill={null}
+                            propList={
+                              [
+                                "fill",
+                              ]
+                            }
+                          >
+                            <RNSVGGroup
+                              clipPath="globe_svg__a"
+                              fill={
+                                {
+                                  "payload": 4278190080,
+                                  "type": 0,
+                                }
+                              }
+                            >
+                              <RNSVGPath
+                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
+                                fill={
+                                  {
+                                    "type": 2,
+                                  }
+                                }
+                                propList={
+                                  [
+                                    "fill",
+                                  ]
+                                }
+                              />
+                            </RNSVGGroup>
+                            <RNSVGDefs>
+                              <RNSVGClipPath
+                                fill={
+                                  {
+                                    "payload": 4278190080,
+                                    "type": 0,
+                                  }
+                                }
+                                name="globe_svg__a"
+                              >
+                                <RNSVGPath
+                                  d="M0 0h24v24H0z"
+                                  fill={
+                                    {
+                                      "payload": 4294967295,
+                                      "type": 0,
+                                    }
+                                  }
+                                  propList={
+                                    [
+                                      "fill",
+                                    ]
+                                  }
+                                />
+                              </RNSVGClipPath>
+                            </RNSVGDefs>
+                          </RNSVGGroup>
+                        </RNSVGSvgView>
+                      </View>
+                      <Text
+                        accessible={false}
+                        collapsable={false}
+                        jestAnimatedStyle={
+                          {
+                            "value": {},
+                          }
+                        }
+                        selectable={true}
+                        style={
+                          {
+                            "color": "#262424",
+                            "fontFamily": "InstrumentSans-Regular",
+                            "fontSize": 14,
+                            "fontWeight": "400",
+                            "lineHeight": 19.599999999999998,
+                            "userSelect": "auto",
+                          }
+                        }
+                      >
+                        Berlin
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              style={
+                {
+                  "flex": 1,
+                  "marginRight": 44,
+                  "width": 546.9230769230769,
+                }
+              }
+            >
+              <View
+                accessibilityLabel="listing.loadMoreButton.text"
+                accessibilityState={
+                  {
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
+                  }
+                }
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                role="link"
+                style={
+                  {
+                    "alignItems": "stretch",
+                    "backgroundColor": "#fff",
+                    "borderColor": "#bfbebe",
+                    "borderRadius": 16,
+                    "borderStyle": "solid",
+                    "borderWidth": 1,
+                    "display": "flex",
+                    "flex": 1,
+                    "flexDirection": "column",
+                    "justifyContent": "space-around",
+                    "padding": 8,
+                  }
+                }
+                testID="volunteering-reco-slider-load-more-button"
+              >
+                <View
+                  style={
+                    {
+                      "alignItems": "center",
+                      "backgroundColor": "#e8eaff",
+                      "borderRadius": 8,
+                      "display": "flex",
+                      "flex": 7,
+                      "flexDirection": "column",
+                      "justifyContent": "center",
+                      "padding": 16,
+                      "width": "100%",
+                    }
+                  }
+                />
+                <View
+                  style={
+                    {
+                      "paddingBottom": 8,
+                      "paddingHorizontal": 8,
+                      "paddingTop": 16,
+                    }
+                  }
+                >
+                  <Text
+                    accessible={false}
+                    collapsable={false}
+                    jestAnimatedStyle={
+                      {
+                        "value": {},
+                      }
+                    }
+                    selectable={true}
+                    style={
+                      {
+                        "color": "#262424",
+                        "fontFamily": "InstrumentSans-Medium",
+                        "fontSize": 14,
+                        "fontWeight": "500",
+                        "lineHeight": 19.599999999999998,
+                        "userSelect": "auto",
+                      }
+                    }
+                  >
+                    listing.loadMoreButton.text
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </View>,
+  <View
+    dataSet={
+      {
+        "media": undefined,
+      }
+    }
+    style={
+      [
+        {
+          "alignSelf": "center",
+          "display": "flex",
+          "maxWidth": 840,
+          "paddingLeft": 32,
+          "paddingRight": 32,
+          "width": "100%",
+        },
+        {
+          "alignItems": "stretch",
+          "flexDirection": "column",
+          "flexWrap": "nowrap",
+          "justifyContent": "flex-start",
+        },
+      ]
+    }
+    testID="holi-container"
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "minHeight": "auto",
+        }
+      }
       testID="tasks-reco-slider"
     >
       <View
@@ -8096,2415 +10505,6 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
           <View
             onLayout={[Function]}
           />
-        </View>
-      </RCTScrollView>
-    </View>
-  </View>,
-  <View
-    dataSet={
-      {
-        "media": undefined,
-      }
-    }
-    style={
-      [
-        {
-          "alignSelf": "center",
-          "display": "flex",
-          "maxWidth": 840,
-          "paddingLeft": 32,
-          "paddingRight": 32,
-          "width": "100%",
-        },
-        {
-          "alignItems": "stretch",
-          "flexDirection": "column",
-          "flexWrap": "nowrap",
-          "justifyContent": "flex-start",
-        },
-      ]
-    }
-    testID="holi-container"
-  >
-    <View
-      style={
-        {
-          "flex": 1,
-          "minHeight": "auto",
-        }
-      }
-      testID="volunteering-reco-slider"
-    >
-      <View
-        accessibilityLabel="app.name"
-        accessibilityRole="button"
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          [
-            [
-              {
-                "width": "auto",
-              },
-            ],
-            {
-              "alignSelf": "flex-start",
-              "paddingBottom": 24,
-              "width": "100%",
-            },
-          ]
-        }
-        testID="volunteering-reco-slider-heading-button"
-      >
-        <View
-          style={
-            [
-              {
-                "pointerEvents": "none",
-              },
-              false,
-              undefined,
-            ]
-          }
-        >
-          <View
-            style={
-              {
-                "alignItems": "center",
-                "alignSelf": "flex-start",
-                "flexDirection": "row",
-                "gap": 12,
-                "justifyContent": "space-between",
-                "width": "100%",
-              }
-            }
-            testID="volunteering-reco-slider-heading"
-          >
-            <View
-              style={
-                {
-                  "flexDirection": "row",
-                  "gap": 12,
-                }
-              }
-            >
-              <View
-                style={
-                  {
-                    "backgroundColor": "#fff",
-                    "borderColor": "#bfbebe",
-                    "borderRadius": 12,
-                    "borderWidth": 1,
-                    "padding": 13,
-                  }
-                }
-              >
-                <View>
-                  <RNSVGSvgView
-                    align="xMidYMid"
-                    bbHeight={20}
-                    bbWidth={20}
-                    color="#262424"
-                    fill="none"
-                    focusable={false}
-                    height={20}
-                    meetOrSlice={0}
-                    minX={0}
-                    minY={0}
-                    style={
-                      [
-                        {
-                          "backgroundColor": "transparent",
-                          "borderWidth": 0,
-                        },
-                        {
-                          "flex": 0,
-                          "height": 20,
-                          "width": 20,
-                        },
-                      ]
-                    }
-                    tintColor="#262424"
-                    vbHeight={17}
-                    vbWidth={20}
-                    width={20}
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <RNSVGGroup
-                      fill={null}
-                      propList={
-                        [
-                          "fill",
-                        ]
-                      }
-                    >
-                      <RNSVGPath
-                        d="M14.47 7.454a3.01 3.01 0 0 1 4.236 0 2.96 2.96 0 0 1 0 4.206l-4.54 4.507-4.539-4.507a2.96 2.96 0 0 1 0-4.206 3.01 3.01 0 0 1 4.237 0l.303.3zm1.566-5.24a5 5 0 0 1 1.407 2.782 4.68 4.68 0 0 0-3.276.594 4.68 4.68 0 0 0-5.714.682 4.625 4.625 0 0 0-.148 6.417l.148.154 2.018 2.004-1.304 1.307L2.1 9.077a5 5 0 0 1 7.067-7.053 5 5 0 0 1 6.869.19"
-                        fill={
-                          {
-                            "type": 2,
-                          }
-                        }
-                        propList={
-                          [
-                            "fill",
-                          ]
-                        }
-                      />
-                    </RNSVGGroup>
-                  </RNSVGSvgView>
-                </View>
-              </View>
-              <View
-                style={
-                  {
-                    "gap": 4,
-                  }
-                }
-              >
-                <Text
-                  role="heading"
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#262424",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 20,
-                      "fontVariant": [
-                        "lining-nums",
-                        "tabular-nums",
-                      ],
-                      "fontWeight": "400",
-                      "letterSpacing": 0.2,
-                      "lineHeight": 24,
-                      "textAlign": undefined,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  app.name
-                </Text>
-                <Text
-                  accessible={false}
-                  role="none"
-                  selectable={true}
-                  style={
-                    {
-                      "color": "#676565",
-                      "fontFamily": "InstrumentSans-Regular",
-                      "fontSize": 15,
-                      "fontVariant": [
-                        "lining-nums",
-                        "tabular-nums",
-                      ],
-                      "fontWeight": "400",
-                      "letterSpacing": -0.12,
-                      "lineHeight": 21,
-                      "textAlign": undefined,
-                      "userSelect": "auto",
-                    }
-                  }
-                >
-                  app.subline
-                </Text>
-              </View>
-            </View>
-            <Text
-              role="link"
-              selectable={false}
-              style={
-                {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 15,
-                  "fontVariant": [
-                    "lining-nums",
-                    "tabular-nums",
-                  ],
-                  "fontWeight": "500",
-                  "letterSpacing": -0.03,
-                  "lineHeight": 21,
-                  "textAlign": undefined,
-                  "userSelect": "auto",
-                }
-              }
-            >
-              global.seeAll
-            </Text>
-          </View>
-        </View>
-      </View>
-      <RCTScrollView
-        ListFooterComponent={
-          <View
-            style={
-              {
-                "flex": 1,
-                "marginRight": 44,
-                "width": 546.9230769230769,
-              }
-            }
-          >
-            <HoliMoreCard
-              label="listing.loadMoreButton.text"
-              onPress={[Function]}
-              role="link"
-              testID="volunteering-reco-slider-load-more-button"
-            >
-              listing.loadMoreButton.text
-            </HoliMoreCard>
-          </View>
-        }
-        ListHeaderComponentStyle={
-          {
-            "paddingBottom": 32,
-            "paddingTop": 80,
-          }
-        }
-        data={
-          [
-            {
-              "__typename": "AppVolunteering_EngagementReco",
-              "engagement": {
-                "__typename": "AppVolunteering_Engagement",
-                "description": "<p>Sie unterstützen einen jungen Mann beim Erlernen der deutschen Sprache in Wort und Schrift. Er kann bereits sehr gut Deutsch sprechen und verstehen. </p>",
-                "id": "83200",
-                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D83200-ehrenamtliche-unterstutzung-beim-schreiben-und-lesen-in-deutsch",
-                "latitude": 50.937531,
-                "location": "Köln",
-                "longitude": 6.9602786,
-                "organizer": {
-                  "__typename": "AppVolunteering_Organizer",
-                  "imageUrl": "https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/276/AWO_Logo_840x360_px_neu_19_3_2014.JPG",
-                  "name": "Büro für Bürgerengagement der AWO Kreisverband Köln",
-                },
-                "skills": [
-                  "commitment",
-                  "communication-skills",
-                  "empathy",
-                  "motivation",
-                  "openness",
-                  "teaching-education",
-                  "coaching & mentoring",
-                  "discipline",
-                  "inclusive-mindset-intercultural-competence",
-                  "initiative-and-energy",
-                  "moderation-facilitation",
-                  "relationship-skills",
-                  "self-confident",
-                  "solution-orientedness",
-                  "teamwork",
-                  "willingness-to-learn",
-                  "writing-translation",
-                ],
-                "source": "vostel.de",
-                "title": "Ehrenamtliche Unterstützung beim Schreiben und Lesen in Deutsch",
-                "topics": [
-                  "education-science",
-                  "biodiversity-animal-welfare",
-                  "climate-protection",
-                ],
-                "url": "https://vostel.de/de/volunteering/projects/4023_Buero-fuer-Buergerengagement-der-AWO-Kreisverband-Koeln_Ehrenamtliche-Unterstuetzung-beim-Schreiben-und-Lesen-in-Deutsch_Koeln?utm_source=voltastics",
-              },
-              "matchedSkills": [
-                "motivation",
-                "openness",
-                "commitment",
-                "communication-skills",
-                "empathy",
-                "teaching-education",
-                "coaching & mentoring",
-                "discipline",
-                "inclusive-mindset-intercultural-competence",
-                "initiative-and-energy",
-                "moderation-facilitation",
-                "relationship-skills",
-                "self-confident",
-                "solution-orientedness",
-                "teamwork",
-                "willingness-to-learn",
-                "writing-translation",
-              ],
-              "matchedTopics": [
-                "education-science",
-                "climate-protection",
-                "biodiversity-animal-welfare",
-              ],
-            },
-            {
-              "__typename": "AppVolunteering_EngagementReco",
-              "engagement": {
-                "__typename": "AppVolunteering_Engagement",
-                "description": "<p>Es wird eine Betreuung der Bibliothek in den Pausen gewünscht.</p>
-<p>Einzelheiten sind mit der Lehrerin Frau Frieske klären.</p>",
-                "id": "124064",
-                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D124064-bibliothek-betreuen",
-                "latitude": 52.2994511,
-                "location": "Königs Wusterhausen",
-                "longitude": 13.6244389,
-                "organizer": {
-                  "__typename": "AppVolunteering_Organizer",
-                  "imageUrl": null,
-                  "name": "Freiwilligen Zentrum Königs Wusterhausen",
-                },
-                "skills": [
-                  "commitment",
-                  "communication-skills",
-                  "initiative-and-energy",
-                  "motivation",
-                  "openness",
-                  "solution-orientedness",
-                  "teamwork",
-                  "willingness-to-learn",
-                ],
-                "source": "Aktion Mensch",
-                "title": "Bibliothek betreuen",
-                "topics": [
-                  "education-science",
-                ],
-                "url": "https://www.aktion-mensch.de/was-du-tun-kannst/ehrenamt/engagement-plattform#/lokale-angebote/c9ddc509-9f6f-4bc8-ad80-0303e2bf0f7b?utm_source=voltastics",
-              },
-              "matchedSkills": [
-                "motivation",
-                "openness",
-                "commitment",
-                "communication-skills",
-                "initiative-and-energy",
-                "solution-orientedness",
-                "teamwork",
-                "willingness-to-learn",
-              ],
-              "matchedTopics": [
-                "education-science",
-              ],
-            },
-            {
-              "__typename": "AppVolunteering_EngagementReco",
-              "engagement": {
-                "__typename": "AppVolunteering_Engagement",
-                "description": "<p><strong>Worum geht es bei diesem Engagement?</strong></p><p>Öffentliche Bücherschränke sind eine fantastische Möglichkeit, bereits gelesene Bücher anderen Menschen kostenfrei zur Verfügung zu stellen und gleichzeitig für sich selbst tolles neues Lesematerial zu finden.</p><p>Auf der Seite des <a href="https://openbookcase.de/map">OpenBookCase</a> findest du eine Karte, auf der du viele Bücherschränke in deiner Stadt finden kannst. Sollte ein Bücherschrank in deiner Nähe nicht dabei sein, kannst du diesen ganz einfach selbst ergänzen.</p><p>----------------------</p><p><strong>Was sind 5-Minuten Engagements?</strong></p><p>Mit unseren 5-Minuten Engagements wollen wir dich dazu inspirieren, Engagement ganz einfach in deinen Alltag zu integrieren. Sie sind unabhängig von gemeinnützigen Organisationen und ermöglichen es dir, dich individuell für Menschen und Natur in deiner Nachbarschaft einzusetzen.</p>",
-                "id": "93629",
-                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D93629-nutze-offentliche-bucherschranke-in-deiner-stadt",
-                "latitude": null,
-                "location": "Bundesweit",
-                "longitude": null,
-                "organizer": {
-                  "__typename": "AppVolunteering_Organizer",
-                  "imageUrl": "https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/65/logo-de-rot-medium.png",
-                  "name": "vostel.de",
-                },
-                "skills": [
-                  "commitment",
-                  "communication-skills",
-                  "hands-on-support",
-                  "initiative-and-energy",
-                  "openness",
-                  "solution-orientedness",
-                  "teamwork",
-                ],
-                "source": "vostel.de",
-                "title": "Nutze öffentliche Bücherschränke in deiner Stadt",
-                "topics": [
-                  "education-science",
-                ],
-                "url": "https://vostel.de/de/volunteering/projects/5961_vostel-de_Nutze-oeffentliche-Buecherschraenke-in-deiner-Stadt?utm_source=voltastics",
-              },
-              "matchedSkills": [
-                "openness",
-                "commitment",
-                "communication-skills",
-                "hands-on-support",
-                "initiative-and-energy",
-                "solution-orientedness",
-                "teamwork",
-              ],
-              "matchedTopics": [
-                "education-science",
-              ],
-            },
-            {
-              "__typename": "AppVolunteering_EngagementReco",
-              "engagement": {
-                "__typename": "AppVolunteering_Engagement",
-                "description": "<p>Wir suchen laufend Nachhilfe für junge Erwachsene in verschiedensten Fächern, vor allem aber in Mathe und Deutsch.</p><p>Für dieses Projekt benötigt ihr ca. 1-Mal pro Woche 1-2 Stunden Zeit. </p>",
-                "id": "68892",
-                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D68892-nachhilfe-fur-junge-erwachsene",
-                "latitude": 48.1351253,
-                "location": "München",
-                "longitude": 11.5819806,
-                "organizer": {
-                  "__typename": "AppVolunteering_Organizer",
-                  "imageUrl": "https://vostel.s3.eu-central-1.amazonaws.com/uploads/organisation/logo/688/Logoeinfach.jpg",
-                  "name": "Münchner Flüchtlingsrat e.V. - Gemeinsam Aktiv",
-                },
-                "skills": [
-                  "coaching & mentoring",
-                  "commitment",
-                  "communication-skills",
-                  "initiative-and-energy",
-                  "motivation",
-                  "openness",
-                  "solution-orientedness",
-                  "teaching-education",
-                  "willingness-to-learn",
-                ],
-                "source": "vostel.de",
-                "title": "Nachhilfe für junge Erwachsene",
-                "topics": [
-                  "education-science",
-                ],
-                "url": "https://vostel.de/de/volunteering/projects/3106_Muenchner-Fluechtlingsrat-e-V-Gemeinsam-Aktiv_Nachhilfe-fuer-junge-Erwachsene_Muenchen?utm_source=voltastics",
-              },
-              "matchedSkills": [
-                "motivation",
-                "openness",
-                "coaching & mentoring",
-                "commitment",
-                "communication-skills",
-                "initiative-and-energy",
-                "solution-orientedness",
-                "teaching-education",
-                "willingness-to-learn",
-              ],
-              "matchedTopics": [
-                "education-science",
-              ],
-            },
-            {
-              "__typename": "AppVolunteering_EngagementReco",
-              "engagement": {
-                "__typename": "AppVolunteering_Engagement",
-                "description": "<ul>
-<li>Marketing</li>
-<li>Design (UI/UX)</li>
-<li>Programming (Frontend/Mobile)</li>
-<li>Programming (Backend) - Python, PHP, Node.Js over TypeScript</li>
-</ul>
-<p>All experience levels are welcome!</p>",
-                "id": "101572",
-                "imageUrl": "https://dev-images.holi.social/crop:0:0/resize:auto:1024/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D101572-bookla-foundation",
-                "latitude": 52.5170365,
-                "location": "Berlin",
-                "longitude": 13.3888599,
-                "organizer": {
-                  "__typename": "AppVolunteering_Organizer",
-                  "imageUrl": "https://app.voltastics.com/media/headers/search.png",
-                  "name": "Bookla",
-                },
-                "skills": [
-                  "commitment",
-                  "communication-skills",
-                  "creativity",
-                  "design",
-                  "hands-on-support",
-                  "initiative-and-energy",
-                  "it-technology",
-                  "marketing-social-media",
-                  "motivation",
-                  "openness",
-                  "solution-orientedness",
-                  "teamwork",
-                  "willingness-to-learn",
-                ],
-                "source": "GoVolunteer",
-                "title": "Bookla Foundation",
-                "topics": [
-                  "climate-protection",
-                  "education-science",
-                  "energy-transition",
-                ],
-                "url": "https://govolunteer.com/projekte/bookla-foundation?utm_source=voltastics",
-              },
-              "matchedSkills": [
-                "motivation",
-                "openness",
-                "commitment",
-                "communication-skills",
-                "creativity",
-                "design",
-                "hands-on-support",
-                "initiative-and-energy",
-                "it-technology",
-                "marketing-social-media",
-                "solution-orientedness",
-                "teamwork",
-                "willingness-to-learn",
-              ],
-              "matchedTopics": [
-                "climate-protection",
-                "education-science",
-                "energy-transition",
-              ],
-            },
-          ]
-        }
-        getItem={[Function]}
-        getItemCount={[Function]}
-        horizontal={true}
-        keyExtractor={[Function]}
-        onContentSizeChange={[Function]}
-        onLayout={[Function]}
-        onMomentumScrollBegin={[Function]}
-        onMomentumScrollEnd={[Function]}
-        onScroll={[Function]}
-        onScrollBeginDrag={[Function]}
-        onScrollEndDrag={[Function]}
-        onViewableItemsChanged={[Function]}
-        removeClippedSubviews={false}
-        renderItem={[Function]}
-        scrollEventThrottle={0.0001}
-        stickyHeaderIndices={[]}
-        style={
-          {
-            "flex": 1,
-            "marginHorizontal": -20,
-            "paddingBottom": 0,
-            "paddingLeft": 24,
-          }
-        }
-        testID="volunteering-reco-slider-list"
-        viewabilityConfig={
-          {
-            "itemVisiblePercentThreshold": 80,
-            "minimumViewTime": 1000,
-            "waitForInteraction": true,
-          }
-        }
-        viewabilityConfigCallbackPairs={
-          [
-            {
-              "onViewableItemsChanged": [Function],
-              "viewabilityConfig": {
-                "itemVisiblePercentThreshold": 80,
-                "minimumViewTime": 1000,
-                "waitForInteraction": true,
-              },
-            },
-          ]
-        }
-      >
-        <View>
-          <View
-            onFocusCapture={[Function]}
-            onLayout={[Function]}
-            style={
-              [
-                {
-                  "flexDirection": "row",
-                },
-                null,
-              ]
-            }
-          >
-            <View
-              style={
-                {
-                  "marginRight": 12,
-                  "width": 546.9230769230769,
-                }
-              }
-              testID="volunteering-reco-slider-card"
-            >
-              <View
-                accessibilityLabel="engagement.title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  [
-                    {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="volunteering-reco-slider-card-link"
-              >
-                <View
-                  style={
-                    {
-                      "alignItems": "stretch",
-                      "backgroundColor": "#fff",
-                      "borderColor": "#bfbebe",
-                      "borderRadius": 16,
-                      "borderStyle": "solid",
-                      "borderWidth": 1,
-                      "display": "flex",
-                      "flex": 1,
-                      "flexDirection": undefined,
-                      "height": "100%",
-                      "padding": 8,
-                      "paddingBottom": 16,
-                    }
-                  }
-                >
-                  <View
-                    style={
-                      [
-                        {
-                          "flexGrow": 0,
-                          "flexShrink": 0,
-                          "overflow": "hidden",
-                          "position": "relative",
-                        },
-                        {
-                          "borderRadius": 8,
-                          "flexBasis": undefined,
-                          "marginBottom": 16,
-                        },
-                      ]
-                    }
-                    testID="volunteering-reco-slider-card-image-container"
-                  >
-                    <Image
-                      accessibilityRole="image"
-                      accessible={true}
-                      aria-label="engagement.title"
-                      contentFit="cover"
-                      role="img"
-                      source={
-                        {
-                          "height": undefined,
-                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D83200-ehrenamtliche-unterstutzung-beim-schreiben-und-lesen-in-deutsch",
-                          "width": 546.9230769230769,
-                        }
-                      }
-                      style={
-                        {
-                          "aspectRatio": 1.5,
-                          "borderRadius": 8,
-                          "flex": 1,
-                          "width": "100%",
-                        }
-                      }
-                      testID="volunteering-reco-slider-card-card-image"
-                    />
-                  </View>
-                  <View
-                    style={
-                      {
-                        "alignItems": undefined,
-                        "flex": 1,
-                        "paddingHorizontal": 8,
-                      }
-                    }
-                    testID="volunteering-reco-slider-card-content-container"
-                  >
-                    <View
-                      style={
-                        {
-                          "height": 4,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "flex": 1,
-                          "height": "100%",
-                          "marginBottom": 6,
-                          "minHeight": 38,
-                        }
-                      }
-                    >
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        numberOfLines={2}
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Medium",
-                            "fontSize": 14,
-                            "fontWeight": "500",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        engagement.title
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "gap": 6,
-                        }
-                      }
-                    >
-                      <View
-                        testID="volunteering-reco-slider-card-location-icon"
-                      >
-                        <RNSVGSvgView
-                          align="xMidYMid"
-                          bbHeight={24}
-                          bbWidth={24}
-                          color="#262424"
-                          fill="none"
-                          focusable={false}
-                          height={24}
-                          meetOrSlice={0}
-                          minX={0}
-                          minY={0}
-                          style={
-                            [
-                              {
-                                "backgroundColor": "transparent",
-                                "borderWidth": 0,
-                              },
-                              {
-                                "flex": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                            ]
-                          }
-                          tintColor="#262424"
-                          vbHeight={24}
-                          vbWidth={24}
-                          width={24}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <RNSVGGroup
-                            fill={null}
-                            propList={
-                              [
-                                "fill",
-                              ]
-                            }
-                          >
-                            <RNSVGGroup
-                              clipPath="globe_svg__a"
-                              fill={
-                                {
-                                  "payload": 4278190080,
-                                  "type": 0,
-                                }
-                              }
-                            >
-                              <RNSVGPath
-                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
-                                fill={
-                                  {
-                                    "type": 2,
-                                  }
-                                }
-                                propList={
-                                  [
-                                    "fill",
-                                  ]
-                                }
-                              />
-                            </RNSVGGroup>
-                            <RNSVGDefs>
-                              <RNSVGClipPath
-                                fill={
-                                  {
-                                    "payload": 4278190080,
-                                    "type": 0,
-                                  }
-                                }
-                                name="globe_svg__a"
-                              >
-                                <RNSVGPath
-                                  d="M0 0h24v24H0z"
-                                  fill={
-                                    {
-                                      "payload": 4294967295,
-                                      "type": 0,
-                                    }
-                                  }
-                                  propList={
-                                    [
-                                      "fill",
-                                    ]
-                                  }
-                                />
-                              </RNSVGClipPath>
-                            </RNSVGDefs>
-                          </RNSVGGroup>
-                        </RNSVGSvgView>
-                      </View>
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 14,
-                            "fontWeight": "400",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        Köln
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            onFocusCapture={[Function]}
-            onLayout={[Function]}
-            style={
-              [
-                {
-                  "flexDirection": "row",
-                },
-                null,
-              ]
-            }
-          >
-            <View
-              style={
-                {
-                  "marginRight": 12,
-                  "width": 546.9230769230769,
-                }
-              }
-              testID="volunteering-reco-slider-card"
-            >
-              <View
-                accessibilityLabel="engagement.title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  [
-                    {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="volunteering-reco-slider-card-link"
-              >
-                <View
-                  style={
-                    {
-                      "alignItems": "stretch",
-                      "backgroundColor": "#fff",
-                      "borderColor": "#bfbebe",
-                      "borderRadius": 16,
-                      "borderStyle": "solid",
-                      "borderWidth": 1,
-                      "display": "flex",
-                      "flex": 1,
-                      "flexDirection": undefined,
-                      "height": "100%",
-                      "padding": 8,
-                      "paddingBottom": 16,
-                    }
-                  }
-                >
-                  <View
-                    style={
-                      [
-                        {
-                          "flexGrow": 0,
-                          "flexShrink": 0,
-                          "overflow": "hidden",
-                          "position": "relative",
-                        },
-                        {
-                          "borderRadius": 8,
-                          "flexBasis": undefined,
-                          "marginBottom": 16,
-                        },
-                      ]
-                    }
-                    testID="volunteering-reco-slider-card-image-container"
-                  >
-                    <Image
-                      accessibilityRole="image"
-                      accessible={true}
-                      aria-label="engagement.title"
-                      contentFit="cover"
-                      role="img"
-                      source={
-                        {
-                          "height": undefined,
-                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D124064-bibliothek-betreuen",
-                          "width": 546.9230769230769,
-                        }
-                      }
-                      style={
-                        {
-                          "aspectRatio": 1.5,
-                          "borderRadius": 8,
-                          "flex": 1,
-                          "width": "100%",
-                        }
-                      }
-                      testID="volunteering-reco-slider-card-card-image"
-                    />
-                  </View>
-                  <View
-                    style={
-                      {
-                        "alignItems": undefined,
-                        "flex": 1,
-                        "paddingHorizontal": 8,
-                      }
-                    }
-                    testID="volunteering-reco-slider-card-content-container"
-                  >
-                    <View
-                      style={
-                        {
-                          "height": 4,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "flex": 1,
-                          "height": "100%",
-                          "marginBottom": 6,
-                          "minHeight": 38,
-                        }
-                      }
-                    >
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        numberOfLines={2}
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Medium",
-                            "fontSize": 14,
-                            "fontWeight": "500",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        engagement.title
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "gap": 6,
-                        }
-                      }
-                    >
-                      <View
-                        testID="volunteering-reco-slider-card-location-icon"
-                      >
-                        <RNSVGSvgView
-                          align="xMidYMid"
-                          bbHeight={24}
-                          bbWidth={24}
-                          color="#262424"
-                          fill="none"
-                          focusable={false}
-                          height={24}
-                          meetOrSlice={0}
-                          minX={0}
-                          minY={0}
-                          style={
-                            [
-                              {
-                                "backgroundColor": "transparent",
-                                "borderWidth": 0,
-                              },
-                              {
-                                "flex": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                            ]
-                          }
-                          tintColor="#262424"
-                          vbHeight={24}
-                          vbWidth={24}
-                          width={24}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <RNSVGGroup
-                            fill={null}
-                            propList={
-                              [
-                                "fill",
-                              ]
-                            }
-                          >
-                            <RNSVGGroup
-                              clipPath="globe_svg__a"
-                              fill={
-                                {
-                                  "payload": 4278190080,
-                                  "type": 0,
-                                }
-                              }
-                            >
-                              <RNSVGPath
-                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
-                                fill={
-                                  {
-                                    "type": 2,
-                                  }
-                                }
-                                propList={
-                                  [
-                                    "fill",
-                                  ]
-                                }
-                              />
-                            </RNSVGGroup>
-                            <RNSVGDefs>
-                              <RNSVGClipPath
-                                fill={
-                                  {
-                                    "payload": 4278190080,
-                                    "type": 0,
-                                  }
-                                }
-                                name="globe_svg__a"
-                              >
-                                <RNSVGPath
-                                  d="M0 0h24v24H0z"
-                                  fill={
-                                    {
-                                      "payload": 4294967295,
-                                      "type": 0,
-                                    }
-                                  }
-                                  propList={
-                                    [
-                                      "fill",
-                                    ]
-                                  }
-                                />
-                              </RNSVGClipPath>
-                            </RNSVGDefs>
-                          </RNSVGGroup>
-                        </RNSVGSvgView>
-                      </View>
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 14,
-                            "fontWeight": "400",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        Königs Wusterhausen
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            onFocusCapture={[Function]}
-            onLayout={[Function]}
-            style={
-              [
-                {
-                  "flexDirection": "row",
-                },
-                null,
-              ]
-            }
-          >
-            <View
-              style={
-                {
-                  "marginRight": 12,
-                  "width": 546.9230769230769,
-                }
-              }
-              testID="volunteering-reco-slider-card"
-            >
-              <View
-                accessibilityLabel="engagement.title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  [
-                    {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="volunteering-reco-slider-card-link"
-              >
-                <View
-                  style={
-                    {
-                      "alignItems": "stretch",
-                      "backgroundColor": "#fff",
-                      "borderColor": "#bfbebe",
-                      "borderRadius": 16,
-                      "borderStyle": "solid",
-                      "borderWidth": 1,
-                      "display": "flex",
-                      "flex": 1,
-                      "flexDirection": undefined,
-                      "height": "100%",
-                      "padding": 8,
-                      "paddingBottom": 16,
-                    }
-                  }
-                >
-                  <View
-                    style={
-                      [
-                        {
-                          "flexGrow": 0,
-                          "flexShrink": 0,
-                          "overflow": "hidden",
-                          "position": "relative",
-                        },
-                        {
-                          "borderRadius": 8,
-                          "flexBasis": undefined,
-                          "marginBottom": 16,
-                        },
-                      ]
-                    }
-                    testID="volunteering-reco-slider-card-image-container"
-                  >
-                    <Image
-                      accessibilityRole="image"
-                      accessible={true}
-                      aria-label="engagement.title"
-                      contentFit="cover"
-                      role="img"
-                      source={
-                        {
-                          "height": undefined,
-                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D93629-nutze-offentliche-bucherschranke-in-deiner-stadt",
-                          "width": 546.9230769230769,
-                        }
-                      }
-                      style={
-                        {
-                          "aspectRatio": 1.5,
-                          "borderRadius": 8,
-                          "flex": 1,
-                          "width": "100%",
-                        }
-                      }
-                      testID="volunteering-reco-slider-card-card-image"
-                    />
-                  </View>
-                  <View
-                    style={
-                      {
-                        "alignItems": undefined,
-                        "flex": 1,
-                        "paddingHorizontal": 8,
-                      }
-                    }
-                    testID="volunteering-reco-slider-card-content-container"
-                  >
-                    <View
-                      style={
-                        {
-                          "height": 4,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "flex": 1,
-                          "height": "100%",
-                          "marginBottom": 6,
-                          "minHeight": 38,
-                        }
-                      }
-                    >
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        numberOfLines={2}
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Medium",
-                            "fontSize": 14,
-                            "fontWeight": "500",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        engagement.title
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "gap": 6,
-                        }
-                      }
-                    >
-                      <View
-                        testID="volunteering-reco-slider-card-location-icon"
-                      >
-                        <RNSVGSvgView
-                          align="xMidYMid"
-                          bbHeight={24}
-                          bbWidth={24}
-                          color="#262424"
-                          fill="none"
-                          focusable={false}
-                          height={24}
-                          meetOrSlice={0}
-                          minX={0}
-                          minY={0}
-                          style={
-                            [
-                              {
-                                "backgroundColor": "transparent",
-                                "borderWidth": 0,
-                              },
-                              {
-                                "flex": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                            ]
-                          }
-                          tintColor="#262424"
-                          vbHeight={24}
-                          vbWidth={24}
-                          width={24}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <RNSVGGroup
-                            fill={null}
-                            propList={
-                              [
-                                "fill",
-                              ]
-                            }
-                          >
-                            <RNSVGGroup
-                              clipPath="globe_svg__a"
-                              fill={
-                                {
-                                  "payload": 4278190080,
-                                  "type": 0,
-                                }
-                              }
-                            >
-                              <RNSVGPath
-                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
-                                fill={
-                                  {
-                                    "type": 2,
-                                  }
-                                }
-                                propList={
-                                  [
-                                    "fill",
-                                  ]
-                                }
-                              />
-                            </RNSVGGroup>
-                            <RNSVGDefs>
-                              <RNSVGClipPath
-                                fill={
-                                  {
-                                    "payload": 4278190080,
-                                    "type": 0,
-                                  }
-                                }
-                                name="globe_svg__a"
-                              >
-                                <RNSVGPath
-                                  d="M0 0h24v24H0z"
-                                  fill={
-                                    {
-                                      "payload": 4294967295,
-                                      "type": 0,
-                                    }
-                                  }
-                                  propList={
-                                    [
-                                      "fill",
-                                    ]
-                                  }
-                                />
-                              </RNSVGClipPath>
-                            </RNSVGDefs>
-                          </RNSVGGroup>
-                        </RNSVGSvgView>
-                      </View>
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 14,
-                            "fontWeight": "400",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        Bundesweit
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            onFocusCapture={[Function]}
-            onLayout={[Function]}
-            style={
-              [
-                {
-                  "flexDirection": "row",
-                },
-                null,
-              ]
-            }
-          >
-            <View
-              style={
-                {
-                  "marginRight": 12,
-                  "width": 546.9230769230769,
-                }
-              }
-              testID="volunteering-reco-slider-card"
-            >
-              <View
-                accessibilityLabel="engagement.title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  [
-                    {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="volunteering-reco-slider-card-link"
-              >
-                <View
-                  style={
-                    {
-                      "alignItems": "stretch",
-                      "backgroundColor": "#fff",
-                      "borderColor": "#bfbebe",
-                      "borderRadius": 16,
-                      "borderStyle": "solid",
-                      "borderWidth": 1,
-                      "display": "flex",
-                      "flex": 1,
-                      "flexDirection": undefined,
-                      "height": "100%",
-                      "padding": 8,
-                      "paddingBottom": 16,
-                    }
-                  }
-                >
-                  <View
-                    style={
-                      [
-                        {
-                          "flexGrow": 0,
-                          "flexShrink": 0,
-                          "overflow": "hidden",
-                          "position": "relative",
-                        },
-                        {
-                          "borderRadius": 8,
-                          "flexBasis": undefined,
-                          "marginBottom": 16,
-                        },
-                      ]
-                    }
-                    testID="volunteering-reco-slider-card-image-container"
-                  >
-                    <Image
-                      accessibilityRole="image"
-                      accessible={true}
-                      aria-label="engagement.title"
-                      contentFit="cover"
-                      role="img"
-                      source={
-                        {
-                          "height": undefined,
-                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D68892-nachhilfe-fur-junge-erwachsene",
-                          "width": 546.9230769230769,
-                        }
-                      }
-                      style={
-                        {
-                          "aspectRatio": 1.5,
-                          "borderRadius": 8,
-                          "flex": 1,
-                          "width": "100%",
-                        }
-                      }
-                      testID="volunteering-reco-slider-card-card-image"
-                    />
-                  </View>
-                  <View
-                    style={
-                      {
-                        "alignItems": undefined,
-                        "flex": 1,
-                        "paddingHorizontal": 8,
-                      }
-                    }
-                    testID="volunteering-reco-slider-card-content-container"
-                  >
-                    <View
-                      style={
-                        {
-                          "height": 4,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "flex": 1,
-                          "height": "100%",
-                          "marginBottom": 6,
-                          "minHeight": 38,
-                        }
-                      }
-                    >
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        numberOfLines={2}
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Medium",
-                            "fontSize": 14,
-                            "fontWeight": "500",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        engagement.title
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "gap": 6,
-                        }
-                      }
-                    >
-                      <View
-                        testID="volunteering-reco-slider-card-location-icon"
-                      >
-                        <RNSVGSvgView
-                          align="xMidYMid"
-                          bbHeight={24}
-                          bbWidth={24}
-                          color="#262424"
-                          fill="none"
-                          focusable={false}
-                          height={24}
-                          meetOrSlice={0}
-                          minX={0}
-                          minY={0}
-                          style={
-                            [
-                              {
-                                "backgroundColor": "transparent",
-                                "borderWidth": 0,
-                              },
-                              {
-                                "flex": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                            ]
-                          }
-                          tintColor="#262424"
-                          vbHeight={24}
-                          vbWidth={24}
-                          width={24}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <RNSVGGroup
-                            fill={null}
-                            propList={
-                              [
-                                "fill",
-                              ]
-                            }
-                          >
-                            <RNSVGGroup
-                              clipPath="globe_svg__a"
-                              fill={
-                                {
-                                  "payload": 4278190080,
-                                  "type": 0,
-                                }
-                              }
-                            >
-                              <RNSVGPath
-                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
-                                fill={
-                                  {
-                                    "type": 2,
-                                  }
-                                }
-                                propList={
-                                  [
-                                    "fill",
-                                  ]
-                                }
-                              />
-                            </RNSVGGroup>
-                            <RNSVGDefs>
-                              <RNSVGClipPath
-                                fill={
-                                  {
-                                    "payload": 4278190080,
-                                    "type": 0,
-                                  }
-                                }
-                                name="globe_svg__a"
-                              >
-                                <RNSVGPath
-                                  d="M0 0h24v24H0z"
-                                  fill={
-                                    {
-                                      "payload": 4294967295,
-                                      "type": 0,
-                                    }
-                                  }
-                                  propList={
-                                    [
-                                      "fill",
-                                    ]
-                                  }
-                                />
-                              </RNSVGClipPath>
-                            </RNSVGDefs>
-                          </RNSVGGroup>
-                        </RNSVGSvgView>
-                      </View>
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 14,
-                            "fontWeight": "400",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        München
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            onFocusCapture={[Function]}
-            onLayout={[Function]}
-            style={
-              [
-                {
-                  "flexDirection": "row",
-                },
-                null,
-              ]
-            }
-          >
-            <View
-              style={
-                {
-                  "marginRight": 12,
-                  "width": 546.9230769230769,
-                }
-              }
-              testID="volunteering-reco-slider-card"
-            >
-              <View
-                accessibilityLabel="engagement.title"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  [
-                    {
-                      "flex": 1,
-                    },
-                  ]
-                }
-                testID="volunteering-reco-slider-card-link"
-              >
-                <View
-                  style={
-                    {
-                      "alignItems": "stretch",
-                      "backgroundColor": "#fff",
-                      "borderColor": "#bfbebe",
-                      "borderRadius": 16,
-                      "borderStyle": "solid",
-                      "borderWidth": 1,
-                      "display": "flex",
-                      "flex": 1,
-                      "flexDirection": undefined,
-                      "height": "100%",
-                      "padding": 8,
-                      "paddingBottom": 16,
-                    }
-                  }
-                >
-                  <View
-                    style={
-                      [
-                        {
-                          "flexGrow": 0,
-                          "flexShrink": 0,
-                          "overflow": "hidden",
-                          "position": "relative",
-                        },
-                        {
-                          "borderRadius": 8,
-                          "flexBasis": undefined,
-                          "marginBottom": 16,
-                        },
-                      ]
-                    }
-                    testID="volunteering-reco-slider-card-image-container"
-                  >
-                    <Image
-                      accessibilityRole="image"
-                      accessible={true}
-                      aria-label="engagement.title"
-                      contentFit="cover"
-                      role="img"
-                      source={
-                        {
-                          "height": undefined,
-                          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:1094/ext:webp/quality:80/plain/https%3A%2F%2Fbackend.voltastics.de%2Fsearch%2Fimage%3Fid%3D101572-bookla-foundation",
-                          "width": 546.9230769230769,
-                        }
-                      }
-                      style={
-                        {
-                          "aspectRatio": 1.5,
-                          "borderRadius": 8,
-                          "flex": 1,
-                          "width": "100%",
-                        }
-                      }
-                      testID="volunteering-reco-slider-card-card-image"
-                    />
-                  </View>
-                  <View
-                    style={
-                      {
-                        "alignItems": undefined,
-                        "flex": 1,
-                        "paddingHorizontal": 8,
-                      }
-                    }
-                    testID="volunteering-reco-slider-card-content-container"
-                  >
-                    <View
-                      style={
-                        {
-                          "flexDirection": "row",
-                          "gap": 6,
-                        }
-                      }
-                      testID="topic-labels-list-view"
-                    >
-                      <View
-                        style={
-                          {
-                            "alignItems": "center",
-                            "alignSelf": "flex-start",
-                            "backgroundColor": "#d6ffc7",
-                            "borderColor": "#abff8b",
-                            "borderRadius": 50,
-                            "borderWidth": 1,
-                            "color": "#262424",
-                            "display": "flex",
-                            "flexDirection": "row",
-                            "gap": 4,
-                            "maxWidth": "100%",
-                            "minHeight": 24,
-                            "overflow": "hidden",
-                            "paddingHorizontal": 8,
-                          }
-                        }
-                      >
-                        <Text
-                          accessible={false}
-                          role="none"
-                          selectable={true}
-                          style={
-                            {
-                              "color": "#262424",
-                              "fontFamily": "InstrumentSans-Regular",
-                              "fontSize": 13,
-                              "fontVariant": [
-                                "lining-nums",
-                                "tabular-nums",
-                              ],
-                              "fontWeight": "400",
-                              "letterSpacing": 0.104,
-                              "lineHeight": 15.6,
-                              "textAlign": undefined,
-                              "userSelect": "auto",
-                            }
-                          }
-                        >
-                          climate-protection
-                        </Text>
-                      </View>
-                      <View
-                        style={
-                          {
-                            "alignItems": "center",
-                            "alignSelf": "flex-start",
-                            "backgroundColor": "#d6ffc7",
-                            "borderColor": "#abff8b",
-                            "borderRadius": 50,
-                            "borderWidth": 1,
-                            "color": "#262424",
-                            "display": "flex",
-                            "flexDirection": "row",
-                            "gap": 4,
-                            "maxWidth": "100%",
-                            "minHeight": 24,
-                            "overflow": "hidden",
-                            "paddingHorizontal": 8,
-                          }
-                        }
-                      >
-                        <Text
-                          accessible={false}
-                          role="none"
-                          selectable={true}
-                          style={
-                            {
-                              "color": "#262424",
-                              "fontFamily": "InstrumentSans-Regular",
-                              "fontSize": 13,
-                              "fontVariant": [
-                                "lining-nums",
-                                "tabular-nums",
-                              ],
-                              "fontWeight": "400",
-                              "letterSpacing": 0.104,
-                              "lineHeight": 15.6,
-                              "textAlign": undefined,
-                              "userSelect": "auto",
-                            }
-                          }
-                        >
-                          +2
-                        </Text>
-                      </View>
-                    </View>
-                    <View
-                      style={
-                        {
-                          "height": 4,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "flex": 1,
-                          "height": "100%",
-                          "marginBottom": 6,
-                          "minHeight": 38,
-                        }
-                      }
-                    >
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        numberOfLines={2}
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Medium",
-                            "fontSize": 14,
-                            "fontWeight": "500",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        engagement.title
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        {
-                          "height": 8,
-                        }
-                      }
-                    />
-                    <View
-                      style={
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "gap": 6,
-                        }
-                      }
-                    >
-                      <View
-                        testID="volunteering-reco-slider-card-location-icon"
-                      >
-                        <RNSVGSvgView
-                          align="xMidYMid"
-                          bbHeight={24}
-                          bbWidth={24}
-                          color="#262424"
-                          fill="none"
-                          focusable={false}
-                          height={24}
-                          meetOrSlice={0}
-                          minX={0}
-                          minY={0}
-                          style={
-                            [
-                              {
-                                "backgroundColor": "transparent",
-                                "borderWidth": 0,
-                              },
-                              {
-                                "flex": 0,
-                                "height": 24,
-                                "width": 24,
-                              },
-                            ]
-                          }
-                          tintColor="#262424"
-                          vbHeight={24}
-                          vbWidth={24}
-                          width={24}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <RNSVGGroup
-                            fill={null}
-                            propList={
-                              [
-                                "fill",
-                              ]
-                            }
-                          >
-                            <RNSVGGroup
-                              clipPath="globe_svg__a"
-                              fill={
-                                {
-                                  "payload": 4278190080,
-                                  "type": 0,
-                                }
-                              }
-                            >
-                              <RNSVGPath
-                                d="M6.235 6.453a8 8 0 0 0 8.817 12.944c.115-.75-.137-1.47-.24-1.722-.23-.56-.988-1.517-2.253-2.844-.338-.355-.316-.628-.195-1.437l.013-.091c.082-.554.22-.882 2.085-1.178.948-.15 1.197.228 1.542.753l.116.172c.328.48.571.59.938.756.165.075.37.17.645.325.652.373.652.794.652 1.716v.105c0 .391-.038.735-.098 1.034a8.002 8.002 0 0 0-3.105-12.341c-.553.373-1.312.902-1.577 1.265-.135.185-.327 1.132-.95 1.21-.162.02-.381.006-.613-.009-.622-.04-1.472-.095-1.744.644-.173.468-.203 1.74.356 2.4.09.105.107.3.046.519-.08.287-.241.462-.292.498-.096-.056-.288-.279-.419-.43-.313-.365-.705-.82-1.211-.96-.184-.051-.386-.093-.583-.135-.549-.115-1.17-.246-1.315-.554-.106-.226-.105-.537-.105-.865 0-.417 0-.888-.204-1.345a1.3 1.3 0 0 0-.306-.43M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10"
-                                fill={
-                                  {
-                                    "type": 2,
-                                  }
-                                }
-                                propList={
-                                  [
-                                    "fill",
-                                  ]
-                                }
-                              />
-                            </RNSVGGroup>
-                            <RNSVGDefs>
-                              <RNSVGClipPath
-                                fill={
-                                  {
-                                    "payload": 4278190080,
-                                    "type": 0,
-                                  }
-                                }
-                                name="globe_svg__a"
-                              >
-                                <RNSVGPath
-                                  d="M0 0h24v24H0z"
-                                  fill={
-                                    {
-                                      "payload": 4294967295,
-                                      "type": 0,
-                                    }
-                                  }
-                                  propList={
-                                    [
-                                      "fill",
-                                    ]
-                                  }
-                                />
-                              </RNSVGClipPath>
-                            </RNSVGDefs>
-                          </RNSVGGroup>
-                        </RNSVGSvgView>
-                      </View>
-                      <Text
-                        accessible={false}
-                        collapsable={false}
-                        jestAnimatedStyle={
-                          {
-                            "value": {},
-                          }
-                        }
-                        selectable={true}
-                        style={
-                          {
-                            "color": "#262424",
-                            "fontFamily": "InstrumentSans-Regular",
-                            "fontSize": 14,
-                            "fontWeight": "400",
-                            "lineHeight": 19.599999999999998,
-                            "userSelect": "auto",
-                          }
-                        }
-                      >
-                        Berlin
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            onLayout={[Function]}
-          >
-            <View
-              style={
-                {
-                  "flex": 1,
-                  "marginRight": 44,
-                  "width": 546.9230769230769,
-                }
-              }
-            >
-              <View
-                accessibilityLabel="listing.loadMoreButton.text"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                role="link"
-                style={
-                  {
-                    "alignItems": "stretch",
-                    "backgroundColor": "#fff",
-                    "borderColor": "#bfbebe",
-                    "borderRadius": 16,
-                    "borderStyle": "solid",
-                    "borderWidth": 1,
-                    "display": "flex",
-                    "flex": 1,
-                    "flexDirection": "column",
-                    "justifyContent": "space-around",
-                    "padding": 8,
-                  }
-                }
-                testID="volunteering-reco-slider-load-more-button"
-              >
-                <View
-                  style={
-                    {
-                      "alignItems": "center",
-                      "backgroundColor": "#e8eaff",
-                      "borderRadius": 8,
-                      "display": "flex",
-                      "flex": 7,
-                      "flexDirection": "column",
-                      "justifyContent": "center",
-                      "padding": 16,
-                      "width": "100%",
-                    }
-                  }
-                />
-                <View
-                  style={
-                    {
-                      "paddingBottom": 8,
-                      "paddingHorizontal": 8,
-                      "paddingTop": 16,
-                    }
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
-                      }
-                    }
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Medium",
-                        "fontSize": 14,
-                        "fontWeight": "500",
-                        "lineHeight": 19.599999999999998,
-                        "userSelect": "auto",
-                      }
-                    }
-                  >
-                    listing.loadMoreButton.text
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
         </View>
       </RCTScrollView>
     </View>
