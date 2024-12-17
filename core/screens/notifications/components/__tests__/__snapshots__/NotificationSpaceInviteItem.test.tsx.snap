@@ -177,7 +177,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               }
             }
           >
-            2 weeks ago
+            last week
           </Text>
         </View>
         <View
@@ -653,7 +653,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               }
             }
           >
-            2 weeks ago
+            last week
           </Text>
         </View>
         <View

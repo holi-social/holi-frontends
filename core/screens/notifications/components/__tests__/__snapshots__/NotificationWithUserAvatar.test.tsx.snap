@@ -172,7 +172,7 @@ exports[`NotificationWithUserAvatar.tsx matches snapshot 1`] = `
             }
           }
         >
-          2 weeks ago
+          last week
         </Text>
       </View>
       <View

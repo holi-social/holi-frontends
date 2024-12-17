@@ -88,7 +88,7 @@ export const getRelativeDateString = (dateStr: string | undefined = '', locale: 
 
   // For dates more than 6 days ago, show weeks
   if (daysAgo > 6) {
-    const weeksAgo = Math.ceil(daysAgo / 7)
+    const weeksAgo = Math.floor(daysAgo / 7)
     return new Intl.RelativeTimeFormat(locale, {
       style: 'long',
       numeric: 'auto',
