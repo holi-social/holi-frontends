@@ -69,11 +69,11 @@ export const getDisplayDate = (locale: string, timestampOrDateStr?: number | str
 /**
  * Relative Date Formatting rules:
  *
- * date === today => “Today”
- * date === yesterday => “Yesterday”
- * date is before yesterday, but within this week => “this week”
- * date is in the last week => “last week”
- * date is more than 1 week ago => “2 weeks ago”, “3 weeks ago” etc.
+ * date === today => "Today"
+ * date === yesterday => "Yesterday"
+ * date is 2-6 days ago => "2 days ago", "3 days ago" etc.
+ * date is in the last week => "last week"
+ * date is more than 1 week ago => "2 weeks ago", "3 weeks ago" etc.
  *
  * Intl.RelativeTimeFormat docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
  */
@@ -84,22 +84,22 @@ export const getRelativeDateString = (dateStr: string | undefined = '', locale: 
   locale = getLocale(locale)
 
   const date = new Date(dateStr)
-  let weeksAgo = 0
-  let dayOfCurrentWeek = new Date().getDay() - 1
-  if (dayOfCurrentWeek < 0) {
-    dayOfCurrentWeek = 6
-  }
   const daysAgo = Math.floor(calculateNumberOfDaysAgo(date))
-  const isNotYesterdayAndBeforeThisWeek = daysAgo > 1 && daysAgo > dayOfCurrentWeek
 
-  if (isNotYesterdayAndBeforeThisWeek) {
-    weeksAgo = Math.ceil((daysAgo - dayOfCurrentWeek) / 7)
+  // For dates more than 6 days ago, show weeks
+  if (daysAgo > 6) {
+    const weeksAgo = Math.ceil(daysAgo / 7)
+    return new Intl.RelativeTimeFormat(locale, {
+      style: 'long',
+      numeric: 'auto',
+    }).format(-weeksAgo, 'weeks')
   }
 
+  // For dates within last 6 days, show exact days
   return new Intl.RelativeTimeFormat(locale, {
     style: 'long',
     numeric: 'auto',
-  }).format(isNotYesterdayAndBeforeThisWeek ? -weeksAgo : -daysAgo, isNotYesterdayAndBeforeThisWeek ? 'weeks' : 'days')
+  }).format(-daysAgo, 'days')
 }
 
 export const getFormattedDate = (date: string | undefined, locale: string) => {
