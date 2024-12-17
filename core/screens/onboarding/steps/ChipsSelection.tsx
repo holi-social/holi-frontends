@@ -7,11 +7,11 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { interestsQuery } from '@holi/core/screens/userprofile/queries'
 import { sdgsQuery, skillsQuery } from '@holi/core/domain/shared/queries'
 import { useQuery } from '@apollo/client'
-import { logError } from '@holi/core/errors/helpers'
 import { termsByTitleComparator, type Term } from '@holi/core/domain/shared/types'
 import type { Color } from 'holi-bricks/tokens'
 import type { ChipSelectSize } from 'holi-bricks/components/chips/size'
 import { Text } from 'holi-bricks/components/text'
+import { useErrorHandling } from '@holi/core/errors/hooks'
 
 const chipQuery = {
   interests: interestsQuery,
@@ -49,7 +49,7 @@ export interface ChipsSelectionProps {
   testID?: string
 }
 
-const getSortedAndFilteredTerms = (
+export const getSortedAndFilteredTerms = (
   availableTerms: readonly Term[],
   selectedTermIds: readonly string[],
   filterString = ''
@@ -78,10 +78,11 @@ export const ChipsSelection = ({
   ...props
 }: ChipsSelectionProps) => {
   const { t } = useTranslation()
+  const { displayError } = useErrorHandling()
 
   const { loading, data } = useQuery(chipQuery[chipType], {
     onError: (error) =>
-      logError(error, 'Failed to load terms for user chips', { location: 'ChipsSelection', field: chipType }),
+      displayError(error, 'Failed to load terms for user chips', { location: 'ChipsSelection', field: chipType }),
   })
 
   const availableTerms = useMemo(() => data?.[chipType]?.data || [], [data, chipType])
