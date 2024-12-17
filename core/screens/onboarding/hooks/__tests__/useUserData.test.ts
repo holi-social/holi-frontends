@@ -16,13 +16,13 @@ jest.mock('@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore', 
   }
 })
 
-const testLocation = {
+export const testLocation = {
   id: 'location1',
-  label: 'Location name',
+  label: 'Hamburg, Germany',
   coordinates: { latitude: 1, longitude: 2 },
   geolocation: {
     place_id: 'location1',
-    properties: { formatted: 'Location name' },
+    properties: { formatted: 'Hamburg, Germany' },
     geometry: { type: '', coordinates: [] },
   },
 }

@@ -1,27 +1,27 @@
 import { faker } from '@faker-js/faker'
 
-import { Skill, Topic, User } from '@holi/core/domain/shared/types'
-import { AppointmentInput, PermissionsType } from '@holi/core/screens/appointments/types'
-import { Post } from '@holi/core/screens/posts/types'
-import { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
+import type { Skill, Topic, User } from '@holi/core/domain/shared/types'
+import { type AppointmentInput, PermissionsType } from '@holi/core/screens/appointments/types'
+import type { Post } from '@holi/core/screens/posts/types'
+import type { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
 import {
   LocationType,
-  Onboarding,
+  type Onboarding,
   Regularity,
-  RelatedSpace,
-  Space,
-  SpaceInvite,
-  SpaceLink,
+  type RelatedSpace,
+  type Space,
+  type SpaceInvite,
+  type SpaceLink,
   SpaceLinkType,
-  SpaceMember,
-  SpaceMembershipRequest,
-  SpaceSection,
+  type SpaceMember,
+  type SpaceMembershipRequest,
+  type SpaceSection,
   SpaceSectionType,
-  Task,
+  type Task,
   VisibilityType,
 } from '@holi/core/screens/spaces/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
-import { Paged } from '@holi/core/types'
+import type { Paged } from '@holi/core/types'
 
 export type WithTypename = {
   __typename: string
@@ -51,7 +51,7 @@ export const topics: (Topic & WithTypename)[] = [
   },
 ]
 
-const skills: (Skill & WithTypename)[] = [
+export const skills: (Skill & WithTypename)[] = [
   {
     id: 'COMMUNICATION_SKILLS',
     title: 'Communication skills',
