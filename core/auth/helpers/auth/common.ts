@@ -4,7 +4,7 @@ import {
   type ContinueWithVerificationUi,
   ContinueWithVerificationUiActionEnum,
   type LoginFlow,
-  SuccessfulNativeRegistration,
+  type SuccessfulNativeRegistration,
   type UpdateLoginFlowBody,
   type UpdateLoginFlowWithPasswordMethod,
 } from '@ory/kratos-client'
@@ -16,7 +16,7 @@ import {
   submitLoginFlow,
   submitVerificationFlow,
 } from '@holi/core/auth/helpers/auth/helpers'
-import type { VerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import type { VerificationFlowData, VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 export const hasIdentifier = (
@@ -29,8 +29,11 @@ const isContinueWithVerificationUi = (continueWith: ContinueWith): continueWith 
   return continueWith.action === ContinueWithVerificationUiActionEnum.ShowVerificationUi
 }
 
-export const getVerificationFlowFromRegistration = ({ continue_with }: SuccessfulNativeRegistration) => {
-  return continue_with?.find(isContinueWithVerificationUi)?.flow
+export const getVerificationFlowFromRegistration = ({
+  continue_with,
+}: SuccessfulNativeRegistration): VerificationFlowState => {
+  // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
+  return continue_with?.find(isContinueWithVerificationUi)?.flow ?? 'verification-disabled'
 }
 
 interface LoginOptions {

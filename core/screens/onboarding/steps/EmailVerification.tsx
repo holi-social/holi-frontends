@@ -7,11 +7,7 @@ import { StyleSheet } from 'react-native'
 import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/CenteredImageHeadlineDescriptionLayout'
 import { getOrCreateVerificationFlow, hasIdentifier, login, submitVerificationFlow } from '@holi/core/auth/helpers/auth'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
-import {
-  clearVerificationFlowData,
-  setVerificationFlowData,
-  useVerificationFlowData,
-} from '@holi/core/auth/helpers/useVerificationFlowData'
+import { clearVerificationFlowData, useVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { HoliButtonLoadingTracked, TextLinkTracked } from '@holi/core/components/Trackable'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -48,15 +44,16 @@ export const EmailVerification = ({
 
   const [code, setCode] = useState('')
 
-  const data = useVerificationFlowData()
-  const verificationFlowData = typeof data === 'object' ? data : undefined
+  const verificationFlowData = useVerificationFlowData()
   const [flow, setFlow] = useState<VerificationFlow | undefined>(undefined)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   // get verification flow from Ory
   useEffect(() => {
-    if (data === 'verification-disabled') {
+    if (!verificationFlowData) {
+      return
+    } else if (verificationFlowData === 'verification-disabled') {
       // Email Verification is disabled in Ory: skip EmailVerification step
       clearVerificationFlowData()
       onSuccess()
@@ -80,13 +77,12 @@ export const EmailVerification = ({
   }, [])
 
   const resendEmail = async () => {
-    if (!verificationFlowData || !flow) return false
+    if (!verificationFlowData || typeof verificationFlowData !== 'object' || !flow) return false
 
     try {
-      const email =
-        typeof verificationFlowData === 'object' && hasIdentifier(verificationFlowData)
-          ? verificationFlowData.identifier
-          : verificationFlowData.verifiable_address
+      const email = hasIdentifier(verificationFlowData)
+        ? verificationFlowData.identifier
+        : verificationFlowData.verifiable_address
 
       await submitVerificationFlow({ flow, email })
       openToast(t('registration.emailVerification.message.emailResent'), HoliToastType.SUCCESS)
@@ -105,7 +101,12 @@ export const EmailVerification = ({
     toastMessage: string = t('registration.emailVerification.message.activated')
   ) => {
     // if we came to Email Verification from Login page, login the user after successful activation
-    if (!isLoggedIn && verificationFlowData && hasIdentifier(verificationFlowData)) {
+    if (
+      !isLoggedIn &&
+      verificationFlowData &&
+      typeof verificationFlowData === 'object' &&
+      hasIdentifier(verificationFlowData)
+    ) {
       const session = await login({
         payload: verificationFlowData,
       })
@@ -170,7 +171,7 @@ export const EmailVerification = ({
     }
   }
 
-  if (!flow) return <HoliLoader />
+  if (!flow || !verificationFlowData) return <HoliLoader />
 
   return (
     <CenteredImageHeadlineDescriptionLayout
@@ -227,7 +228,7 @@ export const EmailVerification = ({
           label={t('auth.loginProtection.continueAsGuest')}
           onPress={async () => {
             isLoggedIn && (await logout({ skipRedirect: true, showToastAfter: false }).catch(() => null)) // ignore logout error
-            setVerificationFlowData(undefined)
+            clearVerificationFlowData()
             onDismiss()
           }}
           type="secondary"

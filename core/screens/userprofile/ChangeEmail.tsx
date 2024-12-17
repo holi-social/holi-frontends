@@ -148,13 +148,11 @@ const ChangeEmail = () => {
       const { data } = await submitSettingsFlowProfile(settingsFlow, traits, sessionToken)
       openToast(t('auth.changeEmail.success'), HoliToastType.SUCCESS)
       const verificationFlowData = getVerificationFlowFromRegistration(data)
-      // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
-      if (verificationFlowData) {
-        setVerificationFlowData(verificationFlowData)
-        navigate('/profile/settings/changeEmailVerification')
-      } else {
-        setVerificationFlowData('verification-disabled')
+      setVerificationFlowData(verificationFlowData)
+      if (verificationFlowData === 'verification-disabled') {
         navigate('/profile')
+      } else {
+        navigate('/profile/settings/changeEmailVerification')
       }
     } catch (err) {
       handleFormSubmitError(
