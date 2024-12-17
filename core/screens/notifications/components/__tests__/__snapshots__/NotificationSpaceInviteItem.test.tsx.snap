@@ -95,11 +95,9 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               }
               style={
                 {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
+                  "aspectRatio": 1,
+                  "height": undefined,
+                  "width": "100%",
                 }
               }
             />
@@ -543,11 +541,9 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               }
               style={
                 {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
+                  "aspectRatio": 1,
+                  "height": undefined,
+                  "width": "100%",
                 }
               }
             />

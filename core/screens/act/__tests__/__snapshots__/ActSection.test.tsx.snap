@@ -818,18 +818,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 28,
-                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/a5558cd1-0ccd-469d-8318-e0b1c37c42f9_HhQ7euc5n1.jpeg?tr=w-56%2Ch-56",
-                              "width": 28,
+                              "height": 24,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/a5558cd1-0ccd-469d-8318-e0b1c37c42f9_HhQ7euc5n1.jpeg?tr=w-48%2Ch-48",
+                              "width": 24,
                             }
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -940,18 +938,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 28,
-                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-56%2Ch-56",
-                              "width": 28,
+                              "height": 24,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-48%2Ch-48",
+                              "width": 24,
                             }
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -1310,18 +1306,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 28,
-                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/5d91a785-5bad-45f1-98be-a29473a4d362_E_MBZCQeh.jpg?tr=w-56%2Ch-56",
-                              "width": 28,
+                              "height": 24,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/5d91a785-5bad-45f1-98be-a29473a4d362_E_MBZCQeh.jpg?tr=w-48%2Ch-48",
+                              "width": 24,
                             }
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -1432,18 +1426,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 28,
-                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/4f4ff9a7-6880-46ce-b3a0-34c7b33061ef__klXP1H8h.png?tr=w-56%2Ch-56",
-                              "width": 28,
+                              "height": 24,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/4f4ff9a7-6880-46ce-b3a0-34c7b33061ef__klXP1H8h.png?tr=w-48%2Ch-48",
+                              "width": 24,
                             }
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -1802,18 +1794,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 28,
-                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-56%2Ch-56",
-                              "width": 28,
+                              "height": 24,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/c54dc1b4-3227-4d46-adf7-3c31fff41d4c_UIt0asn0G.jpeg?tr=w-48%2Ch-48",
+                              "width": 24,
                             }
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -1924,18 +1914,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 28,
-                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/5e92eddc-0b91-40b8-8e65-8fb42b2dcb90_iLHw5vbC3.jpeg?tr=w-56%2Ch-56",
-                              "width": 28,
+                              "height": 24,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/5e92eddc-0b91-40b8-8e65-8fb42b2dcb90_iLHw5vbC3.jpeg?tr=w-48%2Ch-48",
+                              "width": 24,
                             }
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -2294,18 +2282,16 @@ exports[`ActHome Section shows CHALLENGES 1`] = `
                           role="img"
                           source={
                             {
-                              "height": 28,
-                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/a22a06f4-dee6-4ac1-ac05-cafe1f2b4989_YN8SD7ulw.jpeg?tr=w-56%2Ch-56",
-                              "width": 28,
+                              "height": 24,
+                              "uri": "https://ik.imagekit.io/holi/_DEV_/avatar/a22a06f4-dee6-4ac1-ac05-cafe1f2b4989_YN8SD7ulw.jpeg?tr=w-48%2Ch-48",
+                              "width": 24,
                             }
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -8115,18 +8101,16 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                             role="img"
                             source={
                               {
-                                "height": 28,
-                                "uri": "https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png?tr=w-56%2Ch-56",
-                                "width": 28,
+                                "height": 24,
+                                "uri": "https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png?tr=w-48%2Ch-48",
+                                "width": 24,
                               }
                             }
                             style={
                               {
-                                "bottom": 0,
-                                "left": 0,
-                                "position": "absolute",
-                                "right": 0,
-                                "top": 0,
+                                "aspectRatio": 1,
+                                "height": undefined,
+                                "width": "100%",
                               }
                             }
                           />
@@ -8731,18 +8715,16 @@ exports[`ActHome Section shows VOLUNTEERING 1`] = `
                             role="img"
                             source={
                               {
-                                "height": 28,
-                                "uri": "https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png?tr=w-56%2Ch-56",
-                                "width": 28,
+                                "height": 24,
+                                "uri": "https://ik.imagekit.io/finsterwalder/community/5e308371-d074-4249-b6dc-1de5deb53561_bd3nZm7OP.png?tr=w-48%2Ch-48",
+                                "width": 24,
                               }
                             }
                             style={
                               {
-                                "bottom": 0,
-                                "left": 0,
-                                "position": "absolute",
-                                "right": 0,
-                                "top": 0,
+                                "aspectRatio": 1,
+                                "height": undefined,
+                                "width": "100%",
                               }
                             }
                           />

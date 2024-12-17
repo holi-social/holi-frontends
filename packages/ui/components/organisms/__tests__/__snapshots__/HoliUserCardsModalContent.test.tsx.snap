@@ -199,18 +199,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         role="img"
                         source={
                           {
-                            "height": 64,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/avatar-1",
-                            "width": 64,
+                            "height": 128,
+                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-1",
+                            "width": 128,
                           }
                         }
                         style={
                           {
-                            "bottom": 0,
-                            "left": 0,
-                            "position": "absolute",
-                            "right": 0,
-                            "top": 0,
+                            "aspectRatio": 1,
+                            "height": undefined,
+                            "width": "100%",
                           }
                         }
                       />
@@ -574,18 +572,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         role="img"
                         source={
                           {
-                            "height": 64,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/avatar-2",
-                            "width": 64,
+                            "height": 128,
+                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-2",
+                            "width": 128,
                           }
                         }
                         style={
                           {
-                            "bottom": 0,
-                            "left": 0,
-                            "position": "absolute",
-                            "right": 0,
-                            "top": 0,
+                            "aspectRatio": 1,
+                            "height": undefined,
+                            "width": "100%",
                           }
                         }
                       />
@@ -949,18 +945,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         role="img"
                         source={
                           {
-                            "height": 64,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/avatar-3",
-                            "width": 64,
+                            "height": 128,
+                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-3",
+                            "width": 128,
                           }
                         }
                         style={
                           {
-                            "bottom": 0,
-                            "left": 0,
-                            "position": "absolute",
-                            "right": 0,
-                            "top": 0,
+                            "aspectRatio": 1,
+                            "height": undefined,
+                            "width": "100%",
                           }
                         }
                       />
@@ -1326,18 +1320,16 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         role="img"
                         source={
                           {
-                            "height": 64,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/avatar-4",
-                            "width": 64,
+                            "height": 128,
+                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-4",
+                            "width": 128,
                           }
                         }
                         style={
                           {
-                            "bottom": 0,
-                            "left": 0,
-                            "position": "absolute",
-                            "right": 0,
-                            "top": 0,
+                            "aspectRatio": 1,
+                            "height": undefined,
+                            "width": "100%",
                           }
                         }
                       />
