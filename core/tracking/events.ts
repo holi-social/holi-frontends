@@ -242,7 +242,7 @@ export namespace TrackingEvent {
       | { step: 'verificationCode'; answer: 'verifyAccount' | 'continueAsGuest' }
       | { step: 'name'; answer: 'continue' }
   ): TrackingEvent => ({
-    name: 'onboardingStepCompleted',
+    name: 'signupStepCompleted',
     properties,
     ...versionOne,
   })
