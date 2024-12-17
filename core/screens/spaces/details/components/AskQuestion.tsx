@@ -27,7 +27,7 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
 
   return (
     <HoliActionDrawer.Drawer
-      customTrigger={(onPress, testID) => (
+      renderCustomButton={(onPress, testID) => (
         <View
           style={[
             styles.ctaWrapper,

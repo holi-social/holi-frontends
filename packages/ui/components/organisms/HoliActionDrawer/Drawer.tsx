@@ -35,7 +35,7 @@ export interface ActionDrawerProps {
   variant?: 'default' | 'dark'
   buttonElement?: React.ReactNode
   buttonProps?: Partial<HoliButtonProps>
-  customTrigger?: (onPress: () => void, testID?: string) => ReactNode
+  renderCustomButton?: (onPress: () => void, testID?: string) => ReactNode
   onShow?: CallableFunction
   onHide?: CallableFunction
 }
@@ -66,7 +66,7 @@ export const Drawer = ({
   buttonProps,
   onShow,
   onHide,
-  customTrigger,
+  renderCustomButton,
 }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
@@ -80,19 +80,14 @@ export const Drawer = ({
     showDrawer: showModal,
   }
 
+  const onPressHandler = safeSideEffect(showModal, onShow)
+
   return (
     <ActionDrawerContext.Provider value={contextValue}>
-      {customTrigger ? (
-        customTrigger(safeSideEffect(showModal, onShow), testID)
+      {renderCustomButton ? (
+        renderCustomButton(onPressHandler, testID)
       ) : (
-        <HoliButton
-          transparent
-          inline
-          label={label}
-          onPress={safeSideEffect(showModal, onShow)}
-          testID={testID}
-          {...buttonProps}
-        >
+        <HoliButton transparent inline label={label} onPress={onPressHandler} testID={testID} {...buttonProps}>
           {buttonElement || (
             <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
           )}
