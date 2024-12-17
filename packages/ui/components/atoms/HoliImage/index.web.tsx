@@ -5,8 +5,6 @@ import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import type { ImageSource, WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
-import styles from './styles.module.css'
-
 const createSrcSet = (source: ImageSource | ImageSource[]): string | undefined => {
   if (!Array.isArray(source)) {
     return undefined
@@ -55,7 +53,6 @@ const HoliImage = ({
   // support multiple sources for image tag: https://github.com/necolas/react-native-web/issues/515
   return (
     <img
-      className={styles.image}
       srcSet={srcSet}
       src={createSrc(source)}
       sizes={sizes || (srcSet && `(min-width:${dimensions.maxScreenWidth}px) ${dimensions.maxScreenWidth}px, 100vw`)}

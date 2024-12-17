@@ -104,11 +104,9 @@ exports[`SpaceInviteItem renders correctly 1`] = `
           }
           style={
             {
-              "bottom": 0,
-              "left": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
+              "aspectRatio": 1,
+              "height": undefined,
+              "width": "100%",
             }
           }
         />
