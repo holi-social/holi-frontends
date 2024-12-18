@@ -78,17 +78,23 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
           <Text size="3xl">{t('spaces.connectTitle')}</Text>
           <Text size="md">{t('spaces.connectDescription')}</Text>
         </View>
-        <Button
-          loading={isLoading}
-          disabled={isLoading}
-          onPress={() => {
-            if (representativeIdentity) {
-              startChat(representativeIdentity)
-            }
-          }}
-          variant="primary"
-          size="lg"
-          label={t('spaces.connectCta')}
+        <HoliActionDrawer.Action
+          title={t('spaces.connectCta')}
+          renderCustomActionButton={(act) => (
+            <Button
+              loading={isLoading}
+              disabled={isLoading}
+              onPress={async (e) => {
+                if (representativeIdentity) {
+                  await act(e)
+                  startChat(representativeIdentity)
+                }
+              }}
+              variant="primary"
+              size="lg"
+              label={t('spaces.connectCta')}
+            />
+          )}
         />
       </View>
     </HoliActionDrawer.Drawer>
