@@ -9,7 +9,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const useChat = () => {
+export const useStartChat = () => {
   const { isLoggedIn } = useLoggedInUser()
   const [isLoading, setIsLoading] = useState(false)
   const { openSignupModal } = useSignupModal()

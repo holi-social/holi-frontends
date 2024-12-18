@@ -105,8 +105,7 @@ export const CreateAccount = ({
         logger.debug('CreateAccount', 'registration was successful')
 
         const verificationFlowData = getVerificationFlowFromRegistration(data)
-        // verification flow is disabled in Ory if `verificationFlowData` is `undefined`
-        setVerificationFlowData(verificationFlowData ?? 'verification-disabled')
+        setVerificationFlowData(verificationFlowData)
 
         await client.clearStore()
         await setLoginStateLoggedIn({
