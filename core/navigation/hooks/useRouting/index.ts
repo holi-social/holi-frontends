@@ -33,7 +33,7 @@ const useRouting = (): RoutingState => {
   const replaceRoute = useCallback(
     async (routeName: string) => {
       navigateBack()
-      navigate(routeName)
+      navigate(routeName) // Will do nothing if equal to previous route
       return true
     },
     [navigate, navigateBack]
