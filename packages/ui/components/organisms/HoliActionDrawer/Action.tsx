@@ -36,8 +36,6 @@ export const useActionContext = () => {
 
 export interface ActionProps {
   icon?: HoliIconType
-  /* Make sure to call **endAction** so the drawer can behave properly for your custom Element handlers */
-  renderCustomActionButton?: (endAction: () => void) => React.ReactNode
   title: string
   isLoading?: boolean
   variant?: 'default' | 'danger'
@@ -50,7 +48,6 @@ export interface ActionProps {
 export const Action = ({
   icon = Edit2,
   children,
-  renderCustomActionButton,
   handleAction,
   isLoading,
   title,
@@ -83,25 +80,21 @@ export const Action = ({
 
   return (
     <ActionContext.Provider value={contextValue}>
-      <HoliBox padding={renderCustomActionButton ? 0 : [0, 0, 32, 0]}>
-        {renderCustomActionButton ? (
-          renderCustomActionButton(hideDrawer)
-        ) : (
-          <HoliButton
-            inline
-            transparent
-            label={title}
-            contentStyle={styles.buttonContent}
-            onPress={handleOnPress}
-            testID={testID}
-          >
-            <HoliBox padding={[0, 13, 0, 0]}>
-              <HoliIcon icon={icon} size={18} color={iconColor || variantColor} />
-            </HoliBox>
+      <HoliBox padding={[0, 0, 32, 0]}>
+        <HoliButton
+          inline
+          transparent
+          label={title}
+          contentStyle={styles.buttonContent}
+          onPress={handleOnPress}
+          testID={testID}
+        >
+          <HoliBox padding={[0, 13, 0, 0]}>
+            <HoliIcon icon={icon} size={18} color={iconColor || variantColor} />
+          </HoliBox>
 
-            <HoliText color={colorName}>{title}</HoliText>
-          </HoliButton>
-        )}
+          <HoliText color={colorName}>{title}</HoliText>
+        </HoliButton>
         {isLoading && <HoliLoader style={{ backgroundColor: colors.background10 }} />}
       </HoliBox>
       {children}
