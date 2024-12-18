@@ -1,8 +1,8 @@
-import type { PropsWithChildren, ReactNode } from 'react'
+import { PropsWithChildren, ReactNode } from 'react'
 import type React from 'react'
 import { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type GestureResponderEvent, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -13,12 +13,10 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { useTheme } from '@holi/ui/styles/theme'
 
 interface ActionDrawerContentProps {
-  showDrawer: () => void
   hideDrawer: () => void
-  isVisibleDrawer: boolean
 }
 
-const ActionDrawerContext = createContext<ActionDrawerContentProps>({} as ActionDrawerContentProps)
+const ActionDrawerContext = createContext<ActionDrawerContentProps | null>(null)
 
 export const useActionDrawerContext = () => {
   const context = useContext(ActionDrawerContext)
@@ -35,26 +33,9 @@ export interface ActionDrawerProps {
   variant?: 'default' | 'dark'
   buttonElement?: React.ReactNode
   buttonProps?: Partial<HoliButtonProps>
-  customTrigger?: (onPress: () => void, testID?: string) => ReactNode
+  renderCustomButton?: (onPress: () => void, testID?: string) => ReactNode
   onShow?: CallableFunction
   onHide?: CallableFunction
-}
-
-const safeSideEffect = (
-  fn: (event?: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>,
-  sideEffectFn?: CallableFunction
-): ((event?: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>) => {
-  return (e) => {
-    try {
-      sideEffectFn?.()
-    } catch (e) {
-      // console.error will be picked up by Sentry, so this does not go unnoticed to the programmer, but to the user.
-      // eslint-disable-next-line no-console
-      console.error('Error during evaluation of onTrack callback', e)
-    } finally {
-      fn(e)
-    }
-  }
 }
 
 export const Drawer = ({
@@ -64,35 +45,24 @@ export const Drawer = ({
   variant,
   buttonElement,
   buttonProps,
-  onShow,
-  onHide,
-  customTrigger,
+  renderCustomButton,
 }: PropsWithChildren<ActionDrawerProps>): JSX.Element => {
   const { t } = useTranslation()
   const { bottom: safeAreaBottom } = useSafeAreaInsets()
-  const { visible: visibleModal, show: showModal, hide: hideModal } = useModalState()
+  const { show: showModal, hide: hideModal, props: modalProps } = useModalState()
   const { theme } = useTheme()
   const { colors } = theme
 
   const contextValue = {
-    isVisibleDrawer: visibleModal,
     hideDrawer: hideModal,
-    showDrawer: showModal,
   }
 
   return (
     <ActionDrawerContext.Provider value={contextValue}>
-      {customTrigger ? (
-        customTrigger(safeSideEffect(showModal, onShow), testID)
+      {renderCustomButton ? (
+        renderCustomButton(showModal, testID)
       ) : (
-        <HoliButton
-          transparent
-          inline
-          label={label}
-          onPress={safeSideEffect(showModal, onShow)}
-          testID={testID}
-          {...buttonProps}
-        >
+        <HoliButton transparent inline label={label} onPress={showModal} testID={testID} {...buttonProps}>
           {buttonElement || (
             <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
           )}
@@ -100,8 +70,7 @@ export const Drawer = ({
       )}
 
       <HoliModal
-        shown={visibleModal}
-        onDismiss={safeSideEffect(hideModal, onHide)}
+        {...modalProps}
         testID="more-options-modal"
         label={t('global.moreOptions')}
         style={StyleSheet.flatten([{ paddingBottom: safeAreaBottom || 18 }])}
