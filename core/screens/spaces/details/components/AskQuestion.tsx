@@ -17,6 +17,40 @@ type AskQuestionProps = {
   spaceIdOrName?: string
 }
 
+const AskQuestionButton = (props: {
+  testID: string | undefined
+  onPress: () => void
+}) => {
+  const { styles } = useStyles(askQuestionButtonStyles)
+  const { t } = useTranslation()
+  const label = t('spaces.askInfo')
+  return (
+    <View
+      style={[
+        styles.ctaWrapper,
+        Platform.OS === 'web' && {
+          position: 'fixed',
+        },
+      ]}
+      testID={props.testID}
+    >
+      <Button onPress={props.onPress} variant="primary" icon={QuestionAnswerLine} size="lg" label={label} />
+    </View>
+  )
+}
+
+const askQuestionButtonStyles = createStyleSheet(() => ({
+  ctaWrapper: {
+    padding: Spacing.xxs,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    maxWidth: Number(dimensions.maxScreenWidth),
+    position: 'absolute',
+    marginHorizontal: 'auto',
+  },
+}))
+
 export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
   const { representativeIdentity } = useRepresentative(spaceIdOrName)
   const { styles } = useStyles(stylesheet)
@@ -27,19 +61,7 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
 
   return (
     <HoliActionDrawer.Drawer
-      renderCustomButton={(onPress, testID) => (
-        <View
-          style={[
-            styles.ctaWrapper,
-            Platform.OS === 'web' && {
-              position: 'fixed',
-            },
-          ]}
-          testID={testID}
-        >
-          <Button onPress={onPress} variant="primary" icon={QuestionAnswerLine} size="lg" label={t('spaces.askInfo')} />
-        </View>
-      )}
+      renderCustomButton={(onPress, testID) => <AskQuestionButton testID={testID} onPress={onPress} />}
       label={t('global.options')}
       testID="ask-space-question"
     >
@@ -81,14 +103,5 @@ const stylesheet = createStyleSheet(() => ({
   ctaDrawerContentWrapper: {
     flexDirection: 'column',
     gap: 16,
-  },
-  ctaWrapper: {
-    padding: Spacing.xxs,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    maxWidth: Number(dimensions.maxScreenWidth),
-    position: 'absolute',
-    marginHorizontal: 'auto',
   },
 }))
