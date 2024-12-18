@@ -31,32 +31,20 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: AskQuestionProps) => {
   const { representativeIdentity } = useRepresentative(spaceIdOrName)
   const [isLoading, setIsLoading] = useState(false)
 
-  const startChatOrRedirectToLogin = async () => {
-    setIsLoading(true)
+  const safelyOpenSignupModal = () => {
+    /* prevent having two modals open as startChat shows another one for guest, which breaks on ios */
+    hideDrawer()
 
-    if (!isLoggedIn) {
-      /* prevent having two modals open as startChat shows another one for guest, which breaks on ios */
-      hideDrawer()
+    openSignupModal({
+      description: t('chat.start.loginRedirect.text'),
+      trackTrigger: 'START_CHAT',
+    })
+  }
 
-      openSignupModal({
-        description: t('chat.start.loginRedirect.text'),
-        trackTrigger: 'START_CHAT',
-      })
-      setIsLoading(false)
-      return
-    }
-
-    if (!representativeIdentity) {
-      logError(new HoliError('Can not create a chat without a space representatives identity'), 'Failed to open chat', {
-        location: 'StartChatButton.handleChat',
-      })
-      setIsLoading(false)
-      return
-    }
-
+  async function openChatRoom(chatPartnerIdentity: string) {
     try {
-      const representativeMatrixId = '@' + representativeIdentity + ':' + chatServerName
-      const { room_id } = await getOrCreateRoom([representativeMatrixId])
+      const chatPartnerMatrixId = '@' + chatPartnerIdentity + ':' + chatServerName
+      const { room_id } = await getOrCreateRoom([chatPartnerMatrixId])
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -65,10 +53,36 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: AskQuestionProps) => {
         hideDrawer()
       }
     } catch (e) {
-      logError(e, 'Failed to start ask-question-chat with Space Representative', {
-        location: 'StartChatButton.startChatOrRedirectToLogin',
+      logError(e, 'Failed to start ask-question-chat with chat partner ' + chatPartnerIdentity, {
+        location: 'StartChatDrawerActionButton.openChatRoom',
       })
       openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
+    }
+  }
+
+  const start = async () => {
+    setIsLoading(true)
+
+    if (!isLoggedIn) {
+      safelyOpenSignupModal()
+      setIsLoading(false)
+      return
+    }
+
+    if (!representativeIdentity) {
+      logError(
+        new HoliError('Can not create a chat without a space representatives identity'),
+        'Failed to start chat',
+        {
+          location: 'StartChatDrawerActionButton.start',
+        }
+      )
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      await openChatRoom(representativeIdentity)
     } finally {
       setIsLoading(false)
     }
@@ -78,7 +92,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: AskQuestionProps) => {
     <Button
       loading={isLoading}
       disabled={isLoading}
-      onPress={startChatOrRedirectToLogin}
+      onPress={start}
       variant="primary"
       size="lg"
       label={t('spaces.connectCta')}
