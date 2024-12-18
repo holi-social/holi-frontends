@@ -1,8 +1,10 @@
-import { useChat } from '@holi/core/hooks/useStartChat'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { useStartChat } from '@holi/core/hooks/useStartChat'
 import { useRepresentative } from '@holi/core/screens/spaces/hooks/useRepresentative'
 import { QuestionAnswerLine } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
+import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliActionDrawer/Drawer'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
@@ -13,14 +15,38 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
 
+const StartChatButton = ({ spaceIdOrName }: AskQuestionProps) => {
+  const { t } = useTranslation()
+  const { representativeIdentity } = useRepresentative(spaceIdOrName)
+  const { startChat, isLoading } = useStartChat()
+  const { isLoggedIn } = useLoggedInUser()
+  const { hideDrawer } = useActionDrawerContext()
+
+  return (
+    <Button
+      loading={isLoading}
+      disabled={isLoading}
+      onPress={() => {
+        if (!isLoggedIn) {
+          hideDrawer()
+        }
+        if (representativeIdentity) {
+          startChat(representativeIdentity)
+        }
+      }}
+      variant="primary"
+      size="lg"
+      label={t('spaces.connectCta')}
+    />
+  )
+}
+
 type AskQuestionProps = {
   spaceIdOrName?: string
 }
 
 export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
-  const { representativeIdentity } = useRepresentative(spaceIdOrName)
   const { styles } = useStyles(stylesheet)
-  const { startChat, isLoading } = useChat()
   const { t } = useTranslation()
 
   if (!spaceIdOrName) return null
@@ -52,22 +78,13 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
           height={36}
           resizeMode="contain"
         />
+
         <View style={styles.ctaDrawerContent}>
           <Text size="3xl">{t('spaces.connectTitle')}</Text>
           <Text size="md">{t('spaces.connectDescription')}</Text>
         </View>
-        <Button
-          loading={isLoading}
-          disabled={isLoading}
-          onPress={() => {
-            if (representativeIdentity) {
-              startChat(representativeIdentity)
-            }
-          }}
-          variant="primary"
-          size="lg"
-          label={t('spaces.connectCta')}
-        />
+
+        <StartChatButton spaceIdOrName={spaceIdOrName} />
       </View>
     </HoliActionDrawer.Drawer>
   )
