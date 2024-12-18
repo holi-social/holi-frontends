@@ -181,7 +181,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               }
             }
           >
-            2 weeks ago
+            last week
           </Text>
         </View>
         <View
@@ -644,7 +644,7 @@ I would like to join!
               }
             }
           >
-            2 weeks ago
+            last week
           </Text>
         </View>
         <View
