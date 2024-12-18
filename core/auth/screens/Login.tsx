@@ -38,7 +38,7 @@ const Login = () => {
   const setScreenOptions = useSetScreenOptions()
   const client = useApolloClient()
   const { track } = useTracking()
-  const redirect = useRedirect('/')
+  const redirect = useRedirect()
 
   const isWeb = Platform.OS === 'web'
 

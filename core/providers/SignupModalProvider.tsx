@@ -41,7 +41,7 @@ export const SignupModalProvider = ({ children }: React.PropsWithChildren<unknow
     if (!props.description) props.description = t('loginRedirect.text')
     if (!props.label) props.label = props.description
 
-    setCustomProps((currentProps) => ({ ...currentProps, ...props }))
+    setCustomProps(props) // Override previous props
     setShowLoginGuard(true)
   }
 
