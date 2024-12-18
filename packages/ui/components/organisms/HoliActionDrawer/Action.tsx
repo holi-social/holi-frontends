@@ -1,4 +1,4 @@
-import type { Dispatch, PropsWithChildren, SetStateAction, SyntheticEvent } from 'react'
+import { Dispatch, PropsWithChildren, SetStateAction, SyntheticEvent } from 'react'
 import React, { createContext, useContext } from 'react'
 import type { GestureResponderEvent } from 'react-native'
 import { StyleSheet } from 'react-native'
@@ -36,9 +36,8 @@ export const useActionContext = () => {
 
 export interface ActionProps {
   icon?: HoliIconType
-  renderCustomActionButton?: (
-    act: (e: React.SyntheticEvent | GestureResponderEvent) => Promise<void>
-  ) => React.ReactNode
+  /* Make sure to call **endAction** so the drawer can behave properly for your custom Element handlers */
+  renderCustomActionButton?: (endAction: () => void) => React.ReactNode
   title: string
   isLoading?: boolean
   variant?: 'default' | 'danger'
@@ -86,7 +85,7 @@ export const Action = ({
     <ActionContext.Provider value={contextValue}>
       <HoliBox padding={renderCustomActionButton ? 0 : [0, 0, 32, 0]}>
         {renderCustomActionButton ? (
-          renderCustomActionButton(handleOnPress)
+          renderCustomActionButton(hideDrawer)
         ) : (
           <HoliButton
             inline

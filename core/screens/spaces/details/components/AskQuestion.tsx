@@ -80,14 +80,14 @@ export const AskQuestion = ({ spaceIdOrName }: AskQuestionProps) => {
         </View>
         <HoliActionDrawer.Action
           title={t('spaces.connectCta')}
-          renderCustomActionButton={(act) => (
+          renderCustomActionButton={(endAction) => (
             <Button
               loading={isLoading}
               disabled={isLoading}
-              onPress={async (e) => {
+              onPress={async () => {
                 if (representativeIdentity) {
-                  await act(e)
                   startChat(representativeIdentity)
+                  endAction()
                 }
               }}
               variant="primary"
