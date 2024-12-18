@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactNode } from 'react'
+import { PropsWithChildren, ReactNode } from 'react'
 import type React from 'react'
 import { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -81,6 +81,7 @@ export const Drawer = ({
   }
 
   const onPressHandler = safeSideEffect(showModal, onShow)
+  const onDismissHandler = safeSideEffect(hideModal, onHide)
 
   return (
     <ActionDrawerContext.Provider value={contextValue}>
@@ -96,7 +97,7 @@ export const Drawer = ({
 
       <HoliModal
         shown={visibleModal}
-        onDismiss={safeSideEffect(hideModal, onHide)}
+        onDismiss={onDismissHandler}
         testID="more-options-modal"
         label={t('global.moreOptions')}
         style={StyleSheet.flatten([{ paddingBottom: safeAreaBottom || 18 }])}
