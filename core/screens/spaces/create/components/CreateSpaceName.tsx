@@ -46,17 +46,9 @@ const CreateSpaceName: React.FC<CreateSpaceNameProps> = ({
         <View style={styles.title}>
           <HoliText size="extralarge">{t('spaces.create.stepOne.title')}</HoliText>
         </View>
-        <SpaceNameInput
-          value={spaceName}
-          onChange={onChangeSpaceName}
-          errorMessage={spaceNameErrors?.length ? spaceNameErrors[0] : undefined}
-        />
+        <SpaceNameInput value={spaceName} onChange={onChangeSpaceName} errorMessages={spaceNameErrors} />
         <View style={styles.goalInputContainer}>
-          <SpaceGoalInput
-            value={spaceGoal}
-            onChange={onChangeSpaceGoal}
-            errorMessage={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
-          />
+          <SpaceGoalInput value={spaceGoal} onChange={onChangeSpaceGoal} errorMessages={spaceGoalErrors} />
         </View>
       </View>
     </View>
