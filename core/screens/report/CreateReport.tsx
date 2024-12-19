@@ -1,4 +1,4 @@
-import { Button } from 'holi-bricks/components/button/Button'
+import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

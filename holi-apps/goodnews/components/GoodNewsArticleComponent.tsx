@@ -1,24 +1,24 @@
-import React, { memo, useMemo } from 'react'
+import type React from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ImageBackground, Linking, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ImageBackground, Linking, Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import InfoModal, { InfoModalItemProps } from '@holi/core/components/InfoModal'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
 import { ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { setScalingParams } from '@holi/ui/components/atoms/HoliImage/resizing'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import { getCommonStyles } from '@holi-apps/goodnews/common_styles'
 import { relativeArticleImageHeightScaling } from '@holi-apps/goodnews/imageConfig'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
+import { Button } from 'holi-bricks/components/button'
 
 export const GOODNEWS_IMG_SOURCES_MAPPING: {
   [name: string]: InfoModalItemProps
@@ -90,7 +90,7 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
         <HoliGap size="s" />
         <InfoModal
           items={{ 'goodnews.eu': partner }}
-          show={partnerModalState.visible}
+          shown={partnerModalState.visible}
           onDismiss={partnerModalState.hide}
           i18nPrefix={'goodnews:listing.partnerModal'}
         />
@@ -104,19 +104,14 @@ const GoodNewsArticleComponent: React.FC<GoodNewsArticleComponentProps> = ({
         <HoliText numberOfLines={3}>{article.teaserText}</HoliText>
         <HoliGap size="xs" />
         {/* TODO refactoring to modify <HoliLink /> so that it works as/with a button, too */}
-        <HoliButton
+        <Button
           label={t('goodnews:button.readArticle')}
           onPress={() => Linking.openURL(article.articleUrl)}
           testID="btn-to-article-external"
-          type="secondary"
-          variant={'medium'}
-        >
-          <HoliText style={styles.externalLinkButtonText} selectable={false}>
-            {t('goodnews:button.readArticle')}
-          </HoliText>
-          {/* TODO external link (part of HoliLink) ? */}
-          <HoliIcon icon={ShareBox} />
-        </HoliButton>
+          variant="secondary"
+          size="md"
+          icon={ShareBox}
+        />
       </View>
     </View>
   )

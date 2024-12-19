@@ -4,16 +4,16 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
-import { FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { type FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import { Add, Close, Delete } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
+import { ChipAction } from 'holi-bricks/components/chips/ChipAction'
 
 type EditUploadedImagesProps = {
   images: HoliImageInfo[]
@@ -57,28 +57,22 @@ const EditUploadedImages = ({
                     transparent: false,
                     label: t('individuals.post.images.addImage'),
                     inline: true,
-                    type: 'secondary',
-                    variant: 'small',
+                    variant: 'secondary',
+                    icon: Add,
                   }}
                   onPickImages={(newImages) => setImages([...images, ...newImages])}
-                >
-                  <HoliText>{t('individuals.post.images.addImage')}</HoliText>
-                  <HoliIcon icon={Add} style={styles.buttonIcon} />
-                </HoliImagePicker>
+                />
                 {(!!images.length || !!currentImages?.length) && (
-                  <HoliButton
+                  <Button
                     inline
-                    type="secondary"
+                    variant="secondary"
                     label={t('individuals.post.images.removeAll')}
                     onPress={() => {
                       setImages([])
                       setCurrentImages?.([])
                     }}
-                    variant="small"
-                  >
-                    <HoliText>{t('individuals.post.images.removeAll')}</HoliText>
-                    <HoliIcon icon={Delete} style={styles.buttonIcon} />
-                  </HoliButton>
+                    icon={Delete}
+                  />
                 )}
               </View>
               <View style={styles.requirements}>
@@ -90,32 +84,22 @@ const EditUploadedImages = ({
               <View style={styles.imageRatioContainer}>
                 <HoliText size="large">{t('individuals.post.images.imageRatio')}</HoliText>
                 <View style={styles.imageRatioButtons}>
-                  <HoliButton
-                    style={[
-                      styles.imageRatioButton,
-                      aspectRatio === ImageAspectRatio.SIXTEEN_NINE && styles.imageRatioButtonActive,
-                    ]}
-                    variant="small"
-                    inline
-                    label="16:9"
+                  <ChipAction
                     onPress={() => setAspectRatio(ImageAspectRatio.SIXTEEN_NINE)}
+                    color="white"
+                    id={'sixteen-nine'}
+                    selected={aspectRatio === ImageAspectRatio.SIXTEEN_NINE}
                   >
-                    <HoliText color={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 'white100' : 'black300'}>
-                      16:9
-                    </HoliText>
-                  </HoliButton>
-                  <HoliButton
-                    style={[
-                      styles.imageRatioButton,
-                      aspectRatio === ImageAspectRatio.ONE_ONE && styles.imageRatioButtonActive,
-                    ]}
-                    variant="small"
-                    inline
-                    label="1:1"
+                    16:9
+                  </ChipAction>
+                  <ChipAction
                     onPress={() => setAspectRatio(ImageAspectRatio.ONE_ONE)}
+                    color="white"
+                    id={'one-one'}
+                    selected={aspectRatio === ImageAspectRatio.ONE_ONE}
                   >
-                    <HoliText color={aspectRatio === ImageAspectRatio.ONE_ONE ? 'white100' : 'black300'}>1:1</HoliText>
-                  </HoliButton>
+                    1:1
+                  </ChipAction>
                 </View>
               </View>
             </View>
@@ -134,10 +118,9 @@ const EditUploadedImages = ({
                         aspectRatio={aspectRatio === ImageAspectRatio.SIXTEEN_NINE ? 16 / 9 : 1 / 1}
                       />
                       <View style={styles.buttonContainer}>
-                        <HoliButton
-                          transparent
+                        <ButtonIcon
+                          variant="secondary"
                           label={t('individuals.post.images.remove')}
-                          style={styles.button}
                           onPress={() => {
                             if (imageInfo) {
                               setImages(
@@ -150,9 +133,8 @@ const EditUploadedImages = ({
                               )
                             }
                           }}
-                        >
-                          <HoliIcon icon={Delete} size={20} style={styles.icon} />
-                        </HoliButton>
+                          icon={Delete}
+                        />
                       </View>
                     </View>
                   </View>
@@ -164,24 +146,16 @@ const EditUploadedImages = ({
       </ScrollView>
       <View style={styles.footer}>
         <HoliContainer flexDirection="row" gap={Spacing.xxs}>
-          <HoliButton
+          <ButtonIcon
             label={t('global.back')}
-            type="secondary"
-            inline
-            style={styles.backButton}
-            contentStyle={styles.backButtonContent}
+            variant="secondary"
             onPress={onActionButtonPress}
-          >
-            <HoliIcon style={styles.backButtonIcon} size={24} icon={Close} />
-          </HoliButton>
-          <HoliButton
-            inline
-            label={t('individuals.post.input.save')}
-            style={styles.saveButton}
-            onPress={onActionButtonPress}
-          >
-            <HoliText>Save</HoliText>
-          </HoliButton>
+            icon={Close}
+            size="lg"
+          />
+          <View style={styles.saveButton}>
+            <Button inline label={t('individuals.post.input.save')} size="lg" onPress={onActionButtonPress} />
+          </View>
         </HoliContainer>
       </View>
     </>
@@ -242,14 +216,6 @@ const createStyles = (theme: HoliTheme) =>
       borderColor: theme.colors.foreground10,
       backgroundColor: theme.colors.white100,
     },
-    button: {
-      justifyContent: 'center',
-      alignContent: 'center',
-      borderWidth: 1,
-      borderRadius: 84,
-      width: 40,
-      height: 40,
-    },
     buttonContainer: {
       paddingTop: Spacing['3xs'],
       alignItems: 'center',
@@ -257,9 +223,6 @@ const createStyles = (theme: HoliTheme) =>
       flexDirection: 'row',
       gap: Spacing.xxs,
       marginLeft: Spacing.xxs,
-    },
-    icon: {
-      alignSelf: 'center',
     },
     footer: {
       ...Platform.select({
@@ -274,18 +237,6 @@ const createStyles = (theme: HoliTheme) =>
       }),
       left: 0,
       right: 0,
-    },
-    backButton: {
-      paddingHorizontal: 0,
-      width: 55,
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    backButtonContent: {
-      justifyContent: 'center',
-    },
-    backButtonIcon: {
-      alignSelf: 'center',
     },
     saveButton: {
       flex: 1,

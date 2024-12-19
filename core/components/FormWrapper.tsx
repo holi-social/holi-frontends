@@ -4,25 +4,23 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  ScrollViewProps,
-  StyleProp,
+  type ScrollViewProps,
+  type StyleProp,
   StyleSheet,
   View,
-  ViewStyle,
+  type ViewStyle,
   useWindowDimensions,
 } from 'react-native'
 
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowLeft, Close } from '@holi/icons/src/generated'
+import { ArrowLeft } from '@holi/icons/src/generated'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useKeyboard } from '@holi/ui/helper'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
 
 export interface FormWrapperProps extends ScrollViewProps {
   renderProp: (scrollToPropsFor: ReturnType<typeof useScrollToInputOnFocus>) => React.ReactNode
@@ -79,7 +77,6 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
     const { height: screenHeight } = useWindowDimensions()
     const { keyboardHeight } = useKeyboard()
     const { t } = useTranslation()
-    const label = buttonLabel || t('global.save')
 
     const onHeightChange = useCallback((newContainerHeight: number) => {
       const newScrollViewHeight = newContainerHeight - SUBMIT_BUTTON_CONTAINER_HEIGHT
@@ -113,7 +110,6 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
     useEffect(scrollIntoView, [maxViewPortHeight, scrollIntoView])
 
     const styles = useMemo(() => getStyles(screenHeight, theme), [screenHeight, theme])
-    const { colors } = theme
 
     return (
       <KeyboardAvoidingView
@@ -145,44 +141,39 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
           <SafeArea edges={['bottom']} style={[styles.bottomBar, bottomBarStyle]}>
             <View style={[mixins.container, styles.buttonContainer]}>
               {showBackButton && (
-                <HoliButton
-                  type="secondary"
-                  variant="medium"
+                <ButtonIcon
+                  variant="secondary"
+                  size="md"
                   label={backButtonLabel || t('global.back')}
                   testID={`${testID}-back-btn`}
-                  inline
-                  style={styles.backButton}
                   onPress={onBack}
-                >
-                  <HoliIcon icon={ArrowLeft} color={colors.foreground30} />
-                </HoliButton>
+                  icon={ArrowLeft}
+                />
               )}
               {showCancelButton && (
-                <HoliButton
-                  type="secondary"
-                  variant="medium"
-                  label={backButtonLabel || t('global.back')}
-                  testID={`${testID}-back-btn`}
-                  inline
-                  style={styles.backButton}
-                  onPress={onCancel}
-                >
-                  <HoliIcon icon={Close} color={colors.foreground30} />
-                </HoliButton>
+                <View style={styles.backButton}>
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    label={backButtonLabel || t('global.back')}
+                    testID={`${testID}-back-btn`}
+                    inline
+                    onPress={onCancel}
+                  />
+                </View>
               )}
-              <HoliButtonLoading
-                inline
-                variant="medium"
-                disabled={saveButtonDisabled}
-                loading={saveButtonLoading}
-                label={label}
-                loadingLabel={t('global.loading')}
-                onPress={onSave}
-                testID={`${testID}-save-btn`}
-                style={styles.saveButton}
-              >
-                {buttonLabel || t('global.save')}
-              </HoliButtonLoading>
+              <View style={styles.saveButton}>
+                <Button
+                  inline
+                  size="md"
+                  disabled={saveButtonDisabled}
+                  loading={saveButtonLoading}
+                  loadingLabel={t('global.loading')}
+                  label={buttonLabel || t('global.save')}
+                  onPress={onSave}
+                  testID={`${testID}-save-btn`}
+                />
+              </View>
             </View>
           </SafeArea>
         </HoliKeyboardSaveView>
@@ -253,6 +244,7 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       justifyContent: 'center',
       alignItems: 'center',
       height: SUBMIT_BUTTON_CONTAINER_HEIGHT,
+      gap: 10,
       ...Platform.select({
         web: {
           maxWidth: dimensions.maxScreenWidth,
@@ -261,12 +253,7 @@ const getStyles = (screenHeight: number, theme: HoliTheme) =>
       }),
     },
     backButton: {
-      width: 46,
-      height: 46,
-      borderRadius: 23,
-      marginRight: 10,
-      paddingHorizontal: 0,
-      paddingVertical: 0,
+      flex: 1,
     },
     saveButton: {
       flex: 1,

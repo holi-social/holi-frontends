@@ -5,8 +5,8 @@ import { StyleSheet, View } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 type NoToolsProps = {
   spaceIdOrName: string
@@ -39,15 +39,14 @@ const NoTools = ({ spaceIdOrName }: NoToolsProps) => {
       <HoliText size="large" style={styles.description}>
         {t('spaces.toolKit.allTools.noData.description')}
       </HoliText>
-      <HoliButton
-        label={t('allTools.drawer.headline')}
-        inline
-        testID="space-resources-add-button"
-        onPress={navigateToAddToolPage}
-        style={styles.linkToolButton}
-      >
-        <HoliText>{t('spaces.toolKit.allTools.noData.link.button.label')}</HoliText>
-      </HoliButton>
+      <View style={styles.linkToolButton}>
+        <Button
+          label={t('spaces.toolKit.allTools.noData.link.button.label')}
+          inline
+          testID="space-resources-add-button"
+          onPress={navigateToAddToolPage}
+        />
+      </View>
     </View>
   )
 }

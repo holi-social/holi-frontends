@@ -1,7 +1,7 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
-import { TextLink } from 'holi-bricks/components/text'
+import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/accessibility'
+import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
-import { Spacing, type SpacingSize } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import type React from 'react'
 import { useCallback, useState } from 'react'
@@ -22,11 +22,12 @@ export type ButtonProps = AccessibilityProps & {
   disabled?: boolean
   size?: ButtonSize
   loading?: boolean
+  loadingLabel?: string
   transparent?: boolean
   selected?: boolean
   icon?: HoliIconType
-  iconSize?: SpacingSize
   inline?: boolean
+  testID?: string
 }
 
 export const Button = ({
@@ -36,13 +37,15 @@ export const Button = ({
   disabled = false,
   size = 'md',
   loading = false,
+  loadingLabel,
   transparent = false,
   selected = false,
   icon,
   inline = false,
-  iconSize = 'xs',
+  testID,
   ...rest
 }: ButtonProps) => {
+  const [isHovered, setIsHovered] = useState(false)
   const [isProcessing, setProcessing] = useState(false)
   const { styles } = useStyles(stylesheet, {
     variant,
@@ -52,6 +55,7 @@ export const Button = ({
   })
 
   const isSpinning = loading || isProcessing
+  const labelToShow = isSpinning && loadingLabel ? loadingLabel : label
 
   const handlePress = useCallback(
     async (event: React.SyntheticEvent | GestureResponderEvent) => {
@@ -70,7 +74,7 @@ export const Button = ({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={label}
+      accessibilityLabel={labelToShow}
       accessibilityState={{
         disabled: isSpinning || disabled,
         selected: selected,
@@ -78,25 +82,30 @@ export const Button = ({
       aria-disabled={isSpinning || disabled}
       aria-pressed={selected}
       onPress={handlePress}
-      style={({ hovered, pressed }) =>
-        !transparent ? [styles.button(!disabled && !!hovered, !disabled && !!pressed, inline)] : undefined
+      onHoverIn={() => setIsHovered(true)}
+      onHoverOut={() => setIsHovered(false)}
+      style={({ pressed }) =>
+        !transparent ? [styles.button(!disabled && isHovered, !disabled && !!pressed, inline)] : undefined
       }
       disabled={isSpinning || disabled}
+      testID={testID}
       {...accessibilityProps(rest)}
     >
       <View style={styles.content}>
-        <TextLink size={size === 'lg' ? 'md' : 'sm'} color={styles.text(disabled, selected, variant).color} role="none">
-          {label}
-        </TextLink>
-        {isSpinning && !disabled && (
+        <View style={styles.textContainer(size)}>
+          <Text size={size === 'lg' ? 'md' : 'sm'} color={styles.text(disabled, selected, variant).color}>
+            {labelToShow}
+          </Text>
+        </View>
+        {isSpinning && (
           <View testID="spinner">
-            <SpinningIconContainer spinning={loading}>
+            <SpinningIconContainer spinning={isSpinning}>
               <HoliIcon icon={Loader} size={16} color={styles.text(disabled, selected, variant).color} />
             </SpinningIconContainer>
           </View>
         )}
-        {(!isSpinning || disabled) && icon && (
-          <HoliIcon icon={icon} color={styles.text(disabled, selected, variant).color} size={Spacing[iconSize]} />
+        {!isSpinning && icon && (
+          <HoliIcon icon={icon} size={16} color={styles.text(disabled, selected, variant).color} />
         )}
       </View>
     </Pressable>
@@ -104,52 +113,52 @@ export const Button = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  button: (hovered: boolean, pressed: boolean, inline) => {
+  button: (hovered: boolean, pressed: boolean, inline: boolean) => {
     return {
       borderRadius: 1000, // pill
-      outlineWidth: pressed ? 3 : hovered ? 2 : 1,
-      outlineStyle: 'solid',
+      borderStyle: 'solid',
+      borderWidth: 1,
       display: 'flex',
       width: inline ? 'auto' : '100%',
       variants: {
         variant: {
           primary: {
             backgroundColor: theme.components.button.primary.background,
-            outlineColor: theme.components.button.primary.border,
+            borderColor: theme.components.button.primary.border,
+            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.primary.border}`,
           },
           secondary: {
             backgroundColor: theme.components.button.secondary.background,
-            outlineColor: theme.components.button.secondary.border,
+            borderColor: theme.components.button.secondary.border,
+            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.secondary.border}`,
           },
           danger: {
             backgroundColor: theme.components.button.danger.background,
-            outlineColor: theme.components.button.danger.border,
+            borderColor: theme.components.button.danger.border,
+            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.danger.border}`,
           },
         },
         size: {
           sm: {
             paddingHorizontal: Spacing.xxs,
-            paddingVertical: Spacing['3xs'],
           },
           md: {
             paddingHorizontal: Spacing.xs,
-            paddingVertical: Spacing.xxs,
           },
           lg: {
-            paddingVertical: Spacing.xs,
             paddingHorizontal: Spacing.md,
           },
         },
         selected: {
           true: {
             backgroundColor: theme.components.button.selected.background,
-            outlineColor: theme.components.button.selected.border,
+            borderColor: theme.components.button.selected.border,
           },
         },
         disabled: {
           true: {
             backgroundColor: theme.components.button.disabled.background,
-            outlineColor: theme.components.button.disabled.border,
+            borderColor: theme.components.button.disabled.border,
           },
         },
       },
@@ -161,6 +170,18 @@ const stylesheet = createStyleSheet((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
+  },
+
+  textContainer: (size: ButtonSize) => {
+    const heightBySize = {
+      sm: Spacing.lg,
+      md: Spacing.xl,
+      lg: Spacing.xxl,
+    }
+    return {
+      height: heightBySize[size],
+      justifyContent: 'center',
+    }
   },
   text: (disabled: boolean, selected: boolean, variant: ButtonVariant) => {
     return {

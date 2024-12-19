@@ -10,7 +10,7 @@ describe('useDocumentModal', () => {
     const { result } = renderHook(() => useDocumentModal())
 
     expect(result.current.visible).toBeFalsy()
-    expect(result.current.modalProps.show).toBeFalsy()
+    expect(result.current.modalProps.shown).toBeFalsy()
     expect(result.current.modalProps.documentURL).toBeUndefined()
   })
 
@@ -20,7 +20,7 @@ describe('useDocumentModal', () => {
     act(() => result.current.show('imprint'))
 
     expect(result.current.visible).toBeTruthy()
-    expect(result.current.modalProps.show).toBeTruthy()
+    expect(result.current.modalProps.shown).toBeTruthy()
   })
 
   it('should close modal on dismiss', () => {
@@ -29,12 +29,12 @@ describe('useDocumentModal', () => {
     act(() => result.current.show('imprint'))
 
     expect(result.current.visible).toBeTruthy()
-    expect(result.current.modalProps.show).toBeTruthy()
+    expect(result.current.modalProps.shown).toBeTruthy()
 
     act(() => result.current.modalProps.onDismiss?.())
 
     expect(result.current.visible).toBeFalsy()
-    expect(result.current.modalProps.show).toBeFalsy()
+    expect(result.current.modalProps.shown).toBeFalsy()
   })
 
   it('should generate url for document to show', () => {
@@ -48,13 +48,13 @@ describe('useDocumentModal', () => {
 
 describe('DocumentsModal', () => {
   it('should render nothing if not visible', () => {
-    render(<DocumentModal show={false} />)
+    render(<DocumentModal shown={false} />)
 
     expect(screen.queryByLabelText('profile.settings.legalDocuments.title')).not.toBeOnTheScreen()
   })
 
   it('should render modal if visible', () => {
-    render(<DocumentModal show={true} />)
+    render(<DocumentModal shown={true} />)
 
     expect(screen.getByLabelText('profile.settings.legalDocuments.title')).toBeOnTheScreen()
   })

@@ -1,16 +1,16 @@
-import { Button, ButtonProps } from 'holi-bricks/components/button/Button'
-import { TextLink, TextLinkProps } from 'holi-bricks/components/text'
-import React from 'react'
-import { GestureResponderEvent } from 'react-native'
+import { Button, type ButtonProps } from 'holi-bricks/components/button'
+import { TextLink, type TextLinkProps } from 'holi-bricks/components/text'
+import type React from 'react'
+import type { GestureResponderEvent } from 'react-native'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
+import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
-import { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
-import { TrackingEvent } from '@holi/core/tracking'
+import type { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
+import type { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
+import HoliButton, { type HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading, { type HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export interface TrackableBaseProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>

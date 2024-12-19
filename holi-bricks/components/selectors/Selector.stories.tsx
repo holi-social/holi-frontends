@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { Selector } from 'holi-bricks/components/selectors/Selector'
 import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
@@ -13,11 +13,25 @@ const meta: Meta<typeof Selector> = {
 
 type Story = StoryObj<typeof Selector>
 
+const disabledProps = [
+  'accessible',
+  'id',
+  'role',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'aria-disabled',
+  'tabIndex',
+  'children',
+  'onSelect',
+  'onChange',
+]
+
 export const SelectorCards: Story = {
   argTypes: {
-    title: { control: 'text' },
     inputType: { control: 'select', options: ['radio', 'checkbox', 'switch', 'none'] },
     row: { control: 'boolean' },
+    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     title: 'What would you like to share?',

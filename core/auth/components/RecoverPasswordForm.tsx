@@ -77,7 +77,9 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
           <HoliHeading level="2" align="center">
             {t('auth.login.signUp.link.headline')}
           </HoliHeading>
-          <RegistrationButton style={styles.button} trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+          <View style={styles.button}>
+            <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} variant="secondary" />
+          </View>
         </>
       )}
     </View>
