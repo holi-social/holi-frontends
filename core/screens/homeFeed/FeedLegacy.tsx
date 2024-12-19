@@ -23,10 +23,10 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
 
-import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -78,7 +78,7 @@ const HomeFeed = () => {
             </HoliTransition.FadeDown>
           </HoliContainer>
 
-          <AttendingChallengeEvents />
+          <AttendingChallengeEventsLegacy />
           <ErrorBoundary>
             <AllPosts />
           </ErrorBoundary>
