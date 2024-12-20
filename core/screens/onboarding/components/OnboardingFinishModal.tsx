@@ -10,6 +10,8 @@ import { Emotion, Service, ShieldStar, UserHeart } from '@holi/icons/src/generat
 import GiveFiveBigPng from '@holi/ui/assets/img/icons/give-five-big.png'
 import GiveFiveBig from '@holi/ui/assets/img/icons/give-five-big.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { useOnboardingFinishModalState } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
+import { DocumentModal, useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -18,10 +20,6 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/tokens'
-// eslint-disable-next-line no-restricted-imports
-import { DocumentModal, useDocumentModal } from '../components/DocumentModal'
-// eslint-disable-next-line no-restricted-imports
-import { useOnboardingFinishModalState } from '../hooks/useOnboardingFinishModalState'
 
 const isWeb = Platform.OS === 'web'
 const isAndroid = Platform.OS === 'android'
