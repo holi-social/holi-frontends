@@ -71,7 +71,10 @@ const Onboarding = () => {
 
   usePreventBackNavigation(true)
 
-  const cleanUp = () => Promise.all([storeOnboardingState('finished'), clearOnboardingUserDataAsyncStore()])
+  const cleanUp = async () => {
+    storeOnboardingState('finished')
+    await clearOnboardingUserDataAsyncStore()
+  }
   const breakOnboarding = useCallback(async () => {
     await cleanUp()
     redirect(true)
