@@ -23,9 +23,13 @@ import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
+import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 
 const HomeFeedHeader: React.FC = () => {
+  const displayNewHomeFeed = useFeatureFlagAB(FeatureFlagKey.NEW_HOME_FEED)
   const { t } = useTranslation()
   const isFocused = useIsFocused()
 
@@ -102,6 +106,7 @@ const HomeFeedHeader: React.FC = () => {
         </Animated.View>
       </HoliBox>
       <ProfileCompletionCard style={styles.container} />
+      {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
     </View>
   )
 }

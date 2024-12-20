@@ -11,7 +11,7 @@ import { ActSection } from '@holi/core/screens/act/ActSection'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
+import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
 
 type ActHomeParams = {
   section: string
@@ -60,7 +60,7 @@ const ActHome = () => {
   return (
     <ScrollView style={styles.layout}>
       <View style={styles.container}>
-        <AttendingChallengeEvents />
+        <AttendingChallengeEventsLegacy />
         {sections.map((sectionName) => (
           <ActSection type={sectionName} key={sectionName} />
         ))}

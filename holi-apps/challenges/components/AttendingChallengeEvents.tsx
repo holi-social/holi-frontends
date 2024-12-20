@@ -6,18 +6,19 @@ import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { dimensions } from '@holi/ui/styles/globalVars'
 
 import AttendingChallengeEventsCard from '@holi-apps/challenges/components/AttendingChallengeEventsCard'
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
+import { Spacing } from 'holi-bricks/tokens'
 
 const API_URL = challengeAppBaseUrl + '/api/v1/events/userAttendingEvents'
 
 const CARD_WIDTH = 260
 
-export const calculateCardWidth = (screenWidth: number) => (Platform.OS === 'web' ? CARD_WIDTH : screenWidth - 32)
+export const calculateCardWidth = (screenWidth: number) =>
+  Platform.OS === 'web' ? CARD_WIDTH : screenWidth - Spacing.xl
 
 const AttendingChallengeEvents = () => {
   const [events, setEvents] = useState<ChallengeEvent[]>([])
@@ -90,13 +91,13 @@ const getStyles = (cardWidth: number) =>
     },
     listContainer: {
       flex: 1,
-      paddingLeft: 20,
-      marginHorizontal: -20,
-      gap: dimensions.spacingXs,
+      padding: Spacing.xs,
+      marginHorizontal: -Spacing.lg,
+      gap: Spacing['4xs'],
     },
     itemContainer: {
       width: cardWidth,
-      marginRight: dimensions.spacingXxs,
+      marginRight: Spacing['xxs'],
     },
     lastItem: {
       marginRight: 44,
