@@ -152,7 +152,7 @@ const saveAndWaitForModalClosed = async (page: Page) => {
   await page.waitForSelector(byTestId('space-edit-modal-save-btn'), { state: 'detached' })
 }
 
-const numberOfInitialTerms = 3
+const numberOfInitialTerms = 1
 const numberOfEditedTerms = 2
 const initialName = 'e2e space name'
 const initialGoal = 'e2e space goal'
@@ -196,7 +196,7 @@ const testCreatingEditingSpace = async (page: Page) => {
   await saveAndWaitForModalClosed(page)
 
   // check if the correct number of topics have been selected
-  const topicChips = page.locator(`${byTestId('space-edit-topics')} >> [role="presentation"]`)
+  const topicChips = page.locator(`${byTestId('space-edit-topics-list')} [role="presentation"]`)
   await expect(topicChips.count()).resolves.toBe(numberOfEditedTerms)
 
   // set location if we have a real geoservice
@@ -216,11 +216,13 @@ const testCreatingEditingSpace = async (page: Page) => {
   await saveAndWaitForModalClosed(page)
 
   // check if the correct number of sdgs have been selected
-  const sdgsChips = page.locator(`${byTestId('space-edit-sdgs')} >> [role="presentation"]`)
+  const sdgsChips = page.locator(`${byTestId('space-edit-sdgs-list')} [role="presentation"]`)
   await expect(sdgsChips.count()).resolves.toBe(numberOfEditedTerms)
 
   await editSpaceContactInfo(page)
+
   await clickElementByTestId(page, 'space-edit-close')
+  await page.waitForSelector(byTestId('space-edit-close'), { state: 'detached' })
 
   await testAddEditDeleteTask(page)
 
@@ -479,7 +481,7 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
 // Create a space with a name, goal, topics and a cover image
 const createSpace = async (
   page: Page,
-  numberOfInitialTerms = 3,
+  numberOfTerms = 1,
   initialName = 'e2e space name',
   initialGoal = 'e2e space goal'
 ) => {
@@ -499,7 +501,7 @@ const createSpace = async (
   // Create space - topics
   await checkAccessibility(page)
   await checkConfirmButtonIsDisabled(page)
-  await selectSomeTerms(page, numberOfInitialTerms)
+  await selectSomeTerms(page, numberOfTerms)
   await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   // Create space - cover image
