@@ -5,9 +5,11 @@ import type { StyleProp, ViewStyle } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowLeft } from '@holi/icons/src/generated'
-import { ButtonIcon, type ButtonIconProps } from 'holi-bricks/components/button'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { Spacing } from 'holi-bricks/tokens'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 
-export interface HeaderBackButtonProps extends Partial<ButtonIconProps> {
+export interface HeaderBackButtonProps {
   label?: string
   tintColor?: string
   icon?: HoliIconType
@@ -16,20 +18,28 @@ export interface HeaderBackButtonProps extends Partial<ButtonIconProps> {
   onPress?: () => void
 }
 
-const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({ icon = ArrowLeft, onPress, ...props }) => {
+const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({
+  label,
+  icon = ArrowLeft,
+  tintColor,
+  onPress,
+  testID = 'nav-button-back',
+  ...props
+}) => {
   const { navigateBack } = useRouting()
   const { t } = useTranslation()
 
   return (
-    <ButtonIcon
-      label={t('navigation.headerLeft.back')}
+    <HoliButton
+      label={label ?? t('navigation.headerLeft.back')}
+      inline
       transparent
-      onPress={() => (onPress ? onPress() : navigateBack())}
-      testID="nav-button-back"
-      icon={icon}
-      size="lg"
+      onPress={() => (onPress ?? navigateBack)()}
+      testID={testID}
       {...props}
-    />
+    >
+      <HoliIcon icon={icon} size={Spacing.md} color={tintColor} />
+    </HoliButton>
   )
 }
 
