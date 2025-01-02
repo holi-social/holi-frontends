@@ -51,6 +51,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Button } from 'holi-bricks/components/button'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import GradientBackground from '@holi/core/components/HeaderAnimated/GradientBackground'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -96,9 +97,7 @@ const InsightDetailPage = () => {
       title: '',
       headerTransparent: true,
       headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
-      navigationCustomOptions: {
-        background: { type: 'gradient' },
-      },
+      headerBackground: () => <GradientBackground colors={[colors.dark, 'transparent']} />,
       headerRight: () => {
         return (
           insight && (
@@ -109,7 +108,7 @@ const InsightDetailPage = () => {
         )
       },
     })
-  }, [insight, setScreenOptions, colors.light])
+  }, [insight, setScreenOptions, colors.light, colors.dark])
 
   const posts: Post[] = insight?.posts || []
   const polls: Poll[] = insight?.polls || []

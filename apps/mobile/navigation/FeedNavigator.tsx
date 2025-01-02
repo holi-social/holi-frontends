@@ -7,6 +7,7 @@ import Search from '@holi/core/screens/search/Search'
 import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type FeedStackScreens = {
   [RouteName.HomeFeed]: undefined
@@ -18,8 +19,14 @@ export type FeedStackScreens = {
 const FeedStack = createNativeStackNavigator<FeedStackScreens>()
 
 const FeedNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   return (
-    <FeedStack.Navigator initialRouteName={RouteName.HomeFeed} screenOptions={{ headerShadowVisible: false }}>
+    <FeedStack.Navigator
+      initialRouteName={RouteName.HomeFeed}
+      screenOptions={{ headerTintColor: colors.black300, headerShadowVisible: false }}
+    >
       <FeedStack.Screen name={RouteName.HomeFeed} component={HomeFeed} />
       <FeedStack.Screen
         name={RouteName.Search}
