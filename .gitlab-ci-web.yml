@@ -33,7 +33,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'mcr.microsoft.com/playwright:v1.48.2-noble'
+  image: 'mcr.microsoft.com/playwright:v1.49.1-noble'
   cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
@@ -41,9 +41,11 @@ default:
     expose_as: 'web e2e test report'
     expire_in: 1 week
     paths:
-      - e2e/web/playwright-report # report including traces
-      - e2e/web/artifacts # accessibility reports
+      - e2e/web/playwright-report
+      - e2e/web/playwright-report/junit-report.xml
     when: always
+    reports:
+      junit: e2e/web/playwright-report/junit-report.xml
   script: |
     export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     terraform/environments/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
