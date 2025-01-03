@@ -55,7 +55,7 @@ variables:
     - if: $CI_COMMIT_BRANCH
       when: manual
   automatically_on_e2e_nightly_pipeline:
-    - if: $CI_PIPELINE_NAME === "E2E Nightly"
+    - if: $CI_PIPELINE_NAME == "E2E Nightly"
 
 default:
   before_script:
