@@ -37,6 +37,17 @@ const versionOne = {
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
  */
 export namespace TrackingEvent {
+  export const SpaceAskQuestion = {
+    askedQuestion: {
+      name: 'askQuestionButton_pressed',
+      ...versionOne,
+    },
+    startedConversation: {
+      name: 'startConversationButton_pressed',
+      ...versionOne,
+    },
+  }
+
   export const Engaging = {
     reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
       name: 'reacted',
