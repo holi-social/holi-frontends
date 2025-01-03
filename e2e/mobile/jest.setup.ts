@@ -2,14 +2,8 @@ import * as webdriverio from 'webdriverio'
 
 import appiumConfig, { target as appiumConfigTarget } from './appiumConfig'
 import type { PlatformType, TargetType } from './global'
-import { logout } from './helpers/auth'
-import { waitForHomeScreen } from './helpers/navigation'
-import {
-  resetImplicitTimeout,
-  tapOnElement,
-  tapOnElementWithTestId,
-  waitForElementWithTestId,
-} from './helpers/selectors'
+import { logout, skipOnboardingIfNecessary } from './helpers/auth'
+import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId } from './helpers/selectors'
 
 platform = appiumConfig.platform as PlatformType
 target = appiumConfigTarget as TargetType
@@ -70,25 +64,5 @@ async function waitForStartupAndDeclineTrackingConsent({
     } catch (e) {
       numAttempts--
     }
-  }
-}
-
-async function skipOnboardingIfNecessary(homeScreenTimeout: number) {
-  try {
-    // Skip through all onboarding steps and continue as guest
-    const onboardingButton = await waitForElementWithTestId('btn-to-onboarding', homeScreenTimeout)
-    await tapOnElement(onboardingButton)
-    await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
-    // Wait for each screen to prevent pressing the same button twice
-    await waitForElementWithTestId('onboarding-location-selection')
-    await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
-    await waitForElementWithTestId('onboarding-interests-selection')
-    await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
-    await waitForElementWithTestId('onboarding-skills-selection')
-    await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
-    await tapOnElementWithTestId('onboarding-account-creation-btn-continue-as-guest')
-    await waitForHomeScreen(homeScreenTimeout)
-  } catch (e) {
-    // Assume onboarding is not necessary as button was not found
   }
 }
