@@ -1,18 +1,19 @@
 import { getOrCreateRoom } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { useRepresentative } from '@holi/core/screens/spaces/hooks/useRepresentative'
+import { TrackingEvent } from '@holi/core/tracking'
 import { QuestionAnswerLine } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { useActionDrawerContext } from '@holi/ui/components/organisms/HoliActionDrawer/Drawer'
 import dimensions from '@holi/ui/styles/globalVars/dimensions'
-import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
@@ -89,7 +90,8 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: AskQuestionProps) => {
   }
 
   return (
-    <Button
+    <ButtonTracked
+      trackingEvent={TrackingEvent.SpaceAskQuestion.askedQuestion}
       loading={isLoading}
       disabled={isLoading}
       onPress={start}
@@ -121,7 +123,14 @@ const AskQuestionButton = (props: {
       ]}
       testID={props.testID}
     >
-      <Button onPress={props.onPress} variant="primary" icon={QuestionAnswerLine} size="lg" label={label} />
+      <ButtonTracked
+        trackingEvent={TrackingEvent.SpaceAskQuestion.startedConversation}
+        onPress={props.onPress}
+        variant="primary"
+        icon={QuestionAnswerLine}
+        size="lg"
+        label={label}
+      />
     </View>
   )
 }
