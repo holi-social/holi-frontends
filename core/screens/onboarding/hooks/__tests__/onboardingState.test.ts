@@ -44,6 +44,7 @@ describe('cleanUpStoredOnboardingState', () => {
     await cleanUpStoredOnboardingState()
 
     expect(mockDeleteStorage).toHaveBeenCalledWith('onboarding_state_value')
+    expect(mockDeleteStorage).toHaveBeenCalledWith('first_visit_content_value')
   })
 })
 
