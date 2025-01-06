@@ -56,8 +56,6 @@ const InsightsList = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{'Insights'}</HeaderTitle>,
     })
   }, [navigate, setScreenOptions, t])

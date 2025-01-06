@@ -16,7 +16,7 @@ import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceOnboardingStepInput from '@holi/core/screens/spaces/onboarding/components/SpaceOnboardingStepInput'
-import { OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type OnboardingStep, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Information } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -24,7 +24,9 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import Spacing from '@holi/ui/foundations/Spacing'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
@@ -64,6 +66,8 @@ const SpaceOnboardingSteps = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.onboarding.setup.nextSteps.title'),
+      headerLeft: () => <HeaderBackButton />,
+      headerTitleAlign: 'center',
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -226,27 +230,26 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       paddingBottom: 0,
       backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.topBarHeight,
     },
     formWrapper: {
       height: '100%',
     },
     header: {
-      marginBottom: 24,
+      marginBottom: Spacing.md,
     },
     intro: {
-      paddingTop: 42,
+      paddingTop: Spacing.sm,
     },
     desc: {
-      marginTop: 8,
-      marginBottom: 24,
+      marginTop: Spacing['3xs'],
+      marginBottom: Spacing.md,
     },
     exampleWrapper: {
-      paddingBottom: 24,
+      paddingBottom: Spacing.md,
     },
     example: {
       width: 'auto',
-      marginBottom: 40,
+      marginBottom: Spacing.xl,
       alignSelf: 'flex-start',
     },
     previewButton: {
@@ -261,11 +264,11 @@ const getStyles = (theme: HoliTheme) =>
       marginRight: 4,
     },
     previewModal: {
-      paddingBottom: 24,
+      paddingBottom: Spacing.md,
     },
     addStepBtn: {
-      marginTop: 24,
-      marginBottom: 24,
+      marginTop: Spacing.md,
+      marginBottom: Spacing.md,
       maxWidth: 320,
       alignSelf: 'center',
     },

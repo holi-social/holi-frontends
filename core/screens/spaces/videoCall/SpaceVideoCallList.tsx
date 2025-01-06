@@ -40,6 +40,8 @@ const SpaceVideoCallList = () => {
     setScreenOptions({
       title: t('spaces.videocall.header'),
       headerLeft: () => <HeaderBackButton />,
+      headerTitleAlign: 'center',
+      headerBackVisible: false,
       navigationCustomOptions: {
         footerShown: false,
       },

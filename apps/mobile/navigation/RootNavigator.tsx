@@ -184,7 +184,9 @@ const RootNavigator = () => {
           animation: 'slide_from_bottom',
           headerTintColor: colors.black300,
           headerBackTitleVisible: false,
+          headerLeft: () => <HeaderBackButton />,
           headerShown: true,
+          headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: colors.background20,
           },
@@ -196,6 +198,9 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
+          headerTitleAlign: 'center',
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
           headerStyle: {
             backgroundColor: colors.background20,
           },

@@ -116,6 +116,8 @@ const CreateSpace = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: () => (
         <HoliHeading level="1" size="m">
           {t('spaces.create.title')}
