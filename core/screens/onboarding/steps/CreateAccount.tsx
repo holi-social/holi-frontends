@@ -135,7 +135,7 @@ export const CreateAccount = ({
     <View style={styles.contentContainer} testID={testID}>
       <View>
         <HoliGap size="xs" />
-        <View style={styles.logo}>
+        <View style={styles.logo} testID="create-account-logo">
           <HoliLogo color={theme.colors.black300} />
         </View>
         <HoliGap size="m" />

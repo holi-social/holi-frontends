@@ -171,7 +171,7 @@ const Onboarding = () => {
               chipType="interests"
               selectedChipIds={userData.interests}
               onSelect={updateInterests}
-              testID="onboarding-intrests-selection"
+              testID="onboarding-interests-selection"
               {...interestsSearchProps}
             />
           </View>

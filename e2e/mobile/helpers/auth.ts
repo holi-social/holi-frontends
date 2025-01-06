@@ -4,6 +4,7 @@ import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigati
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
+  tapOnElement,
   tapOnElementWithTestId,
   waitForAnyElementWithTestId,
   waitForElementWithTestId,
@@ -69,39 +70,47 @@ export const finishAccountSetup = async ({
 } = {}) => {
   // go through accound setup
   // Names step
-  await waitForElementWithTestId('account-setup-names-step')
+  await waitForElementWithTestId('onboarding-name-selection')
   // provide user name
-  await fillFieldByTestId('first-name-input', firstName)
+  await fillFieldByTestId('onboarding-name-selection-first-name-input', firstName)
   // provide user name
-  await fillFieldByTestId('last-name-input', lastName)
+  await fillFieldByTestId('onboarding-name-selection-last-name-input', lastName)
   // submit name changes
-  await tapOnElementWithTestId('holi-wizard-save-btn')
+  await tapOnElementWithTestId('onboarding-name-selection-btn-submit')
 
-  // Pre-success step
-  await waitForElementWithTestId('account-setup-pre-registration-success-step')
-  await tapOnElementWithTestId('holi-wizard-save-btn')
-  // Interests step
-  await waitForElementWithTestId('account-setup-interests-step')
-  await tapOnElementWithTestId('holi-wizard-skip-btn')
-  // Location step
-  await waitForElementWithTestId('account-setup-location-step')
-  await tapOnElementWithTestId('holi-wizard-skip-btn')
-  // Success step
-  await waitForElementWithTestId('account-setup-success-step')
-  await tapOnElementWithTestId('holi-wizard-save-btn')
+  // Agree to community guidelines
+  await tapOnElementWithTestId('community-guidelines-modal-btn-submit')
 
   await waitForHomeScreen()
   delayMs(10000)
 }
 
+export const skipOnboardingIfNecessary = async (timeout?: number) => {
+  try {
+    // Skip through all onboarding steps and continue as guest
+    const onboardingButton = await waitForElementWithTestId('btn-to-onboarding', timeout)
+    await tapOnElement(onboardingButton)
+    await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
+    // Wait for each screen to prevent pressing the same button twice
+    await waitForElementWithTestId('onboarding-location-selection')
+    await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
+    await waitForElementWithTestId('onboarding-interests-selection')
+    await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
+    await waitForElementWithTestId('onboarding-skills-selection')
+    await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
+    await tapOnElementWithTestId('onboarding-account-creation-btn-continue-as-guest')
+    await waitForHomeScreen(timeout)
+  } catch (e) {
+    // Assume onboarding is not necessary as button was not found
+  }
+}
 const logoutOrDelete = async (fn: () => Promise<void>) => {
   if (await navigateToSettings()) {
     await fn()
     await tapOnElementWithTestId('btn-consentModal-declineAll')
     await tapOnElementWithTestId('toast-logout-success')
     await tapOnElementWithTestId('btn-to-home-view')
-    // await tapOnElementWithTestId('btn-to-onboarding')
-    // await tapOnElementWithTestId('holi-wizard-skip-btn')
+    await skipOnboardingIfNecessary()
   }
 }
 
