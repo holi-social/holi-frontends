@@ -19,6 +19,8 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/VolunteeringListingDiscovery'
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
@@ -57,6 +59,12 @@ const VolunteeringAppHome = () => {
       </HoliButton>
     )
     setScreenOptions({
+      headerTitle: () => (
+        <HoliHeading level="2" size="s">
+          {title}
+        </HoliHeading>
+      ),
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, styles.dot])
