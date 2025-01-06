@@ -34,7 +34,12 @@
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
         "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social",
         "POSTHOG_KEY": "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6",
-        "POSTHOG_HOST": "https://eu.posthog.com"
+        "POSTHOG_HOST": "https://eu.posthog.com",
+        "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
+        "TYPESENSE_PORT": "443",
+        "TYPESENSE_PROTOCOL": "https",
+        "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
+        "TYPESENSE_COLLECTION": "holi_search_staging"
       }
     },
     "development-simulator": {
@@ -62,7 +67,12 @@
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
         "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social",
         "POSTHOG_KEY": "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6",
-        "POSTHOG_HOST": "https://eu.posthog.com"
+        "POSTHOG_HOST": "https://eu.posthog.com",
+        "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
+        "TYPESENSE_PORT": "443",
+        "TYPESENSE_PROTOCOL": "https",
+        "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
+        "TYPESENSE_COLLECTION": "holi_search_staging"
       },
       "ios": {
         "simulator": true
@@ -93,7 +103,12 @@
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
         "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social",
         "POSTHOG_KEY": "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6",
-        "POSTHOG_HOST": "https://eu.posthog.com"
+        "POSTHOG_HOST": "https://eu.posthog.com",
+        "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
+        "TYPESENSE_PORT": "443",
+        "TYPESENSE_PROTOCOL": "https",
+        "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
+        "TYPESENSE_COLLECTION": "holi_search_staging"
       }
     },
     "production": {
@@ -119,7 +134,12 @@
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
         "HOLI_CHALLENGES_APP": "https://challenges.holi.social",
         "POSTHOG_KEY": "phc_otDkhAWe558gCziFqIE3XrGla2AvdosZftmhOyjfWAu",
-        "POSTHOG_HOST": "https://eu.posthog.com"
+        "POSTHOG_HOST": "https://eu.posthog.com",
+        "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
+        "TYPESENSE_PORT": "443",
+        "TYPESENSE_PROTOCOL": "https",
+        "TYPESENSE_API_KEY": "jtOdwRfhEFW7UmCpDKjnQaS71uU28YOq",
+        "TYPESENSE_COLLECTION": "holi_search_production"
       }
     },
     "production-apk": {
@@ -152,7 +172,12 @@
         "NOVU_SOCKET_URL": "wss://eu.ws.novu.co",
         "HOLI_CHALLENGES_APP": "https://staging.challenges-dev.holi.social",
         "POSTHOG_KEY": "phc_hjzX978CctzGvUBxYatJkyQDAg9c8ZZyreAXtPn6FJ6",
-        "POSTHOG_HOST": "https://eu.posthog.com"
+        "POSTHOG_HOST": "https://eu.posthog.com",
+        "TYPESENSE_HOST": "t9vemwkibxajcorqp-1.a1.typesense.net",
+        "TYPESENSE_PORT": "443",
+        "TYPESENSE_PROTOCOL": "https",
+        "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
+        "TYPESENSE_COLLECTION": "holi_search_staging"
       },
       "ios": {
         "simulator": true
