@@ -15,6 +15,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -68,6 +70,12 @@ const DonationsAppHome = () => {
     // )
 
     setScreenOptions({
+      headerTitle: () => (
+        <HoliHeading level="2" size="s">
+          {title}
+        </HoliHeading>
+      ),
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       navigationCustomOptions: {
         footerShown: false,
       },

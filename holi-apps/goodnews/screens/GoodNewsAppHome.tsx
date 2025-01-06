@@ -26,6 +26,7 @@ const GoodNewsAppHome = () => {
       headerTintColor: colors.light,
       headerBackVisible: false,
       headerTitleAlign: 'center',
+      headerTransparent: true,
       navigationCustomOptions: {
         background: { type: 'gradient' },
         footerShown: false,
