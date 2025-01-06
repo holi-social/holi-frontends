@@ -1,11 +1,11 @@
-import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { login, logout } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@Profile', () => {
   it('should navigate to user from suggestions', async () => {
     // login
-    await defaultAuthSteps()
+    await login()
 
     // go home
     await navigateBackToHomeScreen()

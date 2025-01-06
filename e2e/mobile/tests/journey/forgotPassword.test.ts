@@ -3,7 +3,7 @@ import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/
 
 describe('@ForgotPassword', () => {
   itif(platform === 'ios', 'validates and submits the form', async () => {
-    await tapOnElementWithTestId('btn-to-profile-view', 10000)
+    await tapOnElementWithTestId('btn-to-anonymous-profile-view', 10000)
     await tapOnElementWithTestId('anonymous-profile-login-btn')
     await tapOnElementWithTestId('btn-to-forgot-password-form')
 

@@ -1,4 +1,5 @@
-import { navigateBackFromAppScreen, waitForHomeScreen } from '../../helpers/navigation'
+import { continueAsGuest } from '@holi/e2e-mobile/helpers/auth'
+import { navigateBackFromAppScreen } from '../../helpers/navigation'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@GoodNews', () => {
@@ -12,7 +13,7 @@ describe('@GoodNews', () => {
 
   it('should support the user journey', async () => {
     // preparation of test
-    await waitForHomeScreen()
+    await continueAsGuest()
     await scrollToElementWithTestId('goodnews-reco-slider-heading-button', 'down')
     await tapOnElementWithTestId('goodnews-reco-slider-heading-button')
     await waitForElementWithTestId('goodnews-detailview-container')

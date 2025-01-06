@@ -1,9 +1,10 @@
-import { waitForHomeScreen } from '../../helpers/navigation'
+import { continueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@HoliModal', () => {
   it('find selectors', async () => {
-    await waitForHomeScreen()
+    await continueAsGuest()
+
     await waitForElementWithTestId('posts-list-results') // wait that posts are loaded
 
     // open editors modal

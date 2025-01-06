@@ -40,8 +40,11 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
   return element
 }
 
-export const waitForElementWithRole = async (role: string, timeout?: number) => {
-  const element = await elementBySelector(`[role=${role}]`)
+export const waitForElementWithRole = async (
+  role: string,
+  { timeout, parent }: { timeout?: number; parent?: Element<'async'> }
+) => {
+  const element = (parent ?? Appium).$(`[role=${role}]`)
 
   // https://webdriver.io/docs/api/element/waitForDisplayed
   await element.waitForDisplayed({ timeout })
