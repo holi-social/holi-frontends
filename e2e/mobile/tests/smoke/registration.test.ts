@@ -1,4 +1,12 @@
-import { defaultPassword, deleteAccount, loginNewUser, logout, register, registerNewUser } from '../../helpers/auth'
+import {
+  defaultPassword,
+  deleteAccount,
+  loginNewUser,
+  logout,
+  register,
+  registerNewUser,
+  testIdContinueAsGuest,
+} from '../../helpers/auth'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@Registration - smoke', () => {
@@ -18,7 +26,7 @@ describe('@Registration - smoke', () => {
 
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 
-    await tapOnElementWithTestId('btn-to-continue-as-guest')
+    await tapOnElementWithTestId(testIdContinueAsGuest)
     await loginNewUser(email)
     await deleteAccount()
   })

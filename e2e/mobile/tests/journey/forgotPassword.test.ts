@@ -1,8 +1,7 @@
-import { itif } from '../../helpers/platform'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@ForgotPassword', () => {
-  itif(platform === 'ios', 'validates and submits the form', async () => {
+  it('validates and submits the form', async () => {
     await tapOnElementWithTestId('btn-to-anonymous-profile-view', 10000)
     await tapOnElementWithTestId('anonymous-profile-login-btn')
     await tapOnElementWithTestId('btn-to-forgot-password-form')
@@ -35,8 +34,9 @@ describe('@ForgotPassword', () => {
 
     // close forgotPassword modal
     // await tapOnElementWithTestId('nav-button-back')
+
     // close login modal
-    // await tapOnElementWithTestId('nav-button-back')
-    // await tapOnElementWithTestId('btn-to-home-view')
+    await tapOnElementWithTestId('nav-button-back')
+    await tapOnElementWithTestId('btn-to-home-view')
   })
 })

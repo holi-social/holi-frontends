@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { register } from '../../helpers/auth'
+import { register, testIdContinueAsGuest } from '../../helpers/auth'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
 describe('@Registration - journey', () => {
@@ -14,24 +14,24 @@ describe('@Registration - journey', () => {
     await waitForElementWithTestId('ory-traits-email-input-error-message')
     await waitForElementWithTestId('ory-password-input-error-message')
 
-    await tapOnElementWithTestId('btn-to-continue-as-guest')
+    await tapOnElementWithTestId(testIdContinueAsGuest)
 
     // invalid email provided
     await register({ email: '', password }, false)
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 
-    await tapOnElementWithTestId('btn-to-continue-as-guest')
+    await tapOnElementWithTestId(testIdContinueAsGuest)
 
     // short password provided
     await register({ email, password: 'Sh0rt' }, false)
     await waitForElementWithTestId('ory-password-input-error-message')
 
-    await tapOnElementWithTestId('btn-to-continue-as-guest')
+    await tapOnElementWithTestId(testIdContinueAsGuest)
 
     // weak password provided
     await register({ email, password: '11111111' }, false)
     await waitForElementWithTestId('ory-password-input-error-message')
 
-    await tapOnElementWithTestId('btn-to-continue-as-guest')
+    await tapOnElementWithTestId(testIdContinueAsGuest)
   })
 })

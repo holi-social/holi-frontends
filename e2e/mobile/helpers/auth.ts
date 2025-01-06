@@ -6,8 +6,8 @@ import {
   fillFieldByTestId,
   tapOnElement,
   tapOnElementWithTestId,
+  tapOnLoginLinkInText,
   waitForAnyElementWithTestId,
-  waitForElementWithRole,
   waitForElementWithTestId,
 } from './selectors'
 import { delayMs } from './time'
@@ -18,6 +18,8 @@ type AuthProps = {
 }
 
 export const defaultPassword = 'TheSamePassword4A11E2eUsers'
+
+export const testIdContinueAsGuest = 'onboarding-account-creation-btn-continue-as-guest'
 
 export const registerNewUser = async (): Promise<string> => {
   const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
@@ -33,21 +35,22 @@ export const continueAsGuest = async () => {
   if (await checkIfElementWithTestIdExists('btn-to-onboarding')) {
     // Skip through all onboarding steps and continue as guet
     await skipOnboardingSteps()
-    await tapOnElementWithTestId('onboarding-account-creation-btn-continue-as-guest')
+    await tapOnElementWithTestId(testIdContinueAsGuest)
   }
 
   await waitForHomeScreen()
 }
 
-export const login = async ({
-  email = process.env.E2E_USER_USERNAME || 'empty',
-  password = process.env.E2E_USER_PASSWORD || 'empty',
-}: AuthProps = {}) => {
-  if (await checkIfElementWithTestIdExists('btn-to-onboarding')) {
+export const login = async (
+  {
+    email = process.env.E2E_USER_USERNAME || 'empty',
+    password = process.env.E2E_USER_PASSWORD || 'empty',
+  }: AuthProps = {},
+  expectHomeScreen = true
+) => {
+  if (await checkIfElementWithTestIdExists('btn-to-onboarding', 1000)) {
     // Press login link on welcome screen
-    const loginContainer = await waitForElementWithTestId('already-have-account-text')
-    const loginLink = await waitForElementWithRole('link', { parent: loginContainer })
-    await tapOnElement(loginLink)
+    await tapOnLoginLinkInText()
   } else {
     // Login from anonymous profile screen
     await tapOnElementWithTestId('btn-to-anonymous-profile-view', 10000)
@@ -62,7 +65,9 @@ export const login = async ({
   // Submit the form
   await tapOnElementWithTestId('ory-submit-password')
 
-  await waitForHomeScreen()
+  if (expectHomeScreen) {
+    await waitForHomeScreen()
+  }
 }
 
 export const register = async (
@@ -72,7 +77,7 @@ export const register = async (
   }: AuthProps = {},
   withAccountSetup = true
 ) => {
-  if (await checkIfElementWithTestIdExists('btn-to-onboarding')) {
+  if (await checkIfElementWithTestIdExists('btn-to-onboarding', 1000)) {
     // Skip onboarding steps
     await skipOnboardingSteps()
   } else {

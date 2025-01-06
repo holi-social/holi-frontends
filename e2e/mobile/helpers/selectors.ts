@@ -40,18 +40,6 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
   return element
 }
 
-export const waitForElementWithRole = async (
-  role: string,
-  { timeout, parent }: { timeout?: number; parent?: Element<'async'> }
-) => {
-  const element = (parent ?? Appium).$(`[role=${role}]`)
-
-  // https://webdriver.io/docs/api/element/waitForDisplayed
-  await element.waitForDisplayed({ timeout })
-
-  return element
-}
-
 export const setImplicitTimeout = async (timeout: number) => {
   // @ts-ignores
   Appium.options.currentImplicitTimeout = timeout
