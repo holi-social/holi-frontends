@@ -27,6 +27,9 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import Spacing from '@holi/ui/foundations/Spacing'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
+import { Button } from 'holi-bricks/components/button'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string

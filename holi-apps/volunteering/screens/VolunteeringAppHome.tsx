@@ -10,7 +10,6 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Filter3 } from '@holi/icons/src/generated'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -20,6 +19,7 @@ import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/Vol
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
