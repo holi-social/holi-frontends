@@ -69,7 +69,8 @@ const DiscussionDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
-      headerBackVisible: true,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       navigationCustomOptions: {
         footerShown: false,
       },
