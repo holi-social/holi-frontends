@@ -58,6 +58,8 @@ const CreateReport = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       animation: 'slide_from_bottom',
       headerTitle: () => <Text size="sm">{t('report.' + contentType + '.title')}</Text>,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={navigateBack} />,

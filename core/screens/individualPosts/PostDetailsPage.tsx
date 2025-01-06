@@ -121,6 +121,8 @@ const PostDetailsPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTintColor: theme.colors.black300,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
           <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>

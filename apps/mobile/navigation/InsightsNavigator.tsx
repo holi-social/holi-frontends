@@ -49,6 +49,7 @@ const InsightsNavigator = () => {
         headerShown: true,
         headerShadowVisible: false,
         headerTintColor: colors.black300,
+        headerTitleAlign: 'center',
         headerLeft: () => <HeaderBackButton />,
         headerBackVisible: false,
       }}

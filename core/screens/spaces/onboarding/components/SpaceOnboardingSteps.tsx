@@ -25,9 +25,8 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { TrackingEvent } from '@holi/core/tracking'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import Spacing from '@holi/ui/foundations/Spacing'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
@@ -68,6 +67,8 @@ const SpaceOnboardingSteps = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.onboarding.setup.nextSteps.title'),
+      headerLeft: () => <HeaderBackButton />,
+      headerTitleAlign: 'center',
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -224,27 +225,26 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       paddingBottom: 0,
       backgroundColor: theme.colors.background20,
-      paddingTop: dimensions.topBarHeight,
     },
     formWrapper: {
       height: '100%',
     },
     header: {
-      marginBottom: 24,
+      marginBottom: Spacing.md,
     },
     intro: {
-      paddingTop: 42,
+      paddingTop: Spacing.sm,
     },
     desc: {
-      marginTop: 8,
-      marginBottom: 24,
+      marginTop: Spacing['3xs'],
+      marginBottom: Spacing.md,
     },
     exampleWrapper: {
-      paddingBottom: 24,
+      paddingBottom: Spacing.md,
     },
     example: {
       width: 'auto',
-      marginBottom: 40,
+      marginBottom: Spacing.xl,
       alignSelf: 'flex-start',
     },
     previewButton: {
@@ -259,11 +259,11 @@ const getStyles = (theme: HoliTheme) =>
       marginRight: 4,
     },
     previewModal: {
-      paddingBottom: 24,
+      paddingBottom: Spacing.md,
     },
     addStepBtn: {
-      marginTop: 24,
-      marginBottom: 24,
+      marginTop: Spacing.md,
+      marginBottom: Spacing.md,
       maxWidth: 320,
       width: '100%',
       alignSelf: 'center',

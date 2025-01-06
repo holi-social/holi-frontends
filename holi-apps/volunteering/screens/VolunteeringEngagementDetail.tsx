@@ -140,7 +140,7 @@ const UnwrappedVolunteeringEngagementDetail = () => {
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   useIsomorphicLayoutEffect(() => {
-    setScreenOptions({ title: t('volunteering:app.name') })
+    setScreenOptions({ title: t('volunteering:app.name'), headerTitleAlign: 'center' })
   }, [setScreenOptions, t])
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()

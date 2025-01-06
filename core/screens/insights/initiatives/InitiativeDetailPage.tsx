@@ -79,6 +79,8 @@ const InitiativeDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('insights.initiatives.title'),
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerRight: () => {
         return (
           <HoliActionDrawer.Drawer

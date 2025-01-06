@@ -7,11 +7,10 @@ import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHead
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Filter3 } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -19,7 +18,8 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/VolunteeringListingDiscovery'
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
-import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()

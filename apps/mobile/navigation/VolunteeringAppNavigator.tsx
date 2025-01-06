@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createNativeStackNavigator, type NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { colors } from '@holi/ui/styles/globalVars'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
@@ -11,6 +11,8 @@ import VolunteeringEngagementDetail, {
 import type { VolunteeringFilterParams } from '@holi-apps/volunteering/types'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { useTranslation } from 'react-i18next'
 
 export type VolunteeringAppScreensList = {
   [RouteName.VolunteeringAppHome]: VolunteeringFilterParams
@@ -24,6 +26,19 @@ export type VolunteeringAppScreensList = {
 const VolunteeringAppStack = createNativeStackNavigator<VolunteeringAppScreensList>()
 
 const VolunteeringAppNavigator = () => {
+  const { t } = useTranslation()
+
+  const appHomeOptions: NativeStackNavigationOptions = {
+    headerBackVisible: false,
+    headerTitleAlign: 'center',
+    headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+    headerTitle: () => (
+      <HoliHeading level="2" size="s">
+        {t('volunteering:app.name')}
+      </HoliHeading>
+    ),
+  }
+
   return (
     <VolunteeringAppStack.Navigator
       initialRouteName={RouteName.VolunteeringAppHome}
@@ -35,9 +50,21 @@ const VolunteeringAppNavigator = () => {
         headerTitle: '', // prevent showing the technical name of the screen on initial render
       }}
     >
-      <VolunteeringAppStack.Screen name={RouteName.VolunteeringAppHome} component={VolunteeringAppHome} />
-      <VolunteeringAppStack.Screen name={RouteName.VolunteeringAppHomeOld} component={VolunteeringAppHome} />
-      <VolunteeringAppStack.Screen name={RouteName.VolunteeringAppHomeDE} component={VolunteeringAppHome} />
+      <VolunteeringAppStack.Screen
+        name={RouteName.VolunteeringAppHome}
+        options={appHomeOptions}
+        component={VolunteeringAppHome}
+      />
+      <VolunteeringAppStack.Screen
+        name={RouteName.VolunteeringAppHomeOld}
+        options={appHomeOptions}
+        component={VolunteeringAppHome}
+      />
+      <VolunteeringAppStack.Screen
+        name={RouteName.VolunteeringAppHomeDE}
+        options={appHomeOptions}
+        component={VolunteeringAppHome}
+      />
       <VolunteeringAppStack.Screen
         name={RouteName.VolunteeringAppEngagmentDetail}
         component={VolunteeringEngagementDetail}

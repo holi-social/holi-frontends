@@ -18,6 +18,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type SpaceOnboardingParams = {
   spaceIdOrName: string
@@ -37,6 +38,9 @@ const SpaceOnboarding = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.onboarding.title'),
+      headerLeft: () => <HeaderBackButton />,
+      headerTitleAlign: 'center',
+      headerBackVisible: false,
       navigationCustomOptions: {
         footerShown: false,
       },

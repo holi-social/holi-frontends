@@ -32,7 +32,8 @@ const AboutSpaces = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
-      headerBackVisible: true,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => (
         <HoliHeading level="1" size="s">
@@ -165,7 +166,6 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number, theme: HoliThe
       flexDirection: screenWidth > dimensions.breakpointM ? 'row' : 'column',
     },
     container: {
-      paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
       backgroundColor: theme.colors.background20,
       paddingBottom: 48,
       alignItems: 'center',
@@ -227,14 +227,13 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number, theme: HoliThe
       lineHeight: 33.6,
     },
     transparentCard: {
-      ...Platform.select({ android: { paddingTop: safeAreaInsetTop, marginTop: 24 } }),
       paddingHorizontal: screenWidth > dimensions.breakpointM ? 0 : 16,
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
       paddingBottom: screenWidth < dimensions.breakpointM ? 24 : 48,
     },
     transparentCardWithPadding: {
-      paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 24,
+      paddingTop: 24,
     },
     scrollViewBackground: {
       backgroundColor: theme.colors.background20,

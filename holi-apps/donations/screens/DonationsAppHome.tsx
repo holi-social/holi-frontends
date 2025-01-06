@@ -5,11 +5,9 @@ import { type DimensionValue, Platform, StyleSheet, View, useWindowDimensions } 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
@@ -17,6 +15,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -70,17 +70,15 @@ const DonationsAppHome = () => {
     // )
 
     setScreenOptions({
-      navigationCustomOptions: {
-        footerShown: false,
-      },
       headerTitle: () => (
         <HoliHeading level="2" size="s">
           {title}
         </HoliHeading>
       ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-      // headerRight: () =>
-      //   Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
     })
   }, [navigate, setScreenOptions, t, title])
 

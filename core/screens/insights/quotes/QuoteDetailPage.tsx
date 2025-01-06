@@ -81,7 +81,8 @@ const QuoteDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
-      headerBackVisible: true,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,
       headerRight: () => {
         return (

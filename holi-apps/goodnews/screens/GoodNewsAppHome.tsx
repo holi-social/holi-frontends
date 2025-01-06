@@ -24,6 +24,9 @@ const GoodNewsAppHome = () => {
       headerTitle: () => <GoodNewsHeader />,
       headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
       headerTintColor: colors.light,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
+      headerTransparent: true,
       navigationCustomOptions: {
         background: { type: 'gradient' },
         footerShown: false,
@@ -33,7 +36,7 @@ const GoodNewsAppHome = () => {
 
   return (
     <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.GOODNEWS} i18nKey="goodnews:maintenance.feature">
-      <View testID={'goodnews-app-home'}>
+      <View style={{ flex: 1 }} testID={'goodnews-app-home'}>
         <StatusBar style="light" animated />
 
         <ScrollView bounces={false} style={{ paddingBottom: 0, backgroundColor: colors.background30 }}>
