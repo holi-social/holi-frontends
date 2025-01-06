@@ -175,6 +175,8 @@ const CreateTask = () => {
             {t('spaces.tasks.add.title')}
           </HoliHeading>
         ),
+        headerBackVisible: false,
+        headerTitleAlign: 'center',
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
