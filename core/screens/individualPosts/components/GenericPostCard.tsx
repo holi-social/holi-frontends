@@ -106,6 +106,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           date={feedPost.createdAt}
           role={feedPost.author.role}
           style={styles.authorHeader}
+          testID="post-author"
         />
         {isLoggedIn && (
           <View style={styles.postDrawer}>

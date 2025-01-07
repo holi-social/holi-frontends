@@ -1,21 +1,33 @@
 import { deleteAccount, registerNewUser } from '../../helpers/auth'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import {
+  checkIfElementWithTestIdExists,
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 
 describe('@UserConnection', () => {
   it('should request connection from another user profile page and then cancel it', async () => {
     // create a new user
     await registerNewUser()
 
-    // go home
-    await navigateBackToHomeScreen()
+    if (await checkIfElementWithTestIdExists('feed-posts')) {
+      // New feed: Search for first post-author and tap on avatar
+      await scrollToElementWithTestId('post-author', 'down')
 
-    // user suggestions element should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down')
+      await tapOnElementWithTestId('avatar-btn')
+    } else {
+      // Legacy feed: user suggestions heading should be visible
+      await scrollToElementWithTestId('user-suggestions', 'down')
 
-    // tap on first user in list
-    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 3 })
-    await tapOnElementWithTestId('user-card-suggestion-0')
+      // tap on first user in list
+      await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 3 })
+      await tapOnElementWithTestId('user-card-suggestion-0')
+    }
+
+    // expect user profile
+    await waitForElementWithTestId('user-profile-full-name')
 
     // for the newly created user, the button state should be NOT_CONNECTED
     await tapOnElementWithTestId('user-connection-button-NOT_CONNECTED')
@@ -36,6 +48,5 @@ describe('@UserConnection', () => {
 
     // clean up view
     await deleteAccount()
-    await navigateBackToHomeScreen()
   })
 })

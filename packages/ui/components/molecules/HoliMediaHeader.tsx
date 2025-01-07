@@ -79,6 +79,7 @@ const HoliMediaHeader = ({
         label={avatarProps.label || ''}
         onPress={onAvatarPressed}
         style={styles.avatarButton}
+        testID="avatar-btn"
       >
         <Avatar {...avatarProps} shape={avatarShape} border="light" size={avatarProps.size || 'sm'} />
         {!!secondaryAvatarProps && (

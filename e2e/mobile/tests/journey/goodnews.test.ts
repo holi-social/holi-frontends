@@ -1,6 +1,11 @@
 import { continueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 import { navigateBackFromAppScreen } from '../../helpers/navigation'
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import {
+  checkIfElementWithTestIdExists,
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 
 describe('@GoodNews', () => {
   afterEach(async () => {
@@ -14,8 +19,15 @@ describe('@GoodNews', () => {
   it('should support the user journey', async () => {
     // preparation of test
     await continueAsGuest()
-    await scrollToElementWithTestId('goodnews-reco-slider-heading-button', 'down')
-    await tapOnElementWithTestId('goodnews-reco-slider-heading-button')
+    if (await checkIfElementWithTestIdExists('feed-posts')) {
+      // New feed: Search for first good news post
+      await scrollToElementWithTestId('goodnews-card', 'down')
+      await tapOnElementWithTestId('goodnews-card')
+    } else {
+      // Old feed: Scroll to recommendations section
+      await scrollToElementWithTestId('goodnews-reco-slider-heading-button', 'down')
+      await tapOnElementWithTestId('goodnews-reco-slider-heading-button')
+    }
     await waitForElementWithTestId('goodnews-detailview-container')
     await assertAllowsPagination()
   })
