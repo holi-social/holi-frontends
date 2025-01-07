@@ -59,7 +59,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ task, spa
               description={t('spaces.tasks.delete.confirmation.description')}
               testID="task-delete"
               handleConfirmation={deleteTask}
-              buttonType="warning"
+              buttonVariant="danger"
               hasDismissBtn
               requireLogin
             />

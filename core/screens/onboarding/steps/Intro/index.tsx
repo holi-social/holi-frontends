@@ -13,7 +13,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { Button } from 'holi-bricks/components/button'
 import AnimatedIntro from './AnimatedIntro'
 
 interface Props {
@@ -40,15 +40,7 @@ export const Intro = ({ onContinue }: Props) => {
             },
           ]}
         >
-          <HoliButton
-            variant="default"
-            style={[styles.forwardBtn]}
-            label={t('onboarding.welcome.forward')}
-            onPress={onContinue}
-            testID="btn-to-onboarding"
-          >
-            {t('onboarding.welcome.forward')}
-          </HoliButton>
+          <Button label={t('onboarding.welcome.forward')} onPress={onContinue} testID="btn-to-onboarding" />
           <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
         </View>
         <HoliGap size="l" />
@@ -64,9 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  forwardBtn: {
-    width: '100%',
-  },
+
   ctasContainer: {
     width: '100%',
     flexDirection: 'column',

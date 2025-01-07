@@ -1,5 +1,3 @@
-import { expect } from '@playwright/test'
-
 import {
   byTestId,
   checkAccessibility,
@@ -14,21 +12,16 @@ test.describe('@ForgotPassword', () => {
   test('user journey', async ({ page }) => {
     await page.goto('/')
     await dismissConsentDialog(page)
+
+    await clickElementByTestId(page, 'btn-to-onboarding')
+
     const loginLink = (await locateElementByTestId(page, 'already-have-account-text')).getByRole('link')
     await clickFirstElement(loginLink)
-    const forgotPasswordLink = (await locateElementByTestId(page, 'btn-to-forgot-password-form')).getByRole('link')
+
+    const forgotPasswordLink = page.getByText('I forgot my password')
     await clickFirstElement(forgotPasswordLink)
 
-    // shows also login link
-    await page.waitForSelector(byTestId('already-have-account-text'))
-
-    // shows also registration link
-    await page.waitForSelector(byTestId('btn-to-registration-form'))
-
-    // form validation ...
     const emailInput = await locateElementByTestId(page, 'ory-email-input')
-
-    // required field message
     await clickElementByTestId(page, 'ory-submit-code')
     await page.waitForSelector(byTestId('ory-email-input-error-message'))
 
@@ -51,8 +44,6 @@ test.describe('@ForgotPassword', () => {
     await page.waitForSelector(byTestId('nav-button-back'))
 
     // input is not visible anymore
-    await expect(await emailInput.isVisible()).not.toBeTruthy()
-    // await page.waitForSelector(byTestId('ory-email-input'), { state: 'detached' })
-    expect(await page.locator(byTestId('ory-email-input')).isVisible()).not.toBeTruthy()
+    await page.waitForSelector(byTestId('ory-email-input'), { state: 'detached' })
   })
 })

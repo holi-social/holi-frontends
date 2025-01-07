@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useState } from 'react'
+import type React from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -8,19 +9,20 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import {
-  Notification,
-  NotificationProps,
-  NotificationSpaceConnection,
+  type Notification,
+  type NotificationProps,
+  type NotificationSpaceConnection,
   NotificationType,
 } from '@holi/core/screens/notifications/components/types'
 import {
-  UpdateSpaceUserConnectionResponse,
+  type UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { Button } from 'holi-bricks/components/button'
+import { Spacing } from 'holi-bricks/tokens'
 
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.COMMUNITY_MEMBERSHIP_APPROVED
@@ -125,30 +127,26 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
   }
 
   const buttons = [
-    <HoliButton
+    <Button
+      inline
       key="decline"
-      type="secondary"
-      variant="small"
+      variant="secondary"
+      size="sm"
       label={t('notifications.space.connection.decline')}
       onPress={declineConnectionRequest}
       disabled={loading}
-      style={styles.button}
       testID="decline-connection-request-button"
-    >
-      {t('notifications.connection.ignore')}
-    </HoliButton>,
-    <HoliButton
+    />,
+    <Button
+      inline
       key="accept"
-      type="primary"
-      variant="small"
+      variant="primary"
+      size="sm"
       label={t('notifications.space.connection.accept')}
       onPress={approveConnectionRequest}
       disabled={loading}
-      style={styles.button}
       testID="accept-connection-request-button"
-    >
-      {t('notifications.connection.accept')}
-    </HoliButton>,
+    />,
   ]
 
   if (!loginState.isLoggedIn) return <HoliLoader />
@@ -178,10 +176,8 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   buttonContainer: {
-    paddingLeft: 48,
-  },
-  button: {
-    marginTop: 12,
+    paddingLeft: Spacing.xxl,
+    marginTop: Spacing.xxs,
   },
 })
 

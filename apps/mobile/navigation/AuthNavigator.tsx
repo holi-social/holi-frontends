@@ -16,9 +16,9 @@ import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import TrackingSettings from '@holi/core/screens/userprofile/TrackingSettings'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { colors } from '@holi/ui/styles/globalVars'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type AuthStackScreensList = {
   Profile: undefined
@@ -39,6 +39,9 @@ export type AuthStackScreensList = {
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
 
 const AuthStackNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   return (
     <AuthStack.Navigator
       initialRouteName={RouteName.Profile}

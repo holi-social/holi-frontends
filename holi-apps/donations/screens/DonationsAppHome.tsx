@@ -2,7 +2,6 @@ import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -12,6 +11,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
@@ -86,7 +86,7 @@ const DonationsAppHome = () => {
     <>
       <KeyboardAwareScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="always">
         <HoliModal
-          show={showSearchModal}
+          shown={showSearchModal}
           onDismiss={closeModal}
           testID="donations-search-modal"
           label={t('donations:search.heading')}

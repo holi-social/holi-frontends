@@ -18,8 +18,7 @@ import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-// eslint-disable-next-line no-restricted-imports
-import { storeOnboardingState } from '../hooks/onboardingState'
+import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 const CODE_MAX_COUNT = 6
 
@@ -171,7 +170,7 @@ export const EmailVerification = ({
     }
   }
 
-  if (!flow || !verificationFlowData) return <HoliLoader />
+  if (!flow || !verificationFlowData) return <HoliLoader testID="loader" />
 
   return (
     <CenteredImageHeadlineDescriptionLayout

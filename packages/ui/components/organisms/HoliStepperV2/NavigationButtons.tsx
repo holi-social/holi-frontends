@@ -1,13 +1,9 @@
 import type React from 'react'
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft } from '@holi/icons/src/generated'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
 
 export interface NavigationButtonsProps {
   onNextPress?: () => void
@@ -34,33 +30,31 @@ const NavigationButtons = ({
   testID = 'nav-buttons',
 }: React.PropsWithChildren<NavigationButtonsProps>) => {
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = getStyles()
 
   return (
     <View style={styles.buttonContainer} testID={testID}>
       {isBackButtonAvailable && (
-        <HoliButton
-          label={t('global.back')}
-          disabled={false}
-          onPress={onBackPress}
-          testID={`${testID}-back-btn`}
-          style={styles.backButton}
-        >
-          <HoliIcon icon={ArrowLeft} color={colors.foreground30} />
-        </HoliButton>
+        <View style={styles.backButton}>
+          <ButtonIcon
+            label={t('global.back')}
+            disabled={false}
+            variant="secondary"
+            onPress={onBackPress}
+            testID={`${testID}-back-btn`}
+            icon={ArrowLeft}
+          />
+        </View>
       )}
 
-      <View style={{ flex: 1 }}>
-        <HoliButtonLoading
+      <View style={styles.nextButton}>
+        <Button
           loading={isLoading}
           disabled={!isNextButtonEnabled}
           label={nextButtonLabel ?? t('global.next')}
           loadingLabel={t('global.loading')}
           onPress={onNextPress}
           testID={`${testID}-next-btn`}
-          style={styles.nextButton}
         />
       </View>
     </View>
@@ -69,20 +63,13 @@ const NavigationButtons = ({
 
 export default NavigationButtons
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
     backButton: {
-      width: BUTTON_RECT.width,
-      height: BUTTON_RECT.height,
-      borderRadius: BUTTON_RECT.height / 2,
       marginRight: 10,
-      paddingHorizontal: 0,
-      paddingVertical: 0,
-      backgroundColor: theme.colors.background10,
     },
     nextButton: {
-      height: BUTTON_RECT.height,
-      width: '100%',
+      flex: 1,
     },
     buttonContainer: {
       flexDirection: 'row',

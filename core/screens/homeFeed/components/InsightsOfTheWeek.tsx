@@ -5,33 +5,31 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers/logError'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import InsightList from '@holi/core/screens/insights/InsightList'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import { Insight } from '@holi/core/screens/insights/types'
+import type { Insight } from '@holi/core/screens/insights/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import HoliUserCardsModalContent from '@holi/ui/components/organisms/HoliUserCardsModalContent'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 const InsightsOfTheWeek = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
-
-  const mixins = useStyleMixins()
+  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState()
 
   const {
     data: lastInsights,
@@ -101,13 +99,15 @@ const InsightsOfTheWeek = () => {
 
       <InsightList style={styles.insightList} loading={!!loading} insights={insights} />
 
-      <HoliButtonLoading
-        type="secondary"
-        label={t('insights.discoverMore')}
-        onPress={() => goToInsights()}
-        testID="btn-navigate-to-insights"
-        style={mixins.moreButton}
-      />
+      <View style={styles.button}>
+        <Button
+          variant="secondary"
+          label={t('insights.discoverMore')}
+          loadingLabel={t('global.loading')}
+          onPress={() => goToInsights()}
+          testID="btn-navigate-to-insights"
+        />
+      </View>
     </HoliContainer>
   )
 }
@@ -130,6 +130,12 @@ const getStyles = (theme: HoliTheme) =>
     },
     handwaveFilled: {
       paddingLeft: 8,
+    },
+    button: {
+      marginVertical: 24,
+      maxWidth: dimensions.maxButtonWidth,
+      alignSelf: 'center',
+      width: '100%',
     },
     modal: { backgroundColor: theme.colors.white200 },
   })

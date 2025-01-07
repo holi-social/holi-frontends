@@ -33,13 +33,13 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Button } from 'holi-bricks/components/button'
 
 export interface ChangePasswordProps {
   forgotPasswordFlow?: boolean
@@ -279,14 +279,13 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
                       />
                     )}
                   </View>
-                  <HoliButtonLoading
-                    label={t('auth.changePassword.input.label-Save')}
-                    onPress={performPasswordChange}
-                    style={mixins.moreButton}
-                    testID={'btn-submit-change-password'}
-                  >
-                    {t('auth.changePassword.input.label-Save')}
-                  </HoliButtonLoading>
+                  <View style={styles.button}>
+                    <Button
+                      label={t('auth.changePassword.input.label-Save')}
+                      onPress={performPasswordChange}
+                      testID={'btn-submit-change-password'}
+                    />
+                  </View>
                 </>
               )}
             </HoliBox>
@@ -317,5 +316,11 @@ const getStyles = (theme: HoliTheme) =>
     inputFieldsContainer: {
       paddingTop: 24,
       gap: 16,
+    },
+    button: {
+      marginVertical: 24,
+      maxWidth: dimensions.maxButtonWidth,
+      alignSelf: 'center',
+      width: '100%',
     },
   })

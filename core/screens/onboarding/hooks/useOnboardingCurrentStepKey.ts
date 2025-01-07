@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { HoliStepperItem } from '@holi/ui/components/organisms/HoliStepperV2'
-import { type OnboardingStateValue, useOnboardingState } from './onboardingState'
+import { type OnboardingStateValue, useOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 const OnboardingStepKeys = [
   'WELCOME_SCREEN',

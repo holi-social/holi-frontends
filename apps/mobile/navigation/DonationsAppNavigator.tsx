@@ -51,6 +51,7 @@ const DonationsAppNavigator = () => {
         headerShadowVisible: false,
         headerTintColor: colors.black300,
         headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
+        headerTitle: '', // prevent showing the technical name of the screen on initial render
       }}
     >
       <DonationsAppStack.Screen

@@ -2,7 +2,7 @@
 import type { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import type { StyleProp, ViewStyle } from 'react-native'
+import { View, type StyleProp, type ViewStyle } from 'react-native'
 
 import FormInputField, { type InputProps } from '@holi/core/auth/components/FormInputField'
 import {
@@ -15,7 +15,7 @@ import {
 } from '@holi/core/auth/helpers/form'
 import { isApp } from '@holi/core/helpers/isApp'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { Button } from 'holi-bricks/components/button'
 import { isWebTouchDevice } from '@holi/ui/helper'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 
@@ -65,15 +65,14 @@ const FormNode = (props: Props) => {
   if (oryNodeIsSubmit(node.attributes)) {
     const fieldLabel = t(`${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`)
     return (
-      <HoliButtonLoading
-        label={fieldLabel}
-        disabled={node.attributes.disabled}
-        style={props.style}
-        onPress={props.onSubmitPress}
-        testID={`ory-submit-${fieldName}`}
-      >
-        {fieldLabel}
-      </HoliButtonLoading>
+      <View style={props.style}>
+        <Button
+          label={fieldLabel}
+          disabled={node.attributes.disabled}
+          onPress={props.onSubmitPress}
+          testID={`ory-submit-${fieldName}`}
+        />
+      </View>
     )
   }
 
