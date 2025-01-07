@@ -82,6 +82,10 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
       feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
     )
 
+    const showTopics = aggregatedTopics && aggregatedTopics?.length > 0
+    const showCategory = feedPost.category
+    const showPills = showTopics || showCategory
+
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
       <View style={styles.container}>
@@ -122,18 +126,20 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           testID="post-card-detail-view-btn"
         >
           <View style={styles.clickableArea}>
-            <View style={styles.pillContainer}>
-              {feedPost.category && (
-                <ChipLabel size="sm" color="yellow">
-                  {feedPost.category.label}
-                </ChipLabel>
-              )}
-              {aggregatedTopics && aggregatedTopics?.length > 0 && (
-                <ChipLabel size="sm" color="green">{`${aggregatedTopics[0]?.title} ${
-                  aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
-                }`}</ChipLabel>
-              )}
-            </View>
+            {showPills && (
+              <View style={styles.pillContainer}>
+                {showCategory && (
+                  <ChipLabel size="sm" color="yellow">
+                    {feedPost.category?.label}
+                  </ChipLabel>
+                )}
+                {showTopics && (
+                  <ChipLabel size="sm" color="green">{`${aggregatedTopics[0]?.title} ${
+                    aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
+                  }`}</ChipLabel>
+                )}
+              </View>
+            )}
             <View style={styles.contentSection}>
               <HoliHeading
                 level="2"
