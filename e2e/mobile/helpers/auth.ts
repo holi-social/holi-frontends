@@ -130,6 +130,7 @@ const skipOnboardingSteps = async () => {
   // Skip through all onboarding steps
   const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
   await tapOnElement(onboardingButton)
+  await waitForElementWithTestId('onboarding-content-selection')
   await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
   // Wait for each screen to prevent pressing the same button twice
   await waitForElementWithTestId('onboarding-location-selection')
@@ -138,9 +139,10 @@ const skipOnboardingSteps = async () => {
   await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
   await waitForElementWithTestId('onboarding-skills-selection')
   await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
+  await waitForElementWithTestId('onboarding-account-creation')
 }
 
-const logoutOrDelete = async (fn: () => Promise<void>) => {
+const logoutOrDelete = async (fn: () => Promise<void>, skipNavigationToHome = false) => {
   if (
     (await checkIfElementWithTestIdExists('btn-to-onboarding')) ||
     (await checkIfElementWithTestIdExists('btn-to-anonymous-profile-view'))
@@ -152,7 +154,9 @@ const logoutOrDelete = async (fn: () => Promise<void>) => {
     await fn()
     await tapOnElementWithTestId('btn-consentModal-declineAll')
     await tapOnElementWithTestId('toast-logout-success')
-    await tapOnElementWithTestId('btn-to-home-view')
+    if (!skipNavigationToHome) {
+      await tapOnElementWithTestId('btn-to-home-view')
+    }
   }
 }
 
@@ -168,7 +172,7 @@ export const deleteAccount = async () => {
     await tapOnElementWithTestId('btn-your-account')
     await tapOnElementWithTestId('btn-delete-account')
     await tapOnElementWithTestId('account-deletion-confirmation-confirmation-primary')
-  })
+  }, true)
 }
 
 const navigateToSettings = async () => {
