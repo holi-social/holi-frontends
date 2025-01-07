@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
-import type React from 'react'
+import React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -37,14 +37,14 @@ describe('ErrorBoundary', () => {
   })
 
   it('renders fallback content when rendering child content failed', () => {
-    const { queryByText, getByTestId } = render(
+    const { queryByText } = render(
       <ErrorBoundary allowReload>
         <ErrorComponent />
       </ErrorBoundary>
     )
 
     expect(queryByText('global.technicalError')).toBeTruthy()
-    expect(getByTestId('error.errorBoundary.retry')).toBeTruthy()
+    expect(queryByText('error.errorBoundary.retry')).toBeTruthy()
     expect(queryByText('Child Content')).toBeFalsy()
   })
 
@@ -62,14 +62,14 @@ describe('ErrorBoundary', () => {
   })
 
   it('renders retry button when allowReload is true', () => {
-    const { queryByText, getByTestId } = render(
+    const { queryByText } = render(
       <ErrorBoundary allowReload>
         <ErrorComponent />
       </ErrorBoundary>
     )
 
     expect(queryByText('global.technicalError')).toBeTruthy()
-    expect(getByTestId('error.errorBoundary.retry')).toBeTruthy()
+    expect(queryByText('error.errorBoundary.retry')).toBeTruthy()
     expect(queryByText('Child Content')).toBeFalsy()
   })
 

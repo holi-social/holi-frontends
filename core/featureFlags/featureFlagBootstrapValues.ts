@@ -26,9 +26,6 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: 'control',
     [FeatureFlagKey.FEEDBACK_LINK]: 'on',
     [FeatureFlagKey.NEW_FEED]: false,
-    [FeatureFlagKey.NEW_HOME_FEED]: 'control',
-    [FeatureFlagKey.POST_TRANSLATION]: false,
-    [FeatureFlagKey.TYPESENSE_SEARCH]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -42,8 +39,5 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: null,
     [FeatureFlagKey.FEEDBACK_LINK]: null,
     [FeatureFlagKey.NEW_FEED]: null,
-    [FeatureFlagKey.NEW_HOME_FEED]: null,
-    [FeatureFlagKey.POST_TRANSLATION]: null,
-    [FeatureFlagKey.TYPESENSE_SEARCH]: null,
   },
 }

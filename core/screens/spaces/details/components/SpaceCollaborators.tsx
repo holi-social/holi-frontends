@@ -17,16 +17,16 @@ import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-type SpaceCollaboratorsModalProps = {
+type SpaceCollaboratorsProps = {
   space: Space
-  shown: boolean
+  show: boolean
   onDismiss: () => void
   style?: StyleProp<ViewStyle>
 }
 
 const SPACE_MEMBER_PAGE_SIZE = 10
 
-const SpaceCollaboratorsModal: React.FC<SpaceCollaboratorsModalProps> = ({ shown, space, onDismiss }) => {
+const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onDismiss, show = false }) => {
   const { t } = useTranslation()
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
   const [selectedMember, setSelectedMember] = useState<SpaceMember>()
@@ -55,7 +55,6 @@ const SpaceCollaboratorsModal: React.FC<SpaceCollaboratorsModalProps> = ({ shown
     },
     [navigate, onDismiss]
   )
-
   const onSelectMember = useCallback(
     (member: SpaceMember) => {
       const userId = member.user.id
@@ -71,7 +70,7 @@ const SpaceCollaboratorsModal: React.FC<SpaceCollaboratorsModalProps> = ({ shown
 
   return (
     <HoliModal
-      shown={shown}
+      show={show}
       label={t('spaces.collaborators')}
       heading={t('spaces.collaborators')}
       testID={'space-collaborators-modal'}
@@ -135,4 +134,4 @@ const getStyles = (theme: HoliTheme) =>
     },
   })
 
-export default withProfiler(SpaceCollaboratorsModal, { name: 'SpaceCollaborators' })
+export default withProfiler(SpaceCollaborators, { name: 'SpaceCollaborators' })

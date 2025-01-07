@@ -5,7 +5,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Platform, Pressable, StyleSheet, View, ScrollView } from 'react-native'
 
 import type { Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -40,6 +40,7 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
@@ -49,9 +50,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
-import { Button } from 'holi-bricks/components/button'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import GradientBackground from '@holi/core/components/HeaderAnimated/GradientBackground'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -64,7 +63,7 @@ const InsightDetailPage = () => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate, replaceRoute } = useRouting()
-  const [curatorModalShown, setCuratorModalShown] = useState(false)
+  const [showCuratorModal, setShowCuratorModal] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
   const { width: screenWidth } = useClientWindowDimensions()
@@ -97,7 +96,9 @@ const InsightDetailPage = () => {
       title: '',
       headerTransparent: true,
       headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
-      headerBackground: () => <GradientBackground colors={[colors.dark, 'transparent']} />,
+      navigationCustomOptions: {
+        background: { type: 'gradient' },
+      },
       headerRight: () => {
         return (
           insight && (
@@ -108,7 +109,7 @@ const InsightDetailPage = () => {
         )
       },
     })
-  }, [insight, setScreenOptions, colors.light, colors.dark])
+  }, [insight, setScreenOptions, colors.light])
 
   const posts: Post[] = insight?.posts || []
   const polls: Poll[] = insight?.polls || []
@@ -160,14 +161,15 @@ const InsightDetailPage = () => {
             <HoliText size="small" style={styles.subline}>
               {t('insights.curatorModal.subline')}
             </HoliText>
-            <View style={{ width: 120 }}>
-              <Button
-                size="sm"
-                inline
-                onPress={() => navigate(`/profile/${creator.id}`)}
-                label={t('insights.curatorModal.profileLink')}
-              />
-            </View>
+            <HoliButton
+              variant="small"
+              inline
+              onPress={() => navigate(`/profile/${creator.id}`)}
+              label={t('modal.close')}
+              style={{ width: 120 }}
+            >
+              {t('insights.curatorModal.profileLink')}
+            </HoliButton>
             <HoliText style={{ marginTop: 8 }} numberOfLines={4} ellipsizeMode="tail">
               {creator.aboutMe}
             </HoliText>
@@ -251,7 +253,7 @@ const InsightDetailPage = () => {
                       <HoliText color="gray300">{t('insight.curatedBy')}</HoliText>
                     </HoliText>
                     <Pressable
-                      onPress={() => setCuratorModalShown(true)}
+                      onPress={() => setShowCuratorModal(true)}
                       style={({ hovered }) => {
                         return hovered ? [styles.creatorInfoButtonHovered] : [styles.creatorInfoButton]
                       }}
@@ -272,8 +274,8 @@ const InsightDetailPage = () => {
 
                   <HoliModal
                     label={t('user.cards.modal.showInfo', { name: creator.fullName })}
-                    shown={curatorModalShown}
-                    onDismiss={() => setCuratorModalShown(false)}
+                    show={showCuratorModal}
+                    onDismiss={() => setShowCuratorModal(false)}
                     style={{ backgroundColor: colors.background30 }}
                   >
                     <HoliCarousel
@@ -283,13 +285,14 @@ const InsightDetailPage = () => {
                         children: slide,
                       }))}
                     />
-                    <View style={styles.close}>
-                      <Button
-                        inline
-                        onPress={() => setCuratorModalShown(false)}
-                        label={t('insights.curatorModal.close')}
-                      />
-                    </View>
+                    <HoliButton
+                      inline
+                      style={styles.close}
+                      onPress={() => setShowCuratorModal(false)}
+                      label={t('modal.close')}
+                    >
+                      {t('insights.curatorModal.close')}
+                    </HoliButton>
                   </HoliModal>
                 </>
               )}

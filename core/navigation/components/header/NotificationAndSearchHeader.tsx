@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
+import { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
 
 import { useHasNewNotifications } from '@holi/core/helpers/useHasNewNotifications'
 import { SearchButton } from '@holi/core/navigation/components/header/SearchButton'
@@ -24,6 +24,7 @@ const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
         onPress={() => {
           navigate('/notifications')
         }}
+        color={tintColor}
         testID="btn-to-notifications"
       />
 

@@ -1576,108 +1576,103 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
           }
         >
           <View
-            style={
+            accessibilityLabel="spaces.global.seeAllButton.label"
+            accessibilityRole="button"
+            accessibilityState={
               {
-                "bottom": 0,
-                "marginBottom": 8,
-                "marginTop": 16,
-                "paddingHorizontal": 20,
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              [
+                [
+                  {
+                    "width": "auto",
+                  },
+                  {
+                    "backgroundColor": "#fff",
+                    "borderColor": "#262424",
+                    "borderRadius": 28,
+                    "borderWidth": 2,
+                    "display": "flex",
+                    "elevation": 0,
+                    "justifyContent": "center",
+                    "overflow": "hidden",
+                    "paddingHorizontal": 32,
+                    "paddingVertical": 13,
+                  },
+                ],
+                {
+                  "borderWidth": 1,
+                  "bottom": 0,
+                  "marginBottom": 8,
+                  "marginTop": 16,
+                  "paddingHorizontal": 20,
+                },
+              ]
             }
           >
             <View
-              accessibilityLabel="spaces.global.seeAllButton.label"
-              accessibilityRole="button"
-              accessibilityState={
-                {
-                  "busy": undefined,
-                  "checked": undefined,
-                  "disabled": false,
-                  "expanded": undefined,
-                  "selected": false,
-                }
-              }
-              accessibilityValue={
-                {
-                  "max": undefined,
-                  "min": undefined,
-                  "now": undefined,
-                  "text": undefined,
-                }
-              }
-              accessible={true}
-              aria-pressed={false}
-              collapsable={false}
-              focusable={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
               style={
                 [
                   {
-                    "backgroundColor": "#ffffff",
-                    "borderColor": "#262424",
-                    "borderRadius": 1000,
-                    "borderStyle": "solid",
-                    "borderWidth": 1,
-                    "boxShadow": "0 0 0 0px #262424",
-                    "display": "flex",
-                    "paddingHorizontal": 16,
-                    "width": "auto",
+                    "pointerEvents": "none",
                   },
+                  {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
                 ]
               }
             >
-              <View
+              <Text
+                accessible={false}
+                collapsable={false}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
+                selectable={true}
                 style={
                   {
-                    "alignItems": "center",
-                    "display": "flex",
-                    "flexDirection": "row",
-                    "gap": 4,
-                    "justifyContent": "center",
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 16,
+                    "fontWeight": "400",
+                    "lineHeight": 22.4,
+                    "userSelect": "auto",
                   }
                 }
               >
-                <View
-                  style={
-                    {
-                      "height": 40,
-                      "justifyContent": "center",
-                    }
-                  }
-                >
-                  <Text
-                    accessible={false}
-                    role="none"
-                    selectable={true}
-                    style={
-                      {
-                        "color": "#262424",
-                        "fontFamily": "InstrumentSans-Regular",
-                        "fontSize": 15,
-                        "fontVariant": [
-                          "lining-nums",
-                          "tabular-nums",
-                        ],
-                        "fontWeight": "400",
-                        "letterSpacing": -0.12,
-                        "lineHeight": 21,
-                        "textAlign": undefined,
-                        "userSelect": "auto",
-                      }
-                    }
-                  >
-                    spaces.global.seeAllButton.label
-                  </Text>
-                </View>
-              </View>
+                spaces.global.seeAllButton.label
+              </Text>
             </View>
           </View>
         </View>

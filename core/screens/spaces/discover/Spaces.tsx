@@ -14,8 +14,6 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
-import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
-import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -31,6 +29,8 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 
 export enum Tab {
   MINE = 'mine',
@@ -182,7 +182,7 @@ const Spaces = () => {
         actionButtonVisible={!hasOwnSpaces || activeTab === Tab.DISCOVER}
         label={t('spaces.filter.heading')}
         buttonLabel={t('spaces.filter.button.label')}
-        shown={isFilterModalShown}
+        show={isFilterModalShown}
         open={openFilterModal}
         onDismiss={closeFilterModal}
       >

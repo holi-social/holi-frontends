@@ -49,7 +49,7 @@ const PostImage: React.FC<PropsWithSkeleton<Props>> = ({ loading, uri, imageBlur
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const [fullscreenImageModalShown, setFullscreenImageModalShown] = useState(false)
+  const [showFullscreenImage, setShowFullscreenImage] = useState(false)
   const imageSrcSet = POST_IMAGE_SIZES.map((transformSize) =>
     getTransformedImageUri({
       imageUri: uri ?? '',
@@ -62,12 +62,12 @@ const PostImage: React.FC<PropsWithSkeleton<Props>> = ({ loading, uri, imageBlur
   const { uri: mobileImageUri, onLayout } = useContainerSizeForImage(uri ?? '', true)
 
   const showImageFullScreen = useCallback(() => {
-    setFullscreenImageModalShown(true)
-  }, [setFullscreenImageModalShown])
+    setShowFullscreenImage(true)
+  }, [setShowFullscreenImage])
 
   const hideFullscreenImage = useCallback(() => {
-    setFullscreenImageModalShown(false)
-  }, [setFullscreenImageModalShown])
+    setShowFullscreenImage(false)
+  }, [setShowFullscreenImage])
 
   if (loading) return <HoliSkeleton aspectRatio={343 / 236} borderRadius={16} height={'auto'} width={'100%'} />
 
@@ -92,7 +92,7 @@ const PostImage: React.FC<PropsWithSkeleton<Props>> = ({ loading, uri, imageBlur
 
       <HoliModalFullscreen
         label={t('insights.posts.image.modal', { title: postTitle })}
-        shown={fullscreenImageModalShown}
+        show={showFullscreenImage}
         onDismiss={hideFullscreenImage}
         testID="post-image-modal"
       >

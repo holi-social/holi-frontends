@@ -173,7 +173,7 @@ const HoliModalSelect = <IDType extends string>({
       )}
 
       <HoliModal
-        shown={visible}
+        show={visible}
         onDismiss={hide}
         onShow={show}
         label={label}

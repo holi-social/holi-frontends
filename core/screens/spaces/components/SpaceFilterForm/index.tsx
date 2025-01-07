@@ -4,20 +4,22 @@ import { StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, {
-  type HoliSelectOption,
+  HoliSelectOption,
   LIST_ITEMS_COUNT,
   LIST_ITEM_HEIGHT,
 } from '@holi/ui/components/molecules/HoliSelect'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import { type SpaceFilter, isSpaceFilterEmpty } from './types'
+import { SpaceFilter, isSpaceFilterEmpty } from './types'
 import { getSpaceFilterInitialState, useSpaceFilterReducer } from './useSpaceFilterReducer'
-import { Button } from 'holi-bricks/components/button'
 
 interface Props extends Pick<Partial<SpaceFilter>, 'location' | 'skillSlugs' | 'topicSlugs'> {
   onSubmit: (filter: SpaceFilter) => void
@@ -68,14 +70,16 @@ const SpaceFilterForm = ({ onSubmit, ...initValues }: Props) => {
         <View style={[mixins.container, styles.container]}>
           <View style={styles.header}>
             <HoliHeading>{t('spaces.filter.heading')}</HoliHeading>
-            <Button
+            <HoliButton
               label={t('global.reset')}
               inline
               onPress={() => resetAllFilters()}
-              variant="secondary"
-              size="sm"
-              icon={Close}
-            />
+              type="secondary"
+              variant="small"
+            >
+              <HoliText>{t('global.reset')}</HoliText>
+              <HoliIcon icon={Close} size={20} style={styles.clearFilters} />
+            </HoliButton>
           </View>
 
           <PlacesAutocomplete

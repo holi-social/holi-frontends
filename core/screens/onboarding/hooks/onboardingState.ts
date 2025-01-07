@@ -9,11 +9,9 @@ import { Platform } from 'react-native'
 import { useVerificationFlowData, type VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 
 const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
-const FIRST_VISIT_STORAGE_NAME = 'first_visit_content_value'
 
 /** @deprecated since v1.43: Clean up local state that is no longer needed */
-export const cleanUpStoredOnboardingState = () =>
-  Promise.all([AsyncStore.removeItem(ONBOARDING_STATE_STORAGE_NAME), AsyncStore.removeItem(FIRST_VISIT_STORAGE_NAME)])
+export const cleanUpStoredOnboardingState = () => AsyncStore.removeItem(ONBOARDING_STATE_STORAGE_NAME)
 
 const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const
 export type OnboardingStateValue = (typeof onboardingValues)[number]

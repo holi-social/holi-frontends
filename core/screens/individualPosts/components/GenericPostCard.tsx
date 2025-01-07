@@ -273,7 +273,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
                     confirmText={t('confirmation.delete')}
                     dismissText={t('global.dismiss')}
                     handleConfirmation={deleteSpacePost}
-                    buttonVariant="danger"
+                    buttonType="warning"
                     hasDismissBtn
                     requireLogin
                   />

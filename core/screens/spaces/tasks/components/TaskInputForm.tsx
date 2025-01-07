@@ -21,6 +21,7 @@ import type { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -30,7 +31,6 @@ import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSave
 import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-import { Button } from 'holi-bricks/components/button'
 
 export interface TaskInputFormProps {
   name: string
@@ -206,7 +206,9 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
               style: styles.imageUploadButton,
             }}
             onPickImage={onChangeThumbnail}
-          />
+          >
+            <HoliText>{t('spaces.input.task.upload.button.label')}</HoliText>
+          </HoliImagePicker>
         </View>
         <Instructions />
       </View>
@@ -287,16 +289,17 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
               ))}
             </View>
           )}
-          <View style={styles.skillsButton}>
-            <Button
-              label={t(skills.length > 0 ? 'global.edit' : 'global.add')}
-              variant="secondary"
-              inline
-              onPress={showSkillsForm}
-              testID="btn-task-edit-skills-modal"
-              icon={skills.length > 0 ? Edit2 : Add}
-            />
-          </View>
+          <HoliButton
+            label={t('global.edit')}
+            type="secondary"
+            inline
+            onPress={showSkillsForm}
+            testID="btn-task-edit-skills-modal"
+            style={styles.skillsButton}
+          >
+            <HoliText style={styles.skillsButtonText}>{t(skills.length > 0 ? 'global.edit' : 'global.add')}</HoliText>
+            <HoliIcon icon={skills.length > 0 ? Edit2 : Add} />
+          </HoliButton>
         </View>
       </View>
 
@@ -386,7 +389,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
       </View>
 
       <HoliModal
-        shown={skillsFormVisibile}
+        show={skillsFormVisibile}
         onDismiss={hideSkillsForm}
         testID="task-skills-modal"
         label={t('spaces.input.task.skills')}
@@ -482,6 +485,8 @@ const getStyles = (theme: HoliTheme) =>
     },
     skillsButton: {
       alignSelf: 'flex-start',
+      paddingHorizontal: 12,
+      paddingVertical: 8,
       marginTop: 16,
     },
     skillsButtonText: {

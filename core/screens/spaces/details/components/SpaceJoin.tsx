@@ -1,19 +1,20 @@
-import type React from 'react'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import SpaceCollaboratorOnboarding from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboarding'
 import { useSpaceJoinRequest } from '@holi/core/screens/spaces/details/components/useSpaceJoinRequest'
-import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Time } from '@holi/icons/src/generated'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { Button } from 'holi-bricks/components/button'
 
 export type SpaceJoinProps = {
   space: Space
@@ -21,7 +22,7 @@ export type SpaceJoinProps = {
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
+const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message, ...props }) => {
   const { t } = useTranslation()
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { show: showJoinOverlay } = useModalState()
@@ -65,26 +66,32 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
   return (
     <>
       {!isRequestor && !isMember && (
-        <Button
+        <HoliButton
           inline
           label={t('spaces.join.btnRequest')}
           onPress={handleRequest}
-          size="sm"
+          variant="small"
+          style={props.style}
           disabled={loading}
           testID={'space-collaborate-button'}
-        />
+        >
+          <HoliText>{t('spaces.join.btnRequest')}</HoliText>
+        </HoliButton>
       )}
       {isRequestor && (
-        <Button
+        <HoliButton
           inline
-          variant="secondary"
-          size="sm"
+          type="secondary"
+          variant="small"
           label={t('spaces.join.btnPending')}
           onPress={() => setWithdrawDialogIsOpen(true)}
+          style={props.style}
           disabled={loading}
           testID={'space-collaborate-pending-button'}
-          icon={Time}
-        />
+        >
+          <HoliText>{t('spaces.join.btnPending')}</HoliText>
+          <HoliIcon icon={Time} style={[{ marginLeft: 5 }]} />
+        </HoliButton>
       )}
 
       <HoliConfirmation
@@ -94,7 +101,7 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
         description={t('spaces.join.withdraw.confirm.text')}
         secondaryText={t('global.dismiss')}
         primaryText={t('global.yes')}
-        primaryButtonVariant="danger"
+        primaryButtonType="warning"
         onPrimary={submitWithdraw}
         onDismiss={() => setWithdrawDialogIsOpen(false)}
       />

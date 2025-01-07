@@ -11,11 +11,6 @@ export const darkButtonTheme = {
     border: mono[200],
     text: mono[100],
   },
-  tertiary: {
-    background: 'none',
-    border: mono[600],
-    text: mono[100],
-  },
   selected: {
     background: mono[700],
     border: mono[400],
@@ -42,11 +37,6 @@ export const lightButtonTheme = {
   secondary: {
     background: mono[100],
     border: mono[800],
-    text: mono[800],
-  },
-  tertiary: {
-    background: 'none',
-    border: mono[200],
     text: mono[800],
   },
   selected: {

@@ -1,10 +1,10 @@
-import type React from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { UserAdd } from '@holi/icons/src/generated'
-import { Button } from 'holi-bricks/components/button'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export interface SpaceInviteProps {
   space: Space
@@ -18,9 +18,9 @@ const SpaceInvite: React.FC<SpaceInviteProps> = ({ space }) => {
   const isAdministrator = space.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   return isCollaborator || isAdministrator ? (
-    <Button
+    <HoliButtonLoading
       inline
-      size="sm"
+      variant="small"
       label={t('spaces.invite.btn.invite')}
       icon={UserAdd}
       testID={'btn-space-invite'}

@@ -1,15 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import SearchSkeleton from '@holi/core/screens/search/components/SearchSkeleton'
 import { FILTER_ALL_PAGE_SIZE, SEARCH_PAGE_SIZE } from '@holi/core/screens/search/components/useUserSpaceSearchQuery'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliAvatar from '@holi/ui/components/molecules/HoliAvatar'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import type { SearchSection } from './types'
-import { Button } from 'holi-bricks/components/button'
 
 type SectionFooterProps = SearchSection & {
   isFilterAll: boolean
@@ -38,9 +39,14 @@ export const SectionFooter = ({ type, result, isFilterAll, onLoadMoreButtonPress
     // for "ALL" filter render load more button
     return (
       <HoliBox padding={[16, 16, 24, 16]}>
-        <View style={styles.moreButton}>
-          <Button label={t(`search.section.${type}.loadMore`)} variant={'secondary'} onPress={onLoadMoreButtonPress} />
-        </View>
+        <HoliButton
+          label={t(`search.section.${type}.loadMore`)}
+          type={'secondary'}
+          style={styles.moreButton}
+          onPress={onLoadMoreButtonPress}
+        >
+          <HoliText>{t(`search.section.${type}.loadMore`)}</HoliText>
+        </HoliButton>
       </HoliBox>
     )
   }
@@ -66,7 +72,6 @@ export const SectionFooter = ({ type, result, isFilterAll, onLoadMoreButtonPress
 const styles = StyleSheet.create({
   moreButton: {
     maxWidth: dimensions.maxButtonWidth,
-    width: '100%',
     alignSelf: 'center',
   },
 })

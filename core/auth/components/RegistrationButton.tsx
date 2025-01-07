@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ButtonTracked } from '@holi/core/components/Trackable'
+import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { TrackingEvent } from '@holi/core/tracking'
-import type { ButtonProps } from 'holi-bricks/components/button'
+import type { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 
-type Props = Omit<ButtonProps, 'label'> & {
+type Props = Omit<HoliButtonProps, 'label'> & {
   replaceRoute?: boolean
   trackingEvent: TrackingEvent
 }
@@ -16,16 +16,18 @@ const RegistrationButton = (props: Props) => {
   const { navigate, replaceRoute } = useRouting()
 
   return (
-    <ButtonTracked
+    <HoliButtonTracked
       onPress={() => {
         const navFunction = props.replaceRoute ? replaceRoute : navigate
         navFunction('/onboarding')
       }}
       label={t('auth.loginProtection.registration')}
-      variant={props.variant}
+      type="secondary"
       testID="btn-to-registration-form"
       {...props}
-    />
+    >
+      {t('auth.loginProtection.registration')}
+    </HoliButtonTracked>
   )
 }
 

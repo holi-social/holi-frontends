@@ -1,7 +1,5 @@
-import type { ReactNativeFile } from '@holi/api/graphql/client'
-import type { ButtonProps, ButtonIconProps } from 'holi-bricks/components/button'
-import type { ViewStyle } from 'react-native'
-import type { StyleProp } from 'react-native'
+import { ReactNativeFile } from '@holi/api/graphql/client'
+import { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 
 export interface HoliImageInfo {
   uri: string
@@ -32,11 +30,9 @@ export type HoliImagePickerFileSizeLimitation =
   | FileSizeLimitationReject
 
 export interface HoliImagePickerProps {
-  buttonProps?: Omit<ButtonProps, 'onPress'> & { style?: StyleProp<ViewStyle> }
-  buttonIconProps?: Omit<ButtonIconProps, 'onPress'>
+  buttonProps: Omit<HoliButtonProps, 'children' | 'onPress'>
   onPickImage?: (image: HoliImageInfo) => void
   onPickImages?: (images: HoliImageInfo[]) => void
   allowsMultipleSelection?: boolean
   fileSizeLimitation: HoliImagePickerFileSizeLimitation
-  buttonIconOnly?: boolean
 }

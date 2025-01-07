@@ -159,7 +159,13 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
       {contactPossible && (
         <View style={styles.profileButtonWrapper}>
           <UserConnectionButtons user={user} style={styles.connectionButton} />
-          <StartChatButton user={user} label={t('user.profileView.message')} variant="secondary" inline />
+          <StartChatButton
+            user={user}
+            label={t('user.profileView.message')}
+            type="secondary"
+            inline
+            style={styles.chatButton}
+          />
         </View>
       )}
     </View>

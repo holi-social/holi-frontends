@@ -1,28 +1,27 @@
 import { useMutation } from '@apollo/client'
-import type React from 'react'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import {
-  type UpdateSpaceUserConnectionResponse,
+  UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
-import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { Button } from 'holi-bricks/components/button'
 
 export type SpaceFollowProps = {
   space: Space
   style?: StyleProp<ViewStyle>
 }
 
-const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
+const SpaceFollow: React.FC<SpaceFollowProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { isLoggedIn, isLoading: isLoadingUser } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
@@ -86,24 +85,26 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
   return (
     <>
       {!isFollowing && (
-        <Button
+        <HoliButtonLoading
           inline
-          variant="secondary"
-          size="sm"
+          type="secondary"
+          variant="small"
           label={t('spaces.follow.btn.follow')}
           onPress={sendFollowRequest}
+          style={style}
           loading={isLoadingUser || loading}
           testID="follow-btn"
         />
       )}
 
       {isFollowing && (
-        <Button
+        <HoliButtonLoading
           inline
-          variant="secondary"
-          size="sm"
+          type="secondary"
+          variant="small"
           label={t('spaces.follow.btn.following')}
           onPress={() => setUnfollowDialogIsOpen(true)}
+          style={style}
           loading={loading}
           testID="unfollow-btn"
         />
@@ -116,7 +117,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
         description={t('spaces.follow.unfollow.confirm.text', { spaceName: space.title })}
         secondaryText={t('global.dismiss')}
         primaryText={t('global.yes')}
-        primaryButtonVariant="danger"
+        primaryButtonType="warning"
         onPrimary={submitUnfollowRequest}
         onDismiss={() => setUnfollowDialogIsOpen(false)}
         testID="unfollow-confirm"

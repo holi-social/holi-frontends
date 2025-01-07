@@ -21,7 +21,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
-import { Button } from 'holi-bricks/components/button'
 
 interface DiscoverSpacesViewProps {
   userTopics: Topic[]
@@ -80,7 +79,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
         {t('spaces.discover.description')}
       </HoliText>
       <View style={styles.createSpaceButtonContainer}>
-        <Button
+        <HoliButton
           label={t('spaces.discover.create.button')}
           onPress={() =>
             navigateWithAuth('/spaces/create', {
@@ -89,7 +88,10 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
             })
           }
           testID="discover-spaces-create-button"
-        />
+          style={styles.createSpaceButton}
+        >
+          {t('spaces.discover.create.button')}
+        </HoliButton>
       </View>
       <HoliButton
         label={t('spaces.about.banner.button.title')}
@@ -250,6 +252,9 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: 8,
       alignSelf: 'flex-start',
       marginBottom: 32,
+    },
+    createSpaceButton: {
+      borderWidth: 1,
     },
     compositionImage: {
       flex: 1,

@@ -1,24 +1,24 @@
-import type React from 'react'
-import { memo, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface InfoModalProps {
   headline?: string
   items: { [name: string]: InfoModalItemProps }
-  shown: boolean
+  show: boolean
   onDismiss: () => void
   i18nPrefix: string
 }
@@ -42,7 +42,7 @@ export type InfoModalAssetProps = {
 const InfoModal: React.FC<InfoModalProps> = ({
   headline,
   items,
-  shown = false,
+  show = false,
   onDismiss,
   i18nPrefix = '',
 }: InfoModalProps) => {
@@ -77,14 +77,12 @@ const InfoModal: React.FC<InfoModalProps> = ({
           <HoliGap size="s" />
           <HoliText>{t(`${i18nPrefix}.${itemKey}.text`)}</HoliText>
           <HoliBox padding={[32, 0, 0, 0]} layout={{ alignSelf: 'stretch' }}>
-            <View style={styles.outlink}>
-              <Button
-                transparent
-                onPress={() => (item.url ? Linking.openURL(item.url) : null)}
-                label={t(`${i18nPrefix}.${itemKey}.buttonText`)}
-                icon={ShareBox}
-              />
-            </View>
+            <HoliButton transparent onPress={() => (item.url ? Linking.openURL(item.url) : null)} label={''}>
+              <View style={styles.outlink}>
+                <HoliText>{t(`${i18nPrefix}.${itemKey}.buttonText`)}</HoliText>
+                <HoliIcon icon={ShareBox} />
+              </View>
+            </HoliButton>
           </HoliBox>
         </HoliBox>
       </View>
@@ -97,12 +95,12 @@ const InfoModal: React.FC<InfoModalProps> = ({
       style={[isMultipleItems ? styles.flexWrapper : null, isMultipleItems ? styles.modal : null]}
       autoHeight={isMultipleItems ? false : undefined}
       relativeHeight={isMultipleItems ? 1 : undefined}
-      shown={shown}
+      show={show}
       onDismiss={onDismiss}
       testID={'goodnews-partner-modal'}
     >
       <HoliModalContentWrapper
-        actionButtonText={t('global.gotIt')}
+        actionButtonText={t('volunteering:shared.partner.modal.close')}
         onActionButtonPress={onDismiss}
         style={isMultipleItems ? styles.flexWrapper : null}
       >

@@ -86,7 +86,7 @@ describe('HoliConfirmation Component', () => {
           title="Test Title"
           description="Test Description"
           show={true}
-          primaryButtonVariant="danger"
+          primaryButtonType="warning"
           onDismiss={() => undefined}
           onPrimary={() => undefined}
         />
@@ -98,14 +98,14 @@ describe('HoliConfirmation Component', () => {
       expect(screen.getByText('confirmation.confirm')).toBeVisible()
     })
 
-    it('renders red confirm button for primaryButtonType danger', () => {
+    it('renders red confirm button for primaryButtonType warning', () => {
       render(
         <HoliConfirmation
           label="Test"
           title="Test Title"
           description="Test Description"
           show={true}
-          primaryButtonVariant="danger"
+          primaryButtonType="warning"
           onDismiss={() => undefined}
           onPrimary={() => undefined}
           testID="test" // Ensure the testID is correctly passed

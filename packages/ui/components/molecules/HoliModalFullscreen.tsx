@@ -14,7 +14,7 @@ export interface HoliModalFullscreenProps extends ModalBasicProps {
 }
 
 const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
-  shown,
+  show,
   onDismiss,
   testID,
   label,
@@ -27,7 +27,7 @@ const HoliModalFullscreen: React.FC<HoliModalFullscreenProps> = ({
   const { colors } = theme
 
   return (
-    <ModalBasic shown={shown} label={label} onDismiss={onDismiss} animationType="fade" testID={testID}>
+    <ModalBasic show={show} label={label} onDismiss={onDismiss} animationType="fade" testID={testID}>
       <View style={[styles.modalContent, style, { backgroundColor: backgroundColor || colors.foreground30 }]}>
         <SafeArea style={styles.closeBtnSafeArea}>
           <View style={styles.closeBtnWrapper}>

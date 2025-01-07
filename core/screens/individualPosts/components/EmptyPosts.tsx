@@ -5,9 +5,9 @@ import { StyleSheet, View } from 'react-native'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const EmptyPosts = () => {
   const { t } = useTranslation()
@@ -32,7 +32,9 @@ const EmptyPosts = () => {
           {t('individuals.post.emptyPrompt')}
         </HoliText>
       </View>
-      <Button inline label={t('individuals.post.input.first')} onPress={() => navigate('/feed-posts/create')} />
+      <HoliButton inline label={t('individuals.post.input.first')} onPress={() => navigate('/feed-posts/create')}>
+        {t('individuals.post.input.first')}
+      </HoliButton>
     </View>
   )
 }

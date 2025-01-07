@@ -5,9 +5,10 @@ import { Platform, StyleSheet, type TextInputKeyPressEventData, View } from 'rea
 
 import { sendMessage } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { SendPlane } from '@holi/icons/src/generated'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import { ButtonIcon } from 'holi-bricks/components/button'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -38,6 +39,7 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
 
   const [inputValue, setInputValue] = useState('')
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
 
   const handleSendMessage = async () => {
     const text = inputValue.trim()
@@ -88,12 +90,15 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
         <View style={styles.buttonWrapper}>
           {inputValue.trim().length > 0 && (
             <HoliTransition.Fade visible>
-              <ButtonIcon
+              <HoliButton
                 label={t('chat.room.sendButton.label')}
                 disabled={inputValue.trim().length === 0}
                 onPress={handleSendMessage}
-                icon={SendPlane}
-              />
+                inline
+                style={styles.button}
+              >
+                <HoliIcon icon={SendPlane} size={SEND_BUTTON_SIZE / 2} color={colors.foreground30} />
+              </HoliButton>
             </HoliTransition.Fade>
           )}
         </View>
@@ -120,6 +125,11 @@ const getStyles = (theme: HoliTheme) =>
     buttonWrapper: {
       width: SEND_BUTTON_SIZE,
       height: SEND_BUTTON_SIZE,
+    },
+    button: {
+      paddingVertical: Spacing['3xs'],
+      paddingHorizontal: Spacing['3xs'],
+      alignSelf: 'center',
     },
     textInputContainer: {
       maxHeight: isAndroid ? 110 : 132,

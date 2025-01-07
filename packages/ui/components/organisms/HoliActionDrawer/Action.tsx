@@ -1,4 +1,4 @@
-import { Dispatch, PropsWithChildren, SetStateAction, SyntheticEvent } from 'react'
+import type { Dispatch, PropsWithChildren, SetStateAction, SyntheticEvent } from 'react'
 import React, { createContext, useContext } from 'react'
 import type { GestureResponderEvent } from 'react-native'
 import { StyleSheet } from 'react-native'

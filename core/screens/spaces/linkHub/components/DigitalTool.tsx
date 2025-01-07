@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
 import useDeleteTool from '@holi/core/hooks/spaces/useDeleteTool'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
+import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 import digitalTools from '@holi/core/static/digitalTools'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, LinkM, ShareBox } from '@holi/icons/src/generated'
@@ -18,8 +18,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface DigitalToolProps {
   tool: SpaceCollaborationTool
@@ -40,7 +39,7 @@ const DigitalTool = ({
 }: DigitalToolProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const [detailModalShown, setDetailModalShown] = useState(false)
+  const [showDetailModal, setShowDetailModal] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -61,7 +60,7 @@ const DigitalTool = ({
       <MoreOptionItem
         label={''}
         onPress={() => {
-          setDetailModalShown(true)
+          setShowDetailModal(true)
         }}
         testID={'btn-show-tool-details'}
         transparent
@@ -124,7 +123,7 @@ const DigitalTool = ({
                     description={t('spaces.digitalTool.delete.confirmation.description')}
                     testID="tool-delete"
                     handleConfirmation={deleteTool}
-                    buttonVariant="danger"
+                    buttonType="warning"
                     hasDismissBtn
                     requireLogin
                   />
@@ -135,8 +134,8 @@ const DigitalTool = ({
         </View>
       </View>
       <HoliModal
-        shown={detailModalShown}
-        onDismiss={() => setDetailModalShown(false)}
+        show={showDetailModal}
+        onDismiss={() => setShowDetailModal(false)}
         testID="tool-details-modal"
         label={t('spaces.digitalTool.showDetails')}
       >
@@ -156,17 +155,19 @@ const DigitalTool = ({
             ) : (
               <HoliIcon icon={LinkM} size={40} color={colors.brandColorB30} />
             )}
-            <Button
+            <HoliButton
               onPress={() => {
                 navigate(`/spaces/${spaceIdOrName}/linkhub/tools/${tool?.id}/edit`)
               }}
               inline
               label={t('global.edit')}
-              variant="secondary"
-              size="sm"
+              type="secondary"
+              variant="small"
               testID="btn-to-edit-tool"
-              icon={Edit2}
-            />
+            >
+              <HoliText>{t('global.edit')}</HoliText>
+              <HoliIcon icon={Edit2} />
+            </HoliButton>
           </View>
           <HoliHeading level="2" size="l">
             {defaultTool ? toolName : tool?.title}

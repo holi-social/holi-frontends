@@ -1,16 +1,15 @@
-import type { ApolloError, DocumentNode } from '@apollo/client'
+import { ApolloError, DocumentNode } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { type ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import PostsListResults from '@holi/core/screens/individualPosts/components/PostsListResults'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import type { DimensionValue, FlexAlignType } from 'react-native'
+import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 type PostsListProps = {
   paginationOptions: PaginationQueryHookOptions
@@ -27,7 +26,7 @@ const PostsList = ({
 }: PostsListProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
-  const styles = getStyles()
+  const mixins = useStyleMixins()
 
   const queryOptions: PaginationQueryHookOptions = {
     ...{
@@ -47,8 +46,8 @@ const PostsList = ({
         query={allPostsQuery}
         queryOptions={queryOptions}
         fetchMoreButtonProps={{
-          variant: 'secondary',
-          style: styles.button,
+          type: 'secondary',
+          style: mixins.moreButton,
         }}
         fetchMoreButtonLabel={t('individuals.post.loadMoreText')}
       >
@@ -59,12 +58,3 @@ const PostsList = ({
 }
 
 export default withProfiler(PostsList, { name: 'PostsList' })
-
-const getStyles = () => ({
-  button: {
-    marginVertical: 24,
-    maxWidth: dimensions.maxButtonWidth,
-    alignSelf: 'center' as FlexAlignType,
-    width: '100%' as DimensionValue,
-  },
-})

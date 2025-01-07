@@ -1,10 +1,9 @@
-import type React from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image as ReactNativeImage, StyleSheet, View } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
-import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
+import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import { CollaborationType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
@@ -12,9 +11,9 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const COLLECTION_TYPES = Object.keys(CollaborationType) as Array<keyof typeof CollaborationType>
 export interface DigitalToolInputFormProps {
@@ -170,7 +169,9 @@ const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
               testID: 'space-upload-image-btn',
             }}
             onPickImage={onChangeThumbnail}
-          />
+          >
+            <HoliText>{t('spaces.input.digitalTool.upload.button.label')}</HoliText>
+          </HoliImagePicker>
         </View>
         <View style={styles.instructionsContainer}>
           <HoliText size="extrasmall" style={styles.instructions}>

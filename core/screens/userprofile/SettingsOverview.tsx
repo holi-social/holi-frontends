@@ -25,7 +25,7 @@ import {
 } from '@holi/icons/src/generated'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 const SettingsOverview = () => {
@@ -133,7 +133,7 @@ const SettingsOverview = () => {
             description={t('auth.logout.heading')}
             secondaryText={t('auth.logout.confirmation.dismiss')}
             primaryText={t('auth.logout.confirmation.confirm')}
-            primaryButtonVariant="danger"
+            primaryButtonType="warning"
             {...logoutConfirmationProps}
             testID="modal-logout"
           />

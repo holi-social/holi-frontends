@@ -142,7 +142,7 @@ const CommentView = ({
                   confirmText={t('comment.delete.confirmation.confirm')}
                   testID="delete-comment"
                   handleConfirmation={deleteComment}
-                  buttonVariant="danger"
+                  buttonType="warning"
                   hasDismissBtn
                   requireLogin
                 />

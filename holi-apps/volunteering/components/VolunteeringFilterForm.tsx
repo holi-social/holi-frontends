@@ -2,17 +2,19 @@ import React, { useCallback, useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import SpaceTermContextProvider, {
   SpaceTermContext,
 } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import HoliSelect, { type HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
+import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
-import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
-import { Button } from 'holi-bricks/components/button'
+import { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 export type VolunteeringFilterFormProps = {
   filters: VolunteeringFilters
@@ -90,7 +92,10 @@ const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volunteerin
       <View style={styles.container}>
         <View style={styles.header}>
           <HoliHeading testID="volunteering-filter-heading">{t('volunteering:filter.heading')}</HoliHeading>
-          <Button label={t('global.reset')} inline onPress={resetForm} variant="secondary" size="sm" icon={Close} />
+          <HoliButton label={t('global.reset')} inline onPress={resetForm} type="secondary" variant="small">
+            <HoliText>{t('global.reset')}</HoliText>
+            <HoliIcon icon={Close} size={20} style={styles.clearFilters} />
+          </HoliButton>
         </View>
         <PlacesAutocomplete
           label={t('volunteering:filter.location.label')}

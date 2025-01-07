@@ -1,4 +1,4 @@
-import { Button } from 'holi-bricks/components/button'
+import { Button } from 'holi-bricks/components/button/Button'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, Pressable, StyleSheet, View } from 'react-native'
@@ -11,7 +11,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const GuidelinesModal = ({ visible, hide }: { visible: boolean; hide: () => void }) => {
   const { t } = useTranslation()
@@ -19,7 +19,7 @@ const GuidelinesModal = ({ visible, hide }: { visible: boolean; hide: () => void
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <HoliModal shown={visible} label={t('report.guidelines.title')} onDismiss={hide} headerStyle={styles.modalHeader}>
+    <HoliModal show={visible} label={t('report.guidelines.title')} onDismiss={hide} headerStyle={styles.modalHeader}>
       <View style={styles.modalContainer}>
         <View style={styles.header}>
           <HoliHeading>{t('report.guidelines.title')}</HoliHeading>

@@ -245,13 +245,6 @@ const config: ExpoConfig = {
       key: requiredEnvVar('POSTHOG_KEY'),
       host: requiredEnvVar('POSTHOG_HOST'),
     },
-    typesense: {
-      host: requiredEnvVar('TYPESENSE_HOST'),
-      port: requiredEnvVar('TYPESENSE_PORT'),
-      protocol: requiredEnvVar('TYPESENSE_PROTOCOL'),
-      apiKey: requiredEnvVar('TYPESENSE_API_KEY'),
-      collection: requiredEnvVar('TYPESENSE_COLLECTION'),
-    },
   },
 }
 

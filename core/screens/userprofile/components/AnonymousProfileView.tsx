@@ -4,7 +4,7 @@ import { Platform, ScrollView, StyleSheet, View } from 'react-native'
 
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import MoreOptionItem from '@holi/core/components/MoreOptionItem'
-import { ButtonTracked } from '@holi/core/components/Trackable'
+import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -62,16 +62,18 @@ const AnonymousProfileView = () => {
               </View>
 
               <View style={styles.profileButtonWrapper}>
-                <RegistrationButton variant="primary" inline trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+                <RegistrationButton type="primary" inline trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
 
-                <ButtonTracked
-                  variant="secondary"
+                <HoliButtonTracked
+                  type="secondary"
                   inline
                   label={t('auth.loginProtection.login')}
                   onPress={() => navigate('/login')}
                   testID={'anonymous-profile-login-btn'}
                   trackingEvent={TrackingEvent.Auth.LoginButtonPressed}
-                />
+                >
+                  <HoliText>{t('auth.loginProtection.login')}</HoliText>
+                </HoliButtonTracked>
               </View>
             </View>
           </HoliBox>

@@ -48,7 +48,7 @@ const SpaceOnboarding = () => {
     })
   }, [setScreenOptions, t, theme.colors.background20])
 
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature({ feature: 'SPACE_ONBOARDING_CHECKLIST' })
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
 
   if (loading) {
     return (

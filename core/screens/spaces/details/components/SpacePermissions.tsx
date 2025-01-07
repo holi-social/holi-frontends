@@ -139,7 +139,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
     <>
       <HoliModal
         label={t('spaces.collaborators.permissions.label')}
-        shown={permissionsVisible}
+        show={permissionsVisible}
         onDismiss={hidePermissions}
         style={styles.wrapper}
         testID="space-collaborators-permissions-modal"

@@ -14,11 +14,11 @@ import HoliModal, { HoliModalProps } from '@holi/ui/components/molecules/HoliMod
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-interface ToolkitModalProps extends Pick<HoliModalProps, 'shown' | 'onDismiss'> {
+interface AddNewDrawerProps extends Pick<HoliModalProps, 'show' | 'onDismiss'> {
   spaceIdOrName: string | undefined
 }
 
-const ToolkitModal: React.FC<ToolkitModalProps> = ({ spaceIdOrName, shown, onDismiss }: ToolkitModalProps) => {
+const AddNewDrawer: React.FC<AddNewDrawerProps> = ({ spaceIdOrName, show, onDismiss }: AddNewDrawerProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
 
@@ -87,7 +87,7 @@ const ToolkitModal: React.FC<ToolkitModalProps> = ({ spaceIdOrName, shown, onDis
   return (
     <HoliModal
       label={t('allTools.drawer.headline')}
-      shown={shown}
+      show={show}
       onDismiss={onDismiss}
       style={{ backgroundColor: colors.background20 }}
       testID="add-new-drawer-modal"
@@ -109,7 +109,7 @@ const ToolkitModal: React.FC<ToolkitModalProps> = ({ spaceIdOrName, shown, onDis
   )
 }
 
-export default ToolkitModal
+export default AddNewDrawer
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({

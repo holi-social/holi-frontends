@@ -11,7 +11,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { getUrlForSpaceStorage } from '@holi/core/screens/spaces/helpers/urls'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { SpaceOnboardings, useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnboarding'
+import { useSpaceOnboarding } from '@holi/core/screens/spaces/hooks/useSpaceOnboarding'
 import StorageOnboardModal from '@holi/core/screens/spaces/linkHub/components/StorageOnboardModal'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -32,16 +32,17 @@ const SpaceStorage: React.FC = () => {
   const { loading, error, space } = useSpace(spaceIdOrName)
   const storageUrl = getUrlForSpaceStorage(space)
   const setScreenOptions = useSetScreenOptions()
-  const { needsOnboarding, setIsOnboarded } = useSpaceOnboarding(SpaceOnboardings.StorageOnboarding)
-  const { show, props: onboardModalProps } = useModalState({ onDismiss: setIsOnboarded })
 
+  const { visible, show, hide } = useModalState()
+
+  const { isOnboarded, setIsOnboarded } = useSpaceOnboarding('space_storage_is_onboarded')
   const { theme } = useTheme()
 
   useEffect(() => {
-    if (needsOnboarding) {
+    if (!isOnboarded) {
       show()
     }
-  }, [show, needsOnboarding])
+  }, [show, isOnboarded])
 
   useLayoutEffect(() => {
     setScreenOptions({
@@ -64,9 +65,13 @@ const SpaceStorage: React.FC = () => {
     return null
   }
 
+  const handleModalClose = () => {
+    setIsOnboarded().finally(hide)
+  }
+
   return (
     <DefaultLayout hasFooterTabBar={false}>
-      <StorageOnboardModal {...onboardModalProps} />
+      <StorageOnboardModal visible={visible} handleModalClose={handleModalClose} />
       <HoliWebView
         style={styles.webView}
         webViewProps={{ setSupportMultipleWindows: false, source: { uri: storageUrl } }}

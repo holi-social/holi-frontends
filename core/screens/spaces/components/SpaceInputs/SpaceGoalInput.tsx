@@ -2,16 +2,15 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import HoliTextInput, { HoliTextInputProps } from '@holi/ui/components/molecules/HoliTextInput'
-import { SPACE_DESCRIPTION_LEN } from '@holi/core/screens/spaces/create/mutations'
 
 export interface SpaceGoalInputProps extends Partial<HoliTextInputProps> {
-  errorMessages?: string[]
+  errorMessage?: string
 }
 
 const SpaceGoalInput: React.FC<SpaceGoalInputProps> = ({
   onChange,
   value,
-  errorMessages,
+  errorMessage,
   ...props
 }: SpaceGoalInputProps) => {
   const { t } = useTranslation()
@@ -20,11 +19,11 @@ const SpaceGoalInput: React.FC<SpaceGoalInputProps> = ({
     <HoliTextInput
       placeholder={t('spaces.input.goal.placeholder')}
       inputLabel={t('spaces.input.goal.label')}
-      maxNoOfCharacters={SPACE_DESCRIPTION_LEN}
+      maxNoOfCharacters={600}
       showCharacterCount={true}
       noOfVisibleLines={5}
       maxNoOfVisibleLines={10}
-      validationErrorText={errorMessages?.length ? errorMessages[0] : undefined}
+      validationErrorText={errorMessage}
       value={value}
       onChange={onChange}
       {...props}

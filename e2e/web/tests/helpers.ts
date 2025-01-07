@@ -166,8 +166,11 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await skipOnboardingInitialSteps(page)
 
   await clickElementByTestId(page, 'onboarding-account-creation-btn-continue-as-guest')
-
-  await page.waitForSelector(byTestId('onboarding-account-creation-btn-continue-as-guest'), { state: 'detached' })
+  if (page.context().browser()?.browserType().name() === 'firefox') {
+    // If straight after proceedAsGuest() you use page.goto() Firefox will fail with NS_BINDING_ABORTED error.
+    // So, just for FF wait until the page has fully finished loading it's content.
+    await page.waitForLoadState('networkidle')
+  }
 }
 
 export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {

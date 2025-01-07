@@ -12,7 +12,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
 
 const NotFound = () => {
   const { t } = useTranslation()
@@ -60,9 +59,15 @@ const NotFound = () => {
           <HoliText size="large" style={styles.description}>
             {t('notFound.page.text')}
           </HoliText>
-          <View style={styles.button}>
-            <Button label={t('notFound.page.button')} onPress={() => navigate('/')} testID="go-back-home" />
-          </View>
+          <HoliButton
+            label={t('notFound.page.title')}
+            style={styles.button}
+            // eslint-disable-next-line no-console
+            onPress={() => navigate('/')}
+            testID="go-back-home"
+          >
+            {t('notFound.page.button')}
+          </HoliButton>
         </View>
       </View>
     </View>
@@ -73,7 +78,6 @@ const getStyles = (safeAreaInsetTop: number, theme: HoliTheme) =>
   StyleSheet.create({
     button: {
       marginTop: 24,
-      width: '100%',
     },
     card: {
       display: 'flex',

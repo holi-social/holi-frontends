@@ -28,7 +28,6 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
 
 type SpaceInfoViewProps = {
   space: Space
@@ -99,7 +98,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
           </View>
           <InfoModal
             items={{ sdg: partner }}
-            shown={infoModalVisible}
+            show={infoModalVisible}
             onDismiss={closeInfoModal}
             i18nPrefix={'spaces.input.sdgs.infoModal'}
           />
@@ -270,10 +269,12 @@ const LinkedSpacesReference: React.FC<{
           <HoliGap size="xs" />
           <HoliText>{t('spaces.spaceDetails.linkedSpaces.relationship.modal.description')}</HoliText>
           <HoliGap size="s" />
-          <Button
+          <HoliButton
             label={t('spaces.spaceDetails.linkedSpaces.relationship.modal.close')}
             onPress={hideAboutSpacesRelationShipModal}
-          />
+          >
+            {t('spaces.spaceDetails.linkedSpaces.relationship.modal.close')}
+          </HoliButton>
           <HoliGap size="s" />
         </HoliContainer>
       </HoliModal>

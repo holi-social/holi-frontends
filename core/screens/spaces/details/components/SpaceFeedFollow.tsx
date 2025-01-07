@@ -99,7 +99,7 @@ const SpaceFeedFollow: React.FC<SpaceFollowProps> = ({ space }) => {
         description={t('spaces.follow.unfollow.confirm.text', { spaceName: space.title })}
         secondaryText={t('global.dismiss')}
         primaryText={t('global.yes')}
-        primaryButtonVariant="warning"
+        primaryButtonType="warning"
         onPrimary={submitUnfollowRequest}
         onDismiss={() => setUnfollowDialogIsOpen(false)}
       />

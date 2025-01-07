@@ -6,10 +6,7 @@ import { Linking, Platform, type StyleProp, StyleSheet, View, type ViewStyle } f
 import HoliHead from '@holi/core/components/HoliHead'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
-import {
-  dismissNotificationModal,
-  incrementModalAttempts,
-} from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
+import { incrementModalAttempts } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import SpaceHeader from '@holi/core/screens/spaces/details/components/SpaceHeader'
 import SpaceInfoView from '@holi/core/screens/spaces/details/components/SpaceInfoView'
 import SpaceInvolvement from '@holi/core/screens/spaces/details/components/SpaceInvolvement'
@@ -99,11 +96,6 @@ const SpaceDetailView = ({ space, activeTab, onTabChange }: SpaceDetailViewProps
     setModalVisible(false)
   }
 
-  const handleDismissNotification = async () => {
-    await dismissNotificationModal()
-    setModalVisible(false)
-  }
-
   return (
     <>
       <HoliHead
@@ -135,7 +127,6 @@ const SpaceDetailView = ({ space, activeTab, onTabChange }: SpaceDetailViewProps
             image={{ uri: space.cover }}
             onConfirm={() => handleOptIn()}
             onDismiss={() => handleModalDismiss()}
-            dismissModal={() => handleDismissNotification()}
             description={t('notifications.permission.description.spaces', { name: space.title })}
           />
         )}

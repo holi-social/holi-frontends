@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { Button } from 'holi-bricks/components/button'
 
 type DonationSearchFormProps = {
   locationQuery?: string
@@ -33,15 +35,17 @@ const DonationSearchForm = ({ onSubmit, locationQuery }: DonationSearchFormProps
       <View style={styles.container}>
         <View style={styles.headingRow}>
           <HoliHeading>{t('donations:search.heading')}</HoliHeading>
-          <Button
+          <HoliButton
             inline
             label={t('global.reset')}
             onPress={reset}
-            variant="secondary"
-            size="sm"
+            type="secondary"
+            variant="small"
             testID="donations-search-form-reset"
-            icon={Close}
-          />
+          >
+            <HoliText>{t('global.reset')}</HoliText>
+            <HoliIcon icon={Close} size={20} style={styles.clearFilter} />
+          </HoliButton>
         </View>
         <PlacesAutocomplete
           selected={selectedLocation}

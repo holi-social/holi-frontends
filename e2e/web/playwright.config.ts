@@ -28,12 +28,12 @@ const possibleBrowsers = [
     use: devices['Desktop Firefox'],
     runAsDefault: true,
   },
+  /* Test against mobile viewports. */
   {
     name: 'Mobile_Chrome',
     use: {
       ...devices['Pixel 5'],
       permissions: ['clipboard-read'],
-      channel: 'chromium',
     },
     runAsDefault: true,
   },
@@ -73,10 +73,7 @@ const config: PlaywrightTestConfig = {
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [
-    ['html', { open: 'never' }],
-    ['junit', { outputFile: 'playwright-report/junit-report.xml' }],
-  ],
+  reporter: [['html', { open: 'never' }]],
   // please edit the variable, not this setting, because other settings depend on it.
   retries: retries,
   use: {

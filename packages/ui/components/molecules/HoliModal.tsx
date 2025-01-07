@@ -36,7 +36,7 @@ const IOS_STATUS_BAR_HEIGHT = constants.statusBarHeight
  * `onDismiss` is onpional, means if no function is provided the modal in undismissable and can be shown or hidden only throught `show` prop
  */
 export interface HoliModalProps extends ModalProps {
-  shown: boolean
+  show: boolean
   label: string
   onDismiss?: () => void
   heading?: string
@@ -49,48 +49,43 @@ export interface HoliModalProps extends ModalProps {
   testID?: string
 }
 
-export interface UseModalStateHookConfig {
-  onDismiss?: () => void
-  initiallyVisible?: boolean
-}
-
 export interface UseModalStateHook {
   hide: () => void
   show: () => void
-  /** @deprecated don't bind to the internal state value,
-   * forward the returned props to the holi-modal instead
-   * and let the hook handle the showing and hiding **/
   visible: boolean
   props: {
     onDismiss: () => void
-    shown: boolean
+    show: boolean
   }
 }
 
-export const useModalState = (config?: UseModalStateHookConfig): UseModalStateHook => {
-  const [modalVisible, setModalVisible] = useState(config?.initiallyVisible ?? false)
+export const useModalState = ({
+  visible = false,
+  onDismiss,
+}: Partial<Pick<HoliModalProps, 'onDismiss' | 'visible'>> = {}): UseModalStateHook => {
+  const [modalVisible, setModalVisible] = useState(visible)
 
   const show = useCallback(() => setModalVisible(true), [])
   const hide = useCallback(() => setModalVisible(false), [])
 
   const dismissHandler = useCallback(() => {
-    hide()
-    config?.onDismiss?.()
-  }, [config, hide])
+    setModalVisible(false)
+    onDismiss?.()
+  }, [onDismiss])
 
   return {
     visible: modalVisible,
     show,
     hide,
     props: {
-      shown: modalVisible,
+      show: modalVisible,
       onDismiss: dismissHandler,
     },
   }
 }
 
 const HoliModal: React.FC<HoliModalProps> = ({
-  shown = false,
+  show = false,
   label,
   onDismiss,
   heading,
@@ -141,7 +136,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   }
 
   useEffect(() => {
-    if (shown) {
+    if (show) {
       Animated.timing(animShiftRef.current, {
         toValue: 0,
         duration: 200,
@@ -159,7 +154,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
       // only dismiss the Modal once the animation is done
       gestureShiftRef.current.setValue(0)
     })
-  }, [shown, animShiftRef, gestureShiftRef])
+  }, [show, animShiftRef, gestureShiftRef])
 
   // any height above or equal to the threshold should default to 100% height
   const height = useMemo(
@@ -220,7 +215,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
   }
 
   return (
-    <ModalBasic shown={shown} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
+    <ModalBasic show={show} transparent={true} onDismiss={onDismiss} label={label} testID={testID}>
       <GestureHandlerRootView style={[styles.rootView, desktop && styles.rootViewDesktop]} accessible={false}>
         <HoliButton
           label={t('modal.backdrop')}

@@ -1,24 +1,23 @@
-import type React from 'react'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import {
-  type AccessibilityProps,
+  AccessibilityProps,
   Animated,
-  type GestureResponderEvent,
-  type NativeSyntheticEvent,
+  GestureResponderEvent,
+  NativeSyntheticEvent,
   Pressable,
-  type Role,
-  type StyleProp,
+  Role,
+  StyleProp,
   StyleSheet,
-  type TargetedEvent,
+  TargetedEvent,
   View,
-  type ViewStyle,
+  ViewStyle,
 } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Subtract } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@types/reactNativeWeb'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliCheckboxShape = 'square' | 'round' | 'box'
 export type HoliCheckboxValue = boolean | 'mixed'

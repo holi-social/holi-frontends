@@ -36,10 +36,5 @@ export const jitsiUrl = (() => {
 })()
 
 export const posthogKey = !isSSR ? window.POSTHOG_KEY : process.env.POSTHOG_KEY
-export const posthogHost = !isSSR ? window.POSTHOG_HOST : process.env.POSTHOG_HOST
 
-export const typesenseHost = !isSSR ? window.TYPESENSE_HOST : process.env.TYPESENSE_HOST
-export const typesensePort = !isSSR ? window.TYPESENSE_PORT : process.env.TYPESENSE_PORT
-export const typesenseProtocol = !isSSR ? window.TYPESENSE_PROTOCOL : process.env.TYPESENSE_PROTOCOL
-export const typesenseApiKey = !isSSR ? window.TYPESENSE_API_KEY : process.env.TYPESENSE_API_KEY
-export const typesenseCollection = !isSSR ? window.TYPESENSE_COLLECTION : process.env.TYPESENSE_COLLECTION
+export const posthogHost = !isSSR ? window.POSTHOG_HOST : process.env.POSTHOG_HOST

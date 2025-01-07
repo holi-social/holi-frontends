@@ -40,15 +40,6 @@ export const waitForElementWithTestIdToBeNull = async (testId: string, timeout?:
   return element
 }
 
-export const waitForElementWithRole = async (role: string, timeout?: number) => {
-  const element = await elementBySelector(`[role=${role}]`)
-
-  // https://webdriver.io/docs/api/element/waitForDisplayed
-  await element.waitForDisplayed({ timeout })
-
-  return element
-}
-
 export const setImplicitTimeout = async (timeout: number) => {
   // @ts-ignores
   Appium.options.currentImplicitTimeout = timeout
@@ -196,20 +187,11 @@ export const seeTextWithTestId = async (expectedText: string, testId: string, ti
   expect(text).toMatch(expectedText)
 }
 
-export const tapOnElement = async (element: Element<'async'>) => {
-  // https://webdriver.io/docs/api/element/touchAction
-  try {
-    await Appium.touchAction({ element, action: 'tap' })
-  } catch (err) {
-    throw new Error(`Couldn't tap on element: ${element}`)
-  }
-}
-
 export const tapOnElementWithTestId = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/element/touchAction
   try {
     const element = await waitForElementWithTestId(testId, timeout)
-    await tapOnElement(element)
+    await Appium.touchAction({ element, action: 'tap' })
     return element
   } catch (err) {
     throw new Error("Couldn't tap on element with testID: " + testId)

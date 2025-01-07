@@ -2,10 +2,11 @@ import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
+import InfoModal, { InfoModalItemProps } from '@holi/core/components/InfoModal'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -15,16 +16,16 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import DonationListingSkeleton from '@holi-apps/donations/components/DonationListingSkeleton'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
-import type { Project } from '@holi-apps/donations/typings'
+import { Project } from '@holi-apps/donations/typings'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
-import { Button } from 'holi-bricks/components/button'
 
 type DonationListingProps = {
   locationQuery?: string
@@ -98,7 +99,7 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
           />
           <InfoModal
             items={{ 'betterplace.org': partner }}
-            shown={partnerModalVisible}
+            show={partnerModalVisible}
             onDismiss={closeModal}
             i18nPrefix={'donations:listing.partnerModal'}
           />
@@ -111,15 +112,17 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
             <HoliText bold testID="donations-list-search-summary" style={{ color: colors.foreground20 }}>
               {t('donations:donationListing.search.resultCount', { count: totalResults })}
             </HoliText>
-            <Button
+            <HoliButton
               inline
-              label={t('global.reset')}
+              label={t('search.filter.reset')}
               onPress={resetSearch}
-              variant="secondary"
-              size="sm"
+              type="secondary"
+              variant="small"
               testID="donations-list-search-reset"
-              icon={Close}
-            />
+            >
+              <HoliText>{t('global.reset')}</HoliText>
+              <HoliIcon icon={Close} size={20} style={styles.clearFilter} />
+            </HoliButton>
           </View>
         </HoliBox>
       )}
@@ -140,7 +143,9 @@ const DonationListing = ({ locationQuery, resetSearch }: DonationListingProps) =
               secondText={t('donations:donationListing.search.empty.headline')}
               style={[styles.noResultsMessage]}
             >
-              <Button label={t('search.filter.reset')} onPress={resetSearch} />
+              <HoliButton label={t('search.filter.reset')} onPress={resetSearch}>
+                {t('search.filter.reset')}
+              </HoliButton>
             </HoliNoResults>
           </HoliContainer>
         )}

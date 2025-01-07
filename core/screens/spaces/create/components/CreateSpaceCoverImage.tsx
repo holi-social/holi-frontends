@@ -9,7 +9,7 @@ import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface CreateSpaceCoverImageProps {
   onUploadImage: (image: HoliImageInfo) => void
-  coverImage?: HoliImageInfo
+  coverImage: HoliImageInfo
 }
 
 const CreateSpaceCoverImage: React.FC<CreateSpaceCoverImageProps> = ({

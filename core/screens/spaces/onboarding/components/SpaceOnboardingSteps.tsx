@@ -27,9 +27,6 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { TrackingEvent } from '@holi/core/tracking'
-import { Button } from 'holi-bricks/components/button'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
@@ -48,7 +45,6 @@ const SpaceOnboardingSteps = () => {
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const { track } = useTracking()
 
   const { loading: fetchingSpace, space, error: errorSpace } = useSpace(spaceIdOrName)
 
@@ -81,7 +77,6 @@ const SpaceOnboardingSteps = () => {
   const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.onboarding.steps.save.success'), HoliToastType.SUCCESS)
-      track(TrackingEvent.Spaces.Onboarding.updated(space?.id ?? spaceIdOrName ?? ''))
       navigate(`/spaces/${spaceIdOrName}`)
     },
     onError: (error) => {
@@ -177,9 +172,16 @@ const SpaceOnboardingSteps = () => {
                     isNewStep={isNewStep}
                   />
                 ))}
-                <View style={styles.addStepBtn}>
-                  <Button label={t('spaces.onboarding.steps.add')} onPress={addStep} variant="secondary" icon={Add} />
-                </View>
+                <HoliButton
+                  label={t('spaces.onboarding.steps.add')}
+                  onPress={addStep}
+                  variant="medium"
+                  type="secondary"
+                  style={styles.addStepBtn}
+                >
+                  <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
+                  <HoliIcon icon={Add} size={16} />
+                </HoliButton>
                 {stepsList.length > 0 && (
                   <HoliButton
                     label={t('spaces.onboarding.steps.preview.link')}
@@ -198,7 +200,7 @@ const SpaceOnboardingSteps = () => {
           )}
         />
         <HoliModal
-          shown={exampleVisible}
+          show={exampleVisible}
           label={t('spaces.onboarding.steps.example.label')}
           onDismiss={hideExample}
           style={styles.exampleWrapper}
@@ -207,7 +209,7 @@ const SpaceOnboardingSteps = () => {
         </HoliModal>
 
         <HoliModal
-          shown={previewVisible}
+          show={previewVisible}
           label={t('spaces.onboarding.steps.preview.label')}
           onDismiss={hidePreview}
           style={styles.previewModal}
@@ -268,7 +270,6 @@ const getStyles = (theme: HoliTheme) =>
       marginTop: Spacing.md,
       marginBottom: Spacing.md,
       maxWidth: 320,
-      width: '100%',
       alignSelf: 'center',
     },
   })

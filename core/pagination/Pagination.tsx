@@ -1,15 +1,12 @@
-import type { ApolloError, DocumentNode } from '@apollo/client'
-import type React from 'react'
-import { type PropsWithChildren, createContext, useContext, useMemo } from 'react'
+import { ApolloError, DocumentNode } from '@apollo/client'
+import React, { PropsWithChildren, createContext, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCallbackInvocation'
-import usePaginationQuery, { type PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import usePaginationQuery, { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import type { Favorites } from '@holi/core/screens/favorites/types'
-import { Button, type ButtonProps } from 'holi-bricks/components/button'
-import { View, type ViewStyle } from 'react-native'
-import type { StyleProp } from 'react-native'
+import { Favorites } from '@holi/core/screens/favorites/types'
+import HoliButtonLoading, { HoliButtonLoadingProps } from '@holi/ui/components/molecules/HoliButtonLoading'
 
 export interface PaginationContextType<T> {
   totalResults: number
@@ -21,7 +18,7 @@ export interface PaginationContextType<T> {
 export interface PaginationProps {
   query: DocumentNode
   queryOptions: PaginationQueryHookOptions
-  fetchMoreButtonProps?: Partial<ButtonProps> & { style?: StyleProp<ViewStyle> }
+  fetchMoreButtonProps?: Partial<HoliButtonLoadingProps>
   fetchMoreButtonLabel?: string
   loadMoreOnScroll?: boolean
   scrollPlaceholder?: React.ReactNode
@@ -69,16 +66,14 @@ export function Pagination({
       loadMoreOnScroll ? (
         <ScrollBasedCallbackInvocation callback={fetchNextPage} placeholder={scrollPlaceholder} />
       ) : (
-        <View style={fetchMoreButtonProps.style}>
-          <Button
-            variant="primary"
-            label={fetchMoreButtonText}
-            loadingLabel={t('global.loading')}
-            onPress={fetchNextPage}
-            testID="btn-fetch-more"
-            {...fetchMoreButtonProps}
-          />
-        </View>
+        <HoliButtonLoading
+          type="primary"
+          label={fetchMoreButtonText}
+          loadingLabel={t('global.loading')}
+          onPress={fetchNextPage}
+          testID="btn-fetch-more"
+          {...fetchMoreButtonProps}
+        />
       ),
     [fetchMoreButtonProps, fetchMoreButtonText, fetchNextPage, loadMoreOnScroll, scrollPlaceholder, t]
   )

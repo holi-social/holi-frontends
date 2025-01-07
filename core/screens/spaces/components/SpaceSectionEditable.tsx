@@ -1,10 +1,12 @@
-import type React from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { type GestureResponderEvent, StyleSheet, View } from 'react-native'
+import { GestureResponderEvent, StyleSheet } from 'react-native'
 
 import SpaceSection, { type SpaceSectionProps } from '@holi/core/screens/spaces/components/SpaceSection'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2 } from '@holi/icons/src/generated'
-import { Button } from 'holi-bricks/components/button'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 interface SpaceSectionEditableProps extends Omit<SpaceSectionProps, 'actionButton'> {
   onEditPress?: (event: React.SyntheticEvent | GestureResponderEvent) => void
@@ -18,16 +20,17 @@ const SpaceSectionEditable = ({ onEditPress, ...props }: React.PropsWithChildren
       {...props}
       actionButton={
         onEditPress && (
-          <View style={styles.editButton}>
-            <Button
-              label={t('global.edit')}
-              variant="secondary"
-              inline
-              onPress={onEditPress}
-              testID={`btn-${props.testID}`}
-              icon={Edit2}
-            />
-          </View>
+          <HoliButton
+            label={t('global.edit')}
+            type="secondary"
+            inline
+            onPress={onEditPress}
+            style={styles.editButton}
+            testID={`btn-${props.testID}`}
+          >
+            <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
+            <HoliIcon icon={Edit2} />
+          </HoliButton>
         )
       }
     />
@@ -36,7 +39,12 @@ const SpaceSectionEditable = ({ onEditPress, ...props }: React.PropsWithChildren
 export default SpaceSectionEditable
 
 const styles = StyleSheet.create({
+  editButtonText: {
+    marginRight: 6,
+  },
   editButton: {
-    paddingLeft: 12,
+    marginLeft: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
 })

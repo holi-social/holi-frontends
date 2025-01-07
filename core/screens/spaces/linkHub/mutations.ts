@@ -3,12 +3,9 @@ import { z } from 'zod'
 
 import { SpaceCollaborationTool } from '@holi/core/screens/spaces/types'
 
-const COLLABORATION_TOOL_TITLE_LEN = 50
-const COLLABORATION_TOOL_DESCRIPTION_LEN = 100
-
 export const AddCollaborationToolSchema = z.object({
-  title: z.string().trim().min(3).max(COLLABORATION_TOOL_TITLE_LEN).optional(),
-  description: z.string().trim().min(3).max(COLLABORATION_TOOL_DESCRIPTION_LEN).optional(),
+  title: z.string().trim().min(3).max(50).optional(),
+  description: z.string().trim().min(3).max(100).optional(),
   spaceId: z.string() /* UUID */,
   collectionType: z.string() /* UUID */,
   thumbnail: z.instanceof(Object).optional(),
@@ -35,8 +32,8 @@ export type AddCollaborationToolResponse = {
 
 export const UpdateCollaborationToolSchema = z.object({
   id: z.string() /* UUID */,
-  title: z.string().trim().min(3).max(COLLABORATION_TOOL_TITLE_LEN).optional(),
-  description: z.string().trim().min(3).max(COLLABORATION_TOOL_DESCRIPTION_LEN).optional(),
+  title: z.string().trim().min(3).max(50).optional(),
+  description: z.string().trim().min(3).max(100).optional(),
   collectionType: z.string(),
   thumbnail: z.instanceof(Object).optional(),
 })

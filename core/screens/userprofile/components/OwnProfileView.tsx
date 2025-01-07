@@ -22,7 +22,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
@@ -65,9 +64,9 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
       <View style={{ backgroundColor: colors.background10 }}>
         <HoliContainer>
           <UserProfileView user={user} contactPossible={false} />
-          <ProfileCompletionCard style={styles.profileCard} />
         </HoliContainer>
       </View>
+
       <HoliTabs
         activeTab={activeTab}
         onChange={onTabChange}
@@ -166,9 +165,6 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: Spacing.lg,
       paddingBottom: Spacing.lg,
       gap: Spacing.md,
-    },
-    profileCard: {
-      marginVertical: Spacing.xs,
     },
   })
 

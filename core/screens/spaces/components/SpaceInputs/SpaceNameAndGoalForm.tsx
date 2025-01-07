@@ -1,10 +1,9 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import FormWrapper, { FormWrapperProps } from '@holi/core/components/FormWrapper'
-import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceNameInput'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import SpaceGoalInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceGoalInput'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 
 export interface SpaceNameAndGoalFormProps extends Omit<FormWrapperProps, 'renderProp'> {
   onChangeSpaceName: (name: string) => void
@@ -26,6 +25,7 @@ const SpaceNameAndGoalForm = ({
   spaceGoalErrors,
   style,
 }: SpaceNameAndGoalFormProps) => {
+  const { t } = useTranslation()
   return (
     <FormWrapper
       isModal={true}
@@ -37,17 +37,34 @@ const SpaceNameAndGoalForm = ({
       showBottomBar
       renderProp={(scrollToPropsFor) => (
         <View style={styles.container}>
-          <SpaceNameInput
+          <HoliTextInput
+            placeholder={t('spaces.input.name.placeholder')}
+            inputLabel={t('spaces.input.name.label')}
+            maxNoOfCharacters={60}
+            showCharacterCount={true}
+            validationErrorText={spaceNameErrors?.length ? spaceNameErrors[0] : undefined}
             value={spaceName}
             onChange={onChangeSpaceName}
-            errorMessages={spaceNameErrors}
+            helperText={t('spaces.input.name.description')}
+            aria-label={t('spaces.input.name.label')}
+            testID="space-name"
+            style={styles.nameInput}
             {...scrollToPropsFor('name')}
           />
-          <HoliGap size="m" />
-          <SpaceGoalInput
+
+          <HoliTextInput
+            placeholder={t('spaces.input.goal.placeholder')}
+            inputLabel={t('spaces.input.goal.label')}
+            maxNoOfCharacters={600}
+            showCharacterCount={true}
+            noOfVisibleLines={5}
+            maxNoOfVisibleLines={10}
+            validationErrorText={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
             value={spaceGoal}
             onChange={onChangeSpaceGoal}
-            errorMessages={spaceGoalErrors}
+            aria-label={t('spaces.input.goal.label')}
+            testID="space-goal"
+            inputProps={{ textAlignVertical: 'top' }}
             {...scrollToPropsFor('goal')}
           />
         </View>

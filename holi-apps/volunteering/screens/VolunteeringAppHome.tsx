@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, StyleSheet } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
@@ -9,7 +9,9 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Filter3 } from '@holi/icons/src/generated'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -19,7 +21,6 @@ import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/Vol
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
@@ -30,9 +31,9 @@ const VolunteeringAppHome = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
-  const [filterModalShown, setFilterModalShown] = useState(false)
+  const [showFilterModal, setShowFilterModal] = useState(false)
   const closeModal = useCallback(() => {
-    setFilterModalShown(false)
+    setShowFilterModal(false)
   }, [])
 
   const { submit, filters, clearFilters, isFiltering, loadingGeolocation, geolocationError } =
@@ -40,19 +41,22 @@ const VolunteeringAppHome = () => {
 
   useIsomorphicLayoutEffect(() => {
     const filterButton = (
-      <HoliButtonBell
+      <HoliButton
         label={t('volunteering:filter.heading')}
-        icon={Filter3}
-        showBell={isFiltering}
+        inline
+        transparent
         onPress={() => {
           // if pressed too soon, the state is set to true, but the modal is not shown.
           // crude mechanism to recover from this state.
           // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-          filterModalShown && setFilterModalShown(false)
-          setFilterModalShown(true)
+          showFilterModal && setShowFilterModal(false)
+          setShowFilterModal(true)
         }}
         testID="btn-to-volunteering-filter-modal"
-      />
+      >
+        <HoliIcon icon={Filter3} />
+        {isFiltering && <View style={styles.dot} />}
+      </HoliButton>
     )
     setScreenOptions({
       headerTitle: () => (
@@ -63,7 +67,7 @@ const VolunteeringAppHome = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [navigate, t, title, isFiltering, filterModalShown, setScreenOptions, styles.dot])
+  }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, styles.dot])
 
   return (
     <KeyboardAwareScrollView
@@ -73,7 +77,7 @@ const VolunteeringAppHome = () => {
       onScroll={onScreenScroll}
     >
       <HoliModal
-        shown={filterModalShown}
+        show={showFilterModal}
         onDismiss={closeModal}
         testID="volunteering-filter-modal"
         label={t('volunteering:filter.heading')}

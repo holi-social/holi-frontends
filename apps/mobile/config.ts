@@ -50,14 +50,6 @@ export interface HoliNovuConfig {
   credentialsUrl: string
 }
 
-export interface HoliTypesenseConfig {
-  host: string
-  port: number
-  protocol: string
-  apiKey: string // be sure to use an API key that only allows search operations
-  collection: string
-}
-
 export interface HoliConfig {
   novu: HoliNovuConfig
   chat: HoliChatConfig
@@ -70,7 +62,6 @@ export interface HoliConfig {
   jitsi: HoliJitsiConfig
   eas: HoliEASConfig
   e2e: HoliE2EConfig
-  typesense: HoliTypesenseConfig
 }
 
 export const config: HoliConfig = {
@@ -114,12 +105,5 @@ export const config: HoliConfig = {
   },
   e2e: {
     userId: Constants.expoConfig?.extra?.e2e.userId,
-  },
-  typesense: {
-    host: Constants.expoConfig?.extra?.typesense.host,
-    port: Constants.expoConfig?.extra?.typesense.port,
-    protocol: Constants.expoConfig?.extra?.typesense.protocol,
-    apiKey: Constants.expoConfig?.extra?.typesense.apiKey,
-    collection: Constants.expoConfig?.extra?.typesense.collection,
   },
 }

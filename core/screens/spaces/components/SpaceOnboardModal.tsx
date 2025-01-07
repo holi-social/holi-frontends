@@ -4,7 +4,7 @@ import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import SpaceOnboardCard from '@holi/core/screens/spaces/components/SpaceOnboardCard'
 import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
-import HoliModal, { HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -46,9 +46,12 @@ const onboardingContentList: Array<OnboardingCard> = [
   },
 ]
 
-type SpaceOnboardModalProps = Pick<HoliModalProps, 'shown' | 'onDismiss'>
+interface SpaceOnboardModalProps {
+  visible: boolean
+  handleModalClose: () => void
+}
 
-const SpaceOnboardModal = ({ shown, onDismiss }: SpaceOnboardModalProps) => {
+const SpaceOnboardModal = ({ visible, handleModalClose }: SpaceOnboardModalProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const windowWidth = useWindowDimensions().width
@@ -58,7 +61,7 @@ const SpaceOnboardModal = ({ shown, onDismiss }: SpaceOnboardModalProps) => {
     return (
       <HoliModalContentWrapper
         actionButtonText={t('spaces.edit.onboarding.modal.close')}
-        onActionButtonPress={onDismiss ?? (() => ({}))}
+        onActionButtonPress={() => handleModalClose()}
         headlineText={t('spaces.join.onboarding.header')}
         testID={'space-onboard-content'}
         style={styles.modalContentWrapper}
@@ -80,9 +83,9 @@ const SpaceOnboardModal = ({ shown, onDismiss }: SpaceOnboardModalProps) => {
 
   return (
     <HoliModal
-      shown={shown}
+      show={visible}
       label={t('spaces.edit.onboarding.header')}
-      onDismiss={onDismiss}
+      onDismiss={() => handleModalClose()}
       style={styles.modal}
       testID="space-chips-modal"
     >

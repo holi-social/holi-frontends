@@ -1,19 +1,17 @@
-import type React from 'react'
-import { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { Linking, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
+import { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
 import DigitalTool from '@holi/core/screens/spaces/linkHub/components/DigitalTool'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add, LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface LinkHubWidgetProps {
   space: Space
@@ -104,7 +102,13 @@ const LinkHubWidget: React.FC<LinkHubWidgetProps> = ({ space, style }) => {
           ))) || <NoToolsAvailable onPress={navigateToAddToolPage} />}
       {collaborationTools.length > INITIAL_NUMBER_OF_ITEMS && (
         <View style={styles.seeAllButtonContainer}>
-          <Button label={t('spaces.global.seeAllButton.label')} variant="secondary" onPress={navigateToLinkHubPage} />
+          <HoliButton
+            label={t('spaces.global.seeAllButton.label')}
+            style={styles.seeAllButton}
+            onPress={navigateToLinkHubPage}
+          >
+            <HoliText>{t('spaces.global.seeAllButton.label')}</HoliText>
+          </HoliButton>
         </View>
       )}
     </CollaboratorAreaCard>
@@ -123,6 +127,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     seeAllButtonContainer: {
       alignSelf: 'center',
+    },
+    seeAllButton: {
+      backgroundColor: theme.colors.background10,
     },
     noToolsDescriptionContainer: {
       flex: 1,

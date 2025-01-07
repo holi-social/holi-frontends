@@ -21,7 +21,6 @@ Represents the state of the notification modal.
 | `expirationTime`                 | `number`     | Timestamp when the modal can be shown again.             |
 | `activeDays`                     | `number`     | Number of active days the modal has been shown.          |
 | `configActiveDays`               | `number`     | Configured number of active days for eligibility.        |
-| `dismissed`                      | `boolean`    | Flag indicating if the modal has been dismissed.         |
 
 ---
 
@@ -91,16 +90,6 @@ A custom hook that manages the eligibility state of the notification modal.
 Increments the number of attempts made to show the notification modal and updates the last show time.
 
 - **Returns:** A promise that resolves when the state has been updated in `AsyncStorage`.
-
----
-
-### `dismissNotificationModal`
-Sets the `dismissed` state of the modal to `true`, preventing it from being shown again until the eligibility state is reset.
-
----
-
-### `resetEligibilityState`
-Resets the eligibility state by removing the modal state from `AsyncStorage`.
 
 ---
 

@@ -4,9 +4,9 @@ import { ScrollView, StyleSheet } from 'react-native'
 
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
 
 export const NotificationsNotLoggedInHint: React.FC<{
   onPress: () => void
@@ -42,7 +42,9 @@ export const NotificationsNotLoggedInHint: React.FC<{
           secondText={secondText}
           style={styles.noResultsMessage}
         >
-          <Button label={label} onPress={props.onPress} />
+          <HoliButton label={label} onPress={props.onPress}>
+            {label}
+          </HoliButton>
         </HoliNoResults>
       </HoliContainer>
     </ScrollView>

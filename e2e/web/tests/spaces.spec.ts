@@ -36,7 +36,7 @@ test.describe('@Spaces', () => {
     await clickElementByTestId(page, 'space-link')
     await testDisplaysSpaceDetails(page)
 
-    await testShareSpace(spaceAdmin, browserName)
+    await testShareSpace(browserName, page)
 
     await test.step('space can be deleted', async () => {
       await clickElementByTestId(spaceAdmin, 'space-options-btn')
@@ -129,9 +129,9 @@ const testDisplaysSpaceDetailsCommon = async (page: Page) => {
   await page.waitForSelector(byTestId('space-description'))
 }
 
-const testShareSpace = async (page: Page, browserName: string) => {
+const testShareSpace = async (browserName: string, page: Page) => {
+  // open space share modal
   await page.waitForSelector(byTestId('toast-SUCCESS'), { state: 'hidden' })
-
   await clickElementByTestId(page, 'space-share-btn')
 
   // There is no dedicated PlayWright API for the clipboard yet and the following currently only works in chrome, see https://github.com/microsoft/playwright/issues/15860
@@ -152,7 +152,7 @@ const saveAndWaitForModalClosed = async (page: Page) => {
   await page.waitForSelector(byTestId('space-edit-modal-save-btn'), { state: 'detached' })
 }
 
-const numberOfInitialTerms = 1
+const numberOfInitialTerms = 3
 const numberOfEditedTerms = 2
 const initialName = 'e2e space name'
 const initialGoal = 'e2e space goal'
@@ -196,7 +196,7 @@ const testCreatingEditingSpace = async (page: Page) => {
   await saveAndWaitForModalClosed(page)
 
   // check if the correct number of topics have been selected
-  const topicChips = page.locator(`${byTestId('space-edit-topics-list')} [role="presentation"]`)
+  const topicChips = page.locator(`${byTestId('space-edit-topics')} >> [role="presentation"]`)
   await expect(topicChips.count()).resolves.toBe(numberOfEditedTerms)
 
   // set location if we have a real geoservice
@@ -216,13 +216,11 @@ const testCreatingEditingSpace = async (page: Page) => {
   await saveAndWaitForModalClosed(page)
 
   // check if the correct number of sdgs have been selected
-  const sdgsChips = page.locator(`${byTestId('space-edit-sdgs-list')} [role="presentation"]`)
+  const sdgsChips = page.locator(`${byTestId('space-edit-sdgs')} >> [role="presentation"]`)
   await expect(sdgsChips.count()).resolves.toBe(numberOfEditedTerms)
 
   await editSpaceContactInfo(page)
-
   await clickElementByTestId(page, 'space-edit-close')
-  await page.waitForSelector(byTestId('space-edit-close'), { state: 'detached' })
 
   await testAddEditDeleteTask(page)
 
@@ -481,7 +479,7 @@ const testAddEditDeleteDigitalTool = async (page: Page) => {
 // Create a space with a name, goal, topics and a cover image
 const createSpace = async (
   page: Page,
-  numberOfTerms = 1,
+  numberOfInitialTerms = 3,
   initialName = 'e2e space name',
   initialGoal = 'e2e space goal'
 ) => {
@@ -501,7 +499,7 @@ const createSpace = async (
   // Create space - topics
   await checkAccessibility(page)
   await checkConfirmButtonIsDisabled(page)
-  await selectSomeTerms(page, numberOfTerms)
+  await selectSomeTerms(page, numberOfInitialTerms)
   await clickElementByTestId(page, 'holi-wizard-save-btn')
 
   // Create space - cover image

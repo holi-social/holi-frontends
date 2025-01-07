@@ -3,14 +3,17 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
-import type { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { FeedPostImage } from '@holi/core/screens/individualPosts/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ImageAdd, ImageEdit, MapPinLine } from '@holi/icons/src/generated'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button, ButtonIcon } from 'holi-bricks/components/button'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export const SubmitPostBar = ({
   onSubmit,
@@ -43,49 +46,45 @@ export const SubmitPostBar = ({
       <View style={styles.items}>
         <View style={styles.iconContainer}>
           {[...images, ...(currentImages || [])].length === 0 && (
-            <HoliImagePicker // todo: use buttonIcon instead of Button with empty label
+            <HoliImagePicker
               allowsMultipleSelection
               fileSizeLimitation={{
                 type: 'resize',
                 limitBytes: IMAGE_MAX_FILE_SIZE_BYTES,
                 resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
               }}
-              buttonIconProps={{
-                transparent: true,
-                label: t('individuals.post.images.add'),
-                icon: ImageAdd,
-                size: 'lg',
-              }}
-              buttonIconOnly
+              buttonProps={{ transparent: true, inline: true, label: t('individuals.post.images.add') }}
               onPickImages={setImages}
-            />
+            >
+              <HoliIcon icon={ImageAdd} style={styles.addImageIcon} />
+            </HoliImagePicker>
           )}
           {[...images, ...(currentImages || [])].length > 0 && (
-            <ButtonIcon
+            <HoliButton
               transparent
+              inline
               onPress={showEditImagesModal}
               label={t('individuals.post.input.location.title')}
-              icon={ImageEdit}
-              size="lg"
-            />
+            >
+              <HoliIcon icon={ImageEdit} size={28} />
+            </HoliButton>
           )}
-          <ButtonIcon
-            transparent
-            onPress={showLocationModal}
-            label={t('individuals.post.input.location.title')}
-            icon={MapPinLine}
-            size="lg"
-          />
+          <HoliButton transparent inline onPress={showLocationModal} label={t('individuals.post.input.location.title')}>
+            <HoliIcon icon={MapPinLine} size={28} />
+          </HoliButton>
         </View>
 
-        <Button
+        <HoliButtonLoading
           label={isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}
           inline
-          size="sm"
+          variant="small"
           onPress={onSubmit}
+          style={styles.roundSubmitButton}
           loading={submitting}
           disabled={!isSubmittable || submitting}
-        />
+        >
+          <HoliText bold>{isEdit ? t('individuals.post.input.save') : t('individuals.post.input.submit')}</HoliText>
+        </HoliButtonLoading>
       </View>
     </View>
   )
@@ -100,6 +99,12 @@ const getSubmitPostBarStyles = (theme: HoliTheme, screenWidth: number) =>
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: theme.colors.background10,
+    },
+    roundSubmitButton: {
+      paddingVertical: 10,
+      paddingHorizontal: 16,
+      borderRadius: 500,
+      borderWidth: 1,
     },
     addImageIcon: {
       paddingLeft: 2,

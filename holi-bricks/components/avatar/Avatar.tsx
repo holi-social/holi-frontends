@@ -1,8 +1,4 @@
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-// eslint-disable-next-line no-restricted-imports
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/accessibility'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
 import { Text } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
@@ -11,6 +7,10 @@ import { BorderWidth } from 'holi-bricks/tokens/dimensions/borderWidth'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
+// eslint-disable-next-line no-restricted-imports
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 
 /*
   xl: 128
@@ -41,6 +41,14 @@ export type AvatarProps = AccessibilityProps & {
   imgPlaceholder?: string
 }
 
+const avatarSizeToIconSize = {
+  xs: 14,
+  sm: 20,
+  md: 24,
+  lg: 24,
+  xl: 32,
+}
+
 const avatarSizeToTextSize = {
   xs: 'xxs',
   sm: 'md',
@@ -65,27 +73,27 @@ export const Avatar = ({
   const [errorLoading, setErrorLoading] = useState(false)
   const handleImageError = useCallback(() => setErrorLoading(true), [])
 
-  const QUADRATIC_IMAGE_SIDE_LENGTH_FOR_CDN_RESIZING_AND_CROPPING = AvatarSizesValues[size]
-
   const renderContent = () => {
     if (!errorLoading && imgSrc) {
       return (
         <HoliImage
-          style={styles.webImage}
-          resizeMode={'cover'}
+          style={styles.image}
+          resizeMode="cover"
           label={label || ''}
           blurhash={imgPlaceholder}
           source={{
             uri: imgSrc,
-            width: QUADRATIC_IMAGE_SIDE_LENGTH_FOR_CDN_RESIZING_AND_CROPPING,
-            height: QUADRATIC_IMAGE_SIDE_LENGTH_FOR_CDN_RESIZING_AND_CROPPING,
+            width: avatarSizeToIconSize[size] * 2,
+            height: avatarSizeToIconSize[size] * 2,
           }}
           onError={handleImageError}
         />
       )
     }
     if (icon) {
-      return <HoliIcon accessibilityLabel={label} icon={icon} color={styles.text.color} />
+      return (
+        <HoliIcon accessibilityLabel={label} icon={icon} size={avatarSizeToIconSize[size]} color={styles.text.color} />
+      )
     }
     return (
       <View style={styles.textWrapper}>
@@ -110,10 +118,12 @@ const stylesheet = createStyleSheet((theme) => ({
   text: {
     color: theme.components.avatar.text,
   },
-  webImage: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1,
+  image: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   avatar: (initials) => {
     const bgs = Object.values(theme.components.avatar.bg)

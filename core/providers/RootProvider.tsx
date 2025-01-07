@@ -19,7 +19,7 @@ import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingIniti
 import PosthogProvider, { type PosthogProviderProps } from '@holi/core/tracking/PosthogProvider'
 import TrackingInitializer from '@holi/core/tracking/TrackingInitializer'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
-import { OnboardingFinishModal } from '@holi/core/screens/onboarding/components/OnboardingFinishModal'
+import { OnboardingFinishModal } from '@holi/core/screens/onboarding/steps/OnboardingFinishModal'
 
 const initialWindowMetricsForWeb = {
   frame: { x: 0, y: 0, width: 0, height: 0 },

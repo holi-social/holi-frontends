@@ -6,14 +6,14 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import GeneralContent from './GeneralContent'
 import ManageOptionsContent from './ManageOptionsContent'
 import { useConsentModal } from './useConsentModal'
 import { useConsentModalState } from './useConsentModalState'
-import { Button } from 'holi-bricks/components/button'
 
 export const TrackingConsentModalMobile = () => {
   const { t } = useTranslation()
@@ -53,31 +53,44 @@ export const TrackingConsentModalMobile = () => {
   return (
     <>
       {/* General layer */}
-      <HoliModal label="" shown={generalLayerVisible} style={styles.modal}>
+      <HoliModal label="" show={generalLayerVisible} style={styles.modal}>
         <ScrollView>
           <HoliContainer>
             <GeneralContent />
+
             <HoliGap size="ml" />
+
             {/* Buttons */}
-            <Button
+            <HoliButton
               label={t('tracking.consentModal.general.button.acceptAll')}
               onPress={acceptAll}
               testID="btn-consentModal-acceptAll"
-            />
+            >
+              {t('tracking.consentModal.general.button.acceptAll')}
+            </HoliButton>
+
             <HoliGap size="s" />
-            <Button
+
+            <HoliButton
               label={t('tracking.consentModal.general.button.declineAll')}
               onPress={declineAll}
-              variant="secondary"
+              type="secondary"
               testID="btn-consentModal-declineAll"
-            />
+            >
+              {t('tracking.consentModal.general.button.declineAll')}
+            </HoliButton>
+
             <HoliGap size="s" />
-            <Button
+
+            <HoliButton
               label={t('tracking.consentModal.general.button.manageOptions')}
               onPress={goManageOptions}
-              variant="secondary"
+              type="secondary"
               testID="btn-consentModal-manageOptions"
-            />
+            >
+              {t('tracking.consentModal.general.button.manageOptions')}
+            </HoliButton>
+
             <HoliGap size="l" />
           </HoliContainer>
         </ScrollView>
@@ -86,7 +99,7 @@ export const TrackingConsentModalMobile = () => {
       {/* Manage Options layer */}
       <HoliModal
         label={t('tracking.consentModal.general.button.manageOptions')}
-        shown={optionsLayerVisible}
+        show={optionsLayerVisible}
         style={styles.modal}
         heading={t('tracking.consentModal.general.button.manageOptions')}
         onDismiss={goBackToGeneralLayer}
@@ -105,13 +118,20 @@ export const TrackingConsentModalMobile = () => {
             <HoliGap size="ml" />
 
             {/* Buttons */}
-            <Button label={t('tracking.consentModal.manageOptions.button.acceptAll')} onPress={acceptAll} />
+            <HoliButton label={t('tracking.consentModal.manageOptions.button.acceptAll')} onPress={acceptAll}>
+              {t('tracking.consentModal.manageOptions.button.acceptAll')}
+            </HoliButton>
+
             <HoliGap size="m" />
-            <Button
+
+            <HoliButton
               label={t('tracking.consentModal.manageOptions.button.confirmMyChoices')}
               onPress={acceptMyChoices}
-              variant="secondary"
-            />
+              type="secondary"
+            >
+              {t('tracking.consentModal.manageOptions.button.confirmMyChoices')}
+            </HoliButton>
+
             <HoliGap size="l" />
           </HoliContainer>
         </ScrollView>

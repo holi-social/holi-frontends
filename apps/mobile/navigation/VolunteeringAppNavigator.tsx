@@ -47,7 +47,6 @@ const VolunteeringAppNavigator = () => {
         headerTintColor: colors.black300,
         headerShadowVisible: false,
         headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
-        headerTitle: '', // prevent showing the technical name of the screen on initial render
       }}
     >
       <VolunteeringAppStack.Screen

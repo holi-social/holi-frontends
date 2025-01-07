@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -16,6 +17,7 @@ import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { getRouteForContentType } from './helpers/getRouteForContentType'
+import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { storeOnboardingState, useOnboardingState } from './hooks/onboardingState'
 import {
   type OnboardingStepItem,
@@ -23,6 +25,7 @@ import {
   onboardingSteps,
   useOnboardingCurrentStepKey,
 } from './hooks/useOnboardingCurrentStepKey'
+import { showOnboardingFinishModal } from './hooks/useOnboardingFinishModalState'
 import { useUserData } from './hooks/useUserData'
 import { ChipsSelection } from './steps/ChipsSelection'
 import { ContentSelection } from './steps/ContentSelection'
@@ -35,9 +38,6 @@ import OnboardingStepCompleted = TrackingEvent.OnboardingStepCompleted
 import SignupStepCompleted = TrackingEvent.SignupStepCompleted
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
-import { useCallback, useEffect } from 'react'
-import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 
 const Onboarding = () => {
   const { t } = useTranslation()
@@ -71,10 +71,7 @@ const Onboarding = () => {
 
   usePreventBackNavigation(true)
 
-  const cleanUp = async () => {
-    storeOnboardingState('finished')
-    await clearOnboardingUserDataAsyncStore()
-  }
+  const cleanUp = () => Promise.all([storeOnboardingState('finished'), clearOnboardingUserDataAsyncStore()])
   const breakOnboarding = useCallback(async () => {
     await cleanUp()
     redirect(true)
@@ -171,7 +168,7 @@ const Onboarding = () => {
               chipType="interests"
               selectedChipIds={userData.interests}
               onSelect={updateInterests}
-              testID="onboarding-interests-selection"
+              testID="onboarding-intrests-selection"
               {...interestsSearchProps}
             />
           </View>
@@ -237,7 +234,7 @@ const Onboarding = () => {
     }
   }
 
-  if (!currentStep) return <HoliLoader testID="loader" />
+  if (!currentStep) return <HoliLoader />
 
   // Modify footer navigation `nextButtonLabel` based on user data for `LOCATION_SELECTION`, `INTERESTS_SELECTION` and `SKILLS_SELECTION`
   // It is not an good way to do it like that because we update `onboardingSteps` object on every change,

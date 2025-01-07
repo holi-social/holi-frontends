@@ -1,23 +1,24 @@
 import { useMutation } from '@apollo/client'
-import type React from 'react'
-import { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
-import type { User } from '@holi/core/domain/shared/types'
+import { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
-  type UpdateSpaceUserConnectionResponse,
+  UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
 import { spaceInvitesQuery, userConnectionsQuery } from '@holi/core/screens/spaces/details/queries'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
-import { Add } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
+import { Add, Loader } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { ButtonIcon } from 'holi-bricks/components/button'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceInviteUserSearchProps = {
   user: User
@@ -110,16 +111,19 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   }
 
   return (
-    <View style={styles.button}>
-      <ButtonIcon
-        label={t('spaces.invite.btn.send')}
-        variant="secondary"
-        onPress={wantsToJoin ? () => acceptRequestToJoin() : inviteUserToSpace}
-        testID="btn-to-invite"
-        loading={loading}
-        icon={Add}
-      />
-    </View>
+    <HoliButton
+      label={t('spaces.invite.btn.send')}
+      type="secondary"
+      inline
+      style={styles.button}
+      onPress={wantsToJoin ? () => acceptRequestToJoin() : inviteUserToSpace}
+      testID="btn-to-invite"
+      disabled={loading}
+    >
+      <SpinningIconContainer spinning={loading}>
+        <HoliIcon icon={loading ? Loader : Add} size={20} />
+      </SpinningIconContainer>
+    </HoliButton>
   )
 }
 

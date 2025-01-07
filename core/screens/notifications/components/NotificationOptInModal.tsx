@@ -17,11 +17,11 @@ import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
 
 type Type = 'default' | 'challenges' | 'connection' | 'spaces'
 
@@ -32,7 +32,6 @@ interface NotificationOptInModalProps extends ModalProps {
   image?: ImageSource
   onConfirm?: () => void
   onDismiss?: () => void
-  dismissModal?: () => void
   confirmText?: string
   dismissText?: string
   testID?: string
@@ -45,7 +44,6 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
   type = 'default',
   onConfirm,
   onDismiss,
-  dismissModal,
   confirmText,
   dismissText,
   testID = 'notification-opt-in',
@@ -71,7 +69,7 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
     <ModalBasic
       label={t(`notifications.permission.${type}.headline`)}
       {...accessibilityProps}
-      shown={isVisible}
+      show={isVisible}
       transparent
       animationType="fade"
       testID={`${testID}-modal`}
@@ -113,32 +111,28 @@ const NotificationOptInModal: React.FC<NotificationOptInModalProps> = ({
           </View>
           <View style={styles.buttonContainer}>
             {onConfirm && (
-              <Button
+              <HoliButton
                 inline
                 label={confirmText || t('notifications.permission.button.confirm')}
                 onPress={onConfirm}
-                variant="primary"
-                // style={[styles.button, { backgroundColor: theme.colors.brandColorA20 }]}
+                type="primary"
+                style={[styles.button, { backgroundColor: theme.colors.brandColorA20 }]}
                 testID={`${testID}-confirm`}
-              />
+              >
+                <HoliText>{confirmText || t('notifications.permission.button.confirm')}</HoliText>
+              </HoliButton>
             )}
             {onDismiss && (
-              <Button
+              <HoliButton
                 inline
-                variant="secondary"
+                type="secondary"
                 label={dismissText || t('notifications.permission.button.dismiss')}
                 onPress={onDismiss}
+                style={styles.button}
                 testID={`${testID}-dismiss`}
-              />
-            )}
-            {dismissModal && (
-              <Button
-                inline
-                variant="secondary"
-                label={dismissText || t('notifications.permission.button.dismiss')}
-                onPress={onDismiss}
-                testID={`${testID}-dismiss`}
-              />
+              >
+                <HoliText>{dismissText || t('notifications.permission.button.dismiss')}</HoliText>
+              </HoliButton>
             )}
           </View>
         </View>
@@ -177,7 +171,7 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       ...(isSmallDevice ? { minWidth: screenWidth * 0.7 } : { minWidth: smallDeviceWidth }),
     },
     description: {
-      marginTop: Spacing.xxs,
+      marginTop: 12,
     },
     buttonContainer: {
       padding: Spacing.md,
@@ -204,10 +198,6 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
       position: 'absolute',
     },
     imageContainer: {
-      marginBottom: Spacing['3xs'],
-    },
-    dismiss: {
-      alignSelf: 'center',
-      marginTop: Spacing['3xs'],
+      marginBottom: 8,
     },
   })

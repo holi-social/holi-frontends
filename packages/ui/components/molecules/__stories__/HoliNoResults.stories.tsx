@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { Button } from 'holi-bricks/components/button'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 
 export default {
@@ -18,7 +18,9 @@ export default {
 export const Preview = ({ ...args }) => (
   <>
     <HoliNoResults firstText={args.firstText} secondText={args.secondText}>
-      <Button label="Some button text" inline />
+      <HoliButton label="" inline>
+        Some button text
+      </HoliButton>
     </HoliNoResults>
     <HoliNoResults secondText="A message without children" style={{ marginTop: 24 }} />
     <HoliNoResults
@@ -35,7 +37,9 @@ export const Preview = ({ ...args }) => (
       secondText="A message with media"
       style={{ marginTop: 24 }}
     >
-      <Button label="Some button text" inline />
+      <HoliButton label="" inline>
+        Some button text
+      </HoliButton>
     </HoliNoResults>
   </>
 )

@@ -1,10 +1,12 @@
-import type React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete } from '@holi/icons/src/generated'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { ButtonIcon } from 'holi-bricks/components/button'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceOnboardingStepInputProps = {
   step: { text: string }
@@ -24,7 +26,8 @@ const SpaceOnboardingStepInput: React.FC<SpaceOnboardingStepInputProps> = ({
   isNewStep,
 }) => {
   const { t } = useTranslation()
-  const styles = getStyles()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
     <View style={styles.input}>
@@ -43,18 +46,19 @@ const SpaceOnboardingStepInput: React.FC<SpaceOnboardingStepInputProps> = ({
         validationErrorText={isNewStep || step.text.length ? undefined : t('spaces.onboarding.steps.add.empty')}
       />
 
-      <ButtonIcon
+      <HoliButton
         label={t('spaces.onboarding.steps.remove')}
         onPress={() => removeStep(index)}
-        variant="secondary"
-        icon={Delete}
-        size="lg"
-      />
+        transparent
+        style={styles.removeStepBtn}
+      >
+        <HoliIcon icon={Delete} size={22} />
+      </HoliButton>
     </View>
   )
 }
 
-const getStyles = () =>
+const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     input: {
       ...Platform.select({
@@ -75,6 +79,13 @@ const getStyles = () =>
           maxWidth: '80%',
         },
       }),
+    },
+    removeStepBtn: {
+      borderWidth: 1,
+      backgroundColor: theme.colors.white100,
+      borderRadius: 50,
+      padding: 12,
+      width: 'auto',
     },
   })
 

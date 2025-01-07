@@ -101,7 +101,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   return (
     <>
       <HoliModal
-        shown={visible}
+        show={visible}
         label={t('spaces.collaborate.onboarding.header')}
         heading={t('spaces.collaborate.onboarding.header')}
         onDismiss={hideOnboarding}
@@ -179,7 +179,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
           }}
         />
 
-        <HoliModal shown={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
+        <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
           <SpaceCollaboratorOnboardingSteps
             steps={space?.onboarding?.steps || []}
             header={t('spaces.collaborate.onboarding.info.header')}

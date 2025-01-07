@@ -1,11 +1,10 @@
-import type React from 'react'
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type GestureResponderEvent, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type SpaceMainImageProps = {
   uri?: string
@@ -30,15 +29,16 @@ const SpaceMainImage: React.FC<SpaceMainImageProps> = ({ uri, label, blurhash, e
         {editable && (
           <>
             <View style={styles.editOverlay} />
-            <View style={styles.editButton}>
-              <Button
-                label={t('spaces.edit.mainImage')}
-                inline
-                onPress={onPress}
-                variant="secondary"
-                testID="btn-space-edit-cover"
-              />
-            </View>
+            <HoliButton
+              style={styles.editButton}
+              label={t('spaces.edit.mainImage')}
+              inline
+              onPress={onPress}
+              type="secondary"
+              testID="btn-space-edit-cover"
+            >
+              {t('spaces.edit.mainImage')}
+            </HoliButton>
           </>
         )}
       </View>
@@ -81,6 +81,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     editButton: {
       position: 'absolute',
+      borderWidth: 2,
     },
   })
 

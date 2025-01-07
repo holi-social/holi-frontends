@@ -3,26 +3,26 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
-import type { CreateAppointmentInput, LocationDetailsInput } from '@holi/api/graphql/graphql-codegen'
+import { CreateAppointmentInput, LocationDetailsInput } from '@holi/api/graphql/graphql-codegen'
 import { PermissionType } from '@holi/api/graphql/graphql-codegen'
 import FormWrapper from '@holi/core/components/FormWrapper'
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
-import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import AppointmentVideoCallLinkInput from '@holi/core/screens/appointments/components/AppointmentVideoCallLinkInput'
 import { CreateAppointmentSchema } from '@holi/core/screens/appointments/mutations'
-import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Global, LinkM, Lock, Team } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliDateAndTimePicker from '@holi/ui/components/organisms/HoliDateAndTimePicker'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { transformToUTC } from '@holi/ui/helper/date'
 import { constants, dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button } from 'holi-bricks/components/button'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 // this enum is only used for the HoliModalSelect, since inviteOnly is a boolean value
 export enum INVITE_ONLY_TYPE {
@@ -333,19 +333,29 @@ const AppointmentInputForm = ({
                       ? t('spaces.appointments.input.coverImage.change.button.label')
                       : t('spaces.appointments.input.upload.button.label'),
                     testID: 'space-upload-image-btn',
-                    variant: 'secondary',
+                    style: styles.imageUploadButton,
                   }}
                   onPickImage={(thumbnail) => onAppointmentChange({ thumbnail })}
-                />
+                >
+                  <HoliText>
+                    {appointment.thumbnail?.uri
+                      ? t('spaces.appointments.input.coverImage.change.button.label')
+                      : t('spaces.appointments.input.upload.button.label')}
+                  </HoliText>
+                </HoliImagePicker>
 
                 {!!appointment.thumbnail?.uri && (
-                  <Button
+                  <HoliButton
                     label={t('spaces.appointments.input.coverImage.remove.button.label')}
                     onPress={() => onAppointmentChange({ thumbnail: undefined })}
                     testID="create-space-remove-image-btn"
+                    style={styles.imageUploadButton}
                     inline
-                    variant="secondary"
-                  />
+                  >
+                    <HoliText numberOfLines={1}>
+                      {t('spaces.appointments.input.coverImage.remove.button.label')}
+                    </HoliText>
+                  </HoliButton>
                 )}
               </View>
 

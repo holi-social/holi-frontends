@@ -4,12 +4,9 @@ import { z } from 'zod'
 import { FullSpaceFragment } from '@holi/core/screens/spaces/queries'
 import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
 
-export const SPACE_TITLE_LEN = 80
-export const SPACE_DESCRIPTION_LEN = 600
-
 export const ValidateSpaceInputSchema = z.object({
-  title: z.string().trim().min(2).max(SPACE_TITLE_LEN),
-  description: z.string().trim().min(1).max(SPACE_DESCRIPTION_LEN),
+  title: z.string().trim().min(2).max(60),
+  description: z.string().trim().min(1).max(600),
   topics: z.array(z.string() /* UUID */).min(1).max(6).optional(),
   cover: z.instanceof(Object).optional(),
 })
@@ -31,8 +28,8 @@ export type ValidateSpaceResponse = {
 }
 
 export const CreateSpaceInputSchema = z.object({
-  title: z.string().trim().min(2).max(SPACE_TITLE_LEN),
-  description: z.string().trim().min(1).max(SPACE_DESCRIPTION_LEN),
+  title: z.string().trim().min(2).max(60),
+  description: z.string().trim().min(1).max(600),
   topics: z.array(z.string() /* UUID */).min(1).max(6),
   cover: z.instanceof(Object),
 })

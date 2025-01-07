@@ -15,19 +15,19 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
-import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
-import { Button } from 'holi-bricks/components/button'
+import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -82,7 +82,7 @@ export const VolunteeringEngagementList = ({
           <InfoModal
             headline={t('volunteering:listing.partnerModal.headline')}
             items={allPartners}
-            shown={partnerModalVisible}
+            show={partnerModalVisible}
             onDismiss={closeModal}
             i18nPrefix={'volunteering:listing.partnerModal'}
           />
@@ -118,7 +118,9 @@ export const VolunteeringEngagementList = ({
               }
               secondText={t('volunteering:filter.notFound.description')}
             >
-              <Button label={t('search.filter.reset')} onPress={clearFilters} />
+              <HoliButton label={t('search.filter.reset')} onPress={clearFilters}>
+                {t('search.filter.reset')}
+              </HoliButton>
             </HoliNoResults>
           </View>
         )}

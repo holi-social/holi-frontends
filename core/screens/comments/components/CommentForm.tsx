@@ -16,7 +16,6 @@ import { commentsByCommentable, commentsMetadata } from '@holi/core/screens/comm
 import { type Comment, CommentableType } from '@holi/core/screens/comments/types'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
-import { dismissNotificationModal } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
 import {
   incrementModalAttempts,
   useNotificationEligibility,
@@ -25,7 +24,7 @@ import { PostById } from '@holi/core/screens/posts/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { Button } from 'holi-bricks/components/button'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -201,14 +200,8 @@ const CommentForm = ({
   }
 
   const handleModalDismiss = async () => {
+    setModalVisible(false)
     await incrementModalAttempts()
-    setModalVisible(false)
-    redirectRoute ? replaceRoute(redirectRoute) : navigateBack()
-  }
-
-  const handleDismissNotification = async () => {
-    await dismissNotificationModal()
-    setModalVisible(false)
     redirectRoute ? replaceRoute(redirectRoute) : navigateBack()
   }
 
@@ -222,15 +215,17 @@ const CommentForm = ({
           <View style={styles.bottomBar}>
             <HoliContainer>
               <View style={styles.buttonContainer}>
-                <Button
+                <HoliButtonLoading
                   disabled={!text.trim().length || createCommentLoading || detectLanguageLoading}
                   loading={createCommentLoading || detectLanguageLoading}
                   label={t('comments.button')}
-                  size="sm"
+                  variant="small"
                   inline
                   onPress={handleCommentSubmit}
                   testID="btn-submit-comment"
-                />
+                >
+                  {t('comments.button')}
+                </HoliButtonLoading>
               </View>
             </HoliContainer>
           </View>
@@ -283,7 +278,6 @@ const CommentForm = ({
           isVisible={modalVisible}
           onConfirm={handleOptIn}
           onDismiss={handleModalDismiss}
-          dismissModal={handleDismissNotification}
           description={t('notifications.permission.description.default')}
         />
       )}

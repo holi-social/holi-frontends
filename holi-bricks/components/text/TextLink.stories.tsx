@@ -1,29 +1,17 @@
 import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
-import { TextLink, type TextLinkSize, type TextLinkVariant } from 'holi-bricks/components/text'
+import { TextLink, TextLinkSize, TextLinkVariant } from 'holi-bricks/components/text'
 import React from 'react'
 import { View } from 'react-native'
 
 const availableSizes: TextLinkSize[] = ['md', 'sm', 'xs']
 const availableVariants: TextLinkVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'special']
-const disabledProps = [
-  'accessible',
-  'id',
-  'role',
-  'aria-hidden',
-  'aria-label',
-  'aria-labelledby',
-  'aria-disabled',
-  'tabIndex',
-  'onPress',
-]
 
 const meta: Meta<typeof TextLink> = {
   title: 'Components/Text/TextLink',
   component: TextLink,
   argTypes: {
     children: { description: 'Text content', required: true },
-    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     children: 'This is a text link.',

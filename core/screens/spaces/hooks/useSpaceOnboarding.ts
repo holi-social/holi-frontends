@@ -1,34 +1,36 @@
+import { makeVar, useReactiveVar } from '@apollo/client'
 import AsyncStore from '@react-native-async-storage/async-storage'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { useLoginState } from '@holi/core/auth/loginState'
 
-export enum SpaceOnboardings {
-  JoinOnboarding = 'space_join_is_onboarded',
-  StorageOnboarding = 'space_storage_is_onboarded',
-}
+export const SPACE_ONBOARDING_STATE_STORAGE_NAME = 'space_onboarding_state_value'
 
-export const useSpaceOnboarding = (onboarding: SpaceOnboardings) => {
+enum spaceOnboardingValues {
+  SpaceJoinIsOnboarded = 'space_join_is_onboarded',
+  SpaceStorageIsOnboarded = 'space_storage_is_onboarded',
+}
+export type SpaceOnboardingStateValue = (typeof spaceOnboardingValues)[keyof typeof spaceOnboardingValues]
+
+// null is loading state (AsyncStorage.getItem is async)
+const spaceOnboardingStateVar = makeVar<boolean | null>(null)
+
+export const useSpaceOnboarding = (onboarding_type: string) => {
   const loginState = useLoginState()
-  const [needsOnboarding, setNeedsOnboarding] = useState(false)
 
   useEffect(() => {
-    if (loginState.isUnknown) {
-      return
-    }
-
-    AsyncStore.getItem(onboarding)?.then(async (storedValue) => {
-      if (!storedValue || storedValue !== 'true') {
-        setNeedsOnboarding(true)
-      }
+    if (loginState.isUnknown) return
+    AsyncStore.getItem(onboarding_type)?.then(async (storedValue) => {
+      spaceOnboardingStateVar(!!storedValue)
     })
-  }, [loginState.isUnknown, onboarding])
+  }, [loginState, onboarding_type])
 
   return {
-    needsOnboarding,
+    // null is loading state (AsyncStorage.getItem is async), false is not onboarded, true is onboarded
+    isOnboarded: useReactiveVar(spaceOnboardingStateVar) !== false,
     setIsOnboarded: async () => {
-      setNeedsOnboarding(false)
-      await AsyncStore.setItem(onboarding, 'true')
+      spaceOnboardingStateVar(true)
+      await AsyncStore.setItem(onboarding_type, 'true')
     },
   }
 }

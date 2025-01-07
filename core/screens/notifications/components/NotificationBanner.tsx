@@ -9,9 +9,9 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Close } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
-import { ButtonIcon } from 'holi-bricks/components/button'
 
 interface NotificationBannerProps {
   member?: User
@@ -139,9 +139,9 @@ const NotificationBanner = ({
               {matchingStatus && matchingStatus.message}
             </HoliText>
           </View>
-          <View style={styles.status}>
-            <ButtonIcon label={''} transparent onPress={() => setIsVisible(false)} icon={Close} />
-          </View>
+          <HoliButton style={styles.status} label={''} transparent onPress={() => setIsVisible(false)}>
+            <HoliIcon icon={Close} size={20} />
+          </HoliButton>
         </View>
       )}
     </>

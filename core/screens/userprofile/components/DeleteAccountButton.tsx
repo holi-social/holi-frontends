@@ -1,13 +1,12 @@
 import { useMutation } from '@apollo/client'
-import type React from 'react'
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useLogout } from '@holi/core/helpers'
 import {
-  type DeleteAuthenticatedUserResponse,
+  DeleteAuthenticatedUserResponse,
   deleteAuthenticatedUserMutation,
 } from '@holi/core/screens/userprofile/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -16,7 +15,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type DeleteAccountButtonProps = {
   style?: StyleProp<ViewStyle>
@@ -64,7 +63,7 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
         show={showConfirmationModal}
         label={confirmationTitle}
         title={confirmationTitle}
-        primaryButtonVariant="danger"
+        primaryButtonType="warning"
         description={t('profile.settings.account.delete.confirmation.description')}
         onDismiss={() => setShowConfirmationModal(false)}
         secondaryText={t('profile.settings.account.delete.confirmation.dismiss')}

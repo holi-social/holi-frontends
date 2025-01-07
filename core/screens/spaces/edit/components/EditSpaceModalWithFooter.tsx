@@ -1,8 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
-import EditSpaceModal, { type EditSpaceModalProps } from './EditSpaceModal'
-import { Button } from 'holi-bricks/components/button'
+import { StyleSheet } from 'react-native'
+
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+
+import EditSpaceModal, { EditSpaceModalProps } from './EditSpaceModal'
 
 type FooterButtonsProps = {
   onDismiss: () => void
@@ -17,17 +20,16 @@ const FooterButtons = ({ onDismiss, onSave, saveButtonDisabled }: FooterButtonsP
 
   return (
     <>
-      <View style={styles.footerButton}>
-        <Button label={t('global.dismiss')} variant="secondary" inline onPress={onDismiss} />
-      </View>
-      <View style={styles.footerButton}>
-        <Button
-          disabled={saveButtonDisabled}
-          label={t('global.save')}
-          onPress={onSave}
-          testID="space-edit-modal-save-btn"
-        />
-      </View>
+      <HoliButton label={t('global.dismiss')} type="secondary" inline style={styles.footerButton} onPress={onDismiss}>
+        {t('global.dismiss')}
+      </HoliButton>
+      <HoliButtonLoading
+        disabled={saveButtonDisabled}
+        label={t('global.save')}
+        onPress={onSave}
+        testID="space-edit-modal-save-btn"
+        style={styles.footerButton}
+      />
     </>
   )
 }

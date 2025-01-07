@@ -96,7 +96,7 @@ const FilteredSpaces = () => {
         actionButtonVisible
         label={t('spaces.filter.heading')}
         buttonLabel={t('spaces.filter.button.label')}
-        shown={isFilterModalShown}
+        show={isFilterModalShown}
         open={openFilterModal}
         onDismiss={closeFilterModal}
         testID="spaces-filter-modal"

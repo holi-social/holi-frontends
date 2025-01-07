@@ -226,7 +226,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
       style={
         [
           {
-            "marginTop": 12,
             "paddingLeft": 48,
           },
           {
@@ -255,7 +254,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": false,
+              "selected": undefined,
             }
           }
           accessibilityValue={
@@ -267,7 +266,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
             }
           }
           accessible={true}
-          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -281,16 +279,30 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             [
+              [
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#fff",
+                  "borderColor": "#262424",
+                  "borderRadius": 28,
+                  "borderWidth": 2,
+                  "display": "flex",
+                  "elevation": 0,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "paddingHorizontal": 32,
+                  "paddingVertical": 13,
+                },
+                {
+                  "borderRadius": 16,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 6,
+                },
+              ],
               {
-                "backgroundColor": "#ffffff",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
-                "borderStyle": "solid",
-                "borderWidth": 1,
-                "boxShadow": "0 0 0 0px #262424",
-                "display": "flex",
-                "paddingHorizontal": 12,
-                "width": "auto",
+                "marginTop": 12,
               },
             ]
           }
@@ -298,47 +310,42 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
         >
           <View
             style={
-              {
-                "alignItems": "center",
-                "display": "flex",
-                "flexDirection": "row",
-                "gap": 4,
-                "justifyContent": "center",
-              }
+              [
+                {
+                  "pointerEvents": "none",
+                },
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
             }
           >
-            <View
+            <Text
+              accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
+              selectable={false}
               style={
                 {
-                  "height": 32,
-                  "justifyContent": "center",
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 19.599999999999998,
+                  "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >
-              <Text
-                accessible={false}
-                role="none"
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": -0.12,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                notifications.connection.ignore
-              </Text>
-            </View>
+              notifications.connection.ignore
+            </Text>
           </View>
         </View>
       </View>
@@ -358,7 +365,7 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": false,
+              "selected": undefined,
             }
           }
           accessibilityValue={
@@ -370,7 +377,6 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
             }
           }
           accessible={true}
-          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -384,16 +390,33 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
           onStartShouldSetResponder={[Function]}
           style={
             [
+              [
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#fff",
+                  "borderColor": "#262424",
+                  "borderRadius": 28,
+                  "borderWidth": 2,
+                  "display": "flex",
+                  "elevation": 0,
+                  "justifyContent": "center",
+                  "overflow": "hidden",
+                  "paddingHorizontal": 32,
+                  "paddingVertical": 13,
+                },
+                {
+                  "borderRadius": 16,
+                  "paddingHorizontal": 16,
+                  "paddingVertical": 6,
+                },
+                {
+                  "backgroundColor": "#f5ef3f",
+                },
+              ],
               {
-                "backgroundColor": "#fdfd80",
-                "borderColor": "#262424",
-                "borderRadius": 1000,
-                "borderStyle": "solid",
-                "borderWidth": 1,
-                "boxShadow": "0 0 0 0px #262424",
-                "display": "flex",
-                "paddingHorizontal": 12,
-                "width": "auto",
+                "marginTop": 12,
               },
             ]
           }
@@ -401,47 +424,42 @@ exports[`NotificationConnectionItem.tsx matches snapshot 1`] = `
         >
           <View
             style={
-              {
-                "alignItems": "center",
-                "display": "flex",
-                "flexDirection": "row",
-                "gap": 4,
-                "justifyContent": "center",
-              }
+              [
+                {
+                  "pointerEvents": "none",
+                },
+                {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                },
+                undefined,
+              ]
             }
           >
-            <View
+            <Text
+              accessible={false}
+              collapsable={false}
+              jestAnimatedStyle={
+                {
+                  "value": {},
+                }
+              }
+              selectable={false}
               style={
                 {
-                  "height": 32,
-                  "justifyContent": "center",
+                  "color": "#262424",
+                  "fontFamily": "InstrumentSans-Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                  "lineHeight": 19.599999999999998,
+                  "textAlign": "center",
+                  "userSelect": "none",
                 }
               }
             >
-              <Text
-                accessible={false}
-                role="none"
-                selectable={true}
-                style={
-                  {
-                    "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
-                    "fontSize": 15,
-                    "fontVariant": [
-                      "lining-nums",
-                      "tabular-nums",
-                    ],
-                    "fontWeight": "400",
-                    "letterSpacing": -0.12,
-                    "lineHeight": 21,
-                    "textAlign": undefined,
-                    "userSelect": "auto",
-                  }
-                }
-              >
-                notifications.connection.accept
-              </Text>
-            </View>
+              notifications.connection.accept
+            </Text>
           </View>
         </View>
       </View>

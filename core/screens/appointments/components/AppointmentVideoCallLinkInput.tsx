@@ -1,7 +1,6 @@
-import type React from 'react'
-import { memo, useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 
 import { validateUrl } from '@holi/core/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
@@ -12,13 +11,13 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-import { Button, ButtonIcon } from 'holi-bricks/components/button'
 
 const autoGenerateJitsiUrl = () => {
   const characters = 'abcdefghijklmnopqrstuvwxyz'
@@ -70,6 +69,7 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
   const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { colors } = theme
 
   const meetingProvider = getMeetingProvider(url)
 
@@ -102,14 +102,16 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
       <View style={style}>
         {!url && (
           <View style={styles.buttonWrapper}>
-            <Button
-              label={t('global.videoCall.add.button')}
+            <HoliButton
+              label={t('global.time')}
               testID={`btn-${testID}`}
-              variant="secondary"
+              type="secondary"
               onPress={() => onChangeUrl(autoGenerateJitsiUrl())}
               inline
-              icon={Add}
-            />
+            >
+              <HoliText>{t('global.videoCall.add.button')}</HoliText>
+              <HoliIcon icon={Add} style={styles.buttonIcon} />
+            </HoliButton>
           </View>
         )}
         {!!url && (
@@ -140,7 +142,9 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
                 </HoliText>
               )}
             </View>
-            <ButtonIcon transparent label={t('global.edit')} onPress={showModal} icon={Settings3} size="lg" />
+            <HoliButton transparent inline label={t('global.edit')} onPress={showModal} style={styles.editButton}>
+              <HoliIcon icon={Settings3} size={24} color={colors.foreground30} />
+            </HoliButton>
           </View>
         )}
       </View>
@@ -199,27 +203,30 @@ const AppointmentVideoCallLinkInput: React.FC<AppointmentVideoCallLinkInputProps
               showCharacterCount
               style={styles.input}
             />
-            <View style={[styles.modalOptionsContainer, styles.modalOptionButton]}>
-              <Button
+            <View style={styles.modalOptionsContainer}>
+              <HoliButton
                 transparent
                 label={t('spaces.appointments.input.videoCall.delete.button')}
+                contentStyle={styles.modalOptionButton}
                 onPress={showDeleteModal}
-                icon={Delete}
-                variant="danger"
-              />
+              >
+                <HoliIcon icon={Delete} color={colors.error20} style={styles.modalOptionIcon} />
+                <HoliText color="error200">{t('spaces.appointments.input.videoCall.delete.button')}</HoliText>
+              </HoliButton>
             </View>
           </View>
         </ScrollView>
-        <View style={styles.overlayButton}>
-          <Button
-            label={t('global.done')}
-            inline
-            testID="appointment-video-call-link-save-button"
-            onPress={hideModal}
-          />
-        </View>
+        <HoliButton
+          label={t('global.done')}
+          inline
+          testID="appointment-video-call-link-save-button"
+          style={[mixins.container, styles.overlayButton]}
+          onPress={hideModal}
+        >
+          {t('global.done')}
+        </HoliButton>
         <HoliConfirmation
-          primaryButtonVariant="danger"
+          primaryButtonType="warning"
           show={deleteModalVisible}
           label={t('spaces.appointments.input.videoCall.delete.button')}
           title={t('spaces.appointments.input.videoCall.delete.button')}
@@ -283,6 +290,9 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
       flex: 1,
       alignSelf: 'stretch',
+    },
+    editButton: {
+      marginLeft: 12,
     },
     modalTitleContainer: {
       flexDirection: 'row',

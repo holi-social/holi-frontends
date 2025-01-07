@@ -17,13 +17,14 @@ import AppointmentsList from '@holi/core/screens/appointments/components/Appoint
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import { type SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
-import { ButtonIcon } from 'holi-bricks/components/button'
 
 export type SpaceAppointmentsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
@@ -155,15 +156,15 @@ const SpaceAppointments = () => {
       />
 
       {isMember && (
-        <View style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}>
-          <ButtonIcon
-            label={t('spaces.appointments.add.button.label')}
-            testID="btn-add-appointment"
-            onPress={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
-            icon={Add}
-            size="lg"
-          />
-        </View>
+        <HoliButton
+          label={t('spaces.appointments.add.button.label')}
+          testID="btn-add-appointment"
+          inline
+          style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
+          onPress={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+        >
+          <HoliIcon icon={Add} size={24} color={colors.foreground30} />
+        </HoliButton>
       )}
     </View>
   )

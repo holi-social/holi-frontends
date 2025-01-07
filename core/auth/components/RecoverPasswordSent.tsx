@@ -1,13 +1,13 @@
-import type React from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, type ViewStyle } from 'react-native'
+import { StyleSheet, View, ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { Button } from 'holi-bricks/components/button'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 
 export type RecoverPasswordSentProps = {
   style?: ViewStyle | ViewStyle[]
@@ -34,14 +34,15 @@ const RecoverPasswordSent: React.FC<RecoverPasswordSentProps> = (props: RecoverP
       </HoliHeading>
       <HoliText style={styles.text}>{t('auth.forgotPassword.success.text')}</HoliText>
 
-      <View style={styles.button}>
-        <Button
-          label={t('auth.forgotPassword.success.button')}
-          inline
-          onPress={() => navigate('/')}
-          testID="back-to-home-btn"
-        />
-      </View>
+      <HoliButton
+        label={t('auth.forgotPassword.success.button')}
+        inline
+        onPress={() => navigate('/')}
+        style={styles.button}
+        testID="back-to-home-btn"
+      >
+        {t('auth.forgotPassword.success.button')}
+      </HoliButton>
     </View>
   )
 }

@@ -37,17 +37,6 @@ const versionOne = {
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
  */
 export namespace TrackingEvent {
-  export const SpaceAskQuestion = {
-    askedQuestion: {
-      name: 'askQuestionButton_pressed',
-      ...versionOne,
-    },
-    startedConversation: {
-      name: 'startConversationButton_pressed',
-      ...versionOne,
-    },
-  }
-
   export const Engaging = {
     reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
       name: 'reacted',
@@ -94,44 +83,11 @@ export namespace TrackingEvent {
       properties: { spaceId, isLoggedIn },
       ...versionOne,
     }),
-
     joinSpaceButtonPressed: (spaceId: string, isLoggedIn: boolean): TrackingEvent => ({
       name: 'joinSpaceButtonPressed',
       properties: { spaceId, isLoggedIn },
       ...versionOne,
     }),
-
-    FileStorage: {
-      accessed: (spaceId: string): TrackingEvent => ({
-        name: 'spaceFileStorageAccessed',
-        properties: { spaceId },
-        ...versionOne,
-      }),
-    },
-
-    LinkHub: {
-      linkAdded: (spaceId: string, linkType: string): TrackingEvent => ({
-        name: 'spaceLinkHubLinkAdded',
-        properties: { spaceId, linkType },
-        ...versionOne,
-      }),
-    },
-
-    Onboarding: {
-      updated: (spaceId: string): TrackingEvent => ({
-        name: 'spaceOnboardingUpdated',
-        properties: { spaceId },
-        ...versionOne,
-      }),
-    },
-
-    Profile: {
-      externalLinkAdded: (spaceId: string): TrackingEvent => ({
-        name: 'spaceProfileExternalLinkAdded',
-        properties: { spaceId },
-        ...versionOne,
-      }),
-    },
   }
 
   export const Donations = {
@@ -294,12 +250,6 @@ export namespace TrackingEvent {
   export const SignUpModalPressed = (trigger: SignupModalPressedTrigger, answer: string): TrackingEvent => ({
     name: 'signUpModalPressed',
     properties: { trigger, answer },
-    ...versionOne,
-  })
-
-  export const NotYetAvailableFeaturePressed = (feature: string): TrackingEvent => ({
-    name: 'notYetAvailableFeaturePressed',
-    properties: { feature },
     ...versionOne,
   })
 }

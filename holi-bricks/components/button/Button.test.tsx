@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
-import { Button } from 'holi-bricks/components/button'
+import { Button } from 'holi-bricks/components/button/Button'
 import React from 'react'
 
 describe('Button component', () => {

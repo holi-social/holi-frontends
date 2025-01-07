@@ -4,18 +4,18 @@ import Constants from 'expo-constants'
 import * as Notifications from 'expo-notifications'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AppState, type AppStateStatus, BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
+import { AppState, AppStateStatus, BackHandler, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
-import { type CheckAppVersionResponse, NeedUpdateType, checkAppVersionQuery } from '@holi/core/screens/homeFeed/queries'
+import { CheckAppVersionResponse, NeedUpdateType, checkAppVersionQuery } from '@holi/core/screens/homeFeed/queries'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-import { Button } from 'holi-bricks/components/button'
 
 const ANDROID_PACKAGE_NAME = Constants.expoConfig?.android?.package
 const BUILD_NUMBER =
@@ -31,7 +31,7 @@ const UpdateAppModal = () => {
     onError: (error) =>
       logError(error, 'Failed to check app version', { location: 'UpdateAppModal.checkAppVersionQuery' }),
   })
-  const [modalShown, setModalShown] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const [modalDismissedOnce, setModalDismissedOnce] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
@@ -54,7 +54,7 @@ const UpdateAppModal = () => {
     }
   }
   const dismissModal = () => {
-    setModalShown(false)
+    setShowModal(false)
     setModalDismissedOnce(true)
   }
 
@@ -85,16 +85,16 @@ const UpdateAppModal = () => {
 
   useEffect(() => {
     if ((isMandatory || isRecommended) && !modalDismissedOnce) {
-      setModalShown(true)
+      setShowModal(true)
       return
     }
-    setModalShown(false)
-  }, [data, error, modalShown, isMandatory, isRecommended, modalDismissedOnce])
+    setShowModal(false)
+  }, [data, error, showModal, isMandatory, isRecommended, modalDismissedOnce])
 
   return (
     <HoliModal
       label={t(`update.modal.${updateStatus}.headline`)}
-      shown={modalShown}
+      show={showModal}
       style={{ backgroundColor: colors.background20 }}
       onDismiss={isRecommended ? dismissModal : undefined}
     >
@@ -113,25 +113,25 @@ const UpdateAppModal = () => {
           <HoliText align="center">{t(`update.modal.${updateStatus}.text`)}</HoliText>
         </View>
         <View style={styles.content}>
-          <Button
+          <HoliButton
             label={t('update.modal.confirm', { store: t(`update.modal.store.${Platform.OS}`) })}
             onPress={() => {
               updateApp()
             }}
-            inline={false}
-          />
+          >
+            {t('update.modal.confirm', { store: t(`update.modal.store.${Platform.OS}`) })}
+          </HoliButton>
           {/* close app button only works on Android */}
           {isMandatory && Platform.OS === 'android' && (
-            <Button
-              label={t('update.modal.closeApp')}
-              variant="secondary"
-              onPress={() => BackHandler.exitApp()}
-              inline={false}
-            />
+            <HoliButton label={t('update.modal.closeApp ')} type="secondary" onPress={() => BackHandler.exitApp()}>
+              {t('update.modal.closeApp')}
+            </HoliButton>
           )}
           {/* modal is only dismissible for recommended updates */}
           {isRecommended && (
-            <Button label={t('update.modal.dismiss')} variant="secondary" onPress={dismissModal} inline={false} />
+            <HoliButton label={t('update.modal.dismiss')} type="secondary" onPress={dismissModal}>
+              {t('update.modal.dismiss')}
+            </HoliButton>
           )}
         </View>
       </View>

@@ -1,12 +1,12 @@
 import * as React from 'react'
 // eslint-disable-next-line no-restricted-imports
-import { Platform, type StyleProp, StyleSheet, type TextProps, type TextStyle, View } from 'react-native'
+import { Platform, StyleProp, StyleSheet, TextProps, TextStyle, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
-import type { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
+import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export const HoliTextSizes = ['extralarge', 'large', 'default', 'small', 'extrasmall'] as const

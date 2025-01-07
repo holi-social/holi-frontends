@@ -7,9 +7,10 @@ import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { SelectorCard } from 'holi-bricks/components/selectors'
+// eslint-disable-next-line no-restricted-imports
+import type { ContentValue } from '../types'
 import { Spacing } from 'holi-bricks/tokens'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
-import type { ContentValue } from '@holi/core/screens/onboarding/types'
 
 interface ContentOption {
   id: ContentValue
@@ -40,7 +41,7 @@ const availableOptions = contentOptions.filter(({ mobileOnly }) => !mobileOnly |
 
 interface ContentSelectionProps {
   onChange: (option: ContentValue) => void
-  selectedOption?: ContentValue | undefined
+  selectedOption?: ContentValue | null
   testID?: string
 }
 
