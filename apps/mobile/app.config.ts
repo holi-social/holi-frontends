@@ -8,7 +8,7 @@ require('ts-node/register')
 const versions = {
   version: '1.43.10', // user-facing value visible in stores
   iosBuildNumber: '1.43.10', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 125, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  androidVersionCode: 126, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
