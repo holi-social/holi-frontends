@@ -5,7 +5,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Platform, Pressable, StyleSheet, View, ScrollView } from 'react-native'
+import { type ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
 
 import type { Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -51,6 +51,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -220,7 +221,7 @@ const InsightDetailPage = () => {
       />
       <StatusBar style="light" animated />
 
-      <ScrollView style={styles.wrapper}>
+      <ScrollViewRefreshable style={styles.wrapper}>
         {insight && !loading ? (
           <>
             <HoliImageBackground
@@ -378,7 +379,7 @@ const InsightDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollView>
+      </ScrollViewRefreshable>
     </>
   )
 }

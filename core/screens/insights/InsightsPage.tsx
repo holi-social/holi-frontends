@@ -1,15 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  type DimensionValue,
-  Platform,
-  Pressable,
-  StyleSheet,
-  View,
-  useWindowDimensions,
-  ScrollView,
-} from 'react-native'
+import { type DimensionValue, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers/logError'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -40,6 +32,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 const InsightsList = () => {
   const { t } = useTranslation()
@@ -203,7 +196,7 @@ const InsightsPage = () => {
   }
 
   return (
-    <ScrollView style={styles.layout}>
+    <ScrollViewRefreshable style={styles.layout}>
       <View style={styles.sections}>
         <HoliContainer>
           <Pagination
@@ -219,7 +212,7 @@ const InsightsPage = () => {
           </Pagination>
         </HoliContainer>
       </View>
-    </ScrollView>
+    </ScrollViewRefreshable>
   )
 }
 

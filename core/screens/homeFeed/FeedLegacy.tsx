@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -27,6 +27,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -70,7 +71,7 @@ const HomeFeed = () => {
 
   return (
     <GestureHandlerRootView testID="home-feed-listing">
-      <ScrollView style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
+      <ScrollViewRefreshable style={{ backgroundColor: colors.white200 }} contentContainerStyle={styles.layout}>
         <View style={styles.sections}>
           <HoliContainer>
             <HoliTransition.FadeDown visible>
@@ -90,7 +91,7 @@ const HomeFeed = () => {
           </ErrorBoundary>
           {isLoggedIn && <UserSuggestions />}
         </View>
-      </ScrollView>
+      </ScrollViewRefreshable>
 
       {/* Floating CreatePostButton needs to be outside the Layout */}
       <ButtonFloatingWrapper>

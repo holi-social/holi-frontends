@@ -3,7 +3,7 @@ import { withProfiler } from '@sentry/react'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
@@ -34,6 +34,7 @@ import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type UserProfileParams = {
   userId: string
@@ -143,7 +144,7 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <ScrollView style={styles.layout} contentContainerStyle={styles.content}>
+    <ScrollViewRefreshable style={styles.layout} contentContainerStyle={styles.content}>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -218,7 +219,7 @@ const UserProfile = () => {
         backgroundColor={colors.background20}
         testID="profile-tabs"
       />
-    </ScrollView>
+    </ScrollViewRefreshable>
   )
 }
 

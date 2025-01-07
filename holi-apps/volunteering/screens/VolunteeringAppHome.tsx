@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Platform, StyleSheet, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
@@ -21,6 +20,7 @@ import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/Vol
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 const VolunteeringAppHome = () => {
   const { navigate } = useRouting()
@@ -70,7 +70,7 @@ const VolunteeringAppHome = () => {
   }, [navigate, t, title, isFiltering, showFilterModal, setScreenOptions, styles.dot])
 
   return (
-    <KeyboardAwareScrollView
+    <ScrollViewRefreshable
       style={styles.defaultLayout}
       testID="volunteering-list-container"
       keyboardShouldPersistTaps="handled"
@@ -94,7 +94,7 @@ const VolunteeringAppHome = () => {
         loadingFilters={loadingGeolocation}
         loadingFiltersFailed={!!geolocationError}
       />
-    </KeyboardAwareScrollView>
+    </ScrollViewRefreshable>
   )
 }
 

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, ScrollView } from 'react-native'
+import { View } from 'react-native'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -12,6 +12,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 import GoodNewsCarousel from '@holi-apps/goodnews/components/GoodNewsCarousel'
 import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 const GoodNewsAppHome = () => {
   const { t } = useTranslation()
@@ -39,9 +40,9 @@ const GoodNewsAppHome = () => {
       <View style={{ flex: 1 }} testID={'goodnews-app-home'}>
         <StatusBar style="light" animated />
 
-        <ScrollView bounces={false} style={{ paddingBottom: 0, backgroundColor: colors.background30 }}>
+        <ScrollViewRefreshable bounces={false} style={{ paddingBottom: 0, backgroundColor: colors.background30 }}>
           <GoodNewsCarousel />
-        </ScrollView>
+        </ScrollViewRefreshable>
       </View>
     </PosthogFeatureFlagGuard>
   )
