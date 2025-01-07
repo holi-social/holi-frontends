@@ -1,8 +1,9 @@
-import React, { memo, useMemo, useState } from 'react'
+import type React from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Linking, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { SpaceLink } from '@holi/core/screens/spaces/types'
+import type { SpaceLink } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import {
   Delete,
@@ -18,7 +19,8 @@ import {
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ButtonIcon } from 'holi-bricks/components/button'
 
 type SpaceLinkInputProps = {
   link: SpaceLink
@@ -58,40 +60,38 @@ const SpaceLinkInput: React.FC<SpaceLinkInputProps> = ({ link, onEdit, onDelete 
           </HoliText>
         </View>
         <View style={styles.actions}>
-          <HoliButton
-            inline
+          <ButtonIcon
             transparent
             label={type}
             role="link"
             onPress={() => onEdit && onEdit(link)}
             testID="btn-to-social-link"
-          >
-            <HoliIcon icon={Edit2} color={colors.foreground20} />
-          </HoliButton>
-          <HoliButton
-            inline
+            icon={Edit2}
+            size="lg"
+          />
+          <ButtonIcon
             transparent
             label={type}
             role="link"
             onPress={() => setDeleteModalVisible(true)}
             testID="btn-to-social-link"
-          >
-            <HoliIcon icon={Delete} color={colors.foreground20} />
+            icon={Delete}
+            size="lg"
+          />
 
-            <HoliConfirmation
-              show={deleteModalVisible}
-              label={t('spaces.input.publicLinks.delete.confirmation.title')}
-              title={t('spaces.input.publicLinks.delete.confirmation.title')}
-              description={t('spaces.input.publicLinks.delete.confirmation.description')}
-              onDismiss={() => setDeleteModalVisible(false)}
-              secondaryText={t('spaces.input.publicLinks.delete.confirmation.no')}
-              primaryText={t('spaces.input.publicLinks.delete.confirmation.yes')}
-              testID="spaces-links-delete-confirmation"
-              onPrimary={() => {
-                onDelete && onDelete(link.id)
-              }}
-            />
-          </HoliButton>
+          <HoliConfirmation
+            show={deleteModalVisible}
+            label={t('spaces.input.publicLinks.delete.confirmation.title')}
+            title={t('spaces.input.publicLinks.delete.confirmation.title')}
+            description={t('spaces.input.publicLinks.delete.confirmation.description')}
+            onDismiss={() => setDeleteModalVisible(false)}
+            secondaryText={t('spaces.input.publicLinks.delete.confirmation.no')}
+            primaryText={t('spaces.input.publicLinks.delete.confirmation.yes')}
+            testID="spaces-links-delete-confirmation"
+            onPrimary={() => {
+              onDelete && onDelete(link.id)
+            }}
+          />
         </View>
       </View>
 

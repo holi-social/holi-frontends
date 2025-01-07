@@ -3,10 +3,10 @@ import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CONTENT_IMAGE_MAX_HEIGHT, CONTENT_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-import { FileSizeLimitationReject, FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
+import type { FileSizeLimitationReject, FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
 
 const resizeImage = async (fileBlob: File, resizeWidth: number): Promise<HoliImageInfo> => {
   const fileBlobUri = URL.createObjectURL(fileBlob)
@@ -56,13 +56,14 @@ const readImage = async (fileBlob: File): Promise<HoliImageInfo> => {
 }
 
 const HoliImagePicker = ({
-  children,
   buttonProps,
+  buttonIconProps,
   onPickImage,
   onPickImages,
   fileSizeLimitation,
   allowsMultipleSelection = false,
-}: React.PropsWithChildren<HoliImagePickerProps>) => {
+  buttonIconOnly,
+}: HoliImagePickerProps) => {
   const { t } = useTranslation()
   const { openToast } = useToast()
   const imageInputNode = useRef<HTMLInputElement>(null)
@@ -179,9 +180,8 @@ const HoliImagePicker = ({
         multiple={allowsMultipleSelection}
       />
 
-      <HoliButton {...buttonProps} onPress={pickImageHandler}>
-        {children}
-      </HoliButton>
+      {buttonProps && !buttonIconOnly && <Button {...buttonProps} onPress={pickImageHandler} />}
+      {buttonIconProps && buttonIconOnly && <ButtonIcon {...buttonIconProps} onPress={pickImageHandler} />}
     </>
   )
 }

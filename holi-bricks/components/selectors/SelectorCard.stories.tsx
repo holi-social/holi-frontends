@@ -1,5 +1,5 @@
 import { useArgs } from '@storybook/preview-api'
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
 import { Spacing } from 'holi-bricks/tokens'
 import React from 'react'
@@ -8,13 +8,38 @@ import { StyleSheet, View } from 'react-native'
 import Cloud from '@holi/icons/src/generated/Cloud'
 
 const availableInputTypes = ['radio', 'checkbox', 'switch', 'none'] as const
+const disabledProps = [
+  'accessible',
+  'id',
+  'role',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'aria-disabled',
+  'tabIndex',
+  'image',
+  'icon',
+  'onPress',
+]
 
 const meta: Meta<typeof SelectorCard> = {
   title: 'Components/Selectors/Selector Card',
   component: SelectorCard,
   args: {
+    title: 'Title',
+    description: 'Description',
+    size: 'lg',
+    inputType: 'radio',
+    variant: 'detailed',
     disabled: false,
+    selected: false,
+    defaultSelected: false,
+    outlined: true,
+    reverseOrder: false,
     icon: Cloud,
+  },
+  argTypes: {
+    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
 }
 

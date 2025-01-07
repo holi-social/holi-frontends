@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, ViewStyle } from 'react-native'
+import type { ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Time } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import { Button } from 'holi-bricks/components/button'
 
 type UserConnectionButtonsProps = {
   user: User
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
 }
 
-const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, style }) => {
+const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user }) => {
   const { connect, disconnect, error, loading } = useUserConnection()
   const { isLoggedIn } = useLoggedInUser()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
@@ -59,31 +58,25 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, sty
 
   return (
     <>
-      <HoliButton
-        type={connectionRequested ? 'secondary' : 'primary'}
+      <Button
+        variant={connectionRequested ? 'secondary' : 'primary'}
         inline
         label={t(`user.profileView.connection.button.${connectionStatusToMyself}`)}
-        style={style}
         onPress={onPrimaryPress}
         disabled={loading}
         testID={`user-connection-button-${connectionStatusToMyself}`}
-      >
-        <HoliText>{t(`user.profileView.connection.button.${connectionStatusToMyself}`)}</HoliText>
-        {connectionRequested && <HoliIcon icon={Time} size={19} style={styles.requestedStatusButtonIcon} />}
-      </HoliButton>
+        icon={connectionRequested ? Time : undefined}
+      />
 
       {connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION && (
-        <HoliButton
+        <Button
           inline
-          type="secondary"
+          variant="secondary"
           label={t('user.profileView.connection.button.IGNORE')}
-          style={style}
           onPress={() => disconnect(user.id)}
           disabled={loading}
           testID={'user-connection-button-ignore'}
-        >
-          {t('user.profileView.connection.button.IGNORE')}
-        </HoliButton>
+        />
       )}
 
       <HoliConfirmation
@@ -96,7 +89,7 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, sty
         onDismiss={() => setShowConfirmationModal(false)}
         secondaryText={t(`user.profileView.connection.confirmation.dismiss.${connectionStatusToMyself}`)}
         primaryText={t(`user.profileView.connection.confirmation.confirm.${connectionStatusToMyself}`)}
-        primaryButtonType="warning"
+        primaryButtonVariant="danger"
         testID="user-connection"
         // onConfirm needs to be undefined if not logged in to hide the confirm button inside the dialog
         onPrimary={
@@ -113,9 +106,3 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user, sty
 }
 
 export default UserConnectionButtons
-
-const styles = StyleSheet.create({
-  requestedStatusButtonIcon: {
-    marginLeft: 4,
-  },
-})

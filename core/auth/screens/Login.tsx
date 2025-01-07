@@ -38,7 +38,7 @@ const Login = () => {
   const setScreenOptions = useSetScreenOptions()
   const client = useApolloClient()
   const { track } = useTracking()
-  const redirect = useRedirect()
+  const redirect = useRedirect('/')
 
   const isWeb = Platform.OS === 'web'
 
@@ -130,7 +130,9 @@ const Login = () => {
           {t('auth.login.signUp.link.headline')}
         </HoliHeading>
 
-        <RegistrationButton style={styles.formItemContainer} trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+        <View style={styles.formItemContainer}>
+          <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} variant="secondary" />
+        </View>
       </HoliContainer>
       {isLoaderShown && <HoliLoader />}
     </DefaultLayout>

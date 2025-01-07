@@ -694,11 +694,9 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                         style={
                           {
-                            "bottom": 0,
-                            "left": 0,
-                            "position": "absolute",
-                            "right": 0,
-                            "top": 0,
+                            "aspectRatio": 1,
+                            "height": undefined,
+                            "width": "100%",
                           }
                         }
                       />
@@ -835,11 +833,9 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                         style={
                           {
-                            "bottom": 0,
-                            "left": 0,
-                            "position": "absolute",
-                            "right": 0,
-                            "top": 0,
+                            "aspectRatio": 1,
+                            "height": undefined,
+                            "width": "100%",
                           }
                         }
                       />
@@ -976,11 +972,9 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         }
                         style={
                           {
-                            "bottom": 0,
-                            "left": 0,
-                            "position": "absolute",
-                            "right": 0,
-                            "top": 0,
+                            "aspectRatio": 1,
+                            "height": undefined,
+                            "width": "100%",
                           }
                         }
                       />
@@ -1036,6 +1030,19 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
           "position": "absolute",
           "width": "100%",
         },
+        {
+          "alignSelf": "center",
+          "maxWidth": 840,
+          "paddingHorizontal": 32,
+          "width": "100%",
+        },
+        {
+          "bottom": 16,
+          "flex": 1,
+          "maxWidth": 420,
+          "paddingHorizontal": 16,
+          "paddingVertical": 12,
+        },
       ]
     }
   >
@@ -1048,7 +1055,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
           "checked": undefined,
           "disabled": false,
           "expanded": undefined,
-          "selected": undefined,
+          "selected": false,
         }
       }
       accessibilityValue={
@@ -1060,6 +1067,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
         }
       }
       accessible={true}
+      aria-pressed={false}
       collapsable={false}
       focusable={true}
       onBlur={[Function]}
@@ -1073,91 +1081,65 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         [
-          [
-            {
-              "width": "auto",
-            },
-            {
-              "backgroundColor": "#fff",
-              "borderColor": "#262424",
-              "borderRadius": 28,
-              "borderWidth": 2,
-              "display": "flex",
-              "elevation": 0,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "paddingHorizontal": 32,
-              "paddingVertical": 13,
-            },
-            {
-              "backgroundColor": "#f5ef3f",
-            },
-          ],
-          [
-            {
-              "alignSelf": "center",
-              "maxWidth": 840,
-              "paddingHorizontal": 32,
-              "width": "100%",
-            },
-            {
-              "borderWidth": 1,
-              "bottom": 16,
-              "flex": 1,
-              "maxWidth": 420,
-              "paddingHorizontal": 16,
-              "paddingVertical": 12,
-            },
-          ],
+          {
+            "backgroundColor": "#fdfd80",
+            "borderColor": "#262424",
+            "borderRadius": 1000,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "boxShadow": "0 0 0 0px #262424",
+            "display": "flex",
+            "paddingHorizontal": 16,
+            "width": "auto",
+          },
         ]
       }
       testID="btn-filter-spaces"
     >
       <View
         style={
-          [
-            {
-              "pointerEvents": "none",
-            },
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-            },
-            undefined,
-          ]
+          {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "gap": 4,
+            "justifyContent": "center",
+          }
         }
       >
-        <Text
-          accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          selectable={true}
-          style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
-        >
-          spaces.members.invite
-        </Text>
         <View
           style={
             {
-              "marginBottom": 2,
-              "marginLeft": 6,
+              "height": 40,
+              "justifyContent": "center",
             }
           }
         >
+          <Text
+            accessible={false}
+            role="none"
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "auto",
+              }
+            }
+          >
+            spaces.members.invite
+          </Text>
+        </View>
+        <View>
           <RNSVGSvgView
             align="xMidYMid"
             bbHeight={16}
@@ -1948,11 +1930,9 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -2024,7 +2004,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "checked": undefined,
                             "disabled": false,
                             "expanded": undefined,
-                            "selected": undefined,
+                            "selected": false,
                           }
                         }
                         accessibilityValue={
@@ -2036,6 +2016,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                         }
                         accessible={true}
+                        aria-pressed={false}
                         collapsable={false}
                         focusable={true}
                         onBlur={[Function]}
@@ -2049,32 +2030,17 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         onStartShouldSetResponder={[Function]}
                         style={
                           [
-                            [
-                              {
-                                "width": "100%",
-                              },
-                              {
-                                "backgroundColor": "#fff",
-                                "borderColor": "#262424",
-                                "borderRadius": 28,
-                                "borderWidth": 2,
-                                "display": "flex",
-                                "elevation": 0,
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                                "paddingHorizontal": 32,
-                                "paddingVertical": 13,
-                              },
-                              {
-                                "borderRadius": 16,
-                                "paddingHorizontal": 16,
-                                "paddingVertical": 6,
-                              },
-                            ],
                             {
-                              "borderRadius": 50,
-                              "width": 40,
-                              "zIndex": 4,
+                              "backgroundColor": "#ffffff",
+                              "borderColor": "#262424",
+                              "borderRadius": 1000,
+                              "borderStyle": "solid",
+                              "borderWidth": 1,
+                              "boxShadow": "0 0 0 0px #262424",
+                              "display": "flex",
+                              "height": 32,
+                              "padding": 8,
+                              "width": 32,
                             },
                           ]
                         }
@@ -2082,28 +2048,24 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "pointerEvents": "none",
-                              },
-                              {
-                                "alignItems": "center",
-                                "flexDirection": "row",
-                                "justifyContent": "center",
-                              },
-                              undefined,
-                            ]
+                            {
+                              "alignItems": "center",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "gap": 4,
+                              "justifyContent": "center",
+                            }
                           }
                         >
                           <View>
                             <RNSVGSvgView
                               align="xMidYMid"
-                              bbHeight={22}
-                              bbWidth={22}
+                              bbHeight={16}
+                              bbWidth={16}
                               color="#262424"
                               fill="none"
                               focusable={false}
-                              height={22}
+                              height={16}
                               meetOrSlice={0}
                               minX={0}
                               minY={0}
@@ -2115,15 +2077,15 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                   },
                                   {
                                     "flex": 0,
-                                    "height": 22,
-                                    "width": 22,
+                                    "height": 16,
+                                    "width": 16,
                                   },
                                 ]
                               }
                               tintColor="#262424"
                               vbHeight={24}
                               vbWidth={24}
-                              width={22}
+                              width={16}
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <RNSVGGroup
@@ -2205,7 +2167,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "checked": undefined,
                             "disabled": false,
                             "expanded": undefined,
-                            "selected": undefined,
+                            "selected": false,
                           }
                         }
                         accessibilityValue={
@@ -2217,6 +2179,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                         }
                         accessible={true}
+                        aria-pressed={false}
                         collapsable={false}
                         focusable={true}
                         onBlur={[Function]}
@@ -2230,35 +2193,17 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         onStartShouldSetResponder={[Function]}
                         style={
                           [
-                            [
-                              {
-                                "width": "100%",
-                              },
-                              {
-                                "backgroundColor": "#fff",
-                                "borderColor": "#262424",
-                                "borderRadius": 28,
-                                "borderWidth": 2,
-                                "display": "flex",
-                                "elevation": 0,
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                                "paddingHorizontal": 32,
-                                "paddingVertical": 13,
-                              },
-                              {
-                                "borderRadius": 16,
-                                "paddingHorizontal": 16,
-                                "paddingVertical": 6,
-                              },
-                              {
-                                "backgroundColor": "#f5ef3f",
-                              },
-                            ],
                             {
-                              "borderRadius": 50,
-                              "width": 40,
-                              "zIndex": 4,
+                              "backgroundColor": "#fdfd80",
+                              "borderColor": "#262424",
+                              "borderRadius": 1000,
+                              "borderStyle": "solid",
+                              "borderWidth": 1,
+                              "boxShadow": "0 0 0 0px #262424",
+                              "display": "flex",
+                              "height": 32,
+                              "padding": 8,
+                              "width": 32,
                             },
                           ]
                         }
@@ -2266,28 +2211,24 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "pointerEvents": "none",
-                              },
-                              {
-                                "alignItems": "center",
-                                "flexDirection": "row",
-                                "justifyContent": "center",
-                              },
-                              undefined,
-                            ]
+                            {
+                              "alignItems": "center",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "gap": 4,
+                              "justifyContent": "center",
+                            }
                           }
                         >
                           <View>
                             <RNSVGSvgView
                               align="xMidYMid"
-                              bbHeight={22}
-                              bbWidth={22}
+                              bbHeight={16}
+                              bbWidth={16}
                               color="#262424"
                               fill="none"
                               focusable={false}
-                              height={22}
+                              height={16}
                               meetOrSlice={0}
                               minX={0}
                               minY={0}
@@ -2299,15 +2240,15 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                   },
                                   {
                                     "flex": 0,
-                                    "height": 22,
-                                    "width": 22,
+                                    "height": 16,
+                                    "width": 16,
                                   },
                                 ]
                               }
                               tintColor="#262424"
                               vbHeight={24}
                               vbWidth={24}
-                              width={22}
+                              width={16}
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <RNSVGGroup
@@ -2442,11 +2383,9 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -2518,7 +2457,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "checked": undefined,
                             "disabled": false,
                             "expanded": undefined,
-                            "selected": undefined,
+                            "selected": false,
                           }
                         }
                         accessibilityValue={
@@ -2530,6 +2469,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                         }
                         accessible={true}
+                        aria-pressed={false}
                         collapsable={false}
                         focusable={true}
                         onBlur={[Function]}
@@ -2543,32 +2483,17 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         onStartShouldSetResponder={[Function]}
                         style={
                           [
-                            [
-                              {
-                                "width": "100%",
-                              },
-                              {
-                                "backgroundColor": "#fff",
-                                "borderColor": "#262424",
-                                "borderRadius": 28,
-                                "borderWidth": 2,
-                                "display": "flex",
-                                "elevation": 0,
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                                "paddingHorizontal": 32,
-                                "paddingVertical": 13,
-                              },
-                              {
-                                "borderRadius": 16,
-                                "paddingHorizontal": 16,
-                                "paddingVertical": 6,
-                              },
-                            ],
                             {
-                              "borderRadius": 50,
-                              "width": 40,
-                              "zIndex": 4,
+                              "backgroundColor": "#ffffff",
+                              "borderColor": "#262424",
+                              "borderRadius": 1000,
+                              "borderStyle": "solid",
+                              "borderWidth": 1,
+                              "boxShadow": "0 0 0 0px #262424",
+                              "display": "flex",
+                              "height": 32,
+                              "padding": 8,
+                              "width": 32,
                             },
                           ]
                         }
@@ -2576,28 +2501,24 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "pointerEvents": "none",
-                              },
-                              {
-                                "alignItems": "center",
-                                "flexDirection": "row",
-                                "justifyContent": "center",
-                              },
-                              undefined,
-                            ]
+                            {
+                              "alignItems": "center",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "gap": 4,
+                              "justifyContent": "center",
+                            }
                           }
                         >
                           <View>
                             <RNSVGSvgView
                               align="xMidYMid"
-                              bbHeight={22}
-                              bbWidth={22}
+                              bbHeight={16}
+                              bbWidth={16}
                               color="#262424"
                               fill="none"
                               focusable={false}
-                              height={22}
+                              height={16}
                               meetOrSlice={0}
                               minX={0}
                               minY={0}
@@ -2609,15 +2530,15 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                   },
                                   {
                                     "flex": 0,
-                                    "height": 22,
-                                    "width": 22,
+                                    "height": 16,
+                                    "width": 16,
                                   },
                                 ]
                               }
                               tintColor="#262424"
                               vbHeight={24}
                               vbWidth={24}
-                              width={22}
+                              width={16}
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <RNSVGGroup
@@ -2699,7 +2620,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "checked": undefined,
                             "disabled": false,
                             "expanded": undefined,
-                            "selected": undefined,
+                            "selected": false,
                           }
                         }
                         accessibilityValue={
@@ -2711,6 +2632,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                         }
                         accessible={true}
+                        aria-pressed={false}
                         collapsable={false}
                         focusable={true}
                         onBlur={[Function]}
@@ -2724,35 +2646,17 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         onStartShouldSetResponder={[Function]}
                         style={
                           [
-                            [
-                              {
-                                "width": "100%",
-                              },
-                              {
-                                "backgroundColor": "#fff",
-                                "borderColor": "#262424",
-                                "borderRadius": 28,
-                                "borderWidth": 2,
-                                "display": "flex",
-                                "elevation": 0,
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                                "paddingHorizontal": 32,
-                                "paddingVertical": 13,
-                              },
-                              {
-                                "borderRadius": 16,
-                                "paddingHorizontal": 16,
-                                "paddingVertical": 6,
-                              },
-                              {
-                                "backgroundColor": "#f5ef3f",
-                              },
-                            ],
                             {
-                              "borderRadius": 50,
-                              "width": 40,
-                              "zIndex": 4,
+                              "backgroundColor": "#fdfd80",
+                              "borderColor": "#262424",
+                              "borderRadius": 1000,
+                              "borderStyle": "solid",
+                              "borderWidth": 1,
+                              "boxShadow": "0 0 0 0px #262424",
+                              "display": "flex",
+                              "height": 32,
+                              "padding": 8,
+                              "width": 32,
                             },
                           ]
                         }
@@ -2760,28 +2664,24 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "pointerEvents": "none",
-                              },
-                              {
-                                "alignItems": "center",
-                                "flexDirection": "row",
-                                "justifyContent": "center",
-                              },
-                              undefined,
-                            ]
+                            {
+                              "alignItems": "center",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "gap": 4,
+                              "justifyContent": "center",
+                            }
                           }
                         >
                           <View>
                             <RNSVGSvgView
                               align="xMidYMid"
-                              bbHeight={22}
-                              bbWidth={22}
+                              bbHeight={16}
+                              bbWidth={16}
                               color="#262424"
                               fill="none"
                               focusable={false}
-                              height={22}
+                              height={16}
                               meetOrSlice={0}
                               minX={0}
                               minY={0}
@@ -2793,15 +2693,15 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                   },
                                   {
                                     "flex": 0,
-                                    "height": 22,
-                                    "width": 22,
+                                    "height": 16,
+                                    "width": 16,
                                   },
                                 ]
                               }
                               tintColor="#262424"
                               vbHeight={24}
                               vbWidth={24}
-                              width={22}
+                              width={16}
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <RNSVGGroup
@@ -2936,11 +2836,9 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                           style={
                             {
-                              "bottom": 0,
-                              "left": 0,
-                              "position": "absolute",
-                              "right": 0,
-                              "top": 0,
+                              "aspectRatio": 1,
+                              "height": undefined,
+                              "width": "100%",
                             }
                           }
                         />
@@ -3012,7 +2910,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "checked": undefined,
                             "disabled": false,
                             "expanded": undefined,
-                            "selected": undefined,
+                            "selected": false,
                           }
                         }
                         accessibilityValue={
@@ -3024,6 +2922,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                         }
                         accessible={true}
+                        aria-pressed={false}
                         collapsable={false}
                         focusable={true}
                         onBlur={[Function]}
@@ -3037,32 +2936,17 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         onStartShouldSetResponder={[Function]}
                         style={
                           [
-                            [
-                              {
-                                "width": "100%",
-                              },
-                              {
-                                "backgroundColor": "#fff",
-                                "borderColor": "#262424",
-                                "borderRadius": 28,
-                                "borderWidth": 2,
-                                "display": "flex",
-                                "elevation": 0,
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                                "paddingHorizontal": 32,
-                                "paddingVertical": 13,
-                              },
-                              {
-                                "borderRadius": 16,
-                                "paddingHorizontal": 16,
-                                "paddingVertical": 6,
-                              },
-                            ],
                             {
-                              "borderRadius": 50,
-                              "width": 40,
-                              "zIndex": 4,
+                              "backgroundColor": "#ffffff",
+                              "borderColor": "#262424",
+                              "borderRadius": 1000,
+                              "borderStyle": "solid",
+                              "borderWidth": 1,
+                              "boxShadow": "0 0 0 0px #262424",
+                              "display": "flex",
+                              "height": 32,
+                              "padding": 8,
+                              "width": 32,
                             },
                           ]
                         }
@@ -3070,28 +2954,24 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "pointerEvents": "none",
-                              },
-                              {
-                                "alignItems": "center",
-                                "flexDirection": "row",
-                                "justifyContent": "center",
-                              },
-                              undefined,
-                            ]
+                            {
+                              "alignItems": "center",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "gap": 4,
+                              "justifyContent": "center",
+                            }
                           }
                         >
                           <View>
                             <RNSVGSvgView
                               align="xMidYMid"
-                              bbHeight={22}
-                              bbWidth={22}
+                              bbHeight={16}
+                              bbWidth={16}
                               color="#262424"
                               fill="none"
                               focusable={false}
-                              height={22}
+                              height={16}
                               meetOrSlice={0}
                               minX={0}
                               minY={0}
@@ -3103,15 +2983,15 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                   },
                                   {
                                     "flex": 0,
-                                    "height": 22,
-                                    "width": 22,
+                                    "height": 16,
+                                    "width": 16,
                                   },
                                 ]
                               }
                               tintColor="#262424"
                               vbHeight={24}
                               vbWidth={24}
-                              width={22}
+                              width={16}
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <RNSVGGroup
@@ -3193,7 +3073,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                             "checked": undefined,
                             "disabled": false,
                             "expanded": undefined,
-                            "selected": undefined,
+                            "selected": false,
                           }
                         }
                         accessibilityValue={
@@ -3205,6 +3085,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           }
                         }
                         accessible={true}
+                        aria-pressed={false}
                         collapsable={false}
                         focusable={true}
                         onBlur={[Function]}
@@ -3218,35 +3099,17 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                         onStartShouldSetResponder={[Function]}
                         style={
                           [
-                            [
-                              {
-                                "width": "100%",
-                              },
-                              {
-                                "backgroundColor": "#fff",
-                                "borderColor": "#262424",
-                                "borderRadius": 28,
-                                "borderWidth": 2,
-                                "display": "flex",
-                                "elevation": 0,
-                                "justifyContent": "center",
-                                "overflow": "hidden",
-                                "paddingHorizontal": 32,
-                                "paddingVertical": 13,
-                              },
-                              {
-                                "borderRadius": 16,
-                                "paddingHorizontal": 16,
-                                "paddingVertical": 6,
-                              },
-                              {
-                                "backgroundColor": "#f5ef3f",
-                              },
-                            ],
                             {
-                              "borderRadius": 50,
-                              "width": 40,
-                              "zIndex": 4,
+                              "backgroundColor": "#fdfd80",
+                              "borderColor": "#262424",
+                              "borderRadius": 1000,
+                              "borderStyle": "solid",
+                              "borderWidth": 1,
+                              "boxShadow": "0 0 0 0px #262424",
+                              "display": "flex",
+                              "height": 32,
+                              "padding": 8,
+                              "width": 32,
                             },
                           ]
                         }
@@ -3254,28 +3117,24 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                       >
                         <View
                           style={
-                            [
-                              {
-                                "pointerEvents": "none",
-                              },
-                              {
-                                "alignItems": "center",
-                                "flexDirection": "row",
-                                "justifyContent": "center",
-                              },
-                              undefined,
-                            ]
+                            {
+                              "alignItems": "center",
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "gap": 4,
+                              "justifyContent": "center",
+                            }
                           }
                         >
                           <View>
                             <RNSVGSvgView
                               align="xMidYMid"
-                              bbHeight={22}
-                              bbWidth={22}
+                              bbHeight={16}
+                              bbWidth={16}
                               color="#262424"
                               fill="none"
                               focusable={false}
-                              height={22}
+                              height={16}
                               meetOrSlice={0}
                               minX={0}
                               minY={0}
@@ -3287,15 +3146,15 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                   },
                                   {
                                     "flex": 0,
-                                    "height": 22,
-                                    "width": 22,
+                                    "height": 16,
+                                    "width": 16,
                                   },
                                 ]
                               }
                               tintColor="#262424"
                               vbHeight={24}
                               vbWidth={24}
-                              width={22}
+                              width={16}
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <RNSVGGroup
@@ -3343,6 +3202,19 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
           "position": "absolute",
           "width": "100%",
         },
+        {
+          "alignSelf": "center",
+          "maxWidth": 840,
+          "paddingHorizontal": 32,
+          "width": "100%",
+        },
+        {
+          "bottom": 16,
+          "flex": 1,
+          "maxWidth": 420,
+          "paddingHorizontal": 16,
+          "paddingVertical": 12,
+        },
       ]
     }
   >
@@ -3355,7 +3227,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
           "checked": undefined,
           "disabled": false,
           "expanded": undefined,
-          "selected": undefined,
+          "selected": false,
         }
       }
       accessibilityValue={
@@ -3367,6 +3239,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
         }
       }
       accessible={true}
+      aria-pressed={false}
       collapsable={false}
       focusable={true}
       onBlur={[Function]}
@@ -3380,91 +3253,65 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         [
-          [
-            {
-              "width": "auto",
-            },
-            {
-              "backgroundColor": "#fff",
-              "borderColor": "#262424",
-              "borderRadius": 28,
-              "borderWidth": 2,
-              "display": "flex",
-              "elevation": 0,
-              "justifyContent": "center",
-              "overflow": "hidden",
-              "paddingHorizontal": 32,
-              "paddingVertical": 13,
-            },
-            {
-              "backgroundColor": "#f5ef3f",
-            },
-          ],
-          [
-            {
-              "alignSelf": "center",
-              "maxWidth": 840,
-              "paddingHorizontal": 32,
-              "width": "100%",
-            },
-            {
-              "borderWidth": 1,
-              "bottom": 16,
-              "flex": 1,
-              "maxWidth": 420,
-              "paddingHorizontal": 16,
-              "paddingVertical": 12,
-            },
-          ],
+          {
+            "backgroundColor": "#fdfd80",
+            "borderColor": "#262424",
+            "borderRadius": 1000,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "boxShadow": "0 0 0 0px #262424",
+            "display": "flex",
+            "paddingHorizontal": 16,
+            "width": "auto",
+          },
         ]
       }
       testID="btn-filter-spaces"
     >
       <View
         style={
-          [
-            {
-              "pointerEvents": "none",
-            },
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-            },
-            undefined,
-          ]
+          {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "gap": 4,
+            "justifyContent": "center",
+          }
         }
       >
-        <Text
-          accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
-          selectable={true}
-          style={
-            {
-              "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
-              "fontSize": 14,
-              "fontWeight": "500",
-              "lineHeight": 19.599999999999998,
-              "userSelect": "auto",
-            }
-          }
-        >
-          spaces.members.invite
-        </Text>
         <View
           style={
             {
-              "marginBottom": 2,
-              "marginLeft": 6,
+              "height": 40,
+              "justifyContent": "center",
             }
           }
         >
+          <Text
+            accessible={false}
+            role="none"
+            selectable={true}
+            style={
+              {
+                "color": "#262424",
+                "fontFamily": "InstrumentSans-Regular",
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
+                "fontWeight": "400",
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
+                "userSelect": "auto",
+              }
+            }
+          >
+            spaces.members.invite
+          </Text>
+        </View>
+        <View>
           <RNSVGSvgView
             align="xMidYMid"
             bbHeight={16}

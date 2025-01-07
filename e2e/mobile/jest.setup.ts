@@ -2,8 +2,7 @@ import * as webdriverio from 'webdriverio'
 
 import appiumConfig, { target as appiumConfigTarget } from './appiumConfig'
 import type { PlatformType, TargetType } from './global'
-import { logout } from './helpers/auth'
-import { waitForHomeScreen } from './helpers/navigation'
+import { logout, skipOnboardingIfNecessary } from './helpers/auth'
 import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId } from './helpers/selectors'
 
 platform = appiumConfig.platform as PlatformType
@@ -23,28 +22,15 @@ beforeEach(
     await resetImplicitTimeout()
 
     // @ts-ignore custom capabilities are not covered by the type
-    if (appiumConfig.capabilities['appium:app']) {
-      let numAttempts = 5
-      let appRunning = false
-      // Installing and starting the app on local emulator might take very long
-      // expo app starts quickly, but it takes some time in the expo splash screen until our app is fully functional, therefore we poll wait here.
-      const homeScreenTimeout = target === 'local' ? 60000 : 4000
-      while (!appRunning && numAttempts) {
-        // Wait for the app to start
-        try {
-          await waitForElementWithTestId('btn-consentModal-declineAll', homeScreenTimeout)
-          appRunning = true
-        } catch (e) {
-          numAttempts--
-        }
-      }
-      // Decline tracking and skip onboarding
-      await tapOnElementWithTestId('btn-consentModal-declineAll')
-      await tapOnElementWithTestId('btn-to-onboarding')
-      await tapOnElementWithTestId('holi-wizard-skip-btn')
-      await tapOnElementWithTestId('btn-to-continue-as-guest')
-      await waitForHomeScreen(homeScreenTimeout)
-    } else {
+    const runsInBrowserStack = appiumConfig.capabilities['appium:app']
+    const homeScreenTimeout = 4000
+    await waitForStartupAndDeclineTrackingConsent({
+      homeScreenTimeout,
+      numAttempts: runsInBrowserStack ? 5 : 1,
+    })
+    await skipOnboardingIfNecessary(homeScreenTimeout)
+
+    if (!runsInBrowserStack) {
       // Logout + navigate back to the home screen before each test
       await logout()
     }
@@ -61,3 +47,22 @@ afterEach(async () => {
   }
   await Appium?.deleteSession()
 })
+
+async function waitForStartupAndDeclineTrackingConsent({
+  homeScreenTimeout,
+  numAttempts,
+}: { homeScreenTimeout: number; numAttempts: number }) {
+  let appRunning = false
+  // Installing and starting the app on local emulator might take very long
+  // expo app starts quickly, but it takes some time in the expo splash screen until our app is fully functional, therefore we poll wait here.
+  while (!appRunning && numAttempts) {
+    // Wait for the app to start
+    try {
+      await waitForElementWithTestId('btn-consentModal-declineAll', homeScreenTimeout)
+      await tapOnElementWithTestId('btn-consentModal-declineAll')
+      appRunning = true
+    } catch (e) {
+      numAttempts--
+    }
+  }
+}

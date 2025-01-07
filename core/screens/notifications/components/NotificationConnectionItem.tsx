@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -6,14 +7,15 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useUserConnection } from '@holi/core/helpers'
 import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'
 import {
-  Notification,
-  NotificationConnection,
-  NotificationProps,
+  type Notification,
+  type NotificationConnection,
+  type NotificationProps,
   NotificationType,
 } from '@holi/core/screens/notifications/components/types'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { Button } from 'holi-bricks/components/button'
+import { Spacing } from 'holi-bricks/tokens'
 
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.CONNECTION_ACCEPTED ||
@@ -67,30 +69,26 @@ const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnect
   }
 
   const buttons = [
-    <HoliButton
+    <Button
+      inline
       key="decline"
-      type="secondary"
-      variant="small"
+      variant="secondary"
+      size="sm"
       label={t('notifications.connection.ignore')}
       onPress={() => disconnect(userId).then(() => setConnectionAccepted(false))}
       disabled={loading}
-      style={styles.button}
       testID="ignore-connection-request-button"
-    >
-      {t('notifications.connection.ignore')}
-    </HoliButton>,
-    <HoliButton
+    />,
+    <Button
+      inline
       key="accept"
-      type="primary"
-      variant="small"
+      variant="primary"
+      size="sm"
       label={t('notifications.connection.accept')}
       onPress={() => connect(userId).then(() => setConnectionAccepted(true))}
       disabled={loading}
-      style={styles.button}
       testID="accept-connection-request-button"
-    >
-      {t('notifications.connection.accept')}
-    </HoliButton>,
+    />,
   ]
 
   return (
@@ -118,10 +116,8 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   buttonContainer: {
-    paddingLeft: 48,
-  },
-  button: {
-    marginTop: 12,
+    paddingLeft: Spacing.xxl,
+    marginTop: Spacing.xxs,
   },
 })
 

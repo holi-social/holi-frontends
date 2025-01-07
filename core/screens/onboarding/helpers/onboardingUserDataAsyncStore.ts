@@ -8,7 +8,7 @@ export const storeOnboardingUserDataAsyncStore = async (userData: OnboardingUser
   try {
     await AsyncStore.setItem(ONBOARDING_USER_DATA_KEY, JSON.stringify(userData))
   } catch (error) {
-    logError(error, 'storeOnboardingUserDataAsyncStore: Failed to store onboarding user data', {
+    logError(error, 'Failed to store onboarding user data', {
       location: 'onboarding.storeOnboardingUserDataAsyncStore',
     })
   }
@@ -18,7 +18,7 @@ export const getOnboardingUserDataAsyncStore = async (): Promise<OnboardingUserD
     const userData = await AsyncStore.getItem(ONBOARDING_USER_DATA_KEY)
     return userData ? JSON.parse(userData) : null
   } catch (error) {
-    logError(error, 'getOnboardingUserDataAsyncStore: Failed to get onboarding user data', {
+    logError(error, 'Failed to get onboarding user data', {
       location: 'onboarding.getOnboardingUserDataAsyncStore',
     })
     return null
@@ -28,7 +28,7 @@ export const clearOnboardingUserDataAsyncStore = async (): Promise<void> => {
   try {
     await AsyncStore.removeItem(ONBOARDING_USER_DATA_KEY)
   } catch (error) {
-    logError(error, 'clearOnboardingUserDataAsyncStore: Failed to remove onboarding user data', {
+    logError(error, 'Failed to remove onboarding user data', {
       location: 'onboarding.clearOnboardingUserDataAsyncStore',
     })
   }

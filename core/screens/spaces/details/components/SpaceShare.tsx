@@ -1,11 +1,11 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Share as ShareIcon } from '@holi/icons/src/generated'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
+import { Button } from 'holi-bricks/components/button'
 
 type SpaceShareProps = {
   space: Space
@@ -27,16 +27,17 @@ const SpaceShare: React.FC<SpaceShareProps> = ({ space, style }: SpaceShareProps
   const isAdministrator = space.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
 
   return isCollaborator || isAdministrator ? (
-    <HoliButtonLoading
-      inline
-      type="secondary"
-      variant="small"
-      label={t('spaces.share')}
-      onPress={shareLink}
-      style={style}
-      icon={ShareIcon}
-      testID="space-share-btn"
-    />
+    <View style={style}>
+      <Button
+        inline
+        variant="secondary"
+        size="sm"
+        label={t('spaces.share')}
+        onPress={shareLink}
+        icon={ShareIcon}
+        testID="space-share-btn"
+      />
+    </View>
   ) : null
 }
 

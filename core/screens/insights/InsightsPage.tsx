@@ -5,10 +5,10 @@ import {
   type DimensionValue,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   View,
   useWindowDimensions,
-  ScrollView,
 } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers/logError'
@@ -48,7 +48,7 @@ const InsightsList = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
+  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState()
 
   const { loading, data: insights, totalResults } = usePaginationContext<Insight>()
 
@@ -211,7 +211,7 @@ const InsightsPage = () => {
             queryOptions={queryOptions}
             scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
             fetchMoreButtonProps={{
-              type: 'secondary',
+              variant: 'secondary',
               style: mixins.moreButton,
             }}
           >

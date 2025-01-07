@@ -19,7 +19,6 @@ import {
   type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Image } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -147,14 +146,10 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
           label: t('profile.avatar.add'),
           transparent: true,
           inline: true,
+          icon: Image,
         }}
         onPickImage={setPickedAvatar}
-      >
-        <View style={styles.addImage}>
-          <HoliText style={{ marginRight: 12 }}>{t('profile.avatar.add')}</HoliText>
-          <HoliIcon icon={Image} color={colors.foreground20} />
-        </View>
-      </HoliImagePicker>
+      />
     </View>
   )
 
@@ -291,11 +286,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     headerContainer: {
       alignItems: 'center',
-    },
-    addImage: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 16,
     },
     input: {
       marginBottom: 16,

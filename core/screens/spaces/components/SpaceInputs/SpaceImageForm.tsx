@@ -1,14 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type SpaceImageFormProps = {
   title?: string
@@ -75,9 +76,7 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
                   inline: true,
                 }}
                 onPickImage={onUploadImage}
-              >
-                <HoliText numberOfLines={1}>{t('spaces.input.coverImage.change.button.label')}</HoliText>
-              </HoliImagePicker>
+              />
             </View>
           </>
         )) || (
@@ -94,9 +93,7 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
                 style: styles.imageUploadButton,
               }}
               onPickImage={onUploadImage}
-            >
-              <HoliText numberOfLines={1}>{t('spaces.input.coverImage.upload.button.label')}</HoliText>
-            </HoliImagePicker>
+            />
           </View>
         )}
         <Instructions />
