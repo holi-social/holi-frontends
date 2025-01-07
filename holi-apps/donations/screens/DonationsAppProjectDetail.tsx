@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View, ScrollView } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import { HoliButtonTracked } from '@holi/core/components/Trackable'
@@ -33,6 +33,7 @@ import DonationInitiativeButton from '@holi-apps/donations/components/DonationIn
 import DonationNews from '@holi-apps/donations/components/DonationNews'
 import DonationProgress from '@holi-apps/donations/components/DonationProgress'
 import { type AppDonationsProjectByIdResponse, donationProjectByIdQuery } from '@holi-apps/donations/queries'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type DonationsAppProjectDetailParams = {
   projectId: string
@@ -98,7 +99,7 @@ const DonationsAppProjectDetail = () => {
         style={{ alignItems: 'center', flex: 1, backgroundColor: colors.background30 }}
         testID="donations-detailview-container"
       >
-        <ScrollView style={{ backgroundColor: colors.background30 }}>
+        <ScrollViewRefreshable style={{ backgroundColor: colors.background30 }}>
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <DonationImage picture={project.picture} label={project.title} style={styles.image} width={imageWidth} />
             <View style={styles.header}>
@@ -134,7 +135,7 @@ const DonationsAppProjectDetail = () => {
               />
             )}
           </View>
-        </ScrollView>
+        </ScrollViewRefreshable>
 
         <View style={[mixins.container, styles.donateButtonContainer]}>
           <HoliLink

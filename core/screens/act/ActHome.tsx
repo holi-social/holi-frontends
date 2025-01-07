@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
@@ -12,6 +12,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 type ActHomeParams = {
   section: string
@@ -58,14 +59,14 @@ const ActHome = () => {
   const sections = orderedSections(selectedContentType)
 
   return (
-    <ScrollView style={styles.layout}>
+    <ScrollViewRefreshable style={styles.layout}>
       <View style={styles.container}>
         <AttendingChallengeEventsLegacy />
         {sections.map((sectionName) => (
           <ActSection type={sectionName} key={sectionName} />
         ))}
       </View>
-    </ScrollView>
+    </ScrollViewRefreshable>
   )
 }
 

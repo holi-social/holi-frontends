@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
@@ -21,6 +21,7 @@ import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawe
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -100,11 +101,11 @@ const TaskDetails = () => {
       />
 
       <SeoTitle seoTitle={`${task.name} | ${space.name}`.trim()} />
-      <ScrollView style={styles.defaultLayout} contentContainerStyle={styles.contentStyle}>
+      <ScrollViewRefreshable style={styles.defaultLayout} contentContainerStyle={styles.contentStyle}>
         <HoliContainer>
           <SpaceTaskTile variant="full" task={task} space={space} />
         </HoliContainer>
-      </ScrollView>
+      </ScrollViewRefreshable>
     </>
   )
 }

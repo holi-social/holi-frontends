@@ -19,7 +19,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type SpaceTasksParams = {
   spaceIdOrName: string
@@ -75,7 +75,7 @@ const SpaceTasks = () => {
           <HoliIcon icon={Add} size={24} />
         </HoliButton>
       )}
-      <KeyboardAwareScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
+      <ScrollViewRefreshable style={styles.defaultLayout} keyboardShouldPersistTaps="handled">
         <HoliBox padding={[24, 0]}>
           <HoliContainer>
             <HoliBox padding={[0, 0, 24, 0]}>
@@ -83,7 +83,7 @@ const SpaceTasks = () => {
             </HoliBox>
           </HoliContainer>
         </HoliBox>
-      </KeyboardAwareScrollView>
+      </ScrollViewRefreshable>
     </>
   )
 }

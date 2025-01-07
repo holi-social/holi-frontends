@@ -2,7 +2,6 @@ import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -17,6 +16,7 @@ import DonationListingContainer from '@holi-apps/donations/components/DonationLi
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -84,7 +84,7 @@ const DonationsAppHome = () => {
 
   return (
     <>
-      <KeyboardAwareScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="always">
+      <ScrollViewRefreshable style={styles.defaultLayout} keyboardShouldPersistTaps="always">
         <HoliModal
           show={showSearchModal}
           onDismiss={closeModal}
@@ -100,7 +100,7 @@ const DonationsAppHome = () => {
         <View style={[mixins.container]} testID={'donations-list-container'}>
           <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
         </View>
-      </KeyboardAwareScrollView>
+      </ScrollViewRefreshable>
     </>
   )
 }

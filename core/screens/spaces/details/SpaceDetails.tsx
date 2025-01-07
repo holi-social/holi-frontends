@@ -39,7 +39,7 @@ import { useHoliTabQueryParamSetter } from '@holi/ui/components/organisms/HoliTa
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { AskQuestion } from '@holi/core/screens/spaces/details/components/AskQuestion'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -287,13 +287,13 @@ const SpaceDetails = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <KeyboardAwareScrollView
+      <ScrollViewRefreshable
         style={{ backgroundColor: colors.background20, flex: 1 }}
         keyboardShouldPersistTaps="handled"
       >
         {activeTab && <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onTabChange} />}
         <SpaceOnboardModal visible={visible} handleModalClose={handleModalClose} />
-      </KeyboardAwareScrollView>
+      </ScrollViewRefreshable>
 
       {isMember && activeTab && (
         <HoliTransition.FadeRightSwitch animKey={activeTab} style={styles.floatingButtonsContainer}>

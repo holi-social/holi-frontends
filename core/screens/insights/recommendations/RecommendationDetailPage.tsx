@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, type ImageStyle, Linking, Platform, StyleSheet, View, ScrollView } from 'react-native'
+import { type DimensionValue, type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -27,6 +27,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type RecommendationDetailPageParams = {
   insightId: string
@@ -107,7 +108,7 @@ const RecommendationDetailPage = () => {
 
   return (
     <>
-      <ScrollView style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
+      <ScrollViewRefreshable style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
         {recommendation && !loading ? (
           <View style={styles.content}>
             {recommendation.linkPreview.image && (
@@ -143,7 +144,7 @@ const RecommendationDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollView>
+      </ScrollViewRefreshable>
 
       {recommendation && !loading && (
         <View style={styles.footer}>

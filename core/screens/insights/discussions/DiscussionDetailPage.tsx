@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
@@ -24,6 +24,7 @@ import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type DiscussionDetailPageParams = {
   discussionId: string
@@ -95,7 +96,7 @@ const DiscussionDetailPage = () => {
     <>
       <StatusBar backgroundColor={theme.colors.background10} style={theme.dark ? 'light' : 'dark'} />
 
-      <ScrollView style={styles.wrapper} contentContainerStyle={styles.wrapperContent}>
+      <ScrollViewRefreshable style={styles.wrapper} contentContainerStyle={styles.wrapperContent}>
         <HoliContainer noPadding>
           {discussion ? <DiscussionHeader question={discussion.question} /> : <LoadingSkeleton />}
           {discussionId && (
@@ -110,7 +111,7 @@ const DiscussionDetailPage = () => {
             </View>
           )}
         </HoliContainer>
-      </ScrollView>
+      </ScrollViewRefreshable>
 
       <SafeArea edges={['bottom']}>
         <View style={styles.commentWrapper}>

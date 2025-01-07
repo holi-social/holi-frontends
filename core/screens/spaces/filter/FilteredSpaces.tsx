@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import FilterModal from '@holi/core/components/FIlterModal'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -23,6 +23,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 const { useUpdateParams } = createParamHooks<FilteredSpacesPageParams>()
 
@@ -72,7 +73,7 @@ const FilteredSpaces = () => {
 
   return (
     <SpaceTermContextProvider>
-      <ScrollView style={styles.container} testID="filtered-spaces-container">
+      <ScrollViewRefreshable style={styles.container} testID="filtered-spaces-container">
         <HoliContainer>
           <FilteredSpacesHeading locationId={locationId} topicSlugs={topicSlugs} skillSlugs={skillSlugs} />
           {isLoading ? (
@@ -90,7 +91,7 @@ const FilteredSpaces = () => {
         </HoliContainer>
 
         <HoliGap size="xl" />
-      </ScrollView>
+      </ScrollViewRefreshable>
 
       <FilterModal
         actionButtonVisible
