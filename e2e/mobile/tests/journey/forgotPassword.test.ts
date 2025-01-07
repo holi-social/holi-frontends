@@ -1,9 +1,21 @@
-import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import {
+  checkIfElementWithTestIdExists,
+  tapOnElementWithTestId,
+  tapOnLoginLinkInText,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 
 describe('@ForgotPassword', () => {
   it('validates and submits the form', async () => {
-    await tapOnElementWithTestId('btn-to-anonymous-profile-view', 10000)
-    await tapOnElementWithTestId('anonymous-profile-login-btn')
+    if (await checkIfElementWithTestIdExists('btn-to-onboarding', 1000)) {
+      // Press login link on welcome screen
+      await tapOnLoginLinkInText()
+    } else {
+      // Login from anonymous profile screen
+      await tapOnElementWithTestId('btn-to-anonymous-profile-view', 10000)
+      await tapOnElementWithTestId('anonymous-profile-login-btn')
+    }
+
     await tapOnElementWithTestId('btn-to-forgot-password-form')
 
     await waitForElementWithTestId('web-view')
@@ -37,6 +49,5 @@ describe('@ForgotPassword', () => {
 
     // close login modal
     await tapOnElementWithTestId('nav-button-back')
-    await tapOnElementWithTestId('btn-to-home-view')
   })
 })
