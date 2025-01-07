@@ -1,24 +1,22 @@
 import { withProfiler } from '@sentry/react'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import type { Space } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType, VisibilityFilter } from '@holi/core/screens/spaces/types'
 import SpaceUpdatesList from '@holi/core/screens/spaces/updates/components/SpaceUpdatesList'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ChipAction } from 'holi-bricks/components/chips'
+import { Spacing } from 'holi-bricks/tokens'
 
 export interface SpaceUpdatesTabProps {
   space: Space
@@ -30,9 +28,7 @@ export const POSTS_RESULT_PAGE_SIZE = 10
 export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = getStyles()
 
   const [filter, setFilter] = useState(VisibilityFilter.ALL)
 
@@ -59,9 +55,6 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   const isFilterMembers = filter === VisibilityFilter.MEMBERS
   const showNoResults = !hasPosts || (!isMember && !space.hasPublicPosts)
 
-  const setButtonStyles = (isSelected: boolean) =>
-    StyleSheet.flatten([styles.buttonSpacing, isSelected ? styles.buttonSelected : {}])
-
   return (
     <View style={style}>
       {showNoResults && (
@@ -81,58 +74,35 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
       )}
       {hasPosts && hasPostFilter && (
         <ScrollView horizontal contentContainerStyle={styles.buttonContainer} style={styles.buttonWrapper}>
-          <HoliButton
-            type="secondary"
-            label={t('spaces.updates.filter.all')}
+          <ChipAction
             onPress={() => setFilter(VisibilityFilter.ALL)}
-            style={setButtonStyles(isFilterAll)}
+            selected={isFilterAll}
+            color="white"
+            size="lg"
+            id="1"
           >
-            <HoliText size="small" numberOfLines={1} ellipsizeMode="clip" color={isFilterAll ? 'white100' : 'black300'}>
-              {t('spaces.updates.filter.all')}
-            </HoliText>
-          </HoliButton>
-          <HoliButton
-            type="secondary"
-            label={t('spaces.updates.filter.public')}
+            {t('spaces.updates.filter.all')}
+          </ChipAction>
+          <ChipAction
             onPress={() => setFilter(VisibilityFilter.PUBLIC)}
-            style={setButtonStyles(isFilterPublic)}
+            selected={isFilterPublic}
+            color="white"
+            size="lg"
+            id="1"
+            iconLeading={GlobalFilled}
           >
-            <HoliIcon
-              icon={GlobalFilled}
-              size={14}
-              color={isFilterPublic ? colors.white100 : colors.foreground30}
-              style={styles.icon}
-            />
-            <HoliText
-              size="small"
-              numberOfLines={1}
-              ellipsizeMode="clip"
-              color={isFilterPublic ? 'white100' : 'black300'}
-            >
-              {t('spaces.updates.filter.public')}
-            </HoliText>
-          </HoliButton>
-          <HoliButton
-            type="secondary"
-            label={t('spaces.updates.filter.members')}
+            {t('spaces.updates.filter.public')}
+          </ChipAction>
+          <ChipAction
             onPress={() => setFilter(VisibilityFilter.MEMBERS)}
-            style={setButtonStyles(isFilterMembers)}
+            selected={isFilterMembers}
+            color="white"
+            size="lg"
+            id="1"
+            iconLeading={LockFilled}
           >
-            <HoliIcon
-              icon={LockFilled}
-              size={14}
-              color={isFilterMembers ? colors.white100 : colors.foreground30}
-              style={styles.icon}
-            />
-            <HoliText
-              size="small"
-              numberOfLines={1}
-              ellipsizeMode="clip"
-              color={isFilterMembers ? 'white100' : 'black300'}
-            >
-              {t('spaces.updates.filter.members')}
-            </HoliText>
-          </HoliButton>
+            {t('spaces.updates.filter.members')}
+          </ChipAction>
         </ScrollView>
       )}
 
@@ -151,7 +121,7 @@ export const SpaceUpdatesTab = ({ space, style }: SpaceUpdatesTabProps) => {
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
     buttonContainer: {
       flexGrow: 1,
@@ -159,24 +129,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     buttonWrapper: {
       paddingBottom: 12,
-    },
-    buttonSpacing: {
-      paddingHorizontal: 6,
-      paddingVertical: 8,
-      flex: 1,
-      ...Platform.select({
-        web: {
-          minWidth: 'fit-content',
-          maxWidth: '33%',
-        },
-      }),
-    },
-    buttonSelected: {
-      backgroundColor: theme.colors.foreground30,
-      borderColor: theme.colors.foreground30,
-    },
-    icon: {
-      marginRight: 5,
+      padding: Spacing['4xs'],
     },
     loaderBottom: {
       marginBottom: 24,

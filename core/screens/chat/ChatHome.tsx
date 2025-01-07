@@ -28,7 +28,10 @@ const ChatHome = () => {
 
   const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
 
-  useToastForNotAvailableFeature(chatFeatureFlag.isOff && !chatFeatureFlag.isUnknown)
+  useToastForNotAvailableFeature({
+    onInitialRender: chatFeatureFlag.isOff && !chatFeatureFlag.isUnknown,
+    feature: 'CHAT',
+  })
 
   useEffect(() => {
     setScreenOptions({

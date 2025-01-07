@@ -14,6 +14,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHo
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
 import {
+  dismissNotificationModal,
   incrementModalAttempts,
   useNotificationEligibility,
 } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
@@ -149,6 +150,11 @@ const ChallengesAppHome = () => {
     setModalVisible(false)
   }
 
+  const handleDismissNotification = async () => {
+    await dismissNotificationModal()
+    setModalVisible(false)
+  }
+
   return (
     <>
       <HoliWebView
@@ -177,6 +183,7 @@ const ChallengesAppHome = () => {
           isVisible={modalVisible}
           onConfirm={handleOptIn}
           onDismiss={handleModalDismiss}
+          dismissModal={handleDismissNotification}
           description={t('notifications.permission.description.challenges')}
         />
       )}

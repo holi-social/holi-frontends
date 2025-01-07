@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, useWindowDimensions, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -12,14 +12,13 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import AllTools from '@holi/core/screens/spaces/linkHub/components/AllTools'
 import SuggestedTools from '@holi/core/screens/spaces/linkHub/components/SuggestedTools'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import TabContentScrollView from '@holi/ui/components/organisms/HoliTabs/TabContentScrollViewLayout'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ButtonIcon } from 'holi-bricks/components/button'
 
 export type LinkHubParams = {
   spaceIdOrName: string
@@ -59,14 +58,15 @@ const LinkHub = () => {
 
   const AddButton = () => {
     return (
-      <HoliButton
-        label={t('spaces.toolKit.add.button.label')}
-        testID="space-add-tool-button"
-        style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-        onPress={onAddButtonPress}
-      >
-        <HoliIcon icon={Add} size={20} />
-      </HoliButton>
+      <View style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}>
+        <ButtonIcon
+          label={t('spaces.toolKit.add.button.label')}
+          testID="space-add-tool-button"
+          onPress={onAddButtonPress}
+          icon={Add}
+          size="lg"
+        />
+      </View>
     )
   }
 
@@ -147,8 +147,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     overlayButton: {
       ...ADD_BUTTON_DIMENSIONS,
-      borderRadius: 28,
-      borderWidth: 1,
       marginRight: 10,
       paddingHorizontal: 0,
       paddingVertical: 0,

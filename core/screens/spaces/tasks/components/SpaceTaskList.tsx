@@ -5,14 +5,13 @@ import { StyleSheet, View } from 'react-native'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { Button } from 'holi-bricks/components/button'
 
 interface SpaceTaskListProps {
   isCollaborator: boolean
@@ -50,15 +49,14 @@ const SpaceTaskList = ({ space, isCollaborator, preview }: SpaceTaskListProps) =
           </HoliGridWrapper>
           {allTasks.length > displayTasks.length && (
             <View style={styles.seeAllButtonContainer}>
-              <HoliButton
-                label={t('spaces.global.seeAllButton.label')}
-                onPress={() => navigateToTasks()}
-                style={styles.seeAllButton}
-                inline
-                type="secondary"
-              >
-                <HoliText>{t('spaces.global.seeAllButton.label')}</HoliText>
-              </HoliButton>
+              <View style={styles.seeAllButton}>
+                <Button
+                  label={t('spaces.global.seeAllButton.label')}
+                  onPress={() => navigateToTasks()}
+                  inline
+                  variant="secondary"
+                />
+              </View>
             </View>
           )}
         </>
@@ -88,7 +86,6 @@ const styles = StyleSheet.create({
   seeAllButton: {
     bottom: 0,
     paddingHorizontal: 20,
-    borderWidth: 1,
     marginTop: 16,
     marginBottom: 8,
   },

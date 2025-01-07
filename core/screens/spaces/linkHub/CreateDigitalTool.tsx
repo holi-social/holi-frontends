@@ -28,6 +28,8 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export type CreateDigitalToolParams = {
   spaceIdOrName: string
@@ -53,6 +55,7 @@ const CreateDigitalTool = () => {
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
   const [inputValid, setInputValid] = useState(true)
   const { openToast } = useToast()
+  const { track } = useTracking()
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
@@ -63,7 +66,10 @@ const CreateDigitalTool = () => {
   })
 
   const [addCollaborationTool] = useMutation<AddCollaborationToolResponse>(addCollaborationToolMutation, {
-    onCompleted: () => navigateBack(),
+    onCompleted: () => {
+      track(TrackingEvent.Spaces.LinkHub.linkAdded(space?.id ?? spaceIdOrName ?? '', selectedCollection?.id ?? ''))
+      return navigateBack()
+    },
     onError: (error) => {
       if (isMaliciousUrlError(error)) {
         openToast(t('global.maliciousUrl.error'), HoliToastType.ERROR)

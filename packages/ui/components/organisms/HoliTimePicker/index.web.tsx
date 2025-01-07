@@ -96,7 +96,7 @@ const HoliTimePicker = ({
           testID={`btn-${testID}`}
           transparent
           contentStyle={[styles.border, styles.button, hovered && styles.buttonHovered]}
-          onPress={modalProps?.show ? hideModal : showModal}
+          onPress={modalProps?.shown ? hideModal : showModal}
           {...hoverPropsForWeb}
         >
           {value ? (

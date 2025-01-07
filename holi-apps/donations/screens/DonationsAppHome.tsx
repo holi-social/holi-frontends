@@ -14,9 +14,9 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -86,7 +86,7 @@ const DonationsAppHome = () => {
     <>
       <ScrollViewRefreshable style={styles.defaultLayout} keyboardShouldPersistTaps="always">
         <HoliModal
-          show={showSearchModal}
+          shown={showSearchModal}
           onDismiss={closeModal}
           testID="donations-search-modal"
           label={t('donations:search.heading')}

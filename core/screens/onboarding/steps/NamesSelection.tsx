@@ -16,11 +16,11 @@ import {
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { Text } from 'holi-bricks/components/text'
+import { Button } from 'holi-bricks/components/button'
 
 export interface NamesSelectionData {
   firstName?: string
@@ -184,15 +184,13 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
       </View>
 
       <View>
-        <HoliButtonLoading
+        <Button
           label={t('onboarding.accountSetup.continue')}
           onPress={onSubmit}
           loading={loading}
           disabled={!nameStepIsValid}
           testID={`${testID}-btn-submit`}
-        >
-          {t('onboarding.accountSetup.continue')}
-        </HoliButtonLoading>
+        />
       </View>
     </View>
   )

@@ -2,11 +2,13 @@ import { Page, expect } from '@playwright/test'
 
 import { randomSpaceName } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { byTestId, clickElementByTestId, locateElementByTestId, retry } from './helpers'
+import { byTestId, clickElementByTestId, clickThisOrThatElementByTestId, locateElementByTestId, retry } from './helpers'
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
-const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-involvement-inactive'
+const GET_INVOLVED_SPACE_TAB_TEST_ID_ACTIVE = 'space-tabs-button-involvement-active'
+const GET_INVOLVED_SPACE_TAB_TEST_ID_INACTIVE = 'space-tabs-button-involvement-inactive'
+
 const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 
 // this is a long journey, but its as fast as our backends are
@@ -54,7 +56,7 @@ async function followSpace(user: Page, spaceName: string) {
 
 async function createSpaceAppointment(adminA: Page) {
   await test.step('admin creates appointment', async () => {
-    await clickElementByTestId(adminA, GET_INVOLVED_SPACE_TAB_TEST_ID)
+    await openInvolvementTab(adminA)
     // wait for animation of tab to end
     await adminA.waitForTimeout(1000)
     await clickElementByTestId(adminA, APPOINTMENT_CREATE_BUTTON_TEST_ID)
@@ -72,7 +74,7 @@ async function createSpaceAppointment(adminA: Page) {
 
 async function editAppointmentTitle(user: Page) {
   await test.step('admin can edit appointment', async () => {
-    await clickElementByTestId(user, GET_INVOLVED_SPACE_TAB_TEST_ID)
+    await openInvolvementTab(user)
     await clickElementByTestId(user, 'btn-appointment-more-options')
     await clickElementByTestId(user, 'btn-to-edit-appointment')
     user.getByText('Edit appointment')
@@ -80,8 +82,16 @@ async function editAppointmentTitle(user: Page) {
     await titleField.fill('E2E Party Edited')
     await clickElementByTestId(user, 'form-wrapper-save-btn')
 
-    await clickElementByTestId(user, GET_INVOLVED_SPACE_TAB_TEST_ID)
+    await openInvolvementTab(user)
     const appointmentCard = await locateElementByTestId(user, 'space-appointment-tile')
     await expect(appointmentCard).toContainText('E2E Party Edited')
   })
+}
+
+async function openInvolvementTab(adminA: Page) {
+  await clickThisOrThatElementByTestId(
+    adminA,
+    GET_INVOLVED_SPACE_TAB_TEST_ID_ACTIVE,
+    GET_INVOLVED_SPACE_TAB_TEST_ID_INACTIVE
+  )
 }

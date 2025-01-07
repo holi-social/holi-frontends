@@ -183,7 +183,7 @@ const Spaces = () => {
         actionButtonVisible={!hasOwnSpaces || activeTab === Tab.DISCOVER}
         label={t('spaces.filter.heading')}
         buttonLabel={t('spaces.filter.button.label')}
-        show={isFilterModalShown}
+        shown={isFilterModalShown}
         open={openFilterModal}
         onDismiss={closeFilterModal}
       >

@@ -25,8 +25,9 @@ import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModa
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import Spacing from '@holi/ui/foundations/Spacing'
+import { Button } from 'holi-bricks/components/button'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export type SpaceOnboardingStepsParams = {
   spaceIdOrName: string
@@ -45,6 +46,7 @@ const SpaceOnboardingSteps = () => {
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const { loading: fetchingSpace, space, error: errorSpace } = useSpace(spaceIdOrName)
 
@@ -66,8 +68,6 @@ const SpaceOnboardingSteps = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.onboarding.setup.nextSteps.title'),
-      headerLeft: () => <HeaderBackButton />,
-      headerTitleAlign: 'center',
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -77,6 +77,7 @@ const SpaceOnboardingSteps = () => {
   const [updateSpace] = useMutation(updateSpaceMutation, {
     onCompleted: () => {
       openToast(t('spaces.onboarding.steps.save.success'), HoliToastType.SUCCESS)
+      track(TrackingEvent.Spaces.Onboarding.updated(space?.id ?? spaceIdOrName ?? ''))
       navigate(`/spaces/${spaceIdOrName}`)
     },
     onError: (error) => {
@@ -172,16 +173,9 @@ const SpaceOnboardingSteps = () => {
                     isNewStep={isNewStep}
                   />
                 ))}
-                <HoliButton
-                  label={t('spaces.onboarding.steps.add')}
-                  onPress={addStep}
-                  variant="medium"
-                  type="secondary"
-                  style={styles.addStepBtn}
-                >
-                  <HoliText>{t('spaces.onboarding.steps.add')}</HoliText>
-                  <HoliIcon icon={Add} size={16} />
-                </HoliButton>
+                <View style={styles.addStepBtn}>
+                  <Button label={t('spaces.onboarding.steps.add')} onPress={addStep} variant="secondary" icon={Add} />
+                </View>
                 {stepsList.length > 0 && (
                   <HoliButton
                     label={t('spaces.onboarding.steps.preview.link')}
@@ -200,7 +194,7 @@ const SpaceOnboardingSteps = () => {
           )}
         />
         <HoliModal
-          show={exampleVisible}
+          shown={exampleVisible}
           label={t('spaces.onboarding.steps.example.label')}
           onDismiss={hideExample}
           style={styles.exampleWrapper}
@@ -209,7 +203,7 @@ const SpaceOnboardingSteps = () => {
         </HoliModal>
 
         <HoliModal
-          show={previewVisible}
+          shown={previewVisible}
           label={t('spaces.onboarding.steps.preview.label')}
           onDismiss={hidePreview}
           style={styles.previewModal}
@@ -230,26 +224,27 @@ const getStyles = (theme: HoliTheme) =>
       flex: 1,
       paddingBottom: 0,
       backgroundColor: theme.colors.background20,
+      paddingTop: dimensions.topBarHeight,
     },
     formWrapper: {
       height: '100%',
     },
     header: {
-      marginBottom: Spacing.md,
+      marginBottom: 24,
     },
     intro: {
-      paddingTop: Spacing.sm,
+      paddingTop: 42,
     },
     desc: {
-      marginTop: Spacing['3xs'],
-      marginBottom: Spacing.md,
+      marginTop: 8,
+      marginBottom: 24,
     },
     exampleWrapper: {
-      paddingBottom: Spacing.md,
+      paddingBottom: 24,
     },
     example: {
       width: 'auto',
-      marginBottom: Spacing.xl,
+      marginBottom: 40,
       alignSelf: 'flex-start',
     },
     previewButton: {
@@ -264,12 +259,13 @@ const getStyles = (theme: HoliTheme) =>
       marginRight: 4,
     },
     previewModal: {
-      paddingBottom: Spacing.md,
+      paddingBottom: 24,
     },
     addStepBtn: {
-      marginTop: Spacing.md,
-      marginBottom: Spacing.md,
+      marginTop: 24,
+      marginBottom: 24,
       maxWidth: 320,
+      width: '100%',
       alignSelf: 'center',
     },
   })

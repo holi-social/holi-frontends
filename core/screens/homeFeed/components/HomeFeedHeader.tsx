@@ -23,12 +23,9 @@ import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
-import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 
 const HomeFeedHeader: React.FC = () => {
-  const displayNewHomeFeed = useFeatureFlagAB(FeatureFlagKey.NEW_HOME_FEED)
   const { t } = useTranslation()
   const isFocused = useIsFocused()
 
@@ -92,7 +89,6 @@ const HomeFeedHeader: React.FC = () => {
         <Text size="3xl" headingLevel="2">
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
         </Text>
-
         {/* start waving animation after user state has been loaded and the screen is focused/active */}
         <Animated.View style={[!isLoading && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}>
           <HoliLocalImage
@@ -105,7 +101,7 @@ const HomeFeedHeader: React.FC = () => {
           />
         </Animated.View>
       </HoliBox>
-      {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
+      <ProfileCompletionCard style={styles.container} />
     </View>
   )
 }
@@ -119,5 +115,8 @@ const styles = StyleSheet.create({
   },
   handwaveFilled: {
     paddingLeft: 8,
+  },
+  container: {
+    marginTop: 16,
   },
 })

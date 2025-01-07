@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ScrollView } from 'react-native'
-import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
 import HtmlDocument from '@holi/core/components/HtmlDocument'
+import type { DocType } from '@holi/core/documents/DocType'
 import { useDocumentURL } from '@holi/core/helpers/useDocumentURL'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliModal, { type HoliModalProps } from '@holi/ui/components/molecules/HoliModal'
 import { Spacing } from 'holi-bricks/tokens'
-import type { DocType } from '@holi/core/documents/DocType'
+import { ScrollView } from 'react-native'
 
-interface Props extends Pick<HoliModalProps, 'show' | 'onDismiss'> {
+interface Props extends Pick<HoliModalProps, 'shown' | 'onDismiss'> {
   documentURL?: string
 }
 
@@ -27,7 +27,7 @@ export const useDocumentModal = (): UseDocumentModalReturnValue => {
     visible: !!document,
     show: (document: DocType) => setDocument(document),
     modalProps: {
-      show: !!document,
+      shown: !!document,
       onDismiss: () => setDocument(undefined),
       documentURL: document ? documentUrl : undefined,
     },
