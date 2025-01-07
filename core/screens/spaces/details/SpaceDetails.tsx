@@ -31,7 +31,7 @@ import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import React, { memo, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type SpaceDetailsParams = RefreshOnNavigationParams &
   TabNavigationParams & {
@@ -124,12 +124,12 @@ const SpaceDetails = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <KeyboardAwareScrollView
+      <ScrollViewRefreshable
         style={{ backgroundColor: colors.background20, flex: 1 }}
         keyboardShouldPersistTaps="handled"
       >
         {activeTab && <SpaceDetailView space={space} activeTab={activeTab} onTabChange={onTabChange} />}
-      </KeyboardAwareScrollView>
+      </ScrollViewRefreshable>
 
       {isMember && activeTab && (
         <HoliTransition.FadeRightSwitch animKey={activeTab} style={styles.floatingButtonsContainer}>

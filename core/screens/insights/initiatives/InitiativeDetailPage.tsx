@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, type ImageStyle, Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { type DimensionValue, type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -26,6 +26,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type InitiativeDetailPageParams = {
   insightId: string
@@ -102,7 +103,7 @@ const InitiativeDetailPage = () => {
 
   return (
     <>
-      <ScrollView style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
+      <ScrollViewRefreshable style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
         {initiative && !loading ? (
           <>
             {initiative.linkPreview.image && (
@@ -141,7 +142,7 @@ const InitiativeDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollView>
+      </ScrollViewRefreshable>
 
       {initiative && !loading && (
         <View style={styles.footer}>

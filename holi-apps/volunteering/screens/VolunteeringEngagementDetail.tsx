@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { memo, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, StyleSheet, View, ScrollView } from 'react-native'
+import { Linking, Platform, StyleSheet, View } from 'react-native'
 import RenderHtml from 'react-native-render-html'
 
 import HoliHead from '@holi/core/components/HoliHead'
@@ -40,6 +40,7 @@ import {
   trackEngagementViewMutation,
 } from '@holi-apps/volunteering/queries'
 import type { Organizer } from '@holi-apps/volunteering/types'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
   [name: string]: InfoModalItemProps
@@ -253,7 +254,7 @@ const UnwrappedVolunteeringEngagementDetail = () => {
         ogDescription={engagement.description}
         ogImage={engagement.imageUrl}
       />
-      <ScrollView style={styles.header}>
+      <ScrollViewRefreshable style={styles.header}>
         {engagement && (
           <View style={[mixins.container, styles.container, { minHeight: windowHeight }]}>
             <VolunteeringDetailHeader engagement={engagement} imageWidth={imageWidth} />
@@ -277,7 +278,7 @@ const UnwrappedVolunteeringEngagementDetail = () => {
             )}
           </View>
         )}
-      </ScrollView>
+      </ScrollViewRefreshable>
 
       <View style={styles.volunteeringButton}>
         <HoliButtonLoadingTracked

@@ -2,7 +2,7 @@ import { type DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import type Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -31,6 +31,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export enum Tab {
   MINE = 'mine',
@@ -145,7 +146,7 @@ const Spaces = () => {
         ogTitle={t('metatags.spaces.og.title')}
         ogDescription={t('metatags.spaces.og.description')}
       />
-      <ScrollView ref={pageViewRef} style={styles.layout} onScroll={onScreenScroll}>
+      <ScrollViewRefreshable ref={pageViewRef} style={styles.layout} onScroll={onScreenScroll}>
         {!hasOwnSpaces ? (
           /* User has NO spaces => show discover view */
           <HoliContainer flex={1}>
@@ -176,7 +177,7 @@ const Spaces = () => {
             />
           </View>
         )}
-      </ScrollView>
+      </ScrollViewRefreshable>
 
       <FilterModal
         actionButtonVisible={!hasOwnSpaces || activeTab === Tab.DISCOVER}

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Linking, Platform, StyleSheet, View, ScrollView } from 'react-native'
+import { type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -29,6 +29,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type QuoteDetailPageParams = {
   insightId: string
@@ -104,7 +105,7 @@ const QuoteDetailPage = () => {
 
   return (
     <>
-      <ScrollView contentContainerStyle={styles.wrapper} backgroundColor={theme.colors.background20}>
+      <ScrollViewRefreshable contentContainerStyle={styles.wrapper} backgroundColor={theme.colors.background20}>
         {quote && !loading ? (
           <>
             {quote.linkPreview.image && (
@@ -149,7 +150,7 @@ const QuoteDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollView>
+      </ScrollViewRefreshable>
 
       <View style={[mixins.container, styles.openLinkButton]}>
         {(!quote || loading) && <HoliButtonLoading loading loadingLabel={t('global.loading')} label="" />}

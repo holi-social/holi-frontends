@@ -11,12 +11,12 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -84,7 +84,7 @@ const DonationsAppHome = () => {
 
   return (
     <>
-      <KeyboardAwareScrollView style={styles.defaultLayout} keyboardShouldPersistTaps="always">
+      <ScrollViewRefreshable style={styles.defaultLayout} keyboardShouldPersistTaps="always">
         <HoliModal
           shown={showSearchModal}
           onDismiss={closeModal}
@@ -100,7 +100,7 @@ const DonationsAppHome = () => {
         <View style={[mixins.container]} testID={'donations-list-container'}>
           <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
         </View>
-      </KeyboardAwareScrollView>
+      </ScrollViewRefreshable>
     </>
   )
 }
