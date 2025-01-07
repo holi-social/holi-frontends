@@ -101,6 +101,26 @@ resource "google_cloud_run_service" "mvp_web" {
           name  = "NEXT_PUBLIC_OWNCLOUD_BASE_URL"
           value = local.environment == "production" ? "https://production.cloud.holi.social" : "https://development.cloud.holi.social"
         }
+        env {
+          name  = "TYPESENSE_HOST"
+          value = local.environment == "production" ? "search.holi.social" : "dev-search.holi.social"
+        }
+        env {
+          name  = "TYPESENSE_PORT"
+          value = "443"
+        }
+        env {
+          name  = "TYPESENSE_PROTOCOL"
+          value = "https"
+        }
+        env {
+          name  = "TYPESENSE_API_KEY"
+          value = local.environment == "production" ? "jtOdwRfhEFW7UmCpDKjnQaS71uU28YOq" : "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2"
+        }
+        env {
+          name  = "TYPESENSE_COLLECTION"
+          value = local.environment == "production" ? "holi_search_production" : "holi_search_staging"
+        }
 
         resources {
           limits = {
