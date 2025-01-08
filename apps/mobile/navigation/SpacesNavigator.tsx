@@ -48,12 +48,14 @@ import SpaceVideoCallList, {
   type SpaceVideoCallListParams,
 } from '@holi/core/screens/spaces/videoCall/SpaceVideoCallList'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import { colors } from '@holi/ui/styles/globalVars'
 
 export type SpacesScreens = {
   [RouteName.SpaceDetails]: SpaceDetailsParams
   [RouteName.SpaceRelatedSpaces]: SpaceRelatedSpacesParams
   [RouteName.CreateSpace]: undefined
+  [RouteName.ExploreSpaces]: undefined
   [RouteName.EditSpace]: EditSpaceParams
   [RouteName.CreateDigitalTool]: CreateDigitalToolParams
   [RouteName.CreateTask]: CreateTaskParams
@@ -101,6 +103,7 @@ const SpacesNavigator = () => {
       <SpacesStack.Screen name={RouteName.SpaceDetails} component={SpaceDetails} />
       <SpacesStack.Screen name={RouteName.SpaceRelatedSpaces} component={RelatedSpaces} />
       <SpacesStack.Screen name={RouteName.CreateSpace} component={CreateSpace} />
+      <SpacesStack.Screen name={RouteName.ExploreSpaces} component={DiscoverSpaces} />
       <SpacesStack.Screen name={RouteName.EditSpace} component={EditSpace} />
       <SpacesStack.Screen name={RouteName.CreateDigitalTool} component={CreateDigitalTool} />
       <SpacesStack.Screen name={RouteName.SpaceStorage} component={SpaceStorage} />

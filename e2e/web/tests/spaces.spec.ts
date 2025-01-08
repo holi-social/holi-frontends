@@ -1,4 +1,4 @@
-import { Browser, Page, expect } from '@playwright/test'
+import { type Browser, type Page, expect } from '@playwright/test'
 
 import {
   byTestId,
@@ -89,7 +89,7 @@ const testFiltering = async (browser: Browser, page: Page) => {
   await withSSR(browser, page.url(), testDisplaysFilterResults)
 
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('discover-spaces-header'))
+  await page.waitForSelector(byTestId('get-started-view-header'))
 }
 
 const testDisplaysFilterResults = async (page: Page) => {
@@ -487,7 +487,7 @@ const createSpace = async (
 ) => {
   await clickElementByTestId(page, 'btn-to-spaces')
   // wait for the view to load
-  await page.waitForSelector(byTestId('discover-spaces-header'))
+  await page.waitForSelector(byTestId('get-started-view-header'))
   await clickElementByTestId(page, 'btn-create-space')
   // wait until page is loaded
   await page.waitForSelector(byTestId('holi-wizard-save-btn'))

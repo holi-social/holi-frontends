@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, type StyleProp, View, type ViewStyle } from 'react-native'
 
 import Spacing from '@holi/ui/foundations/Spacing'
 
@@ -31,10 +31,10 @@ const SpacesHorizontalSlider = ({
           scrollEnabled={Platform.OS === 'web' || !loading}
           horizontal
           nestedScrollEnabled
-          contentContainerStyle={[styles.scrollViewContainer, !!paddingVertical && { paddingVertical }]}
+          contentContainerStyle={[!!paddingVertical && { paddingVertical }, { gap: Spacing['3xs'] }]}
         >
           {React.Children.map(children, (space, index) => (
-            <View key={index} style={{ marginRight: slideGap, width: cardWidth }}>
+            <View key={index} style={{ width: cardWidth, paddingLeft: index === 0 ? Spacing.xs : 0 }}>
               {space}
             </View>
           ))}
@@ -45,11 +45,3 @@ const SpacesHorizontalSlider = ({
   )
 }
 export default memo(SpacesHorizontalSlider)
-
-const styles = StyleSheet.create({
-  scrollViewContainer: {
-    marginHorizontal: -20,
-    paddingLeft: 20,
-    paddingRight: 0,
-  },
-})

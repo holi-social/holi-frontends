@@ -1,27 +1,27 @@
 import type React from 'react'
 import { useContext, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import ScrollBasedRender from '@holi/core/components/ScrollBasedRender'
 import type { Skill, Topic } from '@holi/core/domain/shared/types'
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
+import type { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
 import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { ArrowRightS } from '@holi/icons/src/generated'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { dimensions } from '@holi/ui/styles/globalVars'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
-import { Button } from 'holi-bricks/components/button'
+import { ArrowLeft, Filter3 } from '@holi/icons/src/generated'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import { ButtonIcon } from 'holi-bricks/components/button/ButtonIcon'
+import { Text } from 'holi-bricks/components/text'
+import { useStyles } from 'holi-bricks/hooks'
+import { Spacing } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useTranslation } from 'react-i18next'
 
 interface DiscoverSpacesViewProps {
   userTopics: Topic[]
@@ -48,14 +48,8 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
 }
 
 const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, userSkills, userGeolocationId }) => {
-  const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
-  const { navigate } = useRouting()
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
-  const { width: screenWidth } = useClientWindowDimensions()
-  const { navigateWithAuth } = useAuthRequiredNavigation()
+  const { styles, theme } = useStyles(getStyles)
 
   const { topics = [] } = useContext(SpaceTermContext)
 
@@ -68,238 +62,135 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
     [topics, userTopics]
   )
 
-  const aspectRatio = 188 / 324
+  const { t } = useTranslation()
+  const setScreenOptions = useSetScreenOptions()
+  const { visible: isFilterModalShown, show: openFilterModal, hide: closeFilterModal } = useModalState()
+  const { navigate } = useRouting()
+
+  const onSubmit = (filters: SpaceFilter) => {
+    applyFilters(filters)
+    closeFilterModal()
+  }
+  const applyFilters = (filters: SpaceFilter) => {
+    const params = new URLSearchParams()
+
+    if (filters.location?.id) {
+      params.set('location', filters.location.id)
+    }
+
+    filters.topicSlugs?.forEach((topic) => {
+      params.append('topic', topic)
+    })
+
+    filters.skillSlugs?.forEach((skill) => {
+      params.append('skill', skill)
+    })
+    const paramsString = params.toString()
+    paramsString && navigate('/spaces/filter?' + paramsString)
+  }
+
+  useIsomorphicLayoutEffect(() => {
+    setScreenOptions({
+      headerStyle: {
+        backgroundColor: theme.colors.bg.page,
+      },
+      headerTitle: () => (
+        <Text headingLevel="1" size="md">
+          {t('spaces.discover.explore')}
+        </Text>
+      ),
+      headerTransparent: false,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
+      headerLeft: () => <HeaderBackButton icon={ArrowLeft} />,
+      headerRight: () => (
+        <ButtonIcon icon={Filter3} label="filter-modal--open-icon-btn" variant="tertiary" onPress={openFilterModal} />
+      ),
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [setScreenOptions, t, openFilterModal, theme])
 
   return (
-    <View testID="spaces-container">
-      <HoliGap />
-      <HoliHeading level="2" size="l" testID="discover-spaces-header">
-        {t('spaces.discover.welcome')}
-      </HoliHeading>
-      <HoliText style={styles.headerDescription} testID="discover-spaces-description">
-        {t('spaces.discover.description')}
-      </HoliText>
-      <View style={styles.createSpaceButtonContainer}>
-        <Button
-          label={t('spaces.discover.create.button')}
-          onPress={() =>
-            navigateWithAuth('/spaces/create', {
-              description: t('spaces.create.loginRedirect.text'),
-              trackTrigger: 'CREATE_SPACE',
-            })
-          }
-          testID="discover-spaces-create-button"
-        />
-      </View>
-      <HoliButton
-        label={t('spaces.about.banner.button.title')}
-        onPress={() => navigate('/about-spaces/')}
-        testID="discover-spaces-about-button"
-        transparent
-      >
-        <View
-          style={
-            screenWidth > dimensions.breakpointS ? styles.compositionImageContainerL : styles.compositionImageContainer
-          }
-        >
-          <HoliLocalImage
-            imageSource={require('@holi/ui/assets/img/spaces/discover_spaces_composition.png')}
-            resizeMode="contain"
-            width={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? screenWidth : 324}
-            height={Platform.OS === 'web' && screenWidth < dimensions.breakpointM ? aspectRatio * screenWidth : 188}
-            style={styles.compositionImage}
-            label=""
-          />
-          <View style={styles.learnMoreDescriptionContainer}>
-            {screenWidth > dimensions.breakpointS && (
-              <>
-                <HoliHeading level="2">{t('spaces.about.banner.title')}</HoliHeading>
-                <HoliText style={{ color: colors.foreground20, lineHeight: 23.68 }}>
-                  {t('spaces.about.banner.description')}
-                </HoliText>
-              </>
+    <>
+      <ScrollView>
+        <View testID="spaces-container" style={styles.body}>
+          <HoliContainer noPadding>
+            {isLoggedIn && userGeolocationId && (
+              <SpacesGroupSlider
+                locationId={userGeolocationId}
+                pageSize={SPACES_GROUP_LIMIT}
+                testID="discover-spaces-slider-default-location"
+              />
             )}
-            <View
-              style={screenWidth > dimensions.breakpointS ? styles.learnMoreDescription : styles.learnMoreDescriptionS}
-            >
-              <HoliText bold style={{ paddingRight: 8 }}>
-                {t('spaces.about.banner.button.title')}
-              </HoliText>
-              <HoliIcon icon={ArrowRightS} color={colors.foreground30} />
-            </View>
-          </View>
+
+            {userTopics.map((userTopic, index) => {
+              return (
+                <SpacesGroupSlider
+                  key={index}
+                  topic={userTopic}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-topics-slider-user-specific"
+                />
+              )
+            })}
+
+            {userSkills.map((userSkill, index) => {
+              return (
+                <SpacesGroupSlider
+                  key={index}
+                  skill={userSkill}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-skills-slider-user-specific"
+                />
+              )
+            })}
+
+            {!topics.length && <SpacesGroupSliderSkeletons />}
+
+            {defaultTopics.map((defaultTopic, index) => {
+              return (
+                <SpacesGroupSlider
+                  key={index}
+                  topic={defaultTopic}
+                  pageSize={SPACES_GROUP_LIMIT}
+                  style={styles.spacesGroup}
+                  testID="discover-topic-slider-others"
+                />
+              )
+            })}
+          </HoliContainer>
         </View>
-      </HoliButton>
-
-      <View style={styles.body}>
-        {isLoggedIn && userGeolocationId && (
-          <ScrollBasedRender>
-            <SpacesGroupSlider
-              locationId={userGeolocationId}
-              pageSize={SPACES_GROUP_LIMIT}
-              style={styles.spacesGroup}
-              testID="discover-spaces-slider-default-location"
-            />
-          </ScrollBasedRender>
-        )}
-
-        {userTopics.map((userTopic, index) => {
-          if (index < 2) {
-            // render the first two topics without ScrollBasedRender, to avoid an empty list after login
-            return (
-              <SpacesGroupSlider
-                key={index}
-                topic={userTopic}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-topics-slider-user-specific"
-              />
-            )
-          }
-          return (
-            <ScrollBasedRender key={index}>
-              <SpacesGroupSlider
-                topic={userTopic}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-topics-slider-user-specific"
-              />
-            </ScrollBasedRender>
-          )
-        })}
-
-        {userSkills.map((userSkill, index) => {
-          if (index < 2) {
-            // render the first two skills without ScrollBasedRender, to avoid an empty list after login
-            return (
-              <SpacesGroupSlider
-                key={index}
-                skill={userSkill}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-skills-slider-user-specific"
-              />
-            )
-          }
-          return (
-            <ScrollBasedRender key={index}>
-              <SpacesGroupSlider
-                skill={userSkill}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-skills-slider-user-specific"
-              />
-            </ScrollBasedRender>
-          )
-        })}
-
-        {!topics.length && <SpacesGroupSliderSkeletons />}
-
-        {userTopics.length + userSkills.length > 0 && defaultTopics.length > 0 && (
-          <HoliText style={styles.othersTitle} testID="discover-spaces-others">
-            {t('spaces.discover.others')}
-          </HoliText>
-        )}
-
-        {defaultTopics.map((defaultTopic, index) => {
-          // render the first two default topics without ScrollBasedRender, to avoid an empty list after login
-          if (index < 2) {
-            return (
-              <SpacesGroupSlider
-                key={index}
-                topic={defaultTopic}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-topic-slider-others"
-              />
-            )
-          }
-          return (
-            <ScrollBasedRender key={index}>
-              <SpacesGroupSlider
-                topic={defaultTopic}
-                pageSize={SPACES_GROUP_LIMIT}
-                style={styles.spacesGroup}
-                testID="discover-topic-slider-others"
-              />
-            </ScrollBasedRender>
-          )
-        })}
-      </View>
-    </View>
+      </ScrollView>
+      <HoliModal
+        relativeHeight={1}
+        autoHeight={false}
+        testID={'filter-modal'}
+        label={t('spaces.filter.heading')}
+        shown={isFilterModalShown}
+        onDismiss={closeFilterModal}
+      >
+        <SpaceFilterForm onSubmit={onSubmit} />
+      </HoliModal>
+    </>
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    headerDescription: {
-      paddingVertical: 12,
-      fontWeight: '400',
-    },
-    body: {
-      marginTop: 32,
-    },
-    spacesGroup: {
-      marginBottom: 30,
-    },
-    othersTitle: {
-      marginTop: 18,
-      marginBottom: 48,
-    },
-    createSpaceButtonContainer: {
-      marginTop: 8,
-      alignSelf: 'flex-start',
-      marginBottom: 32,
-    },
-    compositionImage: {
-      flex: 1,
-      alignSelf: 'center',
-    },
-    compositionImageContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignContent: 'center',
-      alignSelf: 'stretch',
-      backgroundColor: theme.colors.background10,
-      borderRadius: 16,
-      paddingHorizontal: 10,
-      paddingVertical: 24,
-      gap: 20,
-      borderWidth: 1,
-      borderColor: theme.colors.background30,
-    },
-    compositionImageContainerL: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      alignSelf: 'stretch',
-      backgroundColor: theme.colors.background10,
-      borderRadius: 16,
-      paddingHorizontal: 14,
-      paddingVertical: 24,
-      gap: 32,
-      borderWidth: 1,
-      borderColor: theme.colors.background30,
-    },
-    learnMoreDescription: {
-      flexDirection: 'row',
-      width: '100%',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-    },
-    learnMoreDescriptionS: {
-      flexDirection: 'row',
-      width: '100%',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-    },
-    learnMoreDescriptionContainer: {
-      flex: 1,
-      paddingHorizontal: 14,
-      gap: 16,
-    },
-  })
+const getStyles = createStyleSheet((theme) => ({
+  body: {
+    paddingTop: Spacing.lg, // + header height
+    backgroundColor: theme.colors.bg.page,
+    gap: Spacing.lg,
+  },
+  header: {
+    backgroundColor: theme.colors.bg.page,
+  },
+  spacesGroup: {
+    marginBottom: 30,
+  },
+}))
 
 export default DiscoverSpacesView

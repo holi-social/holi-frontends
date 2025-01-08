@@ -257,7 +257,7 @@ const stylesheet = createStyleSheet((theme) => ({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.bg.container,
   },
   listContainer: {
     flex: 1,

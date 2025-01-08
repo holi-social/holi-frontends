@@ -1,4 +1,4 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
@@ -85,7 +85,7 @@ const renderComponent = (mocks: MockedResponse[] = [userSearchSuccessMock]) =>
   render(
     <ToastProvider>
       <MockedProvider mocks={mocks}>
-        <SpaceInviteView spaceId={spaceId} />
+        <SpaceInviteView spaceId={spaceId} idOrName={''} />
       </MockedProvider>
     </ToastProvider>
   )

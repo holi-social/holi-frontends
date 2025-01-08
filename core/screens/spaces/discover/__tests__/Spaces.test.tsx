@@ -102,12 +102,6 @@ describe.only('Spaces screen', () => {
       </MockedProvider>
     )
 
-  it('displays loading screen while loading', async () => {
-    renderSpaces(MOCKS_WITHOUT_MY_SPACES)
-
-    expect(await screen.findByTestId('spaces-group-slider-skeletons')).toBeOnTheScreen()
-  })
-
   it('displays error toast if loading own spaces failed', async () => {
     renderSpaces([authenticatedUserMock, mySpacesErrorMock, locationDetailsMock])
 
@@ -122,9 +116,9 @@ describe.only('Spaces screen', () => {
     expect(await screen.findByTestId('spaces-tab-navigation')).toBeOnTheScreen()
   })
 
-  it('shows discover-spaces-view, when user has no spaces', async () => {
+  it('shows get-started-view, when user has no spaces', async () => {
     renderSpaces(MOCKS_WITHOUT_MY_SPACES)
 
-    expect(await screen.findByTestId('discover-spaces-header')).toBeOnTheScreen()
+    expect(await screen.findByTestId('get-started-view-header')).toBeOnTheScreen()
   })
 })

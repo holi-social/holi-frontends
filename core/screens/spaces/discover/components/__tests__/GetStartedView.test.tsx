@@ -1,0 +1,105 @@
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import { cleanup, fireEvent, render } from '@testing-library/react-native'
+import React from 'react'
+
+import {
+  authenticatedUserMock,
+  defaultLocationDetailsMock,
+  mySpacesWithEmptyResultMock,
+  sdgsMock,
+  skillsMock,
+  topicsMock,
+} from '@holi/core/screens/spaces/__tests__/mocks'
+import { spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
+import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
+import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
+import GetStartedView from '@holi/core/screens/spaces/discover/components/GetStartedView'
+import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
+
+const loginStateLoggedIn = {
+  isLoading: false,
+  isLoggedIn: true,
+  isLoggedOut: false,
+  user: { id: '123' },
+} as LoggedInState
+
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: () => loginStateLoggedIn,
+}))
+
+const getStartedViewUserSpecificMock = {
+  request: {
+    query: discoverSpacesQuery,
+    variables: {
+      topicIds: [],
+      skillIds: [],
+      limit: 10,
+    },
+  },
+  result: {
+    data: {
+      discoverSpaces: [],
+    },
+  },
+}
+
+const getStartedViewDefaultMock = {
+  request: {
+    query: discoverSpacesQuery,
+    variables: {
+      topicIds: ['ANIMAL_WELFARE'],
+      geolocation: {},
+      limit: 10,
+    },
+  },
+  result: {
+    data: {
+      discoverSpaces: spacesGroups,
+    },
+  },
+}
+
+const BASE_MOCKS = [authenticatedUserMock, mySpacesWithEmptyResultMock, topicsMock, skillsMock, sdgsMock]
+const MOCKS = [...BASE_MOCKS, defaultLocationDetailsMock, getStartedViewUserSpecificMock, getStartedViewDefaultMock]
+
+// note: this test has been slimmed down since the component was refactored
+//       feel free to add more tests again (see history)
+
+const renderGetStartedView = (mocks: MockedResponse[]) =>
+  render(
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <ToastProvider>
+        <SpaceTermContextProvider>
+          <GetStartedView />
+        </SpaceTermContextProvider>
+      </ToastProvider>
+    </MockedProvider>
+  )
+
+describe('GetStartedView', () => {
+  it('renders correctly', async () => {
+    const { getByTestId } = renderGetStartedView(MOCKS)
+
+    expect(getByTestId('get-started-view-header')).toHaveTextContent('spaces.discover.welcome')
+    expect(getByTestId('get-started-view-header')).toHaveTextContent('spaces.discover.description')
+  })
+
+  it('renders buttons correctly', async () => {
+    const { queryAllByTestId } = renderGetStartedView(MOCKS)
+
+    const createButtons = queryAllByTestId('get-started-view-create-button')
+    expect(createButtons).toHaveLength(2)
+    fireEvent.press(createButtons[0])
+    expect(mockNavigate).toHaveBeenCalledWith('/spaces/create')
+
+    const exploreButtons = queryAllByTestId('get-started-view-explore-button')
+    expect(exploreButtons).toHaveLength(2)
+    fireEvent.press(exploreButtons[0])
+    expect(mockNavigate).toHaveBeenCalledWith('/spaces/explore/')
+  })
+
+  // solve act() wrap warning
+  // https://github.com/testing-library/react-testing-library/issues/1216#issuecomment-1595684566
+  afterEach(cleanup)
+})
