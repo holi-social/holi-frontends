@@ -69,4 +69,5 @@ export const navigateBackToHomeScreenDeeper = async () => {
 export const navigateBackFromAppScreen = async () => {
   await scrollToElementWithTestId('nav-button-back', 'up')
   await tapOnElementWithTestId('nav-button-back', 0)
+  await tapOnElementWithTestId('btn-to-home-view')
 }

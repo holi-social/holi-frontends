@@ -39,7 +39,7 @@ const LoginProfileButton = ({
       onPress={() => navigate('/profile')}
       contentStyle={[styles.button, style]}
       {...props}
-      testID="btn-to-profile-view"
+      testID={user ? 'btn-to-profile-view' : 'btn-to-anonymous-profile-view'}
     >
       {user ? (
         <Avatar

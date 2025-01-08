@@ -138,7 +138,7 @@ const BottomTabsNavigator = () => {
             <BottomTabLabel label={isLoggedIn ? t('navigation.profile') : t('navigation.login')} focused={focused} />
           ),
           tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-profile-view',
+          tabBarTestID: isLoggedIn ? 'btn-to-profile-view' : 'btn-to-anonymous-profile-view',
         }}
         listeners={{ tabPress: () => setPathname('/profile') }}
       />

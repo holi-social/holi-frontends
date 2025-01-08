@@ -183,7 +183,7 @@ const HomeFeed = () => {
   return (
     <SpaceTermContextProvider>
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
-        <View style={styles.sections} testID="posts-list-results">
+        <View style={styles.sections} testID="feed-posts">
           <ErrorBoundary>
             <TrackableFlatList
               removeClippedSubviews={true}

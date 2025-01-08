@@ -8,6 +8,7 @@ import {
   tapOnElementWithTestId,
   waitForElementWithTestId,
 } from '../../helpers/selectors'
+import { continueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 
 describe('@Volunteering', () => {
   afterEach(async () => {
@@ -20,6 +21,7 @@ describe('@Volunteering', () => {
 
   it('should support the user journey', async () => {
     // preparation of test
+    await continueAsGuest()
     await navigateToAppById('volunteering')
 
     await assertListItemExisting()

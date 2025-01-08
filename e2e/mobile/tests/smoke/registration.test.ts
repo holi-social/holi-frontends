@@ -1,10 +1,11 @@
 import {
-  defaultAuthSteps,
   defaultPassword,
   deleteAccount,
   loginNewUser,
   logout,
+  register,
   registerNewUser,
+  testIdContinueAsGuest,
 } from '../../helpers/auth'
 import { tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
 
@@ -21,11 +22,11 @@ describe('@Registration - smoke', () => {
     await logout()
 
     // try to create a new user with the same credentials
-    await defaultAuthSteps({ email, password: defaultPassword }, 'registration', false)
+    await register({ email, password: defaultPassword }, false)
 
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 
-    await tapOnElementWithTestId('btn-to-continue-as-guest')
+    await tapOnElementWithTestId(testIdContinueAsGuest)
     await loginNewUser(email)
     await deleteAccount()
   })

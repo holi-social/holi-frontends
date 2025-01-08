@@ -1,21 +1,29 @@
-import { defaultAuthSteps, logout } from '../../helpers/auth'
-import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import { login, logout } from '../../helpers/auth'
+import {
+  checkIfElementWithTestIdExists,
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 
 describe('@Profile', () => {
   it('should navigate to user from suggestions', async () => {
     // login
-    await defaultAuthSteps()
+    await login()
 
-    // go home
-    await navigateBackToHomeScreen()
+    if (await checkIfElementWithTestIdExists('feed-posts')) {
+      // New feed: Search for first post-author and tap on avatar
+      await scrollToElementWithTestId('post-author', 'down')
 
-    // user suggestions heading should be visible
-    await scrollToElementWithTestId('user-suggestions', 'down')
+      await tapOnElementWithTestId('avatar-btn')
+    } else {
+      // Legacy feed: user suggestions heading should be visible
+      await scrollToElementWithTestId('user-suggestions', 'down')
 
-    // tap on first user in list
-    await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 3 })
-    await tapOnElementWithTestId('user-card-suggestion-0')
+      // tap on first user in list
+      await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 3 })
+      await tapOnElementWithTestId('user-card-suggestion-0')
+    }
 
     // expect user profile
     await waitForElementWithTestId('user-profile-full-name')

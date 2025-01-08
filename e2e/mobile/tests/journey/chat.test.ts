@@ -1,15 +1,32 @@
 import { deleteAccount, registerNewUser } from '../../helpers/auth'
-import { navigateBackToHomeScreen } from '../../helpers/navigation'
-import { scrollToElementWithTestId, tapOnElementWithTestId, waitForElementWithTestId } from '../../helpers/selectors'
+import {
+  checkIfElementWithTestIdExists,
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 
 describe('@Chat', () => {
   it('starts a chat from a users profile', async () => {
     //setup
     await registerNewUser()
 
-    // open profile of another user
-    await scrollToElementWithTestId('user-card-suggestion-0', 'down')
-    await tapOnElementWithTestId('user-card-suggestion-0')
+    if (await checkIfElementWithTestIdExists('feed-posts')) {
+      // New feed: Search for first post-author and tap on avatar
+      await scrollToElementWithTestId('post-author', 'down')
+
+      await tapOnElementWithTestId('avatar-btn')
+    } else {
+      // Legacy feed: user suggestions heading should be visible
+      await scrollToElementWithTestId('user-suggestions', 'down')
+
+      // tap on first user in list
+      await scrollToElementWithTestId('user-card-suggestion-0', 'down', { maxAttempts: 3 })
+      await tapOnElementWithTestId('user-card-suggestion-0')
+    }
+
+    // expect user profile
+    await waitForElementWithTestId('user-profile-full-name')
 
     // at user profile
     await waitForElementWithTestId('user-profile-open-chat')
@@ -25,6 +42,5 @@ describe('@Chat', () => {
 
     //teardown
     await deleteAccount()
-    await navigateBackToHomeScreen()
   })
 })

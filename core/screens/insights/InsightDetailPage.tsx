@@ -142,7 +142,7 @@ const InsightDetailPage = () => {
 
   const curatorSlides = [
     <View style={styles.slide} key={1}>
-      <HoliText size="extralarge" style={styles.slideHeader}>
+      <HoliText size="extralarge" style={styles.slideHeader} testID="insight-editors-heading">
         {t('insights.curatorModal.header1')}
       </HoliText>
       <View style={styles.slideWrapper}>
@@ -256,6 +256,7 @@ const InsightDetailPage = () => {
                       style={({ hovered }) => {
                         return hovered ? [styles.creatorInfoButtonHovered] : [styles.creatorInfoButton]
                       }}
+                      testID="btn-to-insight-curator-modal"
                     >
                       <View style={styles.creatorInfo}>
                         <Avatar
@@ -276,6 +277,7 @@ const InsightDetailPage = () => {
                     shown={curatorModalShown}
                     onDismiss={() => setCuratorModalShown(false)}
                     style={{ backgroundColor: colors.background30 }}
+                    testID="insight-editors-modal"
                   >
                     <HoliCarousel
                       marginHorizontal={Spacing.md}
@@ -289,6 +291,7 @@ const InsightDetailPage = () => {
                         inline
                         onPress={() => setCuratorModalShown(false)}
                         label={t('insights.curatorModal.close')}
+                        testID="insight-editors-close-btn"
                       />
                     </View>
                   </HoliModal>

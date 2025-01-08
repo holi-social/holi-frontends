@@ -2,7 +2,7 @@ import * as webdriverio from 'webdriverio'
 
 import appiumConfig, { target as appiumConfigTarget } from './appiumConfig'
 import type { PlatformType, TargetType } from './global'
-import { logout, skipOnboardingIfNecessary } from './helpers/auth'
+import { logout } from './helpers/auth'
 import { resetImplicitTimeout, tapOnElementWithTestId, waitForElementWithTestId } from './helpers/selectors'
 
 platform = appiumConfig.platform as PlatformType
@@ -23,15 +23,13 @@ beforeEach(
 
     // @ts-ignore custom capabilities are not covered by the type
     const runsInBrowserStack = appiumConfig.capabilities['appium:app']
-    const homeScreenTimeout = 4000
     await waitForStartupAndDeclineTrackingConsent({
-      homeScreenTimeout,
+      homeScreenTimeout: 4000,
       numAttempts: runsInBrowserStack ? 5 : 1,
     })
-    await skipOnboardingIfNecessary(homeScreenTimeout)
 
     if (!runsInBrowserStack) {
-      // Logout + navigate back to the home screen before each test
+      // Logout + navigate back to the home resp. onboarding screen before each test
       await logout()
     }
   },
