@@ -65,7 +65,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
       <View style={{ backgroundColor: colors.background10 }}>
         <HoliContainer>
           <UserProfileView user={user} contactPossible={false} />
-          <ProfileCompletionCard style={styles.profileCard} />
+          <ProfileCompletionCard onPressEdit={() => toggleEditMode('profile')} style={styles.profileCard} />
         </HoliContainer>
       </View>
       <HoliTabs
@@ -83,6 +83,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                     <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
                   ) : (
                     <ChipAction
+                      id="engagementLevel"
                       color="white"
                       onPress={() => toggleEditMode('engagementLevel')}
                       iconTrailing={Add}

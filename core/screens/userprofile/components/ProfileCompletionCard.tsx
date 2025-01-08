@@ -1,12 +1,11 @@
 import type React from 'react'
 import { useState, useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { Pressable, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { AddCircleLine, ArrowDownS, ArrowUpS, MapPin2, UserSmile } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Spacing } from 'holi-bricks/tokens'
@@ -16,6 +15,7 @@ import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import { Button } from 'holi-bricks/components/button'
 
 type Selection = {
   label: string
@@ -25,6 +25,7 @@ type Selection = {
 }
 
 type ProfileCompletionCardProps = {
+  onPressEdit?: () => void
   style?: StyleProp<ViewStyle>
 }
 
@@ -33,7 +34,7 @@ const getCompletionPercentage = (selections: Selection[]): number => {
   return selections.length ? (completedSelections / selections.length) * 100 : 0
 }
 
-const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style }) => {
+const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, onPressEdit }) => {
   const { theme } = useTheme()
   const { navigate } = useRouting()
   const { colors } = theme
@@ -49,6 +50,7 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style }) 
   const [isExpanded, setIsExpanded] = useState(false)
 
   const isCompleted = hasInterests && hasAvatar && hasLocation
+  const [justCompleted, setJustCompleted] = useState(false)
   const paddingBottom = !isExpanded && { paddingBottom: isCompleted ? 16 : 0 }
 
   const selections: Selection[] = useMemo(
@@ -62,11 +64,6 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style }) 
 
   const completedSteps = selections.filter((selection) => selection.select).length
 
-  const handleDismiss = () => {
-    AsyncStorage.setItem('profileCardDismissed', 'true')
-    setShowCard(false)
-  }
-
   useEffect(() => {
     const checkDismissed = async () => {
       const dismissed = await AsyncStorage.getItem('profileCardDismissed')
@@ -78,28 +75,32 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style }) 
         await checkDismissed()
 
         if (isCompleted) {
-          await AsyncStorage.setItem('dismissOnNextRender', 'true')
+          if (!justCompleted) {
+            setJustCompleted(true)
+            setShowCard(true)
+
+            const timer = setTimeout(() => {
+              handleDismiss()
+            }, 10000)
+
+            return () => clearTimeout(timer)
+          }
+        } else {
+          setJustCompleted(false)
         }
       }
     }
     checkCompletionStatus()
-  }, [user, isCompleted])
+  }, [user, isCompleted, justCompleted])
 
-  useEffect(() => {
-    const dismissOnNextRender = async () => {
-      const completed = await AsyncStorage.getItem('dismissOnNextRender')
-      if (completed === 'true') {
-        handleDismiss()
-      }
-    }
-    dismissOnNextRender()
-  }, [])
+  const handleDismiss = () => {
+    AsyncStorage.setItem('profileCardDismissed', 'true')
+    setShowCard(false)
+  }
 
   const Header = () => (
-    <HoliButton
-      transparent
-      contentStyle={styles.headerContainer}
-      label={''}
+    <Pressable
+      style={styles.headerContainer}
       testID={`btn-right-${'testID'}`}
       onPress={() => (!isCompleted ? setIsExpanded(!isExpanded) : null)}
     >
@@ -126,7 +127,7 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style }) 
           />
         </View>
       )}
-    </HoliButton>
+    </Pressable>
   )
 
   const Selection = () => (
@@ -142,18 +143,12 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style }) 
 
   const Buttons = () => (
     <View style={styles.buttons}>
-      <HoliButton
+      <Button
         label={t('profile.completion.button.edit')}
-        onPress={() => navigate('/profile')}
+        onPress={onPressEdit ?? (() => navigate('/profile'))}
         inline
-        transparent
-        style={styles.editButton}
-      >
-        <HoliText bold>{t('profile.completion.button.edit')}</HoliText>
-      </HoliButton>
-      <HoliButton label={t('profile.completion.button.dismiss')} onPress={() => handleDismiss()} inline transparent>
-        <HoliText bold>{t('profile.completion.button.dismiss')}</HoliText>
-      </HoliButton>
+      />
+      <Button label={t('profile.completion.button.dismiss')} onPress={() => handleDismiss()} inline transparent />
     </View>
   )
 
