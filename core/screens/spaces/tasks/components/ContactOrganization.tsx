@@ -19,8 +19,9 @@ import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 
 const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps) => {
   const { t } = useTranslation()
@@ -151,7 +152,7 @@ const contactOrganizationButtonStyles = createStyleSheet(() => ({
 export const ContactOrganization = ({ spaceIdOrName }: ContactOrganizationProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-
+  const { space } = useSpace(spaceIdOrName)
   if (!spaceIdOrName) return null
 
   return (
@@ -176,7 +177,9 @@ export const ContactOrganization = ({ spaceIdOrName }: ContactOrganizationProps)
             />
           </View>
           <Text size="md" textAlign="center">
-            {t('spaces.tasks.contactOrganization.description')}
+            <Trans t={t} i18nKey="spaces.tasks.contactOrganization.description" values={{ organization: space?.title }}>
+              <Text size="lg" textAlign="center" />
+            </Trans>
           </Text>
           <Text size="sm" textAlign="center" variant="secondary">
             {t('spaces.tasks.contactOrganization.subdescription')}

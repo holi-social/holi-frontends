@@ -1350,7 +1350,7 @@
   "spaces.tasks.contact.title": "Contact person for this task",
   "spaces.tasks.contactOrganization": "Contact organization",
   "spaces.tasks.contactOrganization.title": "Start by simply saying \"Hi\"",
-  "spaces.tasks.contactOrganization.description": "You will now start a chat with ... moderators. Feel free to discuss details of the task and how you can help out!",
+  "spaces.tasks.contactOrganization.description": "You will now start a chat with <0>{{organization}}</0>'s moderators. Feel free to discuss details of the task and how you can help out!",
   "spaces.tasks.contactOrganization.subdescription": "No pressure – chatting is just the first step. But please reach out only if you're serious about taking part and supporting the team's work.",
   "spaces.tasks.contactOrganization.cta": "Start chatting",
   "spaces.tasks.cta_claim": "Ask to claim action…",

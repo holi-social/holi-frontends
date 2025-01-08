@@ -1351,7 +1351,7 @@
   "spaces.tasks.contact.title": "Ansprechpartner für diese Aufgabe",
   "spaces.tasks.contactOrganization": "Nimm Kontakt auf",
   "spaces.tasks.contactOrganization.title": "Starte einfach mit einem \"Hallo\"",
-  "spaces.tasks.contactOrganization.description": "Du startest jetzt einen Chat mit ...s Moderator*innen. Besprich mit ihnen die Details der Aufgabe und wie du mithelfen kannst!",
+  "spaces.tasks.contactOrganization.description": "Du startest jetzt einen Chat mit <0>{{organization}}</0>s Moderator*innen. Besprich mit ihnen die Details der Aufgabe und wie du mithelfen kannst!",
   "spaces.tasks.contactOrganization.subdescription": "Kein Stress – Chatten ist nur der erste Schritt. Aber bitte melde dich nur, wenn du wirklich mitwirken und die Arbeit des Teams unterstützen möchtest.",
   "spaces.tasks.contactOrganization.cta": "Starte den Chat",
   "spaces.tasks.cta_claim": "Für Aufgabe anbieten…",

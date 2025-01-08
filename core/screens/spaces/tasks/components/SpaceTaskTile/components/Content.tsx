@@ -1,22 +1,14 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { LocationType } from '@holi/core/screens/spaces/types'
 import type { Task } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import {
-  AtFilled,
-  GlobalFilled,
-  MapPin2Filled,
-  PhoneFilled,
-  RefreshFilled,
-  TimeFilled,
-} from '@holi/icons/src/generated'
+import { GlobalFilled, MapPin2Filled, RefreshFilled, TimeFilled } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText, { type HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
@@ -114,36 +106,6 @@ const Content = ({
             />
             <HoliText>{task.creator.fullName || t('user.profileView.anonymous')}</HoliText>
           </View>
-
-          <HoliText bold style={styles.contactInformationTitle}>
-            {t('spaces.tasks.contact.title')}
-          </HoliText>
-
-          <View style={styles.contactContainer}>
-            <HoliIcon icon={AtFilled} color={colors.foreground20} />
-            <HoliButton
-              inline
-              transparent
-              label={task.contactEmail}
-              onPress={() => Linking.openURL(`mailto:${task.contactEmail}`)}
-            >
-              <HoliText size="small">{task.contactEmail}</HoliText>
-            </HoliButton>
-          </View>
-
-          {!!task.contactPhone && (
-            <View style={styles.contactContainer}>
-              <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
-              <HoliButton
-                inline
-                transparent
-                label={task.contactPhone}
-                onPress={() => Linking.openURL(`tel:${task.contactPhone}`)}
-              >
-                <HoliText size="small">{task.contactPhone}</HoliText>
-              </HoliButton>
-            </View>
-          )}
         </>
       )}
     </>
