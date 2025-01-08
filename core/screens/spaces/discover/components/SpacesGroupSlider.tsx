@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { ChipAction } from 'holi-bricks/components/chips'
-import React, { memo, useMemo } from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, type StyleProp, StyleSheet, View, type ViewStyle, useWindowDimensions } from 'react-native'
 
@@ -20,7 +20,7 @@ import type { Space } from '@holi/core/screens/spaces/types'
 import { MapPinLine } from '@holi/icons/src/generated'
 import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import Spacing from '@holi/ui/foundations/Spacing'
 
 interface BaseProps {
   style?: StyleProp<ViewStyle>
@@ -61,8 +61,7 @@ const SpacesGroupSlider = ({
   const { displayError } = useErrorHandling()
   const { navigate } = useRouting()
   const { width: windowWidth } = useWindowDimensions()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = getStyles()
 
   const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(locationId)
 
@@ -108,7 +107,7 @@ const SpacesGroupSlider = ({
   }
 
   return (
-    <View style={[styles.sliderContainer, style]} testID={testID}>
+    <View style={style} testID={testID}>
       <View style={styles.sliderHeader}>
         {topic && (
           <ChipAction
@@ -142,11 +141,10 @@ const SpacesGroupSlider = ({
         loading={loading}
         testID="spaces-group-slider"
         cardWidth={cardWidth}
-        slideGap={8}
+        slideGap={Spacing.xs}
         seeMoreButton={
           hasMore ? (
             <SpacesSeeMore
-              style={styles.seeMoreCard}
               onPress={() => navigate(`/spaces/filter?${seeMoreQueryParams}`)}
               testID={`${testID}-see-more`}
             />
@@ -178,24 +176,11 @@ const SpacesGroupSlider = ({
 }
 export default memo(SpacesGroupSlider)
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = () =>
   StyleSheet.create({
-    sliderContainer: {
-      marginBottom: 24,
-    },
     sliderHeader: {
       flexDirection: 'row',
       alignItems: 'center',
-    },
-    seeMoreCard: {
-      paddingVertical: 8,
-    },
-    spaceCard: {
-      paddingVertical: 8,
-      paddingHorizontal: 8,
-      marginRight: 8,
-    },
-    backgroundWhite: {
-      backgroundColor: theme.colors.background10,
+      paddingHorizontal: Spacing.xs,
     },
   })

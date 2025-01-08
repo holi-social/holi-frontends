@@ -1,4 +1,4 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { cleanup, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
@@ -10,7 +10,7 @@ import {
   skillsMock,
   topicsMock,
 } from '@holi/core/screens/spaces/__tests__/mocks'
-import { authenticatedUserV2, spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
+import { spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
 import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
@@ -59,7 +59,7 @@ const renderDiscoverSpaces = (mocks: MockedResponse[]) =>
     <MockedProvider mocks={mocks} addTypename={false}>
       <ToastProvider>
         <SpaceTermContextProvider>
-          <DiscoverSpaces user={authenticatedUserV2} />
+          <DiscoverSpaces />
         </SpaceTermContextProvider>
       </ToastProvider>
     </MockedProvider>
@@ -69,13 +69,7 @@ describe('DiscoverSpaces', () => {
   it('displays loading screen while loading', async () => {
     renderDiscoverSpaces(MOCKS)
 
-    expect(await screen.findByTestId('spaces-group-slider-skeletons'))
-  })
-
-  it('displays discover-spaces-view', async () => {
-    renderDiscoverSpaces(MOCKS)
-
-    expect(await screen.findByTestId('discover-spaces-header'))
+    expect(await screen.findByTestId('spaces-group-slider-skeletons')).toBeOnTheScreen()
   })
 
   // solve act() wrap warning

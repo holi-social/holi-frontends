@@ -131,7 +131,7 @@ const Login = () => {
         </HoliHeading>
 
         <View style={styles.formItemContainer}>
-          <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} variant="secondary" />
+          <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
         </View>
       </HoliContainer>
       {isLoaderShown && <HoliLoader />}

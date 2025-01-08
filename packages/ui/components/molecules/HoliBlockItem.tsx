@@ -1,17 +1,18 @@
 import type { PropsWithChildren } from 'react'
-import * as React from 'react'
+import type * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { Platform, View } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
 
 interface Props {
   title: string
@@ -58,8 +59,7 @@ const HoliBlockItem = ({
 }: PropsWithChildren<PropsWithSkeleton<Props>>) => {
   const { t } = useTranslation()
   const isSmall = size === 'small'
-  const { theme } = useTheme()
-  const styles = isSmall ? getStylesSmall(theme) : getStylesLarge(theme)
+  const { styles } = useStyles(isSmall ? getStylesSmall : getStylesLarge)
 
   const largeImageWidth = cardWidthForImageScaling ? cardWidthForImageScaling - 2 * styles.container.padding : undefined
   const imageSource = isSmall
@@ -153,110 +153,110 @@ const HoliBlockItem = ({
 
 export default HoliBlockItem
 
-const getStylesSmall = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      padding: 0,
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexGrow: 1,
-    },
-    mainSection: {
-      flexGrow: 2,
-      marginRight: Spacing['4xs'],
-    },
-    blockItemInner: {
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'nowrap',
-      gap: Spacing.xs,
-    },
-    imageContainer: {
-      position: 'relative',
-      width: SMALL_IMAGE_DIMENSION,
-      height: SMALL_IMAGE_DIMENSION,
-    },
-    image: {
-      borderRadius: SMALL_OUTER_BORDER_RADIUS,
-      height: '100%',
-    },
-    usersPile: {
-      maxWidth: '100%',
-      paddingVertical: Spacing['4xs'],
-      paddingRight: 8,
-    },
-    usersPileText: {
-      color: theme.colors.foreground20,
-    },
-    textContainer: {
-      flex: 1,
-      marginTop: 6,
-      justifyContent: 'center',
-    },
-    title: {},
-    subtitle: {
-      display: 'none',
-    },
-    description: {
-      display: 'none',
-    },
-    optionsButton: {
-      display: 'flex',
-      padding: Spacing['3xs'],
-      borderRadius: Spacing['3xs'],
-      maxHeight: 36,
-      backgroundColor: theme.colors.background10,
-    },
-  })
+const getStylesSmall = createStyleSheet((theme) => ({
+  container: {
+    padding: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexGrow: 1,
+  },
+  mainSection: {
+    flexGrow: 2,
+    marginRight: Spacing['4xs'],
+  },
+  blockItemInner: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    gap: Spacing.xs,
+  },
+  imageContainer: {
+    position: 'relative',
+    width: SMALL_IMAGE_DIMENSION,
+    height: SMALL_IMAGE_DIMENSION,
+  },
+  image: {
+    borderRadius: SMALL_OUTER_BORDER_RADIUS,
+    height: '100%',
+  },
+  usersPile: {
+    maxWidth: '100%',
+    paddingVertical: Spacing['4xs'],
+    paddingRight: Spacing['3xs'],
+  },
+  usersPileText: {
+    color: theme.colors.fill.support,
+  },
+  textContainer: {
+    flex: 1,
+    marginTop: 6,
+    justifyContent: 'center',
+  },
+  title: {},
+  subtitle: {
+    display: 'none',
+  },
+  description: {
+    display: 'none',
+  },
+  optionsButton: {
+    display: 'flex',
+    padding: Spacing['3xs'],
+    borderRadius: Spacing['3xs'],
+    maxHeight: 36,
+    backgroundColor: theme.colors.bg.container,
+  },
+}))
 
-const getStylesLarge = (theme: HoliTheme) =>
-  StyleSheet.create({
-    container: {
-      padding: 8,
-      paddingBottom: 16,
-      borderRadius: LARGE_OUTER_BORDER_RADIUS,
-      backgroundColor: theme.colors.background10,
-      flex: 1,
-    },
-    mainSection: {
-      flexGrow: 1,
-    },
-    blockItemInner: {},
-    imageContainer: {
-      position: 'relative',
-      width: '100%',
-      marginBottom: Spacing.xs,
-    },
-    image: {
-      aspectRatio: LARGE_IMAGE_ASPECT_RATIO,
-      borderRadius: 8,
-      maxWidth: '100%',
-    },
-    usersPile: {
-      position: 'absolute',
-      left: 10,
-      bottom: 10,
-      padding: Spacing['4xs'],
-      paddingRight: Spacing['3xs'],
-      borderRadius: Spacing.md,
-      backgroundColor: theme.colors.background10,
-    },
-    usersPileText: {},
-    textContainer: {
-      width: '100%',
-    },
-    title: {
-      marginTop: Spacing['4xs'],
-    },
-    subtitle: {
-      display: 'flex',
-      color: theme.colors.foreground20,
-    },
-    description: {
-      color: theme.colors.foreground20,
-      marginTop: Spacing['4xs'],
-    },
-    optionsButton: {},
-  })
+const getStylesLarge = createStyleSheet((theme) => ({
+  container: {
+    padding: Spacing['3xs'],
+    paddingBottom: Spacing.xs,
+    borderRadius: LARGE_OUTER_BORDER_RADIUS,
+    borderWidth: 1,
+    backgroundColor: theme.colors.bg.container,
+    borderColor: theme.colors.border.default,
+    flex: 1,
+  },
+  mainSection: {
+    flexGrow: 1,
+  },
+  blockItemInner: {},
+  imageContainer: {
+    position: 'relative',
+    width: '100%',
+    marginBottom: Spacing.xs,
+  },
+  image: {
+    aspectRatio: LARGE_IMAGE_ASPECT_RATIO,
+    borderRadius: 8,
+    maxWidth: '100%',
+  },
+  usersPile: {
+    position: 'absolute',
+    left: 10,
+    bottom: 10,
+    padding: Spacing['4xs'],
+    paddingRight: Spacing['3xs'],
+    borderRadius: Spacing.md,
+    backgroundColor: theme.colors.bg.container,
+  },
+  usersPileText: {},
+  textContainer: {
+    width: '100%',
+  },
+  title: {
+    marginTop: Spacing['4xs'],
+  },
+  subtitle: {
+    display: 'flex',
+    color: theme.colors.fill.support,
+  },
+  description: {
+    color: theme.colors.fill.support,
+    marginTop: Spacing['4xs'],
+  },
+  optionsButton: {},
+}))
