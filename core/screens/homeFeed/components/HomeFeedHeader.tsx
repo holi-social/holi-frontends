@@ -23,7 +23,6 @@ import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 
 const HomeFeedHeader: React.FC = () => {
   const { t } = useTranslation()
@@ -101,7 +100,6 @@ const HomeFeedHeader: React.FC = () => {
           />
         </Animated.View>
       </HoliBox>
-      <ProfileCompletionCard style={styles.container} />
     </View>
   )
 }
