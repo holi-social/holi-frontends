@@ -63,6 +63,7 @@ export const ContentSelection = ({ onChange, selectedOption, testID = 'content-s
           <SelectorCard
             key={id}
             id={id}
+            testID={id}
             size="lg"
             title={t(`onboarding.contentSelection.${id}`)}
             description={t(`onboarding.contentSelection.${id}.description`)}

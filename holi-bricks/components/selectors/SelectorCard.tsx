@@ -37,6 +37,7 @@ export type SelectorCardProps = AccessibilityProps & {
   variant?: SelectorCardVariant
   onPress?: (event: GestureResponderEvent) => void | Promise<void>
   selected?: boolean
+  testID?: string
 } & SelectionElementProps
 
 export const SelectorCard = ({
@@ -52,6 +53,7 @@ export const SelectorCard = ({
   variant = 'detailed',
   onPress,
   selected = false,
+  testID,
   ...rest
 }: SelectorCardProps) => {
   const { styles } = useStyles(stylesheet, { disabled, reverseOrder })
@@ -63,6 +65,7 @@ export const SelectorCard = ({
       disabled={disabled}
       {...accessibilityProps(rest)}
       style={({ hovered, pressed }) => [styles.selector(!!hovered, !disabled && !!pressed, selected, outlined)]}
+      testID={testID}
     >
       {image && (
         <HoliLocalImage
