@@ -6,9 +6,7 @@ import { StyleSheet, View } from 'react-native'
 import type Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import FilterModal from '@holi/core/components/FIlterModal'
 import HoliHead from '@holi/core/components/HoliHead'
-import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
@@ -19,19 +17,16 @@ import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
-import type { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
-import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
+import GetStartedView from '@holi/core/screens/spaces/discover/components/GetStartedView'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
-import { discoverSpacesQuery, mySpaceQuery, type MySpacesResponse } from '@holi/core/screens/spaces/discover/queries'
+import { type MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 
 export enum Tab {
   MINE = 'mine',
@@ -47,7 +42,7 @@ const { useParam, useUpdateParams } = createParamHooks<SpacesTabParams>()
 const Spaces = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { user, isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<Animated.ScrollView>(null)
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
@@ -83,21 +78,22 @@ const Spaces = () => {
   )
 
   useIsomorphicLayoutEffect(() => {
-    const title = t('spaces.title')
     const handleCreateSpaceButtonPress = () =>
       navigateWithAuth('/spaces/create', {
         description: t('spaces.create.loginRedirect.text'),
         trackTrigger: 'CREATE_SPACE',
       })
+
     setScreenOptions({
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
       headerShown: true,
+      /* have white background appearance */
+      headerTransparent: false,
+      /* hide title on ios with empty title string */
       headerTitle: '',
-      headerShadowVisible: false,
+      headerBackVisible: false,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
-          {title}
+          {t('spaces.organize')}
         </HeaderTitle>
       ),
       headerRight: (props) => (
@@ -108,31 +104,6 @@ const Spaces = () => {
       ),
     })
   }, [navigate, t, setScreenOptions, navigateWithAuth])
-
-  const { visible: isFilterModalShown, show: openFilterModal, hide: closeFilterModal } = useModalState()
-
-  const applyFilters = (filters: SpaceFilter) => {
-    const params = new URLSearchParams()
-
-    if (filters.location?.id) {
-      params.set('location', filters.location.id)
-    }
-
-    filters.topicSlugs?.forEach((topic) => {
-      params.append('topic', topic)
-    })
-
-    filters.skillSlugs?.forEach((skill) => {
-      params.append('skill', skill)
-    })
-    const paramsString = params.toString()
-    paramsString && navigate('/spaces/filter?' + paramsString)
-  }
-
-  const onSubmit = (filters: SpaceFilter) => {
-    applyFilters(filters)
-    closeFilterModal()
-  }
 
   if (loading || (isLoggedIn && !mySpacesData)) {
     return <HoliLoader style={{ backgroundColor: colors.background20 }} />
@@ -149,9 +120,7 @@ const Spaces = () => {
       <ScrollViewRefreshable ref={pageViewRef} style={styles.layout} onScroll={onScreenScroll}>
         {!hasOwnSpaces ? (
           /* User has NO spaces => show discover view */
-          <HoliContainer flex={1}>
-            <DiscoverSpaces user={user} />
-          </HoliContainer>
+          <GetStartedView />
         ) : (
           <View style={styles.tabsWrapper}>
             {/* User HAS spaces => show tabs with mine and discover */}
@@ -167,28 +136,18 @@ const Spaces = () => {
                 },
                 {
                   key: Tab.DISCOVER,
-                  tabTitle: t('spaces.tabs.discover'),
-                  content: () => <DiscoverSpaces user={user} />,
+                  tabTitle: t('spaces.tabs.getstarted'),
+                  content: () => <GetStartedView />,
                 },
               ]}
               keyExtractor={({ key }) => key}
               renderTabContent={({ item }) => item.content()}
               testID="spaces-tab-navigation"
+              marginHorizontal={0}
             />
           </View>
         )}
       </ScrollViewRefreshable>
-
-      <FilterModal
-        actionButtonVisible={!hasOwnSpaces || activeTab === Tab.DISCOVER}
-        label={t('spaces.filter.heading')}
-        buttonLabel={t('spaces.filter.button.label')}
-        shown={isFilterModalShown}
-        open={openFilterModal}
-        onDismiss={closeFilterModal}
-      >
-        <SpaceFilterForm onSubmit={onSubmit} />
-      </FilterModal>
     </SpaceTermContextProvider>
   )
 }

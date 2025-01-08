@@ -29,13 +29,13 @@ import { type MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/d
 import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Text } from 'holi-bricks/components/text'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 const CreateSpace = () => {
@@ -119,9 +119,9 @@ const CreateSpace = () => {
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerTitle: () => (
-        <HoliHeading level="1" size="m">
+        <Text headingLevel="1" size="md">
           {t('spaces.create.title')}
-        </HoliHeading>
+        </Text>
       ),
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {

@@ -1,10 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import SpaceMineTile from '@holi/core/screens/spaces/discover/components/SpaceMineTile'
-import { SpaceSection } from '@holi/core/screens/spaces/types'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import type { SpaceSection } from '@holi/core/screens/spaces/types'
+import { Spacing } from 'holi-bricks/tokens'
+import { Text } from 'holi-bricks/components/text'
 
 export type MySpacesProps = {
   mySpaces: SpaceSection[]
@@ -26,9 +27,11 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
     <View style={[styles.container, style]}>
       {mappedSpaces.map((section, sectionIndex) => (
         <View key={`${sectionIndex}`} style={styles.section}>
-          <HoliHeading level="3" size="s" testID={`section-headline-${section.type}`}>
-            {section.title}
-          </HoliHeading>
+          <View testID={`section-headline-${section.type}`}>
+            <Text headingLevel="3" size="lg">
+              {section.title}
+            </Text>
+          </View>
 
           {section.data.map((space, spaceIndex) => (
             <SpaceMineTile
@@ -48,9 +51,10 @@ export default MySpaces
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 24,
+    paddingBottom: Spacing.md,
+    paddingHorizontal: Platform.OS !== 'web' ? Spacing.xs : 0,
   },
   section: {
-    marginTop: 24,
+    marginTop: Spacing.md,
   },
 })

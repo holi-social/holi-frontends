@@ -96,7 +96,7 @@ const BottomTabsNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={unistyles.icon(focused).color} />
           },
-          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.spaces')} focused={focused} />,
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.organize')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-spaces',
         }}

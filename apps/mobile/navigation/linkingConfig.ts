@@ -79,6 +79,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceDetails]: 'spaces/:spaceIdOrName',
         [RouteName.SpaceRelatedSpaces]: 'spaces/:spaceIdOrName/relatedSpaces',
         [RouteName.CreateSpace]: 'spaces/create',
+        [RouteName.ExploreSpaces]: 'spaces/explore/',
         [RouteName.EditSpace]: 'spaces/:spaceIdOrName/edit',
         [RouteName.LinkHub]: 'spaces/:spaceIdOrName/linkhub',
         [RouteName.CreateDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/create',
