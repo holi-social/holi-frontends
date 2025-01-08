@@ -96,7 +96,7 @@ export const skipOnboardingInitialSteps = async (page: Page) => {
   const onboardingStepsToSkip = [
     'onboarding-content-selection',
     'onboarding-location-selection',
-    'onboarding-intrests-selection',
+    'onboarding-interests-selection',
     'onboarding-skills-selection',
   ]
   for (const step of onboardingStepsToSkip) {
