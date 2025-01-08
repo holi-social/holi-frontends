@@ -7,6 +7,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 
 import type { FileSizeLimitationReject, FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
+import { Pressable } from 'react-native'
 
 const resizeImage = async (fileBlob: File, resizeWidth: number): Promise<HoliImageInfo> => {
   const fileBlobUri = URL.createObjectURL(fileBlob)
@@ -57,6 +58,7 @@ const readImage = async (fileBlob: File): Promise<HoliImageInfo> => {
 
 const HoliImagePicker = ({
   buttonProps,
+  children,
   buttonIconProps,
   onPickImage,
   onPickImages,
@@ -180,8 +182,13 @@ const HoliImagePicker = ({
         multiple={allowsMultipleSelection}
       />
 
-      {buttonProps && !buttonIconOnly && <Button {...buttonProps} onPress={pickImageHandler} />}
-      {buttonIconProps && buttonIconOnly && <ButtonIcon {...buttonIconProps} onPress={pickImageHandler} />}
+      {buttonProps && !buttonIconOnly && !children && <Button {...buttonProps} onPress={pickImageHandler} />}
+      {buttonIconProps && buttonIconOnly && !children && <ButtonIcon {...buttonIconProps} onPress={pickImageHandler} />}
+      {buttonProps && children && (
+        <Pressable {...buttonProps} onPress={pickImageHandler}>
+          {children}
+        </Pressable>
+      )}
     </>
   )
 }
