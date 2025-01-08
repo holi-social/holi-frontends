@@ -27,7 +27,7 @@ export const defaultPassword = 'TheSamePassword4A11E2eUsers'
 
 export const testIdContinueAsGuest = 'onboarding-account-creation-btn-continue-as-guest'
 
-export const registerNewUser = async (props: RegistrationProps): Promise<string> => {
+export const registerNewUser = async (props?: RegistrationProps): Promise<string> => {
   const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
   await register({ email, password: defaultPassword, ...props })
   return email

@@ -1,4 +1,4 @@
-import { Options } from '@wdio/types'
+import type { Options } from '@wdio/types'
 import { execFileSync } from 'child_process'
 
 const requireEnvVar = (varName: string, options?: { validValues?: Array<string>; defaultValue?: string }) => {
@@ -133,8 +133,9 @@ const localIOSSimulator = () => ({
 
 const serverConfig: Partial<Options.WebdriverIO> = {
   ...defaultConfig,
-  host: process.env.APPIUM_HOST || 'localhost', // host ist correct, even though the webdriver.io type has hostname
-  port: parseInt(process.env.APPIUM_PORT || '') || 4723,
+  // @ts-ignore host ist correct, even though the webdriver.io type has hostname
+  host: process.env.APPIUM_HOST || 'localhost',
+  port: Number.parseInt(process.env.APPIUM_PORT || '') || 4723,
   path: process.env.APPIUM_PATH || '/',
 }
 
