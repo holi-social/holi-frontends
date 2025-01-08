@@ -1,9 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform } from 'react-native'
 
-import UserPrivacyPng from '@holi/ui/assets/img/icons/user-privacy.png'
-import UserPrivacy from '@holi/ui/assets/img/icons/user-privacy.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -18,11 +15,11 @@ const GeneralContent = ({ hideDescription = false }) => {
   return (
     <>
       <HoliLocalImage
-        imageSource={Platform.OS === 'android' ? UserPrivacyPng : UserPrivacy}
+        imageSource={require('@holi/ui/assets/img/icons/user-privacy.svg')}
         width={90}
         height={72}
         label={''}
-        isSvg={Platform.OS !== 'android'}
+        isSvg
       />
 
       <HoliGap size="m" />

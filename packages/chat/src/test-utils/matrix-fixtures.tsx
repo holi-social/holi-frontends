@@ -1,9 +1,9 @@
-import { EventType, IContent, IEvent, MatrixClient, MatrixEvent, Room } from 'matrix-js-sdk'
-import { act } from 'react-test-renderer'
+import { EventType, type IContent, type IEvent, type MatrixClient, type MatrixEvent, type Room } from 'matrix-js-sdk'
 
-import { ChatRoomMember, ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
+import { type ChatRoomMember, type ChatRoomMessage, MembershipStatus } from '@holi/chat/src/client/types'
 import { createChatRoomResult, createMatrixEventMock, createRoomMock } from '@holi/chat/src/test-utils/matrix-mocks'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
+import { act } from '@testing-library/react-native'
 
 export const DM_ROOM_ID = 'room-id'
 export const NOTIFICATION_COUNT = 0

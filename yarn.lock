@@ -5398,7 +5398,7 @@ __metadata:
     "@graphql-codegen/typescript-react-apollo": "npm:^4.3.0"
     "@graphql-eslint/eslint-plugin": "npm:^3.18.0"
     "@novu/client": "npm:0.20.0"
-    "@ory/kratos-client": "npm:^0.13.1"
+    "@ory/kratos-client": "npm:v1.2.1"
     "@types/react": "npm:~18.2.45"
     "@types/tinycolor2": "npm:1.4.6"
     graphql: "npm:^16.3.0"
@@ -7529,12 +7529,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ory/kratos-client@npm:^0.13.1":
-  version: 0.13.1
-  resolution: "@ory/kratos-client@npm:0.13.1"
+"@ory/kratos-client@npm:v1.2.1":
+  version: 1.2.1
+  resolution: "@ory/kratos-client@npm:1.2.1"
   dependencies:
-    axios: "npm:^0.21.4"
-  checksum: 10c0/2b81d7627077834a6d3a4a07d0c46a180cac1795bb2950c13ab8b38959180db37b523cf93e404d926c4abe4fb9897792789936d923ff6d8be9be1452785fc879
+    axios: "npm:^1.6.1"
+  checksum: 10c0/cb5abe68b89aa70bce653c4cb7991764069018f0ec87d2d54a5f1742ee0c3957affe820cbfec532b942243f687624d90d469074d76f5cec10c5d20b8d60e3a2a
   languageName: node
   linkType: hard
 

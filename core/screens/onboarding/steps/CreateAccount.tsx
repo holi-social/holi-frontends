@@ -20,8 +20,6 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { DocumentsFooter } from '@holi/core/screens/onboarding/components/DocumentsFooter'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import GiveFiveFilledPng from '@holi/ui/assets/img/icons/give-five-filled.png'
-import GiveFiveFilled from '@holi/ui/assets/img/icons/give-five-filled.svg'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
@@ -32,7 +30,6 @@ import { Text } from 'holi-bricks/components/text'
 const logger = getLogger('CreateAccount')
 
 const isWeb = Platform.OS === 'web'
-const isAndroid = Platform.OS === 'android'
 
 export interface CreateAccountProps {
   onRegister: () => void
@@ -143,11 +140,11 @@ export const CreateAccount = ({
           {t('registration.signUp.heading')}
 
           <HoliLocalImage
-            imageSource={isAndroid ? GiveFiveFilledPng : GiveFiveFilled}
+            imageSource={require('@holi/ui/assets/img/icons/give-five-filled.svg')}
             width={50}
             height={40}
             label={''}
-            isSvg={!isAndroid}
+            isSvg
           />
         </Text>
         <HoliGap size="xs" />
