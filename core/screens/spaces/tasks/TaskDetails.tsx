@@ -22,6 +22,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/ContactOrganization'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -106,6 +107,8 @@ const TaskDetails = () => {
           <SpaceTaskTile variant="full" task={task} space={space} />
         </HoliContainer>
       </ScrollViewRefreshable>
+
+      <ContactOrganization spaceIdOrName={spaceIdOrName} />
     </>
   )
 }
