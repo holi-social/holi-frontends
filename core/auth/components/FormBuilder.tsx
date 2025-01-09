@@ -7,6 +7,7 @@ import type {
   UiNode,
   UiNodeInputAttributes,
   UpdateLoginFlowBody,
+  UpdateRecoveryFlowBody,
   UpdateRegistrationFlowBody,
   UpdateSettingsFlowBody,
 } from '@ory/kratos-client'
@@ -42,7 +43,9 @@ interface FlowData<T> {
   submitType: Record<string, unknown>
 }
 
-const FormBuilder = <T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody>({
+const FormBuilder = <
+  T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody | UpdateRecoveryFlowBody,
+>({
   onSubmit,
   isSignin,
   flow,

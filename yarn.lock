@@ -78,7 +78,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:^3.8.0, @apollo/client@npm:latest":
+"@apollo/client@npm:^3.8.0":
   version: 3.11.8
   resolution: "@apollo/client@npm:3.11.8"
   dependencies:
@@ -112,15 +112,6 @@ __metadata:
     subscriptions-transport-ws:
       optional: true
   checksum: 10c0/a9b697460aa6a5d7e59685132509871675995af14b5fc69213ca22f973600cfe3391b27b7b871579c5b4e18a0d6755ffd1076a2d8dd970a54a43973feaa99ffa
-  languageName: node
-  linkType: hard
-
-"@apollo/react-hooks@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@apollo/react-hooks@npm:4.0.0"
-  dependencies:
-    "@apollo/client": "npm:latest"
-  checksum: 10c0/fde1cdaf83751cc93bb2d76bc1cdfc6ae39018c0d674511d4fa84cd725a7f91d0e19b7df86ad39846b0104f580777abb90e9c4a6e259ba5dadfed6809b869116
   languageName: node
   linkType: hard
 
@@ -5352,7 +5343,6 @@ __metadata:
   resolution: "@holi/api@workspace:packages/api"
   dependencies:
     "@apollo/client": "npm:3.10.8"
-    "@apollo/react-hooks": "npm:^4.0.0"
     "@graphql-codegen/cli": "npm:^5.0.2"
     "@graphql-codegen/typescript": "npm:^4.0.6"
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
@@ -5389,7 +5379,6 @@ __metadata:
   resolution: "@holi/core@workspace:core"
   dependencies:
     "@apollo/client": "npm:3.10.8"
-    "@apollo/react-hooks": "npm:^4.0.0"
     "@graphql-codegen/cli": "npm:^5.0.2"
     "@graphql-codegen/client-preset": "npm:^2.1.1"
     "@graphql-codegen/typescript": "npm:^4.0.6"

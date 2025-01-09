@@ -1,4 +1,5 @@
-import { Comment, Post } from '@holi/core/screens/posts/types'
+import type { Post } from '@holi/core/screens/posts/types'
+import type { Comment } from '@holi/core/screens/comments/types'
 
 export const comment: Comment = {
   id: '1',
@@ -10,6 +11,7 @@ export const comment: Comment = {
     avatarLabel: 'CC',
     avatarDefaultColor: '#F8F860',
     fullName: 'Test Commenter 1',
+    identity: '',
   },
   mentions: [],
   myReaction: {
@@ -18,6 +20,8 @@ export const comment: Comment = {
   reactions: {
     HEART: 4,
   },
+  replies: [],
+  totalReplies: 0,
 }
 
 const comment2: Comment = {
@@ -30,6 +34,7 @@ const comment2: Comment = {
     avatarLabel: 'CC',
     avatarDefaultColor: '#F8F860',
     fullName: 'Test Commenter 1',
+    identity: '',
   },
   mentions: [],
   myReaction: {
@@ -38,9 +43,11 @@ const comment2: Comment = {
   reactions: {
     HEART: 1,
   },
+  replies: [],
+  totalReplies: 0,
 }
 
-const comments: Comment[] = [comment, comment2]
+export const comments: Comment[] = [comment, comment2]
 
 export const post: Post = {
   id: '1',
@@ -53,6 +60,7 @@ export const post: Post = {
     avatarLabel: 'C',
     avatarDefaultColor: '#7BD7EA',
     fullName: 'Test Creator',
+    identity: '',
   },
   numberOfComments: 2,
   commenters: {
@@ -64,10 +72,10 @@ export const post: Post = {
         avatarLabel: 'CC',
         avatarDefaultColor: '#F8F860',
         fullName: 'Test Commenter 1',
+        identity: '',
       },
     ],
   },
-  comments: comments,
   links: [],
   mentions: [],
   myReaction: {
@@ -77,4 +85,5 @@ export const post: Post = {
     HEART: 1,
   },
   isPublic: true,
+  __typename: 'Post',
 }

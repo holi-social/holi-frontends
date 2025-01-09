@@ -1,12 +1,12 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { waitFor } from '@testing-library/react-native'
 import { Provider, createStore, useAtom } from 'jotai'
-import { EventType, IRoomEvent, MatrixClient, MatrixEvent, Room, RoomEvent } from 'matrix-js-sdk'
+import { EventType, type IRoomEvent, type MatrixClient, type MatrixEvent, type Room, RoomEvent } from 'matrix-js-sdk'
 import React from 'react'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomMember, PrivateChatRoom } from '@holi/chat/src/client/types'
+import type ChatClient from '@holi/chat/src/client/ChatClient'
+import type { ChatRoom, ChatRoomMember } from '@holi/chat/src/client/types'
 import {
   _newMessageAtomSubscriber,
   _roomAtomsRecordAtomSubscriber,
@@ -42,7 +42,7 @@ describe('Chat Store - messages', () => {
   let store: ReturnType<typeof createStore>
   let mxClient: jest.MockedObjectDeep<MatrixClient>
   let chatClient: ChatClient
-  let room: PrivateChatRoom
+  let room: ChatRoom
   let creator: ChatRoomMember
 
   beforeEach(() => {
@@ -51,7 +51,7 @@ describe('Chat Store - messages', () => {
     chatClient = createChatClient()
     initChatClient(chatClient)
     store = createStore()
-    ;({ roomMock, room, creator, member } = initChatRoomFixture(mxClient))
+    ;({ room, creator } = initChatRoomFixture(mxClient))
   })
 
   it('shoud receive messages in an existing room', () => {

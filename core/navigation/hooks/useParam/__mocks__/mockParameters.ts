@@ -21,6 +21,6 @@ export const mockParameters = (parameters: Parameters = {}) => {
     mockUseParam,
     mockSetParam,
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    mockUseUpdateParams: useUpdateParams(),
+    mockUseUpdateParams: useUpdateParams() as jest.Mock,
   }
 }
