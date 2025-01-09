@@ -1,20 +1,17 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { Text } from 'holi-bricks/components/text/Text'
 import { Spacing } from 'holi-bricks/tokens'
-import React, { type ReactElement, useEffect, useState } from 'react'
+import React, { type ReactElement, useCallback, useState } from 'react'
+import { createContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { SelectorCard, type SelectorCardInputType } from './SelectorCard'
+import type { SelectorCardInputType } from './SelectorCard'
 
-export interface SelectionElementProps {
-  selected?: boolean
-  onPress?: () => void
-  id: string
-}
+type OptionsState = { [key: string]: boolean }
 
 type SelectorProps = AccessibilityProps & {
   title?: string
-  children: ReactElement<SelectionElementProps>[]
+  children: ReactElement[]
   inputType?: SelectorCardInputType
   row?: boolean
   onSelect?: (id: string) => void
@@ -22,74 +19,51 @@ type SelectorProps = AccessibilityProps & {
   initiallySelectedOptions?: string[]
 }
 
+type SelectorContextType = {
+  selectedOptions: OptionsState
+  contextOnPress?: (id: string) => void
+  inputType?: SelectorCardInputType
+}
+export const SelectorContext = createContext<SelectorContextType>({
+  selectedOptions: {},
+  contextOnPress: undefined,
+  inputType: 'radio',
+})
+
 export const Selector = ({
   title,
   children,
-  inputType,
+  inputType = 'radio',
   row = false,
-  onSelect,
   onChange,
-  initiallySelectedOptions,
+  initiallySelectedOptions = [],
+  onSelect,
   ...rest
 }: SelectorProps) => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+  const initiallySelectedOptionsAsObject: OptionsState = Object.fromEntries(
+    initiallySelectedOptions.map((option) => [option, true])
+  )
 
-  useEffect(() => {
-    children.forEach((child) => {
-      if (initiallySelectedOptions?.includes(child.props.id)) {
-        setSelectedOptions((prevOptions) => [...prevOptions, child.props.id])
-      }
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Empty dependency: runs only once on mount
+  const [selectedOptions, setSelectedOptions] = useState<OptionsState>(initiallySelectedOptionsAsObject || {})
 
-  const arraysEqual = (arr1: string[], arr2: string[]) => {
-    return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index])
-  }
-
-  const handleChange = (id: string) => {
-    if (inputType === 'radio') {
-      setSelectedOptions((prevSelected) => {
-        const newSelected = prevSelected.includes(id) ? prevSelected.filter((item) => item !== id) : [id]
-        if (!arraysEqual(prevSelected, newSelected)) {
-          onChange?.(newSelected)
-        }
-        return newSelected
-      })
-    } else {
-      setSelectedOptions((prevSelected) => {
-        const newSelected = prevSelected.includes(id)
-          ? prevSelected.filter((item) => item !== id)
-          : [...prevSelected, id]
-        if (!arraysEqual(prevSelected, newSelected)) {
-          onChange?.(newSelected)
-        }
-        return newSelected
-      })
-    }
-  }
-
-  const content = React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
-      const { id } = child.props
-      return React.cloneElement(child, {
-        ...child.props,
-        onPress: () => {
-          handleChange(id) // Selection behaviour
-          onSelect?.(id) // Callback of parent component
-          child.props.onPress?.() // Callback of children components if exist
-        },
-        selected: selectedOptions.includes(id),
-        ...(child.type === SelectorCard ? { inputType } : {}),
-      })
-    }
-    return child
-  })
+  const onPress = useCallback(
+    (id: string) => {
+      onSelect?.(id)
+      const newSelectedOptions =
+        inputType === 'radio' ? { [id]: !selectedOptions[id] } : { ...selectedOptions, [id]: !selectedOptions[id] }
+      const newSelectedOptionsAsStringArray = Object.keys(newSelectedOptions).filter((key) => newSelectedOptions[key])
+      onChange?.(newSelectedOptionsAsStringArray)
+      setSelectedOptions(newSelectedOptions)
+    },
+    [inputType, onChange, onSelect, selectedOptions]
+  )
 
   return (
     <View {...accessibilityProps(rest)} style={styles.container}>
       {title && <Text size="lg">{title}</Text>}
-      <View style={[styles.cardContainer, row && styles.row]}>{content}</View>
+      <SelectorContext.Provider value={{ contextOnPress: onPress, selectedOptions, inputType }}>
+        <View style={[styles.cardContainer, row && styles.row]}>{children}</View>
+      </SelectorContext.Provider>
     </View>
   )
 }
@@ -101,13 +75,9 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    width: '100%',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     gap: Spacing.xs,
-  },
-  item: {
-    marginBottom: Spacing.xxs,
   },
   cardContainer: {
     flex: 1,
