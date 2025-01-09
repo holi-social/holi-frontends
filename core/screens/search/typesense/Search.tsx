@@ -21,7 +21,7 @@ const searchFields = ['title_de', 'title_en', 'description_de', 'description_en'
 const embeddingFields = ['embedding']
 
 const createTypesenseInstantSearchAdapter = () => {
-  const options = {
+  return new TypesenseInstantSearchAdapter({
     server: {
       apiKey: typesenseApiKey,
       nodes: [
@@ -37,8 +37,7 @@ const createTypesenseInstantSearchAdapter = () => {
       query_by: searchFields.join(',') + ',' + embeddingFields.join(','),
       highlight_full_fields: searchFields.join(','),
     },
-  }
-  return new TypesenseInstantSearchAdapter(options)
+  })
 }
 
 export const Search = () => {
@@ -61,9 +60,10 @@ export const Search = () => {
   )
 }
 
+// TODO restyle after introducing <Screen> component (HOLI-10827)
 const stylesheet = createStyleSheet((theme) => ({
   container: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.bg.page,
     gap: dimensions.spacingS,
     paddingTop: dimensions.topBarHeight + dimensions.spacingS, // TODO probably not the right way to do this
     paddingBottom: dimensions.bottomBarHeight, // TODO probably not the right way to do this

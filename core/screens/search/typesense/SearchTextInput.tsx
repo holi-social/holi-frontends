@@ -31,7 +31,6 @@ export function SearchTextInput({ props }: SearchBoxProps) {
   }, [query])
 
   return (
-    // TODO holi-fy
     <TextInput
       ref={inputRef}
       style={styles.input}
@@ -46,6 +45,7 @@ export function SearchTextInput({ props }: SearchBoxProps) {
   )
 }
 
+// TODO restyle after introducing <Screen> component (HOLI-10827)
 const stylesheet = createStyleSheet(() => ({
   input: {
     height: 48,
