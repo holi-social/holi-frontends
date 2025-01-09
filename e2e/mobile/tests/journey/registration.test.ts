@@ -1,7 +1,12 @@
 import { faker } from '@faker-js/faker'
 
 import { deleteAccount, register, registerNewUser, testIdContinueAsGuest } from '../../helpers/auth'
-import { tapOnElementWithTestId, waitForElementWithInnerText, waitForElementWithTestId } from '../../helpers/selectors'
+import {
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithInnerText,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 describe('@RegistrationJourney', () => {
@@ -52,20 +57,22 @@ describe('@RegistrationJourney', () => {
     // Expect being redirected to selected content type SPACES
     await waitForElementWithTestId('spaces-container')
 
-    // // Navigate to profile
+    // Navigate to profile
     await tapOnElementWithTestId('btn-to-profile-view')
 
     // Expect location
     userData.location?.label && (await waitForElementWithInnerText(userData.location?.label))
 
     // Expect interests
+    await scrollToElementWithTestId('user-profile-interests', 'down')
     for (const slug of userData.interests) {
-      await waitForElementWithTestId(`interests-${slug}`)
+      await waitForElementWithTestId(`interests--${slug}`)
     }
 
     // Expect skills
+    await scrollToElementWithTestId('user-profile-skills', 'down')
     for (const slug of userData.skills) {
-      await waitForElementWithTestId(`skills-${slug}`)
+      await waitForElementWithTestId(`skills--${slug}`)
     }
 
     await deleteAccount()

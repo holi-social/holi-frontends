@@ -37,7 +37,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       {sortedTerms.length > 0 || !onPressEdit ? (
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         sortedTerms.map((term) => (
-          <ChipLabel key={term.id} color={color} id={`${keyInUserObject}-${term.slug}`}>
+          <ChipLabel key={term.id} color={color} testID={`${keyInUserObject}--${term.slug}`}>
             {term.title}
           </ChipLabel>
         ))
