@@ -14,10 +14,9 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { SelectorCard } from 'holi-bricks/components/selectors'
 
 const logger = getLogger('Tracking')
 
@@ -100,17 +99,16 @@ const TrackingSettings = () => {
                   [t('profile.settings.tracking.purpose.analytics'), !!productAnalytics, onProductAnalyticsChange],
                 ] as [string, boolean, (value: boolean) => void][]
               ).map(([text, value, onChange], idx) => (
-                <View style={idx !== 0 && styles.optionBox} key={idx}>
-                  <HoliBox
-                    padding={[24, 0]}
-                    layout={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
-                  >
-                    <HoliText>{text}</HoliText>
-
-                    <HoliGap direction="horizontal" size="s" />
-
-                    <HoliSwitch value={value} onChange={onChange} />
-                  </HoliBox>
+                <View style={[styles.optionBox, idx !== 0 && styles.underlined]} key={idx}>
+                  <SelectorCard
+                    id={idx.toString()}
+                    title={text}
+                    selected={value}
+                    onPress={() => onChange(!value)}
+                    inputType="switch"
+                    outlined={false}
+                    switchSize="medium"
+                  />
                 </View>
               ))
             }
@@ -163,7 +161,11 @@ const getStyles = (theme: HoliTheme) =>
       borderBottomRightRadius: 24,
     },
     optionBox: {
+      paddingVertical: 12,
+    },
+    underlined: {
       borderColor: theme.colors.background20,
       borderTopWidth: 1,
+      marginTop: 3,
     },
   })
