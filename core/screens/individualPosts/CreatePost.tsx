@@ -115,6 +115,9 @@ const CreatePost = () => {
           {t('individuals.post.input.title')}
         </Text>
       ),
+      navigationCustomOptions: {
+        footerShown: false,
+      },
       headerBackVisible: false,
     })
   }, [colors.background20, colors.black300, navigateBack, setScreenOptions, t])
