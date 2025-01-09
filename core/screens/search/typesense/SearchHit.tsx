@@ -48,8 +48,6 @@ export const SearchHit = ({ hit }: SearchHitProps) => {
               </>
             )}
           </View>
-          {/* TODO these grow outside the container, how to constrain them? */}
-          {/* TODO can we build highlighting with one text component? */}
           <Text size={'sm'}>{title}</Text>
         </View>
       </View>
@@ -57,6 +55,7 @@ export const SearchHit = ({ hit }: SearchHitProps) => {
   )
 }
 
+// TODO restyle after introducing <Screen> component (HOLI-10827)
 const stylesheet = createStyleSheet(() => ({
   hitItemColumnsLayout: { flexDirection: 'row', columnGap: dimensions.spacingSM },
   hitItemRightColumnLayout: { flexDirection: 'column', rowGap: dimensions.spacingXs },
