@@ -9,7 +9,7 @@ type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `android=resourceId("${testID}")`)
 
 // https://webdriver.io/docs/selectors/#xpath
-const byText = (text: string) => (platform === 'ios' ? `//*[contains(.,"${text}")]` : `//*[@text="${text}"]`)
+const byText = (text: string) => (platform === 'ios' ? `//*[@name="${text}"]` : `//*[@text="${text}"]`)
 
 const elementBySelector = async (elementSelector: string): Promise<Element<'async'>> => await Appium.$(elementSelector)
 
