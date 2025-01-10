@@ -36,8 +36,17 @@ export const All = () => {
           </ul>
         </section>
         <div className="container-logo">
-          <img src={require('@holi/ui/assets/img/icons/brand/Logo.svg')} />
-          <img src={require('@holi/ui/assets/img/icons/brand/BubbleConnection.svg')} style={{ marginTop: -1 }} />
+          <img
+            src={
+              require('@holi/ui/assets/img/icons/brand/Logo.svg') /* eslint-disable-line @typescript-eslint/no-require-imports */
+            }
+          />
+          <img
+            src={
+              require('@holi/ui/assets/img/icons/brand/BubbleConnection.svg') /* eslint-disable-line @typescript-eslint/no-require-imports */
+            }
+            style={{ marginTop: -1 }}
+          />
         </div>
       </div>
     </div>

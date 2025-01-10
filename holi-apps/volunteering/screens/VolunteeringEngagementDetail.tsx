@@ -154,7 +154,7 @@ const UnwrappedVolunteeringEngagementDetail = () => {
     AppVolunteeringEngagementByIdVariables
   >(engagementByIdQuery, {
     variables: {
-      id: engagementId!,
+      id: engagementId!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
     },
     skip: !engagementId,
     onError: (error) => {

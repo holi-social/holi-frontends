@@ -3,6 +3,7 @@ import { Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import useInitiativeLinkNavigation from '@holi/core/screens/insights/initiatives/useInitiativeLinkNavigation'
+import { Initiative } from '@holi/core/screens/insights/types'
 
 jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
   __esModule: true,
@@ -11,19 +12,19 @@ jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
 
 describe('useInitiativeLinkNavigation', () => {
   const insightId = '1'
-  const initiative1 = { id: '1', link: 'https://app.holi.social/initiatives/1' }
-  const initiative2 = { id: '2', link: 'https://staging.dev.holi.social/initiatives/2' }
-  const initiative3 = { id: '3', link: 'https://example.com/3' }
+  const initiative1 = { id: '1', link: 'https://app.holi.social/initiatives/1' } as Initiative
+  const initiative2 = { id: '2', link: 'https://staging.dev.holi.social/initiatives/2' } as Initiative
+  const initiative3 = { id: '3', link: 'https://example.com/3' } as Initiative
 
   beforeEach(() => {
-    useRouting.mockReturnValue({ navigate: jest.fn() })
+    ;(useRouting as jest.Mock).mockReturnValue({ navigate: jest.fn() })
   })
 
   describe('Intenal link', () => {
     it('should navigate to internal link details when Platform is android', () => {
       Platform.OS = 'android'
 
-      const { result } = renderHook(() => useInitiativeLinkNavigation(initiative1, insightId))
+      const { result } = renderHook(() => useInitiativeLinkNavigation(initiative1 as Initiative, insightId))
 
       result.current.navigate()
 

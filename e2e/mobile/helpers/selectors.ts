@@ -88,7 +88,7 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
         try {
           await foundElement.element.waitForDisplayed({ timeout: 3000 })
           return foundElement
-        } catch (err) {
+        } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
           // waitForDisplayed threw an error, so the element is not displayed, so we retry
         }
       } else {
@@ -107,7 +107,7 @@ const scrollElementIntoView = async (testId: string, direction: ScrollDirection,
       // Not explicitly awaiting the element caused a second scroll to happen too soon, possibly overscrolling the element to search for
       const element = await waitForElementWithTestId(testId, 100)
       return element
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // element was not found
     }
 
@@ -192,7 +192,7 @@ export const tapOnElement = async (element: Element<'async'>) => {
   // https://webdriver.io/docs/api/element/touchAction
   try {
     await Appium.touchAction({ element, action: 'tap' })
-  } catch (err) {
+  } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     throw new Error(`Couldn't tap on element: ${element}`)
   }
 }
@@ -203,7 +203,7 @@ export const tapOnElementWithTestId = async (testId: string, timeout?: number) =
     const element = await waitForElementWithTestId(testId, timeout)
     await tapOnElement(element)
     return element
-  } catch (err) {
+  } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     throw new Error("Couldn't tap on element with testID: " + testId)
   }
 }
@@ -228,7 +228,7 @@ export const fillFieldByTestId = async (testId: string, value: string) => {
     await element.clearValue()
     await element.setValue(value)
     return element
-  } catch (err) {
+  } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     throw new Error("Couldn't fill field with testID: " + testId)
   }
 }
@@ -254,12 +254,10 @@ export const retry = async (fn: () => Promise<void>, timeout = 3000, retryInterv
   const poll = async (): Promise<void> => {
     try {
       await fn()
-      // eslint-disable-next-line no-console
-      console.log('Fulfilled')
+      console.log('Fulfilled') // eslint-disable-line no-console
       return
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('Retrying...')
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
+      console.log('Retrying...') // eslint-disable-line no-console
       if (Date.now() - startTime >= timeout) {
         throw new Error('Condition was not met within the timeout')
       }

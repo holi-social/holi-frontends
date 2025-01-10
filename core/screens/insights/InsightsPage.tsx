@@ -33,6 +33,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { User } from '@holi/core/domain/shared/types'
 
 const InsightsList = () => {
   const { t } = useTranslation()
@@ -45,7 +46,7 @@ const InsightsList = () => {
 
   const { loading, data: insights, totalResults } = usePaginationContext<Insight>()
 
-  const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
+  const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator) as User[]
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
