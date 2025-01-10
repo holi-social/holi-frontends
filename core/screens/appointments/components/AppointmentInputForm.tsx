@@ -250,7 +250,6 @@ const AppointmentInputForm = ({
                   endDateTime: newStartDate > endDate ? transformToUTC(newStartDate) : appointment.endDateTime,
                 })
               }}
-              maximumDate={endDate}
               testID="appointment-start-date"
             />
 
