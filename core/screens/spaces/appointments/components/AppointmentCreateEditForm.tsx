@@ -43,7 +43,6 @@ const AppointmentCreateEditForm = ({ space, initialAppointment, headerTitle, onS
           {headerTitle}
         </HoliHeading>
       ),
-      headerTransparent: true,
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerLeft: () => <HeaderBackButton onPress={() => showConfirmationModal(true)} />,
