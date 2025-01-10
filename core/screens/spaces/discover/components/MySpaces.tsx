@@ -1,22 +1,20 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import SpaceMineTile from '@holi/core/screens/spaces/discover/components/SpaceMineTile'
 import type { SpaceSection } from '@holi/core/screens/spaces/types'
-import { Spacing } from 'holi-bricks/tokens'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Text } from 'holi-bricks/components/text'
+import { Spacing } from 'holi-bricks/tokens'
 
 export type MySpacesProps = {
   mySpaces: SpaceSection[]
-  style?: StyleProp<ViewStyle>
 }
 
-const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
+const MySpaces = ({ mySpaces = [] }: MySpacesProps) => {
   const { t } = useTranslation()
 
-  // FIXME: this will be very expensive when spaces start growing.
-  // If we need a better API this should be changed on the backend.
   const mappedSpaces = mySpaces.map((section) => ({
     title: t(`spaces.tabs.mine.${section.type.toLowerCase()}`),
     type: section.type,
@@ -24,7 +22,7 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
   }))
 
   return (
-    <View style={[styles.container, style]}>
+    <HoliContainer>
       {mappedSpaces.map((section, sectionIndex) => (
         <View key={`${sectionIndex}`} style={styles.section}>
           <View testID={`section-headline-${section.type}`}>
@@ -42,18 +40,13 @@ const MySpaces = ({ mySpaces = [], style }: MySpacesProps) => {
           ))}
         </View>
       ))}
-    </View>
+    </HoliContainer>
   )
 }
 
 export default MySpaces
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingBottom: Spacing.md,
-    paddingHorizontal: Platform.OS !== 'web' ? Spacing.xs : 0,
-  },
   section: {
     marginTop: Spacing.md,
   },

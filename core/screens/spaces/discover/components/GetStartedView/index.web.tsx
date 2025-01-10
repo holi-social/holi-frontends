@@ -2,18 +2,19 @@ import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
-import { Button } from 'holi-bricks/components/button'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { Text } from 'holi-bricks/components/text'
-import { BorderRadius } from 'holi-bricks/tokens'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { User } from '@holi/core/domain/shared/types'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import Spacing from '@holi/ui/foundations/Spacing'
+import { Button } from 'holi-bricks/components/button'
+import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
+import { BorderRadius } from 'holi-bricks/tokens'
 import { breakpoints } from 'holi-bricks/tokens'
+import { createStyleSheet } from 'holi-bricks/utils'
 
 interface GetStartedViewProps {
   user?: User
@@ -35,7 +36,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
   }
 
   return (
-    <View testID="spaces-container" style={styles.container}>
+    <HoliContainer testID="spaces-container" gap={Spacing.md} noPaddingOnSmallViewports={true}>
       <View style={styles.description(screenWidth)}>
         <View style={styles.text} testID="get-started-view-header">
           <Text headingLevel="2" size="3xl">
@@ -144,19 +145,16 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
           />
         </View>
       </View>
-    </View>
+    </HoliContainer>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    paddingTop: Spacing.md,
-    gap: Spacing.md,
-  },
   description: (screenWidth: number) => {
     return {
       gap: Spacing.xs,
-      paddingHorizontal: screenWidth < breakpoints.md ? Spacing.xs : 0,
+      paddingHorizontal: screenWidth < breakpoints.sm ? Spacing.xs : 0,
+      paddingTop: Spacing.md,
     }
   },
   text: {

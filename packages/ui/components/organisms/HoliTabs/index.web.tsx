@@ -97,7 +97,6 @@ const HoliTabs = <D extends HoliTabItem>({
               renderItem={renderTabContent}
               tabsId={testID}
               testID={`${testID}-content-list`}
-              marginHorizontal={marginHorizontal}
             />
           )}
         </HoliContainer>
