@@ -51,7 +51,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
           {this.props.allowReload && (
             <View style={styles.button}>
               <Button
-                label="{t('error.errorBoundary.retry')}"
+                label={t('error.errorBoundary.retry')}
                 inline
                 onPress={() => this.setState({ error: null })}
                 testID="error.errorBoundary.retry"
