@@ -35,6 +35,7 @@ export type SelectorCardProps = AccessibilityProps & {
   variant?: SelectorCardVariant
   selected?: boolean
   switchSize?: HoliSwitchSize
+  testID?: string
 }
 
 export const SelectorCard = ({
@@ -51,6 +52,7 @@ export const SelectorCard = ({
   onPress,
   selected = false,
   switchSize = 'small',
+  testID,
   ...rest
 }: SelectorCardProps) => {
   const { styles } = useStyles(stylesheet, { disabled, reverseOrder })
@@ -62,6 +64,7 @@ export const SelectorCard = ({
       disabled={disabled}
       {...accessibilityProps(rest)}
       style={({ hovered, pressed }) => [styles.selector(!!hovered, !disabled && !!pressed, selected, outlined)]}
+      testID={testID}
     >
       {image && (
         <HoliLocalImage

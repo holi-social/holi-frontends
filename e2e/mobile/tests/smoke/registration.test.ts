@@ -22,7 +22,7 @@ describe('@Registration - smoke', () => {
     await logout()
 
     // try to create a new user with the same credentials
-    await register({ email, password: defaultPassword }, false)
+    await register({ email, password: defaultPassword, skipAccountSetup: true })
 
     await waitForElementWithTestId('ory-traits-email-input-error-message')
 

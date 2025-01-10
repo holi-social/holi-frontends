@@ -11,19 +11,25 @@ import {
   waitForElementWithTestId,
 } from './selectors'
 import { delayMs } from './time'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 type AuthProps = {
   email?: string
   password?: string
 }
 
+type RegistrationProps = {
+  userData?: OnboardingUserData
+  skipAccountSetup?: boolean
+}
+
 export const defaultPassword = 'TheSamePassword4A11E2eUsers'
 
 export const testIdContinueAsGuest = 'onboarding-account-creation-btn-continue-as-guest'
 
-export const registerNewUser = async (): Promise<string> => {
+export const registerNewUser = async (props?: RegistrationProps): Promise<string> => {
   const email = `${faker.internet.userName()}${faker.string.numeric(4)}@e2etest.com`
-  await register({ email, password: defaultPassword })
+  await register({ email, password: defaultPassword, ...props })
   return email
 }
 
@@ -70,16 +76,19 @@ export const login = async (
   }
 }
 
-export const register = async (
-  {
-    email = process.env.E2E_USER_USERNAME || 'empty',
-    password = process.env.E2E_USER_PASSWORD || 'empty',
-  }: AuthProps = {},
-  withAccountSetup = true
-) => {
+export const register = async ({
+  email = process.env.E2E_USER_USERNAME || 'empty',
+  password = process.env.E2E_USER_PASSWORD || 'empty',
+  userData,
+  skipAccountSetup,
+}: AuthProps & { userData?: OnboardingUserData; skipAccountSetup?: boolean } = {}) => {
   if (await checkIfElementWithTestIdExists('btn-to-onboarding', 1000)) {
-    // Skip onboarding steps
-    await skipOnboardingSteps()
+    // Pass through onboarding
+    if (userData) {
+      await fillOutOnboarding(userData)
+    } else {
+      await skipOnboardingSteps()
+    }
   } else {
     // Register from anonymous profile screen
     await tapOnElementWithTestId('btn-to-anonymous-profile-view', 10000)
@@ -95,10 +104,12 @@ export const register = async (
   await tapOnElementWithTestId('ory-submit-password')
 
   // Finish account setup
-  if (withAccountSetup) {
+  if (!skipAccountSetup) {
     await finishAccountSetup()
 
-    await waitForHomeScreen()
+    if (!userData?.content) {
+      await waitForHomeScreen()
+    }
   }
 }
 
@@ -122,7 +133,6 @@ export const finishAccountSetup = async ({
   // Agree to community guidelines
   await tapOnElementWithTestId('community-guidelines-modal-btn-submit')
 
-  await waitForHomeScreen()
   delayMs(10000)
 }
 
@@ -139,6 +149,38 @@ const skipOnboardingSteps = async () => {
   await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
   await waitForElementWithTestId('onboarding-skills-selection')
   await tapOnElementWithTestId('onboarding-stepper-progress-bar-skip-btn')
+  await waitForElementWithTestId('onboarding-account-creation')
+}
+
+const fillOutOnboarding = async (userData: OnboardingUserData) => {
+  const onboardingButton = await waitForElementWithTestId('btn-to-onboarding')
+  await tapOnElement(onboardingButton)
+  // Handle content selection
+  await waitForElementWithTestId('onboarding-content-selection')
+  if (userData.content) {
+    await tapOnElementWithTestId(userData.content)
+  }
+  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
+  // Handle location selection
+  await waitForElementWithTestId('onboarding-location-selection')
+  if (userData.location) {
+    await fillFieldByTestId('onboarding-location-selection-autocomplete-input', userData.location.label)
+    await tapOnElementWithTestId(`onboarding-location-selection-autocomplete-item-${userData.location.id}`)
+  }
+  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
+  // Handle interests selection
+  await waitForElementWithTestId('onboarding-interests-selection')
+  for (const slug of userData.interests) {
+    await tapOnElementWithTestId(`user-chip-form--${slug}-chip`)
+  }
+  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
+  // Handle skills selection
+  await waitForElementWithTestId('onboarding-skills-selection')
+  for (const slug of userData.skills) {
+    await tapOnElementWithTestId(`user-chip-form--${slug}-chip`)
+  }
+  await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
+
   await waitForElementWithTestId('onboarding-account-creation')
 }
 

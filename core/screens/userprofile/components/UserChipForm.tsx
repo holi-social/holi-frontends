@@ -61,14 +61,14 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
           <HoliLoader testID={`${testID}-loader`} />
         ) : terms.length > 0 ? (
           <HoliChipRow editable={false} editButtonLabel="">
-            {terms.map(({ id, selected, title }) => (
+            {terms.map(({ id, selected, title, slug }) => (
               <ChipSelect
                 key={id}
                 onPress={() => onTermSelect(id)}
                 selected={selected}
                 selectedColor={color}
                 size={size}
-                testID={`${testID}--${id}-chip`}
+                testID={`${testID}--${slug}-chip`}
               >
                 {title}
               </ChipSelect>
