@@ -20,7 +20,7 @@ export type TrackableProps<P extends TrackableBaseProps> = P & {
   trackingEvent: TrackingEvent
 }
 
-const Trackable = <P extends TrackableBaseProps>(Component: React.ComponentType<P>) => {
+export const Trackable = <P extends TrackableBaseProps>(Component: React.ComponentType<P>) => {
   const WrappedComponent = (props: TrackableProps<P>) => {
     const { track } = useTracking()
 

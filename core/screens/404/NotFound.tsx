@@ -41,7 +41,7 @@ const NotFound = () => {
           />
         </HoliButton>
       ),
-      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
+      headerRight: () => <NotificationAndSearchHeader />,
     })
   }, [navigate, setScreenOptions, t, colors.background20])
 

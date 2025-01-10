@@ -43,7 +43,7 @@ export const SearchFacetsChips = () => {
               selected={item.isRefined}
               key={item.value}
             >
-              {t(`search.typesense.hit.type.${item.label}_plural`)} &middot; {item.count + ''}
+              {[t(`search.typesense.hit.type.${item.label}_plural`), '·', `${item.count}`].join(' ')}
             </ChipAction>
           )
         })}
