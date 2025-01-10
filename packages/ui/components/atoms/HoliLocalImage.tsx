@@ -42,7 +42,8 @@ const HoliLocalImage = ({
       asset={imageSource}
       width={width}
       height={height}
-      style={[{ resizeMode }, style]}
+      // @ts-ignore
+      style={style}
     />
   ) : (
     <Image

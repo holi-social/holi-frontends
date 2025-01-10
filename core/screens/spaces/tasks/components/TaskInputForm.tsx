@@ -257,7 +257,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           isRequired
           showCharacterCount
           maxNoOfCharacters={128}
-          minNoOfCharacters={2}
         />
         <HoliTextInput
           placeholder={t('spaces.input.task.description.placeholder')}

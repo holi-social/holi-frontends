@@ -23,11 +23,11 @@ export type HoliLocalImageProps = {
   /**
    * The width of the image. Required since without dimensions, there is no way to achieve the same behaviour on web and mobile.
    */
-  width: number | string
+  width: number
   /**
    * The height of the image. Required since without dimensions, there is no way to achieve the same behaviour on web and mobile.
    */
-  height: number | string
+  height: number
   /**
    * The style to apply to the image.
    */

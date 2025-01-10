@@ -71,6 +71,7 @@ const HoliKeyboardSaveView = ({
 
   return (
     <View {...nativeProps} ref={scrollViewRef} style={[styles.outer, style, { maxHeight: maxHeight }]} testID={testID}>
+      {/* @ts-ignore */}
       <View onLayout={(event) => storeOffsetTop(event.nativeEvent?.layout?.top)} style={[styles.inner, contentStyle]}>
         {children}
       </View>

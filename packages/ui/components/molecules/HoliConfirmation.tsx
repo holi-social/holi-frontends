@@ -22,7 +22,8 @@ import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { Button, type ButtonVariant } from 'holi-bricks/components/button'
+import { Button } from 'holi-bricks/components/button'
+import type { ButtonVariant } from 'holi-bricks/components/button/Button'
 
 export interface UseConfirmation {
   show: boolean

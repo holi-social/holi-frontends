@@ -8,7 +8,7 @@
  * window.visualViewport.height.
  *
  * The problem is the first input focus and so the first time the
- * soft-keyboard opens. It behaves differently from the the second
+ * soft-keyboard opens. It behaves differently from the second
  * focus and so is hard to judge.
  *
  * Another problem is, that the page becomes scrollable. But this
@@ -51,8 +51,11 @@ export const useSoftKeyboard = (props?: useSoftKeyboardProps) => {
   const [lastKeyboardOpen, setLastKeyboardOpen] = useState<boolean>()
 
   const onResize = useDebounce((event?: SyntheticEvent<Event>) => {
+    // @ts-ignore
     const viewPortHeight = event ? event.target?.height : window?.visualViewport?.height
+    // @ts-ignore
     const viewPortOffset = event ? event.target?.offsetTop : window?.visualViewport?.offsetTop
+    // @ts-ignore
     const viewPortPageTop = event ? event.target?.pageTop : window?.visualViewport?.pageTop
     const windowHeight = window?.innerHeight
     const keyboardIsOpen = windowHeight > viewPortHeight

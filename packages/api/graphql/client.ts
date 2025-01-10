@@ -77,6 +77,7 @@ function customIsExtractableFile(value: unknown): value is ReactNativeFile | Fil
 
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
+// @ts-ignore type incompatibility would need to be fixed in apollo-upload-client library
 const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
   uri: holiApiUrl,
   credentials: 'include',

@@ -9,7 +9,7 @@ import { useActionContext } from './Action'
 import { useActionDrawerContext } from './Drawer'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
-import type { ButtonVariant } from 'holi-bricks/components/button'
+import type { ButtonVariant } from 'holi-bricks/components/button/Button'
 
 interface Props {
   description: string
