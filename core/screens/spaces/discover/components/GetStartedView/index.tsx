@@ -2,15 +2,16 @@ import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
-import { Button } from 'holi-bricks/components/button'
-import Spacing from '@holi/ui/foundations/Spacing'
-import { Text } from 'holi-bricks/components/text'
-import { BorderRadius } from 'holi-bricks/tokens'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { User } from '@holi/core/domain/shared/types'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
+import Spacing from '@holi/ui/foundations/Spacing'
+import { Button } from 'holi-bricks/components/button'
+import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
+import { BorderRadius } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 
 interface GetStartedViewProps {
@@ -24,7 +25,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
   const { styles } = useStyles(stylesheet)
 
   return (
-    <View testID="spaces-container" style={styles.container}>
+    <HoliContainer testID="spaces-container" gap={Spacing.md} noPadding={true}>
       <View style={styles.description}>
         <View style={styles.text} testID="get-started-view-header">
           <Text headingLevel="2" size="3xl">
@@ -129,18 +130,15 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
           />
         </View>
       </View>
-    </View>
+    </HoliContainer>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    paddingTop: Spacing.md,
-    gap: Spacing.md,
-  },
   description: {
     gap: Spacing.xs,
     paddingHorizontal: Spacing.xs,
+    paddingTop: Spacing.md,
   },
   text: {
     gap: Spacing['4xs'],
