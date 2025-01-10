@@ -99,7 +99,7 @@ const Spaces = () => {
       headerRight: (props) => (
         <HoliHorizontalRow>
           <CreateSpaceButton onPress={handleCreateSpaceButtonPress} {...props} />
-          <NotificationAndSearchHeader {...props} />
+          <NotificationAndSearchHeader />
         </HoliHorizontalRow>
       ),
     })

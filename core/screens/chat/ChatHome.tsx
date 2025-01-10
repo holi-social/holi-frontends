@@ -44,7 +44,7 @@ const ChatHome = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
+      headerRight: () => <NotificationAndSearchHeader />,
     })
   }, [navigate, setScreenOptions, t, title, colors.background20])
   if (chatFeatureFlag.inMaintenance) {

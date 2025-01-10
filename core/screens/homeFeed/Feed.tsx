@@ -153,7 +153,7 @@ const HomeFeed = () => {
           <HoliLogo color={tintColor} />
         </HoliTransition.FadeLeft>
       ),
-      headerRight: (props) => (
+      headerRight: () => (
         <HoliTransition.FadeRight visible>
           <View style={styles.headerRight}>
             {displayFeedbackLink && (
@@ -161,7 +161,7 @@ const HomeFeed = () => {
                 <Text size="sm">{t('homeFeed.feedback')}</Text>
               </HoliLink>
             )}
-            <NotificationAndSearchHeader {...props} />
+            <NotificationAndSearchHeader />
           </View>
         </HoliTransition.FadeRight>
       ),
