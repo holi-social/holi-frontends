@@ -35,6 +35,7 @@ export const jitsiUrl = (() => {
   return process.env.NEXT_PUBLIC_JITSI_URL || baseUrl
 })()
 
+// Add env vars to window interface declaration in window.d.ts
 export const posthogKey = !isSSR ? window.POSTHOG_KEY : process.env.POSTHOG_KEY
 export const posthogHost = !isSSR ? window.POSTHOG_HOST : process.env.POSTHOG_HOST
 

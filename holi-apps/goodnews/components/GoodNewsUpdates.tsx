@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import RecoSlider from '@holi/core/components/RecoSlider'
@@ -10,8 +10,8 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
 import { NewspaperFilled } from '@holi/icons/src/generated'
 
-import { GoodNewsArticlesQueryResponse, goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import { type GoodNewsArticlesQueryResponse, goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 export const GOOD_NEWS_PAGE_SIZE = 5
 
@@ -41,7 +41,6 @@ const GoodNewsUpdates: React.FC<GoodNewsUpdatesProps> = ({ cardWidth }: GoodNews
       <RecoSliderCard
         name="goodnews"
         to={`/apps/goodnews?${params.toString()}`}
-        index={index}
         title={item.headline}
         imageSourceUri={item.pictureUrl}
         footer={formattedDate}

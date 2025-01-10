@@ -2,18 +2,11 @@ import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import NotificationReleaseInfoItem from '@holi/core/screens/notifications/components/NotificationReleaseInfoItem'
-import { NotificationReleaseInfo, NotificationType } from '@holi/core/screens/notifications/components/types'
+import { type NotificationReleaseInfo, NotificationType } from '@holi/core/screens/notifications/components/types'
 
 const releaseInfoNotification: NotificationReleaseInfo = {
   id: 'e2bd2b4b-e996-4333-a5c9-0808c75f1a4e',
   notificationType: NotificationType.RELEASE_INFO,
-  owner: {
-    id: 'b98ea673-9b33-49ab-bc3f-a60a543533c5',
-    avatarLabel: 'foo',
-    avatarDefaultColor: 'red',
-    fullName: 'Karsten',
-    identity: 'karsten',
-  },
   created: '2023-03-23T10:30:53.608640+00:00',
   read: true,
   options: {
@@ -27,8 +20,10 @@ const releaseInfoNotification: NotificationReleaseInfo = {
       commenters: { totalResults: 0, data: [] },
       myReaction: { HEART: 1 },
       reactions: { HEART: 10 },
+      __typename: 'FeedPost',
     },
   },
+  notificationVersion: '1.0.0',
 }
 
 describe('NotificationReleaseInfoItem.tsx', () => {

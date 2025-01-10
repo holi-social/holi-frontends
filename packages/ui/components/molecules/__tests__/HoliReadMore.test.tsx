@@ -39,7 +39,7 @@ it('should display truncated and full text from children', async () => {
     </HoliReadMore>
   )
 
-  const el = screen.queryByTestId(containerTestId) as ReactTestInstance
+  const el = screen.queryByTestId(containerTestId)
   fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
 
   const readMoreBtn = await screen.findByText('component.readMore.readMore')

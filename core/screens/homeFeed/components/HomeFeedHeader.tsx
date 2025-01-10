@@ -3,7 +3,7 @@ import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -18,8 +18,6 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useIsFocused } from '@holi/core/helpers/useIsFocused'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import AnnouncementBanner from '@holi/core/screens/homeFeed/components/AnnouncementBanner'
-import HandWaveFilledPng from '@holi/ui/assets/img/icons/hand-wave-filled.png'
-import HandWaveFilled from '@holi/ui/assets/img/icons/hand-wave-filled.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -96,12 +94,12 @@ const HomeFeedHeader: React.FC = () => {
         {/* start waving animation after user state has been loaded and the screen is focused/active */}
         <Animated.View style={[!isLoading && isFocused && rotationStyle, { transformOrigin: 'center bottom' }]}>
           <HoliLocalImage
-            imageSource={Platform.OS === 'android' ? HandWaveFilledPng : HandWaveFilled}
+            imageSource={require('@holi/ui/assets/img/icons/hand-wave-filled.svg')}
             width={40}
             height={40}
             label={''}
             style={styles.handwaveFilled}
-            isSvg={Platform.OS !== 'android'}
+            isSvg
           />
         </Animated.View>
       </HoliBox>
