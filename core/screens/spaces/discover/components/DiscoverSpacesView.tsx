@@ -86,7 +86,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
       params.append('skill', skill)
     })
     const paramsString = params.toString()
-    paramsString && navigate('/spaces/filter?' + paramsString)
+    if (paramsString) navigate('/spaces/filter?' + paramsString)
   }
 
   useIsomorphicLayoutEffect(() => {

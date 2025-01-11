@@ -47,7 +47,7 @@ const VideoCall: React.FC = () => {
   const requestPermissions = useCallback(() => {
     if (Platform.OS !== 'web') {
       Camera.requestCameraPermissionsAsync().then((response) => {
-        response.granted && Camera.requestMicrophonePermissionsAsync()
+        if (response.granted) Camera.requestMicrophonePermissionsAsync()
       })
     }
   }, [])

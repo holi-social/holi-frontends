@@ -157,7 +157,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
       // if pressed too soon, the state is set to non null, but the modal is not shown.
       // crude mechanism to recover from this state.
       // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-      editField && setEditField(null)
+      if (editField) setEditField(null)
       setIsEdit(true)
       setEditField(type)
       show()

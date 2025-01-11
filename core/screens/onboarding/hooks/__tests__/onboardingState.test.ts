@@ -99,7 +99,7 @@ describe('useOnboardingInitialization', () => {
         isLoggedIn: true,
         user: {},
       })
-      state && storeOnboardingState(state)
+      if (state) storeOnboardingState(state)
 
       renderOnboardingInitialization()
 
@@ -114,7 +114,7 @@ describe('useOnboardingInitialization', () => {
         isLoggedIn: true,
         user: {},
       })
-      state && storeOnboardingState(state)
+      if (state) storeOnboardingState(state)
       mockUseVerificationFlowData.mockReturnValue({})
 
       renderOnboardingInitialization()
@@ -129,7 +129,7 @@ describe('useOnboardingInitialization', () => {
       mockUseLoggedInUser.mockReturnValue({
         isLoggedIn: false,
       })
-      state && storeOnboardingState(state)
+      if (state) storeOnboardingState(state)
       mockUseVerificationFlowData.mockReturnValue({})
 
       renderOnboardingInitialization()
@@ -170,7 +170,7 @@ describe('useOnboardingInitialization', () => {
           identity: 'test-identity',
         },
       })
-      state && storeOnboardingState(state)
+      if (state) storeOnboardingState(state)
 
       renderOnboardingInitialization()
 
@@ -206,7 +206,7 @@ describe('useOnboardingInitialization', () => {
       mockUseLoggedInUser.mockReturnValue({
         isLoggedIn: false,
       })
-      state && storeOnboardingState(state)
+      if (state) storeOnboardingState(state)
 
       renderOnboardingInitialization()
 

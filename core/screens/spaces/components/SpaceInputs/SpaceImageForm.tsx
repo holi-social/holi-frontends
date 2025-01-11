@@ -132,9 +132,7 @@ const SpaceImageForm: React.FC<SpaceImageFormProps> = ({
           keyExtractor={({ key }) => key}
           renderTabContent={({ item }) => item.content()}
           activeTab="upload"
-          onChange={() => {
-            null
-          }}
+          onChange={() => {}}
           backgroundColor={theme.colors.background10}
         />
       </View>

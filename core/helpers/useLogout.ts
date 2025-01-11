@@ -52,7 +52,9 @@ export const useLogout = () => {
         }
 
         if (isProcessingLogout || isLoggingOut || loginState.isLoggedOut) {
-          !skipRedirect && redirect()
+          if (!skipRedirect) {
+            redirect()
+          }
           return
         }
         isProcessingLogout = true
@@ -84,7 +86,9 @@ export const useLogout = () => {
         } finally {
           isLoggingOutVar(false)
           isProcessingLogout = false
-          !skipRedirect && redirect()
+          if (!skipRedirect) {
+            redirect()
+          }
         }
       },
       [isLoggingOut, loginState, navigate, client, openToast, t]

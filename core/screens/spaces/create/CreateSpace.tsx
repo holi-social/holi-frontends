@@ -69,7 +69,7 @@ const CreateSpace = () => {
   useEffect(() => {
     if (loginState.isLoggedIn) {
       mockImageUploadForE2E(loginState.userId).then((spaceCoverImage) => {
-        spaceCoverImage && setSpaceCoverImage(spaceCoverImage)
+        if (spaceCoverImage) setSpaceCoverImage(spaceCoverImage)
       })
     }
   }, [loginState])

@@ -59,7 +59,9 @@ export const useNotifications = () => {
           limit: NOVU_NOTIFICATIONS_PAGE_SIZE,
         })
         .then((response) => {
-          onSuccess && onSuccess()
+          if (onSuccess) {
+            onSuccess()
+          }
           setCanFetchMore(!!response.hasMore)
           processMessagesResponse(response)
         })
