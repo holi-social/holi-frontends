@@ -20,7 +20,13 @@ export const useRedirect = (fallback?: string) => {
 
   return useCallback(
     (replace?: boolean) => {
-      if (pathToRedirect) replace ? replaceRoute(pathToRedirect) : navigate(pathToRedirect)
+      if (pathToRedirect) {
+        if (replace) {
+          replaceRoute(pathToRedirect)
+        } else {
+          navigate(pathToRedirect)
+        }
+      }
     },
     [navigate, pathToRedirect, replaceRoute]
   )

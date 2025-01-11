@@ -17,7 +17,7 @@ describe('useInitiativeLinkNavigation', () => {
   const initiative3 = { id: '3', link: 'https://example.com/3' } as Initiative
 
   beforeEach(() => {
-    ;(useRouting as jest.Mock).mockReturnValue({ navigate: jest.fn() })
+    ;(useRouting as jest.Mock).mockReturnValue({ navigate: jest.fn() }) // eslint-disable-line no-extra-semi
   })
 
   describe('Intenal link', () => {
