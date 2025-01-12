@@ -5335,24 +5335,44 @@ __metadata:
 "@holi-apps/challenges@npm:*, @holi-apps/challenges@workspace:holi-apps/challenges":
   version: 0.0.0-use.local
   resolution: "@holi-apps/challenges@workspace:holi-apps/challenges"
+  dependencies:
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
   languageName: unknown
   linkType: soft
 
 "@holi-apps/donations@npm:*, @holi-apps/donations@workspace:holi-apps/donations":
   version: 0.0.0-use.local
   resolution: "@holi-apps/donations@workspace:holi-apps/donations"
+  dependencies:
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
   languageName: unknown
   linkType: soft
 
 "@holi-apps/goodnews@npm:*, @holi-apps/goodnews@workspace:holi-apps/goodnews":
   version: 0.0.0-use.local
   resolution: "@holi-apps/goodnews@workspace:holi-apps/goodnews"
+  dependencies:
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
   languageName: unknown
   linkType: soft
 
 "@holi-apps/volunteering@npm:*, @holi-apps/volunteering@workspace:holi-apps/volunteering":
   version: 0.0.0-use.local
   resolution: "@holi-apps/volunteering@workspace:holi-apps/volunteering"
+  dependencies:
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
   languageName: unknown
   linkType: soft
 
@@ -5370,6 +5390,10 @@ __metadata:
     apollo-link-timeout: "npm:^4.0.0"
     apollo-upload-client: "npm:^18.0.1"
     cross-fetch: "npm:^3.1.5"
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
     ramda: "npm:^0.29.1"
   languageName: unknown
   linkType: soft
@@ -5379,6 +5403,10 @@ __metadata:
   resolution: "@holi/chat@workspace:packages/chat"
   dependencies:
     cross-fetch: "npm:^3.1.6"
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
     holi-bricks: "npm:*"
     immer: "npm:^10.0.2"
     jest: "npm:^29.6.4"
@@ -5639,6 +5667,10 @@ __metadata:
     "@react-native-community/datetimepicker": "npm:8.0.1"
     "@storybook/react": "npm:^7.6.10"
     "@types/tinycolor2": "npm:1.4.6"
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
     lottie-react: "npm:2.4.0"
     lottie-react-native: "npm:6.7.2"
     react: "npm:18.2.0"
