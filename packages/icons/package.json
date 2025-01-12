@@ -4,12 +4,17 @@
   "scripts": {
     "build": "yarn svgr -d ./src/generated ./assets",
     "clean": "echo 'nothing to be done'",
-    "clean:all": "yarn clean"
+    "clean:all": "yarn clean",
+    "lint": "TIMING=1 eslint ."
   },
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.74.6",
-    "react-native-svg": "15.2.0"
+    "react-native-svg": "15.2.0",
+    "eslint": "^8.33.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "4.6.2",
+    "eslint-plugin-react-native": "^4.1.0"
   },
   "devDependencies": {
     "@svgr/cli": "8.0.1"
