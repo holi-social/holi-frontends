@@ -67,7 +67,7 @@ const HoliTabButton = React.forwardRef<View, PropsWithChildren<Props>>(
         testID={props.testID}
         disabled={disabled}
         onPress={(event) => {
-          !disabled && props.onPress && props.onPress(event)
+          if (!disabled && props.onPress) props.onPress(event)
         }}
         onLayout={props.onLayout}
         style={[props.style, styles.base]}

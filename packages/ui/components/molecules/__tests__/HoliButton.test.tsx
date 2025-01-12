@@ -76,7 +76,7 @@ describe('handles components as children', () => {
         <HoliIcon icon={HomeSmile2} testID="Icon" />
       </HoliButton>
     )
-    expect(getByTestId('Text')).toBeDefined
-    expect(getByTestId('Icon')).toBeDefined
+    expect(getByTestId('Text')).toBeDefined()
+    expect(getByTestId('Icon')).toBeDefined()
   })
 })

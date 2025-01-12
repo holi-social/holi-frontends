@@ -120,10 +120,10 @@ const HoliMentionsPlugin: React.FC<HoliMentionsPluginProps> = ({
     }
     let newNode
     if (startOffset === 0) {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      // eslint-disable-next-line no-extra-semi
       ;[newNode] = anchorNode.splitText(selectionOffset)
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      // eslint-disable-next-line no-extra-semi
       ;[, newNode] = anchorNode.splitText(startOffset, selectionOffset)
     }
 

@@ -28,7 +28,7 @@ export function delayAnimation(fn: CallableFunction | undefined, props: unknown,
         cancelAnimationFrame(rAF)
 
         return
-      } catch (error) {
+      } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
         return
       }
     }
