@@ -32,7 +32,7 @@ export const CategorySelectionModal: React.FC<{
       shown={visible}
       label={t('individuals.post.onboarding.label')}
       onDismiss={() => handleModalClose()}
-      fstyle={styles.modal}
+      style={styles.modal}
     >
       <HoliModalContentWrapper
         actionButtonText={t('global.save')}
