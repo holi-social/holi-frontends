@@ -127,7 +127,7 @@ const ChangeEmail = () => {
             }
             if (passwordNode?.messages?.some((msg) => msg.id === 4000010)) {
               openToast(t('auth.login.error.unverified'), HoliToastType.SUCCESS)
-              setVerificationFlowData({ identifier: email, method: '', password: '' })
+              setVerificationFlowData({ identifier: email, method: 'password', password: '' })
               navigate('/profile/settings/changeEmailVerification')
             } else {
               setOldPwdNode(passwordNode)
