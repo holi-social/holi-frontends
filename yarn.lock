@@ -5445,6 +5445,10 @@ __metadata:
   dependencies:
     "@faker-js/faker": "npm:^8.1.0"
     "@types/jest": "npm:^29.5.1"
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
     jest: "npm:^29.7.0"
     ts-jest: "npm:^29.1.0"
     webdriverio: "npm:^7.30.1"
@@ -5459,6 +5463,10 @@ __metadata:
     "@playwright/test": "npm:1.49.1"
     axe-playwright: "npm:2.0.3"
     dotenv: "npm:^16.3.1"
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
     playwright-core: "npm:1.49.1"
   languageName: unknown
   linkType: soft
@@ -5468,6 +5476,10 @@ __metadata:
   resolution: "@holi/icons@workspace:packages/icons"
   dependencies:
     "@svgr/cli": "npm:8.0.1"
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
     react: "npm:18.2.0"
     react-native: "npm:0.74.6"
     react-native-svg: "npm:15.2.0"

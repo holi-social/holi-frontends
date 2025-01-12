@@ -1,6 +1,6 @@
 import React from 'react'
 
-import * as HoliIcons from '../generated'
+import * as HoliIcons from '../generated' // eslint-disable-line no-restricted-imports
 
 export default {
   title: 'Atoms/HoliIcon',
