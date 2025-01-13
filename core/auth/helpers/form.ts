@@ -1,5 +1,5 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/form.tsx
-import {
+import type {
   LoginFlow,
   RecoveryFlow,
   SettingsFlow,
@@ -11,7 +11,7 @@ import {
   UiNodeTextAttributes,
   VerificationFlow,
 } from '@ory/kratos-client'
-import { AxiosError } from 'axios'
+import type { AxiosError } from 'axios'
 
 import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -19,40 +19,40 @@ import { getLogger } from '@holi/core/helpers/logging'
 const logger = getLogger('Other')
 const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name', 'traits.identity']
 
-export const oryNodeIsLink = (pet: UiNodeAttributes): pet is UiNodeAnchorAttributes => {
+export const oryNodeIsLink = (pet: UiNodeAttributes | UiNodeAnchorAttributes): pet is UiNodeAnchorAttributes => {
   return (pet as UiNodeAnchorAttributes).href !== undefined
 }
 
-export const oryNodeIsImage = (pet: UiNodeAttributes): pet is UiNodeImageAttributes => {
+export const oryNodeIsImage = (pet: UiNodeAttributes | UiNodeImageAttributes): pet is UiNodeImageAttributes => {
   return (pet as UiNodeImageAttributes).src !== undefined
 }
 
-export const oryNodeIsInput = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
-  return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type !== 'submit'
+export const oryNodeIsInput = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
+  return 'name' in pet && pet.type !== 'submit'
 }
 
-export const oryNodeIsCheckbox = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+export const oryNodeIsCheckbox = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'checkbox'
 }
 
-export const oryNodeIsSubmit = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+export const oryNodeIsSubmit = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'submit'
 }
 
-export const oryNodeIsButton = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+export const oryNodeIsButton = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'button'
 }
 
-export const oryNodeIsHidden = (pet: UiNodeAttributes): pet is UiNodeInputAttributes => {
+export const oryNodeIsHidden = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
   return (pet as UiNodeInputAttributes).type === 'hidden'
 }
 
-export const oryNodeIsText = (pet: UiNodeAttributes): pet is UiNodeTextAttributes => {
+export const oryNodeIsText = (pet: UiNodeAttributes | UiNodeTextAttributes): pet is UiNodeTextAttributes => {
   return (pet as UiNodeTextAttributes).text !== undefined
 }
 
-export const oryNodeIsHiddenField = (pet: UiNodeAttributes & { name: string }): pet is UiNodeInputAttributes => {
-  return HIDDEN_FIELDS.includes(pet.name)
+export const oryNodeIsHiddenField = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
+  return 'name' in pet && HIDDEN_FIELDS.includes(pet.name)
 }
 
 export const getNodeId = ({ attributes }: UiNode) => {
@@ -140,8 +140,9 @@ export const handleFormSubmitError = (
   if (isAxiosError(err)) {
     switch (err.response?.status) {
       case 400: {
-        if (typeof err.response.data.error === 'object') {
-          if (err.response.data.error?.code === 500) {
+        const responseData = err.response.data as { error?: { code?: number } }
+        if (typeof responseData.error === 'object') {
+          if (responseData.error?.code === 500) {
             return
           } else {
             logErrorLocal(err.response, '400 error', { location: 'auth.helpers.form.handleFormSubmitError' })

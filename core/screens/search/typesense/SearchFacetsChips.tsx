@@ -1,5 +1,5 @@
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { ChipSelect } from 'holi-bricks/components/chips'
+import { ChipAction } from 'holi-bricks/components/chips'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
@@ -22,25 +22,29 @@ export const SearchFacetsChips = () => {
       contentContainerStyle={styles.contentContainer}
     >
       <View style={styles.layout}>
-        <ChipSelect
-          selectedColor="blue"
+        <ChipAction
+          id={'facets-all'}
+          color="white"
           size="md"
           onPress={() => clearRefinement()}
           selected={items.every((item) => !item.isRefined)}
         >
           {t('search.typesense.facets.all')}
-        </ChipSelect>
+        </ChipAction>
         {items.map((item) => {
           return (
-            <ChipSelect
-              selectedColor="blue"
+            <ChipAction
+              color="white"
               size="md"
-              onPress={() => refine(item.value)}
+              onPress={() => {
+                clearRefinement()
+                refine(item.value)
+              }}
               selected={item.isRefined}
               key={item.value}
             >
-              {t(`search.typesense.hit.type.${item.label}_plural`)} &middot; {item.count}
-            </ChipSelect>
+              {[t(`search.typesense.hit.type.${item.label}_plural`), '·', `${item.count}`].join(' ')}
+            </ChipAction>
           )
         })}
       </View>
@@ -48,9 +52,9 @@ export const SearchFacetsChips = () => {
   )
 }
 
+// TODO restyle after introducing <Screen> component (HOLI-10827)
 const stylesheet = createStyleSheet(() => ({
   contentContainer: {
-    // TODO why are the chips cut off if I remove these? why is the container smaller than it's content?
     paddingBottom: dimensions.spacingXs,
     paddingTop: dimensions.spacingXs,
   },

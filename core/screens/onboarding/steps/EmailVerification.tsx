@@ -81,7 +81,9 @@ export const EmailVerification = ({
     try {
       const email = hasIdentifier(verificationFlowData)
         ? verificationFlowData.identifier
-        : verificationFlowData.verifiable_address
+        : 'verifiable_address' in verificationFlowData
+          ? verificationFlowData.verifiable_address
+          : ''
 
       await submitVerificationFlow({ flow, email })
       openToast(t('registration.emailVerification.message.emailResent'), HoliToastType.SUCCESS)

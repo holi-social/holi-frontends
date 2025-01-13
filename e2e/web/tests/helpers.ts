@@ -31,6 +31,10 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
   return clickFirstElement(await locateElementByTestId(page, testId, nth))
 }
 
+export const clickElementByAriaLabel = async (page: Page, label: string): Promise<void> => {
+  return clickFirstElement(page.getByLabel(label))
+}
+
 export const clickThisOrThatElementByTestId = async (page: Page, testIdA: string, testIdB: string): Promise<void> => {
   return clickFirstElement(page.locator(`[data-testid='${testIdA}'], [data-testid='${testIdB}']`))
 }

@@ -1,7 +1,7 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
-import type { ContinueWithVerificationUiFlow, UpdateLoginFlowWithPasswordMethod } from '@ory/kratos-client'
+import type { ContinueWithVerificationUiFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 
-export type VerificationFlowData = UpdateLoginFlowWithPasswordMethod | ContinueWithVerificationUiFlow
+export type VerificationFlowData = UpdateLoginFlowBody | ContinueWithVerificationUiFlow
 
 export type VerificationFlowState = VerificationFlowData | 'verification-disabled' | undefined
 

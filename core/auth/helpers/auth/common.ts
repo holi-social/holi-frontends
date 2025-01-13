@@ -20,7 +20,7 @@ import type { VerificationFlowData, VerificationFlowState } from '@holi/core/aut
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 
 export const hasIdentifier = (
-  loginFlowBody: UpdateLoginFlowBody | VerificationFlowData
+  loginFlowBody: VerificationFlowData | UpdateLoginFlowWithPasswordMethod
 ): loginFlowBody is UpdateLoginFlowWithPasswordMethod => {
   return 'identifier' in loginFlowBody
 }
@@ -37,7 +37,7 @@ export const getVerificationFlowFromRegistration = ({
 }
 
 interface LoginOptions {
-  payload: UpdateLoginFlowWithPasswordMethod
+  payload: UpdateLoginFlowBody
   flow?: LoginFlow
   memoized?: boolean
   onLoginError?: (error: unknown) => void
@@ -74,10 +74,11 @@ export const getOrCreateVerificationFlow = async (flowData?: VerificationFlowDat
 
   if (hasIdentifier(flowData)) {
     return resendVerificationEmail(flowData.identifier)
-  } else {
+  } else if ('id' in flowData) {
     const { data } = await getVerificationFlow(flowData.id)
     return data
   }
+  throw new HoliError('[Onboarding] invalid verification flow: neither identifier or id')
 }
 
 export const resendVerificationEmail = async (email: string) => {

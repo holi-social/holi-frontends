@@ -10,19 +10,20 @@ import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
+import { Trackable, TrackableBaseProps } from '@holi/core/components/Trackable'
 
-export type SearchHitProps = {
+export interface SearchHitProps extends TrackableBaseProps {
   hit: SearchHitData
 }
 
-export const SearchHit = ({ hit }: SearchHitProps) => {
+export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitProps) => {
   const { t } = useTranslation()
   const language = useUserLanguage()
   const { styles } = useStyles(stylesheet)
   const useTitleEn = (language === 'en' && hit.title_en) || (language == 'de' && !hit.title_de)
   const title = (useTitleEn ? hit.title_en : hit.title_de) as string
   return (
-    <SearchHitLink hit={hit} label={title}>
+    <SearchHitLink hit={hit} label={title} onPress={onPress}>
       <View style={styles.hitItemColumnsLayout}>
         <Avatar
           initials={getInitials(title)}
@@ -48,15 +49,14 @@ export const SearchHit = ({ hit }: SearchHitProps) => {
               </>
             )}
           </View>
-          {/* TODO these grow outside the container, how to constrain them? */}
-          {/* TODO can we build highlighting with one text component? */}
           <Text size={'sm'}>{title}</Text>
         </View>
       </View>
     </SearchHitLink>
   )
-}
+})
 
+// TODO restyle after introducing <Screen> component (HOLI-10827)
 const stylesheet = createStyleSheet(() => ({
   hitItemColumnsLayout: { flexDirection: 'row', columnGap: dimensions.spacingSM },
   hitItemRightColumnLayout: { flexDirection: 'column', rowGap: dimensions.spacingXs },

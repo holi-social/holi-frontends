@@ -7,7 +7,7 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import type { FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
 import { useMediaLibraryImagePicker } from './useMediaLibraryImagePicker'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
-import { View } from 'react-native'
+import { Pressable } from 'react-native'
 
 const HoliImagePicker = ({
   buttonProps,
@@ -17,6 +17,7 @@ const HoliImagePicker = ({
   allowsMultipleSelection,
   fileSizeLimitation,
   buttonIconOnly = false,
+  children,
 }: HoliImagePickerProps) => {
   const { pickImages } = useMediaLibraryImagePicker(allowsMultipleSelection)
   const { openToast } = useToast()
@@ -67,13 +68,22 @@ const HoliImagePicker = ({
     }
   }
 
-  if (buttonIconOnly && buttonIconProps) return <ButtonIcon {...buttonIconProps} onPress={pickImageHandler} />
-  if (buttonProps)
-    return (
-      <View style={buttonProps.style}>
-        <Button {...buttonProps} onPress={pickImageHandler} />
-      </View>
-    )
+  const renderButton = () => {
+    if (buttonIconOnly && buttonIconProps && !children) {
+      return <ButtonIcon {...buttonIconProps} onPress={pickImageHandler} />
+    }
+    if (buttonProps) {
+      const ButtonComponent = children ? Pressable : Button
+      return (
+        <ButtonComponent {...buttonProps} onPress={pickImageHandler} style={buttonProps.style}>
+          {children}
+        </ButtonComponent>
+      )
+    }
+    return null
+  }
+
+  return renderButton()
 }
 
 export default HoliImagePicker

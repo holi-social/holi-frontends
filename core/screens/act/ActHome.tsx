@@ -52,7 +52,7 @@ const ActHome = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
+      headerRight: () => <NotificationAndSearchHeader />,
     })
   }, [title, setScreenOptions])
 

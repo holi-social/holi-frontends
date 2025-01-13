@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   container: {
+    flexShrink: 1,
     height: '100%',
     marginHorizontal: 16,
     paddingTop: 32,

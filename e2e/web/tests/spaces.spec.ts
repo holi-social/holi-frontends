@@ -1,8 +1,9 @@
-import { type Browser, type Page, expect } from '@playwright/test'
+import { type Browser, type Page, expect, test } from '@playwright/test'
 
 import {
   byTestId,
   checkAccessibility,
+  clickElementByAriaLabel,
   clickElementByTestId,
   clickFirstElement,
   clickThisOrThatElementByTestId,
@@ -13,45 +14,61 @@ import {
   withSSR,
 } from '@holi/e2e-web/tests/helpers'
 import { inputSpaceNameAndGoal } from '@holi/e2e-web/tests/helpers/spaces'
-import { test } from '@holi/e2e-web/tests/testmaster'
+import { SessionHandler } from '@holi/e2e-web/tests/testmaster'
 
 test.setTimeout(120_000)
 
+test.describe.configure({ mode: 'serial' })
 test.describe('@Spaces', () => {
-  test('user journey', async ({ browser, browserName, page, sessions }) => {
-    process.env.DEBUG && page.on('console', (msg) => console.debug('  BROWSER LOG>', msg.text(), '<'))
-    const { page: spaceAdmin } = await sessions.signUp()
-    await testCreatingEditingSpace(spaceAdmin)
+  let guest: Page
+  let user: Page
 
-    await proceedAsGuest(page)
+  test.beforeAll(async ({ browser }) => {
+    guest = await browser.newPage()
 
-    await testAccessibleFromHomeScreen(page)
+    const api = new SessionHandler(browser)
+    const { page: userPage } = await api.signUp()
+    user = userPage
 
-    await testFiltering(browser, page)
+    process.env.DEBUG && guest.on('console', (msg) => console.debug('  GUEST>', msg.text(), '<'))
+    process.env.DEBUG && user.on('console', (msg) => console.debug('  ADMIN>', msg.text(), '<'))
+  })
 
-    await testDisplaysMultipleGroups(page)
-    await withSSR(browser, page.url(), testDisplaysMultipleGroupsCommon)
+  test('guest can explore spaces', async ({ browser }) => {
+    await proceedAsGuest(guest)
+
+    await testAccessibleFromHomeScreen(guest)
+    await testFiltering(browser, guest)
+    await testDisplaysMultipleGroups(guest)
 
     // open first space displayed
-    await clickElementByTestId(page, 'space-link')
-    await testDisplaysSpaceDetails(page)
+    await clickElementByTestId(guest, 'space-link')
+    await testDisplaysSpaceDetails(guest)
+  })
 
-    await testShareSpace(spaceAdmin, browserName)
+  test('user can create, edit and share space', async ({ browserName }) => {
+    await testCreatingEditingSpace(user)
+    await testShareSpace(user, browserName)
+  })
 
-    await test.step('space can be deleted', async () => {
-      await clickElementByTestId(spaceAdmin, 'space-options-btn')
-      await clickElementByTestId(spaceAdmin, 'space-delete')
-      await clickElementByTestId(spaceAdmin, 'space-delete-confirmation-primary')
+  test('user can delete their space', async () => {
+    await clickElementByTestId(user, 'space-options-btn')
+    await clickElementByTestId(user, 'space-delete')
+    await clickElementByTestId(user, 'space-delete-confirmation-primary')
 
-      // end up at the spaces dashboard (mine/discover)
-      await spaceAdmin.waitForSelector(byTestId('btn-create-space'))
-    })
+    // end up at the spaces dashboard (mine/discover)
+    await user.waitForSelector(byTestId('btn-create-space'))
+  })
+
+  test.afterAll(async () => {
+    await guest.close()
+    await user.close()
   })
 })
 
 const testAccessibleFromHomeScreen = async (page: Page) => {
   await clickElementByTestId(page, 'btn-to-spaces')
-
+  await clickElementByTestId(page, 'get-started-view-explore-button')
   await expect(page.getByTestId('spaces-container')).toBeVisible({ timeout: 20000 })
   expect(page.url()).toContain('/spaces')
 }
@@ -73,7 +90,7 @@ const testDisplaysMultipleGroupsCommon = async (page: Page) => {
 }
 
 const testFiltering = async (browser: Browser, page: Page) => {
-  await clickElementByTestId(page, 'filter-modal--open-btn')
+  await clickElementByAriaLabel(page, 'filter-modal--open-icon-btn')
   // wait until modal is opened
   await page.locator('[role="dialog"]').waitFor()
 
@@ -89,7 +106,6 @@ const testFiltering = async (browser: Browser, page: Page) => {
   await withSSR(browser, page.url(), testDisplaysFilterResults)
 
   await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('get-started-view-header'))
 }
 
 const testDisplaysFilterResults = async (page: Page) => {

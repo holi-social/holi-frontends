@@ -7,10 +7,12 @@ import { useNovuCredentials } from '@holi/core/screens/notifications/hooks/useNo
 jest.mock('axios')
 
 describe('useNovuCredentials', () => {
+  const mockGet = axios.get as jest.Mock
+
   it('only returns loading state when userId is not provided', () => {
     const { result } = renderHook(() => useNovuCredentials())
 
-    expect(axios.get).not.toHaveBeenCalled()
+    expect(mockGet).not.toHaveBeenCalled()
 
     expect(result.current.hmacHash).toBeNull()
     expect(result.current.loading).toBe(true)
@@ -18,7 +20,7 @@ describe('useNovuCredentials', () => {
 
   it('calls the credentials api when userId is provided', async () => {
     const mockResponse = { data: { hmacHash: 'someHmacHash' } }
-    axios.get.mockResolvedValue(mockResponse)
+    mockGet.mockResolvedValue(mockResponse)
 
     const { result } = renderHook(() => useNovuCredentials('someUserId'))
 
@@ -33,7 +35,7 @@ describe('useNovuCredentials', () => {
   })
 
   it("on error, it doesn't initialize but swallows it", async () => {
-    axios.get.mockRejectedValue({ erwror: true })
+    mockGet.mockRejectedValue({ error: true })
 
     let result: { current: { hmacHash: string | null; loading: boolean } }
     expect(() => {

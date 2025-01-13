@@ -1,8 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { HeaderButtonProps } from '@react-navigation/native-stack/lib/typescript/src/types'
-
 import { useHasNewNotifications } from '@holi/core/helpers/useHasNewNotifications'
 import { SearchButton } from '@holi/core/navigation/components/header/SearchButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -10,7 +8,7 @@ import { Notification2 } from '@holi/icons/src/generated'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 
-const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
+const NotificationAndSearchHeader = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const hasNewNotifications = useHasNewNotifications()
@@ -27,7 +25,7 @@ const NotificationAndSearchHeader = ({ tintColor }: HeaderButtonProps) => {
         testID="btn-to-notifications"
       />
 
-      <SearchButton onPress={() => navigate('/search')} color={tintColor} />
+      <SearchButton />
     </HoliHorizontalRow>
   )
 }

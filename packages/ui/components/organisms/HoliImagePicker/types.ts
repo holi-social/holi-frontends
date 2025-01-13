@@ -32,6 +32,7 @@ export type HoliImagePickerFileSizeLimitation =
   | FileSizeLimitationReject
 
 export interface HoliImagePickerProps {
+  children?: React.ReactNode
   buttonProps?: Omit<ButtonProps, 'onPress'> & { style?: StyleProp<ViewStyle> }
   buttonIconProps?: Omit<ButtonIconProps, 'onPress'>
   onPickImage?: (image: HoliImageInfo) => void

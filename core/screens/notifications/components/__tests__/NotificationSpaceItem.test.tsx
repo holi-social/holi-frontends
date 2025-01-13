@@ -4,6 +4,7 @@ import React from 'react'
 import NotificationSpaceItem from '@holi/core/screens/notifications/components/NotificationSpaceItem'
 import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
 import { dummyUser } from '@holi/core/screens/notifications/components/seedData'
+import type { NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
 
 jest.mock('react-i18next', () => {
   const original = jest.requireActual('react-i18next')
@@ -16,7 +17,7 @@ jest.mock('react-i18next', () => {
 describe('NotificationSpaceItem', () => {
   const notificationContent = 'You are now a collaborator in Space Foo'
   const requestMessage = 'Some message'
-  const notification = {
+  const notification: NotificationSpaceConnection = {
     id: '0809f4a0-04c8-43ae-a291-4f7bfce1b123',
     notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE_APPROVAL_USER,
     created: '2022-12-21T11:11:38.978527+00:00',
@@ -33,6 +34,7 @@ describe('NotificationSpaceItem', () => {
       message: requestMessage,
     },
     content: notificationContent,
+    notificationVersion: '1.0.0',
   }
 
   it('displays translated message', () => {

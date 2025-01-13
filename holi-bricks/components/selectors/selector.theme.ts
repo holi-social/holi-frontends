@@ -6,7 +6,7 @@ export const darkSelectorTheme = {
   selected: {
     outlineColor: mono[200],
   },
-  text: mono[200],
+  text: mono[300],
 }
 
 export const lightSelectorTheme = {
@@ -15,5 +15,5 @@ export const lightSelectorTheme = {
   selected: {
     outlineColor: mono[800],
   },
-  text: mono[800],
+  text: mono[600],
 }

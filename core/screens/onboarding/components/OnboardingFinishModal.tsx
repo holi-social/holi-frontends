@@ -7,8 +7,6 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Emotion, Service, ShieldStar, UserHeart } from '@holi/icons/src/generated'
-import GiveFiveBigPng from '@holi/ui/assets/img/icons/give-five-big.png'
-import GiveFiveBig from '@holi/ui/assets/img/icons/give-five-big.svg'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { useOnboardingFinishModalState } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 import { DocumentModal, useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
@@ -22,7 +20,6 @@ import { Text } from 'holi-bricks/components/text'
 import { Spacing } from 'holi-bricks/tokens'
 
 const isWeb = Platform.OS === 'web'
-const isAndroid = Platform.OS === 'android'
 
 const icons = [UserHeart, Emotion, Service, ShieldStar]
 
@@ -49,11 +46,11 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
           <HoliGap size="m" />
           <View style={{ alignItems: 'center' }}>
             <HoliLocalImage
-              imageSource={isAndroid ? GiveFiveBigPng : GiveFiveBig}
+              imageSource={require('@holi/ui/assets/img/icons/give-five-big.svg')}
               width={165}
               height={127}
               label={''}
-              isSvg={!isAndroid}
+              isSvg
             />
           </View>
 

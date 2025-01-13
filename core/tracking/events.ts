@@ -37,6 +37,61 @@ const versionOne = {
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
  */
 export namespace TrackingEvent {
+  export const SearchButtonPressed: TrackingEvent = {
+    name: 'searchButtonPressed',
+    ...versionOne,
+  }
+
+  export type SearchResult = {
+    query: string
+    totalNrOfResults: number
+    totalNrOfPages: number
+    currentPage: number
+    selectedFacets: string[]
+    // deliberately untyped to not have to adopt for every document type added. this shall only contain document
+    // properties and not Instantsearch.js metadata on docs, see `removeBlacklistedProps` in
+    // core/screens/search/typesense/tracking.ts
+    renderedResults: Record<string, any>[] // eslint-disable-line @typescript-eslint/no-explicit-any
+  }
+
+  export const SearchResultPressed = ({
+    itemPressed,
+    itemPressedIndex,
+    searchResult,
+  }: {
+    itemPressed: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
+    itemPressedIndex: number
+    searchResult: SearchResult
+  }): TrackingEvent => ({
+    name: 'searchResultPressed',
+    ...versionOne,
+    properties: {
+      itemPressed,
+      itemPressedIndex,
+      ...searchResult,
+    },
+  })
+
+  export const SearchResultsRendered = ({
+    query,
+    totalNrOfResults,
+    totalNrOfPages,
+    currentPage,
+    selectedFacets,
+    renderedResults,
+  }: SearchResult): TrackingEvent => ({
+    name: 'searchResultsRendered',
+    ...versionOne,
+    properties: {
+      query,
+      totalNrOfResults,
+      totalNrOfPages,
+      currentPage,
+      renderedResults,
+      selectedFacets,
+    },
+  })
+
   export const SpaceAskQuestion = {
     askedQuestion: {
       name: 'askQuestionButton_pressed',

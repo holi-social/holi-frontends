@@ -2,13 +2,15 @@ import { type DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import type Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
+import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
@@ -25,8 +27,6 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 
 export enum Tab {
   MINE = 'mine',
@@ -99,7 +99,7 @@ const Spaces = () => {
       headerRight: (props) => (
         <HoliHorizontalRow>
           <CreateSpaceButton onPress={handleCreateSpaceButtonPress} {...props} />
-          <NotificationAndSearchHeader {...props} />
+          <NotificationAndSearchHeader />
         </HoliHorizontalRow>
       ),
     })
@@ -122,30 +122,27 @@ const Spaces = () => {
           /* User has NO spaces => show discover view */
           <GetStartedView />
         ) : (
-          <View style={styles.tabsWrapper}>
-            {/* User HAS spaces => show tabs with mine and discover */}
-            <HoliTabs
-              activeTab={activeTab}
-              onChange={onChangeTab}
-              backgroundColor={colors.background20}
-              data={[
-                {
-                  key: Tab.MINE,
-                  tabTitle: t('spaces.tabs.mine'),
-                  content: () => <MySpaces mySpaces={mySpaces} />,
-                },
-                {
-                  key: Tab.DISCOVER,
-                  tabTitle: t('spaces.tabs.getstarted'),
-                  content: () => <GetStartedView />,
-                },
-              ]}
-              keyExtractor={({ key }) => key}
-              renderTabContent={({ item }) => item.content()}
-              testID="spaces-tab-navigation"
-              marginHorizontal={0}
-            />
-          </View>
+          <HoliTabs
+            activeTab={activeTab}
+            onChange={onChangeTab}
+            backgroundColor={colors.background20}
+            marginHorizontal={0}
+            data={[
+              {
+                key: Tab.MINE,
+                tabTitle: t('spaces.tabs.mine'),
+                content: () => <MySpaces mySpaces={mySpaces} />,
+              },
+              {
+                key: Tab.DISCOVER,
+                tabTitle: t('spaces.tabs.getstarted'),
+                content: () => <GetStartedView />,
+              },
+            ]}
+            keyExtractor={({ key }) => key}
+            renderTabContent={({ item }) => item.content()}
+            testID="spaces-tab-navigation"
+          />
         )}
       </ScrollViewRefreshable>
     </SpaceTermContextProvider>

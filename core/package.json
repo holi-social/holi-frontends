@@ -1,9 +1,8 @@
 {
   "dependencies": {
     "@apollo/client": "3.10.8",
-    "@apollo/react-hooks": "^4.0.0",
     "@novu/client": "0.20.0",
-    "@ory/kratos-client": "^0.13.1",
+    "@ory/kratos-client": "v1.2.1",
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6",
     "react": "18.2.0",

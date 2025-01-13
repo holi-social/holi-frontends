@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/react-hooks'
 import { withProfiler } from '@sentry/react'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,12 +6,13 @@ import { StyleSheet, View } from 'react-native'
 import RecoSlider from '@holi/core/components/RecoSlider'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import { RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
+import { type RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 import TaskRecommendation from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/TaskRecommendation'
-import { Task } from '@holi/core/screens/spaces/types'
+import type { Task } from '@holi/core/screens/spaces/types'
 import { TrackingEvent } from '@holi/core/tracking'
-import { ListItemIdentifier, type ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
+import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import CheckboxFilled from '@holi/icons/src/generated/CheckboxFilled'
+import { useQuery } from '@apollo/client'
 
 type TaskRecommendationsProps = {
   cardWidth: number
