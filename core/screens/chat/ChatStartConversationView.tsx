@@ -113,12 +113,7 @@ const ChatStartConversationView = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH}>
-      <KeyboardAvoidingView
-        behavior={'padding'}
-        contentContainerStyle={styles.wrapper}
-        keyboardVerticalOffset={100}
-        style={styles.content}
-      >
+      <KeyboardAvoidingView behavior={'padding'} keyboardVerticalOffset={100} style={styles.content}>
         <HoliTextInput
           value={searchUserInputValue}
           placeholder={t('chat.start.input.placeholder')}
@@ -196,9 +191,6 @@ export default ChatStartConversationView
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
-    wrapper: {
-      flex: 1,
-    },
     content: {
       position: 'relative',
       backgroundColor: theme.colors.background20,
