@@ -1,21 +1,21 @@
 import { produce } from 'immer'
 import { type Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
+import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
+import type ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatState'
 import {
-  ChatRoom,
+  type ChatRoom,
   type ChatRoomMember,
-  ChatRoomMessage,
+  type ChatRoomMessage,
   type MatrixId,
   MembershipStatus,
   type NotificationCount,
   type RoomId,
-  RoomUpdatesContent,
+  type RoomUpdatesContent,
   RoomUpdatesType,
-  SpaceChatRoom,
+  type SpaceChatRoom,
 } from '@holi/chat/src/client/types'
 import { createChatMessage } from '@holi/chat/src/client/utils'
 import {
@@ -38,7 +38,7 @@ import type {
   RoomAtomByRoomId,
   SpaceRoomAtom,
 } from '@holi/chat/src/store/types'
-import { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
+import type { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
 import {
   getAtomFromRecordId,
   isPrivateChatRoom,
@@ -47,7 +47,7 @@ import {
   toMatrixIdentity,
   updateSpaceRoomsNotifications,
 } from '@holi/chat/src/store/utils'
-import { User as HoliUser } from '@holi/core/domain/shared/types'
+import type { User as HoliUser } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -118,8 +118,8 @@ export const privateRoomAtomsAtom = atom<ChatRoomAtom[]>((get) =>
 export const roomAtomsSortedByDateAtom = atom((get) => {
   const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
   return roomAtoms.sort((rA, rB) => {
-    const tsA = get(rA).timestamp ?? Infinity
-    const tsB = get(rB).timestamp ?? Infinity
+    const tsA = get(rA).timestamp ?? Number.POSITIVE_INFINITY
+    const tsB = get(rB).timestamp ?? Number.POSITIVE_INFINITY
     return tsA < tsB ? 1 : -1
   })
 })
@@ -382,8 +382,8 @@ export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
  * @description returns the room id of an existing one-on-one room, if it
  * exists, or creates a new one.
  */
-export const getOrCreateRoom = async (userIds: string[]): Promise<RoomId> => {
-  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true })
+export const getOrCreateRoom = async (userIds: string[], name?: string): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name })
 }
 
 /**

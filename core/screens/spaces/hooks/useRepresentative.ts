@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
+import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { type RepresentativeBySpaceIdResponse, spaceRepresentative } from '@holi/core/screens/spaces/queries'
 
 export const useRepresentative = (spaceIdOrName?: string) => {
@@ -21,14 +22,31 @@ export const useRepresentative = (spaceIdOrName?: string) => {
     },
   })
 
-  const representative = data?.spaceById
-  const representativeIdentity =
-    representative && representative?.representatives?.length > 0 ? representative?.representatives[0] : undefined
+  const space = data?.spaceById
+  const representativeIdentity = space && space?.representatives?.length > 0 ? space?.representatives[0] : undefined
 
   return {
     loading,
     error,
     representativeIdentity: representativeIdentity?.user?.identity,
+    called,
+    refetch,
+  }
+}
+
+export const useAdmins = (spaceIdOrName?: string) => {
+  const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
+
+  const members = space?.members.data
+  const admins = members?.filter((member) => member.isAdministrator)
+  const adminNames = admins?.map((admin) => admin.user.firstName)
+  const adminIds = admins?.map((admin) => admin.id)
+
+  return {
+    loading,
+    error,
+    adminIds,
+    adminNames,
     called,
     refetch,
   }

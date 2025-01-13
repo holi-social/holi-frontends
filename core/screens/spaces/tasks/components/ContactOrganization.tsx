@@ -6,7 +6,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import { useRepresentative } from '@holi/core/screens/spaces/hooks/useRepresentative'
+import { useAdmins } from '@holi/core/screens/spaces/hooks/useRepresentative'
 import { TrackingEvent } from '@holi/core/tracking'
 import { ChatSmile2 } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -30,7 +30,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
   const { openSignupModal } = useSignupModal()
   const { openToast } = useToast()
   const { navigate } = useRouting()
-  const { representativeIdentity } = useRepresentative(spaceIdOrName)
+  const { adminIds, adminNames } = useAdmins(spaceIdOrName)
   const [isLoading, setIsLoading] = useState(false)
 
   const safelyOpenSignupModal = () => {
@@ -43,10 +43,10 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
     })
   }
 
-  async function openChatRoom(chatPartnerIdentity: string) {
+  async function openChatRoom(chatPartnerIdentities: string[], name?: string) {
     try {
-      const chatPartnerMatrixId = '@' + chatPartnerIdentity + ':' + chatServerName
-      const { room_id } = await getOrCreateRoom([chatPartnerMatrixId])
+      const chatPartnerMatrixIds = chatPartnerIdentities.map((id) => '@' + id + ':' + chatServerName)
+      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds, name)
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -55,7 +55,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
         hideDrawer()
       }
     } catch (e) {
-      logError(e, 'Failed to start contact-organization-chat with chat partner ' + chatPartnerIdentity, {
+      logError(e, 'Failed to start contact-organization-chat with chat partner ' + chatPartnerIdentities, {
         location: 'StartChatDrawerActionButton.openChatRoom',
       })
       openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
@@ -71,7 +71,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
       return
     }
 
-    if (!representativeIdentity) {
+    if (!adminIds) {
       logError(
         new HoliError('Can not create a chat without a space representatives identity'),
         'Failed to start chat',
@@ -84,7 +84,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
     }
 
     try {
-      await openChatRoom(representativeIdentity)
+      await openChatRoom(adminIds, adminNames?.join(', '))
     } finally {
       setIsLoading(false)
     }
@@ -163,25 +163,21 @@ export const ContactOrganization = ({ spaceIdOrName }: ContactOrganizationProps)
     >
       <View style={styles.ctaDrawerContentWrapper}>
         <View style={styles.ctaDrawerContent}>
-          <Text size="3xl" textAlign="center">
-            {t('spaces.tasks.contactOrganization.title')}
-          </Text>
-          <View style={styles.image}>
-            <HoliLocalImage
-              imageSource={require('@holi/ui/assets/img/illustrations/illustration_space_contact_organization.svg')}
-              isSvg
-              label="chat"
-              width={180}
-              height={160}
-              resizeMode="contain"
-            />
-          </View>
-          <Text size="md" textAlign="center">
+          <HoliLocalImage
+            imageSource={require('@holi/ui/assets/img/spaces/chat.svg')}
+            isSvg
+            label="chat"
+            width={40}
+            height={40}
+            resizeMode="contain"
+          />
+          <Text size="3xl">{t('spaces.tasks.contactOrganization.title')}</Text>
+          <Text size="md">
             <Trans t={t} i18nKey="spaces.tasks.contactOrganization.description" values={{ organization: space?.title }}>
               <Text size="lg" textAlign="center" />
             </Trans>
           </Text>
-          <Text size="sm" textAlign="center" variant="secondary">
+          <Text size="sm" variant="secondary">
             {t('spaces.tasks.contactOrganization.subdescription')}
           </Text>
         </View>
