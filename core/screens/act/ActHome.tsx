@@ -60,7 +60,7 @@ const ActHome = () => {
 
   return (
     <ScrollViewRefreshable style={styles.layout}>
-      <View style={styles.container}>
+      <View style={styles.container} testID="act-home">
         <AttendingChallengeEventsLegacy />
         {sections.map((sectionName) => (
           <ActSection type={sectionName} key={sectionName} />

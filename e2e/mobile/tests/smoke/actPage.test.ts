@@ -1,4 +1,9 @@
-import { scrollToElementWithTestId, tapOnElementWithTestId } from '../../helpers/selectors'
+import {
+  pullToRefresh,
+  scrollToElementWithTestId,
+  tapOnElementWithTestId,
+  waitForElementWithTestId,
+} from '../../helpers/selectors'
 import { continueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 
 describe('@ActPage', () => {
@@ -14,6 +19,10 @@ describe('@ActPage', () => {
     await continueAsGuest()
 
     await tapOnElementWithTestId('btn-to-act')
+
+    await waitForElementWithTestId('act-home')
+
+    await pullToRefresh()
 
     await scrollToElementWithTestId('challenges-reco-slider-heading-button', 'down')
 

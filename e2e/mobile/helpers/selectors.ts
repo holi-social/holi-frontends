@@ -1,6 +1,14 @@
 import type { Element, ElementArray } from 'webdriverio'
 
-import { doSwipe, getDeviceScreenSize, scrollDown, scrollLeft, scrollRight, scrollUp } from './gestures'
+import {
+  doSwipe,
+  getDeviceScreenSize,
+  performPullToRefresh,
+  scrollDown,
+  scrollLeft,
+  scrollRight,
+  scrollUp,
+} from './gestures'
 import { delayMs } from './time'
 
 type ScrollDirection = 'up' | 'down' | 'left' | 'right'
@@ -270,4 +278,12 @@ export const retry = async (fn: () => Promise<void>, timeout = 3000, retryInterv
   }
 
   return poll() // Start polling
+}
+
+export const pullToRefresh = async (timeout?: number) => {
+  await performPullToRefresh()
+
+  // Expect refresh indicator to be displayed for a while
+  await waitForElementWithTestId('refreshing')
+  await waitForElementWithTestId('not-refreshing', timeout)
 }

@@ -1,4 +1,4 @@
-import { RectReturn } from '@wdio/protocols/build/types'
+import type { RectReturn } from '@wdio/protocols/build/types'
 
 /**
  * To make a Gesture methods more robust for multiple devices and also
@@ -119,4 +119,27 @@ const getDeviceScreenCoordinates = (screenSize: RectReturn, coordinates: XY): XY
 
 export const getDeviceScreenSize = async () => {
   return SCREEN_SIZE || (await Appium.getWindowRect())
+}
+
+export const performPullToRefresh = async () => {
+  const { width: screenWidth, height: screenHeight } = await getDeviceScreenSize()
+
+  const midX = screenWidth / 2
+  const topY = 0.25 * screenHeight
+  const bottomY = 0.75 * screenHeight
+
+  await Appium.performActions([
+    {
+      type: 'pointer',
+      id: 'finger1',
+      parameters: { pointerType: 'touch' },
+      actions: [
+        { type: 'pointerMove', duration: 0, x: midX, y: topY },
+        { type: 'pointerDown' },
+        { type: 'pointerMove', duration: 100, x: midX, y: bottomY },
+        { type: 'pause', duration: 500 },
+        { type: 'pointerUp' },
+      ],
+    },
+  ])
 }

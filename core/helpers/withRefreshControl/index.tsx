@@ -1,8 +1,8 @@
 import React from 'react'
-import { RefreshControl, ScrollView, ScrollViewProps } from 'react-native'
+import { RefreshControl, ScrollView, type ScrollViewProps } from 'react-native'
 
-import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
-import {
+import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
+import type {
   RefreshableScrollHeaderLayoutProps,
   RefreshableScrollViewProps,
 } from '@holi/core/components/ScrollHeaderLayout/types'
@@ -27,7 +27,13 @@ export function withRefreshControl<P extends LayoutProps, T>(
       const additionalOffset = headerOverlap ? safeAreaTop + dimensions.topBarHeight : 0
       const { refreshControlProps } = useRefreshContext()
 
-      const refreshControl = <RefreshControl {...refreshControlProps} progressViewOffset={additionalOffset} />
+      const refreshControl = (
+        <RefreshControl
+          {...refreshControlProps}
+          progressViewOffset={additionalOffset}
+          testID={refreshControlProps.refreshing ? 'refreshing' : 'not-refreshing'}
+        />
+      )
       return (
         <ScrollComponent {...scrollViewProps} refreshControl={refreshControl} headerOverlap={headerOverlap} ref={ref} />
       )
