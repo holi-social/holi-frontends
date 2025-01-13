@@ -7,7 +7,6 @@ import RootProvider from '@holi/core/providers/RootProvider'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { useApolloWebClient } from '@holi/web/helpers/useApolloWebClient'
 import type { HoliPageProps } from '@holi/web/types'
-
 interface RootProviderProps {
   pageProps: HoliPageProps
 }

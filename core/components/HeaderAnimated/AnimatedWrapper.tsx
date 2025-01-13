@@ -1,11 +1,11 @@
-import React, { PropsWithChildren } from 'react'
+import React, { type PropsWithChildren } from 'react'
 import { ImageBackground, Platform, StatusBar, StyleSheet, View } from 'react-native'
 import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import tinycolor from 'tinycolor2'
 
 import { useHeaderAnimationProgress } from '@holi/core/helpers'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import { HeaderBackgroundOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
+import type { HeaderBackgroundOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 
