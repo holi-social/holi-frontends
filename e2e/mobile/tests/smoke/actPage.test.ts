@@ -22,7 +22,9 @@ describe('@ActPage', () => {
 
     await waitForElementWithTestId('act-home')
 
-    await pullToRefresh()
+    if (platform === 'android') {
+      await pullToRefresh()
+    }
 
     await scrollToElementWithTestId('challenges-reco-slider-heading-button', 'down')
 
