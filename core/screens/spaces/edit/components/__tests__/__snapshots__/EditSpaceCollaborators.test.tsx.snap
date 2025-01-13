@@ -579,6 +579,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
               <RefreshControlMock
                 progressViewOffset={0}
                 refreshing={false}
+                testID="not-refreshing"
               />
             }
             style={
@@ -1815,6 +1816,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
               <RefreshControlMock
                 progressViewOffset={0}
                 refreshing={false}
+                testID="not-refreshing"
               />
             }
             style={
