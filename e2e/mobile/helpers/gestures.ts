@@ -136,8 +136,9 @@ export const performPullToRefresh = async () => {
       actions: [
         { type: 'pointerMove', duration: 0, x: midX, y: topY },
         { type: 'pointerDown' },
-        { type: 'pointerMove', duration: 100, x: midX, y: bottomY },
         { type: 'pause', duration: 500 },
+        { type: 'pointerMove', duration: 100, x: midX, y: bottomY },
+        { type: 'pause', duration: 1000 },
         { type: 'pointerUp' },
       ],
     },

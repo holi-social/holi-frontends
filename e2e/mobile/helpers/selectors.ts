@@ -281,9 +281,8 @@ export const retry = async (fn: () => Promise<void>, timeout = 3000, retryInterv
 }
 
 export const pullToRefresh = async (timeout?: number) => {
-  await performPullToRefresh()
+  // Trigger refresh and expect refresh indicator to be displayed shortly
+  await Promise.all([performPullToRefresh(), waitForElementWithTestId('refreshing')])
 
-  // Expect refresh indicator to be displayed for a while
-  await waitForElementWithTestId('refreshing')
   await waitForElementWithTestId('not-refreshing', timeout)
 }
