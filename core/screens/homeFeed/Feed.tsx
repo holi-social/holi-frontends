@@ -209,6 +209,7 @@ const HomeFeed = () => {
               trackOnce={true}
               withFlashList={false}
               estimatedItemSize={260}
+              disableVirtualization={true}
             />
           </ErrorBoundary>
         </View>
