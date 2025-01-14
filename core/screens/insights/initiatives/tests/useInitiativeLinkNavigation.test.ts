@@ -3,7 +3,7 @@ import { Platform } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import useInitiativeLinkNavigation from '@holi/core/screens/insights/initiatives/useInitiativeLinkNavigation'
-import { Initiative } from '@holi/core/screens/insights/types'
+import type { Initiative } from '@holi/core/screens/insights/types'
 
 jest.mock('@holi/core/navigation/hooks/useRouting', () => ({
   __esModule: true,
@@ -17,7 +17,8 @@ describe('useInitiativeLinkNavigation', () => {
   const initiative3 = { id: '3', link: 'https://example.com/3' } as Initiative
 
   beforeEach(() => {
-    ;(useRouting as jest.Mock).mockReturnValue({ navigate: jest.fn() }) // eslint-disable-line no-extra-semi
+    // eslint-disable-next-line no-extra-semi
+    ;(useRouting as jest.Mock).mockReturnValue({ navigate: jest.fn() })
   })
 
   describe('Intenal link', () => {

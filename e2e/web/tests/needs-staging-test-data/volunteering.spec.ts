@@ -1,13 +1,13 @@
-import { Browser, BrowserContext, Page, expect } from '@playwright/test'
+import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test'
 
 import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
   clickFirstElement,
+  denyConsent,
   isRunningLocally,
   locateElementByTestId,
-  proceedAsGuest,
   volunteeringRequestTimeout,
   withSSR,
 } from '../helpers'
@@ -18,8 +18,8 @@ test.describe('@Volunteering', () => {
     test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
 
     //prepare
-    await proceedAsGuest(page)
     await page.goto('/volunteering')
+    await denyConsent(page)
 
     await testAllowsPagination(page)
     await withSSR(browser, page.url(), testDisplaysList)

@@ -13,7 +13,7 @@ const baseURL = process.env.BASE_URL || 'https://staging.dev.holi.social'
 const intFromEnvOrDefault = (value: string | undefined, defaultValue: number): number => {
   if (value) {
     try {
-      return parseInt(value)
+      return Number.parseInt(value)
     } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       console.warn(`Can't parse value '${value}' for number of test retries, continuing with value '${defaultValue}'.`) // eslint-disable-line no-console
     }

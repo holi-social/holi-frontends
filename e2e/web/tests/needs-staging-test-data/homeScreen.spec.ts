@@ -1,4 +1,4 @@
-import { type Browser, type Page } from '@playwright/test'
+import type { Browser, Page } from '@playwright/test'
 
 import { byTestId, clickElementByTestId, isRunningLocally, proceedAsGuest, withSSR } from '../helpers'
 import { test } from '../testmaster'

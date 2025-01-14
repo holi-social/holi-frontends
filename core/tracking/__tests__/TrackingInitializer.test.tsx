@@ -1,4 +1,4 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { faker } from '@faker-js/faker'
 import { jest } from '@jest/globals'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -11,11 +11,11 @@ import {
   setLoginStateLoggedIn,
   setLoginStateLoggedOut,
 } from '@holi/core/auth/loginState'
-import { AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import { type AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import {
-  UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserV2Response,
+  type UpdateAuthenticatedUserInput,
+  type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
@@ -24,7 +24,7 @@ import TrackingInitializer, {
   exportedForTesting as trackingInitializerTesting,
   updateConsentState,
 } from '@holi/core/tracking/TrackingInitializer'
-import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
+import { Consent, ConsentState, type PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
 import { getRandomUser } from '@holi/ui/helper/fakeUsers'
 
 Object.defineProperty(window, 'navigator', {
@@ -172,10 +172,9 @@ describe('TrackingInitializer', () => {
     // using afterEach instead of beforeEach leads to timeouts of tests we couldn't explain ourselves
     trackingInitializerTesting.initializerStateVar(initialState)
     loginStateTesting.resetLoggedInUserIdVar()
-    {
-      // formatter makes crazy stuff, therefore these extra brackets
-      ;(posthogCrossPlatformMock.flush as jest.Mock).mockReturnValue(Promise.resolve()) // eslint-disable-line no-extra-semi
-    }
+    // formatter makes crazy stuff, therefore these extra brackets
+    // eslint-disable-next-line no-extra-semi
+    ;(posthogCrossPlatformMock.flush as jest.Mock).mockReturnValue(Promise.resolve())
   })
 
   describe('while user login state is still loading', () => {
