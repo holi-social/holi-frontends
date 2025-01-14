@@ -23,6 +23,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/ContactOrganization'
+import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -32,6 +34,7 @@ export type TaskDetailsParams = {
 const { useParam } = createParamHooks<TaskDetailsParams>()
 
 const TaskDetails = () => {
+  const displayCta = useFeatureFlagAB(FeatureFlagKey.TASK_CONTACT_CTA)
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const [taskId] = useParam('taskId')
   const setScreenOptions = useSetScreenOptions()
@@ -108,7 +111,7 @@ const TaskDetails = () => {
         </HoliContainer>
       </ScrollViewRefreshable>
 
-      <ContactOrganization spaceIdOrName={spaceIdOrName} />
+      {displayCta && <ContactOrganization spaceIdOrName={spaceIdOrName} />}
     </>
   )
 }

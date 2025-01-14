@@ -12,4 +12,5 @@ export enum FeatureFlagKey {
   POST_TRANSLATION = 'POST_TRANSLATION', // boolean
   NEW_HOME_FEED = 'NEW_HOME_FEED', // multivariate ('control', 'test') -> FeatureFlagAB
   TYPESENSE_SEARCH = 'typesense-search', // boolean
+  TASK_CONTACT_CTA = 'TASK_CONTACT_CTA', // boolean
 }
