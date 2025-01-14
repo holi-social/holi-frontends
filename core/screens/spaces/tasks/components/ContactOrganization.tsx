@@ -22,6 +22,7 @@ import React, { useState } from 'react'
 import { Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
+import type { User } from '@holi/core/domain/shared/types'
 
 const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps) => {
   const { t } = useTranslation()
@@ -30,7 +31,8 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
   const { openSignupModal } = useSignupModal()
   const { openToast } = useToast()
   const { navigate } = useRouting()
-  const { adminIds, adminNames } = useAdmins(spaceIdOrName)
+  const { adminsAsUser } = useAdmins(spaceIdOrName)
+
   const [isLoading, setIsLoading] = useState(false)
 
   const safelyOpenSignupModal = () => {
@@ -43,10 +45,12 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
     })
   }
 
-  async function openChatRoom(chatPartnerIdentities: string[], name?: string) {
+  async function openChatRoom(chatPartner: User[]) {
+    const chatPartnerIdentities = chatPartner?.map((chatPartner) => chatPartner.identity)
+
     try {
-      const chatPartnerMatrixIds = chatPartnerIdentities.map((id) => '@' + id + ':' + chatServerName)
-      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds, name)
+      const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => '@' + identity + ':' + chatServerName)
+      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds)
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -71,7 +75,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
       return
     }
 
-    if (!adminIds) {
+    if (!adminsAsUser) {
       logError(
         new HoliError('Can not create a chat without a space representatives identity'),
         'Failed to start chat',
@@ -84,7 +88,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
     }
 
     try {
-      await openChatRoom(adminIds, adminNames?.join(', '))
+      await openChatRoom(adminsAsUser)
     } finally {
       setIsLoading(false)
     }

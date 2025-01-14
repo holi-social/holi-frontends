@@ -119,7 +119,12 @@ const ChatRoomView = () => {
                 defaultColor={getDefaultAvatarColor(chatPartner?.name)}
               />
             ) : (
-              <ChatRoomHeaderTitle name={room.name} />
+              <ChatRoomHeaderTitle
+                name={chatPartner?.name ?? room.name}
+                imageSrc={chatPartner?.avatar}
+                initials={getChatInitials(chatPartner?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
+              />
             )
 
           case 'space.child':

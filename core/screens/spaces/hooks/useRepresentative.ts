@@ -38,15 +38,13 @@ export const useAdmins = (spaceIdOrName?: string) => {
   const { loading, error, space, refetch, called } = useSpace(spaceIdOrName)
 
   const members = space?.members.data
-  const admins = members?.filter((member) => member.isAdministrator)
-  const adminNames = admins?.map((admin) => admin.user.firstName)
-  const adminIds = admins?.map((admin) => admin.id)
+  const adminsAsMember = members?.filter((member) => member.isAdministrator)
+  const adminsAsUser = adminsAsMember?.map((admin) => admin.user)
 
   return {
     loading,
     error,
-    adminIds,
-    adminNames,
+    adminsAsUser,
     called,
     refetch,
   }

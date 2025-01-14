@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
 import { FullUserFragmentDoc } from '@holi/api/graphql/graphql-codegen'
-import { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
+import type { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import type { Paged } from '@holi/core/types'
 
 export const sdgsQuery = gql`
@@ -44,6 +44,7 @@ export const topicsQuery = gql`
 export const UserAvatarFragment = gql`
   fragment UserAvatar on User {
     id
+    identity
     avatar
     avatarBlurhash
     avatarLabel
@@ -56,6 +57,7 @@ export const UserAvatarFragment = gql`
 export const FullUserAvatarFragment = gql`
   fragment FullUserAvatar on User {
     id
+    identity
     avatar
     avatarBlurhash
     avatarLabel
