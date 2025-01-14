@@ -7,62 +7,11 @@ import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import type { SearchResults } from 'algoliasearch-helper'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
 import type { TrackingEvent } from '@holi/core/tracking'
+import { profileHit, spaceHit, volunteeringHit } from '@holi/core/screens/search/typesense/__tests__/testData'
 
 jest.mock('react-instantsearch-core')
 const mockUseInfiniteHits = jest.mocked(useInfiniteHits)
 const mockUseInstantSearch = jest.mocked(useInstantSearch)
-
-const hit1: Hit<SearchHitData> = {
-  type: 'volunteering',
-  id: '1',
-  title_de: 'Freiwilligenarbeit in Berlin',
-  title_en: 'Volunteering in Berlin',
-  description_de: 'Hilf deiner Gemeinschaft als Freiwilliger.',
-  description_en: 'Help your community through volunteering.',
-  location: 'Berlin',
-  location_lat_lng: [52.52, 13.405],
-  image_url: 'https://example.com/image1.jpg',
-  link_locators: {
-    volunteering: 'volunteer-opportunity-1',
-  },
-  __position: 0,
-  __queryID: '1',
-  objectID: '1',
-}
-
-const hit2: Hit<SearchHitData> = {
-  type: 'profile',
-  id: '2',
-  title_de: 'Profil von Max Mustermann',
-  title_en: 'Profile of Max Mustermann',
-  description_de: 'Erfahre mehr über Max.',
-  description_en: 'Learn more about Max.',
-  image_url: 'https://example.com/image2.jpg',
-  link_locators: {
-    profile: 'max-mustermann',
-  },
-  __position: 1,
-  __queryID: '1',
-  objectID: '2',
-}
-
-const hit3: Hit<SearchHitData> = {
-  type: 'space',
-  id: '3',
-  title_de: 'Coworking Space in Mitte',
-  title_en: 'Coworking Space in Mitte',
-  description_de: 'Arbeite in einem kreativen Raum.',
-  description_en: 'Work in a creative space.',
-  location: 'Mitte, Berlin',
-  location_lat_lng: [52.53, 13.4],
-  image_url: 'https://example.com/image3.jpg',
-  link_locators: {
-    space: 'coworking-mitte',
-  },
-  __position: 2,
-  __queryID: '1',
-  objectID: '3',
-}
 
 const hit4: Hit<SearchHitData> = {
   type: 'space',
@@ -122,8 +71,10 @@ const mockedInfiniteHits = (
 jest.useFakeTimers()
 
 describe('SearchHitInfiniteList', () => {
+  const hits = [volunteeringHit, profileHit, spaceHit]
+
   beforeEach(() => {
-    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits(4, 2, 0, [hit1, hit2, hit3]))
+    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits(4, 2, 0, hits))
     mockUseInstantSearch.mockReturnValue({ status: 'idle' } as ReturnType<typeof useInstantSearch>)
   })
   it('tracks searchResultsRendered event', async () => {
@@ -142,7 +93,7 @@ describe('SearchHitInfiniteList', () => {
         totalNrOfResults: 4,
         totalNrOfPages: 2,
         currentPage: 0,
-        renderedResults: removeDeniedProps([hit1, hit2, hit3]),
+        renderedResults: removeDeniedProps(hits),
         selectedFacets: ['user'],
       },
     } as TrackingEvent)
@@ -157,7 +108,7 @@ describe('SearchHitInfiniteList', () => {
     mockTrack.mockReset() // we're not interested in the searchResultsRendered event
 
     // press second item
-    await user.press(screen.getAllByLabelText(hit2.title_en!)[0]) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    await user.press(screen.getAllByLabelText(hits[1].title_en!)[0]) // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
     expect(mockTrack).toHaveBeenCalledWith({
       name: 'searchResultPressed',
@@ -165,19 +116,19 @@ describe('SearchHitInfiniteList', () => {
       event_version__minor: 0,
       event_version__patch: 0,
       properties: {
-        itemPressed: removeDeniedProps([hit2])[0],
+        itemPressed: removeDeniedProps([hits[1]])[0],
         itemPressedIndex: 1,
         query: 'search terms',
         totalNrOfResults: 4,
         totalNrOfPages: 2,
         currentPage: 0,
-        renderedResults: removeDeniedProps([hit1, hit2, hit3]),
+        renderedResults: removeDeniedProps(hits),
         selectedFacets: ['user'],
       },
     } as TrackingEvent)
   })
   it('fetches more data on scroll and fires another searchResultsRendered tracking event', async () => {
-    const page1 = [hit1, hit2, hit3]
+    const page1 = hits
     const page2 = [hit4]
 
     // Mock more hits to be returned when scrolling
