@@ -1,6 +1,6 @@
-import { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 
-const blacklistedProps = [
+const deniedProps = [
   'embedding',
   'image_url',
   'link_locators',
@@ -17,13 +17,13 @@ const blacklistedProps = [
 ]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const removeBlacklistedProps = (record: Record<string, any>): Record<string, any> => {
+const removeDeniedProps = (record: Record<string, any>): Record<string, any> => {
   const filteredRecord = { ...record } // Copy the record to avoid mutating the original object
-  blacklistedProps.forEach((prop) => {
-    delete filteredRecord[prop] // Remove any blacklisted properties
+  deniedProps.forEach((prop) => {
+    delete filteredRecord[prop] // Remove any denied properties
   })
   return filteredRecord // Return the sanitized record
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const hitToTrackingDoc = (hit: SearchHitData): Record<string, any> => removeBlacklistedProps(hit)
+export const hitToTrackingDoc = (hit: SearchHitData): Record<string, any> => removeDeniedProps(hit)
