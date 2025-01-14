@@ -203,13 +203,21 @@ const CommentForm = ({
   const handleModalDismiss = async () => {
     await incrementModalAttempts()
     setModalVisible(false)
-    redirectRoute ? replaceRoute(redirectRoute) : navigateBack()
+    if (redirectRoute) {
+      replaceRoute(redirectRoute)
+    } else {
+      navigateBack()
+    }
   }
 
   const handleDismissNotification = async () => {
     await dismissNotificationModal()
     setModalVisible(false)
-    redirectRoute ? replaceRoute(redirectRoute) : navigateBack()
+    if (redirectRoute) {
+      replaceRoute(redirectRoute)
+    } else {
+      navigateBack()
+    }
   }
 
   return (

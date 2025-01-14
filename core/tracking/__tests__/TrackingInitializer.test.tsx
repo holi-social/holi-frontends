@@ -174,8 +174,7 @@ describe('TrackingInitializer', () => {
     loginStateTesting.resetLoggedInUserIdVar()
     {
       // formatter makes crazy stuff, therefore these extra brackets
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;(posthogCrossPlatformMock.flush as jest.Mock).mockReturnValue(Promise.resolve())
+      ;(posthogCrossPlatformMock.flush as jest.Mock).mockReturnValue(Promise.resolve()) // eslint-disable-line no-extra-semi
     }
   })
 

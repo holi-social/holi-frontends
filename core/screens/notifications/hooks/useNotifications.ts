@@ -59,7 +59,9 @@ export const useNotifications = () => {
           limit: NOVU_NOTIFICATIONS_PAGE_SIZE,
         })
         .then((response) => {
-          onSuccess && onSuccess()
+          if (onSuccess) {
+            onSuccess()
+          }
           setCanFetchMore(!!response.hasMore)
           processMessagesResponse(response)
         })
@@ -134,7 +136,9 @@ function mapToNotification(
   | NotificationPostReactions
   | NotificationCommentReactions
   | undefined {
-  const { data, notificationType, notificationVersion } = message.payload
+  const data: unknown = message.payload.data
+  const notificationType: string = message.payload.notificationType as string
+  const notificationVersion: string = message.payload.notificationVersion as string
   switch (notificationType) {
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST:
     case NovuNotificationType.SPACE_MEMBERSHIP_REQUEST_APPROVAL_USER:

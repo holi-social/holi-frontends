@@ -22,7 +22,7 @@ export const validateUrl = (url: string): boolean => {
     if (parsedUrl.hostname.endsWith('.local')) {
       return false
     }
-  } catch (e) {
+  } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     return false
   }
 

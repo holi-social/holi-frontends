@@ -49,7 +49,7 @@ const useReportContent = ({
       try {
         isAlreadyReported = JSON.stringify(e.graphQLErrors).includes('You have already reported')
         isOwnContent = JSON.stringify(e.graphQLErrors).includes('You cannot report your own')
-      } catch (error) {
+      } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
         // ignore
       }
 

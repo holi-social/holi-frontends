@@ -4,7 +4,8 @@ import { initReactI18next } from 'react-i18next'
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock'
 
 import i18n from '@holi/core/i18n'
-import type { TrackingHook } from '@holi/core/tracking/types'
+import type { TrackingEventHandler, TrackingHook } from '@holi/core/tracking/types'
+import { TrackingEvent } from '@holi/core/tracking'
 
 // Added to fix the following error: https://github.com/facebook/react-native/issues/42904#issuecomment-2306382117
 // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unused-vars
@@ -134,7 +135,7 @@ jest.mock('@holi/core/tracking/hooks/useTracking', () => {
     ...originalModule,
     default(): TrackingHook {
       return {
-        track: global.mockTrack,
+        track: global.mockTrack as unknown as TrackingEventHandler,
       }
     },
   }

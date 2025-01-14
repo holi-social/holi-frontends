@@ -64,7 +64,8 @@ const ChangeEmail = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const email = settingsFlow
-    ? findInputNodeByNameAndType('traits.email', 'email', settingsFlow)?.attributes?.value
+    ? // @ts-ignore
+      findInputNodeByNameAndType('traits.email', 'email', settingsFlow)?.attributes?.value
     : '...'
 
   const initForm = useCallback(async () => {

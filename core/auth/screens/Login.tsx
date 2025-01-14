@@ -71,7 +71,9 @@ const Login = () => {
   }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
-    isLoggedOut && !flow && initializeFlow()
+    if (isLoggedOut && !flow) {
+      initializeFlow()
+    }
   }, [isLoggedOut, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {

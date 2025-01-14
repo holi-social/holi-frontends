@@ -66,7 +66,6 @@ const AboutHoliApp = () => {
         {Updates.createdAt && (
           <HoliText>Updates.createdAt: {localizeDate(Updates.createdAt, currentLanguage)}</HoliText>
         )}
-        {Updates.releaseChannel && <HoliText>Updates.releaseChannel: {Updates.releaseChannel}</HoliText>}
         {Updates.runtimeVersion && <HoliText>Updates.runtimeVersion: {Updates.runtimeVersion}</HoliText>}
         {Updates.updateId && <HoliText>Updates.updateId: {Updates.updateId}</HoliText>}
       </View>

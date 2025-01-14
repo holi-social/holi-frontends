@@ -119,7 +119,7 @@ const ChallengesAppHome = () => {
   const openSettings = async () => {
     try {
       await Linking.openURL('app-settings:')
-    } catch (error) {
+    } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       //Failed to open settings
     }
   }

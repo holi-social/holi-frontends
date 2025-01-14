@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { ChipAction, ChipLabel } from 'holi-bricks/components/chips'
-import React, { useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,8 +11,8 @@ import SpacesTab from '@holi/core/components/SpacesTab'
 import type { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
-import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
+import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import MyPostsTab from '@holi/core/screens/individualPosts/components/MyPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
@@ -57,7 +57,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
   const tabNamesInOrder = [Tab.PROFILE, Tab.POSTS]
-  hasInsights && tabNamesInOrder.push(Tab.INSIGHTS)
+  if (hasInsights) tabNamesInOrder.push(Tab.INSIGHTS)
   tabNamesInOrder.push(Tab.SPACES)
 
   return (

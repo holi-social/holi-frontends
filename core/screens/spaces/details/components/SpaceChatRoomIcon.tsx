@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 
 export const SpaceChatRoomIcon = (props: {
   space: Space
-  color?: string
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -24,7 +23,6 @@ export const SpaceChatRoomIcon = (props: {
         icon={Chat3}
         showBell={spaceRoom.notificationCount > 0}
         onPress={() => navigate(`/chat?activeTab=${spaceRoom.id}`)}
-        color={props.color}
       />
     )
   }

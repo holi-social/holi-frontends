@@ -1,4 +1,2 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useFocusEffect = (func: CallableFunction) => {
-  null
-}
+export const useFocusEffect = (func: CallableFunction) => {}

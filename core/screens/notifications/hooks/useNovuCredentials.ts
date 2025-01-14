@@ -21,7 +21,7 @@ export const useNovuCredentials = (userId?: string) => {
           headers, // for mobile
         })
         setHmacHash(response.data.hmacHash)
-      } catch (e) {
+      } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
         //noop
       }
     })()

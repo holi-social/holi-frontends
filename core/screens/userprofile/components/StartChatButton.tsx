@@ -66,7 +66,7 @@ export function StartChatButton({
       } else {
         navigate('/chat/rooms/' + room_id)
       }
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
     }
   }

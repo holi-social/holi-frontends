@@ -6,7 +6,7 @@ import { useLoginState } from '@holi/core/auth/loginState'
 
 export const POST_ONBOARDING_STATE_STORAGE_NAME = 'post_onboarding_state_value'
 
-const postOnboardingStateValues = ['onboarding', 'finished'] as const
+const postOnboardingStateValues = ['onboarding', 'finished'] as const // eslint-disable-line @typescript-eslint/no-unused-vars
 export type PostOnboardingStateValue = (typeof postOnboardingStateValues)[number]
 
 // null is loading state (AsyncStorage.getItem is async)

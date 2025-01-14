@@ -77,7 +77,7 @@ const checkNotificationEligibility = async (config: NotificationEligibilityConfi
 
     await AsyncStorage.setItem(NOTIFICATION_MODAL_STORAGE_KEY, JSON.stringify(modalState))
     return true
-  } catch (error) {
+  } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     return false
   }
 }
@@ -86,7 +86,7 @@ export const getNotificationModalState = async (): Promise<ModalState | null> =>
   try {
     const storedData = await AsyncStorage.getItem(NOTIFICATION_MODAL_STORAGE_KEY)
     return storedData ? JSON.parse(storedData) : null
-  } catch (error) {
+  } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     return null
   }
 }

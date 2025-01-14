@@ -1,4 +1,4 @@
-import { ApolloError, useMutation } from '@apollo/client'
+import { ApolloError, StoreObject, useMutation } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
@@ -40,7 +40,10 @@ export const useSpaceJoinRequest = (
         showJoinOverlay()
       },
       onError(error) {
-        client.cache.evict({ id: client.cache.identify(space) })
+        if (!('__typename' in space)) {
+          console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
+        }
+        client.cache.evict({ id: client.cache.identify(space as unknown as StoreObject) })
         const context = {
           location: 'useSpaceJoinRequest.updateSpaceUserConnection',
           spaceId: space.id,
