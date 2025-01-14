@@ -78,8 +78,15 @@ export interface NotificationPost extends NotificationBase {
 }
 
 export interface SpaceMembershipNotificationData {
-  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
-  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
+  user: Pick<
+    User,
+    'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'
+  > & {
+    [key: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  }
+  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'> & {
+    [key: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  }
   message?: string
   requestMessage?: string
 }

@@ -59,7 +59,7 @@ export const useHoliTabQueryParamSetter = (initialTabKey?: string) => {
   const setHoliTabQueryParam = useCallback((tabKey: string) => updateParams({ tab: tabKey }), [updateParams])
 
   useEffect(() => {
-    initialTabKey && setHoliTabQueryParam(initialTabKey)
+    if (initialTabKey) setHoliTabQueryParam(initialTabKey)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setHoliTabQueryParam]) // run only once on mount
 

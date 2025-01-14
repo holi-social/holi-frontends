@@ -26,7 +26,7 @@ export const syncUserSessionFromOrySession = async () => {
     } else {
       removeSessionFromStorage()
     }
-  } catch (e) {
+  } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     // we could not recover a session from Ory, so we are sure there is none
   }
   return null
@@ -43,7 +43,7 @@ export const getSessionFromStorage = async () => {
       if (resp) return JSON.parse(resp) as OrySessionContext
       // We don't have a session in storage, but we could still have a valid Ory session cookie, so we try to restore the session
       return await syncUserSessionFromOrySession()
-    } catch (_) {
+    } catch (_) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       return null
     }
   }

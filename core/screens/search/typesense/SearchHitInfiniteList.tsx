@@ -83,7 +83,7 @@ export function SearchHitInfiniteList() {
             trackingEvent={TrackingEvent.SearchResultPressed({
               itemPressed: hitToTrackingDoc(hit),
               itemPressedIndex: index,
-              searchResult: resultsToTrackingEventResults(results!),
+              searchResult: resultsToTrackingEventResults(results!), // eslint-disable-line @typescript-eslint/no-non-null-assertion
             })}
           />
         )

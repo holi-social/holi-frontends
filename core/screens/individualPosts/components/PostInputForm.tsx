@@ -151,9 +151,11 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
     t('individuals.post.input.category.input.description')
 
   const handleLocationChange = (selected?: GeolocationSuggestion) => {
-    selected ? onChangeSelectedLocation(selected) : onChangeSelectedLocation(null)
     if (selected) {
+      onChangeSelectedLocation(selected)
       hideLocationModal()
+    } else {
+      onChangeSelectedLocation(null)
     }
   }
 

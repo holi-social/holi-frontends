@@ -125,16 +125,16 @@ const HoliButton = ({
           }
           if (disabled) {
             result.push(styles.disabled)
-            isPrimary && result.push(styles.primaryDisabled)
-            isWarning && result.push(styles.warningDisabled)
+            if (isPrimary) result.push(styles.primaryDisabled)
+            if (isWarning) result.push(styles.warningDisabled)
           } else {
-            isPrimary && result.push(styles.primary)
+            if (isPrimary) result.push(styles.primary)
             if (state.pressed) {
-              isPrimary && result.push(styles.pressedPrimary)
-              !isPrimary && !isWarning && result.push(styles.pressedSecondary)
+              if (isPrimary) result.push(styles.pressedPrimary)
+              if (!isPrimary && !isWarning) result.push(styles.pressedSecondary)
             } else {
-              state.focused && result.push(styles.focused)
-              state.hovered && result.push(styles.hovered)
+              if (state.focused) result.push(styles.focused)
+              if (state.hovered) result.push(styles.hovered)
             }
           }
         }

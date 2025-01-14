@@ -28,8 +28,6 @@ type Themes = {
 }
 
 declare module 'react-native-unistyles' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  export interface UnistylesBreakpoints extends Breakpoints {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  export interface UnistylesThemes extends Themes {}
+  export interface UnistylesBreakpoints extends Breakpoints {} // eslint-disable-line
+  export interface UnistylesThemes extends Themes {} // eslint-disable-line
 }

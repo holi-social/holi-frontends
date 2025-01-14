@@ -1,6 +1,6 @@
-import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test'
+import { type Browser, type Page } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, isRunningLocally, loginAsE2EUser, proceedAsGuest, withSSR } from '../helpers'
+import { byTestId, clickElementByTestId, isRunningLocally, proceedAsGuest, withSSR } from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@HomeScreen', () => {

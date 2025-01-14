@@ -89,7 +89,7 @@ const SpaceLinkInput: React.FC<SpaceLinkInputProps> = ({ link, onEdit, onDelete 
             primaryText={t('spaces.input.publicLinks.delete.confirmation.yes')}
             testID="spaces-links-delete-confirmation"
             onPrimary={() => {
-              onDelete && onDelete(link.id)
+              if (onDelete) onDelete(link.id)
             }}
           />
         </View>

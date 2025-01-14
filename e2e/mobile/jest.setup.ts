@@ -59,7 +59,7 @@ async function waitForStartupAndDeclineTrackingConsent({
       await waitForElementWithTestId('btn-consentModal-declineAll', homeScreenTimeout)
       await tapOnElementWithTestId('btn-consentModal-declineAll')
       appRunning = true
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       numAttempts--
     }
   }

@@ -66,7 +66,9 @@ const FeedPostReactions: React.FC<FeedPostReactionsProps> = ({ post, onChange, s
           reactionAction: reactionAction,
         },
         onCompleted: () => {
-          reactionAction === ReactionAction.SET && track(TrackingEvent.Engaging.reacted('FeedPost', post.id))
+          if (reactionAction === ReactionAction.SET) {
+            track(TrackingEvent.Engaging.reacted('FeedPost', post.id))
+          }
         },
       })
     }

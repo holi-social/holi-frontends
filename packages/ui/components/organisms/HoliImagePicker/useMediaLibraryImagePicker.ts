@@ -83,7 +83,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
           allowsMultipleSelection,
           selectionLimit,
         })
-      } catch (error) {
+      } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
         return 'technicalError'
       }
 

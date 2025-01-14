@@ -71,8 +71,6 @@ Primary.args = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderTabContent: ({ item }) => (item as unknown as any).content(),
   activeTab: 'profile',
-  onChange: () => {
-    null
-  },
+  onChange: () => {},
   testID: 'story-tabs',
 }

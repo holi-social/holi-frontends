@@ -15,7 +15,7 @@ interface Props {
   counter?: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   usersTotal?: number
-  users: User[]
+  users: readonly User[]
   testID?: string
   hasBackground?: boolean
 }

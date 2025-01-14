@@ -95,7 +95,8 @@ lint_compile_test:
     # install_deps does not run on long living branches, and it might not run on pipeline failures on the first build of a branch
     - '[ ! -d ".yarn/cache" ] && yarn install --immutable || yarn install --immutable --immutable-cache'
     - yarn format:check
-    - yarn lint
+    - git fetch origin main:main # needed for 'yarn workspaces foreach ... (lint_all task)'
+    - yarn lint_all
     - yarn test
   interruptible: true
   tags:

@@ -14,6 +14,7 @@ const HoliLocalImage = ({ imageSource, label, width, height, style, resizeMode =
   const webResizeMode = resizeMode === 'stretch' ? 'fill' : resizeMode
 
   return (
+    // @ts-ignore
     <View style={style}>
       <Image
         src={imageSource as string}

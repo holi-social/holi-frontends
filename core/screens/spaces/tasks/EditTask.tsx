@@ -18,9 +18,9 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
 import {
+  updateTaskMutation,
   type UpdateTaskResponse,
   UpdateTaskSchema,
-  updateTaskMutation,
 } from '@holi/core/screens/spaces/tasks/mutations'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { GeolocationPoint } from '@holi/core/types'
@@ -205,8 +205,7 @@ const EditTask = () => {
   }, [space, task, t])
 
   useIsomorphicLayoutEffect(() => {
-    !loadingSpace &&
-      isMember &&
+    if (!loadingSpace && isMember) {
       setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
@@ -219,6 +218,7 @@ const EditTask = () => {
           footerShown: false,
         },
       })
+    }
   }, [t, loadingSpace, isMember, setScreenOptions])
 
   useEffect(() => {

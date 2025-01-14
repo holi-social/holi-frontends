@@ -17,9 +17,9 @@ import DigitalToolInputForm, {
   COLLECTION_TYPES,
 } from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
+  updateCollaborationToolMutation,
   type UpdateCollaborationToolResponse,
   UpdateCollaborationToolSchema,
-  updateCollaborationToolMutation,
 } from '@holi/core/screens/spaces/linkHub/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -103,7 +103,7 @@ const EditDigitalTool = () => {
   }, [t, url])
 
   useIsomorphicLayoutEffect(() => {
-    !loadingSpace &&
+    if (!loadingSpace) {
       setScreenOptions({
         animation: 'slide_from_bottom',
         title: '',
@@ -113,6 +113,7 @@ const EditDigitalTool = () => {
           footerShown: false,
         },
       })
+    }
   }, [t, loadingSpace, setScreenOptions, colors.background20])
 
   useEffect(() => {

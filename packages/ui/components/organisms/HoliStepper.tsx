@@ -50,7 +50,7 @@ export const HoliStepperController: React.FC<HoliStepperControllerProps> = ({
     (nextStep: number) => {
       const validNextStep = Math.min(Math.max(nextStep, 0), stepCount - 1)
       setCurrentStep(validNextStep)
-      onChangeTab && onChangeTab(validNextStep)
+      if (onChangeTab) onChangeTab(validNextStep)
     },
     [stepCount, onChangeTab]
   )
@@ -144,9 +144,11 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       if (!ref.current?.scrollTo) {
         return
       }
-      Platform.OS === 'android'
-        ? ref.current.scrollTo(scrollOptions)
-        : delayAnimation(ref.current.scrollTo, scrollOptions, scrollDelay)
+      if (Platform.OS === 'android') {
+        ref.current.scrollTo(scrollOptions)
+      } else {
+        delayAnimation(ref.current.scrollTo, scrollOptions, scrollDelay)
+      }
     },
     [lazy, viewWidth]
   )

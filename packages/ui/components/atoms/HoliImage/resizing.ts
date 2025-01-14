@@ -103,7 +103,7 @@ export const setScalingParams = (source: ImageSource): ImageSource => {
       // will intentionally override previous value, if present
       url.searchParams.set('tr', params)
       return { ...source, uri: url.href }
-    } catch (error) {
+    } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       return source
     }
   } else if (uri.startsWith('https://dev-images.holi.social/') || uri.startsWith('https://images.holi.social/')) {

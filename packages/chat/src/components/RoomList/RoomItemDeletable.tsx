@@ -51,8 +51,8 @@ const RoomItemDeletable = ({ onDelete, ...props }: Props) => {
           label: t('chat.actions.leave'),
           title: t('chat.actions.leave'),
           description: t('chat.actions.leave.confirmation.text', { name: roomName }),
-          confirmText: t('chat.actions.leave.confirmation.leave'),
-          dismissText: t('chat.actions.leave.confirmation.cancel'),
+          primaryText: t('chat.actions.leave.confirmation.leave'),
+          secondaryText: t('chat.actions.leave.confirmation.cancel'),
         }}
         swipeLeftContent={<HoliIcon icon={Delete} color={colors.background10} />}
       >

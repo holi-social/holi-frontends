@@ -66,7 +66,12 @@ export const setLoginStateLoggedIn = async (session: OrySessionContext): Promise
   // save Ory session in AsyncStorage
   await setSessionInStorage(session)
   // fetch and save Okuna user
-  loginStateVar(loginStateLoggedIn(session.session.identity?.id))
+  if (session.session.identity) {
+    loginStateVar(loginStateLoggedIn(session.session.identity!.id)) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  } else {
+    console.error('setLoginStateLoggedIn: session.session.identity is null') // eslint-disable-line no-console
+    loginStateVar(loginStateLoggedIn(''))
+  }
 }
 
 // intended to be called from outside the context provider (e.g. logout form)

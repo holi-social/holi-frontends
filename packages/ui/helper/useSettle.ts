@@ -8,11 +8,11 @@ export const useSettle = (fn: (value: number) => void, ms: number) => {
       clearTimeout(timeout.current)
       if (value != lastValueRef.current) {
         timeout.current = setTimeout(() => {
-          fn && fn(value)
+          if (fn) fn(value)
         }, ms)
       } else {
         // Immediately invoke function if value did not change
-        fn && fn(value)
+        if (fn) fn(value)
       }
       lastValueRef.current = value
     },
