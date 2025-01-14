@@ -1,19 +1,20 @@
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { Search } from '@holi/icons/src/generated'
+import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSearchBox } from 'react-instantsearch-core'
-import { UseSearchBoxProps } from 'react-instantsearch-core/dist/es/connectors/useSearchBox.js'
-import { TextInput } from 'react-native'
+import type { UseSearchBoxProps } from 'react-instantsearch-core/dist/es/connectors/useSearchBox.js'
+import type { TextInput } from 'react-native'
 
 export type SearchBoxProps = {
   props?: UseSearchBoxProps
 }
 
 export function SearchTextInput({ props }: SearchBoxProps) {
+  const { t } = useTranslation()
   const { query, refine } = useSearchBox(props)
   const [inputValue, setInputValue] = useState(query)
   const inputRef = useRef<TextInput>(null)
-  const { styles } = useStyles(stylesheet)
 
   function setQuery(newQuery: string) {
     setInputValue(newQuery)
@@ -31,29 +32,21 @@ export function SearchTextInput({ props }: SearchBoxProps) {
   }, [query])
 
   return (
-    <TextInput
+    <HoliTextInput
+      aria-label={t('search.typesense.input.label')}
+      placeholder={t('search.typesense.input.label')}
       ref={inputRef}
-      style={styles.input}
       value={inputValue}
-      onChangeText={setQuery}
-      clearButtonMode="while-editing"
-      autoCapitalize="none"
-      autoCorrect={false}
-      spellCheck={false}
-      autoComplete="off"
+      onChange={setQuery}
+      inputProps={{
+        autoFocus: true,
+        clearButtonMode: 'while-editing',
+        autoCapitalize: 'none',
+        autoCorrect: false,
+        spellCheck: false,
+        autoComplete: 'off',
+      }}
+      trailingIcon={Search}
     />
   )
 }
-
-// TODO restyle after introducing <Screen> component (HOLI-10827)
-const stylesheet = createStyleSheet(() => ({
-  input: {
-    height: 48,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#ddd',
-  },
-}))
