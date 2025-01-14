@@ -20,8 +20,8 @@ export interface SpaceTermsInputProps {
   description: string
   searchPlaceholder: string
   onSelect: (items: SortedTerm[]) => void
-  selected: SortedTerm[]
-  terms: SortedTerm[]
+  selected: readonly SortedTerm[]
+  terms: readonly SortedTerm[]
   hint?: string
   showSortNumber?: boolean
   testID?: string

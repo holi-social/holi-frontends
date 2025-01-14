@@ -64,9 +64,9 @@ export class SessionHandler {
       await newPage.goto('/')
     } catch (error) {
       if (error instanceof Error) {
-        console.error(`Initial navigation to '/' failed: ${error.message}`)
+        console.error(`Initial navigation to '/' failed: ${error.message}`) // eslint-disable-line no-console
       } else {
-        console.error("Initial navigation to '/' failed with an unknown error.")
+        console.error("Initial navigation to '/' failed with an unknown error.") // eslint-disable-line no-console
       }
 
       // If the initial attempt fails, fall back to retry logic

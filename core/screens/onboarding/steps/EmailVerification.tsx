@@ -66,7 +66,7 @@ export const EmailVerification = ({
             location: 'EmailVerification.getOrCreateVerificationFlow',
           })
 
-          isLoggedIn && logout({ skipRedirect: true, showToastAfter: false })
+          if (isLoggedIn) logout({ skipRedirect: true, showToastAfter: false })
           onDismiss()
         })
         .finally(hideLoader)
@@ -228,7 +228,9 @@ export const EmailVerification = ({
         <HoliButtonLoadingTracked
           label={t('auth.loginProtection.continueAsGuest')}
           onPress={async () => {
-            isLoggedIn && (await logout({ skipRedirect: true, showToastAfter: false }).catch(() => null)) // ignore logout error
+            if (isLoggedIn) {
+              await logout({ skipRedirect: true, showToastAfter: false }).catch(() => null) // ignore logout error
+            }
             clearVerificationFlowData()
             onDismiss()
           }}

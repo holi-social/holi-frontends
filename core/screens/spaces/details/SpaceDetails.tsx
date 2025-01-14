@@ -101,9 +101,9 @@ const SpaceDetails = () => {
       headerTintColor: colors.foreground30,
       headerTitle: '',
       headerLeft: () => <HeaderBackButton />,
-      headerRight: (props) => (
+      headerRight: () => (
         <View style={styles.headerRight}>
-          {(isMember || isAdmin) && space && <SpaceChatRoomIcon space={space} color={props.tintColor} />}
+          {(isMember || isAdmin) && space && <SpaceChatRoomIcon space={space} />}
           {!isMember || (!isAdmin && <SpaceShareIcon spaceIdOrName={space?.name || space?.id} title={space?.title} />)}
           {space && <ActionDrawer space={space} />}
         </View>

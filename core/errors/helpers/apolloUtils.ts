@@ -16,7 +16,7 @@ export const extractFieldErrors = (error: Pick<ApolloError, 'graphQLErrors'>): F
   const errors = error.graphQLErrors.length && error.graphQLErrors[0].extensions?.errors
   try {
     return errors ? JSON.parse(errors as string) : undefined
-  } catch (e) {
+  } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     return undefined
   }
 }

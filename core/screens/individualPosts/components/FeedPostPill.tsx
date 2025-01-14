@@ -51,7 +51,9 @@ const FeedPostPill: React.FC<PropsWithSkeleton<Props>> = ({
   const icon = label ? Pencil : Add
 
   const handlePress = useCallback(() => {
-    onPress && setting && onPress(setting)
+    if (onPress && setting) {
+      onPress(setting)
+    }
   }, [setting, onPress])
 
   if (loading) {

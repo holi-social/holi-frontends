@@ -80,7 +80,9 @@ const InsightReactions: React.FC<InsightReactionsProps> = ({ item, itemType, sty
         reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
       },
       onCompleted: () => {
-        !currentUserHasReacted && track(TrackingEvent.Engaging.reacted(capitalize(itemType), item.id))
+        if (!currentUserHasReacted) {
+          track(TrackingEvent.Engaging.reacted(capitalize(itemType), item.id))
+        }
       },
     })
   }

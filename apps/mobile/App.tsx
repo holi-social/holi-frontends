@@ -86,13 +86,13 @@ const App = () => {
   return (
     <BricksTheme initialTheme={'light'}>
       <ThemeProvider theme={defaultHoliTheme}>
-        <KeyboardProvider>
-          <NavigationProvider>
-            <RootProvider apolloClient={apolloClient}>
+        <NavigationProvider>
+          <RootProvider apolloClient={apolloClient}>
+            <KeyboardProvider>
               <RootNavigator />
-            </RootProvider>
-          </NavigationProvider>
-        </KeyboardProvider>
+            </KeyboardProvider>
+          </RootProvider>
+        </NavigationProvider>
       </ThemeProvider>
     </BricksTheme>
   )

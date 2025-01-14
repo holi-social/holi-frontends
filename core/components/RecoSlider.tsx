@@ -54,7 +54,9 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
 
   const handleHeaderTitlePress = () => {
-    seeAllPath && navigate(seeAllPath)
+    if (seeAllPath) {
+      navigate(seeAllPath)
+    }
   }
 
   const handleSeeMore = (event: React.SyntheticEvent | GestureResponderEvent) => {

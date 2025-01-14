@@ -60,6 +60,7 @@ const testDisplaysProfileDetails = async (page: Page) => {
   await page.waitForSelector(byTestId('user-profile-full-name'))
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const checkChipsSelection = async (page: Page, what: string) => {
   await deselectAll(page, what)
   await selectSomeItemsAndVerify(page, what)

@@ -88,7 +88,7 @@ export const isValidUrl = (urlString: string) => {
     const url = new URL(urlWithProtocol)
 
     return !whitespaceRegex.test(urlString) && /\.[a-z]{2,}$/i.test(url.hostname) && /^https?:\/\/[^/]/i.test(url.href)
-  } catch (e) {
+  } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     return false
   }
 }

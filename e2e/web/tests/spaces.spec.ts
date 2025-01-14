@@ -30,8 +30,8 @@ test.describe('@Spaces', () => {
     const { page: userPage } = await api.signUp()
     user = userPage
 
-    process.env.DEBUG && guest.on('console', (msg) => console.debug('  GUEST>', msg.text(), '<'))
-    process.env.DEBUG && user.on('console', (msg) => console.debug('  ADMIN>', msg.text(), '<'))
+    if (process.env.DEBUG) guest.on('console', (msg) => console.debug('  GUEST>', msg.text(), '<')) // eslint-disable-line no-console
+    if (process.env.DEBUG) user.on('console', (msg) => console.debug('  ADMIN>', msg.text(), '<')) // eslint-disable-line no-console
   })
 
   test('guest can explore spaces', async ({ browser }) => {

@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { StoreObject, useMutation } from '@apollo/client'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -35,8 +35,11 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
       },
       // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
       update: (cache) => {
+        if (!('__typename' in space)) {
+          console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
+        }
         cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
-        cache.evict({ id: cache.identify(space) })
+        cache.evict({ id: cache.identify(space as unknown as StoreObject) })
       },
       onError: (error) => {
         displayError(error, 'Failed to update space user connection', {

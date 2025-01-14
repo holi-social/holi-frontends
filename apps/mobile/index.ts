@@ -50,7 +50,7 @@ Sentry.init({
       } else if (exception instanceof CodedError) {
         event.fingerprint = ['{{ default }}', 'expo-client-error', String(exception?.code)]
       }
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // do nothing, see comment above try-block.
     }
 

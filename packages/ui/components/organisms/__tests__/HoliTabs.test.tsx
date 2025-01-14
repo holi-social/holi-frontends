@@ -87,9 +87,7 @@ describe('HoliTabs', () => {
           keyExtractor={({ key }) => key}
           renderTabContent={(options) => options.item.content(options)}
           activeTab="profile"
-          onChange={() => {
-            null
-          }}
+          onChange={() => {}}
         />
       )
       expect(screen.getAllByTestId('tab-button-tab')).toHaveLength(tabs.length)
@@ -102,9 +100,7 @@ describe('HoliTabs', () => {
           keyExtractor={({ key }) => key}
           renderTabContent={(options) => options.item.content(options)}
           activeTab="profile"
-          onChange={() => {
-            null
-          }}
+          onChange={() => {}}
           testID={TABS_ID}
         />
       )

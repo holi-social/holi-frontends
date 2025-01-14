@@ -22,14 +22,14 @@ export const createSpace = async (page: Page, initialName = 'e2e space name', in
 
     try {
       await clickElementByTestId(page, 'space-onboard-content-close-btn')
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // sometimes the modal doesn't show
       // just continue
     }
 
     try {
       await clickElementByTestId(page, 'space-edit-close')
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // sometimes space creation does not end in edit mode
       // just continue
     }

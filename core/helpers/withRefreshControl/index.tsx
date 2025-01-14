@@ -1,14 +1,15 @@
 import React from 'react'
-import { RefreshControl, ScrollView, ScrollViewProps } from 'react-native'
+import { RefreshControl, ScrollView, type ScrollViewProps } from 'react-native'
 
-import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
-import {
+import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
+import type {
   RefreshableScrollHeaderLayoutProps,
   RefreshableScrollViewProps,
 } from '@holi/core/components/ScrollHeaderLayout/types'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { KeyboardAwareScrollView, type KeyboardAwareScrollViewProps } from 'react-native-keyboard-controller'
 
 export function withRefreshControl<P extends LayoutProps, T>(
   ScrollComponent: (props: RefreshableScrollViewProps<P>) => React.ReactNode
@@ -44,4 +45,12 @@ const ScrollViewWithRef = React.forwardRef<ScrollView, ScrollViewProps>((props, 
 ))
 ScrollViewWithRef.displayName = 'ScrollViewWithRef'
 
+const KeyboardAwareScrollViewWithRef = React.forwardRef<ScrollView, KeyboardAwareScrollViewProps>((props, ref) => (
+  <KeyboardAwareScrollView {...props} ref={ref} />
+))
+KeyboardAwareScrollViewWithRef.displayName = 'KeyboardAwareScrollViewRefreshable'
+
+export const KeyboardAwareScrollViewRefreshable = withRefreshControl<KeyboardAwareScrollViewProps, ScrollView>(
+  KeyboardAwareScrollViewWithRef
+)
 export const ScrollViewRefreshable = withRefreshControl(ScrollViewWithRef)

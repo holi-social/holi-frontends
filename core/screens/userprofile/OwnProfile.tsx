@@ -51,7 +51,7 @@ const OwnProfile = () => {
       // if pressed too soon, the state is set to true, but the modal is not shown.
       // crude mechanism to recover from this state.
       // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-      showModal && setshowModal(false)
+      if (showModal) setshowModal(false)
       setshowModal(true)
     },
     [showModal]

@@ -10,7 +10,7 @@ export const setColorScheme = async (value: ColorSchemeName) => {
       } else {
         await AsyncStorage.removeItem('theme')
       }
-    } catch (error) {
+    } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       return
     }
   } else {
@@ -32,7 +32,7 @@ export const getColorScheme = async () => {
   if (Platform.OS !== 'web') {
     try {
       theme = (await AsyncStorage.getItem('theme')) || undefined
-    } catch (error) {
+    } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // Error saving theme
     }
     return theme

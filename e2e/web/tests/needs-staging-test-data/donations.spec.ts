@@ -131,6 +131,7 @@ const testDisplaysFilterResults = async (page: Page) => {
   await expect(page.getByTestId('donations-list-search-heading')).toBeVisible({ timeout: donationsRequestTimeout })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, page: Page) => {
   // filter for "Germany"
   await page.waitForSelector(byTestId('donations-list-item'), { timeout: donationsRequestTimeout })
@@ -172,6 +173,7 @@ const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, pag
   await expect(page.getByTestId('donations-list-unfiltered')).toBeVisible({ timeout: donationsRequestTimeout })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testDisplaysDetailsOfFilterResults = async (page: Page) => {
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg')
