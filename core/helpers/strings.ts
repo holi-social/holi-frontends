@@ -1,11 +1,15 @@
-export const createUUID = () => {
-  let dt = new Date().getTime()
-  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = ((dt + Math.random() * 16) % 16) | 0
-    dt = Math.floor(dt / 16)
-    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
-  })
-  return uuid
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid'
+export const createUUID = uuidv4
+export const isValidUUID = uuidValidate
+export const coerceToUUIDString = (value?: string | string[]): string => {
+  if (value instanceof Array) return coerceToUUIDString(value[0])
+  if (typeof value === 'undefined') return ''
+  if (isValidUUID(value)) return value
+  // try to get first uuid pattern by regex from value
+  const uuidMatch = value.match(/\p{Hex_Digit}{8}(?:-\p{Hex_Digit}{4}){3}-\p{Hex_Digit}{12}/u)
+  if (uuidMatch) return uuidMatch[0]
+  // fall back to returning the input string
+  return value
 }
 
 export const getInitials = (str: string, maxLength = 3) =>
