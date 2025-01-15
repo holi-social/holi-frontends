@@ -94,11 +94,22 @@ export namespace TrackingEvent {
 
   export const SpaceAskQuestion = {
     askedQuestion: {
-      name: 'askQuestionButton_pressed',
+      name: 'space_askQuestionButton_pressed',
       ...versionOne,
     },
     startedConversation: {
-      name: 'startConversationButton_pressed',
+      name: 'space_startConversationButton_pressed',
+      ...versionOne,
+    },
+  }
+
+  export const TaskContactOrganization = {
+    contactedOrganization: {
+      name: 'task_contactOrganisationButton_pressed',
+      ...versionOne,
+    },
+    startedConversationFromTask: {
+      name: 'task_startConversationButton_pressed',
       ...versionOne,
     },
   }
