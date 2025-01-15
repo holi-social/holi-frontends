@@ -9,7 +9,7 @@ import {
 import { SearchFacetsChips } from '@holi/core/screens/search/typesense/SearchFacetsChips'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
 import { SearchTextInput } from '@holi/core/screens/search/typesense/SearchTextInput'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
@@ -64,12 +64,17 @@ export const Search = () => {
         contentContainerStyle={styles.container}
         StickyTopComponent={
           <View style={styles.filterContainer}>
-            <HoliContainer>
+            <HoliBox padding={[0, dimensions.spacingS]}>
               <SearchTextInput />
-            </HoliContainer>
+            </HoliBox>
             <SearchFacetsChips />
           </View>
         }
+        padding={{}}
+        keyboardAvoidingViewProps={{
+          style: styles.wrapper,
+        }}
+        keyboardVerticalOffset={0}
       >
         <SearchHitInfiniteList />
       </Screen>
@@ -80,6 +85,9 @@ export const Search = () => {
 const stylesheet = createStyleSheet({
   screen: {
     maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+  },
+  wrapper: {
+    maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight,
   },
   container: {
     flex: 1,

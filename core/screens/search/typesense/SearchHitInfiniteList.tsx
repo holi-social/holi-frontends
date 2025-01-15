@@ -7,7 +7,7 @@ import { Text } from 'holi-bricks/components/text'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useInfiniteHits, useInstantSearch } from 'react-instantsearch-core'
-import { FlatList } from 'react-native'
+import { FlatList, Platform } from 'react-native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { hitToTrackingDoc } from '@holi/core/screens/search/typesense/tracking'
@@ -38,7 +38,7 @@ export function SearchHitInfiniteList() {
   const { status, refresh } = useInstantSearch()
   const { styles } = useStyles(stylesheet)
 
-  useOnRefresh(refresh)
+  const fullRefresh = useOnRefresh(refresh)
 
   // using debounce as the best approximation to "results have been rendered" that we could find. tried alternatives:
   // a) observing items updates (too frequent with in between empty states)
@@ -58,7 +58,6 @@ export function SearchHitInfiniteList() {
   return (
     <FlatList
       style={styles.list}
-      contentContainerStyle={{}}
       testID={'search-results-list'}
       data={items}
       keyExtractor={(item) => item.id}
@@ -70,12 +69,14 @@ export function SearchHitInfiniteList() {
           <Text size={'md'}>{t('global.noSearchResults')}</Text>
         )
       }
+      refreshing={false}
+      onRefresh={Platform.OS !== 'web' ? fullRefresh : undefined}
       onEndReached={() => {
         if (!isLastPage) {
           showMore()
         }
       }}
-      onEndReachedThreshold={0.3}
+      onEndReachedThreshold={0.5}
       renderItem={({ item: hit, index }: { item: SearchHitData; index: number }) => {
         return (
           <SearchHit

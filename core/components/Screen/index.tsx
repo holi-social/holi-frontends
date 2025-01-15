@@ -156,11 +156,11 @@ export const Screen = (props: ScreenProps) => {
         {...keyboardAvoidingViewProps}
         style={[
           styles.flex1,
-          keyboardAvoidingViewProps?.style,
           styles.relative,
           isNonScrolling(preset) && styles.fixedScreenContainer,
           StickyBottomComponent ? styles.stickyBottomOffset(stickyBottomOffset) : null,
           StickyTopComponent ? styles.stickyTopOffset(stickyTopOffset) : null,
+          keyboardAvoidingViewProps?.style,
         ]}
       >
         {StickyTopComponent && (

@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchBox } from 'react-instantsearch-core'
 import type { UseSearchBoxProps } from 'react-instantsearch-core/dist/es/connectors/useSearchBox.js'
-import type { TextInput } from 'react-native'
+import { Platform, type TextInput } from 'react-native'
 
 export type SearchBoxProps = {
   props?: UseSearchBoxProps
@@ -39,7 +39,7 @@ export function SearchTextInput({ props }: SearchBoxProps) {
       value={inputValue}
       onChange={setQuery}
       inputProps={{
-        autoFocus: true,
+        autoFocus: Platform.OS === 'web',
         clearButtonMode: 'while-editing',
         autoCapitalize: 'none',
         autoCorrect: false,
