@@ -73,6 +73,7 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
 
         if (
           error.graphQLErrors.length > 0 &&
+          // @ts-ignore
           error.graphQLErrors[0].extensions?.errors?.includes('No invite to withdraw.')
         ) {
           displayError(error, 'Failed to remove space invite - No invite to withdraw.', {

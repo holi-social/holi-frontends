@@ -51,7 +51,9 @@ const PostReactions: React.FC<PostReactionsProps> = ({ post, onChange, style }) 
         reactionAction: currentUserHasReacted ? ReactionAction.REMOVE : ReactionAction.SET,
       },
       onCompleted: () => {
-        !currentUserHasReacted && track(TrackingEvent.Engaging.reacted('Post', post.id))
+        if (!currentUserHasReacted) {
+          track(TrackingEvent.Engaging.reacted('Post', post.id))
+        }
       },
       optimisticResponse: {
         updatePostReaction: {

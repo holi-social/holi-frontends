@@ -65,7 +65,9 @@ const NotificationsOverview = () => {
 
   // Fetch notifications only if user is logged in
   useEffect(() => {
-    isLoggedIn && getNotifications()
+    if (isLoggedIn) {
+      getNotifications()
+    }
   }, [getNotifications, isLoggedIn])
 
   useEffect(() => {

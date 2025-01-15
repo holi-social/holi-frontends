@@ -21,7 +21,9 @@ export const useToastForNotAvailableFeature = ({
   }, [openToast, t, track, feature])
 
   useEffect(() => {
-    onInitialRender && showToast()
+    if (onInitialRender) {
+      showToast()
+    }
   }, [onInitialRender, showToast])
 
   return showToast

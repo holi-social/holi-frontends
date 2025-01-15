@@ -28,7 +28,7 @@ export const getSessionFromStorage = async (): Promise<OrySessionContext | null>
   try {
     const session = await SecureStore.getItemAsync(userSessionName)
     return session ? (JSON.parse(session) as OrySessionContext) : null
-  } catch (err) {
+  } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     return null
   }
 }

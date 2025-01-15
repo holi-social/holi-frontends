@@ -120,11 +120,7 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, on
       </View>
       {!isCompleted && (
         <View style={styles.headerRightButton}>
-          <HoliIcon
-            icon={isExpanded ? ArrowUpS : ArrowDownS}
-            size={isCompleted ? 20 : 24}
-            color={colors.foreground30}
-          />
+          <HoliIcon icon={isExpanded ? ArrowUpS : ArrowDownS} size={24} color={colors.foreground30} />
         </View>
       )}
     </Pressable>
@@ -211,6 +207,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     headerRightButton: {
       alignSelf: 'flex-start',
+      paddingLeft: Spacing.xs,
     },
     gradient: {
       position: 'absolute',

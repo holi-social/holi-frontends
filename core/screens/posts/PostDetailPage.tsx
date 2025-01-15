@@ -15,7 +15,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
 import VerticalLine from '@holi/core/screens/comments/components/VerticalLine'
-import { type CommentsResponse, commentsByCommentable } from '@holi/core/screens/comments/queries'
+import { commentsByCommentable, type CommentsResponse } from '@holi/core/screens/comments/queries'
 import { type Comment, CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/posts/components/PostContent'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
@@ -124,12 +124,14 @@ const PostDetailPage = () => {
       const { y, height } = event.nativeEvent.layout
       const { target } = event.nativeEvent as unknown as { target: HTMLElement }
 
-      isWeb
-        ? target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
-        : scrollViewRef.current?.scrollTo({
-            y: y + height + COMMENT_VIEW_PADDING_BOTTOM * 2, // mobile scrolling does not work reliable, it is why '2' multiplier is used
-            animated: true,
-          })
+      if (isWeb) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
+      } else {
+        scrollViewRef.current?.scrollTo({
+          y: y + height + COMMENT_VIEW_PADDING_BOTTOM * 2, // mobile scrolling does not work reliable, it is why '2' multiplier is used
+          animated: true,
+        })
+      }
     },
     [isWeb]
   )

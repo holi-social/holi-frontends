@@ -77,19 +77,21 @@ const CreateSpaceUpdate = () => {
   }
 
   useIsomorphicLayoutEffect(() => {
-    !loading && isMember
-      ? setScreenOptions({
-          animation: 'slide_from_bottom',
-          title: isUpdate ? t('spaces.updates.edit') : t('spaces.updates.create'),
-          headerStyle: { backgroundColor: colors.background20 },
-          headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
-          navigationCustomOptions: {
-            footerShown: false,
-          },
-        })
-      : setScreenOptions({
-          headerStyle: { backgroundColor: colors.background20 },
-        })
+    if (!loading && isMember) {
+      setScreenOptions({
+        animation: 'slide_from_bottom',
+        title: isUpdate ? t('spaces.updates.edit') : t('spaces.updates.create'),
+        headerStyle: { backgroundColor: colors.background20 },
+        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      })
+    } else {
+      setScreenOptions({
+        headerStyle: { backgroundColor: colors.background20 },
+      })
+    }
   }, [setScreenOptions, t, loading, isUpdate, isMember, colors.background20])
 
   if (error || !space) {

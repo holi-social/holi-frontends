@@ -27,11 +27,11 @@ export const navigateBackToHomeScreen = async (buttonId?: backHomeButtonId) => {
     try {
       await waitForHomeScreen(firstRun ? 500 : 5000)
       homeScreenReached = true
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       firstRun = false
       try {
         await tapOnElementWithTestId('btn-to-home-view', 0)
-      } catch (e) {
+      } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
         await tapOnElementWithTestId('nav-button-back', 0)
       }
       await scrollToElementWithTestId(homeScreenTestId, 'up', { maxAttempts: 15 })
@@ -45,7 +45,7 @@ export const navigateBackToHomeScreenDeeper = async () => {
     // early exit: are we already on it?
     await waitForHomeScreen(1)
     return
-  } catch (e) {
+  } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     // not there yet, continue
     try {
       let count = 0
@@ -54,11 +54,11 @@ export const navigateBackToHomeScreenDeeper = async () => {
       while (++count < 10) {
         await tapOnElementWithTestId('nav-button-back', 5000)
       }
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       try {
         // then go to the home screen
         await tapOnElementWithTestId('btn-to-home-view', 5000)
-      } catch (e) {
+      } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
         // all fine: if the button is not there, we should be already on the home screen
       }
       await scrollToElementWithTestId(homeScreenTestId, 'up', { maxAttempts: 20 })

@@ -4,11 +4,13 @@ import Animated from 'react-native-reanimated'
 
 import { setScreenScrollY } from '@holi/core/helpers'
 import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 import type { ScrollHeaderLayoutProps } from './types'
 import { useHeaderOffsetOptions } from './useHeaderOffsetOptions'
 import { useSyncWithHeader } from './useSyncWithHeader'
 
+const AwareAnimatedScrollView = Animated.createAnimatedComponent(KeyboardAwareScrollView)
 const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChildren<ScrollHeaderLayoutProps>>(
   (
     {
@@ -19,6 +21,7 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
       contentContainerStyle,
       testID,
       onScroll,
+      onLayout,
       noRefresh,
       refreshBackgroundColor,
       ...scrollViewProps
@@ -43,11 +46,12 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
     )
 
     return (
-      <Animated.ScrollView
+      <AwareAnimatedScrollView
         {...scrollViewProps}
         ref={scrollViewRef}
-        onLayout={() => {
+        onLayout={(event) => {
           if (!!ref && 'current' in ref) ref.current = scrollViewRef.current
+          if (onLayout) onLayout(event)
         }}
         refreshControl={
           refreshControlProps && !noRefresh ? (
@@ -64,7 +68,7 @@ const ScrollHeaderLayout = forwardRef<Animated.ScrollView | null, PropsWithChild
         testID={testID}
       >
         <Animated.View style={refreshControlStyle}>{children}</Animated.View>
-      </Animated.ScrollView>
+      </AwareAnimatedScrollView>
     )
   }
 )

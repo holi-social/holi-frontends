@@ -553,7 +553,9 @@ export const useLastRoomMessage = ({ id, lastMessage: lastMessageFromRoom, hasIn
   const needToUpdateLastMessageInRoom =
     !!lastMessage && (lastMessageFromTimeline?.timestamp ?? 0) > (lastMessageFromRoom?.timestamp ?? 1)
   useEffect(() => {
-    needToUpdateLastMessageInRoom && updateLastMessageInRoom(lastMessage)
+    if (needToUpdateLastMessageInRoom) {
+      updateLastMessageInRoom(lastMessage)
+    }
   }, [lastMessage, needToUpdateLastMessageInRoom, updateLastMessageInRoom])
 
   return lastMessage

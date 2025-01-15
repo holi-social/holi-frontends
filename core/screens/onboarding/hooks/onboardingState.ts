@@ -15,7 +15,7 @@ const FIRST_VISIT_STORAGE_NAME = 'first_visit_content_value'
 export const cleanUpStoredOnboardingState = () =>
   Promise.all([AsyncStore.removeItem(ONBOARDING_STATE_STORAGE_NAME), AsyncStore.removeItem(FIRST_VISIT_STORAGE_NAME)])
 
-const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const
+const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const // eslint-disable-line @typescript-eslint/no-unused-vars
 export type OnboardingStateValue = (typeof onboardingValues)[number]
 
 export const onboardingStateVar = makeVar<OnboardingStateValue | null>(null)

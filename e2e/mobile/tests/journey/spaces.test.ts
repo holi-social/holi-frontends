@@ -191,7 +191,7 @@ describe('@Spaces', () => {
   const leaveSpaceOnboardingModal = async () => {
     try {
       await tapOnElementWithTestId('space-onboard-content-close-btn', 5_000)
-    } catch (_) {
+    } catch (_) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // try catch in case the onboarding modal is present (depends on asyncstorage)
     }
   }

@@ -7,10 +7,10 @@ import {
   checkAccessibility,
   clickElementByTestId,
   clickFirstElement,
+  denyConsent,
   donationsRequestTimeout,
   isRunningLocally,
   locateElementByTestId,
-  proceedAsGuest,
   withSSR,
 } from '../helpers'
 import { test } from '../testmaster'
@@ -19,7 +19,8 @@ test.describe('@Donations', () => {
   test('user journey', async ({ browser, context, page }) => {
     test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
     // prepare
-    await proceedAsGuest(page)
+    await page.goto('/donations')
+    await denyConsent(page)
 
     await testProjectListAndPagination(page)
     await withSSR(browser, page.url(), testDisplaysProjectList)
@@ -48,7 +49,6 @@ const testDisplaysProjectList = async (page: Page) => {
 }
 
 const testProjectListAndPagination = async (page: Page) => {
-  await page.goto('/donations')
   await testDisplaysProjectList(page)
   await checkAccessibility(page, false)
 
@@ -131,6 +131,7 @@ const testDisplaysFilterResults = async (page: Page) => {
   await expect(page.getByTestId('donations-list-search-heading')).toBeVisible({ timeout: donationsRequestTimeout })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, page: Page) => {
   // filter for "Germany"
   await page.waitForSelector(byTestId('donations-list-item'), { timeout: donationsRequestTimeout })
@@ -172,6 +173,7 @@ const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, pag
   await expect(page.getByTestId('donations-list-unfiltered')).toBeVisible({ timeout: donationsRequestTimeout })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testDisplaysDetailsOfFilterResults = async (page: Page) => {
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg')

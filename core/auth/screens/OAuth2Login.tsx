@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import { hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/helpers/form'
-import { OAuth2DefaultProps, confirmOAuth2Login } from '@holi/core/auth/helpers/oauth2'
+import { confirmOAuth2Login, OAuth2DefaultProps } from '@holi/core/auth/helpers/oauth2'
 import { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import OAuth2Redirect, { OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
@@ -68,7 +68,9 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
   }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
-    !isLoggedIn && !flow && initializeFlow()
+    if (!isLoggedIn && !flow) {
+      initializeFlow()
+    }
   }, [isLoggedIn, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {

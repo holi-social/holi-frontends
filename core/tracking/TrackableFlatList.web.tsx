@@ -28,7 +28,7 @@ const TrackableFlatListItem = ({
     delay,
     fallbackInView: true,
     onChange: (inView: boolean) => {
-      inView && onInView(item)
+      if (inView) onInView(item)
     },
   })
 

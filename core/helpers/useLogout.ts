@@ -52,7 +52,9 @@ export const useLogout = () => {
         }
 
         if (isProcessingLogout || isLoggingOut || loginState.isLoggedOut) {
-          !skipRedirect && redirect()
+          if (!skipRedirect) {
+            redirect()
+          }
           return
         }
         isProcessingLogout = true
@@ -63,7 +65,8 @@ export const useLogout = () => {
             const session = await getSessionFromStorage()
             await submitLogoutFlow({ session_token: session?.session_token || '' })
           }
-          await Promise.all([setLoginStateLoggedOut(), clearOnboardingState()])
+          clearOnboardingState()
+          await setLoginStateLoggedOut()
           await client.clearStore()
 
           logger.debug('useLogout', 'logout successful')
@@ -72,7 +75,8 @@ export const useLogout = () => {
         } catch (err) {
           logger.debug('useLogout', 'logout failed, removing session from storage', err)
           try {
-            await Promise.all([setLoginStateLoggedOut(), clearOnboardingState()])
+            clearOnboardingState()
+            await setLoginStateLoggedOut()
           } catch (e) {
             logger.debug('useLogout', 'cleaning up after logout error failed as well', e)
             openToast(message || t('auth.logout.error'), HoliToastType.ERROR, { testID: 'logout-failed' })
@@ -82,7 +86,9 @@ export const useLogout = () => {
         } finally {
           isLoggingOutVar(false)
           isProcessingLogout = false
-          !skipRedirect && redirect()
+          if (!skipRedirect) {
+            redirect()
+          }
         }
       },
       [isLoggingOut, loginState, navigate, client, openToast, t]

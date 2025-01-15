@@ -164,7 +164,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
     (pos: Position) => {
       const scrollTo = scrollViewRef.current?.scrollTo
       const scrollOptions = { y: pos.y, animated: true }
-      scrollTo && delayAnimation(scrollTo, scrollOptions, 16.6667) // 10000 ms / 60 fps
+      if (scrollTo) delayAnimation(scrollTo, scrollOptions, 16.6667) // 10000 ms / 60 fps
     },
     [scrollViewRef]
   )

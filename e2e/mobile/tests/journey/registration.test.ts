@@ -61,7 +61,7 @@ describe('@RegistrationJourney', () => {
     await tapOnElementWithTestId('btn-to-profile-view')
 
     // Expect location
-    userData.location?.label && (await waitForElementWithInnerText(userData.location?.label))
+    if (userData.location?.label) await waitForElementWithInnerText(userData.location?.label)
 
     // Expect interests
     await scrollToElementWithTestId('user-profile-interests', 'down')
