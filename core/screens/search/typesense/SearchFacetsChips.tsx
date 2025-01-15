@@ -58,11 +58,10 @@ export const SearchFacetsChips = () => {
   )
 }
 
-// TODO restyle after introducing <Screen> component (HOLI-10827)
 const stylesheet = createStyleSheet(() => ({
   contentContainer: {
-    paddingBottom: dimensions.spacingXs,
     paddingTop: dimensions.spacingXs,
+    paddingHorizontal: dimensions.spacingS,
   },
   layout: {
     flexDirection: 'row',

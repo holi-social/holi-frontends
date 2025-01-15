@@ -36,7 +36,7 @@ export const stylesheet = createStyleSheet(() => {
     },
     stickyTopOffset: (offset: number) => {
       return {
-        paddingTop: offset,
+        marginTop: offset,
       }
     },
     stickyTop: {

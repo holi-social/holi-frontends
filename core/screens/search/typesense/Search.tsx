@@ -1,3 +1,4 @@
+import { Screen } from '@holi/core/components/Screen'
 import {
   typesenseApiKey,
   typesenseCollection,
@@ -8,17 +9,21 @@ import {
 import { SearchFacetsChips } from '@holi/core/screens/search/typesense/SearchFacetsChips'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
 import { SearchTextInput } from '@holi/core/screens/search/typesense/SearchTextInput'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
-import { View } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location']
 
 const embeddingFields = ['embedding']
+
+const TOP_COMPONENT_HEIGHT = 128
 
 const createTypesenseInstantSearchAdapter = () => {
   return new TypesenseInstantSearchAdapter({
@@ -41,42 +46,47 @@ const createTypesenseInstantSearchAdapter = () => {
 }
 
 export const Search = () => {
+  const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
   return (
-    <View style={styles.container}>
-      <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
-        <View style={styles.searchBoxContainer}>
-          <SearchTextInput />
-        </View>
-        <View style={styles.searchFacetsChipsContainer}>
-          <SearchFacetsChips />
-        </View>
-        <View style={styles.hitsContainer}>
-          <SearchHitInfiniteList />
-        </View>
-      </InstantSearch>
-    </View>
+    <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
+      <Screen
+        preset="fixed"
+        headerOptions={{
+          title: t('search.title'),
+          headerTitleAlign: 'center',
+          navigationCustomOptions: {
+            footerShown: false,
+          },
+        }}
+        style={styles.screen}
+        contentContainerStyle={styles.container}
+        StickyTopComponent={
+          <View style={styles.filterContainer}>
+            <HoliContainer>
+              <SearchTextInput />
+            </HoliContainer>
+            <SearchFacetsChips />
+          </View>
+        }
+      >
+        <SearchHitInfiniteList />
+      </Screen>
+    </InstantSearch>
   )
 }
 
-// TODO restyle after introducing <Screen> component (HOLI-10827)
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet({
+  screen: {
+    maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+  },
   container: {
-    backgroundColor: theme.colors.bg.page,
+    flex: 1,
+  },
+  filterContainer: {
+    paddingVertical: dimensions.spacingS,
     gap: dimensions.spacingS,
-    paddingTop: dimensions.topBarHeight + dimensions.spacingS, // TODO probably not the right way to do this
-    paddingBottom: dimensions.bottomBarHeight, // TODO probably not the right way to do this
+    flex: 1,
   },
-  searchBoxContainer: {
-    paddingLeft: dimensions.spacingS,
-    paddingRight: dimensions.spacingS,
-  },
-  searchFacetsChipsContainer: {
-    paddingLeft: dimensions.spacingS,
-  },
-  hitsContainer: {
-    paddingLeft: dimensions.spacingS,
-    height: '100%',
-  },
-}))
+})
