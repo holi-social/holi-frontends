@@ -337,8 +337,14 @@ export namespace TrackingEvent {
 
   export const SignupStepCompleted = (
     properties:
-      | { step: 'emailAndPassword'; answer: 'signUp' | 'continueAsGuest' | 'login' }
-      | { step: 'verificationCode'; answer: 'verifyAccount' | 'continueAsGuest' }
+      | {
+          step: 'emailAndPassword'
+          answer: 'signUp' | 'continueAsGuest' | 'login'
+        }
+      | {
+          step: 'verificationCode'
+          answer: 'verifyAccount' | 'continueAsGuest'
+        }
       | { step: 'name'; answer: 'continue' }
   ): TrackingEvent => ({
     name: 'signupStepCompleted',
@@ -355,6 +361,12 @@ export namespace TrackingEvent {
   export const NotYetAvailableFeaturePressed = (feature: string): TrackingEvent => ({
     name: 'notYetAvailableFeaturePressed',
     properties: { feature },
+    ...versionOne,
+  })
+
+  export const PollVoteSubmitted = (pollId: string): TrackingEvent => ({
+    name: 'pollVoteSubmitted',
+    properties: { pollId },
     ...versionOne,
   })
 }
