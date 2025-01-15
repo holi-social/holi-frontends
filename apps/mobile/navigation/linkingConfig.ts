@@ -14,7 +14,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           screens: {
             [RouteName.HomeFeed]: '',
             [RouteName.UserProfile]: 'profile/:userId',
-            [RouteName.Search]: 'search',
             [RouteName.NotFound]: '404',
           },
         },
@@ -128,6 +127,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.Login]: 'login',
     [RouteName.ForgotPassword]: 'forgotPassword',
     [RouteName.VideoCall]: 'video-call/:roomName',
+    [RouteName.Search]: 'search',
 
     // Apps from the HOLI store
     [RouteName.ChallengesApp]: {
