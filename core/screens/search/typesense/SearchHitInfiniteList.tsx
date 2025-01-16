@@ -40,6 +40,7 @@ export function SearchHitInfiniteList() {
   const { track } = useTracking()
   const { status, refresh } = useInstantSearch()
   const { styles } = useStyles(stylesheet)
+  const isLoading = status === 'loading' || status === 'stalled'
 
   const fullRefresh = useOnRefresh(refresh)
 
@@ -67,12 +68,14 @@ export function SearchHitInfiniteList() {
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        status === 'loading' || status === 'stalled' ? (
-          <HoliLoader style={styles.loader} />
-        ) : (
-          <Text size={'md'}>{t('global.noSearchResults')}</Text>
-        )
+        isLoading ? <HoliLoader style={styles.loader} /> : <Text size={'md'}>{t('global.noSearchResults')}</Text>
       }
+      ListFooterComponent={() => {
+        if (items.length > 0 && !isLastPage) {
+          return <HoliLoader style={styles.loader} />
+        }
+        return null
+      }}
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
@@ -100,6 +103,7 @@ export function SearchHitInfiniteList() {
 const stylesheet = createStyleSheet({
   loader: {
     padding: dimensions.spacingSM,
+    position: 'relative',
   },
   list: {
     paddingHorizontal: dimensions.spacingS,
