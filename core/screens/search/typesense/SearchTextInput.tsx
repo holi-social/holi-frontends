@@ -1,8 +1,10 @@
-import { Search } from '@holi/icons/src/generated'
+import { Loader, Search } from '@holi/icons/src/generated'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSearchBox } from 'react-instantsearch-core'
+import { useInstantSearch, useSearchBox } from 'react-instantsearch-core'
 import type { UseSearchBoxProps } from 'react-instantsearch-core/dist/es/connectors/useSearchBox.js'
 import { Platform, type TextInput } from 'react-native'
 
@@ -15,6 +17,8 @@ export function SearchTextInput({ props }: SearchBoxProps) {
   const { query, refine } = useSearchBox(props)
   const [inputValue, setInputValue] = useState(query)
   const inputRef = useRef<TextInput>(null)
+  const { status } = useInstantSearch()
+  const isLoading = status === 'loading' || status === 'stalled'
 
   function setQuery(newQuery: string) {
     setInputValue(newQuery)
@@ -40,13 +44,16 @@ export function SearchTextInput({ props }: SearchBoxProps) {
       onChange={setQuery}
       inputProps={{
         autoFocus: Platform.OS === 'web',
-        clearButtonMode: 'while-editing',
         autoCapitalize: 'none',
         autoCorrect: false,
         spellCheck: false,
         autoComplete: 'off',
       }}
-      trailingIcon={Search}
+      trailingComponent={
+        <SpinningIconContainer spinning={isLoading}>
+          <HoliIcon icon={isLoading ? Loader : Search} size={22} />
+        </SpinningIconContainer>
+      }
     />
   )
 }
