@@ -9,8 +9,10 @@ import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { Trackable, type TrackableBaseProps } from '@holi/core/components/Trackable'
+
+export const HIT_HEIGHT = 48
 
 export interface SearchHitProps extends TrackableBaseProps {
   hit: SearchHitData
@@ -49,7 +51,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
               </>
             )}
           </View>
-          <Text size={'sm'} numberOfLines={1}>
+          <Text size={'sm'} numberOfLines={Platform.OS === 'android' ? 0 : 1}>
             {title}
           </Text>
         </View>
@@ -62,6 +64,8 @@ const stylesheet = createStyleSheet(() => ({
   hitItem: {
     flexDirection: 'row',
     columnGap: dimensions.spacingSM,
+    height: HIT_HEIGHT,
+    overflow: 'hidden',
   },
   hitItemContent: {
     flex: 1,

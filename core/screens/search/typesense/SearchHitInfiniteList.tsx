@@ -1,7 +1,7 @@
 import { FlashList } from '@shopify/flash-list'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
+import { HIT_HEIGHT, SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
 import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Text } from 'holi-bricks/components/text'
@@ -63,7 +63,7 @@ export function SearchHitInfiniteList() {
     <FlashList
       contentContainerStyle={styles.list}
       testID={'search-results-list'}
-      estimatedItemSize={64}
+      estimatedItemSize={HIT_HEIGHT + dimensions.spacingS}
       data={items}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
