@@ -337,8 +337,14 @@ export namespace TrackingEvent {
 
   export const SignupStepCompleted = (
     properties:
-      | { step: 'emailAndPassword'; answer: 'signUp' | 'continueAsGuest' | 'login' }
-      | { step: 'verificationCode'; answer: 'verifyAccount' | 'continueAsGuest' }
+      | {
+          step: 'emailAndPassword'
+          answer: 'signUp' | 'continueAsGuest' | 'login'
+        }
+      | {
+          step: 'verificationCode'
+          answer: 'verifyAccount' | 'continueAsGuest'
+        }
       | { step: 'name'; answer: 'continue' }
   ): TrackingEvent => ({
     name: 'signupStepCompleted',
@@ -355,6 +361,24 @@ export namespace TrackingEvent {
   export const NotYetAvailableFeaturePressed = (feature: string): TrackingEvent => ({
     name: 'notYetAvailableFeaturePressed',
     properties: { feature },
+    ...versionOne,
+  })
+
+  export const UserConnectionRequested = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionRequested',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+
+  export const UserConnectionAccepted = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionAccepted',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+
+  export const UserConnectionRejected = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionRejected',
+    properties: { requesterId, recipientId },
     ...versionOne,
   })
 }
