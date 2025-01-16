@@ -160,6 +160,7 @@ export const Screen = (props: ScreenProps) => {
           isNonScrolling(preset) && styles.fixedScreenContainer,
           StickyBottomComponent ? styles.stickyBottomOffset(stickyBottomOffset) : null,
           StickyTopComponent ? styles.stickyTopOffset(stickyTopOffset) : null,
+          // TODO: move back up when fixedScreenContainer is fixed
           keyboardAvoidingViewProps?.style,
         ]}
       >
