@@ -16,14 +16,14 @@ import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
-import { Dimensions, View } from 'react-native'
+import { Dimensions, Platform, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location']
 
 const embeddingFields = ['embedding']
 
-const TOP_COMPONENT_HEIGHT = 128
+const TOP_COMPONENT_HEIGHT = 144
 
 const createTypesenseInstantSearchAdapter = () => {
   return new TypesenseInstantSearchAdapter({
@@ -82,12 +82,23 @@ export const Search = () => {
   )
 }
 
-const stylesheet = createStyleSheet({
+const stylesheet = createStyleSheet((theme) => ({
   screen: {
-    maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+    ...Platform.select({
+      native: {
+        maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+      },
+      web: {
+        maxHeight: Dimensions.get('window').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+      },
+    }),
   },
   wrapper: {
-    maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight,
+    ...Platform.select({
+      native: {
+        maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight,
+      },
+    }),
   },
   container: {
     flex: 1,
@@ -96,5 +107,6 @@ const stylesheet = createStyleSheet({
     paddingVertical: dimensions.spacingS,
     gap: dimensions.spacingS,
     flex: 1,
+    backgroundColor: theme.colors.bg.page,
   },
-})
+}))
