@@ -1,7 +1,9 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
+import type { lightTheme } from 'holi-bricks/themes/light'
 import { createStyleSheet } from 'holi-bricks/utils'
+
 import type * as React from 'react'
 import {
   type ColorValue,
@@ -14,17 +16,7 @@ import {
 // Change import in HOLI-10369
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
-export type TextVariant =
-  /** Primary, Headlines, Body */
-  | 'primary'
-  /** Body, Captions, Subtexts */
-  | 'secondary'
-  /** Unselected text, Bottom Navigation */
-  | 'tertiary'
-  /** Disabled */
-  | 'quaternary'
-  /** Errors */
-  | 'error'
+export type TextVariant = keyof typeof lightTheme.colors.fill
 
 export interface TextProps {
   size: TextSize
@@ -65,7 +57,7 @@ export const Text = ({
   size,
   selectable = true,
   numberOfLines,
-  variant,
+  variant = 'main',
   color,
   textAlign,
   ellipsizeMode,
@@ -73,7 +65,7 @@ export const Text = ({
   children,
   ...rest
 }: React.PropsWithChildren<TextProps>) => {
-  const { styles } = useStyles(stylesheet, { size, variant })
+  const { styles } = useStyles(stylesheet, { size })
 
   const textAccessibilityProps = createAccessibilityProps(headingLevel)
 
@@ -87,7 +79,7 @@ export const Text = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(selectable, color, textAlign) as unknown as TextStyle}
+      style={styles.text(variant, selectable, color, textAlign) as unknown as TextStyle}
     >
       {children}
     </RNText>
@@ -95,12 +87,12 @@ export const Text = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  text: (selectable: boolean, color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (variant: TextVariant, selectable: boolean, color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.regular,
       fontWeight: '400',
-      color: color ?? theme.components.text.primary,
+      color: color ?? theme.colors.fill[variant],
       userSelect: selectable ? 'auto' : 'none',
       textAlign: textAlign,
       ...Platform.select({
@@ -110,23 +102,6 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       }),
       variants: {
-        variant: {
-          primary: {
-            color: theme.components.text.primary,
-          },
-          secondary: {
-            color: theme.components.text.secondary,
-          },
-          tertiary: {
-            color: theme.components.text.tertiary,
-          },
-          quaternary: {
-            color: theme.components.text.quaternary,
-          },
-          error: {
-            color: theme.components.text.error,
-          },
-        },
         size: {
           '4xl': {
             fontSize: 36,
