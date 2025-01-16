@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Text, type TextSize, type TextVariant } from 'holi-bricks/components/text'
+import { Text, type TextSize, type TextColor } from 'holi-bricks/components/text'
 import { lightTheme } from 'holi-bricks/themes/light'
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ const availableHeadingLevels = {
   '2': '2',
   '3': '3',
 }
-const availableVariants = Object.keys(lightTheme.colors.fill) as TextVariant[]
+const availableColors = Object.keys(lightTheme.colors.fill) as TextColor[]
 
 const meta: Meta<typeof Text> = {
   title: 'Components/Text/Text',
@@ -29,7 +29,7 @@ type Story = StoryObj<typeof Text>
 export const Playground: Story = {
   argTypes: {
     size: { control: 'select', options: availableSizes },
-    variant: { control: 'select', options: availableVariants },
+    color: { control: 'select', options: availableColors },
     headingLevel: {
       control: 'select',
       options: Object.keys(availableHeadingLevels),
@@ -60,15 +60,15 @@ export const BySize: Story = {
   },
 }
 
-export const ByVariant: Story = {
+export const ByColor: Story = {
   argTypes: {},
   args: {},
   render: function Render(args) {
     return (
       <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {availableVariants.map((variant) => (
-          <Text key={variant} {...args} variant={variant}>
-            This is a text in variant {variant}.
+        {availableColors.map((color) => (
+          <Text key={color} {...args} color={color}>
+            This is text in {color}.
           </Text>
         ))}
       </View>

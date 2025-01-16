@@ -16,7 +16,7 @@ import {
 // Change import in HOLI-10369
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
-export type TextVariant = keyof typeof lightTheme.colors.fill
+export type TextColor = keyof typeof lightTheme.colors.fill
 
 export interface TextProps {
   size: TextSize
@@ -25,10 +25,10 @@ export interface TextProps {
    */
   selectable?: boolean
   numberOfLines?: number
-  /** Specifies theme respecting text color, takes precedence over `color`. */
-  variant?: TextVariant
-  /** Use is discouraged in favor of `variant`. Requires manual theme handling. */
-  color?: TextStyle['color']
+  /* Managed Theme color */
+  color?: TextColor
+  /* Use this if you need to provide an explicit color and/or manually manage the theme  */
+  colorOveride?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: RNTextProps['ellipsizeMode']
   headingLevel?: TextHeadingLevel
@@ -57,8 +57,8 @@ export const Text = ({
   size,
   selectable = true,
   numberOfLines,
-  variant = 'main',
-  color,
+  color = 'main',
+  colorOveride,
   textAlign,
   ellipsizeMode,
   headingLevel,
@@ -79,7 +79,7 @@ export const Text = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(variant, selectable, color, textAlign) as unknown as TextStyle}
+      style={styles.text(color, selectable, colorOveride, textAlign) as unknown as TextStyle}
     >
       {children}
     </RNText>
@@ -87,12 +87,12 @@ export const Text = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  text: (variant: TextVariant, selectable: boolean, color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (color: TextColor, selectable: boolean, colorOveride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.regular,
       fontWeight: '400',
-      color: color ?? theme.colors.fill[variant],
+      color: colorOveride ?? theme.colors.fill[color],
       userSelect: selectable ? 'auto' : 'none',
       textAlign: textAlign,
       ...Platform.select({
