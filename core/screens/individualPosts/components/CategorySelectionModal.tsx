@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, Pressable, StyleSheet, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import type { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -91,7 +91,7 @@ const getStyles = (theme: HoliTheme, windowWidth: number) =>
       flexWrap: windowWidth > dimensions.breakpointXl ? 'wrap' : 'nowrap',
       justifyContent: 'space-between',
       gap: dimensions.spacingS,
-    },
+    } as ViewStyle,
     categorySelected: {
       borderColor: theme.colors.black300,
     },
