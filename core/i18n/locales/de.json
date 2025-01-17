@@ -824,6 +824,7 @@
   "search.typesense.hit.type.profile": "Nutzer",
   "search.typesense.hit.type.space": "Space",
   "search.typesense.hit.type.volunteering": "Volunteering",
+  "search.typesense.input.clear": "Eingabe zurücksetzen",
   "search.typesense.input.label": "Durchsuche holi",
   "seo.h1.donations": "Spenden, Projekte & Organisationen finden",
   "seo.h1.home": "holi – where ideas meet action",
