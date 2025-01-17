@@ -1,14 +1,12 @@
 import type React from 'react'
 import { forwardRef } from 'react'
-import { type ImageBackgroundProps, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage/index.web'
-import type { WebImageProps } from '@holi/ui/components/atoms/HoliImage/types'
+import type { HoliImageBackgroundProps } from '@holi/ui/components/molecules/HoliImageBackground/types'
+import type { ResizeMode } from '@holi/ui/components/atoms/HoliImage/types'
 
 const emptyStyle = { height: undefined, width: undefined }
-
-type HoliImageBackgroundProps = Omit<ImageBackgroundProps, 'source' | 'resizeMode' | 'onError'> &
-  Pick<WebImageProps, 'source' | 'resizeMode' | 'onError' | 'label'>
 
 /**
  * Copy from https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/ImageBackground/index.js
@@ -16,8 +14,10 @@ type HoliImageBackgroundProps = Omit<ImageBackgroundProps, 'source' | 'resizeMod
  * to allow SSR
  */
 export const HoliImageBackground = forwardRef<View, HoliImageBackgroundProps>(
-  (props: HoliImageBackgroundProps, forwardedRef) => {
-    const { children, style = emptyStyle, imageStyle, ...rest } = props
+  (
+    { children, style = emptyStyle, imageStyle, resizeMode, label = '', ...rest }: HoliImageBackgroundProps,
+    forwardedRef
+  ) => {
     const { height, width } = StyleSheet.flatten(style)
     const imageStyleFlattened = StyleSheet.flatten([
       {
@@ -38,7 +38,12 @@ export const HoliImageBackground = forwardRef<View, HoliImageBackgroundProps>(
 
     return (
       <View ref={forwardedRef} style={style}>
-        <HoliImage {...rest} style={imageStyleFlattened as React.CSSProperties} />
+        <HoliImage
+          {...rest}
+          label={label}
+          style={imageStyleFlattened as React.CSSProperties}
+          resizeMode={resizeMode as ResizeMode}
+        />
         {children}
       </View>
     )

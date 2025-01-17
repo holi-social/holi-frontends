@@ -7,10 +7,10 @@ import useDeleteAppointment from '@holi/core/hooks/spaces/useDeleteAppointment'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { ContentType, ContentType3K } from '@holi/core/queries'
-import type { Appointment } from '@holi/core/screens/appointments/types'
 import type { Space } from '@holi/core/screens/spaces/types'
 import { Delete, Edit2, Flag } from '@holi/icons/src/generated'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
+import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 
 type AppointmentDrawerProps = {
   appointment: Appointment

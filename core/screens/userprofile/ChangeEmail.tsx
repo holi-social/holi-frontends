@@ -127,6 +127,7 @@ const ChangeEmail = () => {
             }
             if (passwordNode?.messages?.some((msg) => msg.id === 4000010)) {
               openToast(t('auth.login.error.unverified'), HoliToastType.SUCCESS)
+              // @ts-ignore FIXME
               setVerificationFlowData({ identifier: email, method: '', password: '' })
               navigate('/profile/settings/changeEmailVerification')
             } else {

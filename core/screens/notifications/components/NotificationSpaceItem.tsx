@@ -7,12 +7,17 @@ import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import NotificationBellBadge from '@holi/core/navigation/components/header/NotificationBellBadge'
 import NotificationContentText from '@holi/core/screens/notifications/components/NotificationContentText'
-import type { NotificationProps, NotificationSpaceConnection } from '@holi/core/screens/notifications/components/types'
+import type {
+  NotificationProps,
+  NotificationSpaceConnection,
+  NotificationSpacePermissions,
+} from '@holi/core/screens/notifications/components/types'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-interface NotificationWithSpaceAvatarProps extends NotificationProps<NotificationSpaceConnection> {
+interface NotificationWithSpaceAvatarProps
+  extends NotificationProps<NotificationSpaceConnection | NotificationSpacePermissions> {
   href?: string
   i18nKey?: string
 }
@@ -34,7 +39,10 @@ const NotificationSpaceItem = ({
   const styles = useMemo(() => getStyles(theme), [theme])
   href = href || `/spaces/${name}`
 
-  const message = notification.options.message ?? notification.options.requestMessage
+  const message =
+    'message' in notification.options || 'requestMessage' in notification.options
+      ? (notification.options.message ?? notification.options.requestMessage)
+      : undefined
 
   return (
     <View style={style} testID={testID}>

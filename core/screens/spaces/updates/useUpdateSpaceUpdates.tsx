@@ -82,6 +82,7 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
     if (postToUpdate) {
       if (postToUpdate.title) setTitle(postToUpdate.title)
       if (postToUpdate.text) setContent(postToUpdate.text)
+      // @ts-ignore FIXME
       if (postToUpdate.image) setImage(postToUpdate.image)
       setCurrentImage(postToUpdate.image)
       setVisibility(postToUpdate.isPublic ? VisibilityType.PUBLIC : VisibilityType.MEMBERS)
