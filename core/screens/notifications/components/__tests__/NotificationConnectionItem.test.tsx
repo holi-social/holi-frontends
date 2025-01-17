@@ -5,6 +5,17 @@ import React from 'react'
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
 import { notificationConnectionRequest } from '@holi/core/screens/notifications/components/seedData'
 import { updateConnectionWithUserMutation } from '@holi/core/screens/userprofile/queries'
+import { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
+
+jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
+  useLoggedInUser: () =>
+    ({
+      isLoading: false,
+      isLoggedIn: true,
+      isLoggedOut: false,
+      user: { id: 'userId' },
+    }) as LoggedInState,
+}))
 
 const MOCKS = [
   {
