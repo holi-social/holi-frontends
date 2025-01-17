@@ -82,7 +82,7 @@ const hit4: Hit<SearchHitData> = {
   objectID: '4',
 }
 
-const removeBlacklistedProps = (hits: Array<Hit<SearchHitData>>) =>
+const removeDeniedProps = (hits: Array<Hit<SearchHitData>>) =>
   hits.map((original) => {
     const hit = { ...original } as Partial<Hit<SearchHitData>>
     delete hit['__position']
@@ -142,7 +142,7 @@ describe('SearchHitInfiniteList', () => {
         totalNrOfResults: 4,
         totalNrOfPages: 2,
         currentPage: 0,
-        renderedResults: removeBlacklistedProps([hit1, hit2, hit3]),
+        renderedResults: removeDeniedProps([hit1, hit2, hit3]),
         selectedFacets: ['user'],
       },
     } as TrackingEvent)
@@ -165,13 +165,13 @@ describe('SearchHitInfiniteList', () => {
       event_version__minor: 0,
       event_version__patch: 0,
       properties: {
-        itemPressed: removeBlacklistedProps([hit2])[0],
+        itemPressed: removeDeniedProps([hit2])[0],
         itemPressedIndex: 1,
         query: 'search terms',
         totalNrOfResults: 4,
         totalNrOfPages: 2,
         currentPage: 0,
-        renderedResults: removeBlacklistedProps([hit1, hit2, hit3]),
+        renderedResults: removeDeniedProps([hit1, hit2, hit3]),
         selectedFacets: ['user'],
       },
     } as TrackingEvent)
@@ -219,7 +219,7 @@ describe('SearchHitInfiniteList', () => {
         totalNrOfResults: 4,
         totalNrOfPages: 2,
         currentPage: 1,
-        renderedResults: removeBlacklistedProps([...page1, ...page2]), // Adjust for newly fetched results if needed
+        renderedResults: removeDeniedProps([...page1, ...page2]), // Adjust for newly fetched results if needed
         selectedFacets: ['user'],
       },
     })
