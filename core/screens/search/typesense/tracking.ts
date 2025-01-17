@@ -1,4 +1,4 @@
-import { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 
 const deniedProps = [
   'embedding',
