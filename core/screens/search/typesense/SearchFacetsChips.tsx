@@ -62,6 +62,7 @@ const stylesheet = createStyleSheet(() => ({
   contentContainer: {
     paddingTop: dimensions.spacingXs,
     paddingHorizontal: dimensions.spacingS,
+    paddingBottom: dimensions.spacingS,
   },
   layout: {
     flexDirection: 'row',

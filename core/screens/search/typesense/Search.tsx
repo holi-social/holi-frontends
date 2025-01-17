@@ -104,7 +104,7 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
   },
   filterContainer: {
-    paddingVertical: dimensions.spacingS,
+    paddingTop: dimensions.spacingS,
     gap: dimensions.spacingS,
     flex: 1,
     backgroundColor: theme.colors.bg.page,
