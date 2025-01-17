@@ -71,6 +71,17 @@ describe('SearchFacetsChips', () => {
     expect(clearRefinement).toHaveBeenCalled()
   })
 
+  it('should call callback on facet change', async () => {
+    const onFacetChange = jest.fn()
+    const user = userEvent.setup()
+
+    render(<SearchFacetsChips onFacetChange={onFacetChange} />)
+
+    await user.press(screen.getByLabelText('search.typesense.facets.profile'))
+
+    expect(onFacetChange).toHaveBeenCalledWith('profile')
+  })
+
   it('should toggle refinement on already selected facet press', async () => {
     const user = userEvent.setup()
 
@@ -91,5 +102,23 @@ describe('SearchFacetsChips', () => {
 
     expect(refine).not.toHaveBeenCalled()
     expect(clearRefinement).toHaveBeenCalled()
+  })
+
+  it('should call facet change callback with undefined when facet "all" is pressed', async () => {
+    const onFacetChange = jest.fn()
+    const user = userEvent.setup()
+
+    render(<SearchFacetsChips onFacetChange={onFacetChange} />)
+
+    await user.press(screen.getByLabelText('search.typesense.facets.all'))
+
+    expect(onFacetChange).toHaveBeenCalledWith(undefined)
+  })
+
+  it('applies initial selection', async () => {
+    render(<SearchFacetsChips initialFacet="space" />)
+
+    const chip = screen.getByLabelText('search.typesense.facets.space')
+    expect(chip).toHaveAccessibilityState({ checked: true })
   })
 })

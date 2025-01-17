@@ -6,6 +6,7 @@ import {
   typesensePort,
   typesenseProtocol,
 } from '@holi/core/helpers/config'
+import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import { SearchFacetsChips } from '@holi/core/screens/search/typesense/SearchFacetsChips'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
 import { SearchTextInput } from '@holi/core/screens/search/typesense/SearchTextInput'
@@ -18,6 +19,13 @@ import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
 import { Dimensions, Platform, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
+
+export type SearchParams = {
+  query?: string
+  facet?: string
+}
+
+const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location']
 
@@ -49,6 +57,10 @@ export const Search = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
+  const [initialQuery] = useParam('query', singleParamConfig)
+  const [initialFacet] = useParam('facet', singleParamConfig)
+  const updateParams = useUpdateParams()
+
   return (
     <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
       <Screen
@@ -65,9 +77,9 @@ export const Search = () => {
         StickyTopComponent={
           <View style={styles.filterContainer}>
             <HoliBox padding={[0, dimensions.spacingS]}>
-              <SearchTextInput />
+              <SearchTextInput initialQuery={initialQuery} onQueryChange={(query) => updateParams({ query })} />
             </HoliBox>
-            <SearchFacetsChips />
+            <SearchFacetsChips initialFacet={initialFacet} onFacetChange={(facet) => updateParams({ facet })} />
           </View>
         }
         padding={{}}

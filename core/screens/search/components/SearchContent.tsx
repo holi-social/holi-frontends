@@ -20,7 +20,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 const MIN_SEARCH_TERM_CHARACTERS = 2
 const TOP_COMPONENT_HEIGHT = 144
 
-type SearchParams = {
+export type SearchParams = {
   query: string
   filter: FilterType
 }

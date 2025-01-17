@@ -7,20 +7,31 @@ import { useSearchBox } from 'react-instantsearch-core'
 import type { UseSearchBoxProps } from 'react-instantsearch-core/dist/es/connectors/useSearchBox.js'
 import { Platform, Pressable, type TextInput } from 'react-native'
 
-export type SearchBoxProps = {
+interface SearchBoxProps {
+  initialQuery?: string
+  onQueryChange?: (query: string) => void
   props?: UseSearchBoxProps
 }
 
-export function SearchTextInput({ props }: SearchBoxProps) {
+export function SearchTextInput({ initialQuery, onQueryChange, props }: SearchBoxProps) {
   const { t } = useTranslation()
   const { query, refine } = useSearchBox(props)
   const [inputValue, setInputValue] = useState(query)
   const inputRef = useRef<TextInput>(null)
 
-  function setQuery(newQuery: string) {
+  const setQuery = (newQuery: string) => {
     setInputValue(newQuery)
     refine(newQuery)
+    onQueryChange?.(newQuery)
   }
+
+  useEffect(() => {
+    if (initialQuery) {
+      setQuery(initialQuery)
+    }
+    // Only trigger on initial render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Track when the InstantSearch query changes to synchronize it with the React state.
   useEffect(() => {

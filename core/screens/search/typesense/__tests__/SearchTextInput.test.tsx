@@ -9,14 +9,19 @@ jest.mock('react-instantsearch-core', () => ({
 }))
 
 describe('SearchTextInput', () => {
-  it('should refine results on input change', async () => {
+  const mockRefine = (query = '') => {
     const refine = jest.fn()
     mockUseSearchBox.mockReturnValue({
-      query: '',
+      query,
       refine,
       clear: jest.fn(),
       isSearchStalled: false,
     })
+    return refine
+  }
+
+  it('should refine results on input change', async () => {
+    const refine = mockRefine()
     const user = userEvent.setup()
 
     render(<SearchTextInput />)
@@ -28,13 +33,7 @@ describe('SearchTextInput', () => {
   })
 
   it('should clear query input', async () => {
-    const refine = jest.fn()
-    mockUseSearchBox.mockReturnValue({
-      query: 'some query',
-      refine,
-      clear: jest.fn(),
-      isSearchStalled: false,
-    })
+    const refine = mockRefine('some query')
     const user = userEvent.setup()
 
     render(<SearchTextInput />)
@@ -43,5 +42,26 @@ describe('SearchTextInput', () => {
     await user.press(clearButton)
 
     expect(refine).toHaveBeenCalledWith('')
+  })
+
+  it('should apply initial query', () => {
+    const refine = mockRefine()
+
+    render(<SearchTextInput initialQuery="some query" />)
+
+    expect(refine).toHaveBeenCalledWith('some query')
+  })
+
+  it('should call callback on query change', async () => {
+    const onQueryChange = jest.fn()
+    mockRefine()
+    const user = userEvent.setup()
+
+    render(<SearchTextInput onQueryChange={onQueryChange} />)
+
+    const inputField = screen.getByLabelText('search.typesense.input.label')
+    await user.type(inputField, 'some query')
+
+    expect(onQueryChange).toHaveBeenCalledWith('some query')
   })
 })
