@@ -57,10 +57,16 @@ export namespace TrackingEvent {
   export const SearchResultPressed = ({
     itemPressed,
     itemPressedIndex,
+    itemPressedType,
+    itemPressedTitleDe,
+    itemPressedTitleEn,
     searchResult,
   }: {
     itemPressed: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
     itemPressedIndex: number
+    itemPressedType: string
+    itemPressedTitleDe?: string
+    itemPressedTitleEn?: string
     searchResult: SearchResult
   }): TrackingEvent => ({
     name: 'searchResultPressed',
@@ -68,6 +74,9 @@ export namespace TrackingEvent {
     properties: {
       itemPressed,
       itemPressedIndex,
+      itemPressedType,
+      itemPressedTitleDe,
+      itemPressedTitleEn,
       ...searchResult,
     },
   })

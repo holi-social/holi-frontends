@@ -167,6 +167,9 @@ describe('SearchHitInfiniteList', () => {
       properties: {
         itemPressed: removeDeniedProps([hit2])[0],
         itemPressedIndex: 1,
+        itemPressedType: hit2.type,
+        itemPressedTitleDe: hit2.title_de,
+        itemPressedTitleEn: hit2.title_en,
         query: 'search terms',
         totalNrOfResults: 4,
         totalNrOfPages: 2,

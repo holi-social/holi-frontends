@@ -83,6 +83,9 @@ export function SearchHitInfiniteList() {
             trackingEvent={TrackingEvent.SearchResultPressed({
               itemPressed: hitToTrackingDoc(hit),
               itemPressedIndex: index,
+              itemPressedType: hit.type,
+              itemPressedTitleDe: hit.title_de,
+              itemPressedTitleEn: hit.title_en,
               searchResult: resultsToTrackingEventResults(results!), // eslint-disable-line @typescript-eslint/no-non-null-assertion
             })}
           />
