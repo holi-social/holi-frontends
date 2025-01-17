@@ -8,7 +8,6 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import SearchContent from '@holi/core/screens/search/components/SearchContent'
 import { Search } from '@holi/core/screens/search/typesense/Search'
-import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 const SearchScreen = () => {
   const { t } = useTranslation()
@@ -21,12 +20,7 @@ const SearchScreen = () => {
     setScreenOptions({ title, headerTitleAlign: 'center' })
   }, [setScreenOptions, title])
 
-  let searchComponent: React.ReactNode | undefined = undefined
-  if (useTypesenseSearch === undefined /* loading */) {
-    searchComponent = <HoliLoader />
-  } else {
-    searchComponent = useTypesenseSearch ? <Search /> : <SearchContent />
-  }
+  const searchComponent = useTypesenseSearch ? <Search /> : <SearchContent />
 
   return <KeyboardAvoidingViewWrapper renderProp={() => searchComponent} />
 }
