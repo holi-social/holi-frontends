@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
 import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks'
-import { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 import { testTrackingEvent } from '@holi/core/components/__tests__/Trackable.test'
@@ -17,7 +17,7 @@ const makeVolunteeringHit = (): SearchHitData => ({
   location_lat_lng: [faker.location.latitude(), faker.location.latitude()],
   image_url: faker.image.url(),
   link_locators: {
-    volunteering: faker.string.uuid(),
+    volunteering: faker.number.int(),
   },
 })
 

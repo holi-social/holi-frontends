@@ -1,5 +1,5 @@
 export type SearchHitType = 'volunteering' | 'profile' | 'space'
-export type SearchHitLinkLocatorIdOrSlug = string
+export type SearchHitLinkLocatorIdOrSlug = string | number
 export type SearchHitData = {
   type: SearchHitType
   id: string
