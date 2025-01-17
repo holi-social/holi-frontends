@@ -35,8 +35,10 @@ const AttendingChallengeEvents = () => {
     }
 
     try {
+      const apiHeaders = new Headers(headers)
+      apiHeaders.append('Accept', 'application/json')
       const response = await fetch(API_URL, {
-        headers: new Headers(headers),
+        headers: apiHeaders,
       })
 
       if (!response.ok) {

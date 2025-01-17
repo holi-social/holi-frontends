@@ -100,6 +100,7 @@ describe('SearchHitInfiniteList', () => {
   })
   it('tracks searchResultPressed event', async () => {
     const user = userEvent.setup()
+    const hit2 = hits[1]
     render(<SearchHitInfiniteList />)
 
     // simulate time has passed so that debounced tracking function is called
@@ -108,7 +109,7 @@ describe('SearchHitInfiniteList', () => {
     mockTrack.mockReset() // we're not interested in the searchResultsRendered event
 
     // press second item
-    await user.press(screen.getAllByLabelText(hits[1].title_en!)[0]) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+    await user.press(screen.getAllByLabelText(hit2.title_en!)[0]) // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
     expect(mockTrack).toHaveBeenCalledWith({
       name: 'searchResultPressed',
@@ -118,6 +119,9 @@ describe('SearchHitInfiniteList', () => {
       properties: {
         itemPressed: removeDeniedProps([hits[1]])[0],
         itemPressedIndex: 1,
+        itemPressedType: hit2.type,
+        itemPressedTitleDe: hit2.title_de,
+        itemPressedTitleEn: hit2.title_en,
         query: 'search terms',
         totalNrOfResults: 4,
         totalNrOfPages: 2,
