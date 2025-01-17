@@ -1,7 +1,7 @@
 import { ChipAction } from 'holi-bricks/components/chips'
 import React, { memo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions, ScrollView, StyleSheet, View } from 'react-native'
+import { Dimensions, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import SearchResultsList from '@holi/core/screens/search/components/SearchResultsList'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -18,6 +18,7 @@ import { Screen } from '@holi/core/components/Screen'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 const MIN_SEARCH_TERM_CHARACTERS = 2
+const TOP_COMPONENT_HEIGHT = 144
 
 type SearchParams = {
   query: string
@@ -64,51 +65,56 @@ const SearchContent = () => {
         },
       }}
       keyboardVerticalOffset={0}
-      keyboardAvoidingViewProps={{ style: styles.inner }}
+      keyboardAvoidingViewProps={{ style: styles.wrapper }}
+      contentContainerStyle={styles.container}
+      style={styles.screen}
+      padding={{}}
+      StickyTopComponent={
+        <>
+          <HoliBox padding={16}>
+            <HoliTextInput
+              value={query}
+              placeholder={t(`search.input.${filter}.placeholder`)}
+              aria-label={t(`search.input.${filter}.placeholder`)}
+              inputProps={{ autoFocus: true }}
+              trailingComponent={
+                <SpinningIconContainer spinning={!!(users?.loading || spaces?.loading)}>
+                  <HoliIcon icon={users?.loading || spaces?.loading ? Loader : Search} size={22} />
+                </SpinningIconContainer>
+              }
+              onChange={onSearchUserInputChange}
+            />
+          </HoliBox>
+          {/* Filters */}
+          <ScrollView
+            horizontal
+            style={styles.buttonList}
+            contentContainerStyle={styles.buttonListContainer}
+            keyboardShouldPersistTaps="handled"
+          >
+            {filterTypes.map((filterType) => {
+              const isSelected = filter === filterType
+              const result = filterType !== 'all' ? searchQueryResult[filterType] : undefined
+
+              return (
+                <ChipAction
+                  id={filterType}
+                  key={filterType}
+                  onPress={() => updateParams({ filter: filterType })}
+                  selected={isSelected}
+                  color="white"
+                >
+                  {`${t(`search.filter.${filterType}`)} ${
+                    isQueryValid && result && !result.loading ? `(${result.totalResults})` : ''
+                  }`}
+                </ChipAction>
+              )
+            })}
+          </ScrollView>
+        </>
+      }
     >
       <View style={[mixins.container, styles.inner]}>
-        <HoliBox padding={16}>
-          <HoliTextInput
-            value={query}
-            placeholder={t(`search.input.${filter}.placeholder`)}
-            aria-label={t(`search.input.${filter}.placeholder`)}
-            inputProps={{ autoFocus: true }}
-            trailingComponent={
-              <SpinningIconContainer spinning={!!(users?.loading || spaces?.loading)}>
-                <HoliIcon icon={users?.loading || spaces?.loading ? Loader : Search} size={22} />
-              </SpinningIconContainer>
-            }
-            onChange={onSearchUserInputChange}
-          />
-        </HoliBox>
-
-        {/* Filters */}
-        <ScrollView
-          horizontal
-          style={styles.buttonList}
-          contentContainerStyle={styles.buttonListContainer}
-          keyboardShouldPersistTaps="handled"
-        >
-          {filterTypes.map((filterType) => {
-            const isSelected = filter === filterType
-            const result = filterType !== 'all' ? searchQueryResult[filterType] : undefined
-
-            return (
-              <ChipAction
-                id={filterType}
-                key={filterType}
-                onPress={() => updateParams({ filter: filterType })}
-                selected={isSelected}
-                color="white"
-              >
-                {`${t(`search.filter.${filterType}`)} ${
-                  isQueryValid && result && !result.loading ? `(${result.totalResults})` : ''
-                }`}
-              </ChipAction>
-            )
-          })}
-        </ScrollView>
-
         {/* Results */}
         <SearchResultsList
           query={query}
@@ -124,6 +130,26 @@ const SearchContent = () => {
 export default memo(SearchContent)
 
 const styles = StyleSheet.create({
+  screen: {
+    ...Platform.select({
+      native: {
+        maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+      },
+      web: {
+        maxHeight: Dimensions.get('window').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+      },
+    }),
+  },
+  wrapper: {
+    ...Platform.select({
+      native: {
+        maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight,
+      },
+    }),
+  },
+  container: {
+    flex: 1,
+  },
   inner: {
     flex: 1,
     paddingLeft: 0,
