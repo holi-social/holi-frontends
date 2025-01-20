@@ -1,6 +1,11 @@
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { SearchHitData, SearchHitLinkLocatorIdOrSlug, SearchHitType } from '@holi/core/screens/search/typesense/types'
-import React, { PropsWithChildren } from 'react'
+import type {
+  SearchHitData,
+  SearchHitLinkLocatorIdOrSlug,
+  SearchHitType,
+} from '@holi/core/screens/search/typesense/types'
+import type React from 'react'
+import type { PropsWithChildren } from 'react'
 import type { GestureResponderEvent } from 'react-native'
 
 const toPath = (locs: Partial<Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>>): string => {

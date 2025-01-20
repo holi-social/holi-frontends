@@ -49,7 +49,7 @@ export namespace TrackingEvent {
     currentPage: number
     selectedFacets: string[]
     // deliberately untyped to not have to adopt for every document type added. this shall only contain document
-    // properties and not Instantsearch.js metadata on docs, see `removeBlacklistedProps` in
+    // properties and not Instantsearch.js metadata on docs, see `removeDeniedProps` in
     // core/screens/search/typesense/tracking.ts
     renderedResults: Record<string, any>[] // eslint-disable-line @typescript-eslint/no-explicit-any
   }
@@ -57,10 +57,16 @@ export namespace TrackingEvent {
   export const SearchResultPressed = ({
     itemPressed,
     itemPressedIndex,
+    itemPressedType,
+    itemPressedTitleDe,
+    itemPressedTitleEn,
     searchResult,
   }: {
     itemPressed: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
     itemPressedIndex: number
+    itemPressedType: string
+    itemPressedTitleDe?: string
+    itemPressedTitleEn?: string
     searchResult: SearchResult
   }): TrackingEvent => ({
     name: 'searchResultPressed',
@@ -68,6 +74,9 @@ export namespace TrackingEvent {
     properties: {
       itemPressed,
       itemPressedIndex,
+      itemPressedType,
+      itemPressedTitleDe,
+      itemPressedTitleEn,
       ...searchResult,
     },
   })
@@ -348,8 +357,14 @@ export namespace TrackingEvent {
 
   export const SignupStepCompleted = (
     properties:
-      | { step: 'emailAndPassword'; answer: 'signUp' | 'continueAsGuest' | 'login' }
-      | { step: 'verificationCode'; answer: 'verifyAccount' | 'continueAsGuest' }
+      | {
+          step: 'emailAndPassword'
+          answer: 'signUp' | 'continueAsGuest' | 'login'
+        }
+      | {
+          step: 'verificationCode'
+          answer: 'verifyAccount' | 'continueAsGuest'
+        }
       | { step: 'name'; answer: 'continue' }
   ): TrackingEvent => ({
     name: 'signupStepCompleted',
@@ -366,6 +381,29 @@ export namespace TrackingEvent {
   export const NotYetAvailableFeaturePressed = (feature: string): TrackingEvent => ({
     name: 'notYetAvailableFeaturePressed',
     properties: { feature },
+    ...versionOne,
+  })
+
+  export const UserConnectionRequested = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionRequested',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+
+  export const UserConnectionAccepted = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionAccepted',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+
+  export const UserConnectionRejected = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionRejected',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+  export const PollVoteSubmitted = (pollId: string): TrackingEvent => ({
+    name: 'pollVoteSubmitted',
+    properties: { pollId },
     ...versionOne,
   })
 }

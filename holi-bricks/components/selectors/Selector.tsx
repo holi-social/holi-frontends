@@ -1,7 +1,8 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { Text } from 'holi-bricks/components/text/Text'
 import { Spacing } from 'holi-bricks/tokens'
-import React, { type ReactElement, useCallback, useState } from 'react'
+import type React from 'react'
+import { useCallback, useState } from 'react'
 import { createContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 
@@ -11,7 +12,6 @@ type OptionsState = { [key: string]: boolean }
 
 type SelectorProps = AccessibilityProps & {
   title?: string
-  children: ReactElement[]
   inputType?: SelectorCardInputType
   row?: boolean
   onSelect?: (id: string) => void
@@ -39,7 +39,7 @@ export const Selector = ({
   initiallySelectedOptions = [],
   onSelect,
   ...rest
-}: SelectorProps) => {
+}: React.PropsWithChildren<SelectorProps>) => {
   const initiallySelectedOptionsAsObject: OptionsState = Object.fromEntries(
     initiallySelectedOptions.map((option) => [option, true])
   )

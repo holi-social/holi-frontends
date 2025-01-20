@@ -1,7 +1,7 @@
 import { getInitials } from '@holi/core/helpers'
 import { SearchHitLink } from '@holi/core/screens/search/typesense/SearchHitLink'
 import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks'
-import { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
@@ -9,8 +9,10 @@ import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
-import { Trackable, TrackableBaseProps } from '@holi/core/components/Trackable'
+import { Platform, View } from 'react-native'
+import { Trackable, type TrackableBaseProps } from '@holi/core/components/Trackable'
+
+export const HIT_HEIGHT = 48
 
 export interface SearchHitProps extends TrackableBaseProps {
   hit: SearchHitData
@@ -24,7 +26,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
   const title = (useTitleEn ? hit.title_en : hit.title_de) as string
   return (
     <SearchHitLink hit={hit} label={title} onPress={onPress}>
-      <View style={styles.hitItemColumnsLayout}>
+      <View style={styles.hitItem}>
         <Avatar
           initials={getInitials(title)}
           label={title}
@@ -33,8 +35,8 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
           role={'img'}
           imgSrc={hit.image_url}
         />
-        <View style={styles.hitItemRightColumnLayout}>
-          <View style={styles.hitItemTypeLocationLayout}>
+        <View style={styles.hitItemContent}>
+          <View style={styles.hitItemTags}>
             <Text size={'xs'} variant={'secondary'}>
               {t(`search.typesense.hit.type.${hit.type}`)}
             </Text>
@@ -49,16 +51,28 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
               </>
             )}
           </View>
-          <Text size={'sm'}>{title}</Text>
+          <Text size={'sm'} numberOfLines={Platform.OS === 'android' ? 0 : 1}>
+            {title}
+          </Text>
         </View>
       </View>
     </SearchHitLink>
   )
 })
 
-// TODO restyle after introducing <Screen> component (HOLI-10827)
 const stylesheet = createStyleSheet(() => ({
-  hitItemColumnsLayout: { flexDirection: 'row', columnGap: dimensions.spacingSM },
-  hitItemRightColumnLayout: { flexDirection: 'column', rowGap: dimensions.spacingXs },
-  hitItemTypeLocationLayout: { flexDirection: 'row', columnGap: dimensions.spacingXs },
+  hitItem: {
+    flexDirection: 'row',
+    columnGap: dimensions.spacingSM,
+    height: HIT_HEIGHT,
+    overflow: 'hidden',
+  },
+  hitItemContent: {
+    flex: 1,
+    rowGap: dimensions.spacingXs,
+  },
+  hitItemTags: {
+    flexDirection: 'row',
+    columnGap: dimensions.spacingXs,
+  },
 }))

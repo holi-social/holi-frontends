@@ -5,7 +5,7 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import type { Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
@@ -469,7 +469,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
         },
         native: { maxHeight: '50%' },
       }),
-    } as ImageStyle,
+    } as ViewStyle,
     insightImage: {
       ...Platform.select({ web: { height: '100%' } }),
     },
