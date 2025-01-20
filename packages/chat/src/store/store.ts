@@ -382,8 +382,8 @@ export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
  * @description returns the room id of an existing one-on-one room, if it
  * exists, or creates a new one.
  */
-export const getOrCreateRoom = async (userIds: string[], name?: string): Promise<RoomId> => {
-  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name })
+export const getOrCreateRoom = async (userIds: string[], name?: string, taskChat?: boolean): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name, isTaskChat: taskChat })
 }
 
 /**
@@ -725,7 +725,7 @@ _ignoredUsersAtomSubscriber.onMount = (setAtom) => {
  * @description An atom creator that gives you the partner member in a DM
  * conversion between two people.
  */
-export const chatPartnerAtomCreator = (roomId: string, holiUser?: HoliUser): Atom<ChatRoomMember | undefined> => {
+export const chatPartnerAtomCreator = (roomId: string, holiUser?: HoliUser): Atom<ChatRoomMember[] | undefined> => {
   return atom((get) => {
     if (!holiUser) return
 
@@ -733,7 +733,7 @@ export const chatPartnerAtomCreator = (roomId: string, holiUser?: HoliUser): Ato
     if (!roomAtom) return
 
     const chatRoom = get(roomAtom)
-    return getChatPartner(holiUser, chatRoom)
+    return getChatPartners(holiUser, chatRoom)
   })
 }
 
@@ -788,11 +788,12 @@ export const hasOnlyIgnoredMembers = (members: ChatRoomMember[], ignoredUsers: M
   return ignoredRoomMembers.length === members.length - 1
 }
 
-export const getChatPartner = (holiUser: HoliUser, room: ChatRoom): ChatRoomMember | undefined => {
+export const getChatPartners = (holiUser: HoliUser, room: ChatRoom): ChatRoomMember[] | undefined => {
   // TODO this will have to be changed once we support multiple users per room
-  return room.type === 'private'
-    ? room.members.find((member) => member.id !== toMatrixIdentity(holiUser.identity))
-    : undefined
+  if (room.type === 'space.task' || room.type === 'private') {
+    return room.members.filter((member) => member.id !== toMatrixIdentity(holiUser.identity))
+  }
+  return undefined
 }
 
 export const isRoomCreator = (user: HoliUser, room: ChatRoom): boolean | undefined => {

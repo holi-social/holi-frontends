@@ -1,4 +1,4 @@
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import {
   ClientEvent,
   EventType,
@@ -9,11 +9,11 @@ import {
   type IStateEventWithRoomId,
   type Listener,
   type ListenerMap,
-  MatrixClient,
-  MatrixEvent,
+  type MatrixClient,
+  type MatrixEvent,
   type Room,
-  RoomEvent,
-  RoomMember,
+  type RoomEvent,
+  type RoomMember,
   type RoomNameState,
   RoomNameType,
 } from 'matrix-js-sdk'
@@ -39,6 +39,9 @@ import {
   type SpaceChildRoom,
   type SpaceChildSharedDataContent,
   type SpaceRoom,
+  type SpaceTaskChatRoom,
+  type SpaceTaskRoom,
+  type SpaceTaskSharedDataContent,
 } from '@holi/chat/src/client/types'
 import { getChatMemberName } from '@holi/chat/src/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -58,6 +61,10 @@ export const isSharedDataContent = (content: IContent): content is SharedDataCon
 
 export const isSharedDataChildContent = (content: IContent): content is SpaceChildSharedDataContent => {
   return isSharedDataContent(content) && 'parentSpaceRoomId' in content
+}
+
+export const isSharedDataTaskContent = (content: IContent): content is SpaceTaskSharedDataContent => {
+  return isSharedDataContent(content) && 'taskId' in content
 }
 
 export const isSpaceChildEvent = (event: MatrixEvent) => event.getType() === EventType.SpaceChild
@@ -183,8 +190,10 @@ export const createChatRoom = (
       return createSpaceChatRoom(baseChatRoom, roomWithSharedData)
     case 'space.child':
       return createSpaceChildChatRoom(baseChatRoom, roomWithSharedData)
+    case 'space.task':
+      return createSpaceTaskChatRoom(baseChatRoom, roomWithSharedData)
     default:
-      throw new HoliError('Unexpected ChatRoom: private, space and space.child supported')
+      throw new HoliError('Unexpected ChatRoom: private, space, space.child and space.task supported')
   }
 }
 
@@ -223,9 +232,23 @@ export function createSpaceChildChatRoom(
   }
 }
 
+export function createSpaceTaskChatRoom(baseChatRoom: BaseChatRoom, spaceTaskRoom: SpaceTaskRoom): SpaceTaskChatRoom {
+  return {
+    type: 'space.task',
+    content: {
+      roomId: spaceTaskRoom.content.roomId,
+      holiSpaceId: spaceTaskRoom.content.holiSpaceId,
+      taskName: spaceTaskRoom.content.taskName,
+      avatarDefaultColor: spaceTaskRoom.content.avatarDefaultColor,
+      taskId: spaceTaskRoom.content.taskId,
+    },
+    ...baseChatRoom,
+  }
+}
+
 /**
  * @description It creates the base for all 3 (internal) types of chats rooms
- * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
+ * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`, `SpaceTaskChatRoom`
  */
 export function createBaseChatRoom(
   room: Room,

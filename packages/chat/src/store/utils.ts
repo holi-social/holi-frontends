@@ -1,13 +1,14 @@
 import { produce } from 'immer'
-import { Atom } from 'jotai'
+import type { Atom } from 'jotai'
 
-import {
+import type {
   ChatRoom,
-  type MatrixId,
+  MatrixId,
   PrivateChatRoom,
   SpaceChatRoom,
   SpaceChildChatRoom,
-  type SpaceSharedDataContent,
+  SpaceSharedDataContent,
+  SpaceTaskChatRoom,
 } from '@holi/chat/src/client/types'
 import type { AtomRecordGetter, HoliIdentity } from '@holi/chat/src/store/types'
 import { chatServerName } from '@holi/core/helpers/config'
@@ -62,9 +63,13 @@ export const isSpaceChildChatRoom = (room: ChatRoom): room is SpaceChildChatRoom
   return room.type === 'space.child' && hasSpaceContent(room.content)
 }
 
+export const isSpaceTaskChatRoom = (room: ChatRoom): room is SpaceTaskChatRoom => {
+  return room.type === 'space.task' && hasSpaceContent(room.content)
+}
+
 export const sortRoomByTimestamp = (roomA: ChatRoom, roomB: ChatRoom): number => {
-  const timestampA = roomA.timestamp ?? Infinity
-  const timestampB = roomB.timestamp ?? Infinity
+  const timestampA = roomA.timestamp ?? Number.POSITIVE_INFINITY
+  const timestampB = roomB.timestamp ?? Number.POSITIVE_INFINITY
 
   return timestampA < timestampB ? 1 : -1
 }

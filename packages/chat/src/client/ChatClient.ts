@@ -9,14 +9,14 @@ import {
   type ICreateClientOpts,
   type ICreateRoomOpts,
   type IStartClientOpts,
-  MatrixClient,
+  type MatrixClient,
   type MatrixEvent,
   MatrixScheduler,
   Preset,
   PushRuleKind,
-  Room,
+  type Room,
   RoomEvent,
-  RoomMember,
+  type RoomMember,
   type RoomState,
   RoomStateEvent,
   Visibility,
@@ -25,7 +25,7 @@ import {
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { logger as matrixLogger } from 'matrix-js-sdk/lib/logger'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
-import { MsgType, RoomMessageEventContent } from 'matrix-js-sdk/lib/types'
+import type { MsgType, RoomMessageEventContent } from 'matrix-js-sdk/lib/types'
 
 import { configurePusher } from '@holi/chat/src/client/pusher'
 import {
@@ -40,7 +40,7 @@ import {
   type NotificationCount,
   type RoomId,
   type RoomUpdatesContent,
-  RoomUpdatesType,
+  type RoomUpdatesType,
   type RoomWithSharedData,
 } from '@holi/chat/src/client/types'
 import {
@@ -57,12 +57,13 @@ import {
   isMessageEvent,
   isSharedDataChildContent,
   isSharedDataContent,
+  isSharedDataTaskContent,
   isSpaceChildEvent,
   roomNameGenerator,
   setRoomsListeners,
 } from '@holi/chat/src/client/utils'
 import { isEmptyString, isString } from '@holi/chat/src/utils'
-import { type ChatCredentials } from '@holi/chat/src/utils/types'
+import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
 import { environment } from '@holi/core/helpers/environment'
@@ -116,12 +117,19 @@ export default class ChatClient {
 
   private createSharedData(room: Room): RoomWithSharedData {
     const { sharedDataEvent, parentEvent } = this.getSpaceEvents(room)
+    // console.log("room", room)
+    // console.log("sharedDataEvent", sharedDataEvent) // there should be a sharedDataEvent
     if (!sharedDataEvent) return { type: 'private', room }
 
     const content = sharedDataEvent.getEffectiveEvent().content
+    // console.log("content", content) // should contain a taskId
 
     if (room.isSpaceRoom() && isSharedDataContent(content)) {
       return { type: 'space', room, content }
+    }
+
+    if (isSharedDataTaskContent(content)) {
+      return { type: 'space.task', room, content }
     }
 
     // Space Child Room Shared Data

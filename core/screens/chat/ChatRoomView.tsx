@@ -58,7 +58,7 @@ const ChatRoomView = () => {
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
   const { user: loggedInUser } = useLoggedInUser()
-  const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
+  const chatPartners = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
 
   const requestMessages = useRequestRoomMessages()
   const setScreenOptions = useSetScreenOptions()
@@ -67,9 +67,12 @@ const ChatRoomView = () => {
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(roomMemberIds)
 
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
-  const chatPartnerHoliUser = getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord)
+  const chatPartnerHoliUsers = chatPartners
+    ?.map((chatPartner) => getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord))
+    .filter((holiUser) => holiUser !== undefined)
 
   const isSpaceRoom = room && isSpaceChildChatRoom(room)
+  // const isTaskRoom = room && isSpaceTaskChatRoom(room) // todo
 
   const { openToast } = useToast()
 
@@ -95,12 +98,12 @@ const ChatRoomView = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerRight: () =>
-        !!chatPartner &&
+        !!chatPartners &&
         !isSpaceRoom && (
           <ChatRoomActionDrawer
             roomId={roomId}
-            chatPartner={chatPartner}
-            chatPartnerFullName={chatPartnerHoliUser?.fullName ?? chatPartner.name}
+            chatPartner={chatPartners[0]}
+            chatPartnerFullName={chatPartnerHoliUsers?.[0]?.fullName ?? chatPartners?.[0]?.name} // todo: if its a task chat: design decision
           />
         ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
@@ -109,21 +112,21 @@ const ChatRoomView = () => {
 
         switch (room?.type) {
           case 'private':
-            return chatPartnerHoliUser ? (
+            return chatPartnerHoliUsers ? (
               <ChatRoomHeaderTitle
-                href={'/profile/' + chatPartnerHoliUser.id}
+                href={'/profile/' + chatPartnerHoliUsers[0].id} // todo: link to task if its a task chat
                 name={room.name}
-                imageSrc={chatPartner?.avatar}
-                imageBlurhash={chatPartnerHoliUser.avatarBlurhash}
-                initials={getChatInitials(chatPartner?.name)}
-                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
+                imageSrc={chatPartners?.[0]?.avatar}
+                imageBlurhash={chatPartnerHoliUsers[0].avatarBlurhash} // todo: no avatar if its a task chat
+                initials={getChatInitials(chatPartners?.[0]?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartners?.[0]?.name)}
               />
             ) : (
               <ChatRoomHeaderTitle
-                name={chatPartner?.name ?? room.name}
-                imageSrc={chatPartner?.avatar}
-                initials={getChatInitials(chatPartner?.name)}
-                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
+                name={chatPartners?.[0]?.name ?? room.name}
+                imageSrc={chatPartners?.[0]?.avatar}
+                initials={getChatInitials(chatPartners?.[0]?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartners?.[0]?.name)}
               />
             )
 
@@ -139,6 +142,18 @@ const ChatRoomView = () => {
               />
             )
 
+          case 'space.task':
+            return (
+              <ChatRoomHeaderTitle
+                href={'/spaces/' + room.content.holiSpaceId + '/tasks/' + room.content.taskId} // todo: to be checked
+                name={room.content.taskName}
+                initials={getInitials(room.content.taskName)}
+                imageSrc={room.avatar}
+                defaultColor={room.content.avatarDefaultColor}
+                shape="square"
+              />
+            )
+
           default:
             return null
         }
@@ -147,7 +162,17 @@ const ChatRoomView = () => {
         footerShown: false,
       },
     })
-  }, [handleBackPress, chatPartner, setScreenOptions, chatPartnerHoliUser, roomId, room, isSpaceRoom, t, loadingUsers])
+  }, [
+    handleBackPress,
+    chatPartners,
+    setScreenOptions,
+    chatPartnerHoliUsers,
+    roomId,
+    room,
+    isSpaceRoom,
+    t,
+    loadingUsers,
+  ])
 
   useEffect(() => {
     if (chatInitialized && !room) {
@@ -186,11 +211,11 @@ const ChatRoomView = () => {
             <SafeAreaView style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
-                  {room.hasInvitation ? (
+                  {room.hasInvitation ? ( // note: not possible with a group chat / task chat
                     <ChatProfileCard
-                      member={chatPartner}
+                      member={chatPartners?.[0]}
                       roomId={roomId}
-                      user={chatPartnerHoliUser}
+                      user={chatPartnerHoliUsers?.[0]}
                       userIsLoading={loadingUsers}
                     />
                   ) : (
@@ -200,9 +225,9 @@ const ChatRoomView = () => {
                       matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
                       starter={
                         amIRoomCreator &&
-                        chatPartnerHoliUser && (
+                        chatPartnerHoliUsers && (
                           <View style={styles.listStage}>
-                            <RoomMessageListStart member={chatPartner} chatPartnerHoliUser={chatPartnerHoliUser} />
+                            <RoomMessageListStart members={chatPartners} chatPartnerHoliUsers={chatPartnerHoliUsers} />
                           </View>
                         )
                       }
@@ -220,7 +245,7 @@ const ChatRoomView = () => {
                 <HoliContainer noPadding>
                   <ChatTextInput
                     isVisible={!room.hasInvitation}
-                    userName={chatPartnerHoliUser?.fullName}
+                    userName={chatPartnerHoliUsers?.[0]?.fullName} // todo: only "Write a message" if its a task chat
                     roomId={roomId}
                   />
                 </HoliContainer>

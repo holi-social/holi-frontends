@@ -111,7 +111,7 @@ const TaskDetails = () => {
         </HoliContainer>
       </ScrollViewRefreshable>
 
-      {displayCta && <ContactOrganization spaceIdOrName={spaceIdOrName} />}
+      {displayCta && <ContactOrganization spaceIdOrName={spaceIdOrName} task={task} />}
     </>
   )
 }

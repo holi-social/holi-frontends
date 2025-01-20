@@ -32,11 +32,12 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { id: roomId, name, hasInvitation, notificationCount, members } = room
-  const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
+  const chatPartners = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
 
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceChildChatRoom(room)
+  // const isTaskRoom = isSpaceTaskChatRoom(room)
   const roomName = isSpaceRoom ? room.content.spaceName : room.name
 
   const lastMessage = useLastRoomMessage(room)
@@ -81,19 +82,19 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
                 shape="square"
                 size="md"
               />
-            ) : chatPartner ? (
-              isMatrixId(chatPartner.name) ? (
+            ) : chatPartners ? (
+              isMatrixId(chatPartners[0].name) ? (
                 <Avatar
                   label={roomName}
-                  imgSrc={chatPartner.avatar ?? ''}
-                  initials={getChatInitials(chatPartner.name)}
+                  imgSrc={chatPartners[0].avatar ?? ''}
+                  initials={getChatInitials(chatPartners[0].name)}
                   size="md"
                 />
               ) : (
                 <Avatar
                   label={roomName}
-                  imgSrc={chatPartner.avatar ?? ''}
-                  initials={getChatInitials(chatPartner.name)}
+                  imgSrc={chatPartners[0].avatar ?? ''}
+                  initials={getChatInitials(chatPartners[0].name)}
                   size="md"
                 />
               )

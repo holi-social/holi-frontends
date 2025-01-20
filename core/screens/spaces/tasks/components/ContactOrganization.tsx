@@ -19,12 +19,12 @@ import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useState } from 'react'
-import { Platform, View } from 'react-native'
+import { Platform, type Task, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import type { User } from '@holi/core/domain/shared/types'
 
-const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps) => {
+const StartChatDrawerActionButton = ({ spaceIdOrName, task }: ContactOrganizationProps) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { hideDrawer } = useActionDrawerContext()
@@ -45,12 +45,13 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
     })
   }
 
-  async function openChatRoom(chatPartner: User[]) {
+  async function openChatRoom(chatPartner: User[], taskName?: string) {
     const chatPartnerIdentities = chatPartner?.map((chatPartner) => chatPartner.identity)
+    // console.log('taskName', taskName)
 
     try {
       const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => '@' + identity + ':' + chatServerName)
-      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds)
+      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds, taskName)
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -88,7 +89,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
     }
 
     try {
-      await openChatRoom(adminsAsUser)
+      await openChatRoom(adminsAsUser, task?.name)
     } finally {
       setIsLoading(false)
     }
@@ -110,6 +111,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: ContactOrganizationProps
 
 type ContactOrganizationProps = {
   spaceIdOrName?: string
+  task?: Task
 }
 
 const ContactOrganizationButton = (props: {
@@ -153,11 +155,12 @@ const contactOrganizationButtonStyles = createStyleSheet(() => ({
   },
 }))
 
-export const ContactOrganization = ({ spaceIdOrName }: ContactOrganizationProps) => {
+export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganizationProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { space } = useSpace(spaceIdOrName)
   if (!spaceIdOrName) return null
+  // console.log('task', task)
 
   return (
     <HoliActionDrawer.Drawer
@@ -176,7 +179,7 @@ export const ContactOrganization = ({ spaceIdOrName }: ContactOrganizationProps)
             resizeMode="contain"
           />
           <Text size="3xl">{t('spaces.tasks.contactOrganization.title')}</Text>
-          <Text size="md">
+          <Text size="md" variant="secondary">
             <Trans t={t} i18nKey="spaces.tasks.contactOrganization.description" values={{ organization: space?.title }}>
               <Text size="lg" textAlign="center" />
             </Trans>
@@ -186,7 +189,7 @@ export const ContactOrganization = ({ spaceIdOrName }: ContactOrganizationProps)
           </Text>
         </View>
 
-        <StartChatDrawerActionButton spaceIdOrName={spaceIdOrName} />
+        <StartChatDrawerActionButton spaceIdOrName={spaceIdOrName} task={task} />
       </View>
     </HoliActionDrawer.Drawer>
   )

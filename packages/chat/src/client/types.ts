@@ -1,8 +1,8 @@
-import { EventType, IRoomEvent, IStateEvent, NotificationCountType, Room } from 'matrix-js-sdk'
+import { EventType, type IRoomEvent, type IStateEvent, type NotificationCountType, type Room } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
 
-export type ChatRoomType = 'private' | 'space' | 'space.child'
+export type ChatRoomType = 'private' | 'space' | 'space.child' | 'space.task'
 
 export type SharedDataContent = SpaceSharedDataContent | SpaceChildSharedDataContent
 
@@ -15,6 +15,12 @@ export interface SpaceChildSharedDataContent extends SpaceSharedDataContent {
   spaceName: string
   avatarDefaultColor: string
   parentSpaceRoomId: string
+}
+
+export interface SpaceTaskSharedDataContent extends SpaceSharedDataContent {
+  taskName: string
+  avatarDefaultColor: string
+  taskId: string
 }
 
 export interface PrivateRoom {
@@ -34,7 +40,13 @@ export interface SpaceChildRoom {
   room: Room
 }
 
-export type RoomWithSharedData = PrivateRoom | SpaceRoom | SpaceChildRoom
+export interface SpaceTaskRoom {
+  type: 'space.task'
+  content: SpaceTaskSharedDataContent
+  room: Room
+}
+
+export type RoomWithSharedData = PrivateRoom | SpaceRoom | SpaceChildRoom | SpaceTaskRoom
 
 export interface BaseChatRoom {
   id: string
@@ -57,7 +69,11 @@ export interface SpaceChildChatRoom extends BaseChatRoom, Omit<SpaceChildRoom, '
   content: SpaceChildSharedDataContent
 }
 
-export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceChildChatRoom
+export interface SpaceTaskChatRoom extends BaseChatRoom, Omit<SpaceTaskRoom, 'room'> {
+  content: SpaceTaskSharedDataContent
+}
+
+export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceChildChatRoom | SpaceTaskChatRoom
 
 export enum RoomUpdatesType {
   name = EventType.RoomName,
@@ -73,6 +89,7 @@ export interface CreateRoomOptions {
   isDirectMessage: boolean
   isPrivate?: boolean
   name?: string
+  isTaskChat?: boolean
 }
 
 export enum MembershipStatus {
