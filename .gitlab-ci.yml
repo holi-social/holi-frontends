@@ -95,6 +95,7 @@ lint_compile_test:
     # install_deps does not run on long living branches, and it might not run on pipeline failures on the first build of a branch
     - '[ ! -d ".yarn/cache" ] && yarn install --immutable || yarn install --immutable --immutable-cache'
     - yarn format:check
+    - yarn check-types
     - git fetch origin main:main # needed for 'yarn workspaces foreach ... (lint_all task)'
     - yarn lint_all
     - yarn test
@@ -103,22 +104,6 @@ lint_compile_test:
     - 4cpu-16gb
   rules:
     - !reference [.rule_templates, not_on_git_tags]
-    - !reference [.rule_templates, automatically_on_any_other]
-
-check_type_errors:
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/node-expo-eas'
-  needs: ['lint_compile_test']
-  cache: !reference [.yarn-cache-readonly]
-  script:
-    - git fetch
-    # if this was a merge request pipeline we could use $CI_MERGE_REQUEST_TARGET_BRANCH_NAME as target branch parameter
-    # unfortunately all our build pipelines are branch pipelines. origin/main is good enough for our purposes as almost
-    # all MRs go against staging (eventually)
-    - corepack enable
-    - ./scripts/check-type-errors-count.sh $CI_COMMIT_SHA origin/main
-  rules:
-    - !reference [.rule_templates, not_on_git_tags]
-    - !reference [.rule_templates, any_but_production_staging]
     - !reference [.rule_templates, automatically_on_any_other]
 
 # the web and mobile only pipeline steps are defined in separate files for better overview and separation of concerns
