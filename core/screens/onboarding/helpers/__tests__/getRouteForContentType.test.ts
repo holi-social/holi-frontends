@@ -7,12 +7,13 @@ describe('getRouteForContentType', () => {
     { contentType: 'VOLUNTEERING', expectedRoute: '/act?section=VOLUNTEERING' },
     { contentType: 'SPACES', expectedRoute: '/spaces?tab=discover' },
     { contentType: 'POSTS', expectedRoute: '/' },
-    { contentType: 'invalid', expectedRoute: '/' },
+    { contentType: 'invalid', expectedRoute: '/act' },
+    { contentType: null, expectedRoute: '/act' },
   ]
   it.each(testCases)(
     'should create route $expectedRoute for content type $contentType',
     async ({ contentType, expectedRoute }) => {
-      const route = getRouteForContentType(contentType as ContentValue)
+      const route = getRouteForContentType(contentType as ContentValue | null)
 
       expect(route).toEqual(expectedRoute)
     }
