@@ -30,6 +30,8 @@ import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 import SearchScreen from '@holi/core/screens/search/SearchScreen'
 import type { SearchParams } from '@holi/core/screens/search/typesense/Search'
 import type { SearchParams as OldSearchParams } from '@holi/core/screens/search/components/SearchContent'
+import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
+import NotFound from '@holi/core/screens/404/NotFound'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -63,6 +65,8 @@ export type RootStackScreens = {
   [RouteName.CreateReport]: undefined
 
   [RouteName.Search]: SearchParams | OldSearchParams
+
+  [RouteName.UserProfile]: UserProfileParams
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -225,6 +229,24 @@ const RootNavigator = () => {
           headerShown: true,
           animation: 'slide_from_bottom',
           headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
+        }}
+      />
+
+      <RootStack.Screen
+        name={RouteName.NotFound}
+        component={NotFound}
+        options={{
+          headerShown: true,
+        }}
+      />
+
+      <RootStack.Screen
+        name={RouteName.UserProfile}
+        component={UserProfile}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerLeft: () => <HeaderBackButton />,
         }}
       />
     </RootStack.Navigator>
