@@ -114,7 +114,7 @@ const SearchContent = () => {
         </>
       }
     >
-      <View style={[mixins.container, styles.inner]}>
+      <View style={[mixins.container, styles.inner]} testID="search-content">
         {/* Results */}
         <SearchResultsList
           query={query}

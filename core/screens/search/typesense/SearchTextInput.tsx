@@ -59,13 +59,18 @@ export function SearchTextInput({ initialQuery, onQueryChange, props }: SearchBo
       }}
       trailingComponent={
         inputValue ? (
-          <Pressable onPress={() => setQuery('')} accessibilityLabel={t('search.typesense.input.clear')}>
+          <Pressable
+            onPress={() => setQuery('')}
+            accessibilityLabel={t('search.typesense.input.clear')}
+            testID="search-input-clear"
+          >
             <HoliIcon icon={CloseCircleFilled} size={22} />
           </Pressable>
         ) : (
           <HoliIcon icon={Search} size={22} />
         )
       }
+      testID="search"
     />
   )
 }
