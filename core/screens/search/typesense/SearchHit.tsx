@@ -45,9 +45,11 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
                 <Text size={'xs'} variant={'secondary'}>
                   &middot;
                 </Text>
-                <Text size={'xs'} variant={'secondary'}>
-                  {hit.location}
-                </Text>
+                <View style={styles.hitLocation}>
+                  <Text size={'xs'} variant={'secondary'} numberOfLines={1}>
+                    {hit.location}
+                  </Text>
+                </View>
               </>
             )}
           </View>
@@ -74,5 +76,14 @@ const stylesheet = createStyleSheet(() => ({
   hitItemTags: {
     flexDirection: 'row',
     columnGap: dimensions.spacingXs,
+  },
+  hitLocation: {
+    flex: 1,
+    ...Platform.select({
+      android: {
+        // Workaround for strange text behaviour on android
+        minWidth: '200%',
+      },
+    }),
   },
 }))
