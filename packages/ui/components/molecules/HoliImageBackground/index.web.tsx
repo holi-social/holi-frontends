@@ -1,6 +1,6 @@
 import type React from 'react'
 import { forwardRef } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, type ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage/index.web'
 import type { HoliImageBackgroundProps } from '@holi/ui/components/molecules/HoliImageBackground/types'
@@ -32,18 +32,13 @@ export const HoliImageBackground = forwardRef<View, HoliImageBackgroundProps>(
         height,
         zIndex: -1,
       },
-      StyleSheet.absoluteFill,
+      StyleSheet.absoluteFill as ViewStyle,
       imageStyle,
-    ])
+    ]) as React.CSSProperties
 
     return (
       <View ref={forwardedRef} style={style}>
-        <HoliImage
-          {...rest}
-          label={label}
-          style={imageStyleFlattened as React.CSSProperties}
-          resizeMode={resizeMode as ResizeMode}
-        />
+        <HoliImage {...rest} label={label} style={imageStyleFlattened} resizeMode={resizeMode as ResizeMode} />
         {children}
       </View>
     )
