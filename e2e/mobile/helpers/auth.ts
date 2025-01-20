@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { navigateBackToHomeScreen, waitForHomeScreen } from '../helpers/navigation'
+import { navigateBackToHomeScreen, waitForActScreen, waitForHomeScreen } from '../helpers/navigation'
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
@@ -108,6 +108,8 @@ export const register = async ({
     await finishAccountSetup()
 
     if (!userData?.content) {
+      await waitForActScreen()
+      await tapOnElementWithTestId('btn-to-home-view')
       await waitForHomeScreen()
     }
   }

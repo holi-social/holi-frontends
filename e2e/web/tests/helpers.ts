@@ -247,7 +247,7 @@ const registerNewUserAccount = async (
     email,
     password,
     userData,
-    expectedScreen = 'home-feed-listing',
+    expectedScreen = 'act-home',
   }: {
     email?: string
     password?: string
@@ -264,7 +264,7 @@ const registerNewUserAccount = async (
   })
   await page.waitForSelector(byTestId('community-guidelines-modal-btn-submit'))
   await clickElementByTestId(page, 'community-guidelines-modal-btn-submit')
-  // wait for expected screen (usually home feed) - registration succeeded
+  // wait for expected screen (usually act home) - registration succeeded
   await page.waitForSelector(byTestId(expectedScreen))
   return newAccount
 }
