@@ -39,7 +39,7 @@
     "web:build": "yarn workspace @holi/web build",
     "web:start": "yarn workspace @holi/web start",
     "holi-bricks:web": "yarn workspace holi-bricks web",
-    "check-types": "tsc --noemit",
+    "check-types": "tsc --noEmit",
     "lint": "yarn workspaces foreach --parallel --since=main run lint",
     "lint_all": "yarn workspaces foreach --parallel --all run lint",
     "format": "yarn biome format --write",
