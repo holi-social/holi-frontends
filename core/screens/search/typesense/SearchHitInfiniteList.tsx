@@ -92,8 +92,8 @@ export function SearchHitInfiniteList() {
               itemPressed: hitToTrackingDoc(hit),
               itemPressedIndex: index,
               itemPressedType: hit.type,
-              itemPressedTitleDe: hit.title_de,
-              itemPressedTitleEn: hit.title_en,
+              itemPressedTitleDe: hit.type === 'profile' ? hit.user_full_name : hit.title_de,
+              itemPressedTitleEn: hit.type === 'profile' ? hit.user_full_name : hit.title_en,
               searchResult: resultsToTrackingEventResults(results!), // eslint-disable-line @typescript-eslint/no-non-null-assertion
             })}
           />
