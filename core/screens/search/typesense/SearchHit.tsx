@@ -23,13 +23,14 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
   const language = useUserLanguage()
   const { styles } = useStyles(stylesheet)
   const useTitleEn = (language === 'en' && hit.title_en) || (language == 'de' && !hit.title_de)
-  const title = (useTitleEn ? hit.title_en : hit.title_de) as string
+  const interimTitle = (useTitleEn ? hit.title_en : hit.title_de) as string
+  const finalTitle = (hit.type == 'profile' ? hit.user_full_name : interimTitle) as string
   return (
-    <SearchHitLink hit={hit} label={title} onPress={onPress}>
+    <SearchHitLink hit={hit} label={finalTitle} onPress={onPress}>
       <View style={styles.hitItem}>
         <Avatar
-          initials={getInitials(title)}
-          label={title}
+          initials={getInitials(finalTitle)}
+          label={finalTitle}
           size={'md'}
           shape={hit.type === 'profile' ? 'circle' : 'square'}
           role={'img'}
@@ -54,7 +55,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
             )}
           </View>
           <Text size={'sm'} numberOfLines={Platform.OS === 'android' ? 0 : 1}>
-            {title}
+            {finalTitle}
           </Text>
         </View>
       </View>
