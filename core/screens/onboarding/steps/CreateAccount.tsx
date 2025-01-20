@@ -160,7 +160,7 @@ export const CreateAccount = ({
         />
 
         <HoliGap size="xxs" />
-        <Text size="xs" variant="secondary" textAlign="center">
+        <Text size="xs" color="support" textAlign="center">
           {t('auth.loginProtection.continueAsGuest.warning')}
         </Text>
         <HoliGap size="m" />

@@ -47,16 +47,16 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
         />
         <View style={styles.hitItemContent}>
           <View style={styles.hitItemTags}>
-            <Text size={'xs'} variant={'secondary'}>
+            <Text size={'xs'} color="support">
               {t(`search.typesense.hit.type.${hit.type}`)}
             </Text>
             {hit.location && (
               <>
-                <Text size={'xs'} variant={'secondary'}>
+                <Text size={'xs'} color="support">
                   &middot;
                 </Text>
                 <View style={styles.hitLocation}>
-                  <Text size={'xs'} variant={'secondary'} numberOfLines={1}>
+                  <Text size={'xs'} color="support" numberOfLines={1}>
                     {hit.location}
                   </Text>
                 </View>

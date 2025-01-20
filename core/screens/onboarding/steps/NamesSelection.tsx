@@ -102,7 +102,7 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
           testID={`${testID}-pronouns`}
         />
         <HoliGap size="xxs" />
-        <Text size="xs" variant="secondary">
+        <Text size="xs" color="support">
           {t('user.profileForm.pronounsHint')}
         </Text>
       </View>
