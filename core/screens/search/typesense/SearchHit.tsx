@@ -18,19 +18,28 @@ export interface SearchHitProps extends TrackableBaseProps {
   hit: SearchHitData
 }
 
+const getTitle = (language: string, hit: SearchHitData): string => {
+  if (hit.type === 'profile' && hit.user_full_name) {
+    return hit.user_full_name
+  }
+  if (hit.title_en && (language === 'en' || !hit.title_de)) {
+    return hit.title_en
+  }
+  return hit.title_de ?? ''
+}
+
 export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitProps) => {
   const { t } = useTranslation()
   const language = useUserLanguage()
   const { styles } = useStyles(stylesheet)
-  const useTitleEn = (language === 'en' && hit.title_en) || (language == 'de' && !hit.title_de)
-  const interimTitle = (useTitleEn ? hit.title_en : hit.title_de) as string
-  const finalTitle = (hit.type == 'profile' ? hit.user_full_name : interimTitle) as string
+  const title = getTitle(language, hit)
+
   return (
-    <SearchHitLink hit={hit} label={finalTitle} onPress={onPress}>
+    <SearchHitLink hit={hit} label={title} onPress={onPress}>
       <View style={styles.hitItem}>
         <Avatar
-          initials={getInitials(finalTitle)}
-          label={finalTitle}
+          initials={getInitials(title)}
+          label={title}
           size={'md'}
           shape={hit.type === 'profile' ? 'circle' : 'square'}
           role={'img'}
@@ -46,14 +55,16 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
                 <Text size={'xs'} variant={'secondary'}>
                   &middot;
                 </Text>
-                <Text size={'xs'} variant={'secondary'}>
-                  {hit.location}
-                </Text>
+                <View style={styles.hitLocation}>
+                  <Text size={'xs'} variant={'secondary'} numberOfLines={1}>
+                    {hit.location}
+                  </Text>
+                </View>
               </>
             )}
           </View>
           <Text size={'sm'} numberOfLines={Platform.OS === 'android' ? 0 : 1}>
-            {finalTitle}
+            {title}
           </Text>
         </View>
       </View>
@@ -75,5 +86,14 @@ const stylesheet = createStyleSheet(() => ({
   hitItemTags: {
     flexDirection: 'row',
     columnGap: dimensions.spacingXs,
+  },
+  hitLocation: {
+    flex: 1,
+    ...Platform.select({
+      android: {
+        // Workaround for strange text behaviour on android
+        minWidth: '200%',
+      },
+    }),
   },
 }))

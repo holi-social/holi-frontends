@@ -237,6 +237,9 @@ const RootNavigator = () => {
         component={NotFound}
         options={{
           headerShown: true,
+          headerBackVisible: false,
+          headerTitleAlign: 'center',
+          headerLeft: () => <HeaderBackButton />,
         }}
       />
 
