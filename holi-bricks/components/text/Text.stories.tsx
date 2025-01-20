@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Text, type TextSize, type TextColor, type TextVariant } from 'holi-bricks/components/text'
+import { Text, type TextSize, type TextColor } from 'holi-bricks/components/text'
 import { lightTheme } from 'holi-bricks/themes/light'
 import React from 'react'
 import { View } from 'react-native'
@@ -69,24 +69,6 @@ export const ByColor: Story = {
         {availableColors.map((color) => (
           <Text key={color} {...args} color={color}>
             This is text in {color}.
-          </Text>
-        ))}
-      </View>
-    )
-  },
-}
-
-const availableVariants: TextVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'error']
-
-export const ByVariant: Story = {
-  argTypes: {},
-  args: {},
-  render: function Render(args) {
-    return (
-      <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {availableVariants.map((variant) => (
-          <Text key={variant} {...args} variant={variant}>
-            This is text in deprecated {variant}.
           </Text>
         ))}
       </View>
