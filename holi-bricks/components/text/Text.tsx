@@ -17,7 +17,7 @@ import {
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
 export type TextColor = keyof typeof lightTheme.colors.fill
-export type TextVariant =
+type TextVariant =
   /** Primary, Headlines, Body */
   | 'primary'
   /** Body, Captions, Subtexts */
