@@ -1,11 +1,11 @@
 import { Text } from 'holi-bricks/components/text'
 import React from 'react'
-import { Platform, StyleProp, TextStyle, ViewStyle } from 'react-native'
+import { Platform, type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { createUUID } from '@holi/core/helpers/strings'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
-import { Link } from '@holi/core/screens/posts/types'
+import type { Link } from '@holi/core/screens/posts/types'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import type { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 import { REGEX_URL, REGEX_USER_MENTIONS, ensureProtocolPrefix, isValidUrl } from '@holi/ui/helper/richText'
@@ -62,7 +62,7 @@ const HoliRichTextOutput = ({
               href={`/profile/${user.id}`}
               key={index}
               size={linkSize}
-              variant="special"
+              color="informative"
             >
               {mentionPrefix}
               {replaced}
@@ -105,7 +105,7 @@ const HoliRichTextOutput = ({
               size={linkSize}
               key={link.requestedUrl}
               external={isExternalLink(link.requestedUrl)}
-              variant="special"
+              color="informative"
             >
               {link.title}
             </HoliTextLink>
