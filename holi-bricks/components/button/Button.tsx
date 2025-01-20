@@ -93,7 +93,7 @@ export const Button = ({
     >
       <View style={styles.content}>
         <View style={styles.textContainer(size)}>
-          <Text size={size === 'lg' ? 'md' : 'sm'} color={styles.text(disabled, selected, variant).color}>
+          <Text size={size === 'lg' ? 'md' : 'sm'} colorOveride={styles.text(disabled, selected, variant).color}>
             {labelToShow}
           </Text>
         </View>

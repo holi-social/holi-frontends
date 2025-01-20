@@ -89,7 +89,7 @@ export const Avatar = ({
     }
     return (
       <View style={styles.textWrapper}>
-        <Text color={styles.text.color} size={avatarSizeToTextSize[size]}>
+        <Text colorOveride={styles.text.color} size={avatarSizeToTextSize[size]}>
           {initials?.substring(0, 2)?.toUpperCase()}
         </Text>
       </View>

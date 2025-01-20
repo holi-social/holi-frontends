@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Text, TextSize, TextVariant } from 'holi-bricks/components/text'
+import { Text, type TextSize, type TextColor, type TextVariant } from 'holi-bricks/components/text'
+import { lightTheme } from 'holi-bricks/themes/light'
 import React from 'react'
 import { View } from 'react-native'
 
@@ -10,7 +11,7 @@ const availableHeadingLevels = {
   '2': '2',
   '3': '3',
 }
-const availableVariants: TextVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'error']
+const availableColors = Object.keys(lightTheme.colors.fill) as TextColor[]
 
 const meta: Meta<typeof Text> = {
   title: 'Components/Text/Text',
@@ -28,7 +29,7 @@ type Story = StoryObj<typeof Text>
 export const Playground: Story = {
   argTypes: {
     size: { control: 'select', options: availableSizes },
-    variant: { control: 'select', options: availableVariants },
+    color: { control: 'select', options: availableColors },
     headingLevel: {
       control: 'select',
       options: Object.keys(availableHeadingLevels),
@@ -59,6 +60,24 @@ export const BySize: Story = {
   },
 }
 
+export const ByColor: Story = {
+  argTypes: {},
+  args: {},
+  render: function Render(args) {
+    return (
+      <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {availableColors.map((color) => (
+          <Text key={color} {...args} color={color}>
+            This is text in {color}.
+          </Text>
+        ))}
+      </View>
+    )
+  },
+}
+
+const availableVariants: TextVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'error']
+
 export const ByVariant: Story = {
   argTypes: {},
   args: {},
@@ -67,7 +86,7 @@ export const ByVariant: Story = {
       <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {availableVariants.map((variant) => (
           <Text key={variant} {...args} variant={variant}>
-            This is a text in variant {variant}.
+            This is text in deprecated {variant}.
           </Text>
         ))}
       </View>
