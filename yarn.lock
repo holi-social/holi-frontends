@@ -5736,6 +5736,7 @@ __metadata:
     "@types/lodash.debounce": "npm:^4.0.7"
     "@types/lodash.groupby": "npm:^4.6.9"
     "@types/lodash.partition": "npm:^4.6.9"
+    "@types/lodash.shuffle": "npm:^4.2.9"
     "@types/react": "npm:~18.2.79"
     apollo-link-timeout: "npm:^4.0.0"
     eslint: "npm:^8.33.0"
@@ -5772,6 +5773,7 @@ __metadata:
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
     lodash.partition: "npm:^4.6.0"
+    lodash.shuffle: "npm:^4.2.0"
     lottie-ios: "npm:4.5.0"
     lottie-react-native: "npm:7.0.0"
     posthog-react-native: "npm:^3.3.9"
@@ -13173,6 +13175,15 @@ __metadata:
   dependencies:
     "@types/lodash": "npm:*"
   checksum: 10c0/69addb453c4e85757ae337ed312848602206ac323995ef8655eab724a367086d70ee836560d9975adce33ca4e48e8b5476943ac11db2742666ab07114b6d9eec
+  languageName: node
+  linkType: hard
+
+"@types/lodash.shuffle@npm:^4.2.9":
+  version: 4.2.9
+  resolution: "@types/lodash.shuffle@npm:4.2.9"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10c0/fbaabdd480216b5af8609d2196edfd5a7ab6e074d52be2ae3b48743b4f7d23d2b931d419b4e40cec96dd1c119b0087b3a23e80898f93734e8572c4c8a32c99c0
   languageName: node
   linkType: hard
 
@@ -24978,6 +24989,13 @@ __metadata:
   version: 4.6.0
   resolution: "lodash.partition@npm:4.6.0"
   checksum: 10c0/a65f48f5f11a009656b3441a063948316923a48f7bfc9454064ba81f75e72ac038c61450c263f4874d8413052a20aacfc18a46dd6d8a9a287221a46e78733f45
+  languageName: node
+  linkType: hard
+
+"lodash.shuffle@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "lodash.shuffle@npm:4.2.0"
+  checksum: 10c0/6d6df6a571514a830d539a58804f9ce652273d5797b7e08765c469adb60bb0801d251cb01053d91637dcd0d1fae4bc902a839508b481927b18185ff57bb8d131
   languageName: node
   linkType: hard
 
