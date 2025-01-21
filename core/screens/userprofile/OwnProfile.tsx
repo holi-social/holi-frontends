@@ -27,8 +27,11 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useTheme } from '@holi/ui/styles/theme'
 import { ButtonIcon } from 'holi-bricks/components/button'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const OwnProfile = () => {
+  const { track } = useTracking()
   const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
   const [showModal, setshowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
@@ -48,17 +51,22 @@ const OwnProfile = () => {
   const toggleEditMode = useCallback(
     (newEditMode: EditModeState) => {
       setEditMode(newEditMode)
+      if (newEditMode === 'profile') {
+        track(TrackingEvent.UserProfile.editPressed())
+      }
       // if pressed too soon, the state is set to true, but the modal is not shown.
       // crude mechanism to recover from this state.
       // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
       if (showModal) setshowModal(false)
       setshowModal(true)
     },
-    [showModal]
+    [showModal, track]
   )
 
   // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature({ feature: 'USER_PROFILE_SHARE' })
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature({
+    feature: 'USER_PROFILE_SHARE',
+  })
 
   useIsomorphicLayoutEffect(() => {
     const title = t('profile.title')
@@ -116,7 +124,9 @@ const OwnProfile = () => {
     await client.clearStore()
     // for mobile we need to refetch data manually, web will refetch it anyway with SSR, except for the authenticatedUser itself
     // fetching all queries can take a while, so we do not await them to not block the UI
-    client.refetchQueries({ include: Platform.OS !== 'web' ? 'active' : [authenticatedUserV2Query] })
+    client.refetchQueries({
+      include: Platform.OS !== 'web' ? 'active' : [authenticatedUserV2Query],
+    })
 
     closeModal()
   }, [client, closeModal])
