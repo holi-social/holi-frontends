@@ -47,7 +47,7 @@ const TrackingGeneralContentDescription = ({ checkTextCountList = [1, 2, 3] }: P
     <>
       <Text size="md">
         <Trans t={t} i18nKey={'tracking.consentModal.general.description'}>
-          <TextLink size="md" onPress={show} role="link" />
+          <TextLink size="md" onPress={show} />
         </Trans>
       </Text>
 
