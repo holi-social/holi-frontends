@@ -133,13 +133,23 @@ resource "google_cloud_run_service" "mvp_web" {
             memory = local.environment == "production" ? "1024Mi" : "1024Mi"
           }
         }
+
         startup_probe {
           initial_delay_seconds = 30
           period_seconds        = 5
           timeout_seconds       = 5
           failure_threshold     = 10
           http_get {
-            path = "/"
+            path = "/api/health"
+          }
+        }
+
+        liveness_probe {
+          period_seconds        = 15
+          timeout_seconds       = 10
+          failure_threshold     = 3
+          http_get {
+            path = "/api/health"
           }
         }
       }
