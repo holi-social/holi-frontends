@@ -32,9 +32,8 @@ test.describe('@Registration', () => {
     //FIXME: Error: Wasn't able to intercept user id while finishing account setup flow at finishAccountSetup in appointmentNotifications.spec.ts
     // using a random user session implicitly tests user registration
     await userHandler.asRandomUser(async (page) => {
-      // User lands on act home after onboarding
+      // Starting on profile page
       // Ensure user is logged in
-      await page.goto('/profile')
       await page.waitForSelector(byTestId('user-profile-full-name'))
 
       // trying to go to login page with logged in user should show home feed
