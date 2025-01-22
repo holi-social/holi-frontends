@@ -89,7 +89,6 @@ export interface CreateRoomOptions {
   isDirectMessage: boolean
   isPrivate?: boolean
   name?: string
-  isTaskChat?: boolean
 }
 
 export enum MembershipStatus {

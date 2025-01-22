@@ -6,7 +6,6 @@ import { View } from 'react-native'
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import type { User } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Avatar } from 'holi-bricks/components/avatar'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -14,42 +13,36 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 interface RoomMessageListStartProps {
   chatPartnerHoliUsers: User[]
   members: ChatRoomMember[] | undefined
+  taskName?: string
 }
 
-const RoomMessageListStart = ({ chatPartnerHoliUsers, members }: RoomMessageListStartProps) => {
+const RoomMessageListStart = ({ chatPartnerHoliUsers, members, taskName }: RoomMessageListStartProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
   const chatDescription = () => {
-    const taskChat = true // todo
     const chatPartnersNames = chatPartnerHoliUsers.map((user) => user.fullName).join(', ')
-    if (taskChat) {
+    if (taskName) {
       return (
-        <Text size="md" variant="secondary">
+        <Text size="md" color="support">
           <Trans
             t={t}
             i18nKey={'chat.room.start.group.description'}
-            values={{ fullName: chatPartnersNames, taskName: 'test' }}
+            values={{ fullName: chatPartnersNames, taskName: taskName }}
           >
             <TextLink
               onPress={() => navigate('/profile/${chatPartnerHoliUser.id}')} // todo: displays error
-              // {`/profile/${chatPartnerHoliUser.id}`}
               size="md"
-              variant="special"
+              color="informative"
             />
           </Trans>
         </Text>
       )
     }
     return (
-      <Text size="md">
+      <Text size="md" color="support">
         <Trans t={t} i18nKey={'chat.room.start.description'} values={{ fullName: chatPartnerHoliUsers[0].fullName }}>
-          <HoliTextLink
-            label={t('user.visitProfile', { name: chatPartnerHoliUsers[0].fullName })}
-            href={`/profile/${chatPartnerHoliUsers[0].id}`}
-            size="md"
-            color="informative"
-          />
+          <TextLink onPress={() => navigate(`/profile/${chatPartnerHoliUsers[0].id}`)} size="md" color="informative" />
         </Trans>
       </Text>
     )

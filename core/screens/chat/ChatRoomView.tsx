@@ -19,7 +19,7 @@ import {
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store'
-import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
+import { isSpaceChildChatRoom, isSpaceTaskChatRoom } from '@holi/chat/src/store/utils'
 import { getChatInitials, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -114,10 +114,10 @@ const ChatRoomView = () => {
           case 'private':
             return chatPartnerHoliUsers ? (
               <ChatRoomHeaderTitle
-                href={'/profile/' + chatPartnerHoliUsers[0].id} // todo: link to task if its a task chat
+                href={'/profile/' + chatPartnerHoliUsers[0].id}
                 name={room.name}
                 imageSrc={chatPartners?.[0]?.avatar}
-                imageBlurhash={chatPartnerHoliUsers[0].avatarBlurhash} // todo: no avatar if its a task chat
+                imageBlurhash={chatPartnerHoliUsers[0].avatarBlurhash}
                 initials={getChatInitials(chatPartners?.[0]?.name)}
                 defaultColor={getDefaultAvatarColor(chatPartners?.[0]?.name)}
               />
@@ -211,7 +211,7 @@ const ChatRoomView = () => {
             <SafeAreaView style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
-                  {room.hasInvitation ? ( // note: not possible with a group chat / task chat
+                  {room.hasInvitation ? ( // note: this case will never happen with a group chat / task chat
                     <ChatProfileCard
                       member={chatPartners?.[0]}
                       roomId={roomId}
@@ -227,7 +227,11 @@ const ChatRoomView = () => {
                         amIRoomCreator &&
                         chatPartnerHoliUsers && (
                           <View style={styles.listStage}>
-                            <RoomMessageListStart members={chatPartners} chatPartnerHoliUsers={chatPartnerHoliUsers} />
+                            <RoomMessageListStart
+                              members={chatPartners}
+                              chatPartnerHoliUsers={chatPartnerHoliUsers}
+                              taskName={isSpaceTaskChatRoom(room) ? room.content.taskName : room.name}
+                            />
                           </View>
                         )
                       }
