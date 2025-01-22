@@ -16,23 +16,10 @@ import {
 } from 'react-native'
 
 export type TextLinkSize = 'md' | 'sm' | 'xs'
-export type TextLinkVariant =
-  /** Primary, Headlines, Body */
-  | 'primary'
-  /** Body, Captions, Subtexts */
-  | 'secondary'
-  /** Unselected text, Bottom Navigation */
-  | 'tertiary'
-  /** Disabled */
-  | 'quaternary'
-  /** Mentions, Locations, Special cases */
-  | 'special'
 
 export interface TextLinkProps extends AccessibilityProps {
   size: TextLinkSize
   numberOfLines?: number
-  /** @deprecated Please use the 'color' prop instead. variant will be deleted once code has been migrated to 'color'. */
-  variant?: TextLinkVariant
   /** Managed Theme color. */
   color?: TextColor
   /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
@@ -42,18 +29,9 @@ export interface TextLinkProps extends AccessibilityProps {
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
 }
 
-const variantToColor: Record<TextLinkVariant, TextColor> = {
-  primary: 'main',
-  secondary: 'support',
-  tertiary: 'default',
-  quaternary: 'disabled',
-  special: 'informative',
-}
-
 export const TextLink = ({
   size,
   numberOfLines,
-  variant,
   color = 'main',
   colorOveride,
   textAlign,
@@ -64,10 +42,6 @@ export const TextLink = ({
   ...rest
 }: React.PropsWithChildren<TextLinkProps>) => {
   const { styles } = useStyles(stylesheet, { size })
-
-  if (variant) {
-    color = variantToColor[variant]
-  }
 
   return (
     <Text
