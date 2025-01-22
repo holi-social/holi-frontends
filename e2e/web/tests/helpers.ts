@@ -230,6 +230,9 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await clickElementByTestId(page, 'onboarding-account-creation-btn-continue-as-guest')
 
   await page.waitForSelector(byTestId('onboarding-account-creation-btn-continue-as-guest'), { state: 'detached' })
+
+  // User will land on act screen after onboarding > navigate to home feed
+  await clickElementByTestId(page, 'btn-to-home-view')
 }
 
 export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
@@ -247,7 +250,7 @@ const registerNewUserAccount = async (
     email,
     password,
     userData,
-    expectedScreen = 'home-feed-listing',
+    expectedScreen = 'act-home',
   }: {
     email?: string
     password?: string
@@ -264,7 +267,7 @@ const registerNewUserAccount = async (
   })
   await page.waitForSelector(byTestId('community-guidelines-modal-btn-submit'))
   await clickElementByTestId(page, 'community-guidelines-modal-btn-submit')
-  // wait for expected screen (usually home feed) - registration succeeded
+  // wait for expected screen (usually act home) - registration succeeded
   await page.waitForSelector(byTestId(expectedScreen))
   return newAccount
 }
