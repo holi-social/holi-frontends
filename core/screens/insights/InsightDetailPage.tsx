@@ -96,8 +96,14 @@ const InsightDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      ...Platform.select({
+        native: {
+          headerTintColor: colors.light,
+          title: '',
+          headerTransparent: true,
+        },
+      }),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-
       headerRight: ({ tintColor }) => {
         return (
           insight && (
@@ -220,7 +226,7 @@ const InsightDetailPage = () => {
       />
       <StatusBar style="light" animated />
 
-      <ScrollViewRefreshable style={styles.wrapper}>
+      <ScrollViewRefreshable style={styles.wrapper} contentContainerStyle={styles.contentContainer}>
         {insight && !loading ? (
           <>
             <HoliImageBackground
@@ -461,6 +467,11 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     },
     wrapper: {
       backgroundColor: theme.colors.background20,
+    },
+    contentContainer: {
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.breakpointL - 128,
     },
     bannerImage: {
       paddingHorizontal: 0,
