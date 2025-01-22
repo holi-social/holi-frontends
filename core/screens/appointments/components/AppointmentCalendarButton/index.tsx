@@ -8,7 +8,6 @@ import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliMod
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { Appointment } from '@holi/core/screens/appointments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { CalendarCheck } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -18,6 +17,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
+import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 
 const CALENDAR_NAME = 'holi'
 

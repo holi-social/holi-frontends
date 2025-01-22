@@ -148,7 +148,7 @@ resource "google_cloud_run_service" "mvp_web" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/minScale"         = lookup(local.service_min_scale, local.environment, "0")
-        "autoscaling.knative.dev/maxScale"         = lookup(local.service_min_scale, local.environment, "2")
+        "autoscaling.knative.dev/maxScale"         = lookup(local.service_max_scale, local.environment, "2")
         "run.googleapis.com/execution-environment" = "gen1"
         "run.googleapis.com/startup-cpu-boost"     = "true"
       }

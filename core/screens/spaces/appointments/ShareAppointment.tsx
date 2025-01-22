@@ -1,15 +1,15 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { isApp } from '@holi/core/helpers/isApp'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
-import { Appointment } from '@holi/core/screens/appointments/types'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { FileCopy, Share } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 
 type ShareAppointmentProps = {
   space: Space

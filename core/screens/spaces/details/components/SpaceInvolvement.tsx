@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client'
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -9,22 +10,22 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import {
   APPOINTMENT_STATUS_TYPE,
-  AppointmentsBySpaceIdResponse,
+  type AppointmentsBySpaceIdResponse,
   appointmentsBySpaceIdQuery,
 } from '@holi/core/screens/appointments/queries'
-import { Appointment } from '@holi/core/screens/appointments/types'
 import AppointmentsWidget from '@holi/core/screens/spaces/appointments/components/AppointmentsWidget'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import LinkHubWidget from '@holi/core/screens/spaces/linkHub/components/LinkHubWidget'
 import NewToolsTeaser from '@holi/core/screens/spaces/linkHub/components/NewToolsTeaser'
 import StorageWidget from '@holi/core/screens/spaces/linkHub/components/StorageWidget'
 import TaskCollaborationCard from '@holi/core/screens/spaces/tasks/components/TaskCollaborationCard'
-import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS, OpenArm } from '@holi/icons/src/generated'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 
 interface SpaceInvolvementProps {
   style?: StyleProp<ViewStyle>

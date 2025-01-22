@@ -10,19 +10,26 @@ import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedC
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 
-export const ActSection = ({ type }: { type: string }) => {
+export enum ActSectionType {
+  VOLUNTEERING = 'VOLUNTEERING',
+  CHALLENGES = 'CHALLENGES',
+  TASKS = 'TASKS',
+  DONATIONS = 'DONATIONS',
+}
+
+export const ActSection = ({ type }: { type: ActSectionType }) => {
   const cardWidth = useCardWidth()
   const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
 
   switch (type) {
-    case 'CHALLENGES':
+    case ActSectionType.CHALLENGES:
       return (
         <ErrorBoundary>
           <RecommendedChallenges />
         </ErrorBoundary>
       )
-    case 'VOLUNTEERING':
+    case ActSectionType.VOLUNTEERING:
       return (
         <>
           {displayVolunteering && (
@@ -30,13 +37,16 @@ export const ActSection = ({ type }: { type: string }) => {
               <VolunteeringRecos cardWidth={cardWidth} />
             </ErrorBoundary>
           )}
-
-          <ErrorBoundary>
-            <TaskRecommendations cardWidth={cardWidth} />
-          </ErrorBoundary>
         </>
       )
-    case 'DONATIONS':
+    case ActSectionType.TASKS:
+      return (
+        <ErrorBoundary>
+          <TaskRecommendations cardWidth={cardWidth} />
+        </ErrorBoundary>
+      )
+
+    case ActSectionType.DONATIONS:
       return (
         <>
           {displayDonations && (

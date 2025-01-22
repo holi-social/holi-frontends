@@ -28,6 +28,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.NEW_HOME_FEED]: 'control',
     [FeatureFlagKey.POST_TRANSLATION]: false,
     [FeatureFlagKey.TYPESENSE_SEARCH]: false,
+    [FeatureFlagKey.TASK_CONTACT_CTA]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -43,5 +44,19 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.NEW_HOME_FEED]: null,
     [FeatureFlagKey.POST_TRANSLATION]: null,
     [FeatureFlagKey.TYPESENSE_SEARCH]: null,
+    [FeatureFlagKey.TASK_CONTACT_CTA]: null,
   },
 }
+
+Object.values(FeatureFlagKey).forEach((key) => {
+  if (!(key in featureFlagBootstrapValues.featureFlags)) {
+    throw new Error(
+      `Missing feature flag entry for flag '${key}'. This is needed for rendering while feature flags are still loading from remote.`
+    )
+  }
+  if (!(key in featureFlagBootstrapValues.featureFlagPayloads)) {
+    throw new Error(
+      `Missing feature flag payload entry for flag '${key}'. This is needed for rendering while feature flags are still loading from remote.`
+    )
+  }
+})

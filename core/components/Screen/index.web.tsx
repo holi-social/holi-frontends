@@ -30,7 +30,7 @@ export const Screen = (props: ScreenProps) => {
       testID={testID}
       style={[styles.padding(padding), styles.container, { backgroundColor: backgroundColor || theme.colors.bg.page }]}
     >
-      <HoliContainer flex={1}>
+      <HoliContainer flex={1} noPadding>
         <View
           style={[
             styles.flex1,
@@ -42,7 +42,7 @@ export const Screen = (props: ScreenProps) => {
         >
           {StickyTopComponent && (
             <View style={[styles.stickyTopWeb(headerHeight), { position: 'fixed' }]} onLayout={stickyTopLayout}>
-              <HoliContainer>{StickyTopComponent}</HoliContainer>
+              <HoliContainer noPadding>{StickyTopComponent}</HoliContainer>
             </View>
           )}
 
@@ -56,7 +56,7 @@ export const Screen = (props: ScreenProps) => {
 
           {StickyBottomComponent && (
             <View style={[styles.stickyBottomWeb, { position: 'fixed' }]} onLayout={stickyBottomLayout}>
-              <HoliContainer>{StickyBottomComponent}</HoliContainer>
+              <HoliContainer noPadding>{StickyBottomComponent}</HoliContainer>
             </View>
           )}
         </View>

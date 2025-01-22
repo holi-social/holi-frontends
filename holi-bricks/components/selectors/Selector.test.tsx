@@ -94,4 +94,15 @@ describe('Selector', () => {
     fireEvent.press(screen.getByText('card2'))
     expect(mockFn2).toHaveBeenCalled()
   })
+
+  it('allows manual override of selectable props', () => {
+    render(
+      <Selector title={'title'} inputType="radio" initiallySelectedOptions={[]}>
+        <SelectableCard title={'card1'} id={'1'} selected={true} />
+        <SelectableCard title={'card2'} id={'2'} />
+      </Selector>
+    )
+
+    expect(screen.getByRole('checkbox', { checked: true })).toBeOnTheScreen()
+  })
 })

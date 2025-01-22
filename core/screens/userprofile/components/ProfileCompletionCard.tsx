@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Pressable, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -16,6 +16,8 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import { Button } from 'holi-bricks/components/button'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 type Selection = {
   label: string
@@ -27,6 +29,7 @@ type Selection = {
 type ProfileCompletionCardProps = {
   onPressEdit?: () => void
   style?: StyleProp<ViewStyle>
+  page: 'profile' | 'home_feed'
 }
 
 const getCompletionPercentage = (selections: Selection[]): number => {
@@ -34,8 +37,9 @@ const getCompletionPercentage = (selections: Selection[]): number => {
   return selections.length ? (completedSelections / selections.length) * 100 : 0
 }
 
-const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, onPressEdit }) => {
+const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, onPressEdit, page }) => {
   const { theme } = useTheme()
+  const { track } = useTracking()
   const { navigate } = useRouting()
   const { colors } = theme
   const { t } = useTranslation()
@@ -55,14 +59,35 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, on
 
   const selections: Selection[] = useMemo(
     () => [
-      { label: t('profile.completion.interests.title'), select: hasInterests, type: 'INTERESTS', icon: AddCircleLine },
-      { label: t('profile.completion.avatar.title'), select: hasAvatar, type: 'AVATAR', icon: UserSmile },
-      { label: t('profile.completion.location.title'), select: hasLocation, type: 'LOCATION', icon: MapPin2 },
+      {
+        label: t('profile.completion.interests.title'),
+        select: hasInterests,
+        type: 'INTERESTS',
+        icon: AddCircleLine,
+      },
+      {
+        label: t('profile.completion.avatar.title'),
+        select: hasAvatar,
+        type: 'AVATAR',
+        icon: UserSmile,
+      },
+      {
+        label: t('profile.completion.location.title'),
+        select: hasLocation,
+        type: 'LOCATION',
+        icon: MapPin2,
+      },
     ],
     [hasInterests, hasAvatar, hasLocation, t]
   )
 
   const completedSteps = selections.filter((selection) => selection.select).length
+
+  const handleDismiss = useCallback(async () => {
+    await AsyncStorage.setItem('profileCardDismissed', 'true')
+    track(TrackingEvent.UserProfile.completionDismissed(page))
+    setShowCard(false)
+  }, [track, page])
 
   useEffect(() => {
     const checkDismissed = async () => {
@@ -91,12 +116,7 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, on
       }
     }
     checkCompletionStatus()
-  }, [user, isCompleted, justCompleted])
-
-  const handleDismiss = () => {
-    AsyncStorage.setItem('profileCardDismissed', 'true')
-    setShowCard(false)
-  }
+  }, [user, isCompleted, justCompleted, handleDismiss])
 
   const Header = () => (
     <Pressable
@@ -120,11 +140,7 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, on
       </View>
       {!isCompleted && (
         <View style={styles.headerRightButton}>
-          <HoliIcon
-            icon={isExpanded ? ArrowUpS : ArrowDownS}
-            size={isCompleted ? 20 : 24}
-            color={colors.foreground30}
-          />
+          <HoliIcon icon={isExpanded ? ArrowUpS : ArrowDownS} size={24} color={colors.foreground30} />
         </View>
       )}
     </Pressable>
@@ -211,6 +227,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     headerRightButton: {
       alignSelf: 'flex-start',
+      paddingLeft: Spacing.xs,
     },
     gradient: {
       position: 'absolute',

@@ -1,4 +1,5 @@
-import React, { memo, useMemo, useState } from 'react'
+import type React from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,9 +8,8 @@ import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHy
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { INVITE_ONLY_TYPE } from '@holi/core/screens/appointments/components/AppointmentInputForm'
-import { Appointment } from '@holi/core/screens/appointments/types'
 import AppointmentDrawer from '@holi/core/screens/spaces/appointments/components/AppointmentDrawer'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
@@ -17,7 +17,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import { localizeDate } from '@holi/ui/helper/date'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 
 type AppointmentCardProps = {
   appointment: Appointment

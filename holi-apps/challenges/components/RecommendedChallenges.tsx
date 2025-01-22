@@ -41,7 +41,9 @@ const RecommendedChallenges = () => {
 
     try {
       setIsLoading(true)
-      const response = await fetch(API_URL, { headers: new Headers(headers) })
+      const apiHeaders = new Headers(headers)
+      apiHeaders.append('Accept', 'application/json')
+      const response = await fetch(API_URL, { headers: apiHeaders })
 
       if (!response.ok) {
         throw new Error('Failed to fetch recommended challenges')

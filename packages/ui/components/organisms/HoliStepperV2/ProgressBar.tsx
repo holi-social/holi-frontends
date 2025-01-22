@@ -31,7 +31,7 @@ export const ProgressBar = ({
       <HoliProgressBar percentage={percentage} />
 
       <View style={styles.stepCounter}>
-        <Text size="xs" variant="secondary">
+        <Text size="xs" color="support">
           {t('wizard.stepsCount', { current: currentStep + 1, total: totalCount })}
         </Text>
 
@@ -44,7 +44,7 @@ export const ProgressBar = ({
             onPress={onSkipPress}
             testID={`${testID}-skip-btn`}
           >
-            <Text size="xs" variant="secondary">
+            <Text size="xs" color="support">
               {t('global.skip')}
             </Text>
           </HoliButton>

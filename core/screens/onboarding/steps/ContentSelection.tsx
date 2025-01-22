@@ -3,6 +3,7 @@ import { Text } from 'holi-bricks/components/text'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
+import shuffle from 'lodash.shuffle'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -36,7 +37,7 @@ const contentOptions: ContentOption[] = [
     image: require('@holi/ui/assets/img/onboarding/icon-spaces.svg'),
   },
 ]
-const availableOptions = contentOptions.filter(({ mobileOnly }) => !mobileOnly || Platform.OS !== 'web')
+const availableOptions = shuffle(contentOptions.filter(({ mobileOnly }) => !mobileOnly || Platform.OS !== 'web'))
 
 interface ContentSelectionProps {
   onChange: (option: ContentValue) => void

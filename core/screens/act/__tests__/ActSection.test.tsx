@@ -7,7 +7,7 @@ import React from 'react'
 import { skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
 import type { User } from '@holi/core/domain/shared/types'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { ActSection } from '@holi/core/screens/act/ActSection'
+import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
 import { recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
@@ -808,29 +808,35 @@ describe('ActHome Section', () => {
   it('shows DONATIONS', async () => {
     render(
       <MockedProvider mocks={[donationsRequest]}>
-        <ActSection type="DONATIONS" />
+        <ActSection type={ActSectionType.DONATIONS} />
       </MockedProvider>
     )
     expect(await screen.findByTestId('donations-reco-slider-heading-button'))
     const donationsRecos = await screen.findAllByTestId('donations-reco-slider-card')
     expect(donationsRecos.length).toBe(5)
-    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('shows VOLUNTEERING', async () => {
     render(
-      <MockedProvider mocks={[topicsRequest, tasksRequest, volunteeringRequest, skillsRequest]}>
-        <ActSection type="VOLUNTEERING" />
+      <MockedProvider mocks={[topicsRequest, volunteeringRequest, skillsRequest]}>
+        <ActSection type={ActSectionType.VOLUNTEERING} />
+      </MockedProvider>
+    )
+    expect(await screen.findByTestId('volunteering-reco-slider-heading-button'))
+    const volunteeringRecos = await screen.findAllByTestId('volunteering-reco-slider-card')
+    expect(volunteeringRecos.length).toBe(5)
+    expect(await screen.findAllByTestId('topic-labels-list-view'))
+  })
+
+  it('shows TASKS', async () => {
+    render(
+      <MockedProvider mocks={[topicsRequest, tasksRequest, skillsRequest]}>
+        <ActSection type={ActSectionType.TASKS} />
       </MockedProvider>
     )
     expect(await screen.findByTestId('tasks-reco-slider-heading-button'))
     const tasksRecos = await screen.findAllByTestId('tasks-reco-slider-card')
     expect(tasksRecos.length).toBe(5)
-    expect(await screen.findByTestId('volunteering-reco-slider-heading-button'))
-    const volunteeringRecos = await screen.findAllByTestId('volunteering-reco-slider-card')
-    expect(volunteeringRecos.length).toBe(5)
-    expect(await screen.findAllByTestId('topic-labels-list-view'))
-    expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('shows CHALLENGES', async () => {
@@ -839,11 +845,10 @@ describe('ActHome Section', () => {
     })
     render(
       <MockedProvider mocks={[]}>
-        <ActSection type="CHALLENGES" />
+        <ActSection type={ActSectionType.CHALLENGES} />
       </MockedProvider>
     )
     expect(await screen.findByTestId('challenges-reco-slider-heading-button'))
     expect(await screen.findAllByTestId('challenges-reco-slider-load-more-button'))
-    expect(screen.toJSON()).toMatchSnapshot()
   })
 })

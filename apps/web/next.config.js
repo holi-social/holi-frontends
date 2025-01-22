@@ -131,6 +131,7 @@ const nextConfig = {
     '@holi/core',
     '@holi/api',
     '@holi/chat',
+    '@shopify/flash-list',
   ],
 }
 
