@@ -18,12 +18,22 @@ export interface SearchHitProps extends TrackableBaseProps {
   hit: SearchHitData
 }
 
+const getTitle = (language: string, hit: SearchHitData): string => {
+  if (hit.type === 'profile' && hit.user_full_name) {
+    return hit.user_full_name
+  }
+  if (hit.title_en && (language === 'en' || !hit.title_de)) {
+    return hit.title_en
+  }
+  return hit.title_de ?? ''
+}
+
 export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitProps) => {
   const { t } = useTranslation()
   const language = useUserLanguage()
   const { styles } = useStyles(stylesheet)
-  const useTitleEn = (language === 'en' && hit.title_en) || (language == 'de' && !hit.title_de)
-  const title = (useTitleEn ? hit.title_en : hit.title_de) as string
+  const title = getTitle(language, hit)
+
   return (
     <SearchHitLink hit={hit} label={title} onPress={onPress}>
       <View style={styles.hitItem}>
@@ -37,17 +47,19 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
         />
         <View style={styles.hitItemContent}>
           <View style={styles.hitItemTags}>
-            <Text size={'xs'} variant={'secondary'}>
+            <Text size={'xs'} color="support">
               {t(`search.typesense.hit.type.${hit.type}`)}
             </Text>
             {hit.location && (
               <>
-                <Text size={'xs'} variant={'secondary'}>
+                <Text size={'xs'} color="support">
                   &middot;
                 </Text>
-                <Text size={'xs'} variant={'secondary'}>
-                  {hit.location}
-                </Text>
+                <View style={styles.hitLocation}>
+                  <Text size={'xs'} color="support" numberOfLines={1}>
+                    {hit.location}
+                  </Text>
+                </View>
               </>
             )}
           </View>
@@ -74,5 +86,14 @@ const stylesheet = createStyleSheet(() => ({
   hitItemTags: {
     flexDirection: 'row',
     columnGap: dimensions.spacingXs,
+  },
+  hitLocation: {
+    flex: 1,
+    ...Platform.select({
+      android: {
+        // Workaround for strange text behaviour on android
+        minWidth: '200%',
+      },
+    }),
   },
 }))

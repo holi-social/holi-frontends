@@ -27,7 +27,7 @@ export type SearchParams = {
 
 const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 
-const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location']
+const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location', 'user_full_name']
 
 const embeddingFields = ['embedding']
 

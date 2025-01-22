@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -26,11 +25,8 @@ const NotFound = () => {
 
   useEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
       headerStyle: { backgroundColor: colors.background20 },
-      headerTitle: () => null,
-      headerLeft: () => (
+      headerTitle: () => (
         <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
@@ -41,7 +37,6 @@ const NotFound = () => {
           />
         </HoliButton>
       ),
-      headerRight: () => <NotificationAndSearchHeader />,
     })
   }, [navigate, setScreenOptions, t, colors.background20])
 

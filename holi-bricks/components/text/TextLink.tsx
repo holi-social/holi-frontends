@@ -1,5 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
+import type { TextColor } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import type React from 'react'
@@ -30,20 +31,31 @@ export type TextLinkVariant =
 export interface TextLinkProps extends AccessibilityProps {
   size: TextLinkSize
   numberOfLines?: number
-  /** Specifies theme respecting text color, takes precedence over `color`. */
+  /** @deprecated Please use the 'color' prop instead. variant will be deleted once code has been migrated to 'color'. */
   variant?: TextLinkVariant
-  /** Use is discouraged in favor of `variant`. Requires manual theme handling. */
-  color?: TextStyle['color']
+  /** Managed Theme color. */
+  color?: TextColor
+  /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
+  colorOveride?: ColorValue
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
+}
+
+const variantToColor: Record<TextLinkVariant, TextColor> = {
+  primary: 'main',
+  secondary: 'support',
+  tertiary: 'default',
+  quaternary: 'disabled',
+  special: 'informative',
 }
 
 export const TextLink = ({
   size,
   numberOfLines,
   variant,
-  color,
+  color = 'main',
+  colorOveride,
   textAlign,
   ellipsizeMode,
   children,
@@ -51,7 +63,11 @@ export const TextLink = ({
   role = 'link',
   ...rest
 }: React.PropsWithChildren<TextLinkProps>) => {
-  const { styles } = useStyles(stylesheet, { size, variant })
+  const { styles } = useStyles(stylesheet, { size })
+
+  if (variant) {
+    color = variantToColor[variant]
+  }
 
   return (
     <Text
@@ -63,7 +79,7 @@ export const TextLink = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(color, textAlign) as unknown as TextStyle}
+      style={styles.text(color, colorOveride, textAlign) as unknown as TextStyle}
       onPress={onPress}
     >
       {children}
@@ -72,12 +88,12 @@ export const TextLink = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  text: (color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (color: TextColor, colorOveride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.bold,
       fontWeight: '500',
-      color: color ?? theme.components.text.primary,
+      color: colorOveride ?? theme.colors.fill[color],
       userSelect: 'auto',
       textAlign: textAlign,
       ...Platform.select({
@@ -87,23 +103,6 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       }),
       variants: {
-        variant: {
-          primary: {
-            color: theme.components.text.primary,
-          },
-          secondary: {
-            color: theme.components.text.secondary,
-          },
-          tertiary: {
-            color: theme.components.text.tertiary,
-          },
-          quaternary: {
-            color: theme.components.text.quaternary,
-          },
-          special: {
-            color: theme.components.text.specialLink,
-          },
-        },
         size: {
           md: {
             fontSize: 16,

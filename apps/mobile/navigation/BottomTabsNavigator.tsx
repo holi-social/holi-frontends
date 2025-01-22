@@ -44,7 +44,7 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const BottomTabLabel = ({ label, focused }: { label: string; focused: boolean }) => {
   return (
     <HoliBox padding={[0, 0, 4, 0]}>
-      <TextLink size="xs" variant={focused ? 'primary' : 'tertiary'}>
+      <TextLink size="xs" color={focused ? 'main' : 'default'}>
         {label}
       </TextLink>
     </HoliBox>

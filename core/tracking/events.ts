@@ -406,6 +406,21 @@ export namespace TrackingEvent {
     properties: { pollId },
     ...versionOne,
   })
+
+  export const UserProfile = {
+    editPressed: (): TrackingEvent => ({
+      name: 'userProfileEdit_pressed',
+
+      ...versionOne,
+    }),
+    completionDismissed: (page: 'profile' | 'home_feed'): TrackingEvent => ({
+      name: 'userProfileCompletion_dismissed',
+      properties: {
+        page: page,
+      },
+      ...versionOne,
+    }),
+  }
 }
 
 export const Unknown: TrackingEvent = {

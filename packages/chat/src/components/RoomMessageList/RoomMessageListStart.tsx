@@ -48,7 +48,7 @@ const RoomMessageListStart = ({ chatPartnerHoliUsers, members }: RoomMessageList
             label={t('user.visitProfile', { name: chatPartnerHoliUsers[0].fullName })}
             href={`/profile/${chatPartnerHoliUsers[0].id}`}
             size="md"
-            variant="special"
+            color="informative"
           />
         </Trans>
       </Text>

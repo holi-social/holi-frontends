@@ -18,6 +18,7 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useDebounce } from '@holi/ui/helper'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 
 const isWeb = Platform.OS === 'web'
 
@@ -86,17 +87,19 @@ export function SearchHitInfiniteList() {
       onEndReachedThreshold={0.5}
       renderItem={({ item: hit, index }: { item: SearchHitData; index: number }) => {
         return (
-          <SearchHit
-            hit={hit}
-            trackingEvent={TrackingEvent.SearchResultPressed({
-              itemPressed: hitToTrackingDoc(hit),
-              itemPressedIndex: index,
-              itemPressedType: hit.type,
-              itemPressedTitleDe: hit.title_de,
-              itemPressedTitleEn: hit.title_en,
-              searchResult: resultsToTrackingEventResults(results!), // eslint-disable-line @typescript-eslint/no-non-null-assertion
-            })}
-          />
+          <ErrorBoundary>
+            <SearchHit
+              hit={hit}
+              trackingEvent={TrackingEvent.SearchResultPressed({
+                itemPressed: hitToTrackingDoc(hit),
+                itemPressedIndex: index,
+                itemPressedType: hit.type,
+                itemPressedTitleDe: hit.type === 'profile' ? hit.user_full_name : hit.title_de,
+                itemPressedTitleEn: hit.type === 'profile' ? hit.user_full_name : hit.title_en,
+                searchResult: resultsToTrackingEventResults(results!), // eslint-disable-line @typescript-eslint/no-non-null-assertion
+              })}
+            />
+          </ErrorBoundary>
         )
       }}
     />

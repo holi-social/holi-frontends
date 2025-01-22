@@ -1,7 +1,9 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
+import type { lightTheme } from 'holi-bricks/themes/light'
 import { createStyleSheet } from 'holi-bricks/utils'
+
 import type * as React from 'react'
 import {
   type ColorValue,
@@ -14,7 +16,8 @@ import {
 // Change import in HOLI-10369
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
-export type TextVariant =
+export type TextColor = keyof typeof lightTheme.colors.fill
+type TextVariant =
   /** Primary, Headlines, Body */
   | 'primary'
   /** Body, Captions, Subtexts */
@@ -33,10 +36,13 @@ export interface TextProps {
    */
   selectable?: boolean
   numberOfLines?: number
-  /** Specifies theme respecting text color, takes precedence over `color`. */
+  /** @deprecated Please use the 'color' prop instead. variant will be deleted once code has been migrated to 'color'. */
   variant?: TextVariant
-  /** Use is discouraged in favor of `variant`. Requires manual theme handling. */
-  color?: TextStyle['color']
+
+  /** Managed Theme color. */
+  color?: TextColor
+  /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
+  colorOveride?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: RNTextProps['ellipsizeMode']
   headingLevel?: TextHeadingLevel
@@ -61,21 +67,34 @@ const createAccessibilityProps = (headingLevel?: TextHeadingLevel): Accessibilit
   })
 }
 
+const variantToColor: Record<TextVariant, TextColor> = {
+  primary: 'main',
+  secondary: 'support',
+  tertiary: 'default',
+  quaternary: 'disabled',
+  error: 'danger',
+}
+
 export const Text = ({
   size,
   selectable = true,
   numberOfLines,
   variant,
-  color,
+  color = 'main',
+  colorOveride,
   textAlign,
   ellipsizeMode,
   headingLevel,
   children,
   ...rest
 }: React.PropsWithChildren<TextProps>) => {
-  const { styles } = useStyles(stylesheet, { size, variant })
+  const { styles } = useStyles(stylesheet, { size })
 
   const textAccessibilityProps = createAccessibilityProps(headingLevel)
+
+  if (variant) {
+    color = variantToColor[variant]
+  }
 
   return (
     <RNText
@@ -87,7 +106,7 @@ export const Text = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(selectable, color, textAlign) as unknown as TextStyle}
+      style={styles.text(color, selectable, colorOveride, textAlign) as unknown as TextStyle}
     >
       {children}
     </RNText>
@@ -95,12 +114,12 @@ export const Text = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  text: (selectable: boolean, color?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (color: TextColor, selectable: boolean, colorOveride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.regular,
       fontWeight: '400',
-      color: color ?? theme.components.text.primary,
+      color: colorOveride ?? theme.colors.fill[color],
       userSelect: selectable ? 'auto' : 'none',
       textAlign: textAlign,
       ...Platform.select({
@@ -110,23 +129,6 @@ const stylesheet = createStyleSheet((theme) => ({
         },
       }),
       variants: {
-        variant: {
-          primary: {
-            color: theme.components.text.primary,
-          },
-          secondary: {
-            color: theme.components.text.secondary,
-          },
-          tertiary: {
-            color: theme.components.text.tertiary,
-          },
-          quaternary: {
-            color: theme.components.text.quaternary,
-          },
-          error: {
-            color: theme.components.text.error,
-          },
-        },
         size: {
           '4xl': {
             fontSize: 36,

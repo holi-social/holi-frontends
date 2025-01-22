@@ -21,7 +21,7 @@ export const ImprintFooter = ({ legalDocPath, showDocModal }: ImprintFooterProps
       }}
       href={`${legalDocPath}?type=imprint`}
       size="xs"
-      variant="secondary"
+      color="support"
       textAlign="center"
     >
       {t('profile.loggedOut.footer.imprint')}

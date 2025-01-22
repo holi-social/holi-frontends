@@ -43,13 +43,11 @@ export const volunteeringHit: Hit<SearchHitData> = {
   __queryID: '1',
   objectID: '1',
 }
+
 export const profileHit: Hit<SearchHitData> = {
   type: 'profile',
   id: '2',
-  title_de: 'Profil von Max Mustermann',
-  title_en: 'Profile of Max Mustermann',
-  description_de: 'Erfahre mehr über Max.',
-  description_en: 'Learn more about Max.',
+  user_full_name: 'Max Mustermann',
   image_url: 'https://example.com/image2.jpg',
   link_locators: {
     profile: '9035322c-3d67-46ca-a2b8-657be490ec00',
@@ -58,6 +56,7 @@ export const profileHit: Hit<SearchHitData> = {
   __queryID: '1',
   objectID: '2',
 }
+
 export const spaceHit: Hit<SearchHitData> = {
   type: 'space',
   id: '3',
