@@ -17,17 +17,6 @@ import {
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
 export type TextColor = keyof typeof lightTheme.colors.fill
-type TextVariant =
-  /** Primary, Headlines, Body */
-  | 'primary'
-  /** Body, Captions, Subtexts */
-  | 'secondary'
-  /** Unselected text, Bottom Navigation */
-  | 'tertiary'
-  /** Disabled */
-  | 'quaternary'
-  /** Errors */
-  | 'error'
 
 export interface TextProps {
   size: TextSize
@@ -36,9 +25,6 @@ export interface TextProps {
    */
   selectable?: boolean
   numberOfLines?: number
-  /** @deprecated Please use the 'color' prop instead. variant will be deleted once code has been migrated to 'color'. */
-  variant?: TextVariant
-
   /** Managed Theme color. */
   color?: TextColor
   /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
@@ -67,19 +53,10 @@ const createAccessibilityProps = (headingLevel?: TextHeadingLevel): Accessibilit
   })
 }
 
-const variantToColor: Record<TextVariant, TextColor> = {
-  primary: 'main',
-  secondary: 'support',
-  tertiary: 'default',
-  quaternary: 'disabled',
-  error: 'danger',
-}
-
 export const Text = ({
   size,
   selectable = true,
   numberOfLines,
-  variant,
   color = 'main',
   colorOveride,
   textAlign,
@@ -91,10 +68,6 @@ export const Text = ({
   const { styles } = useStyles(stylesheet, { size })
 
   const textAccessibilityProps = createAccessibilityProps(headingLevel)
-
-  if (variant) {
-    color = variantToColor[variant]
-  }
 
   return (
     <RNText
