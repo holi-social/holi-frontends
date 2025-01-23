@@ -40,6 +40,7 @@ import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboard
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
+import type { User } from '@holi/core/domain/shared/types'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -67,9 +68,9 @@ const ChatRoomView = () => {
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(roomMemberIds)
 
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
-  const chatPartnerHoliUsers = chatPartners
-    ?.map((chatPartner) => getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord))
-    .filter((holiUser) => holiUser !== undefined)
+  const chatPartnerHoliUsers: User[] = (chatPartners || [])
+    .map((chatPartner) => getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord))
+    .filter((holiUser): holiUser is User => holiUser !== undefined)
 
   const isSpaceRoom = room && isSpaceChildChatRoom(room)
   // const isTaskRoom = room && isSpaceTaskChatRoom(room) // todo
@@ -114,10 +115,10 @@ const ChatRoomView = () => {
           case 'private':
             return chatPartnerHoliUsers ? (
               <ChatRoomHeaderTitle
-                href={'/profile/' + chatPartnerHoliUsers[0].id}
+                href={'/profile/' + chatPartnerHoliUsers?.[0]?.id}
                 name={room.name}
                 imageSrc={chatPartners?.[0]?.avatar}
-                imageBlurhash={chatPartnerHoliUsers[0].avatarBlurhash}
+                imageBlurhash={chatPartnerHoliUsers?.[0]?.avatarBlurhash}
                 initials={getChatInitials(chatPartners?.[0]?.name)}
                 defaultColor={getDefaultAvatarColor(chatPartners?.[0]?.name)}
               />
