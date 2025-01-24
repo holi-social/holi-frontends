@@ -1,4 +1,5 @@
 import { v4 as uuidv4, validate as uuidValidate } from 'uuid'
+import { captureException } from '@sentry/react'
 export const createUUID = uuidv4
 export const isValidUUID = uuidValidate
 export const coerceToUUIDString = (value?: string | string[]): string => {
@@ -8,7 +9,8 @@ export const coerceToUUIDString = (value?: string | string[]): string => {
   // try to get first uuid pattern by regex from value
   const uuidMatch = value.match(/\p{Hex_Digit}{8}(?:-\p{Hex_Digit}{4}){3}-\p{Hex_Digit}{12}/u)
   if (uuidMatch) return uuidMatch[0]
-  // fall back to returning the input string
+  // fall back to returning the input string, but report to sentry
+  captureException(new Error(`got an invalid uuid: ${value}`))
   return value
 }
 

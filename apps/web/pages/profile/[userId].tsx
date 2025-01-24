@@ -4,11 +4,13 @@ import React from 'react'
 import { userByIdQuery } from '@holi/core/domain/shared/queries'
 import UserProfile from '@holi/core/screens/userprofile/UserProfile'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
+import { coerceToUUIDString } from '@holi/core/helpers'
 
 const UserProfilePage: NextPage = () => <UserProfile />
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const { userId } = context.query
+  const { userId: originalUserId } = context.query
+  const userId = coerceToUUIDString(originalUserId)
 
   const queries = [
     {

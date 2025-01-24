@@ -33,11 +33,11 @@ export type InitiativeDetailPageParams = {
   initiativeId: string
 }
 
-const { useParam } = createParamHooks<InitiativeDetailPageParams>()
+const { useUUIDParam } = createParamHooks<InitiativeDetailPageParams>()
 
 const InitiativeDetailPage = () => {
-  const [insightId] = useParam('insightId')
-  const [initiativeId] = useParam('initiativeId')
+  const [insightId] = useUUIDParam('insightId')
+  const [initiativeId] = useUUIDParam('initiativeId')
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()

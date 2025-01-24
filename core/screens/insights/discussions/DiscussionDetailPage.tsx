@@ -32,7 +32,7 @@ export type DiscussionDetailPageParams = {
   commentId: string
 }
 
-const { useParam } = createParamHooks<DiscussionDetailPageParams>()
+const { useUUIDParam } = createParamHooks<DiscussionDetailPageParams>()
 
 const DiscussionDetailPage = () => {
   const { t } = useTranslation()
@@ -42,9 +42,9 @@ const DiscussionDetailPage = () => {
   const { isLoggedIn } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
 
-  const [discussionId] = useParam('discussionId')
-  const [insightId] = useParam('insightId')
-  const [commentId] = useParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
+  const [discussionId] = useUUIDParam('discussionId')
+  const [insightId] = useUUIDParam('insightId')
+  const [commentId] = useUUIDParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
 
   const styles = useMemo(() => getStyles(theme), [theme])
 

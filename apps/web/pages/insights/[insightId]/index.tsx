@@ -1,14 +1,16 @@
-import { NextPage, NextPageContext } from 'next'
+import type { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
 import InsightDetailPage from '@holi/core/screens/insights/InsightDetailPage'
 import { insightById } from '@holi/core/screens/insights/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
+import { coerceToUUIDString } from '@holi/core/helpers'
 
 const InsightPage: NextPage = () => <InsightDetailPage />
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const { insightId } = context.query
+  const { insightId: originalInsightId } = context.query
+  const insightId = coerceToUUIDString(originalInsightId)
 
   const queries = [
     {

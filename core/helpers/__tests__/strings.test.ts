@@ -15,6 +15,14 @@ describe('uuid coercion', () => {
       expect(coerceToUUIDString(` ${expected},`)).toEqual(expected)
     })
   })
+  describe('of string not containing a uuid', () => {
+    it('should return the input string', () => {
+      const testdata = ['', 'foo', '6fa875d9-00c8-4811-bbdc-09e6db69729', '6fa875d9-00c8-4811-bbdce-09e6db69729e,']
+      testdata.forEach((input) => {
+        expect(coerceToUUIDString(input)).toEqual(input)
+      })
+    })
+  })
   describe('of undefined', () => {
     it('should return empty string', () => {
       expect(coerceToUUIDString(undefined)).toEqual('')
