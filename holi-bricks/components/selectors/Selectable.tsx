@@ -26,7 +26,7 @@ const Selectable = <P extends SelectableBaseProps>(Component: React.ComponentTyp
       contextOnPress?.(props.id)
     }
 
-    return <Component {...props} selected={selected} onPress={handlePress} inputType={inputType} />
+    return <Component selected={selected} onPress={handlePress} inputType={inputType} {...props} />
   }
 
   return WrappedComponent

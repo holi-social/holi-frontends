@@ -66,7 +66,7 @@ export const ChipSelect = ({
         </View>
       )}
       {children && (
-        <Text size={chipSizeToTextSize[size]} color={theme.components.chipSelect.text} selectable={false}>
+        <Text size={chipSizeToTextSize[size]} colorOveride={theme.components.chipSelect.text} selectable={false}>
           {children}
         </Text>
       )}

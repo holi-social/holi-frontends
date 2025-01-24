@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
 import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks'
-import { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 import { testTrackingEvent } from '@holi/core/components/__tests__/Trackable.test'
@@ -14,29 +14,24 @@ const makeVolunteeringHit = (): SearchHitData => ({
   description_de: faker.lorem.paragraph(5),
   description_en: faker.lorem.paragraph(5),
   location: faker.location.city(),
-  location_lat_lng: [faker.location.latitude(), faker.location.latitude()],
+  location_lat_lng: [faker.location.latitude(), faker.location.longitude()],
   image_url: faker.image.url(),
   link_locators: {
-    volunteering: faker.string.uuid(),
+    volunteering: faker.number.int(),
   },
 })
 
 const makeProfileHit = (): SearchHitData => {
-  const fullName = faker.person.fullName()
-  const aboutMe = faker.lorem.paragraph(5)
   return {
     type: 'profile',
     id: faker.string.uuid(),
-    title_de: fullName,
-    title_en: fullName,
-    description_de: aboutMe,
-    description_en: aboutMe,
     location: faker.location.city(),
-    location_lat_lng: [faker.location.latitude(), faker.location.latitude()],
+    location_lat_lng: [faker.location.latitude(), faker.location.longitude()],
     image_url: faker.image.url(),
     link_locators: {
       profile: faker.string.uuid(),
     },
+    user_full_name: faker.person.fullName(),
   }
 }
 
@@ -51,7 +46,7 @@ const makeSpaceHit = (): SearchHitData => {
     description_de: description,
     description_en: description,
     location: faker.location.city(),
-    location_lat_lng: [faker.location.latitude(), faker.location.latitude()],
+    location_lat_lng: [faker.location.latitude(), faker.location.longitude()],
     image_url: faker.image.url(),
     link_locators: {
       space: faker.string.uuid(),
@@ -144,5 +139,13 @@ describe('SearchHit', () => {
 
     await user.press(screen.getByRole('link'))
     expect(mockNavigate).toHaveBeenCalledWith(`/spaces/${hit.link_locators!.space}`) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  })
+  it('correctly renders profile item with user_full_name', async () => {
+    useUserLanguageMock.mockReturnValue('de')
+
+    const hit = makeProfileHit()
+    render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
+
+    expect(screen.getByText(hit.user_full_name!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion
   })
 })

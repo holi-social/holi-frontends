@@ -16,6 +16,8 @@ jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('react-native-reanimated').setUpTests()
 
+require('@shopify/flash-list/jestSetup')
+
 global.mockNavigate = jest.fn()
 global.captureSentryException = jest.fn()
 

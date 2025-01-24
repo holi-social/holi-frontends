@@ -103,7 +103,7 @@ const HomeFeedHeader: React.FC = () => {
           />
         </Animated.View>
       </HoliBox>
-      <ProfileCompletionCard style={styles.container} />
+      <ProfileCompletionCard style={styles.container} page="home_feed" />
       {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
     </View>
   )

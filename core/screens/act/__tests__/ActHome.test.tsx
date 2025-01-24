@@ -12,16 +12,21 @@ jest.mock('@holi/core/tracking/PosthogCrossPlatform', () => ({
 jest.mock('@holi/core/navigation/hooks/useParam')
 
 const mockActSection = jest.fn()
-jest.mock('@holi/core/screens/act/ActSection', () => ({
-  ActSection: (prop: { type: string }) => mockActSection(prop), // Mock ActSection
-}))
+jest.mock('@holi/core/screens/act/ActSection', () => {
+  const original = jest.requireActual('@holi/core/screens/act/ActSection')
+  return {
+    ...original,
+    ActSection: (prop: { type: string }) => mockActSection(prop), // Mock ActSection
+  }
+})
 
 const cases = [
-  { section: undefined, order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
-  { section: 'SPACE', order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
-  { section: 'DONATIONS', order: ['DONATIONS', 'CHALLENGES', 'VOLUNTEERING'] },
-  { section: 'VOLUNTEERING', order: ['VOLUNTEERING', 'CHALLENGES', 'DONATIONS'] },
-  { section: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS'] },
+  { section: undefined, order: ['VOLUNTEERING', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
+  { section: 'SPACE', order: ['VOLUNTEERING', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
+  { section: 'DONATIONS', order: ['DONATIONS', 'VOLUNTEERING', 'CHALLENGES', 'TASKS'] },
+  { section: 'VOLUNTEERING', order: ['VOLUNTEERING', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
+  { section: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'TASKS', 'DONATIONS'] },
+  { section: 'TASKS', order: ['TASKS', 'VOLUNTEERING', 'CHALLENGES', 'DONATIONS'] },
 ]
 
 describe('ActHome Section', () => {

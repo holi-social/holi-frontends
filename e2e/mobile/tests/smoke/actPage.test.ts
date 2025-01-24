@@ -15,9 +15,9 @@ describe('@ActPage', () => {
 
     await tapOnElementWithTestId('btn-to-act')
 
-    await scrollToElementWithTestId('challenges-reco-slider-heading-button', 'down')
-
     await scrollToElementWithTestId('volunteering-reco-slider-heading-button', 'down')
+    await scrollToElementWithTestId('challenges-reco-slider-heading-button', 'down')
+    await scrollToElementWithTestId('tasks-reco-slider-heading-button', 'down')
     await scrollToElementWithTestId('donations-reco-slider-heading-button', 'down')
   })
 })

@@ -1,5 +1,5 @@
 export type SearchHitType = 'volunteering' | 'profile' | 'space'
-export type SearchHitLinkLocatorIdOrSlug = string
+export type SearchHitLinkLocatorIdOrSlug = string | number
 export type SearchHitData = {
   type: SearchHitType
   id: string
@@ -10,6 +10,7 @@ export type SearchHitData = {
   location?: string
   location_lat_lng?: [number, number]
   image_url?: string
+  user_full_name?: string
   /**
    * Used to construct links to the entity on client-side. E.g. for a space task, this would look as follows:
    * {

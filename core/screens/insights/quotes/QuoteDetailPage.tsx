@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Linking, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -204,7 +204,7 @@ const getStyles = (theme: HoliTheme) =>
         },
         native: { maxHeight: '50%', aspectRatio: 375 / 202 },
       }),
-    } as ImageStyle,
+    } as ViewStyle,
 
     quoteImage: {
       ...Platform.select({ web: { height: '100%' } }),

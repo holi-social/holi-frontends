@@ -201,12 +201,7 @@ export const EmailVerification = ({
       />
 
       <HoliBox padding={[16, 0, 0, 0]}>
-        <TextLinkTracked
-          onPress={resendEmail}
-          size="sm"
-          trackingEvent={TrackingEvent.Auth.ResendEmailButtonPressed}
-          role="link"
-        >
+        <TextLinkTracked onPress={resendEmail} size="sm" trackingEvent={TrackingEvent.Auth.ResendEmailButtonPressed}>
           {t('registration.emailVerification.resendEmail')}
         </TextLinkTracked>
       </HoliBox>

@@ -16,6 +16,9 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Button } from 'holi-bricks/components/button'
 import { Spacing } from 'holi-bricks/tokens'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.CONNECTION_ACCEPTED ||
@@ -26,6 +29,8 @@ const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnect
   style,
   testID,
 }) => {
+  const { track } = useTracking()
+  const { user: loggedInUser } = useLoggedInUser()
   const { id: userId } = notification.options.user
   const { t } = useTranslation()
   // if 'connectionAccepted' is 'true', user accepted the connection
@@ -68,6 +73,18 @@ const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnect
     }
   }
 
+  const onAccept = async () => {
+    await connect(userId)
+    setConnectionAccepted(true)
+    track(TrackingEvent.UserConnectionAccepted(userId, loggedInUser!.id))
+  }
+
+  const onReject = async () => {
+    await disconnect(userId)
+    setConnectionAccepted(false)
+    track(TrackingEvent.UserConnectionRejected(userId, loggedInUser!.id))
+  }
+
   const buttons = [
     <Button
       inline
@@ -75,7 +92,7 @@ const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnect
       variant="secondary"
       size="sm"
       label={t('notifications.connection.ignore')}
-      onPress={() => disconnect(userId).then(() => setConnectionAccepted(false))}
+      onPress={onReject}
       disabled={loading}
       testID="ignore-connection-request-button"
     />,
@@ -85,7 +102,7 @@ const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnect
       variant="primary"
       size="sm"
       label={t('notifications.connection.accept')}
-      onPress={() => connect(userId).then(() => setConnectionAccepted(true))}
+      onPress={onAccept}
       disabled={loading}
       testID="accept-connection-request-button"
     />,

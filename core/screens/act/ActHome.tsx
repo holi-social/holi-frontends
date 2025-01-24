@@ -7,7 +7,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ActSection } from '@holi/core/screens/act/ActSection'
+import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
@@ -21,7 +21,12 @@ type ActHomeParams = {
 const { useParam } = createParamHooks<ActHomeParams>()
 
 export const orderedSections = (selectedContentType?: string) => {
-  const sections = ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS']
+  const sections = [
+    ActSectionType.VOLUNTEERING,
+    ActSectionType.CHALLENGES,
+    ActSectionType.TASKS,
+    ActSectionType.DONATIONS,
+  ]
 
   if (selectedContentType) {
     const index = sections.findIndex((item) => item === selectedContentType)
@@ -60,7 +65,7 @@ const ActHome = () => {
 
   return (
     <ScrollViewRefreshable style={styles.layout}>
-      <View style={styles.container}>
+      <View style={styles.container} testID="act-home">
         <AttendingChallengeEventsLegacy />
         {sections.map((sectionName) => (
           <ActSection type={sectionName} key={sectionName} />

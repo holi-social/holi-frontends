@@ -1,18 +1,19 @@
 import { Text, TextLink } from 'holi-bricks/components/text'
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, GestureResponderEvent, ListRenderItem, StyleSheet, View } from 'react-native'
+import { FlatList, type GestureResponderEvent, type ListRenderItem, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
-import { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatList.shared'
+import type { TrackableFlatListParams } from '@holi/core/tracking/TrackableFlatList.shared'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type RecoSliderProps = {
   name: string
@@ -121,12 +122,16 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
                 <Text size="xxl" headingLevel="3">
                   {heading}
                 </Text>
-                <Text size="sm" variant="secondary">
+                <Text size="sm" color="support">
                   {subline}
                 </Text>
               </View>
             </View>
-            {seeAllPath && <TextLink size="sm">{t('global.seeAll')}</TextLink>}
+            {seeAllPath && (
+              <TextLink size="sm" role="none">
+                {t('global.seeAll')}
+              </TextLink>
+            )}
           </View>
         </HoliButton>
 

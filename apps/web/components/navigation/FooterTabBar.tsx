@@ -61,7 +61,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} color={unistyles.icon(isHome).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isHome ? 'primary' : 'tertiary'} role="none">
+          <TextLink size="xs" color={isHome ? 'main' : 'default'} role="none">
             {t('navigation.home')}
           </TextLink>
         </HoliButton>
@@ -76,7 +76,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} color={unistyles.icon(isSpaces).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isSpaces ? 'primary' : 'tertiary'} role="none">
+          <TextLink size="xs" color={isSpaces ? 'main' : 'default'} role="none">
             {t('navigation.organize')}
           </TextLink>
         </HoliButton>
@@ -91,7 +91,7 @@ const FooterTabBar = () => {
         >
           <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} color={unistyles.icon(isAct).color} />
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isAct ? 'primary' : 'tertiary'} role="none">
+          <TextLink size="xs" color={isAct ? 'main' : 'default'} role="none">
             {t('navigation.act')}
           </TextLink>
         </HoliButton>
@@ -106,14 +106,14 @@ const FooterTabBar = () => {
         >
           <ChatBottomTabsNavigatorItem focused={isChat} />
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isChat ? 'primary' : 'tertiary'} role="none">
+          <TextLink size="xs" color={isChat ? 'main' : 'default'} role="none">
             {t('navigation.chat')}
           </TextLink>
         </HoliButton>
 
         <LoginProfileButton focused={isProfileLoginRegistrationForgotPassword} style={styles.button}>
           <HoliGap size="xs" />
-          <TextLink size="xs" variant={isProfileLoginRegistrationForgotPassword ? 'primary' : 'tertiary'} role="none">
+          <TextLink size="xs" color={isProfileLoginRegistrationForgotPassword ? 'main' : 'default'} role="none">
             {isLoggedIn ? t('navigation.profile') : t('navigation.login')}
           </TextLink>
         </LoginProfileButton>

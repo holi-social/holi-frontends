@@ -12,6 +12,8 @@ import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import { Time } from '@holi/icons/src/generated'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { Button } from 'holi-bricks/components/button'
+import { TrackingEvent } from '@holi/core/tracking/events'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 type UserConnectionButtonsProps = {
   user: User
@@ -20,7 +22,8 @@ type UserConnectionButtonsProps = {
 
 const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user }) => {
   const { connect, disconnect, error, loading } = useUserConnection()
-  const { isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn, user: loggedInUser } = useLoggedInUser()
+  const { track } = useTracking()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
@@ -41,16 +44,18 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user }) =
   const onPrimaryPress = () => {
     if (!isLoggedIn) {
       return openSignupModal({
-        description: t('user.profileView.connection.loginRedirect.text', { firstName: user.firstName }),
+        description: t('user.profileView.connection.loginRedirect.text', {
+          firstName: user.firstName,
+        }),
         trackTrigger: 'CONNECT_TO_USER',
       })
     }
-
-    if (
-      connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED ||
-      connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION
-    ) {
+    if (connectionStatusToMyself === UserConnectionStatus.NOT_CONNECTED) {
       connect(user.id)
+      track(TrackingEvent.UserConnectionRequested(loggedInUser.id, user.id))
+    } else if (connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION) {
+      connect(user.id)
+      track(TrackingEvent.UserConnectionAccepted(user.id, loggedInUser.id))
     } else {
       setShowConfirmationModal(true)
     }
@@ -68,12 +73,16 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user }) =
         icon={connectionRequested ? Time : undefined}
       />
 
-      {connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION && (
+      {isLoggedIn && connectionStatusToMyself === UserConnectionStatus.PENDING_CONFIRMATION && (
         <Button
           inline
           variant="secondary"
           label={t('user.profileView.connection.button.IGNORE')}
-          onPress={() => disconnect(user.id)}
+          onPress={() => {
+            disconnect(user.id)
+
+            track(TrackingEvent.UserConnectionRejected(user.id, loggedInUser.id))
+          }}
           disabled={loading}
           testID={'user-connection-button-ignore'}
         />
@@ -97,6 +106,7 @@ const UserConnectionButtons: React.FC<UserConnectionButtonsProps> = ({ user }) =
             ? () => {
                 setShowConfirmationModal(false)
                 disconnect(user.id)
+                track(TrackingEvent.UserConnectionRejected(user.id, loggedInUser.id))
               }
             : undefined
         }

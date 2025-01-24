@@ -141,7 +141,7 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
         />
 
         <HoliBox padding={[16, 0, 0, 0]}>
-          <TextLink onPress={resendEmail} size="sm" role="link">
+          <TextLink onPress={resendEmail} size="sm">
             {t('registration.emailVerification.resendEmail')}
           </TextLink>
         </HoliBox>

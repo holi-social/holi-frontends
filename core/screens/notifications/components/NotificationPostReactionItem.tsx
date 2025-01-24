@@ -1,7 +1,7 @@
-import React from 'react'
+import type React from 'react'
 
 import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'
-import { NotificationPostReactions, NotificationProps } from '@holi/core/screens/notifications/components/types'
+import type { NotificationPostReactions, NotificationProps } from '@holi/core/screens/notifications/components/types'
 
 const NotificationPostReactionItem: React.FC<NotificationProps<NotificationPostReactions>> = ({
   notification,

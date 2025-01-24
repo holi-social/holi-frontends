@@ -1,21 +1,21 @@
 import React, { memo, useMemo, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { NativeScrollEvent, NativeSyntheticEvent, SectionList, SectionListData } from 'react-native'
+import { type NativeScrollEvent, type NativeSyntheticEvent, SectionList, type SectionListData } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import SearchResultsItem from '@holi/core/screens/search/components/SearchResultsItem'
-import { FilterType } from '@holi/core/screens/search/components/types'
+import type { FilterType } from '@holi/core/screens/search/components/types'
 import {
   FILTER_ALL_PAGE_SIZE,
-  UserSpaceSearchQueryResult,
+  type UserSpaceSearchQueryResult,
 } from '@holi/core/screens/search/components/useUserSpaceSearchQuery'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { SectionFooter } from './SectionFooter'
 import { SectionFooterWrapper } from './SectionFooterWrapper'
-import { SearchSection } from './types'
+import type { SearchSection } from './types'
 
 interface SearchResultsListProps {
   query: string

@@ -13,9 +13,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           initialRouteName: RouteName.HomeFeed,
           screens: {
             [RouteName.HomeFeed]: '',
-            [RouteName.UserProfile]: 'profile/:userId',
-            [RouteName.Search]: 'search',
-            [RouteName.NotFound]: '404',
           },
         },
         [RouteName.SpacesStack]: {
@@ -128,6 +125,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.Login]: 'login',
     [RouteName.ForgotPassword]: 'forgotPassword',
     [RouteName.VideoCall]: 'video-call/:roomName',
+    [RouteName.Search]: 'search',
 
     // Apps from the HOLI store
     [RouteName.ChallengesApp]: {
@@ -181,6 +179,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateReport]: 'report/:id/:type/:type3k',
       },
     },
+    [RouteName.UserProfile]: 'profile/:userId',
+    [RouteName.NotFound]: '404',
   },
 }
 
