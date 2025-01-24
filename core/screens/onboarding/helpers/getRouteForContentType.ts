@@ -10,7 +10,8 @@ export const getRouteForContentType = (selectedContentType?: ContentValue | null
     case 'SPACES':
       return '/spaces?tab=discover'
     case 'POSTS':
-    default:
       return '/'
+    default:
+      return '/act'
   }
 }

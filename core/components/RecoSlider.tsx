@@ -127,7 +127,11 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
                 </Text>
               </View>
             </View>
-            {seeAllPath && <TextLink size="sm">{t('global.seeAll')}</TextLink>}
+            {seeAllPath && (
+              <TextLink size="sm" role="none">
+                {t('global.seeAll')}
+              </TextLink>
+            )}
           </View>
         </HoliButton>
 
