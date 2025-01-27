@@ -10,6 +10,7 @@ import {
   type ICreateRoomOpts,
   type IStartClientOpts,
   type MatrixClient,
+  type MatrixError,
   type MatrixEvent,
   MatrixScheduler,
   Preset,
@@ -80,6 +81,12 @@ if ([EnvironmentId.PRODUCTION, EnvironmentId.STAGING].some((value) => value === 
 // TODO: make the client accessible to window for development.
 
 const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in value
+
+export enum ChatTopics {
+  SpaceChat = 'space_chat',
+  SpaceTaskChat = 'space_task_chat',
+  PrivateChat = 'private_chat',
+}
 
 /**
  * The `ChatClient` facade is an object that serves as a front-facing interface
@@ -284,6 +291,21 @@ export default class ChatClient {
     return this.createRoom(userIds, options)
   }
 
+  public async getTopicByRoomId(roomId: string) {
+    try {
+      const topicEvent = await this.mxClient.getStateEvent(roomId, EventType.RoomTopic, '')
+      return topicEvent
+    } catch (error: unknown) {
+      if ((error as MatrixError).errcode === 'M_FORBIDDEN') {
+        return undefined
+      } else if ((error as MatrixError).errcode === 'M_NOT_FOUND') {
+        return undefined
+      } else {
+        throw error
+      }
+    }
+  }
+
   /**
    * @description Collect all the space children's events for spaces and create
    * a record of space to children's IDs.
@@ -298,7 +320,7 @@ export default class ChatClient {
    **/
   public async createRoom(
     userIds: string[],
-    { isDirectMessage, isPrivate = true, name }: CreateRoomOptions
+    { isDirectMessage, isPrivate = true, name, chatTopic }: CreateRoomOptions
   ): Promise<RoomId> {
     if (userIds.length < 1) {
       throw new HoliChatClientError('createRoom', 'Chat rooms must be created with at least one member')
@@ -309,6 +331,7 @@ export default class ChatClient {
       preset: isPrivate ? Preset.PrivateChat : Preset.PublicChat,
       visibility: isPrivate ? Visibility.Private : Visibility.Public,
       ...(name ? { name } : {}),
+      topic: chatTopic,
     }
 
     return await this.mxClient.createRoom({ ...options, invite: userIds })
@@ -381,6 +404,25 @@ export default class ChatClient {
   public async leaveRoom(roomId: string): Promise<void> {
     await this.mxClient.leave(roomId)
     await this.mxClient.forget(roomId)
+  }
+
+  public async sendTaskStateEvent(childRoomId: string, taskId: string, spaceId?: string): Promise<string> {
+    const content = {
+      taskId: taskId,
+      holiSpaceId: spaceId,
+      topic: ChatTopics.SpaceTaskChat,
+    }
+
+    const parentContent = {
+      taskId: taskId,
+      holiSpaceId: spaceId,
+      topic: ChatTopics.SpaceTaskChat,
+      via: [this.mxClient.getDomain()!],
+    }
+
+    const eventIdResponse = await this.mxClient.sendStateEvent(childRoomId, EventType.RoomTopic, content)
+    const parentEventIdResponse = await this.mxClient.sendStateEvent(childRoomId, EventType.SpaceParent, parentContent)
+    return eventIdResponse.event_id, parentEventIdResponse.event_id
   }
 
   public async sendTextMessage(roomId: string, text: string): Promise<string> {

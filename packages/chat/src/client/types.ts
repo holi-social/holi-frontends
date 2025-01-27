@@ -1,3 +1,4 @@
+import type { ChatTopics } from '@holi/chat/src/client/ChatClient'
 import { EventType, type IRoomEvent, type IStateEvent, type NotificationCountType, type Room } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
@@ -89,6 +90,7 @@ export interface CreateRoomOptions {
   isDirectMessage: boolean
   isPrivate?: boolean
   name?: string
+  chatTopic?: ChatTopics
 }
 
 export enum MembershipStatus {

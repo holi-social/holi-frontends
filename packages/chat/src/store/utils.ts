@@ -8,7 +8,6 @@ import type {
   SpaceChatRoom,
   SpaceChildChatRoom,
   SpaceSharedDataContent,
-  SpaceTaskChatRoom,
 } from '@holi/chat/src/client/types'
 import type { AtomRecordGetter, HoliIdentity } from '@holi/chat/src/store/types'
 import { chatServerName } from '@holi/core/helpers/config'
@@ -61,10 +60,6 @@ export const isSpaceChatRoom = (room: ChatRoom): room is SpaceChatRoom => {
 
 export const isSpaceChildChatRoom = (room: ChatRoom): room is SpaceChildChatRoom => {
   return room.type === 'space.child' && hasSpaceContent(room.content)
-}
-
-export const isSpaceTaskChatRoom = (room: ChatRoom): room is SpaceTaskChatRoom => {
-  return room.type === 'space.task' && hasSpaceContent(room.content)
 }
 
 export const sortRoomByTimestamp = (roomA: ChatRoom, roomB: ChatRoom): number => {

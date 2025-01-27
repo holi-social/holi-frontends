@@ -51,6 +51,7 @@ import type { User as HoliUser } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
+import type { ChatTopics } from '@holi/chat/src/client/ChatClient'
 
 const logger = getLogger('Chat')
 
@@ -382,8 +383,16 @@ export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
  * @description returns the room id of an existing one-on-one room, if it
  * exists, or creates a new one.
  */
-export const getOrCreateRoom = async (userIds: string[], name?: string): Promise<RoomId> => {
-  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name })
+export const getOrCreateRoom = async (userIds: string[], name?: string, chatTopic?: ChatTopics): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name, chatTopic: chatTopic })
+}
+
+export const sendTaskEvent = async (roomId: string, taskId: string, spaceId?: string) => {
+  return getChatClient().sendTaskStateEvent(roomId, taskId, spaceId)
+}
+
+export const getTopicByRoomId = async (roomId: string) => {
+  return await getChatClient().getTopicByRoomId(roomId)
 }
 
 /**

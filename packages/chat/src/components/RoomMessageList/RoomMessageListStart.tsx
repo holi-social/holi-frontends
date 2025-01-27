@@ -31,7 +31,7 @@ const RoomMessageListStart = ({ chatPartnerHoliUsers, members, taskName }: RoomM
             values={{ fullName: chatPartnersNames, taskName: taskName }}
           >
             <TextLink
-              onPress={() => navigate('/profile/${chatPartnerHoliUser.id}')} // todo: displays error
+              onPress={() => navigate(`/profile/${chatPartnerHoliUsers[0].id}`)} // todo: displays error
               size="md"
               color="informative"
             />
@@ -51,14 +51,14 @@ const RoomMessageListStart = ({ chatPartnerHoliUsers, members, taskName }: RoomM
   return (
     <View>
       <HoliLink
-        href={`/profile/${chatPartnerHoliUsers[0].id}`} // todo: individual links for each member
-        label={t('user.visitProfile', { name: chatPartnerHoliUsers[0].fullName })}
+        href={`/profile/${chatPartnerHoliUsers?.[0]?.id}`} // todo: individual links for each member
+        label={t('user.visitProfile', { name: chatPartnerHoliUsers?.[0]?.fullName })}
       >
         <Avatar // todo: display all avatars overlapping each other
           imgSrc={members?.[0]?.avatar}
-          imgPlaceholder={chatPartnerHoliUsers[0].avatarBlurhash}
-          label={chatPartnerHoliUsers[0].fullName}
-          initials={chatPartnerHoliUsers[0].avatarLabel}
+          imgPlaceholder={chatPartnerHoliUsers?.[0]?.avatarBlurhash}
+          label={chatPartnerHoliUsers?.[0]?.fullName}
+          initials={chatPartnerHoliUsers?.[0]?.avatarLabel}
           size="lg"
         />
         <HoliGap size="xs" />

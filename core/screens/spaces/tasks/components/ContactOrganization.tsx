@@ -1,4 +1,4 @@
-import { getOrCreateRoom } from '@holi/chat/src/store'
+import { getOrCreateRoom, sendTaskEvent } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -19,10 +19,12 @@ import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useState } from 'react'
-import { Platform, type Task, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import type { User } from '@holi/core/domain/shared/types'
+import { ChatTopics } from '@holi/chat/src/client/ChatClient'
+import type { Task } from '@holi/core/screens/spaces/types'
 
 const StartChatDrawerActionButton = ({ spaceIdOrName, task }: ContactOrganizationProps) => {
   const { t } = useTranslation()
@@ -45,13 +47,14 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task }: ContactOrganizatio
     })
   }
 
-  async function openChatRoom(chatPartner: User[], taskName?: string) {
+  async function openChatRoom(chatPartner: User[], task: Task) {
     const chatPartnerIdentities = chatPartner?.map((chatPartner) => chatPartner.identity)
     // console.log('taskName', taskName)
 
     try {
       const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => '@' + identity + ':' + chatServerName)
-      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds, taskName)
+      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds, task?.name, ChatTopics.SpaceTaskChat)
+      await sendTaskEvent(room_id, task.id, spaceIdOrName)
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -89,7 +92,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task }: ContactOrganizatio
     }
 
     try {
-      await openChatRoom(adminsAsUser, task?.name)
+      await openChatRoom(adminsAsUser, task)
     } finally {
       setIsLoading(false)
     }
@@ -111,7 +114,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task }: ContactOrganizatio
 
 type ContactOrganizationProps = {
   spaceIdOrName?: string
-  task?: Task
+  task: Task
 }
 
 const ContactOrganizationButton = (props: {

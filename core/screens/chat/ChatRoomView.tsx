@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 // eslint-disable-next-line no-restricted-imports
 import { Keyboard, Platform, SafeAreaView, View } from 'react-native'
@@ -14,17 +14,18 @@ import RoomMessageListStart from '@holi/chat/src/components/RoomMessageList/Room
 import {
   chatPartnerAtomCreator,
   getHoliUserForChatMember,
+  getTopicByRoomId,
   isRoomCreator,
   setLatestMessagesAsRead,
   useRequestRoomMessages,
   useRoomById,
 } from '@holi/chat/src/store'
-import { isSpaceChildChatRoom, isSpaceTaskChatRoom } from '@holi/chat/src/store/utils'
+import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
 import { getChatInitials, getDefaultAvatarColor } from '@holi/chat/src/utils'
 import { useMatrixIdToHoliUserRecord } from '@holi/chat/src/utils/hooks'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { logError } from '@holi/core/errors/helpers'
+import { isForbiddenError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { getInitials } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useShowHeaderOnScreenFocus } from '@holi/core/helpers/useShowHeaderOnScreenFocus'
@@ -41,6 +42,10 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
 import type { User } from '@holi/core/domain/shared/types'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
+import { useQuery } from '@apollo/client'
+import { ChatTopics } from '@holi/chat/src/client/ChatClient'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -55,6 +60,7 @@ const ChatRoomView = () => {
   const { navigateBack, replaceRoute } = useRouting()
   const chatInitialized = useChatInitialized()
   const { styles } = useStyles(stylesheet)
+  const { displayError } = useErrorHandling()
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
@@ -72,10 +78,48 @@ const ChatRoomView = () => {
     .map((chatPartner) => getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord))
     .filter((holiUser): holiUser is User => holiUser !== undefined)
 
+  const [taskId, setTaskId] = useState<string>()
   const isSpaceRoom = room && isSpaceChildChatRoom(room)
-  // const isTaskRoom = room && isSpaceTaskChatRoom(room) // todo
 
   const { openToast } = useToast()
+
+  useEffect(() => {
+    const getTopic = async () => {
+      try {
+        const roomTopic = await getTopicByRoomId(roomId)
+        if (roomTopic?.topic === ChatTopics.SpaceTaskChat) {
+          setTaskId(roomTopic.taskId)
+        }
+      } catch (error: unknown) {
+        if ((error as { response?: { status: number } })?.response?.status === 404) {
+          setTaskId(undefined)
+        } else if ((error as { response?: { status: number } })?.response?.status === 403) {
+          setTaskId(undefined)
+        } else {
+          displayError(error, 'Failed to load room topic', {
+            location: 'ChatRoomView.getTopic',
+          })
+        }
+      }
+    }
+    getTopic()
+  }, [roomId, displayError])
+
+  const { data } = useQuery(taskByIdQuery, {
+    variables: {
+      id: taskId,
+    },
+    skip: !taskId,
+    onError: (error) => {
+      if (isNotFoundError(error) || isForbiddenError(error)) {
+        return replaceRoute('/404')
+      }
+      displayError(error, 'Failed to load task', {
+        location: 'TaskDetails.taskByIdQuery',
+      })
+    },
+  })
+  const task = data?.taskById
 
   const handleBackPress = useCallback(async () => {
     await setLatestMessagesAsRead(roomId)
@@ -143,18 +187,6 @@ const ChatRoomView = () => {
               />
             )
 
-          case 'space.task':
-            return (
-              <ChatRoomHeaderTitle
-                href={'/spaces/' + room.content.holiSpaceId + '/tasks/' + room.content.taskId} // todo: to be checked
-                name={room.content.taskName}
-                initials={getInitials(room.content.taskName)}
-                imageSrc={room.avatar}
-                defaultColor={room.content.avatarDefaultColor}
-                shape="square"
-              />
-            )
-
           default:
             return null
         }
@@ -212,7 +244,7 @@ const ChatRoomView = () => {
             <SafeAreaView style={styles.safeArea}>
               <View style={styles.container}>
                 <View style={styles.listContainer}>
-                  {room.hasInvitation ? ( // note: this case will never happen with a group chat / task chat
+                  {room.hasInvitation ? (
                     <ChatProfileCard
                       member={chatPartners?.[0]}
                       roomId={roomId}
@@ -231,7 +263,7 @@ const ChatRoomView = () => {
                             <RoomMessageListStart
                               members={chatPartners}
                               chatPartnerHoliUsers={chatPartnerHoliUsers}
-                              taskName={isSpaceTaskChatRoom(room) ? room.content.taskName : room.name}
+                              taskName={task?.name}
                             />
                           </View>
                         )
