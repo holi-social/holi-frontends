@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
+import { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 
 type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
 
@@ -410,6 +411,21 @@ export namespace TrackingEvent {
       ...versionOne,
     }),
   }
+
+  export const NotificationPreferenceChanged = (
+    workflowId: string,
+    workflowName: string,
+    channel: Channel,
+    newState: boolean
+  ): TrackingEvent => ({
+    ...versionOne,
+    name: 'notificationPreferenceChanged',
+    properties: {
+      workflowId,
+      channel,
+      newState,
+    },
+  })
 }
 
 export const Unknown: TrackingEvent = {
