@@ -59,7 +59,7 @@ export const Search = () => {
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
   const [initialQuery] = useParam('query', singleParamConfig)
   const [initialFacet] = useParam('facet', singleParamConfig)
-  const updateParams = useUpdateParams()
+  const updateParams = useUpdateParams({ web: { replace: true } })
 
   return (
     <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
