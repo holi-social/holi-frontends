@@ -1,7 +1,9 @@
 import { continueAsGuest } from '@holi/e2e-mobile/helpers/auth'
+import { getDeviceScreenSize } from '@holi/e2e-mobile/helpers/gestures'
 import {
   checkIfElementWithTestIdExists,
   fillFieldByTestId,
+  pressEnter,
   tapOnElementWithTestId,
   waitForAnyElementWithTestId,
   waitForElementWithTestId,
@@ -20,8 +22,19 @@ describe('@Search', () => {
     await continueAsGuest()
 
     // Navigate to search
-    await waitForElementWithTestId('btn-to-search')
-    await tapOnElementWithTestId('btn-to-search')
+    try {
+      await tapOnElementWithTestId('btn-to-search')
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      // On android in browserstack the above does not work
+      // Instead we touch via coordinates starting from the status bar
+      const size = await getDeviceScreenSize()
+      // @ts-ignore
+      const { pixelRatio, statBarHeight } = Appium.capabilities
+      const gap = 24 // Top + right gap to the search button
+
+      await Appium.touchAction({ action: 'tap', x: size.width - gap * pixelRatio, y: statBarHeight + gap * pixelRatio })
+    }
 
     const oldSearch = await checkIfElementWithTestIdExists('search-content')
     if (oldSearch) {
@@ -39,8 +52,8 @@ describe('@Search', () => {
     await tapOnElementWithTestId('search-input-clear')
     await waitForAnyElementWithTestId(allHitTypes)
 
-    // Close keyboard by clicking on the background
-    await tapOnElementWithTestId('search-results-list')
+    // Close keyboard by submitting (empty) input
+    await pressEnter('search-input')
     await waitForAnyElementWithTestId(allHitTypes)
 
     // Test facet filters
