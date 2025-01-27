@@ -12,7 +12,7 @@ describe('@Search', () => {
     // Speeds up local execution
     if (target === 'local') {
       // navigate back to home screen
-      await tapOnElementWithTestId('btn-to-home-view')
+      await tapOnElementWithTestId('nav-button-back')
     }
   })
 
@@ -35,6 +35,10 @@ describe('@Search', () => {
 
     // Clear query to prepare for facet filtering
     await tapOnElementWithTestId('search-input-clear')
+    await waitForAnyElementWithTestId(allHitTypes)
+
+    // Close keyboard by clicking on the background
+    await tapOnElementWithTestId('search-results-list')
     await waitForAnyElementWithTestId(allHitTypes)
 
     // Test facet filters
