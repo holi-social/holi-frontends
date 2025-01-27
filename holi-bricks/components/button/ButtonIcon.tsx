@@ -10,12 +10,19 @@ import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
 import type { ButtonProps } from 'holi-bricks/components/button'
-
-export type ButtonIconVariant = 'primary' | 'secondary' | 'tertiary'
+import {
+  buttonBaseStyle,
+  buttonContentStyle,
+  type ButtonVariant,
+  getButtonDisabledStyle,
+  getButtonSelectedStyle,
+  getButtonTextVarianStyle,
+  getButtonVariantStyle,
+} from './helpers'
 
 export interface ButtonIconProps extends Omit<ButtonProps, 'inline' | 'loadingLabel' | 'variant'> {
   icon: HoliIconType
-  variant?: ButtonIconVariant
+  variant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'tertiary'>
 }
 
 export const ButtonIcon: React.FC<ButtonIconProps> = ({
@@ -40,19 +47,20 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
   })
 
   const isSpinning = loading || isProcessing
+  const isDisabled = disabled || isSpinning
 
   const handlePress = useCallback(
-    async (event: React.SyntheticEvent | GestureResponderEvent) => {
-      if (onPress && !isSpinning && !disabled) {
-        setProcessing(true)
-        try {
-          await onPress(event)
-        } finally {
-          setProcessing(false)
-        }
+    async (event: GestureResponderEvent) => {
+      if (!onPress) return
+
+      setProcessing(true)
+      try {
+        await onPress(event)
+      } finally {
+        setProcessing(false)
       }
     },
-    [disabled, isSpinning, onPress]
+    [onPress]
   )
 
   return (
@@ -60,23 +68,21 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{
-        disabled: isSpinning || disabled,
-        selected: selected,
+        disabled: isDisabled,
+        selected,
       }}
-      aria-disabled={isSpinning || disabled}
+      aria-disabled={isDisabled}
       aria-pressed={selected}
       onPress={handlePress}
-      onHoverIn={() => setIsHovered(true)}
-      onHoverOut={() => setIsHovered(false)}
-      style={({ pressed }) =>
-        !transparent ? [styles.button(!disabled && isHovered, !disabled && !!pressed)] : undefined
-      }
-      disabled={isSpinning || disabled}
+      onHoverIn={() => !disabled && setIsHovered(true)}
+      onHoverOut={() => !disabled && setIsHovered(false)}
+      style={({ pressed }) => !transparent && [styles.button(isHovered, pressed)]}
+      disabled={isDisabled}
       testID={testID}
     >
       <View style={styles.content}>
-        {isSpinning && (
-          <View testID="spinner">
+        {isSpinning ? (
+          <View testID={`${testID}-spinner`}>
             <SpinningIconContainer spinning={isSpinning}>
               <HoliIcon
                 icon={Loader}
@@ -85,8 +91,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
               />
             </SpinningIconContainer>
           </View>
-        )}
-        {!isSpinning && (
+        ) : (
           <HoliIcon
             icon={icon}
             size={size === 'lg' ? 24 : size === 'md' ? 20 : 16}
@@ -101,26 +106,13 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
 const stylesheet = createStyleSheet((theme) => ({
   button: (hovered: boolean, pressed: boolean) => {
     return {
-      borderRadius: 1000, // pill
-      borderStyle: 'solid',
-      borderWidth: 1,
-      display: 'flex',
+      ...buttonBaseStyle,
       variants: {
         iconVariant: {
-          primary: {
-            backgroundColor: theme.components.button.primary.background,
-            borderColor: theme.components.button.primary.border,
-            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.primary.border}`,
-          },
-          secondary: {
-            backgroundColor: theme.components.button.secondary.background,
-            borderColor: theme.components.button.secondary.border,
-            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.secondary.border}`,
-          },
+          primary: getButtonVariantStyle({ variant: 'primary', theme, pressed, hovered }),
+          secondary: getButtonVariantStyle({ variant: 'secondary', theme, pressed, hovered }),
           tertiary: {
-            backgroundColor: theme.components.button.tertiary.background,
-            borderColor: theme.components.button.tertiary.border,
-            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.tertiary.border}`,
+            ...getButtonVariantStyle({ variant: 'tertiary', theme, pressed, hovered }),
             borderWidth: hovered || pressed ? 1 : 0,
           },
         },
@@ -141,35 +133,12 @@ const stylesheet = createStyleSheet((theme) => ({
             height: Spacing['xxl'],
           },
         },
-        selected: {
-          true: {
-            backgroundColor: theme.components.button.selected.background,
-            borderColor: theme.components.button.selected.border,
-          },
-        },
-        disabled: {
-          true: {
-            backgroundColor: theme.components.button.disabled.background,
-            borderColor: theme.components.button.disabled.border,
-          },
-        },
+        selected: getButtonSelectedStyle(theme),
+        disabled: getButtonDisabledStyle(theme),
       },
     }
   },
-  content: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  text: (disabled: boolean, selected: boolean, variant: ButtonIconVariant) => {
-    return {
-      color: disabled
-        ? theme.components.button.disabled.text
-        : selected
-          ? theme.components.button.selected.text
-          : theme.components.button[variant].text,
-    }
-  },
+  content: buttonContentStyle,
+  text: (disabled: boolean, selected: boolean, variant: ButtonVariant) =>
+    getButtonTextVarianStyle({ variant, theme, disabled, selected }),
 }))
