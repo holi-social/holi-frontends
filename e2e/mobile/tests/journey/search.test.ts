@@ -19,6 +19,8 @@ describe('@Search', () => {
   it('should show and filter results', async () => {
     await continueAsGuest()
 
+    // Navigate to search
+    await waitForElementWithTestId('btn-to-search')
     await tapOnElementWithTestId('btn-to-search')
 
     const oldSearch = await checkIfElementWithTestIdExists('search-content')
