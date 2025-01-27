@@ -8,7 +8,7 @@ import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
-import { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
+import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { StarSmileFilled } from '@holi/icons/src/generated'
 import { withProfiler } from '@sentry/react'
 import fetch from 'cross-fetch'
@@ -41,7 +41,9 @@ const RecommendedChallenges = () => {
 
     try {
       setIsLoading(true)
-      const response = await fetch(API_URL, { headers: new Headers(headers) })
+      const apiHeaders = new Headers(headers)
+      apiHeaders.append('Accept', 'application/json')
+      const response = await fetch(API_URL, { headers: apiHeaders })
 
       if (!response.ok) {
         throw new Error('Failed to fetch recommended challenges')

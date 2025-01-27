@@ -1,22 +1,23 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 import {
   byTestId,
   clickElementByTestId,
+  denyConsent,
   donationsRequestTimeout,
-  proceedAsGuest,
   volunteeringRequestTimeout,
 } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@ActPage', () => {
   test('user journey', async ({ page }) => {
-    await proceedAsGuest(page)
+    await page.goto('/act')
 
-    await clickElementByTestId(page, 'btn-to-act')
+    await denyConsent(page)
 
     // act page is open and contain apps
     await page.waitForSelector(byTestId('volunteering-reco-slider'))
+    await page.waitForSelector(byTestId('tasks-reco-slider'))
     await page.waitForSelector(byTestId('donations-reco-slider'))
 
     await openAppAndReturn(page, 'volunteering', volunteeringRequestTimeout)

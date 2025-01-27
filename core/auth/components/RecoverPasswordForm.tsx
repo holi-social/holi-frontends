@@ -1,4 +1,4 @@
-import type { RecoveryFlow, UpdateRecoveryFlowWithCodeMethod } from '@ory/kratos-client'
+import type { RecoveryFlow, UpdateRecoveryFlowBody, UpdateRecoveryFlowWithCodeMethod } from '@ory/kratos-client'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, type ViewStyle } from 'react-native'
@@ -68,7 +68,11 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
 
   return (
     <View style={[styles.viewContainer, props.style]}>
-      <FormBuilder flow={flow} onSubmit={requestPasswordRecovery} style={styles.recoverPasswordForm} />
+      <FormBuilder<UpdateRecoveryFlowBody>
+        flow={flow}
+        onSubmit={requestPasswordRecovery}
+        style={styles.recoverPasswordForm}
+      />
       {!props.webview && (
         <>
           <HoliGap size="s" />
@@ -77,7 +81,9 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
           <HoliHeading level="2" align="center">
             {t('auth.login.signUp.link.headline')}
           </HoliHeading>
-          <RegistrationButton style={styles.button} trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+          <View style={styles.button}>
+            <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+          </View>
         </>
       )}
     </View>

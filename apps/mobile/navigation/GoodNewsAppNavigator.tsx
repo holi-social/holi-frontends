@@ -1,8 +1,6 @@
 import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 
 import GoodNewsAppHome from '@holi-apps/goodnews/screens/GoodNewsAppHome'
@@ -18,8 +16,8 @@ const GoodNewsAppNavigator = () => {
     <GoodNewsAppStack.Navigator
       initialRouteName={RouteName.GoodNewsAppHome}
       screenOptions={{
-        header: HeaderAnimated,
         headerShown: true,
+        headerShadowVisible: false,
         headerTransparent: true,
       }}
     >

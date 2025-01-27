@@ -5,11 +5,10 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Platform, Pressable, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import type { Discussion } from '@holi/api/graphql/graphql-codegen'
 import HoliHead from '@holi/core/components/HoliHead'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -41,7 +40,6 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBackground'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
@@ -51,6 +49,9 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { Button } from 'holi-bricks/components/button'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type InsightDetailPageParams = {
   insightId: string
@@ -63,7 +64,7 @@ const InsightDetailPage = () => {
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate, replaceRoute } = useRouting()
-  const [showCuratorModal, setShowCuratorModal] = useState(false)
+  const [curatorModalShown, setCuratorModalShown] = useState(false)
   const { theme } = useTheme()
   const { colors } = theme
   const { width: screenWidth } = useClientWindowDimensions()
@@ -83,7 +84,10 @@ const InsightDetailPage = () => {
       if (isNotFoundError(error) || error.message.includes('badly formed hexadecimal UUID string')) {
         return replaceRoute('/404')
       }
-      logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId })
+      logError(error, 'Failed to load insight', {
+        location: 'InsightDetailPage.insightById',
+        insightId,
+      })
     },
   })
   const setScreenOptions = useSetScreenOptions()
@@ -92,23 +96,25 @@ const InsightDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: true,
-      headerTintColor: colors.light,
-      title: '',
-      navigationCustomOptions: {
-        background: { type: 'gradient' },
-      },
-      headerRight: () => {
+      ...Platform.select({
+        native: {
+          headerTintColor: colors.light,
+          title: '',
+          headerTransparent: true,
+        },
+      }),
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerRight: ({ tintColor }) => {
         return (
           insight && (
             <InsightDrawer insight={insight}>
-              <HoliIcon icon={MoreFilled} color={colors.light} />
+              <HoliIcon icon={MoreFilled} color={tintColor} />
             </InsightDrawer>
           )
         )
       },
     })
-  }, [insight, setScreenOptions, colors.light])
+  }, [insight, setScreenOptions, colors.light, colors.dark])
 
   const posts: Post[] = insight?.posts || []
   const polls: Poll[] = insight?.polls || []
@@ -117,7 +123,9 @@ const InsightDetailPage = () => {
   const quotes: Quote[] = insight?.quotes || []
   const initiatives: Initiative[] = insight?.initiatives || []
   const creator = insight?.creator
-  const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
+  const initiativesTitle = t('insights.initiatives.title', {
+    name: creator?.firstName,
+  })
   const cardWidth = 330
   const currentLanguage = getLocale(i18n.language || '')
 
@@ -141,7 +149,7 @@ const InsightDetailPage = () => {
 
   const curatorSlides = [
     <View style={styles.slide} key={1}>
-      <HoliText size="extralarge" style={styles.slideHeader}>
+      <HoliText size="extralarge" style={styles.slideHeader} testID="insight-editors-heading">
         {t('insights.curatorModal.header1')}
       </HoliText>
       <View style={styles.slideWrapper}>
@@ -160,15 +168,14 @@ const InsightDetailPage = () => {
             <HoliText size="small" style={styles.subline}>
               {t('insights.curatorModal.subline')}
             </HoliText>
-            <HoliButton
-              variant="small"
-              inline
-              onPress={() => navigate(`/profile/${creator.id}`)}
-              label={t('modal.close')}
-              style={{ width: 120 }}
-            >
-              {t('insights.curatorModal.profileLink')}
-            </HoliButton>
+            <View style={{ width: 120 }}>
+              <Button
+                size="sm"
+                inline
+                onPress={() => navigate(`/profile/${creator.id}`)}
+                label={t('insights.curatorModal.profileLink')}
+              />
+            </View>
             <HoliText style={{ marginTop: 8 }} numberOfLines={4} ellipsizeMode="tail">
               {creator.aboutMe}
             </HoliText>
@@ -219,7 +226,7 @@ const InsightDetailPage = () => {
       />
       <StatusBar style="light" animated />
 
-      <ScrollHeaderLayout headerRelation="overlap" style={styles.wrapper}>
+      <ScrollViewRefreshable style={styles.wrapper} contentContainerStyle={styles.contentContainer}>
         {insight && !loading ? (
           <>
             <HoliImageBackground
@@ -252,10 +259,11 @@ const InsightDetailPage = () => {
                       <HoliText color="gray300">{t('insight.curatedBy')}</HoliText>
                     </HoliText>
                     <Pressable
-                      onPress={() => setShowCuratorModal(true)}
+                      onPress={() => setCuratorModalShown(true)}
                       style={({ hovered }) => {
                         return hovered ? [styles.creatorInfoButtonHovered] : [styles.creatorInfoButton]
                       }}
+                      testID="btn-to-insight-curator-modal"
                     >
                       <View style={styles.creatorInfo}>
                         <Avatar
@@ -272,10 +280,13 @@ const InsightDetailPage = () => {
                   </View>
 
                   <HoliModal
-                    label={t('user.cards.modal.showInfo', { name: creator.fullName })}
-                    show={showCuratorModal}
-                    onDismiss={() => setShowCuratorModal(false)}
+                    label={t('user.cards.modal.showInfo', {
+                      name: creator.fullName,
+                    })}
+                    shown={curatorModalShown}
+                    onDismiss={() => setCuratorModalShown(false)}
                     style={{ backgroundColor: colors.background30 }}
+                    testID="insight-editors-modal"
                   >
                     <HoliCarousel
                       marginHorizontal={Spacing.md}
@@ -284,14 +295,14 @@ const InsightDetailPage = () => {
                         children: slide,
                       }))}
                     />
-                    <HoliButton
-                      inline
-                      style={styles.close}
-                      onPress={() => setShowCuratorModal(false)}
-                      label={t('modal.close')}
-                    >
-                      {t('insights.curatorModal.close')}
-                    </HoliButton>
+                    <View style={styles.close}>
+                      <Button
+                        inline
+                        onPress={() => setCuratorModalShown(false)}
+                        label={t('insights.curatorModal.close')}
+                        testID="insight-editors-close-btn"
+                      />
+                    </View>
                   </HoliModal>
                 </>
               )}
@@ -377,7 +388,7 @@ const InsightDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout>
+      </ScrollViewRefreshable>
     </>
   )
 }
@@ -457,6 +468,11 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     wrapper: {
       backgroundColor: theme.colors.background20,
     },
+    contentContainer: {
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.breakpointL - 128,
+    },
     bannerImage: {
       paddingHorizontal: 0,
       height: Platform.OS === 'web' ? 680 : 340,
@@ -467,7 +483,7 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
         },
         native: { maxHeight: '50%' },
       }),
-    } as ImageStyle,
+    } as ViewStyle,
     insightImage: {
       ...Platform.select({ web: { height: '100%' } }),
     },
@@ -532,12 +548,16 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
-      ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+      ...(screenWidth < dimensions.breakpointL && {
+        paddingHorizontal: Spacing.xs,
+      }),
       maxWidth: '95%',
     },
     posts: {
       marginBottom: 20,
-      ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+      ...(screenWidth < dimensions.breakpointL && {
+        paddingHorizontal: Spacing.xs,
+      }),
     },
     pollContainer: {
       marginBottom: 0,
@@ -610,4 +630,6 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     },
   })
 
-export default withProfiler(memo(InsightDetailPage), { name: 'InsightDetailPage' })
+export default withProfiler(memo(InsightDetailPage), {
+  name: 'InsightDetailPage',
+})

@@ -14,7 +14,6 @@ import {
 import { spaceMembersQuery } from '@holi/core/screens/spaces/details/queries'
 import { type Space, SpaceConnectionAction, type SpaceInvite } from '@holi/core/screens/spaces/types'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Close } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -22,6 +21,7 @@ import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { ButtonIcon } from 'holi-bricks/components/button'
 
 const PAGE_SIZE = 10
 
@@ -73,6 +73,7 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
 
         if (
           error.graphQLErrors.length > 0 &&
+          // @ts-ignore
           error.graphQLErrors[0].extensions?.errors?.includes('No invite to withdraw.')
         ) {
           displayError(error, 'Failed to remove space invite - No invite to withdraw.', {
@@ -132,18 +133,15 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
         <HoliText style={styles.muted}>{t('spaces.collaborators.pending.invites.withdrawn')}</HoliText>
       )}
       {(loading || !withdrawn) && (
-        <HoliButton
+        <ButtonIcon
           key="decline"
-          type="secondary"
-          variant="small"
+          variant="secondary"
           label={t('notifications.connection.ignore')}
           onPress={withdrawInvite}
           disabled={loading}
           testID="withdraw-invite-button"
-          style={styles.button}
-        >
-          <HoliIcon icon={Close} size={22} />
-        </HoliButton>
+          icon={Close}
+        />
       )}
       <SpacePermissions
         space={space}
@@ -181,11 +179,6 @@ const getStyles = (theme: HoliTheme) =>
     muted: {
       color: theme.colors.foreground20,
       paddingLeft: 8,
-    },
-    button: {
-      borderRadius: 50,
-      width: 40,
-      zIndex: 4,
     },
   })
 

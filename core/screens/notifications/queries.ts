@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client/core'
 
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
-import { Notification } from '@holi/core/screens/notifications/components/types'
-import { Paged } from '@holi/core/types'
+import type { Notification } from '@holi/core/screens/notifications/components/types'
+import type { Paged } from '@holi/core/types'
 
 export type NumberOfItems = {
   numberOfItems: number
@@ -44,6 +44,7 @@ export const notificationsQuery = gql`
           space {
             id
             title
+            name
             avatar
             avatarDefaultColor
           }

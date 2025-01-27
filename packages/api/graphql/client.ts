@@ -1,6 +1,5 @@
-import type { NormalizedCacheObject } from '@apollo/client'
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
-import { ApolloClientOptions, HttpOptions } from '@apollo/react-hooks'
+import type { ApolloClientOptions, HttpOptions, NormalizedCacheObject } from '@apollo/client'
+import { ApolloClient, type ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
 import ApolloLinkTimeout from 'apollo-link-timeout'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import { concat, mergeDeepLeft, pick, pipe, uniqBy } from 'ramda'
@@ -78,6 +77,7 @@ function customIsExtractableFile(value: unknown): value is ReactNativeFile | Fil
 
 // must be last in chain, because it handles the actual call to the server
 // (see https://www.apollographql.com/docs/react/api/link/introduction/ for introduction)
+// @ts-ignore type incompatibility would need to be fixed in apollo-upload-client library
 const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
   uri: holiApiUrl,
   credentials: 'include',
@@ -197,6 +197,7 @@ export const createCache = () =>
           translate: {
             keyArgs: [],
           },
+          feed: pagedPolicy(),
         },
       },
     },

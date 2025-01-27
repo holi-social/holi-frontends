@@ -1,5 +1,5 @@
 // Based on https://github.com/ory/kratos-selfservice-ui-react-native/blob/a273225aa9f5b743a041eebc3c6cba173cc31d6d/src/helpers/auth.tsx
-import {
+import type {
   LoginFlow,
   PerformNativeLogoutBody,
   RecoveryFlow,
@@ -11,7 +11,7 @@ import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
-import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { type OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
 
 const userSessionName = 'user_session'
 
@@ -28,7 +28,7 @@ export const getSessionFromStorage = async (): Promise<OrySessionContext | null>
   try {
     const session = await SecureStore.getItemAsync(userSessionName)
     return session ? (JSON.parse(session) as OrySessionContext) : null
-  } catch (err) {
+  } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     return null
   }
 }

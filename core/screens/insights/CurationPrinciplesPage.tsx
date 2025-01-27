@@ -2,9 +2,8 @@ import { useQuery } from '@apollo/client'
 import type React from 'react'
 import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Linking, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -109,19 +108,72 @@ const CurationPrinciplesPage: React.FC = () => {
   })
   const authors = data?.insightAuthors?.data || []
 
+  const partners = [
+    {
+      name: 'kohero magazin',
+      url: 'https://www.kohero-magazin.de',
+      image: require('@holi/ui/assets/img/logo/partner_kohero.png'),
+      isSvg: false,
+      width: 110,
+      height: 36,
+    },
+    {
+      name: 'Perspective Daily',
+      url: 'https://perspective-daily.de/',
+      image: require('@holi/ui/assets/img/logo/partner_perspectiveDaily.png'),
+      isSvg: false,
+      width: 110,
+      height: 36,
+    },
+    {
+      name: 'Klimareporter',
+      url: 'https://www.klimareporter.de/',
+      image: require('@holi/ui/assets/img/logo/partner_klimareporter.png'),
+      isSvg: false,
+      width: 110,
+      height: 36,
+    },
+    {
+      name: 'andererseits',
+      url: 'https://andererseits.org',
+      image: require('@holi/ui/assets/img/logo/partner_andererseits.svg'),
+      isSvg: true,
+      width: 110,
+      height: 36,
+    },
+    {
+      name: 'Salon 5',
+      url: 'https://www.instagram.com/salon5_',
+      image: require('@holi/ui/assets/img/logo/partner_salon5.png'),
+      isSvg: false,
+      width: 110,
+      height: 36,
+    },
+    {
+      name: 'veto Magazin',
+      url: 'https://veto-mag.de/',
+      image: require('@holi/ui/assets/img/logo/partner_vetoMagazin.png'),
+      isSvg: false,
+      width: 110,
+      height: 36,
+    },
+  ]
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTransparent: true,
+      headerBackVisible: false,
+      headerStyle: {
+        backgroundColor: theme.colors.background20,
+      },
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.curationPrinciples.title')}</HeaderTitle>
       ),
     })
-  }, [t, setScreenOptions])
+  }, [t, setScreenOptions, theme.colors.background20])
 
   return (
-    <ScrollHeaderLayout noRefresh style={styles.wrapper}>
+    <ScrollView style={styles.wrapper}>
       <HoliContainer noPadding>
         <HoliContainer>
           <View style={styles.intro}>
@@ -196,60 +248,23 @@ const CurationPrinciplesPage: React.FC = () => {
             >
               {t('insights.curationPrinciples.partners.heading')}
             </HoliHeading>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: Spacing.xs,
-                flexWrap: 'wrap',
-                flex: 1,
-              }}
-            >
-              <Pressable style={styles.partner} onPress={() => Linking.openURL('https://www.kohero-magazin.de')}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/logo/partner_kohero.png')}
-                  resizeMode="contain"
-                  label="kohero magazin"
-                  width={110}
-                  height={36}
-                />
-              </Pressable>
-              <Pressable style={styles.partner} onPress={() => Linking.openURL('https://piqd.de')}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/logo/partner_piqd.svg')}
-                  resizeMode="contain"
-                  label="piqd"
-                  width={64}
-                  height={36}
-                  isSvg
-                />
-              </Pressable>
-              <Pressable style={styles.partner} onPress={() => Linking.openURL('https://medwatch.de')}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/logo/partner_medwatch.svg')}
-                  resizeMode="contain"
-                  label="MEDWATCH"
-                  width={106}
-                  height={36}
-                  isSvg
-                />
-              </Pressable>
-              <Pressable style={styles.partner} onPress={() => Linking.openURL('https://andererseits.org')}>
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/logo/partner_andererseits.svg')}
-                  resizeMode="contain"
-                  label="andererseits"
-                  width={136}
-                  height={36}
-                  isSvg
-                />
-              </Pressable>
+            <View style={styles.partners}>
+              {partners.map((partner) => (
+                <Pressable key={partner.name} style={styles.partner} onPress={() => Linking.openURL(partner.url)}>
+                  <HoliLocalImage
+                    imageSource={partner.image}
+                    resizeMode="contain"
+                    label={partner.name}
+                    width={partner.width}
+                    height={partner.height}
+                  />
+                </Pressable>
+              ))}
             </View>
           </View>
         </View>
       </HoliContainer>
-    </ScrollHeaderLayout>
+    </ScrollView>
   )
 }
 
@@ -267,12 +282,6 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
           minHeight: '100%',
           paddingTop: dimensions.topBarHeight,
           paddingBottom: Spacing.lg,
-        },
-        ios: {
-          paddingTop: dimensions.topBarHeight + Spacing.xxl,
-        },
-        android: {
-          paddingTop: dimensions.topBarHeight + Spacing.lg,
         },
       }),
     },
@@ -348,6 +357,8 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
     partnersSection: {
       ...(isWideLayout ? { marginTop: Spacing.lg } : { marginTop: -1 }),
       backgroundColor: theme.colors.brandA200,
+      marginTop: Spacing.sm,
+      marginBottom: Spacing.xl,
     },
 
     partner: {
@@ -357,6 +368,15 @@ const getStyles = (theme: HoliTheme, isWideLayout: boolean) =>
       borderWidth: 1,
       borderRadius: 8,
       height: 52,
+    },
+
+    partners: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: Spacing.xs,
+      flexWrap: 'wrap',
+      flex: 1,
     },
   })
 

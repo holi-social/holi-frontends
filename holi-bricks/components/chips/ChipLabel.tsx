@@ -20,6 +20,7 @@ type ChipLabelProps = AccessibilityProps & {
   size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
+  testID?: string
 }
 
 export const ChipLabel = ({
@@ -28,16 +29,17 @@ export const ChipLabel = ({
   size = 'md',
   iconLeading,
   iconTrailing,
+  testID,
   ...rest
 }: ChipLabelProps) => {
   const { styles, theme } = useStyles(stylesheet, { size })
   const iconSize = size === 'sm' ? 12 : 16
 
   return (
-    <View {...accessibilityProps(rest)} style={styles.chip(color)}>
+    <View {...accessibilityProps(rest)} style={styles.chip(color)} testID={testID}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={theme.components.chipLabel.text} />}
       {children && (
-        <Text size={chipSizeToTextSize[size]} color={theme.components.chipLabel.text}>
+        <Text size={chipSizeToTextSize[size]} colorOveride={theme.components.chipLabel.text}>
           {children}
         </Text>
       )}

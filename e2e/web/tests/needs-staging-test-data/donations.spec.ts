@@ -1,4 +1,4 @@
-import { Browser, BrowserContext, Locator, Page, expect } from '@playwright/test'
+import { type Browser, type BrowserContext, type Locator, type Page, expect } from '@playwright/test'
 
 import { delayMs } from '@holi/e2e-mobile/helpers/time'
 
@@ -7,23 +7,20 @@ import {
   checkAccessibility,
   clickElementByTestId,
   clickFirstElement,
+  denyConsent,
   donationsRequestTimeout,
+  isRunningLocally,
   locateElementByTestId,
-  proceedAsGuest,
   withSSR,
 } from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@Donations', () => {
   test('user journey', async ({ browser, context, page }) => {
-    test.skip(
-      process.env.BASE_URL === 'http://localhost:3000',
-      'These features have no local test data and can only be tested on staging.'
-    )
+    test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
     // prepare
-    await proceedAsGuest(page)
-
-    await testAbleToVisitDonationsApp(page)
+    await page.goto('/donations')
+    await denyConsent(page)
 
     await testProjectListAndPagination(page)
     await withSSR(browser, page.url(), testDisplaysProjectList)
@@ -46,19 +43,6 @@ test.describe('@Donations', () => {
 })
 
 const countElementsByTestId = async (page: Page, testId: string) => (await locateElementByTestId(page, testId)).count()
-
-const testAbleToVisitDonationsApp = async (page: Page) => {
-  // click first element in ScrollView
-  await page.locator(byTestId('donations-reco-slider-card')).first().click({ timeout: donationsRequestTimeout })
-
-  // expect detail view
-  await page.waitForSelector(byTestId('donations-detailview-container'), { timeout: donationsRequestTimeout })
-
-  await page.goto('/')
-
-  // click on "see more" / navigate to donations app
-  await clickElementByTestId(page, 'donations-reco-slider-load-more-button')
-}
 
 const testDisplaysProjectList = async (page: Page) => {
   await page.waitForSelector(byTestId('donations-list-container'))
@@ -147,6 +131,7 @@ const testDisplaysFilterResults = async (page: Page) => {
   await expect(page.getByTestId('donations-list-search-heading')).toBeVisible({ timeout: donationsRequestTimeout })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, page: Page) => {
   // filter for "Germany"
   await page.waitForSelector(byTestId('donations-list-item'), { timeout: donationsRequestTimeout })
@@ -188,6 +173,7 @@ const testFilterDonationsByLocationAndResetFilter = async (browser: Browser, pag
   await expect(page.getByTestId('donations-list-unfiltered')).toBeVisible({ timeout: donationsRequestTimeout })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testDisplaysDetailsOfFilterResults = async (page: Page) => {
   // filter for "Hamburg"
   await filterForLocation(page, 'Hamburg')
@@ -249,7 +235,7 @@ const extractResultCount = async (element: Locator): Promise<number> => {
   const textContent = await element.textContent()
   const numberMatch = textContent?.match(/\d+/)
   if (numberMatch && numberMatch.length) {
-    return parseInt(numberMatch[0], 10)
+    return Number.parseInt(numberMatch[0], 10)
   }
   return 0
 }
@@ -258,7 +244,7 @@ const extractNewsCount = async (element: Locator): Promise<number | undefined> =
   const textContent = await element.textContent()
   const numberNews = textContent?.match(/\(([^)]+)\)/)
   if (numberNews && numberNews.length) {
-    return parseInt(numberNews[1], 10)
+    return Number.parseInt(numberNews[1], 10)
   }
   return undefined
 }

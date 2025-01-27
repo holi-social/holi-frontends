@@ -83,8 +83,13 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
       }
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 422 && error.response?.data?.error?.id === 'browser_location_change_required') {
-          const url = trimPrefix('/api/.ory', error.response?.data?.redirect_browser_to)
+        const responseData = error.response?.data as { error?: { id: string }; redirect_browser_to?: string }
+        if (
+          error.response?.status === 422 &&
+          responseData?.error?.id === 'browser_location_change_required' &&
+          responseData?.redirect_browser_to
+        ) {
+          const url = trimPrefix('/api/.ory', responseData?.redirect_browser_to)
           navigate(webview ? url + '&webview=true' : url)
         } else {
           displayError(error, 'Failed to recover with code for password recovery', {
@@ -136,7 +141,7 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
         />
 
         <HoliBox padding={[16, 0, 0, 0]}>
-          <TextLink onPress={resendEmail} size="sm" role="link">
+          <TextLink onPress={resendEmail} size="sm">
             {t('registration.emailVerification.resendEmail')}
           </TextLink>
         </HoliBox>

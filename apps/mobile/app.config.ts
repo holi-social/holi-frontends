@@ -6,9 +6,9 @@ require('ts-node/register')
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.42.0', // user-facing value visible in stores
-  iosBuildNumber: '1.42.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 114, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.45.1', // user-facing value visible in stores
+  iosBuildNumber: '1.45.1', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 134, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -244,6 +244,13 @@ const config: ExpoConfig = {
     posthog: {
       key: requiredEnvVar('POSTHOG_KEY'),
       host: requiredEnvVar('POSTHOG_HOST'),
+    },
+    typesense: {
+      host: requiredEnvVar('TYPESENSE_HOST'),
+      port: requiredEnvVar('TYPESENSE_PORT'),
+      protocol: requiredEnvVar('TYPESENSE_PROTOCOL'),
+      apiKey: requiredEnvVar('TYPESENSE_API_KEY'),
+      collection: requiredEnvVar('TYPESENSE_COLLECTION'),
     },
   },
 }

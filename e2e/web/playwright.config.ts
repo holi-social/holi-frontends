@@ -13,9 +13,9 @@ const baseURL = process.env.BASE_URL || 'https://staging.dev.holi.social'
 const intFromEnvOrDefault = (value: string | undefined, defaultValue: number): number => {
   if (value) {
     try {
-      return parseInt(value)
-    } catch (e) {
-      console.warn(`Can't parse value '${value}' for number of test retries, continuing with value '${defaultValue}'.`)
+      return Number.parseInt(value)
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
+      console.warn(`Can't parse value '${value}' for number of test retries, continuing with value '${defaultValue}'.`) // eslint-disable-line no-console
     }
   }
   return defaultValue
@@ -28,12 +28,12 @@ const possibleBrowsers = [
     use: devices['Desktop Firefox'],
     runAsDefault: true,
   },
-  /* Test against mobile viewports. */
   {
     name: 'Mobile_Chrome',
     use: {
       ...devices['Pixel 5'],
       permissions: ['clipboard-read'],
+      channel: 'chromium',
     },
     runAsDefault: true,
   },
@@ -73,7 +73,10 @@ const config: PlaywrightTestConfig = {
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { open: 'never' }]],
+  reporter: [
+    ['html', { open: 'never' }],
+    ['junit', { outputFile: 'playwright-report/junit-report.xml' }],
+  ],
   // please edit the variable, not this setting, because other settings depend on it.
   retries: retries,
   use: {

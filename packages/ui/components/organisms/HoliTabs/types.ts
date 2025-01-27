@@ -21,4 +21,5 @@ export interface HoliTabsProps<D> {
   centeredTabButtons?: boolean
   backgroundColor?: string
   testID?: string
+  marginHorizontal?: number
 }

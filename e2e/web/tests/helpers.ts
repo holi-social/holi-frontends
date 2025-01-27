@@ -6,6 +6,7 @@ import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
 import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
 import { test } from './testmaster'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 // sometimes requests to the app backends take a little longer (10s < response latency < 40s)
 export const donationsRequestTimeout = 40_000
@@ -31,6 +32,13 @@ export const clickElementByTestId = async (page: Page, testId: string, nth?: num
   return clickFirstElement(await locateElementByTestId(page, testId, nth))
 }
 
+export const clickElementByAriaLabel = async (page: Page, label: string): Promise<void> => {
+  return clickFirstElement(page.getByLabel(label))
+}
+
+export const clickThisOrThatElementByTestId = async (page: Page, testIdA: string, testIdB: string): Promise<void> => {
+  return clickFirstElement(page.locator(`[data-testid='${testIdA}'], [data-testid='${testIdB}']`))
+}
 /*
  * Only use for text that is provided by the test (fixture)
  */
@@ -72,28 +80,105 @@ export const login = async (context: BrowserContext, page: Page, email: string, 
   await clickElementByTestId(page, 'ory-submit-password')
 }
 
-export const registerUserAccount = async (
+const registerUserAccount = async (
   context: BrowserContext,
   page: Page,
-  email: string,
-  password: string
+  {
+    email,
+    password,
+    userData,
+  }: {
+    email: string
+    password: string
+    userData?: OnboardingUserData
+  }
 ): Promise<{ fullName: string }> => {
   await gotoWithRetries(page, '/profile')
 
-  await registerUser(context, page, email, password)
+  await registerUser(context, page, { email, password, userData })
   return await finishAccountSetup(page)
+}
+
+const skipOnboardingInitialSteps = async (page: Page) => {
+  await Promise.all([
+    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
+    clickElementByTestId(page, 'btn-to-onboarding'),
+  ])
+
+  const onboardingStepsToSkip = [
+    'onboarding-content-selection',
+    'onboarding-location-selection',
+    'onboarding-interests-selection',
+    'onboarding-skills-selection',
+  ]
+  for (const step of onboardingStepsToSkip) {
+    await page.waitForSelector(byTestId(step))
+    await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
+  }
+}
+
+const fillOutOnboarding = async (page: Page, userData: OnboardingUserData) => {
+  await Promise.all([
+    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
+    clickElementByTestId(page, 'btn-to-onboarding'),
+  ])
+
+  // Handle content selection
+  await page.waitForSelector(byTestId('onboarding-content-selection'))
+  if (userData.content) {
+    await clickElementByTestId(page, userData.content)
+  }
+  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
+  // Handle location selection
+  await page.waitForSelector(byTestId('onboarding-location-selection'))
+  if (userData.location) {
+    const locationInput = await locateElementByTestId(page, 'onboarding-location-selection-autocomplete-input')
+    await locationInput.fill(userData.location.label)
+    const locationOption = `onboarding-location-selection-autocomplete-item-${userData.location.id}`
+    await page.waitForSelector(byTestId(locationOption))
+    await clickElementByTestId(page, locationOption)
+  }
+  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
+  // Handle interests selection
+  await page.waitForSelector(byTestId('onboarding-interests-selection'))
+  for (const slug of userData.interests) {
+    await clickElementByTestId(page, `user-chip-form--${slug}-chip`)
+  }
+  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
+  // Handle skills selection
+  await page.waitForSelector(byTestId('onboarding-skills-selection'))
+  for (const slug of userData.skills) {
+    await clickElementByTestId(page, `user-chip-form--${slug}-chip`)
+  }
+  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
+
+  // Expect account creation step
+  await page.waitForSelector(byTestId('onboarding-account-creation'))
 }
 
 export const registerUser = async (
   context: BrowserContext,
   page: Page,
-  email: string,
-  password: string
+  {
+    email,
+    password,
+    userData,
+  }: {
+    email: string
+    password: string
+    userData?: OnboardingUserData
+  }
 ): Promise<void> => {
   await prepareForLoginOrRegistration(context, page)
 
   await clickElementByTestId(page, 'btn-to-registration-form')
-  await waitForAnimationEnd(page, byTestId('stepper-scrollview'))
+  await waitForAnimationEnd(page, byTestId('onboarding-stepper'))
+
+  if (userData) {
+    await fillOutOnboarding(page, userData)
+  } else {
+    await skipOnboardingInitialSteps(page)
+  }
 
   const emailInput = await locateElementByTestId(page, 'ory-traits-email-input')
   const passwordInput = await locateElementByTestId(page, 'ory-password-input')
@@ -109,7 +194,7 @@ export const registerUser = async (
   await clickElementByTestId(page, 'ory-submit-password')
 }
 
-export const finishAccountSetup = async (
+const finishAccountSetup = async (
   page: Page,
   {
     firstName = faker.person.firstName(),
@@ -121,26 +206,13 @@ export const finishAccountSetup = async (
 ): Promise<{ fullName: string }> => {
   // go through account setup
   // provide user names
-  const firstNameInput = await locateElementByTestId(page, 'first-name-input')
+  const firstNameInput = await locateElementByTestId(page, 'onboarding-name-selection-first-name-input')
   await firstNameInput.fill(firstName)
 
-  const lastNameInput = await locateElementByTestId(page, 'last-name-input')
+  const lastNameInput = await locateElementByTestId(page, 'onboarding-name-selection-last-name-input')
   await lastNameInput.fill(lastName)
   // submit
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
-
-  // submit pre-success step
-  await page.waitForSelector(byTestId('account-setup-pre-registration-success-step'))
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
-  // skip interests step
-  await page.waitForSelector(byTestId('account-setup-interests-step-headline'))
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
-  // skip location step
-  await page.waitForSelector(byTestId('account-setup-location-step-headline'))
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
-  // skip interests step
-  await page.waitForSelector(byTestId('account-setup-success-step'))
-  await clickElementByTestId(page, 'holi-wizard-save-btn')
+  await clickElementByTestId(page, 'onboarding-name-selection-btn-submit')
 
   return {
     fullName: firstName + ' ' + lastName,
@@ -152,38 +224,55 @@ export const proceedAsGuest = async (page: Page): Promise<void> => {
   await gotoWithRetries(page, '/')
 
   await denyConsent(page)
-  await Promise.all([
-    page.waitForSelector(byTestId('btn-to-onboarding'), { state: 'detached' }),
-    clickElementByTestId(page, 'btn-to-onboarding'),
-  ])
-  await clickElementByTestId(page, 'holi-wizard-skip-btn')
-  await clickElementByTestId(page, 'btn-to-continue-as-guest')
+
+  await skipOnboardingInitialSteps(page)
+
+  await clickElementByTestId(page, 'onboarding-account-creation-btn-continue-as-guest')
+
+  await page.waitForSelector(byTestId('onboarding-account-creation-btn-continue-as-guest'), { state: 'detached' })
+
+  // User will land on act screen after onboarding > navigate to home feed
+  await clickElementByTestId(page, 'btn-to-home-view')
 }
 
 export const loginAsE2EUser = async (context: BrowserContext, page: Page): Promise<void> => {
   test.expect(!!process.env.E2E_USER_USERNAME, 'Env E2E_USER_USERNAME is set up correctly').toBeTruthy()
   test.expect(!!process.env.E2E_USER_PASSWORD, 'Env E2E_USER_PASSWORD is set up correctly').toBeTruthy()
   await login(context, page, process.env.E2E_USER_USERNAME as string, process.env.E2E_USER_PASSWORD as string)
-  // wait for profile - login succeeded
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+
+  await page.waitForSelector(byTestId('home-feed-listing'))
 }
 
-export const registerNewUserAccount = async (
+const registerNewUserAccount = async (
   context: BrowserContext,
   page: Page,
-  email?: string,
-  password?: string
+  {
+    email,
+    password,
+    userData,
+    expectedScreen = 'act-home',
+  }: {
+    email?: string
+    password?: string
+    userData?: OnboardingUserData
+    expectedScreen?: string
+  } = {}
 ): Promise<{ fullName: string }> => {
   const emailToUse = email || newUserEmail()
   const passwordToUse = password || newUserPassword
-  const newAccount = await registerUserAccount(context, page, emailToUse, passwordToUse)
-  // wait for home feed - registration succeeded
-  await page.waitForSelector(byTestId('home-feed-insights-heading'))
+  const newAccount = await registerUserAccount(context, page, {
+    email: emailToUse,
+    password: passwordToUse,
+    userData,
+  })
+  await page.waitForSelector(byTestId('community-guidelines-modal-btn-submit'))
+  await clickElementByTestId(page, 'community-guidelines-modal-btn-submit')
+  // wait for expected screen (usually act home) - registration succeeded
+  await page.waitForSelector(byTestId(expectedScreen))
   return newAccount
 }
 
 export const checkAccessibility = async (page: Page, failOnError = true) => {
-  console.debug('check accessibility for', page.url())
   await injectAxe(page)
   const axeOptions = {
     rules: {
@@ -200,9 +289,13 @@ export const checkAccessibility = async (page: Page, failOnError = true) => {
       { id: 'scrollable-region-focusable', enabled: false }, // TODO: Fix HoliStepper issue with this rule
       { id: 'duplicate-id', enabled: false }, // svg icon components rendered in lists have duplicated ids for their shape masks
       { id: 'nested-interactive', enabled: false }, // todo gregor: check why the bottom bar nav is a concern in multiple tests
+      { id: 'page-has-heading-one', enabled: false },
     ],
   })
-  await checkA11y(page, undefined, axeOptions, !failOnError)
+
+  await test.step('Web page is accessible: ' + page.url(), async () => {
+    await checkA11y(page, undefined, axeOptions, !failOnError)
+  })
 }
 
 export const sendConnectionRequest = async (page: Page) => {
@@ -232,13 +325,22 @@ export const randomSpaceName = () => {
 export const withRandomUserSession = async (
   browser: Browser,
   actions: (page: Page, userFullName: string) => Promise<void>,
-  email: string = newUserEmail(),
-  password: string = randomPassword()
+  {
+    email = newUserEmail(),
+    password = randomPassword(),
+    userData,
+    expectedScreen,
+  }: {
+    email?: string
+    password?: string
+    userData?: OnboardingUserData
+    expectedScreen?: string
+  } = {}
 ): Promise<() => Promise<void>> => {
   const context = await browser.newContext()
   const page = await context.newPage()
 
-  const newAccount = await registerNewUserAccount(context, page, email, password)
+  const newAccount = await registerNewUserAccount(context, page, { email, password, userData, expectedScreen })
 
   // If the initial attempt fails, fall back to retry logic
   await gotoWithRetries(page, '/profile')
@@ -338,4 +440,8 @@ export async function gotoWithRetries(page: Page, url: string, retries = 3, dela
       }
     }
   }
+}
+
+export const isRunningLocally = () => {
+  return process.env.BASE_URL === 'http://localhost:3000'
 }

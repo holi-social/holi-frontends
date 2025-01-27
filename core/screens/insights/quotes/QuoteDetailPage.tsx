@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
+import { type ImageStyle, Linking, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -30,6 +29,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type QuoteDetailPageParams = {
   insightId: string
@@ -82,8 +82,8 @@ const QuoteDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTransparent: true,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{t('insights.quotes.title')}</HeaderTitle>,
       headerRight: () => {
         return (
@@ -105,7 +105,7 @@ const QuoteDetailPage = () => {
 
   return (
     <>
-      <ScrollHeaderLayout contentContainerStyle={styles.wrapper} backgroundColor={theme.colors.background20}>
+      <ScrollViewRefreshable contentContainerStyle={styles.wrapper} backgroundColor={theme.colors.background20}>
         {quote && !loading ? (
           <>
             {quote.linkPreview.image && (
@@ -127,10 +127,10 @@ const QuoteDetailPage = () => {
               <View style={{ flexDirection: 'row', gap: Spacing.xxs }}>
                 <Avatar
                   size="xs"
-                  imgSrc={insight.creator.avatar}
-                  imgPlaceholder={insight.creator.avatarBlurhash}
-                  label={insight.creator.fullName ?? ''}
-                  initials={insight.creator.avatarLabel ?? ''}
+                  imgSrc={insight!.creator?.avatar || undefined} // eslint-disable-line @typescript-eslint/no-non-null-assertion
+                  imgPlaceholder={insight!.creator?.avatarBlurhash || undefined} // eslint-disable-line @typescript-eslint/no-non-null-assertion
+                  label={insight!.creator?.fullName ?? ''} // eslint-disable-line @typescript-eslint/no-non-null-assertion
+                  initials={insight!.creator?.avatarLabel ?? ''} // eslint-disable-line @typescript-eslint/no-non-null-assertion
                 />
 
                 <HoliHeading level="3">{t('insights.quotes.detail.subtitle')}</HoliHeading>
@@ -150,7 +150,7 @@ const QuoteDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout>
+      </ScrollViewRefreshable>
 
       <View style={[mixins.container, styles.openLinkButton]}>
         {(!quote || loading) && <HoliButtonLoading loading loadingLabel={t('global.loading')} label="" />}
@@ -204,7 +204,7 @@ const getStyles = (theme: HoliTheme) =>
         },
         native: { maxHeight: '50%', aspectRatio: 375 / 202 },
       }),
-    } as ImageStyle,
+    } as ViewStyle,
 
     quoteImage: {
       ...Platform.select({ web: { height: '100%' } }),

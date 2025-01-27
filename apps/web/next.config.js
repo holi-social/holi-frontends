@@ -120,6 +120,7 @@ const nextConfig = {
     'expo-image-manipulator',
     'expo-modules-core',
     'expo-notifications',
+    'react-native-keyboard-controller',
     'expo-status-bar',
     '@jsamr/react-native-li',
     '@holi-apps/donations',
@@ -130,6 +131,7 @@ const nextConfig = {
     '@holi/core',
     '@holi/api',
     '@holi/chat',
+    '@shopify/flash-list',
   ],
 }
 

@@ -11,7 +11,7 @@ const useTracking = (): TrackingHook => {
   const [consent] = useConsentState()
   return {
     track: (event: TrackingEvent) => {
-      logger.debug('trackEvent', 'tracking event', event)
+      logger.debug('trackEvent', `tracking "${event.name}" event`, event)
       try {
         posthog.capture(event.name, {
           ...event.properties,

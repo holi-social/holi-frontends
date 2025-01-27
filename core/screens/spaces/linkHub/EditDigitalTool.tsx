@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
-import { urlRegex } from '@holi/core/helpers'
-import { withProtocol } from '@holi/core/helpers/url'
+import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
+import { validateUrl, withProtocol } from '@holi/core/helpers/url'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -18,16 +17,16 @@ import DigitalToolInputForm, {
   COLLECTION_TYPES,
 } from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
-  UpdateCollaborationToolResponse,
-  UpdateCollaborationToolSchema,
   updateCollaborationToolMutation,
+  type UpdateCollaborationToolResponse,
+  UpdateCollaborationToolSchema,
 } from '@holi/core/screens/spaces/linkHub/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { ArrowDownS } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type EditDigitalToolParams = {
@@ -96,7 +95,7 @@ const EditDigitalTool = () => {
   }
 
   useEffect(() => {
-    if (!urlRegex.test(url)) {
+    if (!validateUrl(url)) {
       setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
@@ -104,17 +103,17 @@ const EditDigitalTool = () => {
   }, [t, url])
 
   useIsomorphicLayoutEffect(() => {
-    !loadingSpace &&
+    if (!loadingSpace) {
       setScreenOptions({
         animation: 'slide_from_bottom',
         title: '',
         headerStyle: { backgroundColor: colors.background20 },
-        headerTransparent: true,
         headerLeft: () => <HeaderBackButton icon={ArrowDownS} onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
+    }
   }, [t, loadingSpace, setScreenOptions, colors.background20])
 
   useEffect(() => {

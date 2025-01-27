@@ -2,11 +2,13 @@ import { Page, expect } from '@playwright/test'
 
 import { randomSpaceName } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { byTestId, clickElementByTestId, locateElementByTestId, retry } from './helpers'
+import { byTestId, clickElementByTestId, clickThisOrThatElementByTestId, locateElementByTestId, retry } from './helpers'
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
-const GET_INVOLVED_SPACE_TAB_TEST_ID = 'space-tabs-button-involvement-inactive'
+const GET_INVOLVED_SPACE_TAB_TEST_ID_ACTIVE = 'space-tabs-button-involvement-active'
+const GET_INVOLVED_SPACE_TAB_TEST_ID_INACTIVE = 'space-tabs-button-involvement-inactive'
+
 const APPOINTMENT_CREATE_BUTTON_TEST_ID = 'btn-right-space-appointments-card'
 
 // this is a long journey, but its as fast as our backends are
@@ -19,7 +21,6 @@ test.describe('@AppointmentNotifications', () => {
     const { page: admin } = await sessions.signUp()
 
     // because we do a hard navigation we need to wait for logged in user to be fetched from BE. So, wait for 'logged-in-profile'
-
     await admin.waitForSelector(byTestId('logged-in-profile'))
 
     await createSpace(admin, spaceName)
@@ -28,9 +29,11 @@ test.describe('@AppointmentNotifications', () => {
     await followSpace(follower, spaceName)
 
     await createSpaceAppointment(admin)
+    await editAppointmentTitle(admin)
 
     await retry(async () => {
       await follower.goto('/notifications')
+      // only one appointment here, the edit-update is not notifying as its just a title change
       await expect(await locateElementByTestId(follower, 'space-appointment')).toBeVisible()
     })
 
@@ -53,7 +56,7 @@ async function followSpace(user: Page, spaceName: string) {
 
 async function createSpaceAppointment(adminA: Page) {
   await test.step('admin creates appointment', async () => {
-    await clickElementByTestId(adminA, GET_INVOLVED_SPACE_TAB_TEST_ID)
+    await openInvolvementTab(adminA)
     // wait for animation of tab to end
     await adminA.waitForTimeout(1000)
     await clickElementByTestId(adminA, APPOINTMENT_CREATE_BUTTON_TEST_ID)
@@ -67,4 +70,28 @@ async function createSpaceAppointment(adminA: Page) {
 
     await clickElementByTestId(adminA, 'form-wrapper-save-btn')
   })
+}
+
+async function editAppointmentTitle(user: Page) {
+  await test.step('admin can edit appointment', async () => {
+    await openInvolvementTab(user)
+    await clickElementByTestId(user, 'btn-appointment-more-options')
+    await clickElementByTestId(user, 'btn-to-edit-appointment')
+    user.getByText('Edit appointment')
+    const titleField = await locateElementByTestId(user, 'appointment-title-input')
+    await titleField.fill('E2E Party Edited')
+    await clickElementByTestId(user, 'form-wrapper-save-btn')
+
+    await openInvolvementTab(user)
+    const appointmentCard = await locateElementByTestId(user, 'space-appointment-tile')
+    await expect(appointmentCard).toContainText('E2E Party Edited')
+  })
+}
+
+async function openInvolvementTab(adminA: Page) {
+  await clickThisOrThatElementByTestId(
+    adminA,
+    GET_INVOLVED_SPACE_TAB_TEST_ID_ACTIVE,
+    GET_INVOLVED_SPACE_TAB_TEST_ID_INACTIVE
+  )
 }

@@ -13,6 +13,7 @@ export interface ContainerProps {
   flexWrap?: FlexStyle['flexWrap']
   flexDirection?: FlexStyle['flexDirection']
   noPadding?: boolean
+  noPaddingOnSmallViewports?: boolean
   testID?: string
 }
 
@@ -25,9 +26,13 @@ const HoliContainer = ({
   alignItems = 'stretch',
   justifyContent = 'flex-start',
   noPadding,
+  noPaddingOnSmallViewports,
   testID = 'holi-container',
 }: PropsWithChildren<ContainerProps>) => {
-  const { styles, ids } = useMemo(() => getStyles(noPadding), [noPadding])
+  const { styles, ids } = useMemo(
+    () => getStyles(noPadding, noPaddingOnSmallViewports),
+    [noPadding, noPaddingOnSmallViewports]
+  )
 
   return (
     <View
@@ -63,14 +68,15 @@ const buildContainerFlexStyle = (
   return sheet.styles.container
 }
 
-const getStyles = (noPadding?: boolean) => {
+const getStyles = (noPadding?: boolean, noPaddingOnSmallViewports?: boolean) => {
   const horizontalPadding = noPadding
     ? {
         /* none – fill container */
       }
     : {
-        paddingLeft: Spacing.xs,
-        paddingRight: Spacing.xs,
+        ...(noPaddingOnSmallViewports
+          ? { paddingLeft: 0, paddingRight: 0 }
+          : { paddingLeft: Spacing.xs, paddingRight: Spacing.xs }),
 
         [`@media (min-width: ${dimensions.breakpointS}px)`]: {
           paddingRight: Spacing.lg,

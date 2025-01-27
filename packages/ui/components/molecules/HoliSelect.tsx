@@ -121,7 +121,7 @@ const HoliSelect = ({
     if (!focusedItem) {
       setIsOpened(false)
       setSearchText('')
-      Platform.OS !== 'web' && Keyboard.dismiss()
+      if (Platform.OS !== 'web') Keyboard.dismiss()
     }
   }, [focusedItem, setIsOpened, setSearchText])
 

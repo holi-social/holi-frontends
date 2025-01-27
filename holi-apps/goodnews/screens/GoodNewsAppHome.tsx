@@ -3,7 +3,6 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -13,6 +12,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 
 import GoodNewsCarousel from '@holi-apps/goodnews/components/GoodNewsCarousel'
 import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 const GoodNewsAppHome = () => {
   const { t } = useTranslation()
@@ -24,8 +24,10 @@ const GoodNewsAppHome = () => {
     setScreenOptions({
       headerTitle: () => <GoodNewsHeader />,
       headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
-      headerTransparent: true,
       headerTintColor: colors.light,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
+      headerTransparent: true,
       navigationCustomOptions: {
         background: { type: 'gradient' },
         footerShown: false,
@@ -35,16 +37,12 @@ const GoodNewsAppHome = () => {
 
   return (
     <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.GOODNEWS} i18nKey="goodnews:maintenance.feature">
-      <View testID={'goodnews-app-home'}>
+      <View style={{ flex: 1 }} testID={'goodnews-app-home'}>
         <StatusBar style="light" animated />
 
-        <ScrollHeaderLayout
-          bounces={false}
-          headerRelation="overlap"
-          style={{ paddingBottom: 0, backgroundColor: colors.background30 }}
-        >
+        <ScrollViewRefreshable bounces={false} style={{ paddingBottom: 0, backgroundColor: colors.background30 }}>
           <GoodNewsCarousel />
-        </ScrollHeaderLayout>
+        </ScrollViewRefreshable>
       </View>
     </PosthogFeatureFlagGuard>
   )

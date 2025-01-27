@@ -1,21 +1,22 @@
-import React, { useCallback, useMemo } from 'react'
+import type React from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import AppointmentCard from '@holi/core/screens/appointments/components/AppointmentCard'
-import { Appointment } from '@holi/core/screens/appointments/types'
-import { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
+import type { SpaceDetailsParams } from '@holi/core/screens/spaces/details/SpaceDetails'
 import CollaboratorAreaCard from '@holi/core/screens/spaces/linkHub/components/CollaborationAreaCard'
-import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add, CalendarEvent } from '@holi/icons/src/generated'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 
 interface AppointmentsWidgetProps {
   space: Space

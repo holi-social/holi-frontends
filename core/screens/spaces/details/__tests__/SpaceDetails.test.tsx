@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import type { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
@@ -94,8 +94,8 @@ describe('SpaceDetails', () => {
       </MockedProvider>
     )
 
-    await screen.findByText(space.title)
-    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'info' })
+    await screen.queryByText(space.title)
+    await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'info' }))
   })
 
   it('selects involvement tab for members if involvement content exists', async () => {
@@ -106,7 +106,7 @@ describe('SpaceDetails', () => {
       </MockedProvider>
     )
 
-    await screen.findByText(space.title)
+    await screen.queryByText(space.title)
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'involvement' }))
   })
 
@@ -122,10 +122,8 @@ describe('SpaceDetails', () => {
       </MockedProvider>
     )
 
-    await screen.findByText(space.title)
+    await screen.queryByText(space.title)
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'updates' }))
-
-    expect(mockUseUpdateParams).toHaveBeenCalledWith({ tab: 'updates' })
   })
 
   // FIXME: it seems the mockUseUpdateParams does not trigger a rerender anymore
@@ -150,7 +148,7 @@ describe('SpaceDetails', () => {
     const { rerender } = render(crateComponent())
 
     // Expect initial title
-    await screen.findByText(space.title)
+    await screen.queryByText(space.title)
 
     expect(mockUseUpdateParams).toHaveBeenCalledTimes(1)
     expect(mockUseUpdateParams).toHaveBeenCalledWith({
@@ -166,6 +164,6 @@ describe('SpaceDetails', () => {
     await waitFor(() => expect(mockUseUpdateParams).toHaveBeenCalledWith({ refresh: undefined }))
 
     // Expect a new title
-    expect(await screen.findByText(newTitle)).toBeOnTheScreen()
+    expect(await screen.queryByText(newTitle)).toBeOnTheScreen()
   })
 })

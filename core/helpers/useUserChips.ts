@@ -1,17 +1,18 @@
-import { DocumentNode, useMutation, useQuery } from '@apollo/client'
+import { type DocumentNode, useMutation, useQuery } from '@apollo/client'
 import { useCallback, useMemo, useState } from 'react'
 
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { Term, User, termsByTitleComparator } from '@holi/core/domain/shared/types'
+import { type Term, type User, termsByTitleComparator } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import type { SelectableTerm } from '@holi/core/screens/userprofile/components/UserChipForm'
 import {
-  UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserV2Response,
+  type UpdateAuthenticatedUserInput,
+  type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { Paged } from '@holi/core/types'
+import type { Color } from 'holi-bricks/tokens'
 
 export enum UserChipTypes {
   INTERESTS = 'interests',
@@ -24,6 +25,7 @@ export interface UseUserChipsOptions {
   keyInUserObject: UserChipTypes
   queryToUse: DocumentNode
   onSubmit?: (user: User) => void
+  color?: Color
 }
 
 const getSortedAndFilteredTerms = (

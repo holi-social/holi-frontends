@@ -101,6 +101,26 @@ resource "google_cloud_run_service" "mvp_web" {
           name  = "NEXT_PUBLIC_OWNCLOUD_BASE_URL"
           value = local.environment == "production" ? "https://production.cloud.holi.social" : "https://development.cloud.holi.social"
         }
+        env {
+          name  = "TYPESENSE_HOST"
+          value = local.environment == "production" ? "search.holi.social" : "dev-search.holi.social"
+        }
+        env {
+          name  = "TYPESENSE_PORT"
+          value = "443"
+        }
+        env {
+          name  = "TYPESENSE_PROTOCOL"
+          value = "https"
+        }
+        env {
+          name  = "TYPESENSE_API_KEY"
+          value = local.environment == "production" ? "jtOdwRfhEFW7UmCpDKjnQaS71uU28YOq" : "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2"
+        }
+        env {
+          name  = "TYPESENSE_COLLECTION"
+          value = local.environment == "production" ? "holi_search_production" : "holi_search_staging"
+        }
 
         resources {
           limits = {
@@ -113,13 +133,23 @@ resource "google_cloud_run_service" "mvp_web" {
             memory = local.environment == "production" ? "1024Mi" : "1024Mi"
           }
         }
+
         startup_probe {
           initial_delay_seconds = 30
           period_seconds        = 5
           timeout_seconds       = 5
           failure_threshold     = 10
           http_get {
-            path = "/"
+            path = "/api/health"
+          }
+        }
+
+        liveness_probe {
+          period_seconds        = 15
+          timeout_seconds       = 10
+          failure_threshold     = 3
+          http_get {
+            path = "/api/health"
           }
         }
       }
@@ -128,7 +158,7 @@ resource "google_cloud_run_service" "mvp_web" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/minScale"         = lookup(local.service_min_scale, local.environment, "0")
-        "autoscaling.knative.dev/maxScale"         = lookup(local.service_min_scale, local.environment, "2")
+        "autoscaling.knative.dev/maxScale"         = lookup(local.service_max_scale, local.environment, "2")
         "run.googleapis.com/execution-environment" = "gen1"
         "run.googleapis.com/startup-cpu-boost"     = "true"
       }

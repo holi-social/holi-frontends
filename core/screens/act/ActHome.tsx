@@ -3,17 +3,16 @@ import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { ActSection } from '@holi/core/screens/act/ActSection'
+import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
+import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 type ActHomeParams = {
   section: string
@@ -22,7 +21,12 @@ type ActHomeParams = {
 const { useParam } = createParamHooks<ActHomeParams>()
 
 export const orderedSections = (selectedContentType?: string) => {
-  const sections = ['CHALLENGES', 'VOLUNTEERING', 'DONATIONS']
+  const sections = [
+    ActSectionType.VOLUNTEERING,
+    ActSectionType.CHALLENGES,
+    ActSectionType.TASKS,
+    ActSectionType.DONATIONS,
+  ]
 
   if (selectedContentType) {
     const index = sections.findIndex((item) => item === selectedContentType)
@@ -47,28 +51,27 @@ const ActHome = () => {
       title,
       headerBackTitleVisible: true,
       headerBackVisible: true,
-      headerTransparent: true,
-      headerTitle: () => null,
+      headerTitle: '',
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
           {title}
         </HeaderTitle>
       ),
-      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
+      headerRight: () => <NotificationAndSearchHeader />,
     })
   }, [title, setScreenOptions])
 
   const sections = orderedSections(selectedContentType)
 
   return (
-    <ScrollHeaderLayout>
-      <View style={styles.container}>
-        <AttendingChallengeEvents />
+    <ScrollViewRefreshable style={styles.layout}>
+      <View style={styles.container} testID="act-home">
+        <AttendingChallengeEventsLegacy />
         {sections.map((sectionName) => (
           <ActSection type={sectionName} key={sectionName} />
         ))}
       </View>
-    </ScrollHeaderLayout>
+    </ScrollViewRefreshable>
   )
 }
 
@@ -79,6 +82,9 @@ const getStyles = (theme: HoliTheme) =>
       backgroundColor: theme.colors.background20,
       paddingTop: dimensions.spacingM,
       paddingBottom: dimensions.spacingL,
+    },
+    layout: {
+      backgroundColor: theme.colors.background20,
     },
   })
 

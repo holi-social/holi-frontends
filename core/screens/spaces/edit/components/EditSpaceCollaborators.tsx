@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
@@ -9,12 +9,12 @@ import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
+import useRefreshOnNavigation, { type RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import SpaceCollaboratorList from '@holi/core/screens/spaces/details/components/SpaceCollaboratorList'
 import SpaceInvitesList from '@holi/core/screens/spaces/details/components/SpaceInvitesList'
 import SpacePendingRequestsList from '@holi/core/screens/spaces/details/components/SpacePendingRequestsList'
@@ -24,12 +24,9 @@ import {
   spaceMembersQuery,
   spaceMembershipRequestsQuery,
 } from '@holi/core/screens/spaces/details/queries'
-import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
-import { SpaceConnectionType, SpaceMember } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { type SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
+import { SpaceConnectionType, type SpaceMember } from '@holi/core/screens/spaces/types'
 import { UserAdd } from '@holi/icons/src/generated'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -37,6 +34,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Button } from 'holi-bricks/components/button'
 
 export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
@@ -90,7 +88,6 @@ const EditSpaceCollaborators = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.collaborators'),
-      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -246,19 +243,14 @@ const EditSpaceCollaborators = () => {
         />
       )}
 
-      <View style={[styles.overlayButtonWrapper]}>
-        <HoliButton
+      <View style={[styles.overlayButtonWrapper, mixins.container, styles.overlayButton]}>
+        <Button
           label={t('spaces.members.invite')}
           testID="btn-filter-spaces"
           inline
-          style={[mixins.container, styles.overlayButton]}
           onPress={() => navigate(`/spaces/${spaceIdOrName}/invite`)}
-        >
-          <HoliText size="small" bold>
-            {t('spaces.members.invite')}
-          </HoliText>
-          <HoliIcon icon={UserAdd} size={16} color={colors.foreground30} style={styles.icon} />
-        </HoliButton>
+          icon={UserAdd}
+        />
       </View>
     </PermissionsGuard>
   )
@@ -282,7 +274,6 @@ const styles = StyleSheet.create({
     maxWidth: 420,
     flex: 1,
     bottom: Platform.OS === 'web' ? 32 : 16,
-    borderWidth: 1,
     paddingVertical: 12,
     paddingHorizontal: 16,
   },

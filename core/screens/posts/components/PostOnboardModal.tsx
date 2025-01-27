@@ -56,7 +56,7 @@ const PostOnboardModal = ({ visible, handleModalClose }: PostOnboardModalProps) 
 
   return (
     <HoliModal
-      show={visible}
+      shown={visible}
       label={t('individuals.post.onboarding.label')}
       onDismiss={() => handleModalClose()}
       style={styles.modal}

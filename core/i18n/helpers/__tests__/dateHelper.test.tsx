@@ -30,21 +30,15 @@ describe('getRelativeDateString', () => {
     expect(formattedDateString).toBe('yesterday')
   })
 
-  it('formats correctly this weeks date', () => {
+  it('formats correctly dates from 2-6 days ago', () => {
     for (let daysBefore = 2; daysBefore <= 6; daysBefore++) {
       const date = new Date()
-      let dayOfWeek = date.getDay() - 1
-      if (dayOfWeek < 0) {
-        dayOfWeek = 6
-      }
-      date.setDate(date.getDate() - daysBefore) // set this date to day before yesterday
-
+      date.setDate(date.getDate() - daysBefore)
       const dateString = date.toDateString()
 
       const formattedDateString = getRelativeDateString(dateString, language)
 
-      // `dayOfWeek - daysBefore` checks if day before yesterday is in current week
-      expect(formattedDateString).toBe(dayOfWeek - daysBefore >= 0 ? `${daysBefore} days ago` : 'last week')
+      expect(formattedDateString).toBe(`${daysBefore} days ago`)
     }
   })
 
@@ -59,7 +53,7 @@ describe('getRelativeDateString', () => {
     expect(formattedDateString).toBe('last week')
   })
 
-  it('formats correctly over 2 weeks ago date', () => {
+  it('formats correctly dates over 1 week ago', () => {
     const date = new Date()
     date.setDate(date.getDate() - 15)
 

@@ -17,20 +17,19 @@ import {
 } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { setPathToRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
 
 const ChatHomeNeedToLogin = () => {
   const { t } = useTranslation()
@@ -58,15 +57,13 @@ const ChatHomeNeedToLogin = () => {
           style={[styles.noResultsMessage]}
           testID="chat-login"
         >
-          <HoliButton
+          <Button
             label={t('loginRedirect.btnConfirm')}
             onPress={() => {
               setPathToRedirect('/chat')
               navigate('/login')
             }}
-          >
-            {t('loginRedirect.btnConfirm')}
-          </HoliButton>
+          />
         </HoliNoResults>
       </View>
     </ScrollView>
@@ -99,9 +96,7 @@ const ChatHomeNoExistingRooms = () => {
           style={[styles.noResultsMessage]}
           testID="chat-no-result"
         >
-          <HoliButton label={t('chat.empty.button.text')} onPress={() => navigate('/chat/start')}>
-            {t('chat.empty.button.text')}
-          </HoliButton>
+          <Button label={t('chat.empty.button.text')} onPress={() => navigate('/chat/start')} />
         </HoliNoResults>
       </View>
     </ScrollView>
@@ -167,7 +162,6 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
   const mixins = useStyleMixins()
   const { navigate } = useRouting()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const sortedRoomAtoms = useAtomValue(roomAtomsSortedByDateAtom)
@@ -186,15 +180,15 @@ const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
       <RoomList roomAtoms={tabRoomAtomsRecord[selectedTabId]} loggedInUser={loggedInUser} />
 
       <View style={[mixins.container, styles.overlayButtonWrapper]}>
-        <HoliButton
-          label={t('chat.start.title')}
-          inline
-          style={styles.overlayButton}
-          onPress={() => navigate('/chat/start')}
-          testID="start-chat-button"
-        >
-          <HoliIcon icon={Pencil} size={24} color={colors.foreground30} />
-        </HoliButton>
+        <View style={styles.overlayButton}>
+          <ButtonIcon
+            label={t('chat.start.title')}
+            onPress={() => navigate('/chat/start')}
+            testID="start-chat-button"
+            icon={Pencil}
+            size="lg"
+          />
+        </View>
       </View>
     </View>
   )
@@ -239,7 +233,6 @@ const getStyles = (theme: HoliTheme) =>
       position: 'absolute',
       bottom: (isWeb ? dimensions.bottomBarHeight : 0) + 12,
       right: 12,
-      borderWidth: 1,
       paddingVertical: 16,
       paddingHorizontal: 16,
     },

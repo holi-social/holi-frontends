@@ -9,7 +9,7 @@ import BotomLineSeperator from './BotomLineSeperator'
 import TabButtonList from './TabButtonList'
 import TabContentList from './TabContentScrollableList'
 import { renderTabButtonHelper, useHoliTabsMarginHorizontal } from './helpers'
-import { HoliTabItem, HoliTabsProps } from './types'
+import type { HoliTabItem, HoliTabsProps } from './types'
 
 const HoliTabs = <D extends HoliTabItem>({
   data,
@@ -22,8 +22,12 @@ const HoliTabs = <D extends HoliTabItem>({
   centeredTabButtons = false,
   backgroundColor,
   testID = 'holi-tabs',
+  marginHorizontal: propMarginHorizontal,
 }: HoliTabsProps<D>) => {
   const { theme } = useTheme()
+
+  const marginHorizontal = useHoliTabsMarginHorizontal()
+  const finalMarginHorizontal = propMarginHorizontal ?? marginHorizontal
 
   const [componentWidth, setComponentWidth] = useState<number>(Dimensions.get('window').width)
 
@@ -34,8 +38,6 @@ const HoliTabs = <D extends HoliTabItem>({
   const onContentScroll = useAnimatedScrollHandler((event) => {
     contentScrollOffsetX.value = event.contentOffset.x
   })
-
-  const marginHorizontal = useHoliTabsMarginHorizontal()
 
   const isUserDrag = useSharedValue(false)
   const isScrollableVariant = variant === 'scrollable'
@@ -54,7 +56,7 @@ const HoliTabs = <D extends HoliTabItem>({
             data,
             keyExtractor,
             centeredTabButtons,
-            marginHorizontal,
+            marginHorizontal: useHoliTabsMarginHorizontal(),
             width: componentWidth,
           }}
           renderItem={(options) =>
@@ -68,7 +70,7 @@ const HoliTabs = <D extends HoliTabItem>({
       <View style={{ backgroundColor }}>
         {isScrollableVariant ? (
           <TabContentList
-            {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
+            {...{ activeTab, data, keyExtractor, marginHorizontal: finalMarginHorizontal, width: componentWidth }}
             renderItem={renderTabContent}
             onScroll={onContentScroll}
             scrollEventThrottle={16}
@@ -82,7 +84,7 @@ const HoliTabs = <D extends HoliTabItem>({
           />
         ) : (
           <TabContentVirtualized
-            {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
+            {...{ activeTab, data, keyExtractor, marginHorizontal: finalMarginHorizontal, width: componentWidth }}
             renderItem={renderTabContent}
             tabsId={testID}
             testID={`${testID}-content-list`}

@@ -106,7 +106,7 @@ describe('LoginProtection', () => {
 
       fireEvent.press(screen.getByTestId('btn-to-registration-form'))
 
-      expect(mockNavigate).toHaveBeenCalledWith('/onboarding/registration')
+      expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
     })
 
     it('login', async () => {

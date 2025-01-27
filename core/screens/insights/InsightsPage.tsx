@@ -3,7 +3,6 @@ import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type DimensionValue, Platform, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { logError } from '@holi/core/errors/helpers/logError'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -33,6 +32,8 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { User } from '@holi/core/domain/shared/types'
 
 const InsightsList = () => {
   const { t } = useTranslation()
@@ -41,17 +42,14 @@ const InsightsList = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState({ visible: false })
+  const { show: showEditorsModal, hide: hideEditorsModal, props: editorsModalProps } = useModalState()
 
   const { loading, data: insights, totalResults } = usePaginationContext<Insight>()
 
-  const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator)
+  const insightsCreators = insights.map((insight) => insight.creator).filter((creator) => !!creator) as User[]
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTransparent: true,
       headerTitle: ({ tintColor }) => <HeaderTitle tintColor={tintColor}>{'Insights'}</HeaderTitle>,
     })
   }, [navigate, setScreenOptions, t])
@@ -199,7 +197,7 @@ const InsightsPage = () => {
   }
 
   return (
-    <ScrollHeaderLayout style={styles.layout}>
+    <ScrollViewRefreshable style={styles.layout}>
       <View style={styles.sections}>
         <HoliContainer>
           <Pagination
@@ -207,7 +205,7 @@ const InsightsPage = () => {
             queryOptions={queryOptions}
             scrollPlaceholder={<HoliLoader style={styles.loaderBottom} />}
             fetchMoreButtonProps={{
-              type: 'secondary',
+              variant: 'secondary',
               style: mixins.moreButton,
             }}
           >
@@ -215,7 +213,7 @@ const InsightsPage = () => {
           </Pagination>
         </HoliContainer>
       </View>
-    </ScrollHeaderLayout>
+    </ScrollViewRefreshable>
   )
 }
 

@@ -1,46 +1,48 @@
 import { type DocumentNode, useApolloClient, useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import type Animated from 'react-native-reanimated'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import FilterModal from '@holi/core/components/FIlterModal'
 import HoliHead from '@holi/core/components/HoliHead'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import CreateSpaceButton from '@holi/core/navigation/components/CreateSpaceButton'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
-import type { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
-import DiscoverSpaces from '@holi/core/screens/spaces/discover/components/DiscoverSpaces'
+import GetStartedView from '@holi/core/screens/spaces/discover/components/GetStartedView'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 import { type MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 
 export enum Tab {
   MINE = 'mine',
   DISCOVER = 'discover',
 }
 
+export type SpacesTabParams = {
+  tab?: Tab
+}
+
+const { useParam, useUpdateParams } = createParamHooks<SpacesTabParams>()
+
 const Spaces = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const { user, isLoggedIn } = useLoggedInUser()
+  const { isLoggedIn } = useLoggedInUser()
   const pageViewRef = useRef<Animated.ScrollView>(null)
   const setScreenOptions = useSetScreenOptions()
   const { displayError } = useErrorHandling()
@@ -62,9 +64,10 @@ const Spaces = () => {
 
   hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length
 
-  const [activeTab, setActiveTab] = useState<string>(Tab.MINE)
+  const [activeTab = Tab.MINE] = useParam('tab', singleParamConfig)
+  const updateParams = useUpdateParams()
   const onChangeTab = (tabKey: string) => {
-    setActiveTab(tabKey)
+    updateParams({ tab: tabKey as Tab })
     pageViewRef.current?.scrollTo({ x: 0, y: 0, animated: true })
   }
 
@@ -75,56 +78,32 @@ const Spaces = () => {
   )
 
   useIsomorphicLayoutEffect(() => {
-    const title = t('spaces.title')
     const handleCreateSpaceButtonPress = () =>
       navigateWithAuth('/spaces/create', {
         description: t('spaces.create.loginRedirect.text'),
         trackTrigger: 'CREATE_SPACE',
       })
+
     setScreenOptions({
-      title,
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTransparent: true,
-      headerTitle: () => null,
+      headerShown: true,
+      /* have white background appearance */
+      headerTransparent: false,
+      /* hide title on ios with empty title string */
+      headerTitle: '',
+      headerBackVisible: false,
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" tintColor={tintColor}>
-          {title}
+          {t('spaces.organize')}
         </HeaderTitle>
       ),
       headerRight: (props) => (
         <HoliHorizontalRow>
           <CreateSpaceButton onPress={handleCreateSpaceButtonPress} {...props} />
-          <NotificationAndSearchHeader {...props} />
+          <NotificationAndSearchHeader />
         </HoliHorizontalRow>
       ),
     })
   }, [navigate, t, setScreenOptions, navigateWithAuth])
-
-  const { visible: isFilterModalShown, show: openFilterModal, hide: closeFilterModal } = useModalState()
-
-  const applyFilters = (filters: SpaceFilter) => {
-    const params = new URLSearchParams()
-
-    if (filters.location?.id) {
-      params.set('location', filters.location.id)
-    }
-
-    filters.topicSlugs?.forEach((topic) => {
-      params.append('topic', topic)
-    })
-
-    filters.skillSlugs?.forEach((skill) => {
-      params.append('skill', skill)
-    })
-    const paramsString = params.toString()
-    paramsString && navigate('/spaces/filter?' + paramsString)
-  }
-
-  const onSubmit = (filters: SpaceFilter) => {
-    applyFilters(filters)
-    closeFilterModal()
-  }
 
   if (loading || (isLoggedIn && !mySpacesData)) {
     return <HoliLoader style={{ backgroundColor: colors.background20 }} />
@@ -138,49 +117,34 @@ const Spaces = () => {
         ogTitle={t('metatags.spaces.og.title')}
         ogDescription={t('metatags.spaces.og.description')}
       />
-      <ScrollHeaderLayout ref={pageViewRef} style={styles.layout} onScroll={onScreenScroll}>
+      <ScrollViewRefreshable ref={pageViewRef} style={styles.layout} onScroll={onScreenScroll}>
         {!hasOwnSpaces ? (
           /* User has NO spaces => show discover view */
-          <HoliContainer flex={1}>
-            <DiscoverSpaces user={user} />
-          </HoliContainer>
+          <GetStartedView />
         ) : (
-          <View style={styles.tabsWrapper}>
-            {/* User HAS spaces => show tabs with mine and discover */}
-            <HoliTabs
-              activeTab={activeTab}
-              onChange={onChangeTab}
-              backgroundColor={colors.background20}
-              data={[
-                {
-                  key: Tab.MINE,
-                  tabTitle: t('spaces.tabs.mine'),
-                  content: () => <MySpaces mySpaces={mySpaces} />,
-                },
-                {
-                  key: Tab.DISCOVER,
-                  tabTitle: t('spaces.tabs.discover'),
-                  content: () => <DiscoverSpaces user={user} />,
-                },
-              ]}
-              keyExtractor={({ key }) => key}
-              renderTabContent={({ item }) => item.content()}
-              testID="spaces-tab-navigation"
-            />
-          </View>
+          <HoliTabs
+            activeTab={activeTab}
+            onChange={onChangeTab}
+            backgroundColor={colors.background20}
+            marginHorizontal={0}
+            data={[
+              {
+                key: Tab.MINE,
+                tabTitle: t('spaces.tabs.mine'),
+                content: () => <MySpaces mySpaces={mySpaces} />,
+              },
+              {
+                key: Tab.DISCOVER,
+                tabTitle: t('spaces.tabs.getstarted'),
+                content: () => <GetStartedView />,
+              },
+            ]}
+            keyExtractor={({ key }) => key}
+            renderTabContent={({ item }) => item.content()}
+            testID="spaces-tab-navigation"
+          />
         )}
-      </ScrollHeaderLayout>
-
-      <FilterModal
-        actionButtonVisible={!hasOwnSpaces || activeTab === Tab.DISCOVER}
-        label={t('spaces.filter.heading')}
-        buttonLabel={t('spaces.filter.button.label')}
-        show={isFilterModalShown}
-        open={openFilterModal}
-        onDismiss={closeFilterModal}
-      >
-        <SpaceFilterForm onSubmit={onSubmit} />
-      </FilterModal>
+      </ScrollViewRefreshable>
     </SpaceTermContextProvider>
   )
 }

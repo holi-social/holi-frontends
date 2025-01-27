@@ -28,7 +28,7 @@ export const reactNativeTracing = Sentry.reactNativeTracingIntegration({
       // only record actual calls to internet services (via https)
       // else there would be lots of local expo logs calls (via http)
       return parsedUrl.protocol.startsWith('https') // beware `protocol` may contain the ':'
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // only happens with relative (which should not be used in mobile) or broken urls
       return url.startsWith('https')
     }

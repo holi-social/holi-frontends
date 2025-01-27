@@ -83,6 +83,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
                 "width": 40,
               }
             }
+            testID="space-avatar"
           >
             <Image
               accessibilityRole="image"
@@ -100,11 +101,9 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               }
               style={
                 {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
+                  "aspectRatio": 1,
+                  "height": undefined,
+                  "width": "100%",
                 }
               }
             />
@@ -182,7 +181,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               }
             }
           >
-            2 weeks ago
+            last week
           </Text>
         </View>
         <View
@@ -229,6 +228,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
       style={
         [
           {
+            "marginTop": 12,
             "paddingLeft": 48,
           },
           {
@@ -257,7 +257,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -269,6 +269,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -282,30 +283,16 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-              ],
               {
-                "marginTop": 12,
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "paddingHorizontal": 12,
+                "width": "auto",
               },
             ]
           }
@@ -313,42 +300,47 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={false}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "lineHeight": 19.599999999999998,
-                  "textAlign": "center",
-                  "userSelect": "none",
+                  "height": 32,
+                  "justifyContent": "center",
                 }
               }
             >
-              notifications.connection.ignore
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                notifications.space.connection.decline
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -368,7 +360,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -380,6 +372,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -393,33 +386,16 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-                {
-                  "backgroundColor": "#f5ef3f",
-                },
-              ],
               {
-                "marginTop": 12,
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "paddingHorizontal": 12,
+                "width": "auto",
               },
             ]
           }
@@ -427,42 +403,47 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={false}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "lineHeight": 19.599999999999998,
-                  "textAlign": "center",
-                  "userSelect": "none",
+                  "height": 32,
+                  "justifyContent": "center",
                 }
               }
             >
-              notifications.connection.accept
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                notifications.space.connection.accept
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -554,6 +535,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
                 "width": 40,
               }
             }
+            testID="space-avatar"
           >
             <Image
               accessibilityRole="image"
@@ -571,11 +553,9 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
               }
               style={
                 {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
+                  "aspectRatio": 1,
+                  "height": undefined,
+                  "width": "100%",
                 }
               }
             />
@@ -664,7 +644,7 @@ I would like to join!
               }
             }
           >
-            2 weeks ago
+            last week
           </Text>
         </View>
         <View
@@ -711,6 +691,7 @@ I would like to join!
       style={
         [
           {
+            "marginTop": 12,
             "paddingLeft": 48,
           },
           {
@@ -739,7 +720,7 @@ I would like to join!
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -751,6 +732,7 @@ I would like to join!
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -764,30 +746,16 @@ I would like to join!
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-              ],
               {
-                "marginTop": 12,
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "paddingHorizontal": 12,
+                "width": "auto",
               },
             ]
           }
@@ -795,42 +763,47 @@ I would like to join!
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={false}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "lineHeight": 19.599999999999998,
-                  "textAlign": "center",
-                  "userSelect": "none",
+                  "height": 32,
+                  "justifyContent": "center",
                 }
               }
             >
-              notifications.connection.ignore
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                notifications.space.connection.decline
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -850,7 +823,7 @@ I would like to join!
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -862,6 +835,7 @@ I would like to join!
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -875,33 +849,16 @@ I would like to join!
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-                {
-                  "backgroundColor": "#f5ef3f",
-                },
-              ],
               {
-                "marginTop": 12,
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "paddingHorizontal": 12,
+                "width": "auto",
               },
             ]
           }
@@ -909,42 +866,47 @@ I would like to join!
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={false}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "lineHeight": 19.599999999999998,
-                  "textAlign": "center",
-                  "userSelect": "none",
+                  "height": 32,
+                  "justifyContent": "center",
                 }
               }
             >
-              notifications.connection.accept
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                notifications.space.connection.accept
+              </Text>
+            </View>
           </View>
         </View>
       </View>

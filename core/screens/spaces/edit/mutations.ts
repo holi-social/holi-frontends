@@ -2,11 +2,12 @@ import { gql } from '@apollo/client/core'
 import { z } from 'zod'
 
 import type { Space, SpaceLink } from '@holi/core/screens/spaces/types'
+import { SPACE_DESCRIPTION_LEN, SPACE_TITLE_LEN } from '@holi/core/screens/spaces/create/mutations'
 
 export const UpdateSpaceInputSchema = z.object({
   id: z.string(),
-  title: z.string().trim().min(2).max(60).optional(),
-  description: z.string().trim().min(1).max(600).optional(),
+  title: z.string().trim().min(2).max(SPACE_TITLE_LEN).optional(),
+  description: z.string().trim().min(1).max(SPACE_DESCRIPTION_LEN).optional(),
   location: z.string().optional(),
   avatar: z.instanceof(Object).optional(),
   topics: z.array(z.string()).optional(),

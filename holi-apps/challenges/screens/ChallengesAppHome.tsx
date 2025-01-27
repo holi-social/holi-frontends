@@ -14,6 +14,7 @@ import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHo
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
 import {
+  dismissNotificationModal,
   incrementModalAttempts,
   useNotificationEligibility,
 } from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
@@ -118,7 +119,7 @@ const ChallengesAppHome = () => {
   const openSettings = async () => {
     try {
       await Linking.openURL('app-settings:')
-    } catch (error) {
+    } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       //Failed to open settings
     }
   }
@@ -146,6 +147,11 @@ const ChallengesAppHome = () => {
 
   const handleModalDismiss = async () => {
     await incrementModalAttempts()
+    setModalVisible(false)
+  }
+
+  const handleDismissNotification = async () => {
+    await dismissNotificationModal()
     setModalVisible(false)
   }
 
@@ -177,6 +183,7 @@ const ChallengesAppHome = () => {
           isVisible={modalVisible}
           onConfirm={handleOptIn}
           onDismiss={handleModalDismiss}
+          dismissModal={handleDismissNotification}
           description={t('notifications.permission.description.challenges')}
         />
       )}

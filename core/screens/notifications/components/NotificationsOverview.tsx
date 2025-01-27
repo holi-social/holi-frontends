@@ -13,21 +13,21 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { SHOWN_NOTIFICATIONS } from '@holi/core/screens/notifications/components/NotificationItem'
 import RefreshableNotificationSectionList, {
-  NotificationGroup,
+  type NotificationGroup,
 } from '@holi/core/screens/notifications/components/NotificationSectionList'
 import { NotificationsNotLoggedInHint } from '@holi/core/screens/notifications/components/NotificationsNotLoggedInHint'
-import { Notification } from '@holi/core/screens/notifications/components/types'
+import type { Notification } from '@holi/core/screens/notifications/components/types'
 import { notificationPollingInterval } from '@holi/core/screens/notifications/config'
 import { useNotifications } from '@holi/core/screens/notifications/hooks/useNotifications'
 import {
   LastSeenNotificationMutation,
-  NotificationsResponse,
-  lastSeenNotificationResponse,
+  type NotificationsResponse,
+  type lastSeenNotificationResponse,
   notificationsQuery,
 } from '@holi/core/screens/notifications/queries'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const NotificationsOverview = () => {
   const { isLoggedIn } = useLoggedInUser()
@@ -65,7 +65,9 @@ const NotificationsOverview = () => {
 
   // Fetch notifications only if user is logged in
   useEffect(() => {
-    isLoggedIn && getNotifications()
+    if (isLoggedIn) {
+      getNotifications()
+    }
   }, [getNotifications, isLoggedIn])
 
   useEffect(() => {

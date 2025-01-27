@@ -1,11 +1,11 @@
-import { StyleProp, ViewStyle } from 'react-native'
+import type { StyleProp, ViewStyle } from 'react-native'
 
-import { User } from '@holi/core/domain/shared/types'
-import { Appointment } from '@holi/core/screens/appointments/types'
-import { Comment } from '@holi/core/screens/comments/types'
-import { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
-import { Post } from '@holi/core/screens/posts/types'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { User } from '@holi/core/domain/shared/types'
+import type { Appointment } from '@holi/core/screens/appointments/types'
+import type { Comment } from '@holi/core/screens/comments/types'
+import type { NovuNotificationType } from '@holi/core/screens/notifications/components/novu/types'
+import type { Post } from '@holi/core/screens/posts/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 
 export enum NotificationType {
   POST_REACTION = 'PR',
@@ -78,8 +78,15 @@ export interface NotificationPost extends NotificationBase {
 }
 
 export interface SpaceMembershipNotificationData {
-  user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
-  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'>
+  user: Pick<
+    User,
+    'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'
+  > & {
+    [key: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  }
+  space: Pick<Space, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'title' | 'name'> & {
+    [key: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  }
   message?: string
   requestMessage?: string
 }
@@ -188,7 +195,7 @@ export interface NotificationProps<T = Notification> {
 
 export interface PostReactionNotificationData {
   user: Pick<User, 'id' | 'avatar' | 'avatarBlurhash' | 'avatarDefaultColor' | 'avatarLabel' | 'fullName' | 'firstName'>
-  post: Pick<Post, 'id' | 'title'>
+  post: Pick<Post, 'id' | 'title'> & { link?: string }
 }
 
 export interface NotificationPostReactions extends NotificationBase {

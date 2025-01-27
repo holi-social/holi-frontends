@@ -8,7 +8,6 @@ import { Platform, StyleSheet, View } from 'react-native'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import InsightsTab from '@holi/core/components/InsightsTab'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import SpacesTab from '@holi/core/components/SpacesTab'
 import { type UserByIdResponse, userByIdQuery } from '@holi/core/domain/shared/queries'
 import { isNotFoundError } from '@holi/core/errors/helpers'
@@ -33,9 +32,9 @@ import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type UserProfileParams = {
   userId: string
@@ -93,7 +92,6 @@ const UserProfile = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('profile.title'),
-      headerTransparent: false,
       headerRight: () => (
         <HoliActionDrawer.Drawer label="user-profile-drawer">
           <HoliActionDrawer.Action
@@ -146,7 +144,7 @@ const UserProfile = () => {
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   return (
-    <ScrollHeaderLayout headerRelation="none" style={styles.layout} contentContainerStyle={styles.content}>
+    <ScrollViewRefreshable style={styles.layout} contentContainerStyle={styles.content}>
       <View style={[mixins.container, styles.container]}>
         <UserProfileView user={user} />
       </View>
@@ -221,7 +219,7 @@ const UserProfile = () => {
         backgroundColor={colors.background20}
         testID="profile-tabs"
       />
-    </ScrollHeaderLayout>
+    </ScrollViewRefreshable>
   )
 }
 
@@ -233,6 +231,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     content: {
       minHeight: '100%',
+      backgroundColor: theme.colors.background20,
     },
     container: {
       alignItems: 'baseline',
@@ -241,7 +240,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     messageContainer: {
       alignItems: 'center',
-      marginTop: dimensions.topBarHeight + 50,
     },
     chipRowContainer: {
       marginTop: 24,

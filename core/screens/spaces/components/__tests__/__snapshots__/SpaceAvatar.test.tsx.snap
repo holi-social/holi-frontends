@@ -17,6 +17,7 @@ exports[`React tree renders correctly 1`] = `
       "width": 64,
     }
   }
+  testID="space-avatar"
 >
   <Image
     accessibilityRole="image"
@@ -28,18 +29,16 @@ exports[`React tree renders correctly 1`] = `
     role="img"
     source={
       {
-        "height": 48,
-        "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-        "width": 48,
+        "height": 64,
+        "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:128:128/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
+        "width": 64,
       }
     }
     style={
       {
-        "bottom": 0,
-        "left": 0,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
+        "aspectRatio": 1,
+        "height": undefined,
+        "width": "100%",
       }
     }
   />
@@ -63,6 +62,7 @@ exports[`React tree renders initials with colored background, when given image p
       "width": 64,
     }
   }
+  testID="space-avatar"
 >
   <View
     style={
@@ -70,7 +70,6 @@ exports[`React tree renders initials with colored background, when given image p
         "opacity": 0.8,
       }
     }
-    testID="space-avatar"
   >
     <Text
       accessible={false}

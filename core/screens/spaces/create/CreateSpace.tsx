@@ -29,14 +29,14 @@ import { type MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/d
 import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliWizard from '@holi/ui/components/organisms/HoliWizard/HoliWizard'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Text } from 'holi-bricks/components/text'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 const CreateSpace = () => {
   const { navigateBack } = useRouting()
@@ -69,7 +69,7 @@ const CreateSpace = () => {
   useEffect(() => {
     if (loginState.isLoggedIn) {
       mockImageUploadForE2E(loginState.userId).then((spaceCoverImage) => {
-        spaceCoverImage && setSpaceCoverImage(spaceCoverImage)
+        if (spaceCoverImage) setSpaceCoverImage(spaceCoverImage)
       })
     }
   }, [loginState])
@@ -116,12 +116,13 @@ const CreateSpace = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: () => (
-        <HoliHeading level="1" size="m">
+        <Text headingLevel="1" size="md">
           {t('spaces.create.title')}
-        </HoliHeading>
+        </Text>
       ),
-      headerTransparent: true,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={() => setShowConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,
@@ -159,7 +160,7 @@ const CreateSpace = () => {
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/spaces">
       <SpaceTermContextProvider>
-        <View style={styles.wrapper}>
+        <KeyboardAwareScrollView style={styles.wrapper} contentContainerStyle={styles.wrapper}>
           <View style={[mixins.container, styles.container]}>
             <HoliWizard
               isBackButtonAvailable={true}
@@ -178,7 +179,7 @@ const CreateSpace = () => {
               <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
             </HoliWizard>
           </View>
-        </View>
+        </KeyboardAwareScrollView>
         <HoliConfirmation
           show={showConfirmationModal}
           label={exitConfirmationTitle}
@@ -203,14 +204,8 @@ export default withProfiler(CreateSpace, { name: 'CreateSpace' })
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     wrapper: {
-      alignItems: 'center',
       flex: 1,
       backgroundColor: theme.colors.background10,
-      ...Platform.select({
-        web: {
-          height: '100%',
-        },
-      }),
     },
     defaultLayout: {
       backgroundColor: theme.colors.background10,
@@ -220,7 +215,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     container: {
       flex: 1,
-      paddingTop: dimensions.topBarHeight + 24,
       width: '100%',
       paddingHorizontal: 0,
       ...Platform.select({

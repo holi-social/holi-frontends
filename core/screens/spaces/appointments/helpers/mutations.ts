@@ -5,8 +5,8 @@ import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import {
-  CreateAppointmentResponse,
-  UpdateAppointmentResponse,
+  type CreateAppointmentResponse,
+  type UpdateAppointmentResponse,
   createAppointmentMutation,
   updateAppointmentMutation,
 } from '@holi/core/screens/appointments/mutations'

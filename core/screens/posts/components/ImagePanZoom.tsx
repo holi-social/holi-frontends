@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, Image } from 'react-native'
 import ImageZoom from 'react-native-image-pan-zoom'
@@ -23,6 +24,7 @@ const ImagePanZoom: React.FC<ImagePanZoomProps> = ({ uri, postTitle, blurhash })
   }, [uri])
 
   return (
+    // @ts-ignore Outdated type definition & not maintained anymore
     <ImageZoom
       cropWidth={Dimensions.get('window').width}
       cropHeight={Dimensions.get('window').height}

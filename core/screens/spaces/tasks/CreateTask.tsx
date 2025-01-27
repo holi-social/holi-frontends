@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { Skill } from '@holi/core/domain/shared/types'
+import type { Skill } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { type TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -16,13 +16,17 @@ import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFor
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
-import { CreateTaskResponse, CreateTaskSchema, createTaskMutation } from '@holi/core/screens/spaces/tasks/mutations'
+import {
+  createTaskMutation,
+  type CreateTaskResponse,
+  CreateTaskSchema,
+} from '@holi/core/screens/spaces/tasks/mutations'
 import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { GeolocationPoint } from '@holi/core/types'
+import type { GeolocationPoint } from '@holi/core/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type CreateTaskParams = {
@@ -162,8 +166,7 @@ const CreateTask = () => {
   ])
 
   useIsomorphicLayoutEffect(() => {
-    !loadingSpace &&
-      isMember &&
+    if (!loadingSpace && isMember) {
       setScreenOptions({
         animation: 'slide_from_bottom',
         headerTitle: () => (
@@ -171,12 +174,14 @@ const CreateTask = () => {
             {t('spaces.tasks.add.title')}
           </HoliHeading>
         ),
-        headerTransparent: true,
+        headerBackVisible: false,
+        headerTitleAlign: 'center',
         headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
         navigationCustomOptions: {
           footerShown: false,
         },
       })
+    }
   }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
 
   useEffect(() => {

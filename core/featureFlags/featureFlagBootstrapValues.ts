@@ -1,5 +1,5 @@
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { FeatureFlagsAndPayloads } from '@holi/core/featureFlags/types'
+import type { FeatureFlagsAndPayloads } from '@holi/core/featureFlags/types'
 
 /**
  * These values are being used when bootstrapping feature flag values and payloads. When the application starts up,
@@ -25,6 +25,10 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.VIDEO_CALL]: 'on',
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: 'control',
     [FeatureFlagKey.FEEDBACK_LINK]: 'on',
+    [FeatureFlagKey.NEW_HOME_FEED]: 'control',
+    [FeatureFlagKey.POST_TRANSLATION]: false,
+    [FeatureFlagKey.TYPESENSE_SEARCH]: false,
+    [FeatureFlagKey.TASK_CONTACT_CTA]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -37,5 +41,22 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.VIDEO_CALL]: null,
     [FeatureFlagKey.HOME_TASK_ORDER_SWAP]: null,
     [FeatureFlagKey.FEEDBACK_LINK]: null,
+    [FeatureFlagKey.NEW_HOME_FEED]: null,
+    [FeatureFlagKey.POST_TRANSLATION]: null,
+    [FeatureFlagKey.TYPESENSE_SEARCH]: null,
+    [FeatureFlagKey.TASK_CONTACT_CTA]: null,
   },
 }
+
+Object.values(FeatureFlagKey).forEach((key) => {
+  if (!(key in featureFlagBootstrapValues.featureFlags)) {
+    throw new Error(
+      `Missing feature flag entry for flag '${key}'. This is needed for rendering while feature flags are still loading from remote.`
+    )
+  }
+  if (!(key in featureFlagBootstrapValues.featureFlagPayloads)) {
+    throw new Error(
+      `Missing feature flag payload entry for flag '${key}'. This is needed for rendering while feature flags are still loading from remote.`
+    )
+  }
+})

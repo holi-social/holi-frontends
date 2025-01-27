@@ -14,19 +14,19 @@ jest.mock('react-native', () => {
 
 describe('HoliModalFullscreen.tsx', () => {
   it('renders correctly when open', () => {
-    render(<HoliModalFullscreen label="Test" show={true} onDismiss={() => null} />)
+    render(<HoliModalFullscreen label="Test" shown={true} onDismiss={() => null} />)
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('renders correctly when closed', () => {
-    render(<HoliModalFullscreen label="Test" show={false} onDismiss={() => null} />)
+    render(<HoliModalFullscreen label="Test" shown={false} onDismiss={() => null} />)
     expect(screen.toJSON()).toMatchSnapshot()
   })
 
   it('calls onDismiss prop when close button gets clicked', async () => {
     const mockFn = jest.fn()
     const { getByLabelText } = render(
-      <HoliModalFullscreen label="test" show={true} onDismiss={mockFn} testID="testmodal" />
+      <HoliModalFullscreen label="test" shown={true} onDismiss={mockFn} testID="testmodal" />
     )
 
     fireEvent.press(getByLabelText('modal.close'))
@@ -36,7 +36,7 @@ describe('HoliModalFullscreen.tsx', () => {
   it('renders children', () => {
     const text = 'Fullscreen modal content'
     const { getByText } = render(
-      <HoliModalFullscreen label="test" show={true} onDismiss={() => null} testID="testmodal">
+      <HoliModalFullscreen label="test" shown={true} onDismiss={() => null} testID="testmodal">
         <Text size="md">{text}</Text>
       </HoliModalFullscreen>
     )

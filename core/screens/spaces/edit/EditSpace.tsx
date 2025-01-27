@@ -38,7 +38,6 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -46,6 +45,7 @@ import HoliCarousel from '@holi/ui/components/organisms/HoliCarousel'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { constants, dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 enum EditFields {
   NAME = 'NAME',
@@ -157,7 +157,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
       // if pressed too soon, the state is set to non null, but the modal is not shown.
       // crude mechanism to recover from this state.
       // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-      editField && setEditField(null)
+      if (editField) setEditField(null)
       setIsEdit(true)
       setEditField(type)
       show()
@@ -168,7 +168,6 @@ const EditSpace: React.FC<ScreenProps> = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_bottom',
-      headerTransparent: false,
       headerTitle: () => <HoliText>{t('spaces.edit.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton icon={Close} />,
       navigationCustomOptions: {
@@ -217,35 +216,31 @@ const EditSpace: React.FC<ScreenProps> = () => {
             {/* Header */}
             <View style={styles.header} testID="space-edit-header">
               <SpaceAvatar space={space} testID="space-edit-avatar" size="xl" />
-              <HoliButton
-                label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
-                type="secondary"
-                inline
-                style={[styles.editButton, styles.editAvatarButton]}
-                onPress={() => openEditModal(EditFields.AVATAR)}
-                testID="btn-space-edit-avatar"
-              >
-                <HoliText style={styles.editButtonText}>
-                  {t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
-                </HoliText>
-                <HoliIcon icon={Edit2} />
-              </HoliButton>
+              <View style={styles.editAvatarButton}>
+                <Button
+                  label={t(`spaces.edit.avatar${space.avatar ? '' : '.add'}`)}
+                  variant="secondary"
+                  inline
+                  onPress={() => openEditModal(EditFields.AVATAR)}
+                  testID="btn-space-edit-avatar"
+                  icon={Edit2}
+                />
+              </View>
               <HoliText style={styles.requirements}>{t('spaces.edit.avatar.requirements')}</HoliText>
               <HoliGap />
               <HoliHeading level="1" size="m" testID="space-edit-title">
                 {space.title}
               </HoliHeading>
-              <HoliButton
-                label={t('spaces.edit.title')}
-                type="secondary"
-                inline
-                style={[styles.editButton, styles.editTitleButton]}
-                onPress={() => openEditModal(EditFields.NAME)}
-                testID="btn-space-edit-name"
-              >
-                <HoliText style={styles.editButtonText}>{t('global.edit')}</HoliText>
-                <HoliIcon icon={Edit2} />
-              </HoliButton>
+              <View style={styles.editTitleButton}>
+                <Button
+                  label={t('global.edit')}
+                  variant="secondary"
+                  inline
+                  onPress={() => openEditModal(EditFields.NAME)}
+                  testID="btn-space-edit-name"
+                  icon={Edit2}
+                />
+              </View>
             </View>
 
             {/* Body */}
@@ -274,7 +269,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   testID="space-edit-topics"
                 >
                   {!!space.topics?.length && (
-                    <View style={styles.listContainer}>
+                    <View style={styles.listContainer} testID="space-edit-topics-list">
                       {space.topics?.map((topic, index) => (
                         <ChipLabel key={`topic_${index}`} color="green">
                           {topic.title}
@@ -300,17 +295,15 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   testID="space-edit-sdgs"
                 >
                   {!!space.sdgs?.length && (
-                    <View style={styles.listContainer}>
+                    <View style={styles.listContainer} testID="space-edit-sdgs-list">
                       {sdgs.map((sdg, index) => (
-                        <ChipLabel key={`sdg_${index}`} color="white">
-                          {`${sdg.number}. ${sdg.title}`}
-                        </ChipLabel>
+                        <ChipLabel key={`sdg_${index}`} color="white">{`${sdg.number}. ${sdg.title}`}</ChipLabel>
                       ))}
                     </View>
                   )}
                   <InfoModal
                     items={{ sdg: partner }}
-                    show={!!infoModalVisible}
+                    shown={!!infoModalVisible}
                     onDismiss={closeInfoModal}
                     i18nPrefix={'spaces.input.sdgs.infoModal'}
                   />
@@ -362,19 +355,12 @@ const EditSpace: React.FC<ScreenProps> = () => {
           </View>
         </ScrollView>
 
-        <View style={styles.overlayContainer}>
-          <HoliButton
-            label={t('spaces.edit.close')}
-            onPress={handleNavigation}
-            style={styles.overlayButton}
-            testID="space-edit-close"
-          >
-            {t('spaces.edit.close')}
-          </HoliButton>
+        <View style={[styles.overlayContainer]}>
+          <Button label={t('spaces.edit.close')} onPress={handleNavigation} testID="space-edit-close" />
         </View>
         <HoliModal
           heading={editField ? t(editTitles[editField]) : ''}
-          show={visible}
+          shown={visible}
           autoHeight={!isEdit}
           label={t(isEdit ? 'spaces.edit.title' : 'spaces.edit.onboarding.header')}
           onDismiss={handleModalClose}
@@ -451,14 +437,6 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
       backgroundColor: theme.colors.background10,
       paddingBottom: 24,
     },
-    editButton: {
-      paddingHorizontal: 12,
-      paddingVertical: 8,
-      borderWidth: 2,
-    },
-    editButtonText: {
-      marginRight: 6,
-    },
     editAvatarButton: {
       marginVertical: 8,
     },
@@ -501,10 +479,6 @@ const getStyles = (statusBarHeight: number, windowWidth: number, theme: HoliThem
       right: 0,
       paddingHorizontal: 24,
       justifyContent: 'center',
-    },
-    overlayButton: {
-      marginHorizontal: 'auto',
-      maxWidth: dimensions.maxButtonWidth,
     },
     modalContentWrapper: {
       ...Platform.select({

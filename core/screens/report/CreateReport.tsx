@@ -1,4 +1,4 @@
-import { Button } from 'holi-bricks/components/button/Button'
+import { Button } from 'holi-bricks/components/button'
 import { Text } from 'holi-bricks/components/text'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -58,6 +58,8 @@ const CreateReport = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       animation: 'slide_from_bottom',
       headerTitle: () => <Text size="sm">{t('report.' + contentType + '.title')}</Text>,
       headerLeft: () => <HeaderBackButton icon={Close} onPress={navigateBack} />,
@@ -66,7 +68,6 @@ const CreateReport = () => {
           <HoliIcon icon={Information} />
         </Pressable>
       ),
-      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -141,7 +142,7 @@ const CreateReport = () => {
                 >
                   <View style={styles.reasonTextContainer}>
                     <Text size="lg">{t(`report.reason.${reason}.title`)}</Text>
-                    <Text size="sm" variant="secondary">
+                    <Text size="sm" color="support">
                       {t(`report.reason.${reason}.description`)}
                     </Text>
                   </View>
@@ -166,7 +167,7 @@ const CreateReport = () => {
                   subject: t(`report.reason.${selectedReason}.title`).toLowerCase(),
                 })}
               </Text>
-              <Text size="sm" variant="secondary">
+              <Text size="sm" color="support">
                 {t(`report.reason.${selectedReason}.description`)}
               </Text>
             </View>
@@ -185,7 +186,7 @@ const CreateReport = () => {
                 />
               </View>
               {showTermsError && (
-                <Text size="sm" variant="error">
+                <Text size="sm" color="danger">
                   {t('report.details.termsError')}
                 </Text>
               )}

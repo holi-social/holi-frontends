@@ -1,3 +1,4 @@
+import { continueAsGuest } from '@holi/e2e-mobile/helpers/auth'
 import { scrollUp } from '../../helpers/gestures'
 import { navigateBackFromAppScreen, navigateToAppById } from '../../helpers/navigation'
 import {
@@ -23,6 +24,7 @@ describe('@Donations', () => {
   // fails on ios: Couldn't tap on element with testID: donations-list-item
   it('should support the user journey', async () => {
     // preparation of test
+    await continueAsGuest()
     await navigateToAppById('donations')
 
     await assertProjectDetails()

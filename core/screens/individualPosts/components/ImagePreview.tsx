@@ -1,11 +1,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleSheet, View, type ViewStyle } from 'react-native'
 
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { Spacing } from 'holi-bricks/tokens'
 
 type ImagePreviewProps = {
   style?: ViewStyle
@@ -19,10 +21,16 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
   const { t } = useTranslation()
   const { theme } = useTheme()
   const [imageError, setImageError] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true)
   const styles = createStyles(theme, aspectRatio)
 
   return (
     <>
+      {!imageError && isLoading && (
+        <View style={styles.image}>
+          <HoliSkeleton width={'100%'} height={'100%'} borderRadius={Spacing['3xs']} />
+        </View>
+      )}
       {(image || currentImage) && (
         <View style={[styles.container, style]}>
           {!imageError && image && (
@@ -33,6 +41,7 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
               style={styles.image}
               blurhash={blurhash}
               onError={() => setImageError(true)}
+              onLoadEnd={() => setIsLoading(false)}
             />
           )}
           {!imageError && !image && currentImage && (
@@ -43,6 +52,7 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
               style={styles.image}
               blurhash={blurhash}
               onError={() => setImageError(true)}
+              onLoadEnd={() => setIsLoading(false)}
             />
           )}
           {imageError && (
@@ -69,7 +79,7 @@ const createStyles = (theme: HoliTheme, aspectRatio: number) =>
     },
     image: {
       aspectRatio: aspectRatio,
-      borderRadius: 8,
+      borderRadius: Spacing['3xs'],
       width: '100%',
     },
     error: {

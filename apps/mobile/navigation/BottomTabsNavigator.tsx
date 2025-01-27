@@ -4,7 +4,7 @@ import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { type EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
@@ -29,7 +29,7 @@ import SpacesHomeNavigator from '@holi/mobile/navigation/SpacesHomeNavigator'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type BottomTabsScreens = {
   [RouteName.Home]: undefined
@@ -44,7 +44,7 @@ const BottomTabs = createBottomTabNavigator<BottomTabsScreens>()
 const BottomTabLabel = ({ label, focused }: { label: string; focused: boolean }) => {
   return (
     <HoliBox padding={[0, 0, 4, 0]}>
-      <TextLink size="xs" variant={focused ? 'primary' : 'tertiary'}>
+      <TextLink size="xs" color={focused ? 'main' : 'default'}>
         {label}
       </TextLink>
     </HoliBox>
@@ -65,6 +65,7 @@ const BottomTabsNavigator = () => {
     <BottomTabs.Navigator
       initialRouteName={RouteName.Home}
       screenOptions={{
+        headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: colors.foreground30,
@@ -90,10 +91,12 @@ const BottomTabsNavigator = () => {
         component={SpacesHomeNavigator}
         options={{
           headerShown: false,
+          headerTitle: () => null,
+          headerTitleAlign: 'center',
           tabBarIcon: ({ focused }) => {
             return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={unistyles.icon(focused).color} />
           },
-          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.spaces')} focused={focused} />,
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.organize')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
           tabBarTestID: 'btn-to-spaces',
         }}
@@ -135,7 +138,7 @@ const BottomTabsNavigator = () => {
             <BottomTabLabel label={isLoggedIn ? t('navigation.profile') : t('navigation.login')} focused={focused} />
           ),
           tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-profile-view',
+          tabBarTestID: isLoggedIn ? 'btn-to-profile-view' : 'btn-to-anonymous-profile-view',
         }}
         listeners={{ tabPress: () => setPathname('/profile') }}
       />

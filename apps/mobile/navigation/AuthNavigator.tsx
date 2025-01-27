@@ -2,7 +2,6 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import NotificationSettings from '@holi/core/screens/notifications/NotificationSettings'
 import AboutHoliApp from '@holi/core/screens/userprofile/AboutHoliApp'
 import AccountSettings from '@holi/core/screens/userprofile/AccountSettings'
@@ -17,6 +16,9 @@ import OwnProfile from '@holi/core/screens/userprofile/OwnProfile'
 import SettingsOverview from '@holi/core/screens/userprofile/SettingsOverview'
 import TrackingSettings from '@holi/core/screens/userprofile/TrackingSettings'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
+import { useTheme } from '@holi/ui/styles/theme'
 
 export type AuthStackScreensList = {
   Profile: undefined
@@ -37,111 +39,40 @@ export type AuthStackScreensList = {
 const AuthStack = createNativeStackNavigator<AuthStackScreensList>()
 
 const AuthStackNavigator = () => {
+  const { theme } = useTheme()
+  const { colors } = theme
+
   return (
     <AuthStack.Navigator
       initialRouteName={RouteName.Profile}
       screenOptions={{
-        header: HeaderAnimated,
-        headerTransparent: false,
+        headerShown: true,
+        headerShadowVisible: false,
+        headerTitleAlign: 'center',
+        headerTintColor: colors.black300,
+        headerBackTitleVisible: false,
+        headerBackVisible: false,
+        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+        headerTitle: ({ children, tintColor }) => (
+          <HeaderTitle size="large" tintColor={tintColor}>
+            {children}
+          </HeaderTitle>
+        ),
       }}
     >
       <AuthStack.Screen name={RouteName.Profile} component={OwnProfile} />
-      <AuthStack.Screen
-        name={RouteName.SettingsOverview}
-        component={SettingsOverview}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.AccountSettings}
-        component={AccountSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.NotificationSettings}
-        component={NotificationSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.TrackingSettings}
-        component={TrackingSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.ChangePassword}
-        component={ChangePassword}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.ChangeEmail}
-        component={ChangeEmail}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.ChangeEmailVerification}
-        component={ChangeEmailVerification}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.HelpSettings}
-        component={HelpSettings}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.LegalDocuments}
-        component={LegalDocuments}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.Document}
-        component={LegalDocumentItem}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.AboutHoliApp}
-        component={AboutHoliApp}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
-      <AuthStack.Screen
-        name={RouteName.Favorites}
-        component={Favorites}
-        options={{
-          headerBackTitleVisible: false,
-          headerBackVisible: false,
-        }}
-      />
+      <AuthStack.Screen name={RouteName.SettingsOverview} component={SettingsOverview} />
+      <AuthStack.Screen name={RouteName.AccountSettings} component={AccountSettings} />
+      <AuthStack.Screen name={RouteName.NotificationSettings} component={NotificationSettings} />
+      <AuthStack.Screen name={RouteName.TrackingSettings} component={TrackingSettings} />
+      <AuthStack.Screen name={RouteName.ChangePassword} component={ChangePassword} />
+      <AuthStack.Screen name={RouteName.ChangeEmail} component={ChangeEmail} />
+      <AuthStack.Screen name={RouteName.ChangeEmailVerification} component={ChangeEmailVerification} />
+      <AuthStack.Screen name={RouteName.HelpSettings} component={HelpSettings} />
+      <AuthStack.Screen name={RouteName.LegalDocuments} component={LegalDocuments} />
+      <AuthStack.Screen name={RouteName.Document} component={LegalDocumentItem} />
+      <AuthStack.Screen name={RouteName.AboutHoliApp} component={AboutHoliApp} />
+      <AuthStack.Screen name={RouteName.Favorites} component={Favorites} />
     </AuthStack.Navigator>
   )
 }

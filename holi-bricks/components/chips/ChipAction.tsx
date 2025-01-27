@@ -1,6 +1,5 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
 
-import type { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
 import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import type { Color } from 'holi-bricks/tokens'
@@ -17,8 +16,8 @@ import { pill } from './styles'
 
 type ChipColor = Color | 'white'
 
-type ChipActionProps = AccessibilityProps & {
-  onPress: (event: GestureResponderEvent) => void
+export type ChipActionProps = AccessibilityProps & {
+  onPress?: (event: GestureResponderEvent) => void | Promise<void>
   children?: string
   selected?: boolean
   disabled?: boolean
@@ -26,7 +25,8 @@ type ChipActionProps = AccessibilityProps & {
   size?: ChipSize
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
-} & SelectionElementProps
+  'aria-label'?: string
+}
 
 export const ChipAction = ({
   onPress,
@@ -54,7 +54,7 @@ export const ChipAction = ({
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
       {children && (
-        <Text size={chipSizeToTextSize[size]} color={styles.text.color} selectable={false}>
+        <Text size={chipSizeToTextSize[size]} colorOveride={styles.text.color} selectable={false}>
           {children}
         </Text>
       )}

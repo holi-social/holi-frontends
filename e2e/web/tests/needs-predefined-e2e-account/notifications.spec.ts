@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { BrowserContext, Page, expect } from '@playwright/test'
+import { type BrowserContext, type Page, expect } from '@playwright/test'
 
 import { byTestId, clickElementByTestId, loginAsE2EUser, sendConnectionRequest } from '../helpers'
-import { SessionHandler, test } from '../testmaster'
+import { type SessionHandler, test } from '../testmaster'
 
 // this is a long journey, but its as fast as our backends are
 test.setTimeout(180000)
@@ -26,8 +26,7 @@ const testIgnoringAndAcceptingConnectionRequests = async (
 
   await loginAsE2EUser(context, page)
 
-  // go to notifications
-  await clickElementByTestId(page, 'btn-to-notifications')
+  await page.goto('/notifications')
   // notifications currently can take a while to load, therefore we're setting a long timeout here
   await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 10000 })
   await page.waitForSelector(byTestId('connection-notification-item'))
@@ -40,14 +39,15 @@ const testIgnoringAndAcceptingConnectionRequests = async (
 }
 
 const testUserMentionInPostComment = async (context: BrowserContext, user: Page, sessions: SessionHandler) => {
-  const { page: commentAuthor } = await sessions.signUp()
+  const { page: commentAuthor, user: commentAuthorUser } = await sessions.signUp()
   const writtenComment = await createCommentWithE2EUserMention(commentAuthor)
 
   await loginAsE2EUser(context, user)
 
   // go to notifications and click first one post-comment-notification
-  await clickElementByTestId(user, 'btn-to-notifications')
-  await expect(user.getByTestId('post-comment').first()).toBeVisible()
+  await user.goto('/notifications')
+  await expect(user.getByTestId('post-comment').first()).toBeVisible({ timeout: 10_000 })
+  await expect(user.getByTestId('post-comment').first()).toContainText(commentAuthorUser.firstName)
   await clickElementByTestId(user, 'post-comment')
 
   // after clicking on notification we should go to post detail page and scroll to the comment
@@ -68,7 +68,7 @@ const createCommentWithE2EUserMention = async (user: Page) => {
     commentTextContent = commentInput.replace(new RegExp(`@${testUserFullName}`), `${testUserFullName}`) // remove the @ sign for matching the text later
 
     // go to some post and mention the test user
-    await clickElementByTestId(user, 'btn-to-home-view')
+    await user.goto('/')
     await user.getByRole('button', { name: 'btn-comment-to-feed-post' }).first().click()
     // after clicking on notification we should go to post detail page and scroll to the comment
     // notifications currently can take a while to load, therefore we're setting a long timeout here

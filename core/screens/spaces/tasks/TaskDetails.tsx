@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -21,7 +20,8 @@ import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskT
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -69,7 +69,8 @@ const TaskDetails = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       animation: 'slide_from_left',
-      headerTransparent: false,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: () => <HoliText>{t('spaces.tasks.details.title')}</HoliText>,
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,
@@ -100,15 +101,11 @@ const TaskDetails = () => {
       />
 
       <SeoTitle seoTitle={`${task.name} | ${space.name}`.trim()} />
-      <ScrollHeaderLayout
-        headerRelation="none"
-        style={styles.defaultLayout}
-        contentContainerStyle={styles.contentStyle}
-      >
+      <ScrollViewRefreshable style={styles.defaultLayout} contentContainerStyle={styles.contentStyle}>
         <HoliContainer>
           <SpaceTaskTile variant="full" task={task} space={space} />
         </HoliContainer>
-      </ScrollHeaderLayout>
+      </ScrollViewRefreshable>
     </>
   )
 }

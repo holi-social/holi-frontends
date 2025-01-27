@@ -3,13 +3,14 @@ import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import { ButtonIcon } from 'holi-bricks/components/button'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export const ButtonFloatingWrapper = (props: PropsWithChildren) => (
   <View {...props} style={styles.floatingButtonWrapper} />
@@ -18,25 +19,25 @@ export const ButtonFloatingWrapper = (props: PropsWithChildren) => (
 const CreatePostButton: React.FC = () => {
   const { t } = useTranslation()
   const { navigateWithAuth } = useAuthRequiredNavigation()
+  const { track } = useTracking()
 
   return (
     <HoliContainer flexDirection="row" justifyContent="flex-end">
-      <View>
-        <HoliButton
+      <View style={styles.button}>
+        <ButtonIcon
           label={t('individuals.post.create.title')}
           testID="create-post-button"
-          inline
-          style={styles.button}
           onPress={() => {
+            track(TrackingEvent.FeedPosts.feedPostCreateStart)
             navigateWithAuth('/feed-posts/create', {
               title: t('individuals.post.login.title'),
               description: t('individuals.post.login.text'),
               trackTrigger: 'CREATE_POST',
             })
           }}
-        >
-          <HoliIcon icon={Pencil} size={24} />
-        </HoliButton>
+          icon={Pencil}
+          size="lg"
+        />
       </View>
     </HoliContainer>
   )
@@ -49,11 +50,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: Spacing.xxs,
     right: 0,
-    marginRight: -4,
-    borderRadius: 28,
-    borderWidth: 1,
     paddingHorizontal: 14,
-    paddingVertical: 14,
   },
   floatingButtonWrapper: {
     ...Platform.select({

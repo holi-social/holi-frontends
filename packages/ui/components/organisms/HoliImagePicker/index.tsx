@@ -2,20 +2,23 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ReactNativeFile } from '@holi/api/graphql/client'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
-import { FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
+import type { FileSizeLimitationResize, HoliImageInfo, HoliImagePickerProps } from './types'
 import { useMediaLibraryImagePicker } from './useMediaLibraryImagePicker'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
+import { Pressable } from 'react-native'
 
 const HoliImagePicker = ({
-  children,
   buttonProps,
+  buttonIconProps,
   onPickImage,
   onPickImages,
   allowsMultipleSelection,
   fileSizeLimitation,
-}: React.PropsWithChildren<HoliImagePickerProps>) => {
+  buttonIconOnly = false,
+  children,
+}: HoliImagePickerProps) => {
   const { pickImages } = useMediaLibraryImagePicker(allowsMultipleSelection)
   const { openToast } = useToast()
   const { t } = useTranslation()
@@ -65,11 +68,22 @@ const HoliImagePicker = ({
     }
   }
 
-  return (
-    <HoliButton {...buttonProps} onPress={pickImageHandler}>
-      {children}
-    </HoliButton>
-  )
+  const renderButton = () => {
+    if (buttonIconOnly && buttonIconProps && !children) {
+      return <ButtonIcon {...buttonIconProps} onPress={pickImageHandler} />
+    }
+    if (buttonProps) {
+      const ButtonComponent = children ? Pressable : Button
+      return (
+        <ButtonComponent {...buttonProps} onPress={pickImageHandler} style={buttonProps.style}>
+          {children}
+        </ButtonComponent>
+      )
+    }
+    return null
+  }
+
+  return renderButton()
 }
 
 export default HoliImagePicker

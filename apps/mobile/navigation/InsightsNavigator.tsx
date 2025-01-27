@@ -2,26 +2,27 @@ import React from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import CurationPrinciplesPage from '@holi/core/screens/insights/CurationPrinciplesPage'
-import InsightDetailPage, { InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
+import InsightDetailPage, { type InsightDetailPageParams } from '@holi/core/screens/insights/InsightDetailPage'
 import InsightsPage from '@holi/core/screens/insights/InsightsPage'
 import DiscussionCommentPage, {
-  DiscussionCommentPageParams,
+  type DiscussionCommentPageParams,
 } from '@holi/core/screens/insights/discussions/DiscussionCommentPage'
 import DiscussionDetailPage, {
-  DiscussionDetailPageParams,
+  type DiscussionDetailPageParams,
 } from '@holi/core/screens/insights/discussions/DiscussionDetailPage'
 import InitiativeDetailPage, {
-  InitiativeDetailPageParams,
+  type InitiativeDetailPageParams,
 } from '@holi/core/screens/insights/initiatives/InitiativeDetailPage'
-import QuoteDetailPage, { QuoteDetailPageParams } from '@holi/core/screens/insights/quotes/QuoteDetailPage'
+import QuoteDetailPage, { type QuoteDetailPageParams } from '@holi/core/screens/insights/quotes/QuoteDetailPage'
 import RecommendationDetailPage, {
-  RecommendationDetailPageParams,
+  type RecommendationDetailPageParams,
 } from '@holi/core/screens/insights/recommendations/RecommendationDetailPage'
-import CommentInputPage, { CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
-import PostDetailPage, { PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
+import CommentInputPage, { type CommentInputPageParams } from '@holi/core/screens/posts/CommentInputPage'
+import PostDetailPage, { type PostDetailPageParams } from '@holi/core/screens/posts/PostDetailPage'
 import { RouteName } from '@holi/mobile/navigation/routeName'
+import { colors } from '@holi/ui/styles/globalVars'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type InsightsScreens = {
   [RouteName.InsightDetailPage]: InsightDetailPageParams
@@ -46,9 +47,11 @@ const InsightsNavigator = () => {
       initialRouteName={RouteName.InsightDetailPage}
       screenOptions={{
         headerShown: true,
-        headerTransparent: true,
-        header: HeaderAnimated,
         headerShadowVisible: false,
+        headerTintColor: colors.black300,
+        headerTitleAlign: 'center',
+        headerLeft: () => <HeaderBackButton />,
+        headerBackVisible: false,
       }}
     >
       <InsightsStack.Screen name={RouteName.InsightDetailPage} component={InsightDetailPage} />

@@ -3,11 +3,12 @@ import { ChipLabel } from 'holi-bricks/components/chips'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuthorHeader'
-import HoliTranslate from '@holi/core/components/HoliTranslate'
 import type { Term, User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
@@ -37,6 +38,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import SpaceFeedFollow from '@holi/core/screens/spaces/details/components/SpaceFeedFollow'
+import HoliTranslate from '@holi/core/components/HoliTranslate'
 
 type GenericPostCardProps = {
   post: FeedPost | Post
@@ -62,8 +64,8 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     post as Post,
     (post as Post).space?.id
   )
-
   const isTranslatable = post.language && post.language !== i18n.language
+  const showTranslation = useFeatureFlagToggle(FeatureFlagKey.POST_TRANSLATION) && isTranslatable
 
   const editSpacePost = useCallback(() => {
     navigate(`/spaces/${(post as Post).space?.id}/updates/${post.id}/edit`)
@@ -79,6 +81,10 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
     const aggregatedTopics = allTopics?.filter((topic) =>
       feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
     )
+
+    const showTopics = aggregatedTopics && aggregatedTopics?.length > 0
+    const showCategory = feedPost.category
+    const showPills = showTopics || showCategory
 
     const goToDetailView = () => navigate(`/feed-posts/${feedPost.slug}`)
     return (
@@ -104,6 +110,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           date={feedPost.createdAt}
           role={feedPost.author.role}
           style={styles.authorHeader}
+          testID="post-author"
         />
         {isLoggedIn && (
           <View style={styles.postDrawer}>
@@ -120,16 +127,20 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
           testID="post-card-detail-view-btn"
         >
           <View style={styles.clickableArea}>
-            <View style={styles.pillContainer}>
-              <ChipLabel size="sm" color="yellow">
-                {feedPost.category.label}
-              </ChipLabel>
-              {aggregatedTopics && aggregatedTopics?.length > 0 && (
-                <ChipLabel size="sm" color="green">{`${aggregatedTopics[0]?.title} ${
-                  aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
-                }`}</ChipLabel>
-              )}
-            </View>
+            {showPills && (
+              <View style={styles.pillContainer}>
+                {showCategory && (
+                  <ChipLabel size="sm" color="yellow">
+                    {feedPost.category?.label}
+                  </ChipLabel>
+                )}
+                {showTopics && (
+                  <ChipLabel size="sm" color="green">{`${aggregatedTopics[0]?.title} ${
+                    aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
+                  }`}</ChipLabel>
+                )}
+              </View>
+            )}
             <View style={styles.contentSection}>
               <HoliHeading
                 level="2"
@@ -164,13 +175,13 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={feedPost.mentionedUsers}
             />
           </HoliReadMore>
-          {isTranslatable && (
+          {showTranslation && (
             <HoliTranslate
               primaryText={{ text: description, setText: setDescription }}
               secondaryText={{ text: title, setText: setTitle }}
               loading={loadingTranslation}
               setLoading={setLoadingTranslation}
-              trackingEvent={TrackingEvent.ContentTranslated('comment', feedPost.id)}
+              trackingEvent={TrackingEvent.ContentTranslated('feed_post', feedPost.id)}
             />
           )}
         </View>
@@ -269,7 +280,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
                     confirmText={t('confirmation.delete')}
                     dismissText={t('global.dismiss')}
                     handleConfirmation={deleteSpacePost}
-                    buttonType="warning"
+                    buttonVariant="danger"
                     hasDismissBtn
                     requireLogin
                   />
@@ -320,7 +331,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               users={spacePost.mentions}
             />
           </HoliReadMore>
-          {isTranslatable && (
+          {showTranslation && (
             <HoliTranslate
               primaryText={{ text: description, setText: setDescription }}
               secondaryText={{ text: title, setText: setTitle }}
@@ -436,7 +447,7 @@ const getStyles = (theme: HoliTheme) =>
       gap: Spacing.xs,
     },
     imageCarousel: {
-      marginTop: Spacing['3xs'],
+      marginTop: Spacing.xs,
     },
     description: {
       marginTop: Spacing.xxs,

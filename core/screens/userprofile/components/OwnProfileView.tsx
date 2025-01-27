@@ -1,18 +1,18 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
 import { ChipAction, ChipLabel } from 'holi-bricks/components/chips'
-import React, { useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import InsightsTab from '@holi/core/components/InsightsTab'
 import SpacesTab from '@holi/core/components/SpacesTab'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { UserChipTypes } from '@holi/core/helpers/useUserChips'
+import type { InsightsByUserIdResponse } from '@holi/core/queries'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
-import { InsightsByUserIdResponse } from '@holi/core/queries'
 import MyPostsTab from '@holi/core/screens/individualPosts/components/MyPostsTab'
 import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
@@ -21,7 +21,8 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
@@ -56,7 +57,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
 
   const tabNamesInOrder = [Tab.PROFILE, Tab.POSTS]
-  hasInsights && tabNamesInOrder.push(Tab.INSIGHTS)
+  if (hasInsights) tabNamesInOrder.push(Tab.INSIGHTS)
   tabNamesInOrder.push(Tab.SPACES)
 
   return (
@@ -64,9 +65,13 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
       <View style={{ backgroundColor: colors.background10 }}>
         <HoliContainer>
           <UserProfileView user={user} contactPossible={false} />
+          <ProfileCompletionCard
+            onPressEdit={() => toggleEditMode('profile')}
+            style={styles.profileCard}
+            page="profile"
+          />
         </HoliContainer>
       </View>
-
       <HoliTabs
         activeTab={activeTab}
         onChange={onTabChange}
@@ -82,6 +87,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                     <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
                   ) : (
                     <ChipAction
+                      id="engagementLevel"
                       color="white"
                       onPress={() => toggleEditMode('engagementLevel')}
                       iconTrailing={Add}
@@ -165,6 +171,9 @@ const getStyles = (theme: HoliTheme) =>
       paddingTop: Spacing.lg,
       paddingBottom: Spacing.lg,
       gap: Spacing.md,
+    },
+    profileCard: {
+      marginVertical: Spacing.xs,
     },
   })
 

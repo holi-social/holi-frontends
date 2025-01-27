@@ -1,5 +1,6 @@
 import * as Calendar from 'expo-calendar'
-import React, { memo, useMemo } from 'react'
+import type React from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
@@ -7,7 +8,6 @@ import HoliModal, { useModalState } from '@holi//ui/components/molecules/HoliMod
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { logError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { Appointment } from '@holi/core/screens/appointments/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { CalendarCheck } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -15,7 +15,9 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
+import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 
 const CALENDAR_NAME = 'holi'
 
@@ -139,21 +141,17 @@ const AppointmentCalendarButton: React.FC<AppointmentCalendarButtonProps> = ({ a
         <HoliGap size="s" />
         <HoliText>{t('appointment.calendar.permissions.description')}</HoliText>
         <HoliGap size="m" />
-        <HoliButton
+        <Button
           label={t('appointment.calendar.permissions.open.button.label')}
-          type="primary"
+          variant="primary"
           onPress={openSettings}
-        >
-          <HoliText>{t('appointment.calendar.permissions.open.button.label')}</HoliText>
-        </HoliButton>
+        />
         <HoliGap size="s" />
-        <HoliButton
+        <Button
           label={t('appointment.calendar.permissions.close.button.label')}
-          type="secondary"
+          variant="secondary"
           onPress={hideModal}
-        >
-          <HoliText>{t('appointment.calendar.permissions.close.button.label')}</HoliText>
-        </HoliButton>
+        />
         <HoliGap size="s" />
       </HoliModal>
     </>

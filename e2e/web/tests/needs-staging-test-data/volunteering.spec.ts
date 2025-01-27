@@ -1,12 +1,13 @@
-import { Browser, BrowserContext, Page, expect } from '@playwright/test'
+import { type Browser, type BrowserContext, type Page, expect } from '@playwright/test'
 
 import {
   byTestId,
   checkAccessibility,
   clickElementByTestId,
   clickFirstElement,
+  denyConsent,
+  isRunningLocally,
   locateElementByTestId,
-  proceedAsGuest,
   volunteeringRequestTimeout,
   withSSR,
 } from '../helpers'
@@ -14,14 +15,11 @@ import { test } from '../testmaster'
 
 test.describe('@Volunteering', () => {
   test('user journey', async ({ browser, context, page }) => {
-    test.skip(
-      process.env.BASE_URL === 'http://localhost:3000',
-      'These features have no local test data and can only be tested on staging.'
-    )
+    test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
 
     //prepare
-    await proceedAsGuest(page)
-    await testIsAccessibleFromHomeScreen(page)
+    await page.goto('/volunteering')
+    await denyConsent(page)
 
     await testAllowsPagination(page)
     await withSSR(browser, page.url(), testDisplaysList)
@@ -37,30 +35,6 @@ test.describe('@Volunteering', () => {
     await testFilteringByLocation(browser, page)
   })
 })
-
-const testIsAccessibleFromHomeScreen = async (page: Page) => {
-  await clickElementByTestId(page, 'btn-to-act')
-  await clickElementByTestId(page, 'volunteering-reco-slider-heading-button')
-
-  await page.waitForSelector(byTestId('volunteering-list-container'))
-  expect(page.url()).toContain('/volunteering')
-  await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('volunteering-reco-slider-card'))
-
-  // click first element in ScrollView
-  await clickElementByTestId(page, 'volunteering-reco-slider-card')
-
-  // navigate to article in volunteering app
-  await page.waitForSelector(byTestId('volunteering-detailview-container'))
-  expect(page.url()).toContain('/volunteering/')
-
-  // navigate back
-  await clickElementByTestId(page, 'nav-button-back')
-  await page.waitForSelector(byTestId('volunteering-reco-slider-card'))
-
-  // click on "see more" / navigate to volunteering app
-  await clickElementByTestId(page, 'volunteering-reco-slider-load-more-button')
-}
 
 const testDisplaysList = async (page: Page) => {
   await page.waitForSelector(byTestId('volunteering-list-container'))

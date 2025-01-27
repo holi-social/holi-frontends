@@ -1,17 +1,31 @@
 import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
-import { TextLink, TextLinkSize, TextLinkVariant } from 'holi-bricks/components/text'
+import { type TextColor, TextLink, type TextLinkSize, type TextLinkVariant } from 'holi-bricks/components/text'
+import { lightTheme } from 'holi-bricks/themes/light'
 import React from 'react'
 import { View } from 'react-native'
 
+const availableColors = Object.keys(lightTheme.colors.fill) as TextColor[]
+
 const availableSizes: TextLinkSize[] = ['md', 'sm', 'xs']
-const availableVariants: TextLinkVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'special']
+const disabledProps = [
+  'accessible',
+  'id',
+  'role',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'aria-disabled',
+  'tabIndex',
+  'onPress',
+]
 
 const meta: Meta<typeof TextLink> = {
   title: 'Components/Text/TextLink',
   component: TextLink,
   argTypes: {
     children: { description: 'Text content', required: true },
+    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     children: 'This is a text link.',
@@ -24,7 +38,7 @@ type Story = StoryObj<typeof TextLink>
 export const Playground: Story = {
   argTypes: {
     size: { control: 'select', options: availableSizes },
-    variant: { control: 'select', options: availableVariants },
+    color: { control: 'select', options: availableColors },
   },
   args: {
     size: 'md',
@@ -51,6 +65,24 @@ export const BySize: Story = {
   },
 }
 
+export const ByColor: Story = {
+  argTypes: {},
+  args: {},
+  render: function Render(args) {
+    return (
+      <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {availableColors.map((color) => (
+          <TextLink key={color} {...args} color={color}>
+            This is a text link in {color}.
+          </TextLink>
+        ))}
+      </View>
+    )
+  },
+}
+
+const availableVariants: TextLinkVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'special']
+
 export const ByVariant: Story = {
   argTypes: {},
   args: {},
@@ -59,7 +91,7 @@ export const ByVariant: Story = {
       <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {availableVariants.map((variant) => (
           <TextLink key={variant} {...args} variant={variant}>
-            This is a text link in variant {variant}.
+            This is a text link in deprecated variant {variant}.
           </TextLink>
         ))}
       </View>

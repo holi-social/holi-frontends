@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, ViewStyle } from 'react-native'
+import { View, type ViewStyle } from 'react-native'
 import { useAnimatedScrollHandler } from 'react-native-reanimated'
 
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -10,7 +10,7 @@ import BotomLineSeperator from './BotomLineSeperator'
 import TabButtonList from './TabButtonList'
 import TabContentList from './TabContentScrollableList'
 import { renderTabButtonHelper, useHoliTabsMarginHorizontal } from './helpers'
-import { HoliTabItem, HoliTabsProps } from './types'
+import type { HoliTabItem, HoliTabsProps } from './types'
 
 const HoliTabs = <D extends HoliTabItem>({
   data,
@@ -23,8 +23,12 @@ const HoliTabs = <D extends HoliTabItem>({
   centeredTabButtons = false,
   backgroundColor,
   testID = 'holi-tabs',
+  marginHorizontal: propMarginHorizontal,
 }: HoliTabsProps<D>) => {
   const { theme } = useTheme()
+
+  const marginHorizontal = useHoliTabsMarginHorizontal()
+  const finalMarginHorizontal = propMarginHorizontal ?? marginHorizontal
 
   const [componentWidth, setComponentWidth] = useState<number>(0)
 
@@ -41,8 +45,6 @@ const HoliTabs = <D extends HoliTabItem>({
     }
   })
 
-  const marginHorizontal = useHoliTabsMarginHorizontal()
-
   return (
     <View testID={testID} style={{ flex: 1 }}>
       <View style={{ backgroundColor: theme.colors.background10 }}>
@@ -56,7 +58,7 @@ const HoliTabs = <D extends HoliTabItem>({
               data,
               keyExtractor,
               centeredTabButtons,
-              marginHorizontal,
+              marginHorizontal: useHoliTabsMarginHorizontal(),
               width: componentWidth,
             }}
             renderItem={(options) =>
@@ -81,16 +83,17 @@ const HoliTabs = <D extends HoliTabItem>({
         <HoliContainer noPadding>
           {variant === 'scrollable' ? (
             <TabContentList
-              {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
+              {...{ activeTab, data, keyExtractor, marginHorizontal: finalMarginHorizontal, width: componentWidth }}
               renderItem={renderTabContent}
               onScroll={onContentScroll}
               scrollEventThrottle={100}
               tabsId={testID}
               testID={`${testID}-content-list`}
+              marginHorizontal={marginHorizontal}
             />
           ) : (
             <TabContentVirtualized
-              {...{ activeTab, data, keyExtractor, marginHorizontal, width: componentWidth }}
+              {...{ activeTab, data, keyExtractor, marginHorizontal: finalMarginHorizontal, width: componentWidth }}
               renderItem={renderTabContent}
               tabsId={testID}
               testID={`${testID}-content-list`}

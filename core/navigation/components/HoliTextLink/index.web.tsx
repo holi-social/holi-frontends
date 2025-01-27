@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react'
 import React from 'react'
 
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
+import type { HoliTextLinkProps } from '@holi/core/navigation/components/HoliTextLink/types'
 
 export const HoliTextLink = ({
   href,
@@ -12,12 +12,12 @@ export const HoliTextLink = ({
   onPress,
   children,
   mobileNavigateBackFirst,
-  variant,
+  color,
   textAlign,
   size,
 }: PropsWithChildren<HoliTextLinkProps>) => {
   return (
-    <TextLink size={size} variant={variant} textAlign={textAlign}>
+    <TextLink size={size} color={color} textAlign={textAlign} role="none">
       <HoliLink
         href={href}
         label={label}

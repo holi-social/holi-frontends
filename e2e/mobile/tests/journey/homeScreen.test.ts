@@ -1,4 +1,4 @@
-import { defaultAuthSteps } from '../../helpers/auth'
+import { continueAsGuest, login, logout } from '../../helpers/auth'
 import { scrollDown } from '../../helpers/gestures'
 import { navigateBackToHomeScreen } from '../../helpers/navigation'
 import {
@@ -9,14 +9,19 @@ import {
 } from '../../helpers/selectors'
 
 describe('@HomeScreen_journey', () => {
+  afterEach(async () => {
+    // Speeds up local execution
+    if (target === 'local') {
+      await logout()
+    }
+  })
+
   it('should support the user journey', async () => {
+    await continueAsGuest()
+
     await assertShowsInsights()
 
     await assertShowInsightsScreen()
-
-    await assertShowsAppUpdates('volunteering')
-
-    await assertShowsAppUpdates('donations')
 
     await assertShowsAppUpdates('goodnews')
 
@@ -78,7 +83,7 @@ const assertShowsNoUserSuggestionsWhenLoggedOut = async () => {
 
 const assertShowsUserSuggestionsWhenLoggedIn = async () => {
   // login
-  await defaultAuthSteps()
+  await login()
 
   // go home
   await navigateBackToHomeScreen('btn-to-home-view')

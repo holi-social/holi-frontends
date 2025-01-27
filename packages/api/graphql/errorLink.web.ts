@@ -41,7 +41,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     } else {
       logError(
         networkError,
-        `Network error ${JSON.stringify(networkError)} ${JSON.stringify(graphQLErrors)} Query: ${JSON.stringify(
+        `Network error: ${JSON.stringify(networkError)}; GraphQLErrors: ${JSON.stringify(graphQLErrors)}; Query "${operation?.operationName}": ${JSON.stringify(
           operation?.query
         )}`,
         {

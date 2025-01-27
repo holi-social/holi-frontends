@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Animated, Platform, ScrollView, StyleSheet, View } from 'react-native'
+import { Animated, Platform, type ScrollView, StyleSheet, View } from 'react-native'
 import type {
   LayoutChangeEvent,
   NativeScrollEvent,
@@ -50,7 +50,7 @@ export const HoliStepperController: React.FC<HoliStepperControllerProps> = ({
     (nextStep: number) => {
       const validNextStep = Math.min(Math.max(nextStep, 0), stepCount - 1)
       setCurrentStep(validNextStep)
-      onChangeTab && onChangeTab(validNextStep)
+      if (onChangeTab) onChangeTab(validNextStep)
     },
     [stepCount, onChangeTab]
   )
@@ -86,6 +86,7 @@ export const useStepper = () => {
 const scrollDelay = 33.332 // 1000 / 60fps * 2 to try to trigger on the second frame
 
 /**
+ * @deprecated Use HoliStepper from `@holi/packages/ui/components/organisms/HoliStepperV2` instead
  * @description The HoliStepper component is a controlled component, which means
  * the parent controls the element from the outside using the
  * HoliStepperContext.
@@ -143,9 +144,11 @@ export const HoliStepper: React.FC<HoliStepperProps> = ({
       if (!ref.current?.scrollTo) {
         return
       }
-      Platform.OS === 'android'
-        ? ref.current.scrollTo(scrollOptions)
-        : delayAnimation(ref.current.scrollTo, scrollOptions, scrollDelay)
+      if (Platform.OS === 'android') {
+        ref.current.scrollTo(scrollOptions)
+      } else {
+        delayAnimation(ref.current.scrollTo, scrollOptions, scrollDelay)
+      }
     },
     [lazy, viewWidth]
   )

@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type DimensionValue, type ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
+import { type DimensionValue, Linking, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -28,6 +27,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type RecommendationDetailPageParams = {
   insightId: string
@@ -83,7 +83,8 @@ const RecommendationDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
-      headerBackVisible: true,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.recommendations.title')}</HeaderTitle>
       ),
@@ -107,7 +108,7 @@ const RecommendationDetailPage = () => {
 
   return (
     <>
-      <ScrollHeaderLayout style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
+      <ScrollViewRefreshable style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
         {recommendation && !loading ? (
           <View style={styles.content}>
             {recommendation.linkPreview.image && (
@@ -143,7 +144,7 @@ const RecommendationDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout>
+      </ScrollViewRefreshable>
 
       {recommendation && !loading && (
         <View style={styles.footer}>
@@ -217,7 +218,7 @@ const getStyles = (theme: HoliTheme) =>
           maxHeight: '50%',
         },
       }),
-    } as ImageStyle,
+    } as ViewStyle,
     recommender: {
       flexDirection: 'row',
       gap: Spacing['3xs'],

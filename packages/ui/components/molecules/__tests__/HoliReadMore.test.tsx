@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import React from 'react'
-import { TextLayoutLine, View } from 'react-native'
-import renderer, { ReactTestInstance } from 'react-test-renderer'
+import { type TextLayoutLine, View } from 'react-native'
 
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
 
@@ -40,7 +39,7 @@ it('should display truncated and full text from children', async () => {
     </HoliReadMore>
   )
 
-  const el = screen.queryByTestId(containerTestId) as ReactTestInstance
+  const el = screen.queryByTestId(containerTestId)
   fireEvent(el, 'onTextLayout', { nativeEvent: { lines: textLines } })
 
   const readMoreBtn = await screen.findByText('component.readMore.readMore')
@@ -64,26 +63,22 @@ it('should display truncated and full text from children', async () => {
 })
 
 it('renders correctly with long text', () => {
-  const tree = renderer
-    .create(
-      <View>
-        <HoliReadMore>
-          I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This
-          text cannot exceed three lines or else. This text cannot exceed.
-        </HoliReadMore>
-      </View>
-    )
-    .toJSON()
-  expect(tree).toMatchSnapshot()
+  render(
+    <View>
+      <HoliReadMore>
+        I enjoy working on community projects during my spare time. This text cannot exceed three lines or else. This
+        text cannot exceed three lines or else. This text cannot exceed.
+      </HoliReadMore>
+    </View>
+  )
+  expect(screen).toMatchSnapshot()
 })
 
 it('renders correctly with short text', () => {
-  const tree = renderer
-    .create(
-      <View>
-        <HoliReadMore>I enjoy working on community projects.</HoliReadMore>
-      </View>
-    )
-    .toJSON()
-  expect(tree).toMatchSnapshot()
+  render(
+    <View>
+      <HoliReadMore>I enjoy working on community projects.</HoliReadMore>
+    </View>
+  )
+  expect(screen).toMatchSnapshot()
 })

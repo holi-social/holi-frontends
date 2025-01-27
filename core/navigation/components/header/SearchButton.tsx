@@ -1,16 +1,27 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Search } from '@holi/icons/src/generated'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import { ButtonIcon } from 'holi-bricks/components/button'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
 
-export const SearchButton: React.FC<{ onPress: () => void; color: string | undefined }> = (props) => {
+export const SearchButton = () => {
   const { t } = useTranslation()
+  const { track } = useTracking()
+  const { navigate } = useRouting()
 
   return (
-    <HoliButton label={t('navigation.search')} inline transparent onPress={props.onPress}>
-      <HoliIcon icon={Search} color={props.color} />
-    </HoliButton>
+    <ButtonIcon
+      label={t('navigation.search')}
+      icon={Search}
+      transparent
+      onPress={() => {
+        track(TrackingEvent.SearchButtonPressed)
+        navigate('/search')
+      }}
+      size="lg"
+    />
   )
 }

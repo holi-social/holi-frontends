@@ -14,27 +14,29 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
-import OwnProfileView, { EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
+import OwnProfileView, { type EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
 import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import { interestsQuery } from '@holi/core/screens/userprofile/queries'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useTheme } from '@holi/ui/styles/theme'
+import { ButtonIcon } from 'holi-bricks/components/button'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const OwnProfile = () => {
+  const { track } = useTracking()
   const [activeTab, setActiveTab] = useState<string>(Tab.PROFILE)
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setshowModal] = useState(false)
   const [editMode, setEditMode] = useState<EditModeState>()
   const closeModal = useCallback(() => {
-    setShowModal(false)
+    setshowModal(false)
   }, [])
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
@@ -49,17 +51,22 @@ const OwnProfile = () => {
   const toggleEditMode = useCallback(
     (newEditMode: EditModeState) => {
       setEditMode(newEditMode)
+      if (newEditMode === 'profile') {
+        track(TrackingEvent.UserProfile.editPressed())
+      }
       // if pressed too soon, the state is set to true, but the modal is not shown.
       // crude mechanism to recover from this state.
       // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-      showModal && setShowModal(false)
-      setShowModal(true)
+      if (showModal) setshowModal(false)
+      setshowModal(true)
     },
-    [showModal]
+    [showModal, track]
   )
 
   // TODO: remove after implementing the feature
-  const showFeatureNotImplementedToast = useToastForNotAvailableFeature()
+  const showFeatureNotImplementedToast = useToastForNotAvailableFeature({
+    feature: 'USER_PROFILE_SHARE',
+  })
 
   useIsomorphicLayoutEffect(() => {
     const title = t('profile.title')
@@ -79,33 +86,33 @@ const OwnProfile = () => {
           {title}
         </HeaderTitle>
       ),
-      headerRight: ({ tintColor }) => (
+      headerRight: () => (
         <HoliHorizontalRow>
-          <HoliButton
+          <ButtonIcon
             label={t('profile.edit')}
             onPress={() => {
               toggleEditMode('profile')
             }}
             transparent
-            inline
             testID="btn-open-profile-edit-view"
-          >
-            <HoliIcon icon={Edit2} color={tintColor} />
-          </HoliButton>
-
-          <HoliButton label={t('profile.share')} inline transparent onPress={showFeatureNotImplementedToast}>
-            <HoliIcon icon={Share} color={tintColor} />
-          </HoliButton>
-
-          <HoliButton
+            icon={Edit2}
+            size="lg"
+          />
+          <ButtonIcon
+            label={t('profile.share')}
+            transparent
+            onPress={showFeatureNotImplementedToast}
+            icon={Share}
+            size="lg"
+          />
+          <ButtonIcon
             label={t('profile.settings.overview.title')}
-            inline
             transparent
             onPress={() => navigate('/profile/settings')}
             testID="btn-to-settings"
-          >
-            <HoliIcon icon={Settings3} color={tintColor} />
-          </HoliButton>
+            icon={Settings3}
+            size="lg"
+          />
         </HoliHorizontalRow>
       ),
     })
@@ -117,7 +124,9 @@ const OwnProfile = () => {
     await client.clearStore()
     // for mobile we need to refetch data manually, web will refetch it anyway with SSR, except for the authenticatedUser itself
     // fetching all queries can take a while, so we do not await them to not block the UI
-    client.refetchQueries({ include: Platform.OS !== 'web' ? 'active' : [authenticatedUserV2Query] })
+    client.refetchQueries({
+      include: Platform.OS !== 'web' ? 'active' : [authenticatedUserV2Query],
+    })
 
     closeModal()
   }, [client, closeModal])
@@ -129,7 +138,7 @@ const OwnProfile = () => {
           <>
             {editMode && (
               <HoliModal
-                show={showModal}
+                shown={showModal}
                 onDismiss={closeModal}
                 testID="user-profile-modal"
                 label={t(`profile.${editMode}.edit`)}

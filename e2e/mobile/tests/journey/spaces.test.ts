@@ -1,4 +1,4 @@
-import { defaultAuthSteps, logout } from '../../helpers/auth'
+import { continueAsGuest, login, logout } from '../../helpers/auth'
 import { waitForHomeScreen } from '../../helpers/navigation'
 import {
   fillFieldByTestId,
@@ -29,6 +29,7 @@ describe('@Spaces', () => {
 
   it('should support the user journey', async () => {
     // preparation of test
+    await continueAsGuest()
     await navigateToSpaces()
 
     await assertMultipleGroupsDisplayed()
@@ -73,7 +74,7 @@ describe('@Spaces', () => {
 
   const assertCreatingSpace = async () => {
     // login
-    await defaultAuthSteps()
+    await login()
 
     // on Android, the user gets navigated to spaces and the onboarding modal is opening immediately after login
     await leaveSpaceOnboardingModal()
@@ -190,7 +191,7 @@ describe('@Spaces', () => {
   const leaveSpaceOnboardingModal = async () => {
     try {
       await tapOnElementWithTestId('space-onboard-content-close-btn', 5_000)
-    } catch (_) {
+    } catch (_) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // try catch in case the onboarding modal is present (depends on asyncstorage)
     }
   }

@@ -1,30 +1,29 @@
 import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-import useRefreshOnNavigation, { RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
+import useRefreshOnNavigation, { type RefreshOnNavigationParams } from '@holi/core/hooks/useRefreshOnNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import AppointmentsList from '@holi/core/screens/appointments/components/AppointmentsList'
 import { APPOINTMENT_STATUS_TYPE, appointmentsBySpaceIdQuery } from '@holi/core/screens/appointments/queries'
-import { SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
+import { type SpaceByIdResponse, spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add } from '@holi/icons/src/generated'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
+import { ButtonIcon } from 'holi-bricks/components/button'
 
 export type SpaceAppointmentsParams = RefreshOnNavigationParams & {
   spaceIdOrName: string
@@ -59,7 +58,6 @@ const SpaceAppointments = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.appointments.title'),
-      headerTransparent: false,
       navigationCustomOptions: {
         footerShown: false,
       },
@@ -157,15 +155,15 @@ const SpaceAppointments = () => {
       />
 
       {isMember && (
-        <HoliButton
-          label={t('spaces.appointments.add.button.label')}
-          testID="btn-add-appointment"
-          inline
-          style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}
-          onPress={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
-        >
-          <HoliIcon icon={Add} size={24} color={colors.foreground30} />
-        </HoliButton>
+        <View style={[styles.overlayButton, { transform: [{ translateX: -16 + screenOffset }] }]}>
+          <ButtonIcon
+            label={t('spaces.appointments.add.button.label')}
+            testID="btn-add-appointment"
+            onPress={() => navigate(`/spaces/${spaceIdOrName}/appointments/create`)}
+            icon={Add}
+            size="lg"
+          />
+        </View>
       )}
     </View>
   )

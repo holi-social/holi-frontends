@@ -28,20 +28,23 @@ const ChatHome = () => {
 
   const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
 
-  useToastForNotAvailableFeature(chatFeatureFlag.isOff && !chatFeatureFlag.isUnknown)
+  useToastForNotAvailableFeature({
+    onInitialRender: chatFeatureFlag.isOff && !chatFeatureFlag.isUnknown,
+    feature: 'CHAT',
+  })
 
   useEffect(() => {
     setScreenOptions({
       title,
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTitle: () => null,
+      headerBackTitleVisible: false,
+      headerBackVisible: false,
+      headerTitle: '',
       headerLeft: ({ tintColor }) => (
         <HeaderTitle size="large" widthOfScreen={0.6} tintColor={tintColor}>
           {title}
         </HeaderTitle>
       ),
-      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
+      headerRight: () => <NotificationAndSearchHeader />,
     })
   }, [navigate, setScreenOptions, t, title, colors.background20])
   if (chatFeatureFlag.inMaintenance) {

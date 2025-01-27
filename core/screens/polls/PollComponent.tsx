@@ -10,19 +10,21 @@ import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import PollCompletionMessage from '@holi/core/screens/polls/components/PollCompletionMessage'
 import PollResults from '@holi/core/screens/polls/components/PollResults'
 import PollSelection from '@holi/core/screens/polls/components/PollSelection'
-import { UpdatePollResponse, updateVotesMutation } from '@holi/core/screens/polls/mutations'
+import { type UpdatePollResponse, updateVotesMutation } from '@holi/core/screens/polls/mutations'
 import { userHasVotedByPollId } from '@holi/core/screens/polls/queries'
-import { Choice, Poll } from '@holi/core/screens/polls/types'
+import type { Choice, Poll } from '@holi/core/screens/polls/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import userTeam from '@holi/icons/src/generated/UserTeam'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliColumns from '@holi/ui/components/atoms/HoliColumns'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const MIN_VOTES_RESULTS_REVEAL = 5
 
@@ -31,6 +33,7 @@ export type PollComponentProps = {
 }
 
 const PollComponent = ({ poll }: PollComponentProps) => {
+  const { track } = useTracking()
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -49,13 +52,18 @@ const PollComponent = ({ poll }: PollComponentProps) => {
     variables: { id: poll.id },
     skip: !user,
     onError: (error) =>
-      logError(error, 'Failed to load user votes', { location: 'PollComponent.userHasVotedByPollId' }),
+      logError(error, 'Failed to load user votes', {
+        location: 'PollComponent.userHasVotedByPollId',
+      }),
   })
 
   const { refetch } = useQuery(userHasVotedByPollId, {
     variables: { id: poll.id },
     skip: !user,
-    onError: (error) => logError(error, 'Failed to refetch user votes', { location: 'PollComponent.refetch' }),
+    onError: (error) =>
+      logError(error, 'Failed to refetch user votes', {
+        location: 'PollComponent.refetch',
+      }),
   })
 
   useEffect(() => {
@@ -65,7 +73,10 @@ const PollComponent = ({ poll }: PollComponentProps) => {
   }, [loadingUser, loadingVote])
 
   const [updateVotes] = useMutation<UpdatePollResponse>(updateVotesMutation, {
-    onError: (error) => logError(error, 'Failed to update votes of poll', { location: 'PollComponent.updateVotes' }),
+    onError: (error) =>
+      logError(error, 'Failed to update votes of poll', {
+        location: 'PollComponent.updateVotes',
+      }),
   })
 
   const sendVote = async () => {
@@ -77,6 +88,7 @@ const PollComponent = ({ poll }: PollComponentProps) => {
       })
       refetch()
       setVotesSum(votesSum + 1)
+      track(TrackingEvent.PollVoteSubmitted(poll.id))
     }
   }
 
@@ -139,15 +151,14 @@ const PollComponent = ({ poll }: PollComponentProps) => {
             </HoliText>
           </HoliBox>
           {!userHasVoted?.userHasVotedByPollId && (
-            <HoliButton
-              inline={screenWidth > dimensions.breakpointS}
-              disabled={!selectedAnswerOption}
-              style={screenWidth < dimensions.breakpointS && { marginTop: 24 }}
-              label={'submit'}
-              onPress={sendVote}
-            >
-              {t('homeFeed.pollComponent.sendAnswer')}
-            </HoliButton>
+            <View style={screenWidth < dimensions.breakpointS && styles.button}>
+              <Button
+                inline={screenWidth > dimensions.breakpointS}
+                disabled={!selectedAnswerOption}
+                label={t('homeFeed.pollComponent.sendAnswer')}
+                onPress={sendVote}
+              />
+            </View>
           )}
         </HoliColumns>
       </View>
@@ -194,6 +205,9 @@ const getStyles = (theme: HoliTheme) =>
     },
     loader: {
       marginVertical: 20,
+    },
+    button: {
+      marginTop: 24,
     },
   })
 

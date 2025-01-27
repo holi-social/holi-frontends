@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 
 import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import Footer from '@holi/web/components/navigation/Footer'

@@ -1,19 +1,18 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
-import { StyleSheet } from 'react-native'
-import Animated, { LayoutAnimationConfig, LinearTransition, ZoomInEasyDown } from 'react-native-reanimated'
-
+import Animated, { LayoutAnimationConfig, ZoomInEasyDown, LinearTransition } from 'react-native-reanimated'
 import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
-import { MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
+import { type MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import RoomMessage from './RoomMessage'
-import { RoomMessageListProps } from './types'
+import type { RoomMessageListProps } from './types'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
 
 const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[] => {
   const groupedMessages: Record<string, MessageItem[]> = {}
@@ -49,8 +48,7 @@ const RoomMessageList = ({
   roomId,
 }: RoomMessageListProps) => {
   const { i18n } = useTranslation()
-  const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles } = useStyles(stylesheet)
 
   const groupedMessages = groupByDate(messages, i18n.language)
 
@@ -83,15 +81,15 @@ const RoomMessageList = ({
             </Animated.View>
           )
         }}
+        initialNumToRender={15}
         // BE CAREFUL: this section list is inverted! So, ListHeaderComponent is shown bellow and ListFooterComponent above in the list
         // use ListFooterComponent to add padding bottom for HeaderAnimated
+        inverted={true}
+        onScroll={onScroll}
+        keyboardDismissMode="interactive"
         ListHeaderComponent={() => <View style={styles.listHeaderSpacer} />}
         ListFooterComponent={() => <View style={styles.listFooterSpacer}>{starter}</View>}
-        inverted={true}
         itemLayoutAnimation={LinearTransition.springify().damping(14).stiffness(90)}
-        contentContainerStyle={styles.list}
-        onScroll={onScroll}
-        keyboardDismissMode="on-drag"
       />
     </LayoutAnimationConfig>
   )
@@ -99,15 +97,18 @@ const RoomMessageList = ({
 
 export default RoomMessageList
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    list: {
-      backgroundColor: theme.colors.background20,
-    },
-    listFooterSpacer: {
-      paddingTop: dimensions.topBarHeight,
-    },
-    listHeaderSpacer: {
-      height: 20,
-    },
-  })
+const stylesheet = createStyleSheet(() => ({
+  listFooterSpacer: {
+    paddingTop: dimensions.topBarHeight,
+  },
+  listHeaderSpacer: {
+    height: 20,
+  },
+  container: {
+    flex: 1,
+  },
+  contentContainer: {
+    justifyContent: 'flex-end',
+    flexGrow: 1,
+  },
+}))

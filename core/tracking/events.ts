@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import type { NamesStepData } from '@holi/core/auth/components/AccountSetup/NamesStep'
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
 import { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 
@@ -39,6 +38,81 @@ const versionOne = {
  * a *complete* reference. It contains sub-namespaces for the different areas of the application.
  */
 export namespace TrackingEvent {
+  export const SearchButtonPressed: TrackingEvent = {
+    name: 'searchButtonPressed',
+    ...versionOne,
+  }
+
+  export type SearchResult = {
+    query: string
+    totalNrOfResults: number
+    totalNrOfPages: number
+    currentPage: number
+    selectedFacets: string[]
+    // deliberately untyped to not have to adopt for every document type added. this shall only contain document
+    // properties and not Instantsearch.js metadata on docs, see `removeDeniedProps` in
+    // core/screens/search/typesense/tracking.ts
+    renderedResults: Record<string, any>[] // eslint-disable-line @typescript-eslint/no-explicit-any
+  }
+
+  export const SearchResultPressed = ({
+    itemPressed,
+    itemPressedIndex,
+    itemPressedType,
+    itemPressedTitleDe,
+    itemPressedTitleEn,
+    searchResult,
+  }: {
+    itemPressed: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
+    itemPressedIndex: number
+    itemPressedType: string
+    itemPressedTitleDe?: string
+    itemPressedTitleEn?: string
+    searchResult: SearchResult
+  }): TrackingEvent => ({
+    name: 'searchResultPressed',
+    ...versionOne,
+    properties: {
+      itemPressed,
+      itemPressedIndex,
+      itemPressedType,
+      itemPressedTitleDe,
+      itemPressedTitleEn,
+      ...searchResult,
+    },
+  })
+
+  export const SearchResultsRendered = ({
+    query,
+    totalNrOfResults,
+    totalNrOfPages,
+    currentPage,
+    selectedFacets,
+    renderedResults,
+  }: SearchResult): TrackingEvent => ({
+    name: 'searchResultsRendered',
+    ...versionOne,
+    properties: {
+      query,
+      totalNrOfResults,
+      totalNrOfPages,
+      currentPage,
+      renderedResults,
+      selectedFacets,
+    },
+  })
+
+  export const SpaceAskQuestion = {
+    askedQuestion: {
+      name: 'askQuestionButton_pressed',
+      ...versionOne,
+    },
+    startedConversation: {
+      name: 'startConversationButton_pressed',
+      ...versionOne,
+    },
+  }
+
   export const Engaging = {
     reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
       name: 'reacted',
@@ -46,9 +120,7 @@ export namespace TrackingEvent {
         reactableType,
         reactableId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
     commented: (commentableType: string, commentableId: string): TrackingEvent => ({
       name: 'commented',
@@ -56,9 +128,7 @@ export namespace TrackingEvent {
         commentableType,
         commentableId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
   }
 
@@ -68,19 +138,19 @@ export namespace TrackingEvent {
       properties: {
         postId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
     shared: (postId: string): TrackingEvent => ({
       name: 'sharedFeedPost',
       properties: {
         postId,
       },
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
+      ...versionOne,
     }),
+    feedPostCreateStart: {
+      name: 'feedPostCreateStart',
+      ...versionOne,
+    },
   }
 
   export const Spaces = {
@@ -89,11 +159,44 @@ export namespace TrackingEvent {
       properties: { spaceId, isLoggedIn },
       ...versionOne,
     }),
+
     joinSpaceButtonPressed: (spaceId: string, isLoggedIn: boolean): TrackingEvent => ({
       name: 'joinSpaceButtonPressed',
       properties: { spaceId, isLoggedIn },
       ...versionOne,
     }),
+
+    FileStorage: {
+      accessed: (spaceId: string): TrackingEvent => ({
+        name: 'spaceFileStorageAccessed',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
+
+    LinkHub: {
+      linkAdded: (spaceId: string, linkType: string): TrackingEvent => ({
+        name: 'spaceLinkHubLinkAdded',
+        properties: { spaceId, linkType },
+        ...versionOne,
+      }),
+    },
+
+    Onboarding: {
+      updated: (spaceId: string): TrackingEvent => ({
+        name: 'spaceOnboardingUpdated',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
+
+    Profile: {
+      externalLinkAdded: (spaceId: string): TrackingEvent => ({
+        name: 'spaceProfileExternalLinkAdded',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
   }
 
   export const Donations = {
@@ -124,16 +227,6 @@ export namespace TrackingEvent {
   }
 
   export namespace Auth {
-    // Login Modal
-    export const CloseLoginModalButtonPressed: TrackingEvent = {
-      name: 'closeLoginModalButtonPressed',
-      ...versionOne,
-    }
-    export const SignupLoginModalButtonPressed: TrackingEvent = {
-      name: 'signupLoginModalButtonPressed',
-      ...versionOne,
-    }
-
     // Others
     export const RegisterButtonPressed: TrackingEvent = {
       name: 'registerButtonPressed',
@@ -160,33 +253,6 @@ export namespace TrackingEvent {
       name: 'resendEmailButtonPressed',
       ...versionOne,
     }
-    export const RegisterNamesOnboardingStepCompleted = (updatedValues: NamesStepData): TrackingEvent => ({
-      name: 'registerNamesOnboardingStepCompleted',
-      properties: { updatedValues },
-      ...versionOne,
-    })
-    export const InterestsOnboardingStepCompleted = (updatedValues: string[]): TrackingEvent => ({
-      name: 'interestsOnboardingStepCompleted',
-      properties: { updatedValues },
-      ...versionOne,
-    })
-    export const InterestsOnboardingStepSkipped: TrackingEvent = {
-      name: 'interestsOnboardingStepSkipped',
-      ...versionOne,
-    }
-    export const LocationOnboardingStepCompleted = (updatedValues: string): TrackingEvent => ({
-      name: 'locationOnboardingStepCompleted',
-      properties: { updatedValues },
-      ...versionOne,
-    })
-    export const LocationOnboardingStepSkipped: TrackingEvent = {
-      name: 'locationOnboardingStepSkipped',
-      ...versionOne,
-    }
-    export const SuccessOnboardingStepCompleted: TrackingEvent = {
-      name: 'successOnboardingStepCompleted',
-      ...versionOne,
-    }
   }
 
   export const ContentTranslated = (
@@ -194,9 +260,7 @@ export namespace TrackingEvent {
     contentId: string
   ): TrackingEvent => ({
     name: 'content_translated',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+    ...versionOne,
     properties: {
       type: type,
       contentId: contentId,
@@ -205,9 +269,7 @@ export namespace TrackingEvent {
 
   export const RecommendationPressed = (type: RecommendationType, itemId: string, index: number): TrackingEvent => ({
     name: 'recommendation_pressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+    ...versionOne,
     properties: {
       type: type,
       itemId: itemId,
@@ -230,25 +292,28 @@ export namespace TrackingEvent {
   export namespace InsightCard {
     export const CardPressed = (insightId: string): TrackingEvent => ({
       name: 'insightCard_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         insightId: insightId,
       },
+      ...versionOne,
+    })
+    export const CardViewed = (insightId: string): TrackingEvent => ({
+      name: 'insightCard_viewed',
+      properties: {
+        insightId: insightId,
+      },
+      ...versionOne,
     })
   }
 
   export namespace ChallengeCard {
     export const CardPressed = (challengeId: string, index: number): TrackingEvent => ({
       name: 'challengeCard_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         challengeId: challengeId,
         index: index,
       },
+      ...versionOne,
     })
 
     export const SubmissionPressed = (
@@ -257,35 +322,95 @@ export namespace TrackingEvent {
       submissionIndex: number
     ): TrackingEvent => ({
       name: 'challengeCardSubmission_pressed',
-      event_version__major: 1,
-      event_version__minor: 0,
-      event_version__patch: 0,
       properties: {
         challengeId: challengeId,
         submissionId: submissionId,
         submissionIndex: submissionIndex,
       },
+      ...versionOne,
     })
   }
 
-  export const OnboardingPressed = (step: 'WELCOME' | 'CONTENT_SELECTION', answer: string): TrackingEvent => ({
-    name: 'onboarding_pressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
+  export const OnboardingStepCompleted = (
+    step: 'welcome' | 'contentSelection' | 'locationSelection' | 'interestsSelection' | 'skillsSelection',
+    answers: string[],
+    buttonPressed: 'continue' | 'skip' | 'back'
+  ): TrackingEvent => ({
+    name: 'onboardingStepCompleted',
     properties: {
-      step: step,
-      answer: answer,
+      step,
+      answers,
+      buttonPressed,
     },
+    ...versionOne,
+  })
+
+  export const SignupStepCompleted = (
+    properties:
+      | {
+          step: 'emailAndPassword'
+          answer: 'signUp' | 'continueAsGuest' | 'login'
+        }
+      | {
+          step: 'verificationCode'
+          answer: 'verifyAccount' | 'continueAsGuest'
+        }
+      | { step: 'name'; answer: 'continue' }
+  ): TrackingEvent => ({
+    name: 'signupStepCompleted',
+    properties,
+    ...versionOne,
   })
 
   export const SignUpModalPressed = (trigger: SignupModalPressedTrigger, answer: string): TrackingEvent => ({
     name: 'signUpModalPressed',
-    event_version__major: 1,
-    event_version__minor: 0,
-    event_version__patch: 0,
     properties: { trigger, answer },
+    ...versionOne,
   })
+
+  export const NotYetAvailableFeaturePressed = (feature: string): TrackingEvent => ({
+    name: 'notYetAvailableFeaturePressed',
+    properties: { feature },
+    ...versionOne,
+  })
+
+  export const UserConnectionRequested = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionRequested',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+
+  export const UserConnectionAccepted = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionAccepted',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+
+  export const UserConnectionRejected = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionRejected',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+  export const PollVoteSubmitted = (pollId: string): TrackingEvent => ({
+    name: 'pollVoteSubmitted',
+    properties: { pollId },
+    ...versionOne,
+  })
+
+  export const UserProfile = {
+    editPressed: (): TrackingEvent => ({
+      name: 'userProfileEdit_pressed',
+
+      ...versionOne,
+    }),
+    completionDismissed: (page: 'profile' | 'home_feed'): TrackingEvent => ({
+      name: 'userProfileCompletion_dismissed',
+      properties: {
+        page: page,
+      },
+      ...versionOne,
+    }),
+  }
 
   export const NotificationPreferenceChanged = (
     workflowId: string,
@@ -301,4 +426,9 @@ export namespace TrackingEvent {
       newState,
     },
   })
+}
+
+export const Unknown: TrackingEvent = {
+  name: 'unknown',
+  ...versionOne,
 }

@@ -2,80 +2,75 @@
 
 exports[`SpaceInviteUserButton displays button if the user already requested membership 1`] = `
 <View
-  accessibilityLabel="spaces.invite.btn.send"
-  accessibilityRole="button"
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": false,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
-    [
-      [
-        {
-          "width": "auto",
-        },
-        {
-          "backgroundColor": "#fff",
-          "borderColor": "#262424",
-          "borderRadius": 28,
-          "borderWidth": 2,
-          "display": "flex",
-          "elevation": 0,
-          "justifyContent": "center",
-          "overflow": "hidden",
-          "paddingHorizontal": 32,
-          "paddingVertical": 13,
-        },
-      ],
-      {
-        "paddingHorizontal": 6,
-        "paddingVertical": 6,
-      },
-    ]
+    {
+      "paddingHorizontal": 6,
+      "paddingVertical": 6,
+    }
   }
-  testID="btn-to-invite"
 >
   <View
+    accessibilityLabel="spaces.invite.btn.send"
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": false,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    aria-pressed={false}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       [
         {
-          "pointerEvents": "none",
+          "backgroundColor": "#ffffff",
+          "borderColor": "#262424",
+          "borderRadius": 1000,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "boxShadow": "0 0 0 0px #262424",
+          "display": "flex",
+          "height": 40,
+          "padding": 10,
+          "width": 40,
         },
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "center",
-        },
-        undefined,
       ]
     }
+    testID="btn-to-invite"
   >
-    <View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "gap": 4,
+          "justifyContent": "center",
+        }
+      }
+    >
       <View>
         <RNSVGSvgView
           align="xMidYMid"
@@ -116,7 +111,7 @@ exports[`SpaceInviteUserButton displays button if the user already requested mem
             }
           >
             <RNSVGPath
-              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"
+              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
               fill={
                 {
                   "type": 2,
@@ -138,80 +133,75 @@ exports[`SpaceInviteUserButton displays button if the user already requested mem
 
 exports[`SpaceInviteUserButton displays button if the user can be invited 1`] = `
 <View
-  accessibilityLabel="spaces.invite.btn.send"
-  accessibilityRole="button"
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": false,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
-    [
-      [
-        {
-          "width": "auto",
-        },
-        {
-          "backgroundColor": "#fff",
-          "borderColor": "#262424",
-          "borderRadius": 28,
-          "borderWidth": 2,
-          "display": "flex",
-          "elevation": 0,
-          "justifyContent": "center",
-          "overflow": "hidden",
-          "paddingHorizontal": 32,
-          "paddingVertical": 13,
-        },
-      ],
-      {
-        "paddingHorizontal": 6,
-        "paddingVertical": 6,
-      },
-    ]
+    {
+      "paddingHorizontal": 6,
+      "paddingVertical": 6,
+    }
   }
-  testID="btn-to-invite"
 >
   <View
+    accessibilityLabel="spaces.invite.btn.send"
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": false,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    aria-pressed={false}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       [
         {
-          "pointerEvents": "none",
+          "backgroundColor": "#ffffff",
+          "borderColor": "#262424",
+          "borderRadius": 1000,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "boxShadow": "0 0 0 0px #262424",
+          "display": "flex",
+          "height": 40,
+          "padding": 10,
+          "width": 40,
         },
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-          "justifyContent": "center",
-        },
-        undefined,
       ]
     }
+    testID="btn-to-invite"
   >
-    <View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "gap": 4,
+          "justifyContent": "center",
+        }
+      }
+    >
       <View>
         <RNSVGSvgView
           align="xMidYMid"
@@ -252,7 +242,7 @@ exports[`SpaceInviteUserButton displays button if the user can be invited 1`] = 
             }
           >
             <RNSVGPath
-              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6Z"
+              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
               fill={
                 {
                   "type": 2,

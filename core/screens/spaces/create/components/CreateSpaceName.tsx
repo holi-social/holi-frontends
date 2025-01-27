@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo } from 'react'
+import type React from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -7,7 +8,7 @@ import SpaceNameInput from '@holi/core/screens/spaces/components/SpaceInputs/Spa
 import { ValidateSpaceInputSchema } from '@holi/core/screens/spaces/create/mutations'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import useWizard from '@holi/ui/components/organisms/HoliWizard/useWizard'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type CreateSpaceNameProps = {
   onChangeSpaceName: (name: string) => void
@@ -45,17 +46,9 @@ const CreateSpaceName: React.FC<CreateSpaceNameProps> = ({
         <View style={styles.title}>
           <HoliText size="extralarge">{t('spaces.create.stepOne.title')}</HoliText>
         </View>
-        <SpaceNameInput
-          value={spaceName}
-          onChange={onChangeSpaceName}
-          errorMessage={spaceNameErrors?.length ? spaceNameErrors[0] : undefined}
-        />
+        <SpaceNameInput value={spaceName} onChange={onChangeSpaceName} errorMessages={spaceNameErrors} />
         <View style={styles.goalInputContainer}>
-          <SpaceGoalInput
-            value={spaceGoal}
-            onChange={onChangeSpaceGoal}
-            errorMessage={spaceGoalErrors?.length ? spaceGoalErrors[0] : undefined}
-          />
+          <SpaceGoalInput value={spaceGoal} onChange={onChangeSpaceGoal} errorMessages={spaceGoalErrors} />
         </View>
       </View>
     </View>

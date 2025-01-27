@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from 'react-native'
 
-import { HoliTheme } from '@holi/ui/styles/theme'
+import type { HoliTheme } from '@holi/ui/styles/theme'
 
 export const getCommonStyles = (theme: HoliTheme) =>
   StyleSheet.create({

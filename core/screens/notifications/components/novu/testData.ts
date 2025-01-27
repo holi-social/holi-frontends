@@ -1,4 +1,5 @@
-import { IMessage } from '@novu/shared'
+import { ChannelTypeEnum, IMessage } from '@novu/shared'
+import { ChannelCTATypeEnum } from '@novu/shared/dist/cjs/types/channel'
 
 export const aMessageListPage = (data: IMessage[], overrides = {}) => ({
   data,
@@ -16,8 +17,10 @@ export const aMessage = (
   seen = false
 ): IMessage => ({
   cta: {
+    type: ChannelCTATypeEnum.REDIRECT,
     action: {
       buttons: [],
+      result: {},
     },
     data: {
       url: '/spaces',
@@ -26,21 +29,15 @@ export const aMessage = (
   _id: id,
   _templateId: '65265829617566f4c2875e295',
   _environmentId: '6525396ba23f3225a9475db6',
-  _messageTemplateId: '651b5fa8e3bcee0f763d21d9',
   _notificationId: '653b5fd10b10b5b805629fd3',
   _organizationId: '6529396bae3f3125a9475db0',
   _subscriberId: '6526936c571cc6f0082b26a8',
-  _jobId: '613b5fd30b1ab5b805629ff3',
   templateIdentifier: 'space-membership-request',
-  _feedId: null,
-  channel: 'in_app',
+  _feedId: 'null',
+  channel: ChannelTypeEnum.IN_APP,
   content: 'Some user wants to join space: ' + content,
-  providerId: 'novu',
-  deviceTokens: [],
   seen,
   read: false,
-  status: 'sent',
-  transactionId: 'abdc9df5-c678-47ff-b9ad-9d7ba0c28caa',
   payload: {
     data: {
       requestMessage: content,
@@ -63,18 +60,7 @@ export const aMessage = (
     notificationType: 'SPACE_MEMBERSHIP_REQUEST',
     notificationVersion: '1.0.0',
   },
-  expireAt: created,
-  deleted: false,
   createdAt: created,
-  updatedAt: created,
-  __v: 0,
-  subscriber: {
-    _id: '65ac5fd60b10b5b80562a230',
-    firstName: 'Gregor',
-    lastName: 'Staging',
-    subscriberId: 'abdc9df5-97ae-4ac0-bcc3-ec8a8a009753',
-    id: '65ac5fd60b10b5b80562a230',
-  },
-  actorSubscriber: null,
-  id: '65ac5fd60b10b5b80562a230',
+  lastReadDate: created,
+  lastSeenDate: created,
 })

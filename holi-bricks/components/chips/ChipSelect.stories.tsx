@@ -8,6 +8,17 @@ import { ChipSelect } from './ChipSelect'
 
 const availableColors = Object.values(Colors)
 const availableSizes = ['md', 'lg'] as const
+const disabledProps = [
+  'accessible',
+  'id',
+  'role',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'aria-disabled',
+  'tabIndex',
+  'onPress',
+]
 
 const meta: Meta<typeof ChipSelect> = {
   title: 'Components/Chips/Chip Select',
@@ -28,6 +39,7 @@ const meta: Meta<typeof ChipSelect> = {
         },
       },
     },
+    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     children: 'Chip',

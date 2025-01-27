@@ -1,8 +1,8 @@
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import React from 'react'
 
-import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
+import Onboarding from '@holi/core/screens/onboarding/Onboarding'
 
-const OnboardingWelcomePage: NextPage = () => <OnboardingWelcome />
+const OnboardingPage: NextPage = () => <Onboarding />
 
-export default OnboardingWelcomePage
+export default OnboardingPage

@@ -37,6 +37,7 @@ const HoliLocalImage = ({
   if (!consolidatedImageSource) return <></> // Avoid crashes in case of icon missing in our Iconset
 
   return isSvg ? (
+    // @ts-ignore
     <WithLocalSvg
       {...accessibilityProps}
       asset={imageSource}

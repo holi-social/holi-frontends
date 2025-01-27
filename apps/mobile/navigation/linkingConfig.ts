@@ -13,9 +13,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
           initialRouteName: RouteName.HomeFeed,
           screens: {
             [RouteName.HomeFeed]: '',
-            [RouteName.UserProfile]: 'profile/:userId',
-            [RouteName.Search]: 'search',
-            [RouteName.NotFound]: '404',
           },
         },
         [RouteName.SpacesStack]: {
@@ -79,6 +76,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.SpaceDetails]: 'spaces/:spaceIdOrName',
         [RouteName.SpaceRelatedSpaces]: 'spaces/:spaceIdOrName/relatedSpaces',
         [RouteName.CreateSpace]: 'spaces/create',
+        [RouteName.ExploreSpaces]: 'spaces/explore/',
         [RouteName.EditSpace]: 'spaces/:spaceIdOrName/edit',
         [RouteName.LinkHub]: 'spaces/:spaceIdOrName/linkhub',
         [RouteName.CreateDigitalTool]: 'spaces/:spaceIdOrName/linkhub/tools/create',
@@ -120,15 +118,14 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
 
     // Onboarding
     [RouteName.Onboarding]: 'onboarding',
-    [RouteName.OnboardingRegistration]: 'onboarding/registration',
-    [RouteName.OnboardingRegistrationLegalDocuments]: 'onboarding/registration/legalDocuments',
-    [RouteName.OnboardingAccountSetup]: 'onboarding/account-setup',
+    [RouteName.OnboardingLegalDocuments]: 'onboarding/legalDocuments',
 
     // Modals
     [RouteName.Notifications]: 'notifications',
     [RouteName.Login]: 'login',
     [RouteName.ForgotPassword]: 'forgotPassword',
     [RouteName.VideoCall]: 'video-call/:roomName',
+    [RouteName.Search]: 'search',
 
     // Apps from the HOLI store
     [RouteName.ChallengesApp]: {
@@ -182,6 +179,8 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.CreateReport]: 'report/:id/:type/:type3k',
       },
     },
+    [RouteName.UserProfile]: 'profile/:userId',
+    [RouteName.NotFound]: '404',
   },
 }
 

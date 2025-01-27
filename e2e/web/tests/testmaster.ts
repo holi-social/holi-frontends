@@ -1,8 +1,9 @@
-import { Browser, BrowserContext, Page, test as baseTest } from '@playwright/test'
+import { type Browser, type BrowserContext, type Page, test as baseTest } from '@playwright/test'
 
 import { gotoWithRetries } from './helpers'
 import { denyConsent, withRandomUserSession } from './helpers'
-import { User, deleteAuthenticatedAccount, signUp } from './helpers/api'
+import { type User, deleteAuthenticatedAccount, signUp } from './helpers/api'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 type Session = {
   page: Page
@@ -20,10 +21,21 @@ export class UserHandler {
 
   public async asRandomUser(
     actions: (page: Page, userFullName: string) => Promise<void>,
-    email?: string,
-    password?: string
+    {
+      email,
+      password,
+      userData,
+      expectedScreen,
+    }: {
+      email?: string
+      password?: string
+      userData?: OnboardingUserData
+      expectedScreen?: string
+    } = {}
   ) {
-    this.sessions.push(await withRandomUserSession(this.browser, actions, email, password))
+    this.sessions.push(
+      await withRandomUserSession(this.browser, actions, { email, password, userData, expectedScreen })
+    )
   }
 
   public async cleanup() {
@@ -52,9 +64,9 @@ export class SessionHandler {
       await newPage.goto('/')
     } catch (error) {
       if (error instanceof Error) {
-        console.error(`Initial navigation to '/' failed: ${error.message}`)
+        console.error(`Initial navigation to '/' failed: ${error.message}`) // eslint-disable-line no-console
       } else {
-        console.error("Initial navigation to '/' failed with an unknown error.")
+        console.error("Initial navigation to '/' failed with an unknown error.") // eslint-disable-line no-console
       }
 
       // If the initial attempt fails, fall back to retry logic

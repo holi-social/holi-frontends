@@ -1,12 +1,12 @@
-import React from 'react'
-import { Platform, ScrollView, SectionList, StyleSheet } from 'react-native'
+import type React from 'react'
+import { type ScrollView, SectionList, StyleSheet } from 'react-native'
 
-import { LayoutProps } from '@holi/core/components/DefaultLayout/types'
+import type { LayoutProps } from '@holi/core/components/DefaultLayout/types'
 import { useThrottledMobileScrollEvents } from '@holi/core/components/ScrollHeaderLayout/useMobileScrollHandler'
 import { withRefreshControl } from '@holi/core/helpers/withRefreshControl'
 import NotificationItem from '@holi/core/screens/notifications/components/NotificationItem'
 import { NotificationsEmptyPlaceholder } from '@holi/core/screens/notifications/components/NotificationsEmptyPlaceholder'
-import { Notification } from '@holi/core/screens/notifications/components/types'
+import type { Notification } from '@holi/core/screens/notifications/components/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -37,7 +37,7 @@ const NotificationSectionList: React.FC<NotificationSectionListProps> = ({
       keyExtractor={({ id }) => id}
       renderItem={({ item }) => <NotificationItem notification={item} style={styles.notification} />}
       renderSectionHeader={({ section }) => (
-        <HoliBox padding={[Platform.OS === 'android' ? 28 : 12, 0, 12, 0]}>
+        <HoliBox padding={[12, 0, 12, 0]}>
           <HoliHeading size="s">{section.title}</HoliHeading>
         </HoliBox>
       )}

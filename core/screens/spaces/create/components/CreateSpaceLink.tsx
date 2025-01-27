@@ -1,19 +1,21 @@
 import { useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import type React from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native'
 
 import { isMaliciousUrlError, logError } from '@holi/core/errors/helpers'
-import { urlRegex } from '@holi/core/helpers'
-import { withProtocol } from '@holi/core/helpers/url'
+import { validateUrl, withProtocol } from '@holi/core/helpers/url'
 import SpaceLinksForm from '@holi/core/screens/spaces/components/SpaceInputs/SpaceLinkForm'
-import { AddExternalLinkResponse, addExternalLinkMutation } from '@holi/core/screens/spaces/create/mutations'
+import { type AddExternalLinkResponse, addExternalLinkMutation } from '@holi/core/screens/spaces/create/mutations'
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import { Space, SpaceLinkType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceLinkType } from '@holi/core/screens/spaces/types'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 interface CreateSpaceLinksProps {
   space: Space
@@ -29,10 +31,12 @@ const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }:
   const [validationErrorTextName, setValidationErrorTextName] = useState('')
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const { t } = useTranslation()
+  const { track } = useTracking()
 
   const [addLinkToSpace] = useMutation<AddExternalLinkResponse>(addExternalLinkMutation, {
     onCompleted: () => {
       openToast(t('spaces.input.publicLinks.add.success'), HoliToastType.SUCCESS)
+      track(TrackingEvent.Spaces.Profile.externalLinkAdded(space.id))
       onDismiss()
     },
     onError: (e) => {
@@ -68,7 +72,7 @@ const CreateSpaceLinks: React.FC<CreateSpaceLinksProps> = ({ space, onDismiss }:
 
   useEffect(() => {
     // Check if the input URL is in a valid format
-    if (!urlRegex.test(url) && url.length > 0) {
+    if (url.length > 0 && !validateUrl(url)) {
       setValidationErrorTextUrl(t('global.validation.url.invalid'))
     } else {
       setValidationErrorTextUrl(undefined)

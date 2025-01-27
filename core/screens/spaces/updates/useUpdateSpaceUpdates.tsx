@@ -1,24 +1,24 @@
-import { ApolloError, FetchResult, useLazyQuery, useMutation, useQuery } from '@apollo/client'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { type ApolloError, type FetchResult, useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { isMaliciousUrlError, isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
-import { PostById, PostByIdResponse } from '@holi/core/screens/posts/queries'
-import { PostImage } from '@holi/core/screens/posts/types'
+import { detectLanguageQuery, type DetectLanguageQueryResponse } from '@holi/core/queries'
+import { PostById, type PostByIdResponse } from '@holi/core/screens/posts/queries'
+import type { PostImage } from '@holi/core/screens/posts/types'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import { Space, VisibilityFilter, VisibilityType } from '@holi/core/screens/spaces/types'
+import { type Space, VisibilityFilter, VisibilityType } from '@holi/core/screens/spaces/types'
 import {
-  CreateSpacePostMutationResponse,
-  UpdateSpacePostMutationResponse,
   createSpacePostMutation,
+  type CreateSpacePostMutationResponse,
   updateSpacePostMutation,
+  type UpdateSpacePostMutationResponse,
 } from '@holi/core/screens/spaces/updates/mutations'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 export interface UseCreateOrUpdateSpacePost {
   // Status
@@ -80,9 +80,10 @@ export const useCreateOrUpdateSpacePost = (spaceIdOrName?: string, postId?: stri
 
   useEffect(() => {
     if (postToUpdate) {
-      postToUpdate.title && setTitle(postToUpdate.title)
-      postToUpdate.text && setContent(postToUpdate.text)
-      postToUpdate.image ?? setImage(postToUpdate.image)
+      if (postToUpdate.title) setTitle(postToUpdate.title)
+      if (postToUpdate.text) setContent(postToUpdate.text)
+      // @ts-ignore FIXME
+      if (postToUpdate.image) setImage(postToUpdate.image)
       setCurrentImage(postToUpdate.image)
       setVisibility(postToUpdate.isPublic ? VisibilityType.PUBLIC : VisibilityType.MEMBERS)
     }

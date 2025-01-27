@@ -10,13 +10,14 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CommentForm from '@holi/core/screens/comments/components/CommentForm'
 import CommentView from '@holi/core/screens/comments/components/CommentView'
-import { type CommentResponse, commentById } from '@holi/core/screens/comments/queries'
+import { commentById, type CommentResponse } from '@holi/core/screens/comments/queries'
 import { CommentableType } from '@holi/core/screens/comments/types'
 import PostContent from '@holi/core/screens/individualPosts/components/PostContent'
-import { type PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
+import { postQuery, type PostQueryResponse } from '@holi/core/screens/individualPosts/queries'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type PostCommentPageParams = {
   idOrSlug: string
@@ -74,12 +75,13 @@ const PostCommentPage = () => {
     () =>
       setScreenOptions({
         title: t('comments.title'),
-        headerTransparent: false,
         navigationCustomOptions: {
           footerShown: false,
         },
+        headerTintColor: theme.colors.black300,
+        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       }),
-    [setScreenOptions, t, colors.background10]
+    [setScreenOptions, t, colors.background10, theme.colors.black300]
   )
 
   return (

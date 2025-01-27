@@ -1,23 +1,43 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { ChipAction } from 'holi-bricks/components/chips'
+import type { Meta, StoryObj } from '@storybook/react'
 import { Selector } from 'holi-bricks/components/selectors/Selector'
-import { SelectorCard } from 'holi-bricks/components/selectors/SelectorCard'
 import React from 'react'
 
 import { Chat3, Megaphone, OpenArm, StarRounded } from '@holi/icons/src/generated'
 
+import { SelectableCard, SelectableChip } from './Selectable'
+
 const meta: Meta<typeof Selector> = {
   title: 'Components/Selectors/Selector',
   component: Selector,
+  argTypes: {
+    children: { table: { disable: true } },
+    onSelect: { table: { disable: true } },
+    onChange: { table: { disable: true } },
+    initiallySelectedOptions: { table: { disable: true } },
+  },
 }
 
 type Story = StoryObj<typeof Selector>
 
+const disabledProps = [
+  'accessible',
+  'id',
+  'role',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'aria-disabled',
+  'tabIndex',
+  'children',
+  'onSelect',
+  'onChange',
+]
+
 export const SelectorCards: Story = {
   argTypes: {
-    title: { control: 'text' },
     inputType: { control: 'select', options: ['radio', 'checkbox', 'switch', 'none'] },
     row: { control: 'boolean' },
+    ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),
   },
   args: {
     title: 'What would you like to share?',
@@ -25,78 +45,61 @@ export const SelectorCards: Story = {
     row: false,
     initiallySelectedOptions: ['1'],
   },
-  render: function Render(args) {
-    return (
-      <Selector {...args}>
-        <SelectorCard title={'Topic for conversation'} icon={Chat3} id="1" />
-        <SelectorCard title={'Personal experience'} icon={OpenArm} id="2" />
-        <SelectorCard title={'Recommendation'} icon={StarRounded} id="3" />
-        <SelectorCard title={'Generate support for...'} icon={Megaphone} id="4" />
-      </Selector>
-    )
-  },
+  render: (args) => (
+    <Selector {...args}>
+      <SelectableCard title="Topic for conversation" icon={Chat3} id="1" />
+      <SelectableCard title="Personal experience" icon={OpenArm} id="2" />
+      <SelectableCard title="Recommendation" icon={StarRounded} id="3" />
+      <SelectableCard title="Generate support for..." icon={Megaphone} id="4" />
+    </Selector>
+  ),
 }
 
-export const ChipsSingleSelection: Story = {
-  argTypes: {
-    title: { control: 'text' },
-    inputType: { control: 'select', options: ['radio', 'checkbox', 'switch', 'none'] },
-    row: { control: 'boolean' },
-  },
+export const Chips: Story = {
   args: {
     title: 'Chips with radio logic (only one can be selected):',
     inputType: 'radio',
     row: true,
   },
-  render: function Render(args) {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const handleOnPress = () => {}
-    return (
-      <Selector {...args} onSelect={handleOnPress}>
-        <ChipAction id="chip1" color="purple" onPress={handleOnPress}>
-          Chip 1
-        </ChipAction>
-        <ChipAction id="chip2" color="red" onPress={handleOnPress}>
-          Chip 2
-        </ChipAction>
-        <ChipAction id="chip3" color="orange" onPress={handleOnPress}>
-          Chip 3
-        </ChipAction>
-        <ChipAction id="chip4" color="yellow" onPress={handleOnPress}>
-          Chip 4
-        </ChipAction>
-      </Selector>
-    )
-  },
+  render: (args) => (
+    <Selector {...args}>
+      <SelectableChip id="1" color="purple">
+        Chip 1
+      </SelectableChip>
+      <SelectableChip id="2" color="red">
+        Chip 2
+      </SelectableChip>
+      <SelectableChip id="3" color="orange">
+        Chip 3
+      </SelectableChip>
+      <SelectableChip id="4" color="yellow">
+        Chip 4
+      </SelectableChip>
+    </Selector>
+  ),
 }
 
 export const ChipsMultipleSelection: Story = {
-  argTypes: {
-    title: { control: 'text' },
-    inputType: { control: 'select', options: ['radio', 'checkbox', 'switch', 'none'] },
-    row: { control: 'boolean' },
-  },
   args: {
     title: 'Chips with check logic (0-n can be selected):',
+    inputType: 'checkbox',
     row: true,
   },
   render: function Render(args) {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const handleOnPress = () => {}
     return (
-      <Selector {...args} onSelect={handleOnPress}>
-        <ChipAction id="chip1" color="purple" onPress={handleOnPress}>
+      <Selector {...args}>
+        <SelectableChip id="1" color="purple">
           Chip 1
-        </ChipAction>
-        <ChipAction id="chip2" color="red" onPress={handleOnPress}>
+        </SelectableChip>
+        <SelectableChip id="2" color="red">
           Chip 2
-        </ChipAction>
-        <ChipAction id="chip3" color="orange" onPress={handleOnPress}>
+        </SelectableChip>
+        <SelectableChip id="3" color="orange">
           Chip 3
-        </ChipAction>
-        <ChipAction id="chip4" color="yellow" onPress={handleOnPress}>
+        </SelectableChip>
+        <SelectableChip id="4" color="yellow">
           Chip 4
-        </ChipAction>
+        </SelectableChip>
       </Selector>
     )
   },

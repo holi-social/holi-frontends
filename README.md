@@ -104,7 +104,8 @@ It is kept in sync with `.nvmrc` (used by `nvm`) by a symbolic link, so please m
 #### iOS simulator (if you have a Mac)
 
 - Follow the instructions to install [Xcode](https://docs.expo.dev/workflow/ios-simulator/) and setup a simulator
-- `yarn mobile:dev` > `i`
+- Install a simulator build on the Simulator by executing `eas build:run -p ios`
+- Run `yarn mobile:dev`, usually via our mprocs setup in the meta project
 
 #### Docker (optional)
 

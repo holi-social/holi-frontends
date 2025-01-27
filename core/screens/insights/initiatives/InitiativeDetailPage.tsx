@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, ImageStyle, Linking, Platform, StyleSheet, View } from 'react-native'
+import { type DimensionValue, Linking, Platform, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
@@ -12,7 +11,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
-import { InsightWithInitiativeResponse, insightWithInitiative } from '@holi/core/screens/insights/queries'
+import { type InsightWithInitiativeResponse, insightWithInitiative } from '@holi/core/screens/insights/queries'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share, ShareBox } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -25,8 +24,9 @@ import { HoliImageBackground } from '@holi/ui/components/molecules/HoliImageBack
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type InitiativeDetailPageParams = {
   insightId: string
@@ -80,6 +80,8 @@ const InitiativeDetailPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('insights.initiatives.title'),
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerRight: () => {
         return (
           <HoliActionDrawer.Drawer
@@ -96,13 +98,12 @@ const InitiativeDetailPage = () => {
         )
       },
       headerShown: true,
-      headerTransparent: true,
     })
   }, [t, setScreenOptions, shareLink, theme.colors.black300])
 
   return (
     <>
-      <ScrollHeaderLayout style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
+      <ScrollViewRefreshable style={styles.layout} contentContainerStyle={[mixins.container, styles.container]}>
         {initiative && !loading ? (
           <>
             {initiative.linkPreview.image && (
@@ -141,7 +142,7 @@ const InitiativeDetailPage = () => {
         ) : (
           <Skeleton />
         )}
-      </ScrollHeaderLayout>
+      </ScrollViewRefreshable>
 
       {initiative && !loading && (
         <View style={styles.footer}>
@@ -207,7 +208,7 @@ const getStyles = (theme: HoliTheme) =>
           maxHeight: '50%',
         },
       }),
-    } as ImageStyle,
+    } as ViewStyle,
     footer: {
       width: '100%',
       padding: Spacing.xxs,

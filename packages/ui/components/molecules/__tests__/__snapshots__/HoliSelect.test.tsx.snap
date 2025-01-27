@@ -143,7 +143,6 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -573,7 +572,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   }
                 >
                   <RNSVGPath
-                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                     fill={
                       {
                         "type": 2,
@@ -739,7 +738,7 @@ exports[`MultiSelect renders correctly after multiple selections 1`] = `
                   }
                 >
                   <RNSVGPath
-                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                     fill={
                       {
                         "type": 2,
@@ -1440,7 +1439,6 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -1870,7 +1868,7 @@ exports[`MultiSelect renders correctly after single selection 1`] = `
                   }
                 >
                   <RNSVGPath
-                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                     fill={
                       {
                         "type": 2,
@@ -2675,7 +2673,6 @@ exports[`MultiSelect renders correctly when closed 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -2781,7 +2778,7 @@ exports[`MultiSelect renders correctly when closed 1`] = `
                       }
                     >
                       <RNSVGPath
-                        d="m12 13.172 4.95-4.95 1.415 1.414L12 16 5.637 9.636 7.05 8.222l4.95 4.95Z"
+                        d="m12 13.172 4.95-4.95 1.415 1.414L12 16 5.637 9.636 7.05 8.222z"
                         fill={
                           {
                             "type": 2,
@@ -2955,7 +2952,6 @@ exports[`MultiSelect renders correctly when opened 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -4102,7 +4098,6 @@ exports[`SingleSelect correctly filters options 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -4220,7 +4215,7 @@ exports[`SingleSelect correctly filters options 1`] = `
                         }
                       >
                         <RNSVGPath
-                          d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95Z"
+                          d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
                           fill={
                             {
                               "type": 2,
@@ -5377,7 +5372,6 @@ exports[`SingleSelect renders correctly after selection 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -5484,7 +5478,7 @@ exports[`SingleSelect renders correctly after selection 1`] = `
                       }
                     >
                       <RNSVGPath
-                        d="m12 13.172 4.95-4.95 1.415 1.414L12 16 5.637 9.636 7.05 8.222l4.95 4.95Z"
+                        d="m12 13.172 4.95-4.95 1.415 1.414L12 16 5.637 9.636 7.05 8.222z"
                         fill={
                           {
                             "type": 2,
@@ -5620,7 +5614,6 @@ exports[`SingleSelect renders correctly when closed 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >
@@ -5726,7 +5719,7 @@ exports[`SingleSelect renders correctly when closed 1`] = `
                       }
                     >
                       <RNSVGPath
-                        d="m12 13.172 4.95-4.95 1.415 1.414L12 16 5.637 9.636 7.05 8.222l4.95 4.95Z"
+                        d="m12 13.172 4.95-4.95 1.415 1.414L12 16 5.637 9.636 7.05 8.222z"
                         fill={
                           {
                             "type": 2,
@@ -5863,7 +5856,6 @@ exports[`SingleSelect renders correctly when opened 1`] = `
               "position": "absolute",
               "right": 12,
               "top": 0,
-              "zIndex": -1,
             }
           }
         >

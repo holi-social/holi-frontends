@@ -13,7 +13,7 @@ import {
   TrackableProps,
 } from '@holi/core/components/Trackable'
 
-const testTrackingEvent = {
+export const testTrackingEvent = {
   name: 'testTrackingEvent',
   event_version__major: 1,
   event_version__minor: 0,

@@ -1,5 +1,5 @@
-import { SDG, Skill, Topic, User } from '@holi/core/domain/shared/types'
-import { AppointmentInput } from '@holi/core/screens/appointments/types'
+import type { SDG, Skill, Topic, User } from '@holi/core/domain/shared/types'
+import type { AppointmentInput } from '@holi/core/screens/appointments/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
 
@@ -92,6 +92,10 @@ export type RelatedSpace = Pick<
   | 'coverBlurhash'
   | 'name'
 >
+
+export type Representative = {
+  user: User
+}
 
 export interface Space {
   id: string

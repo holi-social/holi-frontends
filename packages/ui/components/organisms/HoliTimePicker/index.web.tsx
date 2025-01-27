@@ -44,8 +44,8 @@ const HoliTimePicker = ({
   const onDismiss = () => {
     const newValue = new Date(value)
     // update hours and minutes only if they are valid
-    !isNaN(parseInt(hours)) && newValue.setHours(parseInt(hours))
-    !isNaN(parseInt(minutes)) && newValue.setMinutes(parseInt(minutes))
+    if (!isNaN(parseInt(hours))) newValue.setHours(parseInt(hours))
+    if (!isNaN(parseInt(minutes))) newValue.setMinutes(parseInt(minutes))
 
     // Modal content does not get destroyed when it is hidden
     // So, we need to reset the values with the 'newValue'
@@ -96,7 +96,7 @@ const HoliTimePicker = ({
           testID={`btn-${testID}`}
           transparent
           contentStyle={[styles.border, styles.button, hovered && styles.buttonHovered]}
-          onPress={modalProps?.show ? hideModal : showModal}
+          onPress={modalProps?.shown ? hideModal : showModal}
           {...hoverPropsForWeb}
         >
           {value ? (

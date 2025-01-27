@@ -2,21 +2,26 @@ import { ChipSelect } from 'holi-bricks/components/chips'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import { SortedTerm, Term, termsBySortNumberComparator, termsByTitleComparator } from '@holi/core/domain/shared/types'
+import {
+  type SortedTerm,
+  type Term,
+  termsBySortNumberComparator,
+  termsByTitleComparator,
+} from '@holi/core/domain/shared/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { Color } from 'holi-bricks/tokens/colors/primitives'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { Color } from 'holi-bricks/tokens/colors/primitives'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceTermsInputProps {
   title?: string
   description: string
   searchPlaceholder: string
   onSelect: (items: SortedTerm[]) => void
-  selected: SortedTerm[]
-  terms: SortedTerm[]
+  selected: readonly SortedTerm[]
+  terms: readonly SortedTerm[]
   hint?: string
   showSortNumber?: boolean
   testID?: string

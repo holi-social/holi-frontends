@@ -5,30 +5,29 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { Term } from '@holi/core/domain/shared/types'
+import type { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
-import { CategorySelection } from '@holi/core/screens/individualPosts/CategorySelection'
+import { type DetectLanguageQueryResponse, detectLanguageQuery } from '@holi/core/queries'
 import PostInputForm, { Visibility } from '@holi/core/screens/individualPosts/components/PostInputForm'
-import { CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
+import { type CreateFeedPostResponse, createFeedPostMutation } from '@holi/core/screens/individualPosts/mutations'
 import { allPostsQuery, myPostsQuery } from '@holi/core/screens/individualPosts/queries'
 import { ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
 import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
 import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Close } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { feedQuery } from '@holi/core/screens/homeFeed/queries'
+import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { Text } from 'holi-bricks/components/text'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -52,7 +51,6 @@ const CreatePost = () => {
   const [description, setDescription] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [images, setImages] = useState<HoliImageInfo[]>([])
-  const [showCategories, setShowCategories] = useState(true)
   const { visible, show, hide } = useModalState()
   const { isOnboarded, setIsOnboarded } = usePostOnboarding('post_onboarding_state_value')
 
@@ -67,7 +65,7 @@ const CreatePost = () => {
       openToast(t('individuals.post.input.success'), HoliToastType.SUCCESS)
       navigateBack()
     },
-    refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }],
+    refetchQueries: [{ query: myPostsQuery }, { query: allPostsQuery }, { query: feedQuery }],
   })
 
   const [detectLanguage] = useLazyQuery<DetectLanguageQueryResponse>(detectLanguageQuery)
@@ -112,29 +110,20 @@ const CreatePost = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTransparent: false,
       headerTitle: () => (
-        <HoliHeading level="1" size="s">
+        <Text headingLevel="1" size="lg">
           {t('individuals.post.input.title')}
-        </HoliHeading>
+        </Text>
       ),
-      headerStyle: {
-        backgroundColor: colors.background20,
-      },
-      headerLeft: () => <HeaderBackButton icon={Close} onPress={() => navigateBack()} tintColor={colors.black300} />,
       navigationCustomOptions: {
         footerShown: false,
       },
+      headerBackVisible: false,
     })
   }, [colors.background20, colors.black300, navigateBack, setScreenOptions, t])
 
   const selectCategory = (categoryId: string) => {
     setSelectedCategoryId(categoryId)
-    setShowCategories(false)
-  }
-
-  const toggleShowCategories = () => {
-    setShowCategories((value) => !value)
   }
 
   const handleModalClose = () => {
@@ -143,33 +132,35 @@ const CreatePost = () => {
 
   return (
     <View style={styles.grayExtendingBackground}>
-      {showCategories ? (
-        <CategorySelection loading={categoriesLoading} categories={categories} onCategorySelection={selectCategory} />
+      {categoriesLoading ? (
+        <HoliLoader />
       ) : (
-        <PostInputForm
-          title={title}
-          onChangeTitle={setTitle}
-          description={description}
-          onChangeDescription={setDescription}
-          images={images}
-          onChangeImages={setImages}
-          selectedCategoryId={selectedCategoryId}
-          onChangeSelectedCategoryId={setSelectedCategoryId}
-          selectedVisibility={selectedVisibility}
-          onChangeSelectedVisibility={setSelectedVisibility}
-          selectedTopics={selectedTopics}
-          onChangeSelectedTopics={setSelectedTopics}
-          selectedLocation={selectedLocation || undefined}
-          onChangeSelectedLocation={setSelectedLocation}
-          onSubmit={createPost}
-          submitting={submitting}
-          categories={categories}
-          onClickCategoriesPill={toggleShowCategories}
-          aspectRatio={aspectRatio}
-          onChangeAspectRatio={setAspectRatio}
-        />
+        <>
+          <PostInputForm
+            title={title}
+            onChangeTitle={setTitle}
+            description={description}
+            onChangeDescription={setDescription}
+            images={images}
+            onChangeImages={setImages}
+            selectedCategoryId={selectedCategoryId}
+            onChangeSelectedCategoryId={setSelectedCategoryId}
+            selectedVisibility={selectedVisibility}
+            onChangeSelectedVisibility={setSelectedVisibility}
+            selectedTopics={selectedTopics}
+            onChangeSelectedTopics={setSelectedTopics}
+            selectedLocation={selectedLocation || undefined}
+            onChangeSelectedLocation={setSelectedLocation}
+            onSubmit={createPost}
+            submitting={submitting}
+            categories={categories}
+            aspectRatio={aspectRatio}
+            onChangeAspectRatio={setAspectRatio}
+            selectCategory={selectCategory}
+          />
+          <PostOnboardModal visible={visible} handleModalClose={handleModalClose} />
+        </>
       )}
-      <PostOnboardModal visible={visible} handleModalClose={handleModalClose} />
     </View>
   )
 }

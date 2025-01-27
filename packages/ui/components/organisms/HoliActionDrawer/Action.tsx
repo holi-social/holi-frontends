@@ -1,4 +1,4 @@
-import type { Dispatch, PropsWithChildren, SetStateAction, SyntheticEvent } from 'react'
+import { Dispatch, PropsWithChildren, SetStateAction, SyntheticEvent } from 'react'
 import React, { createContext, useContext } from 'react'
 import type { GestureResponderEvent } from 'react-native'
 import { StyleSheet } from 'react-native'
@@ -69,7 +69,7 @@ export const Action = ({
   const handleOnPress = async (e: SyntheticEvent | GestureResponderEvent) => {
     if (showConfirmation) setShowConfirmation(showConfirmation)
     await handleAction?.(e)
-    !showConfirmation && hideDrawer() // necessary to avoid drawer staying open when the action is a navigation (mobile)
+    if (!showConfirmation) hideDrawer() // necessary to avoid drawer staying open when the action is a navigation (mobile)
   }
 
   const contextValue = {

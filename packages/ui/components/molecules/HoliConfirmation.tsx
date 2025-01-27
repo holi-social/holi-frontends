@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  AccessibilityProps,
-  ModalProps,
+  type AccessibilityProps,
+  type ModalProps,
   Platform,
   Pressable,
   StyleSheet,
@@ -17,11 +18,11 @@ import { Close } from '@holi/icons/src/generated'
 import type { AccessibilityPropsWeb } from '@holi/ui/@types/reactNativeWeb'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton, { HoliButtonType } from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button, type ButtonVariant } from 'holi-bricks/components/button'
 
 export interface UseConfirmation {
   show: boolean
@@ -41,7 +42,7 @@ export interface HoliConfirmationProps extends ModalProps {
   label: string
   title: string
   description: string
-  primaryButtonType?: HoliButtonType
+  primaryButtonVariant?: ButtonVariant
   onPrimary?: () => boolean | void
   onDismiss?: () => boolean | void
   onSecondary?: () => boolean | void
@@ -97,7 +98,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
   label,
   title,
   description,
-  primaryButtonType = 'primary',
+  primaryButtonVariant = 'primary',
   onPrimary,
   onDismiss,
   onSecondary,
@@ -125,7 +126,7 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
     <ModalBasic
       label=""
       {...accessibilityProps}
-      show={show}
+      shown={show}
       transparent
       animationType="fade"
       testID={`${testID}-confirmation-dialog`}
@@ -156,36 +157,32 @@ const HoliConfirmation: React.FC<HoliConfirmationProps> = ({
             </HoliText>
             <View style={styles.buttonContainer}>
               {(onSecondary || onDismiss) && (
-                <HoliButton
-                  inline
-                  type="secondary"
-                  label={secondaryText || t('confirmation.dismiss')}
-                  onPress={() => {
-                    if (onSecondary) {
-                      onSecondary()
-                    } else if (onDismiss) {
-                      onDismiss()
-                    }
-                  }}
-                  style={styles.button}
-                  testID={`${testID}-confirmation-secondary`}
-                >
-                  {secondaryText || t('confirmation.dismiss')}
-                </HoliButton>
+                <View style={styles.button}>
+                  <Button
+                    variant="secondary"
+                    label={secondaryText || t('confirmation.dismiss')}
+                    onPress={() => {
+                      if (onSecondary) {
+                        onSecondary()
+                      } else if (onDismiss) {
+                        onDismiss()
+                      }
+                    }}
+                    testID={`${testID}-confirmation-secondary`}
+                  />
+                </View>
               )}
               {onPrimary && (
-                <HoliButton
-                  inline
-                  label={primaryText || t('confirmation.confirm')}
-                  onPress={() => {
-                    onPrimary()
-                  }}
-                  type={primaryButtonType}
-                  style={styles.button}
-                  testID={`${testID}-confirmation-primary`}
-                >
-                  {primaryText || t('confirmation.confirm')}
-                </HoliButton>
+                <View style={styles.button}>
+                  <Button
+                    label={primaryText || t('confirmation.confirm')}
+                    onPress={() => {
+                      onPrimary()
+                    }}
+                    variant={primaryButtonVariant}
+                    testID={`${testID}-confirmation-primary`}
+                  />
+                </View>
               )}
             </View>
           </View>
@@ -240,14 +237,11 @@ const getStyles = (screenWidth: number, smallDeviceWidth: number, isSmallDevice:
     },
     buttonContainer: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
       flexWrap: 'wrap',
       marginTop: Spacing.md,
-      gap: 14,
+      gap: Spacing.xxs,
     },
     button: {
-      flex: 1,
-      minWidth: 120,
-      paddingHorizontal: 14,
+      flexGrow: 1,
     },
   })

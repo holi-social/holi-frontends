@@ -8,7 +8,8 @@ type ScrollDirection = 'up' | 'down' | 'left' | 'right'
 // https://webdriver.io/docs/selectors
 const byTestId = (testID: string) => (platform === 'ios' ? `~${testID}` : `android=resourceId("${testID}")`)
 
-const byText = (text: string) => `*${text}`
+// https://webdriver.io/docs/selectors/#xpath
+const byText = (text: string) => (platform === 'ios' ? `//*[@name="${text}"]` : `//*[@text="${text}"]`)
 
 const elementBySelector = async (elementSelector: string): Promise<Element<'async'>> => await Appium.$(elementSelector)
 
@@ -87,7 +88,7 @@ export const waitForAnyElementWithTestId = async (testIds: string[], timeout = 1
         try {
           await foundElement.element.waitForDisplayed({ timeout: 3000 })
           return foundElement
-        } catch (err) {
+        } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
           // waitForDisplayed threw an error, so the element is not displayed, so we retry
         }
       } else {
@@ -106,7 +107,7 @@ const scrollElementIntoView = async (testId: string, direction: ScrollDirection,
       // Not explicitly awaiting the element caused a second scroll to happen too soon, possibly overscrolling the element to search for
       const element = await waitForElementWithTestId(testId, 100)
       return element
-    } catch (e) {
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       // element was not found
     }
 
@@ -172,6 +173,14 @@ const locateMultipleElements = async (elementSelector: string): Promise<ElementA
 
 export const locateMultipleElementsWithTestId = async (testId: string) => locateMultipleElements(byTestId(testId))
 
+export const locateElementsByRoleAndCheckedState = async (role: string, checked: boolean): Promise<ElementArray> => {
+  if (checked) {
+    return await Appium.$$(`[role="${role}"]:checked`)
+  } else {
+    return await Appium.$$(`[role="${role}"]:not(:checked)`)
+  }
+}
+
 export const seeTextWithTestId = async (expectedText: string, testId: string, timeout?: number) => {
   const element = await waitForElementWithTestId(testId, timeout)
   // https://webdriver.io/docs/api/element/getText
@@ -179,13 +188,22 @@ export const seeTextWithTestId = async (expectedText: string, testId: string, ti
   expect(text).toMatch(expectedText)
 }
 
+export const tapOnElement = async (element: Element<'async'>) => {
+  // https://webdriver.io/docs/api/element/touchAction
+  try {
+    await Appium.touchAction({ element, action: 'tap' })
+  } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
+    throw new Error(`Couldn't tap on element: ${element}`)
+  }
+}
+
 export const tapOnElementWithTestId = async (testId: string, timeout?: number) => {
   // https://webdriver.io/docs/api/element/touchAction
   try {
     const element = await waitForElementWithTestId(testId, timeout)
-    await Appium.touchAction({ element, action: 'tap' })
+    await tapOnElement(element)
     return element
-  } catch (err) {
+  } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     throw new Error("Couldn't tap on element with testID: " + testId)
   }
 }
@@ -210,7 +228,7 @@ export const fillFieldByTestId = async (testId: string, value: string) => {
     await element.clearValue()
     await element.setValue(value)
     return element
-  } catch (err) {
+  } catch (err) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
     throw new Error("Couldn't fill field with testID: " + testId)
   }
 }
@@ -236,12 +254,10 @@ export const retry = async (fn: () => Promise<void>, timeout = 3000, retryInterv
   const poll = async (): Promise<void> => {
     try {
       await fn()
-      // eslint-disable-next-line no-console
-      console.log('Fulfilled')
+      console.log('Fulfilled') // eslint-disable-line no-console
       return
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('Retrying...')
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
+      console.log('Retrying...') // eslint-disable-line no-console
       if (Date.now() - startTime >= timeout) {
         throw new Error('Condition was not met within the timeout')
       }

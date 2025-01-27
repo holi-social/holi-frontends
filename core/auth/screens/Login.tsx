@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
-import LoginRegistrationContainer from '@holi/core/auth/components/LoginRegistrationContainer'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
 import { hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/helpers/form'
@@ -18,34 +17,35 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
-import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
-import { clearFirstVisitContentSelection } from '@holi/core/screens/onboarding/hooks/useFirstVisitContentSelection'
+import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 const Login = () => {
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
   const { t } = useTranslation()
-  const { navigate } = useRouting()
   const { displayError } = useErrorHandling()
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const setScreenOptions = useSetScreenOptions()
   const client = useApolloClient()
   const { track } = useTracking()
+  const redirect = useRedirect('/')
 
   const isWeb = Platform.OS === 'web'
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerTitle: () => (
         <HoliHeading level="1" size="s">
           {t('auth.login')}
@@ -71,7 +71,9 @@ const Login = () => {
   }, [t, safeSetFlow, displayError])
 
   useEffect(() => {
-    isLoggedOut && !flow && initializeFlow()
+    if (isLoggedOut && !flow) {
+      initializeFlow()
+    }
   }, [isLoggedOut, initializeFlow, flow])
 
   const performLogin = async (payload: UpdateLoginFlowBody) => {
@@ -83,14 +85,13 @@ const Login = () => {
     try {
       const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, undefined)
       await client.clearStore()
-      await clearFirstVisitContentSelection()
       await setLoginStateLoggedIn(data)
+      storeOnboardingState('finished')
+      redirect(true)
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         setVerificationFlowData(payload)
-        await storeOnboardingState('emailVerification')
-
-        navigate('/onboarding/registration')
+        storeOnboardingState('emailVerification')
       } else {
         handleFormSubmitError(
           safeSetFlow,
@@ -110,33 +111,31 @@ const Login = () => {
 
   return (
     <DefaultLayout headerOverlap={Platform.OS === 'web'} keyboardShouldPersistTaps="always">
-      <HoliBox padding={[0, 24]}>
-        <LoginRegistrationContainer>
-          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
+      <HoliContainer>
+        <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
 
-          <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
-            <HoliTextLinkTracked
-              label={t('auth.login.link.forgotPassword')}
-              href="/forgotPassword"
-              size="sm"
-              mobileNavigateBackFirst
-              trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
-            >
-              {t('auth.login.link.forgotPassword')}
-            </HoliTextLinkTracked>
-          </View>
+        <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
+          <HoliTextLinkTracked
+            label={t('auth.login.link.forgotPassword')}
+            href="/forgotPassword"
+            size="sm"
+            textAlign="center"
+            mobileNavigateBackFirst
+            trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
+          >
+            {t('auth.login.link.forgotPassword')}
+          </HoliTextLinkTracked>
+        </View>
 
-          <HoliGap size="l" />
-          <HoliHeading level="2" align="center">
-            {t('auth.login.signUp.link.headline')}
-          </HoliHeading>
+        <HoliGap size="l" />
+        <HoliHeading level="2" align="center">
+          {t('auth.login.signUp.link.headline')}
+        </HoliHeading>
 
-          <RegistrationButton
-            style={styles.formItemContainer}
-            trackingEvent={TrackingEvent.Auth.RegisterButtonPressed}
-          />
-        </LoginRegistrationContainer>
-      </HoliBox>
+        <View style={styles.formItemContainer}>
+          <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+        </View>
+      </HoliContainer>
       {isLoaderShown && <HoliLoader />}
     </DefaultLayout>
   )

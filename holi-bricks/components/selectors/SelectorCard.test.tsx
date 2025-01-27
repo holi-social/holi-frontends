@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import { SelectorCard, SelectorCardProps } from 'holi-bricks/components/selectors/SelectorCard'
+import { SelectorCard, type SelectorCardProps } from 'holi-bricks/components/selectors/SelectorCard'
 import React from 'react'
 
 describe('SelectorCard', () => {
@@ -10,7 +10,7 @@ describe('SelectorCard', () => {
   }
 
   const renderSelectorCard = (props?: Partial<SelectorCardProps>) => {
-    return render(<SelectorCard {...defaultProps} {...props} id="1" onPress={mockFn} />)
+    return render(<SelectorCard {...defaultProps} {...props} onPress={mockFn} />)
   }
 
   it('renders the title and description', () => {

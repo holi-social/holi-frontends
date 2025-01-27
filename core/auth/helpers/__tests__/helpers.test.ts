@@ -1,5 +1,9 @@
 /* eslint-disable no-console */
-import { handleKratosSdkError, handleKratosSdkErrorIgnoringCodes } from '@holi/core/auth/helpers/helper'
+import {
+  type GenericAxiosError,
+  handleKratosSdkError,
+  handleKratosSdkErrorIgnoringCodes,
+} from '@holi/core/auth/helpers/helper'
 
 const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
@@ -24,13 +28,13 @@ const errorResponse = {
       error: errorDetails,
     },
   },
-}
+} as GenericAxiosError
 const generalError = {
   response: {
     status: 500,
     statusText: 'Internal server error',
   },
-}
+} as GenericAxiosError
 
 describe('handleKratosSdkError', () => {
   const errorHandler = handleKratosSdkError('createBrowserLogoutFlow')
@@ -73,7 +77,7 @@ describe('handleKratosSdkError', () => {
   })
 
   it('does not log or report errors with status code 400', () => {
-    expect(() => errorHandlerIgnoringCodes({ response: { status: 400 } })).toThrow()
+    expect(() => errorHandlerIgnoringCodes({ response: { status: 400 } } as GenericAxiosError)).toThrow()
 
     expect(console.warn).not.toHaveBeenCalled()
     expect(captureSentryException).not.toHaveBeenCalled()

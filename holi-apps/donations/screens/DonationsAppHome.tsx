@@ -1,22 +1,22 @@
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { type DimensionValue, Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks, { webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 import DonationListingContainer from '@holi-apps/donations/components/DonationListingContainer'
 import DonationSearchForm from '@holi-apps/donations/components/DonationSearchForm'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
+import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 export type DonationsAppHomeParams = {
   location?: string
@@ -70,26 +70,23 @@ const DonationsAppHome = () => {
     // )
 
     setScreenOptions({
-      navigationCustomOptions: {
-        footerShown: false,
-      },
       headerTitle: () => (
         <HoliHeading level="2" size="s">
           {title}
         </HoliHeading>
       ),
-      headerTransparent: true,
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-      // headerRight: () =>
-      //   Platform.OS === 'web' ? <HoliHorizontalRow>{searchButton}</HoliHorizontalRow> : <>{searchButton}</>,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
     })
   }, [navigate, setScreenOptions, t, title])
 
   return (
     <>
-      <ScrollHeaderLayout style={styles.defaultLayout} keyboardShouldPersistTaps="always">
+      <ScrollViewRefreshable style={styles.defaultLayout} keyboardShouldPersistTaps="always">
         <HoliModal
-          show={showSearchModal}
+          shown={showSearchModal}
           onDismiss={closeModal}
           testID="donations-search-modal"
           label={t('donations:search.heading')}
@@ -103,7 +100,7 @@ const DonationsAppHome = () => {
         <View style={[mixins.container]} testID={'donations-list-container'}>
           <DonationListingContainer locationQuery={locationQuery} resetSearch={resetSearch} />
         </View>
-      </ScrollHeaderLayout>
+      </ScrollViewRefreshable>
     </>
   )
 }

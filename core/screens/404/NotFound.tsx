@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
-import NotificationAndSearchHeader from '@holi/core/navigation/components/header/NotificationAndSearchHeader'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -11,7 +10,8 @@ import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 const NotFound = () => {
   const { t } = useTranslation()
@@ -25,12 +25,8 @@ const NotFound = () => {
 
   useEffect(() => {
     setScreenOptions({
-      headerBackTitleVisible: true,
-      headerBackVisible: true,
-      headerTransparent: true,
       headerStyle: { backgroundColor: colors.background20 },
-      headerTitle: () => null,
-      headerLeft: () => (
+      headerTitle: () => (
         <HoliButton label={t('navigation.home')} inline transparent onPress={() => navigate('/')}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/holi/holi.svg')}
@@ -41,7 +37,6 @@ const NotFound = () => {
           />
         </HoliButton>
       ),
-      headerRight: (props) => <NotificationAndSearchHeader {...props} />,
     })
   }, [navigate, setScreenOptions, t, colors.background20])
 
@@ -60,15 +55,9 @@ const NotFound = () => {
           <HoliText size="large" style={styles.description}>
             {t('notFound.page.text')}
           </HoliText>
-          <HoliButton
-            label={t('notFound.page.title')}
-            style={styles.button}
-            // eslint-disable-next-line no-console
-            onPress={() => navigate('/')}
-            testID="go-back-home"
-          >
-            {t('notFound.page.button')}
-          </HoliButton>
+          <View style={styles.button}>
+            <Button label={t('notFound.page.button')} onPress={() => navigate('/')} testID="go-back-home" />
+          </View>
         </View>
       </View>
     </View>
@@ -79,6 +68,7 @@ const getStyles = (safeAreaInsetTop: number, theme: HoliTheme) =>
   StyleSheet.create({
     button: {
       marginTop: 24,
+      width: '100%',
     },
     card: {
       display: 'flex',

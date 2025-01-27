@@ -54,7 +54,7 @@ const simpleGQLClient = async (request: APIRequestContext, query: string, variab
 
 export const deleteAuthenticatedAccount = async (context: BrowserContext) => {
   const deleteResponse = await simpleGQLClient(context.request, deleteAuthenticatedUserMutation)
-  process.env.DEBUG && console.log('DELETE', deleteResponse)
+  if (process.env.DEBUG) console.log('DELETE', deleteResponse) // eslint-disable-line no-console
   await context.clearCookies()
 }
 
@@ -71,7 +71,7 @@ export const signUp = async (
 
   const flow = await flowResponse.json()
 
-  process.env.DEBUG && console.log('FLOW', flow)
+  if (process.env.DEBUG) console.log('FLOW', flow) // eslint-disable-line no-console
 
   const payload = {
     method: 'password',
@@ -83,7 +83,7 @@ export const signUp = async (
     },
   }
 
-  process.env.DEBUG && console.log('PAYLOAD', payload)
+  if (process.env.DEBUG) console.log('PAYLOAD', payload) // eslint-disable-line no-console
 
   const registeredResponse = await context.request.post(
     `${baseURL}/api/.ory/self-service/registration?flow=${flow.id}`,
@@ -98,7 +98,7 @@ export const signUp = async (
 
   const registered = await registeredResponse.json()
 
-  process.env.DEBUG && console.log('REGISTERED', registered)
+  if (process.env.DEBUG) console.log('REGISTERED', registered) // eslint-disable-line no-console
 
   const firstName = faker.person.firstName()
   const lastName = faker.person.lastName()
@@ -112,7 +112,7 @@ export const signUp = async (
     },
   })
 
-  process.env.DEBUG && console.log('USER', JSON.stringify(userUpdateResponse, null, 2))
+  if (process.env.DEBUG) console.log('USER', JSON.stringify(userUpdateResponse, null, 2)) // eslint-disable-line no-console
 
   return {
     id: userUpdateResponse.data.updateAuthenticatedUserV2.id,

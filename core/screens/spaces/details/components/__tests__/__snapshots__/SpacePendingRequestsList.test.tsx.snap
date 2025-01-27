@@ -181,11 +181,9 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
             style={
               {
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
+                "aspectRatio": 1,
+                "height": undefined,
+                "width": "100%",
               }
             }
           />
@@ -257,7 +255,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -269,6 +267,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -282,32 +281,17 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-              ],
               {
-                "borderRadius": 50,
-                "width": 40,
-                "zIndex": 4,
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
               },
             ]
           }
@@ -315,28 +299,24 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={22}
-                bbWidth={22}
+                bbHeight={16}
+                bbWidth={16}
                 color="#262424"
                 fill="none"
                 focusable={false}
-                height={22}
+                height={16}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
@@ -348,15 +328,15 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                     {
                       "flex": 0,
-                      "height": 22,
-                      "width": 22,
+                      "height": 16,
+                      "width": 16,
                     },
                   ]
                 }
                 tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
-                width={22}
+                width={16}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <RNSVGGroup
@@ -377,7 +357,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     }
                   >
                     <RNSVGPath
-                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95Z"
+                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
                       fill={
                         {
                           "type": 2,
@@ -438,7 +418,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -450,6 +430,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -463,35 +444,17 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-                {
-                  "backgroundColor": "#f5ef3f",
-                },
-              ],
               {
-                "borderRadius": 50,
-                "width": 40,
-                "zIndex": 4,
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
               },
             ]
           }
@@ -499,28 +462,24 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={22}
-                bbWidth={22}
+                bbHeight={16}
+                bbWidth={16}
                 color="#262424"
                 fill="none"
                 focusable={false}
-                height={22}
+                height={16}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
@@ -532,15 +491,15 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                     {
                       "flex": 0,
-                      "height": 22,
-                      "width": 22,
+                      "height": 16,
+                      "width": 16,
                     },
                   ]
                 }
                 tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
-                width={22}
+                width={16}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <RNSVGGroup
@@ -552,7 +511,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                   }
                 >
                   <RNSVGPath
-                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                     fill={
                       {
                         "type": 2,
@@ -675,11 +634,9 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
             style={
               {
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
+                "aspectRatio": 1,
+                "height": undefined,
+                "width": "100%",
               }
             }
           />
@@ -751,7 +708,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -763,6 +720,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -776,32 +734,17 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-              ],
               {
-                "borderRadius": 50,
-                "width": 40,
-                "zIndex": 4,
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
               },
             ]
           }
@@ -809,28 +752,24 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={22}
-                bbWidth={22}
+                bbHeight={16}
+                bbWidth={16}
                 color="#262424"
                 fill="none"
                 focusable={false}
-                height={22}
+                height={16}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
@@ -842,15 +781,15 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                     {
                       "flex": 0,
-                      "height": 22,
-                      "width": 22,
+                      "height": 16,
+                      "width": 16,
                     },
                   ]
                 }
                 tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
-                width={22}
+                width={16}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <RNSVGGroup
@@ -871,7 +810,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     }
                   >
                     <RNSVGPath
-                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95Z"
+                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
                       fill={
                         {
                           "type": 2,
@@ -932,7 +871,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -944,6 +883,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -957,35 +897,17 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-                {
-                  "backgroundColor": "#f5ef3f",
-                },
-              ],
               {
-                "borderRadius": 50,
-                "width": 40,
-                "zIndex": 4,
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
               },
             ]
           }
@@ -993,28 +915,24 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={22}
-                bbWidth={22}
+                bbHeight={16}
+                bbWidth={16}
                 color="#262424"
                 fill="none"
                 focusable={false}
-                height={22}
+                height={16}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
@@ -1026,15 +944,15 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                     {
                       "flex": 0,
-                      "height": 22,
-                      "width": 22,
+                      "height": 16,
+                      "width": 16,
                     },
                   ]
                 }
                 tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
-                width={22}
+                width={16}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <RNSVGGroup
@@ -1046,7 +964,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                   }
                 >
                   <RNSVGPath
-                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                     fill={
                       {
                         "type": 2,
@@ -1169,11 +1087,9 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
             style={
               {
-                "bottom": 0,
-                "left": 0,
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
+                "aspectRatio": 1,
+                "height": undefined,
+                "width": "100%",
               }
             }
           />
@@ -1245,7 +1161,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -1257,6 +1173,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -1270,32 +1187,17 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-              ],
               {
-                "borderRadius": 50,
-                "width": 40,
-                "zIndex": 4,
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
               },
             ]
           }
@@ -1303,28 +1205,24 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={22}
-                bbWidth={22}
+                bbHeight={16}
+                bbWidth={16}
                 color="#262424"
                 fill="none"
                 focusable={false}
-                height={22}
+                height={16}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
@@ -1336,15 +1234,15 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                     {
                       "flex": 0,
-                      "height": 22,
-                      "width": 22,
+                      "height": 16,
+                      "width": 16,
                     },
                   ]
                 }
                 tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
-                width={22}
+                width={16}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <RNSVGGroup
@@ -1365,7 +1263,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     }
                   >
                     <RNSVGPath
-                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636l4.95 4.95Z"
+                      d="m12 10.586 4.95-4.95 1.415 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"
                       fill={
                         {
                           "type": 2,
@@ -1426,7 +1324,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -1438,6 +1336,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -1451,35 +1350,17 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-                {
-                  "backgroundColor": "#f5ef3f",
-                },
-              ],
               {
-                "borderRadius": 50,
-                "width": 40,
-                "zIndex": 4,
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "height": 32,
+                "padding": 8,
+                "width": 32,
               },
             ]
           }
@@ -1487,28 +1368,24 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
             <View>
               <RNSVGSvgView
                 align="xMidYMid"
-                bbHeight={22}
-                bbWidth={22}
+                bbHeight={16}
+                bbWidth={16}
                 color="#262424"
                 fill="none"
                 focusable={false}
-                height={22}
+                height={16}
                 meetOrSlice={0}
                 minX={0}
                 minY={0}
@@ -1520,15 +1397,15 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                     },
                     {
                       "flex": 0,
-                      "height": 22,
-                      "width": 22,
+                      "height": 16,
+                      "width": 16,
                     },
                   ]
                 }
                 tintColor="#262424"
                 vbHeight={24}
                 vbWidth={24}
-                width={22}
+                width={16}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <RNSVGGroup
@@ -1540,7 +1417,7 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                   }
                 >
                   <RNSVGPath
-                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414 4.95 4.95Z"
+                    d="m10 15.172 9.193-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
                     fill={
                       {
                         "type": 2,

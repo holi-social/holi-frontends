@@ -1,12 +1,12 @@
 import { ChipAction, ChipLabel } from 'holi-bricks/components/chips'
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { User, termsByTitleComparator } from '@holi/core/domain/shared/types'
-import { UserChipTypes } from '@holi/core/helpers/useUserChips'
+import { type User, termsByTitleComparator } from '@holi/core/domain/shared/types'
+import type { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import { Add } from '@holi/icons/src/generated'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-import { Color } from '@holi/ui/no-name/foundations/colors/primitives'
+import type { Color } from 'holi-bricks/tokens'
 
 type UserChipRowProps = {
   keyInUserObject: UserChipTypes
@@ -37,7 +37,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       {sortedTerms.length > 0 || !onPressEdit ? (
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         sortedTerms.map((term) => (
-          <ChipLabel key={term.id} color={color}>
+          <ChipLabel key={term.id} color={color} testID={`${keyInUserObject}--${term.slug}`}>
             {term.title}
           </ChipLabel>
         ))

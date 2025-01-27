@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
+import type { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -10,7 +10,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import AppointmentInputForm, {
   getAppointmentDefaultInitialState,
 } from '@holi/core/screens/appointments/components/AppointmentInputForm'
-import { Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliConfirmation, { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirmation'
 
@@ -43,7 +43,8 @@ const AppointmentCreateEditForm = ({ space, initialAppointment, headerTitle, onS
           {headerTitle}
         </HoliHeading>
       ),
-      headerTransparent: true,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerLeft: () => <HeaderBackButton onPress={() => showConfirmationModal(true)} />,
       navigationCustomOptions: {
         footerShown: false,

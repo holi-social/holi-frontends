@@ -121,6 +121,8 @@ const PostDetailsPage = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTintColor: theme.colors.black300,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
           <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
@@ -195,7 +197,9 @@ const PostDetailsPage = () => {
           reactionAction: reactionAction,
         },
         onCompleted: () => {
-          reactionAction === ReactionAction.SET && track(TrackingEvent.Engaging.reacted('FeedPost', post?.id || ''))
+          if (reactionAction === ReactionAction.SET) {
+            track(TrackingEvent.Engaging.reacted('FeedPost', post?.id || ''))
+          }
         },
       })
     }

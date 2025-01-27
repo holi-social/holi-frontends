@@ -1,13 +1,14 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
-import { Skill } from '@holi/core/domain/shared/types'
-import { TranslatedFieldErrors } from '@holi/core/errors/hooks'
-import PlacesAutocomplete, { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { Skill } from '@holi/core/domain/shared/types'
+import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
+import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import {
@@ -16,20 +17,20 @@ import {
   VISIBILITY_TYPE_OPTIONS,
 } from '@holi/core/screens/spaces/tasks/consts'
 import { LocationType, VisibilityType } from '@holi/core/screens/spaces/types'
-import { GeolocationPoint } from '@holi/core/types'
+import type { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, LinkM } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import HoliImagePicker from '@holi/ui/components/organisms/HoliImagePicker'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
-import HoliModalSelect, { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { Button } from 'holi-bricks/components/button'
 
 export interface TaskInputFormProps {
   name: string
@@ -184,17 +185,9 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
       <View style={styles.thumbnailContainer}>
         {/* TODO: replace with HoliImage component. Image preview currently only working with ReactNativeImage */}
         {thumbnail?.uri ? (
-          <ReactNativeImage
-            source={{ uri: thumbnail?.uri ?? '' }}
-            aria-label={t('spaces.input.task.thumbnail.label')}
-            style={styles.thumbnail}
-          />
+          <ReactNativeImage source={{ uri: thumbnail?.uri ?? '' }} aria-hidden={true} style={styles.thumbnail} />
         ) : currentThumbnail ? (
-          <ReactNativeImage
-            source={{ uri: currentThumbnail }}
-            aria-label={t('spaces.input.task.thumbnail.label')}
-            style={styles.thumbnail}
-          />
+          <ReactNativeImage source={{ uri: currentThumbnail }} aria-hidden={true} style={styles.thumbnail} />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
             <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
@@ -213,9 +206,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
               style: styles.imageUploadButton,
             }}
             onPickImage={onChangeThumbnail}
-          >
-            <HoliText>{t('spaces.input.task.upload.button.label')}</HoliText>
-          </HoliImagePicker>
+          />
         </View>
         <Instructions />
       </View>
@@ -266,7 +257,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           isRequired
           showCharacterCount
           maxNoOfCharacters={128}
-          minNoOfCharacters={2}
         />
         <HoliTextInput
           placeholder={t('spaces.input.task.description.placeholder')}
@@ -290,21 +280,22 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           {!!skills?.length && (
             <View style={styles.listContainer}>
               {skills.map((skill, index) => (
-                <ChipLabel key={`skill_${index}`} color="blue">{`${skill.title}`}</ChipLabel>
+                <ChipLabel key={`skill_${index}`} color="blue">
+                  {`${skill.title}`}
+                </ChipLabel>
               ))}
             </View>
           )}
-          <HoliButton
-            label={t('global.edit')}
-            type="secondary"
-            inline
-            onPress={showSkillsForm}
-            testID="btn-task-edit-skills-modal"
-            style={styles.skillsButton}
-          >
-            <HoliText style={styles.skillsButtonText}>{t(skills.length > 0 ? 'global.edit' : 'global.add')}</HoliText>
-            <HoliIcon icon={skills.length > 0 ? Edit2 : Add} />
-          </HoliButton>
+          <View style={styles.skillsButton}>
+            <Button
+              label={t(skills.length > 0 ? 'global.edit' : 'global.add')}
+              variant="secondary"
+              inline
+              onPress={showSkillsForm}
+              testID="btn-task-edit-skills-modal"
+              icon={skills.length > 0 ? Edit2 : Add}
+            />
+          </View>
         </View>
       </View>
 
@@ -394,7 +385,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
       </View>
 
       <HoliModal
-        show={skillsFormVisibile}
+        shown={skillsFormVisibile}
         onDismiss={hideSkillsForm}
         testID="task-skills-modal"
         label={t('spaces.input.task.skills')}
@@ -490,8 +481,6 @@ const getStyles = (theme: HoliTheme) =>
     },
     skillsButton: {
       alignSelf: 'flex-start',
-      paddingHorizontal: 12,
-      paddingVertical: 8,
       marginTop: 16,
     },
     skillsButtonText: {

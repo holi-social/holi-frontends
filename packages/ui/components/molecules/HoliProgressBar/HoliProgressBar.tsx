@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
-import { Animated, DimensionValue, StyleSheet, View } from 'react-native'
+import { Animated, type DimensionValue, StyleSheet, View } from 'react-native'
 
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type HoliProgressBarSize = 'small' | 'medium'
 

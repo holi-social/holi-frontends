@@ -1,13 +1,12 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
-import ScrollHeaderLayout from '@holi/core/components/ScrollHeaderLayout'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 export const NotificationsNotLoggedInHint: React.FC<{
   onPress: () => void
@@ -27,7 +26,7 @@ export const NotificationsNotLoggedInHint: React.FC<{
   })
 
   return (
-    <ScrollHeaderLayout backgroundColor={colors.background30}>
+    <ScrollView style={{ backgroundColor: colors.background30 }}>
       <HoliContainer>
         <HoliNoResults
           firstText={firstText}
@@ -43,11 +42,9 @@ export const NotificationsNotLoggedInHint: React.FC<{
           secondText={secondText}
           style={styles.noResultsMessage}
         >
-          <HoliButton label={label} onPress={props.onPress}>
-            {label}
-          </HoliButton>
+          <Button label={label} onPress={props.onPress} />
         </HoliNoResults>
       </HoliContainer>
-    </ScrollHeaderLayout>
+    </ScrollView>
   )
 }

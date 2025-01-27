@@ -101,12 +101,14 @@ const HoliWizardContextProvider: React.FC<React.PropsWithChildren<HoliWizardCont
       : goBack()
   })
   const onSkipPress = keyboardDismissWrapper(() => {
-    handleSkipPress
-      ? handleSkipPress({
-          currentStep,
-          goNext,
-        })
-      : goNext()
+    if (handleSkipPress) {
+      handleSkipPress({
+        currentStep,
+        goNext,
+      })
+    } else {
+      goNext()
+    }
   })
 
   const context = {

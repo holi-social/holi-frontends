@@ -33,7 +33,7 @@ default:
   interruptible: false
 
 .web_e2e:
-  image: 'mcr.microsoft.com/playwright:v1.48.2-noble'
+  image: 'mcr.microsoft.com/playwright:v1.49.1-noble'
   cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   artifacts:
@@ -41,9 +41,11 @@ default:
     expose_as: 'web e2e test report'
     expire_in: 1 week
     paths:
-      - e2e/web/playwright-report # report including traces
-      - e2e/web/artifacts # accessibility reports
+      - e2e/web/playwright-report
+      - e2e/web/playwright-report/junit-report.xml
     when: always
+    reports:
+      junit: e2e/web/playwright-report/junit-report.xml
   script: |
     export UI_DOMAIN=`cat $UI_DOMAIN_PATH`
     terraform/environments/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
@@ -188,6 +190,7 @@ web_build_docker:
     - docker build --cache-from "$GCR_IMAGE" -t "$GCR_IMAGE":latest -t "$GCR_IMAGE":"$CI_COMMIT_SHA" -t "$GCR_IMAGE":"$CI_COMMIT_REF_SLUG" .
     - docker push "$GCR_IMAGE":"$CI_COMMIT_SHA" # this is the tag that is used for deployment
     - docker push "$GCR_IMAGE":"$CI_COMMIT_REF_SLUG" # just for easyly knowing which is the last image for a branch
+    - docker push "$GCR_IMAGE":latest # for caching the build
   interruptible: true
   rules:
     - !reference [.rule_templates, not_on_git_tags]

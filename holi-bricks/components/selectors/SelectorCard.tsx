@@ -1,5 +1,4 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
-import type { SelectionElementProps } from 'holi-bricks/components/selectors/Selector'
 import { useStyles } from 'holi-bricks/hooks'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
@@ -12,12 +11,11 @@ import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 // eslint-disable-next-line no-restricted-imports
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
-// eslint-disable-next-line no-restricted-imports
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import { Text } from 'holi-bricks/components/text/Text'
 // eslint-disable-next-line no-restricted-imports
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 // eslint-disable-next-line no-restricted-imports
-import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
+import HoliSwitch, { type HoliSwitchSize } from '@holi/ui/components/molecules/HoliSwitch'
 
 export type SelectorCardInputType = 'radio' | 'checkbox' | 'switch' | 'none'
 export type SelectorCardSize = 'lg' | 'md'
@@ -25,19 +23,20 @@ export type SelectorCardVariant = 'detailed' | 'list'
 
 export type SelectorCardProps = AccessibilityProps & {
   title: string
+  onPress?: (event: GestureResponderEvent) => void | Promise<void>
   description?: string
   image?: StaticImageData
   icon?: HoliIconType
-  defaultSelected?: boolean
   disabled?: boolean
   size?: SelectorCardSize
   outlined?: boolean
   reverseOrder?: boolean
   inputType?: SelectorCardInputType
   variant?: SelectorCardVariant
-  onPress?: (event: GestureResponderEvent) => void | Promise<void>
   selected?: boolean
-} & SelectionElementProps
+  switchSize?: HoliSwitchSize
+  testID?: string
+}
 
 export const SelectorCard = ({
   description,
@@ -52,6 +51,8 @@ export const SelectorCard = ({
   variant = 'detailed',
   onPress,
   selected = false,
+  switchSize = 'small',
+  testID,
   ...rest
 }: SelectorCardProps) => {
   const { styles } = useStyles(stylesheet, { disabled, reverseOrder })
@@ -59,10 +60,11 @@ export const SelectorCard = ({
 
   return (
     <Pressable
-      onPress={onPress}
+      onPress={(e) => onPress?.(e)}
       disabled={disabled}
       {...accessibilityProps(rest)}
       style={({ hovered, pressed }) => [styles.selector(!!hovered, !disabled && !!pressed, selected, outlined)]}
+      testID={testID}
     >
       {image && (
         <HoliLocalImage
@@ -81,11 +83,11 @@ export const SelectorCard = ({
       )}
 
       <View style={styles.textContainer}>
-        <HoliText bold>{title}</HoliText>
+        <Text size={size === 'lg' ? 'lg' : 'md'}>{title}</Text>
         {description && variant === 'detailed' && (
-          <HoliText size="small" style={styles.text}>
+          <Text size="sm" colorOveride={styles.description.color}>
             {description}
-          </HoliText>
+          </Text>
         )}
       </View>
       <View style={styles.interactiveContainer(variant, description)} pointerEvents="none">
@@ -93,7 +95,7 @@ export const SelectorCard = ({
           <HoliCheckbox shape="round" checked={selected} autofocus={false} aria-label={title} />
         )}
         {inputType === 'checkbox' && <HoliCheckbox checked={selected} aria-label={title} />}
-        {inputType === 'switch' && <HoliSwitch value={selected || false} size="small" />}
+        {inputType === 'switch' && <HoliSwitch value={selected || false} size={switchSize} />}
       </View>
     </Pressable>
   )
@@ -102,7 +104,6 @@ export const SelectorCard = ({
 const stylesheet = createStyleSheet((theme) => ({
   selector: (hovered: boolean, pressed: boolean, selected: boolean, outlined: boolean) => {
     return {
-      flex: 1,
       alignSelf: 'stretch',
       minHeight: Spacing['3xl'],
       padding: Spacing.xxs,
@@ -151,9 +152,9 @@ const stylesheet = createStyleSheet((theme) => ({
   textContainer: {
     flex: 1,
     justifyContent: 'center',
-    gap: 4,
+    gap: Spacing['3xs'],
   },
-  text: {
+  description: {
     color: theme.components.selector.text,
   },
 }))

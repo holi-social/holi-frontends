@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { FullUserFragmentDoc } from '@holi/api/graphql/graphql-codegen'
 import { FullAuthenticatedUserFragment } from '@holi/core/domain/shared/queries'
-import { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
+import type { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import type { UpdateConnectionWithUserActions } from '@holi/core/screens/userprofile/types'
 
 export const interestsQuery = gql`

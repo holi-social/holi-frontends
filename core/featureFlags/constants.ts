@@ -9,4 +9,8 @@ export enum FeatureFlagKey {
   VIDEO_CALL = 'VIDEO_CALL', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   HOME_TASK_ORDER_SWAP = 'home-task-order-swap', // multivariate ('control', 'test') -> FeatureFlagAB
   FEEDBACK_LINK = 'feedback-link', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
+  POST_TRANSLATION = 'POST_TRANSLATION', // boolean
+  NEW_HOME_FEED = 'NEW_HOME_FEED', // multivariate ('control', 'test') -> FeatureFlagAB
+  TYPESENSE_SEARCH = 'typesense-search', // boolean
+  TASK_CONTACT_CTA = 'TASK_CONTACT_CTA', // boolean
 }

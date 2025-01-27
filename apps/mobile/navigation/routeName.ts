@@ -21,6 +21,7 @@ export enum RouteName {
   SpaceRelatedSpaces = 'SpaceRelatedSpaces',
   FilteredSpaces = 'FilteredSpaces',
   CreateSpace = 'CreateSpace',
+  ExploreSpaces = 'ExploreSpaces',
   EditSpace = 'EditSpace',
   CreateDigitalTool = 'CreateDigitalTool',
   SpaceStorage = 'SpaceStorage',
@@ -118,10 +119,7 @@ export enum RouteName {
 
   // Onboarding Stack
   Onboarding = 'Onboarding',
-  OnboardingWelcome = 'OnboardingWelcome',
-  OnboardingRegistration = 'OnboardingRegistration',
-  OnboardingRegistrationLegalDocuments = 'OnboardingRegistrationLegalDocuments',
-  OnboardingAccountSetup = 'OnboardingAccountSetup',
+  OnboardingLegalDocuments = 'OnboardingRegistrationLegalDocuments',
 
   // Root Stack
   Notifications = 'Notifications',

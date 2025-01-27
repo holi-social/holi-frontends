@@ -15,7 +15,7 @@ interface Props {
   counter?: boolean
   style?: (ViewStyle | Record<string, unknown>) | (ViewStyle | Record<string, unknown>)[]
   usersTotal?: number
-  users: User[]
+  users: readonly User[]
   testID?: string
   hasBackground?: boolean
 }
@@ -54,7 +54,7 @@ const HoliUserAvatarPile = ({
   const uniqueUsers = loading
     ? [emptyUser('l1', theme), emptyUser('l2', theme), emptyUser('l3', theme)]
     : users.reduce((newArr: User[], nextUser: User) => {
-        return newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
+        return !nextUser || newArr.some((user) => user.id === nextUser.id) ? newArr : [...newArr, nextUser]
       }, [])
 
   return (

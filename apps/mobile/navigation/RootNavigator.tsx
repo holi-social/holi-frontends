@@ -4,19 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
 import Login from '@holi/core/auth/screens/Login'
-import HeaderAnimated from '@holi/core/components/HeaderAnimated'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
-import OnboardingAccountSetup from '@holi/core/screens/onboarding/OnboardingAccountSetup'
-import OnboardingRegistration from '@holi/core/screens/onboarding/OnboardingRegistration'
-import OnboardingWelcome from '@holi/core/screens/onboarding/OnboardingWelcome'
 import CreateReport from '@holi/core/screens/report/CreateReport'
 import CreateSpace from '@holi/core/screens/spaces/create/CreateSpace'
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
 import type { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import ActNavigator from '@holi/mobile/navigation/ActNavigator'
-import BottmTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
+import BottomTabsNavigator from '@holi/mobile/navigation/BottomTabsNavigator'
 import ChallengesAppNavigator from '@holi/mobile/navigation/ChallengesAppNavigator'
 import ChatStackNavigator from '@holi/mobile/navigation/ChatNavigator'
 import DonationsAppNavigator from '@holi/mobile/navigation/DonationsAppNavigator'
@@ -30,6 +26,12 @@ import { useTheme } from '@holi/ui/styles/theme'
 import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
+import Onboarding from '@holi/core/screens/onboarding/Onboarding'
+import SearchScreen from '@holi/core/screens/search/SearchScreen'
+import type { SearchParams } from '@holi/core/screens/search/typesense/Search'
+import type { SearchParams as OldSearchParams } from '@holi/core/screens/search/components/SearchContent'
+import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
+import NotFound from '@holi/core/screens/404/NotFound'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -40,9 +42,7 @@ export type RootStackScreens = {
   [RouteName.ChatStack]: undefined
 
   [RouteName.Onboarding]: undefined
-  [RouteName.OnboardingRegistration]: undefined
-  [RouteName.OnboardingRegistrationLegalDocuments]: undefined
-  [RouteName.OnboardingAccountSetup]: undefined
+  [RouteName.OnboardingLegalDocuments]: undefined
 
   [RouteName.Login]: undefined
   [RouteName.ForgotPassword]: undefined
@@ -63,6 +63,10 @@ export type RootStackScreens = {
 
   [RouteName.CreateSpace]: undefined
   [RouteName.CreateReport]: undefined
+
+  [RouteName.Search]: SearchParams | OldSearchParams
+
+  [RouteName.UserProfile]: UserProfileParams
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -74,16 +78,21 @@ const RootNavigator = () => {
     <RootStack.Navigator
       initialRouteName={RouteName.BottomTabs}
       screenOptions={{
-        header: HeaderAnimated,
+        headerShown: false,
+        headerShadowVisible: false,
       }}
     >
-      <RootStack.Screen name={RouteName.BottomTabs} component={BottmTabsNavigator} options={{ headerShown: false }} />
+      <RootStack.Screen name={RouteName.BottomTabs} component={BottomTabsNavigator} options={{ headerShown: false }} />
 
       {/* HomeFeed (InsightsHome) is in BottomTabs */}
       <RootStack.Screen name={RouteName.Insights} component={InsightsNavigator} options={{ headerShown: false }} />
 
       {/* SpacesHome is in BottomTabs */}
-      <RootStack.Screen name={RouteName.Spaces} component={SpacesNavigator} options={{ headerShown: false }} />
+      <RootStack.Screen
+        name={RouteName.Spaces}
+        component={SpacesNavigator}
+        options={{ headerShown: false, headerShadowVisible: false }}
+      />
 
       {/* ActHome is in BottomTabs */}
       <RootStack.Screen name={RouteName.ActHome} component={ActNavigator} options={{ headerShown: false }} />
@@ -98,7 +107,6 @@ const RootNavigator = () => {
         component={VideoCall}
         options={{
           headerShown: true,
-          headerTransparent: true,
         }}
       />
 
@@ -116,7 +124,6 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
         }}
       />
       <RootStack.Screen
@@ -126,7 +133,6 @@ const RootNavigator = () => {
           presentation: 'containedModal',
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
         }}
       />
       <RootStack.Screen
@@ -135,7 +141,6 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
         }}
       />
       <RootStack.Screen
@@ -173,31 +178,24 @@ const RootNavigator = () => {
       {/* Onboarding */}
       <RootStack.Screen
         name={RouteName.Onboarding}
-        component={OnboardingWelcome}
+        component={Onboarding}
         options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen
-        name={RouteName.OnboardingRegistration}
-        component={OnboardingRegistration}
-        options={{ headerShown: false, gestureEnabled: false }}
-      />
-      <RootStack.Screen
-        name={RouteName.OnboardingRegistrationLegalDocuments}
+        name={RouteName.OnboardingLegalDocuments}
         component={LegalDocumentItem}
         options={{ presentation: 'modal', headerLeft: () => <HeaderBackButton icon={ArrowDownS} /> }}
-      />
-      <RootStack.Screen
-        name={RouteName.OnboardingAccountSetup}
-        component={OnboardingAccountSetup}
-        options={{ headerShown: false, gestureEnabled: false }}
       />
       <RootStack.Screen
         name={RouteName.CreatePost}
         component={CreatePost}
         options={{
           animation: 'slide_from_bottom',
+          headerTintColor: colors.black300,
+          headerBackTitleVisible: false,
+          headerLeft: () => <HeaderBackButton />,
           headerShown: true,
-          headerTransparent: true,
+          headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: colors.background20,
           },
@@ -209,7 +207,9 @@ const RootNavigator = () => {
         options={{
           animation: 'slide_from_bottom',
           headerShown: true,
-          headerTransparent: true,
+          headerTitleAlign: 'center',
+          headerBackTitleVisible: false,
+          headerBackVisible: false,
           headerStyle: {
             backgroundColor: colors.background20,
           },
@@ -220,6 +220,36 @@ const RootNavigator = () => {
         component={CreateSpace}
         options={{
           animation: 'slide_from_bottom',
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.Search}
+        component={SearchScreen}
+        options={{
+          headerShown: true,
+          animation: 'slide_from_bottom',
+          headerLeft: () => <HeaderBackButton icon={ArrowDownS} />,
+        }}
+      />
+
+      <RootStack.Screen
+        name={RouteName.NotFound}
+        component={NotFound}
+        options={{
+          headerShown: true,
+          headerBackVisible: false,
+          headerTitleAlign: 'center',
+          headerLeft: () => <HeaderBackButton />,
+        }}
+      />
+
+      <RootStack.Screen
+        name={RouteName.UserProfile}
+        component={UserProfile}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerLeft: () => <HeaderBackButton />,
         }}
       />
     </RootStack.Navigator>

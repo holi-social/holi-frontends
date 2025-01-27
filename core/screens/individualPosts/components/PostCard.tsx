@@ -80,11 +80,13 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
       >
         <View style={styles.clickableArea}>
           <View style={styles.pillContainer}>
-            <View style={[styles.pill, styles.categoryPill]}>
-              <HoliText size="small" numberOfLines={1}>
-                {post.category.label}
-              </HoliText>
-            </View>
+            {post.category && (
+              <View style={[styles.pill, styles.categoryPill]}>
+                <HoliText size="small" numberOfLines={1}>
+                  {post.category.label}
+                </HoliText>
+              </View>
+            )}
             {aggregatedTopics && aggregatedTopics?.length > 0 && (
               <View style={[styles.pill, styles.topicPill]}>
                 <HoliText size="small" numberOfLines={1}>

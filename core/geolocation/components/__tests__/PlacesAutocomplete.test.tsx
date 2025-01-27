@@ -1,7 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, screen, waitFor, act } from '@testing-library/react-native'
 import React from 'react'
-import { act } from 'react-test-renderer'
 
 import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { geoPlaceDetailsQuery, geoPlacesQuery } from '@holi/core/geolocation/queries'

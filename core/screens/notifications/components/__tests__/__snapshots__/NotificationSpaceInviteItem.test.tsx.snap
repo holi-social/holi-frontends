@@ -77,6 +77,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                 "width": 40,
               }
             }
+            testID="space-avatar"
           >
             <Image
               accessibilityRole="image"
@@ -94,11 +95,9 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               }
               style={
                 {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
+                  "aspectRatio": 1,
+                  "height": undefined,
+                  "width": "100%",
                 }
               }
             />
@@ -176,7 +175,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               }
             }
           >
-            2 weeks ago
+            last week
           </Text>
         </View>
         <View
@@ -223,6 +222,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
       style={
         [
           {
+            "marginTop": 12,
             "paddingLeft": 48,
           },
           {
@@ -251,7 +251,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -263,6 +263,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -276,30 +277,16 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-              ],
               {
-                "marginTop": 12,
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "paddingHorizontal": 12,
+                "width": "auto",
               },
             ]
           }
@@ -307,42 +294,47 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={false}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "lineHeight": 19.599999999999998,
-                  "textAlign": "center",
-                  "userSelect": "none",
+                  "height": 32,
+                  "justifyContent": "center",
                 }
               }
             >
-              notifications.space.invite.ignore
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                notifications.space.invite.ignore
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -362,7 +354,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -374,6 +366,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -387,33 +380,16 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-                {
-                  "backgroundColor": "#f5ef3f",
-                },
-              ],
               {
-                "marginTop": 12,
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "paddingHorizontal": 12,
+                "width": "auto",
               },
             ]
           }
@@ -421,42 +397,47 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={false}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "lineHeight": 19.599999999999998,
-                  "textAlign": "center",
-                  "userSelect": "none",
+                  "height": 32,
+                  "justifyContent": "center",
                 }
               }
             >
-              notifications.space.invite.accept
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                notifications.space.invite.accept
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -542,6 +523,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                 "width": 40,
               }
             }
+            testID="space-avatar"
           >
             <Image
               accessibilityRole="image"
@@ -559,11 +541,9 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               }
               style={
                 {
-                  "bottom": 0,
-                  "left": 0,
-                  "position": "absolute",
-                  "right": 0,
-                  "top": 0,
+                  "aspectRatio": 1,
+                  "height": undefined,
+                  "width": "100%",
                 }
               }
             />
@@ -651,7 +631,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               }
             }
           >
-            2 weeks ago
+            last week
           </Text>
         </View>
         <View
@@ -698,6 +678,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
       style={
         [
           {
+            "marginTop": 12,
             "paddingLeft": 48,
           },
           {
@@ -726,7 +707,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -738,6 +719,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -751,30 +733,16 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-              ],
               {
-                "marginTop": 12,
+                "backgroundColor": "#ffffff",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "paddingHorizontal": 12,
+                "width": "auto",
               },
             ]
           }
@@ -782,42 +750,47 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={false}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "lineHeight": 19.599999999999998,
-                  "textAlign": "center",
-                  "userSelect": "none",
+                  "height": 32,
+                  "justifyContent": "center",
                 }
               }
             >
-              notifications.space.invite.ignore
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                notifications.space.invite.ignore
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -837,7 +810,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               "checked": undefined,
               "disabled": false,
               "expanded": undefined,
-              "selected": undefined,
+              "selected": false,
             }
           }
           accessibilityValue={
@@ -849,6 +822,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             }
           }
           accessible={true}
+          aria-pressed={false}
           collapsable={false}
           focusable={true}
           onBlur={[Function]}
@@ -862,33 +836,16 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           onStartShouldSetResponder={[Function]}
           style={
             [
-              [
-                {
-                  "width": "100%",
-                },
-                {
-                  "backgroundColor": "#fff",
-                  "borderColor": "#262424",
-                  "borderRadius": 28,
-                  "borderWidth": 2,
-                  "display": "flex",
-                  "elevation": 0,
-                  "justifyContent": "center",
-                  "overflow": "hidden",
-                  "paddingHorizontal": 32,
-                  "paddingVertical": 13,
-                },
-                {
-                  "borderRadius": 16,
-                  "paddingHorizontal": 16,
-                  "paddingVertical": 6,
-                },
-                {
-                  "backgroundColor": "#f5ef3f",
-                },
-              ],
               {
-                "marginTop": 12,
+                "backgroundColor": "#fdfd80",
+                "borderColor": "#262424",
+                "borderRadius": 1000,
+                "borderStyle": "solid",
+                "borderWidth": 1,
+                "boxShadow": "0 0 0 0px #262424",
+                "display": "flex",
+                "paddingHorizontal": 12,
+                "width": "auto",
               },
             ]
           }
@@ -896,42 +853,47 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
         >
           <View
             style={
-              [
-                {
-                  "pointerEvents": "none",
-                },
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                undefined,
-              ]
+              {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "gap": 4,
+                "justifyContent": "center",
+              }
             }
           >
-            <Text
-              accessible={false}
-              collapsable={false}
-              jestAnimatedStyle={
-                {
-                  "value": {},
-                }
-              }
-              selectable={false}
+            <View
               style={
                 {
-                  "color": "#262424",
-                  "fontFamily": "InstrumentSans-Medium",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "lineHeight": 19.599999999999998,
-                  "textAlign": "center",
-                  "userSelect": "none",
+                  "height": 32,
+                  "justifyContent": "center",
                 }
               }
             >
-              notifications.space.invite.accept
-            </Text>
+              <Text
+                accessible={false}
+                role="none"
+                selectable={true}
+                style={
+                  {
+                    "color": "#262424",
+                    "fontFamily": "InstrumentSans-Regular",
+                    "fontSize": 15,
+                    "fontVariant": [
+                      "lining-nums",
+                      "tabular-nums",
+                    ],
+                    "fontWeight": "400",
+                    "letterSpacing": -0.12,
+                    "lineHeight": 21,
+                    "textAlign": undefined,
+                    "userSelect": "auto",
+                  }
+                }
+              >
+                notifications.space.invite.accept
+              </Text>
+            </View>
           </View>
         </View>
       </View>

@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client'
+import { StoreObject, useMutation } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -57,7 +57,10 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         cache.evict({ id: 'ROOT_QUERY', fieldName: 'mySpaces' })
       },
       onError(error) {
-        client.cache.evict({ id: client.cache.identify(space) })
+        if (!('__typename' in space)) {
+          console.error('Object is missing __typename attribute:', space) // eslint-disable-line no-console
+        }
+        client.cache.evict({ id: client.cache.identify(space as unknown as StoreObject) })
         const context = {
           location: 'SpaceCollaboratorOnboarding.updateSpaceUserConnection',
           spaceId: space.id,
@@ -101,7 +104,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   return (
     <>
       <HoliModal
-        show={visible}
+        shown={visible}
         label={t('spaces.collaborate.onboarding.header')}
         heading={t('spaces.collaborate.onboarding.header')}
         onDismiss={hideOnboarding}
@@ -179,7 +182,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
           }}
         />
 
-        <HoliModal show={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
+        <HoliModal shown={infoVisible} label={t('spaces.collaborate.onboarding.header')} onDismiss={infoHide}>
           <SpaceCollaboratorOnboardingSteps
             steps={space?.onboarding?.steps || []}
             header={t('spaces.collaborate.onboarding.info.header')}

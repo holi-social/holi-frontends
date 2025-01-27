@@ -5,11 +5,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
+import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import type { Term, User } from '@holi/core/domain/shared/types'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import { CategorySelectionModal } from '@holi/core/screens/individualPosts/components/CategorySelectionModal'
 import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
-import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
 import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
@@ -21,12 +22,10 @@ import {
 } from '@holi/core/screens/individualPosts/mutations'
 import { type FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import type { FeedPostCategories } from '@holi/core/screens/individualPosts/useFeedPostCategories'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Edit2, Global, HoliLogoFilled, Pencil } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -36,6 +35,7 @@ import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components
 import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Button } from 'holi-bricks/components/button'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -73,8 +73,8 @@ export interface PostInputFormProps {
   fieldErrors?: TranslatedFieldErrors
   submitting: boolean
   categories: FeedPostCategories | null
-  onClickCategoriesPill: () => void
   mentions?: User[]
+  selectCategory: (categoryId: string) => void
 }
 
 const PostInputForm: React.FC<PostInputFormProps> = ({
@@ -100,7 +100,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   isEdit = false,
   submitting,
   categories,
-  onClickCategoriesPill,
+  selectCategory,
 }) => {
   const { theme } = useTheme()
   const { t } = useTranslation()
@@ -113,6 +113,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
   const { show: showTopicsModal, hide: hideTopicsModal, visible: visibleTopicsModal } = useModalState()
   const { show: showLocationModal, hide: hideLocationModal, visible: visibleLocationModal } = useModalState()
   const { show: showEditImagesModal, hide: hideEditImagesModal, visible: visibleEditImagesModal } = useModalState()
+  const { show: showCategoryModal, hide: hideCategoryModal, visible: visibleCategoryModal } = useModalState()
 
   useEffect(() => {
     const formDataParseResult = FeedPostSchema.safeParse({
@@ -150,9 +151,11 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
     t('individuals.post.input.category.input.description')
 
   const handleLocationChange = (selected?: GeolocationSuggestion) => {
-    selected ? onChangeSelectedLocation(selected) : onChangeSelectedLocation(null)
     if (selected) {
+      onChangeSelectedLocation(selected)
       hideLocationModal()
+    } else {
+      onChangeSelectedLocation(null)
     }
   }
 
@@ -179,8 +182,8 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
             <ChipAction id="post-visibility-pill" onPress={showVisibility} iconTrailing={Pencil} color="white">
               {t(`individuals.post.category.label.visibility.${selectedVisibility}`)}
             </ChipAction>
-            <ChipAction id="post-category-pill" onPress={onClickCategoriesPill} iconTrailing={Pencil} color="yellow">
-              {categoryLabel ? categoryLabel : ''}
+            <ChipAction id="post-category-pill" onPress={showCategoryModal} iconTrailing={Pencil} color="yellow">
+              {categoryLabel ? categoryLabel : t('individuals.post.category.label.category')}
             </ChipAction>
 
             {selectedTopics &&
@@ -235,17 +238,14 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
             {((!!images && images.length > 0) || (currentImages && currentImages.length > 0)) && (
               <View style={styles.imageContainer}>
-                <HoliButton
-                  type="secondary"
-                  variant="small"
+                <Button
+                  variant="secondary"
+                  size="sm"
                   label={t('global.edit')}
                   inline
-                  style={styles.editImages}
                   onPress={showEditImagesModal}
-                >
-                  <HoliText>{t('global.edit')}</HoliText>
-                  <HoliIcon size={16} icon={Edit2} style={styles.buttonIcon} />
-                </HoliButton>
+                  icon={Edit2}
+                />
                 {Platform.OS !== 'web' && (
                   <HoliCarousel
                     marginHorizontal={Spacing.sm}
@@ -316,7 +316,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       <HoliModal
         label={t('individuals.post.input.topics.title')}
         autoHeight={true}
-        show={visibleTopicsModal}
+        shown={visibleTopicsModal}
         onDismiss={hideTopicsModal}
         testID="post-selectedTopics-input"
       >
@@ -331,7 +331,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
       </HoliModal>
       <HoliModal
         label={t('individuals.post.input.topics.title')}
-        show={visibleLocationModal}
+        shown={visibleLocationModal}
         onDismiss={hideLocationModal}
         testID="post-location-input"
         style={styles.modal}
@@ -344,15 +344,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
                 <HoliHeading level="1" size="m">
                   {t('individuals.post.input.location.title')}
                 </HoliHeading>
-                <HoliButton
-                  type="secondary"
-                  inline
-                  variant="small"
-                  label={t('global.done')}
-                  onPress={hideLocationModal}
-                >
-                  <HoliText>{t('global.done')}</HoliText>
-                </HoliButton>
+                <Button variant="secondary" inline size="sm" label={t('global.done')} onPress={hideLocationModal} />
               </View>
               <HoliText color="gray300" size="small">
                 {t('individuals.post.input.location.description')}
@@ -376,7 +368,7 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
 
       <HoliModal
         label={t('individuals.post.input.topics.title')}
-        show={visibleEditImagesModal}
+        shown={visibleEditImagesModal}
         onDismiss={hideEditImagesModal}
         style={{ backgroundColor: theme.colors.background20 }}
         testID="post-location-input"
@@ -391,6 +383,13 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           aspectRatio={aspectRatio}
         />
       </HoliModal>
+      <CategorySelectionModal
+        visible={visibleCategoryModal}
+        categories={categories}
+        selectedCategoryId={selectedCategoryId}
+        onCategorySelection={selectCategory}
+        handleModalClose={hideCategoryModal}
+      />
     </>
   )
 }
@@ -419,10 +418,6 @@ const getStyles = (theme: HoliTheme) =>
     imageContainer: {
       paddingTop: Spacing.sm,
       alignItems: 'flex-end',
-    },
-    editImages: {
-      borderRadius: 28,
-      marginRight: Spacing['3xs'],
     },
     buttonIcon: {
       marginLeft: Spacing['4xs'],

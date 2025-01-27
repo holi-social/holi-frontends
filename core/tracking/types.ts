@@ -65,6 +65,9 @@ export namespace ConsentState {
   })
 }
 
+// redundant, but needed in jest.setup.js
+export type TrackingEventHandler = (event: TrackingEvent) => void
+
 export interface TrackingHook {
   /**
    * Tracks the given event. Guaranteed not to throw errors, so no error handling necessary around calls.

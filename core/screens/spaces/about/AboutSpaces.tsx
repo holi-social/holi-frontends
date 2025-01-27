@@ -12,10 +12,10 @@ import { ArrowLeft, Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import { Button } from 'holi-bricks/components/button'
 
 const AboutSpaces = () => {
   const setScreenOptions = useSetScreenOptions()
@@ -32,7 +32,8 @@ const AboutSpaces = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerBackTitleVisible: true,
-      headerBackVisible: true,
+      headerBackVisible: false,
+      headerTitleAlign: 'center',
       headerStyle: { backgroundColor: colors.background20 },
       headerTitle: () => (
         <HoliHeading level="1" size="s">
@@ -117,28 +118,26 @@ const AboutSpaces = () => {
           {t('spaces.about.page.lastPhrase')}
         </HoliText>
         <View style={[styles.buttonContainer, styles.buttonContainerDirection]}>
-          <HoliButton
-            style={styles.actionButton}
-            label="Create a Space"
-            onPress={() =>
-              navigateWithAuth('/spaces/create', {
-                description: t('spaces.create.loginRedirect.text'),
-                trackTrigger: 'CREATE_SPACE',
-              })
-            }
-            testID="discover-spaces-create-button"
-          >
-            {t('spaces.about.page.button.primary')}
-          </HoliButton>
-          <HoliButton
-            style={styles.actionButton}
-            label="Learn more"
-            onPress={() => navigateBack()}
-            testID="discover-spaces-create-button"
-            type="secondary"
-          >
-            {t('spaces.about.page.button.secondary')}
-          </HoliButton>
+          <View style={styles.actionButton}>
+            <Button
+              label={t('spaces.about.page.button.primary')}
+              onPress={() =>
+                navigateWithAuth('/spaces/create', {
+                  description: t('spaces.create.loginRedirect.text'),
+                  trackTrigger: 'CREATE_SPACE',
+                })
+              }
+              testID="discover-spaces-create-button"
+            />
+          </View>
+          <View style={styles.actionButton}>
+            <Button
+              label={t('spaces.about.page.button.secondary')}
+              onPress={() => navigateBack()}
+              testID="discover-spaces-create-button"
+              variant="secondary"
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -151,7 +150,6 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number, theme: HoliThe
   StyleSheet.create({
     actionButton: {
       width: 327,
-      borderWidth: 1,
     },
     sectionThreeContainer: {
       backgroundColor: theme.colors.brandColorD20,
@@ -168,7 +166,6 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number, theme: HoliThe
       flexDirection: screenWidth > dimensions.breakpointM ? 'row' : 'column',
     },
     container: {
-      paddingTop: dimensions.topBarHeight + (Platform.OS === 'ios' ? 48 : 0),
       backgroundColor: theme.colors.background20,
       paddingBottom: 48,
       alignItems: 'center',
@@ -230,14 +227,13 @@ const getStyles = (safeAreaInsetTop: number, screenWidth: number, theme: HoliThe
       lineHeight: 33.6,
     },
     transparentCard: {
-      ...Platform.select({ android: { paddingTop: safeAreaInsetTop, marginTop: 24 } }),
       paddingHorizontal: screenWidth > dimensions.breakpointM ? 0 : 16,
       backgroundColor: theme.colors.background20,
       borderWidth: 0,
       paddingBottom: screenWidth < dimensions.breakpointM ? 24 : 48,
     },
     transparentCardWithPadding: {
-      paddingTop: Platform.OS === 'android' ? safeAreaInsetTop : 24,
+      paddingTop: 24,
     },
     scrollViewBackground: {
       backgroundColor: theme.colors.background20,

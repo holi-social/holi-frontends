@@ -10,7 +10,7 @@ import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFor
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import SpaceUpdateInputForm from '@holi/core/screens/spaces/updates/components/SpaceUpdateInputForm'
 import useCreateOrUpdateSpacePost from '@holi/core/screens/spaces/updates/useUpdateSpaceUpdates'
-import { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
+import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import { useTheme } from '@holi/ui/styles/theme'
 
 export type CreateUpdateParams = {
@@ -77,20 +77,21 @@ const CreateSpaceUpdate = () => {
   }
 
   useIsomorphicLayoutEffect(() => {
-    !loading && isMember
-      ? setScreenOptions({
-          animation: 'slide_from_bottom',
-          title: isUpdate ? t('spaces.updates.edit') : t('spaces.updates.create'),
-          headerStyle: { backgroundColor: colors.background20 },
-          headerTransparent: false,
-          headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
-          navigationCustomOptions: {
-            footerShown: false,
-          },
-        })
-      : setScreenOptions({
-          headerStyle: { backgroundColor: colors.background20 },
-        })
+    if (!loading && isMember) {
+      setScreenOptions({
+        animation: 'slide_from_bottom',
+        title: isUpdate ? t('spaces.updates.edit') : t('spaces.updates.create'),
+        headerStyle: { backgroundColor: colors.background20 },
+        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
+        navigationCustomOptions: {
+          footerShown: false,
+        },
+      })
+    } else {
+      setScreenOptions({
+        headerStyle: { backgroundColor: colors.background20 },
+      })
+    }
   }, [setScreenOptions, t, loading, isUpdate, isMember, colors.background20])
 
   if (error || !space) {
