@@ -22,7 +22,6 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-import { coerceToUUIDString } from '@holi/core/helpers'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -33,7 +32,7 @@ const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
 
 const TaskDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-  const [taskId] = useUUIDParam('taskId', { parse: coerceToUUIDString, initial: undefined })
+  const [taskId] = useUUIDParam('taskId')
   const setScreenOptions = useSetScreenOptions()
   const { replaceRoute } = useRouting()
   const { displayError } = useErrorHandling()

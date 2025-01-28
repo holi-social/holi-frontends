@@ -74,38 +74,15 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
     return [nativeState, setNativeState]
   }
 
-  const useUUIDParam = <
-    Name extends keyof Props,
-    NullableUnparsedParsedType extends Props[Name] | undefined = Props[Name] | undefined,
-    ParseFunction extends undefined | ((value?: string | string[]) => NonNullable<NullableUnparsedParsedType>) = (
-      value?: string | string[]
-    ) => NonNullable<NullableUnparsedParsedType>,
-    InitialValue = NullableUnparsedParsedType | undefined,
-    ParsedType = InitialValue extends undefined
-      ? NullableUnparsedParsedType
-      : ParseFunction extends undefined
-        ? NullableUnparsedParsedType
-        : NonNullable<NullableUnparsedParsedType>,
-  >(
-    ...[name, maybeConfig]: Params<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType>
-  ): Returns<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType> => {
-    const { parse = (value?: string | string[]) => value, initial } = maybeConfig || { parse: coerceToUUIDString }
-    const nativeRoute = useRoute()
-
-    const stableParse = useStableCallback(parse)
-
-    const [nativeState, setNativeState] = useState<ParsedType | InitialValue>(() => {
-      const state = (nativeRoute?.params as any)?.[name]
-      return (stableParse(state) as ParsedType) ?? (initial as InitialValue)
+  const useUUIDParam = (
+    name: Parameters<typeof useParam>[0],
+    maybeConfig?: Omit<Parameters<typeof useParam>[1], 'parse'>
+  ) =>
+    useParam(name, {
+      ...maybeConfig,
+      initial: maybeConfig?.initial,
+      parse: coerceToUUIDString,
     })
-
-    useEffect(() => {
-      const state = (nativeRoute?.params as any)?.[name]
-      setNativeState((stableParse(state) as ParsedType) || (initial as InitialValue))
-    }, [setNativeState, stableParse, nativeRoute?.params, name, initial])
-
-    return [nativeState, setNativeState]
-  }
 
   const useUpdateParams = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
