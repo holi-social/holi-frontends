@@ -1,6 +1,7 @@
 import type { ScrollToggleHeightThreshold } from '@holi/core/components/Screen/useAutoPreset'
 import type { NavigationCustomOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
 import type { SpacingSize } from 'holi-bricks/tokens'
+import type { lightTheme } from 'holi-bricks/themes/light'
 import type { ReactNode } from 'react'
 import type { ScrollViewProps, KeyboardAvoidingViewProps, ViewStyle, StyleProp, StatusBarProps } from 'react-native'
 import type { Edges } from 'react-native-safe-area-context'
@@ -18,7 +19,7 @@ export interface BaseScreenProps {
   /**
    * Background of the screen
    */
-  backgroundColor?: string
+  backgroundColor?: keyof (typeof lightTheme)['colors']['bg']
   /**
    * The distance between keyboard and focused `TextInput` when keyboard is shown. Default is `0`.
    */
@@ -44,10 +45,14 @@ export interface BaseScreenProps {
   contentContainerStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ViewStyle>
   /**
-   * Padding object { top, bottom, left, right } needed to add
+   * Padding of the external wrapper object { top, bottom, left, right } needed to add
    * padding to the screen outer container. It uses padding.
    */
   padding?: ScreenPadding
+  /**
+   * Pads the wrapper of the inner content
+   */
+  contentContainerPadding?: ScreenPadding
   children: ReactNode | ReactNode[]
   testID?: string
 }

@@ -10,10 +10,11 @@ import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 export const Screen = (props: ScreenProps) => {
   const {
     keyboardAvoidingViewProps,
-    backgroundColor,
+    backgroundColor = 'page',
     StickyBottomComponent,
     StickyTopComponent,
     padding,
+    contentContainerPadding = { left: 'xs', right: 'xs' },
     headerOptions,
     testID,
     children,
@@ -28,7 +29,7 @@ export const Screen = (props: ScreenProps) => {
   return (
     <View
       testID={testID}
-      style={[styles.padding(padding), styles.container, { backgroundColor: backgroundColor || theme.colors.bg.page }]}
+      style={[styles.padding(padding), styles.container, { backgroundColor: theme.colors.bg[backgroundColor] }]}
     >
       <HoliContainer flex={1} noPadding>
         <View
@@ -48,7 +49,7 @@ export const Screen = (props: ScreenProps) => {
 
           <ScrollViewRefreshable
             {...scrollViewProps}
-            style={[scrollViewProps?.style, style]}
+            style={[scrollViewProps?.style, style, styles.contentContainerPadding(0, 0, contentContainerPadding)]}
             contentContainerStyle={[scrollViewProps?.contentContainerStyle, contentContainerStyle]}
           >
             {children}
