@@ -266,7 +266,7 @@ describe('createServerSideProps', () => {
     const uuid2 = createUUID()
     const param1 = `${uuid1},`
     const param2 = `${uuid2}👀`
-    const url = `/path/${param1}/${param2}`
+    const url = `/path/${encodeURIComponent(param1)}/${encodeURIComponent(param2)}`
     const expectedUrl = `/path/${uuid1}/${uuid2}`
 
     // @ts-ignore

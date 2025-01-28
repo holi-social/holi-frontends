@@ -10,7 +10,7 @@ const getSingleParam = (path: string | string[] | undefined) => {
 export const coerceUUIDParams = (uuidParams: (string | string[] | undefined)[], url?: string): string | undefined => {
   const replacements = uuidParams
     .map((param) => {
-      const singleParam = getSingleParam(param)
+      const singleParam = encodeURIComponent(getSingleParam(param) || '')
       if (!singleParam) {
         return undefined
       }
@@ -26,5 +26,5 @@ export const coerceUUIDParams = (uuidParams: (string | string[] | undefined)[], 
     return undefined
   }
 
-  return replacements.reduce((url, [invalid, valid]) => url?.replace(invalid, valid), url)
+  return replacements.reduce((u, [invalid, valid]) => u?.replace(invalid, valid), url)
 }

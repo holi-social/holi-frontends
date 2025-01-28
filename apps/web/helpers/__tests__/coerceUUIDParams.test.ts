@@ -5,10 +5,11 @@ describe('coerceUUIDParams', () => {
   it('should replace invalid UUID param', () => {
     const uuid = createUUID()
     const invalid = `${uuid},`
+    const url = `/path/${encodeURIComponent(invalid)}`
 
-    const url = coerceUUIDParams([invalid], `/path/${invalid}`)
+    const redirectUrl = coerceUUIDParams([invalid], url)
 
-    expect(url).toEqual(`/path/${uuid}`)
+    expect(redirectUrl).toEqual(`/path/${uuid}`)
   })
 
   it('should replace multiple invalid UUID params', () => {
@@ -16,10 +17,11 @@ describe('coerceUUIDParams', () => {
     const uuid2 = createUUID()
     const invalid1 = `${uuid1},`
     const invalid2 = `${uuid2}👀`
+    const url = `/path/${encodeURIComponent(invalid2)}/${encodeURIComponent(invalid1)}`
 
-    const url = coerceUUIDParams([invalid1, invalid2], `/path/${invalid2}/${invalid1}`)
+    const redirectUrl = coerceUUIDParams([invalid1, invalid2], url)
 
-    expect(url).toEqual(`/path/${uuid2}/${uuid1}`)
+    expect(redirectUrl).toEqual(`/path/${uuid2}/${uuid1}`)
   })
 
   it('should return undefined if all params are valid', () => {
