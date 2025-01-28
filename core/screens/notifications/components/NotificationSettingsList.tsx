@@ -25,6 +25,8 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRoundedSection from '@holi/ui/components/molecules/HoliRoundedSection'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const CATEGORY_ILLUSTRATIONS = {
   GLOBAL: require('@holi/ui/assets/img/illustrations/illustration_bell.svg'),
@@ -144,19 +146,28 @@ const WorkflowSettings = ({
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
+
+  const workflowName = t(`profile.settings.notifications.workflow.${workflow.id}`)
+
+  const onSelect = (channel: Channel, checked: boolean) => {
+    track(TrackingEvent.NotificationPreferenceChanged(workflow.id, workflowName, channel, checked))
+
+    updatePreference(workflow.id, channel, checked)
+  }
 
   return (
     <View style={[styles.row, style]} testID={workflow.id}>
       <HoliColumns>
         <SettingsNameColumn>
-          <HoliText>{t(`profile.settings.notifications.workflow.${workflow.id}`)}</HoliText>
+          <HoliText>{workflowName}</HoliText>
         </SettingsNameColumn>
         <SettingsCheckBoxColumn>
           {workflow.preferences.push !== null && (
             <HoliCheckbox
               checked={workflow.preferences.push}
               aria-label={t('profile.settings.notifications.channel.push')}
-              onSelect={(checked) => updatePreference(workflow.id, Channel.PUSH, checked)}
+              onSelect={(checked) => onSelect(Channel.PUSH, checked)}
               testID="push"
             />
           )}
@@ -166,7 +177,7 @@ const WorkflowSettings = ({
             <HoliCheckbox
               checked={workflow.preferences.email}
               aria-label={t('profile.settings.notifications.channel.email')}
-              onSelect={(checked) => updatePreference(workflow.id, Channel.EMAIL, checked)}
+              onSelect={(checked) => onSelect(Channel.EMAIL, checked)}
               testID="email"
             />
           )}

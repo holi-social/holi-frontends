@@ -73,6 +73,18 @@ const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnect
     }
   }
 
+  const onAccept = async () => {
+    await connect(userId)
+    setConnectionAccepted(true)
+    track(TrackingEvent.UserConnectionAccepted(userId, loggedInUser!.id))
+  }
+
+  const onReject = async () => {
+    await disconnect(userId)
+    setConnectionAccepted(false)
+    track(TrackingEvent.UserConnectionRejected(userId, loggedInUser!.id))
+  }
+
   const buttons = [
     <Button
       inline
@@ -80,12 +92,7 @@ const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnect
       variant="secondary"
       size="sm"
       label={t('notifications.connection.ignore')}
-      onPress={() =>
-        disconnect(userId).then(() => {
-          setConnectionAccepted(false)
-          track(TrackingEvent.UserConnectionRejected(userId, loggedInUser!.id))
-        })
-      }
+      onPress={onReject}
       disabled={loading}
       testID="ignore-connection-request-button"
     />,
@@ -95,12 +102,7 @@ const NotificationConnectionItem: React.FC<NotificationProps<NotificationConnect
       variant="primary"
       size="sm"
       label={t('notifications.connection.accept')}
-      onPress={() => {
-        connect(userId).then(() => {
-          setConnectionAccepted(true)
-          track(TrackingEvent.UserConnectionAccepted(userId, loggedInUser!.id))
-        })
-      }}
+      onPress={onAccept}
       disabled={loading}
       testID="accept-connection-request-button"
     />,

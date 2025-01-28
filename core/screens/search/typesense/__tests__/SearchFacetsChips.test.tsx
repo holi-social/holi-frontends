@@ -14,14 +14,14 @@ jest.mock('react-instantsearch-core', () => ({
 
 describe('SearchFacetsChips', () => {
   const clearRefinement = jest.fn()
-  const refine = jest.fn()
+  const mockRefine = jest.fn()
 
   const mockRefinementList = ({ items = facets }: Partial<ReturnType<typeof useRefinementList>> = {}) => {
     mockUseRefinementList.mockReturnValue({
       items,
       hasExhaustiveItems: false,
       createURL: jest.fn(),
-      refine,
+      refine: mockRefine,
       sendEvent: jest.fn(),
       searchForItems: jest.fn(),
       isFromSearch: false,
@@ -45,7 +45,7 @@ describe('SearchFacetsChips', () => {
   it('should render available facets', async () => {
     render(<SearchFacetsChips />)
 
-    const expectedLabels = ['all'].concat(facets.map((facet) => facet.label))
+    const expectedLabels = facets.map((facet) => facet.label)
     expectedLabels.forEach((label: string) => {
       expect(screen.getByLabelText(`search.typesense.facets.${label}`)).toBeOnTheScreen()
     })
@@ -58,7 +58,7 @@ describe('SearchFacetsChips', () => {
 
     await user.press(screen.getByLabelText('search.typesense.facets.profile'))
 
-    expect(refine).toHaveBeenCalledWith('profile')
+    expect(mockRefine).toHaveBeenCalledWith('profile')
   })
 
   it('should clear previous refinement on facet press', async () => {
@@ -82,37 +82,21 @@ describe('SearchFacetsChips', () => {
     expect(onFacetChange).toHaveBeenCalledWith('profile')
   })
 
-  it('should toggle refinement on already selected facet press', async () => {
+  it('should NOT toggle refinement on already selected facet press', async () => {
     const user = userEvent.setup()
 
-    render(<SearchFacetsChips />)
+    render(<SearchFacetsChips initialFacet="space" />)
+
+    // Space is initally selected (in the mocked facet state)
+    const chip = screen.getByLabelText('search.typesense.facets.space')
+    expect(chip).toHaveAccessibilityState({ checked: true })
+
+    mockRefine.mockReset()
 
     await user.press(screen.getByLabelText('search.typesense.facets.space'))
 
-    expect(refine).not.toHaveBeenCalled()
-    expect(clearRefinement).toHaveBeenCalled()
-  })
-
-  it('should clear refinment but not refine search when facet "all" is pressed', async () => {
-    const user = userEvent.setup()
-
-    render(<SearchFacetsChips />)
-
-    await user.press(screen.getByLabelText('search.typesense.facets.all'))
-
-    expect(refine).not.toHaveBeenCalled()
-    expect(clearRefinement).toHaveBeenCalled()
-  })
-
-  it('should call facet change callback with undefined when facet "all" is pressed', async () => {
-    const onFacetChange = jest.fn()
-    const user = userEvent.setup()
-
-    render(<SearchFacetsChips onFacetChange={onFacetChange} />)
-
-    await user.press(screen.getByLabelText('search.typesense.facets.all'))
-
-    expect(onFacetChange).toHaveBeenCalledWith(undefined)
+    expect(mockRefine).not.toHaveBeenCalled()
+    expect(clearRefinement).not.toHaveBeenCalled()
   })
 
   it('applies initial selection', async () => {
@@ -120,5 +104,40 @@ describe('SearchFacetsChips', () => {
 
     const chip = screen.getByLabelText('search.typesense.facets.space')
     expect(chip).toHaveAccessibilityState({ checked: true })
+  })
+
+  it('should select volunteering if no initial facet selection is given', async () => {
+    render(<SearchFacetsChips />)
+
+    expect(mockRefine).toHaveBeenCalledWith('volunteering')
+  })
+
+  it('should order facets in a stable way', async () => {
+    const validateOrder = (expectedOrder: string[]) => {
+      const labels = screen
+        .getAllByLabelText(/^search\.typesense\.facets\.[^.]+$/)
+        .map((facet) => facet.props.accessibilityLabel)
+      expect(labels).toEqual(expectedOrder)
+    }
+
+    // order should always be [volunteering, spaces, profiles], no matter which order is returned by Typesense
+    const { rerender } = render(<SearchFacetsChips />)
+    validateOrder([
+      'search.typesense.facets.volunteering',
+      'search.typesense.facets.space',
+      'search.typesense.facets.profile',
+    ])
+
+    mockRefinementList({ items: facets.reverse() })
+    rerender(<SearchFacetsChips />)
+    validateOrder([
+      'search.typesense.facets.volunteering',
+      'search.typesense.facets.space',
+      'search.typesense.facets.profile',
+    ])
+
+    mockRefinementList({ items: [facets[2], facets[0]] })
+    rerender(<SearchFacetsChips />)
+    validateOrder(['search.typesense.facets.volunteering', 'search.typesense.facets.space'])
   })
 })

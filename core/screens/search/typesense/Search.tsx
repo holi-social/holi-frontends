@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
 import { Dimensions, Platform, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
+import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 
 export type SearchParams = {
   query?: string
@@ -59,7 +60,7 @@ export const Search = () => {
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
   const [initialQuery] = useParam('query', singleParamConfig)
   const [initialFacet] = useParam('facet', singleParamConfig)
-  const updateParams = useUpdateParams()
+  const updateParams = useUpdateParams({ web: { replace: true } })
 
   return (
     <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
@@ -88,7 +89,9 @@ export const Search = () => {
         }}
         keyboardVerticalOffset={0}
       >
-        <SearchHitInfiniteList />
+        <ErrorBoundary>
+          <SearchHitInfiniteList />
+        </ErrorBoundary>
       </Screen>
     </InstantSearch>
   )

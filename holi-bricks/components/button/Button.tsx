@@ -12,13 +12,24 @@ import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
 
-export type ButtonVariant = 'primary' | 'secondary' | 'danger'
+import {
+  buttonBaseStyle,
+  buttonContentStyle,
+  type ButtonVariant as ButtonVariantBaseType,
+  getButtonDisabledStyle,
+  getButtonSelectedStyle,
+  getButtonTextVarianStyle,
+  getButtonVariantStyle,
+} from './helpers'
+
+export type ButtonVariant = Extract<ButtonVariantBaseType, 'primary' | 'secondary' | 'danger'>
+
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 export type ButtonProps = AccessibilityProps & {
   label: string
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
-  variant?: ButtonVariant
+  variant?: Extract<ButtonVariant, 'primary' | 'secondary' | 'danger'>
   disabled?: boolean
   size?: ButtonSize
   loading?: boolean
@@ -58,7 +69,7 @@ export const Button = ({
   const labelToShow = isSpinning && loadingLabel ? loadingLabel : label
 
   const handlePress = useCallback(
-    async (event: React.SyntheticEvent | GestureResponderEvent) => {
+    async (event: GestureResponderEvent) => {
       if (onPress && !isSpinning && !disabled) {
         setProcessing(true)
         try {
@@ -115,28 +126,13 @@ export const Button = ({
 const stylesheet = createStyleSheet((theme) => ({
   button: (hovered: boolean, pressed: boolean, inline: boolean) => {
     return {
-      borderRadius: 1000, // pill
-      borderStyle: 'solid',
-      borderWidth: 1,
-      display: 'flex',
+      ...buttonBaseStyle,
       width: inline ? 'auto' : '100%',
       variants: {
         variant: {
-          primary: {
-            backgroundColor: theme.components.button.primary.background,
-            borderColor: theme.components.button.primary.border,
-            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.primary.border}`,
-          },
-          secondary: {
-            backgroundColor: theme.components.button.secondary.background,
-            borderColor: theme.components.button.secondary.border,
-            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.secondary.border}`,
-          },
-          danger: {
-            backgroundColor: theme.components.button.danger.background,
-            borderColor: theme.components.button.danger.border,
-            boxShadow: `0 0 0 ${pressed ? '2px' : hovered ? '1px' : '0px'} ${theme.components.button.danger.border}`,
-          },
+          primary: getButtonVariantStyle({ variant: 'primary', theme, pressed, hovered }),
+          secondary: getButtonVariantStyle({ variant: 'secondary', theme, pressed, hovered }),
+          danger: getButtonVariantStyle({ variant: 'danger', theme, pressed, hovered }),
         },
         size: {
           sm: {
@@ -149,29 +145,12 @@ const stylesheet = createStyleSheet((theme) => ({
             paddingHorizontal: Spacing.md,
           },
         },
-        selected: {
-          true: {
-            backgroundColor: theme.components.button.selected.background,
-            borderColor: theme.components.button.selected.border,
-          },
-        },
-        disabled: {
-          true: {
-            backgroundColor: theme.components.button.disabled.background,
-            borderColor: theme.components.button.disabled.border,
-          },
-        },
+        selected: getButtonSelectedStyle(theme),
+        disabled: getButtonDisabledStyle(theme),
       },
     }
   },
-  content: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-
+  content: buttonContentStyle,
   textContainer: (size: ButtonSize) => {
     const heightBySize = {
       sm: Spacing.lg,
@@ -183,13 +162,6 @@ const stylesheet = createStyleSheet((theme) => ({
       justifyContent: 'center',
     }
   },
-  text: (disabled: boolean, selected: boolean, variant: ButtonVariant) => {
-    return {
-      color: disabled
-        ? theme.components.button.disabled.text
-        : selected
-          ? theme.components.button.selected.text
-          : theme.components.button[variant].text,
-    }
-  },
+  text: (disabled: boolean, selected: boolean, variant: ButtonVariant) =>
+    getButtonTextVarianStyle({ variant, theme, disabled, selected }),
 }))

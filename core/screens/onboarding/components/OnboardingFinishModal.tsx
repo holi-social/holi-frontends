@@ -60,7 +60,7 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
           </Text>
 
           <HoliBox padding={[Spacing.md, 0]}>
-            <Text size="md" variant="secondary">
+            <Text size="md" color="support">
               {t('onboarding.communityGuidelines.description')}
             </Text>
 
@@ -75,7 +75,7 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
             </View>
           </HoliBox>
 
-          <Text size="md" variant="secondary">
+          <Text size="md" color="support">
             <Trans t={t} i18nKey={'onboarding.communityGuidelines.readDocument'}>
               <HoliTextLink
                 label={t('onboarding.communityGuidelines.term')}

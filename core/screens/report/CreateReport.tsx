@@ -142,7 +142,7 @@ const CreateReport = () => {
                 >
                   <View style={styles.reasonTextContainer}>
                     <Text size="lg">{t(`report.reason.${reason}.title`)}</Text>
-                    <Text size="sm" variant="secondary">
+                    <Text size="sm" color="support">
                       {t(`report.reason.${reason}.description`)}
                     </Text>
                   </View>
@@ -167,7 +167,7 @@ const CreateReport = () => {
                   subject: t(`report.reason.${selectedReason}.title`).toLowerCase(),
                 })}
               </Text>
-              <Text size="sm" variant="secondary">
+              <Text size="sm" color="support">
                 {t(`report.reason.${selectedReason}.description`)}
               </Text>
             </View>
@@ -186,7 +186,7 @@ const CreateReport = () => {
                 />
               </View>
               {showTermsError && (
-                <Text size="sm" variant="error">
+                <Text size="sm" color="danger">
                   {t('report.details.termsError')}
                 </Text>
               )}

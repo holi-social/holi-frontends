@@ -46,6 +46,7 @@ exports[`React tree renders correctly with new notifications badge 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    style={false}
     testID="bell-button"
   >
     <View
@@ -186,6 +187,7 @@ exports[`React tree renders without new notifications badge 1`] = `
     onResponderTerminate={[Function]}
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
+    style={false}
     testID="bell-button"
   >
     <View

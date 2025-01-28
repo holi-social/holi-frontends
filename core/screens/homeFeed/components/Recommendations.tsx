@@ -37,7 +37,7 @@ const RecommendationsHeader = () => {
       </Text>
       <HoliGap size="xs" />
       {subtitle && (
-        <Text size="md" variant="secondary">
+        <Text size="md" color="support">
           {t(subtitle)}
         </Text>
       )}
