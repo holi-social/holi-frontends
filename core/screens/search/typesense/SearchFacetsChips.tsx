@@ -61,7 +61,14 @@ export const SearchFacetsChips = ({ initialFacet, onFacetChange }: SearchFacetsC
           {orderedItems.map(({ item }) => {
             const label = t(`search.typesense.facets.${item.label}`)
             return (
-              <SelectableChip id={item.value} key={item.value} color="white" size="md" aria-label={label}>
+              <SelectableChip
+                id={item.value}
+                key={item.value}
+                color="white"
+                size="md"
+                aria-label={label}
+                testID={`facet-${item.value}`}
+              >
                 {label}
               </SelectableChip>
             )
