@@ -4,13 +4,11 @@ import React from 'react'
 import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
 import TaskDetails from '@holi/core/screens/spaces/tasks/TaskDetails'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
-import { coerceToUUIDString } from '@holi/core/helpers'
 
 const TaskDetailsPage: NextPage = () => <TaskDetails />
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const { spaceIdOrName, taskId: originalTaskId } = context.query
-  const taskId = coerceToUUIDString(originalTaskId)
+  const { spaceIdOrName, taskId } = context.query
 
   const queries = [
     {
@@ -22,6 +20,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   ]
 
   return createServerSideProps(context, queries, {
+    uuidParams: [taskId],
     urls: {
       en: `/spaces/${spaceIdOrName}/tasks/${taskId}`,
       de: `/spaces/${spaceIdOrName}/aufgaben/${taskId}`,

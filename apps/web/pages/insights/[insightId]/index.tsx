@@ -4,13 +4,11 @@ import React from 'react'
 import InsightDetailPage from '@holi/core/screens/insights/InsightDetailPage'
 import { insightById } from '@holi/core/screens/insights/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
-import { coerceToUUIDString } from '@holi/core/helpers'
 
 const InsightPage: NextPage = () => <InsightDetailPage />
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const { insightId: originalInsightId } = context.query
-  const insightId = coerceToUUIDString(originalInsightId)
+  const { insightId } = context.query
 
   const queries = [
     {
@@ -22,7 +20,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries)
+  return createServerSideProps(context, queries, { uuidParams: [insightId] })
 }
 
 export default InsightPage
