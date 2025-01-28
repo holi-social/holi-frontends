@@ -14,30 +14,29 @@ test.describe('@Search', () => {
       return
     }
 
-    // Test search by query - expecting any result
-    const allHitTypes = ['search-hit-volunteering', 'search-hit-profile', 'search-hit-space']
-      .map((testID) => byTestId(testID))
-      .join(', ')
-    await page.waitForSelector(allHitTypes)
+    // Volunteering is selected by default
+    await page.waitForSelector(byTestId('search-hit-volunteering'))
+
+    // Test search by query
     const emailInput = await locateElementByTestId(page, 'search-input')
     await emailInput.fill('Test')
-    await page.waitForSelector(allHitTypes)
+    await page.waitForSelector(byTestId('search-hit-volunteering'))
 
     // Clear query to prepare for facet filtering
     await clickElementByTestId(page, 'search-input-clear')
-    await page.waitForSelector(allHitTypes)
+    await page.waitForSelector(byTestId('search-hit-volunteering'))
 
     // Check accessibility
     await checkAccessibility(page)
 
     // Test facet filters
-    await clickElementByTestId(page, 'facet-volunteering')
-    await page.waitForSelector(byTestId('search-hit-volunteering'))
-
     await clickElementByTestId(page, 'facet-profile')
     await page.waitForSelector(byTestId('search-hit-profile'))
 
     await clickElementByTestId(page, 'facet-space')
     await page.waitForSelector(byTestId('search-hit-space'))
+
+    await clickElementByTestId(page, 'facet-volunteering')
+    await page.waitForSelector(byTestId('search-hit-volunteering'))
   })
 })

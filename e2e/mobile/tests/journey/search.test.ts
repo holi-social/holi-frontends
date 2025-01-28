@@ -5,7 +5,6 @@ import {
   fillFieldByTestId,
   pressEnter,
   tapOnElementWithTestId,
-  waitForAnyElementWithTestId,
   waitForElementWithTestId,
 } from '@holi/e2e-mobile/helpers/selectors'
 
@@ -42,28 +41,29 @@ describe('@Search', () => {
       return
     }
 
-    // Test search by query - expecting any result
-    const allHitTypes = ['search-hit-volunteering', 'search-hit-profile', 'search-hit-space']
-    await waitForAnyElementWithTestId(allHitTypes)
+    // Volunteering is selected by default
+    await waitForElementWithTestId('search-hit-volunteering')
+
+    // Test search by query
     await fillFieldByTestId('search-input', 'Test')
-    await waitForAnyElementWithTestId(allHitTypes)
+    await waitForElementWithTestId('search-hit-volunteering')
 
     // Clear query to prepare for facet filtering
     await tapOnElementWithTestId('search-input-clear')
-    await waitForAnyElementWithTestId(allHitTypes)
+    await waitForElementWithTestId('search-hit-volunteering')
 
     // Close keyboard by submitting (empty) input
     await pressEnter('search-input')
-    await waitForAnyElementWithTestId(allHitTypes)
-
-    // Test facet filters
-    await tapOnElementWithTestId('facet-volunteering')
     await waitForElementWithTestId('search-hit-volunteering')
 
+    // Test facet filters
     await tapOnElementWithTestId('facet-profile')
     await waitForElementWithTestId('search-hit-profile')
 
     await tapOnElementWithTestId('facet-space')
     await waitForElementWithTestId('search-hit-space')
+
+    await tapOnElementWithTestId('facet-volunteering')
+    await waitForElementWithTestId('search-hit-volunteering')
   })
 })
