@@ -17,7 +17,7 @@ import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
-import { Dimensions, Platform, View } from 'react-native'
+import { View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 
@@ -31,8 +31,6 @@ const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location', 'user_full_name']
 
 const embeddingFields = ['embedding']
-
-const TOP_COMPONENT_HEIGHT = 144
 
 const createTypesenseInstantSearchAdapter = () => {
   return new TypesenseInstantSearchAdapter({
@@ -65,7 +63,10 @@ export const Search = () => {
   return (
     <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
       <Screen
+        backgroundColor="page"
         preset="fixed"
+        contentContainerPadding={{}}
+        contentContainerStyle={{ flex: 1 }} // this is needed because flash list has no initial size, it calculates it while rendering.
         headerOptions={{
           title: t('search.title'),
           headerTitleAlign: 'center',
@@ -73,8 +74,6 @@ export const Search = () => {
             footerShown: false,
           },
         }}
-        style={styles.screen}
-        contentContainerStyle={styles.container}
         StickyTopComponent={
           <View style={styles.filterContainer}>
             <HoliBox padding={[0, dimensions.spacingS]}>
@@ -83,11 +82,6 @@ export const Search = () => {
             <SearchFacetsChips initialFacet={initialFacet} onFacetChange={(facet) => updateParams({ facet })} />
           </View>
         }
-        padding={{}}
-        keyboardAvoidingViewProps={{
-          style: styles.wrapper,
-        }}
-        keyboardVerticalOffset={0}
       >
         <ErrorBoundary>
           <SearchHitInfiniteList />
@@ -98,26 +92,6 @@ export const Search = () => {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  screen: {
-    ...Platform.select({
-      native: {
-        maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
-      },
-      web: {
-        maxHeight: Dimensions.get('window').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
-      },
-    }),
-  },
-  wrapper: {
-    ...Platform.select({
-      native: {
-        maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight,
-      },
-    }),
-  },
-  container: {
-    flex: 1,
-  },
   filterContainer: {
     paddingTop: dimensions.spacingS,
     gap: dimensions.spacingS,
