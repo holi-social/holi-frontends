@@ -5,6 +5,7 @@ import type { NextPageContext } from 'next'
 import { WebApolloClientOptions } from '@holi/api/graphql/client'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { HoliPageProps } from '@holi/web/types'
+import { createUUID } from '@holi/core/helpers'
 
 const mockLoadTranslations = jest.fn()
 jest.mock('ni18n', () => ({
@@ -258,5 +259,43 @@ describe('createServerSideProps', () => {
     const props = await createServerSideProps(context)
 
     expect(new HoliPageProps(props).user).toEqual(expectedUserProps)
+  })
+
+  it('should redirect on invalid UUID params before executing any queries', async () => {
+    const uuid1 = createUUID()
+    const uuid2 = createUUID()
+    const param1 = `${uuid1},`
+    const param2 = `${uuid2}👀`
+    const url = `/path/${param1}/${param2}`
+    const expectedUrl = `/path/${uuid1}/${uuid2}`
+
+    // @ts-ignore
+    const props = await createServerSideProps({ req: { url } }, [query1], { uuidParams: [param1, param2] })
+
+    expect(mockQueryFunction).not.toHaveBeenCalled()
+    expect(props).toEqual({
+      redirect: {
+        destination: expectedUrl,
+        permanent: true,
+      },
+    })
+  })
+
+  it('should not redirect on valid UUID params', async () => {
+    const param1 = createUUID()
+    const param2 = createUUID()
+    const url = `/path/${param1}/${param2}`
+    const customProps = { uuidParams: [param1, param2] }
+
+    // @ts-ignore
+    const props = await createServerSideProps({ req: { url } }, [query1], customProps)
+
+    expect(mockQueryFunction).toHaveBeenCalledWith(query1)
+    expect(props).toEqual({
+      props: {
+        ...expectedProps,
+        customProps,
+      },
+    })
   })
 })
