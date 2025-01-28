@@ -78,6 +78,21 @@ describe('Selector', () => {
     expect(mockFn).toHaveBeenCalledWith(['1'])
   })
 
+  it('does not toggle selection in radio mode', () => {
+    const mockFn = jest.fn()
+    render(
+      <Selector title={'title'} onChange={mockFn} inputType="radio">
+        <SelectableCard title={'card1'} id={'1'} />
+        <SelectableCard title={'card2'} id={'2'} />
+      </Selector>
+    )
+    fireEvent.press(screen.getByText('card1'))
+    expect(mockFn).toHaveBeenCalledWith(['1'])
+
+    fireEvent.press(screen.getByText('card1'))
+    expect(mockFn).toHaveBeenCalledWith(['1'])
+  })
+
   it('calls childrens onPress correctly when clicked', () => {
     const mockFn = jest.fn()
     const mockFn1 = jest.fn()
