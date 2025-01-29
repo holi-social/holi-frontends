@@ -5739,6 +5739,7 @@ __metadata:
     "@types/lodash.partition": "npm:^4.6.9"
     "@types/lodash.shuffle": "npm:^4.2.9"
     "@types/react": "npm:~18.2.79"
+    "@types/react-native-get-random-values": "npm:^1"
     apollo-link-timeout: "npm:^4.0.0"
     eslint: "npm:^8.33.0"
     expo: "npm:~51.0.38"
@@ -5787,6 +5788,7 @@ __metadata:
     react-native-calendars: "npm:^1.1306.0"
     react-native-controlled-mentions: "npm:^2.2.5"
     react-native-gesture-handler: "npm:~2.16.1"
+    react-native-get-random-values: "npm:^1.11.0"
     react-native-image-crop-picker: "npm:^0.41.2"
     react-native-image-pan-zoom: "npm:^2.1.12"
     react-native-keyboard-controller: "npm:^1.15.2"
@@ -13399,6 +13401,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-native-get-random-values@npm:^1":
+  version: 1.8.2
+  resolution: "@types/react-native-get-random-values@npm:1.8.2"
+  checksum: 10c0/66c0268151d0673bff88828d82d4087aeabbe29a8ffe433f50e2593cd04872fc890f0d2660203435d13412b10d866d24a3ab72981cf481e5676ccf88de12c235
+  languageName: node
+  linkType: hard
+
 "@types/react-transition-group@npm:^4.4.11":
   version: 4.4.11
   resolution: "@types/react-transition-group@npm:4.4.11"
@@ -20268,6 +20277,13 @@ __metadata:
   version: 1.4.1
   resolution: "extsprintf@npm:1.4.1"
   checksum: 10c0/e10e2769985d0e9b6c7199b053a9957589d02e84de42832c295798cb422a025e6d4a92e0259c1fb4d07090f5bfde6b55fd9f880ac5855bd61d775f8ab75a7ab0
+  languageName: node
+  linkType: hard
+
+"fast-base64-decode@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "fast-base64-decode@npm:1.0.0"
+  checksum: 10c0/6d8feab513222a463d1cb58d24e04d2e04b0791ac6559861f99543daaa590e2636d040d611b40a50799bfb5c5304265d05e3658b5adf6b841a50ef6bf833d821
   languageName: node
   linkType: hard
 
@@ -29250,6 +29266,17 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/cd31794870edc51bc7051bf22893b19cebda5754c2fbd381f72e6ae6a718c26c5cf6966ad2f80e15e3a3217d09cc3e2e1637132f70bf44aacf62ea15a7636c98
+  languageName: node
+  linkType: hard
+
+"react-native-get-random-values@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "react-native-get-random-values@npm:1.11.0"
+  dependencies:
+    fast-base64-decode: "npm:^1.0.0"
+  peerDependencies:
+    react-native: ">=0.56"
+  checksum: 10c0/2ce71f1ab7f5b36d4a9dd59cc80b4aa75526f047c6680a7f1a388fa8b9a62efdacaf7b7de3be593c73e882773b2eee74916b00f7c8b158e40b46388998218586
   languageName: node
   linkType: hard
 
