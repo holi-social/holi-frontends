@@ -40,6 +40,8 @@ import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboard
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -54,6 +56,7 @@ const ChatRoomView = () => {
   const { navigateBack, replaceRoute } = useRouting()
   const chatInitialized = useChatInitialized()
   const { styles } = useStyles(stylesheet)
+  const { track } = useTracking()
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
@@ -175,6 +178,30 @@ const ChatRoomView = () => {
   // reset header when screen is focused
   useShowHeaderOnScreenFocus()
 
+  const sendTrackingEvent = () => {
+    if (!loggedInUser || !room) return
+
+    if (isSpaceRoom) {
+      track(
+        TrackingEvent.Chat.MessageSent({
+          roomId: room.id,
+          type: 'space_message',
+          content: 'text',
+          spaceId: room.content.holiSpaceId,
+          spaceName: room.content.spaceName,
+        })
+      )
+    } else {
+      track(
+        TrackingEvent.Chat.MessageSent({
+          roomId: room.id,
+          type: 'direct_message',
+          content: 'text',
+        })
+      )
+    }
+  }
+
   // TODO: provide skeleton instead of HoliLoader
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
 
@@ -222,6 +249,7 @@ const ChatRoomView = () => {
                     isVisible={!room.hasInvitation}
                     userName={chatPartnerHoliUser?.fullName}
                     roomId={roomId}
+                    onMessageSent={sendTrackingEvent}
                   />
                 </HoliContainer>
               </View>
