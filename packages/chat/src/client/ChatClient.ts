@@ -319,7 +319,17 @@ export default class ChatClient {
   }
 
   public async getParentSpaceByRoom(roomId: string) {
-    return await this.mxClient.getStateEvent(roomId, EventType.SpaceParent, '')
+    try {
+      return await this.mxClient.getStateEvent(roomId, EventType.SpaceParent, '')
+    } catch (error: unknown) {
+      if ((error as MatrixError).errcode === 'M_FORBIDDEN') {
+        return undefined
+      } else if ((error as MatrixError).errcode === 'M_NOT_FOUND') {
+        return undefined
+      } else {
+        throw error
+      }
+    }
   }
 
   /**

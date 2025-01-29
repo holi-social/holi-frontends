@@ -10,6 +10,8 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Avatar } from 'holi-bricks/components/avatar'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { Task } from '@holi/core/screens/spaces/types'
+import { useQuery } from '@apollo/client'
+import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 
 interface RoomMessageListStartProps {
   chatPartnerHoliUsers: User[]
@@ -22,6 +24,14 @@ const RoomMessageListStart = ({ chatPartnerHoliUsers, members, task, parentSpace
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
+  const { data } = useQuery(spaceByIdQuery, {
+    variables: {
+      idOrName: parentSpaceId,
+    },
+    skip: !parentSpaceId,
+  })
+  const spaceName = data?.spaceById.title
+
   const chatDescription = () => {
     const chatPartnersNames = chatPartnerHoliUsers.map((user) => user.fullName).join(', ')
     if (task) {
@@ -30,7 +40,7 @@ const RoomMessageListStart = ({ chatPartnerHoliUsers, members, task, parentSpace
           <Trans
             t={t}
             i18nKey={'chat.room.start.group.description'}
-            values={{ fullName: chatPartnersNames, taskName: task.name, spaceName: parentSpaceId }}
+            values={{ fullName: chatPartnersNames, taskName: task.name, spaceName: spaceName }}
             components={{
               fullName: (
                 <TextLink
