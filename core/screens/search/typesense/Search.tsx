@@ -17,7 +17,7 @@ import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
-import { View } from 'react-native'
+import { Dimensions, Platform, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 
@@ -67,6 +67,7 @@ export const Search = () => {
         preset="fixed"
         contentContainerPadding={{}}
         contentContainerStyle={{ flex: 1 }} // this is needed because flash list has no initial size, it calculates it while rendering.
+        style={styles.screen}
         headerOptions={{
           title: t('search.title'),
           headerTitleAlign: 'center',
@@ -91,11 +92,19 @@ export const Search = () => {
   )
 }
 
+const TOP_COMPONENT_HEIGHT = 144
 const stylesheet = createStyleSheet((theme) => ({
   filterContainer: {
     paddingTop: dimensions.spacingS,
     gap: dimensions.spacingS,
     flex: 1,
     backgroundColor: theme.colors.bg.page,
+  },
+  screen: {
+    ...Platform.select({
+      web: {
+        maxHeight: Dimensions.get('window').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+      },
+    }),
   },
 }))
