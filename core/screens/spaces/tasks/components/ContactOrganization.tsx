@@ -165,6 +165,7 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
   const { space } = useSpace(spaceIdOrName)
   const { adminsAsUser } = useAdmins(spaceIdOrName)
   const [alreadyStarted, setAlreadyStarted] = useState<boolean>(false)
+  const { user } = useLoggedInUser()
 
   useEffect(() => {
     const checkChatExists = async () => {
@@ -180,6 +181,11 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
   }, [adminsAsUser])
 
   if (!spaceIdOrName) return null
+
+  const isAlreadyAdmin = adminsAsUser?.some((admin) => {
+    return admin.id === user?.id
+  })
+  if (isAlreadyAdmin) return null
 
   return (
     <HoliActionDrawer.Drawer
