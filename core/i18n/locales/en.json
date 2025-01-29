@@ -155,7 +155,7 @@
   "chat.room.noMessages": "No messages yet",
   "chat.room.sendButton.label": "Send message",
   "chat.room.start.description": "This is the beginning of your direct message history with <0>{{fullName}}</0>. Only the two of you see this conversation.",
-  "chat.room.start.group.description": "This is the beginning of your direct message history with <0>{{fullName}}</0>. Only you are in this conversation, unless either of you invite anyone else to join.\n\nThis chat was created to discuss <0>{{taskName}}</0> task.",
+  "chat.room.start.group.description": "This is the beginning of your direct message history with <fullName>{{fullName}}</fullName> from <spaceName>{{spaceName}}</spaceName>. Only you are in this conversation, unless either of you invite anyone else to join.\n\nThis chat was created to discuss <taskName>{{taskName}}</taskName> task.",
   "chat.start.button.label": "Message",
   "chat.start.description": "Go ahead and type in the name of the person you want to start a chat with.",
   "chat.start.input.error": "The person's name needs to have at least {{count}} letters.",

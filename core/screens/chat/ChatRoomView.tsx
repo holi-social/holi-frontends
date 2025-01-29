@@ -14,6 +14,7 @@ import RoomMessageListStart from '@holi/chat/src/components/RoomMessageList/Room
 import {
   chatPartnerAtomCreator,
   getHoliUserForChatMember,
+  getParentSpaceByRoom,
   getTopicByRoomId,
   isRoomCreator,
   setLatestMessagesAsRead,
@@ -79,6 +80,7 @@ const ChatRoomView = () => {
     .filter((holiUser): holiUser is User => holiUser !== undefined)
 
   const [taskId, setTaskId] = useState<string>()
+  const [parentSpaceId, setParentSpaceId] = useState<string>()
   const isSpaceRoom = room && isSpaceChildChatRoom(room)
 
   const { openToast } = useToast()
@@ -87,8 +89,10 @@ const ChatRoomView = () => {
     const getTopic = async () => {
       try {
         const roomTopic = await getTopicByRoomId(roomId)
+        const parentSpace = await getParentSpaceByRoom(roomId)
         if (roomTopic?.topic === ChatTopics.SpaceTaskChat) {
           setTaskId(roomTopic.taskId)
+          setParentSpaceId(parentSpace?.holiSpaceId)
         }
       } catch (error: unknown) {
         if ((error as { response?: { status: number } })?.response?.status === 404) {
@@ -263,7 +267,8 @@ const ChatRoomView = () => {
                             <RoomMessageListStart
                               members={chatPartners}
                               chatPartnerHoliUsers={chatPartnerHoliUsers}
-                              taskName={task?.name}
+                              task={task}
+                              parentSpaceId={parentSpaceId}
                             />
                           </View>
                         )

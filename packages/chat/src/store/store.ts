@@ -395,6 +395,10 @@ export const getTopicByRoomId = async (roomId: string) => {
   return await getChatClient().getTopicByRoomId(roomId)
 }
 
+export const getParentSpaceByRoom = async (roomId: string) => {
+  return await getChatClient().getParentSpaceByRoom(roomId)
+}
+
 /**
  * @name joinRoom
  * @description Join a Matrix room by accepting the invitation. If you have

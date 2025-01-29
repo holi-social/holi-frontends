@@ -9,33 +9,48 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Avatar } from 'holi-bricks/components/avatar'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import type { Task } from '@holi/core/screens/spaces/types'
 
 interface RoomMessageListStartProps {
   chatPartnerHoliUsers: User[]
   members: ChatRoomMember[] | undefined
-  taskName?: string
+  task?: Task
+  parentSpaceId?: string
 }
 
-const RoomMessageListStart = ({ chatPartnerHoliUsers, members, taskName }: RoomMessageListStartProps) => {
+const RoomMessageListStart = ({ chatPartnerHoliUsers, members, task, parentSpaceId }: RoomMessageListStartProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
   const chatDescription = () => {
     const chatPartnersNames = chatPartnerHoliUsers.map((user) => user.fullName).join(', ')
-    if (taskName) {
+    if (task) {
       return (
         <Text size="md" color="support">
           <Trans
             t={t}
             i18nKey={'chat.room.start.group.description'}
-            values={{ fullName: chatPartnersNames, taskName: taskName }}
-          >
-            <TextLink
-              onPress={() => navigate(`/profile/${chatPartnerHoliUsers[0].id}`)} // todo: displays error
-              size="md"
-              color="informative"
-            />
-          </Trans>
+            values={{ fullName: chatPartnersNames, taskName: task.name, spaceName: parentSpaceId }}
+            components={{
+              fullName: (
+                <TextLink
+                  onPress={() => navigate(`/profile/${chatPartnerHoliUsers[0].id}`)}
+                  size="md"
+                  color="informative"
+                />
+              ),
+              taskName: (
+                <TextLink
+                  onPress={() => navigate(`/spaces/${parentSpaceId}/tasks/${task.id}`)}
+                  size="md"
+                  color="informative"
+                />
+              ),
+              spaceName: (
+                <TextLink onPress={() => navigate(`/spaces/${parentSpaceId}`)} size="md" color="informative" />
+              ),
+            }}
+          />
         </Text>
       )
     }

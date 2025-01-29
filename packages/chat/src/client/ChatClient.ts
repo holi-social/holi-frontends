@@ -306,6 +306,10 @@ export default class ChatClient {
     }
   }
 
+  public async getParentSpaceByRoom(roomId: string) {
+    return await this.mxClient.getStateEvent(roomId, EventType.SpaceParent, '')
+  }
+
   /**
    * @description Collect all the space children's events for spaces and create
    * a record of space to children's IDs.
