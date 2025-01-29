@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from 'next'
+import type { NextPage, NextPageContext } from 'next'
 import React from 'react'
 
 import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
@@ -20,6 +20,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   ]
 
   return createServerSideProps(context, queries, {
+    uuidParams: [taskId],
     urls: {
       en: `/spaces/${spaceIdOrName}/tasks/${taskId}`,
       de: `/spaces/${spaceIdOrName}/aufgaben/${taskId}`,

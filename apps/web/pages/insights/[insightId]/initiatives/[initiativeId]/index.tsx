@@ -1,4 +1,4 @@
-import { NextPageContext } from 'next'
+import type { NextPageContext } from 'next'
 import React from 'react'
 
 import InitiativeDetailPage from '@holi/core/screens/insights/initiatives/InitiativeDetailPage'
@@ -21,7 +21,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries)
+  return createServerSideProps(context, queries, { uuidParams: [insightId, initiativeId] })
 }
 
 export default InitiativePage

@@ -6,11 +6,11 @@ import type { SeoUrls } from '@holi/core/components/HoliHead/types'
 const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 const POSTHOG_BOOTSTRAP_PROP_NAME = '__POSTHOG_BOOTSTRAP__'
 const USER_PROP_NAME = '__USER__'
-
 export interface CustomProps {
   seoTitle?: string
   urls?: SeoUrls
   blockIndexing?: boolean
+  uuidParams?: (string | string[] | undefined)[]
 }
 
 export interface UserPageProps {

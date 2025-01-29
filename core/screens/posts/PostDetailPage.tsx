@@ -38,17 +38,17 @@ export type PostDetailPageParams = {
   spaceIdOrName?: string
 }
 
-const { useParam } = createParamHooks<PostDetailPageParams>()
+const { useParam, useUUIDParam } = createParamHooks<PostDetailPageParams>()
 
 const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
 const PostDetailPage = () => {
-  const [insightId] = useParam('insightId')
+  const [insightId] = useUUIDParam('insightId')
   const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [postId] = useParam('postId')
+  const [postId] = useUUIDParam('postId')
   // `commentId` can be a UUID of a comment or hardcoded 'first' string value
-  const [commentId] = useParam('commentId')
+  const [commentId] = useUUIDParam('commentId')
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { navigateWithAuth } = useAuthRequiredNavigation()

@@ -20,7 +20,10 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries, { blockIndexing: true })
+  return createServerSideProps(context, queries, {
+    uuidParams: [userId],
+    blockIndexing: true,
+  })
 }
 
 export default UserProfilePage

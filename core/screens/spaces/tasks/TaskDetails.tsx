@@ -28,11 +28,11 @@ export type TaskDetailsParams = {
   taskId: string
 }
 
-const { useParam } = createParamHooks<TaskDetailsParams>()
+const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
 
 const TaskDetails = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
-  const [taskId] = useParam('taskId')
+  const [taskId] = useUUIDParam('taskId')
   const setScreenOptions = useSetScreenOptions()
   const { replaceRoute } = useRouting()
   const { displayError } = useErrorHandling()

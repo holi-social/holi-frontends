@@ -18,13 +18,14 @@ export type CreateUpdateParams = {
   postId?: string
 }
 
-const { useParam } = createParamHooks<CreateUpdateParams>()
+const { useParam, useUUIDParam } = createParamHooks<CreateUpdateParams>()
 
 const CreateSpaceUpdate = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
-  const [postId] = useParam('postId')
+  const [postId] = useUUIDParam('postId')
+
   const { theme } = useTheme()
   const { colors } = theme
 

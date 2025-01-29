@@ -36,11 +36,11 @@ export type QuoteDetailPageParams = {
   quoteId: string
 }
 
-const { useParam } = createParamHooks<QuoteDetailPageParams>()
+const { useUUIDParam } = createParamHooks<QuoteDetailPageParams>()
 
 const QuoteDetailPage = () => {
-  const [insightId] = useParam('insightId')
-  const [quoteId] = useParam('quoteId')
+  const [insightId] = useUUIDParam('insightId')
+  const [quoteId] = useUUIDParam('quoteId')
 
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()
