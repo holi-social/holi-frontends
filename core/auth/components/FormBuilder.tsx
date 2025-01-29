@@ -33,6 +33,7 @@ interface Props<T> {
   textInputOverride?: TextInputOverride
   scrollToInputWithId?: (id: string) => ScrollToProps
   autofocusField?: NodeId
+  noAutofocusForEmail?: boolean
   translationPrefix?: string
   style?: ViewStyle | ViewStyle[] | Record<string, unknown>
 }
@@ -53,6 +54,7 @@ const FormBuilder = <
   textInputOverride,
   scrollToInputWithId,
   autofocusField,
+  noAutofocusForEmail = false,
   translationPrefix = 'auth.login.',
   style,
 }: Props<T>) => {
@@ -68,7 +70,7 @@ const FormBuilder = <
   const isEmailField = (name: string) => name === 'identifier' || name === 'traits.email' || name === 'email'
   const hasAutofocus = (node: UiNode) => {
     const name = getNodeId(node)
-    const hasFocus = autofocusField === name || isEmailField(name)
+    const hasFocus = autofocusField === name || (!noAutofocusForEmail && isEmailField(name))
     return hasFocus && !(node.attributes as UiNodeInputAttributes).disabled
   }
 

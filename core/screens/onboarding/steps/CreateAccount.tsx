@@ -149,7 +149,7 @@ export const CreateAccount = ({
         </Text>
         <HoliGap size="xs" />
         <Text size="md">{t('registration.signUp.description')}</Text>
-        <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} />
+        <FormBuilder flow={flow} onSubmit={onSubmit} style={styles.loginForm} noAutofocusForEmail />
         <HoliGap size="s" />
         <ButtonTracked
           label={t('auth.loginProtection.continueAsGuest')}
