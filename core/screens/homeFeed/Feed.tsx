@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useContext, useMemo, useCallback } from 'react'
+import React, { memo, useContext, useMemo, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, RefreshControl } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -34,6 +34,7 @@ import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 import InsightCard from '@holi/core/screens/insights/components/InsightCard'
+import { useScrollToTop } from '@react-navigation/native'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -47,6 +48,8 @@ const HomeFeed = () => {
   const { topics: allTopics } = useContext(SpaceTermContext)
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing, insightsCreators } =
     useFeedQuery()
+
+  const ref = useRef(null)
 
   const keyExtractor = useCallback(
     (
@@ -140,6 +143,8 @@ const HomeFeed = () => {
     )
   }
 
+  useScrollToTop(ref)
+
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: '',
@@ -209,6 +214,7 @@ const HomeFeed = () => {
               trackOnce={true}
               withFlashList={false}
               estimatedItemSize={260}
+              ref={ref}
             />
           </ErrorBoundary>
         </View>

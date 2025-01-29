@@ -1,10 +1,10 @@
-import React, { type PropsWithChildren, ReactNode } from 'react'
-import { IntersectionObserverProps, useInView } from 'react-intersection-observer'
-import { FlatList, ListRenderItem } from 'react-native'
+import React, { type PropsWithChildren, type ReactNode, useRef } from 'react'
+import { type IntersectionObserverProps, useInView } from 'react-intersection-observer'
+import { FlatList, type ListRenderItem } from 'react-native'
 
 import {
-  TrackableFlatListItem as TrackableFlatListItemType,
-  TrackableFlatListProps,
+  type TrackableFlatListItem as TrackableFlatListItemType,
+  type TrackableFlatListProps,
   defaultViewabilityConfig,
 } from '@holi/core/tracking/TrackableFlatList.shared'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -47,6 +47,8 @@ const TrackableFlatList = ({
   renderItem,
   ...restProps
 }: TrackableFlatListProps) => {
+  const flatListRef = useRef<FlatList<TrackableFlatListItemType>>(null)
+
   const { track } = useTracking()
 
   const onInView = (item: TrackableFlatListItemType) => {
@@ -65,7 +67,13 @@ const TrackableFlatList = ({
     </TrackableFlatListItem>
   )
 
-  return <FlatList {...restProps} renderItem={extendedRenderItem} />
+  return (
+    <FlatList
+      {...restProps}
+      ref={flatListRef}
+      renderItem={extendedRenderItem as ListRenderItem<TrackableFlatListItemType>}
+    />
+  )
 }
 
 export default TrackableFlatList

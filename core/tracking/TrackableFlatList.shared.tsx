@@ -1,6 +1,8 @@
-import type { FlatListProps } from 'react-native'
+import type { FlatList, FlatListProps } from 'react-native'
 
 import type { TrackingEvent } from '@holi/core/tracking/events'
+
+import type { FlashList } from '@shopify/flash-list'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TrackableFlatListItem = any
@@ -25,6 +27,8 @@ export type TrackableFlatListParams = {
 
   // a flag that defines whether an item should be tracked only once or every time it's viewed
   trackOnce?: boolean
+
+  ref?: React.Ref<FlatList<TrackableFlatListItem> | FlashList<TrackableFlatListItem>>
 }
 
 export type TrackableFlatListProps = FlatListProps<TrackableFlatListItem> &
