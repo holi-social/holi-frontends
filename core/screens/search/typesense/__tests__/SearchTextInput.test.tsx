@@ -7,6 +7,7 @@ const mockUseSearchBox = useSearchBox as jest.MockedFunction<typeof useSearchBox
 jest.mock('react-instantsearch-core', () => ({
   useSearchBox: jest.fn(),
 }))
+jest.useFakeTimers()
 
 describe('SearchTextInput', () => {
   const mockRefine = (query = '') => {

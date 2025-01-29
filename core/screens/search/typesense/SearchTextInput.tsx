@@ -1,6 +1,7 @@
 import { CloseCircleFilled, Search } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
+import { useDebounce } from '@holi/ui/helper'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchBox } from 'react-instantsearch-core'
@@ -15,7 +16,10 @@ interface SearchBoxProps {
 
 export function SearchTextInput({ initialQuery, onQueryChange, props }: SearchBoxProps) {
   const { t } = useTranslation()
-  const { query, refine } = useSearchBox(props)
+  // Debouncing search requests as suggested on
+  // https://www.algolia.com/doc/guides/building-search-ui/going-further/improve-performance/js/#debouncing
+  const queryHook = useDebounce((query, refine) => refine(query), 200)
+  const { query, refine } = useSearchBox({ ...props, queryHook })
   const [inputValue, setInputValue] = useState(query)
   const inputRef = useRef<TextInput>(null)
 
@@ -32,16 +36,6 @@ export function SearchTextInput({ initialQuery, onQueryChange, props }: SearchBo
     // Only trigger on initial render
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // Track when the InstantSearch query changes to synchronize it with the React state.
-  useEffect(() => {
-    // We bypass the state update if the input is focused to avoid concurrent updates when typing.
-    if (query !== inputValue && !inputRef.current?.isFocused()) {
-      setInputValue(query)
-    }
-    // We don't want to track when the React state value changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query])
 
   return (
     <HoliTextInput
