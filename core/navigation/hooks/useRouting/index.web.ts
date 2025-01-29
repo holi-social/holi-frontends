@@ -1,37 +1,52 @@
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 
-import { RoutingState } from './types'
+import type { RoutingState } from './types'
+
+import { useWebHistory } from '@holi/core/navigation/hooks/useWebHistory'
 
 const setParams = () => undefined
 
 const useRouting = (): RoutingState => {
   const router = useRouter()
+  const history = useWebHistory()
 
   const navigate = useCallback(
     (routeName: string) => {
+      history.push(routeName)
       router.push(routeName)
     },
-    [router]
+    [history, router]
   )
 
-  const replaceRoute = useCallback((routeName: string) => router.replace(routeName), [router])
+  const replaceRoute = useCallback(
+    (routeName: string) => {
+      history.replace(routeName)
+      return router.replace(routeName)
+    },
+    [router, history]
+  )
 
-  const replaceHistory = useCallback(async (routeName: string) => {
-    // https://developer.mozilla.org/docs/Web/API/History/replaceState
-    window.history.replaceState({ ...window.history.state, url: routeName, as: routeName }, '', routeName)
-    return true
-  }, [])
+  const replaceHistory = useCallback(
+    async (routeName: string) => {
+      history.replace(routeName)
+      // https://developer.mozilla.org/docs/Web/API/History/replaceState
+      window.history.replaceState({ ...window.history.state, url: routeName, as: routeName }, '', routeName)
+      return true
+    },
+    [history]
+  )
 
   const navigateBack = useCallback(
-    (fallbackRouteName = '/') => {
-      if (window.history.length) {
-        router.back()
+    (fallbackRouteName?: string) => {
+      const newRouteName = history.back(router.asPath, fallbackRouteName)
+      if (newRouteName) {
+        navigate(newRouteName)
       } else {
-        navigate(fallbackRouteName)
+        router.back()
       }
     },
-    [router, navigate]
+    [history, router, navigate]
   )
 
   return {
