@@ -287,8 +287,9 @@ const ChatRoomView = () => {
                 <HoliContainer noPadding>
                   <ChatTextInput
                     isVisible={!room.hasInvitation}
-                    userName={chatPartnerHoliUsers?.[0]?.fullName} // todo: only "Write a message" if its a task chat
+                    userName={chatPartnerHoliUsers?.[0]?.fullName}
                     roomId={roomId}
+                    isTaskChat={task !== undefined}
                   />
                 </HoliContainer>
               </View>

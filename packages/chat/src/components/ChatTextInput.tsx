@@ -29,9 +29,10 @@ interface Props {
   roomId: string
   isVisible: boolean
   userName?: string
+  isTaskChat?: boolean
 }
 
-export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
+export const ChatTextInput = ({ roomId, isVisible, userName = '', isTaskChat = false }: Props) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { displayError } = useErrorHandling()
@@ -59,12 +60,16 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
 
   const PLACEHOLDER_MIN_HIGHT = SEND_BUTTON_SIZE + Spacing.xxs * 2 + BORDER_WIDTH * 2
 
+  const placeholderText = isTaskChat
+    ? t('chat.room.input.placeholder.taskchat')
+    : t('chat.room.input.placeholder', { fullName: userName })
+
   return (
     <View style={{ minHeight: PLACEHOLDER_MIN_HIGHT, width: '100%' }}>
       <HoliTransition.SlideDown visible={isVisible} style={styles.container}>
         <HoliTextInput
-          aria-label={t('chat.room.input.placeholder', { fullName: userName })}
-          placeholder={t('chat.room.input.placeholder', { fullName: userName })}
+          aria-label={placeholderText}
+          placeholder={placeholderText}
           value={inputValue}
           onChange={setInputValue}
           style={styles.textInputContainer}

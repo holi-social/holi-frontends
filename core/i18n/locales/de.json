@@ -150,6 +150,7 @@
   "chat.room.error.noRoom": "Der Chatraum konnte nicht gefunden werden.",
   "chat.room.error.openRoom": "Der Chatraum konnte nicht betreten werden.",
   "chat.room.input.placeholder": "Schreibe {{fullName}}",
+  "chat.room.input.placeholder.taskchat": "Schreibe eine Nachricht",
   "chat.room.lastMessage.membership.join": "{{user}} ist beigetreten",
   "chat.room.lastMessage.membership.leave": "{{user}} hat den Raum verlassen",
   "chat.room.noMessages": "Noch keine Nachrichten",
