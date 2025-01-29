@@ -29,9 +29,10 @@ interface Props {
   roomId: string
   isVisible: boolean
   userName?: string
+  onMessageSent?: (content: string) => void
 }
 
-export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
+export const ChatTextInput = ({ roomId, isVisible, userName = '', onMessageSent }: Props) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { displayError } = useErrorHandling()
@@ -49,6 +50,7 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '' }: Props) => {
     try {
       setInputValue('')
       await sendMessage({ roomId, text })
+      onMessageSent?.(text)
     } catch (err) {
       setInputValue(text)
       displayError(err, 'Could not send chat message', {
