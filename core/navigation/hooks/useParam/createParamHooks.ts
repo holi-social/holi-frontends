@@ -75,14 +75,15 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
   }
 
   const useUUIDParam = (
-    name: Parameters<typeof useParam>[0],
-    maybeConfig?: Omit<Parameters<typeof useParam>[1], 'parse'>
-  ) =>
-    useParam(name, {
-      ...maybeConfig,
-      initial: maybeConfig?.initial,
+    name: keyof Props,
+    maybeConfig: Omit<Parameters<typeof useParam>[1], 'parse' | 'initial'> & {
+      parse?: typeof coerceToUUIDString
+      initial: string | undefined
+    } = {
       parse: coerceToUUIDString,
-    })
+      initial: undefined,
+    }
+  ): readonly [string | undefined, (value: string) => void] => useParam(name, maybeConfig)
 
   const useUpdateParams = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

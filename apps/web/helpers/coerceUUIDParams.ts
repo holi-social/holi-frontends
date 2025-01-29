@@ -20,11 +20,11 @@ export const coerceUUIDParams = (uuidParams: (string | string[] | undefined)[], 
       }
       return undefined
     })
-    .filter((replacement) => !!replacement)
+    .filter((replacement) => !!replacement) as string[][]
 
   if (!replacements.length) {
     return undefined
   }
 
-  return replacements.reduce((u, [invalid, valid]) => u?.replace(invalid, valid), url)
+  return replacements.reduce((newUrl, [invalid, valid]) => newUrl?.replace(invalid, valid), url)
 }
