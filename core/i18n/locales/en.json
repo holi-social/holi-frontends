@@ -1365,6 +1365,7 @@
   "spaces.tasks.details.space": "For <0>{{space}}</0>",
   "spaces.tasks.details.title": "Task details",
   "spaces.tasks.edit.title": "Edit task",
+  "spaces.tasks.goToExistingTaskChat": "Open chat",
   "spaces.tasks.notFound": "Task {{taskId}} not found",
   "spaces.tasks.published.by.title": "Task created by",
   "spaces.tasks.spots_claimed": "{{taken}} of {{available}} spots claimed",

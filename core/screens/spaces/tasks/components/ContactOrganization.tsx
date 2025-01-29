@@ -1,4 +1,4 @@
-import { getOrCreateRoom, sendTaskEvent } from '@holi/chat/src/store'
+import { getOrCreateRoom, roomAlreadyExists, sendTaskEvent } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -18,7 +18,7 @@ import { Text } from 'holi-bricks/components/text'
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
@@ -26,7 +26,7 @@ import type { User } from '@holi/core/domain/shared/types'
 import { ChatTopics } from '@holi/chat/src/client/ChatClient'
 import type { Task } from '@holi/core/screens/spaces/types'
 
-const StartChatDrawerActionButton = ({ spaceIdOrName, task }: ContactOrganizationProps) => {
+const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = false }: ContactOrganizationProps) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { hideDrawer } = useActionDrawerContext()
@@ -107,7 +107,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task }: ContactOrganizatio
       variant="primary"
       size="lg"
       icon={ChatSmile2}
-      label={t('spaces.tasks.contactOrganization.cta')}
+      label={alreadyStarted ? t('spaces.tasks.goToExistingTaskChat') : t('spaces.tasks.contactOrganization.cta')}
     />
   )
 }
@@ -115,6 +115,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task }: ContactOrganizatio
 type ContactOrganizationProps = {
   spaceIdOrName?: string
   task: Task
+  alreadyStarted?: boolean
 }
 
 const ContactOrganizationButton = (props: {
@@ -162,12 +163,43 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { space } = useSpace(spaceIdOrName)
+  const { adminsAsUser } = useAdmins(spaceIdOrName)
+  const [alreadyStarted, setAlreadyStarted] = useState<boolean>(false)
+
+  useEffect(() => {
+    const checkChatExists = async () => {
+      if (!adminsAsUser) return
+
+      const chatPartnerIdentities = adminsAsUser.map((adminAsUser) => adminAsUser.identity)
+      const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => '@' + identity + ':' + chatServerName)
+      const exists = await roomAlreadyExists(chatPartnerMatrixIds)
+      setAlreadyStarted(exists)
+    }
+
+    checkChatExists()
+  }, [adminsAsUser])
+
   if (!spaceIdOrName) return null
-  // console.log('task', task)
 
   return (
     <HoliActionDrawer.Drawer
-      renderCustomButton={(onPress, testID) => <ContactOrganizationButton testID={testID} onPress={onPress} />}
+      renderCustomButton={(onPress, testID) =>
+        alreadyStarted ? (
+          <View
+            style={[
+              styles.ctaWrapper,
+              Platform.OS === 'web' && {
+                position: 'fixed',
+              },
+            ]}
+            testID={testID}
+          >
+            <StartChatDrawerActionButton spaceIdOrName={spaceIdOrName} task={task} alreadyStarted />
+          </View>
+        ) : (
+          <ContactOrganizationButton testID={testID} onPress={onPress} />
+        )
+      }
       label={t('global.options')}
       testID="contact-organization-drawer"
     >
@@ -209,5 +241,14 @@ const stylesheet = createStyleSheet(() => ({
   },
   image: {
     alignSelf: 'center',
+  },
+  ctaWrapper: {
+    padding: Spacing.xxs,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    maxWidth: Number(dimensions.maxScreenWidth),
+    position: 'absolute',
+    marginHorizontal: 'auto',
   },
 }))

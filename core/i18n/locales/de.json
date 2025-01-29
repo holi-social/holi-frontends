@@ -1366,6 +1366,7 @@
   "spaces.tasks.details.space": "Für <0>{{space}}</0>",
   "spaces.tasks.details.title": "Aufgabendetails",
   "spaces.tasks.edit.title": "Aufgabe bearbeiten",
+  "spaces.tasks.goToExistingTaskChat": "Chat öffnen",
   "spaces.tasks.notFound": "Aufgabe {{taskId}} nicht gefunden",
   "spaces.tasks.published.by.title": "Aufgabe erstellt von",
   "spaces.tasks.spots_claimed": "{{taken}} von {{available}} Plätzen vergeben",

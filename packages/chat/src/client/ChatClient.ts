@@ -275,6 +275,18 @@ export default class ChatClient {
     return this.mxClient.getHomeserverUrl()
   }
 
+  public async roomAlreadyExists(usersWeAreLookingFor: string[]): Promise<boolean> {
+    const roomExists = this.mxClient.getRooms().some((room) => {
+      return (
+        !room.isSpaceRoom() &&
+        room.getMembers().length == usersWeAreLookingFor.length + 1 &&
+        room.getMembers().filter((roomMember) => usersWeAreLookingFor.includes(roomMember.userId)).length ==
+          usersWeAreLookingFor.length
+      )
+    })
+    return roomExists
+  }
+
   /** Rooms */
   public async getOrCreateRoom(userIds: string[], options: CreateRoomOptions): Promise<RoomId> {
     const room = this.mxClient.getRooms().find((room) => {

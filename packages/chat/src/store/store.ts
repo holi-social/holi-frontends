@@ -387,6 +387,10 @@ export const getOrCreateRoom = async (userIds: string[], name?: string, chatTopi
   return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name, chatTopic: chatTopic })
 }
 
+export const roomAlreadyExists = async (userIds: string[]): Promise<boolean> => {
+  return getChatClient().roomAlreadyExists(userIds)
+}
+
 export const sendTaskEvent = async (roomId: string, taskId: string, spaceId?: string) => {
   return getChatClient().sendTaskStateEvent(roomId, taskId, spaceId)
 }
