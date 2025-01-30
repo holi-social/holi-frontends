@@ -18,7 +18,7 @@ export function SearchTextInput({ initialQuery, onQueryChange, props }: SearchBo
   const { t } = useTranslation()
   // Debouncing search requests as suggested on
   // https://www.algolia.com/doc/guides/building-search-ui/going-further/improve-performance/js/#debouncing
-  const queryHook = useDebounce((query, refine) => refine(query), 200)
+  const queryHook = useDebounce((query, refine) => refine(query), 300)
   const { query, refine } = useSearchBox({ ...props, queryHook })
   const [inputValue, setInputValue] = useState(query)
   const inputRef = useRef<TextInput>(null)
