@@ -308,9 +308,12 @@ export default class ChatClient {
       const topicEvent = await this.mxClient.getStateEvent(roomId, EventType.RoomTopic, '')
       return topicEvent
     } catch (error: unknown) {
-      if ((error as MatrixError).errcode === 'M_FORBIDDEN') {
-        return undefined
-      } else if ((error as MatrixError).errcode === 'M_NOT_FOUND') {
+      if (
+        (error as MatrixError).errcode === 'M_FORBIDDEN' ||
+        (error as MatrixError).errcode === 'M_NOT_FOUND' ||
+        (error as { response?: { status: number } })?.response?.status === 404 ||
+        (error as { response?: { status: number } })?.response?.status === 403
+      ) {
         return undefined
       } else {
         throw error

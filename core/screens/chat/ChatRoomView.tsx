@@ -47,6 +47,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
 import { useQuery } from '@apollo/client'
 import { ChatTopics } from '@holi/chat/src/client/ChatClient'
+import { useAdmins } from '@holi/core/screens/spaces/hooks/useRepresentative'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -73,14 +74,21 @@ const ChatRoomView = () => {
 
   const roomMemberIds = room?.members.map((m) => m.id) ?? []
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(roomMemberIds)
+  const [parentSpaceId, setParentSpaceId] = useState<string>()
 
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
+
+  const { adminsAsUser } = useAdmins(parentSpaceId)
+
   const chatPartnerHoliUsers: User[] = (chatPartners || [])
     .map((chatPartner) => getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord))
     .filter((holiUser): holiUser is User => holiUser !== undefined)
 
+  const chatPartnersWithoutAdmins: User[] = chatPartnerHoliUsers.filter(
+    (user) => !adminsAsUser?.some((admin) => admin.id === user.id)
+  )
+
   const [taskId, setTaskId] = useState<string>()
-  const [parentSpaceId, setParentSpaceId] = useState<string>()
   const isSpaceRoom = room && isSpaceChildChatRoom(room)
 
   const { openToast } = useToast()
@@ -95,9 +103,10 @@ const ChatRoomView = () => {
           setParentSpaceId(parentSpace?.holiSpaceId)
         }
       } catch (error: unknown) {
-        if ((error as { response?: { status: number } })?.response?.status === 404) {
-          setTaskId(undefined)
-        } else if ((error as { response?: { status: number } })?.response?.status === 403) {
+        if (
+          (error as { response?: { status: number } })?.response?.status === 404 ||
+          (error as { response?: { status: number } })?.response?.status === 403
+        ) {
           setTaskId(undefined)
         } else {
           displayError(error, 'Failed to load room topic', {
@@ -152,7 +161,8 @@ const ChatRoomView = () => {
           <ChatRoomActionDrawer
             roomId={roomId}
             chatPartner={chatPartners[0]}
-            chatPartnerFullName={chatPartnerHoliUsers?.[0]?.fullName ?? chatPartners?.[0]?.name} // todo: if its a task chat: design decision
+            chatPartnerFullName={chatPartnerHoliUsers?.[0]?.fullName ?? chatPartners?.[0]?.name}
+            usersToBlock={chatPartnersWithoutAdmins}
           />
         ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
@@ -209,6 +219,7 @@ const ChatRoomView = () => {
     isSpaceRoom,
     t,
     loadingUsers,
+    chatPartnersWithoutAdmins,
   ])
 
   useEffect(() => {

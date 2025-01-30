@@ -8,14 +8,16 @@ import { CloseCircle, Delete } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { useTheme } from '@holi/ui/styles/theme'
+import type { User } from '@holi/core/domain/shared/types'
 
 interface Props {
   chatPartner: ChatRoomMember
   chatPartnerFullName: string
   roomId: string
+  usersToBlock?: User[]
 }
 
-const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Props) => {
+const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId, usersToBlock }: Props) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { openToast } = useToast()
@@ -38,25 +40,27 @@ const ChatRoomActionDrawer = ({ chatPartner, chatPartnerFullName, roomId }: Prop
 
   return (
     <HoliActionDrawer.Drawer label={t('chat.actions.more')} testID="chat-room-action-drawer">
-      <HoliActionDrawer.Action
-        icon={CloseCircle}
-        title={t('chat.actions.block', { name: chatPartnerFullName })}
-        iconColor={colors.error20}
-        variant="danger"
-        showConfirmation
-      >
-        <HoliActionDrawer.Confirmation
-          confirmText={t('chat.actions.block.confirmation.block')}
-          dismissText={t('chat.actions.block.confirmation.cancel')}
-          title={t('chat.actions.block', { name: chatPartnerFullName })}
-          description={t('chat.actions.block.confirmation.text', { name: chatPartnerFullName })}
-          testID="chat-room-block-confirmation"
-          handleConfirmation={handleBlockConfirmation}
-          hasDismissBtn
-          requireLogin
-        />
-      </HoliActionDrawer.Action>
-
+      {usersToBlock?.map((user) => (
+        <HoliActionDrawer.Action
+          icon={CloseCircle}
+          title={t('chat.actions.block', { name: user.fullName })}
+          iconColor={colors.error20}
+          variant="danger"
+          showConfirmation
+          key={user.fullName}
+        >
+          <HoliActionDrawer.Confirmation
+            confirmText={t('chat.actions.block.confirmation.block')}
+            dismissText={t('chat.actions.block.confirmation.cancel')}
+            title={t('chat.actions.block', { name: user.fullName })}
+            description={t('chat.actions.block.confirmation.text', { name: user.fullName })}
+            testID="chat-room-block-confirmation"
+            handleConfirmation={handleBlockConfirmation}
+            hasDismissBtn
+            requireLogin
+          />
+        </HoliActionDrawer.Action>
+      ))}
       <HoliActionDrawer.Action
         icon={Delete}
         title={t('chat.actions.leave', { name: chatPartnerFullName })}

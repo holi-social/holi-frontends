@@ -182,10 +182,10 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
 
   if (!spaceIdOrName) return null
 
-  const isAlreadyAdmin = adminsAsUser?.some((admin) => {
+  const isSpaceAdmin = adminsAsUser?.some((admin) => {
     return admin.id === user?.id
   })
-  if (isAlreadyAdmin) return null
+  if (isSpaceAdmin) return null
 
   return (
     <HoliActionDrawer.Drawer
