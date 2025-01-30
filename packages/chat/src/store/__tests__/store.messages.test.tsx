@@ -1,7 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks'
-import { waitFor } from '@testing-library/react-native'
 import { Provider, createStore, useAtom } from 'jotai'
-import { EventType, type IRoomEvent, type MatrixClient, type MatrixEvent, type Room, RoomEvent } from 'matrix-js-sdk'
+import { EventType, type MatrixClient, type MatrixEvent, type Room, RoomEvent } from 'matrix-js-sdk'
 import React from 'react'
 import type { PropsWithChildren } from 'react'
 
@@ -18,19 +17,20 @@ import {
   createChatClient,
   createMatrixClientMock,
   createMatrixEventMock,
+  fakeRoomMessageEvent,
+  fakeUnrenderedEvent,
   getListenerForMatrixEvent,
 } from '@holi/chat/src/test-utils'
 import {
-  expectedMsgForEvent,
+  fakeChatRoomMessageFrom,
   initChatRoomFixture,
-  msgEvent,
   sendMessageEvent,
 } from '@holi/chat/src/test-utils/matrix-fixtures'
 
 jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher')
 
-const useStoreMessagesAtomsTest = (roomId: string) => {
+const useTestRoom = (roomId: string) => {
   const response = useRoomById(roomId)
   useAtom(_roomAtomsRecordAtomSubscriber)
   useAtom(_newMessageAtomSubscriber)
@@ -38,7 +38,7 @@ const useStoreMessagesAtomsTest = (roomId: string) => {
 }
 
 describe('Chat Store - messages', () => {
-  const wrapper = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
+  const JotaiProvider = ({ children }: PropsWithChildren) => <Provider store={store}>{children}</Provider>
   let store: ReturnType<typeof createStore>
   let mxClient: jest.MockedObjectDeep<MatrixClient>
   let chatClient: ChatClient
@@ -57,7 +57,7 @@ describe('Chat Store - messages', () => {
   it('shoud receive messages in an existing room', () => {
     const { roomMock, room, creator, member } = initChatRoomFixture(mxClient)
 
-    const { result } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
+    const { result } = renderHook(() => useTestRoom(room.id), { wrapper: JotaiProvider })
     const listener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
       event: MatrixEvent,
       room: Room | undefined
@@ -81,7 +81,7 @@ describe('Chat Store - messages', () => {
   it('A new message with the same event id should replace existing message content', () => {
     const { roomMock, room, creator, member } = initChatRoomFixture(mxClient)
 
-    const { result } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
+    const { result } = renderHook(() => useTestRoom(room.id), { wrapper: JotaiProvider })
     const listener = getListenerForMatrixEvent(mxClient, RoomEvent.Timeline, 'messagesListener') as (
       event: MatrixEvent,
       room: Room | undefined
@@ -107,12 +107,12 @@ describe('Chat Store - messages', () => {
       [message1, message2, message3],
     ])
 
-    const event2Duplicate = msgEvent(room.id, member.id, 4)
+    const event2Duplicate = fakeRoomMessageEvent(room.id, member.id, 4)
     event2Duplicate.event_id = event2.event_id
     event2Duplicate.origin_server_ts = event2.origin_server_ts
     const eventMock2Duplicate = createMatrixEventMock(EventType.RoomMessage, room.id, {}, event2Duplicate)
     act(() => listener(eventMock2Duplicate, roomMock))
-    const message2Duplicate = expectedMsgForEvent(event2Duplicate)
+    const message2Duplicate = fakeChatRoomMessageFrom(event2Duplicate)
 
     // the last message and timestamp is not updated, because an existing message with an older timestamp is replaced
     expect(result.current).toStrictEqual([
@@ -121,23 +121,56 @@ describe('Chat Store - messages', () => {
     ])
   })
 
-  it('Requesting room messages should update the store in bulk, but not the room', async () => {
-    const event1 = msgEvent(room.id, creator.id, 1)
-    const event2 = msgEvent(room.id, creator.id, 2)
-    const event3 = msgEvent(room.id, creator.id, 3)
-    const roomEvents = [event1, event2, event3] as IRoomEvent[]
-    mxClient.createMessagesRequest.mockResolvedValue({ chunk: roomEvents, start: 'start', end: 'end' })
-    const { result } = renderHook(() => useRequestRoomMessages(), { wrapper })
-    result.current(room.id, false)
+  /* react ------------------> matrix sdk ------------> jotai store */
+  /* useRequestRoomMessages    createMessagesRequest    useRoomById */
 
-    const { result: result2 } = renderHook(() => useStoreMessagesAtomsTest(room.id), { wrapper })
+  it('Requesting messages for a room should update the store', async () => {
+    const event1 = fakeRoomMessageEvent(room.id, creator.id, 1)
+    const event2 = fakeRoomMessageEvent(room.id, creator.id, 2)
+    const message1 = fakeChatRoomMessageFrom(event1)
+    const message2 = fakeChatRoomMessageFrom(event2)
+    const roomEvents = [event1, event2]
+    mxClient.createMessagesRequest.mockResolvedValue({ chunk: roomEvents, start: 'start', end: undefined })
 
-    const message1 = expectedMsgForEvent(event1)
-    const message2 = expectedMsgForEvent(event2)
-    const message3 = expectedMsgForEvent(event3)
+    const { result } = renderHook(() => useRequestRoomMessages(), { wrapper: JotaiProvider })
+    await result.current(room.id, false)
+    const { result: result2 } = renderHook(() => useTestRoom(room.id), { wrapper: JotaiProvider })
 
-    await waitFor(() => {
-      expect(result2.current).toStrictEqual([room, [message3, message2, message1]])
-    })
+    expect(result2.current).toStrictEqual([room, [message2, message1]])
+  })
+
+  it('Requesting 2 messages from a room should repeatedly fetch messages until 2 messages are found', async () => {
+    const me1 = fakeRoomMessageEvent(room.id, creator.id, 1)
+    const ue2 = fakeUnrenderedEvent(room.id, creator.id, 2)
+    const ue3 = fakeUnrenderedEvent(room.id, creator.id, 3)
+    const me4 = fakeRoomMessageEvent(room.id, creator.id, 4)
+    const me5 = fakeRoomMessageEvent(room.id, creator.id, 5)
+
+    mxClient.createMessagesRequest
+      .mockResolvedValueOnce({ chunk: [me1, ue2], start: 'start', end: 'someEnd' })
+      .mockResolvedValueOnce({ chunk: [ue3, me4], start: 'start', end: 'someOtherEnd' })
+      .mockResolvedValueOnce({ chunk: [me4, me5], start: 'start', end: undefined })
+
+    const { result } = renderHook(() => useRequestRoomMessages(2), { wrapper: JotaiProvider })
+    await result.current(room.id, false)
+    const { result: result2 } = renderHook(() => useTestRoom(room.id), { wrapper: JotaiProvider })
+
+    expect(result2.current).toStrictEqual([room, [fakeChatRoomMessageFrom(me4), fakeChatRoomMessageFrom(me1)]])
+  })
+
+  it('Requesting more messages than available, will fetch until end is reached', async () => {
+    const me1 = fakeRoomMessageEvent(room.id, creator.id, 1)
+    const ue2 = fakeUnrenderedEvent(room.id, creator.id, 2)
+    const ue3 = fakeUnrenderedEvent(room.id, creator.id, 3)
+
+    mxClient.createMessagesRequest
+      .mockResolvedValueOnce({ chunk: [me1, ue2], start: 'start', end: 'someEnd' })
+      .mockResolvedValueOnce({ chunk: [ue3], start: 'start', end: undefined })
+
+    const { result } = renderHook(() => useRequestRoomMessages(2), { wrapper: JotaiProvider })
+    await result.current(room.id, false)
+    const { result: result2 } = renderHook(() => useTestRoom(room.id), { wrapper: JotaiProvider })
+
+    expect(result2.current).toStrictEqual([room, [fakeChatRoomMessageFrom(me1)]])
   })
 })

@@ -1,18 +1,18 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
-import Animated, { LayoutAnimationConfig, ZoomInEasyDown, LinearTransition } from 'react-native-reanimated'
 import type { ChatRoomMessage } from '@holi/chat/src/client/types'
 import RoomMessageSection from '@holi/chat/src/components/RoomMessageList/RoomMessageSection'
 import { type MessageItem, isMessageSection, isTextMessageItem } from '@holi/chat/src/components/RoomMessageList/types'
 import { getSectionDisplayDate } from '@holi/chat/src/utils/date'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
+import Animated, { LayoutAnimationConfig, ZoomInEasyDown, LinearTransition } from 'react-native-reanimated'
 
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import RoomMessage from './RoomMessage'
 import type { RoomMessageListProps } from './types'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
 
 const groupByDate = (messages: ChatRoomMessage[], locale: string): MessageItem[] => {
   const groupedMessages: Record<string, MessageItem[]> = {}
