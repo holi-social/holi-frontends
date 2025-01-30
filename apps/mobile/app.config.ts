@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { ExpoConfig } from 'expo/config'
+import type { ExpoConfig } from 'expo/config'
 
 require('ts-node/register')
 
@@ -126,6 +126,7 @@ const config: ExpoConfig = {
       'android.permission.CAMERA',
       'android.permission.RECORD_AUDIO',
       'android.permission.MODIFY_AUDIO_SETTINGS',
+      'android.permission.READ_EXTERNAL_STORAGE',
     ],
     intentFilters: [
       {
