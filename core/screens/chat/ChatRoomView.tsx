@@ -38,10 +38,10 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { createStyleSheet } from 'holi-bricks/utils'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -50,6 +50,8 @@ export type ChatRoomPageParams = {
 }
 
 const { useParam } = createParamHooks<ChatRoomPageParams>()
+
+const NUMBER_OF_TEXT_MESSAGES_NEEDED_TO_FILL_A_SCREEN_AND_CAUSE_SCROLLBARS = 40
 
 const ChatRoomView = () => {
   const { t } = useTranslation()
@@ -63,7 +65,7 @@ const ChatRoomView = () => {
   const { user: loggedInUser } = useLoggedInUser()
   const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
 
-  const requestMessages = useRequestRoomMessages()
+  const requestMessages = useRequestRoomMessages(NUMBER_OF_TEXT_MESSAGES_NEEDED_TO_FILL_A_SCREEN_AND_CAUSE_SCROLLBARS)
   const setScreenOptions = useSetScreenOptions()
 
   const roomMemberIds = room?.members.map((m) => m.id) ?? []

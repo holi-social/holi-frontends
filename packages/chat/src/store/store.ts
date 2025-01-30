@@ -1,21 +1,21 @@
 import { produce } from 'immer'
 import { type Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
+import type { IRoomEvent, MatrixEvent, Room, RoomMember, RoomState } from 'matrix-js-sdk'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
+import type ChatClient from '@holi/chat/src/client/ChatClient'
 import { setChatInitialized } from '@holi/chat/src/client/chatState'
 import {
-  ChatRoom,
+  type ChatRoom,
   type ChatRoomMember,
-  ChatRoomMessage,
+  type ChatRoomMessage,
   type MatrixId,
   MembershipStatus,
   type NotificationCount,
   type RoomId,
-  RoomUpdatesContent,
+  type RoomUpdatesContent,
   RoomUpdatesType,
-  SpaceChatRoom,
+  type SpaceChatRoom,
 } from '@holi/chat/src/client/types'
 import { createChatMessage } from '@holi/chat/src/client/utils'
 import {
@@ -38,7 +38,7 @@ import type {
   RoomAtomByRoomId,
   SpaceRoomAtom,
 } from '@holi/chat/src/store/types'
-import { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
+import type { MessageAtomsByRoomId } from '@holi/chat/src/store/types'
 import {
   getAtomFromRecordId,
   isPrivateChatRoom,
@@ -47,7 +47,7 @@ import {
   toMatrixIdentity,
   updateSpaceRoomsNotifications,
 } from '@holi/chat/src/store/utils'
-import { User as HoliUser } from '@holi/core/domain/shared/types'
+import type { User as HoliUser } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
@@ -118,8 +118,8 @@ export const privateRoomAtomsAtom = atom<ChatRoomAtom[]>((get) =>
 export const roomAtomsSortedByDateAtom = atom((get) => {
   const roomAtoms = Object.values(get(_roomAtomsRecordAtom))
   return roomAtoms.sort((rA, rB) => {
-    const tsA = get(rA).timestamp ?? Infinity
-    const tsB = get(rB).timestamp ?? Infinity
+    const tsA = get(rA).timestamp ?? Number.POSITIVE_INFINITY
+    const tsB = get(rB).timestamp ?? Number.POSITIVE_INFINITY
     return tsA < tsB ? 1 : -1
   })
 })
@@ -584,11 +584,7 @@ export const updateMessages = produce((thread: ChatRoomMessage[], newMessage: Ch
   Object.assign(dupMessage, newMessage)
 })
 
-/**
- * @name useRequestRoomMessages (Hook-Helper)
- * @description
- */
-export const useRequestRoomMessages = () => {
+export const useRequestRoomMessages = (numberOfMessagesToFetch = 40) => {
   const setMessages = useSetAtom(_messageBunchAtomSetter)
   const client = chatClient
   const tokenRef = useRef<{ start?: string; end?: string }>({ start: undefined, end: undefined })
@@ -596,28 +592,42 @@ export const useRequestRoomMessages = () => {
 
   return useCallback(
     async (roomId: string, resync: boolean, limit?: number) => {
-      if (!roomId || !client) return
-      if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
-
-      isLoading.current = true
-      let merge = !!tokenRef.current.end
-      if (resync) {
-        tokenRef.current = { start: undefined, end: undefined }
-        merge = false
+      if (!roomId || !client) return {}
+      // skip when triggered by multiple scroll events
+      if (isLoading.current) {
+        return
+      }
+      // skip when all messages were fetched
+      if (tokenRef.current.start && !tokenRef.current.end) {
+        return
       }
 
-      await client
-        .createMessagesRequest(roomId, tokenRef.current.end, limit)
-        .then(async (resp) => {
-          const { chunk: roomEvents, start, end } = resp
-          setMessages(roomId, roomEvents, merge)
+      let totalMessages = 0
 
-          // unpdate start and end tokens only after merging messages
-          tokenRef.current = { start, end }
-        })
-        .finally(() => (isLoading.current = false))
+      const fetchMessages = async () => {
+        isLoading.current = true
+        let merge = !!tokenRef.current.end
+        if (resync) {
+          tokenRef.current = { start: undefined, end: undefined }
+          merge = false
+        }
+
+        await client
+          .createMessagesRequest(roomId, tokenRef.current.end, limit)
+          .then(async (resp) => {
+            const { chunk: roomMessageEvents, start, end } = resp
+            setMessages(roomId, roomMessageEvents, merge)
+            tokenRef.current = { start, end }
+            totalMessages += roomMessageEvents.length
+          })
+          .finally(() => (isLoading.current = false))
+      }
+
+      do {
+        await fetchMessages()
+      } while (totalMessages < numberOfMessagesToFetch && tokenRef.current.end)
     },
-    [client, setMessages]
+    [client, setMessages, numberOfMessagesToFetch]
   )
 }
 
