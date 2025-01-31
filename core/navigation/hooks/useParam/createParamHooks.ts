@@ -71,7 +71,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       setNativeState((stableParse(state) as ParsedType) || (initial as InitialValue))
     }, [setNativeState, stableParse, nativeRoute?.params, name, initial])
 
-    return [nativeState, setNativeState]
+    return [nativeState]
   }
 
   const useUUIDParam = (
@@ -83,7 +83,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       parse: coerceToUUIDString,
       initial: undefined,
     }
-  ): readonly [string | undefined, (value: string) => void] => useParam(name, maybeConfig)
+  ): readonly [string | undefined] => useParam(name, maybeConfig)
 
   const useUpdateParams = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

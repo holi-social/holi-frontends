@@ -49,21 +49,12 @@ export type Returns<
     : ParseFunction extends undefined
       ? NullableUnparsedParsedType
       : NonNullable<NullableUnparsedParsedType>,
-> = readonly [state: ParsedType | InitialValue, setState: (value: ParsedType) => void]
+> = readonly [state: ParsedType | InitialValue]
 
 export type UpdateOptions = {
   web?: {
     replace?: boolean
   }
-}
-
-export const useStable = <T>(value: T) => {
-  const ref = useRef(value)
-  useEffect(() => {
-    ref.current = value
-  }, [value])
-
-  return ref
 }
 
 export const useStableCallback = <T extends (...args: any[]) => any>(callback: T | undefined): T => {

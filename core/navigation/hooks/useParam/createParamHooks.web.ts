@@ -9,7 +9,6 @@ import {
   type Params,
   type Returns,
   type UpdateOptions,
-  useStable,
   useStableCallback,
 } from '@holi/core/navigation/hooks/useParam/shared'
 import { coerceToUUIDString } from '@holi/core/helpers'
@@ -52,56 +51,13 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
   >(
     ...[name, maybeConfig]: Params<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType>
   ): Returns<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType> => {
-    const {
-      parse = (value?: string | string[]) => value,
-      initial,
-      stringify = (value: ParsedType) => `${value}`,
-      paramsToClearOnSetState,
-      options,
-    } = maybeConfig || {}
+    const { parse = (value?: string | string[]) => value, initial } = maybeConfig || {}
     const nextRouter = useRouter()
 
     const stableParse = useStableCallback(parse)
-    const stableStringify = useStableCallback(stringify)
-    const stableParamsToClear = useStable(paramsToClearOnSetState)
 
     const initialValue = useRef(initial)
     const hasSetState = useRef(false)
-
-    const setState = useCallback(
-      (value: ParsedType) => {
-        hasSetState.current = true
-        const { pathname, query } = Router
-        const newQuery = { ...query }
-        if (value != null && (value as any) !== '') {
-          newQuery[name as string] = stableStringify(value)
-        } else {
-          delete newQuery[name as string]
-        }
-
-        if (stableParamsToClear.current) {
-          for (const paramKey of stableParamsToClear.current) {
-            delete newQuery[paramKey as string]
-          }
-        }
-
-        const willChangeExistingParam = query[name as string] && newQuery[name as string]
-
-        const action = options?.web?.replace || willChangeExistingParam ? Router.replace : Router.push
-
-        action(
-          {
-            pathname,
-            query: newQuery,
-          },
-          undefined,
-          {
-            shallow: true,
-          }
-        )
-      },
-      [stableParamsToClear, name, options?.web?.replace, stableStringify]
-    )
 
     const webParam = nextRouter?.query?.[name as string]
 
@@ -115,7 +71,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       return state
     }, [stableParse, webParam])
 
-    return [state, setState]
+    return [state]
   }
 
   const useUUIDParam = (
@@ -127,7 +83,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       parse: coerceToUUIDString,
       initial: undefined,
     }
-  ): readonly [string | undefined, (value: string) => void] => useParam(name, maybeConfig)
+  ): readonly [string | undefined] => useParam(name, maybeConfig)
 
   const useUpdateParams = (
     options?: UpdateOptions
