@@ -2,54 +2,36 @@
 import { coerceToUUIDString } from '@holi/core/helpers'
 import { useEffect, useMemo, useRef } from 'react'
 
-export type Config<
-  Props extends Record<string, unknown>,
-  Required extends boolean,
-  ParsedType,
-  InitialValue,
-> = (Required extends false
-  ? {
-      parse?: (value?: string | string[]) => ParsedType
-    }
-  : {
-      parse: (value?: string | string[]) => ParsedType
-    }) & {
-  stringify?: (value: ParsedType) => string
-  initial: InitialValue
-  paramsToClearOnSetState?: (keyof Props)[]
-  options?: UpdateOptions
-}
+export type Param = string | string[]
+
+export type Config<ParsedType, InitialValue, Required extends boolean> = (Required extends false
+  ? { parse?: (value?: Param) => ParsedType }
+  : { parse: (value?: Param) => ParsedType }) & { initial: InitialValue }
 
 export type Params<
   Props extends Record<string, unknown> = Record<string, string>,
   Name extends keyof Props = keyof Props,
-  NullableUnparsedParsedType extends Props[Name] | undefined = Props[Name] | undefined,
-  ParseFunction extends undefined | ((value?: string | string[]) => NonNullable<NullableUnparsedParsedType>) = (
-    value?: string | string[]
-  ) => NonNullable<NullableUnparsedParsedType>,
-  InitialValue = NullableUnparsedParsedType | undefined,
+  ParseFunction extends undefined | ((value?: Param) => Props[Name]) = (value?: Param) => Props[Name],
+  InitialValue = Props[Name] | undefined,
   ParsedType = InitialValue extends undefined
-    ? NullableUnparsedParsedType
+    ? Props[Name] | undefined
     : ParseFunction extends undefined
-      ? NullableUnparsedParsedType
-      : NonNullable<NullableUnparsedParsedType>,
+      ? Props[Name] | undefined
+      : NonNullable<Props[Name]>,
 > = NonNullable<ParsedType> extends string
-  ? [name: Name, config: Config<Props, false, ParsedType, InitialValue>] | [name: Name]
-  : [name: Name, config: Config<Props, true, ParsedType, InitialValue>]
+  ? [name: Name, config: Config<ParsedType, InitialValue, false>] | [name: Name]
+  : [name: Name, config: Config<ParsedType, InitialValue, true>]
 
 export type Returns<
   Props extends Record<string, unknown> = Record<string, string>,
   Name extends keyof Props = keyof Props,
-  NullableUnparsedParsedType extends Props[Name] | undefined = Props[Name] | undefined,
-  ParseFunction extends undefined | ((value?: string | string[]) => NonNullable<NullableUnparsedParsedType>) = (
-    value?: string | string[]
-  ) => NonNullable<NullableUnparsedParsedType>,
-  InitialValue = NullableUnparsedParsedType | undefined,
+  ParseFunction extends undefined | ((value?: Param) => Props[Name]) = (value?: Param) => Props[Name],
+  InitialValue = Props[Name] | undefined,
   ParsedType = InitialValue extends undefined
-    ? NullableUnparsedParsedType
+    ? Props[Name] | undefined
     : ParseFunction extends undefined
-      ? NullableUnparsedParsedType
-      : NonNullable<NullableUnparsedParsedType>,
+      ? Props[Name] | undefined
+      : NonNullable<Props[Name]>,
 > = ParsedType | InitialValue
 
 export type UpdateOptions = {
@@ -69,9 +51,9 @@ export const useStableCallback = <T extends (...args: any[]) => any>(callback: T
   return useMemo(() => ((...args) => callbackRef.current?.(...args)) as T, [])
 }
 
-const parseString = (value?: string | string[]): string | undefined =>
+const parseString = (value?: Param): string | undefined =>
   Array.isArray(value) ? (value.length ? value[0] : undefined) : value
-const parseArray = (value?: string | string[]): string[] | undefined =>
+const parseArray = (value?: Param): string[] | undefined =>
   !value ? undefined : Array.isArray(value) ? value : [value]
 
 export const singleParamConfig = { initial: undefined, parse: parseString }

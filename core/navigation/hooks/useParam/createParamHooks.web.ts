@@ -6,6 +6,7 @@ import Router, { useRouter } from 'next/router'
 import { useCallback, useMemo, useRef } from 'react'
 
 import {
+  type Param,
   type Params,
   type Returns,
   type UpdateOptions,
@@ -14,44 +15,41 @@ import {
 import { coerceToUUIDString } from '@holi/core/helpers'
 
 /**
- * This creates two hooks for handling query parameters:
+ * This creates three hooks for handling query parameters:
  *
  * - `useParam`:
  *   Requires the name of a query parameter as argument and returns a
- *   getter and a setter to handle this query parameter's state similiar
- *   to the `useState` hook. I.e. using the setter will result in
- *   rerenderings.
+ *   getter for this query parameter's state.
  *   You can pass a second parameter to control how to parse the query
  *   values, e.g. to specify how and if multiple values should be
  *   allowed (see `singleParamConfig` and `arrayParamConfig`).
+ * - `useUUIDParam`:
+ *   Same as `useParam` but for UUIDs, having a default parse function
+ *   that tries to coerce the value to a UUID.
  * - `useUpdateParams`:
  *   This function allows updating multiple query parameters at once and
  *   does not trigger rerenderings. It expects an object of query
  *   parameters with values to change as argument.
- *
- * Both hooks allow passing of `UpdateOptions` that e.g. define if
- * updating the query parameter should replace the last history entry on
- * web (see `webReplaceQueryConfig`). By default the last history entry
- * is only replaced by the setter of `useParam` if an already present
- * query parameter is changed.
+ *   It also allows passing of `UpdateOptions` that e.g. define if updating the
+ *   query parameter should replace the last history entry on web (see
+ *   `webReplaceQueryConfig`).
  */
 const createParamHooks = <Props extends Record<string, unknown> = Record<string, string>>() => {
   const useParam = <
     Name extends keyof Props,
-    NullableUnparsedParsedType extends Props[Name] | undefined = Props[Name] | undefined,
-    ParseFunction extends undefined | ((value?: string | string[]) => NonNullable<NullableUnparsedParsedType>) = (
+    ParseFunction extends undefined | ((value?: string | string[]) => Props[Name]) = (
       value?: string | string[]
-    ) => NonNullable<NullableUnparsedParsedType>,
-    InitialValue = NullableUnparsedParsedType | undefined,
+    ) => NonNullable<Props[Name]>,
+    InitialValue = Props[Name] | undefined,
     ParsedType = InitialValue extends undefined
-      ? NullableUnparsedParsedType
+      ? Props[Name] | undefined
       : ParseFunction extends undefined
-        ? NullableUnparsedParsedType
-        : NonNullable<NullableUnparsedParsedType>,
+        ? Props[Name] | undefined
+        : NonNullable<Props[Name]>,
   >(
-    ...[name, maybeConfig]: Params<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType>
-  ): Returns<Props, Name, NullableUnparsedParsedType, ParseFunction, InitialValue, ParsedType> => {
-    const { parse = (value?: string | string[]) => value, initial } = maybeConfig || {}
+    ...[name, maybeConfig]: Params<Props, Name, ParseFunction, InitialValue, ParsedType>
+  ): Returns<Props, Name, ParseFunction, InitialValue, ParsedType> => {
+    const { parse = (value?: Param) => value, initial } = maybeConfig || {}
     const nextRouter = useRouter()
 
     const stableParse = useStableCallback(parse)
@@ -66,7 +64,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       if (webParam === undefined && !hasSetState.current) {
         state = initialValue.current as any
       } else {
-        state = stableParse(webParam) as ParsedType
+        state = (stableParse(webParam) ?? initialValue.current) as ParsedType
       }
       return state
     }, [stableParse, webParam])
@@ -74,16 +72,8 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
     return state
   }
 
-  const useUUIDParam = (
-    name: keyof Props,
-    maybeConfig: Omit<Parameters<typeof useParam>[1], 'parse' | 'initial'> & {
-      parse?: typeof coerceToUUIDString
-      initial: string | undefined
-    } = {
-      parse: coerceToUUIDString,
-      initial: undefined,
-    }
-  ): string | undefined => useParam(name, maybeConfig)
+  const useUUIDParam = (name: keyof Props, { initial }: { initial?: string | undefined } = {}): string | undefined =>
+    useParam(name, { parse: coerceToUUIDString, initial })
 
   const useUpdateParams = (
     options?: UpdateOptions
