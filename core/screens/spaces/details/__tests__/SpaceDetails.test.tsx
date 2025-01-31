@@ -87,7 +87,7 @@ describe('SpaceDetails', () => {
   })
 
   it('selects info tab for non-members', async () => {
-    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
+    const mockUseUpdateParams = mockParameters({ spaceIdOrName: space.name })
     render(
       <MockedProvider mocks={createMocksForSpace()} cache={createCache()}>
         <SpaceDetails spaceIdOrName={space.name} />
@@ -99,7 +99,7 @@ describe('SpaceDetails', () => {
   })
 
   it('selects involvement tab for members if involvement content exists', async () => {
-    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
+    const mockUseUpdateParams = mockParameters({ spaceIdOrName: space.name })
     render(
       <MockedProvider mocks={createMocksForSpace(spaceForMember)} cache={createCache()}>
         <SpaceDetails spaceIdOrName={space.name} />
@@ -111,7 +111,7 @@ describe('SpaceDetails', () => {
   })
 
   it('selects updates tab for members if no involvement content exists', async () => {
-    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
+    const mockUseUpdateParams = mockParameters({ spaceIdOrName: space.name })
     const spaceForMemberWithoutInvolvement = {
       ...spaceForMember,
       tasks: [],
@@ -144,7 +144,7 @@ describe('SpaceDetails', () => {
     )
 
     // Initial render
-    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
+    const mockUseUpdateParams = mockParameters({ spaceIdOrName: space.name })
     const { rerender } = render(crateComponent())
 
     // Expect initial title

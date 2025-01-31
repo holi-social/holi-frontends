@@ -34,7 +34,7 @@ describe('useVolunteeringFilters', () => {
       expect(result.current.filters).toEqual({ topics: ['topic1'] })
     })
     it('should update query parameters on submit', () => {
-      const { mockUseUpdateParams } = mockParameters({})
+      const mockUseUpdateParams = mockParameters({})
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
 
       act(() => {
@@ -61,7 +61,7 @@ describe('useVolunteeringFilters', () => {
       expect(result.current.filters).toEqual({ topics: ['topic1'] })
     })
     it('should expose function to clear filters', () => {
-      const { mockUseUpdateParams } = mockParameters({ topic: ['topic1'] })
+      const mockUseUpdateParams = mockParameters({ topic: ['topic1'] })
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
 
       expect(result.current.filters).toEqual({ topics: ['topic1'] })

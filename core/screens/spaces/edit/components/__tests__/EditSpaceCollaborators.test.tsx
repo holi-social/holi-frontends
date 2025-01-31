@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client'
-import { GraphQLErrors } from '@apollo/client/errors'
+import type { GraphQLErrors } from '@apollo/client/errors'
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, userEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
@@ -244,7 +244,7 @@ describe('EditSpaceCollaborators', () => {
     )
 
     // Initial render
-    const { mockUseUpdateParams } = mockParameters({ spaceIdOrName: space.name })
+    const mockUseUpdateParams = mockParameters({ spaceIdOrName: space.name })
     const { rerender } = render(crateComponent())
 
     // Expect initial members and membership requests in the beginning

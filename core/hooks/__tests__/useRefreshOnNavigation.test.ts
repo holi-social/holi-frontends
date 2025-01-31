@@ -12,7 +12,7 @@ jest.mock('@holi/core/refreshing/hooks/useRefreshContext', () => ({
 
 describe('useRefreshOnNavigation', () => {
   it('should not refresh if not initialized yet', () => {
-    const { mockUseUpdateParams } = mockParameters({ refresh: 'true' })
+    const mockUseUpdateParams = mockParameters({ refresh: 'true' })
 
     renderHook(() => useRefreshOnNavigation({}))
 
@@ -50,7 +50,7 @@ describe('useRefreshOnNavigation', () => {
   })
 
   it('should reset param when refreshing', () => {
-    const { mockUseUpdateParams } = mockParameters()
+    const mockUseUpdateParams = mockParameters()
     const { rerender } = renderHook(() => useRefreshOnNavigation({ initialized: true }))
 
     mockParameters({ refresh: 'true' })
@@ -60,7 +60,7 @@ describe('useRefreshOnNavigation', () => {
   })
 
   it('should refresh everytime the refresh param changes to true', () => {
-    const { mockUseUpdateParams } = mockParameters()
+    const mockUseUpdateParams = mockParameters()
     const { rerender } = renderHook(() => useRefreshOnNavigation({ initialized: true }))
     for (let i = 0; i < 3; i++) {
       mockParameters({ refresh: 'true' })

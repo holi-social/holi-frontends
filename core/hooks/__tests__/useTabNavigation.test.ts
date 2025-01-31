@@ -9,7 +9,7 @@ describe('useTabNavigation', () => {
   const tabNamesInOrder = ['tab0', 'tab1', 'tab2']
 
   it('updates query parameter on tab change', () => {
-    const { mockUseUpdateParams } = mockParameters()
+    const mockUseUpdateParams = mockParameters()
 
     const { result } = renderHook(() => useTabNavigation({ tabNamesInOrder }))
 
@@ -21,7 +21,7 @@ describe('useTabNavigation', () => {
   })
 
   it('ignores invalid tab indices', () => {
-    const { mockUseUpdateParams } = mockParameters()
+    const mockUseUpdateParams = mockParameters()
     const { result } = renderHook(() => useTabNavigation({ tabNamesInOrder }))
 
     act(() => result.current.selectTabWithIndex(-1))
@@ -41,7 +41,7 @@ describe('useTabNavigation', () => {
   })
 
   it('uses determineInitialTab for initial tab selection if no parameter is passed', () => {
-    const { mockUseUpdateParams } = mockParameters()
+    const mockUseUpdateParams = mockParameters()
     const determineInitialTab = () => 'tab1'
     const { result } = renderHook(() => useTabNavigation({ tabNamesInOrder, determineInitialTab }))
 
@@ -50,7 +50,7 @@ describe('useTabNavigation', () => {
   })
 
   it('uses determineInitialTab for initial tab selection if no parameter is passed', () => {
-    const { mockUseUpdateParams } = mockParameters()
+    const mockUseUpdateParams = mockParameters()
     const determineInitialTab = () => 'tab1'
     const { result } = renderHook(() => useTabNavigation({ tabNamesInOrder, determineInitialTab }))
 
@@ -59,7 +59,7 @@ describe('useTabNavigation', () => {
   })
 
   it('ignores invalid result from determineInitialTab for initial tab selection', () => {
-    const { mockUseUpdateParams } = mockParameters()
+    const mockUseUpdateParams = mockParameters()
     const determineInitialTab = () => 'unknown'
     const { result } = renderHook(() => useTabNavigation({ tabNamesInOrder, determineInitialTab }))
 
@@ -68,7 +68,7 @@ describe('useTabNavigation', () => {
   })
 
   it('sticks to first defined decision for initial tab selection', () => {
-    const { mockUseUpdateParams } = mockParameters()
+    const mockUseUpdateParams = mockParameters()
     const { rerender, result } = renderHook(() => useTabNavigation({ tabNamesInOrder }))
 
     expect(result.current.currentTabName).toBeUndefined()

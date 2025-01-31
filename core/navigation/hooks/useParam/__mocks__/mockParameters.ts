@@ -15,11 +15,11 @@ export const mockParameters = (parameters: Parameters = {}) => {
   mockUseParam.mockImplementation((paramName: keyof Parameters) => {
     return parameters[paramName]
   })
+  // @ts-ignore
+  mockUseUUIDParam.mockImplementation((paramName: keyof Parameters) => {
+    return parameters[paramName]
+  })
 
-  return {
-    mockUseParam,
-    mockUseUUIDParam,
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    mockUseUpdateParams: useUpdateParams() as jest.Mock,
-  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useUpdateParams() as jest.Mock
 }
