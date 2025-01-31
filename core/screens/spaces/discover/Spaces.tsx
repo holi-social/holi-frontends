@@ -64,7 +64,8 @@ const Spaces = () => {
 
   hasOwnSpaces = isLoggedIn && !!mySpacesData?.mySpaces?.length
 
-  const activeTab = useParam('tab', { ...singleParamConfig, initial: Tab.MINE })
+  const tabParam = useParam('tab', { ...singleParamConfig, initial: Tab.MINE })
+  const activeTab = tabParam || Tab.MINE
   const updateParams = useUpdateParams()
   const onChangeTab = (tabKey: string) => {
     updateParams({ tab: tabKey as Tab })
