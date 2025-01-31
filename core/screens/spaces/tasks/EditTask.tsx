@@ -39,11 +39,11 @@ const { useParam, useUUIDParam } = createParamHooks<EditTaskParams>()
 const DEFAULT_SLOTS_AVAILABLE = 1
 
 const EditTask = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
-  const [taskId] = useUUIDParam('taskId')
+  const taskId = useUUIDParam('taskId')
   const { openToast } = useToast()
 
   // input fields

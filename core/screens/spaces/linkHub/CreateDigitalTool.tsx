@@ -40,7 +40,7 @@ const { useParam } = createParamHooks<CreateDigitalToolParams>()
 const CreateDigitalTool = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()

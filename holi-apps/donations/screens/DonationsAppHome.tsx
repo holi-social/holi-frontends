@@ -36,7 +36,7 @@ const DonationsAppHome = () => {
   const closeModal = useCallback(() => {
     setShowSearchModal(false)
   }, [])
-  const [locationQuery] = useParam('location')
+  const locationQuery = useParam('location')
   const updateParams = useUpdateParams(webReplaceQueryConfig)
   const submitSearch = useCallback(
     (location?: string) => {

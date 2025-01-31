@@ -38,7 +38,7 @@ const { useParam } = createParamHooks<CreateTaskParams>()
 const DEFAULT_SLOTS_AVAILABLE = 1
 
 const CreateTask = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()

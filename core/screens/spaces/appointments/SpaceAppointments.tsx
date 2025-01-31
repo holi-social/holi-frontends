@@ -41,8 +41,8 @@ enum SpaceAppointmentsTabs {
 
 const SpaceAppointments = () => {
   const { t } = useTranslation()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [selectedTab] = useParam('tab')
+  const spaceIdOrName = useParam('spaceIdOrName')
+  const selectedTab = useParam('tab')
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useClientWindowDimensions()

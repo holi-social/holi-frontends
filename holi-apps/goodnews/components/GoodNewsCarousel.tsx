@@ -13,11 +13,11 @@ import HoliSwiper from '@holi/ui/components/molecules/HoliSwiper/index'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import {
-  GoodNewsArticlesQueryArgs,
-  GoodNewsArticlesQueryResponse,
+  type GoodNewsArticlesQueryArgs,
+  type GoodNewsArticlesQueryResponse,
   goodNewsArticlesQuery,
 } from '@holi-apps/goodnews/queries'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 import GoodNewsArticleComponent from './GoodNewsArticleComponent'
 import GoodNewsHeader from './GoodNewsHeader'
@@ -73,7 +73,7 @@ const GoodNewsCarousel = () => {
 
   const [activeArticleIndex, setActiveArticleIndex] = useState<number>(0)
 
-  const [paramArticleId] = useParam('articleId', singleParamConfig)
+  const paramArticleId = useParam('articleId', singleParamConfig)
   const initialArticleIndex = paramArticleId ? articles.findIndex((article) => article.id === paramArticleId) : 0
 
   const activeArticleFormattedDate =

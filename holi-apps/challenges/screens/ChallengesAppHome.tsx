@@ -30,7 +30,7 @@ const { useParam } = createParamHooks<ChallengesAppHomeParams>()
 const ChallengesAppHome = () => {
   const { theme } = useTheme()
   const { navigate } = useRouting()
-  const [pathQueryParam] = useParam('path')
+  const pathQueryParam = useParam('path')
   const { goBack } = useNavigation()
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()

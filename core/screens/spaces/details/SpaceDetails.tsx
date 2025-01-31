@@ -44,7 +44,7 @@ const SpaceDetails = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
-  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const spaceIdOrName = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { theme } = useTheme()
   const { colors } = theme
   const styles = getStyles()
@@ -81,7 +81,7 @@ const SpaceDetails = () => {
   }, [space?.collaborationTools?.length, space?.connectionStatusToMyself, space?.tasks?.length])
   const onlyAllowKnownTabs = (value: string | undefined): string | undefined =>
     !!value && Object.values(SpaceDetailsTabs).includes(value as SpaceDetailsTabs) ? value : undefined
-  const [tabParam] = useParam('tab', singleParamConfig)
+  const tabParam = useParam('tab', singleParamConfig)
   const activeTab = onlyAllowKnownTabs(tabParam)
   const setHoliTabQueryParam = useHoliTabQueryParamSetter(activeTab)
   const onTabChange = (key: string) => {

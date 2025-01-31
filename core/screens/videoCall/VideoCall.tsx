@@ -1,6 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import { Camera } from 'expo-camera'
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import type React from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
@@ -12,7 +13,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { jitsiUrl } from '@holi/core/helpers/config'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
-import { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
+import type { VideoCallParams } from '@holi/core/screens/videoCall/VideoCall.shared'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -21,7 +22,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 const { useParam } = createParamHooks<VideoCallParams>()
 
 const VideoCall: React.FC = () => {
-  const [roomName] = useParam('roomName')
+  const roomName = useParam('roomName')
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)

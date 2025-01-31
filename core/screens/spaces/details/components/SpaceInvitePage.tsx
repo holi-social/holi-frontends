@@ -26,7 +26,7 @@ const { useParam } = createParamHooks<SpaceInviteViewParams>()
 const SpaceInvitePage = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { loading, error, space } = useSpace(spaceIdOrName)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

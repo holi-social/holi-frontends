@@ -29,7 +29,7 @@ const SpaceTasks = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { width: screenWidth } = useClientWindowDimensions()
   const screenOffset = Math.min(screenWidth, dimensions.maxScreenWidth) / 2
 

@@ -55,10 +55,10 @@ enum SpaceCollaboratorsTabs {
 const EditSpaceCollaborators = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { replaceRoute } = useRouting()
-  const [selectedTab] = useParam('tab')
-  const [selectedUserId] = useUUIDParam('userId')
+  const selectedTab = useParam('tab')
+  const selectedUserId = useUUIDParam('userId')
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
   const [selectedMember, setSelectedMember] = useState<SpaceMember | null>()
   const { navigate } = useRouting()

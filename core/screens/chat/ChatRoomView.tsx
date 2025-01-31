@@ -60,7 +60,7 @@ const ChatRoomView = () => {
   const { styles } = useStyles(stylesheet)
   const { track } = useTracking()
 
-  const [roomId = ''] = useParam('roomId')
+  const roomId = useParam('roomId', { initial: '' })
   const [room, messages] = useRoomById(roomId)
   const { user: loggedInUser } = useLoggedInUser()
   const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))

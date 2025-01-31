@@ -31,9 +31,9 @@ const DiscussionCommentPage = () => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const setScreenOptions = useSetScreenOptions()
-  const [discussionId] = useUUIDParam('discussionId')
-  const [insightId] = useUUIDParam('insightId')
-  const [commentId] = useUUIDParam('commentId')
+  const discussionId = useUUIDParam('discussionId')
+  const insightId = useUUIDParam('insightId')
+  const commentId = useUUIDParam('commentId')
   const { replaceRoute } = useRouting()
   const { theme } = useTheme()
 

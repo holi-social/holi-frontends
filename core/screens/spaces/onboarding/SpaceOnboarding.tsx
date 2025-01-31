@@ -28,7 +28,7 @@ const { useParam } = createParamHooks<SpaceOnboardingParams>()
 
 const SpaceOnboarding = () => {
   const { t } = useTranslation()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

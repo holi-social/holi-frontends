@@ -41,7 +41,7 @@ export type EditPostParams = {
 const { useParam } = createParamHooks<EditPostParams>()
 
 const EditPost = () => {
-  const [idOrSlug] = useParam('idOrSlug')
+  const idOrSlug = useParam('idOrSlug')
   const { theme } = useTheme()
 
   const styles = useMemo(() => getStyles(theme), [theme])

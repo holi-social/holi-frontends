@@ -13,7 +13,7 @@ export const mockParameters = (parameters: Parameters = {}) => {
   const mockUseParam = jest.mocked(useParam)
   const mockUseUUIDParam = jest.mocked(useUUIDParam)
   mockUseParam.mockImplementation((paramName: keyof Parameters) => {
-    return [parameters[paramName]]
+    return parameters[paramName]
   })
 
   return {

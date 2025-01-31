@@ -39,8 +39,8 @@ export type QuoteDetailPageParams = {
 const { useUUIDParam } = createParamHooks<QuoteDetailPageParams>()
 
 const QuoteDetailPage = () => {
-  const [insightId] = useUUIDParam('insightId')
-  const [quoteId] = useUUIDParam('quoteId')
+  const insightId = useUUIDParam('insightId')
+  const quoteId = useUUIDParam('quoteId')
 
   const { replaceRoute } = useRouting()
   const mixins = useStyleMixins()

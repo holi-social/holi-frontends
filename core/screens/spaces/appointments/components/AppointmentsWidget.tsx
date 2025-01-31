@@ -63,7 +63,7 @@ const AppointmentsWidget = ({ space, appointments, totalResults, isCollaborator,
   const { useParam } = createParamHooks<SpaceDetailsParams>()
   const { t } = useTranslation()
   const { navigate } = useRouting()
-  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const spaceIdOrName = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 

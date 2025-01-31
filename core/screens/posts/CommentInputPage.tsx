@@ -24,9 +24,9 @@ export type CommentInputPageParams = {
 const CommentInputPage = () => {
   const { useParam, useUUIDParam } = createParamHooks<CommentInputPageParams>()
 
-  const [insightId] = useUUIDParam('insightId')
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [postId] = useUUIDParam('postId')
+  const insightId = useUUIDParam('insightId')
+  const spaceIdOrName = useParam('spaceIdOrName')
+  const postId = useUUIDParam('postId')
   const { navigate, replaceRoute } = useRouting()
   const { t } = useTranslation()
   const { user } = useLoggedInUser()

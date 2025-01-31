@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { coerceToUUIDString } from '@holi/core/helpers'
 import { useEffect, useMemo, useRef } from 'react'
 
 export type Config<
@@ -49,7 +50,7 @@ export type Returns<
     : ParseFunction extends undefined
       ? NullableUnparsedParsedType
       : NonNullable<NullableUnparsedParsedType>,
-> = readonly [state: ParsedType | InitialValue]
+> = ParsedType | InitialValue
 
 export type UpdateOptions = {
   web?: {
@@ -75,4 +76,5 @@ const parseArray = (value?: string | string[]): string[] | undefined =>
 
 export const singleParamConfig = { initial: undefined, parse: parseString }
 export const arrayParamConfig = { initial: undefined, parse: parseArray }
+export const uuidParamConfig = { initial: undefined, parse: coerceToUUIDString }
 export const webReplaceQueryConfig = { web: { replace: true } }

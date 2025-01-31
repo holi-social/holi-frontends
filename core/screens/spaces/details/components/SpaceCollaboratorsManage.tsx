@@ -23,7 +23,7 @@ export type SpaceCollaboratorsManageParams = {
 const { useParam } = createParamHooks<SpaceCollaboratorsManageParams>()
 
 const SpaceCollaboratorsManage = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const mixins = useStyleMixins()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()

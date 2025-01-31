@@ -28,7 +28,7 @@ const { useParam } = createParamHooks<LinkHubParams>()
 
 const LinkHub = () => {
   const { t } = useTranslation()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { width: screenWidth } = useWindowDimensions()

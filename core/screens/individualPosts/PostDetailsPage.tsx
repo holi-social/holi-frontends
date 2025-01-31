@@ -58,8 +58,8 @@ export type PostDetailsPageParams = {
 const { useParam, useUUIDParam } = createParamHooks<PostDetailsPageParams>()
 
 const PostDetailsPage = () => {
-  const [idOrSlug] = useParam('idOrSlug')
-  const [commentId] = useUUIDParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
+  const idOrSlug = useParam('idOrSlug')
+  const commentId = useUUIDParam('commentId') // if there is a commentId, open its replies by default (usually after a new comment is made)
   const { t, i18n } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()

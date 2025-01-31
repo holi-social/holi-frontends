@@ -49,8 +49,8 @@ export type AppointmentDetailsParams = RefreshOnNavigationParams & {
 const { useParam } = createParamHooks<AppointmentDetailsParams>()
 
 const AppointmentDetails = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [idOrSlug] = useParam('idOrSlug')
+  const spaceIdOrName = useParam('spaceIdOrName')
+  const idOrSlug = useParam('idOrSlug')
   const [imageError, setImageError] = useState(false)
   const setScreenOptions = useSetScreenOptions()
   const { navigateBack, replaceRoute, navigate } = useRouting()

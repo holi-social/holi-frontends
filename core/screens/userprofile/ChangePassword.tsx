@@ -53,8 +53,8 @@ export type ChangePasswordParams = {
 const { useParam } = createParamHooks<ChangePasswordParams>()
 
 const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => {
-  const [flow] = useParam('flow')
-  const [webview] = useParam('webview')
+  const flow = useParam('flow')
+  const webview = useParam('webview')
   const { t, i18n } = useTranslation()
   const [oldPwdNode, setOldPwdNode] = useState<UiNode>()
   const [newPwdNode, setNewPwdNode] = useState<UiNode>()

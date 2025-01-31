@@ -54,7 +54,7 @@ const UserProfile = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const loginState = useLoggedInUser()
-  const [userId = ''] = useUUIDParam('userId')
+  const userId = useUUIDParam('userId', { initial: '' })
 
   const [activeTab, setActiveTab] = useState<string>('posts')
 

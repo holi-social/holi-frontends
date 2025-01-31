@@ -39,7 +39,7 @@ const { useParam } = createParamHooks<SpaceOnboardingStepsParams>()
 
 const SpaceOnboardingSteps = () => {
   const { t } = useTranslation()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { visible: exampleVisible, show: showExample, hide: hideExample } = useModalState()

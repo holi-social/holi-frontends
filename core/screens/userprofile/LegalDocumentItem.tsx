@@ -16,7 +16,7 @@ const { useParam } = createParamHooks<{ type: DocType }>()
 
 const LegalDocumentItem = () => {
   const { t } = useTranslation()
-  const [docTypeParam] = useParam('type')
+  const docTypeParam = useParam('type')
   const { displayError } = useErrorHandling()
 
   const { navigateBack } = useRouting()

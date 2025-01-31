@@ -35,9 +35,9 @@ const CreateReport = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { navigateBack } = useRouting()
-  const [contentType] = useParam('type')
-  const [contentType3k] = useParam('type3k')
-  const [id] = useParam('id')
+  const contentType = useParam('type')
+  const contentType3k = useParam('type3k')
+  const id = useParam('id')
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 

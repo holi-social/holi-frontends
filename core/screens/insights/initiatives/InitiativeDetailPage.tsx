@@ -36,8 +36,8 @@ export type InitiativeDetailPageParams = {
 const { useUUIDParam } = createParamHooks<InitiativeDetailPageParams>()
 
 const InitiativeDetailPage = () => {
-  const [insightId] = useUUIDParam('insightId')
-  const [initiativeId] = useUUIDParam('initiativeId')
+  const insightId = useUUIDParam('insightId')
+  const initiativeId = useUUIDParam('initiativeId')
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()

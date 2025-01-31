@@ -25,7 +25,7 @@ export type SpaceVideoCallListParams = {
 const { useParam } = createParamHooks<SpaceVideoCallListParams>()
 
 const SpaceVideoCallList = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const spaceIdOrName = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { theme } = useTheme()

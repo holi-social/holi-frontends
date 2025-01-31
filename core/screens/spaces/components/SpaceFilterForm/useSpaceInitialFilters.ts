@@ -16,9 +16,9 @@ export const useSpaceInitialFilters = () => {
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
 
-  const [locationId] = useParam('location', singleParamConfig)
-  const [topicSlugs = []] = useParam('topic', arrayParamConfig)
-  const [skillSlugs = []] = useParam('skill', arrayParamConfig)
+  const locationId = useParam('location', singleParamConfig)
+  const topicSlugs = useParam('topic', { ...arrayParamConfig, initial: [] })
+  const skillSlugs = useParam('skill', { ...arrayParamConfig, initial: [] })
   const filters = { topicSlugs, locationId, skillSlugs }
 
   const location = useGeolocationDetailsWithSuggestion(locationId, (error) =>

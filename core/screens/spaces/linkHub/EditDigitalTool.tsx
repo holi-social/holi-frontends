@@ -37,8 +37,8 @@ export type EditDigitalToolParams = {
 const { useParam } = createParamHooks<EditDigitalToolParams>()
 
 const EditDigitalTool = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [toolId] = useParam('toolIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
+  const toolId = useParam('toolIdOrName')
   const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()

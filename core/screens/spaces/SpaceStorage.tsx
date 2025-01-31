@@ -1,5 +1,6 @@
 import { withProfiler } from '@sentry/react'
-import React, { useEffect, useLayoutEffect } from 'react'
+import type React from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, useWindowDimensions } from 'react-native'
 
@@ -25,7 +26,7 @@ export type SpaceStorageParams = {
 const { useParam } = createParamHooks<SpaceStorageParams>()
 
 const SpaceStorage: React.FC = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const spaceIdOrName = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
   const styles = getStyles(deviceHeight)

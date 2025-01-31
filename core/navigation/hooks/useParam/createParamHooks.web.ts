@@ -71,7 +71,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       return state
     }, [stableParse, webParam])
 
-    return [state]
+    return state
   }
 
   const useUUIDParam = (
@@ -83,7 +83,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
       parse: coerceToUUIDString,
       initial: undefined,
     }
-  ): readonly [string | undefined] => useParam(name, maybeConfig)
+  ): string | undefined => useParam(name, maybeConfig)
 
   const useUpdateParams = (
     options?: UpdateOptions

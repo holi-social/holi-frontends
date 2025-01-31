@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
+import type { CreateAppointmentInput } from '@holi/api/graphql/graphql-codegen'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import AppointmentCreateEditForm from '@holi/core/screens/spaces/appointments/components/AppointmentCreateEditForm'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -17,7 +17,7 @@ const { useParam } = createParamHooks<CreateAppointmentParams>()
 
 const CreateAppointment = () => {
   const { t } = useTranslation()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
 
   const {
     data: { spaceById: space } = {},

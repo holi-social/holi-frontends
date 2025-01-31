@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
-import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import createParamHooks, { uuidParamConfig } from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CommentForm from '@holi/core/screens/comments/components/CommentForm'
@@ -24,14 +24,14 @@ export type PostCommentPageParams = {
   commentId: string
 }
 
-const { useParam, useUUIDParam } = createParamHooks<PostCommentPageParams>()
+const { useParam } = createParamHooks<PostCommentPageParams>()
 
 const PostCommentPage = () => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const setScreenOptions = useSetScreenOptions()
-  const [idOrSlug] = useParam('idOrSlug')
-  const [commentId] = useUUIDParam('commentId')
+  const idOrSlug = useParam('idOrSlug')
+  const commentId = useParam('commentId', uuidParamConfig)
   const { replaceRoute } = useRouting()
 
   const { theme } = useTheme()

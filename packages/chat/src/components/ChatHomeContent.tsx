@@ -156,7 +156,7 @@ const tabRoomAtomsRecordAtom = atom<Record<string, ChatRoomAtom[]>>((get) => {
 })
 
 const ChatHomeRoomList = ({ loggedInUser }: ChatHomeRoomListProps) => {
-  const [selectedTabId = DEFAULT_TAB_ID] = useParam('activeTab')
+  const selectedTabId = useParam('activeTab', { initial: DEFAULT_TAB_ID })
 
   const { t } = useTranslation()
   const mixins = useStyleMixins()

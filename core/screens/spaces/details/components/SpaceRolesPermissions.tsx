@@ -211,7 +211,7 @@ const SpaceRolesTabContent = ({ rolePermissions }: SpaceRolesPermissionsProps) =
 const SpaceRolesPermissions = () => {
   const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { theme } = useTheme()
   const { colors } = theme
 

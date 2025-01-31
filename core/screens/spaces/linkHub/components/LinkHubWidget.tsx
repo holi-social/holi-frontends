@@ -53,7 +53,7 @@ const LinkHubWidget: React.FC<LinkHubWidgetProps> = ({ space, style }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
-  const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
+  const spaceIdOrName = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const { collaborationTools = [] } = space
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])

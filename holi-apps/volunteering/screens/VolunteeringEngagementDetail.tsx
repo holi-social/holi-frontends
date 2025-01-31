@@ -136,7 +136,7 @@ interface AboutVolunteeringProps {
 }
 
 const UnwrappedVolunteeringEngagementDetail = () => {
-  const [engagementId] = useParam('engagementId')
+  const engagementId = useParam('engagementId')
   const { t } = useTranslation()
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()

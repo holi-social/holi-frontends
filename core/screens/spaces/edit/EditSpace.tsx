@@ -122,9 +122,9 @@ export const SDG_INFO_MODAL_SOURCES_MAPPING: {
 }
 
 const EditSpace: React.FC<ScreenProps> = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [isOnboarding] = useParam('onboarding')
-  const [askOptIn] = useParam('askOptIn')
+  const spaceIdOrName = useParam('spaceIdOrName')
+  const isOnboarding = useParam('onboarding')
+  const askOptIn = useParam('askOptIn')
 
   const [editField, setEditField] = useState<EditFields | null>(null)
   const [isEdit, setIsEdit] = useState<boolean>(false)

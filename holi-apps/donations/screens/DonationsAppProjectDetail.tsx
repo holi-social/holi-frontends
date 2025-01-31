@@ -44,7 +44,7 @@ const UTM_PARAMS = '?utm_source=holi&utm_medium=detailpage&utm_campaign=holi'
 const { useParam } = createParamHooks<DonationsAppProjectDetailParams>()
 
 const DonationsAppProjectDetail = () => {
-  const [projectId] = useParam('projectId')
+  const projectId = useParam('projectId')
   const { t } = useTranslation()
   const { displayError } = useErrorHandling()
   const statusBarHeight = constants.statusBarHeight

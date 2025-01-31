@@ -44,7 +44,7 @@ const ActHome = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const setScreenOptions = useSetScreenOptions()
   const title = t('act.title')
-  const [selectedContentType] = useParam('section')
+  const selectedContentType = useParam('section')
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({

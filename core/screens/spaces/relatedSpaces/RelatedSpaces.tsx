@@ -45,7 +45,7 @@ const RelatedSpaces = () => {
   const { colors } = theme
   const backgroundColor = colors.white200
 
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const { height } = useWindowDimensions()
   const spaceFetchLimit = Math.ceil(height / SPACE_BLOCK_ITEM_HEIGHT) // load enough items to fill the screen
 

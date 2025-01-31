@@ -20,8 +20,8 @@ const { useParam } = createParamHooks<EditAppointmentParams>()
 
 const EditAppointment = () => {
   const { t } = useTranslation()
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [appointmentIdOrSlug] = useParam('idOrSlug')
+  const spaceIdOrName = useParam('spaceIdOrName')
+  const appointmentIdOrSlug = useParam('idOrSlug')
   const { navigateBack } = useRouting()
 
   const {

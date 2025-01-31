@@ -53,7 +53,7 @@ const SpaceDetailView = ({ space, activeTab, onTabChange }: SpaceDetailViewProps
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
   const { useParam } = createParamHooks()
-  const [askOptIn] = useParam('askOptIn')
+  const askOptIn = useParam('askOptIn')
 
   const [modalVisible, setModalVisible] = useState(false)
   const openSettings = () => Linking.openURL('app-settings:')

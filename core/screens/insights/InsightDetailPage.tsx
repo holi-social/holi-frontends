@@ -60,7 +60,7 @@ export type InsightDetailPageParams = {
 const { useUUIDParam } = createParamHooks<InsightDetailPageParams>()
 
 const InsightDetailPage = () => {
-  const [insightId] = useUUIDParam('insightId')
+  const insightId = useUUIDParam('insightId')
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate, replaceRoute } = useRouting()

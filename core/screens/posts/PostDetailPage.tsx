@@ -44,11 +44,11 @@ const COMMENT_BUTTON_CONTAINER_HEIGHT = 74
 const COMMENT_VIEW_PADDING_BOTTOM = 120
 
 const PostDetailPage = () => {
-  const [insightId] = useUUIDParam('insightId')
-  const [spaceIdOrName] = useParam('spaceIdOrName')
-  const [postId] = useUUIDParam('postId')
+  const insightId = useUUIDParam('insightId')
+  const spaceIdOrName = useParam('spaceIdOrName')
+  const postId = useUUIDParam('postId')
   // `commentId` can be a UUID of a comment or hardcoded 'first' string value
-  const [commentId] = useUUIDParam('commentId')
+  const commentId = useUUIDParam('commentId')
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { navigateWithAuth } = useAuthRequiredNavigation()

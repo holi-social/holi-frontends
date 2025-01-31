@@ -28,7 +28,7 @@ const useTabNavigation = ({ tabNamesInOrder, determineInitialTab }: TabNavigatio
     [tabNamesInOrder]
   )
 
-  const [currentTabName] = useParam('tab', singleParamConfig)
+  const currentTabName = useParam('tab', singleParamConfig)
   const [initialTabIndex, setInitialTabIndex] = useState<number | undefined>()
   const updateParams = useUpdateParams(webReplaceQueryConfig)
 

@@ -31,7 +31,7 @@ const { useParam, useUpdateParams } = createParamHooks<RefreshOnNavigationParams
  * subsequent refreshes.
  */
 const useRefreshOnNavigation = ({ initialized = false }: RefreshOnNavigationProps) => {
-  const [refreshParam] = useParam('refresh')
+  const refreshParam = useParam('refresh')
   const updateParams = useUpdateParams(webReplaceQueryConfig)
   const {
     refreshControlProps: { onRefresh },

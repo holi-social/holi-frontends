@@ -34,8 +34,8 @@ const validateFilter = (value: FilterType): FilterType => {
 const SearchContent = () => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
-  const [query = ''] = useParam('query', singleParamConfig)
-  const [selectedFilter] = useParam('filter', singleParamConfig)
+  const query = useParam('query', { ...singleParamConfig, initial: '' })
+  const selectedFilter = useParam('filter', singleParamConfig)
   const updateParams = useUpdateParams(webReplaceQueryConfig)
   const filter = validateFilter(selectedFilter as FilterType)
   const itemsToLoad = useRef<number>(FILTER_ALL_PAGE_SIZE)

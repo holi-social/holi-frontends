@@ -56,8 +56,8 @@ export const Search = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
-  const [initialQuery] = useParam('query', singleParamConfig)
-  const [initialFacet] = useParam('facet', singleParamConfig)
+  const initialQuery = useParam('query', singleParamConfig)
+  const initialFacet = useParam('facet', singleParamConfig)
   const updateParams = useUpdateParams({ web: { replace: true } })
 
   return (

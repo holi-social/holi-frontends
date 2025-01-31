@@ -21,10 +21,10 @@ export type CreateUpdateParams = {
 const { useParam, useUUIDParam } = createParamHooks<CreateUpdateParams>()
 
 const CreateSpaceUpdate = () => {
-  const [spaceIdOrName] = useParam('spaceIdOrName')
+  const spaceIdOrName = useParam('spaceIdOrName')
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
-  const [postId] = useUUIDParam('postId')
+  const postId = useUUIDParam('postId')
 
   const { theme } = useTheme()
   const { colors } = theme
