@@ -16,6 +16,7 @@ export interface HeaderBackButtonProps {
   style?: StyleProp<ViewStyle>
   testID?: string
   onPress?: () => void
+  fallbackRoute?: string
 }
 
 const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({
@@ -24,6 +25,7 @@ const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({
   tintColor,
   onPress,
   testID = 'nav-button-back',
+  fallbackRoute,
   ...props
 }) => {
   const { navigateBack } = useRouting()
@@ -34,7 +36,7 @@ const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({
       label={label ?? t('navigation.headerLeft.back')}
       inline
       transparent
-      onPress={() => (onPress ?? navigateBack)()}
+      onPress={onPress ?? (() => navigateBack(fallbackRoute))}
       testID={testID}
       {...props}
     >

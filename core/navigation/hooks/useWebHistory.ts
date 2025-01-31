@@ -24,7 +24,7 @@ export const useWebHistory = () => {
     }
     const subpathIndex = currentPathName.lastIndexOf('/')
     const parentPath = currentPathName.substring(0, subpathIndex)
-    return parentPath ?? '/'
+    return parentPath || '/'
   }
 
   return {

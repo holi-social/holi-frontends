@@ -62,7 +62,7 @@ const CreateReport = () => {
       headerTitleAlign: 'center',
       animation: 'slide_from_bottom',
       headerTitle: () => <Text size="sm">{t('report.' + contentType + '.title')}</Text>,
-      headerLeft: () => <HeaderBackButton icon={Close} onPress={navigateBack} />,
+      headerLeft: () => <HeaderBackButton icon={Close} />,
       headerRight: () => (
         <Pressable onPress={showGuidelinesDrawer}>
           <HoliIcon icon={Information} />

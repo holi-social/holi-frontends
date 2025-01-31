@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
@@ -23,7 +23,7 @@ const GoodNewsAppHome = () => {
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => <GoodNewsHeader />,
-      headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
+      headerLeft: () => <HeaderBackButton tintColor={colors.light} fallbackRoute="/" />,
       headerTintColor: colors.light,
       headerBackVisible: false,
       headerTitleAlign: 'center',
