@@ -47,7 +47,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { taskByIdQuery, type TaskByIdResponse } from '@holi/core/screens/spaces/details/queries'
 import { useQuery } from '@apollo/client'
 import { ChatTopics } from '@holi/chat/src/client/ChatClient'
-import { useAdmins } from '@holi/core/screens/spaces/hooks/useRepresentative'
+import { useAdmins } from '@holi/core/screens/spaces/hooks/useAdmins'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 

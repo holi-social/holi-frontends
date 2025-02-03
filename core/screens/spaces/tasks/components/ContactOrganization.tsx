@@ -6,7 +6,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { chatServerName } from '@holi/core/helpers/config'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
-import { useAdmins } from '@holi/core/screens/spaces/hooks/useRepresentative'
 import { TrackingEvent } from '@holi/core/tracking'
 import { ChatSmile2 } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -24,6 +23,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import type { Task } from '@holi/core/screens/spaces/types'
 import type { User } from '@holi/core/domain/shared/types'
+import { useAdmins } from '@holi/core/screens/spaces/hooks/useAdmins'
 
 const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = false }: ContactOrganizationProps) => {
   const { t } = useTranslation()
@@ -228,11 +228,11 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
 const stylesheet = createStyleSheet(() => ({
   ctaDrawerContent: {
     flexDirection: 'column',
-    gap: 8,
+    gap: Spacing['3xs'],
   },
   ctaDrawerContentWrapper: {
     flexDirection: 'column',
-    gap: 16,
+    gap: Spacing.xs,
   },
   image: {
     alignSelf: 'center',
