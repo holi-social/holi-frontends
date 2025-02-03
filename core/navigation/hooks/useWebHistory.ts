@@ -1,6 +1,7 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
 
-const historyVar = makeVar<string[]>([])
+// Only exposed for testing
+export const historyVar = makeVar<string[]>([])
 
 export const useWebHistory = () => {
   const history = useReactiveVar(historyVar)
@@ -15,8 +16,9 @@ export const useWebHistory = () => {
   }
 
   const back = (currentPathName: string, fallbackRouteName?: string) => {
+    const historyLength = history.length
     history.pop()
-    if (history.length) {
+    if (historyLength) {
       return undefined // Use default behaviour
     }
     if (fallbackRouteName) {
