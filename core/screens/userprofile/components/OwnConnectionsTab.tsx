@@ -1,0 +1,232 @@
+import { useQuery } from '@apollo/client'
+import { withProfiler } from '@sentry/react'
+import React, { useCallback, useMemo, useState } from 'react'
+
+import EmptyTab from '@holi/core/components/EmptyTab'
+import { logError } from '@holi/core/errors/helpers'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import HoliBox from '@holi/ui/components/atoms/HoliBox'
+import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
+import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
+import Spacing from '@holi/ui/foundations/Spacing'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { type Connection, myConnectionsQuery, type MyConnectionsResponse } from '@holi/core/domain/shared/queries'
+import { Avatar } from 'holi-bricks/components/avatar'
+import { Text } from 'holi-bricks/components/text'
+import { StyleSheet, View, type FlexAlignType } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import HoliText from '@holi/ui/components/atoms/HoliText'
+import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Chat3, Flag, User, UserUnfollow } from '@holi/icons/src/generated'
+import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+
+export interface ConnectionsTabProps {
+  emptyText: string
+  emptyCallToAction?: string
+}
+
+const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) => {
+  const { t } = useTranslation()
+  const { theme } = useTheme()
+  const styles = useMemo(() => getStyles(theme), [theme])
+  const { navigate } = useRouting()
+  const { openToast } = useToast()
+
+  const [selectedConnection, setSelectedConnection] = useState<Connection>()
+  const { visible, show, hide } = useModalState()
+
+  const { data, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
+    variables: { offset: 0, limit: 10 },
+    onError: (error) =>
+      logError(error, 'Failed to load connections for user', { location: 'ConnectionsTab.myConnectionsQuery' }),
+  })
+  useOnRefresh(refetch)
+
+  const connections = data?.myConnections.data ?? []
+  const animKey = !data ? 'loading' : data.myConnections.totalResults > 0 ? 'ready' : 'empty'
+
+  const onSelectConnection = useCallback(
+    (connection: Connection) => {
+      setSelectedConnection(connection)
+      show()
+    },
+    [show]
+  )
+
+  const handleNavigation = useCallback(
+    (id: string) => {
+      hide()
+      setTimeout(() => {
+        navigate('/profile/' + id)
+      })
+    },
+    [navigate, hide]
+  )
+
+  return (
+    <HoliTransition.FadeSwitch animKey={animKey}>
+      {animKey === 'loading' && (
+        <HoliBox padding={[Spacing.xs, 0]}>
+          {Array.from({ length: 10 }, (_, index) => index).map((index) => (
+            <HoliBox
+              key={index}
+              padding={[0, 0, 32, 0]}
+              layout={{ maxWidth: dimensions.maxScreenWidth, width: '100%', alignSelf: 'center' }}
+            >
+              <HoliBlockItem loading testID="space-tab-loading" />
+            </HoliBox>
+          ))}
+        </HoliBox>
+      )}
+
+      {animKey === 'ready' && (
+        <HoliBox padding={[Spacing.xs, 0]}>
+          {connections?.map((connection: Connection) => (
+            <HoliButton
+              transparent
+              inline
+              label={t('insights.curatorModal.profileLink')}
+              key={connection.id}
+              onPress={() => onSelectConnection(connection)}
+            >
+              <HoliBox
+                key={connection.id}
+                padding={[0, 0, dimensions.spacingS, 0]}
+                layout={{
+                  maxWidth: dimensions.maxScreenWidth,
+                  width: '100%',
+                  alignSelf: 'center',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <View style={styles.row}>
+                  <Avatar
+                    imgPlaceholder={connection.avatarBlurhash}
+                    imgSrc={connection.avatar}
+                    label={connection.fullName}
+                    initials={connection.avatarLabel}
+                  />
+                  <Text size="sm">{connection.fullName}</Text>
+                </View>
+              </HoliBox>
+            </HoliButton>
+          ))}
+        </HoliBox>
+      )}
+
+      {animKey === 'empty' && <EmptyTab text={emptyText} callToAction={emptyCallToAction} />}
+
+      <HoliModal
+        shown={visible}
+        label={selectedConnection?.fullName || ''}
+        onDismiss={() => hide()}
+        style={styles.modal}
+      >
+        <HoliContainer>
+          <Avatar
+            imgSrc={selectedConnection?.avatar}
+            imgPlaceholder={selectedConnection?.avatarBlurhash}
+            label={selectedConnection?.fullName}
+            initials={selectedConnection?.avatarLabel || ''}
+            size="lg"
+          />
+          <View style={styles.details}>
+            <Text size="lg">{selectedConnection?.fullName}</Text>
+            {selectedConnection?.pronouns && (
+              <Text size="xs" colorOveride="grey">
+                {`(${selectedConnection?.pronouns || ''})`}
+              </Text>
+            )}
+            <HoliGap size="sm" />
+            <HoliDivider />
+            <HoliGap size="m" />
+            <HoliButton
+              contentStyle={styles.actionItem}
+              inline
+              transparent
+              label={t('spaces.collaborators.permissions.viewProfile')}
+              onPress={() => handleNavigation(selectedConnection?.id || '')}
+              testID={'connections-view-profile-btn'}
+            >
+              <HoliIcon icon={User} color={styles.actionItemIcon.color} />
+              <HoliText style={styles.actionItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
+            </HoliButton>
+            <HoliButton
+              contentStyle={styles.actionItem}
+              inline
+              transparent
+              label={t('chat.room.sendButton.label')}
+              onPress={() => openToast(t('global.comingSoon'), HoliToastType.SUCCESS)}
+              testID={'connections-send-message-btn'}
+            >
+              <HoliIcon icon={Chat3} color={styles.actionItemIcon.color} />
+              <HoliText style={styles.actionItemText}>{t('chat.room.sendButton.label')}</HoliText>
+            </HoliButton>
+            <HoliButton
+              contentStyle={styles.actionItem}
+              inline
+              transparent
+              label={t('user.profileView.connection.confirmation.title.CONNECTED')}
+              onPress={() => openToast(t('global.comingSoon'), HoliToastType.SUCCESS)}
+              testID={'connections-send-message-btn'}
+            >
+              <HoliIcon icon={UserUnfollow} color={styles.actionItemIcon.color} />
+              <HoliText style={styles.actionItemText}>
+                {t('user.profileView.connection.confirmation.title.CONNECTED')}
+              </HoliText>
+            </HoliButton>
+            <HoliButton
+              contentStyle={styles.actionItem}
+              inline
+              transparent
+              label={t('spaces.invite.connections.report')}
+              onPress={() => openToast(t('global.comingSoon'), HoliToastType.SUCCESS)}
+              testID={'connections-report-user-btn'}
+            >
+              <HoliIcon icon={Flag} color={styles.actionItemIcon.color} />
+              <HoliText style={styles.actionItemText}>{t('spaces.invite.connections.report')}</HoliText>
+            </HoliButton>
+          </View>
+        </HoliContainer>
+      </HoliModal>
+    </HoliTransition.FadeSwitch>
+  )
+}
+
+const getStyles = (theme: HoliTheme) =>
+  StyleSheet.create({
+    row: {
+      flexDirection: 'row' as const,
+      alignItems: 'center' as FlexAlignType,
+      gap: Spacing['xs'],
+    },
+    modal: {
+      padding: Spacing['lg'],
+    },
+    details: {
+      marginTop: Spacing['xs'],
+    },
+    actionItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 24,
+    },
+    actionItemText: {
+      color: theme.colors.foreground30,
+      paddingLeft: 10,
+    },
+    actionItemIcon: {
+      color: theme.colors.foreground30,
+    },
+  })
+
+export default withProfiler(ConnectionsTab, { name: 'ConnectionsTab' })
