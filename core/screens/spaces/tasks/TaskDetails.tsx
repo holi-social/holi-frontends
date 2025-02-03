@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 
 import HoliHead from '@holi/core/components/HoliHead'
 import { SeoTitle } from '@holi/core/components/SeoTitle'
@@ -19,12 +19,14 @@ import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import SpaceTaskTile from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/ContactOrganization'
-// import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
-// import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
+import { Spacing } from 'holi-bricks/tokens'
+import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { Text } from 'holi-bricks/components/text'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -34,15 +36,13 @@ export type TaskDetailsParams = {
 const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
 
 const TaskDetails = () => {
-  // const displayCta = useFeatureFlagAB(FeatureFlagKey.TASK_CONTACT_CTA)
+  const displayCta = useFeatureFlagAB(FeatureFlagKey.TASK_CONTACT_CTA)
   const [spaceIdOrName] = useParam('spaceIdOrName') // spaceIdOrName can either be space.id or space.name (slug)
   const [taskId] = useUUIDParam('taskId')
   const setScreenOptions = useSetScreenOptions()
   const { replaceRoute } = useRouting()
   const { displayError } = useErrorHandling()
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles } = useStyles(stylesheet)
 
   const { t } = useTranslation()
 
@@ -75,14 +75,14 @@ const TaskDetails = () => {
       animation: 'slide_from_left',
       headerBackVisible: false,
       headerTitleAlign: 'center',
-      headerTitle: () => <HoliText>{t('spaces.tasks.details.title')}</HoliText>,
+      headerTitle: () => <Text size="md">{t('spaces.tasks.details.title')}</Text>,
       headerLeft: () => <HeaderBackButton />,
       headerRight: () => <View style={styles.headerRight}>{renderActionDrawer()}</View>,
       navigationCustomOptions: {
         footerShown: false,
       },
     })
-  }, [renderActionDrawer, setScreenOptions, t, styles.headerRight, colors.background10])
+  }, [renderActionDrawer, setScreenOptions, t, styles.headerRight])
 
   if (!loading && !task) {
     replaceRoute('/404')
@@ -111,27 +111,26 @@ const TaskDetails = () => {
         </HoliContainer>
       </ScrollViewRefreshable>
 
-      {true && <ContactOrganization spaceIdOrName={spaceIdOrName} task={task} />}
+      {displayCta && <ContactOrganization spaceIdOrName={spaceIdOrName} task={task} />}
     </>
   )
 }
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    defaultLayout: {
-      backgroundColor: theme.colors.background20,
-    },
-    contentStyle: {
-      paddingTop: 12,
-      paddingBottom: 120,
-      minHeight: '100%',
-    },
-    headerRight: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      gap: 14,
-    },
-  })
+const stylesheet = createStyleSheet((theme) => ({
+  defaultLayout: {
+    backgroundColor: theme.colors.bg.page,
+  },
+  contentStyle: {
+    paddingTop: Spacing.xxs,
+    paddingBottom: 120,
+    minHeight: '100%',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 14,
+  },
+}))
 
 export default memo(TaskDetails)

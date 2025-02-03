@@ -1,7 +1,7 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 
 import { LocationType } from '@holi/core/screens/spaces/types'
 import type { Task } from '@holi/core/screens/spaces/types'
@@ -12,6 +12,9 @@ import HoliText, { type HoliTextProps } from '@holi/ui/components/atoms/HoliText
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
+import { Spacing } from 'holi-bricks/tokens'
 
 export interface Props {
   task: Task
@@ -29,6 +32,7 @@ const Content = ({
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { colors } = theme
+  const { styles } = useStyles(stylesheet)
 
   return (
     <>
@@ -112,9 +116,9 @@ const Content = ({
   )
 }
 
-export const styles = StyleSheet.create({
+const stylesheet = createStyleSheet({
   iconsContainer: {
-    marginTop: 8,
+    marginTop: Spacing['3xs'],
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -124,34 +128,34 @@ export const styles = StyleSheet.create({
     flexShrink: 1,
   },
   iconGroupIcon: {
-    marginRight: 4,
+    marginRight: Spacing['4xs'],
   },
   iconGroupText: {
-    marginRight: 8,
+    marginRight: Spacing['3xs'],
   },
   skillsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 16,
+    marginTop: Spacing.xs,
     gap: 6,
   },
   publishedByTitle: {
-    marginTop: 32,
+    marginTop: Spacing.lg,
   },
   avatar: {
-    marginTop: 16,
+    marginTop: Spacing.xs,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+    gap: Spacing.xs,
   },
   contactInformationTitle: {
-    marginTop: 16,
+    marginTop: Spacing.xs,
   },
   contactContainer: {
-    marginTop: 16,
+    marginTop: Spacing.xs,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: Spacing['3xs'],
   },
 })
 

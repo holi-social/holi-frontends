@@ -225,7 +225,7 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const stylesheet = createStyleSheet({
   ctaDrawerContent: {
     flexDirection: 'column',
     gap: Spacing['3xs'],
@@ -246,4 +246,4 @@ const stylesheet = createStyleSheet(() => ({
     position: 'absolute',
     marginHorizontal: 'auto',
   },
-}))
+})
