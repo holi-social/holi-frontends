@@ -35,6 +35,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import ConnectionsTab from '@holi/core/screens/userprofile/components/ConnectionsTab'
 
 export type UserProfileParams = {
   userId: string
@@ -143,6 +144,72 @@ const UserProfile = () => {
   const hasSkills = !!user.skills?.length
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
+  const tabsData = [
+    {
+      key: 'posts',
+      tabTitle: t('individuals.post.name'),
+      content: () => <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
+    },
+    {
+      key: 'profile',
+      tabTitle: t('profile.tabs.profile'),
+      content: () => (
+        <View style={styles.profileContainer}>
+          {user.engagementLevel && (
+            <View style={styles.chipRowContainer} key="engagementLevel">
+              <HoliChipRow title={t('profile.engagementLevel')}>
+                <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
+              </HoliChipRow>
+            </View>
+          )}
+          {hasInterests && (
+            <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
+              <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} color="green" />
+            </View>
+          )}
+          {hasSdgs && (
+            <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
+              <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} color="white" />
+            </View>
+          )}
+          {hasSkills && (
+            <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
+              <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} color="blue" />
+            </View>
+          )}
+          {!hasInfo && (
+            <View style={styles.infoContainer} key="missingInfo">
+              <HoliText style={styles.infoText}>{t('profile.missingInfo')}</HoliText>
+            </View>
+          )}
+        </View>
+      ),
+    },
+    {
+      key: 'insights',
+      tabTitle: t('profile.tabs.insight'),
+      content: () => <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
+    },
+    {
+      key: 'spaces',
+      tabTitle: t('profile.tabs.spaces'),
+      content: () => (
+        <SpacesTab
+          emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}
+          memberId={user.id}
+        />
+      ),
+    },
+  ]
+
+  if (loginState.isLoggedIn) {
+    tabsData.push({
+      key: 'connections',
+      tabTitle: t('profile.tabs.connections'),
+      content: () => <ConnectionsTab emptyText={t('user.profile.connections.title.empty')} userId={user.id} />,
+    })
+  }
+
   return (
     <ScrollViewRefreshable style={styles.layout} contentContainerStyle={styles.content}>
       <View style={[mixins.container, styles.container]}>
@@ -152,68 +219,7 @@ const UserProfile = () => {
       <HoliTabs
         activeTab={activeTab}
         onChange={setActiveTab}
-        data={[
-          {
-            key: 'posts',
-            tabTitle: t('individuals.post.name'),
-            content: () => <OtherPostsTab userId={user.id} userFirstName={user.firstName} />,
-          },
-          {
-            key: 'profile',
-            tabTitle: t('profile.tabs.profile'),
-            content: () => (
-              <View style={styles.profileContainer}>
-                {user.engagementLevel && (
-                  <View style={styles.chipRowContainer} key="engagementLevel">
-                    <HoliChipRow title={t('profile.engagementLevel')}>
-                      <ChipLabel color="white">{t(`user.engagementLevel.title.${user.engagementLevel}`)}</ChipLabel>
-                    </HoliChipRow>
-                  </View>
-                )}
-                {hasInterests && (
-                  <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
-                    <UserChipRow
-                      user={user}
-                      keyInUserObject={UserChipTypes.INTERESTS}
-                      numberOfLines={1}
-                      color="green"
-                    />
-                  </View>
-                )}
-                {hasSdgs && (
-                  <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
-                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} color="white" />
-                  </View>
-                )}
-                {hasSkills && (
-                  <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
-                    <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} color="blue" />
-                  </View>
-                )}
-                {!hasInfo && (
-                  <View style={styles.infoContainer} key="missingInfo">
-                    <HoliText style={styles.infoText}>{t('profile.missingInfo')}</HoliText>
-                  </View>
-                )}
-              </View>
-            ),
-          },
-          {
-            key: 'insights',
-            tabTitle: t('profile.tabs.insight'),
-            content: () => <InsightsTab emptyText={t('profile.tabs.insight.empty')} userId={user.id} />,
-          },
-          {
-            key: 'spaces',
-            tabTitle: t('profile.tabs.spaces'),
-            content: () => (
-              <SpacesTab
-                emptyText={t('profile.userprofile.tabs.spaces.empty', { fullName: user.fullName })}
-                memberId={user.id}
-              />
-            ),
-          },
-        ]}
+        data={tabsData}
         keyExtractor={(item) => item.key}
         renderTabContent={({ item }) => item.content()}
         backgroundColor={colors.background20}
