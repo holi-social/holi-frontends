@@ -30,6 +30,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type PostDetailPageParams = {
   postId: string
@@ -105,6 +106,7 @@ const PostDetailPage = () => {
   const post = data?.postById
   const title = post?.title
   const comments: readonly Comment[] = commentable?.comments?.data || []
+  const fallbackRoute = insightId ? `/insights/${insightId}` : spaceIdOrName ? `/spaces/${spaceIdOrName}` : '/'
 
   useIsomorphicLayoutEffect(
     () =>
@@ -113,8 +115,9 @@ const PostDetailPage = () => {
         navigationCustomOptions: {
           footerShown: false,
         },
+        headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} fallbackRoute={fallbackRoute} />,
       }),
-    [setScreenOptions, title]
+    [fallbackRoute, setScreenOptions, title]
   )
 
   useTrackOnce(post && space && TrackingEvent.SpacePosts.read(post.id, space.id))

@@ -28,6 +28,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type RecommendationDetailPageParams = {
   insightId: string
@@ -103,8 +104,11 @@ const RecommendationDetailPage = () => {
           </HoliActionDrawer.Drawer>
         )
       },
+      headerLeft: ({ tintColor }) => (
+        <HeaderBackButton tintColor={tintColor} fallbackRoute={`/insights/${insightId}`} />
+      ),
     })
-  }, [t, setScreenOptions, shareLink, colors.black300])
+  }, [t, setScreenOptions, shareLink, colors.black300, insightId])
 
   return (
     <>

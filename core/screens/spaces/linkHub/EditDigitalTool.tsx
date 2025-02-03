@@ -186,6 +186,7 @@ const EditDigitalTool = () => {
         toggleConfirmationModal={setShowConfirmationModal}
         onSave={onSave}
         showConfirmationModal={showConfirmationModal}
+        fallbackRoute={`/spaces/${spaceIdOrName}/linkhub`}
       >
         <DigitalToolInputForm
           onChangeUrl={setUrl}

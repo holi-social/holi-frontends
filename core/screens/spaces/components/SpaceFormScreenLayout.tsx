@@ -21,6 +21,7 @@ interface SpaceFormScreenLayoutProps {
   showConfirmationModal: boolean
   saveButtonDisabled: boolean
   children: React.ReactNode
+  fallbackRoute?: string
 }
 
 const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
@@ -31,6 +32,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
   saveButtonDisabled,
   showConfirmationModal,
   children,
+  fallbackRoute,
 }) => {
   const { height: deviceHeight } = useWindowDimensions()
   const { navigateBack } = useRouting()
@@ -79,7 +81,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
         testID="form-modal-exit-confirmation"
         onPrimary={() => {
           toggleConfirmationModal(false)
-          navigateBack()
+          navigateBack(fallbackRoute)
         }}
       />
     </SpaceTermContextProvider>
