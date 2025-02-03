@@ -381,12 +381,12 @@ export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
   return getChatClient().createRoom(userIds, { isDirectMessage: true })
 }
 /**
- * @name getOrCreateRoom (Client Helper)
+ * @name getOrCreatePrivateRoom (Client Helper)
  * @description returns the room id of an existing one-on-one room, if it
  * exists, or creates a new one.
  */
-export const getOrCreateRoom = async (userIds: string[], name?: string, chatTopic?: ChatTopics): Promise<RoomId> => {
-  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name, chatTopic: chatTopic })
+export const getOrCreatePrivateRoom = async (userIds: string[]): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true })
 }
 
 export const getOrCreateTaskRoom = async (

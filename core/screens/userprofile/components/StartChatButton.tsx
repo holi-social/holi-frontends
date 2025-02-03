@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
-import { getOrCreateRoom } from '@holi/chat/src/store'
+import { getOrCreatePrivateRoom } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -55,7 +55,7 @@ export function StartChatButton({
     try {
       // TODO: the correct Matrix identity should come from Okuna
       const fullIdentity = convertToMatrixIdentity(identity)
-      const { room_id } = await getOrCreateRoom([fullIdentity])
+      const { room_id } = await getOrCreatePrivateRoom([fullIdentity])
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)

@@ -23,7 +23,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import type { Task } from '@holi/core/screens/spaces/types'
 import type { User } from '@holi/core/domain/shared/types'
-import { useAdmins } from '@holi/core/screens/spaces/hooks/useAdmins'
+import { useSpaceAdminUsers } from '@holi/core/screens/spaces/hooks/useAdmins'
 
 const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = false }: ContactOrganizationProps) => {
   const { t } = useTranslation()
@@ -32,7 +32,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = fal
   const { openSignupModal } = useSignupModal()
   const { openToast } = useToast()
   const { navigate } = useRouting()
-  const { adminsAsUser } = useAdmins(spaceIdOrName)
+  const { adminUsers } = useSpaceAdminUsers(spaceIdOrName)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -59,16 +59,13 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = fal
     }
   }
 
-  const start = async () => {
-    setIsLoading(true)
-
+  const startTaskChat = async () => {
     if (!isLoggedIn) {
       safelyOpenSignupModal()
-      setIsLoading(false)
       return
     }
 
-    if (!adminsAsUser) {
+    if (!adminUsers) {
       logError(
         new HoliError('Can not create a chat without a space representatives identity'),
         'Failed to start chat',
@@ -76,12 +73,12 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = fal
           location: 'StartChatDrawerActionButton.start',
         }
       )
-      setIsLoading(false)
       return
     }
 
+    setIsLoading(true)
     try {
-      await openChatRoom(adminsAsUser, task)
+      await openChatRoom(adminUsers, task)
     } finally {
       setIsLoading(false)
     }
@@ -92,7 +89,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = fal
       trackingEvent={TrackingEvent.TaskContactOrganization.contactedOrganization}
       loading={isLoading}
       disabled={isLoading}
-      onPress={start}
+      onPress={startTaskChat}
       variant="primary"
       size="lg"
       icon={ChatSmile2}
@@ -152,26 +149,26 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   const { space } = useSpace(spaceIdOrName)
-  const { adminsAsUser } = useAdmins(spaceIdOrName)
+  const { adminUsers } = useSpaceAdminUsers(spaceIdOrName)
   const [alreadyStarted, setAlreadyStarted] = useState<boolean>(false)
   const { user } = useLoggedInUser()
 
   useEffect(() => {
     const checkChatExists = async () => {
-      if (!adminsAsUser) return
+      if (!adminUsers) return
 
-      const chatPartnerIdentities = adminsAsUser.map((adminAsUser) => adminAsUser.identity)
+      const chatPartnerIdentities = adminUsers.map((adminAsUser) => adminAsUser.identity)
       const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => '@' + identity + ':' + chatServerName)
       const exists = await roomAlreadyExists(chatPartnerMatrixIds)
       setAlreadyStarted(exists)
     }
 
     checkChatExists()
-  }, [adminsAsUser])
+  }, [adminUsers])
 
   if (!spaceIdOrName) return null
 
-  const isSpaceAdmin = adminsAsUser?.some((admin) => {
+  const isSpaceAdmin = adminUsers?.some((admin) => {
     return admin.id === user?.id
   })
   if (isSpaceAdmin) return null
@@ -208,13 +205,16 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
             height={40}
             resizeMode="contain"
           />
+
           <Text size="3xl">{t('spaces.tasks.contactOrganization.title')}</Text>
-          <Text size="md" variant="secondary">
+
+          <Text size="md" color="support">
             <Trans t={t} i18nKey="spaces.tasks.contactOrganization.description" values={{ organization: space?.title }}>
               <Text size="lg" textAlign="center" />
             </Trans>
           </Text>
-          <Text size="sm" variant="secondary">
+
+          <Text size="sm" color="support">
             {t('spaces.tasks.contactOrganization.subdescription')}
           </Text>
         </View>

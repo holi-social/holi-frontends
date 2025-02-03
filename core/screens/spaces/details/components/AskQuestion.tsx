@@ -1,4 +1,4 @@
-import { getOrCreateRoom } from '@holi/chat/src/store'
+import { getOrCreatePrivateRoom } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -45,7 +45,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName }: AskQuestionProps) => {
   async function openChatRoom(chatPartnerIdentity: string) {
     try {
       const chatPartnerMatrixId = '@' + chatPartnerIdentity + ':' + chatServerName
-      const { room_id } = await getOrCreateRoom([chatPartnerMatrixId])
+      const { room_id } = await getOrCreatePrivateRoom([chatPartnerMatrixId])
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)

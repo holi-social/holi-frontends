@@ -316,6 +316,38 @@ export const spaceRepresentative = gql`
   }
 `
 
+export type AdminsBySpaceIdResponse = {
+  spaceById: {
+    id: string
+    name: string
+    members: {
+      data: {
+        user: {
+          id: string
+          isAdministrator: boolean
+        }
+      }[]
+    }
+  }
+}
+
+export const spaceAdmins = gql`
+  query AdminsBySpaceId($idOrName: String!) {
+    spaceById(idOrName: $idOrName) {
+      id
+      name
+      members(limit: 100000) {
+        data {
+          user {
+            id
+            isAdministrator
+          }
+        }
+      }
+    }
+  }
+`
+
 // limit of 100000 to ignore pagination and get all member ids
 export const spaceByIdWithAllMembersQuery = gql`
   query SpaceMembershiByIdAllMembers($idOrName: String!) {

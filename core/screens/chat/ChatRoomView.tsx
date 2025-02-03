@@ -49,7 +49,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { taskByIdQuery, type TaskByIdResponse } from '@holi/core/screens/spaces/details/queries'
 import { useQuery } from '@apollo/client'
 import { ChatTopics } from '@holi/chat/src/client/ChatClient'
-import { useAdmins } from '@holi/core/screens/spaces/hooks/useAdmins'
+import { useSpaceAdminUsers } from '@holi/core/screens/spaces/hooks/useAdmins'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
 
@@ -83,14 +83,14 @@ const ChatRoomView = () => {
 
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
 
-  const { adminsAsUser } = useAdmins(parentSpaceId)
+  const { adminUsers } = useSpaceAdminUsers(parentSpaceId)
 
   const chatPartnerHoliUsers: User[] = (chatPartners || [])
     .map((chatPartner) => getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord))
     .filter((holiUser): holiUser is User => holiUser !== undefined)
 
   const chatPartnersWithoutAdmins: User[] = chatPartnerHoliUsers.filter(
-    (user) => !adminsAsUser?.some((admin) => admin.id === user.id)
+    (user) => !adminUsers?.some((admin) => admin.id === user.id)
   )
 
   const [taskId, setTaskId] = useState<string>()

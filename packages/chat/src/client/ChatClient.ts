@@ -123,12 +123,9 @@ export default class ChatClient {
 
   private createSharedData(room: Room): RoomWithSharedData {
     const { sharedDataEvent, parentEvent } = this.getSpaceEvents(room)
-    // console.log("room", room)
-    // console.log("sharedDataEvent", sharedDataEvent) // there should be a sharedDataEvent
     if (!sharedDataEvent) return { type: 'private', room }
 
     const content = sharedDataEvent.getEffectiveEvent().content
-    // console.log("content", content) // should contain a taskId
 
     if (room.isSpaceRoom() && isSharedDataContent(content)) {
       return { type: 'space', room, content }
