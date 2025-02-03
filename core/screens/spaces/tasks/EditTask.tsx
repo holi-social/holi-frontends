@@ -34,7 +34,7 @@ export type EditTaskParams = {
   taskId: string
 }
 
-const { useParam } = createParamHooks<EditTaskParams>()
+const { useParam, useUUIDParam } = createParamHooks<EditTaskParams>()
 
 const DEFAULT_SLOTS_AVAILABLE = 1
 
@@ -43,7 +43,7 @@ const EditTask = () => {
   const { navigateBack, replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
-  const [taskId] = useParam('taskId')
+  const [taskId] = useUUIDParam('taskId')
   const { openToast } = useToast()
 
   // input fields

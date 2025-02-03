@@ -174,3 +174,36 @@ export type UsersByChatIdentitiesQueryVariables = {
 export type UsersByChatIdentitiesResponse = {
   usersByChatIdentities: Paged<User>
 }
+
+export const myConnectionsQuery = gql`
+  query myConnections($offset: Int!, $limit: Int!) {
+    myConnections(offset: $offset, limit: $limit) {
+      totalResults
+      data {
+        id
+        fullName
+        avatar
+        avatarBlurhash
+        avatarDefaultColor
+        avatarLabel
+        pronouns
+      }
+    }
+  }
+`
+
+export type Connection = {
+  id: string
+  fullName: string
+  avatar: string
+  avatarBlurhash: string
+  avatarDefaultColor: string
+  avatarLabel: string
+  pronouns: string
+}
+export interface MyConnectionsResponse {
+  myConnections: {
+    totalResults: number
+    data: Connection[]
+  }
+}

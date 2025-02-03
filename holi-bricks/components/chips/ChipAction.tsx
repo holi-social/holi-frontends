@@ -26,6 +26,7 @@ export type ChipActionProps = AccessibilityProps & {
   iconLeading?: HoliIconType
   iconTrailing?: HoliIconType
   'aria-label'?: string
+  testID?: string
 }
 
 export const ChipAction = ({
@@ -38,6 +39,7 @@ export const ChipAction = ({
   iconLeading,
   iconTrailing,
   role = 'switch',
+  testID,
   ...rest
 }: ChipActionProps) => {
   const { styles } = useStyles(stylesheet, { size, selected, disabled })
@@ -51,6 +53,7 @@ export const ChipAction = ({
       aria-checked={selected}
       role={role}
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
+      testID={testID}
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
       {children && (

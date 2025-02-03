@@ -98,8 +98,7 @@ export const SPACE_CHILD_EVENT_CONTENT = {
   parentSpaceRoomId: SPACE_ROOM_ID_FIXTURE,
 }
 
-// Message helpers
-export const msgEvent = (roomId: string, senderId: string, eventNr: number): IEvent => {
+export const fakeRoomMessageEvent = (roomId: string, senderId: string, eventNr: number): IEvent => {
   return {
     state_key: 'dummy',
     event_id: 'id_' + eventNr,
@@ -114,7 +113,20 @@ export const msgEvent = (roomId: string, senderId: string, eventNr: number): IEv
   }
 }
 
-export const expectedMsgForEvent = (e: IEvent): ChatRoomMessage => {
+export const fakeUnrenderedEvent = (roomId: string, senderId: string, eventNr: number): IEvent => {
+  return {
+    state_key: 'someStateKey',
+    event_id: 'id_' + eventNr,
+    type: EventType.Dummy,
+    sender: senderId,
+    origin_server_ts: eventNr,
+    unsigned: {},
+    room_id: roomId,
+    content: {},
+  }
+}
+
+export const fakeChatRoomMessageFrom = (e: IEvent): ChatRoomMessage => {
   return {
     id: e.event_id,
     timestamp: e.origin_server_ts,
@@ -134,12 +146,12 @@ export const sendMessageEvent = (
   senderId: string,
   eventNr: number
 ) => {
-  const event = msgEvent(roomMock.roomId, senderId, eventNr)
+  const event = fakeRoomMessageEvent(roomMock.roomId, senderId, eventNr)
   const eventMock = createMatrixEventMock(EventType.RoomMessage, roomMock.roomId, {}, event)
 
   act(() => listener(eventMock, roomMock))
 
-  const message = expectedMsgForEvent(event)
+  const message = fakeChatRoomMessageFrom(event)
   return { message, event, eventMock }
 }
 

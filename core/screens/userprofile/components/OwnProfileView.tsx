@@ -23,6 +23,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
+import OwnConnectionsTab from '@holi/core/screens/userprofile/components/OwnConnectionsTab'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
@@ -31,6 +32,7 @@ export enum Tab {
   POSTS = 'posts',
   INSIGHTS = 'insights',
   SPACES = 'spaces',
+  CONNECTIONS = 'connections',
 }
 
 interface OwnProfileViewProps {
@@ -143,6 +145,16 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                 emptyText={t('profile.tabs.spaces.empty')}
                 emptyCallToAction={t('profile.tabs.spaces.empty.callToAction')}
                 memberId={user.id}
+              />
+            ),
+          },
+          {
+            key: Tab.CONNECTIONS,
+            tabTitle: t('profile.tabs.connections'),
+            content: () => (
+              <OwnConnectionsTab
+                emptyText={t('spaces.invite.connections.empty')}
+                emptyCallToAction={t('spaces.invite.connections.empty.cta')}
               />
             ),
           },

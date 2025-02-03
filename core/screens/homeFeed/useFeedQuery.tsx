@@ -6,8 +6,6 @@ import { goodNewsArticlesQuery } from '@holi-apps/goodnews/queries'
 import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
 import { logError } from '@holi/core/errors/helpers'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
-import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
-import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
@@ -63,9 +61,10 @@ export const useFeedQuery = () => {
   } = useQuery(lastInsightsQuery, {
     variables: { offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
     onCompleted: (data) => {
-      setInsightsCreators(
-        data.lastInsights.data.map((insight: Insight) => insight.creator).filter((creator: User) => !!creator)
-      )
+      const creators = data.lastInsights.data
+        .map((insight: Insight) => insight.creator)
+        .filter((creator: User) => !!creator)
+      setInsightsCreators(creators)
     },
   })
 
@@ -77,49 +76,49 @@ export const useFeedQuery = () => {
 
   const combinedFeedData = useMemo(() => {
     const feedData = data?.feed?.data || []
-    const combined: (FeedItem & {
-      goodNewsArticle?: GoodNewsArticle
-      volunteeringReco?: VolunteeringReco
-    })[] = [...feedData]
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
     const engagements = dataVolunteering?.appVolunteering_engagementRecos?.data || []
     const insights = dataInsights?.lastInsights?.data || []
 
-    let insertIndex = POST_FREQUENCY
-    let articleIndex = 0
-    let insightIndex = 0
-    let volunteeringIndex = 0
+    // Pre-calculate total length to avoid array resizing
+    const totalExternalItems = Math.floor(feedData.length / POST_FREQUENCY) * 3
+    const resultLength = feedData.length + totalExternalItems
+    const result = new Array(resultLength)
 
-    while (insertIndex < combined.length) {
-      // Insert good news article
-      if (articleIndex < articles.length) {
-        combined.splice(insertIndex, 0, {
-          goodNewsArticle: articles[articleIndex],
-        })
-        articleIndex++
-        insertIndex += POST_FREQUENCY + 1
+    // Copy feed data first
+    let resultIndex = 0
+    feedData.forEach((item: FeedItem, i: number) => {
+      result[resultIndex] = item
+      resultIndex++
+
+      // Insert external content every POST_FREQUENCY items
+      if ((i + 1) % POST_FREQUENCY === 0) {
+        const externalIndex = Math.floor(i / POST_FREQUENCY)
+
+        // Insert good news
+        if (articles[externalIndex]) {
+          result[resultIndex] = { goodNewsArticle: articles[externalIndex] }
+          resultIndex++
+        }
+
+        // Insert insight
+        if (insights[externalIndex]) {
+          result[resultIndex] = { insight: insights[externalIndex] }
+          resultIndex++
+        }
+
+        // Insert volunteering
+        if (engagements[externalIndex]) {
+          result[resultIndex] = {
+            volunteeringReco: engagements[externalIndex],
+          }
+          resultIndex++
+        }
       }
+    })
 
-      // Insert insight
-      if (insertIndex < combined.length && insightIndex < insights.length) {
-        combined.splice(insertIndex, 0, {
-          insight: insights[insightIndex],
-        })
-        insightIndex++
-        insertIndex += POST_FREQUENCY + 1
-      }
-
-      // Insert volunteering recommendation
-      if (insertIndex < combined.length && volunteeringIndex < engagements.length) {
-        combined.splice(insertIndex, 0, {
-          volunteeringReco: engagements[volunteeringIndex],
-        })
-        volunteeringIndex++
-        insertIndex += POST_FREQUENCY + 1
-      }
-    }
-
-    return combined
+    // Remove any null entries and return
+    return result.filter(Boolean)
   }, [
     data?.feed?.data,
     dataGoodNews?.appGoodNews_articles?.articles,
@@ -139,21 +138,20 @@ export const useFeedQuery = () => {
         },
         updateQuery: (prev, { fetchMoreResult }) => {
           if (!fetchMoreResult?.feed?.data) return prev
+
+          const existingIds = new Set(
+            prev.feed.data.map((post: FeedItem) => post.feedPost?.id || post.spacePost?.id || post.insight?.id)
+          )
+
+          const newPosts = fetchMoreResult.feed.data.filter((newItem: FeedItem) => {
+            const newId = newItem.feedPost?.id || newItem.spacePost?.id || newItem.insight?.id
+            return !existingIds.has(newId)
+          })
+
           return {
             feed: {
               ...prev.feed,
-              data: [
-                ...prev.feed.data,
-                ...fetchMoreResult.feed.data.filter(
-                  (newItem: FeedItem) =>
-                    !prev.feed.data.some(
-                      (existingPost: FeedItem) =>
-                        (newItem.feedPost?.id && existingPost.feedPost?.id === newItem.feedPost.id) ||
-                        (newItem.spacePost?.id && existingPost.spacePost?.id === newItem.spacePost.id) ||
-                        (newItem.insight?.id && existingPost.insight?.id === newItem.insight.id)
-                    )
-                ),
-              ],
+              data: [...prev.feed.data, ...newPosts],
             },
           }
         },
@@ -168,10 +166,7 @@ export const useFeedQuery = () => {
   const handleRefresh = useCallback(async () => {
     setRefreshing(true)
     try {
-      await refetch()
-      await refetchGoodNews()
-      await refetchVolunteering()
-      await refetchInsights()
+      await Promise.all([refetch(), refetchGoodNews(), refetchVolunteering(), refetchInsights()])
     } finally {
       setRefreshing(false)
     }

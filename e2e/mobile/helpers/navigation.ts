@@ -4,9 +4,12 @@ const homeScreenTestId = 'home-feed-insights-heading'
 
 export const waitForHomeScreen = async (timeout?: number) => waitForElementWithTestId(homeScreenTestId, timeout)
 
+export const waitForActScreen = async (timeout?: number) => waitForElementWithTestId('act-home', timeout)
+
 export const navigateToAppById = async (id: 'donations' | 'goodnews' | 'volunteering') => {
   await waitForHomeScreen()
   await tapOnElementWithTestId('btn-to-act')
+  await waitForElementWithTestId('act-home')
   await scrollToElementWithTestId(`${id}-reco-slider-heading-button`, 'down')
   await tapOnElementWithTestId(`${id}-reco-slider-heading-button`)
   await waitForElementWithTestId(`${id}-list-container`)

@@ -2,7 +2,13 @@ import type { ScreenPadding } from '@holi/core/components/Screen/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { Dimensions } from 'react-native'
+
+const makePadding = (padding?: ScreenPadding) => ({
+  paddingTop: padding?.top ? Spacing[padding?.top] : 0,
+  paddingBottom: padding?.bottom ? Spacing[padding?.bottom] : 0,
+  paddingLeft: padding?.left ? Spacing[padding?.left] : 0,
+  paddingRight: padding?.right ? Spacing[padding?.right] : 0,
+})
 
 export const stylesheet = createStyleSheet(() => {
   return {
@@ -22,11 +28,14 @@ export const stylesheet = createStyleSheet(() => {
       alignItems: 'stretch',
     },
     padding: (padding?: ScreenPadding) => {
+      const parsedPadding = makePadding(padding)
+      return parsedPadding
+    },
+    contentContainerPadding: (headerShown = true, topInset: number, padding?: ScreenPadding) => {
+      const parsePadding = makePadding(padding)
       return {
-        paddingTop: padding?.top ? Spacing[padding?.top] : 0,
-        paddingBottom: padding?.bottom ? Spacing[padding?.bottom] : 0,
-        paddingLeft: padding?.left ? Spacing[padding?.left] : 0,
-        paddingRight: padding?.right ? Spacing[padding?.right] : 0,
+        ...parsePadding,
+        paddingTop: headerShown ? parsePadding.paddingTop : topInset + parsePadding.paddingTop,
       }
     },
     stickyBottomOffset: (offset: number) => {
@@ -71,15 +80,14 @@ export const stylesheet = createStyleSheet(() => {
       right: 0,
       zIndex: 10,
     },
-    fixedScreenContainer: {
-      flex: 1,
-      maxHeight: Dimensions.get('screen').height - dimensions.bottomBarHeight - dimensions.topBarHeight,
-    },
     relative: {
       position: 'relative',
     },
     flex1: {
       flex: 1,
+    },
+    flexEnd: {
+      justifyContent: 'flex-end',
     },
   }
 })

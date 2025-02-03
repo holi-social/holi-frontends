@@ -42,7 +42,7 @@ export type EditSpaceCollaboratorsParams = RefreshOnNavigationParams & {
   userId?: string
 }
 
-const { useParam } = createParamHooks<EditSpaceCollaboratorsParams>()
+const { useParam, useUUIDParam } = createParamHooks<EditSpaceCollaboratorsParams>()
 
 const PAGE_SIZE = 20
 
@@ -58,7 +58,7 @@ const EditSpaceCollaborators = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { replaceRoute } = useRouting()
   const [selectedTab] = useParam('tab')
-  const [selectedUserId] = useParam('userId')
+  const [selectedUserId] = useUUIDParam('userId')
   const { visible: permissionsVisible, show: showPermissions, hide: hidePermissions } = useModalState()
   const [selectedMember, setSelectedMember] = useState<SpaceMember | null>()
   const { navigate } = useRouting()

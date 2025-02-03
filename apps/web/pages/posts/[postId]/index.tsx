@@ -20,7 +20,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries)
+  return createServerSideProps(context, queries, { uuidParams: [postId] })
 }
 
 export default PostPage

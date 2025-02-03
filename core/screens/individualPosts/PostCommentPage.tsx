@@ -24,14 +24,14 @@ export type PostCommentPageParams = {
   commentId: string
 }
 
-const { useParam } = createParamHooks<PostCommentPageParams>()
+const { useParam, useUUIDParam } = createParamHooks<PostCommentPageParams>()
 
 const PostCommentPage = () => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const setScreenOptions = useSetScreenOptions()
   const [idOrSlug] = useParam('idOrSlug')
-  const [commentId] = useParam('commentId')
+  const [commentId] = useUUIDParam('commentId')
   const { replaceRoute } = useRouting()
 
   const { theme } = useTheme()

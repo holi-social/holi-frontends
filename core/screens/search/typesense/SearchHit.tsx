@@ -36,13 +36,12 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
 
   return (
     <SearchHitLink hit={hit} label={title} onPress={onPress}>
-      <View style={styles.hitItem}>
+      <View style={styles.hitItem} testID={`search-hit-${hit.type}`}>
         <Avatar
           initials={getInitials(title)}
           label={title}
           size={'md'}
           shape={hit.type === 'profile' ? 'circle' : 'square'}
-          role={'img'}
           imgSrc={hit.image_url}
         />
         <View style={styles.hitItemContent}>

@@ -40,7 +40,7 @@ export type UserProfileParams = {
   userId: string
 }
 
-const { useParam } = createParamHooks<UserProfileParams>()
+const { useUUIDParam } = createParamHooks<UserProfileParams>()
 
 const UserProfile = () => {
   const { t } = useTranslation()
@@ -54,7 +54,7 @@ const UserProfile = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
 
   const loginState = useLoggedInUser()
-  const [userId = ''] = useParam('userId')
+  const [userId = ''] = useUUIDParam('userId')
 
   const [activeTab, setActiveTab] = useState<string>('posts')
 

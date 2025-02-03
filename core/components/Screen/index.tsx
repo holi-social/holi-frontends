@@ -17,6 +17,7 @@ import { useScreenComponentInternal } from '@holi/core/components/Screen/useScre
 import Animated, { useAnimatedStyle, useDerivedValue } from 'react-native-reanimated'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { KeyboardAwareScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 
 const isIos = Platform.OS === 'ios'
 
@@ -85,9 +86,22 @@ function ScreenWithScrolling(props: ScreenProps) {
   )
 }
 
-function ScreenWithoutScrolling({ children, contentPadding }: FixedScreenProps) {
+function ScreenWithoutScrolling({ children, contentPadding, preset, style, contentContainerStyle }: FixedScreenProps) {
   const { styles } = useStyles(stylesheet)
-  return <View style={[styles.screenContentContainer, styles.flex1, styles.padding(contentPadding)]}>{children}</View>
+  return (
+    <View style={[style, styles.container]}>
+      <View
+        style={[
+          contentContainerStyle,
+          preset === 'fixed' && styles.flexEnd,
+          styles.padding(contentPadding),
+          styles.screenContentContainer,
+        ]}
+      >
+        {children}
+      </View>
+    </View>
+  )
 }
 
 type BottomComponentWrapperProps = {
@@ -120,12 +134,13 @@ export const Screen = (props: ScreenProps) => {
     keyboardVerticalOffset = 100,
     statusBarProps,
     keyboardAvoidingViewProps,
-    backgroundColor,
+    backgroundColor = 'page',
     safeAreaEdges = [],
     StickyBottomComponent,
     headerOptions,
     StickyTopComponent,
-    padding = { left: 'xs', right: 'xs' },
+    padding,
+    contentContainerPadding = { left: 'xs', right: 'xs' },
     testID,
     ...otherProps
   } = props
@@ -135,17 +150,18 @@ export const Screen = (props: ScreenProps) => {
   const { stickyBottomLayout, stickyBottomOffset, stickyTopLayout, stickyTopOffset } = useScreenComponentInternal({
     headerOptions,
   })
-
+  const safeAreaInsets = useSafeAreaInsets()
+  const navigationOptions = useScreenOptions()
   return (
     <SafeAreaView
       edges={safeAreaEdges}
       mode="padding"
       testID={testID}
       style={[
-        styles.padding(padding),
         styles.container,
         styles.relative,
-        { backgroundColor: backgroundColor || theme.colors.bg.page },
+        styles.padding(padding),
+        { backgroundColor: theme.colors.bg[backgroundColor] },
       ]}
     >
       <StatusBar {...statusBarProps} barStyle={themeName === 'dark' ? 'light-content' : 'dark-content'} />
@@ -155,13 +171,12 @@ export const Screen = (props: ScreenProps) => {
         keyboardVerticalOffset={keyboardVerticalOffset}
         {...keyboardAvoidingViewProps}
         style={[
+          keyboardAvoidingViewProps?.style,
           styles.flex1,
           styles.relative,
-          isNonScrolling(preset) && styles.fixedScreenContainer,
+          styles.contentContainerPadding(navigationOptions.headerShown, safeAreaInsets.top, contentContainerPadding),
           StickyBottomComponent ? styles.stickyBottomOffset(stickyBottomOffset) : null,
           StickyTopComponent ? styles.stickyTopOffset(stickyTopOffset) : null,
-          // TODO: move back up when fixedScreenContainer is fixed
-          keyboardAvoidingViewProps?.style,
         ]}
       >
         {StickyTopComponent && (

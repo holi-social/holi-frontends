@@ -22,6 +22,7 @@ export const SearchButton = () => {
         navigate('/search')
       }}
       size="lg"
+      testID="btn-to-search"
     />
   )
 }

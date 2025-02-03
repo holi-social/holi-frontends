@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { SignupModalPressedTrigger } from '@holi/core/tracking/types'
+import type { Channel } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 
 type RecommendationType = 'space' | 'donation' | 'volunteering_opportunity' | 'goodnews' | 'space_task'
 
@@ -378,6 +379,33 @@ export namespace TrackingEvent {
     ...versionOne,
   })
 
+  export namespace Chat {
+    interface ChatMessageMetadataBase {
+      roomId: string
+      content: 'text' | 'file' | 'image'
+    }
+
+    interface ChatUserMessageMetadata extends ChatMessageMetadataBase {
+      type: 'direct_message'
+    }
+
+    interface ChatSpaceMessageMetadata extends ChatMessageMetadataBase {
+      type: 'space_message'
+      spaceId: string
+      spaceName: string
+    }
+
+    type ChatMessageMetadata = ChatUserMessageMetadata | ChatSpaceMessageMetadata
+
+    export const MessageSent = (metadata: ChatMessageMetadata): TrackingEvent => ({
+      name: 'chatMessageSent',
+      properties: {
+        ...metadata,
+      },
+      ...versionOne,
+    })
+  }
+
   export const NotYetAvailableFeaturePressed = (feature: string): TrackingEvent => ({
     name: 'notYetAvailableFeaturePressed',
     properties: { feature },
@@ -421,6 +449,21 @@ export namespace TrackingEvent {
       ...versionOne,
     }),
   }
+
+  export const NotificationPreferenceChanged = (
+    workflowId: string,
+    workflowName: string,
+    channel: Channel,
+    newState: boolean
+  ): TrackingEvent => ({
+    ...versionOne,
+    name: 'notificationPreferenceChanged',
+    properties: {
+      workflowId,
+      channel,
+      newState,
+    },
+  })
 }
 
 export const Unknown: TrackingEvent = {

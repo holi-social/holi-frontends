@@ -40,6 +40,8 @@ import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboardSafeAreaView'
 import { dimensions } from '@holi/ui/styles/globalVars'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
 import type { User } from '@holi/core/domain/shared/types'
@@ -57,19 +59,22 @@ export type ChatRoomPageParams = {
 
 const { useParam } = createParamHooks<ChatRoomPageParams>()
 
+const NUMBER_OF_TEXT_MESSAGES_NEEDED_TO_FILL_A_SCREEN_AND_CAUSE_SCROLLBARS = 40
+
 const ChatRoomView = () => {
   const { t } = useTranslation()
   const { navigateBack, replaceRoute } = useRouting()
   const chatInitialized = useChatInitialized()
   const { styles } = useStyles(stylesheet)
   const { displayError } = useErrorHandling()
+  const { track } = useTracking()
 
   const [roomId = ''] = useParam('roomId')
   const [room, messages] = useRoomById(roomId)
   const { user: loggedInUser } = useLoggedInUser()
   const chatPartners = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
 
-  const requestMessages = useRequestRoomMessages()
+  const requestMessages = useRequestRoomMessages(NUMBER_OF_TEXT_MESSAGES_NEEDED_TO_FILL_A_SCREEN_AND_CAUSE_SCROLLBARS)
   const setScreenOptions = useSetScreenOptions()
 
   const roomMemberIds = room?.members.map((m) => m.id) ?? []
@@ -246,6 +251,30 @@ const ChatRoomView = () => {
   // reset header when screen is focused
   useShowHeaderOnScreenFocus()
 
+  const sendTrackingEvent = () => {
+    if (!loggedInUser || !room) return
+
+    if (isSpaceRoom) {
+      track(
+        TrackingEvent.Chat.MessageSent({
+          roomId: room.id,
+          type: 'space_message',
+          content: 'text',
+          spaceId: room.content.holiSpaceId,
+          spaceName: room.content.spaceName,
+        })
+      )
+    } else {
+      track(
+        TrackingEvent.Chat.MessageSent({
+          roomId: room.id,
+          type: 'direct_message',
+          content: 'text',
+        })
+      )
+    }
+  }
+
   // TODO: provide skeleton instead of HoliLoader
   if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
 
@@ -299,6 +328,7 @@ const ChatRoomView = () => {
                     userName={chatPartnerHoliUsers?.[0]?.fullName}
                     roomId={roomId}
                     isTaskChat={task !== undefined}
+                    onMessageSent={sendTrackingEvent}
                   />
                 </HoliContainer>
               </View>

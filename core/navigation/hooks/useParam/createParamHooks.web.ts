@@ -6,12 +6,13 @@ import Router, { useRouter } from 'next/router'
 import { useCallback, useMemo, useRef } from 'react'
 
 import {
-  Params,
-  Returns,
-  UpdateOptions,
+  type Params,
+  type Returns,
+  type UpdateOptions,
   useStable,
   useStableCallback,
 } from '@holi/core/navigation/hooks/useParam/shared'
+import { coerceToUUIDString } from '@holi/core/helpers'
 
 /**
  * This creates two hooks for handling query parameters:
@@ -117,6 +118,17 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
     return [state, setState]
   }
 
+  const useUUIDParam = (
+    name: keyof Props,
+    maybeConfig: Omit<Parameters<typeof useParam>[1], 'parse' | 'initial'> & {
+      parse?: typeof coerceToUUIDString
+      initial: string | undefined
+    } = {
+      parse: coerceToUUIDString,
+      initial: undefined,
+    }
+  ): readonly [string | undefined, (value: string) => void] => useParam(name, maybeConfig)
+
   const useUpdateParams = (
     options?: UpdateOptions
   ): ((props: Partial<Props>, optionOverrides?: UpdateOptions) => void) => {
@@ -152,6 +164,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
 
   return {
     useParam,
+    useUUIDParam,
     useUpdateParams,
   }
 }

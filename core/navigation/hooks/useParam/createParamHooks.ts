@@ -4,13 +4,19 @@
 // From https://gist.github.com/nandorojo/052887f99bb61b54845474f324aa41cc
 import { useCallback, useEffect, useState } from 'react'
 
-import { Params, Returns, UpdateOptions, useStableCallback } from '@holi/core/navigation/hooks/useParam/shared'
+import {
+  type Params,
+  type Returns,
+  type UpdateOptions,
+  useStableCallback,
+} from '@holi/core/navigation/hooks/useParam/shared'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 
 import { useRoute } from './useRoute'
+import { coerceToUUIDString } from '@holi/core/helpers'
 
 /**
- * This creates two hooks for handling query parameters:
+ * This creates three hooks for handling query parameters:
  *
  * - `useParam`:
  *   Requires the name of a query parameter as argument and returns a
@@ -20,6 +26,9 @@ import { useRoute } from './useRoute'
  *   You can pass a second parameter to control how to parse the query
  *   values, e.g. to specify how and if multiple values should be
  *   allowed (see `singleParamConfig` and `arrayParamConfig`).
+ * - `useUUIDParam`:
+ *   Same as `useParam` but for UUIDs, having a default parse function
+ *   that tries to coerce the value to a UUID.
  * - `useUpdateParams`:
  *   This function allows updating multiple query parameters at once and
  *   does not trigger rerenderings. It expects an object of query
@@ -65,6 +74,17 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
     return [nativeState, setNativeState]
   }
 
+  const useUUIDParam = (
+    name: keyof Props,
+    maybeConfig: Omit<Parameters<typeof useParam>[1], 'parse' | 'initial'> & {
+      parse?: typeof coerceToUUIDString
+      initial: string | undefined
+    } = {
+      parse: coerceToUUIDString,
+      initial: undefined,
+    }
+  ): readonly [string | undefined, (value: string) => void] => useParam(name, maybeConfig)
+
   const useUpdateParams = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     options?: UpdateOptions
@@ -83,6 +103,7 @@ const createParamHooks = <Props extends Record<string, unknown> = Record<string,
 
   return {
     useParam,
+    useUUIDParam,
     useUpdateParams,
   }
 }

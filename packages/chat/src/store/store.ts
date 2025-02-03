@@ -621,11 +621,7 @@ export const updateMessages = produce((thread: ChatRoomMessage[], newMessage: Ch
   Object.assign(dupMessage, newMessage)
 })
 
-/**
- * @name useRequestRoomMessages (Hook-Helper)
- * @description
- */
-export const useRequestRoomMessages = () => {
+export const useRequestRoomMessages = (numberOfMessagesToFetch = 40) => {
   const setMessages = useSetAtom(_messageBunchAtomSetter)
   const client = chatClient
   const tokenRef = useRef<{ start?: string; end?: string }>({ start: undefined, end: undefined })
@@ -633,28 +629,42 @@ export const useRequestRoomMessages = () => {
 
   return useCallback(
     async (roomId: string, resync: boolean, limit?: number) => {
-      if (!roomId || !client) return
-      if (isLoading.current || (tokenRef.current.start && !tokenRef.current.end)) return
-
-      isLoading.current = true
-      let merge = !!tokenRef.current.end
-      if (resync) {
-        tokenRef.current = { start: undefined, end: undefined }
-        merge = false
+      if (!roomId || !client) return {}
+      // skip when triggered by multiple scroll events
+      if (isLoading.current) {
+        return
+      }
+      // skip when all messages were fetched
+      if (tokenRef.current.start && !tokenRef.current.end) {
+        return
       }
 
-      await client
-        .createMessagesRequest(roomId, tokenRef.current.end, limit)
-        .then(async (resp) => {
-          const { chunk: roomEvents, start, end } = resp
-          setMessages(roomId, roomEvents, merge)
+      let totalMessages = 0
 
-          // unpdate start and end tokens only after merging messages
-          tokenRef.current = { start, end }
-        })
-        .finally(() => (isLoading.current = false))
+      const fetchMessages = async () => {
+        isLoading.current = true
+        let merge = !!tokenRef.current.end
+        if (resync) {
+          tokenRef.current = { start: undefined, end: undefined }
+          merge = false
+        }
+
+        await client
+          .createMessagesRequest(roomId, tokenRef.current.end, limit)
+          .then(async (resp) => {
+            const { chunk: roomMessageEvents, start, end } = resp
+            setMessages(roomId, roomMessageEvents, merge)
+            tokenRef.current = { start, end }
+            totalMessages += roomMessageEvents.length
+          })
+          .finally(() => (isLoading.current = false))
+      }
+
+      do {
+        await fetchMessages()
+      } while (totalMessages < numberOfMessagesToFetch && tokenRef.current.end)
     },
-    [client, setMessages]
+    [client, setMessages, numberOfMessagesToFetch]
   )
 }
 

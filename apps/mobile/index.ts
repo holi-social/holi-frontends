@@ -8,6 +8,7 @@ import 'intl/locale-data/jsonp/de'
 import 'intl/locale-data/jsonp/en'
 import 'react-native-gesture-handler'
 import 'react-native-url-polyfill/auto'
+import 'react-native-get-random-values' // Polyfill for uuid
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { environment } from '@holi/core/helpers/environment'
@@ -34,7 +35,7 @@ Sentry.init({
       response?.didCallNativeInit ? 'Sentry successfully initialized in env ' + environment : 'Sentry not initialized'
     )
   },
-  beforeSend: function (event, hint) {
+  beforeSend: (event, hint) => {
     const exception = hint.originalException
 
     // The right-hand side operators of instanceof must be objects, otherwise an exception is thrown.

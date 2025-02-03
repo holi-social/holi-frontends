@@ -16,9 +16,9 @@ import type { SearchResults } from 'algoliasearch-helper'
 import type { Hit } from 'instantsearch.js'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useDebounce } from '@holi/ui/helper'
-import { dimensions } from '@holi/ui/styles/globalVars'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
+import { Spacing } from 'holi-bricks/tokens'
 
 const isWeb = Platform.OS === 'web'
 
@@ -64,7 +64,7 @@ export function SearchHitInfiniteList() {
     <FlashList
       contentContainerStyle={styles.list}
       testID={'search-results-list'}
-      estimatedItemSize={HIT_HEIGHT + dimensions.spacingS}
+      estimatedItemSize={HIT_HEIGHT + Spacing['xs']}
       data={items}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
@@ -108,11 +108,11 @@ export function SearchHitInfiniteList() {
 
 const stylesheet = createStyleSheet({
   loader: {
-    padding: dimensions.spacingSM,
+    padding: Spacing['xxs'],
     position: 'relative',
   },
   list: {
-    paddingHorizontal: dimensions.spacingS,
-    paddingVertical: dimensions.spacingS,
+    paddingVertical: Spacing['xs'],
+    paddingHorizontal: Spacing['xs'],
   },
 })

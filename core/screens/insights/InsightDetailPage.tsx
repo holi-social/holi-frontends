@@ -52,16 +52,15 @@ import { Avatar } from 'holi-bricks/components/avatar'
 import { Button } from 'holi-bricks/components/button'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-import GradientBackground from '@holi/core/components/HeaderAnimated/GradientBackground'
 
 export type InsightDetailPageParams = {
   insightId: string
 }
 
-const { useParam } = createParamHooks<InsightDetailPageParams>()
+const { useUUIDParam } = createParamHooks<InsightDetailPageParams>()
 
 const InsightDetailPage = () => {
-  const [insightId] = useParam('insightId')
+  const [insightId] = useUUIDParam('insightId')
   const { t, i18n } = useTranslation()
   const mixins = useStyleMixins()
   const { navigate, replaceRoute } = useRouting()
@@ -85,7 +84,10 @@ const InsightDetailPage = () => {
       if (isNotFoundError(error) || error.message.includes('badly formed hexadecimal UUID string')) {
         return replaceRoute('/404')
       }
-      logError(error, 'Failed to load insight', { location: 'InsightDetailPage.insightById', insightId })
+      logError(error, 'Failed to load insight', {
+        location: 'InsightDetailPage.insightById',
+        insightId,
+      })
     },
   })
   const setScreenOptions = useSetScreenOptions()
@@ -94,16 +96,19 @@ const InsightDetailPage = () => {
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTintColor: colors.light,
-      title: '',
-      headerTransparent: true,
-      headerLeft: () => <HeaderBackButton tintColor={colors.light} />,
-      headerBackground: () => <GradientBackground colors={[colors.dark, 'transparent']} />,
-      headerRight: () => {
+      ...Platform.select({
+        native: {
+          headerTintColor: colors.light,
+          title: '',
+          headerTransparent: true,
+        },
+      }),
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerRight: ({ tintColor }) => {
         return (
           insight && (
             <InsightDrawer insight={insight}>
-              <HoliIcon icon={MoreFilled} color={colors.light} />
+              <HoliIcon icon={MoreFilled} color={tintColor} />
             </InsightDrawer>
           )
         )
@@ -118,7 +123,9 @@ const InsightDetailPage = () => {
   const quotes: Quote[] = insight?.quotes || []
   const initiatives: Initiative[] = insight?.initiatives || []
   const creator = insight?.creator
-  const initiativesTitle = t('insights.initiatives.title', { name: creator?.firstName })
+  const initiativesTitle = t('insights.initiatives.title', {
+    name: creator?.firstName,
+  })
   const cardWidth = 330
   const currentLanguage = getLocale(i18n.language || '')
 
@@ -219,7 +226,7 @@ const InsightDetailPage = () => {
       />
       <StatusBar style="light" animated />
 
-      <ScrollViewRefreshable style={styles.wrapper}>
+      <ScrollViewRefreshable style={styles.wrapper} contentContainerStyle={styles.contentContainer}>
         {insight && !loading ? (
           <>
             <HoliImageBackground
@@ -273,7 +280,9 @@ const InsightDetailPage = () => {
                   </View>
 
                   <HoliModal
-                    label={t('user.cards.modal.showInfo', { name: creator.fullName })}
+                    label={t('user.cards.modal.showInfo', {
+                      name: creator.fullName,
+                    })}
                     shown={curatorModalShown}
                     onDismiss={() => setCuratorModalShown(false)}
                     style={{ backgroundColor: colors.background30 }}
@@ -459,6 +468,11 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     wrapper: {
       backgroundColor: theme.colors.background20,
     },
+    contentContainer: {
+      alignSelf: 'center',
+      width: '100%',
+      maxWidth: dimensions.breakpointL - 128,
+    },
     bannerImage: {
       paddingHorizontal: 0,
       height: Platform.OS === 'web' ? 680 : 340,
@@ -534,12 +548,16 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
       flexDirection: 'row',
       alignItems: 'center',
       gap: Spacing['3xs'],
-      ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+      ...(screenWidth < dimensions.breakpointL && {
+        paddingHorizontal: Spacing.xs,
+      }),
       maxWidth: '95%',
     },
     posts: {
       marginBottom: 20,
-      ...(screenWidth < dimensions.breakpointL && { paddingHorizontal: Spacing.xs }),
+      ...(screenWidth < dimensions.breakpointL && {
+        paddingHorizontal: Spacing.xs,
+      }),
     },
     pollContainer: {
       marginBottom: 0,
@@ -612,4 +630,6 @@ const getStyles = (theme: HoliTheme, screenWidth: number) =>
     },
   })
 
-export default withProfiler(memo(InsightDetailPage), { name: 'InsightDetailPage' })
+export default withProfiler(memo(InsightDetailPage), {
+  name: 'InsightDetailPage',
+})

@@ -1,4 +1,4 @@
-import { NextPageContext } from 'next'
+import type { NextPageContext } from 'next'
 import React from 'react'
 
 import { insightWithRecommendation } from '@holi/core/screens/insights/queries'
@@ -21,7 +21,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   ]
 
-  return createServerSideProps(context, queries)
+  return createServerSideProps(context, queries, { uuidParams: [insightId, recommendationId] })
 }
 
 export default RecommendationPage

@@ -25,15 +25,15 @@ export type DiscussionCommentPageParams = {
   insightId: string
 }
 
-const { useParam } = createParamHooks<DiscussionCommentPageParams>()
+const { useUUIDParam } = createParamHooks<DiscussionCommentPageParams>()
 
 const DiscussionCommentPage = () => {
   const { t } = useTranslation()
   const { user } = useLoggedInUser()
   const setScreenOptions = useSetScreenOptions()
-  const [discussionId] = useParam('discussionId')
-  const [insightId] = useParam('insightId')
-  const [commentId] = useParam('commentId')
+  const [discussionId] = useUUIDParam('discussionId')
+  const [insightId] = useUUIDParam('insightId')
+  const [commentId] = useUUIDParam('commentId')
   const { replaceRoute } = useRouting()
   const { theme } = useTheme()
 

@@ -10,6 +10,7 @@ import { getOrigin } from '@holi/web/helpers/getOrigin'
 import { getValidLocale } from '@holi/web/helpers/getValidLocale'
 import { createApolloPageProps } from '@holi/web/helpers/useApolloWebClient'
 import { type CustomProps, HoliPageProps, type NextJSPageProps } from '@holi/web/types'
+import { coerceUUIDParams } from '@holi/web/helpers/coerceUUIDParams'
 
 interface SkippableQueryOptions extends QueryOptions {
   skip?: boolean
@@ -44,6 +45,18 @@ export const createServerSideProps = async (
   const isFirstServerCall = req?.url?.indexOf('/_next/data/') === -1
   if (!isFirstServerCall) {
     return minimalProps
+  }
+
+  if (customProps?.uuidParams) {
+    const redirectUrl = coerceUUIDParams(customProps?.uuidParams, req.url)
+    if (redirectUrl) {
+      return {
+        redirect: {
+          destination: redirectUrl,
+          permanent: true,
+        },
+      }
+    }
   }
 
   const client = initializeWebApolloClient({ headers: req.headers as Record<string, string>, locale })

@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
 import { Dimensions, Platform, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
+import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 
 export type SearchParams = {
   query?: string
@@ -30,8 +31,6 @@ const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location', 'user_full_name']
 
 const embeddingFields = ['embedding']
-
-const TOP_COMPONENT_HEIGHT = 144
 
 const createTypesenseInstantSearchAdapter = () => {
   return new TypesenseInstantSearchAdapter({
@@ -59,12 +58,16 @@ export const Search = () => {
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
   const [initialQuery] = useParam('query', singleParamConfig)
   const [initialFacet] = useParam('facet', singleParamConfig)
-  const updateParams = useUpdateParams()
+  const updateParams = useUpdateParams({ web: { replace: true } })
 
   return (
     <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
       <Screen
+        backgroundColor="page"
         preset="fixed"
+        contentContainerPadding={{}}
+        contentContainerStyle={{ flex: 1 }} // this is needed because flash list has no initial size, it calculates it while rendering.
+        style={styles.screen}
         headerOptions={{
           title: t('search.title'),
           headerTitleAlign: 'center',
@@ -72,8 +75,6 @@ export const Search = () => {
             footerShown: false,
           },
         }}
-        style={styles.screen}
-        contentContainerStyle={styles.container}
         StickyTopComponent={
           <View style={styles.filterContainer}>
             <HoliBox padding={[0, dimensions.spacingS]}>
@@ -82,43 +83,28 @@ export const Search = () => {
             <SearchFacetsChips initialFacet={initialFacet} onFacetChange={(facet) => updateParams({ facet })} />
           </View>
         }
-        padding={{}}
-        keyboardAvoidingViewProps={{
-          style: styles.wrapper,
-        }}
-        keyboardVerticalOffset={0}
       >
-        <SearchHitInfiniteList />
+        <ErrorBoundary>
+          <SearchHitInfiniteList />
+        </ErrorBoundary>
       </Screen>
     </InstantSearch>
   )
 }
 
+const TOP_COMPONENT_HEIGHT = 144
 const stylesheet = createStyleSheet((theme) => ({
-  screen: {
-    ...Platform.select({
-      native: {
-        maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
-      },
-      web: {
-        maxHeight: Dimensions.get('window').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
-      },
-    }),
-  },
-  wrapper: {
-    ...Platform.select({
-      native: {
-        maxHeight: Dimensions.get('screen').height - dimensions.topBarHeight,
-      },
-    }),
-  },
-  container: {
-    flex: 1,
-  },
   filterContainer: {
     paddingTop: dimensions.spacingS,
     gap: dimensions.spacingS,
     flex: 1,
     backgroundColor: theme.colors.bg.page,
+  },
+  screen: {
+    ...Platform.select({
+      web: {
+        maxHeight: Dimensions.get('window').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
+      },
+    }),
   },
 }))

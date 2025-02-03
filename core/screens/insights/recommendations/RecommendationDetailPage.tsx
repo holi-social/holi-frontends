@@ -34,11 +34,11 @@ export type RecommendationDetailPageParams = {
   recommendationId: string
 }
 
-const { useParam } = createParamHooks<RecommendationDetailPageParams>()
+const { useUUIDParam } = createParamHooks<RecommendationDetailPageParams>()
 
 const RecommendationDetailPage = () => {
-  const [insightId] = useParam('insightId')
-  const [recommendationId] = useParam('recommendationId')
+  const [insightId] = useUUIDParam('insightId')
+  const [recommendationId] = useUUIDParam('recommendationId')
   const { replaceRoute } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const mixins = useStyleMixins()

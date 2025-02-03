@@ -50,7 +50,7 @@ export const Selector = ({
     (id: string) => {
       onSelect?.(id)
       const newSelectedOptions =
-        inputType === 'radio' ? { [id]: !selectedOptions[id] } : { ...selectedOptions, [id]: !selectedOptions[id] }
+        inputType === 'radio' ? { [id]: true } : { ...selectedOptions, [id]: !selectedOptions[id] }
       const newSelectedOptionsAsStringArray = Object.keys(newSelectedOptions).filter((key) => newSelectedOptions[key])
       onChange?.(newSelectedOptionsAsStringArray)
       setSelectedOptions(newSelectedOptions)

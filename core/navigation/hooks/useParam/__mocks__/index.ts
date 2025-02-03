@@ -3,6 +3,7 @@ const mockUseUpdateParams = jest.fn()
 
 const createParamHooks = () => ({
   useParam: mockUseParam,
+  useUUIDParam: mockUseParam,
   useUpdateParams: () => mockUseUpdateParams,
 })
 
