@@ -9,44 +9,44 @@ const setParams = () => undefined
 
 const useRouting = (): RoutingState => {
   const router = useRouter()
-  const history = useWebHistory()
+  const { push, replace, back } = useWebHistory()
 
   const navigate = useCallback(
     (routeName: string) => {
-      history.push(routeName)
+      push(routeName)
       router.push(routeName)
     },
-    [history, router]
+    [push, router]
   )
 
   const replaceRoute = useCallback(
     (routeName: string) => {
-      history.replace(routeName)
+      replace(routeName)
       return router.replace(routeName)
     },
-    [router, history]
+    [replace, router]
   )
 
   const replaceHistory = useCallback(
     async (routeName: string) => {
-      history.replace(routeName)
+      replace(routeName)
       // https://developer.mozilla.org/docs/Web/API/History/replaceState
       window.history.replaceState({ ...window.history.state, url: routeName, as: routeName }, '', routeName)
       return true
     },
-    [history]
+    [replace]
   )
 
   const navigateBack = useCallback(
     (fallbackRouteName?: string) => {
-      const newRouteName = history.back(router.asPath, fallbackRouteName)
+      const newRouteName = back(router.asPath, fallbackRouteName)
       if (newRouteName) {
         navigate(newRouteName)
       } else {
         router.back()
       }
     },
-    [history, router, navigate]
+    [back, router, navigate]
   )
 
   return {
