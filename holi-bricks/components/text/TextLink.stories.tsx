@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
 import { type TextColor, TextLink, type TextLinkSize } from 'holi-bricks/components/text'
-import { lightTheme } from 'holi-bricks/themes/light'
+import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import React from 'react'
 import { View } from 'react-native'
 

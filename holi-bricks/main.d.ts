@@ -1,6 +1,6 @@
+import type { darkTheme } from 'holi-bricks/foundations/colors/themes/dark'
+import type { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import type breakpoints from 'holi-bricks/foundations/dimensions/breakpoints'
-import type { darkTheme } from 'holi-bricks/themes/dark'
-import type { lightTheme } from 'holi-bricks/themes/light'
 import type { Role } from 'react-native'
 
 type Breakpoints = typeof breakpoints & {

@@ -1,5 +1,5 @@
-import { darkTheme } from 'holi-bricks/themes/dark'
-import { lightTheme } from 'holi-bricks/themes/light'
+import { darkTheme } from 'holi-bricks/foundations/colors/themes/dark'
+import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import { breakpoints } from 'holi-bricks/tokens'
 import { UnistylesRegistry } from 'react-native-unistyles'
 
