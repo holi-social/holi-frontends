@@ -1450,6 +1450,7 @@
   "user.engagementLevel.title.INTERESTED": "Interessiert",
   "user.interests.form.headline": "Beteilige dich an dem, was dir wichtig ist",
   "user.interests.form.subline": "Wir passen die Empfehlungen basierend auf deiner Auswahl an. Du kannst deine Themen jederzeit in deinen Profileinstellungen ändern.",
+  "user.profile.connections.title.empty": "Benutzer:in hat noch keine Kontakte",
   "user.profile.validation.avatar.invalid_image": "Die hochgeladene Datei ist entweder kein valides Bild oder die Datei ist beschädigt",
   "user.profile.validation.avatar.max_upload_size": "Die hochgeladene Datei ist größer als 10MB",
   "user.profile.validation.firstName.maxCharacters": "Vorname darf maximal {{value}} Zeichen lang sein",
