@@ -1,7 +1,8 @@
-import { StorybookConfig } from '@storybook/react-native'
+import type { StorybookConfig } from '@storybook/react-native'
+import { stories } from 'holi-bricks/storybook/main'
 
 const main: StorybookConfig = {
-  stories: ['../components/**/*.stories.?(ts|tsx|js|jsx|mdx)', '../tokens/**/*.mdx'],
+  stories,
   addons: [
     '@storybook/addon-ondevice-notes',
     '@storybook/addon-ondevice-controls',

@@ -1,15 +1,18 @@
 import { dirname, join } from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
+export const stories = [
+  '../components/**/*.mdx',
+  '../patterns/**/*.mdx',
+  '../foundations/**/*.mdx',
+  '../components/**/*.stories.@(js|jsx|ts|tsx)',
+  '../patterns/**/*.stories.@(js|jsx|ts|tsx)',
+  '../foundations/**/*.stories.@(js|jsx|ts|tsx)',
+]
+
 /** @type{import('@storybook/react-webpack5').StorybookConfig} */
 module.exports = {
-  stories: [
-    '../components/**/*.mdx',
-    '../patterns/**/*.mdx',
-    '../tokens/**/*.mdx',
-    '../components/**/*.stories.@(js|jsx|ts|tsx)',
-    '../patterns/**/*.stories.@(js|jsx|ts|tsx)',
-  ],
+  stories,
 
   addons: [
     getAbsolutePath('@storybook/addon-links'),
