@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client/core'
 
 import { FullUserFragmentDoc } from '@holi/api/graphql/graphql-codegen'
-import { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
+import type { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import type { Paged } from '@holi/core/types'
 
 export const sdgsQuery = gql`
@@ -171,4 +171,37 @@ export type UsersByChatIdentitiesQueryVariables = {
 
 export type UsersByChatIdentitiesResponse = {
   usersByChatIdentities: Paged<User>
+}
+
+export const myConnectionsQuery = gql`
+  query myConnections($offset: Int!, $limit: Int!) {
+    myConnections(offset: $offset, limit: $limit) {
+      totalResults
+      data {
+        id
+        fullName
+        avatar
+        avatarBlurhash
+        avatarDefaultColor
+        avatarLabel
+        pronouns
+      }
+    }
+  }
+`
+
+export type Connection = {
+  id: string
+  fullName: string
+  avatar: string
+  avatarBlurhash: string
+  avatarDefaultColor: string
+  avatarLabel: string
+  pronouns: string
+}
+export interface MyConnectionsResponse {
+  myConnections: {
+    totalResults: number
+    data: Connection[]
+  }
 }
