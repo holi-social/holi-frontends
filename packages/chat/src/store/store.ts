@@ -412,7 +412,7 @@ export const roomAlreadyExists = async (userIds: string[]): Promise<boolean> => 
 }
 
 export const sendTaskEvent = async (roomId: string, taskId: string, spaceId?: string) => {
-  return getChatClient().sendTaskStateEvent(roomId, taskId, spaceId)
+  return await getChatClient().sendTaskStateEvent(roomId, taskId, spaceId)
 }
 
 export const getTopicByRoomId = async (roomId: string) => {

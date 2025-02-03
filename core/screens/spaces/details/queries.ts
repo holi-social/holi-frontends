@@ -7,6 +7,7 @@ import {
   SpaceMemberListFragment,
   SpaceMembershipRequestListFragment,
 } from '@holi/core/screens/spaces/queries'
+import type { Task } from '@holi/core/screens/spaces/types'
 
 export const spaceMembersQuery = gql`
   ${SpaceMemberListFragment}
@@ -86,3 +87,7 @@ export const taskByIdQuery = gql`
     }
   }
 `
+
+export interface TaskByIdResponse {
+  taskById: Task
+}

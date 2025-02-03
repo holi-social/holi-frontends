@@ -423,7 +423,7 @@ export default class ChatClient {
     await this.mxClient.forget(roomId)
   }
 
-  public async sendTaskStateEvent(childRoomId: string, taskId: string, spaceId?: string): Promise<string> {
+  public async sendTaskStateEvent(childRoomId: string, taskId: string, spaceId?: string) {
     const content = {
       taskId: taskId,
       holiSpaceId: spaceId,
@@ -437,9 +437,8 @@ export default class ChatClient {
       via: [this.mxClient.getDomain()!],
     }
 
-    const eventIdResponse = await this.mxClient.sendStateEvent(childRoomId, EventType.RoomTopic, content)
-    const parentEventIdResponse = await this.mxClient.sendStateEvent(childRoomId, EventType.SpaceParent, parentContent)
-    return eventIdResponse.event_id, parentEventIdResponse.event_id
+    await this.mxClient.sendStateEvent(childRoomId, EventType.RoomTopic, content)
+    await this.mxClient.sendStateEvent(childRoomId, EventType.SpaceParent, parentContent)
   }
 
   public async sendTextMessage(roomId: string, text: string): Promise<string> {

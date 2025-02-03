@@ -156,7 +156,7 @@
   "chat.room.noMessages": "Noch keine Nachrichten",
   "chat.room.sendButton.label": "Absenden",
   "chat.room.start.description": "Dies ist der Beginn deines Direkt-Chats mit <0>{{fullName}}</0>. Nur ihr beide seht diese Unterhaltung.",
-  "chat.room.start.group.description": "Dies ist der Beginn deines Chatverlaufs mit <fullName>{{fullName}}</fullName> von <spaceName>{{spaceName}}</spaceName>. Nur ihr seid Teil dieses Gespräches, es sei denn, jemand von euch lädt weitere Personen in den Chat ein.\n\nDieser Chat wurde erstellt, um die <taskName>{{taskName}}</taskName> Aufgabe zu besprechen.",
+  "chat.room.start.group.description": "Dies ist der Beginn deines Chatverlaufs mit <fullName></fullName> von <spaceName>{{spaceName}}</spaceName>. Nur ihr seid Teil dieses Gespräches, es sei denn, jemand von euch lädt weitere Personen in den Chat ein.\n\nDieser Chat wurde erstellt, um die <taskName>{{taskName}}</taskName> Aufgabe zu besprechen.",
   "chat.start.button.label": "Schreiben",
   "chat.start.description": "Tippe den Namen der Person ein, mit der du einen Chat starten möchtest.",
   "chat.start.input.error": "Der Name der Person muss mindestens {{count}} Buchstaben haben.",

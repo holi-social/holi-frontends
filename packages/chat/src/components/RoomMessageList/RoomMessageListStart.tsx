@@ -33,21 +33,25 @@ const RoomMessageListStart = ({ chatPartnerHoliUsers, members, task, parentSpace
   const spaceName = data?.spaceById.title
 
   const chatDescription = () => {
-    const chatPartnersNames = chatPartnerHoliUsers.map((user) => user.fullName).join(', ')
     if (task) {
       return (
         <Text size="md" color="support">
           <Trans
             t={t}
             i18nKey={'chat.room.start.group.description'}
-            values={{ fullName: chatPartnersNames, taskName: task.name, spaceName: spaceName }}
+            values={{ taskName: task.name, spaceName: spaceName }}
             components={{
               fullName: (
-                <TextLink
-                  onPress={() => navigate(`/profile/${chatPartnerHoliUsers[0].id}`)}
-                  size="md"
-                  color="informative"
-                />
+                <>
+                  {chatPartnerHoliUsers.map((user, index) => (
+                    <React.Fragment key={user.id}>
+                      {index > 0 && ', '}
+                      <TextLink onPress={() => navigate(`/profile/${user.id}`)} size="md" color="informative">
+                        {user.fullName}
+                      </TextLink>
+                    </React.Fragment>
+                  ))}
+                </>
               ),
               taskName: (
                 <TextLink

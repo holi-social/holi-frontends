@@ -44,7 +44,7 @@ import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
 import type { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
+import { taskByIdQuery, type TaskByIdResponse } from '@holi/core/screens/spaces/details/queries'
 import { useQuery } from '@apollo/client'
 import { ChatTopics } from '@holi/chat/src/client/ChatClient'
 import { useAdmins } from '@holi/core/screens/spaces/hooks/useRepresentative'
@@ -114,7 +114,7 @@ const ChatRoomView = () => {
     getTopic()
   }, [roomId, displayError])
 
-  const { data } = useQuery(taskByIdQuery, {
+  const { data } = useQuery<TaskByIdResponse>(taskByIdQuery, {
     variables: {
       id: taskId,
     },
@@ -164,24 +164,26 @@ const ChatRoomView = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} onPress={handleBackPress} />,
       headerTitle: () => {
         if (loadingUsers) return null
+        const chatPartner = chatPartners?.[0]
+        const chatPartnerHoliUser = chatPartnerHoliUsers?.[0]
 
         switch (room?.type) {
           case 'private':
             return chatPartnerHoliUsers ? (
               <ChatRoomHeaderTitle
-                href={'/profile/' + chatPartnerHoliUsers?.[0]?.id}
+                href={'/profile/' + chatPartnerHoliUser?.id}
                 name={room.name}
-                imageSrc={chatPartners?.[0]?.avatar}
-                imageBlurhash={chatPartnerHoliUsers?.[0]?.avatarBlurhash}
-                initials={getChatInitials(chatPartners?.[0]?.name)}
-                defaultColor={getDefaultAvatarColor(chatPartners?.[0]?.name)}
+                imageSrc={chatPartner?.avatar}
+                imageBlurhash={chatPartnerHoliUser?.avatarBlurhash}
+                initials={getChatInitials(chatPartner?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
               />
             ) : (
               <ChatRoomHeaderTitle
-                name={chatPartners?.[0]?.name ?? room.name}
-                imageSrc={chatPartners?.[0]?.avatar}
-                initials={getChatInitials(chatPartners?.[0]?.name)}
-                defaultColor={getDefaultAvatarColor(chatPartners?.[0]?.name)}
+                name={chatPartner?.name ?? room.name}
+                imageSrc={chatPartner?.avatar}
+                initials={getChatInitials(chatPartner?.name)}
+                defaultColor={getDefaultAvatarColor(chatPartner?.name)}
               />
             )
 
