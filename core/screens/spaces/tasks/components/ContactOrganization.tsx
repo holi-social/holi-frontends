@@ -22,8 +22,8 @@ import React, { useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
-import type { User } from '@holi/core/domain/shared/types'
 import type { Task } from '@holi/core/screens/spaces/types'
+import type { User } from '@holi/core/domain/shared/types'
 
 const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = false }: ContactOrganizationProps) => {
   const { t } = useTranslation()

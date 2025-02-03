@@ -5,9 +5,8 @@ import { View } from 'react-native'
 
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
 import type { User } from '@holi/core/domain/shared/types'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { Avatar } from 'holi-bricks/components/avatar'
+import AvatarPile from 'holi-bricks/components/avatar/AvatarPile'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import type { Task } from '@holi/core/screens/spaces/types'
 import { useQuery } from '@apollo/client'
@@ -20,7 +19,7 @@ interface RoomMessageListStartProps {
   parentSpaceId?: string
 }
 
-const RoomMessageListStart = ({ chatPartnerHoliUsers, members, task, parentSpaceId }: RoomMessageListStartProps) => {
+const RoomMessageListStart = ({ chatPartnerHoliUsers, task, parentSpaceId }: RoomMessageListStartProps) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
 
@@ -45,7 +44,7 @@ const RoomMessageListStart = ({ chatPartnerHoliUsers, members, task, parentSpace
                 <>
                   {chatPartnerHoliUsers.map((user, index) => (
                     <React.Fragment key={user.id}>
-                      {index > 0 && ', '}
+                      {index > 0 && <Text size="md">, </Text>}
                       <TextLink onPress={() => navigate(`/profile/${user.id}`)} size="md" color="informative">
                         {user.fullName}
                       </TextLink>
@@ -79,23 +78,12 @@ const RoomMessageListStart = ({ chatPartnerHoliUsers, members, task, parentSpace
 
   return (
     <View>
-      <HoliLink
-        href={`/profile/${chatPartnerHoliUsers?.[0]?.id}`} // todo: individual links for each member
-        label={t('user.visitProfile', { name: chatPartnerHoliUsers?.[0]?.fullName })}
-      >
-        <Avatar // todo: display all avatars overlapping each other
-          imgSrc={members?.[0]?.avatar}
-          imgPlaceholder={chatPartnerHoliUsers?.[0]?.avatarBlurhash}
-          label={chatPartnerHoliUsers?.[0]?.fullName}
-          initials={chatPartnerHoliUsers?.[0]?.avatarLabel}
-          size="lg"
-        />
-        <HoliGap size="xs" />
+      <AvatarPile users={chatPartnerHoliUsers} size="lg" />
+      <HoliGap size="xs" />
+      <Text headingLevel="2" size="xxl">
+        {chatPartnerHoliUsers.map((user) => user.fullName).join(', ')}
+      </Text>
 
-        <Text headingLevel="2" size="xxl">
-          {chatPartnerHoliUsers.map((user) => user.fullName).join(', ')}
-        </Text>
-      </HoliLink>
       <HoliGap size="s" />
 
       {chatDescription()}
