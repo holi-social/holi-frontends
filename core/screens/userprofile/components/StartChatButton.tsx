@@ -54,7 +54,7 @@ export function StartChatButton({
 
     try {
       // TODO: the correct Matrix identity should come from Okuna
-      const fullIdentity = '@' + identity + ':' + chatServerName
+      const fullIdentity = convertToMatrixIdentity(identity)
       const { room_id } = await getOrCreateRoom([fullIdentity])
 
       if (!room_id) {
@@ -80,4 +80,8 @@ export function StartChatButton({
       {...rest}
     />
   )
+}
+
+export const convertToMatrixIdentity = (identity: string) => {
+  return '@' + identity + ':' + chatServerName
 }

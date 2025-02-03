@@ -1,4 +1,4 @@
-import { getOrCreateRoom, roomAlreadyExists, sendTaskEvent } from '@holi/chat/src/store'
+import { getOrCreateTaskRoom, roomAlreadyExists } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -23,7 +23,6 @@ import { Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import type { User } from '@holi/core/domain/shared/types'
-import { ChatTopics } from '@holi/chat/src/client/ChatClient'
 import type { Task } from '@holi/core/screens/spaces/types'
 
 const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = false }: ContactOrganizationProps) => {
@@ -47,23 +46,13 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = fal
     })
   }
 
-  async function openChatRoom(chatPartner: User[], task: Task) {
-    const chatPartnerIdentities = chatPartner?.map((chatPartner) => chatPartner.identity)
-    // console.log('taskName', taskName)
-
+  async function openChatRoom(chatPartners: User[], task: Task) {
     try {
-      const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => '@' + identity + ':' + chatServerName)
-      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds, task?.name, ChatTopics.SpaceTaskChat)
-      await sendTaskEvent(room_id, task.id, spaceIdOrName)
-
-      if (!room_id) {
-        openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
-      } else {
-        navigate('/chat/rooms/' + room_id)
-        hideDrawer()
-      }
+      const room_id = await getOrCreateTaskRoom(chatPartners, task, spaceIdOrName)
+      navigate('/chat/rooms/' + room_id)
+      hideDrawer()
     } catch (e) {
-      logError(e, 'Failed to start contact-organization-chat with chat partner ' + chatPartnerIdentities, {
+      logError(e, 'Failed to start contact-organization-chat with chat partner ' + chatPartners, {
         location: 'StartChatDrawerActionButton.openChatRoom',
       })
       openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)

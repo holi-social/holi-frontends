@@ -94,25 +94,21 @@ const ChatRoomView = () => {
   const { openToast } = useToast()
 
   useEffect(() => {
+    const isSpaceTaskChat = (type: unknown): type is ChatTopics.SpaceTaskChat => {
+      return type === ChatTopics.SpaceTaskChat
+    }
     const getTopic = async () => {
       try {
         const roomTopic = await getTopicByRoomId(roomId)
         const parentSpace = await getParentSpaceByRoom(roomId)
-        if (roomTopic?.topic === ChatTopics.SpaceTaskChat) {
+        if (isSpaceTaskChat(roomTopic?.topic)) {
           setTaskId(roomTopic.taskId)
           setParentSpaceId(parentSpace?.holiSpaceId)
         }
       } catch (error: unknown) {
-        if (
-          (error as { response?: { status: number } })?.response?.status === 404 ||
-          (error as { response?: { status: number } })?.response?.status === 403
-        ) {
-          setTaskId(undefined)
-        } else {
-          displayError(error, 'Failed to load room topic', {
-            location: 'ChatRoomView.getTopic',
-          })
-        }
+        displayError(error, 'Failed to load room topic', {
+          location: 'ChatRoomView.getTopic',
+        })
       }
     }
     getTopic()

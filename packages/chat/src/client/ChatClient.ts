@@ -10,7 +10,7 @@ import {
   type ICreateRoomOpts,
   type IStartClientOpts,
   type MatrixClient,
-  type MatrixError,
+  MatrixError,
   type MatrixEvent,
   MatrixScheduler,
   Preset,
@@ -58,7 +58,6 @@ import {
   isMessageEvent,
   isSharedDataChildContent,
   isSharedDataContent,
-  isSharedDataTaskContent,
   isSpaceChildEvent,
   roomNameGenerator,
   setRoomsListeners,
@@ -133,10 +132,6 @@ export default class ChatClient {
 
     if (room.isSpaceRoom() && isSharedDataContent(content)) {
       return { type: 'space', room, content }
-    }
-
-    if (isSharedDataTaskContent(content)) {
-      return { type: 'space.task', room, content }
     }
 
     // Space Child Room Shared Data
@@ -307,13 +302,8 @@ export default class ChatClient {
     try {
       const topicEvent = await this.mxClient.getStateEvent(roomId, EventType.RoomTopic, '')
       return topicEvent
-    } catch (error: unknown) {
-      if (
-        (error as MatrixError).errcode === 'M_FORBIDDEN' ||
-        (error as MatrixError).errcode === 'M_NOT_FOUND' ||
-        (error as { response?: { status: number } })?.response?.status === 404 ||
-        (error as { response?: { status: number } })?.response?.status === 403
-      ) {
+    } catch (error) {
+      if (error instanceof MatrixError && (error.errcode === 'M_FORBIDDEN' || error.errcode === 'M_NOT_FOUND')) {
         return undefined
       } else {
         throw error
@@ -325,9 +315,7 @@ export default class ChatClient {
     try {
       return await this.mxClient.getStateEvent(roomId, EventType.SpaceParent, '')
     } catch (error: unknown) {
-      if ((error as MatrixError).errcode === 'M_FORBIDDEN') {
-        return undefined
-      } else if ((error as MatrixError).errcode === 'M_NOT_FOUND') {
+      if (error instanceof MatrixError && (error.errcode === 'M_FORBIDDEN' || error.errcode === 'M_NOT_FOUND')) {
         return undefined
       } else {
         throw error

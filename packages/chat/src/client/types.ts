@@ -41,13 +41,7 @@ export interface SpaceChildRoom {
   room: Room
 }
 
-export interface SpaceTaskRoom {
-  type: 'space.task'
-  content: SpaceTaskSharedDataContent
-  room: Room
-}
-
-export type RoomWithSharedData = PrivateRoom | SpaceRoom | SpaceChildRoom | SpaceTaskRoom
+export type RoomWithSharedData = PrivateRoom | SpaceRoom | SpaceChildRoom
 
 export interface BaseChatRoom {
   id: string
@@ -70,11 +64,7 @@ export interface SpaceChildChatRoom extends BaseChatRoom, Omit<SpaceChildRoom, '
   content: SpaceChildSharedDataContent
 }
 
-export interface SpaceTaskChatRoom extends BaseChatRoom, Omit<SpaceTaskRoom, 'room'> {
-  content: SpaceTaskSharedDataContent
-}
-
-export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceChildChatRoom | SpaceTaskChatRoom
+export type ChatRoom = PrivateChatRoom | SpaceChatRoom | SpaceChildChatRoom
 
 export enum RoomUpdatesType {
   name = EventType.RoomName,

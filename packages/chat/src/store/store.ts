@@ -47,11 +47,13 @@ import {
   toMatrixIdentity,
   updateSpaceRoomsNotifications,
 } from '@holi/chat/src/store/utils'
-import type { User as HoliUser } from '@holi/core/domain/shared/types'
+import type { User as HoliUser, User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
-import type { ChatTopics } from '@holi/chat/src/client/ChatClient'
+import type { Task } from '@holi/core/screens/spaces/types'
+import { ChatTopics } from '@holi/chat/src/client/ChatClient'
+import { convertToMatrixIdentity } from '@holi/core/screens/userprofile/components/StartChatButton'
 
 const logger = getLogger('Chat')
 
@@ -385,6 +387,24 @@ export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
  */
 export const getOrCreateRoom = async (userIds: string[], name?: string, chatTopic?: ChatTopics): Promise<RoomId> => {
   return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name, chatTopic: chatTopic })
+}
+
+export const getOrCreateTaskRoom = async (
+  chatPartners: User[],
+  task: Task,
+  spaceIdOrName?: string
+): Promise<string> => {
+  const chatPartnerIdentities = chatPartners?.map((chatPartner) => chatPartner.identity)
+  const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => convertToMatrixIdentity(identity))
+
+  const { room_id } = await getChatClient().getOrCreateRoom(chatPartnerMatrixIds, {
+    isDirectMessage: true,
+    name: task?.name,
+    chatTopic: ChatTopics.SpaceTaskChat,
+  })
+  await sendTaskEvent(room_id, task.id, spaceIdOrName)
+
+  return room_id
 }
 
 export const roomAlreadyExists = async (userIds: string[]): Promise<boolean> => {
@@ -807,7 +827,7 @@ export const hasOnlyIgnoredMembers = (members: ChatRoomMember[], ignoredUsers: M
 
 export const getChatPartners = (holiUser: HoliUser, room: ChatRoom): ChatRoomMember[] | undefined => {
   // TODO this will have to be changed once we support multiple users per room
-  if (room.type === 'space.task' || room.type === 'private') {
+  if (room.type === 'private') {
     return room.members.filter((member) => member.id !== toMatrixIdentity(holiUser.identity))
   }
   return undefined
