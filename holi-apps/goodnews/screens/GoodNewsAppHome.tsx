@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { memo, useState } from 'react'
 import { View } from 'react-native'
 
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
@@ -15,14 +14,14 @@ import GoodNewsHeader from '@holi-apps/goodnews/components/GoodNewsHeader'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 
 const GoodNewsAppHome = () => {
-  const { t } = useTranslation()
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const { colors } = theme
+  const [activeDate, setActiveDate] = useState<string>()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
-      headerTitle: () => <GoodNewsHeader />,
+      headerTitle: () => <GoodNewsHeader formattedDate={activeDate} />,
       headerLeft: () => <HeaderBackButton tintColor={colors.light} fallbackRoute="/" />,
       headerTintColor: colors.light,
       headerBackVisible: false,
@@ -33,7 +32,7 @@ const GoodNewsAppHome = () => {
         footerShown: false,
       },
     })
-  }, [setScreenOptions, t, colors.light])
+  }, [setScreenOptions, colors.light, activeDate])
 
   return (
     <PosthogFeatureFlagGuard featureFlagKey={FeatureFlagKey.GOODNEWS} i18nKey="goodnews:maintenance.feature">
@@ -41,7 +40,7 @@ const GoodNewsAppHome = () => {
         <StatusBar style="light" animated />
 
         <ScrollViewRefreshable bounces={false} style={{ paddingBottom: 0, backgroundColor: colors.background30 }}>
-          <GoodNewsCarousel />
+          <GoodNewsCarousel onActiveDateChange={setActiveDate} />
         </ScrollViewRefreshable>
       </View>
     </PosthogFeatureFlagGuard>
