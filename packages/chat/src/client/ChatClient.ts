@@ -418,8 +418,14 @@ export default class ChatClient {
       holiSpaceId: spaceId,
       topic: ChatTopics.SpaceTaskChat,
     }
-
+    const parentContent = {
+      taskId: taskId,
+      holiSpaceId: spaceId,
+      topic: ChatTopics.SpaceTaskChat,
+      via: [this.mxClient.getDomain()!],
+    }
     await this.mxClient.sendStateEvent(childRoomId, EventType.RoomTopic, content)
+    await this.mxClient.sendStateEvent(childRoomId, EventType.SpaceParent, parentContent)
   }
 
   public async sendTextMessage(roomId: string, text: string): Promise<string> {
