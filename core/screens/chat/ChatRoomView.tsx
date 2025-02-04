@@ -292,6 +292,7 @@ const ChatRoomView = () => {
                       roomId={roomId}
                       user={chatPartnerHoliUsers?.[0]}
                       userIsLoading={loadingUsers}
+                      taskName={task?.name}
                     />
                   ) : (
                     <RoomMessageList

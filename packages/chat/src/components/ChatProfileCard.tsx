@@ -1,6 +1,6 @@
 import React from 'react'
 import type { PropsWithChildren } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import type { ChatRoomMember } from '@holi/chat/src/client/types'
@@ -9,24 +9,24 @@ import { getChatInitials } from '@holi/chat/src/utils'
 import type { User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { Button } from 'holi-bricks/components/button'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliCardBoard from '@holi/ui/components/organisms/HoliCardBoard'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Spacing } from 'holi-bricks/tokens'
+import { Text } from 'holi-bricks/components/text'
 
 interface Props {
   roomId: string
   member: ChatRoomMember | undefined
   user?: User
   userIsLoading: boolean
+  taskName?: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChildren<Props>) => {
+const ChatProfileCard = ({ member, roomId, user, taskName }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { openToast } = useToast()
@@ -59,16 +59,39 @@ const ChatProfileCard = ({ member, roomId, user, userIsLoading }: PropsWithChild
                 initials={getChatInitials(member?.name) || user?.avatarLabel || ''}
                 size="lg"
               />
+
               <View>
-                <HoliHeading size="m">{chatPartnerName}</HoliHeading>
-                {!!user?.pronouns && <HoliText color="gray300">{user?.pronouns}</HoliText>}
+                <Text size="xxl" headingLevel="1">
+                  {chatPartnerName}
+                </Text>
+
+                {!!user?.pronouns && (
+                  <Text color="default" size="md">
+                    {user?.pronouns}
+                  </Text>
+                )}
               </View>
             </>
           ) : null}
         </HoliCardBoard.Slot>
         <HoliDivider />
         <HoliCardBoard.Slot>
-          <HoliText color="gray300">{t('chat.invitation.copy', { fullName: chatPartnerName })}</HoliText>
+          {taskName ? (
+            <Text size="md" color="default">
+              <Trans
+                t={t}
+                i18nKey={'chat.invitation.copy.taskchat'}
+                values={{ fullName: chatPartnerName, taskname: taskName }}
+              >
+                <Text size="md" color="informative" />
+              </Trans>
+            </Text>
+          ) : (
+            <Text size="md" color="default">
+              {t('chat.invitation.copy', { fullName: chatPartnerName })}
+            </Text>
+          )}
+
           <View style={styles.buttons}>
             <Button inline label={t('chat.invitation.reject')} variant="secondary" onPress={handleRejectRoom} />
             <Button inline label={t('chat.invitation.accept')} testID={'chat-invitation-accept'} onPress={handleJoin} />
