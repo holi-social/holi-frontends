@@ -296,8 +296,16 @@ export default class ChatClient {
   }
 
   public async getTopicByRoomId(roomId: string) {
-    const topicEvent = await this.mxClient.getStateEvent(roomId, EventType.RoomTopic, '')
-    return topicEvent
+    try {
+      const topicEvent = await this.mxClient.getStateEvent(roomId, EventType.RoomTopic, '')
+      return topicEvent
+    } catch (error: unknown) {
+      if (error instanceof MatrixError && error.errcode === 'M_NOT_FOUND') {
+        return undefined
+      } else {
+        throw error
+      }
+    }
   }
 
   public async getParentSpaceByRoom(roomId: string) {

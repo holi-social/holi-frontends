@@ -16,7 +16,7 @@ import {
   getHoliUserForChatMember,
   getParentSpaceByRoom,
   getTopicByRoomId,
-  // isRoomCreator,
+  isRoomCreator,
   setLatestMessagesAsRead,
   useRequestRoomMessages,
   useRoomById,
@@ -81,7 +81,7 @@ const ChatRoomView = () => {
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(roomMemberIds)
   const [parentSpaceId, setParentSpaceId] = useState<string>()
 
-  // const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
+  const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
 
   const { adminUsers } = useSpaceAdminUsers(parentSpaceId)
 
@@ -300,8 +300,9 @@ const ChatRoomView = () => {
                       messages={messages || []}
                       matrixIdToHoliUserRecord={matrixIdToHoliUserRecord}
                       starter={
-                        // amIRoomCreator &&
-                        chatPartnerHoliUsers && (
+                        (amIRoomCreator || task !== undefined) &&
+                        chatPartnerHoliUsers &&
+                        chatPartners && (
                           <View style={styles.listStage}>
                             <RoomMessageListStart
                               members={chatPartners}
