@@ -41,7 +41,6 @@ import {
   type SpaceRoom,
   type SpaceTaskChatRoom,
   type SpaceTaskRoom,
-  type SpaceTaskSharedDataContent,
 } from '@holi/chat/src/client/types'
 import { getChatMemberName } from '@holi/chat/src/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -61,10 +60,6 @@ export const isSharedDataContent = (content: IContent): content is SharedDataCon
 
 export const isSharedDataChildContent = (content: IContent): content is SpaceChildSharedDataContent => {
   return isSharedDataContent(content) && 'parentSpaceRoomId' in content
-}
-
-export const isSharedDataTaskContent = (content: IContent): content is SpaceTaskSharedDataContent => {
-  return isSharedDataContent(content) && 'taskId' in content
 }
 
 export const isSpaceChildEvent = (event: MatrixEvent) => event.getType() === EventType.SpaceChild
@@ -234,14 +229,8 @@ export function createSpaceChildChatRoom(
 
 export function createSpaceTaskChatRoom(baseChatRoom: BaseChatRoom, spaceTaskRoom: SpaceTaskRoom): SpaceTaskChatRoom {
   return {
-    type: 'space.task',
-    content: {
-      roomId: spaceTaskRoom.content.roomId,
-      holiSpaceId: spaceTaskRoom.content.holiSpaceId,
-      taskName: spaceTaskRoom.content.taskName,
-      avatarDefaultColor: spaceTaskRoom.content.avatarDefaultColor,
-      taskId: spaceTaskRoom.content.taskId,
-    },
+    type: spaceTaskRoom.type,
+    content: { ...spaceTaskRoom.content },
     ...baseChatRoom,
   }
 }

@@ -1,9 +1,6 @@
-import type { ChatTopics } from '@holi/chat/src/client/ChatClient'
 import { EventType, type IRoomEvent, type IStateEvent, type NotificationCountType, type Room } from 'matrix-js-sdk'
 
 export type MatrixId = `@${string}:${string}`
-
-export type ChatRoomType = 'private' | 'space' | 'space.child' | 'space.task'
 
 export type SharedDataContent = SpaceSharedDataContent | SpaceChildSharedDataContent
 
@@ -18,36 +15,39 @@ export interface SpaceChildSharedDataContent extends SpaceSharedDataContent {
   parentSpaceRoomId: string
 }
 
-export interface SpaceTaskSharedDataContent extends SpaceSharedDataContent {
+export interface SpaceTaskSharedDataContent {
   taskName: string
-  avatarDefaultColor: string
   taskId: string
+  spaceName: string
+  holiSpaceId: string
 }
 
 export interface PrivateRoom {
   type: 'private'
-  room: Room
 }
 
 export interface SpaceRoom {
   type: 'space'
   content: SpaceSharedDataContent
-  room: Room
 }
 
 export interface SpaceChildRoom {
   type: 'space.child'
   content: SpaceChildSharedDataContent
-  room: Room
 }
 
 export interface SpaceTaskRoom {
   type: 'space.task'
   content: SpaceTaskSharedDataContent
-  room: Room
 }
 
-export type RoomWithSharedData = PrivateRoom | SpaceRoom | SpaceChildRoom | SpaceTaskRoom
+type AddRoom<T> = {
+  [K in keyof T]: T[K]
+} & { room: Room }
+
+export type RoomHoliMetadata = PrivateRoom | SpaceRoom | SpaceChildRoom | SpaceTaskRoom
+export type RoomWithSharedData = AddRoom<RoomHoliMetadata>
+export type ChatRoomType = RoomWithSharedData['type']
 
 export interface BaseChatRoom {
   id: string
@@ -90,7 +90,7 @@ export interface CreateRoomOptions {
   isDirectMessage: boolean
   isPrivate?: boolean
   name?: string
-  chatTopic?: ChatTopics
+  metadata: RoomHoliMetadata
 }
 
 export enum MembershipStatus {

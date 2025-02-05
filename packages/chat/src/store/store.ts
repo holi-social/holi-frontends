@@ -16,6 +16,7 @@ import {
   type RoomUpdatesContent,
   RoomUpdatesType,
   type SpaceChatRoom,
+  type SpaceTaskRoom,
 } from '@holi/chat/src/client/types'
 import { createChatMessage } from '@holi/chat/src/client/utils'
 import {
@@ -381,16 +382,17 @@ export const roomAlreadyExists = async (userIds: string[]): Promise<boolean> => 
   return getChatClient().roomAlreadyExists(userIds)
 }
 
-export const sendTaskEvent = async (roomId: string, taskId: string, spaceId?: string) => {
-  return getChatClient().sendTaskStateEvent(roomId, taskId, spaceId)
-}
-
-export const getTopicByRoomId = async (roomId: string) => {
-  return await getChatClient().getTopicByRoomId(roomId)
-}
-
-export const getParentSpaceByRoom = async (roomId: string) => {
-  return await getChatClient().getParentSpaceByRoom(roomId)
+/**
+ * @name getOrCreateSpaceTaskRoom (Client Helper)
+ * @description returns the room id of an existing space-task room, if it
+ * exists, or creates a new one.
+ */
+export const getOrCreateSpaceTaskRoom = async (userIds: string[], metadata: SpaceTaskRoom): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds, {
+    isDirectMessage: true,
+    name: metadata.content.taskName,
+    metadata,
+  })
 }
 
 /**
