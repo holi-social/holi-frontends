@@ -175,6 +175,16 @@ export type UsersByChatIdentitiesResponse = {
   usersByChatIdentities: Paged<User>
 }
 
+export type Connection = {
+  id: string
+  fullName: string
+  avatar: string
+  avatarBlurhash: string
+  avatarDefaultColor: string
+  avatarLabel: string
+  pronouns: string
+}
+
 export const myConnectionsQuery = gql`
   query myConnections($offset: Int!, $limit: Int!) {
     myConnections(offset: $offset, limit: $limit) {
@@ -192,17 +202,32 @@ export const myConnectionsQuery = gql`
   }
 `
 
-export type Connection = {
-  id: string
-  fullName: string
-  avatar: string
-  avatarBlurhash: string
-  avatarDefaultColor: string
-  avatarLabel: string
-  pronouns: string
-}
 export interface MyConnectionsResponse {
   myConnections: {
+    totalResults: number
+    data: Connection[]
+  }
+}
+
+export const connectionsByUserIdQuery = gql`
+  query connectionsByUserId($userId: UUID!, $offset: Int!, $limit: Int!) {
+    connectionsByUserId(userId: $userId, offset: $offset, limit: $limit) {
+      totalResults
+      data {
+        id
+        fullName
+        avatar
+        avatarBlurhash
+        avatarDefaultColor
+        avatarLabel
+        pronouns
+      }
+    }
+  }
+`
+
+export interface connectionsByUserIdResponse {
+  connectionsByUserId: {
     totalResults: number
     data: Connection[]
   }

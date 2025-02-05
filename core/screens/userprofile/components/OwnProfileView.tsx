@@ -151,12 +151,7 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
           {
             key: Tab.CONNECTIONS,
             tabTitle: t('profile.tabs.connections'),
-            content: () => (
-              <OwnConnectionsTab
-                emptyText={t('spaces.invite.connections.empty')}
-                emptyCallToAction={t('spaces.invite.connections.empty.cta')}
-              />
-            ),
+            content: () => <OwnConnectionsTab emptyText={t('user.profile.own.connections.title.empty')} />,
           },
         ]}
         keyExtractor={(item) => item.key}
