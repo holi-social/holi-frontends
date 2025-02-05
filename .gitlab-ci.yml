@@ -10,8 +10,8 @@ cache:
 
 default:
   before_script:
-    - set -ex
-    - env
+    - set -e
+    #- env
   tags:
     - holi-small
 
