@@ -16,6 +16,7 @@ import {
   type RoomUpdatesContent,
   RoomUpdatesType,
   type SpaceChatRoom,
+  type SpaceTaskRoom,
 } from '@holi/chat/src/client/types'
 import { createChatMessage } from '@holi/chat/src/client/utils'
 import {
@@ -47,13 +48,10 @@ import {
   toMatrixIdentity,
   updateSpaceRoomsNotifications,
 } from '@holi/chat/src/store/utils'
-import type { User as HoliUser, User } from '@holi/core/domain/shared/types'
+import type { User as HoliUser } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
-import type { Task } from '@holi/core/screens/spaces/types'
-import { ChatTopics } from '@holi/chat/src/client/ChatClient'
-import { convertToMatrixIdentity } from '@holi/core/screens/userprofile/components/StartChatButton'
 
 const logger = getLogger('Chat')
 
@@ -372,55 +370,29 @@ export const roomAtomsRecorAtomForTesting = atom(
  **/
 
 /**
- * @name createNewRoom (Client Helper)
- * @description Initiates the creation of a room in Matrix through the
- * ChatClient. The store updates once the room creation event is received from
- * the Matrix server.
- */
-export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
-  return getChatClient().createRoom(userIds, { isDirectMessage: true })
-}
-/**
- * @name getOrCreatePrivateRoom (Client Helper)
+ * @name getOrCreateRoom (Client Helper)
  * @description returns the room id of an existing one-on-one room, if it
  * exists, or creates a new one.
  */
-export const getOrCreatePrivateRoom = async (userIds: string[]): Promise<RoomId> => {
-  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true })
-}
-
-export const getOrCreateTaskRoom = async (
-  chatPartners: User[],
-  task: Task,
-  spaceIdOrName?: string
-): Promise<string> => {
-  const chatPartnerIdentities = chatPartners?.map((chatPartner) => chatPartner.identity)
-  const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => convertToMatrixIdentity(identity))
-
-  const { room_id } = await getChatClient().getOrCreateRoom(chatPartnerMatrixIds, {
-    isDirectMessage: true,
-    name: task?.name,
-    chatTopic: ChatTopics.SpaceTaskChat,
-  })
-  await sendTaskEvent(room_id, task.id, spaceIdOrName)
-
-  return room_id
+export const getOrCreatePrivateRoom = async (userIds: string[], name?: string): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name, metadata: { type: 'private' } })
 }
 
 export const roomAlreadyExists = async (userIds: string[]): Promise<boolean> => {
   return getChatClient().roomAlreadyExists(userIds)
 }
 
-export const sendTaskEvent = async (roomId: string, taskId: string, spaceId?: string) => {
-  return await getChatClient().sendTaskStateEvent(roomId, taskId, spaceId)
-}
-
-export const getTopicByRoomId = async (roomId: string) => {
-  return await getChatClient().getTopicByRoomId(roomId)
-}
-
-export const getParentSpaceByRoom = async (roomId: string) => {
-  return await getChatClient().getParentSpaceByRoom(roomId)
+/**
+ * @name getOrCreateSpaceTaskRoom (Client Helper)
+ * @description returns the room id of an existing space-task room, if it
+ * exists, or creates a new one.
+ */
+export const getOrCreateSpaceTaskRoom = async (userIds: string[], metadata: SpaceTaskRoom): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds, {
+    isDirectMessage: true,
+    name: metadata.content.taskName,
+    metadata,
+  })
 }
 
 /**

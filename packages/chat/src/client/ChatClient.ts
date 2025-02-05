@@ -22,6 +22,7 @@ import {
   RoomStateEvent,
   Visibility,
   createClient,
+  type StateEvents,
 } from 'matrix-js-sdk'
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { logger as matrixLogger } from 'matrix-js-sdk/lib/logger'
@@ -39,6 +40,7 @@ import {
   MembershipStatus,
   type MxMessagesResponse,
   type NotificationCount,
+  type RoomHoliMetadata,
   type RoomId,
   type RoomUpdatesContent,
   type RoomUpdatesType,
@@ -81,12 +83,6 @@ if ([EnvironmentId.PRODUCTION, EnvironmentId.STAGING].some((value) => value === 
 
 const isChatRoom = (value: Room | MatrixEvent): value is Room => 'roomId' in value
 
-export enum ChatTopics {
-  SpaceChat = 'space_chat',
-  SpaceTaskChat = 'space_task_chat',
-  PrivateChat = 'private_chat',
-}
-
 /**
  * The `ChatClient` facade is an object that serves as a front-facing interface
  * masking the Matrix protocol. All usage of the `Matrix` JS SDK should interact
@@ -109,6 +105,14 @@ export default class ChatClient {
     return { sharedDataEvent, parentEvent }
   }
 
+  public getRoomHoliMetadata(room: Room): RoomHoliMetadata | undefined {
+    const state = room.getLiveTimeline().getState(Direction.Backward)
+    const roomCreateEvent = state?.getStateEvents(EventType.RoomCreate)?.pop()
+
+    // Every room has "m.room.create" event, so `roomCreateEvent` is always defined
+    return roomCreateEvent?.getContent() as RoomHoliMetadata | undefined
+  }
+
   private getSpaceChildEvents(): MatrixEvent[] {
     return this.mxClient.getRooms().reduce((spaceEvents: MatrixEvent[], room: Room) => {
       if (!room.isSpaceRoom()) return spaceEvents
@@ -123,10 +127,26 @@ export default class ChatClient {
 
   private createSharedData(room: Room): RoomWithSharedData {
     const { sharedDataEvent, parentEvent } = this.getSpaceEvents(room)
-    if (!sharedDataEvent) return { type: 'private', room }
 
+    // Check type from `RoomCreate` event
+    if (!sharedDataEvent) {
+      const roomHoliMetadata = this.getRoomHoliMetadata(room)
+      switch (roomHoliMetadata?.type) {
+        case 'space.task':
+          return {
+            type: roomHoliMetadata.type,
+            content: roomHoliMetadata.content,
+            room,
+          }
+        default:
+          return { type: 'private', room }
+      }
+    }
+
+    // Chat type based on our custom `SharedData` event
     const content = sharedDataEvent.getEffectiveEvent().content
 
+    // Space Parent Room Shared Data
     if (room.isSpaceRoom() && isSharedDataContent(content)) {
       return { type: 'space', room, content }
     }
@@ -267,28 +287,24 @@ export default class ChatClient {
     return this.mxClient.getHomeserverUrl()
   }
 
-  public async roomAlreadyExists(usersWeAreLookingFor: string[]): Promise<boolean> {
-    const roomExists = this.mxClient.getRooms().some((room) => {
-      return (
-        !room.isSpaceRoom() &&
-        room.getMembers().length == usersWeAreLookingFor.length + 1 &&
-        room.getMembers().filter((roomMember) => usersWeAreLookingFor.includes(roomMember.userId)).length ==
-          usersWeAreLookingFor.length
-      )
-    })
-    return roomExists
-  }
-
-  /** Rooms */
-  public async getOrCreateRoom(userIds: string[], options: CreateRoomOptions): Promise<RoomId> {
+  public async getRoomByUserIds(userIds: string[]): Promise<Room | undefined> {
     const room = this.mxClient.getRooms().find((room) => {
       return (
-        // look for a room that has all the requested userIds and is not a space room
         !room.isSpaceRoom() &&
         room.getMembers().length == userIds.length + 1 &&
         room.getMembers().filter((roomMember) => userIds.includes(roomMember.userId)).length == userIds.length
       )
     })
+    return room
+  }
+
+  public async roomAlreadyExists(userIds: string[]): Promise<boolean> {
+    return !!this.getRoomByUserIds(userIds)
+  }
+
+  /** Rooms */
+  public async getOrCreateRoom(userIds: string[], options: CreateRoomOptions): Promise<RoomId> {
+    const room = await this.getRoomByUserIds(userIds)
 
     if (room) return { room_id: room.roomId }
 
@@ -334,7 +350,7 @@ export default class ChatClient {
    **/
   public async createRoom(
     userIds: string[],
-    { isDirectMessage, isPrivate = true, name, chatTopic }: CreateRoomOptions
+    { isDirectMessage, isPrivate = true, name, metadata }: CreateRoomOptions
   ): Promise<RoomId> {
     if (userIds.length < 1) {
       throw new HoliChatClientError('createRoom', 'Chat rooms must be created with at least one member')
@@ -345,7 +361,7 @@ export default class ChatClient {
       preset: isPrivate ? Preset.PrivateChat : Preset.PublicChat,
       visibility: isPrivate ? Visibility.Private : Visibility.Public,
       ...(name ? { name } : {}),
-      topic: chatTopic,
+      creation_content: metadata,
     }
 
     return await this.mxClient.createRoom({ ...options, invite: userIds })
@@ -420,20 +436,8 @@ export default class ChatClient {
     await this.mxClient.forget(roomId)
   }
 
-  public async sendTaskStateEvent(childRoomId: string, taskId: string, spaceId?: string) {
-    const content = {
-      taskId: taskId,
-      holiSpaceId: spaceId,
-      topic: ChatTopics.SpaceTaskChat,
-    }
-    const parentContent = {
-      taskId: taskId,
-      holiSpaceId: spaceId,
-      topic: ChatTopics.SpaceTaskChat,
-      via: [this.mxClient.getDomain()!],
-    }
-    await this.mxClient.sendStateEvent(childRoomId, EventType.RoomTopic, content)
-    await this.mxClient.sendStateEvent(childRoomId, EventType.SpaceParent, parentContent)
+  public async sendStateEvent<K extends keyof StateEvents>(roomId: string, eventType: K, content: StateEvents[K]) {
+    await this.mxClient.sendStateEvent(roomId, eventType, content)
   }
 
   public async sendTextMessage(roomId: string, text: string): Promise<string> {

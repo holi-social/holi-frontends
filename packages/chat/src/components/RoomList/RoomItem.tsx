@@ -82,7 +82,7 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
                 shape="square"
                 size="md"
               />
-            ) : chatPartners ? (
+            ) : chatPartners && chatPartners[0] ? (
               isMatrixId(chatPartners[0].name) ? (
                 <Avatar
                   label={roomName}
