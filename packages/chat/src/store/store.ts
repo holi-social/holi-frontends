@@ -809,7 +809,7 @@ export const hasOnlyIgnoredMembers = (members: ChatRoomMember[], ignoredUsers: M
 
 export const getChatPartners = (holiUser: HoliUser, room: ChatRoom): ChatRoomMember[] | undefined => {
   // TODO this will have to be changed once we support multiple users per room
-  if (room.type === 'private' || room.type === 'space.child') {
+  if (room.type === 'private' || room.type === 'space.child' || room.type === 'space.task') {
     return room.members.filter((member) => member.id !== toMatrixIdentity(holiUser.identity))
   }
   return undefined

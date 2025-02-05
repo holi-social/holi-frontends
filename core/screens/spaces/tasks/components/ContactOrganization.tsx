@@ -177,26 +177,28 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
   const { space } = useSpace(spaceIdOrName)
   const { adminUsers } = useSpaceAdminUsers(spaceIdOrName)
   const [alreadyStarted, setAlreadyStarted] = useState<boolean>(false)
-  const { user } = useLoggedInUser()
+  const { user: loggedInUser } = useLoggedInUser()
   const isChatInitialized = useChatInitialized()
 
   useEffect(() => {
     const checkChatExists = async () => {
       if (!adminUsers) return
+      if (!loggedInUser) return
 
-      const chatPartnerIdentities = adminUsers.map((adminAsUser) => adminAsUser.identity)
-      const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => '@' + identity + ':' + chatServerName)
-      const exists = await roomAlreadyExists(chatPartnerMatrixIds)
+      const adminIdentities = adminUsers.map((adminAsUser) => adminAsUser.identity)
+      const userIds = [...adminIdentities, loggedInUser?.identity]
+      const MatrixUserIds = userIds.map((identity) => '@' + identity + ':' + chatServerName)
+      const exists = await roomAlreadyExists(MatrixUserIds)
       setAlreadyStarted(exists)
     }
 
     checkChatExists()
-  }, [adminUsers])
+  }, [adminUsers, loggedInUser])
 
   if (!spaceIdOrName) return null
 
   const isSpaceAdmin = adminUsers?.some((admin) => {
-    return admin.id === user?.id
+    return admin.id === loggedInUser?.id
   })
   if (isSpaceAdmin) return null
 

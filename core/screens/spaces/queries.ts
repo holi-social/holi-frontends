@@ -61,6 +61,10 @@ export const FullTaskFragment = gql`
     id
     name
     description
+    space {
+      id
+      name
+    }
     slotsAvailable
     slotsTaken
     location

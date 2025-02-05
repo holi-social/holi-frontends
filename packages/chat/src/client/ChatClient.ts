@@ -287,24 +287,26 @@ export default class ChatClient {
     return this.mxClient.getHomeserverUrl()
   }
 
-  public async getRoomByUserIds(userIds: string[]): Promise<Room | undefined> {
+  public async getRoomByUserIds(userIds: string[], includeSelf: boolean): Promise<Room | undefined> {
     const room = this.mxClient.getRooms().find((room) => {
+      const members = room.getMembers()
+      const membersCount = includeSelf ? userIds.length : userIds.length + 1
       return (
         !room.isSpaceRoom() &&
-        room.getMembers().length == userIds.length + 1 &&
-        room.getMembers().filter((roomMember) => userIds.includes(roomMember.userId)).length == userIds.length
+        members.length == membersCount &&
+        members.filter((roomMember) => userIds.includes(roomMember.userId)).length == userIds.length
       )
     })
     return room
   }
 
   public async roomAlreadyExists(userIds: string[]): Promise<boolean> {
-    return !!this.getRoomByUserIds(userIds)
+    return !!(await this.getRoomByUserIds(userIds, true))
   }
 
   /** Rooms */
   public async getOrCreateRoom(userIds: string[], options: CreateRoomOptions): Promise<RoomId> {
-    const room = await this.getRoomByUserIds(userIds)
+    const room = await this.getRoomByUserIds(userIds, false)
 
     if (room) return { room_id: room.roomId }
 

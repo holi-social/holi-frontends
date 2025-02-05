@@ -95,7 +95,7 @@ const ChatRoomView = () => {
 
   const { openToast } = useToast()
 
-  const { data } = useQuery<TaskByIdResponse>(taskByIdQuery, {
+  const { data, loading: loadingTask } = useQuery<TaskByIdResponse>(taskByIdQuery, {
     variables: {
       id: taskId,
     },
@@ -252,7 +252,7 @@ const ChatRoomView = () => {
   }
 
   // TODO: provide skeleton instead of HoliLoader
-  if (!chatInitialized || !room || loadingUsers) return <HoliLoader testID={'chat-room-loader'} />
+  if (!chatInitialized || !room || loadingUsers || loadingTask) return <HoliLoader testID={'chat-room-loader'} />
 
   return (
     <HoliKeyboardSafeAreaView>
