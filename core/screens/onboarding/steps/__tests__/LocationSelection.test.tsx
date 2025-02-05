@@ -1,12 +1,9 @@
 import React from 'react'
 
 import LocationSelection from '@holi/core/screens/onboarding/steps/LocationSelection'
-import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
+import { act, render, screen, userEvent, waitFor } from '@testing-library/react-native'
 import { geoPlaceDetailsQuery, geoPlacesQuery } from '@holi/core/geolocation/queries'
 import { MockedProvider } from '@apollo/client/testing'
-import { act } from '@testing-library/react-hooks'
-
-jest.useFakeTimers()
 
 const mocks = [
   {
@@ -94,6 +91,13 @@ const mocks = [
 ]
 
 describe('LocationSelection', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
   const expectedSelection = {
     city: 'Hamburg',
     coordinates: {

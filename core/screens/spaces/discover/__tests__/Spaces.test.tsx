@@ -1,5 +1,5 @@
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { render, screen, waitFor } from '@testing-library/react-native'
+import { act, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -86,10 +86,12 @@ const MOCKS_WITHOUT_MY_SPACES = [
 ]
 
 describe.only('Spaces screen', () => {
-  beforeAll(() => jest.useFakeTimers())
-  beforeEach(() => jest.clearAllMocks())
-  afterAll(() => {
-    jest.runOnlyPendingTimers()
+  beforeEach(() => {
+    jest.useFakeTimers()
+    jest.clearAllMocks()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
   })
 

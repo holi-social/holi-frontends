@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react-native'
+import { act, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import NotificationWithUserAvatar from '@holi/core/screens/notifications/components/NotificationWithUserAvatar'
@@ -7,6 +7,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 
 describe('NotificationWithUserAvatar.tsx', () => {
   beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
   })
 

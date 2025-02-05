@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen } from '@testing-library/react-native'
+import { act, render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import CommentView from '@holi/core/screens/comments/components/CommentView'
@@ -9,9 +9,11 @@ import { comment, post } from '@holi/core/screens/posts/components/__tests__/tes
 jest.mock('react-native-safe-area-context')
 
 describe('CommentView', () => {
-  beforeAll(() => jest.useFakeTimers())
-  afterAll(() => {
-    jest.runOnlyPendingTimers()
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
   })
 

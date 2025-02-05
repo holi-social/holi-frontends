@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import {
   type OnboardingStateValue,
@@ -12,8 +12,6 @@ import {
 } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { MockedProvider } from '@apollo/client/testing'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
-jest.useFakeTimers()
 
 const mockUsePathname = jest.fn()
 jest.mock('@holi/core/navigation/hooks/usePathname', () => ({
@@ -217,9 +215,14 @@ describe('useOnboardingInitialization', () => {
 
 describe('useOnboardingRedirect', () => {
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseLoggedInUser.mockReturnValue({
       isLoggedIn: false,
     })
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   const testCasesRedirects: { state: OnboardingStateValue; expectedRoute: string }[] = [

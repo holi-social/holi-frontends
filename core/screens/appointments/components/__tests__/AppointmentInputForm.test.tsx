@@ -1,4 +1,4 @@
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 import AppointmentInputForm, {
@@ -12,14 +12,12 @@ jest.mock('@holi/core/geolocation/components/PlacesAutocomplete')
 describe('AppointmentInputForm', () => {
   const onSubmitMock = jest.fn()
   const onBackButtonPressMock = jest.fn()
-
-  beforeAll(() => jest.useFakeTimers())
   beforeEach(() => {
+    jest.useFakeTimers()
     jest.restoreAllMocks()
-    jest.runOnlyPendingTimers()
   })
-  afterAll(() => {
-    jest.runOnlyPendingTimers()
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
   })
 

@@ -5,8 +5,6 @@ import React from 'react'
 import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { geoPlaceDetailsQuery, geoPlacesQuery } from '@holi/core/geolocation/queries'
 
-jest.useFakeTimers()
-
 const mocks = [
   {
     request: {
@@ -104,6 +102,13 @@ const mocks = [
 ]
 
 describe('PlacesAutocomplete', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(() => {
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers()
+  })
   const minimalProps = {
     testID: 'test',
     id: 'test',

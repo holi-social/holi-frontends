@@ -1,15 +1,21 @@
 import React from 'react'
 import { SearchTextInput } from '@holi/core/screens/search/typesense/SearchTextInput'
-import { render, userEvent, screen } from '@testing-library/react-native'
+import { render, userEvent, screen, act } from '@testing-library/react-native'
 import { useSearchBox } from 'react-instantsearch-core'
 
 const mockUseSearchBox = useSearchBox as jest.MockedFunction<typeof useSearchBox>
 jest.mock('react-instantsearch-core', () => ({
   useSearchBox: jest.fn(),
 }))
-jest.useFakeTimers()
 
 describe('SearchTextInput', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
   const mockRefine = (query = '') => {
     const refine = jest.fn()
     mockUseSearchBox.mockReturnValue({

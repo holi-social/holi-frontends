@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
 import { type LoginState, useLoginState } from '@holi/core/auth/loginState'
@@ -264,6 +264,7 @@ const novuNotifications = [
 
 describe('NotificationsOverview', () => {
   beforeEach(() => {
+    jest.useFakeTimers()
     jest.clearAllMocks()
     useLoginStateMock.mockImplementation(loggedIn)
     mockUseNotifications.mockReturnValue({
@@ -273,6 +274,10 @@ describe('NotificationsOverview', () => {
       canFetchMore: false,
       fetchNextPage: jest.fn(),
     })
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   it('shows login message, when user is not logged in', async () => {
@@ -369,8 +374,6 @@ describe('NotificationsOverview', () => {
 
     expect(await screen.findByText('notifications.created.thisWeek'))
     expect(await screen.findByText('notifications.created.older'))
-
-    jest.useRealTimers()
   })
 
   it('reports notifications as seen', () => {

@@ -1,17 +1,20 @@
 import { Intro } from '@holi/core/screens/onboarding/steps/Intro'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { render, screen, userEvent, within } from '@testing-library/react-native'
+import { act, render, screen, userEvent, within } from '@testing-library/react-native'
 import React from 'react'
 
 const mockUseTracking = useTracking as jest.Mock
 jest.mock('@holi/core/tracking/hooks/useTracking', () => jest.fn())
 
-jest.useFakeTimers()
-
 describe('Intro', () => {
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseTracking.mockReturnValue({ track: jest.fn() })
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   it('should display texts, buttons and links', () => {

@@ -54,8 +54,6 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
   storeOnboardingState: jest.fn(),
 }))
 
-jest.useFakeTimers()
-
 describe('EmailVerification', () => {
   const verificationFlowData = { identifier: 'test@example.com' }
   const verificationFlow = { id: 'test', state: 'sent_email' }
@@ -123,6 +121,7 @@ describe('EmailVerification', () => {
   }
 
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseVerificationFlowData.mockReturnValue(verificationFlowData)
     mockGetOrCreateVerificationFlow.mockResolvedValue(verificationFlow)
     mockUseErrorHandling.mockReturnValue({ displayError })
@@ -131,6 +130,10 @@ describe('EmailVerification', () => {
     mockUseTracking.mockReturnValue({ track })
     mockHasIdentifier.mockReturnValue(true)
     mockSubmitVerificationFlow.mockResolvedValue(accountActivationSuccessResponse)
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   it('should skip verification if disabled', () => {
