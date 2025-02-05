@@ -51,7 +51,6 @@ import type { User as HoliUser } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
-import type { ChatTopics } from '@holi/chat/src/client/ChatClient'
 
 const logger = getLogger('Chat')
 
@@ -370,21 +369,12 @@ export const roomAtomsRecorAtomForTesting = atom(
  **/
 
 /**
- * @name createNewRoom (Client Helper)
- * @description Initiates the creation of a room in Matrix through the
- * ChatClient. The store updates once the room creation event is received from
- * the Matrix server.
- */
-export const createNewRoom = async (userIds: string[]): Promise<RoomId> => {
-  return getChatClient().createRoom(userIds, { isDirectMessage: true })
-}
-/**
  * @name getOrCreateRoom (Client Helper)
  * @description returns the room id of an existing one-on-one room, if it
  * exists, or creates a new one.
  */
-export const getOrCreateRoom = async (userIds: string[], name?: string, chatTopic?: ChatTopics): Promise<RoomId> => {
-  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name, chatTopic: chatTopic })
+export const getOrCreatePrivateRoom = async (userIds: string[], name?: string): Promise<RoomId> => {
+  return getChatClient().getOrCreateRoom(userIds, { isDirectMessage: true, name: name, metadata: { type: 'private' } })
 }
 
 export const roomAlreadyExists = async (userIds: string[]): Promise<boolean> => {
