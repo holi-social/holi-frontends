@@ -251,8 +251,12 @@ const ChatRoomView = () => {
     }
   }
 
+  const chatPartnerHoliUsersEmpty = chatPartnerHoliUsers.length === 0
+  const chatPartnersEmpty = chatPartners == undefined || chatPartners?.length === 0
+
   // TODO: provide skeleton instead of HoliLoader
-  if (!chatInitialized || !room || loadingUsers || loadingTask) return <HoliLoader testID={'chat-room-loader'} />
+  if (!chatInitialized || !room || loadingUsers || loadingTask || chatPartnersEmpty || chatPartnerHoliUsersEmpty)
+    return <HoliLoader testID={'chat-room-loader'} />
 
   return (
     <HoliKeyboardSafeAreaView>
