@@ -1,4 +1,4 @@
-import { getOrCreateRoom, roomAlreadyExists, sendTaskEvent } from '@holi/chat/src/store'
+import { getOrCreateSpaceTaskRoom, roomAlreadyExists } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -23,10 +23,15 @@ import { Platform, View } from 'react-native'
 import { Trans, useTranslation } from 'react-i18next'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import type { User } from '@holi/core/domain/shared/types'
-import { ChatTopics } from '@holi/chat/src/client/ChatClient'
 import type { Task } from '@holi/core/screens/spaces/types'
+import { useChatInitialized } from '@holi/chat/src/client/chatState'
 
-const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = false }: ContactOrganizationProps) => {
+const StartChatDrawerActionButton = ({
+  disabled,
+  spaceIdOrName,
+  task,
+  alreadyStarted = false,
+}: ContactOrganizationProps) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { hideDrawer } = useActionDrawerContext()
@@ -49,12 +54,18 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = fal
 
   async function openChatRoom(chatPartner: User[], task: Task) {
     const chatPartnerIdentities = chatPartner?.map((chatPartner) => chatPartner.identity)
-    // console.log('taskName', taskName)
 
     try {
       const chatPartnerMatrixIds = chatPartnerIdentities.map((identity) => '@' + identity + ':' + chatServerName)
-      const { room_id } = await getOrCreateRoom(chatPartnerMatrixIds, task?.name, ChatTopics.SpaceTaskChat)
-      await sendTaskEvent(room_id, task.id, spaceIdOrName)
+      const { room_id } = await getOrCreateSpaceTaskRoom(chatPartnerMatrixIds, {
+        type: 'space.task',
+        content: {
+          taskId: task.id,
+          taskName: task.name,
+          spaceName: task.space?.name,
+          holiSpaceId: task.space?.id,
+        },
+      })
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -102,7 +113,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = fal
     <ButtonTracked
       trackingEvent={TrackingEvent.TaskContactOrganization.contactedOrganization}
       loading={isLoading}
-      disabled={isLoading}
+      disabled={disabled || isLoading}
       onPress={start}
       variant="primary"
       size="lg"
@@ -113,6 +124,7 @@ const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = fal
 }
 
 type ContactOrganizationProps = {
+  disabled?: boolean
   spaceIdOrName?: string
   task: Task
   alreadyStarted?: boolean
@@ -121,10 +133,12 @@ type ContactOrganizationProps = {
 const ContactOrganizationButton = (props: {
   testID: string | undefined
   onPress: () => void
+  disabled?: boolean
 }) => {
   const { styles } = useStyles(contactOrganizationButtonStyles)
   const { t } = useTranslation()
   const label = t('spaces.tasks.contactOrganization')
+
   return (
     <View
       style={[
@@ -136,6 +150,7 @@ const ContactOrganizationButton = (props: {
       testID={props.testID}
     >
       <ButtonTracked
+        disabled={props.disabled}
         trackingEvent={TrackingEvent.TaskContactOrganization.startedConversationFromTask}
         onPress={props.onPress}
         variant="primary"
@@ -166,6 +181,7 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
   const { adminsAsUser } = useAdmins(spaceIdOrName)
   const [alreadyStarted, setAlreadyStarted] = useState<boolean>(false)
   const { user } = useLoggedInUser()
+  const isChatInitialized = useChatInitialized()
 
   useEffect(() => {
     const checkChatExists = async () => {
@@ -200,10 +216,15 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
             ]}
             testID={testID}
           >
-            <StartChatDrawerActionButton spaceIdOrName={spaceIdOrName} task={task} alreadyStarted />
+            <StartChatDrawerActionButton
+              disabled={!isChatInitialized}
+              spaceIdOrName={spaceIdOrName}
+              task={task}
+              alreadyStarted
+            />
           </View>
         ) : (
-          <ContactOrganizationButton testID={testID} onPress={onPress} />
+          <ContactOrganizationButton disabled={!isChatInitialized} testID={testID} onPress={onPress} />
         )
       }
       label={t('global.options')}
@@ -230,7 +251,7 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
           </Text>
         </View>
 
-        <StartChatDrawerActionButton spaceIdOrName={spaceIdOrName} task={task} />
+        <StartChatDrawerActionButton disabled={!isChatInitialized} spaceIdOrName={spaceIdOrName} task={task} />
       </View>
     </HoliActionDrawer.Drawer>
   )

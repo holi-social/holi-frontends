@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 // eslint-disable-next-line no-restricted-imports
 import { Keyboard, Platform, SafeAreaView, View } from 'react-native'
@@ -14,8 +14,6 @@ import RoomMessageListStart from '@holi/chat/src/components/RoomMessageList/Room
 import {
   chatPartnerAtomCreator,
   getHoliUserForChatMember,
-  getParentSpaceByRoom,
-  getTopicByRoomId,
   isRoomCreator,
   setLatestMessagesAsRead,
   useRequestRoomMessages,
@@ -46,7 +44,6 @@ import type { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { taskByIdQuery } from '@holi/core/screens/spaces/details/queries'
 import { useQuery } from '@apollo/client'
-import { ChatTopics } from '@holi/chat/src/client/ChatClient'
 import { useAdmins } from '@holi/core/screens/spaces/hooks/useRepresentative'
 
 const WAIT_FOR_CHATROOM_DELAY = 5000
@@ -74,11 +71,12 @@ const ChatRoomView = () => {
 
   const roomMemberIds = room?.members.map((m) => m.id) ?? []
   const { matrixIdToHoliUserRecord, loading: loadingUsers } = useMatrixIdToHoliUserRecord(roomMemberIds)
-  const [parentSpaceId, setParentSpaceId] = useState<string>()
 
   const amIRoomCreator = loggedInUser && room && isRoomCreator(loggedInUser, room)
 
-  const { adminsAsUser } = useAdmins(parentSpaceId)
+  const holiSpaceId = (room?.type === 'space.task' && room.content.holiSpaceId) || undefined
+  const taskId = (room?.type === 'space.task' && room.content.taskId) || undefined
+  const { adminsAsUser } = useAdmins(holiSpaceId)
 
   const chatPartnerHoliUsers: User[] = (chatPartners || [])
     .map((chatPartner) => getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord))
@@ -88,35 +86,9 @@ const ChatRoomView = () => {
     (user) => !adminsAsUser?.some((admin) => admin.id === user.id)
   )
 
-  const [taskId, setTaskId] = useState<string>()
   const isSpaceRoom = room && isSpaceChildChatRoom(room)
 
   const { openToast } = useToast()
-
-  useEffect(() => {
-    const getTopic = async () => {
-      try {
-        const roomTopic = await getTopicByRoomId(roomId)
-        const parentSpace = await getParentSpaceByRoom(roomId)
-        if (roomTopic?.topic === ChatTopics.SpaceTaskChat) {
-          setTaskId(roomTopic.taskId)
-          setParentSpaceId(parentSpace?.holiSpaceId)
-        }
-      } catch (error: unknown) {
-        if (
-          (error as { response?: { status: number } })?.response?.status === 404 ||
-          (error as { response?: { status: number } })?.response?.status === 403
-        ) {
-          setTaskId(undefined)
-        } else {
-          displayError(error, 'Failed to load room topic', {
-            location: 'ChatRoomView.getTopic',
-          })
-        }
-      }
-    }
-    getTopic()
-  }, [roomId, displayError])
 
   const { data } = useQuery(taskByIdQuery, {
     variables: {
@@ -279,7 +251,7 @@ const ChatRoomView = () => {
                               members={chatPartners}
                               chatPartnerHoliUsers={chatPartnerHoliUsers}
                               task={task}
-                              parentSpaceId={parentSpaceId}
+                              parentSpaceId={holiSpaceId}
                             />
                           </View>
                         )
