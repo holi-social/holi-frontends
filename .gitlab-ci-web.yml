@@ -3,8 +3,8 @@ variables:
 
 default:
   before_script:
-    - set -ex
-    - env
+    - set -e
+    #- env
 
 # job templates
 
