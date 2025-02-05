@@ -1,10 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { render } from '@testing-library/react-native'
+import { act, render } from '@testing-library/react-native'
 import React from 'react'
 
 import { HoliProgressBar, useProgressBarAnimation } from '@holi/ui/components/molecules/HoliProgressBar'
-
-jest.useFakeTimers()
 
 describe('HoliProgressBar', () => {
   it('should render correctly in size medium', () => {
@@ -21,6 +19,13 @@ describe('HoliProgressBar', () => {
 })
 
 describe('useProgressBar', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
   it('should map progress to animated width', () => {
     const { result } = renderHook(() => useProgressBarAnimation(25))
 

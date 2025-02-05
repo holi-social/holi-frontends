@@ -9,8 +9,6 @@ const mockGetNotificationsList = jest.fn()
 const mockMarkAllMessagesAsSeen = jest.fn()
 const mockUseNotificationService = jest.fn()
 
-jest.useFakeTimers()
-
 jest.mock('@holi/core/screens/notifications/config', () => ({
   novuApplicationIdentifier: 'testApplicationIdentifier',
   notificationPollingInterval: 100,
@@ -24,6 +22,14 @@ const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
 
 describe('useNotifications', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
+
   const aDateString = new Date().toISOString()
   const testNotificationId = 'notificationId'
   const testMessage = 'Test message'

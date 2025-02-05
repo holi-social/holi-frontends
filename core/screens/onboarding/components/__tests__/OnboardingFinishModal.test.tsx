@@ -1,10 +1,8 @@
 import { useDocumentModal } from '@holi/core/screens/onboarding/components/DocumentModal'
 import { OnboardingFinishModal } from '@holi/core/screens/onboarding/components/OnboardingFinishModal'
 import { useOnboardingFinishModalState } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
-
-jest.useFakeTimers()
 
 const mockUseOnboardingFinishModalState = useOnboardingFinishModalState as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState', () => ({
@@ -26,8 +24,13 @@ jest.mock('@holi/core/screens/onboarding/components/DocumentModal', () => {
 
 describe('OnboardingFinishModal', () => {
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseOnboardingFinishModalState.mockReturnValue({ visible: true, hide: jest.fn() })
     mockUseDocumentModal.mockReturnValue({ show: false, modalProps: {} })
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   it('should render nothing if not visible', () => {

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react-native'
+import { act, fireEvent, render, screen } from '@testing-library/react-native'
 import React, { useState } from 'react'
 
 import HoliSelect, { HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
@@ -93,9 +93,15 @@ const MultiSelect = ({ ...args }) => {
 // apparently the Flatlist component within the Select is lazy-loading a module,
 // in a way to slow for jest, leading to
 // "You are trying to `import` a file after the Jest environment has been torn down."
-jest.useFakeTimers()
 
 describe('SingleSelect', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
   it('renders correctly when closed', () => {
     render(<SingleSelect />)
     expect(screen.toJSON()).toMatchSnapshot()
@@ -144,6 +150,13 @@ describe('SingleSelect', () => {
 })
 
 describe('MultiSelect', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
   it('renders correctly when closed', () => {
     render(<MultiSelect />)
     expect(screen.toJSON()).toMatchSnapshot()

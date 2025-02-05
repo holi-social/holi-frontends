@@ -3,7 +3,7 @@ import { getVerificationFlowFromRegistration, initRegistrationFlow } from '@holi
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { CreateAccount, type CreateAccountProps } from '@holi/core/screens/onboarding/steps/CreateAccount'
-import { act } from '@testing-library/react-hooks'
+import { act } from '@testing-library/react-native'
 import { render, screen, userEvent, within } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
 import React from 'react'
@@ -52,8 +52,6 @@ const RegistrationForm = ({ onSubmit }: { onSubmit: (payload: object) => Promise
 
 jest.mock('@holi/core/auth/components/FormBuilder', () => RegistrationForm)
 
-jest.useFakeTimers()
-
 describe('CreateAccount', () => {
   const registrationFlow = { id: 'test' }
   const displayError = jest.fn()
@@ -63,6 +61,7 @@ describe('CreateAccount', () => {
   const registrationResponse = { session: { id: 'test' }, session_token: 'some_token' }
 
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseLoginState.mockReturnValue({ isLoggedOut: true })
     mockInitRegistrationFlow.mockResolvedValue({ data: registrationFlow })
     mockUseErrorHandling.mockReturnValue({ displayError })
@@ -71,6 +70,10 @@ describe('CreateAccount', () => {
     updateRegistrationFlow.mockResolvedValue({ data: registrationResponse })
     mockGetVerificationFlowFromRegistration.mockReturnValue(verificationFlowData)
     mockSetLoginStateLoggedIn.mockResolvedValue({})
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   const renderScreen = async ({ onRegister, onContinueAsGuest, onLogin }: Partial<CreateAccountProps> = {}) => {

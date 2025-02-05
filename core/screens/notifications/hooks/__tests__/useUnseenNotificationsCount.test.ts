@@ -1,12 +1,10 @@
 /* eslint-disable no-console */
-import { renderHook, waitFor } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import { useUnseenNotificationsCount } from '@holi/core/screens/notifications/hooks/useUnseenNotificationsCount'
 
 const mockGetUnseenNotificationsCount = jest.fn()
 const mockUseNotificationService = jest.fn()
-
-jest.useFakeTimers()
 
 jest.mock('@holi/core/screens/notifications/config', () => ({
   novuApplicationIdentifier: 'testApplicationIdentifier',
@@ -21,6 +19,14 @@ const mockConsoleWarn = jest.fn()
 global.console.warn = mockConsoleWarn
 
 describe('useUnseenNotificationsCount', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
+
   const testResponse = { count: 3 }
   const emptyTestResponse = { count: 0 }
   const testError = new Error('test')

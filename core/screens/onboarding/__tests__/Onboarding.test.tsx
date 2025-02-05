@@ -106,8 +106,6 @@ export const RegistrationFormMock = ({ onSubmit }: { onSubmit: (payload: object)
 }
 jest.mock('@holi/core/auth/components/FormBuilder', () => RegistrationFormMock)
 
-jest.useFakeTimers()
-
 interface Event {
   action: 'press' | 'type' | 'paste'
   label: string
@@ -213,6 +211,14 @@ const mocks = [
 ]
 
 describe('Onboarding', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
+
   const redirect = jest.fn()
   const track = jest.fn()
   const defaultUserData = {

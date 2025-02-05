@@ -3,8 +3,6 @@ import { DocumentModal, useDocumentModal } from '@holi/core/screens/onboarding/c
 import { act, renderHook } from '@testing-library/react-hooks'
 import { render, screen } from '@testing-library/react-native'
 
-jest.useFakeTimers()
-
 describe('useDocumentModal', () => {
   it('should not show modal initially', () => {
     const { result } = renderHook(() => useDocumentModal())
