@@ -28,9 +28,23 @@ export type SearchParams = {
 
 const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 
-const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location', 'user_full_name']
+type QueryField = { name: string; weight: number }
+type EmbeddingField = QueryField
 
-const embeddingFields = ['embedding']
+const searchFields: QueryField[] = [
+  { name: 'title_de', weight: 1 },
+  { name: 'title_en', weight: 1 },
+  { name: 'description_de', weight: 1 },
+  { name: 'description_en', weight: 1 },
+  { name: 'location', weight: 1 },
+  { name: 'user_full_name', weight: 10 },
+]
+const searchFieldNames = searchFields.map(({ name }) => name)
+const searchFieldWeights = searchFields.map(({ weight }) => weight)
+
+const embeddingFields: EmbeddingField[] = [{ name: 'embedding', weight: 1 }]
+const embeddingFieldNames = embeddingFields.map(({ name }) => name)
+const embeddingFieldWeights = embeddingFields.map(({ weight }) => weight)
 
 const createTypesenseInstantSearchAdapter = () => {
   return new TypesenseInstantSearchAdapter({
@@ -46,7 +60,8 @@ const createTypesenseInstantSearchAdapter = () => {
       cacheSearchResultsForSeconds: 2 * 60,
     },
     additionalSearchParameters: {
-      query_by: searchFields.join(',') + ',' + embeddingFields.join(','),
+      query_by: searchFieldNames.join(',') + ',' + embeddingFieldNames.join(','),
+      query_by_weights: searchFieldWeights.concat(embeddingFieldWeights).join(','),
       vector_query: 'embedding:([], k: 200, distance_threshold: 0.4)',
     },
   })
