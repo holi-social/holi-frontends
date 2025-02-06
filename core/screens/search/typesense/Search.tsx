@@ -47,7 +47,6 @@ const createTypesenseInstantSearchAdapter = () => {
     },
     additionalSearchParameters: {
       query_by: searchFields.join(',') + ',' + embeddingFields.join(','),
-      highlight_full_fields: searchFields.join(','),
     },
   })
 }
