@@ -1,0 +1,41 @@
+<mjml>
+	<mj-head>
+		<mj-raw>
+    	<meta name="format-detection" content="date=no" />
+    	<meta name="format-detection" content="address=no" />
+    	<meta name="format-detection" content="telephone=no" />
+    	<meta name="x-apple-disable-message-reformatting" />
+    </mj-raw>
+
+    <mj-style inline="inline">
+      .rounded table {
+        border-collapse: separate;
+      }
+    </mj-style>
+    </mj-style>
+    <mj-attributes>
+    	<mj-all font-family="Trebuchet MS, Helvetica, sans-serif" />
+    </mj-attributes>
+    <mj-title>{{subject}}</mj-title>
+  </mj-head> 
+  <mj-body background-color="#ffffff">
+    <mj-section>
+      <mj-column padding="24px" padding-top="64px" background-color="#f5f5f5" border-radius="14px">
+      <mj-image align="left" padding="0px" width="55" height="24px" src="https://ik.imagekit.io/holi/holi_logo_ajPMRkTXG.png" />
+      </mj-column>
+    </mj-section>
+
+		
+    {{{body}}}
+
+    <mj-section>
+      <mj-column css-class="rounded" border-radius="32px 32px 0 0" border-bottom="none" border="1px solid #ebebeb" padding="24px 40px 0px 40px">
+        <mj-text font-size="12px" padding="0" line-height="26px" align="center">
+          You can always <a href="{{unsubscribe_url}}" style="color: #787777">unsubscribe</a> from this 3-part welcome series
+							<br />
+							Holi Moli GmbH • Eifflerstraße 43, 22769 Hamburg
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
