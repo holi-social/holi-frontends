@@ -2,38 +2,45 @@ import React from 'react'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
+import { Pressable } from 'react-native'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { Text, TextLink } from 'holi-bricks/components/text'
 
 interface Props {
   title: string
   description: string
   value?: boolean
-  onChange: (value: boolean) => void
+  onToggle: () => void
 }
 
-const OptionSection = ({ title, description, value = false, onChange }: Props) => {
+const OptionSection = ({ title, description, value = false, onToggle }: Props) => {
+  const { styles } = useStyles(stylesheet)
   return (
     <HoliBox padding={[8, 16, 16, 16]}>
-      <HoliBox
-        padding={[8, 0]}
-        layout={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
-      >
-        <HoliHeading level="3" size="s">
-          {title}
-        </HoliHeading>
+      <Pressable style={styles.option} onPress={onToggle}>
+        <TextLink size="md">{title}</TextLink>
 
         <HoliGap direction="horizontal" size="s" />
 
-        <HoliSwitch value={value} onChange={onChange} />
-      </HoliBox>
+        <HoliSwitch value={value} onChange={onToggle} />
+      </Pressable>
 
       <HoliGap direction="vertical" size="xs" />
 
-      <HoliText>{description}</HoliText>
+      <Text size="md">{description}</Text>
     </HoliBox>
   )
 }
 
 export default OptionSection
+
+const stylesheet = createStyleSheet({
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+  },
+})

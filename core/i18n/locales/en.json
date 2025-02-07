@@ -1409,7 +1409,7 @@
   "spaces.videocall.schedule.heading": "Plan an appointment for a video call",
   "spaces.videocall.text": "Plan an appointment for your video call or start a video call immediately",
   "tracking.consentModal.general.button.acceptAll": "Accept full data processing",
-  "tracking.consentModal.general.button.declineAll": "Decline all",
+  "tracking.consentModal.general.button.denyAll": "Decline all",
   "tracking.consentModal.general.button.manageOptions": "Manage options",
   "tracking.consentModal.general.description": "By allowing us to <0>process data on your activity</0> on the holi app:",
   "tracking.consentModal.general.description.check_1": "You’ll see more content that reflects your interests and preferences",
