@@ -31,6 +31,7 @@ export type Scalars = {
   JSONObject: { input: any; output: any }
   UUID: { input: string; output: string }
   Upload: { input: any; output: any }
+  Void: { input: any; output: any }
 }
 
 export type AddCollaborationToolInput = {
@@ -868,6 +869,7 @@ export type Mutation = {
   addComment: Comment
   addExternalLink: ExternalLink
   addReactionToComment: Comment
+  anonCount?: Maybe<Scalars['Void']['output']>
   appVolunteering_trackEngagementView: AppVolunteering_TrackEngagementViewResponse
   blockUser: Result
   /** @deprecated This has been renamed. Keep for <= 1.14.5 */
@@ -947,6 +949,10 @@ export type MutationAddExternalLinkArgs = {
 
 export type MutationAddReactionToCommentArgs = {
   input: CommentReactionInput
+}
+
+export type MutationAnonCountArgs = {
+  counterName: Scalars['String']['input']
 }
 
 export type MutationAppVolunteering_TrackEngagementViewArgs = {
@@ -1434,6 +1440,7 @@ export type Query = {
   commentById: Comment
   commentable: Commentable
   connectedUsers: UserPaged
+  connectionsByUserId: UserPaged
   discoverSpaces: Array<Maybe<DiscoverSpaces>>
   discussionById: Discussion
   /** @deprecated This query is deprecated. Please switch to using the 'favorites' query instead. */
@@ -1452,6 +1459,7 @@ export type Query = {
   insightsByUserId: InsightPaged
   inspirationPosts: PostPaged
   lastInsights: InsightPaged
+  myConnections: UserPaged
   myPosts: FeedPostPaged
   mySpaces: Array<Maybe<MySpaces>>
   notifications: NotificationPaged
@@ -1575,6 +1583,12 @@ export type QueryConnectedUsersArgs = {
   offset?: Scalars['Int']['input']
 }
 
+export type QueryConnectionsByUserIdArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+  userId: Scalars['UUID']['input']
+}
+
 export type QueryDiscoverSpacesArgs = {
   geolocation?: InputMaybe<Scalars['GeoJSON']['input']>
   limit?: Scalars['Int']['input']
@@ -1644,6 +1658,11 @@ export type QueryInspirationPostsArgs = {
 }
 
 export type QueryLastInsightsArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+export type QueryMyConnectionsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }

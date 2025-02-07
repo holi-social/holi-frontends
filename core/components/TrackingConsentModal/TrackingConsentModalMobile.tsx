@@ -17,7 +17,6 @@ import { Button } from 'holi-bricks/components/button'
 
 export const TrackingConsentModalMobile = () => {
   const { t } = useTranslation()
-
   const { theme } = useTheme()
   const styles = getStyles(theme)
 
@@ -43,10 +42,10 @@ export const TrackingConsentModalMobile = () => {
   const {
     allowPersonalization,
     allowProductAnalytics,
-    onPersonalizationChange,
-    onProductAnalyticsChange,
+    onTogglePersonalization,
+    onToggleProductAnalytics,
     acceptAll,
-    declineAll,
+    denyAll,
     acceptMyChoices,
   } = useConsentModalState(closeAllModals)
 
@@ -66,8 +65,8 @@ export const TrackingConsentModalMobile = () => {
             />
             <HoliGap size="s" />
             <Button
-              label={t('tracking.consentModal.general.button.declineAll')}
-              onPress={declineAll}
+              label={t('tracking.consentModal.general.button.denyAll')}
+              onPress={denyAll}
               variant="secondary"
               testID="btn-consentModal-declineAll"
             />
@@ -97,9 +96,9 @@ export const TrackingConsentModalMobile = () => {
             {/* Content */}
             <ManageOptionsContent
               allowPersonalization={allowPersonalization}
-              onPersonalizationChange={onPersonalizationChange}
+              onTogglePersonalization={onTogglePersonalization}
               allowProductAnalytics={allowProductAnalytics}
-              onProductAnalyticsChange={onProductAnalyticsChange}
+              onToggleProductAnalytics={onToggleProductAnalytics}
             />
 
             <HoliGap size="ml" />

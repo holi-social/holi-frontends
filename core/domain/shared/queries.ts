@@ -230,3 +230,9 @@ export interface connectionsByUserIdResponse {
     data: Connection[]
   }
 }
+
+export const anonCountQuery = gql`
+  mutation AnonCount($counterName: String!) {
+    anonCount(counterName: $counterName)
+  }
+`
