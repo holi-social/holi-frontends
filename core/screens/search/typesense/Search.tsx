@@ -20,6 +20,7 @@ import { InstantSearch } from 'react-instantsearch-core'
 import { Dimensions, Platform, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
+import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExamples'
 
 export type SearchParams = {
   query?: string
@@ -56,8 +57,8 @@ export const Search = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
-  const [initialQuery] = useParam('query', singleParamConfig)
-  const [initialFacet] = useParam('facet', singleParamConfig)
+  const [queryParam] = useParam('query', singleParamConfig)
+  const [facetParam] = useParam('facet', singleParamConfig)
   const updateParams = useUpdateParams({ web: { replace: true } })
 
   return (
@@ -78,15 +79,19 @@ export const Search = () => {
         StickyTopComponent={
           <View style={styles.filterContainer}>
             <HoliBox padding={[0, dimensions.spacingS]}>
-              <SearchTextInput initialQuery={initialQuery} onQueryChange={(query) => updateParams({ query })} />
+              <SearchTextInput queryParam={queryParam} onQueryChange={(query) => updateParams({ query })} />
             </HoliBox>
-            <SearchFacetsChips initialFacet={initialFacet} onFacetChange={(facet) => updateParams({ facet })} />
+            <SearchFacetsChips initialFacet={facetParam} onFacetChange={(facet) => updateParams({ facet })} />
           </View>
         }
       >
-        <ErrorBoundary>
-          <SearchHitInfiniteList />
-        </ErrorBoundary>
+        {queryParam ? (
+          <ErrorBoundary>
+            <SearchHitInfiniteList />
+          </ErrorBoundary>
+        ) : (
+          <SearchExamples />
+        )}
       </Screen>
     </InstantSearch>
   )

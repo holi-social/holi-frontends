@@ -51,12 +51,16 @@ describe('SearchTextInput', () => {
     expect(refine).toHaveBeenCalledWith('')
   })
 
-  it('should apply initial query', () => {
+  it('should search for query from paramters', () => {
     const refine = mockRefine()
 
-    render(<SearchTextInput initialQuery="some query" />)
+    const { rerender } = render(<SearchTextInput queryParam="some query" />)
 
     expect(refine).toHaveBeenCalledWith('some query')
+
+    rerender(<SearchTextInput queryParam="another query" />)
+
+    expect(refine).toHaveBeenCalledWith('another query')
   })
 
   it('should call callback on query change', async () => {

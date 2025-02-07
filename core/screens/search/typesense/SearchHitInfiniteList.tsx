@@ -81,7 +81,7 @@ export function SearchHitInfiniteList() {
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
         if (!isLastPage) {
-          showMore()
+          showMore?.()
         }
       }}
       onEndReachedThreshold={0.5}
