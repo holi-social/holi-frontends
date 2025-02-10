@@ -87,6 +87,7 @@ const Login = () => {
       await client.clearStore()
       await setLoginStateLoggedIn(data)
       storeOnboardingState('finished')
+      track(TrackingEvent.Auth.LoginCompleted)
       redirect(true)
     } catch (err) {
       if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
