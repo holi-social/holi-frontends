@@ -21,6 +21,7 @@ const TrackableFlatList = forwardRef(
       trackOnce,
       withFlashList = false,
       estimatedItemSize,
+      onLastViewedIndexChange,
       ...restProps
     }: TrackableFlatListProps,
     ref
@@ -54,6 +55,15 @@ const TrackableFlatList = forwardRef(
 
       // Early return if no new viewed elements available
       if (!visibleItems.length) return
+
+      // Update with current visible index if callback provided
+      if (onLastViewedIndexChange) {
+        // Get the index of the last fully visible item
+        const currentVisibleIndex = visibleItems[visibleItems.length - 1]?.index ?? -1
+        if (currentVisibleIndex >= 0) {
+          onLastViewedIndexChange(currentVisibleIndex)
+        }
+      }
 
       // If "trackOnce" is false, we loop through all "visibleItems" and trigger tracking callback for all array elements
       if (!trackOnce) {

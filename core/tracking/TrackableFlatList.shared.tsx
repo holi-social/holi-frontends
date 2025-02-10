@@ -35,6 +35,7 @@ export type TrackableFlatListProps = FlatListProps<TrackableFlatListItem> &
   TrackableFlatListParams & {
     withFlashList?: boolean
     estimatedItemSize?: number
+    onLastViewedIndexChange?: (index: number) => void
   }
 
 export type CustomViewabilityConfig = {

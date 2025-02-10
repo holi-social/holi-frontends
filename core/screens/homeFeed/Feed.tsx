@@ -1,8 +1,9 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useContext, useMemo, useCallback, useRef } from 'react'
+import React, { memo, useContext, useMemo, useCallback, useRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, RefreshControl } from 'react-native'
+import { StyleSheet, View, RefreshControl, AppState } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
 
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -35,6 +36,8 @@ import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCar
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import { useScrollToTop } from '@react-navigation/native'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -43,12 +46,18 @@ const HomeFeed = () => {
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
   const { navigate } = useRouting()
+  const [lastViewedIndex, setLastViewedIndex] = useState(0)
   const setScreenOptions = useSetScreenOptions()
+  const updateLastViewedIndex = useCallback((index: number) => {
+    setLastViewedIndex((prev) => Math.max(prev, index))
+  }, [])
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
   const { topics: allTopics } = useContext(SpaceTermContext)
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing, insightsCreators } =
     useFeedQuery()
 
+  const { track } = useTracking()
+  const navigation = useNavigation()
   const ref = useRef(null)
 
   const keyExtractor = useCallback(
@@ -79,15 +88,18 @@ const HomeFeed = () => {
         goodNewsArticle?: GoodNewsArticle
         volunteeringReco?: VolunteeringReco
       }
-    }) => (
-      <HoliTransition.FadeDown visible>
-        {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
-        {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
-        {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
-        {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
-        {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
-      </HoliTransition.FadeDown>
-    ),
+      index: number
+    }) => {
+      return (
+        <HoliTransition.FadeDown visible>
+          {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
+          {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
+          {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
+          {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
+          {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
+        </HoliTransition.FadeDown>
+      )
+    },
     [allTopics, insightsCreators]
   )
 
@@ -173,6 +185,25 @@ const HomeFeed = () => {
     })
   }, [navigate, t, setScreenOptions, colors.black300, displayFeedbackLink])
 
+  const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
+
+  useEffect(() => {
+    const navigationUnsubscribe = navigation.addListener('blur', () => {
+      getFeedStats()
+    })
+
+    const appStateSubscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'background' || nextAppState === 'inactive') {
+        getFeedStats()
+      }
+    })
+
+    return () => {
+      navigationUnsubscribe()
+      appStateSubscription.remove()
+    }
+  }, [navigation, getFeedStats])
+
   if (initialLoading)
     return (
       <View style={[styles.wrapper, { backgroundColor: colors.white200 }]}>
@@ -208,13 +239,13 @@ const HomeFeed = () => {
               listItemTrackingEvent={listItemTrackingEvent}
               listItemIdentifier={listItemIdentifier}
               ItemSeparatorComponent={() => <View style={{ height: Spacing.sm }} />}
-              itemVisiblePercentThreshold={80}
               minimumViewTime={1000}
               showsVerticalScrollIndicator={false}
               trackOnce={true}
               withFlashList={false}
               estimatedItemSize={260}
               ref={ref}
+              onLastViewedIndexChange={updateLastViewedIndex}
             />
           </ErrorBoundary>
         </View>
