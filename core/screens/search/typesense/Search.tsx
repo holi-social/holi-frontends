@@ -90,7 +90,7 @@ export const Search = () => {
             <SearchHitInfiniteList />
           </ErrorBoundary>
         ) : (
-          <SearchExamples />
+          <SearchExamples onQuerySelect={(query) => updateParams({ query })} />
         )}
       </Screen>
     </InstantSearch>
