@@ -11,17 +11,17 @@ import {
   setLoginStateLoggedIn,
   setLoginStateLoggedOut,
 } from '@holi/core/auth/loginState'
-import { type AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import { authenticatedUserV2Query, type AuthenticatedUserV2Response } from '@holi/core/domain/shared/queries'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import {
   type UpdateAuthenticatedUserInput,
-  type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
+  type UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import TrackingInitializer, {
-  initialState,
   exportedForTesting as trackingInitializerTesting,
+  initialState,
   updateConsentState,
 } from '@holi/core/tracking/TrackingInitializer'
 import { Consent, ConsentState, type PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
@@ -375,6 +375,12 @@ describe('TrackingInitializer', () => {
         })
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
+        expect(mockTrack).toHaveBeenCalledWith({
+          name: 'loginCompleted',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
+        })
       })
     })
     describe('given only personalization consent', () => {
@@ -401,6 +407,12 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
+        expect(mockTrack).toHaveBeenCalledWith({
+          name: 'loginCompleted',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
+        })
       })
     })
     describe('given analytics + personalization consent', () => {
@@ -433,6 +445,12 @@ describe('TrackingInitializer', () => {
         })
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
+        expect(mockTrack).toHaveBeenCalledWith({
+          name: 'loginCompleted',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
+        })
       })
       describe('when the user retracts personalization consent', () => {
         it('updates consent state on PostHogs person properties', async () => {
@@ -588,6 +606,12 @@ describe('TrackingInitializer', () => {
         })
         const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
         expect(consentStateAfter).toEqual(updatedConsentState)
+        expect(mockTrack).toHaveBeenCalledWith({
+          name: 'loginCompleted',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
+        })
       })
     })
   })
@@ -633,6 +657,12 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
         const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
         expect(consentStateAfter).toEqual(ConsentState.unknown)
+        expect(mockTrack).toHaveBeenCalledWith({
+          name: 'loginCompleted',
+          event_version__major: 1,
+          event_version__minor: 0,
+          event_version__patch: 0,
+        })
       })
     })
   })
