@@ -39,7 +39,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { MoreFilled, Share } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
@@ -49,6 +48,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import FormLayout from '@holi/core/components/FormLayout/FormLayout'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type PostDetailsPageParams = {
   idOrSlug: string
@@ -125,9 +125,7 @@ const PostDetailsPage = () => {
       headerTitleAlign: 'center',
       headerLeft: ({ tintColor }) => (
         <HoliTransition.FadeLeft visible>
-          <HoliButton transparent inline label={t('navigation.title')} onPress={() => navigate('/')}>
-            <HoliLogo color={tintColor} />
-          </HoliButton>
+          <HeaderBackButton tintColor={tintColor} fallbackRoute="/" />
         </HoliTransition.FadeLeft>
       ),
       headerTitle: ({ tintColor }) => !loading && <HeaderTitle tintColor={tintColor}>{headerTitle}</HeaderTitle>,

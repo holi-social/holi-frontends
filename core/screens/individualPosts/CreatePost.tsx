@@ -28,6 +28,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { feedQuery } from '@holi/core/screens/homeFeed/queries'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Text } from 'holi-bricks/components/text'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 const CreatePost = () => {
   const { theme } = useTheme()
@@ -115,6 +116,7 @@ const CreatePost = () => {
           {t('individuals.post.input.title')}
         </Text>
       ),
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} fallbackRoute="/" />,
       navigationCustomOptions: {
         footerShown: false,
       },

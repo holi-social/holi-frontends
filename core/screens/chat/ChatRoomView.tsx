@@ -88,12 +88,12 @@ const ChatRoomView = () => {
      */
     if (Platform.OS === 'android' && Keyboard.isVisible()) {
       const unsubscribe = Keyboard.addListener('keyboardDidHide', () => {
-        navigateBack()
+        navigateBack('/chat')
         unsubscribe?.remove()
       })
       Keyboard.dismiss()
     } else {
-      navigateBack()
+      navigateBack('/chat')
     }
   }, [navigateBack, roomId])
 
