@@ -35,6 +35,7 @@ import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import ConnectionsTab from '@holi/core/screens/userprofile/components/ConnectionsTab'
 
 export type UserProfileParams = {
@@ -116,6 +117,7 @@ const UserProfile = () => {
           </HoliActionDrawer.Action>
         </HoliActionDrawer.Drawer>
       ),
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} fallbackRoute="/" />,
     })
   }, [isLoadingBlockUser, t, userFullName, blockUser, navigateWithAuth, userId, setScreenOptions])
 

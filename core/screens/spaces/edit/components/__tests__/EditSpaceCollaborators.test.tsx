@@ -1,7 +1,7 @@
 import { ApolloError } from '@apollo/client'
 import { GraphQLErrors } from '@apollo/client/errors'
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, userEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { act, render, screen, userEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -95,11 +95,17 @@ const createMocksForSpace = (spaceById = spaceForAdmin) => {
   ]
 }
 
-jest.useFakeTimers()
-
 jest.mock('@holi/core/navigation/hooks/useParam')
 
 describe('EditSpaceCollaborators', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
+
   const spaceWithMembershipRequestsAndInvites = {
     ...spaceForAdmin,
     membershipRequests: pagedMembershipRequests,

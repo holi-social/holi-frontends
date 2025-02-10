@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen, userEvent } from '@testing-library/react-native'
+import { act, fireEvent, render, screen, userEvent } from '@testing-library/react-native'
 import { useInfiniteHits, useInstantSearch } from 'react-instantsearch-core'
 import type { InfiniteHitsRenderState } from 'instantsearch.js/es/connectors/infinite-hits/connectInfiniteHits'
 import type { Hit } from 'instantsearch.js'
@@ -68,15 +68,19 @@ const mockedInfiniteHits = (
   } as SearchResults<Hit<SearchHitData>>,
 })
 
-jest.useFakeTimers()
-
 describe('SearchHitInfiniteList', () => {
   const hits = [volunteeringHit, profileHit, spaceHit]
 
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits(4, 2, 0, hits))
     mockUseInstantSearch.mockReturnValue({ status: 'idle' } as ReturnType<typeof useInstantSearch>)
   })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
+
   it('tracks searchResultsRendered event', async () => {
     render(<SearchHitInfiniteList />)
 

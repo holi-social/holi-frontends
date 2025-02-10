@@ -7,20 +7,18 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { logError } from '@holi/core/errors/helpers'
 import { getLogger } from '@holi/core/helpers/logging'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
-import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import HoliSwiper from '@holi/ui/components/molecules/HoliSwiper/index'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import {
-  GoodNewsArticlesQueryArgs,
-  GoodNewsArticlesQueryResponse,
+  type GoodNewsArticlesQueryArgs,
+  type GoodNewsArticlesQueryResponse,
   goodNewsArticlesQuery,
 } from '@holi-apps/goodnews/queries'
-import { GoodNewsArticle } from '@holi-apps/goodnews/types'
+import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 
 import GoodNewsArticleComponent from './GoodNewsArticleComponent'
-import GoodNewsHeader from './GoodNewsHeader'
 import GoodNewsTeaserComponent from './GoodNewsTeaserComponent'
 
 const logger = getLogger('GoodNews')
@@ -36,12 +34,15 @@ export type GoodNewsArticleParams = {
 
 const { useParam } = createParamHooks<GoodNewsArticleParams>()
 
+interface GoodNewsCarouselProps {
+  onActiveDateChange: (formattedDate: string) => void
+}
+
 /** This is a temporary component and should be replaced by a carousel-style component later */
-const GoodNewsCarousel = () => {
+const GoodNewsCarousel = ({ onActiveDateChange }: GoodNewsCarouselProps) => {
   const { height } = useWindowDimensions()
   const { i18n } = useTranslation()
   const dateFormat = new Intl.DateTimeFormat(i18n.language)
-  const setScreenOptions = useSetScreenOptions()
 
   const { loading, error, data, fetchMore, refetch } = useQuery<
     GoodNewsArticlesQueryResponse,
@@ -80,11 +81,8 @@ const GoodNewsCarousel = () => {
     articles[activeArticleIndex] && dateFormat.format(Date.parse(articles[activeArticleIndex].date))
 
   useEffect(() => {
-    setScreenOptions({
-      // override only the headerTitle
-      headerTitle: () => <GoodNewsHeader formattedDate={activeArticleFormattedDate} />,
-    })
-  }, [activeArticleFormattedDate, setScreenOptions])
+    onActiveDateChange(activeArticleFormattedDate)
+  }, [activeArticleFormattedDate, onActiveDateChange])
 
   useEffect(() => {
     if (paramArticleId) {

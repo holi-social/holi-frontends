@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, userEvent } from '@testing-library/react-native'
+import { act, render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -9,8 +9,6 @@ import { space } from '@holi/core/screens/spaces/__tests__/testData'
 import SpaceDetailView from '@holi/core/screens/spaces/details/components/SpaceDetailView'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { spacePostsQuery } from '@holi/core/screens/spaces/updates/queries'
-
-jest.useFakeTimers()
 
 const createMocksForSpace = (spaceById = space) => {
   const spaceByIdRequest = {
@@ -73,9 +71,12 @@ const SpaceDetailWrapper = () => {
 }
 
 describe('SpaceDetailView', () => {
-  afterAll(() => {
-    jest.runOnlyPendingTimers()
-    jest.restoreAllMocks()
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   it('renders correctly', async () => {

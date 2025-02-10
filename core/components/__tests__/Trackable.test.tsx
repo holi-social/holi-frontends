@@ -20,10 +20,16 @@ export const testTrackingEvent = {
   event_version__patch: 0,
 }
 
-jest.useFakeTimers()
 jest.mock('@holi/core/tracking/hooks/useTracking')
 
 describe('Trackable', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(() => {
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers()
+  })
   interface TestCase {
     name: string
     renderComponent: (props: TrackableProps<TrackableBaseProps>) => React.JSX.Element

@@ -25,6 +25,7 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type DiscussionDetailPageParams = {
   discussionId: string
@@ -78,8 +79,11 @@ const DiscussionDetailPage = () => {
       headerTitle: ({ tintColor }) => (
         <HeaderTitle tintColor={tintColor}>{t('insights.discussions.pageTitle')}</HeaderTitle>
       ),
+      headerLeft: ({ tintColor }) => (
+        <HeaderBackButton tintColor={tintColor} fallbackRoute={`/insights/${insightId}`} />
+      ),
     })
-  }, [t, setScreenOptions])
+  }, [t, setScreenOptions, insightId])
 
   const onPressCreateComment = () => {
     const commentPath = `/insights/${insightId}/discussions/${discussionId}/comment`

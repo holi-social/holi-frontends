@@ -5,6 +5,13 @@ import GoodNewsTeaserComponent from '@holi-apps/goodnews/components/GoodNewsTeas
 import { article } from '@holi-apps/goodnews/components/__tests__/testData'
 
 describe('GoodNewsTeaserComponent', () => {
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
+  })
   const fetchMoreSpy = jest.fn()
 
   it('renders correctly', () => {
@@ -15,8 +22,6 @@ describe('GoodNewsTeaserComponent', () => {
   })
 
   it('fetching more on button click', async () => {
-    jest.useFakeTimers()
-
     render(<GoodNewsTeaserComponent article={article} fetchMore={fetchMoreSpy} />)
 
     fireEvent.press(screen.getByTestId('btn-goodnews-list-load-more'))
@@ -25,7 +30,5 @@ describe('GoodNewsTeaserComponent', () => {
       jest.runAllTimers()
       expect(fetchMoreSpy).toHaveBeenCalled()
     })
-
-    jest.useRealTimers()
   })
 })

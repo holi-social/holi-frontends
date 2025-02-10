@@ -93,7 +93,7 @@ const CreateSpaceUpdate = () => {
         headerStyle: { backgroundColor: colors.background20 },
       })
     }
-  }, [setScreenOptions, t, loading, isUpdate, isMember, colors.background20])
+  }, [setScreenOptions, t, loading, isUpdate, isMember, colors.background20, spaceIdOrName])
 
   if (error || !space) {
     return <></>
@@ -110,6 +110,7 @@ const CreateSpaceUpdate = () => {
         toggleConfirmationModal={setShowConfirmationModal}
         onSave={saveSpacePost}
         showConfirmationModal={showConfirmationModal}
+        fallbackRoute={isUpdate ? undefined : `/spaces/${spaceIdOrName}`}
       >
         <SpaceUpdateInputForm
           onChangeVisibility={setVisibility}

@@ -10,15 +10,13 @@ import { render, screen, userEvent } from '@testing-library/react-native'
 import { interestsQuery } from '@holi/core/screens/userprofile/queries'
 import { sdgsQuery, skillsQuery } from '@holi/core/domain/shared/queries'
 import type { DocumentNode } from 'graphql'
-import { act } from '@testing-library/react-hooks'
+import { act } from '@testing-library/react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 
 const mockUseErrorHandling = useErrorHandling as jest.Mock
 jest.mock('@holi/core/errors/hooks', () => ({
   useErrorHandling: jest.fn(),
 }))
-
-jest.useFakeTimers()
 
 const terms = [
   { id: 'term-1', slug: 'term-1', title: 'Biodiversity' },
@@ -89,7 +87,12 @@ describe.each(chipTypes)('ChipsSelection for %s', (chipType) => {
   }
 
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseErrorHandling.mockReturnValue({ displayError })
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   it('should load terms', async () => {

@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { act, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
 import { type LoggedInState, useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -56,6 +56,10 @@ const MOCKS = [acceptInvite, declineInvite]
 describe('NotificationSpaceInviteItem', () => {
   beforeEach(() => {
     useLoggedInUserMock.mockReturnValue(loggedIn)
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
   })
 
@@ -108,6 +112,13 @@ describe('NotificationSpaceInviteItem', () => {
   })
 
   describe('with novu notifications', () => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+    afterEach(() => {
+      jest.runOnlyPendingTimers()
+      jest.useRealTimers()
+    })
     const notification = {
       id: '0809f4a0-04c8-43ae-a291-4f7bfce1b123',
       notificationType: NovuNotificationType.SPACE_MEMBERSHIP_INVITE,

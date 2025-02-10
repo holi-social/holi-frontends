@@ -26,10 +26,10 @@ export const TrackingConsentModalDesktop = () => {
   const {
     allowPersonalization,
     allowProductAnalytics,
-    onPersonalizationChange,
-    onProductAnalyticsChange,
+    onTogglePersonalization,
+    onToggleProductAnalytics,
     acceptAll,
-    declineAll,
+    denyAll,
     acceptMyChoices,
   } = useConsentModalState(hide)
 
@@ -43,9 +43,9 @@ export const TrackingConsentModalDesktop = () => {
 
           <ManageOptionsContent
             allowPersonalization={allowPersonalization}
-            onPersonalizationChange={onPersonalizationChange}
+            onTogglePersonalization={onTogglePersonalization}
             allowProductAnalytics={allowProductAnalytics}
-            onProductAnalyticsChange={onProductAnalyticsChange}
+            onToggleProductAnalytics={onToggleProductAnalytics}
           />
         </HoliBox>
       </ScrollView>
@@ -63,9 +63,9 @@ export const TrackingConsentModalDesktop = () => {
             />
           </View>
           <Button
-            label={t('tracking.consentModal.general.button.declineAll')}
+            label={t('tracking.consentModal.general.button.denyAll')}
             inline
-            onPress={declineAll}
+            onPress={denyAll}
             variant="secondary"
           />
           <HoliGap direction="horizontal" size="s" />

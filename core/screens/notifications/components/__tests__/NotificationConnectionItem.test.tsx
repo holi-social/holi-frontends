@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { act, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import React from 'react'
 
 import NotificationConnectionItem from '@holi/core/screens/notifications/components/NotificationConnectionItem'
@@ -54,6 +54,10 @@ const MOCKS = [
 
 describe('NotificationConnectionItem.tsx', () => {
   beforeEach(() => {
+    jest.useFakeTimers()
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
   })
 

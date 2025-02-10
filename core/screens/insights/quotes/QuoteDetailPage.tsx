@@ -30,6 +30,7 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type QuoteDetailPageParams = {
   insightId: string
@@ -100,8 +101,11 @@ const QuoteDetailPage = () => {
           </HoliActionDrawer.Drawer>
         )
       },
+      headerLeft: ({ tintColor }) => (
+        <HeaderBackButton tintColor={tintColor} fallbackRoute={`/insights/${insightId}`} />
+      ),
     })
-  }, [quote, setScreenOptions, shareLink, t, colors.black300, theme.colors.background10])
+  }, [quote, setScreenOptions, shareLink, t, colors.black300, theme.colors.background10, insightId])
 
   return (
     <>

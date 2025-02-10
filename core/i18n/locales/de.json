@@ -1410,7 +1410,7 @@
   "spaces.videocall.schedule.heading": "Plane einen Termin mit Videokonferenz",
   "spaces.videocall.text": "Plane einen Termin mit Videokonferenz oder starte sofort einen Videoanruf",
   "tracking.consentModal.general.button.acceptAll": "Gesamte Verarbeitung akzeptieren",
-  "tracking.consentModal.general.button.declineAll": "Alle ablehnen",
+  "tracking.consentModal.general.button.denyAll": "Alle ablehnen",
   "tracking.consentModal.general.button.manageOptions": "Optionen anpassen",
   "tracking.consentModal.general.description": "Indem du uns erlaubst, <0>Daten über dein Aktivität</0> in der holi-App zu verarbeiten:",
   "tracking.consentModal.general.description.check_1": "Erhälst du mehr Inhalte, die deinen Interessen und Vorlieben entsprechen",

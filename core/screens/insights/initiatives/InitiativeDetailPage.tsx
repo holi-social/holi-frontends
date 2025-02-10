@@ -27,6 +27,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 export type InitiativeDetailPageParams = {
   insightId: string
@@ -98,8 +99,11 @@ const InitiativeDetailPage = () => {
         )
       },
       headerShown: true,
+      headerLeft: ({ tintColor }) => (
+        <HeaderBackButton tintColor={tintColor} fallbackRoute={`/insights/${insightId}`} />
+      ),
     })
-  }, [t, setScreenOptions, shareLink, theme.colors.black300])
+  }, [t, setScreenOptions, shareLink, theme.colors.black300, insightId])
 
   return (
     <>

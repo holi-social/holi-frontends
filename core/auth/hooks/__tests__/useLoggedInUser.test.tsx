@@ -7,8 +7,6 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { loginStateLoggedIn, loginStateLoggedOut, loginStateUnknown } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 
-jest.useFakeTimers()
-
 const mockUseLoginState = jest.fn()
 jest.mock('@holi/core/auth/loginState', () => {
   const original = jest.requireActual('@holi/core/auth/loginState')

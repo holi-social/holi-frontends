@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render, screen, waitFor } from '@testing-library/react-native'
+import { act, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -72,8 +72,6 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
 }))
 
-jest.useFakeTimers()
-
 jest.mock('@holi/core/navigation/hooks/useParam')
 
 describe('SpaceDetails', () => {
@@ -83,7 +81,12 @@ describe('SpaceDetails', () => {
   }
 
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseFeatureFlag.mockReturnValue(['on', undefined])
+  })
+  afterEach(async () => {
+    await act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   it('selects info tab for non-members', async () => {

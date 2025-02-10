@@ -4,21 +4,21 @@ import { StyleSheet, View } from 'react-native'
 
 import OptionSection from '@holi/core/components/OptionSection'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Text } from 'holi-bricks/components/text'
 
 interface Props {
   allowPersonalization: boolean
-  onPersonalizationChange: (value: boolean) => void
+  onTogglePersonalization: () => void
   allowProductAnalytics: boolean
-  onProductAnalyticsChange: (value: boolean) => void
+  onToggleProductAnalytics: () => void
 }
 
 const ManageOptionsContent = ({
   allowPersonalization,
-  onPersonalizationChange,
+  onTogglePersonalization,
   allowProductAnalytics,
-  onProductAnalyticsChange,
+  onToggleProductAnalytics,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -32,7 +32,7 @@ const ManageOptionsContent = ({
           title={t('tracking.consentModal.manageOptions.personalizationBox.title')}
           description={t('tracking.consentModal.manageOptions.personalizationBox.description')}
           value={allowPersonalization}
-          onChange={onPersonalizationChange}
+          onToggle={onTogglePersonalization}
         />
       </View>
 
@@ -43,13 +43,13 @@ const ManageOptionsContent = ({
           title={t('tracking.consentModal.manageOptions.productAnalyticsBox.title')}
           description={t('tracking.consentModal.manageOptions.productAnalyticsBox.description')}
           value={allowProductAnalytics}
-          onChange={onProductAnalyticsChange}
+          onToggle={onToggleProductAnalytics}
         />
       </View>
 
       <HoliGap size="m" />
 
-      <HoliText>{t('tracking.consentModal.manageOptions.note')}</HoliText>
+      <Text size="md">{t('tracking.consentModal.manageOptions.note')}</Text>
     </>
   )
 }
