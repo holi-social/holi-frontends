@@ -50,6 +50,7 @@ export const SearchExamples = ({ onQuerySelect }: SearchExamplesProps) => {
               href={`/search?facet=${selectedFacet}&query=${encodeURIComponent(text)}`}
               onPress={() => {
                 onQuerySelect(text)
+                // prevent event propagation
                 return false
               }}
             >

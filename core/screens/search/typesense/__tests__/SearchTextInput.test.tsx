@@ -75,4 +75,17 @@ describe('SearchTextInput', () => {
 
     expect(onQueryChange).toHaveBeenCalledWith('some query')
   })
+
+  it('should not call callback on query change if query is equal to param', async () => {
+    const onQueryChange = jest.fn()
+    mockRefine()
+    const user = userEvent.setup()
+
+    render(<SearchTextInput onQueryChange={onQueryChange} queryParam="some query" />)
+
+    const inputField = screen.getByLabelText('search.typesense.input.label')
+    await user.paste(inputField, 'some query')
+
+    expect(onQueryChange).not.toHaveBeenCalled()
+  })
 })

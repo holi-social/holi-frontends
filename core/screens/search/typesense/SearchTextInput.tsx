@@ -26,7 +26,9 @@ export function SearchTextInput({ queryParam, onQueryChange, props }: SearchBoxP
   const setQuery = (newQuery: string) => {
     setInputValue(newQuery)
     refine(newQuery)
-    onQueryChange?.(newQuery)
+    if (newQuery !== queryParam) {
+      onQueryChange?.(newQuery)
+    }
   }
 
   useEffect(() => {
