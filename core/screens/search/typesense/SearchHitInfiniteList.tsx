@@ -60,20 +60,28 @@ export function SearchHitInfiniteList() {
     trackResultsViewed()
   }, [items, trackResultsViewed])
 
+  // Hide results of empty query
+  const emptyQuery = !results?.query || results?.query === '*'
+  const displayedItems = emptyQuery ? [] : items
+
   return (
     <FlashList
       contentContainerStyle={styles.list}
       testID={'search-results-list'}
       estimatedItemSize={HIT_HEIGHT + Spacing['xs']}
-      data={items}
+      data={displayedItems}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        isLoading ? <HoliLoader style={styles.loader} /> : <Text size={'md'}>{t('global.noSearchResults')}</Text>
+        isLoading || emptyQuery ? (
+          <HoliLoader style={styles.loader} testID="loader" />
+        ) : (
+          <Text size={'md'}>{t('global.noSearchResults')}</Text>
+        )
       }
       ListFooterComponent={() => {
-        if (items.length > 0 && !isLastPage) {
-          return <HoliLoader style={styles.loader} />
+        if (displayedItems.length > 0 && !isLastPage) {
+          return <HoliLoader style={styles.loader} testID="nextPageLoader" />
         }
         return null
       }}
