@@ -2,7 +2,6 @@ import { darkAvatarTheme } from 'holi-bricks/components/avatar/avatar.theme'
 import { darkButtonTheme } from 'holi-bricks/components/button/button.theme'
 import { darkChipTheme } from 'holi-bricks/components/chips/chip.theme'
 import { darkSelectorTheme } from 'holi-bricks/components/selectors/selector.theme'
-import { darkTextTheme } from 'holi-bricks/components/text/text.theme'
 import { blue, green, yellow, purple, mono, orange, red } from 'holi-bricks/tokens'
 
 export const darkTheme = {
@@ -54,7 +53,6 @@ export const darkTheme = {
     },
   },
   components: {
-    text: darkTextTheme,
     button: darkButtonTheme,
     chipAction: darkChipTheme.chipAction,
     chipLabel: darkChipTheme.chipLabel,
