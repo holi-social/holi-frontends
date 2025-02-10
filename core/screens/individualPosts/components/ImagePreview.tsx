@@ -25,9 +25,9 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
   const styles = createStyles(theme, aspectRatio)
 
   return (
-    <>
+    <View>
       {!imageError && isLoading && (
-        <View style={styles.image}>
+        <View style={[styles.image, { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }]}>
           <HoliSkeleton width={'100%'} height={'100%'} borderRadius={Spacing['3xs']} />
         </View>
       )}
@@ -68,7 +68,7 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
           )}
         </View>
       )}
-    </>
+    </View>
   )
 }
 

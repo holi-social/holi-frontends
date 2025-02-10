@@ -151,6 +151,18 @@ export namespace TrackingEvent {
       name: 'feedPostCreateStart',
       ...versionOne,
     },
+    viewSummary: (
+      totalElements: number,
+      feedPosts: number,
+      spacePosts: number,
+      goodNews: number,
+      insights: number,
+      volunteering: number
+    ): TrackingEvent => ({
+      name: 'feedViewSummary',
+      properties: { totalElements, feedPosts, spacePosts, goodNews, insights, volunteering },
+      ...versionOne,
+    }),
   }
 
   export const Spaces = {

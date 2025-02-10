@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { type LegacyRef, memo, useContext, useEffect, useMemo } from 'react'
+import React, { memo, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -36,8 +36,77 @@ import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 import InsightCard from '@holi/core/screens/insights/components/InsightCard'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+
+import type { User } from '@holi/core/domain/shared/types'
+import type { Topic } from '@holi/core/domain/shared/types'
+import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
+
+const FeedListItem = memo(
+  ({
+    item,
+    index,
+    columnIndex,
+    allTopics,
+    insightsCreators,
+    onItemView,
+    loadMoreRef,
+  }: {
+    item: FeedItem & { loader?: boolean } & { goodNewsArticle?: GoodNewsArticle } & {
+      volunteeringReco?: VolunteeringReco
+    }
+    index: number
+    columnIndex: number
+    allTopics: readonly Topic[]
+    insightsCreators: User[]
+    onItemView: (index: number) => void
+    loadMoreRef?: ((node?: Element | null | undefined) => void) | undefined
+  }) => {
+    const { ref } = useInView({
+      onChange: (inView) => {
+        if (inView) {
+          onItemView(index)
+        }
+      },
+      threshold: 0.5,
+    })
+
+    return (
+      <div ref={ref}>
+        <View
+          key={
+            item.feedPost?.id ||
+            item.goodNewsArticle?.id ||
+            item.volunteeringReco?.engagement.id ||
+            item.insight?.id ||
+            `${index}-${columnIndex}`
+          }
+        >
+          {item.feedPost && <GenericPostCard key={item.feedPost.id} post={item.feedPost} allTopics={allTopics} />}
+          {item.spacePost && <GenericPostCard key={item.spacePost.id} post={item.spacePost} allTopics={allTopics} />}
+          {item.insight && insightsCreators && (
+            <InsightCard key={item.insight.id} insight={item.insight} creators={insightsCreators} />
+          )}
+          {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />}
+          {item.volunteeringReco && (
+            <VolunteeringCard key={item.volunteeringReco.engagement.id} recommendation={item.volunteeringReco} />
+          )}
+          {item.loader && loadMoreRef && (
+            <div ref={loadMoreRef}>
+              <View testID="load-more-ref" style={styles.skeleton} key={`${item.loader}-${columnIndex}-${index}`}>
+                <HoliSkeleton height={420} width="100%" borderRadius={20} />
+              </View>
+            </div>
+          )}
+        </View>
+      </div>
+    )
+  }
+)
+
+FeedListItem.displayName = 'FeedListItem'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -49,6 +118,8 @@ const HomeFeed = () => {
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
+  const [lastViewedIndex, setLastViewedIndex] = useState(0)
+  const { track } = useTracking()
 
   const loaders = new Array(2).fill({ loader: true })
 
@@ -99,6 +170,20 @@ const HomeFeed = () => {
   const dataByColumns = simpleColumnSortingByIndex([...combinedFeedData, ...loaders], numberOfColumns)
   const animKey = initialLoading ? 'loading' : combinedFeedData.length > 0 ? 'ready' : 'empty'
 
+  // Add tracking stats function
+  const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
+
+  // Track when user leaves the page
+  useEffect(() => {
+    return () => {
+      getFeedStats() // Track when component unmounts
+    }
+  }, [getFeedStats])
+
+  const updateLastViewedIndex = (index: number) => {
+    setLastViewedIndex((prev) => Math.max(prev, index))
+  }
+
   return (
     <SpaceTermContextProvider>
       <GestureHandlerRootView style={{ backgroundColor: colors.white200, flex: 1 }} testID="home-feed-listing">
@@ -116,75 +201,21 @@ const HomeFeed = () => {
                   <View style={styles.container} testID="posts-list-results">
                     {dataByColumns.map((column, columnIndex) => (
                       <View key={columnIndex} style={styles.column}>
-                        {column.map(
-                          (
-                            item: FeedItem & { loader?: boolean } & { goodNewsArticle?: GoodNewsArticle } & {
-                              volunteeringReco?: VolunteeringReco
-                            },
-                            index: number
-                          ) =>
-                            item.loader && !canLoadMore ? (
-                              <></>
-                            ) : (
-                              <HoliTransition.FadeDown
-                                key={
-                                  item.feedPost?.id ||
-                                  item.goodNewsArticle?.id ||
-                                  item.volunteeringReco?.engagement.id ||
-                                  item.insight?.id ||
-                                  `${index}-${columnIndex}`
-                                }
-                                visible
-                                index={index}
-                              >
-                                {item.feedPost && (
-                                  <GenericPostCard key={item.feedPost.id} post={item.feedPost} allTopics={allTopics} />
-                                )}
-                                {item.spacePost && (
-                                  <GenericPostCard
-                                    key={item.spacePost.id}
-                                    post={item.spacePost}
-                                    allTopics={allTopics}
-                                  />
-                                )}
-                                {item.insight && insightsCreators && (
-                                  <InsightCard
-                                    key={item.insight.id}
-                                    insight={item.insight}
-                                    creators={insightsCreators}
-                                  />
-                                )}
-                                {item.goodNewsArticle && (
-                                  <GoodNewsCard article={item.goodNewsArticle} key={item.goodNewsArticle.id} />
-                                )}
-                                {item.volunteeringReco && (
-                                  <VolunteeringCard
-                                    key={item.volunteeringReco.engagement.id}
-                                    recommendation={item.volunteeringReco}
-                                  />
-                                )}
-                                {item.loader && columnIndex === 0 && (
-                                  <View
-                                    testID="load-more-ref"
-                                    ref={loadMoreRef1 as LegacyRef<View>}
-                                    style={styles.skeleton}
-                                    key={`${item.loader}-${columnIndex}-${index}`}
-                                  >
-                                    <HoliSkeleton height={420} width="100%" borderRadius={20} />
-                                  </View>
-                                )}
-                                {item.loader && columnIndex === 1 && (
-                                  <View
-                                    testID="load-more-ref"
-                                    ref={loadMoreRef2 as LegacyRef<View>}
-                                    style={styles.skeleton}
-                                    key={`${item.loader}-${columnIndex}-${index}`}
-                                  >
-                                    <HoliSkeleton height={420} width="100%" borderRadius={20} />
-                                  </View>
-                                )}
-                              </HoliTransition.FadeDown>
-                            )
+                        {column.map((item, index) =>
+                          item.loader && !canLoadMore ? (
+                            <></>
+                          ) : (
+                            <FeedListItem
+                              key={index}
+                              item={item}
+                              index={numberOfColumns === 1 ? index : index * numberOfColumns + columnIndex}
+                              columnIndex={columnIndex}
+                              allTopics={allTopics}
+                              insightsCreators={insightsCreators}
+                              onItemView={updateLastViewedIndex}
+                              loadMoreRef={item.loader ? (columnIndex === 0 ? loadMoreRef1 : loadMoreRef2) : undefined}
+                            />
+                          )
                         )}
                       </View>
                     ))}
