@@ -415,7 +415,7 @@ const TrackingInitializerInner = ({
           break
       }
     }
-  }, [tracking, track, state, onUpdateCompleted, onUserLoggedInCompleted, onUserLoggedOutCompleted])
+  }, [tracking, state, onUpdateCompleted, onUserLoggedInCompleted, onUserLoggedOutCompleted])
 
   return null
 }
