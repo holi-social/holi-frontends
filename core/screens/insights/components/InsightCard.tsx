@@ -11,7 +11,7 @@ import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightS } from '@holi/icons/src/generated'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
-import type { Insight } from '@holi/core/screens/insights/types'
+import type { InsightPreview } from '@holi/core/screens/insights/types'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import type { User } from '@holi/core/domain/shared/types'
 import { Avatar } from 'holi-bricks/components/avatar'
@@ -19,7 +19,7 @@ import { HoliButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 
 type InsightCardProps = {
-  insight: Insight
+  insight: InsightPreview
   creators: User[]
   style?: StyleProp<ViewStyle>
 }
@@ -33,8 +33,6 @@ const InsightCard: React.FC<InsightCardProps> = ({ insight, creators, style }: I
   const date =
     getRelativeDateString(insight.datePublished, i18n.language).charAt(0).toUpperCase() +
     getRelativeDateString(insight.datePublished, i18n.language).slice(1)
-
-  const editors = insight.involvedUsers.data
 
   return (
     <View style={[styles.container, style]} testID="insight-card">
@@ -76,16 +74,6 @@ const InsightCard: React.FC<InsightCardProps> = ({ insight, creators, style }: I
               <Text size="lg">&middot;</Text>
               <Text size="xs">{date}</Text>
             </View>
-          )}
-          {!!editors.length && (
-            <HoliUserAvatarPile
-              users={[...editors]}
-              usersToShow={3}
-              usersTotal={insight.involvedUsers.totalResults}
-              counter
-              collapse
-              style={styles.avatarPile}
-            />
           )}
         </View>
       </HoliButtonTracked>

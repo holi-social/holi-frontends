@@ -3,7 +3,13 @@ import { gql } from '@apollo/client/core'
 import { UserAvatarFragment } from '@holi/core/domain/shared/queries'
 import type { User } from '@holi/core/domain/shared/types'
 import { LinkFragment } from '@holi/core/screens/comments/queries'
-import type { Initiative, Insight, InsightWithQuote, Recommendation } from '@holi/core/screens/insights/types'
+import type {
+  Initiative,
+  Insight,
+  InsightPreview,
+  InsightWithQuote,
+  Recommendation,
+} from '@holi/core/screens/insights/types'
 import { PollFragment } from '@holi/core/screens/polls/queries'
 import { PostFragment } from '@holi/core/screens/posts/queries'
 import type { Paged } from '@holi/core/types'
@@ -147,6 +153,23 @@ export const InsightFragment = gql`
   }
 `
 
+export const InsightPreviewFragment = gql`
+  ${UserAvatarFragment}
+
+  fragment InsightPreviewFragment on InsightPreview {
+    id
+    title
+    description
+    datePublished
+    creator {
+      ...UserAvatar
+      aboutMe
+    }
+    headerImage
+    headerImageBlurhash
+  }
+`
+
 export const lastInsightsQuery = gql`
   ${InsightFragment}
 
@@ -279,4 +302,21 @@ export type DiscussionResponse = {
     id: string
     question: string
   }
+}
+
+export const feedInsightsQuery = gql`
+  ${InsightPreviewFragment}
+
+  query FeedInsights($offset: Int! = 0, $limit: Int! = 4) {
+    feedInsights(offset: $offset, limit: $limit) {
+      data {
+        ...InsightPreviewFragment
+      }
+      totalResults
+    }
+  }
+`
+
+export type FeedInsightsResponse = {
+  feedInsights: Paged<InsightPreview>
 }

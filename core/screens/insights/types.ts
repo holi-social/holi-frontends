@@ -50,6 +50,16 @@ export interface Insight {
   discussions?: Discussion[]
 }
 
+export interface InsightPreview {
+  id: string
+  title: string
+  description: string
+  datePublished: string
+  creator?: User
+  headerImage: string
+  headerImageBlurhash?: string
+}
+
 export interface InsightWithQuote extends Insight {
   quote: Quote
 }

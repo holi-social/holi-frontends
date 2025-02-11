@@ -7,7 +7,7 @@ import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
 import { logError } from '@holi/core/errors/helpers'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
-import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
+import { feedInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/domain/shared/types'
 
@@ -58,10 +58,10 @@ export const useFeedQuery = () => {
     data: dataInsights,
     loading: loadingInsights,
     refetch: refetchInsights,
-  } = useQuery(lastInsightsQuery, {
+  } = useQuery(feedInsightsQuery, {
     variables: { offset: 0, limit: PAGE_SIZE_EXTERNAL_DATA },
     onCompleted: (data) => {
-      const creators = data.lastInsights.data
+      const creators = data.feedInsights.data
         .map((insight: Insight) => insight.creator)
         .filter((creator: User) => !!creator)
       setInsightsCreators(creators)
@@ -78,7 +78,7 @@ export const useFeedQuery = () => {
     const feedData = data?.feed?.data || []
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
     const engagements = dataVolunteering?.appVolunteering_engagementRecos?.data || []
-    const insights = dataInsights?.lastInsights?.data || []
+    const insights = dataInsights?.feedInsights?.data || []
 
     // Pre-calculate total length to avoid array resizing
     const totalExternalItems = Math.floor(feedData.length / POST_FREQUENCY) * 3
@@ -123,7 +123,7 @@ export const useFeedQuery = () => {
     data?.feed?.data,
     dataGoodNews?.appGoodNews_articles?.articles,
     dataVolunteering?.appVolunteering_engagementRecos?.data,
-    dataInsights?.lastInsights?.data,
+    dataInsights?.feedInsights?.data,
   ])
 
   const handleFetchMore = useCallback(async () => {
