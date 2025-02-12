@@ -26,12 +26,7 @@ import type { User } from '@holi/core/domain/shared/types'
 import { useSpaceAdminUsers } from '@holi/core/screens/spaces/hooks/useAdmins'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 
-const StartChatDrawerActionButton = ({
-  disabled,
-  spaceIdOrName,
-  task,
-  alreadyStarted = false,
-}: ContactOrganizationProps) => {
+const StartChatDrawerActionButton = ({ spaceIdOrName, task, alreadyStarted = false }: ContactOrganizationProps) => {
   const { t } = useTranslation()
   const { isLoggedIn } = useLoggedInUser()
   const { hideDrawer } = useActionDrawerContext()
@@ -110,7 +105,7 @@ const StartChatDrawerActionButton = ({
     <ButtonTracked
       trackingEvent={TrackingEvent.TaskContactOrganization.contactedOrganization}
       loading={isLoading}
-      disabled={disabled || isLoading}
+      disabled={isLoading}
       onPress={startTaskChat}
       variant="primary"
       size="lg"
@@ -121,20 +116,20 @@ const StartChatDrawerActionButton = ({
 }
 
 type ContactOrganizationProps = {
-  disabled?: boolean
   spaceIdOrName?: string
   task: Task
   alreadyStarted?: boolean
 }
 
-const ContactOrganizationButton = (props: {
-  testID: string | undefined
+interface ContactOrganizationButtonProps {
   onPress: () => void
-  disabled?: boolean
-}) => {
+  loading?: boolean
+  testID?: string
+}
+
+const ContactOrganizationButton = ({ onPress, testID, loading }: ContactOrganizationButtonProps) => {
   const { styles } = useStyles(contactOrganizationButtonStyles)
   const { t } = useTranslation()
-  const label = t('spaces.tasks.contactOrganization')
 
   return (
     <View
@@ -144,16 +139,17 @@ const ContactOrganizationButton = (props: {
           position: 'fixed',
         },
       ]}
-      testID={props.testID}
+      testID={testID}
     >
       <ButtonTracked
-        disabled={props.disabled}
         trackingEvent={TrackingEvent.TaskContactOrganization.startedConversationFromTask}
-        onPress={props.onPress}
+        onPress={onPress}
+        loading={loading}
+        disabled={loading}
         variant="primary"
         icon={ChatSmile2}
         size="lg"
-        label={label}
+        label={t('spaces.tasks.contactOrganization')}
       />
     </View>
   )
@@ -182,8 +178,9 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
 
   useEffect(() => {
     const checkChatExists = async () => {
-      if (!adminUsers) return
       if (!loggedInUser) return
+      if (!isChatInitialized) return
+      if (!adminUsers) return
 
       const adminIdentities = adminUsers.map((adminAsUser) => adminAsUser.identity)
       const userIds = [...adminIdentities, loggedInUser?.identity]
@@ -193,7 +190,7 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
     }
 
     checkChatExists()
-  }, [adminUsers, loggedInUser])
+  }, [isChatInitialized, adminUsers, loggedInUser])
 
   if (!spaceIdOrName) return null
 
@@ -215,15 +212,10 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
             ]}
             testID={testID}
           >
-            <StartChatDrawerActionButton
-              disabled={!isChatInitialized}
-              spaceIdOrName={spaceIdOrName}
-              task={task}
-              alreadyStarted
-            />
+            <StartChatDrawerActionButton spaceIdOrName={spaceIdOrName} task={task} alreadyStarted />
           </View>
         ) : (
-          <ContactOrganizationButton disabled={!isChatInitialized} testID={testID} onPress={onPress} />
+          <ContactOrganizationButton loading={!isChatInitialized} testID={testID} onPress={onPress} />
         )
       }
       label={t('global.options')}
@@ -253,7 +245,7 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
           </Text>
         </View>
 
-        <StartChatDrawerActionButton disabled={!isChatInitialized} spaceIdOrName={spaceIdOrName} task={task} />
+        <StartChatDrawerActionButton spaceIdOrName={spaceIdOrName} task={task} />
       </View>
     </HoliActionDrawer.Drawer>
   )
