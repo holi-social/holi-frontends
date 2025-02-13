@@ -44,6 +44,9 @@ interface FlowData<T> {
   submitType: Record<string, unknown>
 }
 
+// ory's openid connect group - we use custom buttons for this and ory's default buttons are filtered out
+const ORY_OIDC_GROUP = 'oidc'
+
 const FormBuilder = <
   T extends UpdateSettingsFlowBody | UpdateLoginFlowBody | UpdateRegistrationFlowBody | UpdateRecoveryFlowBody,
 >({
@@ -155,24 +158,26 @@ const FormBuilder = <
       {!flow ? (
         <HoliLoader />
       ) : (
-        nodes.map((node: UiNode, index) => {
-          const name = getNodeId(node)
-          return (
-            <FormNode
-              key={`form-field-${flow?.ui.action || ''}-${name}-${index}`}
-              textInputOverride={textInputOverride}
-              translationPrefix={translationPrefix}
-              value={getValue(name)}
-              onChange={onChange(name)}
-              node={node}
-              onSubmitPress={() => onSubmit({ ...values, ...submitType })}
-              scrollToInputWithId={scrollToInputWithId}
-              autofocus={hasAutofocus(node)}
-              style={{ marginTop: Spacing.md }}
-              isSignin={isSignin}
-            />
-          )
-        })
+        nodes
+          .filter((node) => node.group !== ORY_OIDC_GROUP)
+          .map((node: UiNode, index) => {
+            const name = getNodeId(node)
+            return (
+              <FormNode
+                key={`form-field-${flow?.ui.action || ''}-${name}-${index}`}
+                textInputOverride={textInputOverride}
+                translationPrefix={translationPrefix}
+                value={getValue(name)}
+                onChange={onChange(name)}
+                node={node}
+                onSubmitPress={() => onSubmit({ ...values, ...submitType })}
+                scrollToInputWithId={scrollToInputWithId}
+                autofocus={hasAutofocus(node)}
+                style={{ marginTop: Spacing.md }}
+                isSignin={isSignin}
+              />
+            )
+          })
       )}
     </View>
   )
