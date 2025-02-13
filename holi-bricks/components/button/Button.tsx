@@ -37,6 +37,8 @@ export type ButtonProps = AccessibilityProps & {
   transparent?: boolean
   selected?: boolean
   icon?: HoliIconType
+  iconBefore?: HoliIconType
+  scaleIcon?: number
   inline?: boolean
   testID?: string
 }
@@ -52,6 +54,8 @@ export const Button = ({
   transparent = false,
   selected = false,
   icon,
+  iconBefore,
+  scaleIcon = 1,
   inline = false,
   testID,
   ...rest
@@ -67,6 +71,7 @@ export const Button = ({
 
   const isSpinning = loading || isProcessing
   const labelToShow = isSpinning && loadingLabel ? loadingLabel : label
+  const iconSize = 16 * scaleIcon
 
   const handlePress = useCallback(
     async (event: GestureResponderEvent) => {
@@ -103,6 +108,9 @@ export const Button = ({
       {...accessibilityProps(rest)}
     >
       <View style={styles.content}>
+        {iconBefore && !isSpinning && (
+          <HoliIcon icon={iconBefore} size={iconSize} color={styles.text(disabled, selected, variant).color} />
+        )}
         <View style={styles.textContainer(size)}>
           <Text size={size === 'lg' ? 'md' : 'sm'} colorOveride={styles.text(disabled, selected, variant).color}>
             {labelToShow}
@@ -111,12 +119,12 @@ export const Button = ({
         {isSpinning && (
           <View testID="spinner">
             <SpinningIconContainer spinning={isSpinning}>
-              <HoliIcon icon={Loader} size={16} color={styles.text(disabled, selected, variant).color} />
+              <HoliIcon icon={Loader} size={iconSize} color={styles.text(disabled, selected, variant).color} />
             </SpinningIconContainer>
           </View>
         )}
         {!isSpinning && icon && (
-          <HoliIcon icon={icon} size={16} color={styles.text(disabled, selected, variant).color} />
+          <HoliIcon icon={icon} size={iconSize} color={styles.text(disabled, selected, variant).color} />
         )}
       </View>
     </Pressable>
