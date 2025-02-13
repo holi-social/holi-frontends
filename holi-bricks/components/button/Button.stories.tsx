@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from 'holi-bricks/components/button'
 import React from 'react'
 
-import { Chat3 } from '@holi/icons/src/generated'
+import { Chat3, Hearts } from '@holi/icons/src/generated'
 import { View } from 'react-native'
 
 const availableVariants = ['primary', 'secondary', 'danger'] as const
@@ -19,6 +19,7 @@ const disabledProps = [
   'aria-disabled',
   'tabIndex',
   'icon',
+  'iconBefore',
   'onPress',
   'loadingLabel',
   'testID',
@@ -46,6 +47,7 @@ export const Playground: Story = {
     label: { description: 'Button text', required: false },
     variant: { control: 'select', options: availableVariants },
     size: { control: 'select', options: availableSizes },
+    scaleIcon: { control: 'number', description: 'Scale factor for icons' },
   },
   args: {
     label: 'Label',
@@ -56,6 +58,7 @@ export const Playground: Story = {
     transparent: false,
     selected: false,
     inline: true,
+    scaleIcon: 1,
   },
   render: function Render(args) {
     const [, updateArgs] = useArgs()
@@ -110,6 +113,15 @@ export const ByState: Story = {
         </View>
         <View style={{ margin: 6 }}>
           <Button label="with icon" icon={Chat3} />
+        </View>
+        <View style={{ margin: 6 }}>
+          <Button label="with icon before" iconBefore={Hearts} />
+        </View>
+        <View style={{ margin: 6 }}>
+          <Button label="with both icons" icon={Chat3} iconBefore={Hearts} />
+        </View>
+        <View style={{ margin: 6 }}>
+          <Button label="with scaled icons" icon={Chat3} iconBefore={Hearts} scaleIcon={1.5} />
         </View>
         <View style={{ margin: 6 }}>
           <Button label="transparent" transparent />
