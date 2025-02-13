@@ -192,12 +192,8 @@ export const ContactOrganization = ({ spaceIdOrName, task }: ContactOrganization
     checkChatExists()
   }, [isChatInitialized, adminUsers, loggedInUser])
 
-  if (!spaceIdOrName) return null
-
-  const isSpaceAdmin = adminUsers?.some((admin) => {
-    return admin.id === loggedInUser?.id
-  })
-  if (isSpaceAdmin) return null
+  const isSpaceAdmin = adminUsers?.some((admin) => admin.id === loggedInUser?.id)
+  if (!spaceIdOrName || isSpaceAdmin) return null
 
   return (
     <HoliActionDrawer.Drawer

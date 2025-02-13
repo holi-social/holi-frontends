@@ -42,7 +42,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
-import type { User } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { taskByIdQuery, type TaskByIdResponse } from '@holi/core/screens/spaces/details/queries'
 import { useQuery } from '@apollo/client'
@@ -81,14 +80,14 @@ const ChatRoomView = () => {
 
   const holiSpaceId = (room?.type === 'space.task' && room.content.holiSpaceId) || undefined
   const taskId = (room?.type === 'space.task' && room.content.taskId) || undefined
-  const { adminUsers } = useSpaceAdminUsers(holiSpaceId)
+  const { adminUsers = [] } = useSpaceAdminUsers(holiSpaceId)
 
-  const chatPartnerHoliUsers: User[] = (chatPartners || [])
+  const chatPartnerHoliUsers = (chatPartners || [])
     .map((chatPartner) => getHoliUserForChatMember(chatPartner, matrixIdToHoliUserRecord))
-    .filter((holiUser): holiUser is User => holiUser !== undefined)
+    .filter((holiUser) => holiUser !== undefined)
 
-  const chatPartnersWithoutAdmins: User[] = chatPartnerHoliUsers.filter(
-    (user) => !adminUsers?.some((admin) => admin.id === user.id)
+  const chatPartnersWithoutAdmins = chatPartnerHoliUsers.filter(
+    (user) => !adminUsers.some((admin) => admin.id === user.id)
   )
 
   const isSpaceRoom = room && isSpaceChildChatRoom(room)
@@ -138,7 +137,7 @@ const ChatRoomView = () => {
           <ChatRoomActionDrawer
             roomId={roomId}
             chatPartner={chatPartners[0]}
-            chatPartnerFullName={chatPartnerHoliUsers?.[0]?.fullName ?? chatPartners?.[0]?.name}
+            chatPartnerFullName={chatPartnerHoliUsers[0]?.fullName ?? chatPartners[0]?.name}
             usersToBlock={chatPartnersWithoutAdmins}
           />
         ),
@@ -146,7 +145,7 @@ const ChatRoomView = () => {
       headerTitle: () => {
         if (loadingUsers) return null
         const chatPartner = chatPartners?.[0]
-        const chatPartnerHoliUser = chatPartnerHoliUsers?.[0]
+        const chatPartnerHoliUser = chatPartnerHoliUsers[0]
 
         switch (room?.type) {
           case 'private':
@@ -252,10 +251,10 @@ const ChatRoomView = () => {
   }
 
   const chatPartnerHoliUsersEmpty = chatPartnerHoliUsers.length === 0
-  const chatPartnersEmpty = chatPartners == undefined || chatPartners?.length === 0
+  const noChatPartners = chatPartners?.length === 0
 
   // TODO: provide skeleton instead of HoliLoader
-  if (!chatInitialized || !room || loadingUsers || loadingTask || chatPartnersEmpty || chatPartnerHoliUsersEmpty)
+  if (!chatInitialized || !room || loadingUsers || loadingTask || noChatPartners || chatPartnerHoliUsersEmpty)
     return <HoliLoader testID={'chat-room-loader'} />
 
   return (
@@ -268,9 +267,9 @@ const ChatRoomView = () => {
                 <View style={styles.listContainer}>
                   {room.hasInvitation ? (
                     <ChatProfileCard
-                      member={chatPartners?.[0]}
+                      member={room.creator}
                       roomId={roomId}
-                      user={chatPartnerHoliUsers?.[0]}
+                      user={chatPartnerHoliUsers[0]}
                       userIsLoading={loadingUsers}
                       taskName={task?.name}
                     />
@@ -307,7 +306,7 @@ const ChatRoomView = () => {
                 <HoliContainer noPadding>
                   <ChatTextInput
                     isVisible={!room.hasInvitation}
-                    userName={chatPartnerHoliUsers?.[0]?.fullName}
+                    userName={chatPartnerHoliUsers[0]?.fullName}
                     roomId={roomId}
                     isTaskChat={task !== undefined}
                     onMessageSent={sendTrackingEvent}

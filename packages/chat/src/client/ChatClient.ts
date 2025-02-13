@@ -109,7 +109,6 @@ export default class ChatClient {
     const state = room.getLiveTimeline().getState(Direction.Backward)
     const roomCreateEvent = state?.getStateEvents(EventType.RoomCreate)?.pop()
 
-    // Every room has "m.room.create" event, so `roomCreateEvent` is always defined
     return roomCreateEvent?.getContent() as RoomHoliMetadata | undefined
   }
 
@@ -304,7 +303,9 @@ export default class ChatClient {
     return !!(await this.getRoomByUserIds(userIds, true))
   }
 
-  /** Rooms */
+  /**
+   * Rooms
+   */
   public async getOrCreateRoom(userIds: string[], options: CreateRoomOptions): Promise<RoomId> {
     const room = await this.getRoomByUserIds(userIds, false)
 

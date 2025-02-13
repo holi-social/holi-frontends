@@ -19,13 +19,12 @@ import { Text } from 'holi-bricks/components/text'
 
 interface Props {
   roomId: string
-  member: ChatRoomMember | undefined
+  member: ChatRoomMember | null
   user?: User
   userIsLoading: boolean
   taskName?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ChatProfileCard = ({ member, roomId, user, taskName }: PropsWithChildren<Props>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -78,11 +77,7 @@ const ChatProfileCard = ({ member, roomId, user, taskName }: PropsWithChildren<P
         <HoliCardBoard.Slot>
           {taskName ? (
             <Text size="md" color="default">
-              <Trans
-                t={t}
-                i18nKey={'chat.invitation.copy.taskchat'}
-                values={{ fullName: chatPartnerName, taskname: taskName }}
-              >
+              <Trans t={t} i18nKey={'chat.invitation.copy.taskChat'} values={{ fullName: chatPartnerName, taskName }}>
                 <Text size="md" color="informative" />
               </Trans>
             </Text>

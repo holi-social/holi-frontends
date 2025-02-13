@@ -7,7 +7,7 @@ import type { ChatRoom, ChatRoomMessage } from '@holi/chat/src/client/types'
 import { isMsgMemberContent, isMsgTextContent } from '@holi/chat/src/client/utils'
 import { chatPartnerAtomCreator, setLatestMessagesAsRead, useLastRoomMessage } from '@holi/chat/src/store'
 import { isSpaceChildChatRoom } from '@holi/chat/src/store/utils'
-import { getChatInitials, getChatMemberName, isMatrixId } from '@holi/chat/src/utils'
+import { getChatInitials, getChatMemberName } from '@holi/chat/src/utils'
 import type { User } from '@holi/core/domain/shared/types'
 import { getInitials } from '@holi/core/helpers'
 import { getDisplayDate } from '@holi/core/i18n/helpers/dateHelper'
@@ -37,7 +37,6 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
   const isSpaceRoom = isSpaceChildChatRoom(room)
-  // const isTaskRoom = isSpaceTaskChatRoom(room)
   const roomName = isSpaceRoom ? room.content.spaceName : room.name
 
   const lastMessage = useLastRoomMessage(room)
@@ -68,6 +67,8 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
     return null
   }
 
+  const firstChatPartner = chatPartners?.[0]
+
   return (
     <HoliLink href={`/chat/rooms/${roomId}`} label={roomName} onPress={handleOnPress}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
@@ -82,22 +83,13 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
                 shape="square"
                 size="md"
               />
-            ) : chatPartners && chatPartners[0] ? (
-              isMatrixId(chatPartners[0].name) ? (
-                <Avatar
-                  label={roomName}
-                  imgSrc={chatPartners[0].avatar ?? ''}
-                  initials={getChatInitials(chatPartners[0].name)}
-                  size="md"
-                />
-              ) : (
-                <Avatar
-                  label={roomName}
-                  imgSrc={chatPartners[0].avatar ?? ''}
-                  initials={getChatInitials(chatPartners[0].name)}
-                  size="md"
-                />
-              )
+            ) : firstChatPartner ? (
+              <Avatar
+                label={roomName}
+                imgSrc={firstChatPartner.avatar ?? ''}
+                initials={getChatInitials(firstChatPartner.name)}
+                size="md"
+              />
             ) : null}
 
             {hasUnseenMessages && (

@@ -22,7 +22,7 @@ export const useRepresentative = (spaceIdOrName?: string) => {
   })
 
   const space = data?.spaceById
-  const representativeIdentity = space && space?.representatives?.length > 0 ? space?.representatives[0] : undefined
+  const representativeIdentity = space && space.representatives.length > 0 ? space.representatives[0] : undefined
 
   return {
     loading,

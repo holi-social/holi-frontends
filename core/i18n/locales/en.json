@@ -136,7 +136,7 @@
   "chat.emptyRoom.was": "was",
   "chat.invitation.accept": "Start chatting",
   "chat.invitation.copy": "{{fullName}} wants to start a new conversation with you.",
-  "chat.invitation.copy.taskchat": "<0>{{fullName}}</0> wants to start a new conversation with you about the task <1>{{taskname}}</1>.",
+  "chat.invitation.copy.taskChat": "<0>{{fullName}}</0> wants to start a new conversation with you about the task <1>{{taskName}}</1>.",
   "chat.invitation.newconversation": "New conversation",
   "chat.invitation.reject": "Reject",
   "chat.inviting": "Inviting",
