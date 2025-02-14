@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { type BrowserContext, type Page, expect } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, loginAsE2EUser, sendConnectionRequest } from '../helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, loginAsE2EUser, sendConnectionRequest } from '../helpers'
 import { type SessionHandler, test } from '../testmaster'
 
 // this is a long journey, but its as fast as our backends are
@@ -30,6 +30,7 @@ const testIgnoringAndAcceptingConnectionRequests = async (
   // notifications currently can take a while to load, therefore we're setting a long timeout here
   await expect(page.getByTestId('connection-notification-item').first()).toBeVisible({ timeout: 10000 })
   await page.waitForSelector(byTestId('connection-notification-item'))
+  await checkAccessibility(page)
 
   // ignore first CONNECTION_REQUEST
   await clickElementByTestId(page, 'ignore-connection-request-button')

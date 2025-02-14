@@ -1,8 +1,15 @@
-import { Page, expect } from '@playwright/test'
+import { type Page, expect } from '@playwright/test'
 
 import { randomSpaceName } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { byTestId, clickElementByTestId, clickThisOrThatElementByTestId, locateElementByTestId, retry } from './helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  clickThisOrThatElementByTestId,
+  locateElementByTestId,
+  retry,
+} from './helpers'
 import { createSpace } from './helpers/spaces'
 import { test } from './testmaster'
 
@@ -63,6 +70,7 @@ async function createSpaceAppointment(adminA: Page) {
 
     const titleField = await locateElementByTestId(adminA, 'appointment-title-input')
     await expect(titleField).toBeVisible()
+    await checkAccessibility(adminA)
     await titleField.fill('E2E Party')
 
     const descriptionField = await locateElementByTestId(adminA, 'appointment-description-input')
@@ -79,6 +87,7 @@ async function editAppointmentTitle(user: Page) {
     await clickElementByTestId(user, 'btn-to-edit-appointment')
     user.getByText('Edit appointment')
     const titleField = await locateElementByTestId(user, 'appointment-title-input')
+    await checkAccessibility(user)
     await titleField.fill('E2E Party Edited')
     await clickElementByTestId(user, 'form-wrapper-save-btn')
 

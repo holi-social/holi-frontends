@@ -1,4 +1,4 @@
-import { clickElementByTestId, locateElementByTestId } from '../helpers'
+import { checkAccessibility, clickElementByTestId, locateElementByTestId } from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@Chat', () => {
@@ -14,5 +14,6 @@ test.describe('@Chat', () => {
 
     // at chat room
     await locateElementByTestId(page, 'chat-message-input-input')
+    await checkAccessibility(page)
   })
 })

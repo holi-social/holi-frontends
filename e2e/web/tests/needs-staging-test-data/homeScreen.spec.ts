@@ -1,6 +1,13 @@
 import type { Browser, Page } from '@playwright/test'
 
-import { byTestId, clickElementByTestId, isRunningLocally, proceedAsGuest, withSSR } from '../helpers'
+import {
+  byTestId,
+  checkAccessibility,
+  clickElementByTestId,
+  isRunningLocally,
+  proceedAsGuest,
+  withSSR,
+} from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@HomeScreen', () => {
@@ -26,9 +33,11 @@ const testDisplaysHomeScreenContent = async (page: Page) => {
 const testDisplaysPostDetails = async (page: Page) => {
   await page.waitForSelector(byTestId('post-detail-page'))
   await page.waitForSelector(byTestId('post-content-container'))
+  await checkAccessibility(page)
 }
 
 const testPostScreen = async (browser: Browser, page: Page) => {
+  await checkAccessibility(page)
   // click on first post
   await clickElementByTestId(page, 'post-card-detail-view-btn')
 

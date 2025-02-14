@@ -1,6 +1,6 @@
 import { newUserEmail, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { byTestId, clickElementByTestId, locateElementByTestId } from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@ChangePassword', () => {
@@ -19,6 +19,7 @@ test.describe('@ChangePassword', () => {
     // provide invalid old password
     await (await locateElementByTestId(page, 'old-password-input')).fill('wrongOldPassword')
     await (await locateElementByTestId(page, 'new-password-input')).fill(newPassword)
+    await checkAccessibility(page)
     await clickElementByTestId(page, 'btn-submit-change-password')
     await page.waitForSelector(byTestId('old-password-input-error-message'))
 

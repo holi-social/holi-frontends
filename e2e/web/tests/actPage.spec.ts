@@ -2,6 +2,7 @@ import { type Page, expect } from '@playwright/test'
 
 import {
   byTestId,
+  checkAccessibility,
   clickElementByTestId,
   denyConsent,
   donationsRequestTimeout,
@@ -17,6 +18,7 @@ test.describe('@ActPage', () => {
 
     // act page is open and contain apps
     await page.waitForSelector(byTestId('volunteering-reco-slider'))
+    await checkAccessibility(page)
     await page.waitForSelector(byTestId('tasks-reco-slider'))
     await page.waitForSelector(byTestId('donations-reco-slider'))
 

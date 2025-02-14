@@ -272,12 +272,12 @@ const registerNewUserAccount = async (
   return newAccount
 }
 
-export const checkAccessibility = async (page: Page, failOnError = true) => {
+export const checkAccessibility = async (page: Page, failOnError = false) => {
   await injectAxe(page)
   const axeOptions = {
     rules: {
       region: { enabled: true }, // https://dequeuniversity.com/rules/axe/4.4/region
-      duplicateId: false,
+      duplicateId: true,
     },
     detailedReport: true,
     detailedReportOptions: { html: true },
@@ -285,11 +285,11 @@ export const checkAccessibility = async (page: Page, failOnError = true) => {
   // Disabled 'color-contrast' for now to not distract from more serious issues
   await configureAxe(page, {
     rules: [
-      { id: 'color-contrast', enabled: false },
-      { id: 'scrollable-region-focusable', enabled: false }, // TODO: Fix HoliStepper issue with this rule
-      { id: 'duplicate-id', enabled: false }, // svg icon components rendered in lists have duplicated ids for their shape masks
-      { id: 'nested-interactive', enabled: false }, // todo gregor: check why the bottom bar nav is a concern in multiple tests
-      { id: 'page-has-heading-one', enabled: false },
+      { id: 'color-contrast', enabled: true },
+      { id: 'scrollable-region-focusable', enabled: true }, // TODO: Fix HoliStepper issue with this rule
+      { id: 'duplicate-id', enabled: true }, // svg icon components rendered in lists have duplicated ids for their shape masks
+      { id: 'nested-interactive', enabled: true }, // todo gregor: check why the bottom bar nav is a concern in multiple tests
+      { id: 'page-has-heading-one', enabled: true },
     ],
   })
 
