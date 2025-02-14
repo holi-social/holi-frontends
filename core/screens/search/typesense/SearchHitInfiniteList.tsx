@@ -38,6 +38,9 @@ export function SearchHitInfiniteList() {
   const { items, isLastPage, showMore, results } = useInfiniteHits<SearchHitData>({
     escapeHTML: false,
   })
+  // Debouncing showMore as workaround for a race condition when changing the query (otherwise page 0 might be skipped)
+  const debouncedShowMore = useDebounce(() => showMore?.(), 100)
+
   const { track } = useTracking()
   const { status, refresh } = useInstantSearch()
   const { styles } = useStyles(stylesheet)
@@ -61,8 +64,8 @@ export function SearchHitInfiniteList() {
   }, [items, trackResultsViewed])
 
   // Hide results of empty query
-  const emptyQuery = !results?.query || results?.query === '*'
-  const displayedItems = emptyQuery ? [] : items
+  const isEmptyQuery = !results?.query || results?.query === '*'
+  const displayedItems = isEmptyQuery ? [] : items.length ? items : results?.hits
 
   return (
     <FlashList
@@ -73,7 +76,7 @@ export function SearchHitInfiniteList() {
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        isLoading || emptyQuery ? (
+        isLoading || isEmptyQuery ? (
           <HoliLoader style={styles.loader} testID="loader" />
         ) : (
           <Text size={'md'}>{t('global.noSearchResults')}</Text>
@@ -88,8 +91,8 @@ export function SearchHitInfiniteList() {
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
-        if (!isLastPage) {
-          showMore?.()
+        if (!isLastPage && !isEmptyQuery) {
+          debouncedShowMore()
         }
       }}
       onEndReachedThreshold={0.5}

@@ -88,5 +88,6 @@ const stylesheet = createStyleSheet(() => ({
   layout: {
     flexDirection: 'row',
     columnGap: dimensions.spacingXs,
+    height: dimensions.spacingML,
   },
 }))

@@ -62,7 +62,11 @@ export const Search = () => {
   const updateParams = useUpdateParams({ web: { replace: true } })
 
   return (
-    <InstantSearch searchClient={typesenseInstantSearchAdapter.searchClient} indexName={typesenseCollection}>
+    <InstantSearch
+      searchClient={typesenseInstantSearchAdapter.searchClient}
+      indexName={typesenseCollection}
+      future={{ preserveSharedStateOnUnmount: true }}
+    >
       <Screen
         backgroundColor="page"
         preset="fixed"
