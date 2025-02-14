@@ -4,6 +4,7 @@ import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatfor
 import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { Consent, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
+import { renderHook } from '@testing-library/react-hooks'
 
 jest.mock('@holi/core/helpers/config', () => ({
   posthogKey: 'some.key',
@@ -52,8 +53,8 @@ describe('useTracking', () => {
         ])
 
         // WHEN
-        const tracking = useTracking()
-        tracking.track({
+        const { result } = renderHook(() => useTracking())
+        result.current.track({
           name: 'testEvent',
           event_version__major: 1,
           event_version__minor: 0,
@@ -84,8 +85,8 @@ describe('useTracking', () => {
         ])
 
         // WHEN
-        const tracking = useTracking()
-        tracking.track({
+        const { result } = renderHook(() => useTracking())
+        result.current.track({
           name: 'testEvent',
           event_version__major: 1,
           event_version__minor: 0,
