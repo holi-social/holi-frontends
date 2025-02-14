@@ -29,7 +29,7 @@
   <mj-body background-color="#ffffff">
     <mj-section>
       <mj-column padding="24px" padding-top="64px" background-color="#f5f5f5" border-radius="14px">
-      <mj-image align="left" padding="0px" width="55" height="24px" src="https://ik.imagekit.io/holi/holi_logo_ajPMRkTXG.png" />
+      <mj-image align="left" padding="0px" width="55px" height="24px" src="https://ik.imagekit.io/holi/holi_logo_ajPMRkTXG.png" />
       </mj-column>
     </mj-section>
 
@@ -53,7 +53,6 @@
         	<mj-text font-size="16px" font-weight="600" line-height="24px">
         		<img
               src="https://ik.imagekit.io/holi/Insight_sVbicetHp.png"
-              alt="Insights Icon"
               style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
             />
             Get into our "Insights"
@@ -70,18 +69,362 @@
 
     		</mj-column>
     	</mj-section>
+      <mj-section padding="24px">
+      	<mj-column>
+
+					<mj-button href="{{this.link}}" css-class="rounded" padding="8px" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+                  <img
+                    src="{{this.cover}}"
+                    style="
+                      width: 100%;
+                      height: 200px;
+                      border-radius: 8px;
+                      object-fit: cover;
+                      margin-bottom: 12px;
+                    "
+                  />
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #262424;
+                    word-wrap: break-word;
+                  "
+                >
+                  {{this.title}}
+                </p>
+            </mj-button>
+        
+        </mj-column>
+        <mj-column>
+        
+        					<mj-button href="{{this.link}}" css-class="rounded" padding="8px" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+                  <img
+                    src="{{this.cover}}"
+                    style="
+                      width: 100%;
+                      height: 200px;
+                      border-radius: 8px;
+                      object-fit: cover;
+                      margin-bottom: 12px;
+                    "
+                  />
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #262424;
+                    word-wrap: break-word;
+                  "
+                >
+                  {{this.title}}
+                </p>
+            </mj-button>
+        
+        
+        </mj-column>
+        <mj-column>
+
+          					<mj-button href="{{this.link}}" padding="8px" css-class="rounded" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+                  <img
+                    src="{{this.cover}}"
+                    style="
+                      width: 100%;
+                      height: 200px;
+                      border-radius: 8px;
+                      object-fit: cover;
+                      margin-bottom: 12px;
+                    "
+                  />
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #262424;
+                    word-wrap: break-word;
+                  "
+                >
+                  {{this.title}}
+                </p>
+            </mj-button>
+        
+        
+        </mj-column>
+    	</mj-section>
+
+      <!-- Explore More Insights CTA -->
+      <mj-section padding="16px 24px 48px">
+      	<mj-column>
+        	<mj-raw>
+              <a
+                href="https://app.holi.social/en/insights?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}"
+                style="
+                  color: #5b60d6;
+                  text-decoration: none;
+                  font-weight: 500;
+                  font-size: 16px;
+                "
+              >
+                Explore more Insights →
+              </a>
+</mj-raw>
+        </mj-column>
+      </mj-section>
       <mj-section>
       	<mj-column>
-    			<mj-text>1</mj-text>
-    		</mj-column>
+        
+          <mj-text font-size="16px" font-weight="600" line-height="24px">
+        		<img
+              src="https://ik.imagekit.io/holi/Spaces_NPKywVfYd.png"
+              style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
+            />
+            Find Spaces you like
+        	</mj-text>
+    
+        	<mj-text font-size="16px" line-height="24px">
+        		Here are some Spaces we think you might find interesting, based on
+              your interests.
+        	</mj-text>
+    
+        </mj-column>
+      </mj-section>
+      
+      <mj-section padding="24px">
+      	<mj-column>
+
+        
+					<mj-button href="{{this.link}}" padding="8px" css-class="rounded" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+                  <img
+                    src="{{this.cover}}"
+                    style="
+                      width: 100%;
+                      height: 200px;
+                      border-radius: 8px;
+                      object-fit: cover;
+                      margin-bottom: 12px;
+                    "
+                  />
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #262424;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
+                >
+                  {{this.title}}
+                </p>
+                <p
+                	style="
+                  	margin: 4px 0 0;
+                    font-size: 14px;
+                    color: #262424;
+                   "
+               	>
+                	{{this.goal}}
+            	</p>
+            </mj-button>
+        
+        </mj-column>
         <mj-column>
-        	<mj-text>2</mj-text>
-    		</mj-column>
+        
+        					<mj-button href="{{this.link}}" padding="8px" css-class="rounded" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+                  <img
+                    src="{{this.cover}}"
+                    style="
+                      width: 100%;
+                      height: 200px;
+                      border-radius: 8px;
+                      object-fit: cover;
+                      margin-bottom: 12px;
+                    "
+                  />
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #262424;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
+                >
+                  {{this.title}}
+                </p>
+                <p
+                	style="
+                  	margin: 4px 0 0;
+                    font-size: 14px;
+                    color: #262424;
+                   "
+               	>
+                	{{this.goal}}
+            	</p>
+            </mj-button>
+        
+        
+        </mj-column>
         <mj-column>
-        	<mj-text>3</mj-text>
-    		</mj-column>
+
+          					<mj-button href="{{this.link}}" padding="8px" css-class="rounded" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+                  <img
+                    src="{{this.cover}}"
+                    style="
+                      width: 100%;
+                      height: 200px;
+                      border-radius: 8px;
+                      object-fit: cover;
+                      margin-bottom: 12px;
+                    "
+                  />
+                <p
+                  style="
+                    margin: 12px 0 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #262424;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
+                >
+                  {{this.title}}
+                </p>
+                <p
+                	style="
+                  	margin: 4px 0 0;
+                    font-size: 14px;
+                    color: #262424;
+                   "
+               	>
+                	{{this.goal}}
+            	</p>
+            </mj-button>
+        
+        
+        </mj-column>
     	</mj-section>
+
+            <mj-section padding="16px 24px 48px">
+      	<mj-column>
+        	<mj-raw>
+              <a
+                href="https://app.holi.social/en/spaces?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}"
+                style="
+                  color: #5b60d6;
+                  text-decoration: none;
+                  font-weight: 500;
+                  font-size: 16px;
+                "
+              >
+                Explore more Spaces →
+              </a>
+</mj-raw>
+        </mj-column>
+      </mj-section>
+      
     </mj-wrapper>
+    
+   <mj-section>
+    	<mj-column css-class="rounded" border="1px solid #bdbcbc" border-radius="24px" padding="14px">
+     		<mj-text font-size="18px" font-weight="600" padding-bottom="12px">
+          Got questions?
+        </mj-text>
+        <mj-text font-size="16px" padding-bottom="16px">
+          Let us know if there are any open questions, ideas, or feedback you'd
+          love to send us.
+        </mj-text>
+                      	<mj-text font-size="16px" line-height="24px">
+        		<img
+              src="https://ik.imagekit.io/holi/Spaces_NPKywVfYd.png"
+              style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
+            />
+            Visit our
+            <a
+              href="https://holi.social/en/help-center?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}"
+              style="
+                color: #5b60d6;
+                text-decoration: none;
+                font-weight: 500;
+              "
+            >
+              Help Center</a
+            >
+        	</mj-text>
+                      	<mj-text font-size="16px" line-height="24px">
+        		<img
+              src="https://ik.imagekit.io/holi/chat-smile-2-line_9g-YYMJuW.png"
+              style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
+            />
+            Contact our
+            <a
+              href="mailto:support@holi.social"
+              style="
+                color: #5b60d6;
+                text-decoration: none;
+                font-weight: 500;
+              "
+            >
+              Community team</a
+            >
+        	</mj-text>
+    
+     </mj-column>
+    </mj-section>
+    
+    <mj-section>
+    	<mj-column>
+      <!-- Volunteer Banner -->
+        <mj-button
+          href="https://app.holi.social/en/volunteering?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}"
+          background-color="transparent"
+        >
+          <img
+            src="https://ik.imagekit.io/holi/hero_Y9MobsUOAi.png"
+            style="max-width: 100%"
+          />
+        </mj-button>
+
+      </mj-column>
+    </mj-section>
+    
+    <mj-section>
+    	<mj-column>
+      	<mj-text font-size="16px" align="center">
+        	Access holi in your
+          <a href="https://app.holi.social?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}" style="color: #262424">browser</a>
+          or download the app
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    
+    <mj-section>
+    	<mj-column>
+        <mj-text align="center">
+      	<a href="https://apps.apple.com/app/id6446693757" style="margin-right: 10px; text-decoration:none" >
+             <img
+              src="https://ik.imagekit.io/holi/badge_ios_mCeRPZd2R.png"
+              style="height: 40px;"
+            />
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=social.holi.app&gl=DE&pli=1" style="text-decoration:none" >
+             <img
+              src="https://ik.imagekit.io/holi/badge_android_uR3kKVh5-.png"
+              style="height: 40px;"
+            />
+          </a>
+          </mj-text>
+      </mj-column>
+    </mj-section>
+    
+    
     <mj-section>
       <mj-column css-class="rounded" border-radius="32px 32px 0 0" border-bottom="none" border="1px solid #ebebeb" padding="24px 40px 0px 40px">
         <mj-text font-size="12px" padding="0" line-height="26px" align="center">
