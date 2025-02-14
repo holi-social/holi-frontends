@@ -1,9 +1,9 @@
 import { jest } from '@jest/globals'
 
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
-import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
+import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { Consent, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
+import { Consent, type PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
 import { renderHook } from '@testing-library/react-hooks'
 
 jest.mock('@holi/core/helpers/config', () => ({
@@ -12,7 +12,7 @@ jest.mock('@holi/core/helpers/config', () => ({
 }))
 
 jest.mock('@holi/core/tracking/TrackingInitializer')
-const useConsentStateMock = useConsentState as jest.Mock
+const getConsentStateMock = getConsentState as jest.Mock
 
 jest.mock('@holi/core/tracking/PosthogCrossPlatform')
 const posthogCrossPlatformMock = {
@@ -32,7 +32,7 @@ jest.unmock('@holi/core/tracking/hooks/useTracking')
 
 beforeEach(() => {
   usePosthogCrossPlatformMock.mockReset()
-  useConsentStateMock.mockReset()
+  getConsentStateMock.mockReset()
 })
 
 describe('useTracking', () => {
@@ -44,13 +44,10 @@ describe('useTracking', () => {
       it('does add trackingConsentPersonalization=true as an event property', async () => {
         // GIVEN
         usePosthogCrossPlatformMock.mockReturnValue(posthogCrossPlatformMock)
-        useConsentStateMock.mockReturnValue([
-          {
-            [TrackingPurpose.Analytics]: Consent.Given,
-            [TrackingPurpose.Personalization]: Consent.Given,
-          },
-          { loading: false },
-        ])
+        getConsentStateMock.mockReturnValue({
+          [TrackingPurpose.Analytics]: Consent.Given,
+          [TrackingPurpose.Personalization]: Consent.Given,
+        })
 
         // WHEN
         const { result } = renderHook(() => useTracking())
@@ -76,13 +73,10 @@ describe('useTracking', () => {
       it('does add trackingConsentPersonalization=false as an event property', async () => {
         // GIVEN
         usePosthogCrossPlatformMock.mockReturnValue(posthogCrossPlatformMock)
-        useConsentStateMock.mockReturnValue([
-          {
-            [TrackingPurpose.Analytics]: Consent.Given,
-            [TrackingPurpose.Personalization]: Consent.Denied,
-          },
-          { loading: false },
-        ])
+        getConsentStateMock.mockReturnValue({
+          [TrackingPurpose.Analytics]: Consent.Given,
+          [TrackingPurpose.Personalization]: Consent.Denied,
+        })
 
         // WHEN
         const { result } = renderHook(() => useTracking())

@@ -640,12 +640,7 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
         const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
         expect(consentStateAfter).toEqual(ConsentState.unknown)
-        expect(mockTrack).not.toHaveBeenCalledWith({
-          name: 'loginCompleted',
-          event_version__major: 1,
-          event_version__minor: 0,
-          event_version__patch: 0,
-        })
+        expect(mockTrack).not.toHaveBeenCalled()
       })
     })
   })
