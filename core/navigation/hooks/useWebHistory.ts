@@ -24,9 +24,16 @@ export const useWebHistory = () => {
     return parentPath || '/'
   }
 
+  const syncInitialRoute = (pathName: string) => {
+    if (!history.length) {
+      push(pathName)
+    }
+  }
+
   return {
     push,
     replace,
     back,
+    syncInitialRoute,
   }
 }
