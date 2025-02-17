@@ -11,46 +11,61 @@
       .rounded table {
         border-collapse: separate;
       }
+
       .box {
       		background-color: transparent !important;
       }
+
       .box > table {
       		border: 1px solid #bdbcbc;
           border-radius: 24px;
       		border-collapse: separate;
       }
-    </mj-style>
+
+      .grid > table {
+        margin-left: -8px;
+        margin-right: -8px;
+      }
     </mj-style>
     <mj-attributes>
     	<mj-all font-family="Trebuchet MS, Helvetica, sans-serif" />
+      <mj-text font-size="16px" line-height="1.4" padding="0" />
+      <mj-section padding="0" />
     </mj-attributes>
     <mj-title>{{subject}}</mj-title>
   </mj-head> 
   <mj-body background-color="#ffffff">
-    <mj-section>
+    
+    <!-- HEADER -->  
+    <mj-section padding-bottom="48px">
       <mj-column padding="24px" padding-top="64px" background-color="#f5f5f5" border-radius="14px">
-      <mj-image align="left" padding="0px" width="55px" height="24px" src="https://ik.imagekit.io/holi/holi_logo_ajPMRkTXG.png" />
+        <mj-image align="left" padding="0px" width="55px" height="24px" src="https://ik.imagekit.io/holi/holi_logo_ajPMRkTXG.png" />
       </mj-column>
     </mj-section>
 
-		<!-- Greeting Section -->
-    <mj-section>
-    	<mj-column>
-      <mj-text font-size="22px">Hi {{subscriber.firstName}}!</mj-text>
-      <mj-text font-size="16px" line-height="24px">
-        This is our last email in this intro-to-holi series. We hope you liked it.
-      </mj-text>
-      <mj-text font-size="16px" line-height="24px" padding-bottom="32px">
-        For more inspiration, you can always check out the holi home feed or get
-        in touch with our Community Team.
-      </mj-text>
+    <!-- BODY -->
+
+		<!-- GREETING -->
+    <mj-section padding-bottom="32px">
+      <mj-column>
+        <mj-text font-size="22px" line-height="120%" padding-bottom="16px">Hi {{subscriber.firstName}}!</mj-text>
+        <mj-text padding-bottom="16px">
+          This is our last email in this intro-to-holi series. We hope you liked it.
+        </mj-text>
+        <mj-text>
+          For more inspiration, you can always check out the holi home feed or get
+          in touch with our Community Team.
+        </mj-text>
       </mj-column>
     </mj-section>
-    <mj-wrapper css-class="box" background-color="#f5f5f5">
-    	<mj-section>
+
+    <mj-wrapper css-class="box" background-color="#f5f5f5" padding="32px 24px 32px">
+      
+      <!-- INSIGHTS -->  
+    	<mj-section padding-bottom="16px">
       	<mj-column>
 
-        	<mj-text font-size="16px" font-weight="600" line-height="24px">
+        	<mj-text font-weight="600" padding-bottom="8px">
         		<img
               src="https://ik.imagekit.io/holi/Insight_sVbicetHp.png"
               style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
@@ -58,105 +73,108 @@
             Get into our "Insights"
         	</mj-text>
     
-        	<mj-text font-size="16px" line-height="24px">
+        	<mj-text>
         		Climate crisis, wars, populism—news can be hard to digest. Our
             'Insights' provide facts, perspectives, and actionable steps on
             current issues. Connect with other holi users, join polls, and see
             how meaningful conversations can inspire action!
         	</mj-text>
     
-    {{{body}}}
 
     		</mj-column>
     	</mj-section>
-      <mj-section padding="24px">
+      <mj-section padding-bottom="16px" css-class="grid">
+        <!-- INSIGHT CARDS -->
+        <!-- {{#each data.recommendedInsights}} -->
       	<mj-column>
 
-					<mj-button href="{{this.link}}" css-class="rounded" padding="8px" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
-                  <img
-                    src="{{this.cover}}"
-                    style="
-                      width: 100%;
-                      height: 200px;
-                      border-radius: 8px;
-                      object-fit: cover;
-                      margin-bottom: 12px;
-                    "
-                  />
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: #262424;
-                    word-wrap: break-word;
-                  "
-                >
-                  {{this.title}}
-                </p>
-            </mj-button>
-        
+					<mj-button href="{{this.link}}" css-class="rounded" width="100%" padding="8px" inner-padding="8px" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+            <img
+              src="{{this.cover}}"
+              style="
+                width: 100%;
+                min-width: 150px;
+                height: 200px;
+                border-radius: 8px;
+                object-fit: cover;
+                margin-bottom: 16px;
+              "
+            />
+            <p
+              style="
+                margin: 0;
+                padding:0 8px 8px;
+                font-size: 16px;
+                font-weight: 600;
+                color: #262424;
+                word-wrap: break-word;
+              "
+            >
+              {{this.title}}
+            </p>
+          </mj-button>
         </mj-column>
-        <mj-column>
-        
-        					<mj-button href="{{this.link}}" css-class="rounded" padding="8px" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
-                  <img
-                    src="{{this.cover}}"
-                    style="
-                      width: 100%;
-                      height: 200px;
-                      border-radius: 8px;
-                      object-fit: cover;
-                      margin-bottom: 12px;
-                    "
-                  />
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: #262424;
-                    word-wrap: break-word;
-                  "
-                >
-                  {{this.title}}
-                </p>
-            </mj-button>
-        
-        
-        </mj-column>
-        <mj-column>
+        <!-- {{/each}} -->
+      	<mj-column>
 
-          					<mj-button href="{{this.link}}" padding="8px" css-class="rounded" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
-                  <img
-                    src="{{this.cover}}"
-                    style="
-                      width: 100%;
-                      height: 200px;
-                      border-radius: 8px;
-                      object-fit: cover;
-                      margin-bottom: 12px;
-                    "
-                  />
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: #262424;
-                    word-wrap: break-word;
-                  "
-                >
-                  {{this.title}}
-                </p>
-            </mj-button>
-        
-        
+					<mj-button href="{{this.link}}" css-class="rounded" width="100%" padding="8px" inner-padding="8px" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+            <img
+              src="{{this.cover}}"
+              style="
+                width: 100%;
+                min-width: 150px;
+                height: 200px;
+                border-radius: 8px;
+                object-fit: cover;
+                margin-bottom: 16px;
+              "
+            />
+            <p
+              style="
+                margin: 0;
+                padding:0 8px 8px;
+                font-size: 16px;
+                font-weight: 600;
+                color: #262424;
+                word-wrap: break-word;
+              "
+            >
+              {{this.title}}
+            </p>
+          </mj-button>
         </mj-column>
+      	<mj-column>
+
+					<mj-button href="{{this.link}}" css-class="rounded" width="100%" padding="8px" inner-padding="8px" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+            <img
+              src="{{this.cover}}"
+              style="
+                width: 100%;
+                min-width: 150px;
+                height: 200px;
+                border-radius: 8px;
+                object-fit: cover;
+                margin-bottom: 16px;
+              "
+            />
+            <p
+              style="
+                margin: 0;
+                padding:0 8px 8px;
+                font-size: 16px;
+                font-weight: 600;
+                color: #262424;
+                word-wrap: break-word;
+              "
+            >
+              {{this.title}}
+            </p>
+          </mj-button>
+        </mj-column>
+        <!-- INSIGHT CARDS END -->
     	</mj-section>
 
-      <!-- Explore More Insights CTA -->
-      <mj-section padding="16px 24px 48px">
+      <mj-section padding-bottom="32px">
       	<mj-column>
         	<mj-raw>
               <a
@@ -170,21 +188,21 @@
               >
                 Explore more Insights →
               </a>
-</mj-raw>
+          </mj-raw>
         </mj-column>
       </mj-section>
-      <mj-section>
+
+      <!-- SPACES -->
+      <mj-section padding-bottom="24px">
       	<mj-column>
-        
-          <mj-text font-size="16px" font-weight="600" line-height="24px">
+        	<mj-text font-weight="600" padding-bottom="8px">
         		<img
               src="https://ik.imagekit.io/holi/Spaces_NPKywVfYd.png"
               style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
             />
             Find Spaces you like
         	</mj-text>
-    
-        	<mj-text font-size="16px" line-height="24px">
+        	<mj-text>
         		Here are some Spaces we think you might find interesting, based on
               your interests.
         	</mj-text>
@@ -192,127 +210,230 @@
         </mj-column>
       </mj-section>
       
-      <mj-section padding="24px">
-      	<mj-column>
-
-        
-					<mj-button href="{{this.link}}" padding="8px" css-class="rounded" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+      <mj-section padding-bottom="24px" css-class="grid">
+        <!-- SPACE CARDS -->
+        <!-- {{#each data.recommendedSpaces}} -->
+      	<mj-column width="50%">
+					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="0 8px" inner-padding="8px" background-color="transparent">
+            <table>
+              <tr>
+                <td>
                   <img
                     src="{{this.cover}}"
                     style="
-                      width: 100%;
-                      height: 200px;
+                      width: 64px;
+                      height: 64px;
                       border-radius: 8px;
+                      border: 1px solid #262424;
                       object-fit: cover;
-                      margin-bottom: 12px;
+                      margin-right: 16px;
                     "
                   />
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: #262424;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  "
-                >
-                  {{this.title}}
-                </p>
-                <p
-                	style="
-                  	margin: 4px 0 0;
-                    font-size: 14px;
-                    color: #262424;
-                   "
-               	>
-                	{{this.goal}}
-            	</p>
-            </mj-button>
-        
+                </td>
+                <td style="vertical-align: top;">
+                  <h3
+                      style="
+                        margin: 0;
+                        padding:2px 0px 4px;
+                        font-size: 16px;
+                        line-height: 1.4;
+                        font-weight: 600;
+                        color: #262424;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                      "
+                    >
+                      {{this.title}}
+                  </h3>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 13px;
+                      line-height: 1.2;
+                      color: #262424;
+                      word-wrap: break-word;
+                      display: -webkit-box;
+                      -webkit-line-clamp: 2;
+                      -webkit-box-orient: vertical;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    "
+                  >
+                    {{this.goal}}
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </mj-button>
         </mj-column>
-        <mj-column>
-        
-        					<mj-button href="{{this.link}}" padding="8px" css-class="rounded" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+        <!-- {{/each}} -->
+      	<mj-column width="50%">
+					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="0 8px" inner-padding="8px" background-color="transparent">
+            <table>
+              <tr>
+                <td>
                   <img
                     src="{{this.cover}}"
                     style="
-                      width: 100%;
-                      height: 200px;
+                      width: 64px;
+                      height: 64px;
                       border-radius: 8px;
+                      border: 1px solid #262424;
                       object-fit: cover;
-                      margin-bottom: 12px;
+                      margin-right: 16px;
                     "
                   />
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: #262424;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  "
-                >
-                  {{this.title}}
-                </p>
-                <p
-                	style="
-                  	margin: 4px 0 0;
-                    font-size: 14px;
-                    color: #262424;
-                   "
-               	>
-                	{{this.goal}}
-            	</p>
-            </mj-button>
-        
-        
+                </td>
+                <td style="vertical-align: top;">
+                  <h3
+                      style="
+                        margin: 0;
+                        padding:2px 0px 4px;
+                        font-size: 16px;
+                        line-height: 1.4;
+                        font-weight: 600;
+                        color: #262424;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                      "
+                    >
+                      {{this.title}}
+                  </h3>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 13px;
+                      line-height: 1.2;
+                      color: #262424;
+                      word-wrap: break-word;
+                      display: -webkit-box;
+                      -webkit-line-clamp: 2;
+                      -webkit-box-orient: vertical;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    "
+                  >
+                    {{this.goal}}
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </mj-button>
         </mj-column>
-        <mj-column>
-
-          					<mj-button href="{{this.link}}" padding="8px" css-class="rounded" background-color="#ffffff" border-radius="16px" border="1px solid #bdbcbc">
+      	<mj-column width="50%">
+					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="0 8px" inner-padding="8px" background-color="transparent">
+            <table>
+              <tr>
+                <td>
                   <img
                     src="{{this.cover}}"
                     style="
-                      width: 100%;
-                      height: 200px;
+                      width: 64px;
+                      height: 64px;
                       border-radius: 8px;
+                      border: 1px solid #262424;
                       object-fit: cover;
-                      margin-bottom: 12px;
+                      margin-right: 16px;
                     "
                   />
-                <p
-                  style="
-                    margin: 12px 0 0;
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: #262424;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  "
-                >
-                  {{this.title}}
-                </p>
-                <p
-                	style="
-                  	margin: 4px 0 0;
-                    font-size: 14px;
-                    color: #262424;
-                   "
-               	>
-                	{{this.goal}}
-            	</p>
-            </mj-button>
-        
-        
+                </td>
+                <td style="vertical-align: top;">
+                  <h3
+                      style="
+                        margin: 0;
+                        padding:2px 0px 4px;
+                        font-size: 16px;
+                        line-height: 1.4;
+                        font-weight: 600;
+                        color: #262424;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                      "
+                    >
+                      {{this.title}}
+                  </h3>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 13px;
+                      line-height: 1.2;
+                      color: #262424;
+                      word-wrap: break-word;
+                      display: -webkit-box;
+                      -webkit-line-clamp: 2;
+                      -webkit-box-orient: vertical;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    "
+                  >
+                    {{this.goal}}
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </mj-button>
         </mj-column>
+      	<mj-column width="50%">
+					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="0 8px" inner-padding="8px" background-color="transparent">
+            <table>
+              <tr>
+                <td>
+                  <img
+                    src="{{this.cover}}"
+                    style="
+                      width: 64px;
+                      height: 64px;
+                      border-radius: 8px;
+                      border: 1px solid #262424;
+                      object-fit: cover;
+                      margin-right: 16px;
+                    "
+                  />
+                </td>
+                <td style="vertical-align: top;">
+                  <h3
+                      style="
+                        margin: 0;
+                        padding:2px 0px 4px;
+                        font-size: 16px;
+                        line-height: 1.4;
+                        font-weight: 600;
+                        color: #262424;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                      "
+                    >
+                      {{this.title}}
+                  </h3>
+                  <p
+                    style="
+                      margin: 0;
+                      font-size: 13px;
+                      line-height: 1.2;
+                      color: #262424;
+                      word-wrap: break-word;
+                      display: -webkit-box;
+                      -webkit-line-clamp: 2;
+                      -webkit-box-orient: vertical;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    "
+                  >
+                    {{this.goal}}
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </mj-button>
+        </mj-column>
+        <!-- SPACE CARDS END -->
     	</mj-section>
 
-            <mj-section padding="16px 24px 48px">
+      <mj-section>
       	<mj-column>
         	<mj-raw>
               <a
@@ -326,22 +447,23 @@
               >
                 Explore more Spaces →
               </a>
-</mj-raw>
+          </mj-raw>
         </mj-column>
       </mj-section>
       
     </mj-wrapper>
     
-   <mj-section>
-    	<mj-column css-class="rounded" border="1px solid #bdbcbc" border-radius="24px" padding="14px">
-     		<mj-text font-size="18px" font-weight="600" padding-bottom="12px">
-          Got questions?
-        </mj-text>
-        <mj-text font-size="16px" padding-bottom="16px">
+  <!-- GOT QUESTIONS -->
+  <mj-section padding-top="32px" padding-bottom="32px">
+    <mj-column css-class="rounded" border="1px solid #bdbcbc" border-radius="24px" padding="24px">
+     	<mj-text font-weight="600" padding-bottom="8px">
+        Got questions?
+      </mj-text>
+        <mj-text padding-bottom="16px">
           Let us know if there are any open questions, ideas, or feedback you'd
           love to send us.
         </mj-text>
-                      	<mj-text font-size="16px" line-height="24px">
+        <mj-text padding-bottom="12px">
         		<img
               src="https://ik.imagekit.io/holi/Spaces_NPKywVfYd.png"
               style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
@@ -358,7 +480,7 @@
               Help Center</a
             >
         	</mj-text>
-                      	<mj-text font-size="16px" line-height="24px">
+          <mj-text>
         		<img
               src="https://ik.imagekit.io/holi/chat-smile-2-line_9g-YYMJuW.png"
               style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
@@ -379,7 +501,8 @@
      </mj-column>
     </mj-section>
     
-    <mj-section>
+    <!-- APP HERO -->  
+    <mj-section padding-bottom="24px">
     	<mj-column>
       <!-- Volunteer Banner -->
         <mj-button
@@ -387,7 +510,7 @@
           background-color="transparent"
         >
           <img
-            src="https://ik.imagekit.io/holi/hero_Y9MobsUOAi.png"
+            src="https://ik.imagekit.io/holi/hero-volunteer-en_yyKzFUzAk.png"
             style="max-width: 100%"
           />
         </mj-button>
@@ -395,9 +518,9 @@
       </mj-column>
     </mj-section>
     
-    <mj-section>
+    <mj-section padding-bottom="16px">
     	<mj-column>
-      	<mj-text font-size="16px" align="center">
+      	<mj-text align="center">
         	Access holi in your
           <a href="https://app.holi.social?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}" style="color: #262424">browser</a>
           or download the app
@@ -405,7 +528,7 @@
       </mj-column>
     </mj-section>
     
-    <mj-section>
+    <mj-section padding-bottom="48px">
     	<mj-column>
         <mj-text align="center">
       	<a href="https://apps.apple.com/app/id6446693757" style="margin-right: 10px; text-decoration:none" >
@@ -423,8 +546,10 @@
           </mj-text>
       </mj-column>
     </mj-section>
+
+    <!-- BODY END -->
     
-    
+    <!-- FOOTER -->  
     <mj-section>
       <mj-column css-class="rounded" border-radius="32px 32px 0 0" border-bottom="none" border="1px solid #ebebeb" padding="24px 40px 0px 40px">
         <mj-text font-size="12px" padding="0" line-height="26px" align="center">
