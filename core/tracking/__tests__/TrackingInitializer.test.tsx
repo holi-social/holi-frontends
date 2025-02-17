@@ -11,17 +11,17 @@ import {
   setLoginStateLoggedIn,
   setLoginStateLoggedOut,
 } from '@holi/core/auth/loginState'
-import { type AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
+import { authenticatedUserV2Query, type AuthenticatedUserV2Response } from '@holi/core/domain/shared/queries'
 import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import {
   type UpdateAuthenticatedUserInput,
-  type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
+  type UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
 import TrackingInitializer, {
-  initialState,
   exportedForTesting as trackingInitializerTesting,
+  initialState,
   updateConsentState,
 } from '@holi/core/tracking/TrackingInitializer'
 import { Consent, ConsentState, type PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
@@ -343,6 +343,7 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
+        expect(mockTrack).not.toHaveBeenCalled()
       })
     })
     describe('given only analytics consent', () => {
@@ -375,6 +376,7 @@ describe('TrackingInitializer', () => {
         })
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
+        expect(mockTrack).not.toHaveBeenCalled()
       })
     })
     describe('given only personalization consent', () => {
@@ -401,6 +403,7 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
+        expect(mockTrack).not.toHaveBeenCalled()
       })
     })
     describe('given analytics + personalization consent', () => {
@@ -433,6 +436,7 @@ describe('TrackingInitializer', () => {
         })
         const [consentState] = trackingInitializerTesting.consentStateVar()
         expect(consentState).toEqual(expectedConsentState)
+        expect(mockTrack).not.toHaveBeenCalled()
       })
       describe('when the user retracts personalization consent', () => {
         it('updates consent state on PostHogs person properties', async () => {
@@ -467,6 +471,7 @@ describe('TrackingInitializer', () => {
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+          expect(mockTrack).not.toHaveBeenCalled()
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
@@ -533,6 +538,7 @@ describe('TrackingInitializer', () => {
             trackingConsentPersonalization: true,
           })
           expect(posthogCrossPlatformMock.flush).toHaveBeenCalledTimes(1)
+          expect(mockTrack).not.toHaveBeenCalled()
         })
       })
     })
@@ -588,6 +594,7 @@ describe('TrackingInitializer', () => {
         })
         const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
         expect(consentStateAfter).toEqual(updatedConsentState)
+        expect(mockTrack).not.toHaveBeenCalled()
       })
     })
   })
@@ -633,6 +640,7 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
         const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
         expect(consentStateAfter).toEqual(ConsentState.unknown)
+        expect(mockTrack).not.toHaveBeenCalled()
       })
     })
   })
@@ -677,6 +685,12 @@ describe('TrackingInitializer', () => {
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+          expect(mockTrack).toHaveBeenCalledWith({
+            name: 'loginCompleted',
+            event_version__major: 1,
+            event_version__minor: 0,
+            event_version__patch: 0,
+          })
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledWith(user.id, {
@@ -728,6 +742,12 @@ describe('TrackingInitializer', () => {
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+          expect(mockTrack).toHaveBeenCalledWith({
+            name: 'loginCompleted',
+            event_version__major: 1,
+            event_version__minor: 0,
+            event_version__patch: 0,
+          })
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
@@ -773,6 +793,12 @@ describe('TrackingInitializer', () => {
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+          expect(mockTrack).toHaveBeenCalledWith({
+            name: 'loginCompleted',
+            event_version__major: 1,
+            event_version__minor: 0,
+            event_version__patch: 0,
+          })
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
@@ -818,6 +844,12 @@ describe('TrackingInitializer', () => {
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+          expect(mockTrack).toHaveBeenCalledWith({
+            name: 'loginCompleted',
+            event_version__major: 1,
+            event_version__minor: 0,
+            event_version__patch: 0,
+          })
 
           expect(posthogCrossPlatformMock.optOut).toHaveBeenCalledTimes(0)
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(2)
@@ -919,6 +951,12 @@ describe('TrackingInitializer', () => {
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+          expect(mockTrack).toHaveBeenCalledWith({
+            name: 'loginCompleted',
+            event_version__major: 1,
+            event_version__minor: 0,
+            event_version__patch: 0,
+          })
 
           expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
@@ -964,6 +1002,12 @@ describe('TrackingInitializer', () => {
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+          expect(mockTrack).toHaveBeenCalledWith({
+            name: 'loginCompleted',
+            event_version__major: 1,
+            event_version__minor: 0,
+            event_version__patch: 0,
+          })
 
           expect(posthogCrossPlatformMock.optIn).toHaveBeenCalledTimes(1)
           expect(posthogCrossPlatformMock.identify).toHaveBeenCalledTimes(1)
@@ -1009,6 +1053,12 @@ describe('TrackingInitializer', () => {
           await act(async () => await setLoginStateLoggedIn(mockSession))
           rerender(component)
           await waitFor(() => expect(onUserLoggedInCompleted).toHaveBeenCalledTimes(1))
+          expect(mockTrack).toHaveBeenCalledWith({
+            name: 'loginCompleted',
+            event_version__major: 1,
+            event_version__minor: 0,
+            event_version__patch: 0,
+          })
 
           expect(posthogCrossPlatformMock.optIn).not.toHaveBeenCalled()
           expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()

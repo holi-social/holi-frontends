@@ -1,25 +1,27 @@
-import { ApolloClient, ReactiveVar, makeVar, useApolloClient, useReactiveVar } from '@apollo/client'
+import { type ApolloClient, makeVar, type ReactiveVar, useApolloClient, useReactiveVar } from '@apollo/client'
 import React, { memo, useEffect, useMemo } from 'react'
 
 import {
-  LoginStateChangeListener,
   listenOnLoginStateChange,
   loginState,
+  type LoginStateChangeListener,
   loginStateUnknown,
 } from '@holi/core/auth/loginState'
-import { AuthenticatedUserV2Response, authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import { authenticatedUserV2Query, type AuthenticatedUserV2Response } from '@holi/core/domain/shared/queries'
+import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { isApp } from '@holi/core/helpers/isApp'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { getLogger } from '@holi/core/helpers/logging'
 import {
-  UpdateAuthenticatedUserInput,
-  UpdateAuthenticatedUserV2Response,
+  type UpdateAuthenticatedUserInput,
   updateAuthenticatedUserV2Mutation,
+  type UpdateAuthenticatedUserV2Response,
 } from '@holi/core/screens/userprofile/queries'
 import { consentStore } from '@holi/core/tracking/ConsentStore'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
-import { Consent, ConsentState, PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
+import { Consent, ConsentState, type PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
+import { TrackingEvent } from '@holi/core/tracking/events'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 const logger = getLogger('Tracking')
 
@@ -243,6 +245,7 @@ const TrackingInitializerInner = ({
   const apollo: ApolloClient<object> = useApolloClient()
   const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
   const state = useReactiveVar(initializerStateVar)
+  const { track } = useTracking()
 
   useEffect(() => {
     const loginStateChangeListener: LoginStateChangeListener = (curState, prevState) => {
@@ -379,6 +382,7 @@ const TrackingInitializerInner = ({
                       state: 'loggedIn',
                       processing: null,
                     })
+                    track(TrackingEvent.Auth.LoginCompleted)
                     onUserLoggedInCompleted?.()
                   })
               })
@@ -411,7 +415,7 @@ const TrackingInitializerInner = ({
           break
       }
     }
-  }, [tracking, state, onUpdateCompleted, onUserLoggedInCompleted, onUserLoggedOutCompleted])
+  }, [tracking, state, onUpdateCompleted, onUserLoggedInCompleted, onUserLoggedOutCompleted, track])
 
   return null
 }
