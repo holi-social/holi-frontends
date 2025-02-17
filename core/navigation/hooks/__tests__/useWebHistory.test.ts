@@ -84,4 +84,25 @@ describe('useWebHistory', () => {
       expect(backRoute).toEqual('/')
     })
   })
+
+  describe('syncInitialRoute', () => {
+    it('should push route if history is empty', () => {
+      const { result } = renderHook(() => useWebHistory())
+
+      result.current.syncInitialRoute('/act')
+
+      expect(history).toHaveLength(1)
+      expect(history[0]).toEqual('/act')
+    })
+
+    it('should not push route if history is not empty', () => {
+      const { result } = renderHook(() => useWebHistory())
+
+      result.current.push('/act')
+      result.current.syncInitialRoute('/volunteering')
+
+      expect(history).toHaveLength(1)
+      expect(history[0]).toEqual('/act')
+    })
+  })
 })

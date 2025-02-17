@@ -6,24 +6,30 @@ import {
   denyConsent,
   donationsRequestTimeout,
   volunteeringRequestTimeout,
+  withSSR,
 } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@ActPage', () => {
-  test('user journey', async ({ page }) => {
+  test('user journey', async ({ page, browser }) => {
     await page.goto('/act')
 
     await denyConsent(page)
 
-    // act page is open and contain apps
-    await page.waitForSelector(byTestId('volunteering-reco-slider'))
-    await page.waitForSelector(byTestId('tasks-reco-slider'))
-    await page.waitForSelector(byTestId('donations-reco-slider'))
+    await testActPageContent(page)
+    await withSSR(browser, page.url(), testActPageContent)
 
     await openAppAndReturn(page, 'volunteering', volunteeringRequestTimeout)
     await openAppAndReturn(page, 'donations', donationsRequestTimeout)
   })
 })
+
+const testActPageContent = async (page: Page) => {
+  // act page is open and contain apps
+  await page.waitForSelector(byTestId('volunteering-reco-slider'))
+  await page.waitForSelector(byTestId('tasks-reco-slider'))
+  await page.waitForSelector(byTestId('donations-reco-slider'))
+}
 
 const openAppAndReturn = async (page: Page, appName: string, appTimeout: number) => {
   // open the volunteering list
@@ -33,6 +39,6 @@ const openAppAndReturn = async (page: Page, appName: string, appTimeout: number)
   await page.waitForSelector(byTestId(`${appName}-list-container`), { timeout: appTimeout })
   expect(page.url()).toContain(`/${appName}`)
 
-  // go back home
+  // go back to act home
   await clickElementByTestId(page, 'nav-button-back')
 }
