@@ -83,6 +83,8 @@
 
     		</mj-column>
     	</mj-section>
+
+      <!-- INSIGHT SECTION -->
       <mj-section padding-bottom="16px" css-class="grid">
         <!-- INSIGHT CARDS -->
         <!-- {{#each data.recommendedInsights}} -->
@@ -173,10 +175,12 @@
         </mj-column>
         <!-- INSIGHT CARDS END -->
     	</mj-section>
+      <!-- INSIGHT SECTION END -->
 
+      <!-- INSIGHTS MORE -->
       <mj-section padding-bottom="32px">
       	<mj-column>
-        	<mj-raw>
+        	<mj-text>
               <a
                 href="https://app.holi.social/en/insights?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}"
                 style="
@@ -188,12 +192,13 @@
               >
                 Explore more Insights →
               </a>
-          </mj-raw>
+          </mj-text>
         </mj-column>
       </mj-section>
+      <!-- INSIGHTS MORE END -->
 
       <!-- SPACES -->
-      <mj-section padding-bottom="24px">
+      <mj-section padding-bottom="16px">
       	<mj-column>
         	<mj-text font-weight="600" padding-bottom="8px">
         		<img
@@ -210,11 +215,11 @@
         </mj-column>
       </mj-section>
       
-      <mj-section padding-bottom="24px" css-class="grid">
+      <mj-section padding-bottom="16px" css-class="grid">
         <!-- SPACE CARDS -->
         <!-- {{#each data.recommendedSpaces}} -->
       	<mj-column width="50%">
-					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="0 8px" inner-padding="8px" background-color="transparent">
+					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="8px" inner-padding="0" background-color="transparent">
             <table>
               <tr>
                 <td>
@@ -269,7 +274,7 @@
         </mj-column>
         <!-- {{/each}} -->
       	<mj-column width="50%">
-					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="0 8px" inner-padding="8px" background-color="transparent">
+					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="8px" inner-padding="0" background-color="transparent">
             <table>
               <tr>
                 <td>
@@ -323,7 +328,7 @@
           </mj-button>
         </mj-column>
       	<mj-column width="50%">
-					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="0 8px" inner-padding="8px" background-color="transparent">
+					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="8px" inner-padding="0" background-color="transparent">
             <table>
               <tr>
                 <td>
@@ -377,7 +382,7 @@
           </mj-button>
         </mj-column>
       	<mj-column width="50%">
-					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="0 8px" inner-padding="8px" background-color="transparent">
+					<mj-button href="{{this.link}}" text-align="left" width="100%" padding="8px" inner-padding="0" background-color="transparent">
             <table>
               <tr>
                 <td>
@@ -435,7 +440,7 @@
 
       <mj-section>
       	<mj-column>
-        	<mj-raw>
+        	<mj-text>
               <a
                 href="https://app.holi.social/en/spaces?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}"
                 style="
@@ -447,7 +452,7 @@
               >
                 Explore more Spaces →
               </a>
-          </mj-raw>
+          </mj-text>
         </mj-column>
       </mj-section>
       
