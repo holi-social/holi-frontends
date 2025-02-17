@@ -43,7 +43,9 @@
       </mj-column>
     </mj-section>
 
-    {{{body}}}
+    <!-- BODY -->
+    <!-- {{{body}}} -->
+    <!-- BODY END -->
 
     <!-- FOOTER -->  
     <mj-section>
