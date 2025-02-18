@@ -1,3 +1,4 @@
+import '@holi/core/components/Screen/mock'
 import type { DefaultOptions } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
 import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'

@@ -15,22 +15,23 @@ import {
   TimeFilled,
 } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliText, { type HoliTextProps } from '@holi/ui/components/atoms/HoliText'
+import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
+import type { TextColor } from 'holi-bricks/components/text'
 
 export interface Props {
   task: Task
-  richTextOutputColor?: HoliTextProps['color']
+  richTextOutputColor?: TextColor
   descriptionWithDetails?: boolean
   recommendation?: boolean
 }
 
 const Content = ({
   task,
-  richTextOutputColor = 'black300',
+  richTextOutputColor = 'support',
   descriptionWithDetails = false,
   recommendation = false,
 }: Props) => {
@@ -92,7 +93,7 @@ const Content = ({
         {...(recommendation ? { numberOfLines: 2 } : {})}
         text={task.description}
         color={richTextOutputColor}
-        size="small"
+        size="sm"
         allowAllLinks
         testID="task-description"
       />

@@ -1,6 +1,7 @@
 variables:
   YARN_CACHE_FOLDER: '$CI_PROJECT_DIR/.yarn/cache'
   YARN_ENABLE_GLOBAL_CACHE: 'false'
+  GIT_DEPTH: 50
 
 .yarn-cache-rw:
   key:
@@ -97,6 +98,7 @@ lint_compile_test:
     - yarn format:check
     - yarn check-types
     - git fetch origin main:main # needed for 'yarn workspaces foreach ... (lint_all task)'
+    - git fetch origin $CI_COMMIT_BRANCH:$CI_COMMIT_BRANCH
     - yarn lint_all
     - yarn test
   interruptible: true

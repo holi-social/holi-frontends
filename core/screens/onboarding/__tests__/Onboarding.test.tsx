@@ -36,6 +36,7 @@ const mockUseRedirect = useRedirect as jest.Mock
 jest.mock('@holi/core/navigation/hooks/useRedirect', () => ({
   useRedirect: jest.fn(),
 }))
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const mockUseTracking = useTracking as jest.Mock
 jest.mock('@holi/core/tracking/hooks/useTracking', () => jest.fn())

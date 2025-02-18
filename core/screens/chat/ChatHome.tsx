@@ -47,11 +47,11 @@ const ChatHome = () => {
       headerRight: () => <NotificationAndSearchHeader />,
     })
   }, [navigate, setScreenOptions, t, title, colors.background20])
-  if (chatFeatureFlag.inMaintenance) {
+  if (chatFeatureFlag.inMaintenance || chatFeatureFlag.isOff) {
     return <ChatMaintenance />
   } else if (chatFeatureFlag.isOn) {
     return <ChatHomeContent />
-  } else {
+  } else if (chatFeatureFlag.isUnknown) {
     // unknown status (= missing feature toggle) || disabled
     return (
       <ScrollView style={{ backgroundColor: colors.background20 }}>

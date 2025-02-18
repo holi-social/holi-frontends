@@ -5684,7 +5684,7 @@ __metadata:
     jest-offline: "npm:^1.0.1"
     react: "npm:18.2.0"
     react-native: "npm:0.74.6"
-    react-native-keyboard-controller: "npm:^1.15.2"
+    react-native-keyboard-controller: "npm:^1.16.3"
     react-native-phone-number-input: "npm:^2.1.0"
     react-native-reanimated-carousel: "npm:^3.5.1"
     react-native-url-polyfill: "npm:^1.3.0"
@@ -5837,7 +5837,7 @@ __metadata:
     react-native-get-random-values: "npm:^1.11.0"
     react-native-image-crop-picker: "npm:^0.41.2"
     react-native-image-pan-zoom: "npm:^2.1.12"
-    react-native-keyboard-controller: "npm:^1.15.2"
+    react-native-keyboard-controller: "npm:^1.16.3"
     react-native-media-query: "npm:^2.0.1"
     react-native-reanimated: "npm:~3.10.1"
     react-native-reanimated-carousel: "npm:^3.5.1"
@@ -29402,16 +29402,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-keyboard-controller@npm:^1.15.2":
-  version: 1.15.2
-  resolution: "react-native-keyboard-controller@npm:1.15.2"
+"react-native-keyboard-controller@npm:^1.16.3":
+  version: 1.16.3
+  resolution: "react-native-keyboard-controller@npm:1.16.3"
   dependencies:
     react-native-is-edge-to-edge: "npm:^1.1.6"
   peerDependencies:
     react: "*"
     react-native: "*"
     react-native-reanimated: ">=3.0.0"
-  checksum: 10c0/7603bdcbeef5c453e385517d97efce829495fb67d3e18ba5044f159ec734941893a33d6e368177f32a31e4c6a71d73efad62dfc0b28469080ef36b4a4747c4a7
+  checksum: 10c0/5c2e52214b3b537e424dca5368116970e5cd87e136c47cae40c3b6c05872c3c16a5deea6c22d08733d2cc1c056faca1a7dd0d534d272b5765883fb388f87ee06
   languageName: node
   linkType: hard
 

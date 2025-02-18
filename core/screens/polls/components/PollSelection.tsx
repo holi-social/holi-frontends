@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 
-import { Choice } from '@holi/core/screens/polls/types'
+import type { Choice } from '@holi/core/screens/polls/types'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PollSelectionProps = {
   answerOptions: Choice[]
@@ -49,7 +49,7 @@ const PollSelection = ({ answerOptions, onSelected }: PollSelectionProps) => {
             />
           </HoliBox>
           <View style={[styles.userItemContent]}>
-            <HoliRichTextOutput text={answer.choiceText} users={[]} links={[]} allowAllLinks size="small" />
+            <HoliRichTextOutput text={answer.choiceText} users={[]} links={[]} allowAllLinks size="sm" />
           </View>
         </HoliButton>
       </View>
