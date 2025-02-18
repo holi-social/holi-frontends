@@ -1,0 +1,353 @@
+<mjml>
+	<mj-head>
+		<mj-raw>
+    	<meta name="format-detection" content="date=no" />
+    	<meta name="format-detection" content="address=no" />
+    	<meta name="format-detection" content="telephone=no" />
+    	<meta name="x-apple-disable-message-reformatting" />
+    </mj-raw>
+
+    <mj-style inline="inline">
+      .rounded table {
+        border-collapse: separate;
+      }
+
+      .box {
+      		background-color: transparent !important;
+          padding: 0px 24px;
+          box-sizing: border-box;
+      }
+
+      .box > table {
+      		border: 1px solid #bdbcbc;
+          border-radius: 24px;
+      		border-collapse: separate;
+      }
+
+      .grid > table {
+        margin-left: -8px;
+        margin-right: -8px;
+      }
+    </mj-style>
+    <mj-attributes>
+    	<mj-all font-family="Trebuchet MS, Helvetica, sans-serif" />
+      <mj-text font-size="16px" line-height="1.4" padding="0" />
+      <mj-section padding="0" />
+    </mj-attributes>
+    <mj-title>{{subject}}</mj-title>
+  </mj-head> 
+  <mj-body background-color="#ffffff">
+    
+    <!-- HEADER -->  
+    <mj-section padding-bottom="48px">
+      <mj-column padding="24px" padding-top="64px" background-color="#f5f5f5" border-radius="14px">
+        <mj-image align="left" padding="0px" width="55px" height="24px" src="https://ik.imagekit.io/holi/holi_logo_ajPMRkTXG.png" />
+      </mj-column>
+    </mj-section>
+
+    <!-- BODY -->
+
+		<!-- GREETING -->
+    <mj-section padding="0 24px 32px">
+      <mj-column>
+        <mj-text font-size="22px" line-height="120%" padding-bottom="16px">Hi {{subscriber.firstName}}!</mj-text>
+        <mj-text padding-bottom="16px">
+          How are the first days going? We hope you got a good start into the community and tried some things already. 
+        </mj-text>
+        <mj-text>
+          Here's a quick look at what makes holi truly special.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+      
+    <mj-section padding="0 24px 32px">
+      <mj-column css-class="rounded" background-color="#f5f5f5" border="1px solid #bdbcbc" border-radius="24px" padding="32px 24px">
+        <mj-text font-weight="600" padding-bottom="16px">
+          holi's top features
+        </mj-text>
+  
+        <mj-text padding-bottom="8px" font-weight="600">
+          <img src="https://ik.imagekit.io/holi/megaphone_JAoZ3iuWU.png" alt="" style="width: 24px; height: 24px; margin-right: 4px; vertical-align: middle;">
+          Volunteering
+        </mj-text>
+        <mj-text padding-bottom="8px">
+          Engage in volunteering tasks or support meaningful projects with a donation. Try our search tool and find your match faster than Speedy Gonzales!
+        </mj-text>
+        <mj-text padding-bottom="32px">
+          <a href="https://app.holi.social/en/volunteering/?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}" 
+            style="color: #5B60D6; text-decoration: none; font-weight: 500; display: inline-block;">
+            Find volunteering opportunities →
+          </a>
+        </mj-text>
+
+
+        <mj-text padding-bottom="8px" font-weight="600">
+          <img src="https://ik.imagekit.io/holi/home-smile-fill_o1JYp3YVa.png" alt="" style="width: 24px; height: 24px; margin-right: 4px; vertical-align: middle;">
+          Home Feed
+        </mj-text>
+        <mj-text padding-bottom="8px">
+          Be inspired by stories and ideas shared by the community as well as journalistic articles around current topics.
+        </mj-text>
+        <mj-text padding-bottom="32px">
+          <a href="https://app.holi.social/?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}" 
+            style="color: #5B60D6; text-decoration: none; font-weight: 500; display: inline-block;">
+            Get inspired →
+          </a>
+        </mj-text>
+
+
+        <mj-text padding-bottom="8px" font-weight="600">
+          <img src="https://ik.imagekit.io/holi/Spaces_NPKywVfYd.png" alt="" style="width: 24px; height: 24px; margin-right: 4px; vertical-align: middle;">
+          Spaces
+        </mj-text>
+        <mj-text padding-bottom="8px">
+          Join groups that spark your interest – or create your own!
+        </mj-text>
+        <mj-text padding-bottom="32px">
+          <a href="https://app.holi.social/en/spaces/?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}" 
+            style="color: #5B60D6; text-decoration: none; font-weight: 500; display: inline-block;">
+            Discover Spaces →
+          </a>
+        </mj-text>
+
+
+        <mj-text padding-bottom="8px" font-weight="600">
+          <img src="https://ik.imagekit.io/holi/Challenges_qqMeeFT-AU.png" alt="" style="width: 24px; height: 24px; margin-right: 4px; vertical-align: middle;">
+          Challenges
+        </mj-text>
+        <mj-text padding-bottom="8px">
+          Participate in holi Challenges and inspire the community with your sustainable actions!
+        </mj-text>
+        <mj-text padding-bottom="32px">
+          <a href="https://challenges.holi.social/?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}" 
+            style="color: #5B60D6; text-decoration: none; font-weight: 500; display: inline-block;">
+            Join a Challenge →
+          </a>
+        </mj-text>
+
+        <mj-text padding-bottom="8px" font-weight="600">
+          <img src="https://ik.imagekit.io/holi/chat-3_PTO-PSTIw.png" alt="" style="width: 24px; height: 24px; margin-right: 4px; vertical-align: middle;">
+          Chat
+        </mj-text>
+        <mj-text padding-bottom="32px">
+          Connect directly with like-minded people and dive into exciting discussions about the topics you care about.
+        </mj-text>
+
+        <mj-button padding="0" inner-padding="12px 24px" background-color="#fdfd80" color="#262424" border-radius="32px" border="1px solid #262424" font-weight="600">
+          Log into holi
+        </mj-button>
+        
+      </mj-column>
+    </mj-section>
+    
+    
+    <!-- TEAM -->
+    <mj-wrapper css-class="box" padding="32px 24px">
+
+      <mj-section>
+        <mj-column>
+          <mj-text font-weight="600" padding-bottom="8px">
+              Meet our team
+          </mj-text>
+          <mj-text padding-bottom="16px">
+            We're a small, dedicated group here to support our amazing community. Don't hesitate to say “hi” on holi!
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <!-- Team Avatars -->
+      <mj-section padding-bottom="32px">
+          
+        <mj-column padding="8px">
+          <mj-text font-weight="600" align="center">
+            <a
+              href="https://app.holi.social/en/profile/72a06706-bb57-4d12-aee7-9e6dc0271c89/?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}"
+              style="text-decoration: none; display: block; color: #252424"
+            >
+              <img 
+                src="https://ik.imagekit.io/holi/mario_vKbPmip26.png" 
+                alt="" 
+                style="width: 60px; height: 60px; border-radius: 100px; margin-bottom: 8px;"
+              />
+              <br />
+              Mario
+            </a>
+          </mj-text>
+        </mj-column>
+
+        <mj-column padding="8px">
+          <mj-text font-weight="600" align="center">
+            <a
+              href="https://app.holi.social/en/profile/27583c59-54ef-439b-ba4e-ff4e0eba1f53/?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}"
+              style="text-decoration: none; display: block; color: #252424"
+            >
+              <img 
+                src="https://ik.imagekit.io/holi/laura_E5msQuHhy.png" 
+                alt="" 
+                style="width: 60px; height: 60px; border-radius: 100px; margin-bottom: 8px;"
+              />
+              <br />
+              Laura
+            </a>
+          </mj-text>
+        </mj-column>
+
+        <mj-column padding="8px">
+          <mj-text font-weight="600" align="center">
+            <a
+              href="https://app.holi.social/en/profile/950c4bf2-d30e-4df9-9f30-cc5d235d65cb/?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}"
+              style="text-decoration: none; display: block; color: #252424"
+            >
+              <img 
+                src="https://ik.imagekit.io/holi/caro__EnQhG0Fs.png" 
+                alt="" 
+                style="width: 60px; height: 60px; border-radius: 100px; margin-bottom: 8px;"
+              />
+              <br />
+              Caro
+            </a>
+          </mj-text>
+        </mj-column>
+
+        <mj-column padding="8px">
+          <mj-text font-weight="600" align="center">
+            <a
+              href="https://app.holi.social/en/profile/2501c962-9525-4c65-80b4-741d5de7fb19/?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}"
+              style="text-decoration: none; display: block; color: #252424"
+            >
+              <img 
+                src="https://ik.imagekit.io/holi/lena_FhOJt2gLF.png" 
+                alt="" 
+                style="width: 60px; height: 60px; border-radius: 100px; margin-bottom: 8px;"
+              />
+              <br />
+              Lena
+            </a>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+
+          <mj-text font-weight="600" padding-bottom="16px">
+            Got questions?
+          </mj-text>
+          <mj-text padding-bottom="12px">
+            <img
+              src="https://ik.imagekit.io/holi/Spaces_NPKywVfYd.png"
+              style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
+            />
+            Visit our
+            <a
+              href="https://holi.social/en/help-center?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}"
+              style="
+                color: #5b60d6;
+                text-decoration: none;
+                font-weight: 500;
+              "
+            >
+              Help Center
+            </a>
+          </mj-text>
+          <mj-text>
+            <img
+              src="https://ik.imagekit.io/holi/chat-smile-2-line_9g-YYMJuW.png"
+              style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"
+            />
+            Contact our
+            <a
+              href="mailto:support@holi.social"
+              style="
+                color: #5b60d6;
+                text-decoration: none;
+                font-weight: 500;
+              "
+            >
+              Community team
+            </a>
+          </mj-text>
+      
+      </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+    <!-- PART 3 -->
+    <mj-section padding="32px 24px 32px">
+      <mj-column css-class="rounded" border="1px solid #bdbcbc" border-radius="24px" padding="32px 24px">
+     	  <mj-text font-weight="600" padding-bottom="12px">
+          In part 3 of this email series ...
+        </mj-text>
+        <mj-text padding-bottom="16px">
+          ... we'll share real stories with real impact. So stay tuned for that!
+        </mj-text>
+        <mj-text padding-bottom="16px">
+          Thank you for being part of the change.
+        </mj-text>
+        <mj-text>
+          Your holi team 💛
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    
+  
+    <!-- APP HERO -->  
+    <mj-section padding="0 24px 24px">
+      <mj-column>
+      <!-- Volunteer Banner -->
+        <mj-button
+          href="https://app.holi.social/en/volunteering?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}"
+          background-color="transparent"
+        >
+          <img
+            src="https://ik.imagekit.io/holi/hero-volunteer-en_yyKzFUzAk.png"
+            style="max-width: 100%"
+          />
+        </mj-button>
+
+      </mj-column>
+    </mj-section>
+
+    <mj-section padding="0 24px 16px">
+      <mj-column>
+        <mj-text align="center">
+          Access holi in your
+          <a href="https://app.holi.social?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email3&userId={{subscriber.userId}}" style="color: #262424">browser</a>
+          or download the app
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section padding="0 24px 48px">
+      <mj-column>
+        <mj-text align="center">
+        <a href="https://apps.apple.com/app/id6446693757" style="margin-right: 10px; text-decoration:none" >
+              <img
+              src="https://ik.imagekit.io/holi/badge_ios_mCeRPZd2R.png"
+              style="height: 40px;"
+            />
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=social.holi.app&gl=DE&pli=1" style="text-decoration:none" >
+              <img
+              src="https://ik.imagekit.io/holi/badge_android_uR3kKVh5-.png"
+              style="height: 40px;"
+            />
+          </a>
+          </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- BODY END -->
+    
+    <!-- FOOTER -->  
+    <mj-section>
+      <mj-column css-class="rounded" border-radius="32px 32px 0 0" border-bottom="none" border="1px solid #ebebeb" padding="24px 40px 0px 40px">
+        <mj-text font-size="12px" padding="0" line-height="26px" align="center">
+          You can always <a href="{{unsubscribe_url}}" style="color: #787777">unsubscribe</a> from this 3-part welcome series
+							<br />
+							Holi Moli GmbH • Eifflerstraße 43, 22769 Hamburg
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
