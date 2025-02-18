@@ -1,6 +1,6 @@
 import type React from 'react'
 import { useCallback } from 'react'
-import { type GestureResponderEvent, Linking, Platform } from 'react-native'
+import { type GestureResponderEvent, Linking } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 
@@ -11,6 +11,7 @@ export interface UseLinkProps {
   external?: boolean
 }
 
+// This hook is for mobile only and is used inside HoliLink and HoliTextLink, which have alternative implementations for web.
 const useLink = ({ onPress, external, href }: UseLinkProps) => {
   const { navigate } = useRouting()
 
@@ -27,13 +28,9 @@ const useLink = ({ onPress, external, href }: UseLinkProps) => {
         return
       }
 
-      if (Platform.OS === 'ios' || Platform.OS === 'android') {
-        // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
-        const route = '/' + href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)(\/(en|de))?\/?/, '')
-        navigate(route)
-      } else {
-        navigate(href)
-      }
+      // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
+      const route = '/' + href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)(\/(en|de))?\/?/, '')
+      navigate(route)
     },
     [external, href, navigate, onPress]
   )

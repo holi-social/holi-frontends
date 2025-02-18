@@ -1,7 +1,7 @@
 import useLink from '@holi/core/navigation/hooks/useLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { renderHook, waitFor } from '@testing-library/react-native'
-import { Linking, Platform } from 'react-native'
+import { Linking } from 'react-native'
 
 const mockUseRouting = jest.mocked(useRouting)
 jest.mock('@holi/core/navigation/hooks/useRouting', () => jest.fn())
@@ -79,17 +79,11 @@ describe('useLink', () => {
     expect(mockOpenURL).toHaveBeenCalledWith('/')
   })
 
-  it('should ignore domain and locale path param on mobile', () => {
-    const originalPlatform = Platform.OS
-    Platform.OS = 'android'
-
+  it('should ignore domain and locale path param', () => {
     const { result } = renderHook(() => useLink({ href: 'https://app.holi.social/en/spaces' }))
 
     result.current(testEvent)
 
     expect(mockNavigate).toHaveBeenCalledWith('/spaces')
-
-    // Clean up
-    Platform.OS = originalPlatform
   })
 })
