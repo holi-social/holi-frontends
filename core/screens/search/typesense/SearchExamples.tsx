@@ -40,6 +40,10 @@ export const SearchExamples = ({ onQuerySelect }: SearchExamplesProps) => {
       <Text size="lg">{t('search.typesense.examples.headline')}</Text>
       {displayedExampleIds.map((id) => {
         const text = t(`search.typesense.examples.${selectedFacet}${id}`)
+        const params = new URLSearchParams({
+          facet: selectedFacet,
+          query: text,
+        })
         return (
           <View style={styles.example} key={id}>
             <HoliIcon icon={Search} size={16} color={styles.icon.color} style={styles.icon} />
@@ -47,7 +51,7 @@ export const SearchExamples = ({ onQuerySelect }: SearchExamplesProps) => {
               size="md"
               color="support"
               label={text}
-              href={`/search?facet=${selectedFacet}&query=${encodeURIComponent(text)}`}
+              href={`/search?${params.toString()}`}
               onPress={() => {
                 onQuerySelect(text)
                 // prevent event propagation
