@@ -277,6 +277,10 @@ export namespace TrackingEvent {
       name: 'oauthWithFacebookButtonPressed',
       ...versionOne,
     }
+    export const OAuthWithAppleButtonPressed: TrackingEvent = {
+      name: 'oauthWithAppleButtonPressed',
+      ...versionOne,
+    }
   }
 
   export const ContentTranslated = (
