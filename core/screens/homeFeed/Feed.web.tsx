@@ -173,10 +173,42 @@ const HomeFeed = () => {
   // Add tracking stats function
   const getFeedStats = useFeedStats(combinedFeedData, lastViewedIndex, track)
 
-  // Track when user leaves the page
   useEffect(() => {
+    const handlePageHide = () => {
+      getFeedStats()
+    }
+
+    const handleHistoryChange = () => {
+      getFeedStats()
+    }
+
+    // Listen for browser navigation (back/forward)
+    window.addEventListener('popstate', handleHistoryChange)
+
+    // Override pushState and replaceState to detect navigation inside the app
+    const originalPushState = window.history.pushState
+    const originalReplaceState = window.history.replaceState
+
+    window.history.pushState = function (...args) {
+      originalPushState.apply(this, args)
+      handleHistoryChange()
+    }
+
+    window.history.replaceState = function (...args) {
+      originalReplaceState.apply(this, args)
+      handleHistoryChange()
+    }
+
+    // Listen for tab close or page hide
+    document.addEventListener('visibilitychange', handlePageHide)
+
     return () => {
-      getFeedStats() // Track when component unmounts
+      window.removeEventListener('popstate', handleHistoryChange)
+      document.removeEventListener('visibilitychange', handlePageHide)
+
+      // Restore original history functions
+      window.history.pushState = originalPushState
+      window.history.replaceState = originalReplaceState
     }
   }, [getFeedStats])
 

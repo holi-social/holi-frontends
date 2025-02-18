@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { FeedItem } from '@holi/core/screens/homeFeed/types'
 import type { VolunteeringReco } from '@holi-apps/volunteering/types'
@@ -12,10 +12,11 @@ export const useFeedStats = (
   lastViewedIndex: number,
   track: (event: TrackingEvent) => void
 ) => {
-  const getFeedStats = useCallback(() => {
+  // Memoize the stats calculation
+  const stats = useMemo(() => {
     const viewedItems = combinedFeedData.slice(0, lastViewedIndex + 1)
 
-    const stats = viewedItems.reduce(
+    return viewedItems.reduce(
       (acc, item) => ({
         feedPosts: acc.feedPosts + (item.feedPost ? 1 : 0),
         spacePosts: acc.spacePosts + (item.spacePost ? 1 : 0),
@@ -33,7 +34,10 @@ export const useFeedStats = (
         total: 0,
       }
     )
+  }, [combinedFeedData, lastViewedIndex])
 
+  // Now getFeedStats only depends on stable stats and track function
+  const getFeedStats = useCallback(() => {
     track(
       TrackingEvent.FeedPosts.viewSummary(
         stats.total,
@@ -44,7 +48,7 @@ export const useFeedStats = (
         stats.volunteering
       )
     )
-  }, [combinedFeedData, lastViewedIndex, track])
+  }, [stats, track])
 
   return getFeedStats
 }
