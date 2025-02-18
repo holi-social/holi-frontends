@@ -166,20 +166,21 @@ exports[`PollSelection renders poll selection correctly 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
+            role="none"
             selectable={true}
             style={
               {
-                "color": "#262424",
+                "color": "#676565",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 14,
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
                 "fontWeight": "400",
-                "lineHeight": 19.599999999999998,
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
                 "userSelect": "auto",
               }
             }
@@ -354,20 +355,21 @@ exports[`PollSelection renders poll selection correctly 1`] = `
         >
           <Text
             accessible={false}
-            collapsable={false}
-            jestAnimatedStyle={
-              {
-                "value": {},
-              }
-            }
+            role="none"
             selectable={true}
             style={
               {
-                "color": "#262424",
+                "color": "#676565",
                 "fontFamily": "InstrumentSans-Regular",
-                "fontSize": 14,
+                "fontSize": 15,
+                "fontVariant": [
+                  "lining-nums",
+                  "tabular-nums",
+                ],
                 "fontWeight": "400",
-                "lineHeight": 19.599999999999998,
+                "letterSpacing": -0.12,
+                "lineHeight": 21,
+                "textAlign": undefined,
                 "userSelect": "auto",
               }
             }
@@ -548,20 +550,21 @@ exports[`PollSelection renders poll selection correctly with one option 1`] = `
       >
         <Text
           accessible={false}
-          collapsable={false}
-          jestAnimatedStyle={
-            {
-              "value": {},
-            }
-          }
+          role="none"
           selectable={true}
           style={
             {
-              "color": "#262424",
+              "color": "#676565",
               "fontFamily": "InstrumentSans-Regular",
-              "fontSize": 14,
+              "fontSize": 15,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
               "fontWeight": "400",
-              "lineHeight": 19.599999999999998,
+              "letterSpacing": -0.12,
+              "lineHeight": 21,
+              "textAlign": undefined,
               "userSelect": "auto",
             }
           }

@@ -20,31 +20,28 @@ exports[`PollResults renders correctly as expected 1`] = `
         "alignItems": "flex-start",
         "flex": 1,
         "flexDirection": "row",
+        "gap": 32,
         "marginBottom": 5,
       }
     }
   >
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
-      numberOfLines={2}
+      role="none"
       selectable={true}
       style={
         {
-          "color": "#262424",
-          "flexWrap": "wrap",
+          "color": "#676565",
           "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 14,
+          "fontSize": 15,
+          "fontVariant": [
+            "lining-nums",
+            "tabular-nums",
+          ],
           "fontWeight": "400",
-          "lineHeight": 19.599999999999998,
-          "marginRight": "auto",
-          "maxWidth": "80%",
-          "paddingRight": "auto",
+          "letterSpacing": -0.12,
+          "lineHeight": 21,
+          "textAlign": undefined,
           "userSelect": "auto",
         }
       }
@@ -53,21 +50,21 @@ exports[`PollResults renders correctly as expected 1`] = `
     </Text>
     <Text
       accessible={false}
-      collapsable={false}
-      jestAnimatedStyle={
-        {
-          "value": {},
-        }
-      }
+      role="none"
       selectable={true}
       style={
         {
           "color": "#262424",
           "fontFamily": "InstrumentSans-Regular",
-          "fontSize": 14,
+          "fontSize": 15,
+          "fontVariant": [
+            "lining-nums",
+            "tabular-nums",
+          ],
           "fontWeight": "400",
-          "lineHeight": 19.599999999999998,
-          "marginLeft": 30,
+          "letterSpacing": -0.12,
+          "lineHeight": 21,
+          "textAlign": undefined,
           "userSelect": "auto",
         }
       }

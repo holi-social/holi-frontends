@@ -65,7 +65,6 @@ export const Search = () => {
       <Screen
         backgroundColor="page"
         preset="fixed"
-        contentContainerPadding={{}}
         contentContainerStyle={{ flex: 1 }} // this is needed because flash list has no initial size, it calculates it while rendering.
         style={styles.screen}
         headerOptions={{

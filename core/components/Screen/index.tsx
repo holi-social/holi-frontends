@@ -108,15 +108,20 @@ type BottomComponentWrapperProps = {
   StickyBottomComponent: ScreenProps['StickyBottomComponent']
   padding?: ScreenProps['padding']
   onLayout?: ((event: LayoutChangeEvent) => void) | undefined
+  footerHidden?: boolean
 }
-const BottomComponentWrapper = ({ StickyBottomComponent, padding, onLayout }: BottomComponentWrapperProps) => {
+const BottomComponentWrapper = ({
+  StickyBottomComponent,
+  padding,
+  onLayout,
+  footerHidden,
+}: BottomComponentWrapperProps) => {
   const { styles } = useStyles(stylesheet)
   const { bottomDistance } = useGradualAnimation()
-  const { bottom } = useSafeAreaInsets()
-  const toSubtract = dimensions.bottomBarHeight + (isIos ? bottom : 0)
+  const bottomBar = footerHidden ? 0 : dimensions.bottomBarHeight
   const bottomInputStyle = useAnimatedStyle(
     () => ({
-      bottom: bottomDistance.value - toSubtract < 0 ? 0 : bottomDistance.value - toSubtract,
+      bottom: bottomDistance.value - bottomBar < 0 ? 0 : bottomDistance.value - bottomBar,
     }),
     []
   )
@@ -128,6 +133,7 @@ const BottomComponentWrapper = ({ StickyBottomComponent, padding, onLayout }: Bo
   )
 }
 
+const DEFAULT_VERTICAL_OFFSET = 100
 export const Screen = (props: ScreenProps) => {
   const {
     preset = 'fixed',
@@ -140,7 +146,7 @@ export const Screen = (props: ScreenProps) => {
     headerOptions,
     StickyTopComponent,
     padding,
-    contentContainerPadding = { left: 'xs', right: 'xs' },
+    contentContainerPadding,
     testID,
     ...otherProps
   } = props
@@ -152,6 +158,11 @@ export const Screen = (props: ScreenProps) => {
   })
   const safeAreaInsets = useSafeAreaInsets()
   const navigationOptions = useScreenOptions()
+  const footerHidden = headerOptions?.navigationCustomOptions?.footerShown === false
+  const _keyboardVerticalOffset = keyboardVerticalOffset
+    ? keyboardVerticalOffset
+    : DEFAULT_VERTICAL_OFFSET + (Platform.OS === 'ios' ? stickyBottomOffset || 0 : 0)
+
   return (
     <SafeAreaView
       edges={safeAreaEdges}
@@ -167,15 +178,15 @@ export const Screen = (props: ScreenProps) => {
       <StatusBar {...statusBarProps} barStyle={themeName === 'dark' ? 'light-content' : 'dark-content'} />
 
       <KeyboardAvoidingView
-        behavior={isIos ? 'padding' : 'height'}
-        keyboardVerticalOffset={keyboardVerticalOffset}
         {...keyboardAvoidingViewProps}
+        behavior={isIos ? 'padding' : 'height'}
+        keyboardVerticalOffset={_keyboardVerticalOffset}
         style={[
           keyboardAvoidingViewProps?.style,
           styles.flex1,
           styles.relative,
           styles.contentContainerPadding(navigationOptions.headerShown, safeAreaInsets.top, contentContainerPadding),
-          StickyBottomComponent ? styles.stickyBottomOffset(stickyBottomOffset) : null,
+          StickyBottomComponent && preset === 'fixed' ? styles.stickyBottomOffset(stickyBottomOffset) : null,
           StickyTopComponent ? styles.stickyTopOffset(stickyTopOffset) : null,
         ]}
       >
@@ -201,6 +212,7 @@ export const Screen = (props: ScreenProps) => {
       {StickyBottomComponent && (
         <BottomComponentWrapper
           StickyBottomComponent={StickyBottomComponent}
+          footerHidden={footerHidden}
           padding={padding}
           onLayout={stickyBottomLayout}
         />

@@ -2,7 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import { LoginState } from '@holi/core/auth/loginState'
+import type { LoginState } from '@holi/core/auth/loginState'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { space } from '@holi/core/screens/spaces/__tests__/testData'
@@ -24,6 +24,7 @@ jest.mock('@holi/core/errors/hooks/useErrorHandling', () => ({
     displayError: jest.fn(),
   }),
 }))
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const authenticatedUserRequest = {
   request: {

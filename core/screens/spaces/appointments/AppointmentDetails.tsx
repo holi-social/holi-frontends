@@ -320,8 +320,8 @@ const AppointmentDetails = () => {
           <HoliRichTextOutput
             style={styles.description}
             text={appointment.description}
-            color="gray300"
-            size="small"
+            color="support"
+            size="sm"
             allowAllLinks
             testID="appointment-description"
           />

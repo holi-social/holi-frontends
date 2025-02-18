@@ -12,13 +12,20 @@ export const useScreenComponentInternal = ({ headerOptions }: UseScreenComponent
   const setScreenOptions = useSetScreenOptions()
   const [stickyBottomOffset, setStickyBottomOffset] = useState(0)
 
-  const stickyBottomLayout = useCallback((e: LayoutChangeEvent) => {
-    setStickyBottomOffset(e.nativeEvent.layout.height)
-  }, [])
+  const stickyBottomLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      if (e.nativeEvent.layout.height !== stickyBottomOffset) setStickyBottomOffset(e.nativeEvent.layout.height)
+    },
+    [stickyBottomOffset]
+  )
+
   const [stickyTopOffset, setStickyTopOffset] = useState(0)
-  const stickyTopLayout = useCallback((e: LayoutChangeEvent) => {
-    setStickyTopOffset(e.nativeEvent.layout.height)
-  }, [])
+  const stickyTopLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      if (e.nativeEvent.layout.height !== stickyTopOffset) setStickyTopOffset(e.nativeEvent.layout.height)
+    },
+    [stickyTopOffset]
+  )
 
   useEffect(() => {
     if (headerOptions) {

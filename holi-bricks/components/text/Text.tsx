@@ -46,6 +46,7 @@ export interface TextProps {
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: RNTextProps['ellipsizeMode']
   headingLevel?: TextHeadingLevel
+  testID?: string
 }
 
 // Change import in HOLI-10369
@@ -86,6 +87,7 @@ export const Text = ({
   ellipsizeMode,
   headingLevel,
   children,
+  testID,
   ...rest
 }: React.PropsWithChildren<TextProps>) => {
   const { styles } = useStyles(stylesheet, { size })
@@ -100,6 +102,7 @@ export const Text = ({
     <RNText
       {...textAccessibilityProps}
       {...accessibilityProps(rest)}
+      testID={testID}
       selectable={Platform.OS !== 'web' ? selectable : undefined}
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}

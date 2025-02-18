@@ -1,6 +1,6 @@
 import { HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
-import { NextPageContext } from 'next'
+import type { NextPageContext } from 'next'
 
 import { createPageContextMock, graphqlLink } from '@holi/web/__tests__/helpers'
 import { getServerSideProps, topicSlugsQuery } from '@holi/web/pages/sitemap/static.xml'
@@ -8,6 +8,7 @@ import { getServerSideProps, topicSlugsQuery } from '@holi/web/pages/sitemap/sta
 jest.mock('@holi/core/helpers/isSSR', () => ({
   isSSR: true,
 }))
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const server = setupServer(
   graphqlLink.query(topicSlugsQuery, () => {
