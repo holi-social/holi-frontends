@@ -54,7 +54,7 @@ const List = ({ loading, task, space }: PropsWithSkeleton<BaseProps>) => {
         </HoliLink>
         <HoliGap size={'s'} />
 
-        <Content task={task} richTextOutputColor="gray300" descriptionWithDetails />
+        <Content task={task} richTextOutputColor="support" descriptionWithDetails />
       </HoliCardComponent.ContentContainer>
     </HoliCardComponent.CardContainer>
   )

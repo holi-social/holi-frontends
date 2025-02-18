@@ -6,7 +6,6 @@ import { Platform, StyleSheet, type TextInputKeyPressEventData, View } from 'rea
 import { sendMessage } from '@holi/chat/src/store'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { SendPlane } from '@holi/icons/src/generated'
-import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
@@ -59,11 +58,9 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '', onMessageSent 
     }
   }
 
-  const PLACEHOLDER_MIN_HIGHT = SEND_BUTTON_SIZE + Spacing.xxs * 2 + BORDER_WIDTH * 2
-
-  return (
-    <View style={{ minHeight: PLACEHOLDER_MIN_HIGHT, width: '100%' }}>
-      <HoliTransition.SlideDown visible={isVisible} style={styles.container}>
+  return isVisible ? (
+    <View style={styles.wrapper}>
+      <View style={styles.container}>
         <HoliTextInput
           aria-label={t('chat.room.input.placeholder', { fullName: userName })}
           placeholder={t('chat.room.input.placeholder', { fullName: userName })}
@@ -88,24 +85,24 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '', onMessageSent 
         />
 
         <View style={styles.buttonWrapper}>
-          {inputValue.trim().length > 0 && (
-            <HoliTransition.Fade visible>
-              <ButtonIcon
-                label={t('chat.room.sendButton.label')}
-                disabled={inputValue.trim().length === 0}
-                onPress={handleSendMessage}
-                icon={SendPlane}
-              />
-            </HoliTransition.Fade>
-          )}
+          <ButtonIcon
+            label={t('chat.room.sendButton.label')}
+            disabled={inputValue.trim().length === 0}
+            onPress={handleSendMessage}
+            icon={SendPlane}
+          />
         </View>
-      </HoliTransition.SlideDown>
+      </View>
     </View>
-  )
+  ) : null
 }
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
+    wrapper: {
+      minHeight: SEND_BUTTON_SIZE + Spacing.xxs * 2 + BORDER_WIDTH * 2,
+      width: '100%',
+    },
     container: {
       flexDirection: 'row',
       alignItems: 'center',

@@ -1,16 +1,17 @@
-import { Text } from 'holi-bricks/components/text'
+import { Text, type TextLinkProps, type TextLinkSize } from 'holi-bricks/components/text'
 import React from 'react'
-import { Platform, type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import { Platform, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { createUUID } from '@holi/core/helpers/strings'
 import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 import type { Link } from '@holi/core/screens/posts/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import type { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
 import { REGEX_URL, REGEX_USER_MENTIONS, ensureProtocolPrefix, isValidUrl } from '@holi/ui/helper/richText'
+import type { SkeletonTextOptions } from '@holi/ui/components/atoms/HoliSkeleton/types'
+import { defaultTextOptionsAsProps } from '@holi/ui/components/atoms/HoliSkeleton/defaults'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 
-export interface Props extends HoliTextProps {
+export interface HoliRichTextProps extends Omit<Omit<TextLinkProps, 'variant'>, 'size'> {
   text: string
   users?: User[]
   links?: Link[]
@@ -20,6 +21,9 @@ export interface Props extends HoliTextProps {
   allowAllLinks?: boolean
   testID?: string
   onPressText?: () => void
+  loading?: boolean
+  size?: TextLinkSize
+  skeletonOptions?: SkeletonTextOptions
 }
 
 const HoliRichTextOutput = ({
@@ -27,14 +31,16 @@ const HoliRichTextOutput = ({
   users = [],
   links = [],
   testID,
-  size,
+  size = 'md',
   allowAllLinks = false,
   linkMentionsToProfile = true,
+  loading,
+  skeletonOptions,
+  numberOfLines,
   onPressText,
+  color = 'support',
   ...props
-}: Props) => {
-  const linkSize = size === undefined || size === 'extralarge' || size === 'large' ? 'md' : 'sm'
-
+}: HoliRichTextProps) => {
   /**
    * Replaces each @<USER-ID>
    * with the highlighted fullName
@@ -61,14 +67,14 @@ const HoliRichTextOutput = ({
               label={user.fullName ?? ''}
               href={`/profile/${user.id}`}
               key={index}
-              size={linkSize}
+              size={size}
               color="informative"
             >
               {mentionPrefix}
               {replaced}
             </HoliTextLink>
           ) : (
-            <Text key={index} size={linkSize}>
+            <Text key={index} size={size} color={color}>
               {mentionPrefix}
               {replaced}
             </Text>
@@ -102,7 +108,7 @@ const HoliRichTextOutput = ({
             <HoliTextLink
               href={link.requestedUrl}
               label={link.title}
-              size={linkSize}
+              size={size}
               key={link.requestedUrl}
               external={isExternalLink(link.requestedUrl)}
               color="informative"
@@ -110,9 +116,9 @@ const HoliRichTextOutput = ({
               {link.title}
             </HoliTextLink>
           ) : !!textPart.trim() && onPressText ? (
-            <HoliText key={createUUID()} onPress={onPressText} {...props}>
+            <Text size={size} key={createUUID()} onPress={onPressText} color={color} {...props}>
               {textPart}
-            </HoliText>
+            </Text>
           ) : (
             textPart
           )
@@ -120,10 +126,26 @@ const HoliRichTextOutput = ({
       })
   })()
 
+  const sizesToSkeletonHeight = {
+    md: 16,
+    sm: 15,
+    xs: 12,
+  }
+
+  if (loading) {
+    return (
+      <View style={props?.style}>
+        <HoliSkeleton
+          {...defaultTextOptionsAsProps(skeletonOptions, numberOfLines, sizesToSkeletonHeight[size], '60%')}
+        />
+      </View>
+    )
+  }
+
   return (
-    <HoliText testID={testID} size={size} {...props}>
+    <Text testID={testID} size={size} color={color} {...props}>
       {textWithMentions}
-    </HoliText>
+    </Text>
   )
 }
 

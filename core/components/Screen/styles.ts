@@ -2,6 +2,7 @@ import type { ScreenPadding } from '@holi/core/components/Screen/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
+import { Platform } from 'react-native'
 
 const makePadding = (padding?: ScreenPadding) => ({
   paddingTop: padding?.top ? Spacing[padding?.top] : 0,
@@ -40,7 +41,8 @@ export const stylesheet = createStyleSheet(() => {
     },
     stickyBottomOffset: (offset: number) => {
       return {
-        paddingBottom: offset,
+        marginBottom: Platform.OS === 'ios' ? offset : 0,
+        paddingBottom: Platform.OS === 'android' || Platform.OS === 'web' ? offset : 0,
       }
     },
     stickyTopOffset: (offset: number) => {
@@ -64,15 +66,15 @@ export const stylesheet = createStyleSheet(() => {
         zIndex: 10,
       }
     },
-    stickyBottomWeb: {
+    stickyBottomWeb: (footerHidden) => ({
       width: '100%',
       maxWidth: dimensions.maxScreenWidth,
-      bottom: dimensions.bottomBarHeight,
+      bottom: footerHidden ? 0 : dimensions.bottomBarHeight,
       left: 0,
       right: 0,
       marginHorizontal: 'auto',
       zIndex: 10,
-    },
+    }),
     stickyBottom: {
       position: 'absolute',
       bottom: 0,

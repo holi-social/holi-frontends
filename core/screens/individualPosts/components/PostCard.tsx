@@ -5,11 +5,11 @@ import { StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
-import { Term, User } from '@holi/core/domain/shared/types'
+import type { Term, User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
-import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import { type FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -24,7 +24,7 @@ import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type PostCardProps = {
   post: FeedPost
@@ -118,7 +118,7 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
             onPressText={() => {
               goToDetailView()
             }}
-            color="gray300"
+            color="support"
             users={post.mentionedUsers}
           />
         </HoliReadMore>

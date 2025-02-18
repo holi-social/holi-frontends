@@ -94,8 +94,8 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
                   </HoliText>
                   <CommentText
                     comment={topComment}
-                    size="small"
-                    color="gray300"
+                    size="sm"
+                    color="support"
                     numberOfLines={2}
                     linkMentionsToProfile={false}
                   />

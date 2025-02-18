@@ -171,7 +171,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               onPressText={() => {
                 goToDetailView()
               }}
-              color="gray300"
+              color="support"
               users={feedPost.mentionedUsers}
             />
           </HoliReadMore>
@@ -327,7 +327,7 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
               onPressText={() => {
                 goToDetailView()
               }}
-              color="gray300"
+              color="support"
               users={spacePost.mentions}
             />
           </HoliReadMore>

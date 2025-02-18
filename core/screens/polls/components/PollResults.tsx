@@ -1,10 +1,11 @@
 import React, { useMemo, useRef } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 
-import { Choice } from '@holi/core/screens/polls/types'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import type { Choice } from '@holi/core/screens/polls/types'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { Text } from 'holi-bricks/components/text'
+import Spacing from '@holi/ui/foundations/Spacing'
 
 interface PollResultsProps {
   choice: Choice
@@ -35,11 +36,11 @@ const PollResults = ({ choice, votesSum, selected }: PollResultsProps) => {
           users={[]}
           links={[]}
           allowAllLinks
-          size="small"
+          size="sm"
         />
-        <HoliText style={styles.percentText} size="small" testID="poll-result-percentage">
+        <Text size="sm" testID="poll-result-percentage">
           {percentage}%
-        </HoliText>
+        </Text>
       </View>
       <View style={styles.progressBar}>
         <Animated.View style={{ ...styles.innerBar, width: progressWidth }} />
@@ -63,6 +64,7 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'flex-start',
       flex: 1,
       marginBottom: 5,
+      gap: Spacing['lg'],
     },
     optionsTextStyle: {
       flexWrap: 'wrap',
@@ -83,11 +85,6 @@ const getStyles = (theme: HoliTheme) =>
       height: '100%',
       backgroundColor: theme.colors.brandColorB30,
       borderRadius: 12,
-    },
-    percentText: {
-      fontSize: 14,
-      marginLeft: 30,
-      color: theme.colors.foreground30,
     },
   })
 

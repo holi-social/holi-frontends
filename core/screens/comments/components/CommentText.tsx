@@ -2,12 +2,11 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import HoliTranslate from '@holi/core/components/HoliTranslate'
-import { Comment } from '@holi/core/screens/comments/types'
+import type { Comment } from '@holi/core/screens/comments/types'
 import { TrackingEvent } from '@holi/core/tracking'
-import { HoliTextProps } from '@holi/ui/components/atoms/HoliText'
-import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import HoliRichTextOutput, { type HoliRichTextProps } from '@holi/ui/components/organisms/HoliRichTextOutput'
 
-type CommentTextProps = HoliTextProps & {
+type CommentTextProps = Omit<HoliRichTextProps, 'text'> & {
   comment: Comment
   linkMentionsToProfile?: boolean
 }
@@ -22,9 +21,9 @@ const CommentText = ({ comment, ...textProps }: CommentTextProps) => {
   return (
     <>
       <HoliRichTextOutput
+        {...textProps}
         text={text}
         users={comment.mentions || []}
-        {...textProps}
         allowAllLinks
         loading={loadingTranslation}
         skeletonOptions={{ numberOfLines: 3 }}

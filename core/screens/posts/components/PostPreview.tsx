@@ -235,8 +235,7 @@ const PostPreview = ({
               users={post?.mentions || []}
               links={post?.links || []}
               allowAllLinks
-              size="default"
-              color="gray300"
+              color="default"
             />
           </HoliReadMore>
         )}

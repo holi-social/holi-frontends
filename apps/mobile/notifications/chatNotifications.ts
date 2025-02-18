@@ -1,11 +1,11 @@
 import * as Notifications from 'expo-notifications'
 import type { NotificationContentInput } from 'expo-notifications'
 
-import { type Route } from '@react-navigation/native'
+import type { Route } from '@react-navigation/native'
 
 import { getLogger } from '@holi/core/helpers/logging'
 import { RouteName } from '@holi/mobile/navigation/routeName'
-import { NotificationData } from '@holi/mobile/notifications'
+import type { NotificationData } from '@holi/mobile/notifications'
 
 const logger = getLogger('Notifications')
 
@@ -107,7 +107,7 @@ const createAndroidRoomMemberChangePush = (event: AndroidRoomMemberChange): Noti
   if (event.membership === 'invite') {
     return {
       title: 'Invitation',
-      body: 'Someone invited you to a ' + (event.content.is_direct ? 'direct chat' : 'chat') + '.',
+      body: 'Someone invited you to a ' + (event?.content?.is_direct ? 'direct chat' : 'chat') + '.',
       data: {
         room_id: event.room_id,
       },
@@ -115,7 +115,7 @@ const createAndroidRoomMemberChangePush = (event: AndroidRoomMemberChange): Noti
   } else {
     return {
       title: 'Channel Update',
-      body: 'Someone updated ' + (event.content.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
+      body: 'Someone updated ' + (event?.content?.is_direct ? 'your direct chat' : 'a chat you are part of') + '.',
       data: {
         room_id: event.room_id,
       },

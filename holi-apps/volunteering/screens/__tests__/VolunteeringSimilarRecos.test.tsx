@@ -1,20 +1,20 @@
 import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { allSkills, allTopics } from '@holi-apps/volunteering/__tests__/helpers/fixtures'
 import { makeEngagement } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import {
-  AppVolunteeringEngagementByIdResponse,
-  AppVolunteeringEngagementByIdVariables,
-  VolunteeringSimilarRecosQueryResponse,
-  VolunteeringSimilarRecosQueryVariables,
+  type AppVolunteeringEngagementByIdResponse,
+  type AppVolunteeringEngagementByIdVariables,
+  type VolunteeringSimilarRecosQueryResponse,
+  type VolunteeringSimilarRecosQueryVariables,
   engagementByIdQuery,
   trackEngagementViewMutation,
   volunteeringSimilarRecosQuery,
 } from '@holi-apps/volunteering/queries'
 import { ExportedForTesting } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
-import {
+import type {
   AppVolunteering_TrackEngagementViewResponse,
   MutationAppVolunteering_TrackEngagementViewArgs,
 } from '@holi/api/graphql/graphql-codegen'
@@ -22,6 +22,8 @@ import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 
 const mockEngagementId = '123'
+
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const mockEngagementDetailQuery: MockedResponse<
   AppVolunteeringEngagementByIdResponse,

@@ -1,8 +1,8 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
-import { NavigationRouteContext, Route } from '@react-navigation/native'
+import { NavigationRouteContext, type Route } from '@react-navigation/native'
 
 import { createCache } from '@holi/api/graphql/client'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -14,6 +14,7 @@ import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => Date.now())
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data

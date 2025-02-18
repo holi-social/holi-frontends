@@ -14,7 +14,7 @@ export const Screen = (props: ScreenProps) => {
     StickyBottomComponent,
     StickyTopComponent,
     padding,
-    contentContainerPadding = { left: 'xs', right: 'xs' },
+    contentContainerPadding,
     headerOptions,
     testID,
     children,
@@ -26,24 +26,25 @@ export const Screen = (props: ScreenProps) => {
   const { styles, theme } = useStyles(stylesheet)
   const { stickyBottomLayout, stickyBottomOffset, stickyTopLayout, stickyTopOffset, headerHeight } =
     useScreenComponentInternal({ headerOptions })
+
   return (
     <View
       testID={testID}
       style={[styles.padding(padding), styles.container, { backgroundColor: theme.colors.bg[backgroundColor] }]}
     >
-      <HoliContainer flex={1} noPadding>
+      <HoliContainer flex={1}>
         <View
           style={[
             styles.flex1,
-            styles.webContainer,
             keyboardAvoidingViewProps?.style,
+            styles.webContainer,
             StickyTopComponent ? styles.stickyTopOffset(stickyTopOffset) : null,
             StickyBottomComponent ? styles.stickyBottomOffset(stickyBottomOffset) : null,
           ]}
         >
           {StickyTopComponent && (
             <View style={[styles.stickyTopWeb(headerHeight), { position: 'fixed' }]} onLayout={stickyTopLayout}>
-              <HoliContainer noPadding>{StickyTopComponent}</HoliContainer>
+              <HoliContainer>{StickyTopComponent}</HoliContainer>
             </View>
           )}
 
@@ -56,8 +57,14 @@ export const Screen = (props: ScreenProps) => {
           </ScrollViewRefreshable>
 
           {StickyBottomComponent && (
-            <View style={[styles.stickyBottomWeb, { position: 'fixed' }]} onLayout={stickyBottomLayout}>
-              <HoliContainer noPadding>{StickyBottomComponent}</HoliContainer>
+            <View
+              style={[
+                styles.stickyBottomWeb(headerOptions?.navigationCustomOptions?.footerShown === false),
+                { position: 'fixed' },
+              ]}
+              onLayout={stickyBottomLayout}
+            >
+              <HoliContainer>{StickyBottomComponent}</HoliContainer>
             </View>
           )}
         </View>

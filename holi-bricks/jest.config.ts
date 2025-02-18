@@ -7,9 +7,7 @@ import type { Config } from 'jest'
 const config: Config = {
   preset: 'jest-expo',
   setupFiles: ['<rootDir>/jest.setup.ts'],
-  clearMocks: true,
-  // collectCoverage: true,
-  // coverageDirectory: ".coverage",
+  clearMocks: false,
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     'holi-bricks/(.*)': '<rootDir>/$1',
