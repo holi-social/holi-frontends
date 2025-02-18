@@ -32,6 +32,7 @@ import type { SearchParams } from '@holi/core/screens/search/typesense/Search'
 import type { SearchParams as OldSearchParams } from '@holi/core/screens/search/components/SearchContent'
 import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import NotFound from '@holi/core/screens/404/NotFound'
+import { AuthSelection } from '@holi/core/auth/screens/AuthSelection'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -63,6 +64,8 @@ export type RootStackScreens = {
 
   [RouteName.CreateSpace]: undefined
   [RouteName.CreateReport]: undefined
+
+  [RouteName.AuthSelection]: undefined
 
   [RouteName.Search]: SearchParams | OldSearchParams
 
@@ -248,6 +251,17 @@ const RootNavigator = () => {
         component={UserProfile}
         options={{
           headerShown: true,
+          headerTitleAlign: 'center',
+          headerLeft: () => <HeaderBackButton />,
+        }}
+      />
+
+      <RootStack.Screen
+        name={RouteName.AuthSelection}
+        component={AuthSelection}
+        options={{
+          headerShown: true,
+          headerBackVisible: false,
           headerTitleAlign: 'center',
           headerLeft: () => <HeaderBackButton />,
         }}

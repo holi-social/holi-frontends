@@ -116,6 +116,7 @@ export enum RouteName {
   GoodNewsApp = 'GoodNewsApp',
   VolunteeringApp = 'VolunteeringApp',
   NotFound = 'NotFound',
+  AuthSelection = 'AuthSelection',
 
   // Onboarding Stack
   Onboarding = 'Onboarding',
