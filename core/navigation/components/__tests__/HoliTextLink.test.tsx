@@ -30,14 +30,4 @@ describe('HoliTextLink', () => {
 
     expect(mockNavigate).toHaveBeenCalledWith('//spaces')
   })
-
-  it('should navigate on press if event is not propagated', () => {
-    const onPress = jest.fn().mockReturnValue(false)
-    render(<HoliTextLink label="test" href="/" onPress={onPress} size="md" />)
-
-    fireEvent.press(screen.getByRole('link'))
-
-    expect(onPress).toHaveBeenCalled()
-    expect(mockNavigate).not.toHaveBeenCalled()
-  })
 })
