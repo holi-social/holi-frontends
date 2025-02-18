@@ -79,15 +79,6 @@ describe('useLink', () => {
     expect(mockOpenURL).toHaveBeenCalledWith('/')
   })
 
-  it('should navigate back first on mobile', async () => {
-    const { result } = renderHook(() => useLink({ href: '/spaces', mobileNavigateBackFirst: true }))
-
-    result.current(testEvent)
-
-    expect(mockNavigateBack).toHaveBeenCalled()
-    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('//spaces'))
-  })
-
   it('should ignore domain and locale path param on mobile', () => {
     const originalPlatform = Platform.OS
     Platform.OS = 'android'

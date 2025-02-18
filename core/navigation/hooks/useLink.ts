@@ -9,11 +9,10 @@ export interface UseLinkProps {
   /** if given, `onPress` will be executed before opening href (if given). if `onPress` returns `false` (synchronously, required for web) event propagation will be stopped */
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
   external?: boolean
-  mobileNavigateBackFirst?: boolean
 }
 
-const useLink = ({ onPress, external, href, mobileNavigateBackFirst }: UseLinkProps) => {
-  const { navigate, navigateBack } = useRouting()
+const useLink = ({ onPress, external, href }: UseLinkProps) => {
+  const { navigate } = useRouting()
 
   return useCallback(
     async (event: React.SyntheticEvent | GestureResponderEvent) => {
@@ -31,17 +30,12 @@ const useLink = ({ onPress, external, href, mobileNavigateBackFirst }: UseLinkPr
       if (Platform.OS === 'ios' || Platform.OS === 'android') {
         // If the platform is mobile and the link domain matches our app's domain, navigate to the route instead of opening the link
         const route = '/' + href.replace(/https:\/\/(app\.holi\.social|staging\.dev\.holi\.social)(\/(en|de))?\/?/, '')
-        if (mobileNavigateBackFirst) {
-          navigateBack()
-          setTimeout(() => navigate(route), 300)
-        } else {
-          navigate(route)
-        }
+        navigate(route)
       } else {
         navigate(href)
       }
     },
-    [external, href, mobileNavigateBackFirst, navigate, navigateBack, onPress]
+    [external, href, navigate, onPress]
   )
 }
 

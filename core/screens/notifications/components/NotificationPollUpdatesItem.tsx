@@ -21,7 +21,7 @@ const NotificationPollUpdatesItem = ({ notification }: NotificationProps<Notific
 
   return (
     <View>
-      <HoliLink href={`/insights/${poll.insightId}`} label={poll.title} mobileNavigateBackFirst>
+      <HoliLink href={`/insights/${poll.insightId}`} label={poll.title}>
         <View style={styles.link}>
           <View style={styles.image}>
             <HoliLocalImage

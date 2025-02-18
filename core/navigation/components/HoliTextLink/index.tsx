@@ -11,12 +11,11 @@ export const HoliTextLink = ({
   external,
   onPress,
   children,
-  mobileNavigateBackFirst,
   color,
   size,
   textAlign,
 }: PropsWithChildren<HoliTextLinkProps>) => {
-  const handleLinkPress = useLink({ href, external, onPress, mobileNavigateBackFirst })
+  const handleLinkPress = useLink({ href, external, onPress })
 
   return (
     <TextLink size={size} color={color} textAlign={textAlign} onPress={handleLinkPress} aria-label={label}>
