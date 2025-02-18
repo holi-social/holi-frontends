@@ -11,8 +11,8 @@ import { feedInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/domain/shared/types'
 
-const PAGE_SIZE_EXTERNAL_DATA = 20
-const PAGE_SIZE_FEED = 20
+const PAGE_SIZE_EXTERNAL_DATA = 12
+const PAGE_SIZE_FEED = 12
 const POST_FREQUENCY = 2
 
 export const useFeedQuery = () => {

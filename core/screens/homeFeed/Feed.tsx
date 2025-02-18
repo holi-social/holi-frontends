@@ -91,13 +91,13 @@ const HomeFeed = () => {
       index: number
     }) => {
       return (
-        <HoliTransition.FadeDown visible>
+        <>
           {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
           {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
           {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
           {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
-        </HoliTransition.FadeDown>
+        </>
       )
     },
     [allTopics, insightsCreators]
