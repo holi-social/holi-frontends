@@ -76,7 +76,7 @@ const RecoverPasswordForm = (props: RecoverPasswordFormProps) => {
       {!props.webview && (
         <>
           <HoliGap size="s" />
-          <AlreadyHaveAccountText mobileNavigateBackFirst trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
+          <AlreadyHaveAccountText trackingEvent={TrackingEvent.Auth.LoginButtonPressed} />
           <HoliGap size="l" />
           <HoliHeading level="2" align="center">
             {t('auth.login.signUp.link.headline')}

@@ -23,4 +23,12 @@ describe('HoliLink', () => {
 
     expect(onPress).toHaveBeenCalled()
   })
+
+  it('should navigate on press if no onPress is given', () => {
+    render(<HoliLink label="test" href="/spaces" />)
+
+    fireEvent.press(screen.getByTestId('link'))
+
+    expect(mockNavigate).toHaveBeenCalledWith('//spaces')
+  })
 })

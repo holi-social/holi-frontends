@@ -7,16 +7,11 @@ import { Text } from 'holi-bricks/components/text'
 import { View } from 'react-native'
 
 export interface AlreadyHaveAccountTextProps {
-  mobileNavigateBackFirst?: boolean
   trackingEvent: TrackingEvent
   onPress?(): void
 }
 
-const AlreadyHaveAccountText = ({
-  mobileNavigateBackFirst = false,
-  trackingEvent,
-  onPress,
-}: AlreadyHaveAccountTextProps) => {
+const AlreadyHaveAccountText = ({ trackingEvent, onPress }: AlreadyHaveAccountTextProps) => {
   const { t } = useTranslation()
 
   return (
@@ -28,7 +23,6 @@ const AlreadyHaveAccountText = ({
             onPress={onPress}
             href="/login"
             size="sm"
-            mobileNavigateBackFirst={mobileNavigateBackFirst}
             trackingEvent={trackingEvent}
           >
             {t('auth.login')}

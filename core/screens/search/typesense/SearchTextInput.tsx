@@ -9,12 +9,12 @@ import type { UseSearchBoxProps } from 'react-instantsearch-core/dist/es/connect
 import { Platform, Pressable, type TextInput } from 'react-native'
 
 interface SearchBoxProps {
-  initialQuery?: string
+  queryParam?: string
   onQueryChange?: (query: string) => void
   props?: UseSearchBoxProps
 }
 
-export function SearchTextInput({ initialQuery, onQueryChange, props }: SearchBoxProps) {
+export function SearchTextInput({ queryParam, onQueryChange, props }: SearchBoxProps) {
   const { t } = useTranslation()
   // Debouncing search requests as suggested on
   // https://www.algolia.com/doc/guides/building-search-ui/going-further/improve-performance/js/#debouncing
@@ -26,16 +26,19 @@ export function SearchTextInput({ initialQuery, onQueryChange, props }: SearchBo
   const setQuery = (newQuery: string) => {
     setInputValue(newQuery)
     refine(newQuery)
-    onQueryChange?.(newQuery)
+    if (newQuery !== queryParam) {
+      onQueryChange?.(newQuery)
+    }
   }
 
   useEffect(() => {
-    if (initialQuery) {
-      setQuery(initialQuery)
+    if (queryParam && query !== queryParam) {
+      setQuery(queryParam)
     }
-    // Only trigger on initial render
+
+    // Only trigger on changes of queryParam
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [queryParam])
 
   return (
     <HoliTextInput

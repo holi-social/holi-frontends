@@ -15,12 +15,14 @@ export const HoliLink = ({
 }: PropsWithChildren<HoliLinkProps>) => {
   const onLinkPress = useCallback(
     async (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
-      const stopPropagation = await onPress?.(event)
-      if (stopPropagation === false) {
+      // Async onPress callbacks won't be awaited before event propagation
+      const propagateEventOrPromise = onPress?.(event)
+      if (propagateEventOrPromise === false) {
         event?.preventDefault()
         event?.stopPropagation()
         return false
       }
+      await propagateEventOrPromise
     },
     [onPress]
   )

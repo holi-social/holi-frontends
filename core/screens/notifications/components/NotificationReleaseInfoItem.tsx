@@ -24,7 +24,7 @@ const NotificationReleaseInfoItem: React.FC<NotificationProps<NotificationReleas
 
   return (
     <View style={style} testID={testID}>
-      <HoliLink href={`/posts/${post?.id}`} label={post?.title} mobileNavigateBackFirst>
+      <HoliLink href={`/posts/${post?.id}`} label={post?.title}>
         <View style={styles.link}>
           <HoliLocalImage
             imageSource={require('@holi/ui/assets/img/holi/holi_brandmark.svg')}

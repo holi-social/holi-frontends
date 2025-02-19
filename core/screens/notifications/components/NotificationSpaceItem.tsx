@@ -46,7 +46,7 @@ const NotificationSpaceItem = ({
 
   return (
     <View style={style} testID={testID}>
-      <HoliLink href={href} label={title} mobileNavigateBackFirst>
+      <HoliLink href={href} label={title}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <SpaceAvatar space={notification.options.space} size="sm" />

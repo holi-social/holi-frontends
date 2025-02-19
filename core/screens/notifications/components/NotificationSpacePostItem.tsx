@@ -21,7 +21,7 @@ const NotificationSpacePostItem = ({ notification, style, testID = '' }: Notific
 
   return (
     <View style={style} testID={testID}>
-      <HoliLink href={`/spaces/${space.name}?tab=updates`} label={space.title} mobileNavigateBackFirst>
+      <HoliLink href={`/spaces/${space.name}?tab=updates`} label={space.title}>
         <View style={styles.link}>
           <SpaceAvatar space={space} size="sm" />
 

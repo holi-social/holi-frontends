@@ -38,7 +38,7 @@ const NotificationWithUserAvatar = ({
 
   return (
     <View style={style} testID={testID}>
-      <HoliLink href={href} label={userFullName} mobileNavigateBackFirst>
+      <HoliLink href={href} label={userFullName}>
         <View style={styles.link}>
           <Avatar
             imgPlaceholder={avatarBlurhash}

@@ -35,7 +35,7 @@ export const NotificationSpaceAppointmentBaseItem = ({
         paddingVertical: 12,
       }}
     >
-      <HoliLink href={link ?? '/'} label={space.title} mobileNavigateBackFirst>
+      <HoliLink href={link ?? '/'} label={space.title}>
         <View style={styles.link}>
           <SpaceAvatar space={space} size="sm" />
 

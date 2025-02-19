@@ -34,7 +34,7 @@ export const NotificationChallengesItem = ({
         paddingVertical: 12,
       }}
     >
-      <HoliLink href={route} label={'notification'} mobileNavigateBackFirst>
+      <HoliLink href={route} label={'notification'}>
         <View style={styles.link}>
           <HoliIcon icon={challengesColored} size={40} />
           <View style={styles.content}>

@@ -11,11 +11,10 @@ export const HoliLink = ({
   external,
   onPress,
   children,
-  mobileNavigateBackFirst,
   isFullHeight = false,
   testID = 'link',
 }: PropsWithChildren<HoliLinkProps>) => {
-  const handleLinkPress = useLink({ href, external, onPress, mobileNavigateBackFirst })
+  const handleLinkPress = useLink({ href, external, onPress })
 
   return (
     <Pressable

@@ -38,6 +38,9 @@ export function SearchHitInfiniteList() {
   const { items, isLastPage, showMore, results } = useInfiniteHits<SearchHitData>({
     escapeHTML: false,
   })
+  // Debouncing showMore as workaround for a race condition when changing the query (otherwise page 0 might be skipped)
+  const debouncedShowMore = useDebounce(() => showMore?.(), 100)
+
   const { track } = useTracking()
   const { status, refresh } = useInstantSearch()
   const { styles } = useStyles(stylesheet)
@@ -60,28 +63,36 @@ export function SearchHitInfiniteList() {
     trackResultsViewed()
   }, [items, trackResultsViewed])
 
+  // Hide results of empty query
+  const isEmptyQuery = !results?.query || results?.query === '*'
+  const displayedItems = isEmptyQuery ? [] : items.length ? items : results?.hits
+
   return (
     <FlashList
       contentContainerStyle={styles.list}
       testID={'search-results-list'}
       estimatedItemSize={HIT_HEIGHT + Spacing['xs']}
-      data={items}
+      data={displayedItems}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        isLoading ? <HoliLoader style={styles.loader} /> : <Text size={'md'}>{t('global.noSearchResults')}</Text>
+        isLoading || isEmptyQuery ? (
+          <HoliLoader style={styles.loader} testID="loader" />
+        ) : (
+          <Text size={'md'}>{t('global.noSearchResults')}</Text>
+        )
       }
       ListFooterComponent={() => {
-        if (items.length > 0 && !isLastPage) {
-          return <HoliLoader style={styles.loader} />
+        if (displayedItems.length > 0 && !isLastPage) {
+          return <HoliLoader style={styles.loader} testID="nextPageLoader" />
         }
         return null
       }}
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
-        if (!isLastPage) {
-          showMore()
+        if (!isLastPage && !isEmptyQuery) {
+          debouncedShowMore()
         }
       }}
       onEndReachedThreshold={0.5}

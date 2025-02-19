@@ -51,12 +51,16 @@ describe('SearchTextInput', () => {
     expect(refine).toHaveBeenCalledWith('')
   })
 
-  it('should apply initial query', () => {
+  it('should search for query from paramters', () => {
     const refine = mockRefine()
 
-    render(<SearchTextInput initialQuery="some query" />)
+    const { rerender } = render(<SearchTextInput queryParam="some query" />)
 
     expect(refine).toHaveBeenCalledWith('some query')
+
+    rerender(<SearchTextInput queryParam="another query" />)
+
+    expect(refine).toHaveBeenCalledWith('another query')
   })
 
   it('should call callback on query change', async () => {
@@ -70,5 +74,18 @@ describe('SearchTextInput', () => {
     await user.type(inputField, 'some query')
 
     expect(onQueryChange).toHaveBeenCalledWith('some query')
+  })
+
+  it('should not call callback on query change if query is equal to param', async () => {
+    const onQueryChange = jest.fn()
+    mockRefine()
+    const user = userEvent.setup()
+
+    render(<SearchTextInput onQueryChange={onQueryChange} queryParam="some query" />)
+
+    const inputField = screen.getByLabelText('search.typesense.input.label')
+    await user.paste(inputField, 'some query')
+
+    expect(onQueryChange).not.toHaveBeenCalled()
   })
 })
