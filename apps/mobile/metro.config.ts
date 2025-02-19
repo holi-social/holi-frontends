@@ -19,6 +19,7 @@ const config = {
     nodeModulesPaths: [path.resolve(projectRoot, 'node_modules'), path.resolve(workspaceRoot, 'node_modules')],
     // add "cjs" extension for apollo client (see https://github.com/apollographql/apollo-client/blob/main/CHANGELOG.md#apollo-client-354-2021-11-19)
     sourceExts: [...(defaultConfig?.resolver?.sourceExts || []), 'cjs', 'mjs'],
+    assetExts: [...defaultConfig.resolver.assetExts, 'lottie'],
   },
 }
 

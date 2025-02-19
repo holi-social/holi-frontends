@@ -14,6 +14,7 @@ module.exports = {
     '\\.(css|scss)$': '<rootDir>/jest.styleMock.cjs',
     // Force module uuid to resolve with the CJS entry point, because Jest does not support package.json.exports. See https://github.com/uuidjs/uuid/issues/451
     '^uuid$': 'uuid',
+    '\\.(lottie)$': '<rootDir>/__mocks__/lottieMock.js',
   },
   setupFiles: [
     '<rootDir>/jest.setup.ts',
