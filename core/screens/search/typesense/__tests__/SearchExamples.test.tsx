@@ -55,8 +55,8 @@ describe('SearchExamples', () => {
       const user = userEvent.setup()
       render(<SearchExamples onQuerySelect={onQuerySelect} />)
 
-      const examples = await screen.findAllByText(new RegExp(`search.typesense.examples.${facet}\\d+`))
-      const query = examples[0].props['aria-label']
+      const examples = await screen.findAllByLabelText(new RegExp(`search.typesense.examples.${facet}\\d+`))
+      const query = examples[0].props['accessibilityLabel']
 
       await user.press(examples[0])
 
