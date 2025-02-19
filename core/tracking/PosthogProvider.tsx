@@ -38,7 +38,6 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
     <PostHogProvider
       client={posthog}
       autocapture={{
-        captureTouches: true,
         navigation: { routeToProperties: withNavigationAndConsentProperties },
       }}
     >
