@@ -3,6 +3,14 @@ terraform {
     bucket = "holi-shared-terraform-state"
     prefix = "frontends-environments"
   }
+  required_providers {
+    google = {
+      version = "~> 6.0, !=6.21.0"
+    }
+    google-beta = {
+      version = "~> 6.0, !=6.21.0"
+    }
+  }
 }
 
 data "terraform_remote_state" "holi_infra_state" {
