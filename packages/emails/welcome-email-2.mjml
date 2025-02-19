@@ -134,7 +134,7 @@
           Connect directly with like-minded people and dive into exciting discussions about the topics you care about.
         </mj-text>
 
-        <mj-button padding="0" inner-padding="12px 24px" background-color="#fdfd80" color="#262424" border-radius="32px" border="1px solid #262424" font-weight="600">
+        <mj-button padding="0" inner-padding="12px 24px" background-color="#fdfd80" color="#262424" border-radius="32px" border="1px solid #262424" font-weight="600" href="https://app.holi.social/en/login?utm_source=welcome-email-series&utm_medium=email&utm_campaign=email2&userId={{subscriber.userId}}">
           Log into holi
         </mj-button>
         
