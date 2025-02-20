@@ -143,7 +143,7 @@ describe('SearchHitInfiniteList', () => {
     mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 0, nbPages: 1, page: 0, hits: [] }))
     render(<SearchHitInfiniteList />)
 
-    expect(screen.getByText('global.noSearchResults')).toBeOnTheScreen()
+    expect(screen.getByText('search.typesense.noResults.headline')).toBeOnTheScreen()
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
   })
 

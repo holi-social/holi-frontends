@@ -4,9 +4,7 @@ import { createStyleSheet } from 'holi-bricks/utils'
 import { HIT_HEIGHT, SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
 import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { Text } from 'holi-bricks/components/text'
 import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useInfiniteHits, useInstantSearch } from 'react-instantsearch-core'
 import { Platform } from 'react-native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -19,6 +17,7 @@ import { useDebounce } from '@holi/ui/helper'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { Spacing } from 'holi-bricks/tokens'
+import { NoSearchResults } from '@holi/core/screens/search/typesense/NoSearchResults'
 
 const isWeb = Platform.OS === 'web'
 
@@ -34,7 +33,6 @@ const resultsToTrackingEventResults = (results: SearchResults<Hit<SearchHitData>
 }
 
 export function SearchHitInfiniteList() {
-  const { t } = useTranslation()
   const { items, isLastPage, showMore, results } = useInfiniteHits<SearchHitData>({
     escapeHTML: false,
   })
@@ -79,7 +77,7 @@ export function SearchHitInfiniteList() {
         isLoading || isEmptyQuery ? (
           <HoliLoader style={styles.loader} testID="loader" />
         ) : (
-          <Text size={'md'}>{t('global.noSearchResults')}</Text>
+          <NoSearchResults query={results?.query ?? ''} />
         )
       }
       ListFooterComponent={() => {
