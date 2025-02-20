@@ -99,10 +99,8 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                 [
                   [
                     {
-                      "alignItems": "center",
                       "borderBottomColor": "transparent",
                       "borderBottomWidth": 2,
-                      "justifyContent": "center",
                       "paddingVertical": 12,
                       "width": "auto",
                     },
@@ -126,74 +124,39 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                 }
                 testID="tab-button-tab"
               >
-                <View>
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    ellipsizeMode="tail"
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
-                      }
+                <View
+                  style={
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "gap": 4,
                     }
+                  }
+                >
+                  <Text
+                    ellipsizeMode="tail"
                     numberOfLines={1}
-                    selectable={true}
+                    role="presentation"
+                    selectable={false}
                     style={
                       {
-                        "color": "#787777",
+                        "color": "#262424",
                         "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
                         "fontWeight": "500",
-                        "lineHeight": 22.4,
-                        "opacity": 0,
+                        "letterSpacing": -0.192,
+                        "lineHeight": 23.68,
+                        "textAlign": undefined,
                         "userSelect": "auto",
                       }
                     }
                   >
                     spaces.collaborators.manage.tabs.all
                   </Text>
-                  <View
-                    style={
-                      [
-                        {
-                          "bottom": 0,
-                          "left": 0,
-                          "position": "absolute",
-                          "right": 0,
-                          "top": 0,
-                        },
-                        {
-                          "alignItems": "center",
-                          "justifyContent": "center",
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      ellipsizeMode="tail"
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      numberOfLines={1}
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.manage.tabs.all
-                    </Text>
-                  </View>
                 </View>
               </View>
             </View>
@@ -245,10 +208,8 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                 [
                   [
                     {
-                      "alignItems": "center",
                       "borderBottomColor": "transparent",
                       "borderBottomWidth": 2,
-                      "justifyContent": "center",
                       "paddingVertical": 12,
                       "width": "auto",
                     },
@@ -272,74 +233,39 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                 }
                 testID="tab-button-tab"
               >
-                <View>
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    ellipsizeMode="tail"
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
-                      }
+                <View
+                  style={
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "gap": 4,
                     }
+                  }
+                >
+                  <Text
+                    ellipsizeMode="tail"
                     numberOfLines={1}
-                    selectable={true}
+                    role="presentation"
+                    selectable={false}
                     style={
                       {
-                        "color": "#787777",
+                        "color": "#8a8989",
                         "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
                         "fontWeight": "500",
-                        "lineHeight": 22.4,
-                        "opacity": 0,
+                        "letterSpacing": -0.192,
+                        "lineHeight": 23.68,
+                        "textAlign": undefined,
                         "userSelect": "auto",
                       }
                     }
                   >
                     spaces.collaborators.manage.tabs.requests
                   </Text>
-                  <View
-                    style={
-                      [
-                        {
-                          "bottom": 0,
-                          "left": 0,
-                          "position": "absolute",
-                          "right": 0,
-                          "top": 0,
-                        },
-                        {
-                          "alignItems": "center",
-                          "justifyContent": "center",
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      ellipsizeMode="tail"
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      numberOfLines={1}
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#787777",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.manage.tabs.requests
-                    </Text>
-                  </View>
                 </View>
               </View>
             </View>
@@ -391,10 +317,8 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                 [
                   [
                     {
-                      "alignItems": "center",
                       "borderBottomColor": "transparent",
                       "borderBottomWidth": 2,
-                      "justifyContent": "center",
                       "paddingVertical": 12,
                       "width": "auto",
                     },
@@ -418,74 +342,39 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                 }
                 testID="tab-button-tab"
               >
-                <View>
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    ellipsizeMode="tail"
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
-                      }
+                <View
+                  style={
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "gap": 4,
                     }
+                  }
+                >
+                  <Text
+                    ellipsizeMode="tail"
                     numberOfLines={1}
-                    selectable={true}
+                    role="presentation"
+                    selectable={false}
                     style={
                       {
-                        "color": "#787777",
+                        "color": "#8a8989",
                         "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
                         "fontWeight": "500",
-                        "lineHeight": 22.4,
-                        "opacity": 0,
+                        "letterSpacing": -0.192,
+                        "lineHeight": 23.68,
+                        "textAlign": undefined,
                         "userSelect": "auto",
                       }
                     }
                   >
                     spaces.collaborators.manage.tabs.invites
                   </Text>
-                  <View
-                    style={
-                      [
-                        {
-                          "bottom": 0,
-                          "left": 0,
-                          "position": "absolute",
-                          "right": 0,
-                          "top": 0,
-                        },
-                        {
-                          "alignItems": "center",
-                          "justifyContent": "center",
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      ellipsizeMode="tail"
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      numberOfLines={1}
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#787777",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.manage.tabs.invites
-                    </Text>
-                  </View>
                 </View>
               </View>
             </View>
@@ -1335,10 +1224,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                 [
                   [
                     {
-                      "alignItems": "center",
                       "borderBottomColor": "transparent",
                       "borderBottomWidth": 2,
-                      "justifyContent": "center",
                       "paddingVertical": 12,
                       "width": "auto",
                     },
@@ -1362,74 +1249,39 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                 }
                 testID="tab-button-tab"
               >
-                <View>
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    ellipsizeMode="tail"
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
-                      }
+                <View
+                  style={
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "gap": 4,
                     }
+                  }
+                >
+                  <Text
+                    ellipsizeMode="tail"
                     numberOfLines={1}
-                    selectable={true}
+                    role="presentation"
+                    selectable={false}
                     style={
                       {
-                        "color": "#787777",
+                        "color": "#8a8989",
                         "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
                         "fontWeight": "500",
-                        "lineHeight": 22.4,
-                        "opacity": 0,
+                        "letterSpacing": -0.192,
+                        "lineHeight": 23.68,
+                        "textAlign": undefined,
                         "userSelect": "auto",
                       }
                     }
                   >
                     spaces.collaborators.manage.tabs.all
                   </Text>
-                  <View
-                    style={
-                      [
-                        {
-                          "bottom": 0,
-                          "left": 0,
-                          "position": "absolute",
-                          "right": 0,
-                          "top": 0,
-                        },
-                        {
-                          "alignItems": "center",
-                          "justifyContent": "center",
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      ellipsizeMode="tail"
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      numberOfLines={1}
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#787777",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.manage.tabs.all
-                    </Text>
-                  </View>
                 </View>
               </View>
             </View>
@@ -1481,10 +1333,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                 [
                   [
                     {
-                      "alignItems": "center",
                       "borderBottomColor": "transparent",
                       "borderBottomWidth": 2,
-                      "justifyContent": "center",
                       "paddingVertical": 12,
                       "width": "auto",
                     },
@@ -1508,74 +1358,39 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                 }
                 testID="tab-button-tab"
               >
-                <View>
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    ellipsizeMode="tail"
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
-                      }
+                <View
+                  style={
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "gap": 4,
                     }
+                  }
+                >
+                  <Text
+                    ellipsizeMode="tail"
                     numberOfLines={1}
-                    selectable={true}
+                    role="presentation"
+                    selectable={false}
                     style={
                       {
-                        "color": "#787777",
+                        "color": "#262424",
                         "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
                         "fontWeight": "500",
-                        "lineHeight": 22.4,
-                        "opacity": 0,
+                        "letterSpacing": -0.192,
+                        "lineHeight": 23.68,
+                        "textAlign": undefined,
                         "userSelect": "auto",
                       }
                     }
                   >
                     spaces.collaborators.manage.tabs.requests
                   </Text>
-                  <View
-                    style={
-                      [
-                        {
-                          "bottom": 0,
-                          "left": 0,
-                          "position": "absolute",
-                          "right": 0,
-                          "top": 0,
-                        },
-                        {
-                          "alignItems": "center",
-                          "justifyContent": "center",
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      ellipsizeMode="tail"
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      numberOfLines={1}
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#262424",
-                          "fontFamily": "InstrumentSans-Medium",
-                          "fontSize": 16,
-                          "fontWeight": "500",
-                          "lineHeight": 22.4,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.manage.tabs.requests
-                    </Text>
-                  </View>
                 </View>
               </View>
             </View>
@@ -1627,10 +1442,8 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                 [
                   [
                     {
-                      "alignItems": "center",
                       "borderBottomColor": "transparent",
                       "borderBottomWidth": 2,
-                      "justifyContent": "center",
                       "paddingVertical": 12,
                       "width": "auto",
                     },
@@ -1654,74 +1467,39 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                 }
                 testID="tab-button-tab"
               >
-                <View>
-                  <Text
-                    accessible={false}
-                    collapsable={false}
-                    ellipsizeMode="tail"
-                    jestAnimatedStyle={
-                      {
-                        "value": {},
-                      }
+                <View
+                  style={
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "gap": 4,
                     }
+                  }
+                >
+                  <Text
+                    ellipsizeMode="tail"
                     numberOfLines={1}
-                    selectable={true}
+                    role="presentation"
+                    selectable={false}
                     style={
                       {
-                        "color": "#787777",
+                        "color": "#8a8989",
                         "fontFamily": "InstrumentSans-Medium",
                         "fontSize": 16,
+                        "fontVariant": [
+                          "lining-nums",
+                          "tabular-nums",
+                        ],
                         "fontWeight": "500",
-                        "lineHeight": 22.4,
-                        "opacity": 0,
+                        "letterSpacing": -0.192,
+                        "lineHeight": 23.68,
+                        "textAlign": undefined,
                         "userSelect": "auto",
                       }
                     }
                   >
                     spaces.collaborators.manage.tabs.invites
                   </Text>
-                  <View
-                    style={
-                      [
-                        {
-                          "bottom": 0,
-                          "left": 0,
-                          "position": "absolute",
-                          "right": 0,
-                          "top": 0,
-                        },
-                        {
-                          "alignItems": "center",
-                          "justifyContent": "center",
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      accessible={false}
-                      collapsable={false}
-                      ellipsizeMode="tail"
-                      jestAnimatedStyle={
-                        {
-                          "value": {},
-                        }
-                      }
-                      numberOfLines={1}
-                      selectable={true}
-                      style={
-                        {
-                          "color": "#787777",
-                          "fontFamily": "InstrumentSans-Regular",
-                          "fontSize": 16,
-                          "fontWeight": "400",
-                          "lineHeight": 22.4,
-                          "userSelect": "auto",
-                        }
-                      }
-                    >
-                      spaces.collaborators.manage.tabs.invites
-                    </Text>
-                  </View>
                 </View>
               </View>
             </View>
