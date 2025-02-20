@@ -7,7 +7,7 @@ import {
   typesenseProtocol,
 } from '@holi/core/helpers/config'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
-import { SearchFacetsChips } from '@holi/core/screens/search/typesense/SearchFacetsChips'
+import { SearchFacetsTabs } from '@holi/core/screens/search/typesense/SearchFacetsTabs'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
 import { SearchTextInput } from '@holi/core/screens/search/typesense/SearchTextInput'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -60,6 +60,7 @@ export const Search = () => {
   const [queryParam] = useParam('query', singleParamConfig)
   const [facetParam] = useParam('facet', singleParamConfig)
   const updateParams = useUpdateParams({ web: { replace: true } })
+  const queryParamIsEmpty = !queryParam || queryParam === '*'
 
   return (
     <InstantSearch
@@ -84,16 +85,16 @@ export const Search = () => {
             <HoliBox padding={[0, dimensions.spacingS]}>
               <SearchTextInput queryParam={queryParam} onQueryChange={(query) => updateParams({ query })} />
             </HoliBox>
-            <SearchFacetsChips initialFacet={facetParam} onFacetChange={(facet) => updateParams({ facet })} />
+            <SearchFacetsTabs initialFacet={facetParam} onFacetChange={(facet) => updateParams({ facet })} />
           </View>
         }
       >
-        {queryParam ? (
+        {queryParamIsEmpty ? (
+          <SearchExamples onQuerySelect={(query) => updateParams({ query })} />
+        ) : (
           <ErrorBoundary>
             <SearchHitInfiniteList />
           </ErrorBoundary>
-        ) : (
-          <SearchExamples onQuerySelect={(query) => updateParams({ query })} />
         )}
       </Screen>
     </InstantSearch>
