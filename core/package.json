@@ -6,7 +6,7 @@
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6",
     "react": "18.2.0",
-    "react-native": "0.74.6",
+    "react-native": "0.74.7",
     "react-native-keyboard-controller": "^1.16.3",
     "react-native-phone-number-input": "^2.1.0",
     "react-native-reanimated-carousel": "^3.5.1",
