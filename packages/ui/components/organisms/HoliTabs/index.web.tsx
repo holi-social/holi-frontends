@@ -22,6 +22,7 @@ const HoliTabs = <D extends HoliTabItem>({
   variant = 'virtualized',
   centeredTabButtons = false,
   backgroundColor,
+  tabBarBackgroundColor,
   testID = 'holi-tabs',
   marginHorizontal: propMarginHorizontal,
 }: HoliTabsProps<D>) => {
@@ -47,7 +48,7 @@ const HoliTabs = <D extends HoliTabItem>({
 
   return (
     <View testID={testID} style={{ flex: 1 }}>
-      <View style={{ backgroundColor: theme.colors.background10 }}>
+      <View style={{ backgroundColor: tabBarBackgroundColor ?? theme.colors.background10 }}>
         <BotomLineSeperator />
 
         <HoliContainer noPadding>

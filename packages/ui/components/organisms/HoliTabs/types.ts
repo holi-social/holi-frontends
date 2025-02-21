@@ -20,6 +20,7 @@ export interface HoliTabsProps<D> {
   variant?: 'scrollable' | 'virtualized'
   centeredTabButtons?: boolean
   backgroundColor?: string
+  tabBarBackgroundColor?: string
   testID?: string
   marginHorizontal?: number
 }

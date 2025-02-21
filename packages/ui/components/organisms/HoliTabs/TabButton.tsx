@@ -1,14 +1,15 @@
-import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React from 'react'
+import { View } from 'react-native'
 
 import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 
-import { HoliTabItem } from './types'
+import type { HoliTabItem } from './types'
+import { TextLink } from 'holi-bricks/components/text'
 
 interface Props {
   id: string
@@ -19,9 +20,7 @@ interface Props {
 }
 
 const TabButton = ({ id, tabId, tabTitle, tabIcons, isActive, onPress, testID }: Props & HoliTabItem) => {
-  const { theme } = useTheme()
-  const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { styles } = useStyles(stylesheet)
 
   const { width: screenWidth } = useClientWindowDimensions()
   const MAX_TAB_WIDTH = Math.max(screenWidth * 0.66, 320)
@@ -36,35 +35,24 @@ const TabButton = ({ id, tabId, tabTitle, tabIcons, isActive, onPress, testID }:
       aria-controls={`${id}-panel-${tabId}`}
       testID={`${testID}-button-${tabId}-${isActive ? 'active' : 'inactive'}`}
     >
-      {!!tabIcons && (
-        <HoliIcon
-          icon={isActive ? tabIcons[1] : tabIcons[0]}
-          size={22}
-          color={isActive ? colors.foreground30 : colors.foreground20}
-          style={styles.tabButtonIcon}
-        />
-      )}
+      <View style={styles.tabButtonContent}>
+        {!!tabIcons && (
+          <HoliIcon
+            icon={isActive ? tabIcons[1] : tabIcons[0]}
+            size={16}
+            color={styles.tabButtonIcon(isActive).color}
+          />
+        )}
 
-      {/**
-       * We make the text in the active tab button bold, which alters the button's size, as bold text has a greater width than regular text.
-       * To prevent the buttons from shifting, we render an additional invisible text element with bold styling and zero opacity.
-       */}
-      <View>
-        {/* Phantom text */}
-        <HoliText ellipsizeMode="tail" numberOfLines={1} bold style={[styles.tabButtonText, { opacity: 0 }]}>
+        <TextLink
+          size="md"
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          color={isActive ? 'main' : 'default'}
+          role="presentation"
+        >
           {tabTitle}
-        </HoliText>
-
-        <View style={[StyleSheet.absoluteFill, { justifyContent: 'center', alignItems: 'center' }]}>
-          <HoliText
-            ellipsizeMode="tail"
-            numberOfLines={1}
-            bold={isActive}
-            style={[styles.tabButtonText, isActive && styles.tabButtonText_active]}
-          >
-            {tabTitle}
-          </HoliText>
-        </View>
+        </TextLink>
       </View>
     </HoliTabButton>
   )
@@ -72,24 +60,19 @@ const TabButton = ({ id, tabId, tabTitle, tabIcons, isActive, onPress, testID }:
 
 export default TabButton
 
-const getStyles = (theme: HoliTheme) =>
-  StyleSheet.create({
-    tabButton: {
-      paddingVertical: Spacing.xxs,
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: 'auto',
-      borderBottomWidth: 2,
-      borderBottomColor: 'transparent',
-    },
-    tabButtonIcon: {
-      marginRight: Spacing['3xs'],
-    },
-    tabButtonText: {
-      fontSize: 16,
-      color: theme.colors.foreground20,
-    },
-    tabButtonText_active: {
-      color: theme.colors.foreground30,
-    },
-  })
+const stylesheet = createStyleSheet((theme) => ({
+  tabButton: {
+    paddingVertical: Spacing.xxs,
+    width: 'auto',
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  tabButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing['4xs'],
+  },
+  tabButtonIcon: (focused: boolean) => ({
+    color: focused ? theme.colors.fill.main : theme.colors.fill.default,
+  }),
+}))

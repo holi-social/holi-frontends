@@ -1,10 +1,10 @@
 import { fireEvent, render, screen, userEvent } from '@testing-library/react-native'
-import React, { PropsWithChildren, useState } from 'react'
+import React, { type PropsWithChildren, useState } from 'react'
 import { View } from 'react-native'
 
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
-import { HoliTabItem, type RenderFuncOptions } from '@holi/ui/components/organisms/HoliTabs/types'
+import type { HoliTabItem, RenderFuncOptions } from '@holi/ui/components/organisms/HoliTabs/types'
 
 const TABS_ID = 'test-tabs'
 
@@ -67,15 +67,15 @@ describe('HoliTabs', () => {
       render(<HoliTabsWrapper />)
 
       expect(screen.getByTestId('profileTab')).toBeVisible()
-      expect(screen.getAllByText('Profile')).toHaveLength(2) // we expect two because we render additionally a phantom text element to prevent shifting
+      expect(screen.getByText('Profile')).toBeVisible()
 
       await userEvent.press(screen.getByRole('tab', { name: 'Insights' }))
       expect(await screen.findByTestId('InsightsTab')).toBeVisible()
-      expect(screen.getAllByText('Insights')).toHaveLength(2) // we expect two because we render additionally a phantom text element to prevent shifting
+      expect(screen.getByText('Insights')).toBeVisible()
 
       await userEvent.press(screen.getByRole('tab', { name: 'Spaces' }))
       expect(screen.getByTestId('SpacesTab')).toBeVisible()
-      expect(screen.getAllByText('Spaces')).toHaveLength(2) // we expect two because we render additionally a phantom text element to prevent shifting
+      expect(screen.getByText('Spaces')).toBeVisible()
     })
   })
 

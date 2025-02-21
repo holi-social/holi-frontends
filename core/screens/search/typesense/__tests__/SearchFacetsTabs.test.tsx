@@ -3,7 +3,7 @@ import { facets } from '@holi/core/screens/search/typesense/__tests__/testData'
 
 import { useClearRefinements, useRefinementList } from 'react-instantsearch-core'
 import { render, screen, userEvent } from '@testing-library/react-native'
-import { SearchFacetsChips } from '@holi/core/screens/search/typesense/SearchFacetsChips'
+import { SearchFacetsTabs } from '@holi/core/screens/search/typesense/SearchFacetsTabs'
 
 const mockUseClearRefinements = useClearRefinements as jest.MockedFunction<typeof useClearRefinements>
 const mockUseRefinementList = useRefinementList as jest.MockedFunction<typeof useRefinementList>
@@ -12,7 +12,7 @@ jest.mock('react-instantsearch-core', () => ({
   useRefinementList: jest.fn(),
 }))
 
-describe('SearchFacetsChips', () => {
+describe('SearchFacetsTabs', () => {
   const clearRefinement = jest.fn()
   const mockRefine = jest.fn()
 
@@ -43,7 +43,7 @@ describe('SearchFacetsChips', () => {
   })
 
   it('should render available facets', async () => {
-    render(<SearchFacetsChips />)
+    render(<SearchFacetsTabs />)
 
     const expectedLabels = facets.map((facet) => facet.label)
     expectedLabels.forEach((label: string) => {
@@ -54,7 +54,7 @@ describe('SearchFacetsChips', () => {
   it('should refine search on facet press', async () => {
     const user = userEvent.setup()
 
-    render(<SearchFacetsChips />)
+    render(<SearchFacetsTabs />)
 
     await user.press(screen.getByLabelText('search.typesense.facets.profile'))
 
@@ -64,7 +64,7 @@ describe('SearchFacetsChips', () => {
   it('should clear previous refinement on facet press', async () => {
     const user = userEvent.setup()
 
-    render(<SearchFacetsChips />)
+    render(<SearchFacetsTabs />)
 
     await user.press(screen.getByLabelText('search.typesense.facets.profile'))
 
@@ -75,7 +75,7 @@ describe('SearchFacetsChips', () => {
     const onFacetChange = jest.fn()
     const user = userEvent.setup()
 
-    render(<SearchFacetsChips onFacetChange={onFacetChange} />)
+    render(<SearchFacetsTabs onFacetChange={onFacetChange} />)
 
     await user.press(screen.getByLabelText('search.typesense.facets.profile'))
 
@@ -85,11 +85,11 @@ describe('SearchFacetsChips', () => {
   it('should NOT toggle refinement on already selected facet press', async () => {
     const user = userEvent.setup()
 
-    render(<SearchFacetsChips initialFacet="space" />)
+    render(<SearchFacetsTabs initialFacet="space" />)
 
     // Space is initally selected (in the mocked facet state)
     const chip = screen.getByLabelText('search.typesense.facets.space')
-    expect(chip).toHaveAccessibilityState({ checked: true })
+    expect(chip).toHaveAccessibilityState({ selected: true })
 
     mockRefine.mockReset()
 
@@ -100,44 +100,37 @@ describe('SearchFacetsChips', () => {
   })
 
   it('applies initial selection', async () => {
-    render(<SearchFacetsChips initialFacet="space" />)
+    render(<SearchFacetsTabs initialFacet="space" />)
 
-    const chip = screen.getByLabelText('search.typesense.facets.space')
-    expect(chip).toHaveAccessibilityState({ checked: true })
+    const tab = screen.getByLabelText('search.typesense.facets.space')
+    expect(tab).toHaveAccessibilityState({ selected: true })
   })
 
   it('should select volunteering if no initial facet selection is given', async () => {
-    render(<SearchFacetsChips />)
+    render(<SearchFacetsTabs />)
 
     expect(mockRefine).toHaveBeenCalledWith('volunteering')
   })
 
-  it('should order facets in a stable way', async () => {
-    const validateOrder = (expectedOrder: string[]) => {
+  it('should display all facets and order in a stable way', async () => {
+    // order should always be [volunteering, spaces, profiles], no matter which order is returned by Typesense
+    const expectedOrder = ['volunteering', 'space', 'profile']
+    const validateTabOrder = () => {
       const labels = screen
         .getAllByLabelText(/^search\.typesense\.facets\.[^.]+$/)
         .map((facet) => facet.props.accessibilityLabel)
-      expect(labels).toEqual(expectedOrder)
+      expect(labels).toEqual(expectedOrder.map((facet) => `search.typesense.facets.${facet}`))
     }
 
-    // order should always be [volunteering, spaces, profiles], no matter which order is returned by Typesense
-    const { rerender } = render(<SearchFacetsChips />)
-    validateOrder([
-      'search.typesense.facets.volunteering',
-      'search.typesense.facets.space',
-      'search.typesense.facets.profile',
-    ])
+    const { rerender } = render(<SearchFacetsTabs />)
+    validateTabOrder()
 
     mockRefinementList({ items: facets.reverse() })
-    rerender(<SearchFacetsChips />)
-    validateOrder([
-      'search.typesense.facets.volunteering',
-      'search.typesense.facets.space',
-      'search.typesense.facets.profile',
-    ])
+    rerender(<SearchFacetsTabs />)
+    validateTabOrder()
 
     mockRefinementList({ items: [facets[2], facets[0]] })
-    rerender(<SearchFacetsChips />)
-    validateOrder(['search.typesense.facets.volunteering', 'search.typesense.facets.space'])
+    rerender(<SearchFacetsTabs />)
+    validateTabOrder()
   })
 })
