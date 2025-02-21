@@ -36,7 +36,7 @@ export const SearchExamples = ({ onQuerySelect }: SearchExamplesProps) => {
   const displayedExampleIds = useMemo(() => shuffle(exampleIds).slice(0, DISPLAYED_EXAMPLE_COUNT), [exampleIds])
 
   return (
-    <View style={styles.list}>
+    <View style={styles.list} testID="search-examples">
       <Text size="lg">{t('search.typesense.examples.headline')}</Text>
       {displayedExampleIds.map((id) => {
         const text = t(`search.typesense.examples.${selectedFacet}${id}`)

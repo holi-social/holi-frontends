@@ -60,6 +60,7 @@ export function SearchTextInput({ queryParam, onQueryChange, props }: SearchBoxP
             onPress={() => setQuery('')}
             accessibilityLabel={t('search.typesense.input.clear')}
             testID="search-input-clear"
+            accessibilityRole="button"
           >
             <HoliIcon icon={CloseCircleFilled} size={22} />
           </Pressable>
