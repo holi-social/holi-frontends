@@ -7067,9 +7067,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.36.5":
-  version: 0.36.6
-  resolution: "@mswjs/interceptors@npm:0.36.6"
+"@mswjs/interceptors@npm:^0.37.0":
+  version: 0.37.6
+  resolution: "@mswjs/interceptors@npm:0.37.6"
   dependencies:
     "@open-draft/deferred-promise": "npm:^2.2.0"
     "@open-draft/logger": "npm:^0.3.0"
@@ -7077,7 +7077,7 @@ __metadata:
     is-node-process: "npm:^1.2.0"
     outvariant: "npm:^1.4.3"
     strict-event-emitter: "npm:^0.5.1"
-  checksum: 10c0/2c3fe5f0c35d5f3fb94bebdedb85c9fb1aa4ba69c7582e4c05a7d1574d5a0c39f4a28eaeafdb75d438b162f54d68894c6f08d508945bd54564728e25d34e5bdc
+  checksum: 10c0/74f52c09c84fcbba9f1a06e462aa25b1567cf078ed27d396c76a8059c002fa9c361e711dcada0ac2aad4298f247d8e236a4fcc861c08ddf6e2ce0889368596fd
   languageName: node
   linkType: hard
 
@@ -26519,24 +26519,24 @@ __metadata:
   linkType: hard
 
 "msw@npm:^2.3.1":
-  version: 2.6.2
-  resolution: "msw@npm:2.6.2"
+  version: 2.7.1
+  resolution: "msw@npm:2.7.1"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.1"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
     "@bundled-es-modules/tough-cookie": "npm:^0.1.6"
     "@inquirer/confirm": "npm:^5.0.0"
-    "@mswjs/interceptors": "npm:^0.36.5"
+    "@mswjs/interceptors": "npm:^0.37.0"
     "@open-draft/deferred-promise": "npm:^2.2.0"
     "@open-draft/until": "npm:^2.1.0"
     "@types/cookie": "npm:^0.6.0"
     "@types/statuses": "npm:^2.0.4"
-    chalk: "npm:^4.1.2"
     graphql: "npm:^16.8.1"
     headers-polyfill: "npm:^4.0.2"
     is-node-process: "npm:^1.2.0"
     outvariant: "npm:^1.4.3"
     path-to-regexp: "npm:^6.3.0"
+    picocolors: "npm:^1.1.1"
     strict-event-emitter: "npm:^0.5.1"
     type-fest: "npm:^4.26.1"
     yargs: "npm:^17.7.2"
@@ -26547,7 +26547,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/d34937cb532826f9305a972933ffb9b6e54c7dd73bcaf4b7b57993ec711fa74647f477e64f2ab1911e1f52fc5394c967276391a4455df173777c4c74cdc2cb0c
+  checksum: 10c0/3a25fecbdcaae565509f53a8cda93dc53db113af6d987dfb825ec7471814415f8853c8dc199ae91cc7c3918f9e1877c87607da40ccf1793be6c36b9bf81aa391
   languageName: node
   linkType: hard
 
