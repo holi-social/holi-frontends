@@ -5946,7 +5946,7 @@ __metadata:
     eslint-plugin-react: "npm:^7.32.2"
     eslint-plugin-react-hooks: "npm:4.6.2"
     eslint-plugin-react-native: "npm:^4.1.0"
-    lottie-react: "npm:2.4.0"
+    lottie-react: "npm:2.4.1"
     lottie-react-native: "npm:6.7.2"
     react: "npm:18.2.0"
     react-i18next: "npm:^15.0.2"
@@ -5961,7 +5961,7 @@ __metadata:
   peerDependencies:
     "@react-native-community/datetimepicker": 8.0.1
     "@types/react-transition-group": ^4.4.11
-    lottie-react: 2.4.0
+    lottie-react: 2.4.1
     lottie-react-native: 6.7.2
     react: 18.2.0
     react-i18next: ^15.0.2
@@ -6001,7 +6001,7 @@ __metadata:
     jotai-devtools: "npm:0.7.1"
     lexical: "npm:^0.19.0"
     locale: "npm:0.1.0"
-    lottie-react: "npm:2.4.0"
+    lottie-react: "npm:2.4.1"
     msw: "npm:^2.3.1"
     next: "npm:^14.2.7"
     next-http-proxy-middleware: "npm:^1.2.6"
@@ -25349,15 +25349,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lottie-react@npm:2.4.0":
-  version: 2.4.0
-  resolution: "lottie-react@npm:2.4.0"
+"lottie-react@npm:2.4.1":
+  version: 2.4.1
+  resolution: "lottie-react@npm:2.4.1"
   dependencies:
     lottie-web: "npm:^5.10.2"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/5c0ef3f1832b21232fe6826cc021cd90bb0e3c9d63f1047031ce77a0992092f8712b6f3a6aeeaa0f410d918ca557df160b1c776399f69b498c560273767befe0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/7f6a0a2cf2af25deabe7b4d4c9917e47d12016673613c59dcdd8ef52e10e914dd0c1f71d4a275d56aaba03fe9d85b333087f7c8d40a8f967ece4a0444c7a3cdf
   languageName: node
   linkType: hard
 

@@ -23,7 +23,7 @@
     "http-proxy": "^1.18.1",
     "lexical": "^0.19.0",
     "locale": "0.1.0",
-    "lottie-react": "2.4.0",
+    "lottie-react": "2.4.1",
     "next": "^14.2.7",
     "next-http-proxy-middleware": "^1.2.6",
     "ni18n": "^1.1.0",
