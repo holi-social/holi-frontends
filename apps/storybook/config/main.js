@@ -49,6 +49,10 @@ module.exports = {
       test: /\.txt$/,
       type: 'asset/source',
     })
+    config.module.rules.push({
+      test: /\.lottie$/,
+      type: 'asset/resource',
+    })
     return config
   },
 
