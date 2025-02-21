@@ -9220,10 +9220,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/slider@npm:4.5.5":
-  version: 4.5.5
-  resolution: "@react-native-community/slider@npm:4.5.5"
-  checksum: 10c0/78c3364c072bbc82300612a625bced682b666145dce229e7beb87f93dde5f66a955e1cca4848f662f1a9d2246f26d4717ece5d4f86cd350a295db184c024002b
+"@react-native-community/slider@npm:4.5.6":
+  version: 4.5.6
+  resolution: "@react-native-community/slider@npm:4.5.6"
+  checksum: 10c0/6ff9b91b8f9af14fadccad101fc0abc17c864a5d2832483aef8813e67a93ad723053ed033141f71db8f7a128d3b1fdf4dd37f5c093901e7f041380a671090283
   languageName: node
   linkType: hard
 
@@ -22103,7 +22103,7 @@ __metadata:
     "@holi/ui": "npm:*"
     "@react-native-async-storage/async-storage": "npm:1.24.0"
     "@react-native-community/datetimepicker": "npm:8.0.1"
-    "@react-native-community/slider": "npm:4.5.5"
+    "@react-native-community/slider": "npm:4.5.6"
     "@storybook/addon-a11y": "npm:^8.3.6"
     "@storybook/addon-actions": "npm:^8.3.6"
     "@storybook/addon-controls": "npm:^8.3.6"
