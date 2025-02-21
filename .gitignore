@@ -42,3 +42,4 @@ license-disclaimer.txt
 !**/.yarn/versions
 
 *storybook.log
+/.gitlab-ci-local
