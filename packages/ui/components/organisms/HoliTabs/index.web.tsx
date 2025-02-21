@@ -59,7 +59,7 @@ const HoliTabs = <D extends HoliTabItem>({
               data,
               keyExtractor,
               centeredTabButtons,
-              marginHorizontal: useHoliTabsMarginHorizontal(),
+              marginHorizontal: finalMarginHorizontal,
               width: componentWidth,
             }}
             renderItem={(options) =>

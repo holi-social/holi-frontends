@@ -864,7 +864,7 @@
   "search.typesense.examples.volunteering7": "volunteering in Berlin",
   "search.typesense.examples.volunteering8": "volunteer as workshop moderator",
   "search.typesense.examples.volunteering9": "mentoring for young people",
-  "search.typesense.facets.profile": "User",
+  "search.typesense.facets.profile": "People",
   "search.typesense.facets.space": "Spaces",
   "search.typesense.facets.volunteering": "Volunteering",
   "search.typesense.hit.type.profile": "People",

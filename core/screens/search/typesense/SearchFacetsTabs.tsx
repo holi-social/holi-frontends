@@ -6,6 +6,7 @@ import { useClearRefinements, useRefinementList } from 'react-instantsearch-core
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { Group, GroupFilled, Hearts, HeartsFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
+import { Spacing } from 'holi-bricks/tokens'
 
 interface SearchFacetsTabsProps {
   initialFacet?: string
@@ -61,6 +62,7 @@ export const SearchFacetsTabs = ({ initialFacet, onFacetChange }: SearchFacetsTa
       }))}
       keyExtractor={({ key }) => key}
       renderTabContent={() => null}
+      marginHorizontal={Spacing.xs}
     />
   )
 }
