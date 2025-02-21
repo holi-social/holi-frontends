@@ -61,7 +61,14 @@ const AppointmentCreateEditForm = ({ space, initialAppointment, headerTitle, onS
     >
       <AppointmentInputForm
         space={space}
-        initialAppointment={initialAppointment ?? getAppointmentDefaultInitialState({ spaceId: space.id })}
+        initialAppointment={
+          initialAppointment ??
+          getAppointmentDefaultInitialState({
+            spaceId: space.id,
+            // only admins can create spaces that are not inviteOnly, so for non-admins inviteOnly needs to be set to true
+            inviteOnly: !space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR),
+          })
+        }
         onSubmit={onSubmit}
         onBackButtonPress={() => showConfirmationModal(true)}
       />
