@@ -42,28 +42,29 @@ describe('@Search', () => {
     }
 
     // Volunteering is selected by default
-    await waitForElementWithTestId('search-hit-volunteering')
+    await waitForElementWithTestId('holi-tabs-button-volunteering-active')
+
+    // Search examples are displayed by default
+    await waitForElementWithTestId('search-examples')
 
     // Test search by query
-    await fillFieldByTestId('search-input', 'Test')
-    await waitForElementWithTestId('search-hit-volunteering')
-
-    // Clear query to prepare for facet filtering
-    await tapOnElementWithTestId('search-input-clear')
-    await waitForElementWithTestId('search-hit-volunteering')
-
-    // Close keyboard by submitting (empty) input
+    await fillFieldByTestId('search-input', 't') // very short query to ensure there are always results
+    // Close keyboard by submitting input
     await pressEnter('search-input')
+
     await waitForElementWithTestId('search-hit-volunteering')
 
     // Test facet filters
-    await tapOnElementWithTestId('facet-profile')
+    await tapOnElementWithTestId('holi-tabs-button-profile-inactive')
+    await waitForElementWithTestId('holi-tabs-button-profile-active')
     await waitForElementWithTestId('search-hit-profile')
 
-    await tapOnElementWithTestId('facet-space')
+    await tapOnElementWithTestId('holi-tabs-button-space-inactive')
+    await waitForElementWithTestId('holi-tabs-button-space-active')
     await waitForElementWithTestId('search-hit-space')
 
-    await tapOnElementWithTestId('facet-volunteering')
+    await tapOnElementWithTestId('holi-tabs-button-volunteering-inactive')
+    await waitForElementWithTestId('holi-tabs-button-volunteering-active')
     await waitForElementWithTestId('search-hit-volunteering')
   })
 })
