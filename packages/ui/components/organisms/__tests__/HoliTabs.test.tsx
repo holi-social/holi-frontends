@@ -71,11 +71,11 @@ describe('HoliTabs', () => {
 
       await userEvent.press(screen.getByRole('tab', { name: 'Insights' }))
       expect(await screen.findByTestId('InsightsTab')).toBeVisible()
-      expect(screen.getByText('Insights')).toBeVisible() // we expect two because we render additionally a phantom text element to prevent shifting
+      expect(screen.getByText('Insights')).toBeVisible()
 
       await userEvent.press(screen.getByRole('tab', { name: 'Spaces' }))
       expect(screen.getByTestId('SpacesTab')).toBeVisible()
-      expect(screen.getByText('Spaces')).toBeVisible() // we expect two because we render additionally a phantom text element to prevent shifting
+      expect(screen.getByText('Spaces')).toBeVisible()
     })
   })
 
