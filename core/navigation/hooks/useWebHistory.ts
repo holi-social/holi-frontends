@@ -1,10 +1,12 @@
+import { useCallback } from 'react'
+
 // Only exposed for testing
 export const history: string[] = []
 
 export const useWebHistory = () => {
-  const push = (routeName: string) => {
+  const push = useCallback((routeName: string) => {
     history.push(routeName)
-  }
+  }, [])
 
   const replace = (routeName: string) => {
     history.pop()

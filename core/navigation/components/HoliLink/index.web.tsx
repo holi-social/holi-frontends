@@ -3,6 +3,7 @@ import type { PropsWithChildren, SyntheticEvent } from 'react'
 import React, { useCallback } from 'react'
 
 import type { HoliLinkProps } from '@holi/core/navigation/components/HoliLink/types'
+import { useWebHistory } from '@holi/core/navigation/hooks/useWebHistory'
 
 export const HoliLink = ({
   href,
@@ -13,6 +14,7 @@ export const HoliLink = ({
   isFullHeight = false,
   testID = 'link',
 }: PropsWithChildren<HoliLinkProps>) => {
+  const { push } = useWebHistory()
   const onLinkPress = useCallback(
     async (event: SyntheticEvent<HTMLAnchorElement, Event>) => {
       // Async onPress callbacks won't be awaited before event propagation
@@ -22,9 +24,10 @@ export const HoliLink = ({
         event?.stopPropagation()
         return false
       }
+      push(href) // Sync web history
       await propagateEventOrPromise
     },
-    [onPress]
+    [href, onPress, push]
   )
 
   return (
