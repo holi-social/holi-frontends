@@ -2,6 +2,7 @@ import type { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
+// keys are the V2 topic slugs, values is a combined list of V1 and V2 topic slugs (for backwards-compatibility)
 export const topicV2Slugs = {
   'animal-welfare': ['animal-welfare', 'biodiversity-animal-welfare'],
   'arts-culture': ['arts-culture', 'culture-social-change'],
@@ -43,6 +44,7 @@ export const slugToTopicV2 = (slug: string): TopicV2 | undefined => {
   return Object.entries(topicV2Slugs).find(([, slugs]) => slugs.includes(slug))?.[0] as TopicV2
 }
 
+// keys are the V2 skill slugs, values is a combined list of V1 and V2 skill slugs (for backwards-compatibility)
 export const skillV2Slugs = {
   'music-performance': ['music-performance'],
   childcare: ['childcare'],
@@ -102,6 +104,15 @@ export const skillV2Slugs = {
   'it-technology': ['it-technology'],
   'finances-taxes': ['finances-taxes'],
   'building-handicraft': ['building-handicraft'],
+}
+
+export type SkillV2 = keyof typeof skillV2Slugs
+
+export const slugToSkillV2 = (slug: string): SkillV2 | undefined => {
+  if (slug in skillV2Slugs) {
+    return slug as SkillV2
+  }
+  return Object.entries(skillV2Slugs).find(([, slugs]) => slugs.includes(slug))?.[0] as SkillV2
 }
 
 export interface Term {
