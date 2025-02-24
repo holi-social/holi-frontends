@@ -1,125 +1,122 @@
-import { TopicV2, slugToTopicV2 } from '@holi/core/domain/shared/types';
+import { type TopicV2, slugToTopicV2, topicV2Slugs } from '@holi/core/domain/shared/types'
 
 describe('slugToTopicV2', () => {
-  const testCases = new Map<string, TopicV2>([
+  const testCases = new Map<string, TopicV2 | undefined>([
     // ANIMAL_WELFARE
-    ['animal-welfare', TopicV2.ANIMAL_WELFARE],
-    ['biodiversity-animal-welfare', TopicV2.ANIMAL_WELFARE],
+    ['animal-welfare', 'animal-welfare'],
+    ['biodiversity-animal-welfare', 'animal-welfare'],
 
     // ARTS_CULTURE
-    ['arts-culture', TopicV2.ARTS_CULTURE],
-    ['culture-social-change', TopicV2.ARTS_CULTURE],
+    ['arts-culture', 'arts-culture'],
+    ['culture-social-change', 'arts-culture'],
 
     // CLIMATE_ENVIRONMENT
-    ['climate-environment', TopicV2.CLIMATE_ENVIRONMENT],
-    ['climate-protection', TopicV2.CLIMATE_ENVIRONMENT],
-    ['water-ocean', TopicV2.CLIMATE_ENVIRONMENT],
-    ['energy-transition', TopicV2.CLIMATE_ENVIRONMENT],
-    ['natural-resources', TopicV2.CLIMATE_ENVIRONMENT],
+    ['climate-environment', 'climate-environment'],
+    ['climate-protection', 'climate-environment'],
+    ['water-ocean', 'climate-environment'],
+    ['energy-transition', 'climate-environment'],
+    ['natural-resources', 'climate-environment'],
 
     // DEMOCRACY_POLITICS
-    ['democracy-politics', TopicV2.DEMOCRACY_POLITICS],
-    ['governance', TopicV2.DEMOCRACY_POLITICS],
-    ['politics-society', TopicV2.DEMOCRACY_POLITICS],
+    ['democracy-politics', 'democracy-politics'],
+    ['governance', 'democracy-politics'],
+    ['politics-society', 'democracy-politics'],
 
     // DISABILITY_INCLUSION
-    ['disability-inclusion', TopicV2.DISABILITY_INCLUSION],
-    ['disabilities-inclusion', TopicV2.DISABILITY_INCLUSION],
+    ['disability-inclusion', 'disability-inclusion'],
+    ['disabilities-inclusion', 'disability-inclusion'],
 
     // DISASTER_RELIEF
-    ['disaster-relief', TopicV2.DISASTER_RELIEF],
-    ['natural-disaster-response', TopicV2.DISASTER_RELIEF],
+    ['disaster-relief', 'disaster-relief'],
+    ['natural-disaster-response', 'disaster-relief'],
 
     // ELDERLY_CARE
-    ['elderly-care', TopicV2.ELDERLY_CARE],
-    ['elderly-people', TopicV2.ELDERLY_CARE],
+    ['elderly-care', 'elderly-care'],
+    ['elderly-people', 'elderly-care'],
 
     // FAMILY_KIDS
-    ['family-kids', TopicV2.FAMILY_KIDS],
+    ['family-kids', 'family-kids'],
 
     // FOOD_HUNGER_RELIEF
-    ['food-hunger-relief', TopicV2.FOOD_HUNGER_RELIEF],
-    ['agriculture-food', TopicV2.FOOD_HUNGER_RELIEF],
+    ['food-hunger-relief', 'food-hunger-relief'],
+    ['agriculture-food', 'food-hunger-relief'],
 
     // GENDER_EQUALITY
-    ['gender-equality', TopicV2.GENDER_EQUALITY],
-    ['diversity-genderequality', TopicV2.GENDER_EQUALITY],
+    ['gender-equality', 'gender-equality'],
+    ['diversity-genderequality', 'gender-equality'],
 
     // HOUSING
-    ['housing', TopicV2.HOUSING],
-    ['building-housing', TopicV2.HOUSING],
+    ['housing', 'housing'],
+    ['building-housing', 'housing'],
 
     // HUMAN_RIGHTS
-    ['human-rights', TopicV2.HUMAN_RIGHTS],
-    ['democracy-human-rights', TopicV2.HUMAN_RIGHTS],
+    ['human-rights', 'human-rights'],
+    ['democracy-human-rights', 'human-rights'],
 
     // LGBTQIA_PLUS
-    ['lgbtqia-plus', TopicV2.LGBTQIA_PLUS],
+    ['lgbtqia-plus', 'lgbtqia-plus'],
 
     // LIFESTYLE_CONSUMPTION
-    ['lifestyle-consumption', TopicV2.LIFESTYLE_CONSUMPTION],
-    ['consumption-lifestyle', TopicV2.LIFESTYLE_CONSUMPTION],
-    ['eco-tourism', TopicV2.LIFESTYLE_CONSUMPTION],
+    ['lifestyle-consumption', 'lifestyle-consumption'],
+    ['consumption-lifestyle', 'lifestyle-consumption'],
+    ['eco-tourism', 'lifestyle-consumption'],
 
     // LITERACY_EDUCATION
-    ['literacy-education', TopicV2.LITERACY_EDUCATION],
-    ['education-science', TopicV2.LITERACY_EDUCATION],
+    ['literacy-education', 'literacy-education'],
+    ['education-science', 'literacy-education'],
 
     // MENTAL_PHYSICAL_HEALTH
-    ['mental-physical-health', TopicV2.MENTAL_PHYSICAL_HEALTH],
-    ['physical-mental-health', TopicV2.MENTAL_PHYSICAL_HEALTH],
+    ['mental-physical-health', 'mental-physical-health'],
+    ['physical-mental-health', 'mental-physical-health'],
 
     // MIGRATION_REFUGEES
-    ['migration-refugees', TopicV2.MIGRATION_REFUGEES],
-    ['migration-integration', TopicV2.MIGRATION_REFUGEES],
+    ['migration-refugees', 'migration-refugees'],
+    ['migration-integration', 'migration-refugees'],
 
     // MOBILITY_TRANSPORT
-    ['mobility-transport', TopicV2.MOBILITY_TRANSPORT],
-    ['mobility-infrastructure', TopicV2.MOBILITY_TRANSPORT],
+    ['mobility-transport', 'mobility-transport'],
+    ['mobility-infrastructure', 'mobility-transport'],
 
     // OTHER
-    ['other', TopicV2.OTHER],
-    ['alternative-economy', TopicV2.OTHER],
-    ['urban-rural-development', TopicV2.OTHER],
+    ['other', 'other'],
+    ['alternative-economy', 'other'],
+    ['urban-rural-development', 'other'],
 
     // PEACE_SECURITY
-    ['peace-security', TopicV2.PEACE_SECURITY],
+    ['peace-security', 'peace-security'],
 
     // POVERTY_HOMELESSNESS
-    ['poverty-homelessness', TopicV2.POVERTY_HOMELESSNESS],
-    ['poverty-homelesness', TopicV2.POVERTY_HOMELESSNESS],
+    ['poverty-homelessness', 'poverty-homelessness'],
+    ['poverty-homelesness', 'poverty-homelessness'],
 
     // SPORTS_RECREATION
-    ['sports-recreation', TopicV2.SPORTS_RECREATION],
+    ['sports-recreation', 'sports-recreation'],
 
     // TECHNOLOGY_INNOVATION
-    ['technology-innovation', TopicV2.TECHNOLOGY_INNOVATION],
-    ['technological-innovation', TopicV2.TECHNOLOGY_INNOVATION],
+    ['technology-innovation', 'technology-innovation'],
+    ['technological-innovation', 'technology-innovation'],
 
     // YOUTH_DEVELOPMENT
-    ['youth-development', TopicV2.YOUTH_DEVELOPMENT],
-    ['children-youth', TopicV2.YOUTH_DEVELOPMENT],
+    ['youth-development', 'youth-development'],
+    ['children-youth', 'youth-development'],
 
     // Edge cases
-    ['', TopicV2.OTHER],
-    ['unknown-slug', TopicV2.OTHER],
-  ]);
+    ['', undefined],
+    ['unknown-slug', undefined],
+  ])
 
   // Test all mappings
-  test.each(Array.from(testCases.entries()))(
-    '%s → %s',
-    (input, expected) => {
-      expect(slugToTopicV2(input)).toBe(expected);
-    }
-  );
+  test.each(Array.from(testCases.entries()))('%s → %s', (input, expected) => {
+    expect(slugToTopicV2(input)).toBe(expected)
+  })
 
   // Verify all enum values are covered
   test('should have test cases for all TopicV2 enum values', () => {
-    const allTopicValues = Object.values(TopicV2);
-    const testedTopicValues = new Set(testCases.values());
+    const allTopicValues = Object.keys(topicV2Slugs)
+    const testedTopicValues = new Set(testCases.values())
 
-    allTopicValues.forEach(topic => {
-      expect(testedTopicValues).toContain(topic);
-    });
-  });
-});
+    allTopicValues.forEach((topic) => {
+      expect(testedTopicValues).toContain(topic)
+    })
+  })
+})
