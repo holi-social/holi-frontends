@@ -1,7 +1,7 @@
 import { getInitials } from '@holi/core/helpers'
 import { SearchHitLink } from '@holi/core/screens/search/typesense/SearchHitLink'
 import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks'
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData, SearchHitType } from '@holi/core/screens/search/typesense/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
@@ -12,7 +12,8 @@ import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
 import { Trackable, type TrackableBaseProps } from '@holi/core/components/Trackable'
 
-export const HIT_HEIGHT = 48
+export const HIT_HEIGHT = 65
+export const HIT_HEIGHT_PROFILE = 48
 
 export interface SearchHitProps extends TrackableBaseProps {
   hit: SearchHitData
@@ -36,7 +37,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
 
   return (
     <SearchHitLink hit={hit} label={title} onPress={onPress}>
-      <View style={styles.hitItem} testID={`search-hit-${hit.type}`}>
+      <View style={styles.hitItem(hit.type)} testID={`search-hit-${hit.type}`}>
         <Avatar
           initials={getInitials(title)}
           label={title}
@@ -62,7 +63,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
               </>
             )}
           </View>
-          <Text size={'sm'} numberOfLines={Platform.OS === 'android' ? 0 : 1}>
+          <Text size={'sm'} numberOfLines={hit.type === 'profile' ? 1 : 2}>
             {title}
           </Text>
         </View>
@@ -72,12 +73,12 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
 })
 
 const stylesheet = createStyleSheet(() => ({
-  hitItem: {
+  hitItem: (hitType: SearchHitType) => ({
     flexDirection: 'row',
     columnGap: dimensions.spacingSM,
-    height: HIT_HEIGHT,
+    height: hitType === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT,
     overflow: 'hidden',
-  },
+  }),
   hitItemContent: {
     flex: 1,
     rowGap: dimensions.spacingXs,

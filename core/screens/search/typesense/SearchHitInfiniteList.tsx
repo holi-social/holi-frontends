@@ -1,7 +1,7 @@
 import { FlashList } from '@shopify/flash-list'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { HIT_HEIGHT, SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
+import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
 import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import React, { useEffect } from 'react'
@@ -64,12 +64,13 @@ export function SearchHitInfiniteList() {
   // Hide results of empty query
   const isEmptyQuery = !results?.query || results?.query === '*'
   const displayedItems = isEmptyQuery ? [] : items.length ? items : results?.hits
+  const itemHeight = items.length && items[0].type === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
 
   return (
     <FlashList
       contentContainerStyle={styles.list}
       testID={'search-results-list'}
-      estimatedItemSize={HIT_HEIGHT + Spacing['xs']}
+      estimatedItemSize={itemHeight + Spacing['xs']}
       data={displayedItems}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
