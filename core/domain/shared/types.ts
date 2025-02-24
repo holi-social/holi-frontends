@@ -2,7 +2,6 @@ import type { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
-// new
 export const topicV2Slugs = {
   'animal-welfare': ['animal-welfare', 'biodiversity-animal-welfare'],
   'arts-culture': ['arts-culture', 'culture-social-change'],
@@ -42,6 +41,67 @@ export const slugToTopicV2 = (slug: string): TopicV2 | undefined => {
     return slug as TopicV2
   }
   return Object.entries(topicV2Slugs).find(([, slugs]) => slugs.includes(slug))?.[0] as TopicV2
+}
+
+export const skillV2Slugs = {
+  'music-performance': ['music-performance'],
+  childcare: ['childcare'],
+  'sales-distribution': ['sales-distribution'],
+  'emergency-care': ['emergency-care'],
+  'animal-care': ['animal-care'],
+  'religious-spiritual-care': ['religious-spiritual-care'],
+  'gardening-conservation': ['gardening-conservation'],
+  'community-organizing': ['community-organizing'],
+  'event-planning': ['event-planning'],
+  'arts-crafts': ['arts-crafts', 'arts-music-culture'],
+  'intercultural-competence': ['intercultural-competence', 'inclusive-mindset-intercultural-competence'],
+  driving: ['driving', 'drive-transport'],
+  'legal-assistance': ['legal-assistance', 'law-regulations'],
+  'nursing-caregiving': ['nursing-caregiving', 'caring-nursing'],
+  'food-service': ['food-service', 'cooking-baking'],
+  translation: ['translation', 'writing-translation'],
+  administration: ['administration', 'organizational-skills'],
+  'creativity-design': ['creativity-design', 'creativity', 'design', 'development-concept'],
+  'tutoring-coaching': ['tutoring-coaching', 'teaching-education', 'coaching & mentoring'],
+  'marketing-communications': [
+    'marketing-communications',
+    'marketing-social-media',
+    'communication-skills',
+    'public-relations',
+  ],
+  'team-leadership': ['team-leadership', 'coordination-coordination-of-volunteers', 'leadership', 'teamwork'],
+  'research-analysis': ['research-analysis', 'critical-thinking', 'analytical-thinking', 'knowledge-management'],
+  other: [
+    'other',
+    'environmental-awareness',
+    'commitment',
+    'conflict-management',
+    'discipline',
+    'empathy',
+    'hands-on-support',
+    'holistic-thinking',
+    'humour',
+    'independence',
+    'initiative-and-energy',
+    'mindfulness',
+    'motivation',
+    'negotiation-skills',
+    'openness',
+    'relationship-skills',
+    'resilience',
+    'self-confident',
+    'solution-orientedness',
+    'willingness-to-learn',
+    'adaptability',
+    'visionary-thinking',
+    'assertiveness',
+  ],
+  fundraising: ['fundraising'],
+  'moderation-facilitation': ['moderation-facilitation'],
+  'management-strategy': ['management-strategy'],
+  'it-technology': ['it-technology'],
+  'finances-taxes': ['finances-taxes'],
+  'building-handicraft': ['building-handicraft'],
 }
 
 export interface Term {
