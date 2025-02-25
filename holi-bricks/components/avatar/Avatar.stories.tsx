@@ -7,7 +7,7 @@ import { Chat3 } from '@holi/icons/src/generated'
 const availableSizes = ['xs', 'sm', 'md', 'lg'] as const
 
 const meta: Meta<typeof Avatar> = {
-  title: 'Components/Avatar',
+  title: 'Components/Avatar/Avatar',
   component: Avatar,
   argTypes: {
     label: { description: 'Button text', required: false },

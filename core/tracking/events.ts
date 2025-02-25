@@ -113,6 +113,17 @@ export namespace TrackingEvent {
     },
   }
 
+  export const TaskContactOrganization = {
+    contactOrganization: {
+      name: 'contactOrganization_pressed',
+      ...versionOne,
+    },
+    startedConversation: {
+      name: 'startConversationButton_pressed',
+      ...versionOne,
+    },
+  }
+
   export const Engaging = {
     reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
       name: 'reacted',

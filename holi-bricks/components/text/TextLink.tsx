@@ -28,7 +28,7 @@ export type TextLinkVariant =
   /** Mentions, Locations, Special cases */
   | 'special'
 
-export interface TextLinkProps extends AccessibilityProps {
+export interface TextLinkProps extends AccessibilityProps, React.PropsWithChildren {
   size: TextLinkSize
   numberOfLines?: number
   /** @deprecated Please use the 'color' prop instead. variant will be deleted once code has been migrated to 'color'. */
@@ -62,7 +62,7 @@ export const TextLink = ({
   onPress,
   role = 'link',
   ...rest
-}: React.PropsWithChildren<TextLinkProps>) => {
+}: TextLinkProps) => {
   const { styles } = useStyles(stylesheet, { size })
 
   if (variant) {

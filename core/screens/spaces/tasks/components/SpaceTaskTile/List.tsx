@@ -11,11 +11,12 @@ import { VisibilityType } from '@holi/core/screens/spaces/types'
 import { GlobeFilled, LockFilled } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import Image from './components/Image'
-import { ListProps } from './types'
+import type { ListProps } from './types'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 const IMAGE_HEIGHT = 136
 const IMAGE_WIDTH = 311
@@ -24,6 +25,7 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const loginState = useLoggedInUser()
 
   if (loading) {
     return <Skeleton />
@@ -34,6 +36,8 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
       <HoliLink href={`/spaces/${space.name}/tasks/${task.id}`} label={task.name} isFullHeight />
     </View>
   )
+
+  const isTaskOwner = loginState.isLoggedIn && isCollaborator && loginState.user.id === task.creator.id
 
   return (
     <HoliCardComponent.CardContainer hasBorder borderColor="foreground30at12Percent" borderRadius={16}>
@@ -62,7 +66,7 @@ const List = ({ loading, task, space, isCollaborator = false }: PropsWithSkeleto
           </View>
 
           {hiddenLink}
-          <TaskDrawer task={task} space={space} />
+          <TaskDrawer isOwner={isTaskOwner} taskId={task.id} spaceName={space.name} />
         </View>
 
         <Content task={task} />
