@@ -49,21 +49,29 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
   const { navigate } = useRouting()
   const { openToast } = useToast()
   const { disconnect } = useUserConnection()
   const { user: loggedInUser } = useLoggedInUser()
-  const { track } = useTracking()
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const [selectedConnection, setSelectedConnection] = useState<Connection>()
-  const { visible, show, hide } = useModalState()
+  const { visible: connectionsModalVisible, show: connectionsModalShow, hide: connectionsModalHide } = useModalState()
+  const {
+    visible: revokeConfirmationVisible,
+    show: revokeConfirmationShow,
+    hide: revokeConfirmationHide,
+  } = useModalState()
+  const {
+    visible: reportConfirmationVisible,
+    show: reportConfirmationShow,
+    hide: reportConfirmationHide,
+  } = useModalState()
 
   const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
   const isChatInitialized = useChatInitialized()
   const identity = selectedConnection?.identity
-  const { visible: confirmationVisible, show: confirmationShow, hide: confirmationHide } = useModalState()
-  const [showReportConnectionConfirmation, setShowReportConnectionConfirmation] = useState(false)
-  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { data, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
     variables: { offset: 0, limit: 10 },
@@ -78,9 +86,9 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   const onSelectConnection = useCallback(
     (connection: Connection) => {
       setSelectedConnection(connection)
-      show()
+      connectionsModalShow()
     },
-    [show]
+    [connectionsModalShow]
   )
 
   const revokeConnection = useCallback(() => {
@@ -90,19 +98,21 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
       setConnections((prevConnections) =>
         prevConnections.filter((connection) => connection.id !== selectedConnection.id)
       )
-      hide()
+      connectionsModalHide()
+      revokeConfirmationHide()
       openToast(t('user.profile.connections.confirmation.success'), HoliToastType.SUCCESS)
+      setSelectedConnection(undefined)
     }
-  }, [disconnect, hide, selectedConnection, loggedInUser, track, openToast, t])
+  }, [disconnect, selectedConnection, loggedInUser, track, openToast, connectionsModalHide, revokeConfirmationHide, t])
 
   const handleNavigation = useCallback(
     (id: string) => {
-      hide()
+      connectionsModalHide()
       setTimeout(() => {
         navigate('/profile/' + id)
       })
     },
-    [navigate, hide]
+    [connectionsModalHide, navigate]
   )
 
   const handleChat = async () => {
@@ -122,6 +132,8 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
         return
       }
+      connectionsModalHide()
+      setSelectedConnection(undefined)
       navigate('/chat/rooms/' + room_id)
     } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
@@ -129,9 +141,10 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   }
 
   const handleReport = () => {
-    hide()
-    setShowReportConnectionConfirmation(false)
+    connectionsModalHide()
+    reportConfirmationHide()
     navigateWithAuth(`/report/${selectedConnection?.id}/${ContentType.USER}/${ContentType3K.USER}`)
+    setSelectedConnection(undefined)
   }
 
   return (
@@ -190,9 +203,9 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
       {animKey === 'empty' && <EmptyTab text={emptyText} callToAction={emptyCallToAction} />}
 
       <HoliModal
-        shown={visible}
+        shown={connectionsModalVisible}
         label={selectedConnection?.fullName || ''}
-        onDismiss={() => hide()}
+        onDismiss={connectionsModalHide}
         style={styles.modal}
       >
         <HoliContainer>
@@ -242,7 +255,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               inline
               transparent
               label={t('user.profileView.connection.confirmation.title.CONNECTED')}
-              onPress={confirmationShow}
+              onPress={revokeConfirmationShow}
               testID={'connections-revoke-connection-btn'}
             >
               <HoliIcon icon={UserUnfollow} color={styles.actionItemIcon.color} />
@@ -255,7 +268,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               inline
               transparent
               label={t('spaces.invite.connections.report')}
-              onPress={() => setShowReportConnectionConfirmation(true)}
+              onPress={reportConfirmationShow}
               testID={'connections-report-user-btn'}
             >
               <HoliIcon icon={Flag} color={styles.actionItemIcon.color} />
@@ -264,28 +277,28 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
           </View>
 
           <HoliConfirmation
+            show={revokeConfirmationVisible}
             label={t('user.profile.connections.confirmation.title')}
-            description={t('user.profile.connections.confirmation.description', { name: selectedConnection?.fullName })}
             title={t('user.profile.connections.confirmation.title')}
+            description={t('user.profile.connections.confirmation.description', { name: selectedConnection?.fullName })}
             primaryButtonVariant="danger"
             primaryText={t('user.profile.connections.confirmation.confirm')}
             secondaryText={t('user.profile.connections.confirmation.dismiss')}
             onPrimary={revokeConnection}
-            onDismiss={confirmationHide}
-            visible={confirmationVisible}
-            show={confirmationVisible}
+            onDismiss={revokeConfirmationHide}
+            testID="connections-revoke-user-confirmation"
           />
 
           <HoliConfirmation
-            show={showReportConnectionConfirmation}
+            show={reportConfirmationVisible}
             label={t('user.profileView.report.confirmation.title', { name: selectedConnection?.fullName })}
             title={t('user.profileView.report.confirmation.title', { name: selectedConnection?.fullName })}
             description={t('user.profileView.report.confirmation.description', {
               name: selectedConnection?.fullName || t('user.profileView.anonymous'),
             })}
-            onDismiss={() => setShowReportConnectionConfirmation(false)}
-            testID="connections-report-user-confirmation"
             onPrimary={handleReport}
+            onDismiss={reportConfirmationHide}
+            testID="connections-report-user-confirmation"
           />
         </HoliContainer>
       </HoliModal>
