@@ -281,6 +281,10 @@ export namespace TrackingEvent {
       name: 'oauthWithAppleButtonPressed',
       ...versionOne,
     }
+    export const OAuthWithMailButtonPressed: TrackingEvent = {
+      name: 'oauthWithMailButtonPressed',
+      ...versionOne,
+    }
   }
 
   export const ContentTranslated = (
