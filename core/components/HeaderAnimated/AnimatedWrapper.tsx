@@ -8,8 +8,7 @@ import { useSafeAreaInsets } from '@holi/core/helpers/useSafeAreaInsets'
 import type { HeaderBackgroundOptions } from '@holi/core/navigation/hooks/useScreenOptions/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useTheme } from '@holi/ui/styles/theme'
-
-import GradientBackground from './GradientBackground'
+import GradientBackground from '@holi/core/components/GradientBackground'
 
 const isIOS = Platform.OS === 'ios'
 

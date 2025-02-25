@@ -1,5 +1,5 @@
-import { AuthenticatedUser } from '@holi/core/domain/shared/types'
-import { TrackingEvent } from '@holi/core/tracking/events'
+import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import type { TrackingEvent } from '@holi/core/tracking/events'
 
 export enum TrackingPurpose {
   Analytics = 'ANALYTICS',
@@ -118,3 +118,4 @@ export type SignupModalPressedTrigger =
   | 'POLL_ANSWER_INSIGHT'
   | 'START_CHAT'
   | 'CONNECT_TO_USER'
+  | 'GET_IN_TOUCH'

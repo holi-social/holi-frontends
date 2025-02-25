@@ -29,7 +29,7 @@ type TextVariant =
   /** Errors */
   | 'error'
 
-export interface TextProps {
+export interface TextProps extends React.PropsWithChildren {
   size: TextSize
   /**
    * For usage inside buttons it is advised to set this to `false`, so selecting the text does not interfere with button taps.
@@ -89,7 +89,7 @@ export const Text = ({
   children,
   testID,
   ...rest
-}: React.PropsWithChildren<TextProps>) => {
+}: TextProps) => {
   const { styles } = useStyles(stylesheet, { size })
 
   const textAccessibilityProps = createAccessibilityProps(headingLevel)

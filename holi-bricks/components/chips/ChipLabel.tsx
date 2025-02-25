@@ -12,7 +12,7 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { chipSizeToTextSize, type ChipSize } from './size'
 
-type ChipColor = Color | 'white'
+export type ChipColor = Color | 'white'
 
 type ChipLabelProps = AccessibilityProps & {
   children?: string

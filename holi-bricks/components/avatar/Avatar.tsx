@@ -29,7 +29,7 @@ export const AvatarSizesValues = {
 export type AvatarSizes = keyof typeof AvatarSizesValues
 export type AvatarShape = 'square' | 'circle'
 export type AvatarBorder = 'strong' | 'light'
-export type AvatarProps = AccessibilityProps & {
+export type AvatarProps = {
   border?: AvatarBorder
   shape?: AvatarShape
   size?: AvatarSizes
@@ -60,12 +60,12 @@ export const Avatar = ({
   imgPlaceholder,
   icon,
   ...rest
-}: AvatarProps) => {
+}: AvatarProps & AccessibilityProps) => {
   const { styles } = useStyles(stylesheet, { border, shape, size })
   const [errorLoading, setErrorLoading] = useState(false)
   const handleImageError = useCallback(() => setErrorLoading(true), [])
 
-  const QUADRATIC_IMAGE_SIDE_LENGTH_FOR_CDN_RESIZING_AND_CROPPING = AvatarSizesValues[size]
+  const CDN_IMAGE_DIMENSION = AvatarSizesValues[size]
 
   const renderContent = () => {
     if (!errorLoading && imgSrc) {
@@ -77,8 +77,8 @@ export const Avatar = ({
           blurhash={imgPlaceholder}
           source={{
             uri: imgSrc,
-            width: QUADRATIC_IMAGE_SIDE_LENGTH_FOR_CDN_RESIZING_AND_CROPPING,
-            height: QUADRATIC_IMAGE_SIDE_LENGTH_FOR_CDN_RESIZING_AND_CROPPING,
+            width: CDN_IMAGE_DIMENSION,
+            height: CDN_IMAGE_DIMENSION,
           }}
           onError={handleImageError}
         />

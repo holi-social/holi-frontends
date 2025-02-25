@@ -65,6 +65,7 @@ export interface ScrollScreenProps extends BaseScreenProps {
   preset?: 'scroll'
   keyboardShouldPersistTaps?: 'handled' | 'always' | 'never'
   scrollViewProps?: ScrollViewProps
+  onRefresh?(): void
 }
 
 export interface AutoScreenProps extends Omit<ScrollScreenProps, 'preset'> {

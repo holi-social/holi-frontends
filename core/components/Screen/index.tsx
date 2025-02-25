@@ -18,6 +18,7 @@ import Animated, { useAnimatedStyle, useDerivedValue } from 'react-native-reanim
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { KeyboardAwareScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import { useScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 
 const isIos = Platform.OS === 'ios'
 
@@ -46,10 +47,13 @@ function ScreenWithScrolling(props: ScreenProps) {
     scrollViewProps,
     style,
     contentPadding,
+    onRefresh,
   } = props as ScrollScreenProps
   const { styles } = useStyles(stylesheet)
   const ref = useRef<ScrollView>(null)
   const { scrollEnabled, onContentSizeChange, onLayout } = useAutoPreset(props as AutoScreenProps)
+
+  useOnRefresh(onRefresh)
 
   // Add native behavior of pressing the active tab to scroll to the top of the content
   // More info at: https://reactnavigation.org/docs/use-scroll-to-top/
@@ -175,7 +179,7 @@ export const Screen = (props: ScreenProps) => {
         { backgroundColor: theme.colors.bg[backgroundColor] },
       ]}
     >
-      <StatusBar {...statusBarProps} barStyle={themeName === 'dark' ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle={themeName === 'dark' ? 'light-content' : 'dark-content'} {...statusBarProps} />
 
       <KeyboardAvoidingView
         {...keyboardAvoidingViewProps}

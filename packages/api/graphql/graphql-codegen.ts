@@ -773,6 +773,26 @@ export type InsightPaged = {
   totalResults: Scalars['Int']['output']
 }
 
+/** Insight(id, title, description, creator, date_published, header_image, header_image_blurhash, topic) */
+export type InsightPreview = {
+  __typename?: 'InsightPreview'
+  creator?: Maybe<User>
+  datePublished: Scalars['Date']['output']
+  description: Scalars['String']['output']
+  headerImage?: Maybe<Scalars['String']['output']>
+  headerImageBlurhash?: Maybe<Scalars['String']['output']>
+  id: Scalars['UUID']['output']
+  title: Scalars['String']['output']
+}
+
+export type InsightPreviewPaged = {
+  __typename?: 'InsightPreviewPaged'
+  /** The list of items in this pagination window. */
+  data: Array<Maybe<InsightPreview>>
+  /** Total number of items in the filtered dataset. */
+  totalResults: Scalars['Int']['output']
+}
+
 export type InsightQuoteRecommendationInitiative = Initiative | Insight | Quote | Recommendation
 
 export type InspirationPostCategory = {
@@ -909,6 +929,7 @@ export type Mutation = {
   /** @deprecated This has been renamed. Keep for <= 1.14.5 */
   unbookmark: Result
   unfavorite: Result
+  unsubscribeFromNewsletter: Result
   updateAppointment: Appointment
   /** @deprecated Deprecated in favor of 'updateAuthenticatedUserV2'. */
   updateAuthenticatedUser: User
@@ -1088,6 +1109,10 @@ export type MutationUnbookmarkArgs = {
 export type MutationUnfavoriteArgs = {
   favoritableId: Scalars['UUID']['input']
   favoritableType: FavoritableType
+}
+
+export type MutationUnsubscribeFromNewsletterArgs = {
+  token: Scalars['String']['input']
 }
 
 export type MutationUpdateAppointmentArgs = {
@@ -1447,12 +1472,12 @@ export type Query = {
   favoriteInsights: InsightPaged
   favorites: UserFavoritePaged
   feed: FeedItemPaged
+  feedInsights: InsightPreviewPaged
   feedPostCategories: FeedPostCategoryPaged
   /** @deprecated feed_posts is deprecated, use all_posts instead. */
   feedPosts: FeedPostPaged
   geo_placeDetails: Geo_PlaceDetails
   geo_placesAutocomplete: Array<Maybe<Geo_Place>>
-  getStuff: Array<SpaceUserConnectionType>
   hasNewNotifications: NewNotificationsResponse
   insightAuthors: UserPaged
   insightById?: Maybe<Insight>
@@ -1613,6 +1638,11 @@ export type QueryFavoritesArgs = {
 }
 
 export type QueryFeedArgs = {
+  limit?: Scalars['Int']['input']
+  offset?: Scalars['Int']['input']
+}
+
+export type QueryFeedInsightsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
@@ -2388,6 +2418,48 @@ export type SpaceCardFragment = {
   }
 }
 
+export type TaskByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type TaskByIdQuery = {
+  __typename?: 'Query'
+  taskById?: {
+    __typename?: 'Task'
+    id: string
+    name: string
+    description: string
+    slotsAvailable: number
+    slotsTaken: number
+    location?: string
+    regularity: Regularity
+    visibility: VisibilityType
+    locationType: LocationType
+    contactEmail: string
+    contactPhone?: string
+    thumbnail?: string
+    thumbnailBlurhash?: string
+    created: any
+    creator: { __typename?: 'User'; id: string; avatar?: string; avatarBlurhash?: string; fullName: string }
+    space: {
+      __typename?: 'Space'
+      id: string
+      connectionStatusToMyself: Array<SpaceUserConnectionType>
+      name: string
+      avatar?: string
+      avatarBlurhash?: string
+      topics: Array<{ __typename?: 'Topic'; id: string; title: string }>
+    }
+    skills: Array<{ __typename?: 'Skill'; id: string; title: string }>
+  }
+}
+
+export type DeleteTaskMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteTaskMutation = { __typename?: 'Mutation'; deleteTask: { __typename?: 'Result'; success: boolean } }
+
 export type FullUserFragment = {
   __typename?: 'User'
   id: string
@@ -2560,6 +2632,120 @@ export type SpaceRecommendationQueryResult = Apollo.QueryResult<
   SpaceRecommendationQuery,
   SpaceRecommendationQueryVariables
 >
+export const TaskByIdDocument = gql`
+    query taskById($id: UUID!) {
+  taskById(id: $id) {
+    id
+    name
+    description
+    slotsAvailable
+    slotsTaken
+    location
+    regularity
+    visibility
+    locationType
+    contactEmail
+    contactPhone
+    thumbnail
+    thumbnailBlurhash
+    created
+    creator {
+      id
+      avatar
+      avatarBlurhash
+      fullName
+    }
+    space {
+      id
+      connectionStatusToMyself
+      name
+      avatar
+      avatarBlurhash
+      topics {
+        id
+        title
+      }
+    }
+    skills {
+      id
+      title
+    }
+  }
+}
+    `
+
+/**
+ * __useTaskByIdQuery__
+ *
+ * To run a query within a React component, call `useTaskByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTaskByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTaskByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTaskByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<TaskByIdQuery, TaskByIdQueryVariables> &
+    ({ variables: TaskByIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
+}
+export function useTaskByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TaskByIdQuery, TaskByIdQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
+}
+export function useTaskByIdSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<TaskByIdQuery, TaskByIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<TaskByIdQuery, TaskByIdQueryVariables>(TaskByIdDocument, options)
+}
+export type TaskByIdQueryHookResult = ReturnType<typeof useTaskByIdQuery>
+export type TaskByIdLazyQueryHookResult = ReturnType<typeof useTaskByIdLazyQuery>
+export type TaskByIdSuspenseQueryHookResult = ReturnType<typeof useTaskByIdSuspenseQuery>
+export type TaskByIdQueryResult = Apollo.QueryResult<TaskByIdQuery, TaskByIdQueryVariables>
+export const DeleteTaskDocument = gql`
+    mutation deleteTask($id: UUID!) {
+  deleteTask(id: $id) {
+    success
+  }
+}
+    `
+export type DeleteTaskMutationFn = Apollo.MutationFunction<DeleteTaskMutation, DeleteTaskMutationVariables>
+
+/**
+ * __useDeleteTaskMutation__
+ *
+ * To run a mutation, you first call `useDeleteTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTaskMutation, { data, loading, error }] = useDeleteTaskMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteTaskMutation, DeleteTaskMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DeleteTaskDocument, options)
+}
+export type DeleteTaskMutationHookResult = ReturnType<typeof useDeleteTaskMutation>
+export type DeleteTaskMutationResult = Apollo.MutationResult<DeleteTaskMutation>
+export type DeleteTaskMutationOptions = Apollo.BaseMutationOptions<DeleteTaskMutation, DeleteTaskMutationVariables>
 export const AuthenticatedUserDocument = gql`
     query AuthenticatedUser {
   authenticatedUser {
