@@ -181,6 +181,7 @@ export type Connection = {
   avatarDefaultColor: string
   avatarLabel: string
   pronouns: string
+  identity: string
 }
 
 export const myConnectionsQuery = gql`
@@ -195,6 +196,7 @@ export const myConnectionsQuery = gql`
         avatarDefaultColor
         avatarLabel
         pronouns
+        identity
       }
     }
   }
