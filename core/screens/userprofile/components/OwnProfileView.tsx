@@ -48,15 +48,20 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const { data: dataInsights } = useQuery<InsightsByUserIdResponse>(insightsByUserIdTotalResultsQuery, {
-    variables: { userId: user.id },
-    onError: (error) =>
-      logError(error, 'Failed to load insights for user', {
-        location: 'OwnProfileView.insightsByUserIdTotalResultsQuery',
-      }),
-  })
+  const { data: dataInsights, error: insightsError } = useQuery<InsightsByUserIdResponse>(
+    insightsByUserIdTotalResultsQuery,
+    {
+      variables: { userId: user.id },
+      skip: !user?.id,
+      onError: (error) => {
+        logError(error, 'Failed to load insights for user', {
+          location: 'OwnProfileView.insightsByUserIdTotalResultsQuery',
+        })
+      },
+    }
+  )
 
-  const hasInsights = !!dataInsights?.insightsByUserId?.totalResults
+  const hasInsights = !insightsError && !!dataInsights?.insightsByUserId?.totalResults
 
   const tabNamesInOrder = [Tab.PROFILE, Tab.POSTS]
   if (hasInsights) tabNamesInOrder.push(Tab.INSIGHTS)
