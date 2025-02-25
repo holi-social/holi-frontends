@@ -14,6 +14,7 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import Spacing from '@holi/ui/foundations/Spacing'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 export interface AuthSelectionProps {
   onGooglePress?: () => void
   onFacebookPress?: () => void
@@ -34,6 +35,7 @@ export const AuthSelection = ({
   const styles = getStyles(theme)
   const setScreenOptions = useSetScreenOptions()
   const { navigate } = useRouting()
+  const { track } = useTracking()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -91,7 +93,14 @@ export const AuthSelection = ({
         <Text size="md" textAlign="left" color="main">
           Email*
         </Text>
-        <Pressable style={styles.emailButton} onPress={() => navigate('/login')} testID={`${testID}-btn-email-login`}>
+        <Pressable
+          style={styles.emailButton}
+          onPress={() => {
+            track(TrackingEvent.Auth.OAuthWithMailButtonPressed)
+            navigate('/login')
+          }}
+          testID={`${testID}-btn-email-login`}
+        >
           <Text size="md" color="support">
             Email...
           </Text>
