@@ -37,6 +37,8 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
+import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
+import { ContentType, ContentType3K } from '@holi/core/queries'
 
 export interface ConnectionsTabProps {
   emptyText: string
@@ -60,6 +62,8 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   const isChatInitialized = useChatInitialized()
   const identity = selectedConnection?.identity
   const { visible: confirmationVisible, show: confirmationShow, hide: confirmationHide } = useModalState()
+  const [showReportConnectionConfirmation, setShowReportConnectionConfirmation] = useState(false)
+  const { navigateWithAuth } = useAuthRequiredNavigation()
 
   const { data, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
     variables: { offset: 0, limit: 10 },
@@ -122,6 +126,12 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
     } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
       openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
     }
+  }
+
+  const handleReport = () => {
+    hide()
+    setShowReportConnectionConfirmation(false)
+    navigateWithAuth(`/report/${selectedConnection?.id}/${ContentType.USER}/${ContentType3K.USER}`)
   }
 
   return (
@@ -245,7 +255,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               inline
               transparent
               label={t('spaces.invite.connections.report')}
-              onPress={() => openToast(t('global.comingSoon'), HoliToastType.SUCCESS)}
+              onPress={() => setShowReportConnectionConfirmation(true)}
               testID={'connections-report-user-btn'}
             >
               <HoliIcon icon={Flag} color={styles.actionItemIcon.color} />
@@ -264,6 +274,18 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
             onDismiss={confirmationHide}
             visible={confirmationVisible}
             show={confirmationVisible}
+          />
+
+          <HoliConfirmation
+            show={showReportConnectionConfirmation}
+            label={t('user.profileView.report.confirmation.title', { name: selectedConnection?.fullName })}
+            title={t('user.profileView.report.confirmation.title', { name: selectedConnection?.fullName })}
+            description={t('user.profileView.report.confirmation.description', {
+              name: selectedConnection?.fullName || t('user.profileView.anonymous'),
+            })}
+            onDismiss={() => setShowReportConnectionConfirmation(false)}
+            testID="connections-report-user-confirmation"
+            onPrimary={handleReport}
           />
         </HoliContainer>
       </HoliModal>
