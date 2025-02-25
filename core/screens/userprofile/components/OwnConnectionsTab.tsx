@@ -26,6 +26,11 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Flag, User, UserUnfollow } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { useUserConnection } from '@holi/core/helpers'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
+import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 
 export interface ConnectionsTabProps {
   emptyText: string
@@ -38,9 +43,13 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
   const { openToast } = useToast()
+  const { disconnect } = useUserConnection()
+  const { user: loggedInUser } = useLoggedInUser()
+  const { track } = useTracking()
 
   const [selectedConnection, setSelectedConnection] = useState<Connection>()
   const { visible, show, hide } = useModalState()
+  const { visible: confirmationVisible, show: confirmationShow, hide: confirmationHide } = useModalState()
 
   const { data, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
     variables: { offset: 0, limit: 10 },
@@ -49,7 +58,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   })
   useOnRefresh(refetch)
 
-  const connections = data?.myConnections.data ?? []
+  const [connections, setConnections] = useState<Connection[]>(data?.myConnections.data ?? [])
   const animKey = !data ? 'loading' : data.myConnections.totalResults > 0 ? 'ready' : 'empty'
 
   const onSelectConnection = useCallback(
@@ -59,6 +68,18 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
     },
     [show]
   )
+
+  const revokeConnection = useCallback(() => {
+    if (selectedConnection && loggedInUser) {
+      disconnect(selectedConnection?.id || '')
+      track(TrackingEvent.UserConnectionRevoked(loggedInUser.id, selectedConnection.id))
+      setConnections((prevConnections) =>
+        prevConnections.filter((connection) => connection.id !== selectedConnection.id)
+      )
+      hide()
+      openToast(t('user.profile.connections.confirmation.success'), HoliToastType.SUCCESS)
+    }
+  }, [disconnect, hide, selectedConnection, loggedInUser, track, openToast, t])
 
   const handleNavigation = useCallback(
     (id: string) => {
@@ -176,8 +197,8 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               inline
               transparent
               label={t('user.profileView.connection.confirmation.title.CONNECTED')}
-              onPress={() => openToast(t('global.comingSoon'), HoliToastType.SUCCESS)}
-              testID={'connections-send-message-btn'}
+              onPress={confirmationShow}
+              testID={'connections-revoke-connection-btn'}
             >
               <HoliIcon icon={UserUnfollow} color={styles.actionItemIcon.color} />
               <HoliText style={styles.actionItemText}>
@@ -196,6 +217,19 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               <HoliText style={styles.actionItemText}>{t('spaces.invite.connections.report')}</HoliText>
             </HoliButton>
           </View>
+
+          <HoliConfirmation
+            label={t('user.profile.connections.confirmation.title')}
+            description={t('user.profile.connections.confirmation.description', { name: selectedConnection?.fullName })}
+            title={t('user.profile.connections.confirmation.title')}
+            primaryButtonVariant="danger"
+            primaryText={t('user.profile.connections.confirmation.confirm')}
+            secondaryText={t('user.profile.connections.confirmation.dismiss')}
+            onPrimary={revokeConnection}
+            onDismiss={confirmationHide}
+            visible={confirmationVisible}
+            show={confirmationVisible}
+          />
         </HoliContainer>
       </HoliModal>
     </HoliTransition.FadeSwitch>

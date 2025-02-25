@@ -446,6 +446,13 @@ export namespace TrackingEvent {
     properties: { requesterId, recipientId },
     ...versionOne,
   })
+
+  export const UserConnectionRevoked = (requesterId: string, recipientId: string): TrackingEvent => ({
+    name: 'userConnectionRevoked',
+    properties: { requesterId, recipientId },
+    ...versionOne,
+  })
+
   export const PollVoteSubmitted = (pollId: string): TrackingEvent => ({
     name: 'pollVoteSubmitted',
     properties: { pollId },
