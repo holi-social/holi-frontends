@@ -26,6 +26,12 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Chat3, Flag, User, UserUnfollow } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useChatInitialized } from '@holi/chat/src/client/chatState'
+import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { chatServerName } from '@holi/core/helpers/config'
+import { getOrCreateRoom } from '@holi/chat/src/store'
 import { useUserConnection } from '@holi/core/helpers'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -49,6 +55,10 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
 
   const [selectedConnection, setSelectedConnection] = useState<Connection>()
   const { visible, show, hide } = useModalState()
+
+  const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
+  const isChatInitialized = useChatInitialized()
+  const identity = selectedConnection?.identity
   const { visible: confirmationVisible, show: confirmationShow, hide: confirmationHide } = useModalState()
 
   const { data, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
@@ -90,6 +100,29 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
     },
     [navigate, hide]
   )
+
+  const handleChat = async () => {
+    if (!identity) {
+      logError(new HoliError('Can not create a chat without a user identity'), 'Failed to open chat', {
+        location: 'StartChatButton.handleChat',
+      })
+      return
+    }
+
+    try {
+      // TODO: the correct Matrix identity should come from Okuna
+      const fullIdentity = '@' + identity + ':' + chatServerName
+      const { room_id } = await getOrCreateRoom([fullIdentity])
+
+      if (!room_id) {
+        openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
+        return
+      }
+      navigate('/chat/rooms/' + room_id)
+    } catch (e) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
+      openToast(t('chat.room.error.openRoom'), HoliToastType.ERROR)
+    }
+  }
 
   return (
     <HoliTransition.FadeSwitch animKey={animKey}>
@@ -181,17 +214,19 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               <HoliIcon icon={User} color={styles.actionItemIcon.color} />
               <HoliText style={styles.actionItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
             </HoliButton>
-            <HoliButton
-              contentStyle={styles.actionItem}
-              inline
-              transparent
-              label={t('chat.room.sendButton.label')}
-              onPress={() => openToast(t('global.comingSoon'), HoliToastType.SUCCESS)}
-              testID={'connections-send-message-btn'}
-            >
-              <HoliIcon icon={Chat3} color={styles.actionItemIcon.color} />
-              <HoliText style={styles.actionItemText}>{t('chat.room.sendButton.label')}</HoliText>
-            </HoliButton>
+            {chatFeatureFlag.isOn && isChatInitialized && (
+              <HoliButton
+                contentStyle={styles.actionItem}
+                inline
+                transparent
+                label={t('chat.room.sendButton.label')}
+                onPress={handleChat}
+                testID={'connections-send-message-btn'}
+              >
+                <HoliIcon icon={Chat3} color={styles.actionItemIcon.color} />
+                <HoliText style={styles.actionItemText}>{t('chat.room.sendButton.label')}</HoliText>
+              </HoliButton>
+            )}
             <HoliButton
               contentStyle={styles.actionItem}
               inline
