@@ -17,9 +17,9 @@ import DigitalToolInputForm, {
   COLLECTION_TYPES,
 } from '@holi/core/screens/spaces/linkHub/components/DigitalToolInputForm'
 import {
-  updateCollaborationToolMutation,
   type UpdateCollaborationToolResponse,
   UpdateCollaborationToolSchema,
+  updateCollaborationToolMutation,
 } from '@holi/core/screens/spaces/linkHub/mutations'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -39,14 +39,13 @@ const { useParam } = createParamHooks<EditDigitalToolParams>()
 const EditDigitalTool = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [toolId] = useParam('toolIdOrName')
-  const { navigateBack, replaceRoute } = useRouting()
+  const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
   const [url, setUrl] = useState('')
   const [urlError, setUrlError] = useState<string | undefined>()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState<string | undefined>('')
-  const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [thumbnailBlurhash, setCurrentThumbnailBlurhash] = useState<string | undefined>()
   const [selectedCollection, setSelectedCollection] = useState<HoliModalSelectOption | undefined>()
@@ -60,14 +59,33 @@ const EditDigitalTool = () => {
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
-  const { handleGraphQLError } = useFieldErrors({
-    handledFieldErrors: ['url', 'title', 'description'],
-  })
+  useEffect(() => {
+    if (space) {
+      const collaborationTools = space ? space.collaborationTools : []
+      if (collaborationTools && collaborationTools.length > 0 && toolId) {
+        const digitalTool = collaborationTools.find((tool) => tool.id === toolId)
+        const collectionType = COLLECTION_TYPES.filter(
+          (collection_type) => collection_type === digitalTool?.collectionType
+        )[0]
+        const toolCollectionType = {
+          id: collectionType,
+          selected: true,
+          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
+        }
+        setUrl(digitalTool?.url ?? '')
+        setTitle(digitalTool?.title ?? '')
+        setDescription(digitalTool?.description ?? '')
+        setSelectedCollection(toolCollectionType ?? '')
+        setCurrentThumbnail(digitalTool?.thumbnail ?? '')
+        setCurrentThumbnailBlurhash(digitalTool?.thumbnailBlurhash)
+      }
+    }
+  }, [space, toolId, t])
 
   const [updateCollaborationTool] = useMutation<UpdateCollaborationToolResponse>(updateCollaborationToolMutation, {
     onCompleted: () => {
       openToast(t('spaces.digitalTool.edit.success'), HoliToastType.SUCCESS)
-      navigateBack()
+      return navigateBack()
     },
     onError: (error) => {
       if (isMaliciousUrlError(error)) {
@@ -77,6 +95,10 @@ const EditDigitalTool = () => {
       }
     },
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
+  })
+
+  const { handleGraphQLError } = useFieldErrors({
+    handledFieldErrors: ['url', 'title', 'description'],
   })
 
   const onSave = () => {
@@ -95,7 +117,7 @@ const EditDigitalTool = () => {
   }
 
   useEffect(() => {
-    if (!validateUrl(url)) {
+    if (url.length > 0 && !validateUrl(url)) {
       setUrlError(t('global.validation.url.invalid'))
     } else {
       setUrlError(undefined)
@@ -115,39 +137,6 @@ const EditDigitalTool = () => {
       })
     }
   }, [t, loadingSpace, setScreenOptions, colors.background20])
-
-  useEffect(() => {
-    if (url.length > 0 && title.length > 0 && !!selectedCollection && inputValid) {
-      setSaveButtonDisabled(false)
-    }
-  }, [url, title, selectedCollection, inputValid])
-
-  useEffect(() => {
-    if (space) {
-      const collaborationTools = space ? space.collaborationTools : []
-      if (collaborationTools && collaborationTools.length > 0 && toolId) {
-        const digitalTool = collaborationTools.find((tool) => tool.id === toolId)
-        if (!digitalTool) {
-          replaceRoute('/404')
-          return
-        }
-        const collectionType = COLLECTION_TYPES.filter(
-          (collection_type) => collection_type === digitalTool.collectionType
-        )[0]
-        const toolCollectionType = {
-          id: collectionType,
-          selected: true,
-          title: t(`spaces.toolKit.linkhub.collection.${collectionType}`),
-        }
-        setUrl(digitalTool.url)
-        setTitle(digitalTool.title)
-        setDescription(digitalTool.description)
-        setSelectedCollection(toolCollectionType)
-        setCurrentThumbnail(digitalTool.thumbnail)
-        setCurrentThumbnailBlurhash(digitalTool.thumbnailBlurhash)
-      }
-    }
-  }, [space, toolId, t, replaceRoute])
 
   useEffect(() => {
     const resultSchema = UpdateCollaborationToolSchema.safeParse({
@@ -173,6 +162,8 @@ const EditDigitalTool = () => {
   if (loadingSpace || errorSpace || !space) {
     return <></>
   }
+
+  const saveButtonDisabled = !(url.length > 0 && title.length > 0 && !!selectedCollection && inputValid)
 
   return (
     <PermissionsGuard
