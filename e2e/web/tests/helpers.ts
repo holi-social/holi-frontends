@@ -5,8 +5,8 @@ import { checkA11y, configureAxe, injectAxe } from 'axe-playwright'
 import { deleteAuthenticatedAccount } from '@holi/e2e-web/tests/helpers/api'
 import { newUserEmail, newUserPassword, randomPassword } from '@holi/e2e-web/tests/helpers/fixtures'
 
-import { test } from './testmaster'
 import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
+import { test } from './testmaster'
 
 // sometimes requests to the app backends take a little longer (10s < response latency < 40s)
 export const donationsRequestTimeout = 40_000

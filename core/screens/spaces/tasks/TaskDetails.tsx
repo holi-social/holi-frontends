@@ -1,5 +1,4 @@
 import React, { memo, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Screen } from '@holi/core/components/Screen'
 import { DetailsScreen } from '@holi/core/layouts/DetailsScreen'
 import { Stack } from 'holi-bricks/components/stack'
@@ -8,7 +7,9 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { TaskDrawer } from '@holi/core/screens/spaces/tasks/components/TaskDrawer'
 import { Platform } from 'react-native'
 import { white } from 'holi-bricks/tokens'
-import { StartSpaceChatButton } from '@holi/core/screens/spaces/details/components/StartSpaceChat'
+import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/ContactOrganization'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
 export type TaskDetailsParams = {
   taskId: string
@@ -21,8 +22,10 @@ const TaskDetailsContainer = () => {
     spaceName,
     id,
     refetch,
+    spaceId,
+    spaceTitle,
   } = useTaskDetailsData()
-  const { t } = useTranslation()
+  const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
 
   const renderActionDrawer = useCallback(
     (tintColor?: string) => <TaskDrawer tintColor={tintColor} isOwner={isOwner} spaceName={spaceName} taskId={id} />,
@@ -59,16 +62,15 @@ const TaskDetailsContainer = () => {
           alignSelf="center"
           width="100%"
         >
-          <StartSpaceChatButton
-            preDrawerButtonProps={{
-              label: t('task.cta'),
-              inline: Platform.OS === 'web',
-            }}
-            spaceIdOrName={spaceName}
-            drawerTitle={t('task.startChat.drawer.title')}
-            drawerContent={t('task.startChat.drawer.content', { spaceName: spaceName })}
-            drawerButtonLabel={t('task.startChat.drawer.cta')}
-          />
+          {displayCta && (
+            <ContactOrganization
+              spaceIdOrName={spaceName}
+              taskName={title}
+              taskId={id}
+              spaceTitle={spaceTitle}
+              spaceId={spaceId}
+            />
+          )}
         </Stack>
       }
     >

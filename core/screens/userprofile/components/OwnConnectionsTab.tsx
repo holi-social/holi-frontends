@@ -31,7 +31,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatServerName } from '@holi/core/helpers/config'
-import { getOrCreateRoom } from '@holi/chat/src/store'
+import { getOrCreatePrivateRoom } from '@holi/chat/src/store'
 import { useUserConnection } from '@holi/core/helpers'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -126,7 +126,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
     try {
       // TODO: the correct Matrix identity should come from Okuna
       const fullIdentity = '@' + identity + ':' + chatServerName
-      const { room_id } = await getOrCreateRoom([fullIdentity])
+      const { room_id } = await getOrCreatePrivateRoom([fullIdentity])
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)

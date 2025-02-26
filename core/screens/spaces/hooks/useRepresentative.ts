@@ -21,14 +21,12 @@ export const useRepresentative = (spaceIdOrName?: string) => {
     },
   })
 
-  const representative = data?.spaceById
-  const representativeIdentity =
-    representative && representative?.representatives?.length > 0 ? representative?.representatives[0] : undefined
+  const representative = data?.spaceById.representatives[0].user
 
   return {
     loading,
     error,
-    representativeIdentity: representativeIdentity?.user?.identity,
+    representative,
     called,
     refetch,
   }

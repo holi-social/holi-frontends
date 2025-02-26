@@ -1,4 +1,4 @@
-import { TFunction } from 'i18next'
+import type { TFunction } from 'i18next'
 import {
   ClientEvent,
   EventType,
@@ -9,11 +9,11 @@ import {
   type IStateEventWithRoomId,
   type Listener,
   type ListenerMap,
-  MatrixClient,
-  MatrixEvent,
+  type MatrixClient,
+  type MatrixEvent,
   type Room,
-  RoomEvent,
-  RoomMember,
+  type RoomEvent,
+  type RoomMember,
   type RoomNameState,
   RoomNameType,
 } from 'matrix-js-sdk'
@@ -39,6 +39,8 @@ import {
   type SpaceChildRoom,
   type SpaceChildSharedDataContent,
   type SpaceRoom,
+  SpaceTaskChatRoom,
+  SpaceTaskRoom,
 } from '@holi/chat/src/client/types'
 import { getChatMemberName } from '@holi/chat/src/utils'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -183,8 +185,10 @@ export const createChatRoom = (
       return createSpaceChatRoom(baseChatRoom, roomWithSharedData)
     case 'space.child':
       return createSpaceChildChatRoom(baseChatRoom, roomWithSharedData)
+    case 'space.task':
+      return createSpaceTaskChatRoom(baseChatRoom, roomWithSharedData)
     default:
-      throw new HoliError('Unexpected ChatRoom: private, space and space.child supported')
+      throw new HoliError('Unexpected ChatRoom: private, space, space.child and space.task supported')
   }
 }
 
@@ -223,9 +227,17 @@ export function createSpaceChildChatRoom(
   }
 }
 
+export function createSpaceTaskChatRoom(baseChatRoom: BaseChatRoom, spaceTaskRoom: SpaceTaskRoom): SpaceTaskChatRoom {
+  return {
+    type: spaceTaskRoom.type,
+    content: { ...spaceTaskRoom.content },
+    ...baseChatRoom,
+  }
+}
+
 /**
  * @description It creates the base for all 3 (internal) types of chats rooms
- * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`
+ * `PrivateChatRoom`, `SpaceChatRoom`, `SpaceChildChatRoom`, `SpaceTaskChatRoom`
  */
 export function createBaseChatRoom(
   room: Room,

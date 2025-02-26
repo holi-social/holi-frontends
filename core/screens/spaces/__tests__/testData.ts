@@ -207,6 +207,7 @@ export const task: Task & WithTypename = {
   thumbnailBlurhash: '',
   skills,
   geolocation,
+  space: {} as Space,
   __typename: 'Task',
 }
 

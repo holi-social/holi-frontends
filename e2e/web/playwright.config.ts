@@ -89,6 +89,15 @@ const config: PlaywrightTestConfig = {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseURL,
     headless: process.env.CI ? true : !!process.env.HEADLESS || true,
+    storageState: {
+      origins: [
+        {
+          localStorage: [{ name: 'HOLI_TRACKING_CONSENT', value: '{"ANALYTICS":"denied","PERSONALIZATION":"denied"}' }],
+          origin: baseURL,
+        },
+      ],
+      cookies: [],
+    },
   },
 
   projects: browsersFromEnv(process.env.E2E_WEB_BROWSERS),
