@@ -86,6 +86,22 @@ const BottomTabsNavigator = () => {
         }}
         listeners={{ tabPress: () => setPathname('/') }}
       />
+
+      <BottomTabs.Screen
+        name={RouteName.ActStack}
+        component={ActNavigator}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={unistyles.icon(focused).color} />
+          ),
+          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.act')} focused={focused} />,
+          tabBarLabelPosition: 'below-icon',
+          tabBarTestID: 'btn-to-act',
+        }}
+        listeners={{ tabPress: () => setPathname('/act') }}
+      />
+
       <BottomTabs.Screen
         name={RouteName.SpacesStack}
         component={SpacesHomeNavigator}
@@ -102,20 +118,7 @@ const BottomTabsNavigator = () => {
         }}
         listeners={{ tabPress: () => setPathname('/spaces') }}
       />
-      <BottomTabs.Screen
-        name={RouteName.ActStack}
-        component={ActNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={unistyles.icon(focused).color} />
-          ),
-          tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.act')} focused={focused} />,
-          tabBarLabelPosition: 'below-icon',
-          tabBarTestID: 'btn-to-act',
-        }}
-        listeners={{ tabPress: () => setPathname('/act') }}
-      />
+
       <BottomTabs.Screen
         name={RouteName.Chat}
         component={ChatHomeStackNavigator}
@@ -128,6 +131,7 @@ const BottomTabsNavigator = () => {
         }}
         listeners={{ tabPress: () => setPathname('/chat') }}
       />
+
       <BottomTabs.Screen
         name={RouteName.Auth}
         component={AuthStackNavigator}

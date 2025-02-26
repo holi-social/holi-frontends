@@ -67,21 +67,6 @@ const FooterTabBar = () => {
         </HoliButton>
 
         <HoliButton
-          label={t('navigation.organize')}
-          inline
-          transparent
-          onPress={() => navigate('/spaces')}
-          testID="btn-to-spaces"
-          contentStyle={styles.button}
-        >
-          <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} color={unistyles.icon(isSpaces).color} />
-          <HoliGap size="xs" />
-          <TextLink size="xs" color={isSpaces ? 'main' : 'default'} role="none">
-            {t('navigation.organize')}
-          </TextLink>
-        </HoliButton>
-
-        <HoliButton
           label={t('navigation.act')}
           inline
           transparent
@@ -93,6 +78,21 @@ const FooterTabBar = () => {
           <HoliGap size="xs" />
           <TextLink size="xs" color={isAct ? 'main' : 'default'} role="none">
             {t('navigation.act')}
+          </TextLink>
+        </HoliButton>
+
+        <HoliButton
+          label={t('navigation.organize')}
+          inline
+          transparent
+          onPress={() => navigate('/spaces')}
+          testID="btn-to-spaces"
+          contentStyle={styles.button}
+        >
+          <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} color={unistyles.icon(isSpaces).color} />
+          <HoliGap size="xs" />
+          <TextLink size="xs" color={isSpaces ? 'main' : 'default'} role="none">
+            {t('navigation.organize')}
           </TextLink>
         </HoliButton>
 
