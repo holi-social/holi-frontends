@@ -117,6 +117,7 @@ export enum RouteName {
   VolunteeringApp = 'VolunteeringApp',
   NotFound = 'NotFound',
   AuthSelection = 'AuthSelection',
+  Unsubscribe = 'Unsubscribe',
 
   // Onboarding Stack
   Onboarding = 'Onboarding',

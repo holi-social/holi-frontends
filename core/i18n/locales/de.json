@@ -214,6 +214,11 @@
     "Freitag",
     "Samstag"
   ],
+  "email.unsubscribe.description": "Du hast dich erfolgreich als \"{{email}}\" bei {{series}} abgemeldet.",
+  "email.unsubscribe.welcomeSeries": "Begrüßungsserie",
+  "email.unsubscribe.subText": "Hast du dich versehentlich abgemeldet? Du kannst ganz einfach zum alten Zustand zurückkehren.",
+  "email.unsubscribe.button": "Melde dich wieder bei der Email-Serie an",
+  "email.resubscribe.description": "Du hast dich erfolgreich als \"{{email}}\" bei {{series}} angemeldet.",
   "error.errorBoundary.retry": "Erneut versuchen?",
   "favorites.noResults.description": "Tippe aufs Lesezeichen-Symbol, um Inhalte zu deinen Favoriten hinzuzufügen.",
   "favorites.noResults.title": "No keine Favoriten gespeichert",

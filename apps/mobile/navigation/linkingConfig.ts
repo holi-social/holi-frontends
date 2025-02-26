@@ -182,6 +182,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.UserProfile]: 'profile/:userId',
     [RouteName.NotFound]: '404',
     [RouteName.AuthSelection]: '/authSelection',
+    [RouteName.Unsubscribe]: 'unsubscribe',
   },
 }
 
