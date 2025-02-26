@@ -27,6 +27,7 @@ exports[`PollResults renders correctly as expected 1`] = `
   >
     <Text
       accessible={false}
+      numberOfLines={2}
       role="none"
       selectable={true}
       style={
