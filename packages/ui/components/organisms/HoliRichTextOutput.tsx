@@ -143,7 +143,7 @@ const HoliRichTextOutput = ({
   }
 
   return (
-    <Text testID={testID} size={size} color={color} {...props}>
+    <Text testID={testID} size={size} color={color} numberOfLines={numberOfLines} {...props}>
       {textWithMentions}
     </Text>
   )
