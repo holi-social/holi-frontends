@@ -33,6 +33,7 @@ import type { SearchParams as OldSearchParams } from '@holi/core/screens/search/
 import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import NotFound from '@holi/core/screens/404/NotFound'
 import { AuthSelection } from '@holi/core/auth/screens/AuthSelection'
+import Unsubscribe from '@holi/core/screens/mail/Unsubscribe'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -66,6 +67,8 @@ export type RootStackScreens = {
   [RouteName.CreateReport]: undefined
 
   [RouteName.AuthSelection]: undefined
+
+  [RouteName.Unsubscribe]: undefined
 
   [RouteName.Search]: SearchParams | OldSearchParams
 
@@ -266,6 +269,8 @@ const RootNavigator = () => {
           headerLeft: () => <HeaderBackButton />,
         }}
       />
+
+      <RootStack.Screen name={RouteName.Unsubscribe} component={Unsubscribe} options={{ headerShown: true }} />
     </RootStack.Navigator>
   )
 }

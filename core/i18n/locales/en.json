@@ -214,6 +214,11 @@
     "Friday",
     "Saturday"
   ],
+  "email.unsubscribe.description": "You have successfully unsubscribed from the email {{series}} as \"{{email}}\".",
+  "email.unsubscribe.welcomeSeries": "welcome series",
+  "email.unsubscribe.subText": "Did you unsubscribe by mistake? You can easily go back to how it was.",
+  "email.unsubscribe.button": "Subscribe again to the email series",
+  "email.resubscribe.description": "You have successfully re-subscribed to the email {{series}} as \"{{email}}\".",
   "error.errorBoundary.retry": "Try again?",
   "favorites.noResults.description": "Tap the bookmark icon on content you like to add them to your favourites.",
   "favorites.noResults.title": "No favourites saved yet",
