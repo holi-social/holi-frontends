@@ -44,6 +44,7 @@ export const topicsQuery = gql`
 export const UserAvatarFragment = gql`
   fragment UserAvatar on User {
     id
+    identity
     avatar
     avatarBlurhash
     avatarLabel
@@ -56,6 +57,7 @@ export const UserAvatarFragment = gql`
 export const FullUserAvatarFragment = gql`
   fragment FullUserAvatar on User {
     id
+    identity
     avatar
     avatarBlurhash
     avatarLabel

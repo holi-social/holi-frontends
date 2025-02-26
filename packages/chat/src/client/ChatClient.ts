@@ -9,14 +9,14 @@ import {
   type ICreateClientOpts,
   type ICreateRoomOpts,
   type IStartClientOpts,
-  MatrixClient,
+  type MatrixClient,
   type MatrixEvent,
   MatrixScheduler,
   Preset,
   PushRuleKind,
-  Room,
+  type Room,
   RoomEvent,
-  RoomMember,
+  type RoomMember,
   type RoomState,
   RoomStateEvent,
   Visibility,
@@ -25,7 +25,7 @@ import {
 import { ReceiptType } from 'matrix-js-sdk/lib/@types/read_receipts'
 import { logger as matrixLogger } from 'matrix-js-sdk/lib/logger'
 import { SyncState } from 'matrix-js-sdk/lib/sync'
-import { MsgType, RoomMessageEventContent } from 'matrix-js-sdk/lib/types'
+import type { MsgType, RoomMessageEventContent } from 'matrix-js-sdk/lib/types'
 
 import { configurePusher } from '@holi/chat/src/client/pusher'
 import {
@@ -33,14 +33,16 @@ import {
   ChatRoomEvent,
   type ChatRoomMember,
   type ChatRoomMessage,
+  type ChatRoomType,
   type CreateRoomOptions,
   type MatrixId,
   MembershipStatus,
   type MxMessagesResponse,
   type NotificationCount,
+  type RoomHoliMetadata,
   type RoomId,
   type RoomUpdatesContent,
-  RoomUpdatesType,
+  type RoomUpdatesType,
   type RoomWithSharedData,
 } from '@holi/chat/src/client/types'
 import {
@@ -62,7 +64,7 @@ import {
   setRoomsListeners,
 } from '@holi/chat/src/client/utils'
 import { isEmptyString, isString } from '@holi/chat/src/utils'
-import { type ChatCredentials } from '@holi/chat/src/utils/types'
+import type { ChatCredentials } from '@holi/chat/src/utils/types'
 import { HoliChatClientError } from '@holi/core/errors/classes/HoliChatClientError'
 import { logError } from '@holi/core/errors/helpers'
 import { environment } from '@holi/core/helpers/environment'
@@ -102,6 +104,13 @@ export default class ChatClient {
     return { sharedDataEvent, parentEvent }
   }
 
+  public getRoomHoliMetadata(room: Room): RoomHoliMetadata | undefined {
+    const state = room.getLiveTimeline().getState(Direction.Forward)
+    const roomCreateEvent = state?.getStateEvents(EventType.RoomCreate)?.pop()
+
+    return roomCreateEvent?.getContent() as RoomHoliMetadata | undefined
+  }
+
   private getSpaceChildEvents(): MatrixEvent[] {
     return this.mxClient.getRooms().reduce((spaceEvents: MatrixEvent[], room: Room) => {
       if (!room.isSpaceRoom()) return spaceEvents
@@ -116,10 +125,27 @@ export default class ChatClient {
 
   private createSharedData(room: Room): RoomWithSharedData {
     const { sharedDataEvent, parentEvent } = this.getSpaceEvents(room)
-    if (!sharedDataEvent) return { type: 'private', room }
 
+    // Check type from `RoomCreate` event
+    if (!sharedDataEvent) {
+      const roomHoliMetadata = this.getRoomHoliMetadata(room)
+
+      switch (roomHoliMetadata?.type) {
+        case 'space.task':
+          return {
+            type: roomHoliMetadata.type,
+            content: roomHoliMetadata.content,
+            room,
+          }
+        default:
+          return { type: 'private', room }
+      }
+    }
+
+    // Chat type based on our custom `SharedData` event
     const content = sharedDataEvent.getEffectiveEvent().content
 
+    // Space Parent Room Shared Data
     if (room.isSpaceRoom() && isSharedDataContent(content)) {
       return { type: 'space', room, content }
     }
@@ -260,20 +286,32 @@ export default class ChatClient {
     return this.mxClient.getHomeserverUrl()
   }
 
-  /** Rooms */
-  public async getOrCreateRoom(userIds: string[], options: CreateRoomOptions): Promise<RoomId> {
+  private getRoomByUserIds(matrixUserIds: string[]): Room | undefined {
     const room = this.mxClient.getRooms().find((room) => {
+      const members = room.getMembers()
+
       return (
-        // look for a room that has all the requested userIds and is not a space room
         !room.isSpaceRoom() &&
-        room.getMembers().length == userIds.length + 1 &&
-        room.getMembers().filter((roomMember) => userIds.includes(roomMember.userId)).length == userIds.length
+        members.length == matrixUserIds.length + 1 && // +1 is for the logged in user
+        matrixUserIds.every((id) => members.find((member) => member.userId === id))
       )
     })
 
-    if (room) return { room_id: room.roomId }
+    return room
+  }
 
-    return this.createRoom(userIds, options)
+  public getExistingRoomId(userIds: string[], roomType: ChatRoomType = 'private'): string | undefined {
+    const room = this.getRoomByUserIds(userIds)
+    const roomMetadata = room && this.getRoomHoliMetadata(room)
+    return roomMetadata?.type === roomType ? room?.roomId : undefined
+  }
+
+  /**
+   * Rooms
+   * */
+  public async getOrCreateRoom(userIds: string[], options: CreateRoomOptions): Promise<RoomId> {
+    const room_id = this.getExistingRoomId(userIds, options.metadata.type ?? 'private')
+    return room_id ? { room_id } : this.createRoom(userIds, options)
   }
 
   /**
@@ -290,7 +328,7 @@ export default class ChatClient {
    **/
   public async createRoom(
     userIds: string[],
-    { isDirectMessage, isPrivate = true, name }: CreateRoomOptions
+    { isDirectMessage, isPrivate = true, name, metadata }: CreateRoomOptions
   ): Promise<RoomId> {
     if (userIds.length < 1) {
       throw new HoliChatClientError('createRoom', 'Chat rooms must be created with at least one member')
@@ -300,6 +338,7 @@ export default class ChatClient {
       is_direct: isDirectMessage,
       preset: isPrivate ? Preset.PrivateChat : Preset.PublicChat,
       visibility: isPrivate ? Visibility.Private : Visibility.Public,
+      creation_content: metadata,
       ...(name ? { name } : {}),
     }
 
@@ -482,6 +521,23 @@ export default class ChatClient {
 
     return () => {
       this.mxClient.off(RoomEvent.Name, handleNameChange)
+    }
+  }
+
+  public subscribeToRoomCreateEvent(callback: (chatRoom: ChatRoom) => void): () => void {
+    const handleRoomCreated = (event: MatrixEvent, roomState: RoomState) => {
+      if (event.getType() !== EventType.RoomCreate) return
+
+      const room = this.mxClient.getRoom(roomState.roomId)
+      if (!room) return
+
+      callback(this.createChatRoom(room))
+    }
+
+    this.mxClient.on(RoomStateEvent.Events, handleRoomCreated)
+
+    return () => {
+      this.mxClient.off(RoomStateEvent.Events, handleRoomCreated)
     }
   }
 

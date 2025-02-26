@@ -24,6 +24,7 @@ query taskById($id: UUID!) {
       id
       connectionStatusToMyself
       name
+      title
       avatar
       avatarBlurhash
       topics {

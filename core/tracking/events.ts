@@ -104,22 +104,22 @@ export namespace TrackingEvent {
 
   export const SpaceAskQuestion = {
     askedQuestion: {
-      name: 'askQuestionButton_pressed',
+      name: 'space_askQuestionButton_pressed',
       ...versionOne,
     },
     startedConversation: {
-      name: 'startConversationButton_pressed',
+      name: 'space_startConversationButton_pressed',
       ...versionOne,
     },
   }
 
   export const TaskContactOrganization = {
-    contactOrganization: {
-      name: 'contactOrganization_pressed',
+    contactedOrganization: {
+      name: 'task_contactOrganisationButton_pressed',
       ...versionOne,
     },
-    startedConversation: {
-      name: 'startConversationButton_pressed',
+    startedConversationFromTask: {
+      name: 'task_startConversationButton_pressed',
       ...versionOne,
     },
   }
@@ -427,7 +427,15 @@ export namespace TrackingEvent {
       spaceName: string
     }
 
-    type ChatMessageMetadata = ChatUserMessageMetadata | ChatSpaceMessageMetadata
+    interface ChatSpaceTaskMessageMetadata extends ChatMessageMetadataBase {
+      type: 'space_task_message'
+      spaceId: string
+      spaceName: string
+      taskName: string
+      taskId: string
+    }
+
+    type ChatMessageMetadata = ChatUserMessageMetadata | ChatSpaceMessageMetadata | ChatSpaceTaskMessageMetadata
 
     export const MessageSent = (metadata: ChatMessageMetadata): TrackingEvent => ({
       name: 'chatMessageSent',

@@ -2446,6 +2446,7 @@ export type TaskByIdQuery = {
       id: string
       connectionStatusToMyself: Array<SpaceUserConnectionType>
       name: string
+      title: string
       avatar?: string
       avatarBlurhash?: string
       topics: Array<{ __typename?: 'Topic'; id: string; title: string }>
@@ -2659,6 +2660,7 @@ export const TaskByIdDocument = gql`
       id
       connectionStatusToMyself
       name
+      title
       avatar
       avatarBlurhash
       topics {

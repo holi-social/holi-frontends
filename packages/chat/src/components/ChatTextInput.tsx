@@ -28,10 +28,11 @@ interface Props {
   roomId: string
   isVisible: boolean
   userName?: string
+  isTaskChat?: boolean
   onMessageSent?: (content: string) => void
 }
 
-export const ChatTextInput = ({ roomId, isVisible, userName = '', onMessageSent }: Props) => {
+export const ChatTextInput = ({ roomId, isVisible, userName = '', isTaskChat = false, onMessageSent }: Props) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { displayError } = useErrorHandling()
@@ -58,12 +59,16 @@ export const ChatTextInput = ({ roomId, isVisible, userName = '', onMessageSent 
     }
   }
 
+  const placeholderText = isTaskChat
+    ? t('chat.room.input.placeholder.taskchat')
+    : t('chat.room.input.placeholder', { fullName: userName })
+
   return isVisible ? (
     <View style={styles.wrapper}>
       <View style={styles.container}>
         <HoliTextInput
-          aria-label={t('chat.room.input.placeholder', { fullName: userName })}
-          placeholder={t('chat.room.input.placeholder', { fullName: userName })}
+          aria-label={placeholderText}
+          placeholder={placeholderText}
           value={inputValue}
           onChange={setInputValue}
           style={styles.textInputContainer}

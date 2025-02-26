@@ -3,6 +3,8 @@ import { APIRequestContext, BrowserContext } from '@playwright/test'
 
 import { newUserEmail, randomPassword } from './fixtures'
 
+import { readFileSync } from 'fs'
+
 export type User = {
   id: string
   identity: string
@@ -122,4 +124,90 @@ export const signUp = async (
     email,
     password,
   }
+}
+
+export type E2ETestSpaceResponse = {
+  id: string
+  title: string
+  description: string
+  name: string
+  cover: string
+  coverBlurhash: string
+}
+
+export const createSpace = async (context: BrowserContext) => {
+  const file = new File([readFileSync('tests/helpers/testimage.png')], 'testimage.png')
+
+  const formData = new FormData()
+  formData.append(
+    'operations',
+    JSON.stringify({
+      operationName: 'CreateSpace',
+      variables: {
+        input: {
+          title: `E2E ${faker.company.name()}`,
+          description: 'E2E Space Description',
+          topics: ['e3f03ff4-b205-4196-9eff-57b80e5b0fff'], //Other
+          cover: null,
+        },
+      },
+      query:
+        'mutation CreateSpace($input: CreateSpaceInput!) {\ncreateSpace(input: $input) {\n id\n title\n description\n name\n cover\n coverBlurhash\n name\n}\n}',
+    })
+  )
+  formData.append('map', '{"1":["variables.input.cover"]}')
+  formData.append('1', file, 'testimage.png')
+
+  // todo gregor: use codegen types after generating the create space types
+  // @ts-ignore
+  const createSpaceResponse: Response<{ data?: { createSpace: E2ETestSpaceResponse }; errors?: object[] }> = await (
+    await context.request.post(`${baseURL}/api/graphql`, {
+      multipart: formData,
+    })
+  ).json()
+
+  if (createSpaceResponse.errors) {
+    throw new Error('Failed to create space ' + JSON.stringify(createSpaceResponse.errors, null, 2))
+  }
+
+  return createSpaceResponse.data.createSpace
+}
+
+export type E2ETestSpaceTaskResponse = {
+  id: string
+  name: string
+  description: string
+}
+
+export const createSpaceTask = async (context: BrowserContext, spaceId: string) => {
+  // todo gregor: use codegen types after generating the create space task types
+  // @ts-ignore
+  const createSpaceTaskResponse: { data?: { createTask: E2ETestSpaceTaskResponse }; errors?: object[] } = await (
+    await context.request.post(`${baseURL}/api/graphql`, {
+      data: {
+        operationName: 'CreateTask',
+        query:
+          'mutation CreateTask($input: CreateTaskInput!) {  createTask(input: $input) {    id    name    description    visibility    regularity    locationType    location    contactEmail    contactPhone    __typename  }}',
+        variables: {
+          input: {
+            spaceId: spaceId,
+            name: faker.lorem.words(3),
+            description: faker.lorem.lines(3),
+            visibility: 'PUBLIC',
+            locationType: 'REMOTE',
+            regularity: 'ONE_TIME',
+            contactEmail: faker.internet.email(),
+            slotsAvailable: 1,
+            skills: [],
+          },
+        },
+      },
+    })
+  ).json()
+
+  if (createSpaceTaskResponse.errors) {
+    throw new Error('Failed to create space task ' + JSON.stringify(createSpaceTaskResponse.errors, null, 2))
+  }
+
+  return createSpaceTaskResponse.data!.createTask
 }
