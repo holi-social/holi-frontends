@@ -10,6 +10,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import { useTranslation } from 'react-i18next'
 
 interface EmailContentProps {
+  resubscribe: boolean
   isResubscribed: boolean
   fadeAnim?: Animated.Value
   series: string
@@ -19,6 +20,7 @@ interface EmailContentProps {
 }
 
 export const EmailContent: React.FC<EmailContentProps> = ({
+  resubscribe = false,
   isResubscribed,
   fadeAnim,
   series,
@@ -51,7 +53,7 @@ export const EmailContent: React.FC<EmailContentProps> = ({
 
       <HoliGap size="ml" />
 
-      {!isResubscribed && (
+      {!isResubscribed && resubscribe ? (
         <>
           <Text size="md" color="main" textAlign="left">
             {t('email.unsubscribe.subText')}
@@ -68,7 +70,7 @@ export const EmailContent: React.FC<EmailContentProps> = ({
 
           <HoliGap size="ml" />
         </>
-      )}
+      ) : null}
 
       <Button size="lg" label="Log into holi" variant="primary" onPress={onLogin} />
     </Animated.View>
