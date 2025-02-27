@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
 import { logError } from '@holi/core/errors/helpers'
@@ -74,13 +74,20 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   const identity = selectedConnection?.identity
 
   const { data, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
-    variables: { offset: 0, limit: 10 },
+    variables: { offset: 0, limit: 100 },
     onError: (error) =>
       logError(error, 'Failed to load connections for user', { location: 'ConnectionsTab.myConnectionsQuery' }),
   })
   useOnRefresh(refetch)
 
   const [connections, setConnections] = useState<Connection[]>(data?.myConnections.data ?? [])
+
+  useEffect(() => {
+    if (data?.myConnections.data) {
+      setConnections(data.myConnections.data)
+    }
+  }, [data])
+
   const animKey = !data ? 'loading' : data.myConnections.totalResults > 0 ? 'ready' : 'empty'
 
   const onSelectConnection = useCallback(
@@ -218,11 +225,11 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
           />
           <View style={styles.details}>
             <Text size="lg">{selectedConnection?.fullName}</Text>
-            {selectedConnection?.pronouns && (
+            {selectedConnection?.pronouns ? (
               <Text size="xs" colorOveride="grey">
-                {`(${selectedConnection?.pronouns || ''})`}
+                ({selectedConnection.pronouns})
               </Text>
-            )}
+            ) : null}
             <HoliGap size="sm" />
             <HoliDivider />
             <HoliGap size="m" />
