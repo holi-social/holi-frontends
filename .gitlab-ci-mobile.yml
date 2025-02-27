@@ -37,34 +37,7 @@
   cache: !reference [.yarn-cache-readonly]
   dependencies: [] # explicitly disable artifact usage
   script:
-    - 'echo "Loading environment from \"${ENVIRONMENT_FILE}\""'
-    - '. ${ENVIRONMENT_FILE}'
-    - 'cd apps/mobile'
-    - corepack enable
-    - yarn install --immutable --immutable-cache
-    - eas --version
-    - >
-      if [ "$CHECK_VERSION_RELEASED" == "true" ]; then
-        export LAST_VERSION_IOS=$(eas build:list --json --non-interactive --platform ios --buildProfile $BUILD_PROFILE --limit=1 2>/dev/null | jq -r '.[0].appBuildVersion')
-        export LAST_VERSION_ANDROID=$(eas build:list --json --non-interactive --platform android --buildProfile $BUILD_PROFILE --limit=1 2>/dev/null | jq -r '.[0].appBuildVersion')
-        export CURRENT_VERSION_IOS=$(expo config --json 2>/dev/null | jq -r '.ios.buildNumber')
-        export CURRENT_VERSION_ANDROID=$(expo config --json 2>/dev/null | jq -r '.android.versionCode')
-        if [[ "$BUILD_PLATFORM" == "ios" && "$LAST_VERSION_IOS" == "$CURRENT_VERSION_IOS" ]]; then
-          echo "iOS app version \"$CURRENT_VERSION_IOS\" was already built (and most likely released). Did you forget to increment app versions?"
-          exit 1
-        fi
-        if [[ "$BUILD_PLATFORM" == "android" && "$LAST_VERSION_ANDROID" == "$CURRENT_VERSION_ANDROID" ]]; then
-          echo "Android app version \"$CURRENT_VERSION_ANDROID\" was already built (and most likely released). Did you forget to increment app versions?"
-          exit 1
-        fi
-      fi
-    - 'eas build --platform $BUILD_PLATFORM --profile $BUILD_PROFILE --non-interactive'
-    - 'export ARTIFACT_URL=$(eas build:list --gitCommitHash ${CI_COMMIT_SHA} --json --non-interactive --platform $BUILD_PLATFORM --limit=1 2> /dev/null | jq -r ".[0].artifacts.buildUrl")' # extracts build URL from EAS
-    - >
-      if [ "$KEEP_ARTIFACTS" == "true" ]; then
-        mkdir -p artifacts_$CI_ARTIFACTS_ENVIRONMENT_NAME
-        curl -o artifacts_$CI_ARTIFACTS_ENVIRONMENT_NAME/$(basename $ARTIFACT_URL) $ARTIFACT_URL
-      fi
+    - terraform/environments/scripts/build-mobile.sh ./"$ENVIRONMENT_FILE" "$BUILD_PROFILE" "$BUILD_PLATFORM" "$CHECK_VERSION_RELEASED" "$CI_COMMIT_SHA" "$CI_ARTIFACTS_ENVIRONMENT_NAME" "$KEEP_ARTIFACTS"
   interruptible: true
 
 .mobile_e2e:
