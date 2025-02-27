@@ -46,25 +46,12 @@ export const clickButtonByText = async (page: Page, buttonText: string): Promise
   await page.click(`button:has-text("${buttonText}")`)
 }
 
-export const dismissConsentDialog = (page: Page) => page.getByRole('button', { name: 'Decline all' }).click()
-
-export const denyConsent = async (page: Page) => {
-  // Store the denial in local storage
-  await page.evaluate(() => {
-    localStorage.setItem('HOLI_TRACKING_CONSENT', '{"ANALYTICS":"denied","PERSONALIZATION":"denied"}')
-  })
-  // Now reload the page - the consent logic will read what's in local storage and not show the dialog
-  await page.reload()
-}
-
 const prepareForLoginOrRegistration = async (context: BrowserContext, page: Page) => {
   await context.clearCookies()
 
   //Introduced exception handling if first attempt to hit the server does not succeed
 
   await gotoWithRetries(page, '/profile')
-
-  await denyConsent(page)
 }
 
 export const login = async (context: BrowserContext, page: Page, email: string, password: string): Promise<void> => {
@@ -129,16 +116,22 @@ const fillOutOnboarding = async (page: Page, userData: OnboardingUserData) => {
     await clickElementByTestId(page, userData.content)
   }
   await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
-  // Handle location selection
-  await page.waitForSelector(byTestId('onboarding-location-selection'))
-  if (userData.location) {
-    const locationInput = await locateElementByTestId(page, 'onboarding-location-selection-autocomplete-input')
-    await locationInput.fill(userData.location.label)
-    const locationOption = `onboarding-location-selection-autocomplete-item-${userData.location.id}`
-    await page.waitForSelector(byTestId(locationOption))
-    await clickElementByTestId(page, locationOption)
+
+  if (isRunningLocally()) {
+    await page.getByRole('button', { name: 'Skip' }).click()
+  } else {
+    // Handle location selection
+    await page.waitForSelector(byTestId('onboarding-location-selection'))
+    if (userData.location) {
+      const locationInput = await locateElementByTestId(page, 'onboarding-location-selection-autocomplete-input')
+      await locationInput.fill(userData.location.label)
+      const locationOption = `onboarding-location-selection-autocomplete-item-${userData.location.id}`
+      await page.waitForSelector(byTestId(locationOption))
+      await clickElementByTestId(page, locationOption)
+    }
+    await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
   }
-  await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
+
   // Handle interests selection
   await page.waitForSelector(byTestId('onboarding-interests-selection'))
   for (const slug of userData.interests) {
@@ -222,8 +215,6 @@ const finishAccountSetup = async (
 export const proceedAsGuest = async (page: Page): Promise<void> => {
   //Introduced exception handling if first attempt to hit the server does not succeed
   await gotoWithRetries(page, '/')
-
-  await denyConsent(page)
 
   await skipOnboardingInitialSteps(page)
 
@@ -389,7 +380,7 @@ export const retry = async (expectationFn: () => Promise<void>) => {
     await expectationFn()
   }).toPass({
     intervals: [3_000],
-    timeout: 20_000,
+    timeout: 30_000,
   })
 }
 

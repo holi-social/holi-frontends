@@ -1,7 +1,6 @@
 import { type Browser, type BrowserContext, type Page, test as baseTest } from '@playwright/test'
 
 import { OnboardingUserData } from '@holi/core/screens/onboarding/types'
-import { gotoWithRetries } from './helpers'
 import { withRandomUserSession } from './helpers'
 import {
   E2ETestSpaceResponse,
@@ -69,21 +68,7 @@ export class SessionHandler {
     this.signInContexts.push(context)
 
     const newPage = await context.newPage()
-    //Introduced exception handling if first attempt to hit the server does not succeed
-    try {
-      // First attempt to navigate normally
-      await newPage.goto('/')
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(`Initial navigation to '/' failed: ${error.message}`) // eslint-disable-line no-console
-      } else {
-        console.error("Initial navigation to '/' failed with an unknown error.") // eslint-disable-line no-console
-      }
-
-      // If the initial attempt fails, fall back to retry logic
-      await gotoWithRetries(newPage, '/')
-    }
-    //await denyConsent(newPage)
+    await newPage.goto('/')
 
     return {
       user,

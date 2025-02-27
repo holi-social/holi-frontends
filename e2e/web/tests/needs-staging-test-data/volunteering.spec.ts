@@ -5,7 +5,6 @@ import {
   checkAccessibility,
   clickElementByTestId,
   clickFirstElement,
-  denyConsent,
   isRunningLocally,
   locateElementByTestId,
   volunteeringRequestTimeout,
@@ -19,7 +18,6 @@ test.describe('@Volunteering', () => {
 
     //prepare
     await page.goto('/volunteering')
-    await denyConsent(page)
 
     await testAllowsPagination(page)
     await withSSR(browser, page.url(), testDisplaysList)
