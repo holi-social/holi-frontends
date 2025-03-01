@@ -18,6 +18,8 @@
   "task.commitment.NOT_DECLARED": "Nicht angegeben",
   "task.locationType.NOT_DECLARED": "Kein Standort",
   "act.title": "Handeln",
+  "act.events.title": "Events",
+  "act.events.subline": "Entdecke Events in deiner Nähe",
   "allTools.drawer.comingSoon.label": "Bald",
   "allTools.drawer.headline": "Alle Tools",
   "allTools.drawer.maintenance.label": "Offline",

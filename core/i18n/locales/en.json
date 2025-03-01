@@ -18,6 +18,8 @@
   "task.commitment.NOT_DECLARED": "Not specified",
   "task.locationType.NOT_DECLARED": "No location",
   "act.title": "Act",
+  "act.events.title": "Events",
+  "act.events.subline": "Join impactful events",
   "allTools.drawer.comingSoon.label": "Soon",
   "allTools.drawer.headline": "All tools",
   "allTools.drawer.maintenance.label": "Offline",

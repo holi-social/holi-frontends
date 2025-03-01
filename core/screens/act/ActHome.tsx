@@ -24,6 +24,7 @@ export const orderedSections = (selectedContentType?: string) => {
   const sections = [
     ActSectionType.VOLUNTEERING,
     ActSectionType.CHALLENGES,
+    ActSectionType.EVENTS,
     ActSectionType.TASKS,
     ActSectionType.DONATIONS,
   ]
