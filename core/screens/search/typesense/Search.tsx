@@ -29,11 +29,32 @@ export type SearchParams = {
 
 const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 
+// Original fields for fallback or combined usage
 const searchFields = ['title_de', 'title_en', 'description_de', 'description_en', 'location', 'user_full_name']
-
 const embeddingFields = ['embedding']
 
-const createTypesenseInstantSearchAdapter = () => {
+const createTypesenseInstantSearchAdapter = (facet?: string) => {
+  const facetConfigurations: Record<string, { query_by: string; query_by_weights: string; vector_query: string }> = {
+    volunteering: {
+      query_by: [...searchFields, ...embeddingFields].join(','),
+      query_by_weights: '3,3,1,1,1,0,1',
+      vector_query: 'embedding:([], k: 200, distance_threshold: 0.9)',
+    },
+    space: {
+      query_by: [...searchFields, ...embeddingFields].join(','),
+      query_by_weights: '10,10,1,1,1,0,1',
+      vector_query: 'embedding:([], k: 150, distance_threshold: 0.5)',
+    },
+    profile: {
+      query_by: [...searchFields, ...embeddingFields].join(','),
+      query_by_weights: '0,0,0,0,0,10,1',
+      vector_query: 'embedding:([], k: 100, distance_threshold: 0.1)',
+    },
+  }
+
+  // Use the provided facet or fallback to a default ('volunteering')
+  const config = facetConfigurations[facet || 'volunteering']
+
   return new TypesenseInstantSearchAdapter({
     server: {
       apiKey: typesenseApiKey,
@@ -47,8 +68,9 @@ const createTypesenseInstantSearchAdapter = () => {
       cacheSearchResultsForSeconds: 2 * 60,
     },
     additionalSearchParameters: {
-      query_by: searchFields.join(',') + ',' + embeddingFields.join(','),
-      vector_query: 'embedding:([], k: 200, distance_threshold: 0.4)',
+      query_by: config.query_by,
+      query_by_weights: config.query_by_weights,
+      vector_query: config.vector_query,
     },
   })
 }
@@ -56,10 +78,13 @@ const createTypesenseInstantSearchAdapter = () => {
 export const Search = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-  const typesenseInstantSearchAdapter = useMemo(createTypesenseInstantSearchAdapter, [])
   const [queryParam] = useParam('query', singleParamConfig)
   const [facetParam] = useParam('facet', singleParamConfig)
   const updateParams = useUpdateParams({ web: { replace: true } })
+
+  // Recreate the adapter whenever the facet changes
+  const typesenseInstantSearchAdapter = useMemo(() => createTypesenseInstantSearchAdapter(facetParam), [facetParam])
+
   const queryParamIsEmpty = !queryParam || queryParam === '*'
 
   return (
@@ -71,7 +96,7 @@ export const Search = () => {
       <Screen
         backgroundColor="page"
         preset="fixed"
-        contentContainerStyle={{ flex: 1 }} // this is needed because flash list has no initial size, it calculates it while rendering.
+        contentContainerStyle={{ flex: 1 }} // needed for FlashList initial size calculations.
         style={styles.screen}
         headerOptions={{
           title: t('search.title'),
