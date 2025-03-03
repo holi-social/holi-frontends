@@ -47,8 +47,8 @@ const createTypesenseInstantSearchAdapter = (facet?: string) => {
     },
     profile: {
       query_by: [...searchFields, ...embeddingFields].join(','),
-      query_by_weights: '0,0,0,0,0,10,1',
-      vector_query: 'embedding:([], k: 100, distance_threshold: 0.1)',
+      query_by_weights: '0,0,0,0,0,10,0',
+      vector_query: 'embedding:([], k: 100, distance_threshold: 0.0)',
     },
   }
 
