@@ -82,6 +82,15 @@ default:
   resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
   interruptible: false
 
+.web_smoketest:
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/holi-k6-builder'
+  cache: [] # explicitly disable cache
+  script:
+    - UI_DOMAIN=$(cat "$UI_DOMAIN_PATH")
+    - terraform/environments/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
+    - BASE_URL="https://${UI_DOMAIN}/api/health" k6 run smoketest/main.js
+    # TODO should/could we roll back the service to the last working revision on test failure?
+
 # end job templates
 
 # pipeline in chronological order
@@ -215,6 +224,13 @@ web_review_deploy:
     - !reference [.rules_web_review]
     - !reference [.rule_templates, automatically_on_any_other]
 
+web_review_smoketest:
+  needs: ['web_review_deploy']
+  extends: .web_smoketest
+  rules:
+    - !reference [.rules_web_review]
+    - !reference [.rule_templates, automatically_on_any_other]
+
 web_review_e2e:
   extends: .web_e2e
   needs: ['web_review_deploy']
@@ -249,6 +265,12 @@ web_staging_deploy:
     url: https://staging.dev.holi.social
   variables:
     ENVIRONMENT_ID: staging
+  rules:
+    - !reference [.rule_templates, automatically_on_staging]
+
+web_staging_smoketest:
+  needs: ['web_staging_deploy']
+  extends: .web_smoketest
   rules:
     - !reference [.rule_templates, automatically_on_staging]
 
@@ -307,3 +329,9 @@ web_release_deploy:
       --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The production web environment has been manually released from \"'$CI_COMMIT_REF_SLUG'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")'. It has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://app.holi.social"}' \
       --output-document - \
       https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+
+web_release_smoketest:
+  needs: ['web_release_deploy']
+  extends: .web_smoketest
+  rules:
+    - !reference [.rule_templates, only_on_production_release]
