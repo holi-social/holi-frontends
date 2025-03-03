@@ -72,8 +72,8 @@ const resizeImage = async (
       canceled: false,
       assets: [resizedAsset],
     } as ImagePickerResult
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.error('Error resizing image:', error)
     // Return original asset if resize fails
     return {
       canceled: false,
@@ -162,8 +162,8 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
           }
 
           processedAssets.push(processedAsset)
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-          console.error('Error processing image:', error)
           // If processing fails, use original asset
           processedAssets.push(asset)
         }
