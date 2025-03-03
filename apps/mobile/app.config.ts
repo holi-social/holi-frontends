@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { ExpoConfig } from 'expo/config'
+import type { ExpoConfig } from 'expo/config'
 
 require('ts-node/register')
 

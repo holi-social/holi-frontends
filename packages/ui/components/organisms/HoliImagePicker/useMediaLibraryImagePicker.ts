@@ -28,24 +28,58 @@ const getImageSize = async (imageUri: string): Promise<{ width: number; height: 
   })
 }
 
-const resizeImage = async (asset: ImagePickerAsset, resizeWidth: number): Promise<ImagePickerResult> => {
-  const resizeActions = [{ resize: { width: resizeWidth } }]
-  const resizeSaveOptions = {
-    compress: 0.8,
-    format: SaveFormat.JPEG,
-    base64: false,
-  }
-  const resizedImage = await manipulateAsync(asset.uri, resizeActions, resizeSaveOptions)
-  const resizedAsset = {
-    ...asset,
-    uri: resizedImage.uri,
-    width: resizedImage.width,
-  } as ImagePickerAsset
+const resizeImage = async (
+  asset: ImagePickerAsset,
+  maxWidth: number,
+  maxHeight: number
+): Promise<ImagePickerResult> => {
+  try {
+    // Get current image dimensions
+    const imageSize = await getImageSize(asset.uri)
 
-  return {
-    canceled: false,
-    assets: [resizedAsset],
-  } as ImagePickerResult
+    // Calculate resize dimensions while maintaining aspect ratio
+    let resizeWidth = imageSize.width
+    let resizeHeight = imageSize.height
+
+    if (imageSize.width > maxWidth || imageSize.height > maxHeight) {
+      const widthRatio = maxWidth / imageSize.width
+      const heightRatio = maxHeight / imageSize.height
+      const ratio = Math.min(widthRatio, heightRatio)
+
+      resizeWidth = Math.floor(imageSize.width * ratio)
+      resizeHeight = Math.floor(imageSize.height * ratio)
+    }
+
+    // Prepare resize actions
+    const resizeActions = [{ resize: { width: resizeWidth, height: resizeHeight } }]
+    const resizeSaveOptions = {
+      compress: 0.8,
+      format: SaveFormat.JPEG,
+      base64: false,
+    }
+
+    // Perform the resize operation
+    const resizedImage = await manipulateAsync(asset.uri, resizeActions, resizeSaveOptions)
+
+    const resizedAsset = {
+      ...asset,
+      uri: resizedImage.uri,
+      width: resizedImage.width,
+      height: resizedImage.height,
+    } as ImagePickerAsset
+
+    return {
+      canceled: false,
+      assets: [resizedAsset],
+    } as ImagePickerResult
+  } catch (error) {
+    console.error('Error resizing image:', error)
+    // Return original asset if resize fails
+    return {
+      canceled: false,
+      assets: [asset],
+    } as ImagePickerResult
+  }
 }
 
 export type HoliImagePickerResult = 'missingPermissions' | 'technicalError' | 'invalidFileSize' | ImagePickerResult
@@ -91,43 +125,60 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
         return imagePickerResult
       }
 
-      // Check file sizes for each selected asset
-      for (let i = 0; i < imagePickerResult.assets.length; i++) {
-        let asset = imagePickerResult.assets[i]
-        const fileInfo = await getInfoAsync(asset.uri)
-        const imageInfo = await getImageSize(asset.uri)
-        switch (fileSizeLimitation.type) {
-          case 'unlimited':
-            continue
-          case 'resize':
-            if (
-              ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) ||
-              imageInfo?.width > CONTENT_IMAGE_MAX_WIDTH ||
-              imageInfo?.height > CONTENT_IMAGE_MAX_HEIGHT
-            ) {
-              const resizedAsset = await resizeImage(
-                asset,
-                fileSizeLimitation.resizeWidth <= CONTENT_IMAGE_MAX_WIDTH
-                  ? fileSizeLimitation.resizeWidth
-                  : CONTENT_IMAGE_MAX_WIDTH
-              )
-              if (!allowsMultipleSelection) return resizedAsset
-              if (allowsMultipleSelection && resizedAsset.assets?.[0]) {
-                asset = resizedAsset.assets[0]
-              }
-            }
-            continue
-          case 'reject':
-            if ('size' in fileInfo && fileInfo.size > fileSizeLimitation.limitBytes) {
-              if (!allowsMultipleSelection) return 'invalidFileSize'
+      // Process each selected asset
+      const processedAssets: ImagePickerAsset[] = []
 
-              imagePickerResult.assets.splice(i, 1)
+      for (const asset of imagePickerResult.assets) {
+        try {
+          const fileInfo = await getInfoAsync(asset.uri)
+          const imageInfo = await getImageSize(asset.uri)
+          let processedAsset = asset
+
+          // Always resize large images to prevent crashes
+          if (
+            ('size' in fileInfo && fileInfo.size > 5000000) || // 5MB general limit
+            imageInfo.width > CONTENT_IMAGE_MAX_WIDTH ||
+            imageInfo.height > CONTENT_IMAGE_MAX_HEIGHT
+          ) {
+            const maxWidth =
+              fileSizeLimitation.type === 'resize' && fileSizeLimitation.resizeWidth
+                ? Math.min(fileSizeLimitation.resizeWidth, CONTENT_IMAGE_MAX_WIDTH)
+                : CONTENT_IMAGE_MAX_WIDTH
+
+            const resizedResult = await resizeImage(asset, maxWidth, CONTENT_IMAGE_MAX_HEIGHT)
+            if (resizedResult.assets?.[0]) {
+              processedAsset = resizedResult.assets[0]
             }
-            continue
+          }
+
+          // For 'reject' type, still check size after resizing
+          if (fileSizeLimitation.type === 'reject') {
+            const processedFileInfo = await getInfoAsync(processedAsset.uri)
+            if ('size' in processedFileInfo && processedFileInfo.size > fileSizeLimitation.limitBytes) {
+              if (!allowsMultipleSelection) return 'invalidFileSize'
+              // Skip this asset for multiple selection
+              continue
+            }
+          }
+
+          processedAssets.push(processedAsset)
+        } catch (error) {
+          console.error('Error processing image:', error)
+          // If processing fails, use original asset
+          processedAssets.push(asset)
         }
       }
 
-      return imagePickerResult
+      // Return the processed result
+      if (processedAssets.length === 0 && imagePickerResult.assets.length > 0) {
+        // All images were rejected due to size
+        return 'invalidFileSize'
+      }
+
+      return {
+        canceled: false,
+        assets: processedAssets,
+      } as ImagePickerResult
     },
     [verifyPermissions, allowsMultipleSelection, selectionLimit]
   )
