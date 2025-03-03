@@ -15,16 +15,25 @@ import { CONTENT_IMAGE_MAX_HEIGHT, CONTENT_IMAGE_MAX_WIDTH } from '@holi/core/co
 import type { HoliImagePickerFileSizeLimitation } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
 const getImageSize = async (imageUri: string): Promise<{ width: number; height: number }> => {
-  return new Promise((resolve, reject) => {
-    Image.getSize(
-      imageUri,
-      (width, height) => {
-        resolve({ width, height })
-      },
-      (error) => {
-        reject(error)
-      }
-    )
+  return new Promise((resolve) => {
+    try {
+      Image.getSize(
+        imageUri,
+        (width, height) => {
+          resolve({ width, height })
+        },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        (error) => {
+          // Return default values if we can't get the size
+
+          resolve({ width: CONTENT_IMAGE_MAX_WIDTH, height: CONTENT_IMAGE_MAX_HEIGHT })
+        }
+      )
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      // Fallback to default values on any error
+      resolve({ width: CONTENT_IMAGE_MAX_WIDTH, height: CONTENT_IMAGE_MAX_HEIGHT })
+    }
   })
 }
 
@@ -34,12 +43,19 @@ const resizeImage = async (
   maxHeight: number
 ): Promise<ImagePickerResult> => {
   try {
-    // Get current image dimensions
-    const imageSize = await getImageSize(asset.uri)
+    // Get current image dimensions with fallback
+    let imageSize
+    try {
+      imageSize = await getImageSize(asset.uri)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      // Use default dimensions if size detection fails
+      imageSize = { width: maxWidth, height: maxHeight }
+    }
 
     // Calculate resize dimensions while maintaining aspect ratio
-    let resizeWidth = imageSize.width
-    let resizeHeight = imageSize.height
+    let resizeWidth = Math.min(imageSize.width, maxWidth)
+    let resizeHeight = Math.min(imageSize.height, maxHeight)
 
     if (imageSize.width > maxWidth || imageSize.height > maxHeight) {
       const widthRatio = maxWidth / imageSize.width
@@ -50,10 +66,14 @@ const resizeImage = async (
       resizeHeight = Math.floor(imageSize.height * ratio)
     }
 
+    // Ensure we have valid dimensions
+    resizeWidth = Math.max(1, Math.min(resizeWidth, maxWidth))
+    resizeHeight = Math.max(1, Math.min(resizeHeight, maxHeight))
+
     // Prepare resize actions
     const resizeActions = [{ resize: { width: resizeWidth, height: resizeHeight } }]
     const resizeSaveOptions = {
-      compress: 0.8,
+      compress: 0.7, // Slightly more compression
       format: SaveFormat.JPEG,
       base64: false,
     }
@@ -88,15 +108,20 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
 
   const verifyPermissions = useCallback(async () => {
-    if (!mediaLibraryPermissionInfo) return false
+    if (!mediaLibraryPermissionInfo) return true // Default to true if info is not available
 
-    // it is necessary to request even if already denied, because the user might have changed settings while the value of mediaLibraryPermissionInfo is still "denied"
-    if (
-      mediaLibraryPermissionInfo.status === PermissionStatus.UNDETERMINED ||
-      mediaLibraryPermissionInfo.status === PermissionStatus.DENIED
-    ) {
-      const permissionResponse = await requestMediaLibraryPermission()
-      return permissionResponse.granted
+    try {
+      // It is necessary to request even if already denied, because the user might have changed settings
+      if (
+        mediaLibraryPermissionInfo.status === PermissionStatus.UNDETERMINED ||
+        mediaLibraryPermissionInfo.status === PermissionStatus.DENIED
+      ) {
+        const permissionResponse = await requestMediaLibraryPermission()
+        return permissionResponse.granted
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      // Continue anyway if permission check fails
     }
 
     return true
@@ -104,81 +129,120 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
 
   const pickImages = useCallback(
     async (fileSizeLimitation: HoliImagePickerFileSizeLimitation) => {
-      const hasPermission = await verifyPermissions()
-      if (!hasPermission) return 'missingPermissions'
-
-      let imagePickerResult
       try {
-        imagePickerResult = await launchImageLibraryAsync({
-          mediaTypes: MediaTypeOptions.Images,
-          allowsEditing: !allowsMultipleSelection,
-          quality: 0.2,
-          base64: true,
-          allowsMultipleSelection,
-          selectionLimit,
-        })
-      } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
-        return 'technicalError'
-      }
+        const hasPermission = await verifyPermissions()
+        if (!hasPermission) return 'missingPermissions'
 
-      if (imagePickerResult.canceled) {
-        return imagePickerResult
-      }
-
-      // Process each selected asset
-      const processedAssets: ImagePickerAsset[] = []
-
-      for (const asset of imagePickerResult.assets) {
+        let imagePickerResult
         try {
-          const fileInfo = await getInfoAsync(asset.uri)
-          const imageInfo = await getImageSize(asset.uri)
-          let processedAsset = asset
-
-          // Always resize large images to prevent crashes
-          if (
-            ('size' in fileInfo && fileInfo.size > 5000000) || // 5MB general limit
-            imageInfo.width > CONTENT_IMAGE_MAX_WIDTH ||
-            imageInfo.height > CONTENT_IMAGE_MAX_HEIGHT
-          ) {
-            const maxWidth =
-              fileSizeLimitation.type === 'resize' && fileSizeLimitation.resizeWidth
-                ? Math.min(fileSizeLimitation.resizeWidth, CONTENT_IMAGE_MAX_WIDTH)
-                : CONTENT_IMAGE_MAX_WIDTH
-
-            const resizedResult = await resizeImage(asset, maxWidth, CONTENT_IMAGE_MAX_HEIGHT)
-            if (resizedResult.assets?.[0]) {
-              processedAsset = resizedResult.assets[0]
-            }
-          }
-
-          // For 'reject' type, still check size after resizing
-          if (fileSizeLimitation.type === 'reject') {
-            const processedFileInfo = await getInfoAsync(processedAsset.uri)
-            if ('size' in processedFileInfo && processedFileInfo.size > fileSizeLimitation.limitBytes) {
-              if (!allowsMultipleSelection) return 'invalidFileSize'
-              // Skip this asset for multiple selection
-              continue
-            }
-          }
-
-          processedAssets.push(processedAsset)
+          imagePickerResult = await launchImageLibraryAsync({
+            mediaTypes: MediaTypeOptions.Images,
+            allowsEditing: !allowsMultipleSelection,
+            quality: 0.2,
+            base64: false, // Set to false to reduce memory usage
+            allowsMultipleSelection,
+            selectionLimit,
+            exif: false, // Don't need EXIF data
+          })
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
-          // If processing fails, use original asset
-          processedAssets.push(asset)
+          return 'technicalError'
         }
-      }
 
-      // Return the processed result
-      if (processedAssets.length === 0 && imagePickerResult.assets.length > 0) {
-        // All images were rejected due to size
-        return 'invalidFileSize'
-      }
+        if (imagePickerResult.canceled) {
+          return imagePickerResult
+        }
 
-      return {
-        canceled: false,
-        assets: processedAssets,
-      } as ImagePickerResult
+        // Process each selected asset
+        const processedAssets: ImagePickerAsset[] = []
+
+        for (const asset of imagePickerResult.assets) {
+          try {
+            let processedAsset = asset
+            let fileInfo
+            let imageInfo
+
+            // Safely get file info
+            try {
+              fileInfo = await getInfoAsync(asset.uri)
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (error) {
+              fileInfo = { size: 0 }
+            }
+
+            // Safely get image dimensions
+            try {
+              imageInfo = await getImageSize(asset.uri)
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (error) {
+              imageInfo = { width: 0, height: 0 }
+            }
+
+            // Always resize large images to prevent crashes
+            const needsResize =
+              ('size' in fileInfo && fileInfo.size > 2000000) || // Lower threshold to 2MB
+              imageInfo.width > CONTENT_IMAGE_MAX_WIDTH ||
+              imageInfo.height > CONTENT_IMAGE_MAX_HEIGHT
+
+            if (needsResize) {
+              const maxWidth =
+                fileSizeLimitation.type === 'resize' && fileSizeLimitation.resizeWidth
+                  ? Math.min(fileSizeLimitation.resizeWidth, CONTENT_IMAGE_MAX_WIDTH)
+                  : CONTENT_IMAGE_MAX_WIDTH
+
+              try {
+                const resizedResult = await resizeImage(asset, maxWidth, CONTENT_IMAGE_MAX_HEIGHT)
+                if (resizedResult.assets?.[0]) {
+                  processedAsset = resizedResult.assets[0]
+                }
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              } catch (error) {
+                // Continue with original asset if resize fails
+              }
+            }
+
+            // For 'reject' type, still check size after resizing
+            if (fileSizeLimitation.type === 'reject') {
+              try {
+                const processedFileInfo = await getInfoAsync(processedAsset.uri)
+                if ('size' in processedFileInfo && processedFileInfo.size > fileSizeLimitation.limitBytes) {
+                  if (!allowsMultipleSelection) return 'invalidFileSize'
+                  // Skip this asset for multiple selection
+                  continue
+                }
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              } catch (error) {
+                // Continue with the asset if we can't check size
+              }
+            }
+
+            processedAssets.push(processedAsset)
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          } catch (error) {
+            // If processing fails, try to use original asset
+            try {
+              processedAssets.push(asset)
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (innerError) {
+              // Skip this asset if we can't even add the original
+            }
+          }
+        }
+
+        // Return the processed result
+        if (processedAssets.length === 0 && imagePickerResult.assets.length > 0) {
+          // All images were rejected due to size
+          return 'invalidFileSize'
+        }
+
+        return {
+          canceled: false,
+          assets: processedAssets,
+        } as ImagePickerResult
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        return 'technicalError'
+      }
     },
     [verifyPermissions, allowsMultipleSelection, selectionLimit]
   )
