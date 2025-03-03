@@ -248,6 +248,7 @@ mobile_release_candidate_publish:
     - !reference [.rule_templates, only_on_production_release]
   after_script: |
     curl -X POST -H 'Content-Type: application/json' --data '{"channel": "#release-status", "branch": "'"$CI_COMMIT_REF_SLUG"'", "text":"The mobile release candidate \"'"$CI_COMMIT_BRANCH"'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")' has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available for testing via:\n'"$CI_ENVIRONMENT_URL"'"}' "https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER"
+
 mobile_release_publish:
   extends: .mobile_publish
   needs: ['mobile_release_candidate_publish']
