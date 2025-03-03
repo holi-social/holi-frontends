@@ -14,6 +14,8 @@ import { Image } from 'react-native'
 import { CONTENT_IMAGE_MAX_HEIGHT, CONTENT_IMAGE_MAX_WIDTH } from '@holi/core/constants/constants'
 import type { HoliImagePickerFileSizeLimitation } from '@holi/ui/components/organisms/HoliImagePicker/types'
 
+const MIN_IMAGE_SIZE_FOR_COMPRESSION = 1000000 // 1mb
+
 const getImageSize = async (imageUri: string): Promise<{ width: number; height: number }> => {
   return new Promise((resolve) => {
     try {
@@ -73,7 +75,7 @@ const resizeImage = async (
     // Prepare resize actions
     const resizeActions = [{ resize: { width: resizeWidth, height: resizeHeight } }]
     const resizeSaveOptions = {
-      compress: 0.7, // Slightly more compression
+      compress: 0.7,
       format: SaveFormat.JPEG,
       base64: false,
     }
@@ -108,7 +110,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
   const [mediaLibraryPermissionInfo, requestMediaLibraryPermission] = useMediaLibraryPermissions()
 
   const verifyPermissions = useCallback(async () => {
-    if (!mediaLibraryPermissionInfo) return true // Default to true if info is not available
+    if (!mediaLibraryPermissionInfo) return false
 
     try {
       // It is necessary to request even if already denied, because the user might have changed settings
@@ -180,7 +182,7 @@ export const useMediaLibraryImagePicker = (allowsMultipleSelection = false, sele
 
             // Always resize large images to prevent crashes
             const needsResize =
-              ('size' in fileInfo && fileInfo.size > 2000000) || // Lower threshold to 2MB
+              ('size' in fileInfo && fileInfo.size > MIN_IMAGE_SIZE_FOR_COMPRESSION) ||
               imageInfo.width > CONTENT_IMAGE_MAX_WIDTH ||
               imageInfo.height > CONTENT_IMAGE_MAX_HEIGHT
 
