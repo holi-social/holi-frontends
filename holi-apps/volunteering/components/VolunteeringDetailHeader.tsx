@@ -4,11 +4,11 @@ import { StyleSheet, View } from 'react-native'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import LocationContainer from '@holi-apps/volunteering/components/LocationContainer'
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import type { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 
 type VolunteeringDetailHeaderProps = {
   engagement: VolunteeringEngagement
@@ -20,8 +20,8 @@ const VolunteeringDetailHeader = ({ engagement, imageWidth }: VolunteeringDetail
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
 
-  const hasTopics = engagement.topics && engagement.topics?.length > 0
-  const hasSkills = engagement.skills && engagement.skills?.length > 0
+  const hasTopics = engagement.topicsV2 && engagement.topicsV2?.length > 0
+  const hasSkills = engagement.skillsV2 && engagement.skillsV2?.length > 0
 
   const uri = engagement.imageUrl
   return (
@@ -30,7 +30,7 @@ const VolunteeringDetailHeader = ({ engagement, imageWidth }: VolunteeringDetail
       <View style={styles.detailContainer}>
         {(hasTopics || hasSkills) && (
           <>
-            <VolunteeringLabels displayAll={true} topicSlugs={engagement.topics} skillSlugs={engagement.skills} />
+            <VolunteeringLabels displayAll={true} topicSlugs={engagement.topicsV2} skillSlugs={engagement.skillsV2} />
             <HoliGap size={'sm'} />
           </>
         )}

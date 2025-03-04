@@ -1,8 +1,8 @@
-import React from 'react'
-import { GestureResponderEvent } from 'react-native'
+import type React from 'react'
+import type { GestureResponderEvent } from 'react-native'
 
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
 
 export type PartnerInfoRowProps = {
   headline?: string
@@ -45,14 +45,14 @@ export type VolunteeringEngagement = {
   location?: string
   latitude?: number | null
   longitude?: number | null
-  topics?: string[]
-  skills?: string[]
+  topicsV2?: string[]
+  skillsV2?: string[]
 }
 
 export type VolunteeringReco = {
   engagement: VolunteeringEngagement
-  matchedTopics?: string[]
-  matchedSkills?: string[]
+  matchedTopicsV2?: string[]
+  matchedSkillsV2?: string[]
 }
 
 export type VolunteeringFilterParams = {

@@ -2,7 +2,6 @@ import { render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
 
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { allSkills, allTopics } from '@holi-apps/volunteering/__tests__/helpers/fixtures'
 import { makeEngagement } from '@holi-apps/volunteering/__tests__/helpers/generators'
 import {
   type AppVolunteeringEngagementByIdResponse,
@@ -18,12 +17,15 @@ import type {
   AppVolunteering_TrackEngagementViewResponse,
   MutationAppVolunteering_TrackEngagementViewArgs,
 } from '@holi/api/graphql/graphql-codegen'
-import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
+import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 
 const mockEngagementId = '123'
 
 jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
+
+const allTopics = ALL_TOPICS.slice(0, 3)
+const allSkills = ALL_SKILLS.slice(0, 2)
 
 const mockEngagementDetailQuery: MockedResponse<
   AppVolunteeringEngagementByIdResponse,
@@ -113,21 +115,7 @@ const mockSimilarRecoQueries: MockedResponse<
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
-jest.mock('@holi/core/domain/shared/hooks')
-const mockUseTopics = jest.mocked(useTopics)
-const mockUseSkills = jest.mocked(useSkills)
-
 describe('VolunteeringEngagementDetail', () => {
-  beforeEach(() => {
-    mockUseTopics.mockReturnValue({
-      topics: allTopics,
-      topicsLoading: false,
-    })
-    mockUseSkills.mockReturnValue({
-      skills: allSkills,
-      skillsLoading: false,
-    })
-  })
   describe('given no similar recommendations', () => {
     it('does not display similar recommendations', async () => {
       mockParameters({ engagementId: mockEngagementId })

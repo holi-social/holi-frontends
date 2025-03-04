@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -6,10 +7,10 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
-import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 type VolunteeringCardContentProps = {
   engagementOrReco: VolunteeringEngagement | VolunteeringReco
@@ -17,19 +18,19 @@ type VolunteeringCardContentProps = {
 
 const hasTopics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
   'engagement' in engagementOrReco
-    ? engagementOrReco.matchedTopics && engagementOrReco.matchedTopics?.length > 0
-    : engagementOrReco.topics && engagementOrReco.topics?.length > 0
+    ? engagementOrReco.matchedTopicsV2 && engagementOrReco.matchedTopicsV2?.length > 0
+    : engagementOrReco.topicsV2 && engagementOrReco.topicsV2?.length > 0
 
 const topics = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
-  'engagement' in engagementOrReco ? engagementOrReco.matchedTopics : engagementOrReco.topics
+  'engagement' in engagementOrReco ? engagementOrReco.matchedTopicsV2 : engagementOrReco.topicsV2
 
 const hasSkills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
   'engagement' in engagementOrReco
-    ? engagementOrReco.matchedSkills && engagementOrReco.matchedSkills?.length > 0
-    : engagementOrReco.skills && engagementOrReco.skills?.length > 0
+    ? engagementOrReco.matchedSkillsV2 && engagementOrReco.matchedSkillsV2?.length > 0
+    : engagementOrReco.skillsV2 && engagementOrReco.skillsV2?.length > 0
 
 const skills = (engagementOrReco: VolunteeringEngagement | VolunteeringReco) =>
-  'engagement' in engagementOrReco ? engagementOrReco.matchedSkills : engagementOrReco.skills
+  'engagement' in engagementOrReco ? engagementOrReco.matchedSkillsV2 : engagementOrReco.skillsV2
 
 const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engagementOrReco }) => {
   const { t } = useTranslation()

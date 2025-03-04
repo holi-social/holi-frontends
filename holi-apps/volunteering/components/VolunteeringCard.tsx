@@ -41,8 +41,8 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ recommendation, sty
           <View>
             <VolunteeringLabels
               displayAll={false}
-              topicSlugs={recommendation.matchedTopics}
-              skillSlugs={recommendation.matchedSkills}
+              topicSlugs={recommendation.matchedTopicsV2}
+              skillSlugs={recommendation.matchedSkillsV2}
             />
           </View>
           <Text size="lg">{recommendation.engagement.title}</Text>

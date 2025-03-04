@@ -1,11 +1,8 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import SpaceTermContextProvider, {
-  SpaceTermContext,
-} from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -13,6 +10,7 @@ import HoliSelect, { type HoliSelectOption } from '@holi/ui/components/molecules
 
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { Button } from 'holi-bricks/components/button'
+import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 
 export type VolunteeringFilterFormProps = {
   filters: VolunteeringFilters
@@ -20,23 +18,22 @@ export type VolunteeringFilterFormProps = {
   clearFilters?: () => void
 }
 
-const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: VolunteeringFilterFormProps) => {
+export const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: VolunteeringFilterFormProps) => {
   const { t } = useTranslation()
-  const { topics, skills, loadingTopics, loadingSkills } = useContext(SpaceTermContext)
   const [selectedTopics, setSelectedTopics] = useState(filters.topics || [])
   const [selectedSkills, setSelectedSkills] = useState(filters.skills || [])
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(filters.location)
 
-  const topicOptions: HoliSelectOption[] = topics.map((topic) => ({
-    id: topic.slug,
-    title: topic.title,
-    selected: selectedTopics.includes(topic.slug),
+  const topicOptions: HoliSelectOption[] = ALL_TOPICS.map((topic) => ({
+    id: topic,
+    title: t(`topic.${topic}`),
+    selected: selectedTopics.includes(topic),
   }))
 
-  const skillOptions: HoliSelectOption[] = skills.map((skill) => ({
-    id: skill.slug,
-    title: skill.title,
-    selected: selectedSkills.includes(skill.slug),
+  const skillOptions: HoliSelectOption[] = ALL_SKILLS.map((skill) => ({
+    id: skill,
+    title: t(`skill.${skill}`),
+    selected: selectedSkills.includes(skill),
   }))
 
   const toggleTopicSelection = useCallback(
@@ -84,7 +81,6 @@ const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volunteerin
       testID="volunteering-filter-modal"
       keyboardShouldPersistTaps="handled"
       scrollable={false}
-      loading={loadingTopics || loadingSkills}
       hideFooterWhenKeyboardIsOpen={true}
     >
       <View style={styles.container}>
@@ -132,14 +128,6 @@ const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volunteerin
     </HoliModalContentWrapper>
   )
 }
-
-const WrappedFilterForm = (props: VolunteeringFilterFormProps) => (
-  <SpaceTermContextProvider>
-    <VolunteeringFilterForm {...props} />
-  </SpaceTermContextProvider>
-)
-
-export default WrappedFilterForm
 
 const styles = StyleSheet.create({
   filterOption: {

@@ -13,7 +13,7 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import VolunteeringFilterForm from '@holi-apps/volunteering/components/VolunteeringFilterForm'
+import { VolunteeringFilterForm } from '@holi-apps/volunteering/components/VolunteeringFilterForm'
 import VolunteeringListingDiscovery from '@holi-apps/volunteering/components/VolunteeringListingDiscovery'
 import { useVolunteeringFilters } from '@holi-apps/volunteering/hooks/useVolunteeringFilters'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'

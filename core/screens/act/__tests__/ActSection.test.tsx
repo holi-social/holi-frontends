@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
 import { skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
-import type { User } from '@holi/core/domain/shared/types'
+import { ALL_SKILLS, ALL_TOPICS, type User } from '@holi/core/domain/shared/types'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
 import { recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
@@ -23,8 +23,8 @@ export const user: User = {
   aboutMe: '',
   avatarDefaultColor: 'papayawhip',
   avatarLabel: 'FL',
-  interests: [],
-  skills: [],
+  interestsV2: [],
+  skillsV2: [],
 }
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
@@ -269,14 +269,14 @@ const volunteeringRequest = {
     variables: {
       limit: 5,
       offset: 0,
-      topics: ['democracy-human-rights', 'climate-protection', 'culture-social-change'],
+      topics: undefined,
       skills: undefined,
       geolocationId: undefined,
     },
   },
   result: {
     data: {
-      appVolunteering_engagementRecos: {
+      appVolunteering_engagementRecosV2: {
         totalResults: 21618,
         data: [
           {
@@ -298,48 +298,12 @@ const volunteeringRequest = {
               location: 'Köln',
               latitude: 50.937531,
               longitude: 6.9602786,
-              topics: ['education-science', 'biodiversity-animal-welfare', 'climate-protection'],
-              skills: [
-                'commitment',
-                'communication-skills',
-                'empathy',
-                'motivation',
-                'openness',
-                'teaching-education',
-                'coaching & mentoring',
-                'discipline',
-                'inclusive-mindset-intercultural-competence',
-                'initiative-and-energy',
-                'moderation-facilitation',
-                'relationship-skills',
-                'self-confident',
-                'solution-orientedness',
-                'teamwork',
-                'willingness-to-learn',
-                'writing-translation',
-              ],
+              topicsV2: ALL_TOPICS.slice(1, 4),
+              skillsV2: ALL_SKILLS.slice(2, 6),
               __typename: 'AppVolunteering_Engagement',
             },
-            matchedTopics: ['education-science', 'climate-protection', 'biodiversity-animal-welfare'],
-            matchedSkills: [
-              'motivation',
-              'openness',
-              'commitment',
-              'communication-skills',
-              'empathy',
-              'teaching-education',
-              'coaching & mentoring',
-              'discipline',
-              'inclusive-mindset-intercultural-competence',
-              'initiative-and-energy',
-              'moderation-facilitation',
-              'relationship-skills',
-              'self-confident',
-              'solution-orientedness',
-              'teamwork',
-              'willingness-to-learn',
-              'writing-translation',
-            ],
+            matchedTopicsV2: ALL_TOPICS.slice(1, 4),
+            matchedSkillsV2: ALL_SKILLS.slice(2, 6),
             __typename: 'AppVolunteering_EngagementReco',
           },
           {
@@ -360,30 +324,12 @@ const volunteeringRequest = {
               location: 'Königs Wusterhausen',
               latitude: 52.2994511,
               longitude: 13.6244389,
-              topics: ['education-science'],
-              skills: [
-                'commitment',
-                'communication-skills',
-                'initiative-and-energy',
-                'motivation',
-                'openness',
-                'solution-orientedness',
-                'teamwork',
-                'willingness-to-learn',
-              ],
+              topicsV2: ALL_TOPICS.slice(2, 1),
+              skillsV2: ALL_SKILLS.slice(5, 3),
               __typename: 'AppVolunteering_Engagement',
             },
-            matchedTopics: ['education-science'],
-            matchedSkills: [
-              'motivation',
-              'openness',
-              'commitment',
-              'communication-skills',
-              'initiative-and-energy',
-              'solution-orientedness',
-              'teamwork',
-              'willingness-to-learn',
-            ],
+            matchedTopicsV2: ALL_TOPICS.slice(2, 1),
+            matchedSkillsV2: ALL_SKILLS.slice(5, 3),
             __typename: 'AppVolunteering_EngagementReco',
           },
           {
@@ -405,28 +351,12 @@ const volunteeringRequest = {
               location: 'Bundesweit',
               latitude: null,
               longitude: null,
-              topics: ['education-science'],
-              skills: [
-                'commitment',
-                'communication-skills',
-                'hands-on-support',
-                'initiative-and-energy',
-                'openness',
-                'solution-orientedness',
-                'teamwork',
-              ],
+              topicsV2: ALL_TOPICS.slice(0, 1),
+              skillsV2: ALL_SKILLS.slice(1, 5),
               __typename: 'AppVolunteering_Engagement',
             },
-            matchedTopics: ['education-science'],
-            matchedSkills: [
-              'openness',
-              'commitment',
-              'communication-skills',
-              'hands-on-support',
-              'initiative-and-energy',
-              'solution-orientedness',
-              'teamwork',
-            ],
+            matchedTopicsV2: ALL_TOPICS.slice(0, 1),
+            matchedSkillsV2: ALL_SKILLS.slice(1, 5),
             __typename: 'AppVolunteering_EngagementReco',
           },
           {
@@ -447,32 +377,12 @@ const volunteeringRequest = {
               location: 'München',
               latitude: 48.1351253,
               longitude: 11.5819806,
-              topics: ['education-science'],
-              skills: [
-                'coaching & mentoring',
-                'commitment',
-                'communication-skills',
-                'initiative-and-energy',
-                'motivation',
-                'openness',
-                'solution-orientedness',
-                'teaching-education',
-                'willingness-to-learn',
-              ],
+              topicsV2: ALL_TOPICS.slice(1, 1),
+              skillsV2: ALL_SKILLS.slice(4, 2),
               __typename: 'AppVolunteering_Engagement',
             },
-            matchedTopics: ['education-science'],
-            matchedSkills: [
-              'motivation',
-              'openness',
-              'coaching & mentoring',
-              'commitment',
-              'communication-skills',
-              'initiative-and-energy',
-              'solution-orientedness',
-              'teaching-education',
-              'willingness-to-learn',
-            ],
+            matchedTopicsV2: ALL_TOPICS.slice(1, 1),
+            matchedSkillsV2: ALL_SKILLS.slice(4, 2),
             __typename: 'AppVolunteering_EngagementReco',
           },
           {
@@ -493,40 +403,12 @@ const volunteeringRequest = {
               location: 'Berlin',
               latitude: 52.5170365,
               longitude: 13.3888599,
-              topics: ['climate-protection', 'education-science', 'energy-transition'],
-              skills: [
-                'commitment',
-                'communication-skills',
-                'creativity',
-                'design',
-                'hands-on-support',
-                'initiative-and-energy',
-                'it-technology',
-                'marketing-social-media',
-                'motivation',
-                'openness',
-                'solution-orientedness',
-                'teamwork',
-                'willingness-to-learn',
-              ],
+              topicsV2: ALL_TOPICS.slice(0, 3),
+              skillsV2: ALL_SKILLS.slice(0, 4),
               __typename: 'AppVolunteering_Engagement',
             },
-            matchedTopics: ['climate-protection', 'education-science', 'energy-transition'],
-            matchedSkills: [
-              'motivation',
-              'openness',
-              'commitment',
-              'communication-skills',
-              'creativity',
-              'design',
-              'hands-on-support',
-              'initiative-and-energy',
-              'it-technology',
-              'marketing-social-media',
-              'solution-orientedness',
-              'teamwork',
-              'willingness-to-learn',
-            ],
+            matchedTopicsV2: ALL_TOPICS.slice(0, 3),
+            matchedSkillsV2: ALL_SKILLS.slice(0, 4),
             __typename: 'AppVolunteering_EngagementReco',
           },
         ],
@@ -818,7 +700,7 @@ describe('ActHome Section', () => {
 
   it('shows VOLUNTEERING', async () => {
     render(
-      <MockedProvider mocks={[topicsRequest, volunteeringRequest, skillsRequest]}>
+      <MockedProvider mocks={[volunteeringRequest]}>
         <ActSection type={ActSectionType.VOLUNTEERING} />
       </MockedProvider>
     )

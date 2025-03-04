@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client/core'
 
-import { VolunteeringEngagement, VolunteeringReco } from './types'
+import type { VolunteeringEngagement, VolunteeringReco } from './types'
 
 export const fullEngagementFragment = gql`
   fragment FullEngagement on AppVolunteering_Engagement {
@@ -17,8 +17,8 @@ export const fullEngagementFragment = gql`
     location
     latitude
     longitude
-    topics
-    skills
+    topicsV2
+    skillsV2
   }
 `
 
@@ -29,8 +29,8 @@ export const fullEngagementRecoFragment = gql`
     engagement {
       ...FullEngagement
     }
-    matchedTopics
-    matchedSkills
+    matchedTopicsV2
+    matchedSkillsV2
   }
 `
 
@@ -43,7 +43,7 @@ export type VolunteeringRecosQueryVariables = {
 }
 
 export type VolunteeringRecosQueryResponse = {
-  appVolunteering_engagementRecos: {
+  appVolunteering_engagementRecosV2: {
     totalResults: number
     data: VolunteeringReco[]
   }
@@ -59,7 +59,7 @@ export const volunteeringRecosQuery = gql`
     $skills: [String!] = []
     $geolocationId: String
   ) {
-    appVolunteering_engagementRecos(
+    appVolunteering_engagementRecosV2(
       limit: $limit
       offset: $offset
       topics: $topics
@@ -110,7 +110,7 @@ export const filteredVolunteeringEngagementsQuery = gql`
     $skills: [String!] = []
     $geolocationId: String
   ) {
-    appVolunteering_filteredEngagements(
+    appVolunteering_filteredEngagementsV2(
       limit: $limit
       offset: $offset
       topics: $topics
