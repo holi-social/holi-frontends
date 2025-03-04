@@ -1,7 +1,8 @@
 import groupBy from 'lodash.groupby'
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { ScrollView, type StyleProp, StyleSheet, useWindowDimensions, View, type ViewStyle } from 'react-native'
 
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
@@ -9,8 +10,8 @@ import NotificationSettingsMaintenance from '@holi/core/screens/notifications/co
 import {
   Category,
   Channel,
-  NotificationWorkflow,
-  UpdateWorkflowPreference,
+  type NotificationWorkflow,
+  type UpdateWorkflowPreference,
   useNotificationPreferences,
 } from '@holi/core/screens/notifications/hooks/useNotificationPreferences'
 import HoliColumn from '@holi/ui/components/atoms/HoliColumn'
@@ -24,9 +25,10 @@ import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRoundedSection from '@holi/ui/components/molecules/HoliRoundedSection'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import { dimensions } from '@holi/ui/styles/globalVars'
 
 const CATEGORY_ILLUSTRATIONS = {
   GLOBAL: require('@holi/ui/assets/img/illustrations/illustration_bell.svg'),
@@ -47,7 +49,8 @@ const NOTIFICATION_CATEGORIES_IN_ORDER: NOTIFICATION_CATEGORY[] = [
 const NotificationSettingsList = () => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { width: screenWidth } = useWindowDimensions()
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
 
   const notificationsFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.NOTIFICATIONS)
   const { workflowPreferences, updatePreference, updatingPreferences, loading } = useNotificationPreferences()
@@ -71,7 +74,12 @@ const NotificationSettingsList = () => {
   return (
     <ScrollView style={styles.scrollView}>
       <HoliContainer noPadding>
-        {updatingPreferences && <HoliLoader />}
+        {updatingPreferences && (
+          <View style={styles.loaderContainer}>
+            <HoliLoader />
+          </View>
+        )}
+
         {NOTIFICATION_CATEGORIES_IN_ORDER.map((category, index) => {
           const workflows = workflowsByCategory[category]
           if (!workflows) {
@@ -145,7 +153,8 @@ const WorkflowSettings = ({
 }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const { width: screenWidth } = useWindowDimensions()
+  const styles = useMemo(() => getStyles(theme, screenWidth), [theme, screenWidth])
   const { track } = useTracking()
 
   const workflowName = t(`profile.settings.notifications.workflow.${workflow.id}`)
@@ -221,7 +230,7 @@ const CategoryIllustration: React.FC<{ style?: ViewStyle; category: NOTIFICATION
 
 export default NotificationSettingsList
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, screenWidth: number) =>
   StyleSheet.create({
     scrollView: {
       backgroundColor: theme.colors.background20,
@@ -242,5 +251,12 @@ const getStyles = (theme: HoliTheme) =>
     },
     lastSection: {
       marginBottom: 24,
+    },
+    loaderContainer: {
+      position: 'absolute',
+      top: screenWidth > dimensions.breakpointS ? '25%' : '20%',
+      left: 0,
+      right: 0,
+      zIndex: 1,
     },
   })
