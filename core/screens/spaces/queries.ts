@@ -74,11 +74,7 @@ export const FullTaskFragment = gql`
     creator {
       ...UserAvatar
     }
-    skills {
-      id
-      title
-      slug
-    }
+    skillsV2
   }
 `
 
@@ -167,10 +163,7 @@ export const FullSpaceFragment = gql`
     tasks {
       ...FullTask
     }
-    topics {
-      id
-      title
-    }
+    topicsV2
     sdgs {
       id
       title
@@ -217,31 +210,6 @@ export const SpaceOverviewFragment = gql`
           identity
           ...UserAvatar
         }
-      }
-    }
-  }
-`
-
-export const topicsQuery = gql`
-  query TopicsSpaces {
-    topics {
-      data {
-        id
-        title
-        isDiscoverSpacesDefault
-        slug
-      }
-    }
-  }
-`
-
-export const sdgsQuery = gql`
-  query SDGsSpaces {
-    sdgs {
-      data {
-        id
-        title
-        number
       }
     }
   }

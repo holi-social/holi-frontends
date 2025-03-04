@@ -268,11 +268,11 @@ const EditSpace: React.FC<ScreenProps> = () => {
                   onEditPress={() => openEditModal(EditFields.TOPICS)}
                   testID="space-edit-topics"
                 >
-                  {!!space.topics?.length && (
+                  {!!space.topicsV2?.length && (
                     <View style={styles.listContainer} testID="space-edit-topics-list">
-                      {space.topics?.map((topic, index) => (
-                        <ChipLabel key={`topic_${index}`} color="green">
-                          {topic.title}
+                      {space.topicsV2?.map((topic) => (
+                        <ChipLabel key={topic} color="green">
+                          {t(`topic.${topic}`)}
                         </ChipLabel>
                       ))}
                     </View>

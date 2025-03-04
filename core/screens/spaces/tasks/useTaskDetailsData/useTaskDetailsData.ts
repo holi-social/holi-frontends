@@ -57,17 +57,17 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
   const isOwner = loginState.isLoggedIn && isAdmin && loginState.user.id === data?.taskById?.creator.id
 
   const skills =
-    data?.taskById?.skills.map<DetailsScreenChips>((skill) => {
+    data?.taskById?.skillsV2.map<DetailsScreenChips>((skill) => {
       return {
-        title: skill.title,
+        title: t(`skill.${skill}`),
         color: 'blue',
       }
     }) || []
 
   const topics =
-    data?.taskById?.space?.topics?.map<DetailsScreenChips>((topic) => {
+    data?.taskById?.space?.topicsV2?.map<DetailsScreenChips>((topic) => {
       return {
-        title: topic.title,
+        title: t(`topic.${topic}`),
         color: 'green',
       }
     }) || []

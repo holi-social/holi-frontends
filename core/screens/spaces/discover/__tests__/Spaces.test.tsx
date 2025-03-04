@@ -8,12 +8,10 @@ import {
   defaultLocationDetailsMock,
   locationDetailsMock,
   mySpacesWithEmptyResultMock,
-  skillsMock,
-  topicsMock,
 } from '@holi/core/screens/spaces/__tests__/mocks'
 import { mySpaces } from '@holi/core/screens/spaces/__tests__/testData'
 import Spaces from '@holi/core/screens/spaces/discover/Spaces'
-import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
+import { discoverSpacesDefaultTopicsV2, discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
 
@@ -42,12 +40,23 @@ const mySpacesMock = { ...mySpacesWithEmptyResultMock, result: { data: { mySpace
 
 const mySpacesErrorMock = { ...mySpacesWithEmptyResultMock, error: new HoliError('Test error') }
 
+const defaultTopicsMock = {
+  request: {
+    query: discoverSpacesDefaultTopicsV2,
+  },
+  result: {
+    data: {
+      discoverSpacesDefaultTopicsV2: ['animal-welfare', 'housing'],
+    },
+  },
+}
+
 const discoverSpacesUserSpecificMock = {
   request: {
     query: discoverSpacesQuery,
     variables: {
-      topicIds: [],
-      skillIds: [],
+      topicsV2: [],
+      skillsV2: [],
       limit: 10,
     },
   },
@@ -62,7 +71,7 @@ const discoverSpacesDefaultMock = {
   request: {
     query: discoverSpacesQuery,
     variables: {
-      topicIds: ['ANIMAL_WELFARE'],
+      topicsV2: ['animal-welfare'],
       geolocation: {},
       limit: 10,
     },
@@ -79,11 +88,10 @@ const MOCKS_WITHOUT_MY_SPACES = [
   authenticatedUserMock,
   mySpacesWithEmptyResultMock,
   locationDetailsMock,
-  topicsMock,
-  skillsMock,
   defaultLocationDetailsMock,
   discoverSpacesUserSpecificMock,
   discoverSpacesDefaultMock,
+  defaultTopicsMock,
 ]
 
 describe.only('Spaces screen', () => {

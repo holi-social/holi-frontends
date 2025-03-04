@@ -8,7 +8,6 @@ import { type DimensionValue, Platform, StyleSheet, View } from 'react-native'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useLoginState } from '@holi/core/auth/loginState'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import type { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { type TranslatedFieldErrors, useFieldErrors } from '@holi/core/errors/hooks'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -45,7 +44,7 @@ const CreateSpace = () => {
   const { navigate, replaceHistory } = useRouting()
   const [spaceName, setSpaceName] = useState<string>('')
   const [spaceGoal, setSpaceGoal] = useState<string>('')
-  const [spaceTopics, setSpaceTopics] = useState<Term[]>([])
+  const [spaceTopics, setSpaceTopics] = useState<string[]>([])
   const [spaceCoverImage, setSpaceCoverImage] = useState<HoliImageInfo>()
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const exitConfirmationTitle = t('spaces.create.close.dialog.title')
@@ -136,7 +135,7 @@ const CreateSpace = () => {
         input: {
           title: spaceName,
           description: spaceGoal,
-          topics: currentStep > 0 ? spaceTopics.map((topic) => topic.id) : undefined,
+          topicsV2: currentStep > 0 ? spaceTopics : undefined,
           cover: currentStep > 1 ? spaceCoverImage?.blob : undefined,
         },
       },
@@ -150,7 +149,7 @@ const CreateSpace = () => {
         input: {
           title: spaceName,
           description: spaceGoal,
-          topics: spaceTopics.map((topic) => topic.id),
+          topicsV2: spaceTopics,
           cover: spaceCoverImage?.blob,
         },
       },

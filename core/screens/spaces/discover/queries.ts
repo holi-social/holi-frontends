@@ -9,22 +9,22 @@ export const discoverSpacesQuery = gql`
   ${SpaceOverviewFragment}
 
   query DiscoverSpaces(
-    $topicIds: [UUID]
+    $topicsV2: [String!]
     $geolocation: GeoJSON
-    $skillIds: [UUID]
+    $skillsV2: [String!]
     $offset: Int! = 0
     $limit: Int! = 5
   ) {
     discoverSpaces(
-      topicIds: $topicIds
+      topicsV2: $topicsV2
       geolocation: $geolocation
-      skillIds: $skillIds
+      skillsV2: $skillsV2
       offset: $offset
       limit: $limit
     ) {
-      topicId
+      topicV2
       locationId
-      skillId
+      skillV2
       spaces {
         totalResults
         data {
@@ -36,17 +36,17 @@ export const discoverSpacesQuery = gql`
 `
 
 export type DiscoverSpacesVariables = {
-  topicIds?: string[]
-  skillIds?: string[]
+  topicsV2?: string[]
+  skillsV2?: string[]
   geolocation?: GeolocationGeoJSON
   offset: number
   limit: number
 }
 
 export type DiscoverSpacesGroup = {
-  topicId?: string
+  topicV2?: string
   locationId?: string
-  skillId?: string
+  skillV2?: string
   spaces: Paged<Space>
 }
 
@@ -72,4 +72,14 @@ export const mySpaceQuery = gql`
 `
 export type MySpacesResponse = {
   mySpaces: SpaceSection[]
+}
+
+export const discoverSpacesDefaultTopicsV2 = gql`
+  query {
+    discoverSpacesDefaultTopicsV2
+  }
+`
+
+export type DiscoverSpacesDefaultTopicsVResponse = {
+  discoverSpacesDefaultTopicsV2: string[]
 }

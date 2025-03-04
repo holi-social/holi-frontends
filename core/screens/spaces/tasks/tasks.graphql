@@ -27,15 +27,9 @@ query taskById($id: UUID!) {
       title
       avatar
       avatarBlurhash
-      topics {
-        id
-        title
-      }
+      topicsV2
     }
-    skills {
-      id
-      title
-    }
+    skillsV2
   }
 }
 

@@ -85,7 +85,7 @@ const SpaceTermsInput = ({
   }
 
   return (
-    <View style={[styles.container, { minHeight: deviceHeight }]} testID={testID || 'space-terms-list'}>
+    <View style={[styles.container, { minHeight: deviceHeight }]} testID={testID || 'terms-list'}>
       {title && (
         <HoliText size="extralarge" style={styles.title}>
           {title}

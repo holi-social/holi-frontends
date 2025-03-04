@@ -4,7 +4,6 @@ import { MockedProvider } from '@apollo/client/testing'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 
-import { skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
 import { ALL_SKILLS, ALL_TOPICS, type User } from '@holi/core/domain/shared/types'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { ActSection, ActSectionType } from '@holi/core/screens/act/ActSection'
@@ -34,40 +33,6 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   }),
 }))
 
-const topicsRequest = {
-  request: {
-    query: topicsQuery,
-  },
-  result: {
-    data: {
-      topics: {
-        data: [
-          { id: '1', title: 'democracy-human-rights', slug: 'democracy-human-rights', isDiscoverSpacesDefault: true },
-          { id: '2', title: 'climate-protection', slug: 'climate-protection', isDiscoverSpacesDefault: true },
-          { id: '3', title: 'culture-social-change', slug: 'culture-social-change', isDiscoverSpacesDefault: true },
-        ],
-      },
-    },
-  },
-}
-
-const skillsRequest = {
-  request: {
-    query: skillsQuery,
-  },
-  result: {
-    data: {
-      skills: {
-        data: [
-          { id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4', title: 'Leadership', slug: 'leadership' },
-          { id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd5', title: 'communication-skills', slug: 'communication-skills' },
-          { id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd6', title: 'caring-nursing', slug: 'caring-nursing' },
-        ],
-      },
-    },
-  },
-}
-
 const tasksRequest = {
   request: {
     query: recommendedTasksQuery,
@@ -95,14 +60,7 @@ const tasksRequest = {
             location: null,
             locationType: 'REMOTE',
             regularity: 'ONE_TIME',
-            skills: [
-              {
-                id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4',
-                title: 'Leadership',
-                slug: 'leadership',
-                __typename: 'Skill',
-              },
-            ],
+            skillsV2: ALL_SKILLS.slice(2, 3),
             __typename: 'Task',
           },
           {
@@ -124,14 +82,7 @@ const tasksRequest = {
             location: null,
             locationType: 'REMOTE',
             regularity: 'ONE_TIME',
-            skills: [
-              {
-                id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4',
-                title: 'Leadership',
-                slug: 'leadership',
-                __typename: 'Skill',
-              },
-            ],
+            skillsV2: ALL_SKILLS.slice(2, 3),
             __typename: 'Task',
           },
           {
@@ -153,44 +104,7 @@ const tasksRequest = {
             location: 'Sasel, Hamburg, Germany',
             locationType: 'ONSITE',
             regularity: 'ONE_TIME',
-            skills: [
-              {
-                id: '04b40644-bac2-4f2c-b8d0-cc5177592d0c',
-                title: 'Holistic Thinking',
-                slug: 'holistic-thinking',
-                __typename: 'Skill',
-              },
-              {
-                id: '738af6ed-b6bb-4f7f-91a8-bfa7fd5864f3',
-                title: 'Empathy',
-                slug: 'empathy',
-                __typename: 'Skill',
-              },
-              {
-                id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4',
-                title: 'Leadership',
-                slug: 'leadership',
-                __typename: 'Skill',
-              },
-              {
-                id: 'ab15c947-3da5-4259-9617-cc066aa98ba3',
-                title: 'Critical Thinking',
-                slug: 'critical-thinking',
-                __typename: 'Skill',
-              },
-              {
-                id: 'f8399855-4123-4ed6-9595-e0fb65bc2ade',
-                title: 'Finances & Taxes',
-                slug: 'finances-taxes',
-                __typename: 'Skill',
-              },
-              {
-                id: 'ebb7ad73-fdc0-48ba-b97e-f2079d2cb335',
-                title: 'Coordination & Coordination of Volunteers',
-                slug: 'coordination-coordination-of-volunteers',
-                __typename: 'Skill',
-              },
-            ],
+            skillsV2: ALL_SKILLS.slice(3, 10),
             __typename: 'Task',
           },
           {
@@ -211,20 +125,7 @@ const tasksRequest = {
             location: 'Sasel, Hamburg, Germany',
             locationType: 'ONSITE',
             regularity: 'ONE_TIME',
-            skills: [
-              {
-                id: '8a399f2b-618b-4eb3-aa2b-aca87b8d7bd4',
-                title: 'Leadership',
-                slug: 'leadership',
-                __typename: 'Skill',
-              },
-              {
-                id: 'fe09d17f-656b-4da7-8eef-f7b62bbca232',
-                title: 'Motivation',
-                slug: 'motivation',
-                __typename: 'Skill',
-              },
-            ],
+            skillsV2: ALL_SKILLS.slice(4, 6),
             __typename: 'Task',
           },
           {
@@ -245,14 +146,7 @@ const tasksRequest = {
             location: null,
             locationType: 'REMOTE',
             regularity: 'ONE_TIME',
-            skills: [
-              {
-                id: 'fe09d17f-656b-4da7-8eef-f7b62bbca232',
-                title: 'Motivation',
-                slug: 'motivation',
-                __typename: 'Skill',
-              },
-            ],
+            skillsV2: ALL_SKILLS.slice(4, 1),
             __typename: 'Task',
           },
         ],
@@ -712,7 +606,7 @@ describe('ActHome Section', () => {
 
   it('shows TASKS', async () => {
     render(
-      <MockedProvider mocks={[topicsRequest, tasksRequest, skillsRequest]}>
+      <MockedProvider mocks={[tasksRequest]}>
         <ActSection type={ActSectionType.TASKS} />
       </MockedProvider>
     )
