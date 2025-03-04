@@ -93,6 +93,7 @@ const PostCommentPage = () => {
         user={user}
         redirectRoute={`/feed-posts/${idOrSlug}${comment ? '?commentId=' + comment.id : ''}`}
         parentComment={comment}
+        postAuthor={post.author}
       >
         <PostContent post={post} />
 

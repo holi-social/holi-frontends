@@ -40,6 +40,7 @@ export interface CommentFormProps extends PropsWithChildren {
   user: User
   parentComment?: Comment
   redirectRoute?: string
+  postAuthor?: User
 }
 
 const CommentForm = ({
@@ -48,6 +49,7 @@ const CommentForm = ({
   user,
   parentComment,
   redirectRoute,
+  postAuthor,
   children,
 }: CommentFormProps) => {
   const [text, setText] = useState('')
@@ -270,6 +272,7 @@ const CommentForm = ({
               showCharacterCount={true}
               maxNoOfCharacters={1500}
               maxSuggestionOptions={30}
+              postAuthor={postAuthor}
               // initialValue is not yet supported on web
               {...(Platform.OS !== 'web' && parentComment && parentComment?.creator?.id !== user?.id
                 ? {

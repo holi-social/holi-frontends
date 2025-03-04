@@ -1,19 +1,25 @@
 import { useLazyQuery } from '@apollo/client'
-import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type React from 'react'
+import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  NativeSyntheticEvent,
-  StyleProp,
+  type NativeSyntheticEvent,
+  type StyleProp,
   StyleSheet,
-  TextInput,
-  TextInputFocusEventData,
+  type TextInput,
+  type TextInputFocusEventData,
   View,
-  ViewStyle,
+  type ViewStyle,
 } from 'react-native'
-import { LayoutChangeEvent } from 'react-native'
-import { MentionInput, MentionSuggestionsProps, PartType, Suggestion } from 'react-native-controlled-mentions'
+import type { LayoutChangeEvent } from 'react-native'
+import {
+  MentionInput,
+  type MentionSuggestionsProps,
+  type PartType,
+  type Suggestion,
+} from 'react-native-controlled-mentions'
 
-import { UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
-import { User } from '@holi/core/domain/shared/types'
+import { type UserByNameResponse, userByNameQuery } from '@holi/core/domain/shared/queries'
+import type { User } from '@holi/core/domain/shared/types'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { usePortals } from '@holi/core/providers/PortalProvider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -22,7 +28,7 @@ import HoliRichTextInputSuggestions from '@holi/ui/components/organisms/HoliRich
 import { transformStringWithMentions } from '@holi/ui/components/organisms/HoliRichTextInput/helper/transformStringWithMentions'
 import { REGEX_URL, REGEX_USER_MENTIONS_WITH_NAME } from '@holi/ui/helper/richText'
 import { useDebounce } from '@holi/ui/helper/useDebounce'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliRichTextInputProps = {
   initialValue?: string
@@ -47,6 +53,7 @@ export type HoliRichTextInputProps = {
   isEdit?: boolean
   scrollEnabled?: boolean
   onLayout?: (event: LayoutChangeEvent) => void
+  postAuthor?: User
 }
 
 const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
@@ -64,6 +71,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   initialSelectedSuggestion,
   mentions,
   scrollEnabled = true, // default value of the scrollEnabled prop in MentionInput
+  postAuthor,
   ...props
 }) => {
   const { theme } = useTheme()
@@ -88,6 +96,9 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
   const [characterCount, setCharacterCount] = useState(0)
   const [disabled] = useState(false)
 
+  // Track if @ is in the text
+  const hasAtSymbol = useRef(false)
+
   useEffect(() => {
     // only run the transformation when initialValue and mentions changes AND the value is the same as initialValue
     // this is to avoid the transformation when the user is typing, which can break the mentioning logic
@@ -96,6 +107,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
     }
     if (value === '') {
       setSafeSuggestions([])
+      hasAtSymbol.current = false
     }
   }, [mentions, initialValue, value, setSafeSuggestions])
 
@@ -119,6 +131,12 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
 
   const findUserMapped = useCallback(
     (substring: string): Promise<User[]> => {
+      // If substring is empty (just typed @) and we have a post author
+      if (substring === '' && postAuthor) {
+        // Return only the post author immediately
+        return Promise.resolve([postAuthor])
+      }
+
       return new Promise((resolve, reject) => {
         findUsersByName({
           variables: {
@@ -131,13 +149,21 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
           .catch(reject)
       })
     },
-    [maxSuggestionOptions, findUsersByName]
+    [maxSuggestionOptions, findUsersByName, postAuthor]
   )
 
   // on debounced value change
   useEffect(() => {
-    if (debouncedKeyword === INITIAL_KEYWORD) return setSafeSuggestions([])
-    if (!debouncedKeyword || debouncedKeyword.length < minSearchChars) return setSafeSuggestions([])
+    // Skip search if keyword is empty
+    if (debouncedKeyword === INITIAL_KEYWORD) return
+
+    // Skip search if keyword is too short
+    if (!debouncedKeyword || debouncedKeyword.length < minSearchChars) {
+      setSafeSuggestions([])
+      return
+    }
+
+    // Normal search for non-empty keywords
     findUserMapped(debouncedKeyword).then(setSafeSuggestions)
   }, [debouncedKeyword, minSearchChars, findUserMapped, setSafeSuggestions])
 
@@ -167,7 +193,7 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
 
   const onInputChange = useCallback(
     (text: string) => {
-      const maxChars = props.maxNoOfCharacters || Infinity
+      const maxChars = props.maxNoOfCharacters || Number.POSITIVE_INFINITY
       const currentCharacterCount = text.length
 
       // Check if the new input is within the character limit
@@ -185,23 +211,41 @@ const HoliRichTextInput: React.FC<HoliRichTextInputProps> = ({
     ({ keyword, onSuggestionPress }: MentionSuggestionsProps) => {
       requestAnimationFrame(() => setSafeKeyword(!keyword ? '' : keyword))
       onChooseOptionRef.current = onSuggestionPress
+
+      // Update keyword for subsequent searches
+      // Use setTimeout to avoid state updates during render
+      setTimeout(() => {
+        setSafeKeyword(!keyword ? '' : keyword)
+
+        // When @ is typed (keyword is empty), show post author
+        if (keyword === '' && postAuthor) {
+          findUserMapped('').then(setSafeSuggestions)
+        }
+      }, 0)
+
       return null
     },
-    [setSafeKeyword]
+    [postAuthor, findUserMapped, setSafeSuggestions, setSafeKeyword]
   )
 
-  const suggestionConfig: PartType[] = []
-  suggestionConfig.push({
-    trigger: '@',
-    renderSuggestions: renderUserSuggestions as (props: MentionSuggestionsProps) => ReactNode,
-    textStyle: styles.inlineMention,
-  })
+  const suggestionConfig = useMemo(() => {
+    const config: PartType[] = []
+    config.push({
+      trigger: '@',
+      renderSuggestions: renderUserSuggestions as (props: MentionSuggestionsProps) => ReactNode,
+      textStyle: styles.inlineMention,
+      isInsertSpaceAfterMention: true,
+      allowedSpacesCount: 0,
+    })
 
-  // Nice to have: url highlighting
-  suggestionConfig.push({
-    pattern: REGEX_URL,
-    textStyle: styles.inlineUrl,
-  })
+    // Nice to have: url highlighting
+    config.push({
+      pattern: REGEX_URL,
+      textStyle: styles.inlineUrl,
+    })
+
+    return config
+  }, [renderUserSuggestions, styles.inlineMention, styles.inlineUrl])
 
   const CharactersCount = () => {
     return (
