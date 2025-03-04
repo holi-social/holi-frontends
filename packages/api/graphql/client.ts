@@ -125,7 +125,6 @@ export const createCache = () =>
         fields: {
           tasks: alwaysReplacePolicy,
           sdgs: alwaysReplacePolicy,
-          topics: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
           connectionStatusToMyself: alwaysReplacePolicy,
@@ -166,11 +165,11 @@ export const createCache = () =>
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (args: Record<string, any> | null) => {
               // reminder: keep in sync with parameters of `spaces` in `Query`, always exclude offset and limit
-              const { topicSlugs, geolocation, skillSlugs, memberId } = args || {}
+              const { topicsV2, geolocation, skillsV2, memberId } = args || {}
               return JSON.stringify({
                 geolocation: geolocation?.properties?.place_id,
-                topicSlugs,
-                skillSlugs,
+                topicsV2,
+                skillsV2,
                 memberId,
               })
             }
@@ -179,11 +178,11 @@ export const createCache = () =>
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             keyArgs: (args: Record<string, any> | null) => {
               // reminder: keep in sync with parameters of `discoverSpaces` in `Query`, always exclude offset and limit
-              const { topicIds, geolocation, skillIds } = args || {}
+              const { topicsV2, geolocation, skillsV2 } = args || {}
               return JSON.stringify({
-                topicIds,
+                topicsV2,
                 geolocation: geolocation?.properties?.place_id,
-                skillIds,
+                skillsV2,
               })
             },
           },
