@@ -12,7 +12,7 @@ import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { type RecommendedTasksQueryResponse, recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 import type { Task } from '@holi/core/screens/spaces/types'
-import EventRecommendation from '@holi/core/screens/act/components/EventRecommendation'
+import EventRecommendation from '@holi/core/screens/act/events/EventRecommendation'
 import { Spacing } from 'holi-bricks/tokens'
 
 type EventRecommendationsProps = {
@@ -24,6 +24,7 @@ const EventRecommendations = ({ cardWidth }: EventRecommendationsProps) => {
   const { styles } = useStyles(stylesheet)
 
   const {
+    // todo: change to events
     data: taskData,
     loading: isLoadingTasks,
     error: tasksError,
@@ -63,11 +64,7 @@ const EventRecommendations = ({ cardWidth }: EventRecommendationsProps) => {
             style={[styles.cardContainer(cardWidth), index === (tasks?.length || 0) - 1 && styles.lastCard]}
             testID={'tasks-reco-slider-card'}
           >
-            <EventRecommendation
-              task={item}
-              space={item.space}
-              trackingEvent={TrackingEvent.RecommendationPressed('space_task', item.id, index)}
-            />
+            <EventRecommendation task={item} space={item.space} />
           </View>
         ) : null
       }}
@@ -75,6 +72,8 @@ const EventRecommendations = ({ cardWidth }: EventRecommendationsProps) => {
       icon={CheckboxFilled}
       heading={t('act.events.title')}
       subline={t('act.events.subline')}
+      labelSeeMore={t('act.events.showAll')}
+      seeAllPath="/events"
       cardWidth={cardWidth}
     />
   )

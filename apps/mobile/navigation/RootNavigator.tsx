@@ -34,6 +34,7 @@ import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprof
 import NotFound from '@holi/core/screens/404/NotFound'
 import { AuthSelection } from '@holi/core/auth/screens/AuthSelection'
 import Unsubscribe from '@holi/core/screens/mail/Unsubscribe'
+import EventsAppNavigator from '@holi/mobile/navigation/EventsAppNavigator'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -73,6 +74,8 @@ export type RootStackScreens = {
   [RouteName.Search]: SearchParams | OldSearchParams
 
   [RouteName.UserProfile]: UserProfileParams
+
+  [RouteName.EventList]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -176,6 +179,14 @@ const RootNavigator = () => {
       <RootStack.Screen
         name={RouteName.VolunteeringApp}
         component={VolunteeringAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.EventList}
+        component={EventsAppNavigator}
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,

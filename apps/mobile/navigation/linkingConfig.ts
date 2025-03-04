@@ -158,6 +158,11 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.VolunteeringAppEngagmentDetailDE]: 'ehrenamt/:engagementId',
       },
     },
+    [RouteName.EventList]: {
+      screens: {
+        [RouteName.EventList]: 'events',
+      },
+    },
     [RouteName.CreatePost]: {
       screens: {
         [RouteName.CreatePost]: 'feed-posts/create',

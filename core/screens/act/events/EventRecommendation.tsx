@@ -1,10 +1,6 @@
 import React from 'react'
-import { View } from 'react-native'
 
-import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import type { TrackingEvent } from '@holi/core/tracking'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
-import type { BaseProps } from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/types'
 import Skeleton from '@holi/core/screens/spaces/tasks/components/SpaceTaskTile/components/Skeleton'
 import { Text, TextLink } from 'holi-bricks/components/text'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
@@ -18,13 +14,20 @@ import { CardContainer } from 'holi-bricks/components/container/CardContainer'
 import { useTranslation } from 'react-i18next'
 import { HoliCardComponent } from '@holi/ui/components/molecules/HoliCard'
 import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
+import type { Space, Task } from '@holi/core/screens/spaces/types'
+import { View } from 'react-native'
+import { HoliLink } from '@holi/core/navigation/components/HoliLink'
+
+export interface EventProps {
+  task: Task
+  space: Space
+}
 
 const EventRecommendation = ({
   loading,
-  task,
+  task, // todo: change to event
   space,
-  trackingEvent,
-}: PropsWithSkeleton<BaseProps> & { trackingEvent: TrackingEvent }) => {
+}: PropsWithSkeleton<EventProps>) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
   if (loading) {
@@ -32,12 +35,7 @@ const EventRecommendation = ({
   }
 
   return (
-    <HoliLinkTracked
-      href={`/spaces/${space.name}/tasks/${task.id}`}
-      label={task.name}
-      isFullHeight
-      trackingEvent={trackingEvent}
-    >
+    <HoliLink href={`/spaces/${space.name}/tasks/${task.id}`} label={task.name} isFullHeight>
       <CardContainer hasBorder borderRadius={BorderRadius.md} flexDirection="row">
         <HoliCardComponent.ImageContainer>
           <View style={styles.imageContainer}>
@@ -52,6 +50,7 @@ const EventRecommendation = ({
           </View>
           <View style={styles.calendarIcon}>
             <HoliCalendarIcon day={new Date().getDate()} month={new Date().getMonth() + 1} size="small" />
+            {/* todo: {event.date.day} */}
           </View>
         </HoliCardComponent.ImageContainer>
 
@@ -62,26 +61,30 @@ const EventRecommendation = ({
 
               <Text ellipsizeMode="tail" size="xs" numberOfLines={2} testID="event-title" color="support">
                 Lenbachstraße 22
+                {/* todo: {event.location} */}
               </Text>
             </View>
 
             <View style={styles.title}>
               <TextLink ellipsizeMode="tail" size="sm" numberOfLines={2}>
                 Inforveranstaltung der Hamburger Energielotsen
+                {/* todo: {event.name} */}
               </TextLink>
 
               <Text ellipsizeMode="tail" size="xs" numberOfLines={2} testID="event-title" color="support">
-                by Some Nice Org
+                {t('act.events.createdBy')} Some Nice Org
+                {/* todo: {event.location} */}
               </Text>
             </View>
           </View>
 
           <ChipLabel color="yellow" size="sm">
             Fri, 24 Apr ∙ 16:00 to 18:00
+            {/* todo: {format(event.date.day)} ∙ {event.date.startTime} to {event.date.endTime} */}
           </ChipLabel>
         </View>
       </CardContainer>
-    </HoliLinkTracked>
+    </HoliLink>
   )
 }
 

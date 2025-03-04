@@ -114,6 +114,7 @@ export enum RouteName {
   ChallengesApp = 'ChallengesApp',
   DonationsApp = 'DonationsApp',
   GoodNewsApp = 'GoodNewsApp',
+  EventList = 'EventList',
   VolunteeringApp = 'VolunteeringApp',
   NotFound = 'NotFound',
   AuthSelection = 'AuthSelection',

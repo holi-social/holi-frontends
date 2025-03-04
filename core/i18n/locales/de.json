@@ -19,7 +19,8 @@
   "task.locationType.NOT_DECLARED": "Kein Standort",
   "act.title": "Handeln",
   "act.events.title": "Events",
-  "act.events.subline": "Entdecke Events in deiner Nähe",
+  "act.events.showAll": "Alle anzeigen",
+  "act.events.subline": "Erlebene Events mit Bedeutung",
   "allTools.drawer.comingSoon.label": "Bald",
   "allTools.drawer.headline": "Alle Tools",
   "allTools.drawer.maintenance.label": "Offline",
@@ -1412,7 +1413,7 @@
   "spaces.spaceDetails.publicLinks": "Mehr Infos",
   "spaces.spaceDetails.publicLinks.change.title": "Du öffnest einen externen Link",
   "spaces.spaceDetails.publicLinks.change.url": "Die URL lautet ",
-  "spaces.spaceDetails.sdgs": "Nachhaltigkeits\u00ADziele",
+  "spaces.spaceDetails.sdgs": "Nachhaltigkeits­ziele",
   "spaces.spaceDetails.tasks.empty.message.forCreators": "Erstelle konkrete Aufgaben, um helfende Hände zu finden",
   "spaces.spaceDetails.tasks.empty.message.forNonMembers": "Wenn du Ideen hast, mit unserer Community zusammenzuarbeiten, bist du herzlich eingeladen, Mitwirkende:r zu werden",
   "spaces.spaceDetails.tasks.empty.title.forNonMembers": "Zurzeit keine Aufgaben verfügbar",
@@ -1640,5 +1641,8 @@
   "volunteering.navigation.home": "Home",
   "volunteering.navigation.search": "Search",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
-  "wizard.stepsCount": "Schritt {{current}} von {{total}}"
+  "wizard.stepsCount": "Schritt {{current}} von {{total}}",
+  "act.events.createdBy": "von",
+  "act.events.opportunities": "Ehrenämter",
+  "act.events.partnerInfoRowText": "über Gemeinschaftswerk Nachhaltigkeit"
 }

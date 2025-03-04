@@ -19,6 +19,7 @@
   "task.locationType.NOT_DECLARED": "No location",
   "act.title": "Act",
   "act.events.title": "Events",
+  "act.events.showAll": "See all",
   "act.events.subline": "Join impactful events",
   "allTools.drawer.comingSoon.label": "Soon",
   "allTools.drawer.headline": "All tools",
@@ -1646,5 +1647,8 @@
   "volunteering.navigation.home": "Home",
   "volunteering.navigation.search": "Search",
   "webview.error": "Loading the page failed!",
-  "wizard.stepsCount": "Step {{current}} of {{total}}"
+  "wizard.stepsCount": "Step {{current}} of {{total}}",
+  "act.events.createdBy": "by",
+  "act.events.opportunities": "opportunities",
+  "act.events.partnerInfoRowText": "provided by Gemeinschaftswerk Nachhaltigkeit"
 }

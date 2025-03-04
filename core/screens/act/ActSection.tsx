@@ -9,7 +9,7 @@ import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskReco
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
-import EventRecommendations from '@holi/core/screens/act/components/EventRecommendations'
+import EventRecommendations from '@holi/core/screens/act/events/EventRecommendations'
 
 export enum ActSectionType {
   VOLUNTEERING = 'VOLUNTEERING',
