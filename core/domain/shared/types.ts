@@ -36,6 +36,7 @@ export const topicV2Slugs = {
   'youth-development': ['youth-development', 'children-youth'],
 }
 export type TopicV2 = keyof typeof topicV2Slugs
+export const ALL_TOPICS = Object.keys(topicV2Slugs)
 
 export const slugToTopicV2 = (slug: string): TopicV2 | undefined => {
   if (slug in topicV2Slugs) {
@@ -107,6 +108,7 @@ export const skillV2Slugs = {
 }
 
 export type SkillV2 = keyof typeof skillV2Slugs
+export const ALL_SKILLS = Object.keys(skillV2Slugs)
 
 export const slugToSkillV2 = (slug: string): SkillV2 | undefined => {
   if (slug in skillV2Slugs) {
@@ -170,8 +172,10 @@ export interface User {
   geolocationId?: string
   engagementLevel?: string
   interests?: Topic[]
+  interestsV2?: string[]
   sdgs?: SDG[]
   skills?: Skill[]
+  skillsV2?: string[]
   connectionStatusToMyself?: UserConnectionStatus
   connectionStatusToSpace?: SpaceConnectionType[]
 }
