@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { Close } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { Text } from 'holi-bricks/components/text'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import HoliSelect, { type HoliSelectOption } from '@holi/ui/components/molecules/HoliSelect'
 
@@ -87,7 +87,7 @@ export const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volu
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <HoliHeading testID="volunteering-filter-heading">{t('volunteering:filter.heading')}</HoliHeading>
+          <Text size="3xl">{t('volunteering:filter.heading')}</Text>
           <Button label={t('global.reset')} inline onPress={resetForm} variant="secondary" size="sm" icon={Close} />
         </View>
         <PlacesAutocomplete

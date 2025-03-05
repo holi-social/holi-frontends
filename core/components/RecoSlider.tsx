@@ -31,6 +31,7 @@ type RecoSliderProps = {
   testID?: string
   cardWidth: number
   viewTrackingParams?: TrackableFlatListParams
+  size?: 'sm' | 'md'
 }
 
 const RecoSlider: React.FC<RecoSliderProps> = ({
@@ -47,6 +48,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   testID,
   cardWidth,
   viewTrackingParams,
+  size = 'md',
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
@@ -86,6 +88,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
             label={labelSeeMore}
             onPress={handleSeeMore}
             testID={`${name}-reco-slider-load-more-button`}
+            size={size}
           >
             {labelSeeMore}
           </HoliMoreCard>

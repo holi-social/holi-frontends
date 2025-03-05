@@ -13,9 +13,17 @@ export interface HoliMoreCardProps {
   label?: string
   role: Role
   testID?: string
+  size?: 'sm' | 'md'
 }
 
-const HoliMoreCard = ({ children, onPress, role, testID, label = '' }: PropsWithChildren<HoliMoreCardProps>) => {
+const HoliMoreCard = ({
+  children,
+  onPress,
+  role,
+  testID,
+  label = '',
+  size = 'md',
+}: PropsWithChildren<HoliMoreCardProps>) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -26,8 +34,8 @@ const HoliMoreCard = ({ children, onPress, role, testID, label = '' }: PropsWith
           label="more"
           imageSource={require('@holi/ui/assets/img/illustrations/plus-circle.svg')}
           isSvg
-          width={96}
-          height={96}
+          width={size === 'sm' ? 48 : 96}
+          height={size === 'sm' ? 48 : 96}
         />
       </View>
       <View style={styles.caption}>

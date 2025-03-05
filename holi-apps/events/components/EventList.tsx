@@ -1,13 +1,13 @@
-import React, {} from 'react'
+import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 import InfoModal from '@holi/core/components/InfoModal'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
+import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 import { createStyleSheet } from 'holi-bricks/utils'
@@ -22,27 +22,54 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import EventRecommendation from '@holi/core/screens/act/events/EventRecommendation'
-import { tempData, testSpace, testTask } from '@holi/core/screens/act/events/tempData'
+import { tempData } from '@holi-apps/events/components/tempData'
+import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
+import { Filter3 } from '@holi/icons/src/generated'
+import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import HoliButton from '@holi/ui/components/molecules/HoliButton'
+import EventsFilterForm from '@holi-apps/events/components/EventsFilterForm'
+import EventCard from '@holi-apps/events/components/EventCard'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
-type EventListProps = { isFiltering?: boolean; loadingFailed?: boolean; clearFilters?: () => void }
+// type EventListProps = { loadingFailed?: boolean; clearFilters?: () => void }
 
-export const EventList = ({ isFiltering = false }: EventListProps) => {
+export const EventList = () => {
   const events = tempData.events.data
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-  const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
-
-  const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
-  const { hide: closeModal, visible: partnerModalVisible } = useModalState()
-  // const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
-
   const { navigate } = useRouting()
-  const title = t('act.events.title')
+  const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
   const setScreenOptions = useSetScreenOptions()
 
+  const title = t('act.events.title')
+  const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
+
+  // info modal
+  const { show: showPartnerModal, hide: closePartnerModal, visible: partnerModalVisible } = useModalState()
+  // filter modal
+  const [filterModalShown, setFilterModalShown] = useState(false)
+  const closeFilterModal = useCallback(() => {
+    setFilterModalShown(false)
+  }, [])
+
+  // const { submit, filters, clearFilters, isFiltering } = useEventFilters(closeFilterModal) // todo
+
   useIsomorphicLayoutEffect(() => {
+    const filterButton = (
+      <HoliButtonBell
+        label={t('volunteering:filter.heading')}
+        icon={Filter3}
+        // showBell={isFiltering}
+        onPress={() => {
+          // if pressed too soon, the state is set to true, but the modal is not shown.
+          // crude mechanism to recover from this state.
+          // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+          if (filterModalShown) setFilterModalShown(false)
+          setFilterModalShown(true)
+        }}
+        testID="btn-to-volunteering-filter-modal"
+      />
+    )
     setScreenOptions({
       headerTitle: () => (
         <Text headingLevel="2" size="lg">
@@ -50,8 +77,9 @@ export const EventList = ({ isFiltering = false }: EventListProps) => {
         </Text>
       ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
+      headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [navigate, t, title, isFiltering, setScreenOptions, styles.dot])
+  }, [navigate, t, title, setScreenOptions, styles.dot, filterModalShown])
 
   return (
     <ScrollViewRefreshable
@@ -60,6 +88,25 @@ export const EventList = ({ isFiltering = false }: EventListProps) => {
       keyboardShouldPersistTaps="handled"
       onScroll={onScreenScroll}
     >
+      <HoliModal
+        shown={filterModalShown}
+        onDismiss={closeFilterModal}
+        testID="volunteering-filter-modal"
+        label={t('volunteering:filter.heading')}
+        autoHeight={false}
+        relativeHeight={1}
+      >
+        <EventsFilterForm
+          filters={{
+            remote: undefined,
+            date: undefined,
+          }}
+          onSubmit={() => {
+            throw new Error('Function not implemented.')
+          }}
+        />
+        {/* <EventsFilterForm onSubmit={submit} filters={filters} clearFilters={clearFilters} /> */}
+      </HoliModal>
       <HoliContainer>
         <View style={styles.list}>
           {tempData.events.totalResults > 0 && (
@@ -77,16 +124,18 @@ export const EventList = ({ isFiltering = false }: EventListProps) => {
                     label="some alt text"
                   />
                 </View>
-                <View style={{ flex: 3 }}>
-                  <Text size="lg">{t('act.events.partnerInfoRowText')}</Text>
-                </View>
+                <HoliButton transparent onPress={showPartnerModal} label={t('act.events.partnerInfoRowButton')}>
+                  <View style={{ flex: 3 }}>
+                    <Text size="lg">{t('act.events.partnerInfoRowText')}</Text>
+                  </View>
+                </HoliButton>
               </View>
 
               <InfoModal // todo
                 headline={t('volunteering:listing.partnerModal.headline')}
                 items={allPartners}
                 shown={partnerModalVisible}
-                onDismiss={closeModal}
+                onDismiss={closePartnerModal}
                 i18nPrefix={'volunteering:listing.partnerModal'}
               />
               <Text size="lg" color="support">
@@ -95,22 +144,22 @@ export const EventList = ({ isFiltering = false }: EventListProps) => {
             </View>
           )}
           <HoliBox padding={[24, 0, 24, 0]}>
-            <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}>
-              <HoliGridWrapper>
-                {events?.map((event) => {
-                  return (
-                    <HoliGridCell key={event.id}>
-                      <HoliLink
-                        href={`/events/${event.id}`} // todo: link to detail page
-                        label={event.title}
-                      >
-                        <EventRecommendation task={testTask} space={testSpace} />
-                      </HoliLink>
-                    </HoliGridCell>
-                  )
-                })}
-              </HoliGridWrapper>
-            </View>
+            {/* <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}> */}
+            <HoliGridWrapper>
+              {events?.map((event) => {
+                return (
+                  <HoliGridCell key={event.id}>
+                    <HoliLink
+                      href={`/events/${event.id}`} // todo: link to detail page
+                      label={event.title}
+                    >
+                      <EventCard event={event} />
+                    </HoliLink>
+                  </HoliGridCell>
+                )
+              })}
+            </HoliGridWrapper>
+            {/* </View> */}
           </HoliBox>
         </View>
       </HoliContainer>
@@ -148,7 +197,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   partnerInfoRow: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     gap: Spacing['3xs'],
   },

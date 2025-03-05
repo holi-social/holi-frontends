@@ -9,7 +9,7 @@ import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskReco
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
-import EventRecommendations from '@holi/core/screens/act/events/EventRecommendations'
+import EventCarousel from '@holi-apps/events/components/EventCarousel'
 
 export enum ActSectionType {
   VOLUNTEERING = 'VOLUNTEERING',
@@ -44,7 +44,7 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
     case ActSectionType.EVENTS:
       return (
         <ErrorBoundary>
-          <EventRecommendations cardWidth={cardWidth} />
+          <EventCarousel cardWidth={cardWidth} />
         </ErrorBoundary>
       )
     case ActSectionType.TASKS:

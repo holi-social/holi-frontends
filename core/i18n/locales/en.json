@@ -19,7 +19,7 @@
   "task.locationType.NOT_DECLARED": "No location",
   "act.title": "Act",
   "act.events.title": "Events",
-  "act.events.showAll": "See all",
+  "act.events.showAll": "See more",
   "act.events.subline": "Join impactful events",
   "allTools.drawer.comingSoon.label": "Soon",
   "allTools.drawer.headline": "All tools",
@@ -1650,5 +1650,9 @@
   "wizard.stepsCount": "Step {{current}} of {{total}}",
   "act.events.createdBy": "by",
   "act.events.opportunities": "opportunities",
-  "act.events.partnerInfoRowText": "provided by Gemeinschaftswerk Nachhaltigkeit"
+  "act.events.partnerInfoRowText": "provided by Gemeinschaftswerk Nachhaltigkeit",
+  "act.events.thumbnail.label": "event cover image",
+  "act.events.fromTo": "to",
+  "act.events.filter.submitButton": "Show events",
+  "act.events.filter.heading": "Filter events"
 }

@@ -5450,6 +5450,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@holi-apps/events@npm:*, @holi-apps/events@workspace:holi-apps/events":
+  version: 0.0.0-use.local
+  resolution: "@holi-apps/events@workspace:holi-apps/events"
+  dependencies:
+    eslint: "npm:^8.33.0"
+    eslint-plugin-react: "npm:^7.32.2"
+    eslint-plugin-react-hooks: "npm:4.6.2"
+    eslint-plugin-react-native: "npm:^4.1.0"
+  languageName: unknown
+  linkType: soft
+
 "@holi-apps/goodnews@npm:*, @holi-apps/goodnews@workspace:holi-apps/goodnews":
   version: 0.0.0-use.local
   resolution: "@holi-apps/goodnews@workspace:holi-apps/goodnews"
@@ -5623,6 +5634,7 @@ __metadata:
     "@formatjs/intl-relativetimeformat": "npm:^11.2.14"
     "@holi-apps/challenges": "npm:*"
     "@holi-apps/donations": "npm:*"
+    "@holi-apps/events": "npm:*"
     "@holi-apps/goodnews": "npm:*"
     "@holi-apps/volunteering": "npm:*"
     "@holi/api": "npm:*"

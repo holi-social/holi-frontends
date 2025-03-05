@@ -19,7 +19,7 @@
   "task.locationType.NOT_DECLARED": "Kein Standort",
   "act.title": "Handeln",
   "act.events.title": "Events",
-  "act.events.showAll": "Alle anzeigen",
+  "act.events.showAll": "Weitere Events",
   "act.events.subline": "Erlebene Events mit Bedeutung",
   "allTools.drawer.comingSoon.label": "Bald",
   "allTools.drawer.headline": "Alle Tools",
@@ -1644,5 +1644,9 @@
   "wizard.stepsCount": "Schritt {{current}} von {{total}}",
   "act.events.createdBy": "von",
   "act.events.opportunities": "Ehrenämter",
-  "act.events.partnerInfoRowText": "über Gemeinschaftswerk Nachhaltigkeit"
+  "act.events.partnerInfoRowText": "über Gemeinschaftswerk Nachhaltigkeit",
+  "act.events.thumbnail.label": "Event Cover Bild",
+  "act.events.fromTo": "bis",
+  "act.events.filter.submitButton": "Events anzeigen",
+  "act.events.filter.heading": "Events filtern"
 }

@@ -14,6 +14,7 @@
       "@holi-apps/goodnews/*": ["holi-apps/goodnews/*"],
       "@holi-apps/volunteering/*": ["holi-apps/volunteering/*"],
       "@holi-apps/challenges/*": ["holi-apps/challenges/*"],
+      "@holi-apps/events/*": ["holi-apps/events/*"],
       "@holi/e2e-mobile/*": ["e2e/mobile/*"],
       "@holi/e2e-web/*": ["e2e/web/*"],
       "holi-bricks/*": ["holi-bricks/*"]

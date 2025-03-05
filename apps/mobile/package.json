@@ -7,6 +7,7 @@
     "@formatjs/intl-relativetimeformat": "^11.2.14",
     "@holi-apps/challenges": "*",
     "@holi-apps/donations": "*",
+    "@holi-apps/events": "*",
     "@holi-apps/goodnews": "*",
     "@holi-apps/volunteering": "*",
     "@holi/api": "*",
