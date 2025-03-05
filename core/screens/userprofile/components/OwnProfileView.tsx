@@ -10,11 +10,10 @@ import InsightsTab from '@holi/core/components/InsightsTab'
 import SpacesTab from '@holi/core/components/SpacesTab'
 import type { User } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
-import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import MyPostsTab from '@holi/core/screens/individualPosts/components/MyPostsTab'
-import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
+import UserSDGsChipRow from '@holi/core/screens/userprofile/components/UserSDGsChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { Add } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -24,6 +23,8 @@ import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 import OwnConnectionsTab from '@holi/core/screens/userprofile/components/OwnConnectionsTab'
+import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTermsRow'
+import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 
 export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
 
@@ -103,31 +104,13 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                   )}
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
-                  <UserChipRow
-                    user={user}
-                    keyInUserObject={UserChipTypes.INTERESTS}
-                    onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)}
-                    numberOfLines={1}
-                    color="green"
-                  />
+                  <UserTermsRow termType="topic" onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)} />
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
-                  <UserChipRow
-                    user={user}
-                    keyInUserObject={UserChipTypes.SDGS}
-                    onPressEdit={() => toggleEditMode(UserChipTypes.SDGS)}
-                    numberOfLines={1}
-                    color="white"
-                  />
+                  <UserSDGsChipRow user={user} onPressEdit={() => toggleEditMode(UserChipTypes.SDGS)} />
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
-                  <UserChipRow
-                    user={user}
-                    keyInUserObject={UserChipTypes.SKILLS}
-                    onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)}
-                    numberOfLines={1}
-                    color="blue"
-                  />
+                  <UserTermsRow termType="skill" onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)} />
                 </View>
               </View>
             ),

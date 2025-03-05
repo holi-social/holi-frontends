@@ -1,4 +1,4 @@
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 
 export const isHoliUser = (value: User | unknown): value is User =>
   ['id', 'identity'].every((key) => value && typeof value === 'object' && key in value)
@@ -13,4 +13,10 @@ export enum UserConnectionStatus {
 export enum UpdateConnectionWithUserActions {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
+}
+
+export enum UserChipTypes {
+  INTERESTS = 'interests',
+  SKILLS = 'skills',
+  SDGS = 'sdgs',
 }

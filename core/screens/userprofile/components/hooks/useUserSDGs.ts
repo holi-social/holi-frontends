@@ -1,56 +1,43 @@
-import { type DocumentNode, useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { useCallback, useMemo, useState } from 'react'
 
-import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
-import { type Term, type User, termsByTitleComparator } from '@holi/core/domain/shared/types'
+import { authenticatedUserV2Query, sdgsQuery } from '@holi/core/domain/shared/queries'
+import { type SDG, type User, termsByTitleComparator } from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import type { SelectableTerm } from '@holi/core/screens/userprofile/components/UserChipForm'
 import {
   type UpdateAuthenticatedUserInput,
   type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
 import type { Paged } from '@holi/core/types'
-import type { Color } from 'holi-bricks/tokens'
+import { UserChipTypes } from '@holi/core/screens/userprofile/types'
+import type { SelectableSDG } from '@holi/core/screens/userprofile/components/UserSDGsChipForm'
 
-export enum UserChipTypes {
-  INTERESTS = 'interests',
-  SKILLS = 'skills',
-  SDGS = 'sdgs',
-}
-
-export interface UseUserChipsOptions {
+interface UseUserChipsOptions {
   user?: User | null
-  keyInUserObject: UserChipTypes
-  queryToUse: DocumentNode
   onSubmit?: (user: User) => void
-  color?: Color
 }
 
-const getSortedAndFilteredTerms = (
-  availableTerms: readonly Term[],
-  selectedTerms: readonly Term[],
+const getSortedAndFilteredSDGs = (
+  availableTerms: readonly SDG[],
+  selectedTerms: readonly SDG[],
   filterString = ''
-): SelectableTerm[] => {
+): SelectableSDG[] => {
   const unselectedTerms = availableTerms.filter((term) => !selectedTerms.find((t) => t.id === term.id))
   const orderedTerms = [
     ...[...selectedTerms].sort(termsByTitleComparator).map((term) => ({ ...term, selected: true })),
     ...[...unselectedTerms].sort(termsByTitleComparator),
   ]
   return filterString
-    ? orderedTerms.filter((term: Term) => term.title.toLowerCase().includes(filterString.toLowerCase()))
+    ? orderedTerms.filter((term: SDG) => term.title.toLowerCase().includes(filterString.toLowerCase()))
     : orderedTerms
 }
 
-export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
-  user,
-  queryToUse,
-  keyInUserObject,
-  onSubmit,
-}: UseUserChipsOptions) => {
+export const useUserSDGs = <T extends Record<UserChipTypes, Paged<SDG>>>({ user, onSubmit }: UseUserChipsOptions) => {
+  const keyInUserObject = UserChipTypes.SDGS
   const { displayError } = useErrorHandling()
-  const { loading, data } = useQuery<T>(queryToUse, {
+  const { loading, data } = useQuery<T>(sdgsQuery, {
     skip: !user,
     onError: (error) =>
       logError(error, 'Failed to load terms for user chips', { location: 'useUserChips', field: keyInUserObject }),
@@ -62,7 +49,7 @@ export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
 
   const availableTerms = useMemo(() => data?.[keyInUserObject]?.data || [], [data, keyInUserObject])
   const [selectedTerms, setSelectedTerms] = useState(user?.[keyInUserObject] ?? [])
-  const sortedAndFilteredTerms = getSortedAndFilteredTerms(availableTerms, selectedTerms, filterString)
+  const sortedAndFilteredTerms = getSortedAndFilteredSDGs(availableTerms, selectedTerms, filterString)
 
   const onTermSelect = useCallback(
     (id: string) =>
@@ -83,7 +70,7 @@ export const useUserChips = <T extends Record<UserChipTypes, Paged<Term>>>({
 
   const submit = useCallback(async () => {
     const input = {} as UpdateAuthenticatedUserInput
-    input[keyInUserObject] = selectedTerms.map(({ id }: Term) => id)
+    input[keyInUserObject] = selectedTerms.map(({ id }: SDG) => id)
 
     const { data } = await updateUser({
       variables: { input },

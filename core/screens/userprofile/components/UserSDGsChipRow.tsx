@@ -3,25 +3,17 @@ import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { type User, termsByTitleComparator } from '@holi/core/domain/shared/types'
-import type { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import { Add } from '@holi/icons/src/generated'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
-import type { Color } from 'holi-bricks/tokens'
+import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 
-type UserChipRowProps = {
-  keyInUserObject: UserChipTypes
+type UserSDGsChipRowProps = {
   onPressEdit?: () => void
-  numberOfLines?: number
   user: User
-  color: Color | 'white'
 }
 
-const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
-  onPressEdit,
-  user,
-  keyInUserObject,
-  color = 'mono',
-}: UserChipRowProps) => {
+export const UserSDGsChipRow = ({ onPressEdit, user }: UserSDGsChipRowProps) => {
+  const keyInUserObject = UserChipTypes.SDGS
   const terms = user ? user[keyInUserObject] || [] : []
   const sortedTerms = [...terms].sort(termsByTitleComparator)
   const { t } = useTranslation()
@@ -37,7 +29,7 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
       {sortedTerms.length > 0 || !onPressEdit ? (
         /** FIXME convert to VirtualizedList, FlatList or SectionList */
         sortedTerms.map((term) => (
-          <ChipLabel key={term.id} color={color} testID={`${keyInUserObject}--${term.slug}`}>
+          <ChipLabel key={term.id} color="white" testID={`${keyInUserObject}--${term.slug}`}>
             {term.title}
           </ChipLabel>
         ))
@@ -53,4 +45,4 @@ const UserChipRow: React.VoidFunctionComponent<UserChipRowProps> = ({
   )
 }
 
-export default UserChipRow
+export default UserSDGsChipRow

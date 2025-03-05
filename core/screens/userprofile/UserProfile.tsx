@@ -14,7 +14,6 @@ import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import useBlockUser from '@holi/core/hooks/useBlockUser'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -23,7 +22,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
-import UserChipRow from '@holi/core/screens/userprofile/components/UserChipRow'
+import UserSDGsChipRow from '@holi/core/screens/userprofile/components/UserSDGsChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -37,6 +36,8 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import ConnectionsTab from '@holi/core/screens/userprofile/components/ConnectionsTab'
+import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTermsRow'
+import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 
 export type UserProfileParams = {
   userId: string
@@ -141,9 +142,9 @@ const UserProfile = () => {
     )
   }
 
-  const hasInterests = !!user.interests?.length
+  const hasInterests = !!user.interestsV2?.length
   const hasSdgs = !!user.sdgs?.length
-  const hasSkills = !!user.skills?.length
+  const hasSkills = !!user.skillsV2?.length
   const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
 
   const tabsData = [
@@ -166,17 +167,17 @@ const UserProfile = () => {
           )}
           {hasInterests && (
             <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
-              <UserChipRow user={user} keyInUserObject={UserChipTypes.INTERESTS} numberOfLines={1} color="green" />
+              <UserTermsRow termType="topic" />
             </View>
           )}
           {hasSdgs && (
             <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
-              <UserChipRow user={user} keyInUserObject={UserChipTypes.SDGS} numberOfLines={1} color="white" />
+              <UserSDGsChipRow user={user} />
             </View>
           )}
           {hasSkills && (
             <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
-              <UserChipRow user={user} keyInUserObject={UserChipTypes.SKILLS} numberOfLines={1} color="blue" />
+              <UserTermsRow termType="skill" />
             </View>
           )}
           {!hasInfo && (
