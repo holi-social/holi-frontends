@@ -37,8 +37,8 @@ const createTypesenseInstantSearchAdapter = (facet?: string) => {
   const facetConfigurations: Record<string, { query_by: string; query_by_weights: string; vector_query: string }> = {
     volunteering: {
       query_by: [...searchFields, ...embeddingFields].join(','),
-      query_by_weights: '3,3,1,1,1,0,1',
-      vector_query: 'embedding:([], k: 200, distance_threshold: 0.9)',
+      query_by_weights: '1,1,1,1,100,0,10',
+      vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.7)',
     },
     space: {
       query_by: [...searchFields, ...embeddingFields].join(','),
