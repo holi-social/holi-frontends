@@ -26,7 +26,6 @@ import {
 } from '@holi/core/screens/spaces/create/mutations'
 import { type MySpacesResponse, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { mockImageUploadForE2E } from '@holi/core/screens/spaces/helpers/e2e'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -158,42 +157,40 @@ const CreateSpace = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} redirectRoute="/spaces">
-      <SpaceTermContextProvider>
-        <KeyboardAwareScrollView style={styles.wrapper} contentContainerStyle={styles.wrapper}>
-          <View style={[mixins.container, styles.container]}>
-            <HoliWizard
-              isBackButtonAvailable={true}
-              onNextPress={handleNextButtonPress}
-              onSubmit={handleSubmitButtonPress}
-            >
-              <CreateSpaceName
-                onChangeSpaceName={setSpaceName}
-                onChangeSpaceGoal={setSpaceGoal}
-                spaceName={spaceName}
-                spaceGoal={spaceGoal}
-                spaceNameErrors={fieldErrors.title}
-                spaceGoalErrors={fieldErrors.description}
-              />
-              <CreateSpaceTopics onSelectSpaceTopics={setSpaceTopics} selectedTopics={spaceTopics} />
-              <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
-            </HoliWizard>
-          </View>
-        </KeyboardAwareScrollView>
-        <HoliConfirmation
-          show={showConfirmationModal}
-          label={exitConfirmationTitle}
-          title={exitConfirmationTitle}
-          description={t('spaces.create.close.dialog.description')}
-          onDismiss={() => setShowConfirmationModal(false)}
-          secondaryText={t('spaces.create.close.dialog.dismiss')}
-          primaryText={t('spaces.create.close.dialog.confirm')}
-          testID="exit-space-creation-confirmation"
-          onPrimary={() => {
-            setShowConfirmationModal(false)
-            navigateBack()
-          }}
-        />
-      </SpaceTermContextProvider>
+      <KeyboardAwareScrollView style={styles.wrapper} contentContainerStyle={styles.wrapper}>
+        <View style={[mixins.container, styles.container]}>
+          <HoliWizard
+            isBackButtonAvailable={true}
+            onNextPress={handleNextButtonPress}
+            onSubmit={handleSubmitButtonPress}
+          >
+            <CreateSpaceName
+              onChangeSpaceName={setSpaceName}
+              onChangeSpaceGoal={setSpaceGoal}
+              spaceName={spaceName}
+              spaceGoal={spaceGoal}
+              spaceNameErrors={fieldErrors.title}
+              spaceGoalErrors={fieldErrors.description}
+            />
+            <CreateSpaceTopics onSelectSpaceTopics={setSpaceTopics} selectedTopics={spaceTopics} />
+            <CreateSpaceCoverImage onUploadImage={setSpaceCoverImage} coverImage={spaceCoverImage} />
+          </HoliWizard>
+        </View>
+      </KeyboardAwareScrollView>
+      <HoliConfirmation
+        show={showConfirmationModal}
+        label={exitConfirmationTitle}
+        title={exitConfirmationTitle}
+        description={t('spaces.create.close.dialog.description')}
+        onDismiss={() => setShowConfirmationModal(false)}
+        secondaryText={t('spaces.create.close.dialog.dismiss')}
+        primaryText={t('spaces.create.close.dialog.confirm')}
+        testID="exit-space-creation-confirmation"
+        onPrimary={() => {
+          setShowConfirmationModal(false)
+          navigateBack()
+        }}
+      />
     </PermissionsGuard>
   )
 }

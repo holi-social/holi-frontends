@@ -1,15 +1,15 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Term } from '@holi/core/domain/shared/types'
+import type { Term } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
 import EditSpaceModalWithFooter from '@holi/core/screens/spaces/edit/components/EditSpaceModalWithFooter'
 import { updateSpaceMutation } from '@holi/core/screens/spaces/edit/mutations'
-import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { useSDGs } from '@holi/core/domain/shared/hooks'
 
 type EditSpaceSDGsProps = {
   space: Space
@@ -19,7 +19,7 @@ type EditSpaceSDGsProps = {
 const EditSpaceSDGs = ({ space, onDismiss }: EditSpaceSDGsProps) => {
   const [sdgs, setSdgs] = useState<Term[]>([...(space?.sdgs || [])])
   const { openToast } = useToast()
-  const { sdgs: allSdgs } = useContext(SpaceTermContext)
+  const { sdgs: allSdgs } = useSDGs()
   const { displayError } = useErrorHandling()
 
   const [updateSpace] = useMutation(updateSpaceMutation, {

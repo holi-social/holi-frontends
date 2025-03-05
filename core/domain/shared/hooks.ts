@@ -1,11 +1,18 @@
 import { useMutation, useQuery } from '@apollo/client'
 
-import { anonCountQuery, skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
-import { Skill, SkillsQueryResult, Topic, TopicsQueryResult } from '@holi/core/domain/shared/types'
+import { anonCountQuery, sdgsQuery, skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
+import type {
+  SDG,
+  SdgsQueryResult,
+  Skill,
+  SkillsQueryResult,
+  Topic,
+  TopicsQueryResult,
+} from '@holi/core/domain/shared/types'
 import { logError } from '@holi/core/errors/helpers'
 import { useCallback } from 'react'
 import { getLogger } from '@holi/core/helpers/logging'
-import { MutationAnonCountArgs } from '@holi/api/graphql/graphql-codegen'
+import type { MutationAnonCountArgs } from '@holi/api/graphql/graphql-codegen'
 
 export const useTopics = (): { topics: readonly Topic[]; topicsLoading: boolean } => {
   const { loading: topicsLoading, data: topicsData } = useQuery<TopicsQueryResult>(topicsQuery, {
@@ -41,6 +48,20 @@ export const useSkills = (): { skills: readonly Skill[]; skillsLoading: boolean 
   return {
     skills,
     skillsLoading: skillsLoading && !skills.length,
+  }
+}
+
+export const useSDGs = (): { sdgs: readonly SDG[]; sdgsLoading: boolean } => {
+  const { loading: sdgsLoading, data: sdgsData } = useQuery<SdgsQueryResult>(sdgsQuery, {
+    onError: (error) =>
+      logError(error, 'Failed to load SDGs', {
+        location: 'domain/shared/hooks/useSDGs',
+      }),
+  })
+  const sdgs = sdgsData?.sdgs.data || []
+  return {
+    sdgs,
+    sdgsLoading: sdgsLoading && !sdgs.length,
   }
 }
 
