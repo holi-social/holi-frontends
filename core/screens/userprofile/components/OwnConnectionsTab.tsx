@@ -13,7 +13,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type Connection, myConnectionsQuery, type MyConnectionsResponse } from '@holi/core/domain/shared/queries'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
-import { StyleSheet, View, type FlexAlignType } from 'react-native'
+import { Platform, StyleSheet, View, type FlexAlignType } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -214,6 +214,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
         label={selectedConnection?.fullName || ''}
         onDismiss={connectionsModalHide}
         style={styles.modal}
+        headerStyle={styles.modalHeader}
       >
         <HoliContainer>
           <Avatar
@@ -321,7 +322,10 @@ const getStyles = (theme: HoliTheme) =>
       gap: Spacing['xs'],
     },
     modal: {
-      padding: Spacing['lg'],
+      paddingBottom: Spacing['lg'],
+    },
+    modalHeader: {
+      paddingBottom: Platform.OS === 'ios' ? 0 : Spacing['xs'],
     },
     details: {
       marginTop: Spacing['xs'],
