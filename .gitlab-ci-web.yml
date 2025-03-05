@@ -304,6 +304,12 @@ web_release_candidate_deploy:
         https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
     fi
 
+web_release_candidate_smoketest:
+  needs: ['web_release_candidate_deploy']
+  extends: .web_smoketest
+  rules:
+    - !reference [.rule_templates, only_on_production_release]
+
 web_release_candidate_destroy:
   extends: .web_destroy
   needs: ['web_release_candidate_deploy']
@@ -316,7 +322,7 @@ web_release_candidate_destroy:
 
 web_release_deploy:
   extends: .web_deploy
-  needs: ['web_release_candidate_deploy']
+  needs: ['web_release_candidate_smoketest']
   allow_failure: false
   environment:
     name: web-production
