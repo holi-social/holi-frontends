@@ -32,8 +32,6 @@ if [ "$CHECK_VERSION_RELEASED" = "true" ]; then
   fi
 fi
 
-exit 0
-
 eas build --platform "$BUILD_PLATFORM" --profile "$BUILD_PROFILE" --non-interactive
 ARTIFACT_URL=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform "$BUILD_PLATFORM" --limit=1 2> /dev/null | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
 
