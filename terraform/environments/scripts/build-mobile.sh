@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # exit when any command fails
-set -ex
+set -e
 
 ENVIRONMENT_FILE=$1
 BUILD_PROFILE=$2
@@ -25,12 +25,14 @@ if [ "$CHECK_VERSION_RELEASED" = "true" ]; then
       * ) echo "unknown build platform $BUILD_PLATFORM"; exit 1;;
   esac
   CURRENT_VERSION=$(expo config --json 2>/dev/null | jq -r $VERSION_SELECTOR)
-  LAST_STATUS=$(eas build:list --json --non-interactive --platform "$BUILD_PLATFORM" --buildProfile "$BUILD_PROFILE" --limit=1 --app-version="$CURRENT_VERSION" 2>/dev/null | jq -r '.[0].status')
-  if [ "$LAST_STATUS" != "" ] && [ "$LAST_STATUS" != "ERRORED" ] && [ "$LAST_STATUS" != "CANCELED" ]; then
-    echo "$BUILD_PLATFORM app version \"$CURRENT_VERSION_IOS\" is/was already built (status $LAST_STATUS). Did you forget to increment app versions?"
+  LAST_STATUS=$(eas build:list --json --non-interactive --platform "$BUILD_PLATFORM" --buildProfile "$BUILD_PROFILE" --limit=1 --app-build-version="$CURRENT_VERSION" 2>/dev/null | jq -r '.[0].status')
+  if [ "$LAST_STATUS" != "null" ] && [ "$LAST_STATUS" != "ERRORED" ] && [ "$LAST_STATUS" != "CANCELED" ]; then
+    echo "$BUILD_PLATFORM app build version \"$CURRENT_VERSION\" is/was already built (status $LAST_STATUS). Did you forget to increment app versions?"
     exit 1
   fi
 fi
+
+exit 0
 
 eas build --platform "$BUILD_PLATFORM" --profile "$BUILD_PROFILE" --non-interactive
 ARTIFACT_URL=$(eas build:list --gitCommitHash "${CI_COMMIT_SHA}" --json --non-interactive --platform "$BUILD_PLATFORM" --limit=1 2> /dev/null | jq -r ".[0].artifacts.buildUrl") # extracts build URL from EAS
