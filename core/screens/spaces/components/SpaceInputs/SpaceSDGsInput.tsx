@@ -2,44 +2,37 @@ import { ChipSelect } from 'holi-bricks/components/chips'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
-import {
-  type SortedTerm,
-  type Term,
-  termsBySortNumberComparator,
-  termsByTitleComparator,
-} from '@holi/core/domain/shared/types'
+import { type SortedTerm, type Term, termsBySortNumberComparator } from '@holi/core/domain/shared/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information, Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import type { Color } from 'holi-bricks/tokens/colors/primitives'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useSDGs } from '@holi/core/domain/shared/hooks'
 
-export interface SpaceTermsInputProps {
+export interface SpaceSDGsInputProps {
   title?: string
   description: string
   searchPlaceholder: string
   onSelect: (items: SortedTerm[]) => void
   selected: readonly SortedTerm[]
-  terms: readonly SortedTerm[]
   hint?: string
-  showSortNumber?: boolean
   testID?: string
   color?: Color
 }
 
-const SpaceTermsInput = ({
+export const SpaceSDGsInput = ({
   title,
   description,
   searchPlaceholder,
   hint,
-  showSortNumber,
   onSelect,
   selected,
-  terms,
   testID,
   color = 'green',
-}: SpaceTermsInputProps) => {
+}: SpaceSDGsInputProps) => {
+  const { sdgs: terms } = useSDGs()
   const [filterString, setFilterString] = useState<string>('')
   const [orderedTerms, setOrderedTerms] = useState<SortedTerm[]>([])
   const [filteredTerms, setFilteredTerms] = useState<SortedTerm[]>([])
@@ -59,10 +52,10 @@ const SpaceTermsInput = ({
     const copyOfSelected = [...selected] // make a hard copy of the selected items (for immutability)
 
     setOrderedTerms([
-      ...copyOfSelected.sort(showSortNumber ? termsBySortNumberComparator : termsByTitleComparator),
-      ...unselected.sort(showSortNumber ? termsBySortNumberComparator : termsByTitleComparator),
+      ...copyOfSelected.sort(termsBySortNumberComparator),
+      ...unselected.sort(termsBySortNumberComparator),
     ])
-  }, [terms, selected, showSortNumber])
+  }, [terms, selected])
 
   useEffect(
     () =>
@@ -117,15 +110,13 @@ const SpaceTermsInput = ({
               onPress={() => updateValues(term)}
               selectedColor={color}
             >
-              {showSortNumber && term.number ? `${term.number}. ${term.title}` : term.title}
+              {term.number ? `${term.number}. ${term.title}` : term.title}
             </ChipSelect>
           ))}
       </View>
     </View>
   )
 }
-
-export default SpaceTermsInput
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
