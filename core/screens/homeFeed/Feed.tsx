@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useContext, useMemo, useCallback, useRef, useEffect, useState } from 'react'
+import React, { memo, useMemo, useCallback, useRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, RefreshControl, AppState } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -18,9 +18,6 @@ import GenericPostCard from '@holi/core/screens/individualPosts/components/Gener
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
-import SpaceTermContextProvider, {
-  SpaceTermContext,
-} from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
@@ -52,7 +49,6 @@ const HomeFeed = () => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
-  const { topics: allTopics } = useContext(SpaceTermContext)
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing, insightsCreators } =
     useFeedQuery()
 
@@ -92,15 +88,15 @@ const HomeFeed = () => {
     }) => {
       return (
         <>
-          {item.feedPost && <GenericPostCard post={item.feedPost} allTopics={allTopics} />}
-          {item.spacePost && <GenericPostCard post={item.spacePost} allTopics={allTopics} />}
+          {item.feedPost && <GenericPostCard post={item.feedPost} />}
+          {item.spacePost && <GenericPostCard post={item.spacePost} />}
           {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
           {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
         </>
       )
     },
-    [allTopics, insightsCreators]
+    [insightsCreators]
   )
 
   const renderFooter = useCallback(
@@ -217,7 +213,7 @@ const HomeFeed = () => {
     )
 
   return (
-    <SpaceTermContextProvider>
+    <>
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
         <View style={styles.sections} testID="feed-posts">
           <ErrorBoundary>
@@ -253,7 +249,7 @@ const HomeFeed = () => {
       <ButtonFloatingWrapper>
         <CreatePostButton />
       </ButtonFloatingWrapper>
-    </SpaceTermContextProvider>
+    </>
   )
 }
 

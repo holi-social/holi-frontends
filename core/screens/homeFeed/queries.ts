@@ -74,11 +74,7 @@ const taskFragment = gql`
     location
     locationType
     regularity
-    skills {
-      id
-      title
-      slug
-    }
+    skillsV2
   }
 `
 

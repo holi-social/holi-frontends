@@ -4,10 +4,9 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
-import { Term } from '@holi/core/domain/shared/types'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import ImageCarousel from '@holi/core/screens/individualPosts/components/ImageCarousel'
-import { FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
+import { type FeedPost, VisibilityLevel } from '@holi/core/screens/individualPosts/types'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { GlobalFilled, HoliLogoFilled } from '@holi/icons/src/generated'
@@ -17,15 +16,14 @@ import HoliLinkPreview from '@holi/ui/components/organisms/HoliLinkPreview'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type PostContentProps = {
   post: FeedPost
   showVisibilityBadge?: boolean
-  aggregatedTopics?: Term[]
 }
 
-const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostContentProps) => {
+const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
   const [loadingTranslation, setLoadingTranslation] = useState(false)
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
@@ -65,10 +63,10 @@ const PostContent = ({ post, showVisibilityBadge, aggregatedTopics }: PostConten
               </HoliText>
             </View>
           )}
-          {aggregatedTopics?.map((topic) => (
-            <View style={[styles.pill, styles.topicPill]} key={topic.id}>
+          {post.topicsV2?.map((topic) => (
+            <View style={[styles.pill, styles.topicPill]} key={topic}>
               <HoliText size="small" numberOfLines={1}>
-                {topic.title}
+                {t(`topic.${topic}`)}
               </HoliText>
             </View>
           ))}

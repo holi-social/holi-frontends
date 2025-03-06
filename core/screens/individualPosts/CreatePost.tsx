@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import type { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -19,7 +18,6 @@ import { ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
 import PostOnboardModal from '@holi/core/screens/posts/components/PostOnboardModal'
 import { usePostOnboarding } from '@holi/core/screens/posts/hooks/usePostOnboarding'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
@@ -46,7 +44,7 @@ const CreatePost = () => {
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
   const [selectedVisibility, setSelectedVisibility] = useState<Visibility>(Visibility.PUBLIC)
-  const [selectedTopics, setSelectedTopics] = useState<Term[]>([])
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([])
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | null>(null)
   const [aspectRatio, setAspectRatio] = useState<ImageAspectRatio>(ImageAspectRatio.SIXTEEN_NINE)
   const [description, setDescription] = useState<string>('')
@@ -81,7 +79,7 @@ const CreatePost = () => {
           description,
           visibility: selectedVisibility,
           categoryId: selectedCategoryId,
-          topicIds: selectedTopics.map((topic) => topic.id),
+          topicsV2: selectedTopics,
           language: data?.detectedLanguage,
           location: selectedLocation?.label,
           images: images.map((_image, index) => {
@@ -169,9 +167,7 @@ const CreatePost = () => {
 
 const WrappedCreatePost = () => (
   <PermissionsGuard permissionType={PermissionsType.AUTH}>
-    <SpaceTermContextProvider>
-      <CreatePost />
-    </SpaceTermContextProvider>
+    <CreatePost />
   </PermissionsGuard>
 )
 

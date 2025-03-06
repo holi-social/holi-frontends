@@ -8,7 +8,6 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import { Pagination } from '@holi/core/pagination/Pagination'
 import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import PostsListResults from '@holi/core/screens/individualPosts/components/PostsListResults'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import type { DimensionValue, FlexAlignType } from 'react-native'
 
@@ -42,19 +41,17 @@ const PostsList = ({
   }
 
   return (
-    <SpaceTermContextProvider>
-      <Pagination
-        query={allPostsQuery}
-        queryOptions={queryOptions}
-        fetchMoreButtonProps={{
-          variant: 'secondary',
-          style: styles.button,
-        }}
-        fetchMoreButtonLabel={t('individuals.post.loadMoreText')}
-      >
-        <PostsListResults emptyMessage={emptyMessage} showVisibilityBadge={showVisibilityBadge} />
-      </Pagination>
-    </SpaceTermContextProvider>
+    <Pagination
+      query={allPostsQuery}
+      queryOptions={queryOptions}
+      fetchMoreButtonProps={{
+        variant: 'secondary',
+        style: styles.button,
+      }}
+      fetchMoreButtonLabel={t('individuals.post.loadMoreText')}
+    >
+      <PostsListResults emptyMessage={emptyMessage} showVisibilityBadge={showVisibilityBadge} />
+    </Pagination>
   )
 }
 
