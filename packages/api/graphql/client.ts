@@ -149,18 +149,9 @@ export const createCache = () =>
           comments: {
             keyArgs: [],
           },
-          appVolunteering_engagementOpportunities: pagedPolicy(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (args: Record<string, any> | null) => {
-              const { location, category } = args || {}
-              return JSON.stringify({
-                location: location?.geolocation?.properties?.place_id,
-                category,
-              })
-            }
-          ),
-          appVolunteering_engagementRecos: pagedPolicy(),
-          appVolunteering_filteredEngagements: pagedPolicy(),
+          appVolunteering_engagementRecosV2: pagedPolicy(),
+          appVolunteering_similarRecommendations: pagedPolicy(),
+          appVolunteering_filteredEngagementsV2: pagedPolicy(),
           spaces: pagedPolicy(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (args: Record<string, any> | null) => {
