@@ -34,7 +34,7 @@ export const ChipsSelection = ({
       <TermsInput
         termType={chipType === 'interests' ? 'topic' : 'skill'}
         description={t(`onboarding.${chipType}.subline`)}
-        searchPlaceholder={`onboarding.${chipType}.inputPlaceholder`}
+        searchPlaceholder={t(`onboarding.${chipType}.inputPlaceholder`)}
         onSingleSelect={onSelect}
         selected={selectedChipIds}
       />
