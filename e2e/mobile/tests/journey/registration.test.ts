@@ -49,8 +49,8 @@ describe('@RegistrationJourney', () => {
         label: 'Hamburg, Germany',
         id: '51223999b85500244059f052ea9271c64a40f00101f9013ef5000000000000c00208',
       },
-      interests: ['biodiversity-animal-welfare', 'climate-protection'],
-      skills: ['analytical-thinking', 'commitment'],
+      interests: ['animal-welfare', 'climate-environment'],
+      skills: ['research-analysis', 'other'],
     }
     await registerNewUser({ userData })
 

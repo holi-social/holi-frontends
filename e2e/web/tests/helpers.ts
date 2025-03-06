@@ -135,13 +135,13 @@ const fillOutOnboarding = async (page: Page, userData: OnboardingUserData) => {
   // Handle interests selection
   await page.waitForSelector(byTestId('onboarding-interests-selection'))
   for (const slug of userData.interests) {
-    await clickElementByTestId(page, `user-chip-form--${slug}-chip`)
+    await clickElementByTestId(page, `topic--${slug}`)
   }
   await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
   // Handle skills selection
   await page.waitForSelector(byTestId('onboarding-skills-selection'))
   for (const slug of userData.skills) {
-    await clickElementByTestId(page, `user-chip-form--${slug}-chip`)
+    await clickElementByTestId(page, `skill--${slug}`)
   }
   await clickElementByTestId(page, 'onboarding-stepper-nav-buttons-next-btn')
 

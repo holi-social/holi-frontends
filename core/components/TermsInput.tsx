@@ -110,6 +110,7 @@ export const TermsInput = ({
               selected={selected.includes(option.term)}
               onPress={() => (onSingleSelect ?? updateValues)(option.term)}
               selectedColor={termType === 'topic' ? 'green' : 'blue'}
+              testID={`${termType}--${option.term}`}
             >
               {option.label}
             </ChipSelect>
