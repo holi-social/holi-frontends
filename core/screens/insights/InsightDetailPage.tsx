@@ -236,9 +236,9 @@ const InsightDetailPage = () => {
               imageStyle={styles.insightImage as ImageStyle}
             />
             <View style={[styles.content, styles.section]}>
-              {!!insight.topic && (
+              {!!insight.topicV2 && (
                 <View style={styles.tag}>
-                  <ChipLabel color="green">{insight.topic.title}</ChipLabel>
+                  <ChipLabel color="green">{t(`topic.${insight.topicV2}`)}</ChipLabel>
                 </View>
               )}
 

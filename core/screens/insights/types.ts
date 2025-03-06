@@ -1,7 +1,7 @@
-import { Topic, User } from '@holi/core/domain/shared/types'
-import { Poll } from '@holi/core/screens/polls/types'
-import { Link, Post } from '@holi/core/screens/posts/types'
-import { Paged } from '@holi/core/types'
+import type { User } from '@holi/core/domain/shared/types'
+import type { Poll } from '@holi/core/screens/polls/types'
+import type { Link, Post } from '@holi/core/screens/posts/types'
+import type { Paged } from '@holi/core/types'
 
 export enum ExternalContentCategory {
   ARTICLE = 'ARTICLE',
@@ -38,7 +38,7 @@ export interface Insight {
   creator?: User
   headerImage: string
   headerImageBlurhash?: string
-  topic: Topic
+  topicV2: string
   posts: Post[]
   polls: Poll[]
   numberOfPosts: number
