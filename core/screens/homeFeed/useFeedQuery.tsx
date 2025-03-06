@@ -77,7 +77,7 @@ export const useFeedQuery = () => {
   const combinedFeedData = useMemo(() => {
     const feedData = data?.feed?.data || []
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
-    const engagements = dataVolunteering?.appVolunteering_engagementRecos?.data || []
+    const engagements = dataVolunteering?.appVolunteering_engagementRecosV2?.data || []
     const insights = dataInsights?.feedInsights?.data || []
 
     // Pre-calculate total length to avoid array resizing
@@ -122,7 +122,7 @@ export const useFeedQuery = () => {
   }, [
     data?.feed?.data,
     dataGoodNews?.appGoodNews_articles?.articles,
-    dataVolunteering?.appVolunteering_engagementRecos?.data,
+    dataVolunteering?.appVolunteering_engagementRecosV2?.data,
     dataInsights?.feedInsights?.data,
   ])
 
