@@ -2,6 +2,8 @@ import type { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 import type { Paged } from '@holi/core/types'
 
+export type TermType = 'topic' | 'skill'
+
 // keys are the V2 topic slugs, values is a combined list of V1 and V2 topic slugs (for backwards-compatibility)
 export const topicV2Slugs = {
   'animal-welfare': ['animal-welfare', 'biodiversity-animal-welfare'],
@@ -129,23 +131,9 @@ export type SDG = Term & {
   number: number
 }
 
-export type Skill = Term
-
-export type Topic = Term & {
-  isDiscoverSpacesDefault: boolean
-}
-
 export const termsByTitleComparator = (a: Term, b: Term) => a.title.localeCompare(b.title)
 
 export const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.number || 0) - (b.number || 0)
-
-export interface TopicsQueryResult {
-  topics: Paged<Topic>
-}
-
-export interface SkillsQueryResult {
-  skills: Paged<Skill>
-}
 
 export interface SdgsQueryResult {
   sdgs: Paged<SDG>
@@ -171,10 +159,8 @@ export interface User {
   location?: string
   geolocationId?: string
   engagementLevel?: string
-  interests?: Topic[]
   interestsV2?: string[]
   sdgs?: SDG[]
-  skills?: Skill[]
   skillsV2?: string[]
   connectionStatusToMyself?: UserConnectionStatus
   connectionStatusToSpace?: SpaceConnectionType[]
