@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
+import type { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 export const getRandomAuthenticatedUser = (): AuthenticatedUser => ({
@@ -26,9 +26,9 @@ export const getRandomUser = (hasAvatar = false): User => {
     location: faker.location.city(),
     geolocationId: 'abc123',
     engagementLevel: 'INTERESTED',
-    interests: [],
+    interestsV2: [],
     sdgs: [],
-    skills: [],
+    skillsV2: [],
     connectionStatusToMyself: UserConnectionStatus.NOT_CONNECTED,
     connectionStatusToSpace: [],
     role: 'REGULAR',

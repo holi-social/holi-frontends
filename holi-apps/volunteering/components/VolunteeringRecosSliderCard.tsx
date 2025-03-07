@@ -10,7 +10,7 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
-import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 export type VolunteeringRecosSliderCardProps = {
   item: VolunteeringReco | VolunteeringEngagement
@@ -38,12 +38,12 @@ export const VolunteeringRecosSliderCard = ({
     : engagement.title
 
   const hasTopics = isReco
-    ? engagementOrReco.matchedTopics && engagementOrReco.matchedTopics?.length > 0
-    : engagement.topics && engagement.topics?.length > 0
+    ? engagementOrReco.matchedTopicsV2 && engagementOrReco.matchedTopicsV2?.length > 0
+    : engagement.topicsV2 && engagement.topicsV2?.length > 0
 
   const hasSkills = isReco
-    ? engagementOrReco.matchedSkills && engagementOrReco.matchedSkills?.length > 0
-    : engagement.skills && engagement.skills?.length > 0
+    ? engagementOrReco.matchedSkillsV2 && engagementOrReco.matchedSkillsV2?.length > 0
+    : engagement.skillsV2 && engagement.skillsV2?.length > 0
 
   return (
     <RecoSliderCard
@@ -54,8 +54,8 @@ export const VolunteeringRecosSliderCard = ({
           <>
             <VolunteeringLabels
               displayAll={false}
-              topicSlugs={isReco ? engagementOrReco.matchedTopics : engagement.topics}
-              skillSlugs={isReco ? engagementOrReco.matchedSkills : engagement.skills}
+              topicSlugs={isReco ? engagementOrReco.matchedTopicsV2 : engagement.topicsV2}
+              skillSlugs={isReco ? engagementOrReco.matchedSkillsV2 : engagement.skillsV2}
             />
             <HoliGap size={'xs'} />
           </>

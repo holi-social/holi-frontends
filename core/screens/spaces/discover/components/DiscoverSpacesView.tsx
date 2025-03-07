@@ -1,9 +1,8 @@
 import type React from 'react'
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import type { Skill, Topic } from '@holi/core/domain/shared/types'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -11,8 +10,6 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import SpaceFilterForm from '@holi/core/screens/spaces/components/SpaceFilterForm'
 import type { SpaceFilter } from '@holi/core/screens/spaces/components/SpaceFilterForm/types'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
-import { getDefaultTopics } from '@holi/core/screens/spaces/helpers/defaultFilters'
-import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { ArrowLeft, Filter3 } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -22,10 +19,15 @@ import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useTranslation } from 'react-i18next'
+import {
+  type DiscoverSpacesDefaultTopicsVResponse,
+  discoverSpacesDefaultTopicsV2,
+} from '@holi/core/screens/spaces/discover/queries'
+import { useQuery } from '@apollo/client'
 
 interface DiscoverSpacesViewProps {
-  userTopics: Topic[]
-  userSkills: Skill[]
+  userTopics: string[]
+  userSkills: string[]
   userGeolocationId?: string
 }
 
@@ -50,16 +52,12 @@ const SpacesGroupSliderSkeletons: React.FC = () => {
 const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, userSkills, userGeolocationId }) => {
   const { isLoggedIn } = useLoggedInUser()
   const { styles, theme } = useStyles(getStyles)
+  const { data: defaultTopics, loading: loadingDefaultTopics } =
+    useQuery<DiscoverSpacesDefaultTopicsVResponse>(discoverSpacesDefaultTopicsV2)
 
-  const { topics = [] } = useContext(SpaceTermContext)
-
-  const defaultTopics = useMemo(
-    () =>
-      getDefaultTopics(
-        topics,
-        userTopics.map((t) => t.id)
-      ),
-    [topics, userTopics]
+  const filteredDefaultTopics = useMemo(
+    () => (defaultTopics?.discoverSpacesDefaultTopicsV2 ?? []).filter((topic) => !userTopics.includes(topic)),
+    [defaultTopics?.discoverSpacesDefaultTopicsV2, userTopics]
   )
 
   const { t } = useTranslation()
@@ -125,10 +123,10 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
               />
             )}
 
-            {userTopics.map((userTopic, index) => {
+            {userTopics.map((userTopic) => {
               return (
                 <SpacesGroupSlider
-                  key={index}
+                  key={userTopic}
                   topic={userTopic}
                   pageSize={SPACES_GROUP_LIMIT}
                   style={styles.spacesGroup}
@@ -137,10 +135,10 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
               )
             })}
 
-            {userSkills.map((userSkill, index) => {
+            {userSkills.map((userSkill) => {
               return (
                 <SpacesGroupSlider
-                  key={index}
+                  key={userSkill}
                   skill={userSkill}
                   pageSize={SPACES_GROUP_LIMIT}
                   style={styles.spacesGroup}
@@ -149,12 +147,12 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
               )
             })}
 
-            {!topics.length && <SpacesGroupSliderSkeletons />}
+            {loadingDefaultTopics && <SpacesGroupSliderSkeletons />}
 
-            {defaultTopics.map((defaultTopic, index) => {
+            {filteredDefaultTopics.map((defaultTopic) => {
               return (
                 <SpacesGroupSlider
-                  key={index}
+                  key={defaultTopic}
                   topic={defaultTopic}
                   pageSize={SPACES_GROUP_LIMIT}
                   style={styles.spacesGroup}

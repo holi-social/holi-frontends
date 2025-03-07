@@ -47,7 +47,7 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, on
   const { user } = useLoggedInUser()
   const gradientColors = ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)']
 
-  const hasInterests = !!user?.interests?.length
+  const hasInterests = !!user?.interestsV2?.length
   const hasAvatar = !!user?.avatar
   const hasLocation = !!user?.location
   const [showCard, setShowCard] = useState(false)

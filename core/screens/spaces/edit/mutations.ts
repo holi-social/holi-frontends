@@ -10,7 +10,7 @@ export const UpdateSpaceInputSchema = z.object({
   description: z.string().trim().min(1).max(SPACE_DESCRIPTION_LEN).optional(),
   location: z.string().optional(),
   avatar: z.instanceof(Object).optional(),
-  topics: z.array(z.string()).optional(),
+  topicsV2: z.array(z.string()).optional(),
   sdgs: z.array(z.string()).optional(),
   contactDescription: z.string().optional(),
   contactEmail: z.string().email().optional(),
@@ -37,10 +37,7 @@ export const updateSpaceMutation = gql`
         latitude
         longitude
       }
-      topics {
-        id
-        title
-      }
+      topicsV2
       sdgs {
         id
         title

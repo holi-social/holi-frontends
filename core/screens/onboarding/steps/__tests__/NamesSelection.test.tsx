@@ -57,8 +57,8 @@ describe('NamesSelection', () => {
       variables: {
         input: {
           ...loggedInUser,
-          interests: userData.interests,
-          skills: userData.skills,
+          interestsV2: userData.interests,
+          skillsV2: userData.skills,
           location: userData.location?.label,
           geolocation: userData.location?.geolocation,
         },
@@ -76,8 +76,8 @@ describe('NamesSelection', () => {
       variables: {
         input: {
           ...loggedInUser,
-          interests: userData.interests,
-          skills: userData.skills,
+          interestsV2: userData.interests,
+          skillsV2: userData.skills,
           location: userData.location?.label,
           geolocation: userData.location?.geolocation,
         },

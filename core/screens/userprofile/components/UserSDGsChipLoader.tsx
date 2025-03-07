@@ -2,19 +2,25 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import { UseUserChipsOptions, useUserChips } from '@holi/core/helpers/useUserChips'
-import UserChipForm from '@holi/core/screens/userprofile/components/UserChipForm'
+import { UserSDGsChipForm } from '@holi/core/screens/userprofile/components/UserSDGsChipForm'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { User } from '@holi/core/domain/shared/types'
+import { UserChipTypes } from '@holi/core/screens/userprofile/types'
+import { useUserSDGs } from '@holi/core/screens/userprofile/components/hooks/useUserSDGs'
 
-type UserChipLoaderProps = UseUserChipsOptions
+interface UserSDGsChipLoaderProps {
+  user?: User | null
+  onSubmit?: (user: User) => void
+}
 
-const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject, color }: UserChipLoaderProps) => {
+export const UserSDGsChipLoader = ({ user, onSubmit }: UserSDGsChipLoaderProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const keyInUserObject = UserChipTypes.SDGS
   const {
     filterString,
     onFilterStringChange,
@@ -22,7 +28,7 @@ const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject, color }: 
     onTermSelect,
     onSubmit: submitHandler,
     loading,
-  } = useUserChips({ user, queryToUse, onSubmit, keyInUserObject })
+  } = useUserSDGs({ user, onSubmit })
 
   const notificationComponent = user ? null : (
     <View style={styles.notification}>
@@ -42,20 +48,16 @@ const UserChipLoader = ({ user, queryToUse, onSubmit, keyInUserObject, color }: 
       testID="user-profile-chipform"
     >
       <HoliBox padding={[0, 24]}>
-        <UserChipForm
+        <UserSDGsChipForm
           filterString={filterString}
           onFilterStringChange={onFilterStringChange}
           terms={terms}
           onTermSelect={onTermSelect}
-          keyInUserObject={keyInUserObject}
-          color={color}
         />
       </HoliBox>
     </HoliModalContentWrapper>
   )
 }
-
-export default UserChipLoader
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({

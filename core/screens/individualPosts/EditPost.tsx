@@ -6,7 +6,6 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import type { Term } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError, isNotFoundError, logError } from '@holi/core/errors/helpers'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
@@ -25,7 +24,6 @@ import {
 } from '@holi/core/screens/individualPosts/queries'
 import { type FeedPostImage, ImageAspectRatio } from '@holi/core/screens/individualPosts/types'
 import useFeedPostCategories from '@holi/core/screens/individualPosts/useFeedPostCategories'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
@@ -64,7 +62,7 @@ const EditPost = () => {
   const [title, setTitle] = useState<string>('')
   const [images, setImages] = useState<HoliImageInfo[] | null>([])
   const [currentImages, setCurrentImages] = useState<FeedPostImage[]>()
-  const [selectedTopics, setSelectedTopics] = useState<Term[] | []>()
+  const [selectedTopics, setSelectedTopics] = useState<string[] | []>()
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>()
 
   const {
@@ -121,7 +119,7 @@ const EditPost = () => {
                   aspectRatio: aspectRatio,
                 }))
               : images,
-          topicIds: selectedTopics?.map((topic) => topic.id),
+          topicsV2: selectedTopics,
           language: data?.detectedLanguage,
           location: selectedLocation?.label || '',
           geolocation: {
@@ -151,7 +149,7 @@ const EditPost = () => {
       setCurrentImages(post.images)
       setSelectedCategoryId(post.category?.id || null)
       setSelectedVisibility(Visibility[post.visibility])
-      setSelectedTopics(post.topics)
+      setSelectedTopics(post.topicsV2)
       setSelectedLocation({
         label: post.location || '',
         id: '',
@@ -185,40 +183,38 @@ const EditPost = () => {
 
   return (
     <PermissionsGuard permissionType={PermissionsType.AUTH} forceRestrict={user?.id !== post?.author.id}>
-      <SpaceTermContextProvider>
-        <View style={styles.grayExtendingBackground}>
-          {categoriesLoading ? (
-            <HoliLoader />
-          ) : (
-            <PostInputForm
-              title={title}
-              onChangeTitle={setTitle}
-              description={description || post?.description}
-              onChangeDescription={setDescription}
-              images={images || []}
-              currentImages={currentImages}
-              onChangeImages={setImages}
-              onChangeCurrentImages={setCurrentImages}
-              mentions={post?.mentionedUsers}
-              selectedCategoryId={selectedCategoryId}
-              onChangeSelectedCategoryId={setSelectedCategoryId}
-              selectedVisibility={selectedVisibility}
-              onChangeSelectedVisibility={setSelectedVisibility}
-              selectedTopics={selectedTopics}
-              onChangeSelectedTopics={setSelectedTopics}
-              selectedLocation={selectedLocation}
-              onChangeSelectedLocation={setSelectedLocation as (_: GeolocationSuggestion | null) => void}
-              onSubmit={editPost}
-              submitting={submitting}
-              categories={categories}
-              aspectRatio={aspectRatio}
-              onChangeAspectRatio={setAspectRatio}
-              selectCategory={selectCategory}
-              isEdit
-            />
-          )}
-        </View>
-      </SpaceTermContextProvider>
+      <View style={styles.grayExtendingBackground}>
+        {categoriesLoading ? (
+          <HoliLoader />
+        ) : (
+          <PostInputForm
+            title={title}
+            onChangeTitle={setTitle}
+            description={description || post?.description}
+            onChangeDescription={setDescription}
+            images={images || []}
+            currentImages={currentImages}
+            onChangeImages={setImages}
+            onChangeCurrentImages={setCurrentImages}
+            mentions={post?.mentionedUsers}
+            selectedCategoryId={selectedCategoryId}
+            onChangeSelectedCategoryId={setSelectedCategoryId}
+            selectedVisibility={selectedVisibility}
+            onChangeSelectedVisibility={setSelectedVisibility}
+            selectedTopics={selectedTopics}
+            onChangeSelectedTopics={setSelectedTopics}
+            selectedLocation={selectedLocation}
+            onChangeSelectedLocation={setSelectedLocation as (_: GeolocationSuggestion | null) => void}
+            onSubmit={editPost}
+            submitting={submitting}
+            categories={categories}
+            aspectRatio={aspectRatio}
+            onChangeAspectRatio={setAspectRatio}
+            selectCategory={selectCategory}
+            isEdit
+          />
+        )}
+      </View>
     </PermissionsGuard>
   )
 }

@@ -1,25 +1,20 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { MockedResponse } from '@apollo/client/testing/core'
+import type { MockedResponse } from '@apollo/client/testing/core'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import expect from 'expect'
 import React from 'react'
 
-import { Skill, Topic } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { createSpaceList } from '@holi/core/screens/spaces/__tests__/testData'
 import SpacesGroupSlider from '@holi/core/screens/spaces/discover/components/SpacesGroupSlider'
 import {
-  DiscoverSpacesData,
-  DiscoverSpacesGroup,
-  DiscoverSpacesVariables,
+  type DiscoverSpacesData,
+  type DiscoverSpacesGroup,
+  type DiscoverSpacesVariables,
   discoverSpacesQuery,
 } from '@holi/core/screens/spaces/discover/queries'
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
-
-const topic: Topic = { id: 'topic1', title: 'Topic 1', slug: 'topic-1', isDiscoverSpacesDefault: false }
-
-const skill: Skill = { id: 'skill1', title: 'Skill 1', slug: 'skill-1' }
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data
@@ -27,17 +22,17 @@ global.console.error = jest.fn()
 global.console.warn = jest.fn()
 
 const discoverSpacesErrorMock = ({
-  topicIds,
-  skillIds,
+  topicsV2,
+  skillsV2,
 }: {
-  topicIds?: string[]
-  skillIds?: string[]
+  topicsV2?: string[]
+  skillsV2?: string[]
 }): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => ({
   request: {
     query: discoverSpacesQuery,
     variables: {
-      topicIds,
-      skillIds,
+      topicsV2,
+      skillsV2,
       limit: 5,
       offset: 0,
     },
@@ -46,23 +41,23 @@ const discoverSpacesErrorMock = ({
 })
 
 const discoverSpacesDataMock = ({
-  topicIds,
-  skillIds,
+  topicsV2,
+  skillsV2,
 }: {
-  topicIds?: string[]
-  skillIds?: string[]
+  topicsV2?: string[]
+  skillsV2?: string[]
 }): MockedResponse<DiscoverSpacesData, DiscoverSpacesVariables> => {
   const spaces: Space[] = createSpaceList(5)
   const discoverSpaces: DiscoverSpacesGroup[] = [
-    ...(topicIds?.map((topicId) => ({
-      topicId,
+    ...(topicsV2?.map((topicV2) => ({
+      topicV2,
       spaces: {
         data: spaces,
         totalResults: 100,
       },
     })) || []),
-    ...(skillIds?.map((skillId) => ({
-      skillId,
+    ...(skillsV2?.map((skillV2) => ({
+      skillV2,
       spaces: {
         data: spaces,
         totalResults: 5,
@@ -73,8 +68,8 @@ const discoverSpacesDataMock = ({
     request: {
       query: discoverSpacesQuery,
       variables: {
-        topicIds,
-        skillIds,
+        topicsV2,
+        skillsV2,
         limit: 5,
         offset: 0,
       },
@@ -92,14 +87,14 @@ describe('SpacesGroupSlider', () => {
     const renderTopic = (mocks: MockedResponse[]) =>
       render(
         <MockedProvider mocks={mocks} addTypename={false}>
-          <SpacesGroupSlider topic={topic} pageSize={5} />
+          <SpacesGroupSlider topic={'topic1'} pageSize={5} />
         </MockedProvider>
       )
 
     it('displays errors', async () => {
-      const { getByText, getAllByTestId } = renderTopic([discoverSpacesErrorMock({ topicIds: ['topic1'] })])
+      const { getByText, getAllByTestId } = renderTopic([discoverSpacesErrorMock({ topicsV2: ['topic1'] })])
 
-      expect(getByText('Topic 1')).toBeDefined()
+      expect(getByText('topic.topic1')).toBeDefined()
 
       expect(getAllByTestId('space-link-loading')).toHaveLength(5)
 
@@ -112,10 +107,10 @@ describe('SpacesGroupSlider', () => {
 
     it('renders correctly with see more', async () => {
       const { getByText, queryAllByTestId, getAllByText, getAllByRole, getByTestId } = renderTopic([
-        discoverSpacesDataMock({ topicIds: ['topic1'] }),
+        discoverSpacesDataMock({ topicsV2: ['topic1'] }),
       ])
 
-      expect(getByText('Topic 1')).toBeDefined()
+      expect(getByText('topic.topic1')).toBeDefined()
 
       expect(queryAllByTestId('space-link-loading')).toHaveLength(5)
       expect(queryAllByTestId('spaces-group-slider-see-more')).toHaveLength(0)
@@ -124,7 +119,7 @@ describe('SpacesGroupSlider', () => {
         expect(queryAllByTestId('space-link-loading')).toHaveLength(0)
       })
 
-      expect(getByText('Topic 1')).toBeDefined()
+      expect(getByText('topic.topic1')).toBeDefined()
       expect(queryAllByTestId('space-link')).toHaveLength(5)
       expect(getAllByText('Space title')).toHaveLength(5)
 
@@ -143,7 +138,7 @@ describe('SpacesGroupSlider', () => {
 
       fireEvent.press(getByTestId('spaces-group-slider-see-more'))
 
-      expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topic=topic-1')
+      expect(mockNavigate).toHaveBeenCalledWith('/spaces/filter?topic=topic1')
     })
   })
 
@@ -151,14 +146,14 @@ describe('SpacesGroupSlider', () => {
     const renderSkill = (mocks: ReadonlyArray<MockedResponse>) =>
       render(
         <MockedProvider mocks={mocks} addTypename={false}>
-          <SpacesGroupSlider skill={skill} pageSize={5} />
+          <SpacesGroupSlider skill={'skill1'} pageSize={5} />
         </MockedProvider>
       )
 
     it('displays errors', async () => {
-      const { getByText, getAllByTestId } = renderSkill([discoverSpacesErrorMock({ skillIds: ['skill1'] })])
+      const { getByText, getAllByTestId } = renderSkill([discoverSpacesErrorMock({ skillsV2: ['skill1'] })])
 
-      expect(getByText('Skill 1')).toBeDefined()
+      expect(getByText('skill.skill1')).toBeDefined()
 
       expect(getAllByTestId('space-link-loading')).toHaveLength(5)
 
@@ -171,17 +166,17 @@ describe('SpacesGroupSlider', () => {
 
     it('renders correctly without see more', async () => {
       const { getByText, queryAllByTestId, getAllByText } = renderSkill([
-        discoverSpacesDataMock({ skillIds: ['skill1'] }),
+        discoverSpacesDataMock({ skillsV2: ['skill1'] }),
       ])
 
-      expect(getByText('Skill 1')).toBeDefined()
+      expect(getByText('skill.skill1')).toBeDefined()
 
       expect(queryAllByTestId('space-link-loading')).toHaveLength(5)
 
       await waitFor(async () => {
         expect(queryAllByTestId('space-link-loading')).toHaveLength(0)
 
-        expect(getByText('Skill 1')).toBeDefined()
+        expect(getByText('skill.skill1')).toBeDefined()
         expect(queryAllByTestId('space-link')).toHaveLength(5)
         expect(getAllByText('Space title')).toHaveLength(5)
 

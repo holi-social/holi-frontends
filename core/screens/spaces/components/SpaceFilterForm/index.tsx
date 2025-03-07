@@ -1,9 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import PlacesAutocomplete from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { Close } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
@@ -18,6 +17,7 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { type SpaceFilter, isSpaceFilterEmpty } from './types'
 import { getSpaceFilterInitialState, useSpaceFilterReducer } from './useSpaceFilterReducer'
 import { Button } from 'holi-bricks/components/button'
+import { useSortedTerms } from '@holi/core/domain/shared/useSortedTerms'
 
 interface Props extends Pick<Partial<SpaceFilter>, 'location' | 'skillSlugs' | 'topicSlugs'> {
   onSubmit: (filter: SpaceFilter) => void
@@ -31,28 +31,24 @@ const SpaceFilterForm = ({ onSubmit, ...initValues }: Props) => {
     getSpaceFilterInitialState(initValues)
   )
 
-  const { loadingTopics, failedTopics, loadingSkills, failedSkills, topics, skills } = useContext(SpaceTermContext)
+  const topics = useSortedTerms('topic')
+  const skills = useSortedTerms('skill')
 
   const submit = () => {
     onSubmit(filterState)
   }
 
   const topicOptions: HoliSelectOption[] = topics.map((topic) => ({
-    id: topic.slug,
-    title: topic.title,
-    selected: filterState.topicSlugs.includes(topic.slug),
+    id: topic.term,
+    title: topic.label,
+    selected: filterState.topicSlugs.includes(topic.term),
   }))
 
   const skillOptions: HoliSelectOption[] = skills.map((skill) => ({
-    id: skill.slug,
-    title: skill.title,
-    selected: filterState.skillSlugs.includes(skill.slug),
+    id: skill.term,
+    title: skill.label,
+    selected: filterState.skillSlugs.includes(skill.term),
   }))
-
-  // Error state just hides the component
-  if (failedTopics || failedSkills) {
-    return <></>
-  }
 
   return (
     <HoliKeyboardSaveView>
@@ -61,7 +57,6 @@ const SpaceFilterForm = ({ onSubmit, ...initValues }: Props) => {
         actionButtonDisabled={isSpaceFilterEmpty(filterState)}
         onActionButtonPress={submit}
         style={styles.modalWrapper}
-        loading={loadingTopics || loadingSkills}
         hideFooterWhenKeyboardIsOpen={true}
         keyboardShouldPersistTaps="handled"
       >

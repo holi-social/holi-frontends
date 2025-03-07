@@ -5,7 +5,6 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import FormWrapper from '@holi/core/components/FormWrapper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliConfirmation from '@holi/ui/components/molecules/HoliConfirmation'
@@ -42,7 +41,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return (
-    <SpaceTermContextProvider>
+    <>
       <FormWrapper
         onSave={onSave}
         saveButtonDisabled={saveButtonDisabled}
@@ -84,7 +83,7 @@ const SpaceFormScreenLayout: React.FC<SpaceFormScreenLayoutProps> = ({
           navigateBack(fallbackRoute)
         }}
       />
-    </SpaceTermContextProvider>
+    </>
   )
 }
 

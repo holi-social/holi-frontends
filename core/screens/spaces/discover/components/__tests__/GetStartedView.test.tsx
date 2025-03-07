@@ -6,13 +6,9 @@ import {
   authenticatedUserMock,
   defaultLocationDetailsMock,
   mySpacesWithEmptyResultMock,
-  sdgsMock,
-  skillsMock,
-  topicsMock,
 } from '@holi/core/screens/spaces/__tests__/mocks'
 import { spacesGroups } from '@holi/core/screens/spaces/__tests__/testData'
 import { discoverSpacesQuery } from '@holi/core/screens/spaces/discover/queries'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 import GetStartedView from '@holi/core/screens/spaces/discover/components/GetStartedView'
 import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -32,8 +28,8 @@ const getStartedViewUserSpecificMock = {
   request: {
     query: discoverSpacesQuery,
     variables: {
-      topicIds: [],
-      skillIds: [],
+      topicsV2: [],
+      skillsV2: [],
       limit: 10,
     },
   },
@@ -48,7 +44,7 @@ const getStartedViewDefaultMock = {
   request: {
     query: discoverSpacesQuery,
     variables: {
-      topicIds: ['ANIMAL_WELFARE'],
+      topicsV2: ['animal-welfare'],
       geolocation: {},
       limit: 10,
     },
@@ -60,7 +56,7 @@ const getStartedViewDefaultMock = {
   },
 }
 
-const BASE_MOCKS = [authenticatedUserMock, mySpacesWithEmptyResultMock, topicsMock, skillsMock, sdgsMock]
+const BASE_MOCKS = [authenticatedUserMock, mySpacesWithEmptyResultMock]
 const MOCKS = [...BASE_MOCKS, defaultLocationDetailsMock, getStartedViewUserSpecificMock, getStartedViewDefaultMock]
 
 // note: this test has been slimmed down since the component was refactored
@@ -70,9 +66,7 @@ const renderGetStartedView = (mocks: MockedResponse[]) =>
   render(
     <MockedProvider mocks={mocks} addTypename={false}>
       <ToastProvider>
-        <SpaceTermContextProvider>
-          <GetStartedView />
-        </SpaceTermContextProvider>
+        <GetStartedView />
       </ToastProvider>
     </MockedProvider>
   )

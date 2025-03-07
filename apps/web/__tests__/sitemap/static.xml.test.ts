@@ -1,26 +1,15 @@
-import { HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 import type { NextPageContext } from 'next'
 
-import { createPageContextMock, graphqlLink } from '@holi/web/__tests__/helpers'
-import { getServerSideProps, topicSlugsQuery } from '@holi/web/pages/sitemap/static.xml'
+import { createPageContextMock } from '@holi/web/__tests__/helpers'
+import { getServerSideProps } from '@holi/web/pages/sitemap/static.xml'
 
 jest.mock('@holi/core/helpers/isSSR', () => ({
   isSSR: true,
 }))
 jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
-const server = setupServer(
-  graphqlLink.query(topicSlugsQuery, () => {
-    return HttpResponse.json({
-      data: {
-        topics: {
-          data: [{ slug: 'topic-1' }, { slug: 'topic-2' }],
-        },
-      },
-    })
-  })
-)
+const server = setupServer()
 
 describe('Static sitemap index', () => {
   beforeAll(() => server.listen())
@@ -63,10 +52,76 @@ describe('Static sitemap index', () => {
           <loc>https://app.holi.social/en/profile</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/spaces/filter?topic=topic-1</loc>
+          <loc>https://app.holi.social/en/spaces/filter?topic=animal-welfare</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/en/spaces/filter?topic=topic-2</loc>
+          <loc>https://app.holi.social/en/spaces/filter?topic=arts-culture</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=climate-environment</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=democracy-politics</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=disability-inclusion</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=disaster-relief</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=elderly-care</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=family-kids</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=food-hunger-relief</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=gender-equality</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=housing</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=human-rights</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=lgbtqia-plus</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=lifestyle-consumption</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=literacy-education</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=mental-physical-health</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=migration-refugees</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=mobility-transport</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=other</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=peace-security</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=poverty-homelessness</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=sports-recreation</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=technology-innovation</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/en/spaces/filter?topic=youth-development</loc>
         </url>
         </urlset>
       "
@@ -107,10 +162,76 @@ describe('Static sitemap index', () => {
           <loc>https://app.holi.social/de/profile</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/de/spaces/filter?topic=topic-1</loc>
+          <loc>https://app.holi.social/de/spaces/filter?topic=animal-welfare</loc>
         </url>
         <url>
-          <loc>https://app.holi.social/de/spaces/filter?topic=topic-2</loc>
+          <loc>https://app.holi.social/de/spaces/filter?topic=arts-culture</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=climate-environment</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=democracy-politics</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=disability-inclusion</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=disaster-relief</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=elderly-care</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=family-kids</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=food-hunger-relief</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=gender-equality</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=housing</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=human-rights</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=lgbtqia-plus</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=lifestyle-consumption</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=literacy-education</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=mental-physical-health</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=migration-refugees</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=mobility-transport</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=other</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=peace-security</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=poverty-homelessness</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=sports-recreation</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=technology-innovation</loc>
+        </url>
+        <url>
+          <loc>https://app.holi.social/de/spaces/filter?topic=youth-development</loc>
         </url>
         </urlset>
       "

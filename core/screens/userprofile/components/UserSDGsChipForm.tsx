@@ -3,48 +3,45 @@ import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import type { Term } from '@holi/core/domain/shared/types'
+import type { SDG } from '@holi/core/domain/shared/types'
 import { Search } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliChipRow from '@holi/ui/components/molecules/HoliChipRow'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import type { Color } from 'holi-bricks/tokens'
 import type { ChipSelectSize } from 'holi-bricks/components/chips/size'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
+import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 
-export interface SelectableTerm extends Term {
+export interface SelectableSDG extends SDG {
   selected?: boolean
 }
 
-type UserChipFormProps = {
-  keyInUserObject: string
+type UserSDGsChipFormProps = {
   filterString?: string
   onFilterStringChange: (value: string) => void
-  terms: SelectableTerm[]
+  terms: SelectableSDG[]
   onTermSelect: (id: string) => void
   loading?: boolean
-  color?: Color
   size?: ChipSelectSize
   testID?: string
 }
 
-const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
+export const UserSDGsChipForm = ({
   filterString,
   onFilterStringChange,
   terms,
   onTermSelect,
-  keyInUserObject,
   loading = false,
-  color = 'green',
   size = 'md',
   testID = 'user-chip-form',
-}: UserChipFormProps) => {
+}: UserSDGsChipFormProps) => {
   const { t } = useTranslation()
+  const keyInUserObject = UserChipTypes.SDGS
 
   return (
     <View testID={testID}>
-      <HoliText style={styles.subline}>{t(`onboarding.${keyInUserObject}.subline`)}</HoliText>
+      <HoliText style={styles.subline}>{t(`user.${keyInUserObject}.form.subline`)}</HoliText>
 
       <HoliTextInput
         aria-label={t(`onboarding.${keyInUserObject}.inputPlaceholder`)}
@@ -66,7 +63,7 @@ const UserChipForm: React.VoidFunctionComponent<UserChipFormProps> = ({
                 key={id}
                 onPress={() => onTermSelect(id)}
                 selected={selected}
-                selectedColor={color}
+                selectedColor={'green'}
                 size={size}
                 testID={`${testID}--${slug}-chip`}
               >
@@ -99,5 +96,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 })
-
-export default UserChipForm

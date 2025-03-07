@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-import type { Skill, Topic, User } from '@holi/core/domain/shared/types'
+import { ALL_SKILLS, ALL_TOPICS, type User } from '@holi/core/domain/shared/types'
 import { type AppointmentInput, PermissionsType } from '@holi/core/screens/appointments/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import type { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/queries'
@@ -34,38 +34,6 @@ const geolocation = {
   __typename: 'GeolocationPoint',
 }
 
-export const topics: (Topic & WithTypename)[] = [
-  {
-    id: 'ANIMAL_WELFARE',
-    title: 'Animal Welfare',
-    slug: 'animal-welfare',
-    isDiscoverSpacesDefault: true,
-    __typename: 'Topic',
-  },
-  {
-    id: 'ENVIRONMENTAL_PROTECTION',
-    title: 'Environmental Protection',
-    slug: 'environmental-protection',
-    isDiscoverSpacesDefault: false,
-    __typename: 'Topic',
-  },
-]
-
-export const skills: (Skill & WithTypename)[] = [
-  {
-    id: 'COMMUNICATION_SKILLS',
-    title: 'Communication skills',
-    slug: 'communication-skills',
-    __typename: 'Skill',
-  },
-  {
-    id: 'CREATIVITY',
-    title: 'Creativity',
-    slug: 'creativity',
-    __typename: 'Skill',
-  },
-]
-
 export const user: User & WithTypename = {
   id: '1',
   firstName: 'Some',
@@ -75,7 +43,7 @@ export const user: User & WithTypename = {
   avatarBlurhash: '',
   avatarLabel: 'SB',
   avatarDefaultColor: '#FFFFFF',
-  interests: topics,
+  interestsV2: ALL_TOPICS.slice(4, 6),
   identity: 'some',
   aboutMe: '',
   pronouns: '',
@@ -83,7 +51,7 @@ export const user: User & WithTypename = {
   geolocationId: '',
   engagementLevel: 'INTERESTED',
   sdgs: [],
-  skills,
+  skillsV2: ALL_SKILLS.slice(7, 9),
   connectionStatusToMyself: UserConnectionStatus.NOT_CONNECTED,
   __typename: 'User',
 }
@@ -205,7 +173,7 @@ export const task: Task & WithTypename = {
   contactPhone: '',
   thumbnail: 'https://www.example.com/task-thumbnail.jpg?tr=w-48',
   thumbnailBlurhash: '',
-  skills,
+  skillsV2: ALL_SKILLS.slice(8, 10),
   geolocation,
   space: {} as Space,
   __typename: 'Task',
@@ -246,7 +214,7 @@ export const space: Space & WithTypename = {
   connectionStatusToMyself: [],
   tasks,
   links,
-  topics,
+  topicsV2: ALL_TOPICS.slice(7, 9),
   avatar: '',
   avatarBlurhash: '',
   avatarDefaultColor: '#000',
@@ -306,14 +274,14 @@ export const spaces = createSpaceList()
 
 export const spacesGroups: DiscoverSpacesGroup[] = [
   {
-    topicId: 'test_topic',
+    topicV2: 'test_topic',
     spaces: {
       data: spaces,
       totalResults: 10,
     },
   },
   {
-    skillId: 'test_skill',
+    skillV2: 'test_skill',
     spaces: {
       data: spaces,
       totalResults: 10,
@@ -327,19 +295,6 @@ export const spacesGroups: DiscoverSpacesGroup[] = [
     },
   },
 ]
-
-export const topic: Topic = {
-  id: 'TEST_TOPIC',
-  title: 'Topic title',
-  slug: 'topic-title',
-  isDiscoverSpacesDefault: false,
-}
-
-export const skill: Skill = {
-  id: 'TEST_SKILL',
-  title: 'Skill title',
-  slug: 'skill-title',
-}
 
 export const mySpaces: SpaceSection[] = [
   {

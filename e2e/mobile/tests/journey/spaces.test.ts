@@ -174,8 +174,8 @@ describe('@Spaces', () => {
   }
 
   const selectSomeTerms = async (numberOfTermsToSelect = 3) => {
-    const unselectedTerms = await locateMultipleElementsWithTestId('space-terms-list-item')
-    const selectedTerms = await locateMultipleElementsWithTestId('space-terms-list-item-checked')
+    const unselectedTerms = await locateMultipleElementsWithTestId('terms-list-item')
+    const selectedTerms = await locateMultipleElementsWithTestId('terms-list-item-checked')
 
     // unselect previous terms
     for (let i = 0; i < selectedTerms.length; i++) {

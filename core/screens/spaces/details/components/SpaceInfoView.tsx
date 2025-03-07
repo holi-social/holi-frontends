@@ -72,12 +72,12 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
         />
       )}
 
-      {!!space.topics?.length && (
+      {!!space.topicsV2?.length && (
         <SpaceSection title={t('spaces.spaceDetails.topics')}>
           <View style={styles.listContainer}>
-            {space.topics?.map((topic, index) => (
-              <ChipLabel key={`topic_${index}`} color="green">
-                {topic.title}
+            {space.topicsV2?.map((topic) => (
+              <ChipLabel key={topic} color="green">
+                {t(`topic.${topic}`)}
               </ChipLabel>
             ))}
           </View>

@@ -11,7 +11,7 @@ export const FeedPostSchema = z.object({
   title: z.string().min(2).max(FEED_POST_TITLE_MAX_CHARACTERS),
   description: z.string().trim().min(2).max(FEED_POST_DESCRIPTION_MAX_CHARACTERS),
   categoryId: z.string().optional().nullable(),
-  topicIds: z.array(z.string()).max(6).optional(),
+  topicsV2: z.array(z.string()).max(6).optional(),
   visibility: z.string() /* VisibilityLevel */,
   image: z.instanceof(Object).optional().nullable(),
   images: z.array(z.instanceof(Object)).max(10).optional().nullable(),

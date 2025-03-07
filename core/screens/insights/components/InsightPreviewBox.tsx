@@ -72,10 +72,10 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
           imageAspectRatio={1.75}
           hasBorder
         >
-          {!!insight.topic && (
+          {!!insight.topicV2 && (
             <View style={{ paddingBottom: 8 }}>
               <ChipLabel size="sm" color="green">
-                {insight.topic.title}
+                {t(`topic.${insight.topicV2}`)}
               </ChipLabel>
             </View>
           )}

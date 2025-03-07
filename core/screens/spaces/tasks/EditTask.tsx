@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import type { Skill } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { type TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
@@ -57,7 +56,7 @@ const EditTask = () => {
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
   const [thumbnailBlurhash, setThumbnailBlurhash] = useState<string | undefined>()
   const [currentThumbnail, setCurrentThumbnail] = useState<string | undefined>()
-  const [skills, setSkills] = useState<Skill[]>([])
+  const [skills, setSkills] = useState<string[]>([])
   const [location, setLocation] = useState<string | undefined>('')
   const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
   const [contactPhone, setContactPhone] = useState<string | undefined>('')
@@ -108,7 +107,7 @@ const EditTask = () => {
           contactEmail,
           slotsAvailable,
           thumbnail: thumbnail?.blob,
-          skills: skills.map((skill) => skill.id),
+          skillsV2: skills,
           location,
           geolocation,
           contactPhone,
@@ -143,6 +142,7 @@ const EditTask = () => {
       visibility: visibility?.id,
       locationType: locationType?.id,
       regularity: regularity?.id,
+      skillsV2: skills,
       name,
       description,
       contactEmail,
@@ -196,7 +196,7 @@ const EditTask = () => {
       setSlotsAvailable(task.slotsAvailable)
       setCurrentThumbnail(task.thumbnail)
       setThumbnailBlurhash(task.thumbnailBlurhash)
-      setSkills(task.skills)
+      setSkills(task.skillsV2)
       setLocation(task.location)
       setGeolocation(task.geolocation)
       setContactPhone(task.contactPhone)

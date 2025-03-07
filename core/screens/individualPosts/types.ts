@@ -1,4 +1,4 @@
-import { Term, Topic, User } from '@holi/core/domain/shared/types'
+import type { Term, User } from '@holi/core/domain/shared/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export enum VisibilityLevel {
@@ -64,7 +64,7 @@ export interface FeedPost {
   visibility: VisibilityLevel
   location?: string
   geolocation?: GeolocationPoint
-  topics?: Topic[]
+  topicsV2?: string[]
   category?: Category
   author: User
   createdAt: string

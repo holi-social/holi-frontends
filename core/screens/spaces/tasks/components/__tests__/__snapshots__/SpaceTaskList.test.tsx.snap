@@ -592,7 +592,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                Communication skills
+                skill.emergency-care
               </Text>
             </View>
             <View
@@ -636,7 +636,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                Creativity
+                skill.event-planning
               </Text>
             </View>
           </View>
@@ -1298,7 +1298,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                Communication skills
+                skill.emergency-care
               </Text>
             </View>
             <View
@@ -1342,7 +1342,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                Creativity
+                skill.event-planning
               </Text>
             </View>
           </View>
@@ -2004,7 +2004,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                Communication skills
+                skill.emergency-care
               </Text>
             </View>
             <View
@@ -2048,7 +2048,7 @@ exports[`SpaceTaskList renders correctly when there are tasks within space 1`] =
                   }
                 }
               >
-                Creativity
+                skill.event-planning
               </Text>
             </View>
           </View>

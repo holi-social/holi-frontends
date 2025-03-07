@@ -136,30 +136,4 @@ describe('useUserData', () => {
       skills: ['skill-2'],
     })
   })
-
-  it('should filter interests', () => {
-    const { result } = renderHook(() => useUserData())
-
-    expect(result.current.interestsSearchProps.filterString).toEqual('')
-
-    act(() => {
-      result.current.interestsSearchProps.onFilterStringChange('foobar')
-    })
-
-    expect(result.current.interestsSearchProps.filterString).toEqual('foobar')
-    expect(mockStoreOnboardingUserDataAsyncStore).not.toHaveBeenCalled()
-  })
-
-  it('should filter skills', () => {
-    const { result } = renderHook(() => useUserData())
-
-    expect(result.current.skillsSearchProps.filterString).toEqual('')
-
-    act(() => {
-      result.current.skillsSearchProps.onFilterStringChange('foobar')
-    })
-
-    expect(result.current.skillsSearchProps.filterString).toEqual('foobar')
-    expect(mockStoreOnboardingUserDataAsyncStore).not.toHaveBeenCalled()
-  })
 })

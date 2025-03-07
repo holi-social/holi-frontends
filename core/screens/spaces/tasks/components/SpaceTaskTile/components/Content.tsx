@@ -63,24 +63,24 @@ const Content = ({
         </View>
       </View>
 
-      {task.skills.length > 0 && (
+      {task.skillsV2.length > 0 && (
         <View style={styles.skillsContainer}>
           {recommendation ? (
             <>
               <ChipLabel size="sm" color="blue">
-                {task.skills[0].title}
+                {t(`skill.${task.skillsV2[0]}`)}
               </ChipLabel>
-              {task.skills.length > 1 && (
+              {task.skillsV2.length > 1 && (
                 <ChipLabel size="sm" color="blue">
-                  {'+' + (task.skills.length - 1)}
+                  {'+' + (task.skillsV2.length - 1)}
                 </ChipLabel>
               )}
             </>
           ) : (
             <>
-              {task.skills.map((skill) => (
-                <ChipLabel key={skill.id} size="sm" color="blue">
-                  {skill.title}
+              {task.skillsV2.map((skill) => (
+                <ChipLabel key={skill} size="sm" color="blue">
+                  {t(`skill.${skill}`)}
                 </ChipLabel>
               ))}
             </>

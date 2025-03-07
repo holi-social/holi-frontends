@@ -1,8 +1,8 @@
-import { DocumentNode, OperationVariables } from '@apollo/client'
+import type { DocumentNode, OperationVariables } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { Text } from 'holi-bricks/components/text/Text'
-import React from 'react'
+import type React from 'react'
 import { View } from 'react-native'
 
 import { createCache } from '@holi/api/graphql/client'
@@ -20,14 +20,14 @@ import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
-const topicSlugs = ['topic1']
+const topicsV2 = ['topic1']
 const createSpacePaginationMock = (offset = 0) => ({
   request: {
     query: spacesQuery,
     variables: {
       limit: pageSize,
       offset,
-      topicSlugs,
+      topicsV2,
     },
   },
   result: {
@@ -191,7 +191,7 @@ describe('usePaginationQuery', () => {
           createSpacePaginationMock(pageSize * 2),
         ]}
       >
-        <TestComponent query={spacesQuery} queryPath="spaces" variables={{ topicSlugs }} />
+        <TestComponent query={spacesQuery} queryPath="spaces" variables={{ topicsV2 }} />
       </MockedProvider>
     )
 

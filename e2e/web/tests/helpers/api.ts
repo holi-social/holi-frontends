@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { APIRequestContext, BrowserContext } from '@playwright/test'
+import type { APIRequestContext, BrowserContext } from '@playwright/test'
 
 import { newUserEmail, randomPassword } from './fixtures'
 
@@ -147,7 +147,7 @@ export const createSpace = async (context: BrowserContext) => {
         input: {
           title: `E2E ${faker.company.name()}`,
           description: 'E2E Space Description',
-          topics: ['e3f03ff4-b205-4196-9eff-57b80e5b0fff'], //Other
+          topicsV2: ['other'],
           cover: null,
         },
       },
@@ -198,7 +198,7 @@ export const createSpaceTask = async (context: BrowserContext, spaceId: string) 
             regularity: 'ONE_TIME',
             contactEmail: faker.internet.email(),
             slotsAvailable: 1,
-            skills: [],
+            skillsV2: [],
           },
         },
       },

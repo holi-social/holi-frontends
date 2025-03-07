@@ -3,8 +3,8 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 export const useRecosSubtitle = (): string => {
   const loggedInUser = useLoggedInUser()
   if (loggedInUser.isLoggedIn) {
-    const hasInterests = !!loggedInUser.user.interests && loggedInUser.user.interests.length > 0
-    const hasSkills = !!loggedInUser.user.skills && loggedInUser.user.skills.length > 0
+    const hasInterests = !!loggedInUser.user.interestsV2 && loggedInUser.user.interestsV2.length > 0
+    const hasSkills = !!loggedInUser.user.skillsV2 && loggedInUser.user.skillsV2.length > 0
     const hasLocation = !!loggedInUser.user.location
     if (hasInterests && hasSkills && hasLocation) return 'recommendations.subtitle.interestsSkillsAndGeoLocation'
     else if (hasInterests && hasSkills) return 'recommendations.subtitle.interestsAndSkills'

@@ -15,9 +15,7 @@ export const FeedPostDetailsFragment = gql`
     title
     description
     visibility
-    topics {
-      id
-    }
+    topicsV2
     category {
       id
       title

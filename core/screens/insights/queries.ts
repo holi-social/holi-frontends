@@ -98,10 +98,7 @@ const InsightWithPostsFragment = gql`
     }
     headerImage
     headerImageBlurhash
-    topic {
-      id
-      title
-    }
+    topicV2
     posts {
       ...PostFragment
     }
@@ -139,10 +136,7 @@ export const InsightFragment = gql`
     }
     headerImage
     headerImageBlurhash
-    topic {
-      id
-      title
-    }
+    topicV2
     numberOfPosts
     involvedUsers {
       totalResults

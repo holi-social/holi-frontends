@@ -22,7 +22,6 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import GetStartedView from '@holi/core/screens/spaces/discover/components/GetStartedView'
 import MySpaces from '@holi/core/screens/spaces/discover/components/MySpaces'
 import { type MySpacesResponse, discoverSpacesQuery, mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
@@ -110,7 +109,7 @@ const Spaces = () => {
   }
 
   return (
-    <SpaceTermContextProvider>
+    <>
       <HoliHead
         title={t('metatags.spaces.title')}
         description={t('metatags.spaces.description')}
@@ -145,7 +144,7 @@ const Spaces = () => {
           />
         )}
       </ScrollViewRefreshable>
-    </SpaceTermContextProvider>
+    </>
   )
 }
 

@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 
 import { Pagination } from '@holi/core/pagination/Pagination'
-import { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
+import type { PaginationQueryHookOptions } from '@holi/core/pagination/usePaginationQuery'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 
 import {
@@ -13,7 +13,7 @@ import {
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 import { filteredVolunteeringEngagementsQuery, volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
-import { VolunteeringFilters } from '@holi-apps/volunteering/types'
+import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 
 type VolunteeringListingProps = {
   filters: VolunteeringFilters
@@ -28,7 +28,7 @@ const VolunteeringRecommendations = () => {
 
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: ENGAGEMENT_PAGE_SIZE,
-    queryPath: 'appVolunteering_engagementRecos',
+    queryPath: 'appVolunteering_engagementRecosV2',
     variables: queryVariables,
     skip: loadingQueryVariables,
   }
@@ -58,7 +58,7 @@ const FilteredVolunteeringEngagements = ({
 }: VolunteeringListingProps) => {
   const queryOptions: PaginationQueryHookOptions = {
     pageSize: ENGAGEMENT_PAGE_SIZE,
-    queryPath: 'appVolunteering_filteredEngagements',
+    queryPath: 'appVolunteering_filteredEngagementsV2',
     variables: {
       geolocationId: filters.location?.id,
       skills: filters.skills || [],
