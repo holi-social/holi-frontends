@@ -28,6 +28,7 @@ export type Scalars = {
   GeoJSON: { input: any; output: any }
   GeoJSONInput: { input: any; output: any }
   Geo_GeoJSON: { input: any; output: any }
+  JSONObject: { input: any; output: any }
   UUID: { input: string; output: string }
   Upload: { input: any; output: any }
   Void: { input: any; output: any }
@@ -111,6 +112,40 @@ export type AppDonations_ProjectsResponse = {
   __typename?: 'AppDonations_ProjectsResponse'
   data: Array<Maybe<AppDonations_Project>>
   totalResults: Scalars['Int']['output']
+}
+
+export type AppEvents_Event = {
+  __typename?: 'AppEvents_Event'
+  endDate?: Maybe<Scalars['String']['output']>
+  eventDetails: AppEvents_EventDetails
+  id: Scalars['String']['output']
+  imageUrl: Scalars['String']['output']
+  isRemote: Scalars['Boolean']['output']
+  location?: Maybe<AppEvents_Location>
+  organisationName: Scalars['String']['output']
+  startDate?: Maybe<Scalars['String']['output']>
+  title: Scalars['String']['output']
+}
+
+export type AppEvents_EventDetails = {
+  __typename?: 'AppEvents_EventDetails'
+  description: Scalars['String']['output']
+  externalLink: Scalars['String']['output']
+  meetingLink?: Maybe<Scalars['String']['output']>
+}
+
+export type AppEvents_EventsResponse = {
+  __typename?: 'AppEvents_EventsResponse'
+  data?: Maybe<Array<Maybe<AppEvents_Event>>>
+  totalResults: Scalars['Int']['output']
+}
+
+export type AppEvents_Location = {
+  __typename?: 'AppEvents_Location'
+  city?: Maybe<Scalars['String']['output']>
+  street?: Maybe<Scalars['String']['output']>
+  streetNo?: Maybe<Scalars['String']['output']>
+  zipCode?: Maybe<Scalars['String']['output']>
 }
 
 export enum AppGoodNews_Category {
@@ -862,6 +897,47 @@ export enum LocationType {
   Remote = 'REMOTE',
 }
 
+export enum Moderation_ContentType {
+  ChatMessage = 'CHAT_MESSAGE',
+  Comment = 'COMMENT',
+  FeedPost = 'FEED_POST',
+  Post = 'POST',
+  Space = 'SPACE',
+  SpaceAppointment = 'SPACE_APPOINTMENT',
+  SpaceLinkhubTool = 'SPACE_LINKHUB_TOOL',
+  SpaceTask = 'SPACE_TASK',
+  User = 'USER',
+}
+
+export enum Moderation_Reason {
+  FalseIdentity = 'FALSE_IDENTITY',
+  Harassment = 'HARASSMENT',
+  HateSpeech = 'HATE_SPEECH',
+  IllegalActivity = 'ILLEGAL_ACTIVITY',
+  Misinformation = 'MISINFORMATION',
+  Other = 'OTHER',
+  Pornography = 'PORNOGRAPHY',
+  PrivacyViolation = 'PRIVACY_VIOLATION',
+  Spam = 'SPAM',
+}
+
+export type Moderation_ReportConfirmation = {
+  __typename?: 'Moderation_ReportConfirmation'
+  success: Scalars['Boolean']['output']
+}
+
+export type Moderation_ReportSubmission = {
+  contentId: Scalars['UUID']['input']
+  contentType: Moderation_ContentType
+  details: Scalars['String']['input']
+  reason?: InputMaybe<Moderation_Reason>
+}
+
+export type Moderation_Success = {
+  __typename?: 'Moderation_Success'
+  success: Scalars['Boolean']['output']
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   addCollaborationTool: CollaborationTool
@@ -898,6 +974,7 @@ export type Mutation = {
   generateAppointmentIcsFile: Scalars['String']['output']
   inviteToSpaceByEmail: Result
   lastSeenNotification: NewNotificationsResponse
+  moderation_createReport: Moderation_ReportConfirmation
   notifications_updatePreferences: Array<Maybe<Notifications_WorkflowPreferences>>
   registerDevice: Result
   /** @deprecated Use 'unfavorite' mutation instead. Keep for version <=1.14.5 */
@@ -1051,6 +1128,10 @@ export type MutationInviteToSpaceByEmailArgs = {
 
 export type MutationLastSeenNotificationArgs = {
   notificationId: Scalars['UUID']['input']
+}
+
+export type MutationModeration_CreateReportArgs = {
+  input: Moderation_ReportSubmission
 }
 
 export type MutationNotifications_UpdatePreferencesArgs = {
@@ -1414,6 +1495,7 @@ export type Query = {
   allPosts: GenericPostPaged
   appDonations_project: AppDonations_Project
   appDonations_projects: AppDonations_ProjectsResponse
+  appEvents_events: AppEvents_EventsResponse
   appGoodNews_articles?: Maybe<AppGoodNews_GoodNewsArticlesQueryResponse>
   appVolunteering_engagement?: Maybe<AppVolunteering_Engagement>
   /**
@@ -1478,6 +1560,8 @@ export type Query = {
   tasksBySpaceId: TaskPaged
   /** @deprecated Deprecated since 1.52. Use V2 instead, which is now a static hard coded set of slugs. */
   topics: TopicPaged
+  translation_detectLanguage: Scalars['String']['output']
+  translation_translate: Scalars['String']['output']
   userById?: Maybe<User>
   userByName: UserPaged
   userHasVotedByPollId: Scalars['Boolean']['output']
@@ -1495,6 +1579,12 @@ export type QueryAppDonations_ProjectArgs = {
 }
 
 export type QueryAppDonations_ProjectsArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>
+  location?: InputMaybe<Scalars['String']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+}
+
+export type QueryAppEvents_EventsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>
   location?: InputMaybe<Scalars['String']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
@@ -1759,6 +1849,15 @@ export type QueryTasksBySpaceIdArgs = {
 export type QueryTopicsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
+}
+
+export type QueryTranslation_DetectLanguageArgs = {
+  text: Scalars['String']['input']
+}
+
+export type QueryTranslation_TranslateArgs = {
+  targetLanguage: Scalars['String']['input']
+  text: Scalars['String']['input']
 }
 
 export type QueryUserByIdArgs = {
@@ -2338,6 +2437,38 @@ export enum VisibilityType {
   Public = 'PUBLIC',
 }
 
+export type AllEventsQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllEventsQuery = {
+  __typename?: 'Query'
+  appEvents_events: {
+    __typename?: 'AppEvents_EventsResponse'
+    data?: Array<{
+      __typename?: 'AppEvents_Event'
+      id: string
+      title: string
+      organisationName: string
+      startDate?: string
+      endDate?: string
+      isRemote: boolean
+      imageUrl: string
+      eventDetails: {
+        __typename?: 'AppEvents_EventDetails'
+        description: string
+        meetingLink?: string
+        externalLink: string
+      }
+      location?: {
+        __typename?: 'AppEvents_Location'
+        street?: string
+        streetNo?: string
+        zipCode?: string
+        city?: string
+      }
+    }>
+  }
+}
+
 export type SpaceRecommendationQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>
 }>
@@ -2461,10 +2592,10 @@ export type FullUserFragment = {
   role?: UserRole
   geolocationId?: string
   engagementLevel?: string
+  interestsV2: Array<string>
+  skillsV2: Array<string>
   connectionStatusToMyself?: UserConnectionStatus
-  interests: Array<{ __typename?: 'Topic'; id: string; title: string; slug: string }>
   sdgs: Array<{ __typename?: 'SDG'; id: string; title: string; slug: string }>
-  skills: Array<{ __typename?: 'Skill'; id: string; title: string; slug: string }>
 }
 
 export type AuthenticatedUserQueryVariables = Exact<{ [key: string]: never }>
@@ -2488,10 +2619,10 @@ export type AuthenticatedUserQuery = {
     role?: UserRole
     geolocationId?: string
     engagementLevel?: string
+    interestsV2: Array<string>
+    skillsV2: Array<string>
     connectionStatusToMyself?: UserConnectionStatus
-    interests: Array<{ __typename?: 'Topic'; id: string; title: string; slug: string }>
     sdgs: Array<{ __typename?: 'SDG'; id: string; title: string; slug: string }>
-    skills: Array<{ __typename?: 'Skill'; id: string; title: string; slug: string }>
   }
 }
 
@@ -2535,24 +2666,78 @@ export const FullUserFragmentDoc = gql`
   role
   geolocationId
   engagementLevel
-  interests {
-    id
-    title
-    slug
-  }
+  interestsV2
   sdgs {
     id
     title
     slug
   }
-  skills {
-    id
-    title
-    slug
-  }
+  skillsV2
   connectionStatusToMyself
 }
     `
+export const AllEventsDocument = gql`
+    query allEvents {
+  appEvents_events(limit: 5, offset: 0, location: "Hamburg") {
+    data {
+      id
+      title
+      organisationName
+      startDate
+      endDate
+      isRemote
+      imageUrl
+      eventDetails {
+        description
+        meetingLink
+        externalLink
+      }
+      location {
+        street
+        streetNo
+        zipCode
+        city
+      }
+    }
+  }
+}
+    `
+
+/**
+ * __useAllEventsQuery__
+ *
+ * To run a query within a React component, call `useAllEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllEventsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllEventsQuery(baseOptions?: Apollo.QueryHookOptions<AllEventsQuery, AllEventsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export function useAllEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export function useAllEventsSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export type AllEventsQueryHookResult = ReturnType<typeof useAllEventsQuery>
+export type AllEventsLazyQueryHookResult = ReturnType<typeof useAllEventsLazyQuery>
+export type AllEventsSuspenseQueryHookResult = ReturnType<typeof useAllEventsSuspenseQuery>
+export type AllEventsQueryResult = Apollo.QueryResult<AllEventsQuery, AllEventsQueryVariables>
 export const SpaceRecommendationDocument = gql`
     query SpaceRecommendation($limit: Int) {
   recommendedSpaces(limit: $limit) {
