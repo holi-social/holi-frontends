@@ -40,6 +40,7 @@ export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
   [RouteName.Notifications]: undefined
   [RouteName.Spaces]: undefined
+  [RouteName.Events]: undefined
   [RouteName.Insights]: undefined
   [RouteName.ActHome]: undefined
   [RouteName.ChatStack]: undefined
@@ -282,6 +283,15 @@ const RootNavigator = () => {
       />
 
       <RootStack.Screen name={RouteName.Unsubscribe} component={Unsubscribe} options={{ headerShown: true }} />
+
+      <RootStack.Screen
+        name={RouteName.Events}
+        component={EventsAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
     </RootStack.Navigator>
   )
 }

@@ -1,7 +1,7 @@
 import { withProfiler } from '@sentry/react'
 import React, { memo, useMemo, useCallback, useRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View, RefreshControl, AppState } from 'react-native'
+import { StyleSheet, View, RefreshControl, AppState, Button } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 
@@ -217,6 +217,7 @@ const HomeFeed = () => {
     <>
       <GestureHandlerRootView style={[styles.wrapper, { backgroundColor: colors.white200 }]} testID="home-feed-listing">
         <View style={styles.sections} testID="feed-posts">
+          <Button onPress={() => navigate('/events/1')} title="Go to event" />
           <ErrorBoundary>
             <TrackableFlatList
               removeClippedSubviews={true}

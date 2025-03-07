@@ -107,6 +107,7 @@ export enum RouteName {
   Home = 'Home',
   Insights = 'Insights',
   Spaces = 'Spaces',
+  Events = 'Events',
   SpacesStack = 'SpacesStack',
   Chat = 'Chat',
   Auth = 'Auth',
@@ -139,4 +140,8 @@ export enum RouteName {
 
   // Report
   CreateReport = 'CreateReport',
+
+  //Events
+  EventDetailsScreen = 'EventDetailsScreen',
+  EventsHomeScreen = 'EventsHomeScreen',
 }
