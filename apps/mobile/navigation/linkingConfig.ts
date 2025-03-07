@@ -54,6 +54,13 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
       },
     },
 
+    [RouteName.Events]: {
+      screens: {
+        [RouteName.EventDetailsScreen]: 'events/:eventId',
+        [RouteName.EventsHomeScreen]: 'events',
+      },
+    },
+
     [RouteName.Insights]: {
       screens: {
         [RouteName.InsightsPage]: 'insights',
@@ -70,7 +77,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.DiscussionCommentPage]: 'insights/:insightId/discussions/:discussionId/comment',
       },
     },
-
     [RouteName.Spaces]: {
       screens: {
         [RouteName.SpaceDetails]: 'spaces/:spaceIdOrName',

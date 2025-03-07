@@ -34,11 +34,13 @@ import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprof
 import NotFound from '@holi/core/screens/404/NotFound'
 import { AuthSelection } from '@holi/core/auth/screens/AuthSelection'
 import Unsubscribe from '@holi/core/screens/mail/Unsubscribe'
+import { EventsAppNavigator } from '@holi/core/features/events/navigator/EventsNavigator'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
   [RouteName.Notifications]: undefined
   [RouteName.Spaces]: undefined
+  [RouteName.Events]: undefined
   [RouteName.Insights]: undefined
   [RouteName.ActHome]: undefined
   [RouteName.ChatStack]: undefined
@@ -271,6 +273,15 @@ const RootNavigator = () => {
       />
 
       <RootStack.Screen name={RouteName.Unsubscribe} component={Unsubscribe} options={{ headerShown: true }} />
+
+      <RootStack.Screen
+        name={RouteName.Events}
+        component={EventsAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
     </RootStack.Navigator>
   )
 }
