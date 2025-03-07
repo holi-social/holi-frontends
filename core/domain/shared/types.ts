@@ -49,7 +49,7 @@ export const slugToTopicV2 = (slug: string): TopicV2 | undefined => {
 
 export const slugsToTopicsV2 = (slugs: string[] = []): TopicV2[] => {
   // Ignore unknown slugs
-  return [...new Set(slugs.map(slugToTopicV2).filter((slug) => !!slug))]
+  return [...new Set(slugs.map(slugToTopicV2).filter((slug) => !!slug))] as TopicV2[]
 }
 
 // keys are the V2 skill slugs, values is a combined list of V1 and V2 skill slugs (for backwards-compatibility)
@@ -126,7 +126,7 @@ export const slugToSkillV2 = (slug: string): SkillV2 | undefined => {
 
 export const slugsToSkillsV2 = (slugs: string[] = []): SkillV2[] => {
   // Ignore unknown slugs
-  return [...new Set(slugs.map(slugToSkillV2).filter((slug) => !!slug))]
+  return [...new Set(slugs.map(slugToSkillV2).filter((slug) => !!slug))] as SkillV2[]
 }
 
 export interface Term {
