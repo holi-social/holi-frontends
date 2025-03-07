@@ -46,8 +46,8 @@ const createSpacesMock = (variables = {}) => ({
 
 const spacesMock = createSpacesMock()
 const spacesByLocationMock = createSpacesMock({ geolocation: {} })
-const topicsV2 = ['topic1']
-const skillsV2 = ['skill1']
+const topicsV2 = ['human-rights']
+const skillsV2 = ['arts-crafts']
 
 const createSpacesPaginationMock = (offset = 0) => ({
   request: {
