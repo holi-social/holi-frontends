@@ -6,6 +6,7 @@ import {
   getOnboardingUserDataAsyncStore,
   storeOnboardingUserDataAsyncStore,
 } from '@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore'
+import { slugsToSkillsV2, slugsToTopicsV2 } from '@holi/core/domain/shared/types'
 
 interface SetUserDataAction {
   type: 'SET_USER_DATA'
@@ -77,7 +78,16 @@ export const useUserData = () => {
   useEffect(() => {
     getOnboardingUserDataAsyncStore().then((userData) => {
       if (userData) {
-        dispatch({ type: 'SET_USER_DATA', payload: userData })
+        const interests = slugsToTopicsV2(userData.interests)
+        const skills = slugsToSkillsV2(userData.skills)
+        dispatch({
+          type: 'SET_USER_DATA',
+          payload: {
+            ...userData,
+            interests,
+            skills,
+          },
+        })
       }
     })
   }, [])
