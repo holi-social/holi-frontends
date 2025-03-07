@@ -1,6 +1,8 @@
 import {
   type SkillV2,
   skillV2Slugs,
+  slugsToSkillsV2,
+  slugsToTopicsV2,
   slugToSkillV2,
   slugToTopicV2,
   type TopicV2,
@@ -124,6 +126,36 @@ describe('slugToTopicV2', () => {
     allSlugs.forEach((slug) => {
       expect(testedSlugs).toContain(slug)
     })
+  })
+})
+
+describe('slugsToTopicsV2', () => {
+  it('should map all slugs', () => {
+    const slugs = ['education-science', 'biodiversity-animal-welfare', 'lgbtqia-plus']
+    const expectedTopicsV2 = ['animal-welfare', 'lgbtqia-plus', 'literacy-education']
+
+    const actualTopicsV2 = slugsToTopicsV2(slugs)
+    actualTopicsV2.sort()
+
+    expect(actualTopicsV2).toEqual(expectedTopicsV2)
+  })
+
+  it('should filter duplicate slugs', () => {
+    const slugs = ['climate-protection', 'water-ocean']
+    const expectedTopicsV2 = ['climate-environment']
+
+    const actualTopicsV2 = slugsToTopicsV2(slugs)
+
+    expect(actualTopicsV2).toEqual(expectedTopicsV2)
+  })
+
+  it('should filter unknown slugs', () => {
+    const slugs = ['', 'human-rights', 'unknown']
+    const expectedTopicsV2 = ['human-rights']
+
+    const actualTopicsV2 = slugsToTopicsV2(slugs)
+
+    expect(actualTopicsV2).toEqual(expectedTopicsV2)
   })
 })
 
@@ -276,5 +308,35 @@ describe('slugToSkillV2', () => {
     allDefinedSlugs.forEach((slug) => {
       expect(testedSlugs).toContain(slug)
     })
+  })
+})
+
+describe('slugsToSkillsV2', () => {
+  it('should map all slugs', () => {
+    const slugs = ['cooking-baking', 'law-regulations', 'animal-care']
+    const expectedSkillsV2 = ['animal-care', 'food-service', 'legal-assistance']
+
+    const actualSkillsV2 = slugsToSkillsV2(slugs)
+    actualSkillsV2.sort()
+
+    expect(actualSkillsV2).toEqual(expectedSkillsV2)
+  })
+
+  it('should filter duplicate slugs', () => {
+    const slugs = ['empathy', 'humour']
+    const expectedSkillsV2 = ['other']
+
+    const actualSkillsV2 = slugsToSkillsV2(slugs)
+
+    expect(actualSkillsV2).toEqual(expectedSkillsV2)
+  })
+
+  it('should filter unknown slugs', () => {
+    const slugs = ['', 'legal-assistance', 'unknown']
+    const expectedSkillsV2 = ['legal-assistance']
+
+    const actualSkillsV2 = slugsToSkillsV2(slugs)
+
+    expect(actualSkillsV2).toEqual(expectedSkillsV2)
   })
 })

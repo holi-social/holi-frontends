@@ -47,6 +47,11 @@ export const slugToTopicV2 = (slug: string): TopicV2 | undefined => {
   return Object.entries(topicV2Slugs).find(([, slugs]) => slugs.includes(slug))?.[0] as TopicV2
 }
 
+export const slugsToTopicsV2 = (slugs: string[] = []): TopicV2[] => {
+  // Ignore unknown slugs
+  return [...new Set(slugs.map(slugToTopicV2).filter((slug) => !!slug))]
+}
+
 // keys are the V2 skill slugs, values is a combined list of V1 and V2 skill slugs (for backwards-compatibility)
 export const skillV2Slugs = {
   administration: ['administration', 'organizational-skills'],
@@ -117,6 +122,11 @@ export const slugToSkillV2 = (slug: string): SkillV2 | undefined => {
     return slug as SkillV2
   }
   return Object.entries(skillV2Slugs).find(([, slugs]) => slugs.includes(slug))?.[0] as SkillV2
+}
+
+export const slugsToSkillsV2 = (slugs: string[] = []): SkillV2[] => {
+  // Ignore unknown slugs
+  return [...new Set(slugs.map(slugToSkillV2).filter((slug) => !!slug))]
 }
 
 export interface Term {
