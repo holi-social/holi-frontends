@@ -1,18 +1,17 @@
-import { useMutation, useQuery } from '@apollo/client'
-import { useCallback, useMemo, useState } from 'react'
+import { useMutation } from '@apollo/client'
+import { useCallback, useState } from 'react'
 
-import { authenticatedUserV2Query, sdgsQuery } from '@holi/core/domain/shared/queries'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { type SDG, type User, termsByTitleComparator } from '@holi/core/domain/shared/types'
-import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   type UpdateAuthenticatedUserInput,
   type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { Paged } from '@holi/core/types'
 import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 import type { SelectableSDG } from '@holi/core/screens/userprofile/components/UserSDGsChipForm'
+import { useSDGs } from '@holi/core/domain/shared/hooks'
 
 interface UseUserChipsOptions {
   user?: User | null
@@ -34,28 +33,23 @@ const getSortedAndFilteredSDGs = (
     : orderedTerms
 }
 
-export const useUserSDGs = <T extends Record<UserChipTypes, Paged<SDG>>>({ user, onSubmit }: UseUserChipsOptions) => {
+export const useUserSDGs = ({ user, onSubmit }: UseUserChipsOptions) => {
   const keyInUserObject = UserChipTypes.SDGS
   const { displayError } = useErrorHandling()
-  const { loading, data } = useQuery<T>(sdgsQuery, {
-    skip: !user,
-    onError: (error) =>
-      logError(error, 'Failed to load terms for user chips', { location: 'useUserChips', field: keyInUserObject }),
-  })
+  const { sdgsLoading, sdgs } = useSDGs()
   const [updateUser, { loading: updateUserLoading, error: updateUserError }] =
     useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
 
   const [filterString, setFilterString] = useState('')
 
-  const availableTerms = useMemo(() => data?.[keyInUserObject]?.data || [], [data, keyInUserObject])
   const [selectedTerms, setSelectedTerms] = useState(user?.[keyInUserObject] ?? [])
-  const sortedAndFilteredTerms = getSortedAndFilteredSDGs(availableTerms, selectedTerms, filterString)
+  const sortedAndFilteredTerms = getSortedAndFilteredSDGs(sdgs, selectedTerms, filterString)
 
   const onTermSelect = useCallback(
     (id: string) =>
       setSelectedTerms((currentlySelectedTerms) => {
         // find changed term by ID
-        const changedTerm = availableTerms.find((term) => term.id === id)
+        const changedTerm = sdgs.find((term) => term.id === id)
 
         // if not found, do not change anything
         if (!changedTerm) return currentlySelectedTerms
@@ -65,7 +59,7 @@ export const useUserSDGs = <T extends Record<UserChipTypes, Paged<SDG>>>({ user,
           ? currentlySelectedTerms.filter((term) => term.id !== id)
           : [...currentlySelectedTerms, changedTerm]
       }),
-    [availableTerms]
+    [sdgs]
   )
 
   const submit = useCallback(async () => {
@@ -95,6 +89,6 @@ export const useUserSDGs = <T extends Record<UserChipTypes, Paged<SDG>>>({ user,
     terms: sortedAndFilteredTerms,
     onTermSelect,
     onSubmit: submit,
-    loading: loading || updateUserLoading,
+    loading: sdgsLoading || updateUserLoading,
   }
 }

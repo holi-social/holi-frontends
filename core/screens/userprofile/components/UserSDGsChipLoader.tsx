@@ -8,7 +8,6 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { User } from '@holi/core/domain/shared/types'
-import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 import { useUserSDGs } from '@holi/core/screens/userprofile/components/hooks/useUserSDGs'
 
 interface UserSDGsChipLoaderProps {
@@ -20,7 +19,6 @@ export const UserSDGsChipLoader = ({ user, onSubmit }: UserSDGsChipLoaderProps) 
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
-  const keyInUserObject = UserChipTypes.SDGS
   const {
     filterString,
     onFilterStringChange,
@@ -40,7 +38,7 @@ export const UserSDGsChipLoader = ({ user, onSubmit }: UserSDGsChipLoaderProps) 
     <HoliModalContentWrapper
       actionButtonText={t('user.profileForm.save')}
       onActionButtonPress={submitHandler}
-      headlineText={t(`user.${keyInUserObject}.form.headline`)}
+      headlineText={t('user.sdgs.form.headline')}
       prependChildren={notificationComponent}
       hideFooterWhenKeyboardIsOpen={true}
       style={styles.modalWrapper}
