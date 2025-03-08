@@ -30,8 +30,9 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ tintColor
   const loginState = useLoggedInUser()
   const { displayError } = useErrorHandling()
   const [deleteTask] = useDeleteTask()
+
   if (!loginState.isLoggedIn) {
-    return <></>
+    return null
   }
 
   return (
@@ -39,7 +40,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ tintColor
       renderCustomButton={(onPress, testID) => {
         return (
           <HoliButton label={t('global.moreOptions')} transparent inline onPress={onPress} testID={testID}>
-            <HoliIcon icon={More} color={tintColor || mono['100']} />
+            <HoliIcon icon={More} color={tintColor || mono['800']} />
           </HoliButton>
         )
       }}
