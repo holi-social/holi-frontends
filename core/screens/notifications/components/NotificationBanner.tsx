@@ -101,7 +101,7 @@ const NotificationBanner = ({
               />
             ) : (
               <Avatar
-                imgSrc={member?.avatar}
+                source={member?.avatar}
                 size="sm"
                 label={t('user.profileForm.avatar')}
                 imgPlaceholder={member?.avatarBlurhash}

@@ -70,14 +70,14 @@ const HoliMediaAuthorHeader = ({
       titleLabel={space.title}
       titleBold
       avatarProps={{
-        imgSrc: space.avatar,
+        source: space.avatar,
         label: space.title,
         initials,
         size: avatarSize,
         shape: 'square',
       }}
       secondaryAvatarProps={{
-        imgSrc: author.avatar,
+        source: author.avatar,
         label: author.fullName,
         initials: author.avatarLabel,
         size: avatarSize,

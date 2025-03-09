@@ -106,7 +106,7 @@ const Content = ({
 
           <View style={styles.avatar}>
             <Avatar
-              imgSrc={task.creator.avatar}
+              source={task.creator.avatar}
               imgPlaceholder={task.creator.avatarBlurhash}
               label={task.creator?.fullName || t('user.profileView.anonymous')}
               initials={task.creator.avatarLabel || ''}

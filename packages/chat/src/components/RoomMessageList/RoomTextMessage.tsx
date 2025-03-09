@@ -59,7 +59,7 @@ const RoomTextMessage = ({
         {showAvatar ? (
           <HoliBox padding={isMyMessage ? [0, 0, 0, 8] : [0, 8, 0, 0]}>
             <Avatar
-              imgSrc={member?.avatar}
+              source={member?.avatar}
               imgPlaceholder={holiUser?.avatarBlurhash}
               label={getChatMemberName(t, member?.name)}
               initials={getChatInitials(member?.name)}

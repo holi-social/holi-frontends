@@ -148,7 +148,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
           <View style={[styles.modalContent, mixins.container]}>
             <View style={styles.infoContainer}>
               <Avatar
-                imgSrc={user.avatar}
+                source={user.avatar}
                 imgPlaceholder={user.avatarBlurhash}
                 label={user.fullName || t('user.profileView.anonymous')}
                 initials={user.avatarLabel}

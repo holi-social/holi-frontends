@@ -49,7 +49,7 @@ const SpaceCollaborators: React.FC<SpaceCollaboratorsProps> = ({ space, onSelect
             testID={'spaces-collaborators-item'}
           >
             <Avatar
-              imgSrc={collaborator.avatar}
+              source={collaborator.avatar}
               imgPlaceholder={collaborator.avatarBlurhash}
               label={collaborator.fullName || t('user.profileView.anonymous')}
               initials={collaborator.avatarLabel}

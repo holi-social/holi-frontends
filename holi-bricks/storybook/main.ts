@@ -33,6 +33,10 @@ module.exports = {
           extensions: config.resolve.extensions,
         }),
       ]
+      config.resolve.alias = {
+        ...(config.resolve.alias || {}),
+        'next/image': require.resolve('./nextImageMock.jsx'),
+      }
     }
 
     const fileTypesWithOverrides = ['txt']

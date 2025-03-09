@@ -63,7 +63,7 @@ const HoliLexicalMentionsDropdown: React.FC<HoliLexicalMentionsDropdownProps> = 
             >
               <View style={styles.suggestionText}>
                 <Avatar
-                  imgSrc={option.user.avatar}
+                  source={option.user.avatar}
                   imgPlaceholder={option.user.avatarBlurhash}
                   label={option.user.fullName}
                   initials={option.user.avatarLabel}

@@ -132,12 +132,12 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
         title: data?.taskById?.space?.name || data?.taskById?.name || '??',
         subtitle: data?.taskById?.creator?.fullName,
         mainAvatar: {
-          imgSrc: data?.taskById?.space?.avatar,
+          source: data?.taskById?.space?.avatar,
           initials: data?.taskById?.space?.name || data?.taskById?.name || '??',
         },
         secondaryAvatar: data?.taskById?.creator?.avatar
           ? {
-              imgSrc: data?.taskById?.creator?.avatar,
+              source: data?.taskById?.creator?.avatar,
               initials: data?.taskById?.creator?.fullName || data?.taskById?.name || '??',
             }
           : undefined,

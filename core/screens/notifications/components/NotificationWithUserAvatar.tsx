@@ -42,7 +42,7 @@ const NotificationWithUserAvatar = ({
         <View style={styles.link}>
           <Avatar
             imgPlaceholder={avatarBlurhash}
-            imgSrc={avatar}
+            source={avatar}
             label={userFullName}
             initials={avatarLabel || ''}
             size="xs"

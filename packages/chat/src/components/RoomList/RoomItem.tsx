@@ -79,7 +79,7 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
               <Avatar
                 label={roomName}
                 initials={getInitials(room.content.spaceName)}
-                imgSrc={room.avatar}
+                source={room.avatar}
                 shape="square"
                 size="md"
               />
@@ -87,14 +87,14 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
               isMatrixId(firstChatPartner.name) ? (
                 <Avatar
                   label={roomName}
-                  imgSrc={firstChatPartner.avatar ?? ''}
+                  source={firstChatPartner.avatar ?? ''}
                   initials={getChatInitials(firstChatPartner.name)}
                   size="md"
                 />
               ) : (
                 <Avatar
                   label={roomName}
-                  imgSrc={firstChatPartner.avatar ?? ''}
+                  source={firstChatPartner.avatar ?? ''}
                   initials={getChatInitials(firstChatPartner.name)}
                   size="md"
                 />

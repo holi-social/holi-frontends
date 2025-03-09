@@ -195,7 +195,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
                 <View style={styles.row}>
                   <Avatar
                     imgPlaceholder={connection.avatarBlurhash}
-                    imgSrc={connection.avatar}
+                    source={connection.avatar}
                     label={connection.fullName}
                     initials={connection.avatarLabel}
                   />
@@ -218,7 +218,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
       >
         <HoliContainer>
           <Avatar
-            imgSrc={selectedConnection?.avatar}
+            source={selectedConnection?.avatar}
             imgPlaceholder={selectedConnection?.avatarBlurhash}
             label={selectedConnection?.fullName}
             initials={selectedConnection?.avatarLabel || ''}
@@ -227,7 +227,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
           <View style={styles.details}>
             <Text size="lg">{selectedConnection?.fullName}</Text>
             {selectedConnection?.pronouns ? (
-              <Text size="xs" colorOveride="grey">
+              <Text size="xs" colorOverride="grey">
                 ({selectedConnection.pronouns})
               </Text>
             ) : null}

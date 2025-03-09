@@ -69,7 +69,7 @@ describe('SearchHit', () => {
 
     const image = screen.getByRole('img')
     expect(image).toBeOnTheScreen()
-    expect(image.props.source.uri).toBe(
+    expect(image.props.source).toBe(
       'https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/' +
         encodeURIComponent(hit.image_url!) // eslint-disable-line @typescript-eslint/no-non-null-assertion
     )
@@ -85,7 +85,7 @@ describe('SearchHit', () => {
 
     const image = screen.getByRole('img')
     expect(image).toBeOnTheScreen()
-    expect(image.props.source.uri).toBe(
+    expect(image.props.source).toBe(
       'https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/' +
         encodeURIComponent(hit.image_url!) // eslint-disable-line @typescript-eslint/no-non-null-assertion
     )

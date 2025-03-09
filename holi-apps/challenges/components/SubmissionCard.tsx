@@ -38,7 +38,7 @@ export const SubmissionCard = ({ challengeTitle, submission, width, trackingEven
         <View style={styles.avatar}>
           <Avatar
             size="xs"
-            imgSrc={submission.submitter.avatarUrl || undefined}
+            source={submission.submitter.avatarUrl || undefined}
             label={submission.submitter.username}
             initials={initials}
           />

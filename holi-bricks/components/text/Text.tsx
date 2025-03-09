@@ -42,7 +42,7 @@ export interface TextProps extends React.PropsWithChildren {
   /** Managed Theme color. */
   color?: TextColor
   /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
-  colorOveride?: TextStyle['color']
+  colorOverride?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: RNTextProps['ellipsizeMode']
   headingLevel?: TextHeadingLevel
@@ -82,7 +82,7 @@ export const Text = ({
   numberOfLines,
   variant,
   color = 'main',
-  colorOveride,
+  colorOverride,
   textAlign,
   ellipsizeMode,
   headingLevel,
@@ -109,7 +109,7 @@ export const Text = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(color, selectable, colorOveride, textAlign) as unknown as TextStyle}
+      style={styles.text(color, selectable, colorOverride, textAlign) as unknown as TextStyle}
     >
       {children}
     </RNText>

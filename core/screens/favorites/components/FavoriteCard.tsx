@@ -67,7 +67,7 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({ item }) => {
                         size="xs"
                         initials={insight.creator.avatarLabel || ''}
                         label={insight.creator.fullName}
-                        imgSrc={insight.creator.avatar}
+                        source={insight.creator.avatar}
                         imgPlaceholder={insight.creator.avatarBlurhash}
                       />
                     </View>

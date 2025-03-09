@@ -226,7 +226,7 @@ const CurationPrinciplesPage: React.FC = () => {
                     onPress={() => navigate(`/profile/${author.id}`)}
                   >
                     <Avatar
-                      imgSrc={author.avatar}
+                      source={author.avatar}
                       imgPlaceholder={author.avatarBlurhash}
                       label={author.avatarLabel}
                       initials={author.avatarLabel}

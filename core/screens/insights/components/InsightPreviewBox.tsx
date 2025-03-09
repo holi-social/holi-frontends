@@ -90,7 +90,7 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
                 <View style={styles.row}>
                   <Avatar
                     size="xs"
-                    imgSrc={insight.creator.avatar}
+                    source={insight.creator.avatar}
                     imgPlaceholder={insight.creator.avatarBlurhash}
                     label={insight.creator.fullName || t('user.profileView.anonymous')}
                     testID="insight-curator"

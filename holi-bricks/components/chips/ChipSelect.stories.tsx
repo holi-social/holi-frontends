@@ -138,7 +138,7 @@ export const ByAvatar: Story = {
           avatar={{
             initials: 'TP',
             label: 'pick me',
-            imgSrc: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
+            source: 'https://bilder.fernsehserien.de/gfx/pics/1200/Donald-Duck-2.jpg.jpg',
           }}
         />
       </>

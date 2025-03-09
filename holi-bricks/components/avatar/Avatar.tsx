@@ -1,7 +1,6 @@
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-// eslint-disable-next-line no-restricted-imports
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
+import { Image, type ImageSource } from 'holi-bricks/components/image'
 import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/accessibility'
 import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
 import { Text } from 'holi-bricks/components/text/Text'
@@ -10,7 +9,7 @@ import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 import { BorderWidth } from 'holi-bricks/tokens/dimensions/borderWidth'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useCallback, useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 /*
   xl: 128
@@ -35,7 +34,7 @@ export type AvatarProps = {
   size?: AvatarSizes
   label?: string
   icon?: HoliIconType
-  imgSrc?: string
+  source?: ImageSource
   initials: string
   testID?: string
   imgPlaceholder?: string
@@ -54,7 +53,7 @@ export const Avatar = ({
   size = 'md',
   border = 'strong',
   shape = 'circle',
-  imgSrc,
+  source,
   initials,
   testID,
   imgPlaceholder,
@@ -64,22 +63,17 @@ export const Avatar = ({
   const { styles } = useStyles(stylesheet, { border, shape, size })
   const [errorLoading, setErrorLoading] = useState(false)
   const handleImageError = useCallback(() => setErrorLoading(true), [])
-
   const CDN_IMAGE_DIMENSION = AvatarSizesValues[size]
-
   const renderContent = () => {
-    if (!errorLoading && imgSrc) {
+    if (!errorLoading && source) {
       return (
-        <HoliImage
-          style={styles.webImage}
-          resizeMode={'cover'}
-          label={label || ''}
+        <Image
+          resizeMode="cover"
+          alt={label || ''}
           blurhash={imgPlaceholder}
-          source={{
-            uri: imgSrc,
-            width: CDN_IMAGE_DIMENSION,
-            height: CDN_IMAGE_DIMENSION,
-          }}
+          source={source}
+          width={CDN_IMAGE_DIMENSION}
+          height={CDN_IMAGE_DIMENSION}
           onError={handleImageError}
         />
       )
@@ -89,7 +83,7 @@ export const Avatar = ({
     }
     return (
       <View style={styles.textWrapper}>
-        <Text colorOveride={styles.text.color} size={avatarSizeToTextSize[size]}>
+        <Text colorOverride={styles.text.color} size={avatarSizeToTextSize[size]}>
           {initials?.substring(0, 2)?.toUpperCase()}
         </Text>
       </View>
@@ -110,11 +104,14 @@ const stylesheet = createStyleSheet((theme) => ({
   text: {
     color: theme.components.avatar.text,
   },
-  webImage: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1,
-  },
+  webImage:
+    Platform.OS === 'web'
+      ? {
+          width: '100%',
+          height: undefined,
+          aspectRatio: 1,
+        }
+      : {},
   avatar: (initials) => {
     const bgs = Object.values(theme.components.avatar.bg)
     const getBg = getAvatarColorBg(bgs, initials)

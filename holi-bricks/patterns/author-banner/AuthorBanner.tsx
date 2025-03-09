@@ -34,7 +34,7 @@ export const AuthorBanner = ({
     <Stack width="100%" onPress={onPress} direction="row" gap="3xs" alignItems="flex-start">
       <View style={styles.avatarWrapper}>
         <Avatar {...mainAvatar} size="md" border="strong" shape="square" />
-        {secondaryAvatar?.imgSrc && (
+        {secondaryAvatar?.source && (
           <View style={styles.miniAvatar}>
             <Avatar {...secondaryAvatar} size="xs" shape="circle" border="light" />
           </View>

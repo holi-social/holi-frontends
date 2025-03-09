@@ -117,7 +117,7 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
         onPress={showPermissions}
       >
         <Avatar
-          imgSrc={invite.invitedUser.avatar}
+          source={invite.invitedUser.avatar}
           imgPlaceholder={invite.invitedUser.avatarBlurhash}
           label={invitedName}
           initials={invite.invitedUser.avatarLabel}
