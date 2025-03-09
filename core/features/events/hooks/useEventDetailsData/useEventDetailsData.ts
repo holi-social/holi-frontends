@@ -4,8 +4,12 @@ import { useAllEventsQuery } from '@holi/api/graphql/graphql-codegen'
 import { CalendarEvent, MapPin2, VideoChat } from '@holi/icons/src/generated'
 import { localizeDate } from '@holi/ui/helper/date'
 
+interface NormalizedData extends DetailsScreenData {
+  description: string
+}
+
 export type UseEventDetailsData = {
-  data: DetailsScreenData
+  data: NormalizedData
   id?: string
   spaceName?: string
   isOwner?: boolean
@@ -60,7 +64,7 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
       loading: loading,
       title: event?.title ?? '',
       //todo gregor: make this output html in a safe way
-      description: event?.eventDetails.description,
+      description: event?.eventDetails.description || '',
       infoList,
       coverImage: { uri: event?.imageUrl },
       author: {
