@@ -10,6 +10,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { Button } from 'holi-bricks/components/button'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useEventDetailsData } from '@holi/core/features/events/hooks/useEventDetailsData/useEventDetailsData'
+import RenderHtml from 'react-native-render-html'
 
 export type EventDetailsParams = {
   eventId: string
@@ -29,6 +30,9 @@ export const EventDetailsScreen = () => {
     <Screen
       onRefresh={refetch}
       preset="auto"
+      statusBarProps={{
+        barStyle: Platform.OS === 'ios' ? 'light-content' : 'default',
+      }}
       headerOptions={{
         animation: 'slide_from_left',
         headerBackVisible: false,
@@ -63,7 +67,9 @@ export const EventDetailsScreen = () => {
         title={title}
         infoList={infoList}
         visibility={visibility}
-        description={description}
+        description={
+          <RenderHtml defaultTextProps={{ selectable: true }} source={{ html: description }} contentWidth={0} />
+        }
         author={author}
         chips={chips}
       />
