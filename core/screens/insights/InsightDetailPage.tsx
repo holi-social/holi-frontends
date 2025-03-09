@@ -156,7 +156,7 @@ const InsightDetailPage = () => {
         {creator && (
           <>
             <Avatar
-              imgSrc={creator.avatar}
+              source={creator.avatar}
               imgPlaceholder={creator.avatarBlurhash}
               label={creator.fullName || t('user.profileView.anonymous')}
               initials={creator.avatarLabel}
@@ -267,7 +267,7 @@ const InsightDetailPage = () => {
                     >
                       <View style={styles.creatorInfo}>
                         <Avatar
-                          imgSrc={creator.avatar}
+                          source={creator.avatar}
                           label={creator.fullName ?? ''}
                           initials={creator.avatarLabel || ''}
                         />

@@ -58,7 +58,7 @@ export const OAuthButton = ({ provider, label, onPress, disabled = false, testID
           />
         </View>
         <View style={styles.textContainer}>
-          <Text size="lg" colorOveride={styles.text(disabled, false).color}>
+          <Text size="lg" colorOverride={styles.text(disabled, false).color}>
             {label}
           </Text>
         </View>

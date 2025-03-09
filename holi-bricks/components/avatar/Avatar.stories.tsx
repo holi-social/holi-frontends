@@ -11,7 +11,7 @@ const meta: Meta<typeof Avatar> = {
   component: Avatar,
   argTypes: {
     label: { description: 'Button text', required: false },
-    imgSrc: { table: { disable: true } },
+    source: { table: { disable: true } },
     icon: { table: { disable: true } },
   },
   args: {
@@ -66,7 +66,7 @@ export const AvatarWithImage: Story = {
   args: {
     label: 'Label',
     size: 'md',
-    imgSrc: 'https://picsum.photos/id/64/100/100',
+    source: 'https://picsum.photos/id/64/100/100',
   },
   render: function Render(args) {
     return <Avatar {...args} />

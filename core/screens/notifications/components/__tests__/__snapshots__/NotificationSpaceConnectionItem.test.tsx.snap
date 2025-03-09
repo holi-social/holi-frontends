@@ -86,25 +86,22 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             testID="space-avatar"
           >
             <Image
+              accessibilityLabel="Foo"
               accessibilityRole="image"
-              accessible={true}
+              accessible={false}
+              alt="Foo"
               aria-label="Foo"
               contentFit="cover"
               onError={[Function]}
-              role="img"
-              source={
-                {
-                  "height": 40,
-                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
-                  "width": 40,
-                }
-              }
+              role="image"
+              source="https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80"
               style={
-                {
-                  "aspectRatio": 1,
-                  "height": undefined,
-                  "width": "100%",
-                }
+                [
+                  {
+                    "height": 40,
+                    "width": 40,
+                  },
+                ]
               }
             />
           </View>
@@ -538,25 +535,22 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
             testID="space-avatar"
           >
             <Image
+              accessibilityLabel="Foo"
               accessibilityRole="image"
-              accessible={true}
+              accessible={false}
+              alt="Foo"
               aria-label="Foo"
               contentFit="cover"
               onError={[Function]}
-              role="img"
-              source={
-                {
-                  "height": 40,
-                  "uri": "https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80",
-                  "width": 40,
-                }
-              }
+              role="image"
+              source="https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80"
               style={
-                {
-                  "aspectRatio": 1,
-                  "height": undefined,
-                  "width": "100%",
-                }
+                [
+                  {
+                    "height": 40,
+                    "width": 40,
+                  },
+                ]
               }
             />
           </View>

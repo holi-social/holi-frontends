@@ -2,7 +2,7 @@ import { PixelRatio, Platform } from 'react-native'
 
 import { isProduction } from '@holi/core/helpers/environment'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
+import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 
 // meant for dev: you see the dimension that would be loaded as a black image
 // useful when determining whether the correct srcSet is loaded

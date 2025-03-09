@@ -63,7 +63,7 @@ const InsightCard: React.FC<InsightCardProps> = ({ insight, creators, style }: I
             <View style={styles.creatorRow}>
               <Avatar
                 size="xs"
-                imgSrc={insight.creator.avatar}
+                source={insight.creator.avatar}
                 imgPlaceholder={insight.creator.avatarBlurhash}
                 label={insight.creator.fullName || t('user.profileView.anonymous')}
                 testID="insight-curator"

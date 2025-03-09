@@ -112,7 +112,7 @@ export const Button = ({
           <HoliIcon icon={iconBefore} size={iconSize} color={styles.text(disabled, selected, variant).color} />
         )}
         <View style={styles.textContainer(size)}>
-          <Text size={size === 'lg' ? 'md' : 'sm'} colorOveride={styles.text(disabled, selected, variant).color}>
+          <Text size={size === 'lg' ? 'md' : 'sm'} colorOverride={styles.text(disabled, selected, variant).color}>
             {labelToShow}
           </Text>
         </View>

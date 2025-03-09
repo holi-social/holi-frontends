@@ -43,7 +43,7 @@ const LoginProfileButton = ({
     >
       {user ? (
         <Avatar
-          imgSrc={user.avatar}
+          source={user.avatar}
           label={user.fullName || t('user.profileView.anonymous')}
           initials={user.avatarLabel}
           size="xs"

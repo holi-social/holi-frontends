@@ -66,7 +66,7 @@ const SpaceInviteUserSearchResult: React.FC<SpaceInviteUserSearchResultProps> = 
               testID={'user-list-item'}
             >
               <Avatar
-                imgSrc={user.avatar}
+                source={user.avatar}
                 imgPlaceholder={user.avatarBlurhash}
                 label={user.fullName || t('user.profileView.anonymous')}
                 initials={user.avatarLabel}

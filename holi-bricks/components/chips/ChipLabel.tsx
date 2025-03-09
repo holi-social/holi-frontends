@@ -39,7 +39,7 @@ export const ChipLabel = ({
     <View {...accessibilityProps(rest)} style={styles.chip(color)} testID={testID}>
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={theme.components.chipLabel.text} />}
       {children && (
-        <Text size={chipSizeToTextSize[size]} colorOveride={theme.components.chipLabel.text}>
+        <Text size={chipSizeToTextSize[size]} colorOverride={theme.components.chipLabel.text}>
           {children}
         </Text>
       )}

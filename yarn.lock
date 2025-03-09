@@ -21517,6 +21517,7 @@ __metadata:
     expo-dev-client: "npm:~4.0.28"
     expo-image: "npm:~1.13.0"
     jest: "npm:^29.7.0"
+    next: "npm:14.2.24"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-native: "npm:0.74.7"
@@ -21532,6 +21533,7 @@ __metadata:
   peerDependencies:
     "@react-native-community/datetimepicker": 8.0.1
     expo-image: ~1.13.0
+    next: 14.2.24
     react: 18.2.0
     react-dom: 18.2.0
     react-native: 0.74.7
@@ -26039,6 +26041,64 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next@npm:14.2.24, next@npm:^14.2.7":
+  version: 14.2.24
+  resolution: "next@npm:14.2.24"
+  dependencies:
+    "@next/env": "npm:14.2.24"
+    "@next/swc-darwin-arm64": "npm:14.2.24"
+    "@next/swc-darwin-x64": "npm:14.2.24"
+    "@next/swc-linux-arm64-gnu": "npm:14.2.24"
+    "@next/swc-linux-arm64-musl": "npm:14.2.24"
+    "@next/swc-linux-x64-gnu": "npm:14.2.24"
+    "@next/swc-linux-x64-musl": "npm:14.2.24"
+    "@next/swc-win32-arm64-msvc": "npm:14.2.24"
+    "@next/swc-win32-ia32-msvc": "npm:14.2.24"
+    "@next/swc-win32-x64-msvc": "npm:14.2.24"
+    "@swc/helpers": "npm:0.5.5"
+    busboy: "npm:1.6.0"
+    caniuse-lite: "npm:^1.0.30001579"
+    graceful-fs: "npm:^4.2.11"
+    postcss: "npm:8.4.31"
+    styled-jsx: "npm:5.1.1"
+  peerDependencies:
+    "@opentelemetry/api": ^1.1.0
+    "@playwright/test": ^1.41.2
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    sass: ^1.3.0
+  dependenciesMeta:
+    "@next/swc-darwin-arm64":
+      optional: true
+    "@next/swc-darwin-x64":
+      optional: true
+    "@next/swc-linux-arm64-gnu":
+      optional: true
+    "@next/swc-linux-arm64-musl":
+      optional: true
+    "@next/swc-linux-x64-gnu":
+      optional: true
+    "@next/swc-linux-x64-musl":
+      optional: true
+    "@next/swc-win32-arm64-msvc":
+      optional: true
+    "@next/swc-win32-ia32-msvc":
+      optional: true
+    "@next/swc-win32-x64-msvc":
+      optional: true
+  peerDependenciesMeta:
+    "@opentelemetry/api":
+      optional: true
+    "@playwright/test":
+      optional: true
+    sass:
+      optional: true
+  bin:
+    next: dist/bin/next
+  checksum: 10c0/b047fb1a1d9fe16bda1bdaac51fd52defb4a5104aec30cbd43f868a4ec819989751f5dc53ab4a270ef5d0e8efd7020c1641aa89234e230b061a54036f63ddcb8
+  languageName: node
+  linkType: hard
+
 "next@npm:>=12.0.10":
   version: 15.1.7
   resolution: "next@npm:15.1.7"
@@ -26097,64 +26157,6 @@ __metadata:
   bin:
     next: dist/bin/next
   checksum: 10c0/9d0f26c3742fb4339b931124607f267558357f2a9cd1cde4ea7d5755cea56a2f751b5898e1babd686ae97ee1f6043c94177f1dcc9c69db50b61d27e441970dfe
-  languageName: node
-  linkType: hard
-
-"next@npm:^14.2.7":
-  version: 14.2.24
-  resolution: "next@npm:14.2.24"
-  dependencies:
-    "@next/env": "npm:14.2.24"
-    "@next/swc-darwin-arm64": "npm:14.2.24"
-    "@next/swc-darwin-x64": "npm:14.2.24"
-    "@next/swc-linux-arm64-gnu": "npm:14.2.24"
-    "@next/swc-linux-arm64-musl": "npm:14.2.24"
-    "@next/swc-linux-x64-gnu": "npm:14.2.24"
-    "@next/swc-linux-x64-musl": "npm:14.2.24"
-    "@next/swc-win32-arm64-msvc": "npm:14.2.24"
-    "@next/swc-win32-ia32-msvc": "npm:14.2.24"
-    "@next/swc-win32-x64-msvc": "npm:14.2.24"
-    "@swc/helpers": "npm:0.5.5"
-    busboy: "npm:1.6.0"
-    caniuse-lite: "npm:^1.0.30001579"
-    graceful-fs: "npm:^4.2.11"
-    postcss: "npm:8.4.31"
-    styled-jsx: "npm:5.1.1"
-  peerDependencies:
-    "@opentelemetry/api": ^1.1.0
-    "@playwright/test": ^1.41.2
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    sass: ^1.3.0
-  dependenciesMeta:
-    "@next/swc-darwin-arm64":
-      optional: true
-    "@next/swc-darwin-x64":
-      optional: true
-    "@next/swc-linux-arm64-gnu":
-      optional: true
-    "@next/swc-linux-arm64-musl":
-      optional: true
-    "@next/swc-linux-x64-gnu":
-      optional: true
-    "@next/swc-linux-x64-musl":
-      optional: true
-    "@next/swc-win32-arm64-msvc":
-      optional: true
-    "@next/swc-win32-ia32-msvc":
-      optional: true
-    "@next/swc-win32-x64-msvc":
-      optional: true
-  peerDependenciesMeta:
-    "@opentelemetry/api":
-      optional: true
-    "@playwright/test":
-      optional: true
-    sass:
-      optional: true
-  bin:
-    next: dist/bin/next
-  checksum: 10c0/b047fb1a1d9fe16bda1bdaac51fd52defb4a5104aec30cbd43f868a4ec819989751f5dc53ab4a270ef5d0e8efd7020c1641aa89234e230b061a54036f63ddcb8
   languageName: node
   linkType: hard
 

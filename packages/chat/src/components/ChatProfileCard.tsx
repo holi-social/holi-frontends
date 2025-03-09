@@ -52,7 +52,7 @@ const ChatProfileCard = ({ member, roomId, user, taskName }: PropsWithChildren<P
           {user ? (
             <>
               <Avatar
-                imgSrc={member?.avatar ?? user?.avatar}
+                source={member?.avatar ?? user?.avatar}
                 imgPlaceholder={user?.avatarBlurhash}
                 label={chatPartnerName}
                 initials={getChatInitials(member?.name) || user?.avatarLabel || ''}

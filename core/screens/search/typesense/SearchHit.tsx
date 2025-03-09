@@ -43,7 +43,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
           label={title}
           size={'md'}
           shape={hit.type === 'profile' ? 'circle' : 'square'}
-          imgSrc={hit.image_url}
+          source={hit.image_url}
         />
         <View style={styles.hitItemContent}>
           <View style={styles.hitItemTags}>

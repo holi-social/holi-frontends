@@ -136,7 +136,7 @@ const ChatStartConversationView = () => {
                   <View style={[styles.flexRow, styles.userItemContent]}>
                     <HoliBox padding={[0, 16, 0, 0]}>
                       <Avatar
-                        imgSrc={user.avatar}
+                        source={user.avatar}
                         imgPlaceholder={user.avatarBlurhash}
                         label={user.avatarLabel}
                         initials={user.avatarLabel}

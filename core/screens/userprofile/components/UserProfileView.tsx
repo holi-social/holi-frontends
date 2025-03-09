@@ -106,7 +106,7 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
             >
               <Avatar
                 imgPlaceholder={user.avatarBlurhash}
-                imgSrc={pickedAvatar?.uri || user.avatar}
+                source={pickedAvatar?.uri || user.avatar}
                 label={fullName}
                 initials={user.avatarLabel}
                 size="xl"
@@ -120,7 +120,7 @@ const UserProfileView = ({ user, contactPossible = true }: UserProfileViewProps)
           ) : (
             <Avatar
               imgPlaceholder={user.avatarBlurhash}
-              imgSrc={user.avatar}
+              source={user.avatar}
               label={fullName}
               initials={user.avatarLabel}
               size="xl"

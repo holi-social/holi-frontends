@@ -191,25 +191,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
+                        accessibilityLabel="Dima Rosmait"
                         accessibilityRole="image"
-                        accessible={true}
+                        accessible={false}
+                        alt="Dima Rosmait"
                         aria-label="Dima Rosmait"
                         contentFit="cover"
                         onError={[Function]}
-                        role="img"
-                        source={
-                          {
-                            "height": 128,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-1",
-                            "width": 128,
-                          }
-                        }
+                        role="image"
+                        source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-1"
                         style={
-                          {
-                            "aspectRatio": 1,
-                            "height": undefined,
-                            "width": "100%",
-                          }
+                          [
+                            {
+                              "height": 128,
+                              "width": 128,
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -564,25 +561,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
+                        accessibilityLabel="Thomas Mueller"
                         accessibilityRole="image"
-                        accessible={true}
+                        accessible={false}
+                        alt="Thomas Mueller"
                         aria-label="Thomas Mueller"
                         contentFit="cover"
                         onError={[Function]}
-                        role="img"
-                        source={
-                          {
-                            "height": 128,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-2",
-                            "width": 128,
-                          }
-                        }
+                        role="image"
+                        source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-2"
                         style={
-                          {
-                            "aspectRatio": 1,
-                            "height": undefined,
-                            "width": "100%",
-                          }
+                          [
+                            {
+                              "height": 128,
+                              "width": 128,
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -937,25 +931,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
+                        accessibilityLabel="Peter Pan"
                         accessibilityRole="image"
-                        accessible={true}
+                        accessible={false}
+                        alt="Peter Pan"
                         aria-label="Peter Pan"
                         contentFit="cover"
                         onError={[Function]}
-                        role="img"
-                        source={
-                          {
-                            "height": 128,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-3",
-                            "width": 128,
-                          }
-                        }
+                        role="image"
+                        source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-3"
                         style={
-                          {
-                            "aspectRatio": 1,
-                            "height": undefined,
-                            "width": "100%",
-                          }
+                          [
+                            {
+                              "height": 128,
+                              "width": 128,
+                            },
+                          ]
                         }
                       />
                     </View>
@@ -1312,25 +1303,22 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                       }
                     >
                       <Image
+                        accessibilityLabel="Lionel Messi"
                         accessibilityRole="image"
-                        accessible={true}
+                        accessible={false}
+                        alt="Lionel Messi"
                         aria-label="Lionel Messi"
                         contentFit="cover"
                         onError={[Function]}
-                        role="img"
-                        source={
-                          {
-                            "height": 128,
-                            "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-4",
-                            "width": 128,
-                          }
-                        }
+                        role="image"
+                        source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-4"
                         style={
-                          {
-                            "aspectRatio": 1,
-                            "height": undefined,
-                            "width": "100%",
-                          }
+                          [
+                            {
+                              "height": 128,
+                              "width": 128,
+                            },
+                          ]
                         }
                       />
                     </View>

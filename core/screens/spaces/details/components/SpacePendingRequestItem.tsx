@@ -144,7 +144,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
         onPress={showPermissions}
       >
         <Avatar
-          imgSrc={membershipRequest.user.avatar}
+          source={membershipRequest.user.avatar}
           imgPlaceholder={membershipRequest.user.avatarBlurhash}
           label={requestorName}
           initials={membershipRequest.user.avatarLabel}

@@ -22,7 +22,7 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID }: SpacePostAvatar
       <Avatar
         imgPlaceholder={spacePost?.space?.avatarBlurhash}
         testID={testID ?? 'space-avatar'}
-        imgSrc={spacePost?.space?.avatar}
+        source={spacePost?.space?.avatar}
         label={spacePost?.title ?? ''}
         initials={spaceInitials}
         size="sm"
@@ -30,7 +30,7 @@ const SpacePostAvatar = ({ spacePost, loading = false, testID }: SpacePostAvatar
       <View style={styles.userAvatar}>
         <Avatar
           testID={testID ?? 'space-avatar'}
-          imgSrc={spacePost?.creator?.avatar}
+          source={spacePost?.creator?.avatar}
           label={spacePost?.title ?? ''}
           shape="circle"
           initials={creatorInitials}

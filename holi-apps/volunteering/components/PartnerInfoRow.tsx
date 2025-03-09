@@ -4,7 +4,8 @@
    However, JanOle and Max couldn't get it running on shorthand so we simply use
    it in other apps from volunteering app now
  */
-import React, { memo } from 'react'
+import type React from 'react'
+import { memo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -12,9 +13,9 @@ import { ShareBox } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import { PartnerInfoRowProps } from '@holi-apps/volunteering/types'
+import type { PartnerInfoRowProps } from '@holi-apps/volunteering/types'
 
 const PartnerInfoRow: React.FC<PartnerInfoRowProps> = ({
   headline,
