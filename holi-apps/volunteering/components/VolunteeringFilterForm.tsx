@@ -10,7 +10,7 @@ import HoliSelect, { type HoliSelectOption } from '@holi/ui/components/molecules
 
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
 import { Button } from 'holi-bricks/components/button'
-import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
+import { useSortedTerms } from '@holi/core/domain/shared/useSortedTerms'
 
 export type VolunteeringFilterFormProps = {
   filters: VolunteeringFilters
@@ -23,17 +23,19 @@ export const VolunteeringFilterForm = ({ filters, onSubmit, clearFilters }: Volu
   const [selectedTopics, setSelectedTopics] = useState(filters.topics || [])
   const [selectedSkills, setSelectedSkills] = useState(filters.skills || [])
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(filters.location)
+  const sortedTopics = useSortedTerms('topic')
+  const sortedSkills = useSortedTerms('skill')
 
-  const topicOptions: HoliSelectOption[] = ALL_TOPICS.map((topic) => ({
-    id: topic,
-    title: t(`topic.${topic}`),
-    selected: selectedTopics.includes(topic),
+  const topicOptions: HoliSelectOption[] = sortedTopics.map((topic) => ({
+    id: topic.term,
+    title: topic.label,
+    selected: selectedTopics.includes(topic.term),
   }))
 
-  const skillOptions: HoliSelectOption[] = ALL_SKILLS.map((skill) => ({
-    id: skill,
-    title: t(`skill.${skill}`),
-    selected: selectedSkills.includes(skill),
+  const skillOptions: HoliSelectOption[] = sortedSkills.map((skill) => ({
+    id: skill.term,
+    title: skill.label,
+    selected: selectedSkills.includes(skill.term),
   }))
 
   const toggleTopicSelection = useCallback(

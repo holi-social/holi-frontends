@@ -11,7 +11,6 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import type { ChipSelectSize } from 'holi-bricks/components/chips/size'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
-import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 
 export interface SelectableSDG extends SDG {
   selected?: boolean
@@ -37,16 +36,15 @@ export const UserSDGsChipForm = ({
   testID = 'user-chip-form',
 }: UserSDGsChipFormProps) => {
   const { t } = useTranslation()
-  const keyInUserObject = UserChipTypes.SDGS
 
   return (
     <View testID={testID}>
-      <HoliText style={styles.subline}>{t(`user.${keyInUserObject}.form.subline`)}</HoliText>
+      <HoliText style={styles.subline}>{t('user.sdgs.form.subline')}</HoliText>
 
       <HoliTextInput
-        aria-label={t(`onboarding.${keyInUserObject}.inputPlaceholder`)}
+        aria-label={t('profile.sdgs.filter.placeholder')}
         value={filterString}
-        placeholder={t(`onboarding.${keyInUserObject}.inputPlaceholder`)}
+        placeholder={t('profile.sdgs.filter.placeholder')}
         onChange={onFilterStringChange}
         trailingIcon={Search}
         style={styles.input}
@@ -72,7 +70,7 @@ export const UserSDGsChipForm = ({
             ))}
           </HoliChipRow>
         ) : (
-          <HoliText style={styles.subline}>{t(`profile.${keyInUserObject}.filter.empty`)}</HoliText>
+          <HoliText style={styles.subline}>{t('profile.sdgs.filter.empty')}</HoliText>
         )}
       </HoliTransition.FadeSwitch>
     </View>

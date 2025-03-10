@@ -1,18 +1,17 @@
-import { useMutation, useQuery } from '@apollo/client'
-import { useCallback, useMemo, useState } from 'react'
+import { useMutation } from '@apollo/client'
+import { useCallback, useState } from 'react'
 
-import { authenticatedUserV2Query, sdgsQuery } from '@holi/core/domain/shared/queries'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { type SDG, type User, termsByTitleComparator } from '@holi/core/domain/shared/types'
-import { logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
   type UpdateAuthenticatedUserInput,
   type UpdateAuthenticatedUserV2Response,
   updateAuthenticatedUserV2Mutation,
 } from '@holi/core/screens/userprofile/queries'
-import type { Paged } from '@holi/core/types'
 import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 import type { SelectableSDG } from '@holi/core/screens/userprofile/components/UserSDGsChipForm'
+import { useSDGs } from '@holi/core/domain/shared/hooks'
 
 interface UseUserChipsOptions {
   user?: User | null
@@ -24,53 +23,48 @@ const getSortedAndFilteredSDGs = (
   selectedTerms: readonly SDG[],
   filterString = ''
 ): SelectableSDG[] => {
-  const unselectedTerms = availableTerms.filter((term) => !selectedTerms.find((t) => t.id === term.id))
-  const orderedTerms = [
-    ...[...selectedTerms].sort(termsByTitleComparator).map((term) => ({ ...term, selected: true })),
-    ...[...unselectedTerms].sort(termsByTitleComparator),
+  const unselectedSDGs = availableTerms.filter((sdg) => !selectedTerms.find((t) => t.id === sdg.id))
+  const orderedSDGs = [
+    ...[...selectedTerms].sort(termsByTitleComparator).map((sdg) => ({ ...sdg, selected: true })),
+    ...[...unselectedSDGs].sort(termsByTitleComparator),
   ]
   return filterString
-    ? orderedTerms.filter((term: SDG) => term.title.toLowerCase().includes(filterString.toLowerCase()))
-    : orderedTerms
+    ? orderedSDGs.filter((sdg: SDG) => sdg.title.toLowerCase().includes(filterString.toLowerCase()))
+    : orderedSDGs
 }
 
-export const useUserSDGs = <T extends Record<UserChipTypes, Paged<SDG>>>({ user, onSubmit }: UseUserChipsOptions) => {
+export const useUserSDGs = ({ user, onSubmit }: UseUserChipsOptions) => {
   const keyInUserObject = UserChipTypes.SDGS
   const { displayError } = useErrorHandling()
-  const { loading, data } = useQuery<T>(sdgsQuery, {
-    skip: !user,
-    onError: (error) =>
-      logError(error, 'Failed to load terms for user chips', { location: 'useUserChips', field: keyInUserObject }),
-  })
+  const { sdgsLoading, sdgs } = useSDGs()
   const [updateUser, { loading: updateUserLoading, error: updateUserError }] =
     useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
 
   const [filterString, setFilterString] = useState('')
 
-  const availableTerms = useMemo(() => data?.[keyInUserObject]?.data || [], [data, keyInUserObject])
-  const [selectedTerms, setSelectedTerms] = useState(user?.[keyInUserObject] ?? [])
-  const sortedAndFilteredTerms = getSortedAndFilteredSDGs(availableTerms, selectedTerms, filterString)
+  const [selectedSDGs, setSelectedSDGs] = useState(user?.[keyInUserObject] ?? [])
+  const sortedAndFilteredSDGs = getSortedAndFilteredSDGs(sdgs, selectedSDGs, filterString)
 
-  const onTermSelect = useCallback(
+  const onSDGSelect = useCallback(
     (id: string) =>
-      setSelectedTerms((currentlySelectedTerms) => {
-        // find changed term by ID
-        const changedTerm = availableTerms.find((term) => term.id === id)
+      setSelectedSDGs((currentlySelectedSDGs) => {
+        // find changed SDG by ID
+        const changedTerm = sdgs.find((sdg) => sdg.id === id)
 
         // if not found, do not change anything
-        if (!changedTerm) return currentlySelectedTerms
+        if (!changedTerm) return currentlySelectedSDGs
 
-        // check if term was selected or deselected and add or remove it from `selectedTerms`
-        return currentlySelectedTerms.some((term) => term.id === id)
-          ? currentlySelectedTerms.filter((term) => term.id !== id)
-          : [...currentlySelectedTerms, changedTerm]
+        // check if the SDG was selected or deselected and add or remove it from `selectedSDGs`
+        return currentlySelectedSDGs.some((sdg) => sdg.id === id)
+          ? currentlySelectedSDGs.filter((sdg) => sdg.id !== id)
+          : [...currentlySelectedSDGs, changedTerm]
       }),
-    [availableTerms]
+    [sdgs]
   )
 
   const submit = useCallback(async () => {
     const input = {} as UpdateAuthenticatedUserInput
-    input[keyInUserObject] = selectedTerms.map(({ id }: SDG) => id)
+    input[keyInUserObject] = selectedSDGs.map(({ id }: SDG) => id)
 
     const { data } = await updateUser({
       variables: { input },
@@ -80,7 +74,7 @@ export const useUserSDGs = <T extends Record<UserChipTypes, Paged<SDG>>>({ user,
     if (data) {
       onSubmit?.(data.updateAuthenticatedUserV2)
     }
-  }, [keyInUserObject, onSubmit, selectedTerms, updateUser])
+  }, [keyInUserObject, onSubmit, selectedSDGs, updateUser])
 
   if (updateUserError) {
     displayError(updateUserError, 'Failed to update user', {
@@ -92,9 +86,9 @@ export const useUserSDGs = <T extends Record<UserChipTypes, Paged<SDG>>>({ user,
   return {
     filterString,
     onFilterStringChange: setFilterString,
-    terms: sortedAndFilteredTerms,
-    onTermSelect,
+    sdgs: sortedAndFilteredSDGs,
+    onSDGSelect,
     onSubmit: submit,
-    loading: loading || updateUserLoading,
+    loading: sdgsLoading || updateUserLoading,
   }
 }
