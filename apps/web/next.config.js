@@ -13,6 +13,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'ik.imagekit.io',
       },
+      {
+        protocol: 'https',
+        hostname: 'dev-images.holi.social',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.holi.social',
+      },
     ],
   },
   reactStrictMode: false,
