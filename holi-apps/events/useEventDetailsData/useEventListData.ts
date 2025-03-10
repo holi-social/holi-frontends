@@ -1,5 +1,4 @@
-import type { DetailsScreenData } from '@holi/core/layouts/DetailsScreen'
-import { useTranslation } from 'react-i18next'
+import type { DetailsScreenData } from '@holi-apps/events/components/DetailsScreen'
 import { useAllEventsQuery } from '@holi/api/graphql/graphql-codegen'
 import { CalendarEvent, MapPin2, VideoChat } from '@holi/icons/src/generated'
 import { localizeDate } from '@holi/ui/helper/date'
@@ -8,7 +7,7 @@ interface NormalizedData extends DetailsScreenData {
   description: string
 }
 
-export type UseEventDetailsData = {
+export type UseEventListData = {
   data: NormalizedData
   id?: string
   spaceName?: string
@@ -19,13 +18,11 @@ export type UseEventDetailsData = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
+export const useEventListData = (eventId?: string): UseEventListData => {
   // const { displayError } = useErrorHandling()
   // const { replaceRoute } = useRouting()
   //todo gregor: build by id fetching backend capabilities
   const { data, loading } = useAllEventsQuery()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t } = useTranslation()
 
   const event = data?.appEvents_events?.data?.[0]
 
@@ -71,7 +68,7 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
         topTitle: 'posted via Gemeinschaftswerk Nachhaltigkeit',
         title: organizationName,
         mainAvatar: {
-          imgSrc: '',
+          // imgSrc: '',
           initials: '??',
         },
       },

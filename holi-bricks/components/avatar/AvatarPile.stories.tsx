@@ -45,7 +45,7 @@ const meta: Meta<typeof AvatarPile> = {
 
 type Story = StoryObj<typeof AvatarPile>
 
-export const Playground: Story = {
+export const Default: Story = {
   argTypes: {},
   args: {
     users: [
@@ -77,9 +77,6 @@ export const Playground: Story = {
     border: 'strong',
     shape: 'circle',
   },
-  render: function Render(args) {
-    return <AvatarPile {...args} />
-  },
 }
 
 export const ByShape: Story = {
@@ -110,7 +107,7 @@ export const ByBorder: Story = {
   },
 }
 
-export const AvatarPileWithIcon: Story = {
+export const WithIcon: Story = {
   render: function Render(args) {
     return <AvatarPile {...args} icon={HandHeartThinFilledRaised} />
   },

@@ -20,7 +20,6 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import { tempData } from '@holi-apps/events/components/tempData'
 import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
@@ -29,12 +28,18 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import EventsFilterForm from '@holi-apps/events/components/EventsFilterForm'
 import EventCard from '@holi-apps/events/components/EventCard'
+import { Stack } from 'holi-bricks/components/stack'
+import { useAllEventsQuery } from '@holi/api/graphql/graphql-codegen'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 // type EventListProps = { loadingFailed?: boolean; clearFilters?: () => void }
 
 export const EventList = () => {
-  const events = tempData.events.data
+  // const events = tempData.events.data
+
+  const { data } = useAllEventsQuery()
+  const events = data?.appEvents_events.data
+
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const { navigate } = useRouting()
@@ -79,7 +84,7 @@ export const EventList = () => {
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
       headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [navigate, t, title, setScreenOptions, styles.dot, filterModalShown])
+  }, [navigate, t, title, setScreenOptions, filterModalShown])
 
   return (
     <ScrollViewRefreshable
@@ -108,28 +113,30 @@ export const EventList = () => {
         {/* <EventsFilterForm onSubmit={submit} filters={filters} clearFilters={clearFilters} /> */}
       </HoliModal>
       <HoliContainer>
-        <View style={styles.list}>
+        <Stack padding={{ top: 'md' }}>
           {tempData.events.totalResults > 0 && (
-            <View style={styles.info}>
+            <Stack gap="xs">
               <Text headingLevel="2" size="3xl">
                 {t('act.events.title')}
               </Text>
-              <View style={styles.partnerInfoRow}>
-                <View style={styles.imageContainer}>
-                  <HoliLocalImage
-                    imageSource={require('@holi/ui/assets/img/events/logo-gemeinschaftswerk-nachhaltigkeit.png')}
-                    isSvg={false}
-                    width={33}
-                    height={33}
-                    label="some alt text"
-                  />
-                </View>
-                <HoliButton transparent onPress={showPartnerModal} label={t('act.events.partnerInfoRowButton')}>
+              <Stack direction="row" alignItems="center" gap="3xs">
+                <Stack borderRadius="pill">
+                  <View style={styles.imageContainer}>
+                    <HoliLocalImage
+                      imageSource={require('@holi/ui/assets/img/events/logo-gemeinschaftswerk-nachhaltigkeit.png')}
+                      isSvg={false}
+                      width={33}
+                      height={33}
+                      label="some alt text"
+                    />
+                  </View>
+                </Stack>
+                <HoliButton transparent onPress={showPartnerModal} label={t('act.events.partnerInfoRowText')}>
                   <View style={{ flex: 3 }}>
                     <Text size="lg">{t('act.events.partnerInfoRowText')}</Text>
                   </View>
                 </HoliButton>
-              </View>
+              </Stack>
 
               <InfoModal // todo
                 headline={t('volunteering:listing.partnerModal.headline')}
@@ -141,7 +148,7 @@ export const EventList = () => {
               <Text size="lg" color="support">
                 {tempData.events.totalResults} {t('act.events.opportunities')}
               </Text>
-            </View>
+            </Stack>
           )}
           <HoliBox padding={[24, 0, 24, 0]}>
             {/* <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}> */}
@@ -161,48 +168,18 @@ export const EventList = () => {
             </HoliGridWrapper>
             {/* </View> */}
           </HoliBox>
-        </View>
+        </Stack>
       </HoliContainer>
     </ScrollViewRefreshable>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  list: {
-    paddingTop: Spacing.md,
-  },
-  headingRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    paddingTop: 16,
-  },
   defaultLayout: {
     backgroundColor: theme.colors.bg.page,
     paddingBottom: 0,
   },
-  dot: {
-    backgroundColor: theme.colors.bg.page,
-    height: 12,
-    width: 12,
-    borderRadius: 6,
-    position: 'absolute',
-    top: -2,
-    right: -2,
-    borderColor: theme.colors.border.default,
-    borderWidth: 2,
-  },
-  info: {
-    gap: Spacing.xs,
-  },
-  partnerInfoRow: {
-    flexDirection: 'row',
-    // justifyContent: 'center',
-    alignItems: 'center',
-    gap: Spacing['3xs'],
-  },
   imageContainer: {
-    borderRadius: BorderRadius.pill,
     borderColor: theme.colors.border.default,
     overflow: 'hidden',
   },

@@ -42,7 +42,7 @@ const meta: Meta<typeof Button> = {
 
 type Story = StoryObj<typeof Button>
 
-export const Playground: Story = {
+export const Default: Story = {
   argTypes: {
     label: { description: 'Button text', required: false },
     variant: { control: 'select', options: availableVariants },

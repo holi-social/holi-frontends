@@ -19,6 +19,9 @@ interface StackProps extends React.PropsWithChildren {
   padding?: SizeToEdge
   margin?: SizeToEdge
   borderRadius?: RadiusToEdge
+  borderWidth?: number
+  borderStyle?: 'solid' | 'dotted' | 'dashed'
+  borderColor?: BorderColors
   flex?: number
   shouldRender?: boolean
   onPress?: () => void
@@ -55,6 +58,7 @@ export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none
 const containerStylesheet = createStyleSheet((theme) => ({
   container: (props: Omit<StackProps, 'children'>) => ({
     backgroundColor: props?.backgroundColor ? theme.colors.bg[props?.backgroundColor] : undefined,
+    borderColor: props?.borderColor ? theme.colors.border[props?.borderColor] : undefined,
     gap: props?.gap ? Spacing[props?.gap] : 0,
     display: 'flex',
     height: props.height,
@@ -69,6 +73,8 @@ const containerStylesheet = createStyleSheet((theme) => ({
     maxHeight: props?.maxHeight,
     alignSelf: props?.alignSelf,
     flexWrap: props?.wrap,
+    borderWidth: props?.borderWidth,
+    borderStyle: props?.borderStyle,
     ...makePadding(props?.padding),
     ...makeMargin(props?.margin),
     ...makeRadius(props?.borderRadius),

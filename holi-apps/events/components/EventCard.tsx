@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Chat3, MapPin2Filled } from '@holi/icons/src/generated'
+import { MapPin2Filled } from '@holi/icons/src/generated'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -15,18 +15,22 @@ export interface EventProps {
 const EventCard = ({ event }: EventProps) => {
   const { t } = useTranslation()
 
-  const format = (startDate: string, endDate: string) => {
-    const startDateObj = new Date(startDate)
-    const endDateObj = new Date(endDate)
-    const day = startDateObj.getDate()
-    const weekday = startDateObj.toLocaleDateString('en-EN', { weekday: 'short' }) // todo: use german weekdays for german users
-    const monthName = startDateObj.toLocaleDateString('en-EN', { month: 'short' }) // todo: use german months for german users
-    const startTime = startDateObj.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
-    const endTime = endDateObj.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+  const format = (startDate?: string, endDate?: string) => {
+    const startDateObj = startDate ? new Date(startDate) : undefined
+    const day = startDateObj ? startDateObj.getDate() : ''
+    const weekday = startDateObj ? startDateObj.toLocaleDateString('en-EN', { weekday: 'short' }) : '' // todo: use german weekdays for german users
+    const monthName = startDateObj ? startDateObj.toLocaleDateString('en-EN', { month: 'short' }) : '' // todo: use german months for german users
+    const startTime = startDateObj
+      ? startDateObj.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+      : ''
+    const endDateObj = endDate ? new Date(endDate) : undefined
+    const endTime = endDateObj ? endDateObj.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : ''
     return `${weekday}, ${day} ${monthName} ∙ ${startTime} ${t('act.events.fromTo')} ${endTime}`
   }
 
-  const label = `${event.location.street} ${event.location.streetNo}, ${event.location.zipCode} ${event.location.city}`
+  const label = event.location
+    ? `${event.location.street} ${event.location.streetNo}, ${event.location.zipCode} ${event.location.city}`
+    : ''
   const subtitle = `${t('act.events.createdBy')} ${event.organisationName}`
   const ChipComponent = () => (
     <ChipLabel color="mono" size="sm">
@@ -44,8 +48,6 @@ const EventCard = ({ event }: EventProps) => {
           subtitle={subtitle}
           chips={[ChipComponent]}
           topLabelIcon={MapPin2Filled}
-          bottomLabel="Test string"
-          bottomLabelIcon={Chat3}
         />
       </HoliLink>
     </View>

@@ -3,7 +3,11 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layouts/DetailsScreen'
+import type {
+  DetailsScreenChips,
+  DetailsScreenData,
+  DetailsScreenInfoList,
+} from '@holi-apps/events/components/DetailsScreen'
 import { SpaceUserConnectionType, VisibilityType, useTaskByIdQuery } from '@holi/api/graphql/graphql-codegen'
 import { CalendarEvent, MapPin2, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'

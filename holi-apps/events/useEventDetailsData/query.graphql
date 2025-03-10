@@ -22,3 +22,23 @@ query allEvents {
     }
   }
 }
+
+query listViewEvents {
+  appEvents_events(limit: 5, offset: 0, location: "Hamburg") {
+    data {
+      id
+      title
+      organisationName
+      startDate
+      endDate
+      isRemote
+      imageUrl
+      location {
+        street
+        streetNo
+        zipCode
+        city
+      }
+    }
+  }
+}

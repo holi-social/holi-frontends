@@ -45,7 +45,7 @@ const meta: Meta<typeof CompactCard> = {
 
 type Story = StoryObj<typeof CompactCard>
 
-export const Playground: Story = {
+export const Default: Story = {
   args: {
     title: 'title',
     topLabel: 'top label',
@@ -60,9 +60,6 @@ export const Playground: Story = {
     topLabelIcon: MapPin2Filled,
     bottomLabel: 'Test string',
     bottomLabelIcon: Chat3,
-  },
-  render: function Render(args) {
-    return <CompactCard {...args} />
   },
 }
 

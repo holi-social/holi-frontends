@@ -11,7 +11,7 @@ import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliHead from '@holi/core/components/HoliHead'
 import { CoverImage } from '@holi/core/components/CoverImage'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { DetailsScreenSkeleton } from '@holi/core/layouts/DetailsScreen/skeleton'
+import { DetailsScreenSkeleton } from '@holi-apps/events/components/DetailsScreen/skeleton'
 import { Global, Lock } from '@holi/icons/src/generated'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
 

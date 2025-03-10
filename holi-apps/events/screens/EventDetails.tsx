@@ -1,6 +1,6 @@
 import React from 'react'
 import { Screen } from '@holi/core/components/Screen'
-import { DetailsScreen } from '@holi/core/layouts/DetailsScreen'
+import { DetailsScreen } from '@holi-apps/events/components/DetailsScreen'
 import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { Platform } from 'react-native'
@@ -9,8 +9,7 @@ import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { Button } from 'holi-bricks/components/button'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
-import { useEventDetailsData } from '@holi/core/features/events/hooks/useEventDetailsData/useEventDetailsData'
-import RenderHtml from 'react-native-render-html'
+import { useEventDetailsData } from '@holi-apps/events/useEventDetailsData/useEventDetailsData'
 
 export type EventDetailsParams = {
   eventId: string
@@ -21,7 +20,7 @@ const { useParam } = createParamHooks<EventDetailsParams>()
 export const EventDetailsScreen = () => {
   const [eventId] = useParam('eventId')
   const {
-    data: { loading, title, coverImage, infoList, visibility, description, chips, author },
+    data: { loading, title, coverImage, infoList, visibility, chips, author },
     refetch,
   } = useEventDetailsData(eventId as string)
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
@@ -67,9 +66,10 @@ export const EventDetailsScreen = () => {
         title={title}
         infoList={infoList}
         visibility={visibility}
-        description={
-          <RenderHtml defaultTextProps={{ selectable: true }} source={{ html: description }} contentWidth={0} />
-        }
+        description="test"
+        // {
+        //   <RenderHtml defaultTextProps={{ selectable: true }} source={{ html: description }} contentWidth={0} />
+        // }
         author={author}
         chips={chips}
       />

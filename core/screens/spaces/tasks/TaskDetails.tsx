@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import { Screen } from '@holi/core/components/Screen'
-import { DetailsScreen } from '@holi/core/layouts/DetailsScreen'
+import { DetailsScreen } from '@holi-apps/events/components/DetailsScreen'
 import { Stack } from 'holi-bricks/components/stack'
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
