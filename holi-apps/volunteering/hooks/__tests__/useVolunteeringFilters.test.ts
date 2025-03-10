@@ -25,23 +25,26 @@ describe('useVolunteeringFilters', () => {
     it('should update filter state on submit', () => {
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
 
-      expect(result.current.filters).toEqual({})
-
-      act(() => {
-        result.current.submit({ topics: ['topic1'] })
+      expect(result.current.filters).toEqual({
+        topics: [],
+        skills: [],
       })
 
-      expect(result.current.filters).toEqual({ topics: ['topic1'] })
+      act(() => {
+        result.current.submit({ topics: ['elderly-care'], skills: [] })
+      })
+
+      expect(result.current.filters).toEqual({ topics: ['elderly-care'], skills: [] })
     })
     it('should update query parameters on submit', () => {
       const { mockUseUpdateParams } = mockParameters({})
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
 
       act(() => {
-        result.current.submit({ topics: ['topic1'], location: { id: 'locationId', label: 'Hamburg' } })
+        result.current.submit({ topics: ['elderly-care'], location: { id: 'locationId', label: 'Hamburg' } })
       })
 
-      expect(mockUseUpdateParams).toHaveBeenCalledWith({ topic: ['topic1'], geolocationId: 'locationId' })
+      expect(mockUseUpdateParams).toHaveBeenCalledWith({ topic: ['elderly-care'], geolocationId: 'locationId' })
     })
     it('should call submit callback on submit', () => {
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
@@ -49,22 +52,31 @@ describe('useVolunteeringFilters', () => {
       expect(onSubmit).not.toHaveBeenCalled()
 
       act(() => {
-        result.current.submit({ topics: ['topic1'] })
+        result.current.submit({ topics: ['elderly-care'] })
       })
 
       expect(onSubmit).toHaveBeenCalled()
     })
     it('should prefill filters from query parameters', () => {
-      mockParameters({ topic: ['topic1'] })
+      mockParameters({ topic: ['elderly-care'] })
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
 
-      expect(result.current.filters).toEqual({ topics: ['topic1'] })
+      expect(result.current.filters).toEqual({ topics: ['elderly-care'], skills: [] })
+    })
+    it('should migrate topics & skills V1 from query parameters', () => {
+      mockParameters({
+        topic: ['elderly-people', 'diversity-genderequality'],
+        skill: ['conflict-management', 'discipline'],
+      })
+      const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
+
+      expect(result.current.filters).toEqual({ topics: ['elderly-care', 'gender-equality'], skills: ['other'] })
     })
     it('should expose function to clear filters', () => {
-      const { mockUseUpdateParams } = mockParameters({ topic: ['topic1'] })
+      const { mockUseUpdateParams } = mockParameters({ topic: ['elderly-care'] })
       const { result } = renderHook(() => useVolunteeringFilters(onSubmit))
 
-      expect(result.current.filters).toEqual({ topics: ['topic1'] })
+      expect(result.current.filters).toEqual({ topics: ['elderly-care'], skills: [] })
 
       act(() => {
         result.current.clearFilters()

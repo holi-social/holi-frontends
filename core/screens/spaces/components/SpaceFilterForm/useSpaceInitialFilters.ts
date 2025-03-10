@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import createParamHooks, { arrayParamConfig, singleParamConfig } from '@holi/core/navigation/hooks/useParam'
+import { slugsToSkillsV2, slugsToTopicsV2 } from '@holi/core/domain/shared/types'
 
 export type FilteredSpacesPageParams = {
   location?: string
@@ -17,8 +18,10 @@ export const useSpaceInitialFilters = () => {
   const { t } = useTranslation()
 
   const [locationId] = useParam('location', singleParamConfig)
-  const [topicSlugs = []] = useParam('topic', arrayParamConfig)
-  const [skillSlugs = []] = useParam('skill', arrayParamConfig)
+  const [topicParams = []] = useParam('topic', arrayParamConfig)
+  const [skillParams = []] = useParam('skill', arrayParamConfig)
+  const topicSlugs = slugsToTopicsV2(topicParams)
+  const skillSlugs = slugsToSkillsV2(skillParams)
   const filters = { topicSlugs, locationId, skillSlugs }
 
   const location = useGeolocationDetailsWithSuggestion(locationId, (error) =>
