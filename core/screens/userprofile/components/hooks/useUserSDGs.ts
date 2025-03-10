@@ -23,14 +23,14 @@ const getSortedAndFilteredSDGs = (
   selectedTerms: readonly SDG[],
   filterString = ''
 ): SelectableSDG[] => {
-  const unselectedTerms = availableTerms.filter((term) => !selectedTerms.find((t) => t.id === term.id))
-  const orderedTerms = [
-    ...[...selectedTerms].sort(termsByTitleComparator).map((term) => ({ ...term, selected: true })),
-    ...[...unselectedTerms].sort(termsByTitleComparator),
+  const unselectedSDGs = availableTerms.filter((sdg) => !selectedTerms.find((t) => t.id === sdg.id))
+  const orderedSDGs = [
+    ...[...selectedTerms].sort(termsByTitleComparator).map((sdg) => ({ ...sdg, selected: true })),
+    ...[...unselectedSDGs].sort(termsByTitleComparator),
   ]
   return filterString
-    ? orderedTerms.filter((term: SDG) => term.title.toLowerCase().includes(filterString.toLowerCase()))
-    : orderedTerms
+    ? orderedSDGs.filter((sdg: SDG) => sdg.title.toLowerCase().includes(filterString.toLowerCase()))
+    : orderedSDGs
 }
 
 export const useUserSDGs = ({ user, onSubmit }: UseUserChipsOptions) => {
@@ -42,29 +42,29 @@ export const useUserSDGs = ({ user, onSubmit }: UseUserChipsOptions) => {
 
   const [filterString, setFilterString] = useState('')
 
-  const [selectedTerms, setSelectedTerms] = useState(user?.[keyInUserObject] ?? [])
-  const sortedAndFilteredTerms = getSortedAndFilteredSDGs(sdgs, selectedTerms, filterString)
+  const [selectedSDGs, setSelectedSDGs] = useState(user?.[keyInUserObject] ?? [])
+  const sortedAndFilteredSDGs = getSortedAndFilteredSDGs(sdgs, selectedSDGs, filterString)
 
-  const onTermSelect = useCallback(
+  const onSDGSelect = useCallback(
     (id: string) =>
-      setSelectedTerms((currentlySelectedTerms) => {
-        // find changed term by ID
-        const changedTerm = sdgs.find((term) => term.id === id)
+      setSelectedSDGs((currentlySelectedSDGs) => {
+        // find changed SDG by ID
+        const changedTerm = sdgs.find((sdg) => sdg.id === id)
 
         // if not found, do not change anything
-        if (!changedTerm) return currentlySelectedTerms
+        if (!changedTerm) return currentlySelectedSDGs
 
-        // check if term was selected or deselected and add or remove it from `selectedTerms`
-        return currentlySelectedTerms.some((term) => term.id === id)
-          ? currentlySelectedTerms.filter((term) => term.id !== id)
-          : [...currentlySelectedTerms, changedTerm]
+        // check if the SDG was selected or deselected and add or remove it from `selectedSDGs`
+        return currentlySelectedSDGs.some((sdg) => sdg.id === id)
+          ? currentlySelectedSDGs.filter((sdg) => sdg.id !== id)
+          : [...currentlySelectedSDGs, changedTerm]
       }),
     [sdgs]
   )
 
   const submit = useCallback(async () => {
     const input = {} as UpdateAuthenticatedUserInput
-    input[keyInUserObject] = selectedTerms.map(({ id }: SDG) => id)
+    input[keyInUserObject] = selectedSDGs.map(({ id }: SDG) => id)
 
     const { data } = await updateUser({
       variables: { input },
@@ -74,7 +74,7 @@ export const useUserSDGs = ({ user, onSubmit }: UseUserChipsOptions) => {
     if (data) {
       onSubmit?.(data.updateAuthenticatedUserV2)
     }
-  }, [keyInUserObject, onSubmit, selectedTerms, updateUser])
+  }, [keyInUserObject, onSubmit, selectedSDGs, updateUser])
 
   if (updateUserError) {
     displayError(updateUserError, 'Failed to update user', {
@@ -86,8 +86,8 @@ export const useUserSDGs = ({ user, onSubmit }: UseUserChipsOptions) => {
   return {
     filterString,
     onFilterStringChange: setFilterString,
-    terms: sortedAndFilteredTerms,
-    onTermSelect,
+    sdgs: sortedAndFilteredSDGs,
+    onSDGSelect,
     onSubmit: submit,
     loading: sdgsLoading || updateUserLoading,
   }

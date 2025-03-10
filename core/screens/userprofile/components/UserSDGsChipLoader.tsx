@@ -22,8 +22,8 @@ export const UserSDGsChipLoader = ({ user, onSubmit }: UserSDGsChipLoaderProps) 
   const {
     filterString,
     onFilterStringChange,
-    terms,
-    onTermSelect,
+    sdgs,
+    onSDGSelect,
     onSubmit: submitHandler,
     loading,
   } = useUserSDGs({ user, onSubmit })
@@ -49,8 +49,8 @@ export const UserSDGsChipLoader = ({ user, onSubmit }: UserSDGsChipLoaderProps) 
         <UserSDGsChipForm
           filterString={filterString}
           onFilterStringChange={onFilterStringChange}
-          terms={terms}
-          onTermSelect={onTermSelect}
+          terms={sdgs}
+          onTermSelect={onSDGSelect}
         />
       </HoliBox>
     </HoliModalContentWrapper>
