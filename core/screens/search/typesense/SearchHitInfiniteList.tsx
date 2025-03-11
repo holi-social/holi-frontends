@@ -44,7 +44,8 @@ export function SearchHitInfiniteList() {
   const selectedFacet = indexUiState?.refinementList?.type?.length && indexUiState.refinementList.type[0]
   const { styles } = useStyles(stylesheet)
   const displayedFacet = items.length && items[0].type
-  const isLoading = status === 'loading' || status === 'stalled' || (displayedFacet && displayedFacet !== selectedFacet)
+  const oldResults = displayedFacet && displayedFacet !== selectedFacet
+  const isLoading = status === 'loading' || status === 'stalled' || oldResults
 
   const fullRefresh = useOnRefresh(refresh)
 
@@ -63,9 +64,9 @@ export function SearchHitInfiniteList() {
     trackResultsViewed()
   }, [items, trackResultsViewed])
 
-  // Hide results of empty query
+  // Hide results of empty query or wrong facet
   const isEmptyQuery = !results?.query || results?.query === '*'
-  const displayedItems = isEmptyQuery ? [] : (items ?? [])
+  const displayedItems = isEmptyQuery || oldResults ? [] : (items ?? [])
   const itemHeight = selectedFacet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
 
   return (

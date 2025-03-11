@@ -144,7 +144,9 @@ describe('SearchHitInfiniteList', () => {
   })
 
   it('should render loader while results of an unselected facet are displayed', async () => {
-    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits, query: '*' }))
+    mockUseInfiniteHits.mockReturnValue(
+      mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits, query: 'some query' })
+    )
     mockUseInstantSearch.mockReturnValue(
       mockInstantSearchState({ indexUiState: { refinementList: { type: ['space'] } } })
     )
