@@ -2,7 +2,7 @@ import React from 'react'
 import { act, fireEvent, render, screen, userEvent } from '@testing-library/react-native'
 import { useInfiniteHits, useInstantSearch } from 'react-instantsearch-core'
 import type { InfiniteHitsRenderState } from 'instantsearch.js/es/connectors/infinite-hits/connectInfiniteHits'
-import type { Hit, InstantSearch } from 'instantsearch.js'
+import type { Hit } from 'instantsearch.js'
 import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import type { SearchResults } from 'algoliasearch-helper'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
@@ -75,8 +75,12 @@ const mockedInfiniteHits = ({
   } as SearchResults<Hit<SearchHitData>>,
 })
 
-const mockStatus = ({ status = 'idle', refresh }: Partial<InstantSearch> = {}) => {
-  return { status, refresh } as ReturnType<typeof useInstantSearch>
+const mockInstantSearchState = ({
+  status = 'idle',
+  refresh,
+  indexUiState = { refinementList: { type: ['volunteering'] } },
+}: Partial<ReturnType<typeof useInstantSearch>> = {}) => {
+  return { status, refresh, indexUiState } as ReturnType<typeof useInstantSearch>
 }
 
 describe('SearchHitInfiniteList', () => {
@@ -85,7 +89,7 @@ describe('SearchHitInfiniteList', () => {
   beforeEach(() => {
     jest.useFakeTimers()
     mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits }))
-    mockUseInstantSearch.mockReturnValue(mockStatus())
+    mockUseInstantSearch.mockReturnValue(mockInstantSearchState())
   })
   afterEach(async () => {
     await act(jest.runOnlyPendingTimers)
@@ -122,7 +126,7 @@ describe('SearchHitInfiniteList', () => {
 
   it('should render loader while loading and current results are empty', async () => {
     mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 0, nbPages: 0, page: 0, hits: [] }))
-    mockUseInstantSearch.mockReturnValue(mockStatus({ status: 'loading' }))
+    mockUseInstantSearch.mockReturnValue(mockInstantSearchState({ status: 'loading' }))
 
     render(<SearchHitInfiniteList />)
 
@@ -132,6 +136,18 @@ describe('SearchHitInfiniteList', () => {
 
   it('should render loader for empty query', async () => {
     mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits, query: '*' }))
+
+    render(<SearchHitInfiniteList />)
+
+    expect(screen.getByTestId('loader')).toBeOnTheScreen()
+    expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
+  })
+
+  it('should render loader while results of an unselected facet are displayed', async () => {
+    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits, query: '*' }))
+    mockUseInstantSearch.mockReturnValue(
+      mockInstantSearchState({ indexUiState: { refinementList: { type: ['space'] } } })
+    )
 
     render(<SearchHitInfiniteList />)
 
@@ -246,7 +262,7 @@ describe('SearchHitInfiniteList', () => {
 
   it('should refresh on pull-to-refresh', () => {
     const refresh = jest.fn()
-    mockUseInstantSearch.mockReturnValue(mockStatus({ status: 'loading', refresh }))
+    mockUseInstantSearch.mockReturnValue(mockInstantSearchState({ status: 'loading', refresh }))
 
     render(<SearchHitInfiniteList />)
 
