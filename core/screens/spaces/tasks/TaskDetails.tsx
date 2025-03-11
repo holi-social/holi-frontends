@@ -11,6 +11,8 @@ import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 
+const isIos = Platform.OS === 'ios'
+
 export type TaskDetailsParams = {
   taskId: string
 }
@@ -53,7 +55,7 @@ const TaskDetailsContainer = () => {
           footerShown: false,
         },
       }}
-      statusBarProps={{ translucent: true, barStyle: 'light-content' }}
+      statusBarProps={{ translucent: true, barStyle: isIos ? 'light-content' : 'dark-content' }}
       StickyBottomComponent={
         <Stack
           padding={{ left: 'md', right: 'md', bottom: 'lg' }}

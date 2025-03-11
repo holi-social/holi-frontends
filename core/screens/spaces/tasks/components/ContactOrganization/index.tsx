@@ -99,7 +99,7 @@ export const ContactOrganization = ({ spaceIdOrName, spaceId, spaceTitle, taskId
     <HoliActionDrawer.Drawer
       renderCustomButton={(onPress, testID) => (
         <ContactOrganizationActionButton
-          loading={!isChatInitialized || adminUsersLoading}
+          loading={loggedInUser && (!isChatInitialized || adminUsersLoading)}
           testID={testID}
           onPress={onPress}
         />
