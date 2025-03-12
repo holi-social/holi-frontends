@@ -2,14 +2,13 @@ import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, View } from 'react-native'
 
-import InfoModal from '@holi/core/components/InfoModal'
+import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
-import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
 import { Text } from 'holi-bricks/components/text'
@@ -34,9 +33,25 @@ import { useAllEventsQuery } from '@holi/api/graphql/graphql-codegen'
 export const ENGAGEMENT_PAGE_SIZE = 10
 // type EventListProps = { loadingFailed?: boolean; clearFilters?: () => void }
 
-export const EventList = () => {
-  // const events = tempData.events.data
+export const EVENTS_SOURCE_MAPPING: {
+  [name: string]: InfoModalItemProps
+} = {
+  'Gemeinschaftswerk Nachhaltigkeit': {
+    logo: {
+      src: require('@holi/ui/assets/img/events/gemeinschaftswerk-nachhaltigkeit-logo.svg'),
+      isSvg: true,
+    },
+    wordmark: {
+      src: require('@holi/ui/assets/img/events/gemeinschaftswerk-nachhaltigkeit-wordmark.png'),
+      width: 119,
+      height: 34,
+      isSvg: false,
+    },
+    url: 'https://gemeinschaftswerk-nachhaltigkeit.de',
+  },
+}
 
+export const EventList = () => {
   const { data } = useAllEventsQuery()
   const events = data?.appEvents_events.data
 
@@ -47,7 +62,7 @@ export const EventList = () => {
   const setScreenOptions = useSetScreenOptions()
 
   const title = t('act.events.title')
-  const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
+  const partner = EVENTS_SOURCE_MAPPING
 
   // info modal
   const { show: showPartnerModal, hide: closePartnerModal, visible: partnerModalVisible } = useModalState()
@@ -123,8 +138,8 @@ export const EventList = () => {
                 <Stack borderRadius="pill">
                   <View style={styles.imageContainer}>
                     <HoliLocalImage
-                      imageSource={require('@holi/ui/assets/img/events/logo-gemeinschaftswerk-nachhaltigkeit.png')}
-                      isSvg={false}
+                      imageSource={require('@holi/ui/assets/img/events/gemeinschaftswerk-nachhaltigkeit-logo.svg')}
+                      isSvg={true}
                       width={33}
                       height={33}
                       label="some alt text"
@@ -138,12 +153,12 @@ export const EventList = () => {
                 </HoliButton>
               </Stack>
 
-              <InfoModal // todo
+              <InfoModal
                 headline={t('volunteering:listing.partnerModal.headline')}
-                items={allPartners}
+                items={partner}
                 shown={partnerModalVisible}
                 onDismiss={closePartnerModal}
-                i18nPrefix={'volunteering:listing.partnerModal'}
+                i18nPrefix={'act.events.listing.partnerModal'}
               />
               <Text size="lg" color="support">
                 {tempData.events.totalResults} {t('act.events.opportunities')}
