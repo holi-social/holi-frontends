@@ -75,7 +75,6 @@ const LocationSelection = ({
           id="user-location-input"
           testID={`${testID}-autocomplete`}
           placeholder={t('search.locationPlaceholder')}
-          enhanceWithDetails
           level={GeolocationLevel.CITY}
           validationErrorText={validationErrorText}
           selected={selected}

@@ -841,6 +841,8 @@
   "search.locationLabel": "Location",
   "search.locationPlaceholder": "City, district or ZIP code...",
   "search.saveLocationButton": "Save location",
+  "search.germanyWide": "Germany Wide",
+  "search.locationFilter": "Location filter",
   "search.typesense.examples.headline": "Try searching for",
   "search.typesense.examples.profile1": "Laura von holi",
   "search.typesense.examples.profile10": "Biene Maja",
