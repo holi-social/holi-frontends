@@ -1,14 +1,14 @@
 // eslint-disable-next-line
-import { ExpoConfig } from 'expo/config'
+import type { ExpoConfig } from 'expo/config'
 
 require('ts-node/register')
 
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.48.2', // user-facing value visible in stores
-  iosBuildNumber: '1.48.2', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 140, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.50.2', // user-facing value visible in stores
+  iosBuildNumber: '1.50.2', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 144, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.

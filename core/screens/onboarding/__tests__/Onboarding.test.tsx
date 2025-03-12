@@ -10,7 +10,6 @@ import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
-import { skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
 import { geoPlacesQuery } from '@holi/core/geolocation/queries'
 import usePreventBackNavigation from '@holi/core/navigation/hooks/usePreventBackNavigation'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
@@ -23,8 +22,7 @@ import { testLocation } from '@holi/core/screens/onboarding/hooks/__tests__/useU
 import { storeOnboardingState, useOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
-import { skills, topics } from '@holi/core/screens/spaces/__tests__/testData'
-import { interestsQuery, updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
+import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { act } from '@testing-library/react-hooks'
@@ -117,44 +115,14 @@ interface Event {
 const mocks = [
   {
     request: {
-      query: topicsQuery,
-    },
-    result: {
-      data: {
-        topics: { data: topics },
-      },
-    },
-  },
-  {
-    request: {
-      query: interestsQuery,
-    },
-    result: {
-      data: {
-        interests: { data: topics },
-      },
-    },
-  },
-  {
-    request: {
-      query: skillsQuery,
-    },
-    result: {
-      data: {
-        skills: { data: skills },
-      },
-    },
-  },
-  {
-    request: {
       query: updateAuthenticatedUserV2Mutation,
       variables: {
         input: {
           firstName: 'Ada',
           lastName: '',
           pronouns: '',
-          interests: [],
-          skills: [],
+          interestsV2: [],
+          skillsV2: [],
         },
       },
     },
@@ -172,8 +140,8 @@ const mocks = [
           firstName: 'Ada',
           lastName: 'Lovelace',
           pronouns: 'she/her',
-          interests: ['ANIMAL_WELFARE'],
-          skills: ['CREATIVITY'],
+          interestsV2: ['animal-welfare'],
+          skillsV2: ['creativity-design'],
           location: testLocation.label,
           geolocation: testLocation.geolocation,
         },
@@ -355,10 +323,10 @@ describe('Onboarding', () => {
       // Location is prefilled
       { action: 'press', label: 'onboarding.welcome.forward' },
       // Interests
-      { action: 'press', label: 'Animal Welfare', queryByText: true },
+      { action: 'press', label: 'topic.animal-welfare', queryByText: true },
       { action: 'press', label: 'onboarding.welcome.forward' },
       // Skills
-      { action: 'press', label: 'Creativity', queryByText: true },
+      { action: 'press', label: 'skill.creativity-design', queryByText: true },
       { action: 'press', label: 'onboarding.welcome.forward' },
       // Sign up form is mocked
       { action: 'press', label: 'registration-submit-button' },
@@ -426,8 +394,8 @@ describe('Onboarding', () => {
     // Prefill user data
     mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
       content: 'VOLUNTEERING',
-      interests: ['ANIMAL_WELFARE'],
-      skills: ['CREATIVITY'],
+      interests: ['animal-welfare'],
+      skills: ['creativity-design'],
       location: testLocation,
     })
 
@@ -457,7 +425,7 @@ describe('Onboarding', () => {
       TrackingEvent.OnboardingStepCompleted('interestsSelection', ['animal-welfare'], 'continue')
     )
     expect(track).toHaveBeenCalledWith(
-      TrackingEvent.OnboardingStepCompleted('skillsSelection', ['creativity'], 'continue')
+      TrackingEvent.OnboardingStepCompleted('skillsSelection', ['creativity-design'], 'continue')
     )
     expect(track).toHaveBeenCalledWith(
       TrackingEvent.SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' })
@@ -472,8 +440,8 @@ describe('Onboarding', () => {
     // Prefill user data
     mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
       content: 'VOLUNTEERING',
-      interests: ['ANIMAL_WELFARE'],
-      skills: ['CREATIVITY'],
+      interests: ['animal-welfare'],
+      skills: ['creativity-design'],
       location: testLocation,
     })
 

@@ -34,7 +34,7 @@ const HoliRichTextInputSuggestions: React.FC<HoliRichTextInputSuggestionsProps> 
         >
           <View style={styles.suggestionItemImage}>
             <Avatar
-              imgSrc={item.avatar}
+              source={item.avatar}
               label={item.fullName}
               initials={item.avatarLabel}
               imgPlaceholder={item.avatarBlurhash}

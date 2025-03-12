@@ -176,13 +176,13 @@ const fillOutOnboarding = async (userData: OnboardingUserData) => {
   // Handle interests selection
   await waitForElementWithTestId('onboarding-interests-selection')
   for (const slug of userData.interests) {
-    await tapOnElementWithTestId(`user-chip-form--${slug}-chip`)
+    await tapOnElementWithTestId(`topic--${slug}`)
   }
   await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
   // Handle skills selection
   await waitForElementWithTestId('onboarding-skills-selection')
   for (const slug of userData.skills) {
-    await tapOnElementWithTestId(`user-chip-form--${slug}-chip`)
+    await tapOnElementWithTestId(`skill--${slug}`)
   }
   await tapOnElementWithTestId('onboarding-stepper-nav-buttons-next-btn')
 

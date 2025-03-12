@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
-import type { Term, User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import FeedPostReactions from '@holi/core/screens/individualPosts/components/FeedPostReactions'
 import PostDrawer from '@holi/core/screens/individualPosts/components/PostDrawer'
@@ -29,22 +29,17 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 type PostCardProps = {
   post: FeedPost
   showVisibilityBadge?: boolean
-  allTopics?: Term[]
 }
 
 const NUMBER_OF_LINES = 3
 
-const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
+const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { navigate } = useRouting()
   const { track } = useTracking()
   const { isLoggedIn } = useLoggedInUser()
-
-  const aggregatedTopics = allTopics?.filter((topic) =>
-    post.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
-  )
 
   const goToDetailView = () => navigate(`/feed-posts/${post.slug}`)
   return (
@@ -87,12 +82,10 @@ const PostCard = ({ post, showVisibilityBadge, allTopics }: PostCardProps) => {
                 </HoliText>
               </View>
             )}
-            {aggregatedTopics && aggregatedTopics?.length > 0 && (
+            {!!post.topicsV2 && (
               <View style={[styles.pill, styles.topicPill]}>
                 <HoliText size="small" numberOfLines={1}>
-                  {`${aggregatedTopics[0]?.title} ${
-                    aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
-                  }`}
+                  {t(`topic.${post.topicsV2[0]}`) + (post.topicsV2.length > 1 ? ` +${post.topicsV2.length - 1}` : '')}
                 </HoliText>
               </View>
             )}

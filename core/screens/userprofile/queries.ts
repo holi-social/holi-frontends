@@ -6,18 +6,6 @@ import { FullAuthenticatedUserFragment } from '@holi/core/domain/shared/queries'
 import type { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import type { UpdateConnectionWithUserActions } from '@holi/core/screens/userprofile/types'
 
-export const interestsQuery = gql`
-  query Topics {
-    interests: topics {
-      data {
-        id
-        title
-        slug
-      }
-    }
-  }
-`
-
 export const UpdateAuthenticatedUserInputSchema = z.object({
   avatar: z.instanceof(Object).optional(),
   firstName: z
@@ -31,9 +19,9 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   location: z.string().max(192, { message: 'maxCharacters---192' }).optional(),
   geolocation: z.instanceof(Object).optional(),
   engagementLevel: z.string().optional(),
-  interests: z.array(z.string() /* UUID */).optional(),
+  interestsV2: z.array(z.string()).optional(),
   sdgs: z.array(z.string() /* UUID */).optional(),
-  skills: z.array(z.string() /* UUID */).optional(),
+  skillsV2: z.array(z.string()).optional(),
   trackingConsentAnalytics: z.boolean().optional().nullable(),
   trackingConsentPersonalization: z.boolean().optional().nullable(),
 })

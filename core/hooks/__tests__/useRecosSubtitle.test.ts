@@ -1,5 +1,5 @@
-import { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
-import { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import type { LoggedInState } from '@holi/core/auth/hooks/useLoggedInUser'
+import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 
 const mockUseLoggedInUser = jest.fn()
@@ -49,8 +49,8 @@ describe('Recommendations section', () => {
           user: {
             id: '123',
             fullName: 'Test User',
-            interests: hasInterests ? ['some-interest'] : undefinedOrEmptyArray(),
-            skills: hasSkills ? ['some-skill'] : undefinedOrEmptyArray(),
+            interestsV2: hasInterests ? ['some-interest'] : undefinedOrEmptyArray(),
+            skillsV2: hasSkills ? ['some-skill'] : undefinedOrEmptyArray(),
             location: hasLocation ? 'some-location' : undefined,
           } as AuthenticatedUser,
         } as LoggedInState)

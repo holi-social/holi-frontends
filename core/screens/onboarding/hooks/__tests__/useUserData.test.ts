@@ -29,8 +29,8 @@ export const testLocation = {
 const fullUserData: OnboardingUserData = {
   content: 'SPACES',
   location: testLocation,
-  interests: ['topic-1', 'topic-2'],
-  skills: ['skill-1'],
+  interests: ['migration-refugees', 'youth-development'],
+  skills: ['legal-assistance'],
 }
 const initialUserData: OnboardingUserData = {
   content: undefined,
@@ -47,6 +47,19 @@ describe('useUserData', () => {
   it('should load existing user data from storage', async () => {
     mockGetOnboardingUserDataAsyncStore.mockResolvedValue(fullUserData)
 
+    const { result } = renderHook(() => useUserData())
+
+    expect(result.current.userData).toEqual(initialUserData)
+
+    await waitFor(() => expect(result.current.userData).toEqual(fullUserData))
+  })
+
+  it('should migrate topics & skills V1 in existing user data when loading from storage', async () => {
+    mockGetOnboardingUserDataAsyncStore.mockResolvedValue({
+      ...fullUserData,
+      interests: ['migration-integration', 'children-youth'],
+      skills: ['law-regulations'],
+    })
     const { result } = renderHook(() => useUserData())
 
     expect(result.current.userData).toEqual(initialUserData)
@@ -135,31 +148,5 @@ describe('useUserData', () => {
       ...initialUserData,
       skills: ['skill-2'],
     })
-  })
-
-  it('should filter interests', () => {
-    const { result } = renderHook(() => useUserData())
-
-    expect(result.current.interestsSearchProps.filterString).toEqual('')
-
-    act(() => {
-      result.current.interestsSearchProps.onFilterStringChange('foobar')
-    })
-
-    expect(result.current.interestsSearchProps.filterString).toEqual('foobar')
-    expect(mockStoreOnboardingUserDataAsyncStore).not.toHaveBeenCalled()
-  })
-
-  it('should filter skills', () => {
-    const { result } = renderHook(() => useUserData())
-
-    expect(result.current.skillsSearchProps.filterString).toEqual('')
-
-    act(() => {
-      result.current.skillsSearchProps.onFilterStringChange('foobar')
-    })
-
-    expect(result.current.skillsSearchProps.filterString).toEqual('foobar')
-    expect(mockStoreOnboardingUserDataAsyncStore).not.toHaveBeenCalled()
   })
 })

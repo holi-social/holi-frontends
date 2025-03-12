@@ -1,16 +1,13 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { render } from '@testing-library/react-native'
+import { render, screen, waitFor } from '@testing-library/react-native'
 import React, { type PropsWithChildren } from 'react'
 
-import type { Skill, Topic } from '@holi/core/domain/shared/types'
 import DiscoverSpacesView, {
   SPACES_GROUP_LIMIT,
   SPACES_SLIDER_SKELETONS,
 } from '@holi/core/screens/spaces/discover/components/DiscoverSpacesView'
-import {
-  SpaceTermContext,
-  type SpaceTermContextResult,
-} from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
+import { discoverSpacesDefaultTopicsV2 } from '@holi/core/screens/spaces/discover/queries'
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => ({
@@ -21,105 +18,100 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 const ScrollBasedRenderMock = ({ children }: PropsWithChildren) => <>{children}</>
 jest.mock('@holi/core/components/ScrollBasedRender', () => ScrollBasedRenderMock)
 
-const defaultTopics: Topic[] = [
-  { id: '1', title: 'Topic 1', slug: 'topic-1', isDiscoverSpacesDefault: true },
-  { id: '2', title: 'Topic 2', slug: 'topic-2', isDiscoverSpacesDefault: true },
-]
+const defaultTopics = ALL_TOPICS.slice(3, 5)
 
-const userTopics: Topic[] = [defaultTopics[0]]
+const userTopics: string[] = [defaultTopics[0]]
 
-const userSkills: Skill[] = [
-  { id: '1', title: 'Skill 1', slug: 'skill-1' },
-  { id: '2', title: 'Skill 2', slug: 'skill-2' },
-]
-
-const spaceTermContext: SpaceTermContextResult = {
-  loadingTopics: false,
-  loadingSkills: false,
-  loadingSdgs: false,
-  failedTopics: false,
-  failedSkills: false,
-  failedSdgs: false,
-  topics: defaultTopics,
-  skills: [],
-  sdgs: [],
-}
+const userSkills: string[] = ALL_SKILLS.slice(0, 2)
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data
 global.console.error = jest.fn()
 global.console.warn = jest.fn()
 
-const renderDiscoverSpaces = (
-  userTopics: Topic[] = [],
-  userSkills: Skill[] = [],
-  userGeolocationId?: string,
-  contextProps: Partial<SpaceTermContextResult> = {}
-) => {
+const defaultTopicsMock = {
+  request: {
+    query: discoverSpacesDefaultTopicsV2,
+  },
+  result: {
+    data: {
+      discoverSpacesDefaultTopicsV2: defaultTopics,
+    },
+  },
+}
+
+const renderDiscoverSpaces = (userTopics: string[] = [], userSkills: string[] = [], userGeolocationId?: string) => {
   return render(
-    <MockedProvider mocks={[]} addTypename={false}>
-      <SpaceTermContext.Provider value={{ ...spaceTermContext, ...contextProps }}>
-        <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} userGeolocationId={userGeolocationId} />
-      </SpaceTermContext.Provider>
+    <MockedProvider mocks={[defaultTopicsMock]} addTypename={false}>
+      <DiscoverSpacesView userSkills={userSkills} userTopics={userTopics} userGeolocationId={userGeolocationId} />
     </MockedProvider>
   )
 }
 
 describe('DiscoverSpacesView', () => {
-  it('renders correctly, without user spaces, when loading', async () => {
-    const { queryAllByTestId } = renderDiscoverSpaces([], [], undefined, { topics: [] })
+  it('renders correctly, without user topics, when loading', async () => {
+    renderDiscoverSpaces([], [], undefined)
 
-    expect(queryAllByTestId('space-link-loading')).toHaveLength(SPACES_SLIDER_SKELETONS * SPACES_GROUP_LIMIT)
+    expect(screen.queryAllByTestId('space-link-loading')).toHaveLength(SPACES_SLIDER_SKELETONS * SPACES_GROUP_LIMIT)
 
-    expect(queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(0)
-    expect(queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(0)
-    expect(queryAllByTestId('discover-topic-slider-others')).toHaveLength(0)
+    expect(screen.queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(0)
+    expect(screen.queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(0)
+    expect(screen.queryAllByTestId('discover-topic-slider-others')).toHaveLength(0)
   })
 
-  it('renders correctly, without user spaces, when loaded', async () => {
-    const { queryAllByTestId, getByText } = renderDiscoverSpaces()
+  it('renders correctly, without user topics, when loaded', async () => {
+    renderDiscoverSpaces()
 
-    expect(queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(0)
-    expect(queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(0)
+    expect(screen.queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(0)
+    expect(screen.queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(0)
 
-    expect(queryAllByTestId('discover-topic-slider-others')).toHaveLength(defaultTopics.length)
-    expect(queryAllByTestId('space-link-loading')).toHaveLength(defaultTopics.length * SPACES_GROUP_LIMIT)
+    await waitFor(() =>
+      expect(screen.queryAllByTestId('discover-topic-slider-others')).toHaveLength(defaultTopics.length)
+    )
 
-    expect(getByText('Topic 1')).toBeDefined()
-    expect(getByText('Topic 2')).toBeDefined()
+    expect(screen.queryAllByTestId('space-link-loading')).toHaveLength(defaultTopics.length * SPACES_GROUP_LIMIT)
+
+    expect(screen.getByText(`topic.${defaultTopics[0]}`)).toBeDefined()
+    expect(screen.getByText(`topic.${defaultTopics[1]}`)).toBeDefined()
   })
 
-  it('renders correctly, with user spaces, when loading', async () => {
-    const { queryAllByTestId } = renderDiscoverSpaces(userTopics, userSkills, undefined, {
-      topics: [],
-    })
+  it('renders correctly, with user topics, when loading', async () => {
+    renderDiscoverSpaces(userTopics, userSkills, undefined)
 
-    expect(queryAllByTestId('space-link-loading')).toHaveLength(
+    expect(screen.queryAllByTestId('space-link-loading')).toHaveLength(
       (userTopics.length + userSkills.length + SPACES_SLIDER_SKELETONS) * SPACES_GROUP_LIMIT
     )
 
-    expect(queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(1)
-    expect(queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(2)
-    expect(queryAllByTestId('discover-topic-slider-others')).toHaveLength(0)
+    expect(screen.queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(1)
+    expect(screen.queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(2)
+    expect(screen.queryAllByTestId('discover-topic-slider-others')).toHaveLength(0)
   })
 
-  it('renders correctly, with user spaces, when loaded', async () => {
-    const { queryAllByTestId } = renderDiscoverSpaces(userTopics, userSkills)
+  it('renders correctly, with user topics, when loaded', async () => {
+    renderDiscoverSpaces(userTopics, userSkills)
 
-    expect(queryAllByTestId('space-link-loading')).toHaveLength(
-      (defaultTopics.length + userSkills.length) * SPACES_GROUP_LIMIT
+    await waitFor(() =>
+      expect(screen.queryAllByTestId('space-link-loading')).toHaveLength(
+        (defaultTopics.length + userSkills.length) * SPACES_GROUP_LIMIT
+      )
     )
 
-    expect(queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(1)
-    expect(queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(2)
-    expect(queryAllByTestId('discover-topic-slider-others')).toHaveLength(1)
+    expect(screen.queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(1)
+    expect(screen.queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(2)
+    expect(screen.queryAllByTestId('discover-topic-slider-others')).toHaveLength(1)
   })
 
   it('renders correctly, without default spaces, when loaded', async () => {
-    const { queryAllByTestId } = renderDiscoverSpaces(defaultTopics, userSkills)
+    renderDiscoverSpaces(defaultTopics, userSkills)
 
-    expect(queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(2)
-    expect(queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(2)
-    expect(queryAllByTestId('discover-topic-slider-others')).toHaveLength(0) // filtered by user topics
+    await waitFor(() =>
+      expect(screen.queryAllByTestId('space-link-loading')).toHaveLength(
+        (defaultTopics.length + userSkills.length) * SPACES_GROUP_LIMIT
+      )
+    )
+
+    expect(screen.queryAllByTestId('discover-topics-slider-user-specific')).toHaveLength(2)
+    expect(screen.queryAllByTestId('discover-skills-slider-user-specific')).toHaveLength(2)
+    expect(screen.queryAllByTestId('discover-topic-slider-others')).toHaveLength(0) // filtered by user topics
   })
 })

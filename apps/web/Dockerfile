@@ -1,5 +1,5 @@
 # Production image, copy all the files and run next
-FROM europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/node:20-slim
+FROM europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/node:22-slim
 
 WORKDIR /app
 

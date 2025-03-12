@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useState } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
 
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import type { ContentValue, OnboardingUserData } from '@holi/core/screens/onboarding/types'
@@ -6,6 +6,7 @@ import {
   getOnboardingUserDataAsyncStore,
   storeOnboardingUserDataAsyncStore,
 } from '@holi/core/screens/onboarding/helpers/onboardingUserDataAsyncStore'
+import { slugsToSkillsV2, slugsToTopicsV2 } from '@holi/core/domain/shared/types'
 
 interface SetUserDataAction {
   type: 'SET_USER_DATA'
@@ -73,22 +74,29 @@ const reducer = (state: OnboardingUserData, action: OnboardingAction) => {
 
 export const useUserData = () => {
   const [userData, dispatch] = useReducer(reducer, { ...initialUserData })
-  const [interestsSearchString, setInterestsSearchString] = useState('')
-  const [skillsSearchString, setSkillsSearchString] = useState('')
 
   useEffect(() => {
     getOnboardingUserDataAsyncStore().then((userData) => {
       if (userData) {
-        dispatch({ type: 'SET_USER_DATA', payload: userData })
+        const interests = slugsToTopicsV2(userData.interests)
+        const skills = slugsToSkillsV2(userData.skills)
+        dispatch({
+          type: 'SET_USER_DATA',
+          payload: {
+            ...userData,
+            interests,
+            skills,
+          },
+        })
       }
     })
   }, [])
 
   const onChipSelect = useCallback(
-    (chipType: 'interests' | 'skills', id: string) =>
-      userData[chipType].some((selectedTermId) => selectedTermId === id)
-        ? userData[chipType].filter((selectedTermId) => selectedTermId !== id)
-        : [...userData[chipType], id],
+    (chipType: 'interests' | 'skills', term: string) =>
+      userData[chipType].some((selectedTerm) => selectedTerm === term)
+        ? userData[chipType].filter((selectedTerm) => selectedTerm !== term)
+        : [...userData[chipType], term],
     [userData]
   )
 
@@ -100,12 +108,12 @@ export const useUserData = () => {
     dispatch({ type: 'UPDATE_LOCATION', payload: location })
   }
 
-  const updateInterests = (interestId: string) => {
-    dispatch({ type: 'UPDATE_INTERESTS', payload: onChipSelect('interests', interestId) })
+  const updateInterests = (interest: string) => {
+    dispatch({ type: 'UPDATE_INTERESTS', payload: onChipSelect('interests', interest) })
   }
 
-  const updateSkills = (skillId: string) => {
-    dispatch({ type: 'UPDATE_SKILLS', payload: onChipSelect('skills', skillId) })
+  const updateSkills = (skill: string) => {
+    dispatch({ type: 'UPDATE_SKILLS', payload: onChipSelect('skills', skill) })
   }
 
   const clearInterests = () => {
@@ -122,14 +130,6 @@ export const useUserData = () => {
     updateLocation,
     updateInterests,
     updateSkills,
-    interestsSearchProps: {
-      filterString: interestsSearchString,
-      onFilterStringChange: setInterestsSearchString,
-    },
-    skillsSearchProps: {
-      filterString: skillsSearchString,
-      onFilterStringChange: setSkillsSearchString,
-    },
     clearInterests,
     clearSkills,
   }

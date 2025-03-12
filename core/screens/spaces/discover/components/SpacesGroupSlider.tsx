@@ -4,7 +4,6 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, type StyleProp, StyleSheet, View, type ViewStyle, useWindowDimensions } from 'react-native'
 
-import type { Skill, Topic } from '@holi/core/domain/shared/types'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -29,14 +28,14 @@ interface BaseProps {
 }
 
 interface SelfLoadingTopicProps extends BaseProps {
-  topic: Topic
+  topic: string
   skill?: never
   locationId?: never
 }
 
 interface SelfLoadingSkillProps extends BaseProps {
   topic?: never
-  skill: Skill
+  skill: string
   locationId?: never
 }
 
@@ -69,8 +68,8 @@ const SpacesGroupSlider = ({
   // because value is constant in web and for mobile windowWidth doesn't change
   const cardWidth = Platform.OS === 'web' ? 320 : windowWidth / 1.5 - 12
 
-  const topicFilter = topic ? { topicIds: [topic.id] } : {}
-  const skillFilter = skill ? { skillIds: [skill.id] } : {}
+  const topicFilter = topic ? { topicsV2: [topic] } : {}
+  const skillFilter = skill ? { skillsV2: [skill] } : {}
   const { data } = useQuery<DiscoverSpacesData, DiscoverSpacesVariables>(discoverSpacesQuery, {
     variables: {
       // component is either parameterized with topic or skill, so this doesn't fetch both
@@ -93,8 +92,8 @@ const SpacesGroupSlider = ({
   const { totalResults = 0, data: spacesData = [] } = fetchedSpaces ?? {}
   const hasMore = totalResults > (pageSize ?? 0) // false in loading state
 
-  const topicQuery = topic ? 'topic=' + topic.slug : ''
-  const skillQuery = skill ? 'skill=' + skill.slug : ''
+  const topicQuery = topic ? 'topic=' + topic : ''
+  const skillQuery = skill ? 'skill=' + skill : ''
   const locationQuery = locationId ? 'location=' + locationId : ''
 
   const seeMoreQueryParams = [topicQuery, skillQuery, locationQuery].filter((query) => !!query).join('&')
@@ -110,12 +109,8 @@ const SpacesGroupSlider = ({
     <View style={style} testID={testID}>
       <View style={styles.sliderHeader}>
         {topic && (
-          <ChipAction
-            onPress={() => navigate(`/spaces/filter?topic=${topic.slug}`)}
-            color="green"
-            id="spaces-topic-title"
-          >
-            {topic.title}
+          <ChipAction onPress={() => navigate(`/spaces/filter?topic=${topic}`)} color="green" id="spaces-topic-title">
+            {t(`topic.${topic}`)}
           </ChipAction>
         )}
         {!!locationId && (
@@ -128,12 +123,8 @@ const SpacesGroupSlider = ({
           </ChipAction>
         )}
         {skill && (
-          <ChipAction
-            onPress={() => navigate(`/spaces/filter?skill=${skill.slug}`)}
-            color="blue"
-            id="spaces-skill-title"
-          >
-            {skill.title}
+          <ChipAction onPress={() => navigate(`/spaces/filter?skill=${skill}`)} color="blue" id="spaces-skill-title">
+            {t(`skill.${skill}`)}
           </ChipAction>
         )}
       </View>

@@ -31,8 +31,6 @@ const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 export const Search = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
-
-  // Route params
   const [queryParam] = useParam('query', singleParamConfig)
   const [facetParam] = useParam('facet', singleParamConfig)
   const [locationParam, setLocationParam] = useParam('location', singleParamConfig)

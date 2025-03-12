@@ -1,12 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { StatusBar } from 'expo-status-bar'
-import React, { memo, useContext, useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliHead from '@holi/core/components/HoliHead'
-import type { Term } from '@holi/core/domain/shared/types'
 import { isNotFoundError, logError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useBreakpointMatcher } from '@holi/core/helpers'
@@ -32,7 +31,6 @@ import {
 import { type PostQueryResponse, postQuery } from '@holi/core/screens/individualPosts/queries'
 import PostDetailFooter from '@holi/core/screens/posts/components/PostDetailFooter'
 import { ReactionAction, ReactionType } from '@holi/core/screens/posts/types'
-import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -68,7 +66,6 @@ const PostDetailsPage = () => {
   const { openSignupModal } = useSignupModal()
   const smStyle = useBreakpointMatcher([[dimensions.breakpointS, true]])
   const styles = useMemo(() => getStyles(theme, !!smStyle), [theme, smStyle])
-  const { topics: allTopics } = useContext(SpaceTermContext)
   const { displayError } = useErrorHandling()
   const { track } = useTracking()
   const { navigateWithAuth } = useAuthRequiredNavigation()
@@ -91,13 +88,6 @@ const PostDetailsPage = () => {
       })
     },
   })
-
-  let aggregatedTopics: Term[] = []
-  if (post?.topics) {
-    aggregatedTopics = allTopics?.filter((topic) => {
-      return post.topics?.some((selectedTopic: Term) => selectedTopic.id === topic.id)
-    })
-  }
 
   useOnRefresh(refetch)
 
@@ -230,7 +220,6 @@ const PostDetailsPage = () => {
               <PostContent
                 post={post}
                 showVisibilityBadge={loginState.isLoggedIn && loginState.user.id === post.author.id}
-                aggregatedTopics={aggregatedTopics}
               />
               <View style={styles.commentsContainer}>
                 <Comments

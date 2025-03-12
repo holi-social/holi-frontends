@@ -31,7 +31,7 @@ const SearchResultsItem = ({ item }: SearchResultsItemProps) => {
         <HoliBox padding={[0, 16, 0, 0]}>
           {isHoliUser(item) ? (
             <Avatar
-              imgSrc={item.avatar ?? ''}
+              source={item.avatar ?? ''}
               imgPlaceholder={item?.avatarBlurhash}
               label={item.avatarLabel ?? ''}
               initials={item.avatarLabel ?? ''}

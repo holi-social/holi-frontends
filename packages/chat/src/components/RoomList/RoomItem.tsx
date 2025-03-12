@@ -32,7 +32,7 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
   const { id: roomId, name, hasInvitation, notificationCount, members } = room
-  const chatPartner = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
+  const chatPartners = useAtomValue(useMemo(() => chatPartnerAtomCreator(roomId, loggedInUser), [loggedInUser, roomId]))
 
   const hasUnseenMessages = notificationCount > 0
   const testID = `room-item-${name}`
@@ -67,6 +67,8 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
     return null
   }
 
+  const firstChatPartner = chatPartners?.[0]
+
   return (
     <HoliLink href={`/chat/rooms/${roomId}`} label={roomName} onPress={handleOnPress}>
       <HoliBox padding={[ROOM_ITEM_VERTICAL_PADDING, 0]}>
@@ -77,23 +79,23 @@ const RoomItem = ({ room, loggedInUser }: RoomItemProps) => {
               <Avatar
                 label={roomName}
                 initials={getInitials(room.content.spaceName)}
-                imgSrc={room.avatar}
+                source={room.avatar}
                 shape="square"
                 size="md"
               />
-            ) : chatPartner ? (
-              isMatrixId(chatPartner.name) ? (
+            ) : firstChatPartner ? (
+              isMatrixId(firstChatPartner.name) ? (
                 <Avatar
                   label={roomName}
-                  imgSrc={chatPartner.avatar ?? ''}
-                  initials={getChatInitials(chatPartner.name)}
+                  source={firstChatPartner.avatar ?? ''}
+                  initials={getChatInitials(firstChatPartner.name)}
                   size="md"
                 />
               ) : (
                 <Avatar
                   label={roomName}
-                  imgSrc={chatPartner.avatar ?? ''}
-                  initials={getChatInitials(chatPartner.name)}
+                  source={firstChatPartner.avatar ?? ''}
+                  initials={getChatInitials(firstChatPartner.name)}
                   size="md"
                 />
               )

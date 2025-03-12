@@ -24,17 +24,12 @@ query taskById($id: UUID!) {
       id
       connectionStatusToMyself
       name
+      title
       avatar
       avatarBlurhash
-      topics {
-        id
-        title
-      }
+      topicsV2
     }
-    skills {
-      id
-      title
-    }
+    skillsV2
   }
 }
 

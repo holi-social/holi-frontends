@@ -85,7 +85,7 @@ export const SelectorCard = ({
       <View style={styles.textContainer}>
         <Text size={size === 'lg' ? 'lg' : 'md'}>{title}</Text>
         {description && variant === 'detailed' && (
-          <Text size="sm" colorOveride={styles.description.color}>
+          <Text size="sm" colorOverride={styles.description.color}>
             {description}
           </Text>
         )}

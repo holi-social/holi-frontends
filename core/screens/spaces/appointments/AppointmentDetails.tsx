@@ -338,7 +338,7 @@ const AppointmentDetails = () => {
           {loginState.isLoggedIn && appointment.creator && (
             <View style={styles.avatar}>
               <Avatar
-                imgSrc={appointment.creator.avatar}
+                source={appointment.creator.avatar}
                 imgPlaceholder={appointment.creator.avatarBlurhash}
                 label={appointment.creator.fullName || t('user.profileView.anonymous')}
                 initials={appointment.creator.avatarLabel || ''}

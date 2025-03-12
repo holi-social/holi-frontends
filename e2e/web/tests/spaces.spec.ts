@@ -372,10 +372,8 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
 }
 
 export const selectSomeTerms = async (page: Page, numberOfTermsToSelect = 3) => {
-  const locatorForAllTerms = page.locator(`${byTestId('space-terms-list')} >> [role="switch"]`)
-  const locatorForSelectedTerms = page.locator(
-    `${byTestId('space-terms-list')} >> [role="switch"][aria-checked="true"]`
-  )
+  const locatorForAllTerms = page.locator(`${byTestId('terms-list')} >> [role="switch"]`)
+  const locatorForSelectedTerms = page.locator(`${byTestId('terms-list')} >> [role="switch"][aria-checked="true"]`)
   const numberOfTotalTerms = await locatorForAllTerms.count()
   const numberOfInitiallySelectedTerms = await locatorForSelectedTerms.count()
 

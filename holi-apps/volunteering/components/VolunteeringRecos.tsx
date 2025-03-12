@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import type React from 'react'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
@@ -8,8 +8,8 @@ import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import VolunteeringRecosSlider from '@holi-apps/volunteering/components/VolunteeringRecosSlider'
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 import {
-  VolunteeringRecosQueryResponse,
-  VolunteeringRecosQueryVariables,
+  type VolunteeringRecosQueryResponse,
+  type VolunteeringRecosQueryVariables,
   volunteeringRecosQuery,
 } from '@holi-apps/volunteering/queries'
 
@@ -39,7 +39,7 @@ const VolunteeringRecos: React.FC<VolunteeringRecosProps> = ({ cardWidth }: Volu
     return null
   }
 
-  const { data: recos = [] } = data?.appVolunteering_engagementRecos || {}
+  const { data: recos = [] } = data?.appVolunteering_engagementRecosV2 || {}
   const recosToRender = recos.slice(0, ENGAGEMENT_PAGE_SIZE)
 
   return <VolunteeringRecosSlider recos={recosToRender} cardWidth={cardWidth} />

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # exit when any command fails
-set -ex
+set -e
 
 # enable full debug output in terraform, which is only written to logfiles
 export TF_LOG=TRACE

@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker'
-import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
-import { Skill, Topic } from '@holi/core/domain/shared/types'
+import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 export const makeEngagement = (
-  topics: Topic[],
-  skills: Skill[],
+  topics: string[],
+  skills: string[],
   { location = true, organizer = true }: { location?: boolean; organizer?: boolean } = {}
 ): VolunteeringEngagement & { __typename: 'AppVolunteering_Engagement' } => {
   return {
@@ -23,20 +22,20 @@ export const makeEngagement = (
     location: location ? faker.location.city() : undefined,
     latitude: location ? faker.location.latitude() : undefined,
     longitude: location ? faker.location.longitude() : undefined,
-    topics: topics.map((t) => t.slug),
-    skills: skills.map((t) => t.slug),
+    topicsV2: topics,
+    skillsV2: skills,
     __typename: 'AppVolunteering_Engagement',
   }
 }
 
 export const makeReco = (
-  topics: Topic[],
-  skills: Skill[],
+  topics: string[],
+  skills: string[],
   { location = true, organizer = true }: { location?: boolean; organizer?: boolean } = {}
 ): VolunteeringReco => ({
   engagement: {
     ...makeEngagement(topics, skills, { location, organizer }),
   },
-  matchedTopics: topics.map((t) => t.slug),
-  matchedSkills: skills.map((s) => s.slug),
+  matchedTopicsV2: topics,
+  matchedSkillsV2: skills,
 })

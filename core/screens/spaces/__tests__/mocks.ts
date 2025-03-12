@@ -1,6 +1,6 @@
-import { authenticatedUserV2Query, sdgsQuery, skillsQuery, topicsQuery } from '@holi/core/domain/shared/queries'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
-import { authenticatedUserV2, locationId, topics } from '@holi/core/screens/spaces/__tests__/testData'
+import { authenticatedUserV2, locationId } from '@holi/core/screens/spaces/__tests__/testData'
 import { mySpaceQuery } from '@holi/core/screens/spaces/discover/queries'
 import { DEFAULT_LOCATION_ID } from '@holi/core/screens/spaces/helpers/defaultFilters'
 
@@ -58,46 +58,6 @@ export const mySpacesWithEmptyResultMock = {
   result: {
     data: {
       mySpaces: [],
-    },
-  },
-}
-
-export const topicsMock = {
-  request: {
-    query: topicsQuery,
-  },
-  result: {
-    data: {
-      topics: {
-        totalResults: topics.length,
-        data: topics,
-      },
-    },
-  },
-}
-export const skillsMock = {
-  request: {
-    query: skillsQuery,
-  },
-  result: {
-    data: {
-      skills: {
-        totalResults: [],
-        data: [],
-      },
-    },
-  },
-}
-export const sdgsMock = {
-  request: {
-    query: sdgsQuery,
-  },
-  result: {
-    data: {
-      sdgs: {
-        totalResults: [],
-        data: [],
-      },
     },
   },
 }

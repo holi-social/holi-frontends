@@ -26,7 +26,7 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ recommendation, sty
     <View style={[styles.container, style]} testID="volunteering-card">
       <HoliLink label={t('volunteering:recommended.title')} href={'/volunteering'}>
         <View style={styles.header}>
-          <Text size="xs" colorOveride={theme.colors.gray300}>
+          <Text size="xs" colorOverride={theme.colors.gray300}>
             {t('volunteering:recommended.title')}
           </Text>
           <View style={styles.seeMore}>
@@ -41,14 +41,14 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ recommendation, sty
           <View>
             <VolunteeringLabels
               displayAll={false}
-              topicSlugs={recommendation.matchedTopics}
-              skillSlugs={recommendation.matchedSkills}
+              topicSlugs={recommendation.matchedTopicsV2}
+              skillSlugs={recommendation.matchedSkillsV2}
             />
           </View>
           <Text size="lg">{recommendation.engagement.title}</Text>
           <View style={styles.locationFooter}>
             <HoliIcon icon={MapPin2} size={16} color={theme.colors.gray300} />
-            <Text size="xs" colorOveride={theme.colors.gray300}>
+            <Text size="xs" colorOverride={theme.colors.gray300}>
               {recommendation.engagement.location}
             </Text>
           </View>

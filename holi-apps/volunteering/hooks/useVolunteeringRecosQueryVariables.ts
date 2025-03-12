@@ -1,45 +1,38 @@
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useDefaultTopics } from '@holi/core/domain/shared/hooks'
-import { Skill, Term, Topic } from '@holi/core/domain/shared/types'
 
-import { VolunteeringRecosQueryVariables } from '@holi-apps/volunteering/queries'
+import type { VolunteeringRecosQueryVariables } from '@holi-apps/volunteering/queries'
 
 interface VolunteeringRecosParameters {
-  topics?: Topic[]
-  skills?: Skill[]
+  topics?: string[]
+  skills?: string[]
   geolocationId?: string
   loading?: boolean
 }
 
 const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
   const { user, isLoading: userLoading } = useLoggedInUser()
-  const { defaultTopics, defaultTopicsLoading } = useDefaultTopics()
 
   if (!user && userLoading) {
     return {
       loading: true,
     }
   } else if (user) {
-    const hasInterests = !!user.interests?.length
-    const hasSkills = !!user.skills?.length
+    const hasInterests = !!user.interestsV2?.length
+    const hasSkills = !!user.skillsV2?.length
     if (hasInterests || hasSkills) {
       return {
-        topics: user.interests,
-        skills: user.skills,
+        // TODO(SF) possible to combine?
+        topics: user.interestsV2,
+        skills: user.skillsV2,
         geolocationId: user.geolocationId,
       }
     } else {
       return {
-        topics: defaultTopics,
-        loading: defaultTopicsLoading,
         geolocationId: user.geolocationId,
       }
     }
   } else {
-    return {
-      topics: defaultTopics,
-      loading: defaultTopicsLoading,
-    }
+    return {}
   }
 }
 
@@ -52,8 +45,8 @@ export const useVolunteeringRecosQueryVariables = (): {
   return {
     loading: parameters.loading,
     queryVariables: {
-      topics: parameters.topics?.map((term: Term) => term.slug),
-      skills: parameters.skills?.map((term: Term) => term.slug),
+      topics: parameters.topics,
+      skills: parameters.skills,
       geolocationId: parameters.geolocationId,
     },
   }

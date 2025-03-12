@@ -129,7 +129,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit, user, ...pr
   const header = (
     <View style={[mixins.container, styles.headerContainer]}>
       <Avatar
-        imgSrc={pickedAvatar?.uri || user?.avatar}
+        source={pickedAvatar?.uri || user?.avatar}
         imgPlaceholder={user.avatarBlurhash}
         label={user?.fullName || t('user.profileView.anonymous')}
         initials={user?.avatarLabel || ''}

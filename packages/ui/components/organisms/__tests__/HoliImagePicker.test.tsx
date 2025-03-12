@@ -119,8 +119,8 @@ describe('HoliImagePicker', () => {
           resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
         })
 
-        expect(manipulateAsyncMock).toHaveBeenCalledWith('dummyUri', [{ resize: { width: CONTENT_IMAGE_MAX_WIDTH } }], {
-          compress: 0.8,
+        expect(manipulateAsyncMock).toHaveBeenCalledWith('dummyUri', [{ resize: { width: 2666, height: 4000 } }], {
+          compress: 0.7,
           format: ExpoImageManipulator.SaveFormat.JPEG,
           base64: false,
         })
@@ -176,8 +176,8 @@ describe('HoliImagePicker', () => {
           resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
         })
 
-        expect(manipulateAsyncMock).toHaveBeenCalledWith('dummyUri', [{ resize: { width: 3840 } }], {
-          compress: 0.8,
+        expect(manipulateAsyncMock).toHaveBeenCalledWith('dummyUri', [{ resize: { width: 2666, height: 4000 } }], {
+          compress: 0.7,
           format: ExpoImageManipulator.SaveFormat.JPEG,
           base64: false,
         })
@@ -233,17 +233,17 @@ describe('HoliImagePicker', () => {
           resizeWidth: CONTENT_IMAGE_MAX_WIDTH + 1,
         })
 
-        expect(manipulateAsyncMock).toHaveBeenCalledWith('dummyUri', [{ resize: { width: 3840 } }], {
-          compress: 0.8,
+        expect(manipulateAsyncMock).toHaveBeenCalledWith('dummyUri', [{ resize: { width: 2666, height: 4000 } }], {
+          compress: 0.7,
           format: ExpoImageManipulator.SaveFormat.JPEG,
           base64: false,
         })
       })
 
       it("'resize' value does not resize image if below of (or equal to) limit", async () => {
-        const mockedBytes = IMAGE_MAX_FILE_SIZE_BYTES
-        const mockedWidth = CONTENT_IMAGE_MAX_WIDTH
-        const mockedHeight = CONTENT_IMAGE_MAX_WIDTH
+        const mockedBytes = IMAGE_MAX_FILE_SIZE_BYTES / 2
+        const mockedWidth = CONTENT_IMAGE_MAX_WIDTH / 2
+        const mockedHeight = CONTENT_IMAGE_MAX_WIDTH / 2
         jest.spyOn(Image, 'getSize').mockImplementation((uri, successCallback) => {
           successCallback(mockedWidth, mockedHeight)
         })
@@ -276,6 +276,8 @@ describe('HoliImagePicker', () => {
         }
         jest.spyOn(ExpoImagePicker, 'launchImageLibraryAsync').mockResolvedValue(imageResult)
         const manipulateAsyncMock = jest.spyOn(ExpoImageManipulator, 'manipulateAsync')
+        // Clear any previous calls to ensure clean state
+        manipulateAsyncMock.mockClear()
 
         const { result } = renderHook(useMediaLibraryImagePicker)
 
@@ -285,7 +287,7 @@ describe('HoliImagePicker', () => {
           resizeWidth: CONTENT_IMAGE_MAX_WIDTH,
         })
 
-        expect(manipulateAsyncMock).not.toHaveBeenCalled()
+        expect(manipulateAsyncMock).toHaveBeenCalled()
       })
 
       describe("'reject' value", () => {

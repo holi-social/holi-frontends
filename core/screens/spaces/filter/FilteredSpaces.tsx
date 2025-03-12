@@ -18,7 +18,6 @@ import FilteredSpacesHeading from '@holi/core/screens/spaces/filter/components/F
 import FilteredSpacesList from '@holi/core/screens/spaces/filter/components/FilteredSpacesList'
 import SpacesGrid from '@holi/core/screens/spaces/filter/components/SpacesGrid'
 import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
-import SpaceTermContextProvider from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -63,8 +62,8 @@ const FilteredSpaces = () => {
     queryPath: 'spaces',
     variables: {
       geolocation: geolocationDetails?.geolocation,
-      topicSlugs: topicSlugs,
-      skillSlugs: skillSlugs,
+      topicsV2: topicSlugs,
+      skillsV2: skillSlugs,
     },
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
   }
@@ -72,7 +71,7 @@ const FilteredSpaces = () => {
   const isLoading = loadingGeolocation || (locationId && !geolocationDetails)
 
   return (
-    <SpaceTermContextProvider>
+    <>
       <ScrollViewRefreshable style={styles.container} testID="filtered-spaces-container">
         <HoliContainer>
           <FilteredSpacesHeading locationId={locationId} topicSlugs={topicSlugs} skillSlugs={skillSlugs} />
@@ -109,7 +108,7 @@ const FilteredSpaces = () => {
           onSubmit={onSubmit}
         />
       </FilterModal>
-    </SpaceTermContextProvider>
+    </>
   )
 }
 

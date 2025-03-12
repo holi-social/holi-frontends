@@ -727,7 +727,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           }
                         }
                       >
-                        Communication skills
+                        skill.emergency-care
                       </Text>
                     </View>
                     <View
@@ -771,7 +771,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           }
                         }
                       >
-                        Creativity
+                        skill.event-planning
                       </Text>
                     </View>
                   </View>
@@ -1433,7 +1433,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           }
                         }
                       >
-                        Communication skills
+                        skill.emergency-care
                       </Text>
                     </View>
                     <View
@@ -1477,7 +1477,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
                           }
                         }
                       >
-                        Creativity
+                        skill.event-planning
                       </Text>
                     </View>
                   </View>

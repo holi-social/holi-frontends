@@ -134,7 +134,7 @@ const RecommendationDetailPage = () => {
                 <View style={styles.recommender}>
                   <Avatar
                     size="xs"
-                    imgSrc={creator.avatar}
+                    source={creator.avatar}
                     imgPlaceholder={creator.avatarBlurhash}
                     label={creator.fullName ?? ''}
                     initials={creator.avatarLabel || ''}

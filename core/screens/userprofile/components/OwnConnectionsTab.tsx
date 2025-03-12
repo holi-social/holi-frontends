@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { withProfiler } from '@sentry/react'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 
 import EmptyTab from '@holi/core/components/EmptyTab'
 import { logError } from '@holi/core/errors/helpers'
@@ -13,7 +13,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type Connection, myConnectionsQuery, type MyConnectionsResponse } from '@holi/core/domain/shared/queries'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
-import { StyleSheet, View, type FlexAlignType } from 'react-native'
+import { Platform, StyleSheet, View, type FlexAlignType } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
@@ -31,7 +31,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { chatServerName } from '@holi/core/helpers/config'
-import { getOrCreateRoom } from '@holi/chat/src/store'
+import { getOrCreatePrivateRoom } from '@holi/chat/src/store'
 import { useUserConnection } from '@holi/core/helpers'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
@@ -74,13 +74,20 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
   const identity = selectedConnection?.identity
 
   const { data, refetch } = useQuery<MyConnectionsResponse>(myConnectionsQuery, {
-    variables: { offset: 0, limit: 10 },
+    variables: { offset: 0, limit: 100 },
     onError: (error) =>
       logError(error, 'Failed to load connections for user', { location: 'ConnectionsTab.myConnectionsQuery' }),
   })
   useOnRefresh(refetch)
 
   const [connections, setConnections] = useState<Connection[]>(data?.myConnections.data ?? [])
+
+  useEffect(() => {
+    if (data?.myConnections.data) {
+      setConnections(data.myConnections.data)
+    }
+  }, [data])
+
   const animKey = !data ? 'loading' : data.myConnections.totalResults > 0 ? 'ready' : 'empty'
 
   const onSelectConnection = useCallback(
@@ -126,7 +133,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
     try {
       // TODO: the correct Matrix identity should come from Okuna
       const fullIdentity = '@' + identity + ':' + chatServerName
-      const { room_id } = await getOrCreateRoom([fullIdentity])
+      const { room_id } = await getOrCreatePrivateRoom([fullIdentity])
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -188,7 +195,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
                 <View style={styles.row}>
                   <Avatar
                     imgPlaceholder={connection.avatarBlurhash}
-                    imgSrc={connection.avatar}
+                    source={connection.avatar}
                     label={connection.fullName}
                     initials={connection.avatarLabel}
                   />
@@ -207,10 +214,11 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
         label={selectedConnection?.fullName || ''}
         onDismiss={connectionsModalHide}
         style={styles.modal}
+        headerStyle={styles.modalHeader}
       >
         <HoliContainer>
           <Avatar
-            imgSrc={selectedConnection?.avatar}
+            source={selectedConnection?.avatar}
             imgPlaceholder={selectedConnection?.avatarBlurhash}
             label={selectedConnection?.fullName}
             initials={selectedConnection?.avatarLabel || ''}
@@ -218,11 +226,11 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
           />
           <View style={styles.details}>
             <Text size="lg">{selectedConnection?.fullName}</Text>
-            {selectedConnection?.pronouns && (
-              <Text size="xs" colorOveride="grey">
-                {`(${selectedConnection?.pronouns || ''})`}
+            {selectedConnection?.pronouns ? (
+              <Text size="xs" colorOverride="grey">
+                ({selectedConnection.pronouns})
               </Text>
-            )}
+            ) : null}
             <HoliGap size="sm" />
             <HoliDivider />
             <HoliGap size="m" />
@@ -314,7 +322,10 @@ const getStyles = (theme: HoliTheme) =>
       gap: Spacing['xs'],
     },
     modal: {
-      padding: Spacing['lg'],
+      paddingBottom: Spacing['lg'],
+    },
+    modalHeader: {
+      paddingBottom: Platform.OS === 'ios' ? 0 : Spacing['xs'],
     },
     details: {
       marginTop: Spacing['xs'],

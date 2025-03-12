@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
 
 import { test } from '@holi/e2e-web/tests/testmaster'
 
@@ -13,7 +13,7 @@ export const createSpace = async (page: Page, initialName = 'e2e space name', in
     await inputSpaceNameAndGoal(page, initialName, initialGoal)
     await clickElementByTestId(page, 'holi-wizard-save-btn')
 
-    const termCheckboxes = page.locator(`${byTestId('space-terms-list')} >> [role="switch"]`)
+    const termCheckboxes = page.locator(`${byTestId('terms-list')} >> [role="switch"]`)
     await termCheckboxes.nth(0).click()
     await clickElementByTestId(page, 'holi-wizard-save-btn')
 

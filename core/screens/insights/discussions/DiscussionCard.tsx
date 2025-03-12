@@ -82,7 +82,7 @@ const DiscussionCard = ({ discussion, insightId }: DiscussionCardProps) => {
             <ResponsesContainer>
               <View style={styles.topComment}>
                 <Avatar
-                  imgSrc={topComment.creator.avatar}
+                  source={topComment.creator.avatar}
                   imgPlaceholder={topComment.creator.avatarBlurhash}
                   label={topComment.creator.fullName || t('user.profileView.anonymous')}
                   initials={topComment.creator.avatarLabel}

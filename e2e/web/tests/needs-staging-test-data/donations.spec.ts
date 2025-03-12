@@ -7,7 +7,6 @@ import {
   checkAccessibility,
   clickElementByTestId,
   clickFirstElement,
-  denyConsent,
   donationsRequestTimeout,
   isRunningLocally,
   locateElementByTestId,
@@ -20,7 +19,6 @@ test.describe('@Donations', () => {
     test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
     // prepare
     await page.goto('/donations')
-    await denyConsent(page)
 
     await testProjectListAndPagination(page)
     await withSSR(browser, page.url(), testDisplaysProjectList)

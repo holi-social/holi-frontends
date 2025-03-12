@@ -57,7 +57,7 @@ export const ChipAction = ({
     >
       {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
       {children && (
-        <Text size={chipSizeToTextSize[size]} colorOveride={styles.text.color} selectable={false}>
+        <Text size={chipSizeToTextSize[size]} colorOverride={styles.text.color} selectable={false}>
           {children}
         </Text>
       )}

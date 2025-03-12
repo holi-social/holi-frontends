@@ -50,7 +50,7 @@ const HoliUserCard: React.FC<HoliUserCardProps> = ({
     <>
       <View {...accessibilityProps} style={[styles.cardContainer, style]} testID={testID || 'user-card'}>
         <Avatar
-          imgSrc={avatar}
+          source={avatar}
           imgPlaceholder={avatarBlurhash}
           label={fullName || t('user.profileView.anonymous')}
           initials={avatarLabel}

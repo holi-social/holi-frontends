@@ -18,7 +18,7 @@ const SpaceAvatar = ({ space, size, testID }: SpaceAvatarProps) => {
   return (
     <Avatar
       testID={testID ?? 'space-avatar'}
-      imgSrc={space?.avatar}
+      source={space?.avatar}
       imgPlaceholder={space?.avatarBlurhash}
       label={space?.title ?? ''}
       initials={space?.title ?? ''}

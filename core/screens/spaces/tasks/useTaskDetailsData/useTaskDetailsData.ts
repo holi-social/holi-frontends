@@ -9,6 +9,7 @@ import { CalendarEvent, MapPin2, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useRef } from 'react'
+import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -21,6 +22,8 @@ export type UseTaskDetailsData = {
   spaceName?: string
   isOwner?: boolean
   refetch(): Promise<void>
+  spaceId?: string
+  spaceTitle?: string
 }
 
 const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
@@ -30,7 +33,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { displayError } = useErrorHandling()
   const { replaceRoute } = useRouting()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [taskId] = useUUIDParam('taskId')
   const loginState = useLoggedInUser()
   const { data, loading, refetch } = useTaskByIdQuery({
@@ -54,17 +57,17 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
   const isOwner = loginState.isLoggedIn && isAdmin && loginState.user.id === data?.taskById?.creator.id
 
   const skills =
-    data?.taskById?.skills.map<DetailsScreenChips>((skill) => {
+    data?.taskById?.skillsV2.map<DetailsScreenChips>((skill) => {
       return {
-        title: skill.title,
+        title: t(`skill.${skill}`),
         color: 'blue',
       }
     }) || []
 
   const topics =
-    data?.taskById?.space?.topics?.map<DetailsScreenChips>((topic) => {
+    data?.taskById?.space?.topicsV2?.map<DetailsScreenChips>((topic) => {
       return {
-        title: topic.title,
+        title: t(`topic.${topic}`),
         color: 'green',
       }
     }) || []
@@ -100,6 +103,8 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
 
   const infoList = [locationType, slots, regularity].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
 
+  const formattedDate = getFormattedDate(data?.taskById?.created, i18n.language)
+
   return {
     spaceName: data?.taskById?.space?.name,
     refetch: async () => {
@@ -123,20 +128,22 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
         uri: data?.taskById?.thumbnail,
       },
       author: {
-        topTitle: `${t('postedOnHoli')} ∙ ${new Date(data?.taskById?.created).toLocaleDateString('en')}`,
+        topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.name || data?.taskById?.name || '??',
         subtitle: data?.taskById?.creator?.fullName,
         mainAvatar: {
-          imgSrc: data?.taskById?.space?.avatar,
+          source: data?.taskById?.space?.avatar,
           initials: data?.taskById?.space?.name || data?.taskById?.name || '??',
         },
         secondaryAvatar: data?.taskById?.creator?.avatar
           ? {
-              imgSrc: data?.taskById?.creator?.avatar,
+              source: data?.taskById?.creator?.avatar,
               initials: data?.taskById?.creator?.fullName || data?.taskById?.name || '??',
             }
           : undefined,
       },
     },
+    spaceId: data?.taskById?.space?.id,
+    spaceTitle: data?.taskById?.space?.title,
   }
 }

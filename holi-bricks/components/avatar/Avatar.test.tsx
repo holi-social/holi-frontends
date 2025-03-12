@@ -7,7 +7,7 @@ import { Avatar } from './Avatar'
 
 describe('Avatar Component', () => {
   it('should render an image when image is provided', () => {
-    render(<Avatar initials="LK" label="Avatar" imgSrc={'http://localhost/avatar.jpg'} />)
+    render(<Avatar initials="LK" label="Avatar" source={'http://localhost/avatar.jpg'} />)
     const image = screen.getByRole('img', { name: /Avatar/i })
     expect(image).toBeOnTheScreen()
   })
@@ -25,7 +25,7 @@ describe('Avatar Component', () => {
   })
 
   it('should call handleImageError when the image fails to load', () => {
-    render(<Avatar label="Image" initials="LK" imgSrc={'https://localhost/invalid.jpg'} />)
+    render(<Avatar label="Image" initials="LK" source={'https://localhost/invalid.jpg'} />)
     const image = screen.getByRole('img')
     fireEvent(image, 'onError', {
       nativeEvent: {

@@ -186,7 +186,7 @@ const CommentView = ({
               >
                 {!!loggedInUser && (
                   <Avatar
-                    imgSrc={loggedInUser.avatar}
+                    source={loggedInUser.avatar}
                     imgPlaceholder={loggedInUser.avatarBlurhash}
                     label={loggedInUser.fullName ?? ''}
                     initials={loggedInUser.avatarLabel}

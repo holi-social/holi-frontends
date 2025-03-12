@@ -1,4 +1,4 @@
-import { getOrCreateRoom } from '@holi/chat/src/store'
+import { getOrCreatePrivateRoom } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
@@ -37,7 +37,7 @@ const ButtonWrapper = ({ spaceIdOrName, drawerButtonLabel }: ButtonWrapperProps)
   const { openSignupModal } = useSignupModal()
   const { openToast } = useToast()
   const { navigate } = useRouting()
-  const { representativeIdentity } = useRepresentative(spaceIdOrName)
+  const { representative } = useRepresentative(spaceIdOrName)
   const { t } = useTranslation()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -45,7 +45,7 @@ const ButtonWrapper = ({ spaceIdOrName, drawerButtonLabel }: ButtonWrapperProps)
   async function openChatRoom(chatPartnerIdentity: string) {
     try {
       const chatPartnerMatrixId = '@' + chatPartnerIdentity + ':' + chatServerName
-      const { room_id } = await getOrCreateRoom([chatPartnerMatrixId])
+      const { room_id } = await getOrCreatePrivateRoom([chatPartnerMatrixId])
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -79,7 +79,7 @@ const ButtonWrapper = ({ spaceIdOrName, drawerButtonLabel }: ButtonWrapperProps)
       return
     }
 
-    if (!representativeIdentity) {
+    if (!representative?.identity) {
       logError(
         new HoliError('Can not create a chat without a space representatives identity'),
         'Failed to start chat',
@@ -92,7 +92,7 @@ const ButtonWrapper = ({ spaceIdOrName, drawerButtonLabel }: ButtonWrapperProps)
     }
 
     try {
-      await openChatRoom(representativeIdentity)
+      await openChatRoom(representative.identity)
     } finally {
       setIsLoading(false)
     }
@@ -100,7 +100,7 @@ const ButtonWrapper = ({ spaceIdOrName, drawerButtonLabel }: ButtonWrapperProps)
 
   return (
     <ButtonTracked
-      trackingEvent={TrackingEvent.TaskContactOrganization.startedConversation}
+      trackingEvent={TrackingEvent.TaskContactOrganization.startedConversationFromTask}
       loading={isLoading}
       disabled={isLoading}
       onPress={start}
@@ -124,7 +124,7 @@ export const StartSpaceChatButton = ({
     <HoliActionDrawer.Drawer
       renderCustomButton={(onPress, testID) => (
         <ButtonTracked
-          trackingEvent={TrackingEvent.TaskContactOrganization.contactOrganization}
+          trackingEvent={TrackingEvent.TaskContactOrganization.contactedOrganization}
           onPress={onPress}
           variant="primary"
           size="lg"

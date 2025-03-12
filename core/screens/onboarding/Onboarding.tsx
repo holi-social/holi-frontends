@@ -12,7 +12,6 @@ import HoliKeyboardSafeAreaView from '@holi/ui/components/organisms/HoliKeyboard
 import { HoliStepper, type StepperButtonType } from '@holi/ui/components/organisms/HoliStepperV2'
 import { Spacing, mono } from 'holi-bricks/tokens'
 
-import { useSkills, useTopics } from '@holi/core/domain/shared/hooks'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { getRouteForContentType } from './helpers/getRouteForContentType'
@@ -45,22 +44,11 @@ const Onboarding = () => {
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
   const onboardingState = useOnboardingState()
   const { track } = useTracking()
-  const { topics } = useTopics()
-  const { skills } = useSkills()
   const { isLoggedIn } = useLoggedInUser()
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
-  const {
-    userData,
-    updateContent,
-    updateLocation,
-    updateInterests,
-    updateSkills,
-    interestsSearchProps,
-    skillsSearchProps,
-    clearInterests,
-    clearSkills,
-  } = useUserData()
+  const { userData, updateContent, updateLocation, updateInterests, updateSkills, clearInterests, clearSkills } =
+    useUserData()
 
   const routeForSelectedContentType = getRouteForContentType(userData.content)
   const redirect = useRedirect(routeForSelectedContentType)
@@ -92,9 +80,6 @@ const Onboarding = () => {
     }
   }, [breakOnboarding, isLoggedIn, onboardingState])
 
-  const topicById = (id: string) => topics.find((topic) => topic.id === id)
-  const skillById = (id: string) => skills.find((skill) => skill.id === id)
-
   const clearSelection = (key: OnboardingStepKey) => {
     switch (key) {
       case 'CONTENT_SELECTION':
@@ -121,13 +106,11 @@ const Onboarding = () => {
         break
       }
       case 'INTERESTS_SELECTION': {
-        const selectedInterests = userData.interests ? userData.interests.map((id) => topicById(id)?.slug) : []
-        track(OnboardingStepCompleted('interestsSelection', selectedInterests as string[], buttonPressed))
+        track(OnboardingStepCompleted('interestsSelection', userData.interests, buttonPressed))
         break
       }
       case 'SKILLS_SELECTION': {
-        const selectedSkills = userData.skills ? userData.skills.map((id) => skillById(id)?.slug) : []
-        track(OnboardingStepCompleted('skillsSelection', selectedSkills as string[], buttonPressed))
+        track(OnboardingStepCompleted('skillsSelection', userData.skills, buttonPressed))
         break
       }
     }
@@ -172,7 +155,6 @@ const Onboarding = () => {
               selectedChipIds={userData.interests}
               onSelect={updateInterests}
               testID="onboarding-interests-selection"
-              {...interestsSearchProps}
             />
           </View>
         )
@@ -184,7 +166,6 @@ const Onboarding = () => {
               selectedChipIds={userData.skills}
               onSelect={updateSkills}
               testID="onboarding-skills-selection"
-              {...skillsSearchProps}
             />
           </View>
         )

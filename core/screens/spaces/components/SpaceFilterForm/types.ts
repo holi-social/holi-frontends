@@ -1,4 +1,4 @@
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 
 export interface SpaceFilter {
   location?: GeolocationSuggestion

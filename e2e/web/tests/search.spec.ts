@@ -1,11 +1,9 @@
-import { byTestId, checkAccessibility, clickElementByTestId, denyConsent, locateElementByTestId } from './helpers'
+import { byTestId, checkAccessibility, clickElementByTestId, locateElementByTestId } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@Search', () => {
   test('user journey', async ({ page }) => {
     await page.goto('/search')
-
-    await denyConsent(page)
 
     const oldSearch = await locateElementByTestId(page, 'search-content')
     const oldSearchVisible = await oldSearch.isVisible()

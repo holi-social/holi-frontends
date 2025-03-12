@@ -48,7 +48,7 @@ const RoomMembershipBadge = ({ user, member, message, testID }: RoomMembershipBa
               <HoliBox padding={[0, 6, 0, 0]}>
                 <Avatar
                   imgPlaceholder={user?.avatarBlurhash}
-                  imgSrc={member?.avatar}
+                  source={member?.avatar}
                   label={name}
                   initials={getChatInitials(member?.name)}
                   size="xs"

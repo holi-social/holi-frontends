@@ -1,12 +1,11 @@
-import React, { ReactNode, useContext } from 'react'
+import React, { type ReactNode } from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import GenericPostCard from '@holi/core/screens/individualPosts/components/GenericPostCard'
-import { FeedPost } from '@holi/core/screens/individualPosts/types'
-import { Post } from '@holi/core/screens/posts/types'
-import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
+import type { FeedPost } from '@holi/core/screens/individualPosts/types'
+import type { Post } from '@holi/core/screens/posts/types'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
@@ -29,7 +28,6 @@ export const simpleColumnSortingByIndex = <T,>(posts: readonly T[], numberOfColu
 const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResultsProps) => {
   const { data, loading, totalResults } = usePaginationContext<FeedPost | Post>()
   const numberOfColumns = useBreakpointMatcher() || 1
-  const { topics: allTopics } = useContext(SpaceTermContext)
 
   if (totalResults == 0) return emptyMessage
 
@@ -46,12 +44,7 @@ const PostsListResults = ({ emptyMessage, showVisibilityBadge }: PostsListResult
             <View key={index} style={styles.column}>
               {column.map((p) => (
                 <HoliTransition.FadeDown key={p.id} visible index={index}>
-                  <GenericPostCard
-                    key={p.id}
-                    post={p}
-                    showVisibilityBadge={showVisibilityBadge}
-                    allTopics={allTopics}
-                  />
+                  <GenericPostCard key={p.id} post={p} showVisibilityBadge={showVisibilityBadge} />
                 </HoliTransition.FadeDown>
               ))}
             </View>

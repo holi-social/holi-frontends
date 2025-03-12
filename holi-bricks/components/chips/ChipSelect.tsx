@@ -24,7 +24,7 @@ type ChipSelectProps = AccessibilityProps & {
   disabled?: boolean
   selectedColor?: Color
   size?: ChipSelectSize
-  avatar?: Pick<AvatarProps, 'initials' | 'label' | 'imgSrc'>
+  avatar?: Pick<AvatarProps, 'initials' | 'label' | 'source'>
   testID?: string
 }
 
@@ -66,7 +66,7 @@ export const ChipSelect = ({
         </View>
       )}
       {children && (
-        <Text size={chipSizeToTextSize[size]} colorOveride={theme.components.chipSelect.text} selectable={false}>
+        <Text size={chipSizeToTextSize[size]} colorOverride={theme.components.chipSelect.text} selectable={false}>
           {children}
         </Text>
       )}

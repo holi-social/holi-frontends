@@ -165,26 +165,23 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
           }
         >
           <Image
+            accessibilityLabel="Some Body"
             accessibilityRole="image"
-            accessible={true}
+            accessible={false}
+            alt="Some Body"
             aria-label="Some Body"
             contentFit="cover"
             onError={[Function]}
             placeholder=""
-            role="img"
-            source={
-              {
-                "height": 40,
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                "width": 40,
-              }
-            }
+            role="image"
+            source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
             style={
-              {
-                "aspectRatio": 1,
-                "height": undefined,
-                "width": "100%",
-              }
+              [
+                {
+                  "height": 40,
+                  "width": 40,
+                },
+              ]
             }
           />
         </View>
@@ -466,26 +463,23 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
           }
         >
           <Image
+            accessibilityLabel="Some Body"
             accessibilityRole="image"
-            accessible={true}
+            accessible={false}
+            alt="Some Body"
             aria-label="Some Body"
             contentFit="cover"
             onError={[Function]}
             placeholder=""
-            role="img"
-            source={
-              {
-                "height": 40,
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                "width": 40,
-              }
-            }
+            role="image"
+            source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
             style={
-              {
-                "aspectRatio": 1,
-                "height": undefined,
-                "width": "100%",
-              }
+              [
+                {
+                  "height": 40,
+                  "width": 40,
+                },
+              ]
             }
           />
         </View>
@@ -767,26 +761,23 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
           }
         >
           <Image
+            accessibilityLabel="Some Body"
             accessibilityRole="image"
-            accessible={true}
+            accessible={false}
+            alt="Some Body"
             aria-label="Some Body"
             contentFit="cover"
             onError={[Function]}
             placeholder=""
-            role="img"
-            source={
-              {
-                "height": 40,
-                "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg",
-                "width": 40,
-              }
-            }
+            role="image"
+            source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
             style={
-              {
-                "aspectRatio": 1,
-                "height": undefined,
-                "width": "100%",
-              }
+              [
+                {
+                  "height": 40,
+                  "width": 40,
+                },
+              ]
             }
           />
         </View>

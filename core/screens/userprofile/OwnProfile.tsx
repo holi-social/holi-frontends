@@ -6,19 +6,17 @@ import { Platform, ScrollView, useWindowDimensions } from 'react-native'
 
 import LoginProtection from '@holi/core/auth/components/LoginProtection'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { authenticatedUserV2Query, sdgsQuery, skillsQuery } from '@holi/core/domain/shared/queries'
+import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
 import { useToastForNotAvailableFeature } from '@holi/core/helpers'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import { UserChipTypes } from '@holi/core/helpers/useUserChips'
 import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import OwnProfileView, { type EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
-import UserChipLoader from '@holi/core/screens/userprofile/components/UserChipLoader'
+import { UserSDGsChipLoader } from '@holi/core/screens/userprofile/components/UserSDGsChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
-import { interestsQuery } from '@holi/core/screens/userprofile/queries'
 import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
 import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
@@ -29,6 +27,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
+import { UserTermsForm } from '@holi/core/screens/userprofile/components/UserTermsForm'
 
 const OwnProfile = () => {
   const { track } = useTracking()
@@ -152,32 +151,9 @@ const OwnProfile = () => {
                   {editMode === 'engagementLevel' && (
                     <UserEngagementLevelForm user={user} onCancel={closeModal} onSubmit={onSubmit} />
                   )}
-                  {editMode === 'interests' && (
-                    <UserChipLoader
-                      user={user}
-                      onSubmit={onSubmit}
-                      keyInUserObject={UserChipTypes.INTERESTS}
-                      queryToUse={interestsQuery}
-                      color="green"
-                    />
-                  )}
-                  {editMode === 'skills' && (
-                    <UserChipLoader
-                      user={user}
-                      onSubmit={onSubmit}
-                      keyInUserObject={UserChipTypes.SKILLS}
-                      queryToUse={skillsQuery}
-                      color="blue"
-                    />
-                  )}
-                  {editMode === 'sdgs' && (
-                    <UserChipLoader
-                      user={user}
-                      onSubmit={onSubmit}
-                      keyInUserObject={UserChipTypes.SDGS}
-                      queryToUse={sdgsQuery}
-                    />
-                  )}
+                  {editMode === 'interests' && <UserTermsForm user={user} onSubmit={onSubmit} termType="topic" />}
+                  {editMode === 'skills' && <UserTermsForm user={user} onSubmit={onSubmit} termType="skill" />}
+                  {editMode === 'sdgs' && <UserSDGsChipLoader user={user} onSubmit={onSubmit} />}
                 </HoliKeyboardSaveView>
               </HoliModal>
             )}

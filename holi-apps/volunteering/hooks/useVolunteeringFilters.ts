@@ -1,9 +1,9 @@
-import { ApolloError } from '@apollo/client'
+import type { ApolloError } from '@apollo/client'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import createParamHooks, {
   arrayParamConfig,
@@ -11,7 +11,8 @@ import createParamHooks, {
   webReplaceQueryConfig,
 } from '@holi/core/navigation/hooks/useParam'
 
-import { VolunteeringFilterParams, VolunteeringFilters } from '@holi-apps/volunteering/types'
+import type { VolunteeringFilterParams, VolunteeringFilters } from '@holi-apps/volunteering/types'
+import { slugsToSkillsV2, slugsToTopicsV2 } from '@holi/core/domain/shared/types'
 
 interface FilterHook {
   filters: VolunteeringFilters
@@ -61,8 +62,10 @@ const useGeolocation = (locationId?: string) => {
 }
 
 const useDiscoveryV1Filters = (): FilterHook => {
-  const [topics] = useParam('topic', arrayParamConfig)
-  const [skills] = useParam('skill', arrayParamConfig)
+  const [topicParams] = useParam('topic', arrayParamConfig)
+  const [skillParams] = useParam('skill', arrayParamConfig)
+  const topics = slugsToTopicsV2(topicParams)
+  const skills = slugsToSkillsV2(skillParams)
   const [geolocationId] = useParam('geolocationId', singleParamConfig)
   const updateParams = useUpdateParams(webReplaceQueryConfig)
   const { geolocationSelection, ...geolocationProps } = useGeolocation(geolocationId)

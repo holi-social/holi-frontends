@@ -1,16 +1,13 @@
 import { ChipLabel } from 'holi-bricks/components/chips'
 import type React from 'react'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { Image as ReactNativeImage } from 'react-native'
 
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
-import type { Skill } from '@holi/core/domain/shared/types'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import SpaceTermsInput from '@holi/core/screens/spaces/components/SpaceInputs/SpaceTermsInput'
-import { SpaceTermContext } from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import {
   LOCATION_TYPE_OPTIONS,
   REGULARITY_OPTIONS,
@@ -31,12 +28,13 @@ import HoliModalSelect, { type HoliModalSelectOption } from '@holi/ui/components
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Button } from 'holi-bricks/components/button'
+import { TermsInput } from '@holi/core/components/TermsInput'
 
 export interface TaskInputFormProps {
   name: string
   description: string
   contactEmail: string
-  skills: Skill[]
+  skills: string[]
   slotsAvailable?: number
   visibility?: HoliModalSelectOption
   locationType?: HoliModalSelectOption
@@ -55,7 +53,7 @@ export interface TaskInputFormProps {
   onChangeContactEmail: (_: string) => void
   onChangeSlotsAvailable: (_: number) => void
   onChangeThumbnail: (_: HoliImageInfo) => void
-  onChangeSkills: (_: Skill[]) => void
+  onChangeSkills: (_: string[]) => void
   onChangeGeolocation: (_: GeolocationPoint) => void
   onChangeContactPhone: (_: string) => void
   onChangeSelectedLocation: (_?: GeolocationSuggestion) => void
@@ -105,7 +103,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   const { show: showLocationType, hide: hideLocationType, visible: visibleLocationType } = useModalState()
 
   const { t } = useTranslation()
-  const { skills: allSkills } = useContext(SpaceTermContext)
   const { height: deviceHeight } = useWindowDimensions()
   const { theme } = useTheme()
   const { colors } = theme
@@ -279,9 +276,9 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           <HoliText style={styles.skillsDescription}>{t('spaces.input.task.section.skills.description')}</HoliText>
           {!!skills?.length && (
             <View style={styles.listContainer}>
-              {skills.map((skill, index) => (
-                <ChipLabel key={`skill_${index}`} color="blue">
-                  {`${skill.title}`}
+              {skills.map((skill) => (
+                <ChipLabel key={skill} color="blue">
+                  {t(`skill.${skill}`)}
                 </ChipLabel>
               ))}
             </View>
@@ -388,7 +385,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         shown={skillsFormVisibile}
         onDismiss={hideSkillsForm}
         testID="task-skills-modal"
-        label={t('spaces.input.task.skills')}
+        label={t('spaces.input.task.section.skills')}
         autoHeight={false}
         // Smaller devices use the whole screen and
         // larger ones should have more space above for clicking the backdrop pane
@@ -402,13 +399,13 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
             style={[styles.modalWrapper, mixins.container]}
             testID="create-task-skills-modal-wrapper"
           >
-            <SpaceTermsInput
+            <TermsInput
               title={t('spaces.input.task.section.skills')}
               description={t('spaces.input.task.section.skills.description')}
               searchPlaceholder={t('spaces.input.task.section.skills.search')}
               selected={skills}
               onSelect={onChangeSkills}
-              terms={allSkills}
+              termType="skill"
             />
           </HoliModalContentWrapper>
         </HoliKeyboardSaveView>

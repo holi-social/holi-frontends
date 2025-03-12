@@ -21,7 +21,7 @@ const StartDiscussion = () => {
             initials={user.avatarLabel}
             imgPlaceholder={user.avatarBlurhash}
             label={user.fullName || t('user.profileView.anonymous')}
-            imgSrc={user.avatar}
+            source={user.avatar}
           />
         )}
         <HoliText color="gray300" bold size="small">

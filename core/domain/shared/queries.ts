@@ -10,40 +10,19 @@ export const sdgsQuery = gql`
       data {
         id
         title
+        slug
+        number
       }
     }
   }
 `
 
-export const skillsQuery = gql`
-  query Skills {
-    skills {
-      data {
-        id
-        title
-        slug
-      }
-    }
-  }
-`
-
-export const topicsQuery = gql`
-  query Topics {
-    topics {
-      data {
-        id
-        title
-        slug
-        isDiscoverSpacesDefault
-      }
-    }
-  }
-`
 // This fragment is used in a lot of places throughout the app
 // Do NOT add anymore fields here that are not required for HoliAvatar
 export const UserAvatarFragment = gql`
   fragment UserAvatar on User {
     id
+    identity
     avatar
     avatarBlurhash
     avatarLabel
@@ -56,6 +35,7 @@ export const UserAvatarFragment = gql`
 export const FullUserAvatarFragment = gql`
   fragment FullUserAvatar on User {
     id
+    identity
     avatar
     avatarBlurhash
     avatarLabel
@@ -83,21 +63,13 @@ export const FullAuthenticatedUserFragment = gql`
     role
     geolocationId
     engagementLevel
-    interests {
-      id
-      title
-      slug
-    }
+    interestsV2
     sdgs {
       id
       title
       slug
     }
-    skills {
-      id
-      title
-      slug
-    }
+    skillsV2
     connectionStatusToMyself
     trackingConsentAnalytics
     trackingConsentPersonalization

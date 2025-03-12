@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import type { Skill } from '@holi/core/domain/shared/types'
 import { isMaliciousUrlError } from '@holi/core/errors/helpers'
 import { type TranslatedFieldErrors, useErrorHandling } from '@holi/core/errors/hooks'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
@@ -55,7 +54,7 @@ const CreateTask = () => {
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
-  const [skills, setSkills] = useState<Skill[]>([])
+  const [skills, setSkills] = useState<string[]>([])
   const [location, setLocation] = useState<string | undefined>('')
   const [geolocation, setGeolocation] = useState<GeolocationPoint | undefined>()
   const [contactPhone, setContactPhone] = useState<string | undefined>('')
@@ -102,7 +101,7 @@ const CreateTask = () => {
           contactEmail,
           slotsAvailable,
           thumbnail: thumbnail?.blob,
-          skills: skills.map((skill) => skill.id),
+          skillsV2: skills,
           location,
           geolocation,
           contactPhone,
@@ -137,6 +136,7 @@ const CreateTask = () => {
       locationType: locationType?.id,
       regularity: regularity?.id,
       slotsAvailable: slotsAvailable,
+      skillsV2: skills,
       ...(name ? { name } : {}),
       ...(description ? { description } : {}),
       ...(contactEmail ? { contactEmail } : {}),

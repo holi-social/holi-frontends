@@ -1,17 +1,17 @@
 import {
   EventType,
-  IEvent,
-  IRoomEvent,
-  IStateEvent,
-  MatrixClient,
-  MatrixEvent,
+  type IEvent,
+  type IRoomEvent,
+  type IStateEvent,
+  type MatrixClient,
+  type MatrixEvent,
   Preset,
   ReceiptType,
   Visibility,
 } from 'matrix-js-sdk'
 
-import ChatClient from '@holi/chat/src/client/ChatClient'
-import { ChatRoomEvent, MatrixId, MembershipStatus } from '@holi/chat/src/client/types'
+import type ChatClient from '@holi/chat/src/client/ChatClient'
+import { ChatRoomEvent, type MatrixId, MembershipStatus } from '@holi/chat/src/client/types'
 import {
   DM_ROOM_ID,
   createChatClient,
@@ -42,7 +42,7 @@ describe('ChatClient', () => {
 
       const isDM = true
 
-      const { room_id } = await client.createRoom(members, { isDirectMessage: isDM })
+      const { room_id } = await client.createRoom(members, { isDirectMessage: isDM, metadata: { type: 'private' } })
 
       expect(room_id).toEqual(DM_ROOM_ID)
       expect(mxClient.createRoom).toHaveBeenCalledTimes(1)
@@ -51,6 +51,9 @@ describe('ChatClient', () => {
         is_direct: isDM,
         preset: 'private_chat',
         visibility: 'private',
+        creation_content: {
+          type: 'private',
+        },
       })
     })
 
@@ -60,7 +63,7 @@ describe('ChatClient', () => {
       const isDirectMessage = false
       const name = '#general'
 
-      const { room_id } = await client.createRoom(members, { isDirectMessage, name })
+      const { room_id } = await client.createRoom(members, { isDirectMessage, name, metadata: { type: 'private' } })
       expect(room_id).toEqual(DM_ROOM_ID)
       expect(mxClient.createRoom).toHaveBeenCalledTimes(1)
       expect(mxClient.createRoom).toHaveBeenLastCalledWith({
@@ -69,6 +72,9 @@ describe('ChatClient', () => {
         preset: Preset.PrivateChat,
         visibility: Visibility.Private,
         name,
+        creation_content: {
+          type: 'private',
+        },
       })
     })
 
@@ -78,14 +84,16 @@ describe('ChatClient', () => {
       const members: string[] = []
       const isDirectMessage = true
 
-      expect(client.createRoom(members, { isDirectMessage })).rejects.toThrowError(HoliChatClientError)
+      expect(client.createRoom(members, { isDirectMessage, metadata: { type: 'private' } })).rejects.toThrowError(
+        HoliChatClientError
+      )
     })
   })
 
   describe('getOrCreateRoom() method', () => {
     describe('creates a new room if', () => {
       const checkIfANewRoomWasCreated = async () => {
-        await client.getOrCreateRoom(members, { isDirectMessage: true })
+        await client.getOrCreateRoom(members, { isDirectMessage: true, metadata: { type: 'private' } })
 
         expect(mxClient.createRoom).toHaveBeenCalled()
       }
@@ -126,10 +134,18 @@ describe('ChatClient', () => {
     it('finds an existing room and returns it.', async () => {
       const roomMemberMocks = members.map((userId) => createRoomMemberMock(userId))
       const roomId = 'testRoomId'
-      const roomMock = createRoomMock(roomId, { memberMocks: roomMemberMocks })
+      const createEvent = createMatrixEventMock(EventType.RoomCreate, roomId, { type: 'private' })
+      const roomMock = createRoomMock(roomId, {
+        memberMocks: roomMemberMocks,
+        timelineEvents: [],
+        stateEvents: [createEvent],
+      })
       mxClient.getRooms.mockReturnValue([roomMock])
 
-      const { room_id } = await client.getOrCreateRoom([members[0]], { isDirectMessage: true })
+      const { room_id } = await client.getOrCreateRoom([members[0]], {
+        isDirectMessage: true,
+        metadata: { type: 'private' },
+      })
       expect(room_id).toEqual(roomId)
       expect(mxClient.createRoom).not.toHaveBeenCalled()
     })

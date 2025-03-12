@@ -22,7 +22,7 @@ export const CreateTaskSchema = z.object({
   thumbnail: z.instanceof(Object).optional(),
   slotsAvailable: z.number(),
   slotsTaken: z.number().optional(),
-  skills: z.array(z.string()).optional(),
+  skillsV2: z.array(z.string()).optional(),
 })
 
 export type CreateTaskInput = z.infer<typeof CreateTaskSchema>
@@ -67,7 +67,7 @@ export const UpdateTaskSchema = z.object({
   thumbnail: z.instanceof(Object).optional(),
   slotsAvailable: z.number(),
   slotsTaken: z.number().optional(),
-  skills: z.array(z.string()).optional(),
+  skillsV2: z.array(z.string()).optional(),
 })
 
 export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>

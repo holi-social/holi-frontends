@@ -39,25 +39,22 @@ exports[`HoliUserCard renders correctly 1`] = `
     }
   >
     <Image
+      accessibilityLabel="Dima Rosmait"
       accessibilityRole="image"
-      accessible={true}
+      accessible={false}
+      alt="Dima Rosmait"
       aria-label="Dima Rosmait"
       contentFit="cover"
       onError={[Function]}
-      role="img"
-      source={
-        {
-          "height": 128,
-          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-          "width": 128,
-        }
-      }
+      role="image"
+      source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg"
       style={
-        {
-          "aspectRatio": 1,
-          "height": undefined,
-          "width": "100%",
-        }
+        [
+          {
+            "height": 128,
+            "width": 128,
+          },
+        ]
       }
     />
   </View>
@@ -159,25 +156,22 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
     }
   >
     <Image
+      accessibilityLabel="Dima Rosmait"
       accessibilityRole="image"
-      accessible={true}
+      accessible={false}
+      alt="Dima Rosmait"
       aria-label="Dima Rosmait"
       contentFit="cover"
       onError={[Function]}
-      role="img"
-      source={
-        {
-          "height": 128,
-          "uri": "https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg",
-          "width": 128,
-        }
-      }
+      role="image"
+      source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/https%3A%2F%2Fbilder.fernsehserien.de%2Fgfx%2Fpics%2F1200%2FDonald-Duck-2.jpg.jpg"
       style={
-        {
-          "aspectRatio": 1,
-          "height": undefined,
-          "width": "100%",
-        }
+        [
+          {
+            "height": 128,
+            "width": 128,
+          },
+        ]
       }
     />
   </View>

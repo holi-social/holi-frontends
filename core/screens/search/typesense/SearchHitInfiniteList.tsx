@@ -40,9 +40,12 @@ export function SearchHitInfiniteList() {
   const debouncedShowMore = useDebounce(() => showMore?.(), 100)
 
   const { track } = useTracking()
-  const { status, refresh } = useInstantSearch()
+  const { status, refresh, indexUiState } = useInstantSearch()
+  const selectedFacet = indexUiState?.refinementList?.type?.length && indexUiState.refinementList.type[0]
   const { styles } = useStyles(stylesheet)
-  const isLoading = status === 'loading' || status === 'stalled'
+  const displayedFacet = items.length && items[0].type
+  const oldResults = displayedFacet && displayedFacet !== selectedFacet
+  const isLoading = status === 'loading' || status === 'stalled' || oldResults
 
   const fullRefresh = useOnRefresh(refresh)
 
@@ -52,7 +55,7 @@ export function SearchHitInfiniteList() {
   // c) observing render state of FlatList (gets complex quickly, tricky to get right)
   const trackResultsViewed = useDebounce(() => {
     // practically, results are always defined (just to make type checker happy)
-    if (results !== undefined) {
+    if (results) {
       track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(results)))
     }
   }, 1000)
@@ -61,10 +64,10 @@ export function SearchHitInfiniteList() {
     trackResultsViewed()
   }, [items, trackResultsViewed])
 
-  // Hide results of empty query
+  // Hide results of empty query or wrong facet
   const isEmptyQuery = !results?.query || results?.query === '*'
-  const displayedItems = isEmptyQuery ? [] : items.length ? items : results?.hits
-  const itemHeight = items.length && items[0].type === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
+  const displayedItems = isEmptyQuery || oldResults ? [] : (items ?? [])
+  const itemHeight = selectedFacet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
 
   return (
     <FlashList
@@ -90,7 +93,7 @@ export function SearchHitInfiniteList() {
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
-        if (!isLastPage && !isEmptyQuery) {
+        if (!isLastPage && !isLoading) {
           debouncedShowMore()
         }
       }}

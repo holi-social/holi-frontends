@@ -13,12 +13,9 @@ export const FeedPostDetailsFragment = gql`
     id
     slug
     title
-    slug
     description
     visibility
-    topics {
-      id
-    }
+    topicsV2
     category {
       id
       title

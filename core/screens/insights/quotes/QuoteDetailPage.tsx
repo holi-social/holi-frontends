@@ -131,7 +131,7 @@ const QuoteDetailPage = () => {
               <View style={{ flexDirection: 'row', gap: Spacing.xxs }}>
                 <Avatar
                   size="xs"
-                  imgSrc={insight!.creator?.avatar || undefined} // eslint-disable-line @typescript-eslint/no-non-null-assertion
+                  source={insight!.creator?.avatar || undefined} // eslint-disable-line @typescript-eslint/no-non-null-assertion
                   imgPlaceholder={insight!.creator?.avatarBlurhash || undefined} // eslint-disable-line @typescript-eslint/no-non-null-assertion
                   label={insight!.creator?.fullName ?? ''} // eslint-disable-line @typescript-eslint/no-non-null-assertion
                   initials={insight!.creator?.avatarLabel ?? ''} // eslint-disable-line @typescript-eslint/no-non-null-assertion

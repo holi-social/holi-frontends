@@ -26,8 +26,8 @@ const createSpacesMock = (variables = {}) => ({
     query: spacesQuery,
     variables: {
       geolocation: undefined,
-      topicSlugs: [],
-      skillSlugs: [],
+      topicsV2: [],
+      skillsV2: [],
       limit: SPACES_PAGE_SIZE,
       offset: 0,
       ...variables,
@@ -46,8 +46,8 @@ const createSpacesMock = (variables = {}) => ({
 
 const spacesMock = createSpacesMock()
 const spacesByLocationMock = createSpacesMock({ geolocation: {} })
-const topicSlugs = ['topic1']
-const skillSlugs = ['skill1']
+const topicsV2 = ['human-rights']
+const skillsV2 = ['arts-crafts']
 
 const createSpacesPaginationMock = (offset = 0) => ({
   request: {
@@ -56,8 +56,8 @@ const createSpacesPaginationMock = (offset = 0) => ({
       limit: SPACES_PAGE_SIZE,
       offset,
       geolocation: undefined,
-      topicSlugs: [],
-      skillSlugs: [],
+      topicsV2: [],
+      skillsV2: [],
     },
   },
   result: {
@@ -76,8 +76,8 @@ const spacesNoResultsMock = {
     query: spacesQuery,
     variables: {
       geolocation: undefined,
-      topicSlugs: [],
-      skillSlugs: [],
+      topicsV2: [],
+      skillsV2: [],
       limit: SPACES_PAGE_SIZE,
       offset: 0,
     },
@@ -99,8 +99,8 @@ const spacesErrorMock = {
       limit: SPACES_PAGE_SIZE,
       offset: 0,
       geolocation: undefined,
-      topicSlugs: [],
-      skillSlugs: [],
+      topicsV2: [],
+      skillsV2: [],
     },
   },
   error: new HoliError('Test error', 'test-error'),
@@ -201,22 +201,24 @@ describe('FilteredSpaces', () => {
   })
 
   it('filters spaces by topic', async () => {
-    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ topicSlugs })], { topic: topicSlugs })
+    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ topicsV2 })], { topic: topicsV2 })
+
+    screen.debug()
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
   it('filters spaces by skills', async () => {
-    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ skillSlugs })], { skill: skillSlugs })
+    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ skillsV2 })], { skill: skillsV2 })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)
   })
 
   it('filters spaces by multiple filters', async () => {
-    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ geolocation: {}, topicSlugs, skillSlugs })], {
+    renderFilteredSpaces([locationDetailsMock, createSpacesMock({ geolocation: {}, topicsV2, skillsV2 })], {
       location,
-      topic: topicSlugs,
-      skill: skillSlugs,
+      topic: topicsV2,
+      skill: skillsV2,
     })
 
     expect((await screen.findAllByTestId('space-link')).length).toBe(spaces.length)

@@ -72,10 +72,10 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
           imageAspectRatio={1.75}
           hasBorder
         >
-          {!!insight.topic && (
+          {!!insight.topicV2 && (
             <View style={{ paddingBottom: 8 }}>
               <ChipLabel size="sm" color="green">
-                {insight.topic.title}
+                {t(`topic.${insight.topicV2}`)}
               </ChipLabel>
             </View>
           )}
@@ -90,7 +90,7 @@ const InsightPreviewBox: React.FC<PropsWithSkeleton<Props>> = ({ insight, loadin
                 <View style={styles.row}>
                   <Avatar
                     size="xs"
-                    imgSrc={insight.creator.avatar}
+                    source={insight.creator.avatar}
                     imgPlaceholder={insight.creator.avatarBlurhash}
                     label={insight.creator.fullName || t('user.profileView.anonymous')}
                     testID="insight-curator"

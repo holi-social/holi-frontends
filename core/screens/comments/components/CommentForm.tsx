@@ -253,7 +253,7 @@ const CommentForm = ({
           <View style={styles.inputContainer}>
             <View style={styles.avatarContainer}>
               <Avatar
-                imgSrc={user.avatar}
+                source={user.avatar}
                 imgPlaceholder={user.avatarBlurhash}
                 label={user.fullName || t('user.profileView.anonymous')}
                 size={parentComment ? 'xs' : 'sm'}

@@ -1,14 +1,24 @@
 import { type Browser, type BrowserContext, type Page, test as baseTest } from '@playwright/test'
 
-import { gotoWithRetries } from './helpers'
-import { denyConsent, withRandomUserSession } from './helpers'
-import { type User, deleteAuthenticatedAccount, signUp } from './helpers/api'
-import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
+import { OnboardingUserData } from '@holi/core/screens/onboarding/types'
+import { withRandomUserSession } from './helpers'
+import {
+  E2ETestSpaceResponse,
+  E2ETestSpaceTaskResponse,
+  type User,
+  createSpace,
+  createSpaceTask,
+  deleteAuthenticatedAccount,
+  signUp,
+} from './helpers/api'
 
 type Session = {
   page: Page
   user: User
-  //api: { createSpace: () => void }
+  api: {
+    createSpace: () => Promise<E2ETestSpaceResponse>
+    createSpaceTask: (spaceId: string) => Promise<E2ETestSpaceTaskResponse>
+  }
 }
 
 export class UserHandler {
@@ -58,29 +68,17 @@ export class SessionHandler {
     this.signInContexts.push(context)
 
     const newPage = await context.newPage()
-    //Introduced exception handling if first attempt to hit the server does not succeed
-    try {
-      // First attempt to navigate normally
-      await newPage.goto('/')
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(`Initial navigation to '/' failed: ${error.message}`) // eslint-disable-line no-console
-      } else {
-        console.error("Initial navigation to '/' failed with an unknown error.") // eslint-disable-line no-console
-      }
-
-      // If the initial attempt fails, fall back to retry logic
-      await gotoWithRetries(newPage, '/')
-    }
-    await denyConsent(newPage)
+    await newPage.goto('/')
 
     return {
       user,
+      // todo gregor: rename to newBrowserPage to communicate its not just a new tab based b/c newContext above
       page: newPage,
       // TODO: expand to enable setting up data for test runs, without having to drive the UI (slow)
-      // api: {
-      //   createSpace: () => {//make it so via GQL calls},
-      // },
+      api: {
+        createSpace: () => createSpace(context),
+        createSpaceTask: (spaceId: string) => createSpaceTask(context, spaceId),
+      },
     }
   }
 

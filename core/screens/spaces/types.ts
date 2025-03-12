@@ -1,4 +1,4 @@
-import type { SDG, Skill, Topic, User } from '@holi/core/domain/shared/types'
+import type { SDG, User } from '@holi/core/domain/shared/types'
 import type { AppointmentInput } from '@holi/core/screens/appointments/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
@@ -120,7 +120,7 @@ export interface Space {
   avatar?: string
   avatarBlurhash?: string
   tasks?: Task[]
-  topics?: Topic[]
+  topicsV2?: string[]
   sdgs?: SDG[]
   collaborationTools?: SpaceCollaborationTool[]
   posts?: Paged<Post>
@@ -155,14 +155,14 @@ export interface Task {
   location: string
   locationType: LocationType
   regularity: Regularity
-  skills: Skill[]
+  skillsV2: string[]
   visibility: VisibilityType
   contactEmail: string
   contactPhone?: string
   geolocation?: GeolocationPoint
   thumbnail?: string
   thumbnailBlurhash?: string
-  space?: Space
+  space: Space
 }
 
 export enum VisibilityType {

@@ -94,6 +94,9 @@ const ChallengesAppHome = () => {
       case 'video-submitted':
         setTimeout(() => showOptInModal(), 3000)
         break
+      case 'open-settings':
+        Linking.openSettings()
+        break
     }
   }
 

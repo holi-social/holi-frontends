@@ -82,6 +82,15 @@ default:
   resource_group: $CI_ENVIRONMENT_SLUG # never execute terraform in parallel on the same environment
   interruptible: false
 
+.web_smoketest:
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker/holi-docker/holi-k6-builder'
+  cache: [] # explicitly disable cache
+  script:
+    - UI_DOMAIN=$(cat "$UI_DOMAIN_PATH")
+    - terraform/environments/scripts/wait-for-ssl.sh "https://${UI_DOMAIN}"
+    - BASE_URL="https://${UI_DOMAIN}/api/health" k6 run smoketest/main.js
+    # TODO should/could we roll back the service to the last working revision on test failure?
+
 # end job templates
 
 # pipeline in chronological order
@@ -173,9 +182,9 @@ holi_bricks_publish:
 
 web_build_docker:
   needs: ['web_build']
-  image: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:27'
+  image: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:28'
   services:
-    - name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:27-dind'
+    - name: 'europe-north1-docker.pkg.dev/holi-shared/docker-hub-remote/docker:28-dind'
       alias: 'docker'
   dependencies:
     - web_build
@@ -211,6 +220,13 @@ web_review_deploy:
     url: https://$CI_ENVIRONMENT_SLUG.dev.holi.social
     on_stop: web_review_destroy
     auto_stop_in: 1 week
+  rules:
+    - !reference [.rules_web_review]
+    - !reference [.rule_templates, automatically_on_any_other]
+
+web_review_smoketest:
+  needs: ['web_review_deploy']
+  extends: .web_smoketest
   rules:
     - !reference [.rules_web_review]
     - !reference [.rule_templates, automatically_on_any_other]
@@ -252,6 +268,12 @@ web_staging_deploy:
   rules:
     - !reference [.rule_templates, automatically_on_staging]
 
+web_staging_smoketest:
+  needs: ['web_staging_deploy']
+  extends: .web_smoketest
+  rules:
+    - !reference [.rule_templates, automatically_on_staging]
+
 web_staging_e2e:
   extends: .web_e2e
   needs: ['web_staging_deploy']
@@ -275,10 +297,18 @@ web_release_candidate_deploy:
   rules:
     - !reference [.rule_templates, only_on_production_release]
   after_script: | # only wget is available in the terraform image
-    wget --header="Content-Type: application/json" \
-      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")'. has been updated to \"'"$CI_COMMIT_TITLE"'\". and is available and/or updated under:\nhttps://'"$(cat $UI_DOMAIN_PATH)"'\nIf the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a 'PR_END_OF_FILE_ERROR' in your browser.\nTo deploy this version to web production go to this Pipeline: '$CI_PIPELINE_URL'"}' \
-      --output-document - \
-      https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    if [ $CI_JOB_STATUS == 'success' ]; then
+      wget --header="Content-Type: application/json" \
+        --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The web environment for the release candidate \"'$CI_COMMIT_REF_SLUG'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")'. has been updated to \"'"$CI_COMMIT_TITLE"'\". and is available and/or updated under:\nhttps://'"$(cat $UI_DOMAIN_PATH)"'\nIf the environment was deployed for the first time, availability might take 30 to 60 minutes due to SSL certificate rollout. Meanwhile, you will see a 'PR_END_OF_FILE_ERROR' in your browser.\nTo deploy this version to web production go to this Pipeline: '$CI_PIPELINE_URL'"}' \
+        --output-document - \
+        https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    fi
+
+web_release_candidate_smoketest:
+  needs: ['web_release_candidate_deploy']
+  extends: .web_smoketest
+  rules:
+    - !reference [.rule_templates, only_on_production_release]
 
 web_release_candidate_destroy:
   extends: .web_destroy
@@ -292,7 +322,7 @@ web_release_candidate_destroy:
 
 web_release_deploy:
   extends: .web_deploy
-  needs: ['web_release_candidate_deploy']
+  needs: ['web_release_candidate_smoketest']
   allow_failure: false
   environment:
     name: web-production
@@ -303,7 +333,15 @@ web_release_deploy:
   rules:
     - !reference [.rule_templates, manually_on_production_release]
   after_script: | # only wget is available in the terraform image
-    wget --header="Content-Type: application/json" \
-      --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The production web environment has been manually released from \"'$CI_COMMIT_REF_SLUG'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")'. It has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://app.holi.social"}' \
-      --output-document - \
-      https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    if [ $CI_JOB_STATUS == 'success' ]; then
+      wget --header="Content-Type: application/json" \
+        --post-data='{"channel": "#release-status", "branch": "'$CI_COMMIT_REF_SLUG'", "text":"The production web environment has been manually released from \"'$CI_COMMIT_REF_SLUG'\" for release '$(git describe --tags --abbrev=0|sed "s|release/||")'. It has been updated to \"'"$CI_COMMIT_TITLE"'\" and is available and/or updated under https://app.holi.social"}' \
+        --output-document - \
+        https://projectholi.rocket.chat/hooks/$ROCKETCHAT_HOOK_RELEASE_NOTIFIER
+    fi
+
+web_release_smoketest:
+  needs: ['web_release_deploy']
+  extends: .web_smoketest
+  rules:
+    - !reference [.rule_templates, only_on_production_release]

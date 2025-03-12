@@ -1,5 +1,5 @@
 import { withProfiler } from '@sentry/react'
-import React, { memo, useContext, useEffect, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -19,9 +19,6 @@ import { HoliTransition } from '@holi/ui/components/atoms/HoliTransition'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useBreakpointMatcher } from '@holi/core/helpers/useBreakpointMatcher'
-import SpaceTermContextProvider, {
-  SpaceTermContext,
-} from '@holi/core/screens/spaces/providers/SpaceTermContextProvider'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
@@ -39,7 +36,6 @@ import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 import type { User } from '@holi/core/domain/shared/types'
-import type { Topic } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
@@ -49,7 +45,6 @@ const FeedListItem = memo(
     item,
     index,
     columnIndex,
-    allTopics,
     insightsCreators,
     onItemView,
     loadMoreRef,
@@ -59,7 +54,6 @@ const FeedListItem = memo(
     }
     index: number
     columnIndex: number
-    allTopics: readonly Topic[]
     insightsCreators: User[]
     onItemView: (index: number) => void
     loadMoreRef?: ((node?: Element | null | undefined) => void) | undefined
@@ -84,8 +78,8 @@ const FeedListItem = memo(
             `${index}-${columnIndex}`
           }
         >
-          {item.feedPost && <GenericPostCard key={item.feedPost.id} post={item.feedPost} allTopics={allTopics} />}
-          {item.spacePost && <GenericPostCard key={item.spacePost.id} post={item.spacePost} allTopics={allTopics} />}
+          {item.feedPost && <GenericPostCard key={item.feedPost.id} post={item.feedPost} />}
+          {item.spacePost && <GenericPostCard key={item.spacePost.id} post={item.spacePost} />}
           {item.insight && insightsCreators && (
             <InsightCard key={item.insight.id} insight={item.insight} creators={insightsCreators} />
           )}
@@ -113,7 +107,6 @@ const HomeFeed = () => {
   const { theme } = useTheme()
   const colors = useMemo(() => theme.colors, [theme])
   const numberOfColumns = useBreakpointMatcher() || 2
-  const { topics: allTopics } = useContext(SpaceTermContext)
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
@@ -217,7 +210,7 @@ const HomeFeed = () => {
   }
 
   return (
-    <SpaceTermContextProvider>
+    <>
       <GestureHandlerRootView style={{ backgroundColor: colors.white200, flex: 1 }} testID="home-feed-listing">
         <View style={styles.sections} testID="posts-list-results">
           <HoliContainer>
@@ -242,7 +235,6 @@ const HomeFeed = () => {
                               item={item}
                               index={numberOfColumns === 1 ? index : index * numberOfColumns + columnIndex}
                               columnIndex={columnIndex}
-                              allTopics={allTopics}
                               insightsCreators={insightsCreators}
                               onItemView={updateLastViewedIndex}
                               loadMoreRef={item.loader ? (columnIndex === 0 ? loadMoreRef1 : loadMoreRef2) : undefined}
@@ -261,7 +253,7 @@ const HomeFeed = () => {
       <ButtonFloatingWrapper>
         <CreatePostButton />
       </ButtonFloatingWrapper>
-    </SpaceTermContextProvider>
+    </>
   )
 }
 

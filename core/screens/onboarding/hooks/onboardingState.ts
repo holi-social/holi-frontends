@@ -66,7 +66,7 @@ export const useOnboardingInitialization = () => {
   useEffect(() => {
     if (loginState.isLoading) return
 
-    const accountCompleted = !!loginState.user?.identity && !!loginState.user?.firstName
+    const accountCompleted = /*!!loginState.user?.identity &&*/ !!loginState.user?.firstName
 
     const targetState = determineTargetState({
       isLoggedIn: loginState.isLoggedIn,

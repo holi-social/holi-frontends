@@ -9,7 +9,7 @@ import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFl
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import HoliMediaAuthorHeader from '@holi/core/components/HoliMediaAuthorHeader'
 import HoliMediaSpaceAuthorHeader from '@holi/core/components/HoliMediaSpaceAuthorHeader'
-import type { Term, User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import useDeletePost from '@holi/core/hooks/useDeletePost'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -43,12 +43,11 @@ import HoliTranslate from '@holi/core/components/HoliTranslate'
 type GenericPostCardProps = {
   post: FeedPost | Post
   showVisibilityBadge?: boolean
-  allTopics?: readonly Term[]
 }
 
 const NUMBER_OF_LINES = 3
 
-const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCardProps) => {
+const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) => {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -78,11 +77,8 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
 
   if (post.__typename === 'FeedPost') {
     const feedPost = post as FeedPost
-    const aggregatedTopics = allTopics?.filter((topic) =>
-      feedPost.topics?.some((selectedTopic) => selectedTopic.id === topic.id)
-    )
 
-    const showTopics = aggregatedTopics && aggregatedTopics?.length > 0
+    const showTopics = feedPost.topicsV2 && feedPost.topicsV2?.length > 0
     const showCategory = feedPost.category
     const showPills = showTopics || showCategory
 
@@ -134,10 +130,11 @@ const GenericPostCard = ({ post, showVisibilityBadge, allTopics }: GenericPostCa
                     {feedPost.category?.label}
                   </ChipLabel>
                 )}
-                {showTopics && (
-                  <ChipLabel size="sm" color="green">{`${aggregatedTopics[0]?.title} ${
-                    aggregatedTopics.length > 1 ? `+${aggregatedTopics.length - 1}` : ''
-                  }`}</ChipLabel>
+                {feedPost.topicsV2 && (
+                  <ChipLabel size="sm" color="green">
+                    {t(`topic.${feedPost.topicsV2[0]}`) +
+                      (feedPost.topicsV2.length > 1 ? ` +${feedPost.topicsV2.length - 1}` : '')}
+                  </ChipLabel>
                 )}
               </View>
             )}

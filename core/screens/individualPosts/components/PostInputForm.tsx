@@ -6,14 +6,13 @@ import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 
 import FormLayout from '@holi/core/components/FormLayout/FormLayout'
-import type { Term, User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { CategorySelectionModal } from '@holi/core/screens/individualPosts/components/CategorySelectionModal'
 import EditUploadedImages from '@holi/core/screens/individualPosts/components/EditUploadedImages'
 import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 import PostLocationCard from '@holi/core/screens/individualPosts/components/PostLocationCard'
-import PostTopics from '@holi/core/screens/individualPosts/components/PostTopics'
 import { SubmitPostBar } from '@holi/core/screens/individualPosts/components/SubmitPostBar'
 import {
   FEED_POST_DESCRIPTION_MAX_CHARACTERS,
@@ -36,6 +35,7 @@ import HoliRichTextInput from '@holi/ui/components/organisms/HoliRichTextInput'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
+import { TermsInput } from '@holi/core/components/TermsInput'
 
 // the title input doesn't allow line breaks but we need give it a maxNoOfCharacters={2} in order to avoid a horizontal scroll
 // this method disables any manual line breaks while the input still automatically breaks the line if it doesn't fit
@@ -56,14 +56,14 @@ export interface PostInputFormProps {
   currentImages?: FeedPostImage[]
   selectedVisibility: Visibility
   selectedCategoryId: string | null
-  selectedTopics?: Term[]
+  selectedTopics?: string[]
   selectedLocation?: GeolocationSuggestion
   onChangeTitle: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeSelectedVisibility: (_: Visibility) => void
   onChangeImages: (_: HoliImageInfo[]) => void
   onChangeCurrentImages?: (images: FeedPostImage[]) => void
-  onChangeSelectedTopics: (_: Term[]) => void
+  onChangeSelectedTopics: (_: string[]) => void
   onChangeSelectedCategoryId: (_: string) => void
   onChangeSelectedLocation: (_: GeolocationSuggestion | null) => void
   aspectRatio: ImageAspectRatio
@@ -326,7 +326,13 @@ const PostInputForm: React.FC<PostInputFormProps> = ({
           headlineText={t('individuals.post.input.topics.title')}
           testID="post-selectedTopics-input-content"
         >
-          <PostTopics onChangeSelectedTopics={onChangeSelectedTopics} selectedTopicsIds={selectedTopics || []} />
+          <TermsInput
+            termType="topic"
+            description={t('individuals.post.input.topics.description')}
+            searchPlaceholder={t('spaces.input.topics.search')}
+            selected={selectedTopics ?? []}
+            onSelect={onChangeSelectedTopics}
+          />
         </HoliModalContentWrapper>
       </HoliModal>
       <HoliModal

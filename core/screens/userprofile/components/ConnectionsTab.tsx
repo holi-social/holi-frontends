@@ -95,7 +95,7 @@ const ConnectionsTab = ({ userId, emptyText, emptyCallToAction }: ConnectionsTab
                 <View style={styles.row}>
                   <Avatar
                     imgPlaceholder={connection.avatarBlurhash}
-                    imgSrc={connection.avatar}
+                    source={connection.avatar}
                     label={connection.fullName}
                     initials={connection.avatarLabel}
                   />

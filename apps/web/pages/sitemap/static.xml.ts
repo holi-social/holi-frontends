@@ -1,15 +1,9 @@
-import { gql } from '@apollo/client/core'
 import type { NextPageContext } from 'next'
-import pino from 'pino'
-
-import { initializeWebApolloClient } from '@holi/api/graphql/client'
-import { Topic } from '@holi/api/graphql/graphql-codegen'
 import { defaultLocale } from '@holi/core/i18n/locales.cjs'
 import { generateSitemapUrlSet, getUrlPrefix } from '@holi/web/helpers/sitemap'
 import { paths as donationPaths } from '@holi/web/pages/donations'
 import { paths as volunteeringPaths } from '@holi/web/pages/volunteering'
-
-const logger = pino()
+import { ALL_TOPICS } from '@holi/core/domain/shared/types'
 
 type Path = string | { [key: string]: string }
 
@@ -24,24 +18,15 @@ const static_urls: Path[] = [
   '/profile',
 ]
 
-export const topicSlugsQuery = gql`
-  query Topics {
-    topics {
-      data {
-        slug
-      }
-    }
-  }
-`
 const createEntriesForPath = (locale: string, path: Path) =>
   typeof path === 'string' ? path : path[locale] || path[defaultLocale]
 
-const createSpaceTopicFilterPath = (topic: Topic) => `/spaces/filter?topic=${topic.slug}`
+const createSpaceTopicFilterPath = (topic: string) => `/spaces/filter?topic=${topic}`
 
-const createSitemapUrls = (locale: string = defaultLocale, topics: Topic[]) => {
+const createSitemapUrls = (locale: string = defaultLocale) => {
   return static_urls
     .map((path) => createEntriesForPath(locale, path))
-    .concat(topics.map((topic) => createEntriesForPath(locale, createSpaceTopicFilterPath(topic))))
+    .concat(ALL_TOPICS.map((topic) => createEntriesForPath(locale, createSpaceTopicFilterPath(topic))))
 }
 
 const StaticSitemapIndex = () => {
@@ -50,19 +35,7 @@ const StaticSitemapIndex = () => {
 
 export const getServerSideProps = async ({ req, res, locale }: NextPageContext) => {
   const prefix = getUrlPrefix(req, locale)
-  const client = initializeWebApolloClient({ locale })
-  const topics = await client
-    .query({ query: topicSlugsQuery })
-    .then((result) => result.data.topics.data)
-    .catch((error) => {
-      logger.error({
-        message: 'Error retrieving topic slugs',
-        error,
-      })
-      return []
-    })
-
-  const sitemap = generateSitemapUrlSet(prefix, createSitemapUrls(locale, topics))
+  const sitemap = generateSitemapUrlSet(prefix, createSitemapUrls(locale))
 
   if (res) {
     res.setHeader('Content-Type', 'text/xml')

@@ -1,6 +1,6 @@
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { lastInsightsQuery } from '@holi/core/screens/insights/queries'
-import { Insight } from '@holi/core/screens/insights/types'
+import type { Insight } from '@holi/core/screens/insights/types'
 import { user } from '@holi/core/screens/spaces/__tests__/testData'
 
 export const pageSize = 1
@@ -14,7 +14,7 @@ const insight: Insight = {
   creator: user,
   headerImage: '',
   headerImageBlurhash: '',
-  topic: { id: '1', title: 'Topic 1', slug: 'topic1', isDiscoverSpacesDefault: false },
+  topicV2: 'topic1',
   posts: [],
   quotes: [],
   numberOfPosts: 0,

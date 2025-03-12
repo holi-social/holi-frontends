@@ -2,29 +2,25 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useChatInitialized } from '@holi/chat/src/client/chatState'
-import { getOrCreateRoom } from '@holi/chat/src/store'
+import { getOrCreatePrivateRoom, toMatrixIdentity } from '@holi/chat/src/store'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
 import { logError } from '@holi/core/errors/helpers'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/useFeatureFlagWithMaintenance'
-import { chatServerName } from '@holi/core/helpers/config'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { Button, type ButtonProps } from 'holi-bricks/components/button'
 
-export function StartChatButton({
-  label,
-  doReplaceRoute,
-  user,
-  ...rest
-}: {
+interface Props extends ButtonProps {
   user: User | null
   label: string
   doReplaceRoute?: boolean
-} & ButtonProps) {
+}
+
+export function StartChatButton({ label, doReplaceRoute, user: chatPartnerUser, ...rest }: Props) {
   const { t } = useTranslation()
   const chatFeatureFlag = useFeatureFlagWithMaintenance(FeatureFlagKey.CHAT)
   const isChatInitialized = useChatInitialized()
@@ -35,8 +31,6 @@ export function StartChatButton({
   const { openToast } = useToast()
   const { replaceRoute, navigate } = useRouting()
 
-  const identity = user?.identity
-
   const handleChat = async () => {
     if (!isLoggedIn) {
       return openSignupModal({
@@ -45,8 +39,8 @@ export function StartChatButton({
       })
     }
 
-    if (!identity) {
-      logError(new HoliError('Can not create a chat without a user identity'), 'Failed to open chat', {
+    if (!chatPartnerUser) {
+      logError(new HoliError('Can not create a chat without chat partner user'), 'Failed to open chat', {
         location: 'StartChatButton.handleChat',
       })
       return
@@ -54,8 +48,8 @@ export function StartChatButton({
 
     try {
       // TODO: the correct Matrix identity should come from Okuna
-      const fullIdentity = '@' + identity + ':' + chatServerName
-      const { room_id } = await getOrCreateRoom([fullIdentity])
+      const chatMemberMatrixId = toMatrixIdentity(chatPartnerUser.identity)
+      const { room_id } = await getOrCreatePrivateRoom([chatMemberMatrixId])
 
       if (!room_id) {
         openToast(t('chat.room.error.noRoom'), HoliToastType.ERROR)
@@ -73,7 +67,7 @@ export function StartChatButton({
 
   return (
     <Button
-      disabled={!chatFeatureFlag.isOn || !isChatInitialized || !identity}
+      disabled={!chatFeatureFlag.isOn || !isChatInitialized || !chatPartnerUser}
       label={label}
       onPress={handleChat}
       testID="user-profile-open-chat"

@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test'
 
-import { byTestId, checkAccessibility, denyConsent, isRunningLocally } from '../helpers'
+import { byTestId, checkAccessibility, isRunningLocally } from '../helpers'
 import { test } from '../testmaster'
 
 test.describe('@GoodNews', () => {
@@ -8,7 +8,6 @@ test.describe('@GoodNews', () => {
     test.skip(isRunningLocally(), 'These features have no local test data and can only be tested on staging.')
 
     await page.goto('/apps/goodnews')
-    await denyConsent(page)
 
     const firstArticle = page.locator(byTestId('goodnews-detailview-container')).first()
 

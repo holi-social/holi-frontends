@@ -1,20 +1,11 @@
 import { type Page, expect } from '@playwright/test'
 
-import {
-  byTestId,
-  clickElementByTestId,
-  denyConsent,
-  donationsRequestTimeout,
-  volunteeringRequestTimeout,
-  withSSR,
-} from './helpers'
+import { byTestId, clickElementByTestId, donationsRequestTimeout, volunteeringRequestTimeout, withSSR } from './helpers'
 import { test } from './testmaster'
 
 test.describe('@ActPage', () => {
   test('user journey', async ({ page, browser }) => {
     await page.goto('/act')
-
-    await denyConsent(page)
 
     await testActPageContent(page)
     await withSSR(browser, page.url(), testActPageContent)

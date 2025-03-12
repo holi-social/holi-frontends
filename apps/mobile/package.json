@@ -54,12 +54,12 @@
     "lodash.groupby": "^4.6.0",
     "lodash.partition": "^4.6.0",
     "lodash.shuffle": "^4.2.0",
-    "lottie-ios": "4.5.1",
+    "lottie-ios": "4.5.0",
     "lottie-react-native": "7.0.0",
     "posthog-react-native": "^3.3.9",
     "react": "18.2.0",
     "react-i18next": "^15.0.2",
-    "react-instantsearch-core": "^7.13.8",
+    "react-instantsearch-core": "^7.15.4",
     "react-native": "0.74.7",
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-calendars": "^1.1306.0",
@@ -129,5 +129,5 @@
     "test": "echo 'unit testing goes here'"
   },
   "version": "1.0.1",
-  "packageManager": "yarn@4.5.3"
+  "packageManager": "yarn@4.7.0"
 }

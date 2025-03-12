@@ -7,6 +7,22 @@ const webpack = require('webpack')
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dev-images.holi.social',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.holi.social',
+      },
+    ],
+  },
   reactStrictMode: false,
   webpack: (config) => {
     config.resolve.alias = {
