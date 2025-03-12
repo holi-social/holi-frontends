@@ -54,7 +54,7 @@ export const useEventFilters = (onSubmit: () => void) => {
 
   useEffect(() => {
     setFilters({ ...filters })
-  }, [setFilters, filters, clearFilters, isFiltering])
+  }, [setFilters, filters])
 
   return { setFilters, filters, clearFilters, isFiltering, submit }
 }

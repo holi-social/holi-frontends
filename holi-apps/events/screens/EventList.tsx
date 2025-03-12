@@ -29,6 +29,7 @@ import EventsFilterForm from '@holi-apps/events/components/EventsFilterForm'
 import EventCard from '@holi-apps/events/components/EventCard'
 import { Stack } from 'holi-bricks/components/stack'
 import { useAllEventsQuery } from '@holi/api/graphql/graphql-codegen'
+import { useEventFilters } from '@holi-apps/events/hooks/useEventFilters'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 // type EventListProps = { loadingFailed?: boolean; clearFilters?: () => void }
@@ -72,6 +73,7 @@ export const EventList = () => {
     setFilterModalShown(false)
   }, [])
 
+  const { submit } = useEventFilters(closeFilterModal) // todo
   // const { submit, filters, clearFilters, isFiltering } = useEventFilters(closeFilterModal) // todo
 
   useIsomorphicLayoutEffect(() => {
@@ -121,9 +123,7 @@ export const EventList = () => {
             remote: undefined,
             date: undefined,
           }}
-          onSubmit={() => {
-            throw new Error('Function not implemented.')
-          }}
+          onSubmit={submit}
         />
         {/* <EventsFilterForm onSubmit={submit} filters={filters} clearFilters={clearFilters} /> */}
       </HoliModal>

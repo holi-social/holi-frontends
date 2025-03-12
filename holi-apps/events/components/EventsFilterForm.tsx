@@ -33,14 +33,12 @@ const EventsFilterForm = ({ onSubmit }: EventFilterFormProps) => {
   const [selectedRemote, setSelectedRemote] = useState<boolean>(true)
   const [selectedDate, setSelectedDate] = useState<string>('3')
 
-  const submit = useCallback(
-    () =>
-      onSubmit({
-        remote: selectedRemote,
-        date: selectedDate,
-      }),
-    [onSubmit, selectedRemote, selectedDate]
-  )
+  const submit = useCallback(() => {
+    onSubmit({
+      remote: selectedRemote,
+      date: selectedDate,
+    })
+  }, [onSubmit, selectedRemote, selectedDate])
 
   const resetForm = () => {
     setSelectedRemote(true)
@@ -68,7 +66,13 @@ const EventsFilterForm = ({ onSubmit }: EventFilterFormProps) => {
         <Stack gap="3xs">
           <Text size="sm">Wann</Text>
           {/* todo: reset doesnt work on selector because you cant set the selected option from outside. need to change selection logic for this to work */}
-          <Selector inputType="radio" initiallySelectedOptions={['3']}>
+          <Selector
+            inputType="radio"
+            initiallySelectedOptions={['3']}
+            onChange={(selectedOptions: string[]) => {
+              setSelectedDate(selectedOptions[0])
+            }}
+          >
             <SelectableCard title="Diese Woche" id="1" />
             <SelectableCard title="Diesen Monat" id="2" />
             <SelectableCard title="Jederzeit" id="3" />

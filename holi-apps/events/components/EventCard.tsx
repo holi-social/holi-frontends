@@ -14,19 +14,31 @@ export interface EventProps {
 
 const EventCard = ({ event }: EventProps) => {
   const { t } = useTranslation()
-
   const startDateObj = event.startDate ? new Date(event.startDate) : undefined
   const endDateObj = event.endDate ? new Date(event.endDate) : undefined
 
-  const formattedDates = () => {
-    const day = startDateObj ? startDateObj.getDate() : ''
-    const weekday = startDateObj ? startDateObj.toLocaleDateString('en-EN', { weekday: 'short' }) : '' // todo: use german weekdays for german users
-    const monthName = startDateObj ? startDateObj.toLocaleDateString('en-EN', { month: 'short' }) : '' // todo: use german months for german users
-    const startTime = startDateObj
-      ? startDateObj.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
-      : ''
-    const endTime = endDateObj ? endDateObj.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : ''
-    return `${weekday}, ${day} ${monthName} ∙ ${startTime} ${t('act.events.fromTo')} ${endTime}`
+  const formattedDates = (startDate: Date, endDate?: Date) => {
+    const startDay = startDate.getDate()
+    const startWeekday = startDate.toLocaleDateString('en-EN', { weekday: 'short' }) // todo: use german weekdays for german users
+    const startMonthName = startDate.toLocaleDateString('en-EN', { month: 'short' }) // todo: use german months for german users
+    const startTime = startDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+
+    if (!endDate || startDate?.getTime() === endDate?.getTime()) {
+      return startTime === '00:00'
+        ? `${startWeekday}, ${startDay} ${startMonthName}`
+        : `${startWeekday}, ${startDay} ${startMonthName} ∙ ${startTime}`
+    }
+
+    const endDay = endDate.getDate()
+    const endWeekday = endDate.toLocaleDateString('en-EN', { weekday: 'short' }) // todo: use german weekdays for german users
+    const endMonthName = endDate.toLocaleDateString('en-EN', { month: 'short' }) // todo: use german months for german users
+    const endTime = endDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+
+    if (startDay !== endDay) {
+      return `${startWeekday}, ${startDay} ${startMonthName} ${t('act.events.fromTo')} ${endWeekday}, ${endDay} ${endMonthName}`
+    }
+
+    return `${startWeekday}, ${startDay} ${startMonthName} ∙ ${startTime} ${t('act.events.fromTo')} ${endTime}`
   }
 
   const label = event.location
@@ -35,7 +47,7 @@ const EventCard = ({ event }: EventProps) => {
   const subtitle = `${t('act.events.createdBy')} ${event.organisationName}`
   const ChipComponent = () => (
     <ChipLabel color="mono" size="sm">
-      {formattedDates()}
+      {startDateObj && formattedDates(startDateObj, endDateObj)}
     </ChipLabel>
   )
 
@@ -46,10 +58,10 @@ const EventCard = ({ event }: EventProps) => {
           title={event.title}
           topLabel={label}
           subtitle={subtitle}
-          chips={[ChipComponent]}
           topLabelIcon={MapPin2Filled}
           imageSrc={event.imageUrl}
           startDate={startDateObj}
+          {...(startDateObj && { chips: [ChipComponent] })}
         />
       </HoliLink>
     </View>
