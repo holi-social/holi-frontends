@@ -8,17 +8,14 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
 import { Dimensions, Platform, View } from 'react-native'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExamples'
-import LocationSelection from './SearchLocationSelection'
-import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { Edit2 } from '@holi/icons/src/generated'
 import { createTypesenseInstantSearchAdapter } from './createTypesenseAdapter'
-import { ChipAction } from 'holi-bricks/components/chips/ChipAction'
+import { SearchLocationSelection } from '@holi/core/screens/search/typesense/SearchLocationSelection'
 
 export type SearchParams = {
   query?: string
@@ -33,15 +30,7 @@ export const Search = () => {
   const { styles } = useStyles(stylesheet)
   const [queryParam] = useParam('query', singleParamConfig)
   const [facetParam] = useParam('facet', singleParamConfig)
-  const [locationParam, setLocationParam] = useParam('location', singleParamConfig)
-
-  // Modal visibility
-  const [locationModalVisible, setLocationModalVisible] = useState(false)
-
-  const bundesweitLabel = t('search.germanyWide')
-
-  // Local state for the location's display name
-  const [locationName, setLocationName] = useState(bundesweitLabel)
+  const [locationParam] = useParam('location', singleParamConfig)
 
   const updateParams = useUpdateParams({ web: { replace: true } })
 
@@ -52,27 +41,6 @@ export const Search = () => {
   )
 
   const displaySearchExamples = (!queryParam || queryParam === '*') && !locationParam
-
-  const handleLocationSave = (latLngString: string | null, label?: string) => {
-    if (!latLngString) {
-      setLocationParam(undefined)
-      setLocationName(bundesweitLabel)
-      // Force the search bar to reset
-      updateParams({ query: '', location: undefined })
-    } else {
-      setLocationParam(latLngString)
-      setLocationName(label || bundesweitLabel)
-      // Reset the search bar by clearing the query
-      updateParams({ query: '', location: latLngString })
-    }
-    // Close modal
-    setLocationModalVisible(false)
-  }
-
-  // Called when user taps 'Back'
-  const closeLocationModal = () => {
-    setLocationModalVisible(false)
-  }
 
   return (
     <InstantSearch
@@ -96,9 +64,7 @@ export const Search = () => {
           <View style={styles.filterContainer}>
             <HoliBox padding={[0, dimensions.spacingS]}>
               <SearchTextInput queryParam={queryParam} onQueryChange={(query) => updateParams({ query })} />
-              <ChipAction iconTrailing={Edit2} onPress={() => setLocationModalVisible(true)}>
-                {locationName}
-              </ChipAction>
+              <SearchLocationSelection onLocationChange={(location) => updateParams({ location })} />
             </HoliBox>
             <SearchFacetsTabs
               initialFacet={facetParam}
@@ -115,24 +81,6 @@ export const Search = () => {
           </ErrorBoundary>
         )}
       </Screen>
-
-      <HoliModal
-        shown={locationModalVisible}
-        onDismiss={closeLocationModal}
-        label={t('search.locationFilter')}
-        relativeHeight={0.8}
-        autoHeight={false}
-      >
-        <LocationSelection
-          selected={undefined}
-          onChange={handleLocationSave}
-          onBackPress={closeLocationModal}
-          onSavePress={() => {
-            // child calls onChange internally
-          }}
-          autoFocus
-        />
-      </HoliModal>
     </InstantSearch>
   )
 }
