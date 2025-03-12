@@ -1,3 +1,4 @@
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { typesenseApiKey, typesenseHost, typesensePort, typesenseProtocol } from '@holi/core/helpers/config'
 
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
@@ -9,7 +10,7 @@ const facetConfigurations: Record<string, { query_by: string; query_by_weights: 
   volunteering: {
     query_by: [...searchFields, ...embeddingFields].join(','),
     query_by_weights: '1,1,1,1,100,0,10',
-    vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.7)',
+    vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.1)',
   },
   space: {
     query_by: [...searchFields, ...embeddingFields].join(','),
@@ -23,7 +24,7 @@ const facetConfigurations: Record<string, { query_by: string; query_by_weights: 
   },
 }
 
-export const createTypesenseInstantSearchAdapter = (facet?: string, locationParam?: string) => {
+export const createTypesenseInstantSearchAdapter = (facet?: string, geolocation?: GeolocationSuggestion) => {
   // Use the provided facet or fallback to a default ('volunteering')
   const config = facetConfigurations[facet || 'volunteering']
 
@@ -39,10 +40,11 @@ export const createTypesenseInstantSearchAdapter = (facet?: string, locationPara
     filter_by = 'type:=[`profile`]'
   }
 
-  // Add the location filter if locationParam is set
-  if (locationParam) {
-    const [lat, lng] = locationParam.split(',').map(parseFloat)
-    const locationFilter = `location_lat_lng:(${lat}, ${lng}, 30 km)`
+  // Add the location filter if geolocationDetails are set
+  if (geolocation && geolocation.coordinates) {
+    const { latitude, longitude } = geolocation.coordinates
+
+    const locationFilter = `location_lat_lng:(${latitude}, ${longitude}, 1 km)`
 
     // If we already have a facet filter, unify them with "&&"
     if (filter_by) {
@@ -52,7 +54,7 @@ export const createTypesenseInstantSearchAdapter = (facet?: string, locationPara
     }
 
     // For sorting by distance
-    sort_by = `location_lat_lng(${lat}, ${lng}):asc`
+    sort_by = `location_lat_lng(${latitude}, ${longitude}):asc`
   }
 
   return new TypesenseInstantSearchAdapter({

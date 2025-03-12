@@ -16,19 +16,21 @@ import { useStyles } from 'holi-bricks/hooks'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 
 export interface SearchLocationSelectionProps {
-  onLocationChange: (location: string | undefined) => void
+  initialSelection?: GeolocationSuggestion
+  onLocationChange: (location?: GeolocationSuggestion) => void
 }
 
-export const SearchLocationSelection = ({ onLocationChange }: SearchLocationSelectionProps) => {
+export const SearchLocationSelection = ({ initialSelection, onLocationChange }: SearchLocationSelectionProps) => {
   const { t } = useTranslation()
   const germanyWideLabel = t('search.germanyWide')
-  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(undefined)
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(initialSelection)
   const [locationName, setLocationName] = useState(selectedLocation?.label ?? germanyWideLabel)
   const [locationFilter, setLocationFilter] = useState(selectedLocation)
+
   useConnector(connectConfigure, {
     searchParameters: {
       filters: locationFilter
-        ? `location_lat_lng:(${locationFilter?.coordinates?.latitude}, ${locationFilter?.coordinates?.longitude}, 30 km)`
+        ? `location_lat_lng:(${locationFilter?.coordinates?.latitude}, ${locationFilter?.coordinates?.longitude}, 1 km)`
         : '',
     },
   })
@@ -45,9 +47,7 @@ export const SearchLocationSelection = ({ onLocationChange }: SearchLocationSele
       setLocationName(germanyWideLabel)
       setLocationFilter(undefined)
     } else {
-      const { latitude, longitude } = selectedLocation.coordinates ?? {}
-
-      onLocationChange(`${latitude},${longitude}`)
+      onLocationChange(selectedLocation)
       setLocationName(selectedLocation.label)
       setLocationFilter(selectedLocation)
     }

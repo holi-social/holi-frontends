@@ -1,7 +1,7 @@
-import { ApolloError, useQuery } from '@apollo/client'
+import { type ApolloError, useQuery } from '@apollo/client'
 
 import { logError } from '@holi/core/errors/helpers'
-import { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import { type GeoPlaceDetailsResponse, geoPlaceDetailsQuery } from '@holi/core/geolocation/queries'
 import type { PlaceDetails } from '@holi/core/geolocation/typings'
 
@@ -40,9 +40,11 @@ export const useGeolocationDetailsWithSuggestion: useGeolocationHook<
   GeolocationDetails & { geolocationSuggestion?: GeolocationSuggestion }
 > = (locationId, onError) => {
   const { geolocationDetails, ...loadingVars } = useGeolocationDetails(locationId, onError)
+  const detailProperties = geolocationDetails?.geolocation?.properties
   const geolocationSuggestion = geolocationDetails && {
     ...geolocationDetails,
     label: geolocationDetails.name,
+    coordinates: detailProperties ? { latitude: detailProperties.lat, longitude: detailProperties.lon } : undefined,
   }
 
   return {

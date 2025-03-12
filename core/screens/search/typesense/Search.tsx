@@ -8,7 +8,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { InstantSearch } from 'react-instantsearch-core'
 import { Dimensions, Platform, View } from 'react-native'
@@ -16,6 +16,9 @@ import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExamples'
 import { createTypesenseInstantSearchAdapter } from './createTypesenseAdapter'
 import { SearchLocationSelection } from '@holi/core/screens/search/typesense/SearchLocationSelection'
+import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hooks/useGeolocationDetails'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 
 export type SearchParams = {
   query?: string
@@ -28,19 +31,30 @@ const { useParam, useUpdateParams } = createParamHooks<SearchParams>()
 export const Search = () => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
+  const { displayError } = useErrorHandling()
   const [queryParam] = useParam('query', singleParamConfig)
   const [facetParam] = useParam('facet', singleParamConfig)
-  const [locationParam] = useParam('location', singleParamConfig)
+  const [geolocationId] = useParam('location', singleParamConfig)
+  const { geolocationSuggestion, geolocationError, loadingGeolocation } = useGeolocationDetailsWithSuggestion(
+    geolocationId,
+    (error) =>
+      displayError(error, 'Failed to load geolocation', {
+        displayMessage: t('TODO'), // TODO(SF) add translation
+        location: 'Search.useGeolocationCoordinates',
+        geolocationId,
+      })
+  )
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(geolocationSuggestion)
 
   const updateParams = useUpdateParams({ web: { replace: true } })
 
   // Recreate the adapter whenever the facet changes
   const typesenseInstantSearchAdapter = useMemo(
-    () => createTypesenseInstantSearchAdapter(facetParam, locationParam),
-    [facetParam, locationParam]
+    () => createTypesenseInstantSearchAdapter(facetParam, selectedLocation),
+    [facetParam, selectedLocation]
   )
 
-  const displaySearchExamples = (!queryParam || queryParam === '*') && !locationParam
+  const displaySearchExamples = (!queryParam || queryParam === '*') && (!geolocationId || geolocationError)
 
   return (
     <InstantSearch
@@ -64,7 +78,15 @@ export const Search = () => {
           <View style={styles.filterContainer}>
             <HoliBox padding={[0, dimensions.spacingS]}>
               <SearchTextInput queryParam={queryParam} onQueryChange={(query) => updateParams({ query })} />
-              <SearchLocationSelection onLocationChange={(location) => updateParams({ location })} />
+              {!loadingGeolocation && (
+                <SearchLocationSelection
+                  initialSelection={geolocationSuggestion}
+                  onLocationChange={(location) => {
+                    setSelectedLocation(location)
+                    updateParams({ location: location?.id })
+                  }}
+                />
+              )}
             </HoliBox>
             <SearchFacetsTabs
               initialFacet={facetParam}
@@ -77,7 +99,7 @@ export const Search = () => {
           <SearchExamples onQuerySelect={(query) => updateParams({ query })} />
         ) : (
           <ErrorBoundary>
-            <SearchHitInfiniteList />
+            <SearchHitInfiniteList loadingParameters={loadingGeolocation} />
           </ErrorBoundary>
         )}
       </Screen>

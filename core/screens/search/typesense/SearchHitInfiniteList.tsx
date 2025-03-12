@@ -32,7 +32,11 @@ const resultsToTrackingEventResults = (results: SearchResults<Hit<SearchHitData>
   }
 }
 
-export function SearchHitInfiniteList() {
+interface SearchHitInfiniteListProps {
+  loadingParameters?: boolean
+}
+
+export function SearchHitInfiniteList({ loadingParameters }: SearchHitInfiniteListProps) {
   const { items, isLastPage, showMore, results } = useInfiniteHits<SearchHitData>({
     escapeHTML: false,
   })
@@ -42,10 +46,12 @@ export function SearchHitInfiniteList() {
   const { track } = useTracking()
   const { status, refresh, indexUiState } = useInstantSearch()
   const selectedFacet = indexUiState?.refinementList?.type?.length && indexUiState.refinementList.type[0]
+  // @ts-ignore
+  const configuredFilter = indexUiState?.configure?.filters
   const { styles } = useStyles(stylesheet)
   const displayedFacet = items.length && items[0].type
   const oldResults = displayedFacet && displayedFacet !== selectedFacet
-  const isLoading = status === 'loading' || status === 'stalled' || oldResults
+  const isLoading = loadingParameters || status === 'loading' || status === 'stalled' || oldResults
 
   const fullRefresh = useOnRefresh(refresh)
 
@@ -65,7 +71,7 @@ export function SearchHitInfiniteList() {
   }, [items, trackResultsViewed])
 
   // Hide results of empty query or wrong facet
-  const isEmptyQuery = !results?.query || results?.query === '*'
+  const isEmptyQuery = (!results?.query || results?.query === '*') && !configuredFilter
   const displayedItems = isEmptyQuery || oldResults ? [] : (items ?? [])
   const itemHeight = selectedFacet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
 
