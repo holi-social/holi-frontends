@@ -1,7 +1,5 @@
 import { Camera } from 'expo-camera'
-import * as Notifications from 'expo-notifications'
 import React, { useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Linking, Platform, Share } from 'react-native'
 import type { WebView, WebViewMessageEvent } from 'react-native-webview'
 
@@ -12,18 +10,14 @@ import HoliWebView from '@holi/core/components/HoliWebView'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import createParamHooks from '@holi/core/navigation/hooks/useParam/createParamHooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import NotificationOptInModal from '@holi/core/screens/notifications/components/NotificationOptInModal'
-import {
-  dismissNotificationModal,
-  incrementModalAttempts,
-  useNotificationEligibility,
-} from '@holi/core/screens/notifications/helpers/notificationModalHelper/notificationModalHelper'
+
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
 
 import { createExternalChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import type { ChallengesAppHomeParams } from '@holi-apps/challenges/screens/ChallengesAppHome.shared'
+import NotificationSettingsPrompt from '@holi-apps/challenges/screens/NotificationSettingsPrompt'
 
 const { useParam } = createParamHooks<ChallengesAppHomeParams>()
 
@@ -33,14 +27,11 @@ const ChallengesAppHome = () => {
   const [pathQueryParam] = useParam('path')
   const { goBack } = useNavigation()
   const { displayError } = useErrorHandling()
-  const { t } = useTranslation()
+  const [showOptInModal, setShowOptInModal] = useState(false)
 
   const headers = useChallengesHeaders()
   const [requireCameraPermission, setRequireCameraPermission] = useState<boolean | undefined>(undefined)
   const webViewRef = useRef<WebView>(null)
-
-  const { isEligible } = useNotificationEligibility()
-  const [modalVisible, setModalVisible] = useState(false)
 
   const requestPermissions = async () => {
     const cameraPermissionResult = await Camera.requestCameraPermissionsAsync()
@@ -92,7 +83,7 @@ const ChallengesAppHome = () => {
         await share(message.message, message.path)
         break
       case 'video-submitted':
-        setTimeout(() => showOptInModal(), 3000)
+        setTimeout(() => setShowOptInModal(true), 3000)
         break
       case 'open-settings':
         Linking.openSettings()
@@ -110,56 +101,9 @@ const ChallengesAppHome = () => {
 
   const uri = createExternalChallengesPath(pathQueryParam)
 
-  const showOptInModal = async () => {
-    const { status } = await Notifications.getPermissionsAsync()
-    const shouldShowModal = status !== 'granted' && isEligible
-
-    if (shouldShowModal) {
-      setModalVisible(true)
-    }
-  }
-
-  const openSettings = async () => {
-    try {
-      await Linking.openURL('app-settings:')
-    } catch (error) /* eslint-disable-line @typescript-eslint/no-unused-vars */ {
-      //Failed to open settings
-    }
-  }
-
-  const handleOptIn = async () => {
-    const { status } = await Notifications.getPermissionsAsync()
-
-    await incrementModalAttempts()
-
-    if (status !== 'granted') {
-      const { status: newStatus } = await Notifications.requestPermissionsAsync()
-
-      if (newStatus === 'granted') {
-        setModalVisible(false)
-      } else if (newStatus === 'undetermined') {
-        // Do nothing, keep the modal open
-      } else {
-        openSettings()
-        setModalVisible(false)
-      }
-    } else {
-      setModalVisible(false)
-    }
-  }
-
-  const handleModalDismiss = async () => {
-    await incrementModalAttempts()
-    setModalVisible(false)
-  }
-
-  const handleDismissNotification = async () => {
-    await dismissNotificationModal()
-    setModalVisible(false)
-  }
-
   return (
     <>
+      <NotificationSettingsPrompt prompt={showOptInModal} onPromptChanged={setShowOptInModal} />
       <HoliWebView
         webViewRef={webViewRef}
         allowsBackForwardNavigationGesturesMultiOS={true}
@@ -180,16 +124,6 @@ const ChallengesAppHome = () => {
         }}
         theme={theme}
       />
-      {Platform.OS !== 'web' && (
-        <NotificationOptInModal
-          type="challenges"
-          isVisible={modalVisible}
-          onConfirm={handleOptIn}
-          onDismiss={handleModalDismiss}
-          dismissModal={handleDismissNotification}
-          description={t('notifications.permission.description.challenges')}
-        />
-      )}
     </>
   )
 }
