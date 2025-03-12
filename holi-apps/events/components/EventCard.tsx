@@ -15,15 +15,16 @@ export interface EventProps {
 const EventCard = ({ event }: EventProps) => {
   const { t } = useTranslation()
 
-  const format = (startDate?: string, endDate?: string) => {
-    const startDateObj = startDate ? new Date(startDate) : undefined
+  const startDateObj = event.startDate ? new Date(event.startDate) : undefined
+  const endDateObj = event.endDate ? new Date(event.endDate) : undefined
+
+  const formattedDates = () => {
     const day = startDateObj ? startDateObj.getDate() : ''
     const weekday = startDateObj ? startDateObj.toLocaleDateString('en-EN', { weekday: 'short' }) : '' // todo: use german weekdays for german users
     const monthName = startDateObj ? startDateObj.toLocaleDateString('en-EN', { month: 'short' }) : '' // todo: use german months for german users
     const startTime = startDateObj
       ? startDateObj.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
       : ''
-    const endDateObj = endDate ? new Date(endDate) : undefined
     const endTime = endDateObj ? endDateObj.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : ''
     return `${weekday}, ${day} ${monthName} ∙ ${startTime} ${t('act.events.fromTo')} ${endTime}`
   }
@@ -34,13 +35,12 @@ const EventCard = ({ event }: EventProps) => {
   const subtitle = `${t('act.events.createdBy')} ${event.organisationName}`
   const ChipComponent = () => (
     <ChipLabel color="mono" size="sm">
-      {format(event.startDate, event.endDate)}
+      {formattedDates()}
     </ChipLabel>
   )
 
   return (
     <View>
-      {/* todo: link to event detail page */}
       <HoliLink href={`/events/${event.id}`} label={event.title}>
         <CompactCard
           title={event.title}
@@ -49,6 +49,7 @@ const EventCard = ({ event }: EventProps) => {
           chips={[ChipComponent]}
           topLabelIcon={MapPin2Filled}
           imageSrc={event.imageUrl}
+          startDate={startDateObj}
         />
       </HoliLink>
     </View>

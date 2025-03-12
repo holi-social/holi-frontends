@@ -21,6 +21,7 @@ export interface CompactCardProps {
   bottomLabelIcon?: HoliIconType
   chips?: Array<typeof ChipLabel>
   imageSrc?: ImageSource
+  startDate?: Date
 }
 
 export const CompactCard = ({
@@ -32,12 +33,13 @@ export const CompactCard = ({
   topLabelIcon,
   bottomLabelIcon,
   imageSrc,
+  startDate,
 }: CompactCardProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
   return (
-    <View style={styles.container}>
+    <Stack minWidth={310}>
       <Stack borderWidth={1} borderColor="support" borderStyle="solid" borderRadius="md">
         <Stack
           direction="row"
@@ -48,7 +50,7 @@ export const CompactCard = ({
         >
           {/* Card Cover */}
           {/* todo: resize image height dynamically */}
-          <View style={styles.imageContainer}>
+          <Stack alignItems="center" justifyContent="center">
             {/* cover image */}
             <View style={styles.image}>
               <Image
@@ -59,15 +61,22 @@ export const CompactCard = ({
               />
             </View>
             {/* calendar icon */}
-            <View
-              style={[
-                styles.calendarIcon,
-                Platform.OS == 'web' ? { transform: [{ translateX: -20 }, { translateY: -20 }] } : {}, // todo: check on mobile
-              ]}
-            >
-              <HoliCalendarIcon day={new Date().getDate()} month={new Date().getMonth() + 1} size="small" />
-            </View>
-          </View>
+            {startDate && (
+              <View
+                style={[
+                  styles.calendarIconContainer,
+                  Platform.OS == 'web' ? { transform: [{ translateX: -20 }, { translateY: -20 }] } : {}, // todo: check on mobile
+                ]}
+              >
+                <HoliCalendarIcon
+                  day={startDate.getDate()}
+                  month={startDate.getMonth() + 1}
+                  size="small"
+                  colored={false}
+                />
+              </View>
+            )}
+          </Stack>
 
           {/* Card Body */}
           <Stack gap="3xs" padding="4xs" flex={1}>
@@ -91,13 +100,15 @@ export const CompactCard = ({
               </Stack>
             </Stack>
 
-            <Stack direction="row" alignItems="center" gap="4xs">
-              {bottomLabelIcon && <HoliIcon icon={bottomLabelIcon} color={styles.bottomIconColor.color} size={16} />}
+            {(bottomLabel || bottomLabelIcon) && (
+              <Stack direction="row" alignItems="center" gap="4xs">
+                {bottomLabelIcon && <HoliIcon icon={bottomLabelIcon} color={styles.bottomIconColor.color} size={16} />}
 
-              <Text ellipsizeMode="tail" size="xs" numberOfLines={1} color="default">
-                {bottomLabel}
-              </Text>
-            </Stack>
+                <Text ellipsizeMode="tail" size="xs" numberOfLines={1} color="default">
+                  {bottomLabel}
+                </Text>
+              </Stack>
+            )}
 
             <Stack direction="row" wrap="wrap" gap="xxs">
               {chips?.map((ChipLabel, index) => (
@@ -107,14 +118,11 @@ export const CompactCard = ({
           </Stack>
         </Stack>
       </Stack>
-    </View>
+    </Stack>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: {
-    minWidth: 310,
-  },
   topIconColor: {
     color: theme.colors.fill.support,
   },
@@ -124,13 +132,11 @@ const stylesheet = createStyleSheet((theme) => ({
   image: {
     borderRadius: BorderRadius.xs,
     borderColor: theme.colors.border.default,
+    borderStyle: 'solid',
+    borderWidth: 1,
     overflow: 'hidden',
   },
-  imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  calendarIcon: {
+  calendarIconContainer: {
     position: 'absolute',
     top: '50%',
     left: '50%',

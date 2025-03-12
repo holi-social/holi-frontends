@@ -31,6 +31,8 @@ interface StackProps extends React.PropsWithChildren {
   testID?: string
   maxWidth?: BreakpointsSize
   maxHeight?: DimensionValue
+  minWidth?: DimensionValue
+  minHeight?: DimensionValue
   height?: DimensionValue
   width?: DimensionValue
   wrap?: FlexStyle['flexWrap']
@@ -71,6 +73,8 @@ const containerStylesheet = createStyleSheet((theme) => ({
     alignItems: props?.alignItems || undefined,
     maxWidth: props?.maxWidth ? breakpoints[props?.maxWidth] : undefined,
     maxHeight: props?.maxHeight,
+    minWidth: props?.minWidth,
+    minHeight: props?.minHeight,
     alignSelf: props?.alignSelf,
     flexWrap: props?.wrap,
     borderWidth: props?.borderWidth,
