@@ -100,24 +100,4 @@ const stylesheet = createStyleSheet((theme) => ({
       },
     }),
   },
-  locationChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start', // Only wrap text, no extra horizontal space
-    backgroundColor: '#FFF',
-    borderColor: '#E2E2E2', // Light gray border
-    borderWidth: 1,
-    borderRadius: 16, // Rounded edges for a “chip” look
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    marginVertical: 8, // Larger spacing above/below
-  },
-  locationChipText: {
-    marginRight: 6, // Space before pencil icon
-    color: '#333',
-    fontSize: 14,
-  },
-  editIcon: {
-    tintColor: '#666', // Dark gray icon color if your icon is tintable
-  },
 }))

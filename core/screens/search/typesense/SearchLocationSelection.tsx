@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import PlacesAutocomplete, {
   type GeolocationSuggestion,
   GeolocationLevel,
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { mono } from 'holi-bricks/tokens'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { Edit2 } from '@holi/icons/src/generated'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
 import { useConnector } from 'react-instantsearch-core'
 import { connectConfigure } from 'instantsearch.js/es/connectors'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
+import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 
 export interface SearchLocationSelectionProps {
   onLocationChange: (location: string | undefined) => void
@@ -35,6 +37,7 @@ export const SearchLocationSelection = ({ onLocationChange }: SearchLocationSele
 
   // Modal visibility
   const [locationModalVisible, setLocationModalVisible] = useState(false)
+  const { styles } = useStyles(stylesheet)
 
   const onSave = () => {
     if (!selectedLocation) {
@@ -102,19 +105,19 @@ export const SearchLocationSelection = ({ onLocationChange }: SearchLocationSele
   )
 }
 
-const styles = StyleSheet.create({
+const stylesheet = createStyleSheet((theme) => ({
   container: {
     flex: 1,
-    backgroundColor: mono[100],
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    padding: 16,
+    backgroundColor: theme.colors.bg.container, // e.g. or theme.colors.bg.page
+    borderTopLeftRadius: BorderRadius.lg,
+    // or Spacing.md, etc.
+    padding: Spacing.xs,
   },
   inputContainer: {
-    backgroundColor: '#FFF',
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    marginBottom: 16,
+    backgroundColor: theme.colors.bg.container,
+    borderRadius: BorderRadius.xs,
+    paddingHorizontal: Spacing['3xs'],
+    paddingVertical: Spacing['4xs'],
+    marginBottom: Spacing['xs'],
   },
-})
+}))
