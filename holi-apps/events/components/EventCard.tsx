@@ -41,13 +41,14 @@ const EventCard = ({ event }: EventProps) => {
   return (
     <View>
       {/* todo: link to event detail page */}
-      <HoliLink href={`/events/${event.id}`} label={event.title} isFullHeight>
+      <HoliLink href={`/events/${event.id}`} label={event.title}>
         <CompactCard
           title={event.title}
           topLabel={label}
           subtitle={subtitle}
           chips={[ChipComponent]}
           topLabelIcon={MapPin2Filled}
+          imageSrc={event.imageUrl}
         />
       </HoliLink>
     </View>

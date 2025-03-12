@@ -9,7 +9,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslation } from 'react-i18next'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import React from 'react'
-import { Image } from 'holi-bricks/components/image'
+import { Image, type ImageSource } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 
 export interface CompactCardProps {
@@ -20,6 +20,7 @@ export interface CompactCardProps {
   topLabelIcon?: HoliIconType
   bottomLabelIcon?: HoliIconType
   chips?: Array<typeof ChipLabel>
+  imageSrc?: ImageSource
 }
 
 export const CompactCard = ({
@@ -30,6 +31,7 @@ export const CompactCard = ({
   chips,
   topLabelIcon,
   bottomLabelIcon,
+  imageSrc,
 }: CompactCardProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
@@ -50,7 +52,7 @@ export const CompactCard = ({
             {/* cover image */}
             <View style={styles.image}>
               <Image
-                source={require('@holi/ui/assets/img/events/thumbnail-green.svg')}
+                source={imageSrc ? imageSrc : require('@holi/ui/assets/img/events/thumbnail-green.svg')}
                 height={120}
                 width={90}
                 alt={t('act.events.thumbnail.label')}

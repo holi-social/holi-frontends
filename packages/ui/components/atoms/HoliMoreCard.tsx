@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
 import { type GestureResponderEvent, Pressable, type Role, StyleSheet, View } from 'react-native'
 
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import { Text } from 'holi-bricks/components/text'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import HoliLocalImage from './HoliLocalImage'
@@ -39,9 +39,7 @@ const HoliMoreCard = ({
         />
       </View>
       <View style={styles.caption}>
-        <HoliText color="black300" size="small" bold>
-          {children}
-        </HoliText>
+        <Text size="sm">{children}</Text>
       </View>
     </Pressable>
   )

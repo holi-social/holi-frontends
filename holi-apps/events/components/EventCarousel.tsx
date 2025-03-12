@@ -3,8 +3,8 @@ import RecoSlider from '@holi/core/components/RecoSlider'
 import { CheckboxFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import EventCard from '@holi-apps/events/components/EventCard'
-import { tempData } from '@holi-apps/events/components/tempData'
 import { Stack } from 'holi-bricks/components/stack'
+import { useAllEventsQuery } from '@holi/api/graphql/graphql-codegen'
 
 type EventCarouselProps = {
   cardWidth: number
@@ -12,7 +12,10 @@ type EventCarouselProps = {
 
 const EventCarousel = ({ cardWidth }: EventCarouselProps) => {
   const { t } = useTranslation()
-  const events = tempData.events.data
+  const { data } = useAllEventsQuery()
+  const events = data?.appEvents_events.data?.slice(0, 3)
+
+  if (!events) return
 
   return (
     <RecoSlider

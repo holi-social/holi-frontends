@@ -1,7 +1,6 @@
-import { NextPage } from 'next'
+import { EventDetailsScreen } from '@holi-apps/events/screens/EventDetails'
+import type { NextPage } from 'next'
 import React from 'react'
-
-import { EventDetailsScreen } from '@holi/core/features/events/screens/EventDetails'
 
 const SpaceDetailsPage: NextPage = () => <EventDetailsScreen />
 
