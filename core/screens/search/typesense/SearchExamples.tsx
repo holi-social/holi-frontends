@@ -8,7 +8,6 @@ import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Spacing } from 'holi-bricks/tokens'
 import { useTranslation } from 'react-i18next'
 import shuffle from 'lodash.shuffle'
-import { useCurrentRefinements } from 'react-instantsearch-core'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 
 const EXAMPLE_COUNTS: { [key: string]: number } = {
@@ -20,18 +19,16 @@ const DISPLAYED_EXAMPLE_COUNT = 5
 
 interface SearchExamplesProps {
   onQuerySelect: (query: string) => void
+  currentFacet: string
 }
 
-export const SearchExamples = ({ onQuerySelect }: SearchExamplesProps) => {
+export const SearchExamples = ({ onQuerySelect, currentFacet }: SearchExamplesProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const { items } = useCurrentRefinements()
 
-  const refinements = items.length ? items[0].refinements : []
-  const selectedFacet = refinements.length ? refinements[0].label : 'volunteering'
   const exampleIds = useMemo(
-    () => Array.from({ length: EXAMPLE_COUNTS[selectedFacet] }, (_, i) => i + 1),
-    [selectedFacet]
+    () => Array.from({ length: EXAMPLE_COUNTS[currentFacet] }, (_, i) => i + 1),
+    [currentFacet]
   )
   const displayedExampleIds = useMemo(() => shuffle(exampleIds).slice(0, DISPLAYED_EXAMPLE_COUNT), [exampleIds])
 
@@ -39,9 +36,9 @@ export const SearchExamples = ({ onQuerySelect }: SearchExamplesProps) => {
     <View style={styles.list} testID="search-examples">
       <Text size="lg">{t('search.typesense.examples.headline')}</Text>
       {displayedExampleIds.map((id) => {
-        const text = t(`search.typesense.examples.${selectedFacet}${id}`)
+        const text = t(`search.typesense.examples.${currentFacet}${id}`)
         const params = new URLSearchParams({
-          facet: selectedFacet,
+          facet: currentFacet,
           query: text,
         })
         return (
@@ -70,7 +67,6 @@ export const SearchExamples = ({ onQuerySelect }: SearchExamplesProps) => {
 
 const stylesheet = createStyleSheet((theme) => ({
   list: {
-    padding: Spacing['xs'],
     gap: Spacing['4xs'],
   },
   example: {

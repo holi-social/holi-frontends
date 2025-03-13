@@ -2,78 +2,75 @@ import { FlashList } from '@shopify/flash-list'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchFilter, SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import React, { useEffect } from 'react'
-import { useInfiniteHits, useInstantSearch } from 'react-instantsearch-core'
 import { Platform } from 'react-native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { hitToTrackingDoc } from '@holi/core/screens/search/typesense/tracking'
-import type { SearchResults } from 'algoliasearch-helper'
-import type { Hit } from 'instantsearch.js'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useDebounce } from '@holi/ui/helper'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { Spacing } from 'holi-bricks/tokens'
 import { NoSearchResults } from '@holi/core/screens/search/typesense/NoSearchResults'
+import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
+import { useSearchResults } from '@holi/core/screens/search/typesense/hooks/useSearchResults'
+import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExamples'
 
 const isWeb = Platform.OS === 'web'
 
-const resultsToTrackingEventResults = (results: SearchResults<Hit<SearchHitData>>) => {
+const resultsToTrackingEventResults = (results: SearchResponseHit<SearchHitData>[], filter: SearchFilter) => {
   return {
-    query: results.query,
-    totalNrOfResults: results.nbHits,
-    totalNrOfPages: results.nbPages,
-    currentPage: results.page,
-    selectedFacets: results.getRefinements().map((refinement) => refinement.name),
-    renderedResults: results.hits.map(hitToTrackingDoc),
+    query: filter.query,
+    // TODO(SF) are those all needed?
+    totalNrOfResults: 1, // results.nbHits,
+    totalNrOfPages: 1, //results.nbPages,
+    currentPage: 1, //results.page,
+    selectedFacets: [filter.facet],
+    renderedResults: results.map(({ document }) => hitToTrackingDoc(document)),
   }
 }
 
 interface SearchHitInfiniteListProps {
   loadingParameters?: boolean
+  filter: SearchFilter
+  isFilterEmpty: boolean
+  onQuerySelect: (query: string) => void
 }
 
-export function SearchHitInfiniteList({ loadingParameters }: SearchHitInfiniteListProps) {
-  const { items, isLastPage, showMore, results } = useInfiniteHits<SearchHitData>({
-    escapeHTML: false,
-  })
-  // Debouncing showMore as workaround for a race condition when changing the query (otherwise page 0 might be skipped)
-  const debouncedShowMore = useDebounce(() => showMore?.(), 100)
-
+export function SearchHitInfiniteList({
+  loadingParameters,
+  filter,
+  isFilterEmpty,
+  onQuerySelect,
+}: SearchHitInfiniteListProps) {
   const { track } = useTracking()
-  const { status, refresh, indexUiState } = useInstantSearch()
-  const selectedFacet = indexUiState?.refinementList?.type?.length && indexUiState.refinementList.type[0]
-  // @ts-ignore
-  const configuredFilter = indexUiState?.configure?.filters
   const { styles } = useStyles(stylesheet)
-  const displayedFacet = items.length && items[0].type
-  const oldResults = displayedFacet && displayedFacet !== selectedFacet
-  const isLoading = loadingParameters || status === 'loading' || status === 'stalled' || oldResults
+  const { isLoading: loadingResults, results, canLoadMore, loadMore, refresh } = useSearchResults(filter)
+  const displayedFacet = results.length && results[0].document.type
+  const oldResults = displayedFacet && displayedFacet !== filter.facet
+  const isLoading = loadingParameters || loadingResults || oldResults
 
   const fullRefresh = useOnRefresh(refresh)
 
   // using debounce as the best approximation to "results have been rendered" that we could find. tried alternatives:
   // a) observing items updates (too frequent with in between empty states)
-  // b) hooking into Instantsearch.js internal states (too frequent with in between empty states)
-  // c) observing render state of FlatList (gets complex quickly, tricky to get right)
+  // b) observing render state of FlatList (gets complex quickly, tricky to get right)
   const trackResultsViewed = useDebounce(() => {
-    // practically, results are always defined (just to make type checker happy)
     if (results) {
-      track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(results)))
+      track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(results, filter)))
     }
   }, 1000)
 
   useEffect(() => {
     trackResultsViewed()
-  }, [items, trackResultsViewed])
+  }, [results, trackResultsViewed])
 
   // Hide results of empty query or wrong facet
-  const isEmptyQuery = (!results?.query || results?.query === '*') && !configuredFilter
-  const displayedItems = isEmptyQuery || oldResults ? [] : (items ?? [])
-  const itemHeight = selectedFacet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
+  const displayedItems = isFilterEmpty || oldResults ? [] : (results ?? [])
+  const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
 
   return (
     <FlashList
@@ -81,17 +78,19 @@ export function SearchHitInfiniteList({ loadingParameters }: SearchHitInfiniteLi
       testID={'search-results-list'}
       estimatedItemSize={itemHeight + Spacing['xs']}
       data={displayedItems}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.document.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        isLoading || isEmptyQuery ? (
+        isLoading && !isFilterEmpty ? (
           <HoliLoader style={styles.loader} testID="loader" />
+        ) : isFilterEmpty ? (
+          <SearchExamples onQuerySelect={onQuerySelect} currentFacet={filter.facet} />
         ) : (
-          <NoSearchResults query={results?.query ?? ''} />
+          <NoSearchResults query={filter.query} />
         )
       }
       ListFooterComponent={() => {
-        if (displayedItems.length > 0 && !isLastPage) {
+        if (displayedItems.length > 0 && canLoadMore) {
           return <HoliLoader style={styles.loader} testID="nextPageLoader" />
         }
         return null
@@ -99,12 +98,13 @@ export function SearchHitInfiniteList({ loadingParameters }: SearchHitInfiniteLi
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
-        if (!isLastPage && !isLoading) {
-          debouncedShowMore()
+        if (canLoadMore && !isLoading) {
+          loadMore()
         }
       }}
       onEndReachedThreshold={0.5}
-      renderItem={({ item: hit, index }: { item: SearchHitData; index: number }) => {
+      renderItem={({ item, index }: { item: SearchResponseHit<SearchHitData>; index: number }) => {
+        const hit = item.document
         return (
           <ErrorBoundary>
             <SearchHit
@@ -115,7 +115,7 @@ export function SearchHitInfiniteList({ loadingParameters }: SearchHitInfiniteLi
                 itemPressedType: hit.type,
                 itemPressedTitleDe: hit.type === 'profile' ? hit.user_full_name : hit.title_de,
                 itemPressedTitleEn: hit.type === 'profile' ? hit.user_full_name : hit.title_en,
-                searchResult: resultsToTrackingEventResults(results!), // eslint-disable-line @typescript-eslint/no-non-null-assertion
+                searchResult: resultsToTrackingEventResults(results, filter),
               })}
             />
           </ErrorBoundary>

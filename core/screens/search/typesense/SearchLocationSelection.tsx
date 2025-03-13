@@ -9,61 +9,38 @@ import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ChipAction } from 'holi-bricks/components/chips'
 import { Edit2 } from '@holi/icons/src/generated'
 import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
-import { useConnector } from 'react-instantsearch-core'
-import { connectConfigure } from 'instantsearch.js/es/connectors'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
 
 export interface SearchLocationSelectionProps {
-  initialSelection?: GeolocationSuggestion
+  currentLocation?: GeolocationSuggestion
   onLocationChange: (location?: GeolocationSuggestion) => void
 }
 
-export const SearchLocationSelection = ({ initialSelection, onLocationChange }: SearchLocationSelectionProps) => {
+export const SearchLocationSelection = ({ currentLocation, onLocationChange }: SearchLocationSelectionProps) => {
   const { t } = useTranslation()
-  const germanyWideLabel = t('search.germanyWide')
-  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(initialSelection)
-  const [locationName, setLocationName] = useState(selectedLocation?.label ?? germanyWideLabel)
-  const [locationFilter, setLocationFilter] = useState(selectedLocation)
-
-  useConnector(connectConfigure, {
-    searchParameters: {
-      filters: locationFilter
-        ? `location_lat_lng:(${locationFilter?.coordinates?.latitude}, ${locationFilter?.coordinates?.longitude}, 1 km)`
-        : '',
-    },
-  })
+  const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(currentLocation)
 
   // const inputRef = useRef<TextInput | null>(null)
 
-  // Modal visibility
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const { styles } = useStyles(stylesheet)
 
   const onSave = () => {
-    if (!selectedLocation) {
-      onLocationChange(undefined)
-      setLocationName(germanyWideLabel)
-      setLocationFilter(undefined)
-    } else {
-      onLocationChange(selectedLocation)
-      setLocationName(selectedLocation.label)
-      setLocationFilter(selectedLocation)
-    }
-    // Close modal
+    onLocationChange(selectedLocation)
     setLocationModalVisible(false)
   }
 
-  // Called when user taps 'Back'
+  const openLocationModal = () => setLocationModalVisible(true)
   const closeLocationModal = () => {
     setLocationModalVisible(false)
   }
 
   return (
     <>
-      <ChipAction iconTrailing={Edit2} onPress={() => setLocationModalVisible(true)}>
-        {locationName}
+      <ChipAction iconTrailing={Edit2} onPress={openLocationModal} color="white">
+        {currentLocation?.label ?? t('search.germanyWide')}
       </ChipAction>
       <HoliModal
         shown={locationModalVisible}

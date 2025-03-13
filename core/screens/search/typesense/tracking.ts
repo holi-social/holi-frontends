@@ -1,20 +1,6 @@
 import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 
-const deniedProps = [
-  'embedding',
-  'image_url',
-  'link_locators',
-  'hybrid_search_info',
-  'objectID',
-  'text_match',
-  'text_match_info',
-  '_highlightResult',
-  '_rawTypesenseHit',
-  '_snippetResult',
-  'vector_distance',
-  '__position',
-  '__queryID',
-]
+const deniedProps = ['embedding', 'image_url', 'link_locators']
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const removeDeniedProps = (record: Record<string, any>): Record<string, any> => {

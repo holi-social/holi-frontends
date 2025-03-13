@@ -1,6 +1,8 @@
+import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+
 export type SearchHitType = 'volunteering' | 'profile' | 'space'
 export type SearchHitLinkLocatorIdOrSlug = string | number
-export type SearchHitData = {
+export interface SearchHitData {
   type: SearchHitType
   id: string
   title_de?: string
@@ -23,4 +25,10 @@ export type SearchHitData = {
    * This can then be used to reconstruct the URI path /$lang/spaces/kiezputz/tasks/1c83676f-5197-44c7-bea6-51a7e2f41959
    */
   link_locators?: Partial<Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>>
+}
+
+export interface SearchFilter {
+  facet: string
+  query: string
+  location?: GeolocationSuggestion
 }
