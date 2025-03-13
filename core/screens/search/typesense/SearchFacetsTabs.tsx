@@ -1,6 +1,6 @@
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { Group, GroupFilled, Hearts, HeartsFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
@@ -28,12 +28,11 @@ export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTa
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
-  // TODO(SF) needed?
-  // useEffect(() => {
-  //   onSelect(initialFacet ?? FACETS_IN_ORDER[0])
-  //   // Only trigger on initial render
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  useEffect(() => {
+    onFacetChange(currentFacet ?? FACETS_IN_ORDER[0])
+    // Only trigger on initial render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <HoliTabs

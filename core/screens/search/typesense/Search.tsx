@@ -38,14 +38,14 @@ export const Search = () => {
   const updateParams = useUpdateParams({ web: { replace: true } })
 
   // Determine initial geolocation selection from query parameters
-  const { geolocationSuggestion, loadingGeolocation } = useGeolocationDetailsWithSuggestion(geolocationId, (error) => {
-    updateParams({ location: undefined }) // TODO(SF) test
+  // TODO(SF) handle ssr warning because of lottie, clear param
+  const { geolocationSuggestion, loadingGeolocation } = useGeolocationDetailsWithSuggestion(geolocationId, (error) =>
     displayError(error, 'Failed to load geolocation', {
-      displayMessage: t('TODO'), // TODO(SF) add translation
+      displayMessage: t('search.location.notFound'),
       location: 'Search.useGeolocationCoordinates',
       geolocationId,
     })
-  })
+  )
 
   const { filter, isFilterEmpty, setQuery, setFacet, setLocation } = useSearchFilter(
     {

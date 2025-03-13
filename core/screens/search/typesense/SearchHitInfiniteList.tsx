@@ -71,6 +71,7 @@ export function SearchHitInfiniteList({
   // Hide results of empty query or wrong facet
   const displayedItems = isFilterEmpty || oldResults ? [] : (results ?? [])
   const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
+  // TODO(SF) handle ssr issue because of randomized search examples
 
   return (
     <FlashList
@@ -86,6 +87,7 @@ export function SearchHitInfiniteList({
         ) : isFilterEmpty ? (
           <SearchExamples onQuerySelect={onQuerySelect} currentFacet={filter.facet} />
         ) : (
+          // TODO(SF) adjust message if only location filter is applied
           <NoSearchResults query={filter.query} />
         )
       }
