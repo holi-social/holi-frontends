@@ -7,7 +7,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, Platform, View } from 'react-native'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
@@ -16,6 +16,7 @@ import { useGeolocationDetailsWithSuggestion } from '@holi/core/geolocation/hook
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSearchFilter } from '@holi/core/screens/search/typesense/hooks/useSearchFilter'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { Spacing } from 'holi-bricks/tokens'
 
 export type SearchParams = {
   query?: string
@@ -60,12 +61,19 @@ export const Search = () => {
       })
   )
 
+  const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined)
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      setMaxHeight(Dimensions.get('window').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT)
+    }
+  }, [])
+
   return (
     <Screen
       backgroundColor="page"
       preset="fixed"
-      contentContainerStyle={{ flex: 1 }} // needed for FlashList initial size calculations.
-      style={styles.screen}
+      contentContainerStyle={{ flex: 1 }} // needed for FlashList initial size calculations
+      style={{ maxHeight }}
       headerOptions={{
         title: t('search.title'),
         headerTitleAlign: 'center',
@@ -100,16 +108,9 @@ export const Search = () => {
 const TOP_COMPONENT_HEIGHT = 178
 const stylesheet = createStyleSheet((theme) => ({
   filterContainer: {
-    paddingTop: dimensions.spacingS,
-    gap: dimensions.spacingS,
+    paddingTop: Spacing.xs,
+    gap: Spacing.xs,
     flex: 1,
     backgroundColor: theme.colors.bg.page,
-  },
-  screen: {
-    ...Platform.select({
-      web: {
-        maxHeight: Dimensions.get('window').height - dimensions.topBarHeight - TOP_COMPONENT_HEIGHT,
-      },
-    }),
   },
 }))

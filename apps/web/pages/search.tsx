@@ -1,8 +1,10 @@
-import type { NextPage } from 'next'
-import dynamic from 'next/dynamic'
+import { NextPage } from 'next'
 import React from 'react'
 
-const SearchScreen = dynamic(() => import('@holi/core/screens/search/SearchScreen'), { ssr: false })
+import SearchScreen from '@holi/core/screens/search/SearchScreen'
+import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
+
+export const getServerSideProps = createServerSideProps
 
 const SearchPage: NextPage = () => <SearchScreen />
 
