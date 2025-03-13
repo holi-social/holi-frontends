@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import PlacesAutocomplete, {
   type GeolocationSuggestion,
@@ -7,11 +7,13 @@ import PlacesAutocomplete, {
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ChipAction } from 'holi-bricks/components/chips'
-import { Edit2 } from '@holi/icons/src/generated'
-import HoliModalContentWrapper from '@holi/ui/components/molecules/HoliModalContentWrapper'
+import { ArrowLeft, CloseCircleFilled, Edit2 } from '@holi/icons/src/generated'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius, Spacing } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/tokens'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
+import { Button, ButtonIcon } from 'holi-bricks/components/button'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 export interface SearchLocationSelectionProps {
   currentLocation?: GeolocationSuggestion
@@ -22,8 +24,6 @@ export const SearchLocationSelection = ({ currentLocation, onLocationChange }: S
   const { t } = useTranslation()
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(currentLocation)
 
-  // const inputRef = useRef<TextInput | null>(null)
-
   const [locationModalVisible, setLocationModalVisible] = useState(false)
   const { styles } = useStyles(stylesheet)
 
@@ -33,50 +33,58 @@ export const SearchLocationSelection = ({ currentLocation, onLocationChange }: S
   }
 
   const openLocationModal = () => setLocationModalVisible(true)
-  const closeLocationModal = () => {
-    setLocationModalVisible(false)
-  }
+  const closeLocationModal = () => setLocationModalVisible(false)
 
   return (
     <>
       <ChipAction iconTrailing={Edit2} onPress={openLocationModal} color="white">
-        {currentLocation?.label ?? t('search.germanyWide')}
+        {currentLocation?.label ?? t('search.location.germanyWide')}
       </ChipAction>
       <HoliModal
         shown={locationModalVisible}
         onDismiss={closeLocationModal}
-        label={t('search.locationFilter')}
-        relativeHeight={0.8}
+        label={t('search.location.filter')}
+        relativeHeight={0.4}
         autoHeight={false}
+        backgroundColor={styles.container.backgroundColor}
       >
-        <HoliModalContentWrapper
-          actionButtonText={t('search.saveLocationButton')}
-          onActionButtonPress={onSave}
-          // style={styles.modalWrapper}
-          // testID="volunteering-filter-modal"
-          // keyboardShouldPersistTaps="handled"
-          // scrollable={false}
-          // hideFooterWhenKeyboardIsOpen={true}
-        >
+        <HoliContainer>
           <View style={styles.container}>
             <View style={styles.inputContainer}>
               <PlacesAutocomplete
-                label={t('search.locationLabel')}
-                id="user-location-input"
-                placeholder={t('search.locationPlaceholder')}
+                label={t('search.location.label')}
+                id="search-location-input"
+                placeholder={t('search.location.placeholder')}
                 level={GeolocationLevel.CITY}
                 selected={selectedLocation}
                 onChange={setSelectedLocation}
+                inputProps={{ autoFocus: true }}
+                clearInputComponent={
+                  <Pressable
+                    onPress={() => setSelectedLocation(undefined)}
+                    accessibilityLabel={t('search.typesense.input.clear')}
+                    testID="search-location-clear"
+                    accessibilityRole="button"
+                  >
+                    <HoliIcon icon={CloseCircleFilled} size={22} />
+                  </Pressable>
+                }
               />
+              <View style={styles.buttonContainer}>
+                <ButtonIcon
+                  label={t('search.location.closeSelection')}
+                  variant="secondary"
+                  onPress={closeLocationModal}
+                  testID={'modal-close-btn'}
+                  icon={ArrowLeft}
+                />
+                <View style={styles.saveButton}>
+                  <Button label={t('search.location.save')} onPress={onSave} />
+                </View>
+              </View>
             </View>
-
-            {/* <NavigationButtons
-            onBackPress={closeLocationModal}
-            onNextPress={onSave}
-            nextButtonLabel={t('search.saveLocationButton')}
-          /> */}
           </View>
-        </HoliModalContentWrapper>
+        </HoliContainer>
       </HoliModal>
     </>
   )
@@ -85,16 +93,16 @@ export const SearchLocationSelection = ({ currentLocation, onLocationChange }: S
 const stylesheet = createStyleSheet((theme) => ({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.bg.container, // e.g. or theme.colors.bg.page
-    borderTopLeftRadius: BorderRadius.lg,
-    // or Spacing.md, etc.
-    padding: Spacing.xs,
+    backgroundColor: theme.colors.bg.page,
   },
   inputContainer: {
-    backgroundColor: theme.colors.bg.container,
-    borderRadius: BorderRadius.xs,
-    paddingHorizontal: Spacing['3xs'],
-    paddingVertical: Spacing['4xs'],
-    marginBottom: Spacing['xs'],
+    gap: Spacing.xs,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: Spacing['3xs'],
+  },
+  saveButton: {
+    flex: 1,
   },
 }))

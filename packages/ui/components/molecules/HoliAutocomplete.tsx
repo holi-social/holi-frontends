@@ -76,6 +76,7 @@ export type HoliAutocompleteProps = {
   onSelect?: (value: Suggestion) => void // should probably handle the non selection case
   onClose?: (value?: Suggestion) => void
   suggestionsStyle?: StyleProp<ViewStyle>
+  clearInputComponent?: React.ReactElement
 }
 
 const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
@@ -92,6 +93,7 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
       loading,
       inputProps,
       trailingIcon = Search,
+      clearInputComponent,
       suggestions = [],
       id, // think about encapsulating the selection mechanism from the ground up
       testID,
@@ -157,13 +159,16 @@ const HoliAutocomplete = React.forwardRef<View, HoliAutocompleteProps>(
     }
 
     const trailingComponent = useMemo(() => {
+      if (!loading && clearInputComponent && value) {
+        return clearInputComponent
+      }
       const icon = loading ? Loader : trailingIcon
       return (
         <SpinningIconContainer spinning={loading}>
           <HoliIcon icon={icon} size={22} />
         </SpinningIconContainer>
       )
-    }, [trailingIcon, loading])
+    }, [trailingIcon, loading, clearInputComponent, value])
 
     return (
       <View style={style}>

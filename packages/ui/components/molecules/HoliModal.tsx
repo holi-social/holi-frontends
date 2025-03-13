@@ -1,19 +1,20 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type React from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Animated,
-  ModalProps,
+  type ModalProps,
   Platform,
-  StyleProp,
+  type StyleProp,
   StyleSheet,
   View,
-  ViewStyle,
+  type ViewStyle,
   useWindowDimensions,
 } from 'react-native'
 import {
-  GestureEvent,
+  type GestureEvent,
   GestureHandlerRootView,
-  HandlerStateChangeEvent,
+  type HandlerStateChangeEvent,
   PanGestureHandler,
 } from 'react-native-gesture-handler'
 
@@ -24,7 +25,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import ModalBasic from '@holi/ui/components/molecules/ModalBasic'
 import { isWebTouchDevice } from '@holi/ui/helper'
 import { constants } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 const FULLSCREEN_HEIGHT_THRESHOLD = 0.94
 const IOS_STATUS_BAR_HEIGHT = constants.statusBarHeight
@@ -47,6 +48,7 @@ export interface HoliModalProps extends ModalProps {
   desktop?: boolean
   style?: StyleProp<ViewStyle>
   testID?: string
+  backgroundColor?: string
 }
 
 export interface UseModalStateHookConfig {
@@ -102,13 +104,14 @@ const HoliModal: React.FC<HoliModalProps> = ({
   desktop = false,
   style,
   testID,
+  backgroundColor,
 }) => {
   const { t } = useTranslation()
   const { height: deviceHeight } = useWindowDimensions()
   const [contentHeight, setContentHeight] = useState(0)
   const { theme } = useTheme()
   const { colors } = theme
-  const styles = useMemo(() => getStyles(theme), [theme])
+  const styles = useMemo(() => getStyles(theme, backgroundColor), [theme, backgroundColor])
 
   // value for appearance animation
   const animShiftRef = useRef(new Animated.Value(0))
@@ -269,7 +272,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
 
 export default memo(HoliModal)
 
-const getStyles = (theme: HoliTheme) =>
+const getStyles = (theme: HoliTheme, backgroundColor?: string) =>
   StyleSheet.create({
     rootView: {
       flex: 1,
@@ -280,7 +283,7 @@ const getStyles = (theme: HoliTheme) =>
       justifyContent: 'center',
     },
     root: {
-      backgroundColor: theme.colors.background10,
+      backgroundColor: backgroundColor ?? theme.colors.background10,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
       overflow: 'hidden',
@@ -291,7 +294,7 @@ const getStyles = (theme: HoliTheme) =>
       },
     },
     rootDesktop: {
-      backgroundColor: theme.colors.background10,
+      backgroundColor: backgroundColor ?? theme.colors.background10,
       borderColor: theme.colors.black300,
       borderStyle: 'solid',
       borderWidth: 1,

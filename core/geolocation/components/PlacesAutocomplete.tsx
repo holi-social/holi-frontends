@@ -1,18 +1,18 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, TextInputProps, View, ViewStyle } from 'react-native'
+import { Platform, type StyleProp, type TextInputProps, type View, type ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import {
-  GeoPlaceDetailsResponse,
-  GeoPlacesResponse,
+  type GeoPlaceDetailsResponse,
+  type GeoPlacesResponse,
   geoPlaceDetailsQuery,
   geoPlacesQuery,
 } from '@holi/core/geolocation/queries'
-import { GeolocationGeoJSON, GeolocationPoint } from '@holi/core/types'
+import type { GeolocationGeoJSON, GeolocationPoint } from '@holi/core/types'
 import { Search } from '@holi/icons/src/generated'
-import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
+import HoliAutocomplete, { type Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useDebounce } from '@holi/ui/helper'
 
 const PLACE_SUGGESTION_DEBOUNCE = 500
@@ -42,6 +42,7 @@ export interface PlacesAutocompleteProps {
   suggestionsStyle?: StyleProp<ViewStyle>
   level?: GeolocationLevel
   enhanceWithDetails?: boolean
+  clearInputComponent?: React.ReactElement
 }
 
 const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
@@ -61,6 +62,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       suggestionsStyle,
       level,
       enhanceWithDetails,
+      clearInputComponent,
     },
     ref
   ) => {
@@ -210,6 +212,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         placeholder={placeholder}
         value={value}
         trailingIcon={Search}
+        clearInputComponent={clearInputComponent}
         inputProps={inputProps}
         onSubmit={onSubmitHandler}
         onSelect={onChange}
