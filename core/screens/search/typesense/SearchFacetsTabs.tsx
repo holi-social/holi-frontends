@@ -12,31 +12,30 @@ interface SearchFacetsTabsProps {
   onFacetChange: (facet: string) => void
 }
 
-enum Facets {
-  VOLUNTEERING = 'volunteering',
-  SPACE = 'space',
-  PROFILE = 'profile',
-}
-const FACETS_IN_ORDER = [Facets.VOLUNTEERING, Facets.SPACE, Facets.PROFILE]
-const FACET_ICONS: { [key in Facets]: HoliTabItem['tabIcons'] } = {
+type Facet = 'volunteering' | 'space' | 'profile'
+const FACET_ICONS: { [key in Facet]: HoliTabItem['tabIcons'] } = {
   volunteering: [Hearts, HeartsFilled],
   space: [Spaces, SpacesFilled],
   profile: [Group, GroupFilled],
 }
+const FACETS_IN_ORDER: Facet[] = ['volunteering', 'space', 'profile']
 
 export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTabsProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
+  const validFacet = FACETS_IN_ORDER.includes(currentFacet as Facet) ? currentFacet : FACETS_IN_ORDER[0]
 
   useEffect(() => {
-    onFacetChange(currentFacet ?? FACETS_IN_ORDER[0])
+    if (validFacet !== currentFacet) {
+      onFacetChange(validFacet)
+    }
     // Only trigger on initial render
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <HoliTabs
-      activeTab={currentFacet}
+      activeTab={validFacet}
       onChange={onFacetChange}
       tabBarBackgroundColor={styles.tabs.backgroundColor}
       data={FACETS_IN_ORDER.map((facet) => ({

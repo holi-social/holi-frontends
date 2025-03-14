@@ -25,20 +25,20 @@ interface SearchExamplesProps {
 export const SearchExamples = ({ onQuerySelect, currentFacet }: SearchExamplesProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
+  const validFacet = EXAMPLE_COUNTS[currentFacet] ? currentFacet : 'volunteering'
 
-  const exampleIds = useMemo(
-    () => Array.from({ length: EXAMPLE_COUNTS[currentFacet] }, (_, i) => i + 1),
-    [currentFacet]
-  )
+  const exampleIds = useMemo(() => {
+    return Array.from({ length: EXAMPLE_COUNTS[validFacet] }, (_, i) => i + 1)
+  }, [validFacet])
   const displayedExampleIds = useMemo(() => shuffle(exampleIds).slice(0, DISPLAYED_EXAMPLE_COUNT), [exampleIds])
 
   return (
     <View style={styles.list} testID="search-examples">
       <Text size="lg">{t('search.typesense.examples.headline')}</Text>
       {displayedExampleIds.map((id) => {
-        const text = t(`search.typesense.examples.${currentFacet}${id}`)
+        const text = t(`search.typesense.examples.${validFacet}${id}`)
         const params = new URLSearchParams({
-          facet: currentFacet,
+          facet: validFacet,
           query: text,
         })
         return (
