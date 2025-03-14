@@ -33,7 +33,7 @@ export const useSearchFilter = (
     [filter, updateFilter]
   )
 
-  const isFilterEmpty = useMemo(() => !filter.query && !filter.location, [filter])
+  const isFilterEmpty = useMemo(() => !filter.query && (!filter.location || filter.facet === 'profile'), [filter])
 
   return {
     filter,

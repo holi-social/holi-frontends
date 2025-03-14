@@ -101,6 +101,7 @@ describe('useSearchFilter', () => {
 
     expect(result.current.isFilterEmpty).toBeFalsy()
   })
+
   it('should return false for isFilterEmpty when there is a location', () => {
     const { result } = renderHook(() =>
       useSearchFilter(
@@ -117,5 +118,23 @@ describe('useSearchFilter', () => {
     )
 
     expect(result.current.isFilterEmpty).toBeFalsy()
+  })
+
+  it('should return true for isFilterEmpty when there only a location but the facet is profile', () => {
+    const { result } = renderHook(() =>
+      useSearchFilter(
+        {
+          location: {
+            id: '123',
+            label: 'Hamburg, Germany',
+            coordinates: { latitude: 52, longitude: 13 },
+          },
+          facet: 'profile',
+        },
+        jest.fn()
+      )
+    )
+
+    expect(result.current.isFilterEmpty).toBeTruthy()
   })
 })
