@@ -137,4 +137,18 @@ describe('createSearchParameters', () => {
       per_page: 10,
     })
   })
+
+  it('should pass page paramter', () => {
+    const result = createSearchParameters({ facet: 'volunteering', query: 'nachhilfe' }, 3)
+
+    expect(result).toEqual({
+      q: 'nachhilfe',
+      query_by: 'title_de,title_en,description_de,description_en,location,embedding',
+      query_by_weights: '1,1,1,1,100,10',
+      vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.1)',
+      filter_by: 'type:=[`volunteering`]',
+      page: 3,
+      per_page: 10,
+    })
+  })
 })
