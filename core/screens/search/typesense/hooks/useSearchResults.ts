@@ -72,6 +72,7 @@ export const useSearchResults = (filter: SearchFilter) => {
   // Reset search on filter changes
   useEffect(() => {
     // setResults([]) TODO(SF) maybe this helps with pagination issue?
+    // still an issue after geolocation error
     refresh()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter])
