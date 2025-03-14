@@ -1,6 +1,6 @@
 import { getInitials } from '@holi/core/helpers'
 import { SearchHitLink } from '@holi/core/screens/search/typesense/SearchHitLink'
-import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks'
+import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks/useUserLanguage'
 import type { SearchHitData, SearchHitType } from '@holi/core/screens/search/typesense/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'

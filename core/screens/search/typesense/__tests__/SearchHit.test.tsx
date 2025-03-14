@@ -1,67 +1,19 @@
 import { faker } from '@faker-js/faker'
 import { SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
-import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks'
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks/useUserLanguage'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 import { testTrackingEvent } from '@holi/core/components/__tests__/Trackable.test'
+import { volunteeringHit, spaceHit, profileHit } from '@holi/core/screens/search/typesense/__tests__/testData'
 
-const makeVolunteeringHit = (): SearchHitData => ({
-  type: 'volunteering',
-  id: faker.string.uuid(),
-  title_de: faker.lorem.sentence(10),
-  title_en: faker.lorem.sentence(10),
-  description_de: faker.lorem.paragraph(5),
-  description_en: faker.lorem.paragraph(5),
-  location: faker.location.city(),
-  location_lat_lng: [faker.location.latitude(), faker.location.longitude()],
-  image_url: faker.image.url(),
-  link_locators: {
-    volunteering: faker.number.int(),
-  },
-})
-
-const makeProfileHit = (): SearchHitData => {
-  return {
-    type: 'profile',
-    id: faker.string.uuid(),
-    location: faker.location.city(),
-    location_lat_lng: [faker.location.latitude(), faker.location.longitude()],
-    image_url: faker.image.url(),
-    link_locators: {
-      profile: faker.string.uuid(),
-    },
-    user_full_name: faker.person.fullName(),
-  }
-}
-
-const makeSpaceHit = (): SearchHitData => {
-  const title = faker.lorem.words(10)
-  const description = faker.lorem.paragraph(5)
-  return {
-    type: 'space',
-    id: faker.string.uuid(),
-    title_de: title,
-    title_en: title,
-    description_de: description,
-    description_en: description,
-    location: faker.location.city(),
-    location_lat_lng: [faker.location.latitude(), faker.location.longitude()],
-    image_url: faker.image.url(),
-    link_locators: {
-      space: faker.string.uuid(),
-    },
-  }
-}
-
-jest.mock('@holi/core/screens/search/typesense/hooks')
+jest.mock('@holi/core/screens/search/typesense/hooks/useUserLanguage')
 const useUserLanguageMock = jest.mocked(useUserLanguage)
 
 describe('SearchHit', () => {
   it('correctly renders volunteering item (all fields, de)', async () => {
     useUserLanguageMock.mockReturnValue('de')
 
-    const hit = makeVolunteeringHit()
+    const hit = volunteeringHit
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     expect(screen.getByText(hit.title_de!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion
@@ -77,7 +29,7 @@ describe('SearchHit', () => {
   it('correctly renders volunteering item (all fields, en)', async () => {
     useUserLanguageMock.mockReturnValue('en')
 
-    const hit = makeVolunteeringHit()
+    const hit = volunteeringHit
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     expect(screen.getByText(hit.title_en!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion
@@ -94,7 +46,7 @@ describe('SearchHit', () => {
     useUserLanguageMock.mockReturnValue('de')
 
     const hit = {
-      ...makeVolunteeringHit(),
+      ...volunteeringHit,
       title_en: faker.lorem.sentence(10),
       title_de: undefined,
     }
@@ -105,7 +57,7 @@ describe('SearchHit', () => {
     useUserLanguageMock.mockReturnValue('en')
 
     const hit = {
-      ...makeVolunteeringHit(),
+      ...volunteeringHit,
       title_de: faker.lorem.sentence(10),
       title_en: undefined,
     }
@@ -116,7 +68,7 @@ describe('SearchHit', () => {
   it('renders the correct link (volunteering)', async () => {
     const user = userEvent.setup()
 
-    const hit = makeVolunteeringHit()
+    const hit = volunteeringHit
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     await user.press(screen.getByRole('link'))
@@ -125,7 +77,7 @@ describe('SearchHit', () => {
   it('renders the correct link (user)', async () => {
     const user = userEvent.setup()
 
-    const hit = makeProfileHit()
+    const hit = profileHit
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     await user.press(screen.getByRole('link'))
@@ -134,7 +86,7 @@ describe('SearchHit', () => {
   it('renders the correct link (space)', async () => {
     const user = userEvent.setup()
 
-    const hit = makeSpaceHit()
+    const hit = spaceHit
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     await user.press(screen.getByRole('link'))
@@ -143,7 +95,7 @@ describe('SearchHit', () => {
   it('correctly renders profile item with user_full_name', async () => {
     useUserLanguageMock.mockReturnValue('de')
 
-    const hit = makeProfileHit()
+    const hit = profileHit
     render(<SearchHit hit={hit} trackingEvent={testTrackingEvent} />)
 
     expect(screen.getByText(hit.user_full_name!)).toBeOnTheScreen() // eslint-disable-line @typescript-eslint/no-non-null-assertion

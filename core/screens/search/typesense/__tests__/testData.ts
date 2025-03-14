@@ -1,32 +1,6 @@
 import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
-import type { Hit } from 'instantsearch.js'
-import type { useRefinementList } from 'react-instantsearch-core'
 
-export const facets: ReturnType<typeof useRefinementList>['items'] = [
-  {
-    count: 30691,
-    isRefined: false,
-    value: 'volunteering',
-    label: 'volunteering',
-    highlighted: 'volunteering',
-  },
-  {
-    count: 8265,
-    isRefined: false,
-    value: 'profile',
-    label: 'profile',
-    highlighted: 'profile',
-  },
-  {
-    count: 5648,
-    isRefined: true,
-    value: 'space',
-    label: 'space',
-    highlighted: 'space',
-  },
-]
-
-export const volunteeringHit: Hit<SearchHitData> = {
+export const volunteeringHit: SearchHitData = {
   type: 'volunteering',
   id: 'volunteering_157403',
   title_de: 'Freiwilligenarbeit in Berlin',
@@ -39,12 +13,9 @@ export const volunteeringHit: Hit<SearchHitData> = {
   link_locators: {
     volunteering: 157403,
   },
-  __position: 0,
-  __queryID: '1',
-  objectID: '1',
 }
 
-export const profileHit: Hit<SearchHitData> = {
+export const profileHit: SearchHitData = {
   type: 'profile',
   id: '2',
   user_full_name: 'Max Mustermann',
@@ -52,12 +23,9 @@ export const profileHit: Hit<SearchHitData> = {
   link_locators: {
     profile: '9035322c-3d67-46ca-a2b8-657be490ec00',
   },
-  __position: 1,
-  __queryID: '1',
-  objectID: '2',
 }
 
-export const spaceHit: Hit<SearchHitData> = {
+export const spaceHit: SearchHitData = {
   type: 'space',
   id: '3',
   title_de: 'Coworking Space in Mitte',
@@ -70,7 +38,4 @@ export const spaceHit: Hit<SearchHitData> = {
   link_locators: {
     space: 'coworking-mitte',
   },
-  __position: 2,
-  __queryID: '1',
-  objectID: '3',
 }
