@@ -45,7 +45,7 @@ export const Image: React.FC<ImageProps> = ({
     const { WithLocalSvg } = require('react-native-svg/css')
     return (
       <WithLocalSvg
-        role="image"
+        role="img"
         aria-label={alt}
         asset={source}
         width={width}
@@ -62,7 +62,7 @@ export const Image: React.FC<ImageProps> = ({
     <ExpoImage
       source={hasError && fallbackSource ? fallbackSource : transformedSource}
       alt={alt}
-      role="image"
+      role="img"
       accessibilityLabel={alt}
       accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
       accessible={otherProps?.['aria-hidden'] === true}

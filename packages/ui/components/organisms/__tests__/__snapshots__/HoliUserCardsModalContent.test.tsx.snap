@@ -198,7 +198,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         aria-label="Dima Rosmait"
                         contentFit="cover"
                         onError={[Function]}
-                        role="image"
+                        role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-1"
                         style={
                           [
@@ -568,7 +568,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         aria-label="Thomas Mueller"
                         contentFit="cover"
                         onError={[Function]}
-                        role="image"
+                        role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-2"
                         style={
                           [
@@ -938,7 +938,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         aria-label="Peter Pan"
                         contentFit="cover"
                         onError={[Function]}
-                        role="image"
+                        role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-3"
                         style={
                           [
@@ -1310,7 +1310,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                         aria-label="Lionel Messi"
                         contentFit="cover"
                         onError={[Function]}
-                        role="image"
+                        role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:256:256/ext:webp/quality:80/plain/avatar-4"
                         style={
                           [

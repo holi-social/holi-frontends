@@ -29,7 +29,7 @@ export const Image: React.FC<ImageProps> = ({
     <NextImage
       src={hasError && fallbackSource ? (fallbackSource as string) : transformedSource}
       alt={alt}
-      role="image"
+      role="img"
       aria-label={alt}
       blurDataURL={isRemote ? blurhash : undefined}
       width={width}

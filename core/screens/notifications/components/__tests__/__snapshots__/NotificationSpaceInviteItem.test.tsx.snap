@@ -87,7 +87,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               aria-label="Foo"
               contentFit="cover"
               onError={[Function]}
-              role="image"
+              role="img"
               source="https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80"
               style={
                 [
@@ -530,7 +530,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               aria-label="Foo"
               contentFit="cover"
               onError={[Function]}
-              role="image"
+              role="img"
               source="https://ik.imagekit.io/holidev/community/9cbe7f41-acb6-400d-b765-c106a4f6f5f8_3pviGfhQJ.jpg?tr=w-80%2Ch-80"
               style={
                 [
