@@ -38,7 +38,7 @@ export const Search = () => {
   const updateParams = useUpdateParams({ web: { replace: true } })
 
   // Determine initial geolocation selection from query parameters
-  // TODO(SF) handle ssr warning because of lottie, clear param
+  // TODO(SF) handle ssr warning because of lottie, clear param?
   const { geolocationSuggestion, loadingGeolocation } = useGeolocationDetailsWithSuggestion(geolocationId, (error) =>
     displayError(error, 'Failed to load geolocation', {
       displayMessage: t('search.location.notFound'),
@@ -99,7 +99,7 @@ export const Search = () => {
       <ErrorBoundary>
         <SearchHitInfiniteList
           filter={filter}
-          isFilterEmpty={isFilterEmpty}
+          emptyFilter={isFilterEmpty}
           loadingParameters={loadingGeolocation}
           onQuerySelect={setQuery}
         />

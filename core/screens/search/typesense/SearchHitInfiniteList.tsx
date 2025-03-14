@@ -35,14 +35,14 @@ const resultsToTrackingEventResults = (searchResults: SearchResults) => {
 interface SearchHitInfiniteListProps {
   loadingParameters?: boolean
   filter: SearchFilter
-  isFilterEmpty: boolean
+  emptyFilter?: boolean
   onQuerySelect: (query: string) => void
 }
 
 export function SearchHitInfiniteList({
   loadingParameters,
   filter,
-  isFilterEmpty,
+  emptyFilter = false,
   onQuerySelect,
 }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
@@ -66,7 +66,7 @@ export function SearchHitInfiniteList({
   }, [searchResults.hits, trackResultsViewed])
 
   // Hide results of empty query or wrong facet
-  const displayedItems = isFilterEmpty || oldResults ? [] : (searchResults.hits ?? [])
+  const displayedItems = emptyFilter || oldResults ? [] : (searchResults.hits ?? [])
   const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
 
   return (
@@ -78,9 +78,9 @@ export function SearchHitInfiniteList({
       keyExtractor={(item) => item.document.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        isLoading && !isFilterEmpty ? (
+        isLoading && !emptyFilter ? (
           <HoliLoader style={styles.loader} testID="loader" />
-        ) : isFilterEmpty ? (
+        ) : emptyFilter ? (
           <SearchExamples onQuerySelect={onQuerySelect} currentFacet={filter.facet} />
         ) : (
           <NoSearchResults filter={filter} />

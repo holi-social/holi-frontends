@@ -39,3 +39,24 @@ export const spaceHit: SearchHitData = {
     space: 'coworking-mitte',
   },
 }
+
+export const hit4: SearchHitData = {
+  type: 'space',
+  id: '4',
+  title_de: 'Neuer Coworking Space',
+  title_en: 'New Coworking Space',
+  description_de: 'Ein weiterer kreativer Raum.',
+  description_en: 'Another creative space.',
+  location: 'Prenzlauer Berg, Berlin',
+  location_lat_lng: [52.54, 13.41],
+  image_url: 'https://example.com/image4.jpg',
+  link_locators: {
+    space: 'coworking-prenzlauer',
+  },
+}
+
+export const toSearchResponseHit = (document: SearchHitData) => ({
+  document,
+  highlight: {},
+  text_match: 0,
+})

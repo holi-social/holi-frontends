@@ -1,103 +1,62 @@
 import React from 'react'
 import { act, fireEvent, render, screen, userEvent } from '@testing-library/react-native'
-import { useInfiniteHits, useInstantSearch } from 'react-instantsearch-core'
-import type { InfiniteHitsRenderState } from 'instantsearch.js/es/connectors/infinite-hits/connectInfiniteHits'
-import type { Hit } from 'instantsearch.js'
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
-import type { SearchResults } from 'algoliasearch-helper'
+import type { SearchFilter, SearchHitData, SearchResults } from '@holi/core/screens/search/typesense/types'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
 import type { TrackingEvent } from '@holi/core/tracking'
-import { profileHit, spaceHit, volunteeringHit } from '@holi/core/screens/search/typesense/__tests__/testData'
+import {
+  hit4,
+  profileHit,
+  spaceHit,
+  toSearchResponseHit,
+  volunteeringHit,
+} from '@holi/core/screens/search/typesense/__tests__/testData'
+import { useSearchResults } from '@holi/core/screens/search/typesense/hooks/useSearchResults'
+import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 
-jest.mock('react-instantsearch-core')
-const mockUseInfiniteHits = jest.mocked(useInfiniteHits)
-const mockUseInstantSearch = jest.mocked(useInstantSearch)
+const mockUseSearchResults = jest.mocked(useSearchResults)
+jest.mock('@holi/core/screens/search/typesense/hooks/useSearchResults', () => ({
+  useSearchResults: jest.fn(),
+}))
 
-const hit4: Hit<SearchHitData> = {
-  type: 'space',
-  id: '4',
-  title_de: 'Neuer Coworking Space',
-  title_en: 'New Coworking Space',
-  description_de: 'Ein weiterer kreativer Raum.',
-  description_en: 'Another creative space.',
-  location: 'Prenzlauer Berg, Berlin',
-  location_lat_lng: [52.54, 13.41],
-  image_url: 'https://example.com/image4.jpg',
-  link_locators: {
-    space: 'coworking-prenzlauer',
-  },
-  __position: 3,
-  __queryID: '1',
-  objectID: '4',
-}
-
-const removeDeniedProps = (hits: Array<Hit<SearchHitData>>) =>
+const removeDeniedProps = (hits: SearchResponseHit<SearchHitData>[]) =>
   hits.map((original) => {
-    const hit = { ...original } as Partial<Hit<SearchHitData>>
-    delete hit['__position']
-    delete hit['__queryID']
-    delete hit['objectID']
-    delete hit['link_locators']
-    delete hit['image_url']
-    return hit as Hit<SearchHitData>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { link_locators, image_url, ...document } = original.document
+    return document
   })
 
-const mockedInfiniteHits = ({
-  nbHits,
-  nbPages,
-  page,
-  hits,
-  query = 'search terms',
-}: {
-  nbHits: number
-  nbPages: number
-  page: number
-  hits: Array<Hit<SearchHitData>>
-  query?: string
-}): InfiniteHitsRenderState<Hit<SearchHitData>> => ({
-  showPrevious: jest.fn(),
-  showMore: jest.fn(),
-  isFirstPage: page === 0,
-  isLastPage: page >= nbPages - 1,
-  sendEvent: jest.fn(),
-  bindEvent: jest.fn(),
-  currentPageHits: hits,
-  hits: hits,
-  items: hits,
-  // only mock properties used in implementation of SearchHitInfiniteList (results is a huge complex object)
-  results: {
-    query,
-    hits,
-    nbHits,
-    nbPages,
-    page,
-    getRefinements: () => [{ name: 'user' } as SearchResults.Refinement],
-  } as SearchResults<Hit<SearchHitData>>,
-})
-
-const mockInstantSearchState = ({
-  status = 'idle',
-  refresh,
-  indexUiState = { refinementList: { type: ['volunteering'] } },
-}: Partial<ReturnType<typeof useInstantSearch>> = {}) => {
-  return { status, refresh, indexUiState } as ReturnType<typeof useInstantSearch>
-}
-
 describe('SearchHitInfiniteList', () => {
-  const hits = [volunteeringHit, profileHit, spaceHit]
+  const hits: SearchResponseHit<SearchHitData>[] = [volunteeringHit, profileHit, spaceHit].map(toSearchResponseHit)
+  const filter: SearchFilter = {
+    facet: 'volunteering',
+    query: 'search terms',
+  }
+  const searchResults: SearchResults = {
+    hits,
+    totalNrOfResults: 4,
+    totalNrOfPages: 2,
+    currentPage: 1,
+    canLoadMore: true,
+    filter,
+  }
 
   beforeEach(() => {
     jest.useFakeTimers()
-    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits }))
-    mockUseInstantSearch.mockReturnValue(mockInstantSearchState())
+    mockUseSearchResults.mockReturnValue({
+      isLoading: false,
+      searchResults,
+      loadMore: jest.fn(),
+      refresh: jest.fn(),
+    })
   })
-  afterEach(async () => {
-    await act(jest.runOnlyPendingTimers)
+
+  afterEach(() => {
+    act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
   })
 
   it('tracks searchResultsRendered event', async () => {
-    render(<SearchHitInfiniteList />)
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     // simulate time has passed so that debounced tracking function is called
     await jest.runAllTimersAsync()
@@ -111,76 +70,107 @@ describe('SearchHitInfiniteList', () => {
         query: 'search terms',
         totalNrOfResults: 4,
         totalNrOfPages: 2,
-        currentPage: 0,
+        currentPage: 1,
         renderedResults: removeDeniedProps(hits),
-        selectedFacets: ['user'],
+        selectedFacets: ['volunteering'],
       },
     } as TrackingEvent)
   })
 
   it('should render search results', () => {
-    render(<SearchHitInfiniteList />)
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     expect(screen.getAllByTestId(/search-hit/)).toHaveLength(3)
   })
 
   it('should render loader while loading and current results are empty', async () => {
-    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 0, nbPages: 0, page: 0, hits: [] }))
-    mockUseInstantSearch.mockReturnValue(mockInstantSearchState({ status: 'loading' }))
+    mockUseSearchResults.mockReturnValue({
+      isLoading: true,
+      searchResults: {
+        hits: [],
+        totalNrOfResults: 0,
+        totalNrOfPages: 0,
+        currentPage: 0,
+        canLoadMore: false,
+        filter,
+      },
+      loadMore: jest.fn(),
+      refresh: jest.fn(),
+    })
 
-    render(<SearchHitInfiniteList />)
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
   })
 
-  it('should render loader for empty query', async () => {
-    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits, query: '*' }))
+  it('should render search examples for empty query', async () => {
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} emptyFilter />)
 
-    render(<SearchHitInfiniteList />)
-
-    expect(screen.getByTestId('loader')).toBeOnTheScreen()
-    expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
+    expect(screen.getByTestId('search-examples')).toBeOnTheScreen()
   })
 
   it('should render loader while results of an unselected facet are displayed', async () => {
-    mockUseInfiniteHits.mockReturnValue(
-      mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits, query: 'some query' })
-    )
-    mockUseInstantSearch.mockReturnValue(
-      mockInstantSearchState({ indexUiState: { refinementList: { type: ['space'] } } })
-    )
+    mockUseSearchResults.mockReturnValue({
+      isLoading: true,
+      searchResults: {
+        ...searchResults,
+        filter: {
+          query: 'some query',
+          facet: 'profile',
+        },
+      },
+      loadMore: jest.fn(),
+      refresh: jest.fn(),
+    })
 
-    render(<SearchHitInfiniteList />)
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     expect(screen.getByTestId('loader')).toBeOnTheScreen()
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
   })
 
   it('should display text for empty search results', async () => {
-    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 0, nbPages: 1, page: 0, hits: [] }))
-    render(<SearchHitInfiniteList />)
+    mockUseSearchResults.mockReturnValue({
+      isLoading: false,
+      searchResults: {
+        hits: [],
+        totalNrOfResults: 0,
+        totalNrOfPages: 0,
+        currentPage: 0,
+        canLoadMore: false,
+        filter,
+      },
+      loadMore: jest.fn(),
+      refresh: jest.fn(),
+    })
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     expect(screen.getByText('search.typesense.noResults.headline')).toBeOnTheScreen()
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
   })
 
   it('should render loader in footer if more pages can be loaded', () => {
-    render(<SearchHitInfiniteList />)
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     expect(screen.getByTestId('nextPageLoader')).toBeOnTheScreen()
   })
 
   it('should not render loader in footer if all pages were loaded', async () => {
-    mockUseInfiniteHits.mockReturnValue(mockedInfiniteHits({ nbHits: 4, nbPages: 1, page: 0, hits }))
-    render(<SearchHitInfiniteList />)
-
-    expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
+    mockUseSearchResults.mockReturnValue({
+      isLoading: true,
+      searchResults: {
+        ...searchResults,
+        canLoadMore: false,
+      },
+      loadMore: jest.fn(),
+      refresh: jest.fn(),
+    })
   })
 
   it('tracks searchResultPressed event', async () => {
     const user = userEvent.setup()
-    render(<SearchHitInfiniteList />)
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     // simulate time has passed so that debounced tracking function is called
     await jest.runAllTimersAsync()
@@ -196,7 +186,7 @@ describe('SearchHitInfiniteList', () => {
       event_version__minor: 0,
       event_version__patch: 0,
       properties: {
-        itemPressed: removeDeniedProps([profileHit])[0],
+        itemPressed: removeDeniedProps([hits[1]])[0],
         itemPressedIndex: 1,
         itemPressedType: profileHit.type,
         itemPressedTitleDe: profileHit.user_full_name,
@@ -204,42 +194,49 @@ describe('SearchHitInfiniteList', () => {
         query: 'search terms',
         totalNrOfResults: 4,
         totalNrOfPages: 2,
-        currentPage: 0,
+        currentPage: 1,
         renderedResults: removeDeniedProps(hits),
-        selectedFacets: ['user'],
+        selectedFacets: ['volunteering'],
       },
     } as TrackingEvent)
   })
 
   it('fetches more data on scroll and fires another searchResultsRendered tracking event', async () => {
     const page1 = hits
-    const page2 = [hit4]
+    const page2 = [toSearchResponseHit(hit4)]
+    const loadMore = jest.fn()
 
     // Mock more hits to be returned when scrolling
-    const mockShowMore = jest.fn(() => {
-      mockUseInfiniteHits.mockReturnValueOnce(
-        mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 1, hits: [...page1, ...page2] })
-      )
+    mockUseSearchResults.mockReturnValueOnce({
+      isLoading: false,
+      searchResults,
+      loadMore,
+      refresh: jest.fn(),
+    })
+    mockUseSearchResults.mockReturnValue({
+      isLoading: false,
+      searchResults: {
+        ...searchResults,
+        currentPage: 2,
+        hits: [...page1, ...page2],
+      },
+      loadMore,
+      refresh: jest.fn(),
     })
 
-    mockUseInfiniteHits.mockReturnValueOnce({
-      ...mockedInfiniteHits({ nbHits: 4, nbPages: 2, page: 0, hits: page1 }),
-      showMore: mockShowMore,
-    })
-
-    const { rerender } = render(<SearchHitInfiniteList />)
+    const { rerender } = render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     // simulate time has passed so that debounced tracking function is called
     await jest.runAllTimersAsync()
 
     // Trigger onEndReached by scrolling to the bottom
     const flatList = screen.getByTestId('search-results-list')
-    fireEvent(flatList, 'onEndReached') // Triggers showMore to fetch new items
+    fireEvent(flatList, 'onEndReached') // Triggers loadMore to fetch new items
 
-    // Check if `showMore` was called to fetch additional data
-    expect(mockShowMore).toHaveBeenCalled()
+    // Check if `loadMore` was called to fetch additional data
+    expect(loadMore).toHaveBeenCalled()
 
-    rerender(<SearchHitInfiniteList />)
+    rerender(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     // simulate time has passed so that debounced tracking function is called
     await jest.runAllTimersAsync()
@@ -255,18 +252,23 @@ describe('SearchHitInfiniteList', () => {
         query: 'search terms',
         totalNrOfResults: 4,
         totalNrOfPages: 2,
-        currentPage: 1,
+        currentPage: 2,
         renderedResults: removeDeniedProps([...page1, ...page2]), // Adjust for newly fetched results if needed
-        selectedFacets: ['user'],
+        selectedFacets: ['volunteering'],
       },
     })
   })
 
   it('should refresh on pull-to-refresh', () => {
     const refresh = jest.fn()
-    mockUseInstantSearch.mockReturnValue(mockInstantSearchState({ status: 'loading', refresh }))
+    mockUseSearchResults.mockReturnValueOnce({
+      isLoading: false,
+      searchResults,
+      loadMore: jest.fn(),
+      refresh,
+    })
 
-    render(<SearchHitInfiniteList />)
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
 
     // Trigger pull-to-refresh
     const flatList = screen.getByTestId('search-results-list')
