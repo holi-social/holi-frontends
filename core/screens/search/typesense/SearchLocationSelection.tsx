@@ -18,7 +18,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 export interface SearchLocationSelectionProps {
   currentLocation?: GeolocationSuggestion
   onLocationChange: (location?: GeolocationSuggestion) => void
-  disabled: boolean
+  disabled?: boolean
 }
 
 export const SearchLocationSelection = ({
