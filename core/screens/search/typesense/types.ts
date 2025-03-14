@@ -1,4 +1,5 @@
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
+import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 
 export type SearchHitType = 'volunteering' | 'profile' | 'space'
 export type SearchHitLinkLocatorIdOrSlug = string | number
@@ -33,9 +34,11 @@ export interface SearchFilter {
   location?: GeolocationSuggestion
 }
 
-export interface SearchResultInfo {
+export interface SearchResults {
+  hits: SearchResponseHit<SearchHitData>[]
   totalNrOfResults: number
   totalNrOfPages: number
   currentPage: number
   canLoadMore: boolean
+  filter: SearchFilter
 }

@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
-import type { SearchFilter, SearchHitData, SearchResultInfo } from '@holi/core/screens/search/typesense/types'
+import type { SearchFilter, SearchHitData, SearchResults } from '@holi/core/screens/search/typesense/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
@@ -21,18 +21,14 @@ import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExampl
 
 const isWeb = Platform.OS === 'web'
 
-const resultsToTrackingEventResults = (
-  results: SearchResponseHit<SearchHitData>[],
-  filter: SearchFilter,
-  searchResultInfo: SearchResultInfo
-) => {
+const resultsToTrackingEventResults = (searchResults: SearchResults) => {
   return {
-    query: filter.query,
-    totalNrOfResults: searchResultInfo.totalNrOfResults,
-    totalNrOfPages: searchResultInfo.totalNrOfPages,
-    currentPage: searchResultInfo.currentPage,
-    selectedFacets: [filter.facet],
-    renderedResults: results.map(({ document }) => hitToTrackingDoc(document)),
+    query: searchResults.filter.query,
+    totalNrOfResults: searchResults.totalNrOfResults,
+    totalNrOfPages: searchResults.totalNrOfPages,
+    currentPage: searchResults.currentPage,
+    selectedFacets: [searchResults.filter.facet],
+    renderedResults: searchResults.hits.map(({ document }) => hitToTrackingDoc(document)),
   }
 }
 
@@ -51,8 +47,8 @@ export function SearchHitInfiniteList({
 }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
   const { styles } = useStyles(stylesheet)
-  const { isLoading: loadingResults, results, searchResultInfo, loadMore, refresh } = useSearchResults(filter)
-  const displayedFacet = results.length && results[0].document.type
+  const { isLoading: loadingResults, searchResults, loadMore, refresh } = useSearchResults(filter)
+  const displayedFacet = searchResults.filter.facet
   const oldResults = displayedFacet && displayedFacet !== filter.facet
   const isLoading = loadingParameters || loadingResults || oldResults
 
@@ -62,17 +58,15 @@ export function SearchHitInfiniteList({
   // a) observing items updates (too frequent with in between empty states)
   // b) observing render state of FlatList (gets complex quickly, tricky to get right)
   const trackResultsViewed = useDebounce(() => {
-    if (results) {
-      track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(results, filter, searchResultInfo)))
-    }
+    track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(searchResults)))
   }, 1000)
 
   useEffect(() => {
     trackResultsViewed()
-  }, [results, trackResultsViewed])
+  }, [searchResults.hits, trackResultsViewed])
 
   // Hide results of empty query or wrong facet
-  const displayedItems = isFilterEmpty || oldResults ? [] : (results ?? [])
+  const displayedItems = isFilterEmpty || oldResults ? [] : (searchResults.hits ?? [])
   const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
   // TODO(SF) handle ssr issue because of randomized search examples
 
@@ -95,7 +89,7 @@ export function SearchHitInfiniteList({
         )
       }
       ListFooterComponent={() => {
-        if (displayedItems.length > 0 && searchResultInfo.canLoadMore) {
+        if (displayedItems.length > 0 && searchResults.canLoadMore) {
           return <HoliLoader style={styles.loader} testID="nextPageLoader" />
         }
         return null
@@ -103,7 +97,7 @@ export function SearchHitInfiniteList({
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
-        if (searchResultInfo.canLoadMore && !isLoading) {
+        if (searchResults.canLoadMore && !isLoading) {
           loadMore()
         }
       }}
@@ -120,7 +114,7 @@ export function SearchHitInfiniteList({
                 itemPressedType: hit.type,
                 itemPressedTitleDe: hit.type === 'profile' ? hit.user_full_name : hit.title_de,
                 itemPressedTitleEn: hit.type === 'profile' ? hit.user_full_name : hit.title_en,
-                searchResult: resultsToTrackingEventResults(results, filter, searchResultInfo),
+                searchResult: resultsToTrackingEventResults(searchResults),
               })}
             />
           </ErrorBoundary>
