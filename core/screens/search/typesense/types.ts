@@ -32,3 +32,10 @@ export interface SearchFilter {
   query: string
   location?: GeolocationSuggestion
 }
+
+export interface SearchResultInfo {
+  totalNrOfResults: number
+  totalNrOfPages: number
+  currentPage: number
+  canLoadMore: boolean
+}

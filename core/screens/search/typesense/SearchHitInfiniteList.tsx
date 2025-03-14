@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
-import type { SearchFilter, SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchFilter, SearchHitData, SearchResultInfo } from '@holi/core/screens/search/typesense/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
@@ -21,13 +21,16 @@ import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExampl
 
 const isWeb = Platform.OS === 'web'
 
-const resultsToTrackingEventResults = (results: SearchResponseHit<SearchHitData>[], filter: SearchFilter) => {
+const resultsToTrackingEventResults = (
+  results: SearchResponseHit<SearchHitData>[],
+  filter: SearchFilter,
+  searchResultInfo: SearchResultInfo
+) => {
   return {
     query: filter.query,
-    // TODO(SF) are those all needed?
-    totalNrOfResults: 1, // results.nbHits,
-    totalNrOfPages: 1, //results.nbPages,
-    currentPage: 1, //results.page,
+    totalNrOfResults: searchResultInfo.totalNrOfResults,
+    totalNrOfPages: searchResultInfo.totalNrOfPages,
+    currentPage: searchResultInfo.currentPage,
     selectedFacets: [filter.facet],
     renderedResults: results.map(({ document }) => hitToTrackingDoc(document)),
   }
@@ -48,7 +51,7 @@ export function SearchHitInfiniteList({
 }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
   const { styles } = useStyles(stylesheet)
-  const { isLoading: loadingResults, results, canLoadMore, loadMore, refresh } = useSearchResults(filter)
+  const { isLoading: loadingResults, results, searchResultInfo, loadMore, refresh } = useSearchResults(filter)
   const displayedFacet = results.length && results[0].document.type
   const oldResults = displayedFacet && displayedFacet !== filter.facet
   const isLoading = loadingParameters || loadingResults || oldResults
@@ -60,7 +63,7 @@ export function SearchHitInfiniteList({
   // b) observing render state of FlatList (gets complex quickly, tricky to get right)
   const trackResultsViewed = useDebounce(() => {
     if (results) {
-      track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(results, filter)))
+      track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(results, filter, searchResultInfo)))
     }
   }, 1000)
 
@@ -92,7 +95,7 @@ export function SearchHitInfiniteList({
         )
       }
       ListFooterComponent={() => {
-        if (displayedItems.length > 0 && canLoadMore) {
+        if (displayedItems.length > 0 && searchResultInfo.canLoadMore) {
           return <HoliLoader style={styles.loader} testID="nextPageLoader" />
         }
         return null
@@ -100,7 +103,7 @@ export function SearchHitInfiniteList({
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
-        if (canLoadMore && !isLoading) {
+        if (searchResultInfo.canLoadMore && !isLoading) {
           loadMore()
         }
       }}
@@ -117,7 +120,7 @@ export function SearchHitInfiniteList({
                 itemPressedType: hit.type,
                 itemPressedTitleDe: hit.type === 'profile' ? hit.user_full_name : hit.title_de,
                 itemPressedTitleEn: hit.type === 'profile' ? hit.user_full_name : hit.title_en,
-                searchResult: resultsToTrackingEventResults(results, filter),
+                searchResult: resultsToTrackingEventResults(results, filter, searchResultInfo),
               })}
             />
           </ErrorBoundary>

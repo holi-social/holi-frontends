@@ -4,7 +4,7 @@ import {
   PAGE_SIZE,
 } from '@holi/core/screens/search/typesense/helpers/createSearchParameters'
 import { createTypesenseClient } from '@holi/core/screens/search/typesense/helpers/createTypesenseClient'
-import type { SearchFilter, SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchFilter, SearchHitData, SearchResultInfo } from '@holi/core/screens/search/typesense/types'
 import { useCallback, useEffect, useState } from 'react'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 
@@ -13,8 +13,14 @@ const typesenseClient = createTypesenseClient()
 export const useSearchResults = (filter: SearchFilter) => {
   const [isLoading, setIsLoading] = useState(false)
   const [results, setResults] = useState<SearchResponseHit<SearchHitData>[]>([])
-  const [page, setPage] = useState(INITIAL_PAGE)
-  const [canLoadMore, setCanLoadMore] = useState(false)
+  // const [page, setPage] = useState(INITIAL_PAGE)
+  // const [canLoadMore, setCanLoadMore] = useState(false)
+  const [searchResultInfo, setSearchResultInfo] = useState<SearchResultInfo>({
+    totalNrOfResults: 0,
+    totalNrOfPages: 0,
+    currentPage: INITIAL_PAGE,
+    canLoadMore: false,
+  })
 
   const performSearch = useCallback(
     (pageToLoad: number = INITIAL_PAGE) => {
@@ -25,11 +31,15 @@ export const useSearchResults = (filter: SearchFilter) => {
       typesenseClient
         .search(createSearchParameters(filter, pageToLoad))
         .then((searchResults) => {
-          const pageSize = searchResults.hits?.length ?? 0
-          setPage(searchResults.page)
-          setCanLoadMore(pageSize === PAGE_SIZE && searchResults.found > PAGE_SIZE * searchResults.page)
+          const totalNrOfPages = Math.ceil(searchResults.found / PAGE_SIZE)
+          setSearchResultInfo({
+            totalNrOfResults: searchResults.found,
+            totalNrOfPages,
+            currentPage: searchResults.page,
+            canLoadMore: searchResults.page < totalNrOfPages,
+          })
           setResults((previousResults) => [
-            // Append to previous results if there are any
+            // Append to previous results if not the first page
             ...(searchResults.page > INITIAL_PAGE ? previousResults : []),
             ...(searchResults.hits ?? []),
           ])
@@ -41,8 +51,8 @@ export const useSearchResults = (filter: SearchFilter) => {
   )
 
   const loadMore = useCallback(() => {
-    return performSearch(page + 1)
-  }, [performSearch, page])
+    return performSearch(searchResultInfo.currentPage + 1)
+  }, [performSearch, searchResultInfo.currentPage])
 
   const refresh = useCallback(() => {
     return performSearch(INITIAL_PAGE)
@@ -57,7 +67,7 @@ export const useSearchResults = (filter: SearchFilter) => {
   return {
     isLoading,
     results,
-    canLoadMore,
+    searchResultInfo,
     loadMore,
     refresh,
   }
