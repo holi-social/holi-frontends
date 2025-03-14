@@ -84,8 +84,7 @@ export function SearchHitInfiniteList({
         ) : isFilterEmpty ? (
           <SearchExamples onQuerySelect={onQuerySelect} currentFacet={filter.facet} />
         ) : (
-          // TODO(SF) adjust message if only location filter is applied
-          <NoSearchResults query={filter.query} />
+          <NoSearchResults filter={filter} />
         )
       }
       ListFooterComponent={() => {

@@ -6,22 +6,26 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { Spacing } from 'holi-bricks/tokens'
+import type { SearchFilter } from '@holi/core/screens/search/typesense/types'
 
 interface NoSearchResultsProps {
-  query: string
+  filter: SearchFilter
 }
 
-export const NoSearchResults = ({ query }: NoSearchResultsProps) => {
+export const NoSearchResults = ({ filter }: NoSearchResultsProps) => {
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
 
+  const message = !filter.query
+    ? t('search.typesense.noResultsLocation.headline', { location: filter.location?.label ?? '' })
+    : t('search.typesense.noResults.headline', { query: filter.query })
   return (
     <View style={styles.container}>
       <View style={styles.animation}>
         <HoliLottie animType="noSearchResults" />
       </View>
       <View style={styles.text}>
-        <Text size="lg">{t('search.typesense.noResults.headline', { query })}</Text>
+        <Text size="lg">{message}</Text>
         <Text size="sm">{t('search.typesense.noResults.description')}</Text>
       </View>
     </View>

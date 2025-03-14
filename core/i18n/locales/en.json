@@ -892,6 +892,7 @@
   "search.typesense.input.label": "Search holi",
   "search.typesense.noResults.description": "Try checking the spelling, using different keywords or using a shorter search query",
   "search.typesense.noResults.headline": "Sorry, we didn't find \"{{query}}\"",
+  "search.typesense.noResultsLocation.headline": "Sorry, we didn't find results in \"{{location}}\"",
   "seo.h1.donations": "Find donations, projects & organizations",
   "seo.h1.home": "holi – where ideas meet action",
   "seo.h1.spaces": "Spaces - Voluntary initiatives, projects & non-profit organizations",

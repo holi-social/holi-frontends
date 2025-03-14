@@ -888,6 +888,7 @@
   "search.typesense.input.label": "Durchsuche holi",
   "search.typesense.noResults.description": "Versuch es mal mit anderer Schreibweise, anderen Stichworten oder einer kürzeren Suche.",
   "search.typesense.noResults.headline": "Hoppla! Wir haben keine Treffer für \"{{query}}\" gefunden.",
+  "search.typesense.noResultsLocation.headline": "Hoppla! Wir haben keine Treffer in \"{{location}}\" gefunden.",
   "seo.h1.donations": "Spenden, Projekte & Organisationen finden",
   "seo.h1.home": "holi – where ideas meet action",
   "seo.h1.spaces": "Spaces – Ehrenamtliche Initiativen, Projekte & gemeinnützige Organisationen",
