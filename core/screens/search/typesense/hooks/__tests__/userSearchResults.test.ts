@@ -5,8 +5,6 @@ import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { act, renderHook } from '@testing-library/react-native'
 import type { SearchResponseHit, SearchParams } from 'typesense/lib/Typesense/Documents'
 
-jest.useFakeTimers()
-
 const mockSearch = jest.fn()
 jest.mock('@holi/core/screens/search/typesense/helpers/createTypesenseClient', () => ({
   createTypesenseClient: () => ({
@@ -35,10 +33,16 @@ describe('useSearchResults', () => {
   const hits = createSearchHits(10)
 
   beforeEach(() => {
+    jest.useFakeTimers()
     mockUseErrorHandling.mockReturnValue({
       displayError: jest.fn(),
     })
     mockSearch.mockResolvedValue({ found: hits.length, page: 1, hits })
+  })
+
+  afterEach(() => {
+    act(jest.runOnlyPendingTimers)
+    jest.useRealTimers()
   })
 
   it('should expose the loading state and results', async () => {
