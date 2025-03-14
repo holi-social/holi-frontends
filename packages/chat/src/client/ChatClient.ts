@@ -300,18 +300,29 @@ export default class ChatClient {
     return room
   }
 
-  public getExistingRoomId(userIds: string[], roomType: ChatRoomType = 'private'): string | undefined {
+  public getExistingRoomId(userIds: string[], roomType: ChatRoomType = 'private', taskId?: string): string | undefined {
     const room = this.getRoomByUserIds(userIds)
     const roomMetadata = room && this.getRoomHoliMetadata(room)
+    if (roomMetadata?.type == 'space.task' && roomMetadata?.content.taskId !== taskId) return undefined
     return roomMetadata?.type === roomType ? room?.roomId : undefined
   }
 
-  /**
-   * Rooms
-   * */
   public async getOrCreateRoom(userIds: string[], options: CreateRoomOptions): Promise<RoomId> {
-    const room_id = this.getExistingRoomId(userIds, options.metadata.type ?? 'private')
-    return room_id ? { room_id } : this.createRoom(userIds, options)
+    const holiRoomType = options.metadata.type
+    let room_id: string | undefined
+
+    if ('space.task' === holiRoomType) {
+      const taskId = options.metadata.content.taskId
+      room_id = this.getExistingRoomId(userIds, options.metadata.type ?? 'private', taskId)
+    } else {
+      room_id = this.getExistingRoomId(userIds, options.metadata.type ?? 'private')
+    }
+
+    if (room_id) {
+      return { room_id: room_id }
+    } else {
+      return this.createRoom(userIds, options)
+    }
   }
 
   /**
