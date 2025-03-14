@@ -18,9 +18,14 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 export interface SearchLocationSelectionProps {
   currentLocation?: GeolocationSuggestion
   onLocationChange: (location?: GeolocationSuggestion) => void
+  disabled: boolean
 }
 
-export const SearchLocationSelection = ({ currentLocation, onLocationChange }: SearchLocationSelectionProps) => {
+export const SearchLocationSelection = ({
+  currentLocation,
+  onLocationChange,
+  disabled = false,
+}: SearchLocationSelectionProps) => {
   const { t } = useTranslation()
   const [selectedLocation, setSelectedLocation] = useState<GeolocationSuggestion | undefined>(currentLocation)
 
@@ -34,11 +39,14 @@ export const SearchLocationSelection = ({ currentLocation, onLocationChange }: S
 
   const openLocationModal = () => setLocationModalVisible(true)
   const closeLocationModal = () => setLocationModalVisible(false)
+  const label = disabled
+    ? t('search.location.germanyWide')
+    : (currentLocation?.label ?? t('search.location.germanyWide'))
 
   return (
     <>
-      <ChipAction iconTrailing={Edit2} onPress={openLocationModal} color="white">
-        {currentLocation?.label ?? t('search.location.germanyWide')}
+      <ChipAction iconTrailing={Edit2} onPress={openLocationModal} color="white" disabled={disabled}>
+        {label}
       </ChipAction>
       <HoliModal
         shown={locationModalVisible}

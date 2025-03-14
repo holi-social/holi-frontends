@@ -86,8 +86,11 @@ export const Search = () => {
           <HoliBox padding={[0, dimensions.spacingS]}>
             <SearchTextInput currentQuery={filter.query} onQueryChange={setQuery} />
             <HoliGap size="xs" />
-            {/* TODO(SF) hide for facet profile && handle loading state */}
-            <SearchLocationSelection currentLocation={filter.location} onLocationChange={setLocation} />
+            <SearchLocationSelection
+              currentLocation={filter.location}
+              onLocationChange={setLocation}
+              disabled={filter.facet === 'profile'}
+            />
           </HoliBox>
           <SearchFacetsTabs currentFacet={filter.facet} onFacetChange={setFacet} />
         </View>
