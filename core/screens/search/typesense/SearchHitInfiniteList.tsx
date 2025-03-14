@@ -68,7 +68,6 @@ export function SearchHitInfiniteList({
   // Hide results of empty query or wrong facet
   const displayedItems = isFilterEmpty || oldResults ? [] : (searchResults.hits ?? [])
   const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
-  // TODO(SF) handle ssr issue because of randomized search examples
 
   return (
     <FlashList

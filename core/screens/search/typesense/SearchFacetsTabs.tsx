@@ -1,6 +1,6 @@
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { Group, GroupFilled, Hearts, HeartsFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
@@ -23,7 +23,10 @@ const FACETS_IN_ORDER: Facet[] = ['volunteering', 'space', 'profile']
 export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTabsProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const validFacet = FACETS_IN_ORDER.includes(currentFacet as Facet) ? currentFacet : FACETS_IN_ORDER[0]
+  const validFacet = useMemo(
+    () => (FACETS_IN_ORDER.includes(currentFacet as Facet) ? currentFacet : FACETS_IN_ORDER[0]),
+    [currentFacet]
+  )
 
   useEffect(() => {
     if (validFacet !== currentFacet) {
