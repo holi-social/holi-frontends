@@ -3,5 +3,8 @@
   "maintenance.feature": "Die Challenges App",
   "recommendations.title": "Challenges",
   "recommendations.subline": "Das tägliche Impact Spiel",
-  "attending.title": "Teilnehmend"
+  "attending.title": "Teilnehmend",
+  "feed.carousel.title": "Nehme an einer Challenge teil",
+  "feed.carousel.subline": "Lass uns gemeinsam eine bessere Zukunft gestalten",
+  "carousel.seeMore": "Entdecke weitere Challenges"
 }

@@ -35,7 +35,7 @@ import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import { useScrollToTop } from '@react-navigation/native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
-
+import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
 const HomeFeed = () => {
@@ -118,6 +118,7 @@ const HomeFeed = () => {
       <HoliTransition.FadeDown visible>
         <View style={styles.listHeader}>
           <HomeFeedHeader />
+          <ChallengesCarousel />
         </View>
       </HoliTransition.FadeDown>
     ),
@@ -266,7 +267,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listHeader: {
-    paddingBottom: Spacing.xs,
+    paddingBottom: Spacing.md,
+    gap: Spacing.sm,
     flex: 1,
   },
   listContent: {
