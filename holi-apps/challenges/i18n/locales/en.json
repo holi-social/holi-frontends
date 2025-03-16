@@ -3,5 +3,8 @@
   "maintenance.feature": "The Challenges app",
   "recommendations.title": "Challenges",
   "recommendations.subline": "The daily impact game",
-  "attending.title": "Attending"
+  "attending.title": "Attending",
+  "feed.carousel.title": "Take part in a Challenge",
+  "feed.carousel.subline": "Let’s shape a better future together",
+  "carousel.seeMore": "Explore more Challenges"
 }
