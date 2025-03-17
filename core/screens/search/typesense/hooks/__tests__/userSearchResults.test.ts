@@ -1,7 +1,7 @@
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { createSearchParameters } from '@holi/core/screens/search/typesense/helpers/createSearchParameters'
 import { useSearchResults } from '@holi/core/screens/search/typesense/hooks/useSearchResults'
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchFilter, SearchHitData } from '@holi/core/screens/search/typesense/types'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import type { SearchResponseHit, SearchParams } from 'typesense/lib/Typesense/Documents'
 
@@ -26,7 +26,7 @@ const createSearchHit = (id: number): Partial<SearchResponseHit<SearchHitData>> 
 const createSearchHits = (count: number) => Array.from({ length: count }, (_, index) => createSearchHit(index + 1))
 
 describe('useSearchResults', () => {
-  const filter = {
+  const filter: SearchFilter = {
     query: 'nachhilfe',
     facet: 'volunteering',
   }
@@ -154,7 +154,7 @@ describe('useSearchResults', () => {
   })
 
   it('should refresh search on filter change', async () => {
-    const newFilter = {
+    const newFilter: SearchFilter = {
       query: 'new query',
       facet: 'volunteering',
     }
@@ -198,7 +198,7 @@ describe('useSearchResults', () => {
   })
 
   it('should ignore results of first search if not matching the current filter', async () => {
-    const newFilter = {
+    const newFilter: SearchFilter = {
       query: 'new query',
       facet: 'volunteering',
     }
@@ -241,7 +241,7 @@ describe('useSearchResults', () => {
   })
 
   it('should not perform request for empty filter', async () => {
-    const emptyFilter = {
+    const emptyFilter: SearchFilter = {
       query: '',
       facet: 'volunteering',
     }
