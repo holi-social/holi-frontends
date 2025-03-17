@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Pressable, View } from 'react-native'
+import { Platform, Pressable, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import PlacesAutocomplete, {
   type GeolocationSuggestion,
@@ -52,8 +52,7 @@ export const SearchLocationSelection = ({
         shown={locationModalVisible}
         onDismiss={closeLocationModal}
         label={t('search.location.filter')}
-        relativeHeight={0.4}
-        autoHeight={false}
+        autoHeight={true}
         backgroundColor={styles.container.backgroundColor}
       >
         <HoliContainer>
@@ -100,14 +99,21 @@ export const SearchLocationSelection = ({
 
 const stylesheet = createStyleSheet((theme) => ({
   container: {
-    flex: 1,
+    flexShrink: 1,
+    height: '100%',
     backgroundColor: theme.colors.bg.page,
+    ...Platform.select({
+      web: {
+        minHeight: 400,
+      },
+    }),
   },
   inputContainer: {
     gap: Spacing.xs,
   },
   buttonContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: Spacing['3xs'],
   },
   saveButton: {
