@@ -39,16 +39,22 @@ export const useSearchResults = (filter: SearchFilter) => {
       if (searchResults.isLoading && sameFilterAsBefore) {
         return
       }
-      const isFilterEmpty = isEmptyFilter(filter)
-      setSearchResults((previousResults) => ({
-        ...(sameFilterAsBefore ? previousResults : emptyResults),
-        isLoading: !isFilterEmpty,
-        filter,
-      }))
-      if (isFilterEmpty) {
+      if (isEmptyFilter(filter)) {
+        if (!sameFilterAsBefore) {
+          setSearchResults({
+            ...emptyResults,
+            isLoading: false,
+            filter,
+          })
+        }
         // Do not peform search with empty results
         return
       }
+      setSearchResults((previousResults) => ({
+        ...(sameFilterAsBefore ? previousResults : emptyResults),
+        isLoading: true,
+        filter,
+      }))
       typesenseClient
         .search(createSearchParameters(filter, pageToLoad))
         .then((results) => {
