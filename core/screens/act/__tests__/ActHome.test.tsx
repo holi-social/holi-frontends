@@ -10,7 +10,6 @@ jest.mock('@holi/core/tracking/PosthogCrossPlatform', () => ({
 }))
 
 jest.mock('@holi/core/navigation/hooks/useParam')
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const mockActSection = jest.fn()
 jest.mock('@holi/core/screens/act/ActSection', () => {

@@ -18,7 +18,6 @@ import {
 import EditSpaceCollaborators from '@holi/core/screens/spaces/edit/components/EditSpaceCollaborators'
 import { spaceMembershipByIdQuery } from '@holi/core/screens/spaces/queries'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const spaceForAdmin = {
   ...space,

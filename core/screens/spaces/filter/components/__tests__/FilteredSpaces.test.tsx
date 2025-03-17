@@ -14,7 +14,6 @@ import { spacesQuery } from '@holi/core/screens/spaces/filter/queries'
 import { HoliToastType, ToastProvider } from '@holi/ui/components/molecules/HoliToastProvider'
 
 jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => Date.now())
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 // prevent logging about incomplete apollo mocks,
 // because we didn't flesh out the response data

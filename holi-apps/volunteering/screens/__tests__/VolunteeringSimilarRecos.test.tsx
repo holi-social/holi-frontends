@@ -22,8 +22,6 @@ import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 
 const mockEngagementId = '123'
 
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
-
 const allTopics = ALL_TOPICS.slice(0, 3)
 const allSkills = ALL_SKILLS.slice(0, 2)
 

@@ -49,7 +49,6 @@ jest.mock('matrix-js-sdk')
 jest.mock('@holi/chat/src/client/pusher')
 jest.mock('@holi/core/auth/loginState')
 jest.mock('@holi/core/navigation/hooks/useParam')
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const useLoginStateMock = jest.mocked(useLoginState)
 

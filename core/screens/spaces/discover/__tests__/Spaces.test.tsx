@@ -25,7 +25,6 @@ const loginStateLoggedIn = {
 jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
   useLoggedInUser: () => loginStateLoggedIn,
 }))
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 jest.mock('@holi/core/helpers/useLogout', () => ({
   useLogout: () => ({ logout: jest.fn() }),
