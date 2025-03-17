@@ -1,4 +1,5 @@
 import { isEmptyFilter } from '@holi/core/screens/search/typesense/helpers/isEmptyFilter'
+import { SEARCH_HIT_TYPES_IN_ORDER, type SearchHitType } from '@holi/core/screens/search/typesense/types'
 
 describe('isEmptyFilter', () => {
   const location = {
@@ -6,18 +7,20 @@ describe('isEmptyFilter', () => {
     label: 'Hamburg, Germany',
     coordinates: { latitude: 52, longitude: 13 },
   }
-  const facets = ['volunteering', 'space', 'profile']
 
-  it.each(facets)('should return true for filter without query and location for facet %s', (facet) => {
-    const filter = {
-      query: '',
-      facet,
+  it.each(SEARCH_HIT_TYPES_IN_ORDER)(
+    'should return true for filter without query and location for facet %s',
+    (facet) => {
+      const filter = {
+        query: '',
+        facet,
+      }
+
+      expect(isEmptyFilter(filter)).toBeTruthy()
     }
+  )
 
-    expect(isEmptyFilter(filter)).toBeTruthy()
-  })
-
-  it.each(facets)('should return false for filter with query for facet %s', (facet) => {
+  it.each(SEARCH_HIT_TYPES_IN_ORDER)('should return false for filter with query for facet %s', (facet) => {
     const filter = {
       query: 'some query',
       facet,
@@ -26,7 +29,7 @@ describe('isEmptyFilter', () => {
     expect(isEmptyFilter(filter)).toBeFalsy()
   })
 
-  it.each(facets)('should return false for filter with query and location for facet %s', (facet) => {
+  it.each(SEARCH_HIT_TYPES_IN_ORDER)('should return false for filter with query and location for facet %s', (facet) => {
     const filter = {
       query: 'some query',
       facet,
@@ -36,19 +39,22 @@ describe('isEmptyFilter', () => {
     expect(isEmptyFilter(filter)).toBeFalsy()
   })
 
-  const expectedEmptyForLocationOnly: { [key: string]: boolean } = {
+  const expectedEmptyForLocationOnly: { [key in SearchHitType]: boolean } = {
     volunteering: false,
     space: false,
     profile: true,
   }
-  it.each(facets)('should return correct value for filter with empty query but location for facet %s', (facet) => {
-    const expectedEmpty = expectedEmptyForLocationOnly[facet] ?? false
-    const filter = {
-      query: '',
-      facet,
-      location,
-    }
+  it.each(SEARCH_HIT_TYPES_IN_ORDER)(
+    'should return correct value for filter with empty query but location for facet %s',
+    (facet) => {
+      const expectedEmpty = expectedEmptyForLocationOnly[facet] ?? false
+      const filter = {
+        query: '',
+        facet,
+        location,
+      }
 
-    expect(isEmptyFilter(filter)).toBe(expectedEmpty)
-  })
+      expect(isEmptyFilter(filter)).toBe(expectedEmpty)
+    }
+  )
 })

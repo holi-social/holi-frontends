@@ -29,11 +29,4 @@ describe('SearchFacetsTabs', () => {
     const tab = screen.getByLabelText('search.typesense.facets.space')
     expect(tab).toHaveAccessibilityState({ selected: true })
   })
-
-  it('should select volunteering if initial facet is not valid', async () => {
-    const onFacetChange = jest.fn()
-    render(<SearchFacetsTabs currentFacet="unknown" onFacetChange={onFacetChange} />)
-
-    expect(onFacetChange).toHaveBeenCalledWith('volunteering')
-  })
 })

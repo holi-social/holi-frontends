@@ -1,4 +1,4 @@
-import type { SearchFilter } from '@holi/core/screens/search/typesense/types'
+import type { SearchFilter, SearchHitType } from '@holi/core/screens/search/typesense/types'
 import type { SearchParams } from 'typesense/lib/Typesense/Documents'
 
 export const INITIAL_PAGE = 1
@@ -8,7 +8,7 @@ const searchFields = ['title_de', 'title_en', 'description_de', 'description_en'
 
 const profileSearchFields = ['user_full_name']
 
-const facetConfigurations: { [key: string]: SearchParams } = {
+const facetConfigurations: { [key in SearchHitType]: SearchParams } = {
   volunteering: {
     filter_by: 'type:=[`volunteering`]',
     query_by: searchFields.join(','),

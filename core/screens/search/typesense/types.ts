@@ -1,7 +1,9 @@
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 
-export type SearchHitType = 'volunteering' | 'profile' | 'space'
+export const SEARCH_HIT_TYPES_IN_ORDER = ['volunteering', 'space', 'profile'] as const
+export type SearchHitType = (typeof SEARCH_HIT_TYPES_IN_ORDER)[number]
+
 export type SearchHitLinkLocatorIdOrSlug = string | number
 export interface SearchHitData {
   type: SearchHitType
@@ -29,7 +31,7 @@ export interface SearchHitData {
 }
 
 export interface SearchFilter {
-  facet: string
+  facet: SearchHitType
   query: string
   location?: GeolocationSuggestion
 }

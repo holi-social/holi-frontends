@@ -34,7 +34,7 @@ export const Search = () => {
 
   // Query parameters
   const [queryParam] = useParam('query', singleParamConfig)
-  const [facetParam = 'volunteering'] = useParam('facet', singleParamConfig)
+  const [facetParam] = useParam('facet', singleParamConfig)
   const [geolocationId] = useParam('location', singleParamConfig)
   const updateParams = useUpdateParams({ web: { replace: true } })
 

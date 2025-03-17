@@ -28,6 +28,42 @@ describe('useSearchFilter', () => {
     })
   })
 
+  it('should use volunteering as fallback if initial facet value is not valid', () => {
+    const onFilterChange = jest.fn()
+    const { result } = renderHook(() =>
+      useSearchFilter(
+        {
+          query: 'test query',
+          facet: 'unknown',
+        },
+        onFilterChange
+      )
+    )
+
+    expect(result.current.filter).toEqual({
+      query: 'test query',
+      facet: 'volunteering',
+    })
+    expect(onFilterChange).toHaveBeenCalledWith({ facet: 'volunteering' })
+  })
+
+  it('should use volunteering as fallback if initial facet value is missing', () => {
+    const onFilterChange = jest.fn()
+    const { result } = renderHook(() =>
+      useSearchFilter(
+        {
+          query: 'test query',
+        },
+        onFilterChange
+      )
+    )
+
+    expect(result.current.filter).toEqual({
+      query: 'test query',
+      facet: 'volunteering',
+    })
+    expect(onFilterChange).toHaveBeenCalledWith({ facet: 'volunteering' })
+  })
   it('should update the filter when setQuery is called', () => {
     const onFilterChange = jest.fn()
     const expectedFilter = {

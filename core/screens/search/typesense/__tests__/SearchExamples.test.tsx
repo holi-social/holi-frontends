@@ -1,10 +1,10 @@
 import React from 'react'
 import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExamples'
 import { render, screen, userEvent } from '@testing-library/react-native'
+import { SEARCH_HIT_TYPES_IN_ORDER } from '@holi/core/screens/search/typesense/types'
 
 describe('SearchExamples', () => {
-  const facets = ['volunteering', 'space', 'profile']
-  describe.each(facets)('for facet %s', (facet) => {
+  describe.each(SEARCH_HIT_TYPES_IN_ORDER)('for facet %s', (facet) => {
     it('should display 5 examples', async () => {
       render(<SearchExamples onQuerySelect={jest.fn()} currentFacet={facet} />)
 
@@ -29,15 +29,5 @@ describe('SearchExamples', () => {
       // Event should not have been propagated
       expect(mockNavigate).not.toHaveBeenCalled()
     })
-  })
-
-  it('should use volunteering as fallback facet', async () => {
-    render(<SearchExamples onQuerySelect={jest.fn()} currentFacet={'unknown'} />)
-
-    const examples = await screen.findAllByText(/search.typesense.examples\./)
-    const facetExamples = await screen.findAllByText(/search.typesense.examples.volunteering\d+/)
-
-    expect(examples).toHaveLength(5 + 1) // +1 as headline has the same prefix
-    expect(facetExamples).toHaveLength(5)
   })
 })
