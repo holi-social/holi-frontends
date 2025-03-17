@@ -175,7 +175,7 @@ describe('SearchLocationSelection', () => {
 
     await user.press(screen.getByText('Hamburg, Germany'))
 
-    const clearButton = screen.getByLabelText('search.typesense.input.clear')
+    const clearButton = screen.getByLabelText('location.placesAutocomplete.clear')
     await user.press(clearButton)
 
     await user.press(screen.getByText('search.location.save'))
@@ -190,7 +190,7 @@ describe('SearchLocationSelection', () => {
 
     await user.press(screen.getByText('Hamburg, Germany'))
 
-    const clearButton = screen.getByLabelText('search.typesense.input.clear')
+    const clearButton = screen.getByLabelText('location.placesAutocomplete.clear')
     await user.press(clearButton)
 
     await user.press(screen.getByLabelText('search.location.closeSelection'))

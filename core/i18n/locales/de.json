@@ -460,6 +460,7 @@
   "insights.recommendations.title": "Top Empfehlung",
   "insights.recommendations.title.creator.multiple": "{{- name}} top {{number}} Empfehlungen",
   "insights.recommendations.title.creator.single": "{{- name}} top Empfehlung",
+  "location.placesAutocomplete.clear": "Eingabe zurücksetzen",
   "location.placesAutocomplete.error": "Laden der Vorschläge fehlgeschlagen",
   "location.placesAutocomplete.noResults": "Keine Vorschläge gefunden",
   "loginRedirect.btnCancel": "Nicht jetzt",

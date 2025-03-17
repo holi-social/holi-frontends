@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Platform, Pressable, View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import PlacesAutocomplete, {
   type GeolocationSuggestion,
@@ -7,11 +7,10 @@ import PlacesAutocomplete, {
 } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import { ChipAction } from 'holi-bricks/components/chips'
-import { ArrowLeft, CloseCircleFilled, Edit2 } from '@holi/icons/src/generated'
+import { ArrowLeft, Edit2 } from '@holi/icons/src/generated'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Button, ButtonIcon } from 'holi-bricks/components/button'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
@@ -66,16 +65,7 @@ export const SearchLocationSelection = ({
                 selected={selectedLocation}
                 onChange={setSelectedLocation}
                 inputProps={{ autoFocus: true }}
-                clearInputComponent={
-                  <Pressable
-                    onPress={() => setSelectedLocation(undefined)}
-                    accessibilityLabel={t('search.typesense.input.clear')}
-                    testID="search-location-clear"
-                    accessibilityRole="button"
-                  >
-                    <HoliIcon icon={CloseCircleFilled} size={22} />
-                  </Pressable>
-                }
+                allowClearingInput
               />
               <View style={styles.buttonContainer}>
                 <ButtonIcon

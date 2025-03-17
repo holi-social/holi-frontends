@@ -460,6 +460,7 @@
   "insights.recommendations.title": "Top recommendation",
   "insights.recommendations.title.creator.multiple": "{{- name}} top {{number}} recommendations",
   "insights.recommendations.title.creator.single": "{{- name}} top recommendation",
+  "location.placesAutocomplete.clear": "Clear input",
   "location.placesAutocomplete.error": "Fetching suggestions failed",
   "location.placesAutocomplete.noResults": "No suggestions found",
   "loginRedirect.btnCancel": "Not now",
