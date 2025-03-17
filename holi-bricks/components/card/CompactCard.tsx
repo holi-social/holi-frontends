@@ -8,7 +8,7 @@ import { Platform, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslation } from 'react-i18next'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, type ImageSource } from 'holi-bricks/components/image'
 import { Stack } from 'holi-bricks/components/stack'
 
@@ -38,6 +38,23 @@ export const CompactCard = ({
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
 
+  const [imageError, setImageError] = useState(false)
+  const handleImageError = () => {
+    setImageError(true)
+  }
+
+  const placeholderImages = [
+    require('@holi/ui/assets/img/events/thumbnail-green.svg'),
+    require('@holi/ui/assets/img/events/thumbnail-blue.svg'),
+    require('@holi/ui/assets/img/events/thumbnail-purple.svg'),
+    require('@holi/ui/assets/img/events/thumbnail-yellow.svg'),
+    require('@holi/ui/assets/img/events/thumbnail-green-full.svg'),
+    require('@holi/ui/assets/img/events/thumbnail-blue-full.svg'),
+    require('@holi/ui/assets/img/events/thumbnail-purple-full.svg'),
+    require('@holi/ui/assets/img/events/thumbnail-yellow-full.svg'),
+  ]
+  const randomPlaceholderImage = placeholderImages[Math.floor(Math.random() * placeholderImages.length)]
+
   return (
     <Stack minWidth={310}>
       <Stack borderWidth={1} borderColor="support" borderStyle="solid" borderRadius="md">
@@ -54,10 +71,11 @@ export const CompactCard = ({
             {/* cover image */}
             <View style={styles.image}>
               <Image
-                source={imageSrc ? imageSrc : require('@holi/ui/assets/img/events/thumbnail-green.svg')}
+                source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
                 height={120}
                 width={90}
                 alt={t('act.events.thumbnail.label')}
+                onError={handleImageError}
               />
             </View>
             {/* calendar icon */}

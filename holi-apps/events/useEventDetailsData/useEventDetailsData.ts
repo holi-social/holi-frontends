@@ -23,7 +23,9 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
   // const { displayError } = useErrorHandling()
   // const { replaceRoute } = useRouting()
   //todo gregor: build by id fetching backend capabilities
-  const { data, loading } = useAllEventsQuery()
+  const { data, loading } = useAllEventsQuery({
+    variables: { limit: 10, offset: 0 },
+  })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation()
 

@@ -12,7 +12,9 @@ type EventCarouselProps = {
 
 const EventCarousel = ({ cardWidth }: EventCarouselProps) => {
   const { t } = useTranslation()
-  const { data } = useAllEventsQuery()
+  const { data } = useAllEventsQuery({
+    variables: { limit: 10, offset: 0 },
+  })
   const events = data?.appEvents_events.data?.slice(0, 3)
 
   if (!events) return

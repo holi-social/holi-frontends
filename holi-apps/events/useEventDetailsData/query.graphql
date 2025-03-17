@@ -1,5 +1,6 @@
-query allEvents {
-  appEvents_events(limit: 5, offset: 0, location: "Hamburg") {
+query allEvents($limit: Int!, $offset: Int!, $location: String) {
+  appEvents_events(limit: $limit, offset: $offset, location: $location) {
+    totalResults
     data {
       id
       title
@@ -13,26 +14,6 @@ query allEvents {
         meetingLink
         externalLink
       }
-      location {
-        street
-        streetNo
-        zipCode
-        city
-      }
-    }
-  }
-}
-
-query listViewEvents {
-  appEvents_events(limit: 5, offset: 0, location: "Hamburg") {
-    data {
-      id
-      title
-      organisationName
-      startDate
-      endDate
-      isRemote
-      imageUrl
       location {
         street
         streetNo

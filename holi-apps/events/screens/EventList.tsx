@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, View } from 'react-native'
+import { View } from 'react-native'
 
 import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -19,20 +19,17 @@ import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import { tempData } from '@holi-apps/events/components/tempData'
-import { HoliButtonBell } from '@holi/ui/components/molecules/HoliButtonBell'
-import { Filter3 } from '@holi/icons/src/generated'
-import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import EventsFilterForm from '@holi-apps/events/components/EventsFilterForm'
 import EventCard from '@holi-apps/events/components/EventCard'
 import { Stack } from 'holi-bricks/components/stack'
 import { useAllEventsQuery } from '@holi/api/graphql/graphql-codegen'
 import { useEventFilters } from '@holi-apps/events/hooks/useEventFilters'
+import { Button } from 'holi-bricks/components/button'
+import { isSSR } from '@holi/core/helpers/isSSR'
+import type { HoliEvent } from '@holi-apps/events/types'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
-// type EventListProps = { loadingFailed?: boolean; clearFilters?: () => void }
 
 export const EVENTS_SOURCE_MAPPING: {
   [name: string]: InfoModalItemProps
@@ -53,8 +50,55 @@ export const EVENTS_SOURCE_MAPPING: {
 }
 
 export const EventList = () => {
-  const { data } = useAllEventsQuery()
-  const events = data?.appEvents_events.data
+  const { data: pagedData, fetchMore } = useAllEventsQuery({
+    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
+    variables: {
+      limit: 10,
+      offset: 0,
+    },
+  })
+
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  // const canLoadMore =
+  //   !loading &&
+  //   pagedData?.appEvents_events.data?.length &&
+  //   pagedData?.appEvents_events?.data?.length < (pagedData?.appEvents_events?.totalResults || 0)
+
+  const fetchMoreEvents = useCallback(async () => {
+    if (isLoadingMore) return
+    setIsLoadingMore(true)
+
+    try {
+      await fetchMore({
+        variables: {
+          limit: 10,
+          offset: pagedData?.appEvents_events.data?.length
+            ? Math.ceil(pagedData?.appEvents_events.data?.length / 10)
+            : 0,
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult || !fetchMoreResult.appEvents_events.data) return prev
+
+          const existingIds = new Set(prev.appEvents_events.data?.map((event: HoliEvent) => event.id))
+          const newEvents = fetchMoreResult.appEvents_events.data.filter((newItem: HoliEvent) => {
+            return !existingIds.has(newItem.id)
+          })
+
+          const temp = {
+            appEvents_events: {
+              ...prev.appEvents_events,
+              data: [...(prev.appEvents_events.data || []), ...newEvents],
+            },
+          }
+          return temp
+        },
+      })
+    } finally {
+      setIsLoadingMore(false)
+    }
+  }, [isLoadingMore, fetchMore, pagedData?.appEvents_events.data?.length])
+
+  const events = pagedData?.appEvents_events.data
 
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
@@ -74,24 +118,23 @@ export const EventList = () => {
   }, [])
 
   const { submit } = useEventFilters(closeFilterModal) // todo
-  // const { submit, filters, clearFilters, isFiltering } = useEventFilters(closeFilterModal) // todo
 
   useIsomorphicLayoutEffect(() => {
-    const filterButton = (
-      <HoliButtonBell
-        label={t('volunteering:filter.heading')}
-        icon={Filter3}
-        // showBell={isFiltering}
-        onPress={() => {
-          // if pressed too soon, the state is set to true, but the modal is not shown.
-          // crude mechanism to recover from this state.
-          // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
-          if (filterModalShown) setFilterModalShown(false)
-          setFilterModalShown(true)
-        }}
-        testID="btn-to-volunteering-filter-modal"
-      />
-    )
+    // const filterButton = (
+    //   <HoliButtonBell
+    //     label={t('volunteering:filter.heading')}
+    //     icon={Filter3}
+    //     // showBell={isFiltering}
+    //     onPress={() => {
+    //       // if pressed too soon, the state is set to true, but the modal is not shown.
+    //       // crude mechanism to recover from this state.
+    //       // FIXME: We need a proper solution, e.g. involve a loading state in button disabled
+    //       if (filterModalShown) setFilterModalShown(false)
+    //       setFilterModalShown(true)
+    //     }}
+    //     testID="btn-to-volunteering-filter-modal"
+    //   />
+    // )
     setScreenOptions({
       headerTitle: () => (
         <Text headingLevel="2" size="lg">
@@ -99,7 +142,7 @@ export const EventList = () => {
         </Text>
       ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-      headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
+      // headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
   }, [navigate, t, title, setScreenOptions, filterModalShown])
 
@@ -129,7 +172,7 @@ export const EventList = () => {
       </HoliModal>
       <HoliContainer>
         <Stack padding={{ top: 'md' }}>
-          {tempData.events.totalResults > 0 && (
+          {events && events.length > 0 && (
             <Stack gap="xs">
               <Text headingLevel="2" size="3xl">
                 {t('act.events.title')}
@@ -161,7 +204,7 @@ export const EventList = () => {
                 i18nPrefix={'act.events.listing.partnerModal'}
               />
               <Text size="lg" color="support">
-                {tempData.events.totalResults} {t('act.events.opportunities')}
+                {events.length} {t('act.events.opportunities')}
               </Text>
             </Stack>
           )}
@@ -171,18 +214,24 @@ export const EventList = () => {
               {events?.map((event) => {
                 return (
                   <HoliGridCell key={event.id}>
-                    <HoliLink
-                      href={`/events/${event.id}`} // todo: link to detail page
-                      label={event.title}
-                    >
-                      <EventCard event={event} />
-                    </HoliLink>
+                    <EventCard event={event} />
                   </HoliGridCell>
                 )
               })}
             </HoliGridWrapper>
             {/* </View> */}
           </HoliBox>
+          {/* {canLoadMore && ( */}
+          <Stack padding={{ bottom: 'md' }}>
+            <Button
+              label={t('global.seeMore')}
+              loadingLabel={t('global.loading')}
+              inline
+              onPress={fetchMoreEvents}
+              testID="btn-fetch-more"
+            />
+          </Stack>
+          {/* )} */}
         </Stack>
       </HoliContainer>
     </ScrollViewRefreshable>

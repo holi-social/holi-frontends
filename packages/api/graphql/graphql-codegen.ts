@@ -134,6 +134,11 @@ export type AppEvents_EventDetails = {
   meetingLink?: Maybe<Scalars['String']['output']>
 }
 
+export type AppEvents_EventResponse = {
+  __typename?: 'AppEvents_EventResponse'
+  data?: Maybe<AppEvents_Event>
+}
+
 export type AppEvents_EventsResponse = {
   __typename?: 'AppEvents_EventsResponse'
   data?: Maybe<Array<Maybe<AppEvents_Event>>>
@@ -1495,6 +1500,7 @@ export type Query = {
   allPosts: GenericPostPaged
   appDonations_project: AppDonations_Project
   appDonations_projects: AppDonations_ProjectsResponse
+  appEvents_event: AppEvents_EventResponse
   appEvents_events: AppEvents_EventsResponse
   appGoodNews_articles?: Maybe<AppGoodNews_GoodNewsArticlesQueryResponse>
   appVolunteering_engagement?: Maybe<AppVolunteering_Engagement>
@@ -1582,6 +1588,10 @@ export type QueryAppDonations_ProjectsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>
   location?: InputMaybe<Scalars['String']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
+}
+
+export type QueryAppEvents_EventArgs = {
+  id: Scalars['String']['input']
 }
 
 export type QueryAppEvents_EventsArgs = {
@@ -2437,38 +2447,6 @@ export enum VisibilityType {
   Public = 'PUBLIC',
 }
 
-export type AllEventsQueryVariables = Exact<{ [key: string]: never }>
-
-export type AllEventsQuery = {
-  __typename?: 'Query'
-  appEvents_events: {
-    __typename?: 'AppEvents_EventsResponse'
-    data?: Array<{
-      __typename?: 'AppEvents_Event'
-      id: string
-      title: string
-      organisationName: string
-      startDate?: string
-      endDate?: string
-      isRemote: boolean
-      imageUrl: string
-      eventDetails: {
-        __typename?: 'AppEvents_EventDetails'
-        description: string
-        meetingLink?: string
-        externalLink: string
-      }
-      location?: {
-        __typename?: 'AppEvents_Location'
-        street?: string
-        streetNo?: string
-        zipCode?: string
-        city?: string
-      }
-    }>
-  }
-}
-
 export type SpaceRecommendationQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>
 }>
@@ -2731,68 +2709,6 @@ export const FullUserFragmentDoc = gql`
   connectionStatusToMyself
 }
     `
-export const AllEventsDocument = gql`
-    query allEvents {
-  appEvents_events(limit: 5, offset: 0, location: "Hamburg") {
-    data {
-      id
-      title
-      organisationName
-      startDate
-      endDate
-      isRemote
-      imageUrl
-      eventDetails {
-        description
-        meetingLink
-        externalLink
-      }
-      location {
-        street
-        streetNo
-        zipCode
-        city
-      }
-    }
-  }
-}
-    `
-
-/**
- * __useAllEventsQuery__
- *
- * To run a query within a React component, call `useAllEventsQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAllEventsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAllEventsQuery(baseOptions?: Apollo.QueryHookOptions<AllEventsQuery, AllEventsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
-}
-export function useAllEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
-}
-export function useAllEventsSuspenseQuery(
-  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
-) {
-  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
-}
-export type AllEventsQueryHookResult = ReturnType<typeof useAllEventsQuery>
-export type AllEventsLazyQueryHookResult = ReturnType<typeof useAllEventsLazyQuery>
-export type AllEventsSuspenseQueryHookResult = ReturnType<typeof useAllEventsSuspenseQuery>
-export type AllEventsQueryResult = Apollo.QueryResult<AllEventsQuery, AllEventsQueryVariables>
 export const SpaceRecommendationDocument = gql`
     query SpaceRecommendation($limit: Int) {
   recommendedSpaces(limit: $limit) {

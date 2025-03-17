@@ -136,6 +136,7 @@ const stylesheet = createStyleSheet((theme) => ({
     return {
       ...buttonBaseStyle,
       width: inline ? 'auto' : '100%',
+      alignSelf: inline ? 'center' : 'auto',
       variants: {
         variant: {
           primary: getButtonVariantStyle({ variant: 'primary', theme, pressed, hovered }),
