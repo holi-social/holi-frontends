@@ -41,10 +41,13 @@ const EventCard = ({ event }: EventProps) => {
     return `${startWeekday}, ${startDay} ${startMonthName} ∙ ${startTime} ${t('act.events.fromTo')} ${endTime}`
   }
 
-  const label = event.location
-    ? `${event.location.street} ${event.location.streetNo}, ${event.location.zipCode} ${event.location.city}`
-    : ''
-  const subtitle = `${t('act.events.createdBy')} ${event.organisationName}`
+  const location = event.isRemote
+    ? 'Remote'
+    : event.location
+      ? `${event.location.street} ${event.location.streetNo}, ${event.location.zipCode} ${event.location.city}`
+      : ''
+
+  const organisationName = `${t('act.events.createdBy')} ${event.organisationName}`
   const ChipComponent = () => (
     <ChipLabel color="mono" size="sm">
       {startDateObj && formattedDates(startDateObj, endDateObj)}
@@ -56,8 +59,8 @@ const EventCard = ({ event }: EventProps) => {
       <HoliLink href={`/events/${event.id}`} label={event.title}>
         <CompactCard
           title={event.title}
-          topLabel={label}
-          subtitle={subtitle}
+          topLabel={location}
+          subtitle={organisationName}
           topLabelIcon={MapPin2Filled}
           imageSrc={event.imageUrl}
           startDate={startDateObj}

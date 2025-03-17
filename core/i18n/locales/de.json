@@ -1652,5 +1652,6 @@
   "volunteering.navigation.home": "Home",
   "volunteering.navigation.search": "Search",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
-  "wizard.stepsCount": "Schritt {{current}} von {{total}}"
+  "wizard.stepsCount": "Schritt {{current}} von {{total}}",
+  "core.act.events.filter.remote": "Zeige Remote-Events"
 }

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 
 import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
@@ -28,6 +28,8 @@ import { useEventFilters } from '@holi-apps/events/hooks/useEventFilters'
 import { Button } from 'holi-bricks/components/button'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import type { HoliEvent } from '@holi-apps/events/types'
+import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
+import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -59,6 +61,7 @@ export const EventList = () => {
   })
 
   const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [showRemote, setShowRemote] = useState(true)
   // const canLoadMore =
   //   !loading &&
   //   pagedData?.appEvents_events.data?.length &&
@@ -100,6 +103,16 @@ export const EventList = () => {
 
   const events = pagedData?.appEvents_events.data
 
+  const hideRemoteEvents = () => {
+    if (!events) return
+    const noRemoteEvents = events.filter((e: HoliEvent) => {
+      return !e.isRemote
+    })
+    return noRemoteEvents
+  }
+
+  const filteredEvents = showRemote ? events : hideRemoteEvents()
+
   const { t } = useTranslation()
   const { styles } = useStyles(stylesheet)
   const { navigate } = useRouting()
@@ -135,6 +148,18 @@ export const EventList = () => {
     //     testID="btn-to-volunteering-filter-modal"
     //   />
     // )
+    const filterButton = (
+      <Stack direction="row" alignItems="center" justifyContent="space-between" gap="xs">
+        <Text size="md">{t('core.act.events.filter.remote')}</Text>
+        <HoliSwitch
+          value={showRemote}
+          size="small"
+          onChange={() => {
+            setShowRemote((prev) => !prev)
+          }}
+        />
+      </Stack>
+    )
     setScreenOptions({
       headerTitle: () => (
         <Text headingLevel="2" size="lg">
@@ -142,9 +167,9 @@ export const EventList = () => {
         </Text>
       ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
-      // headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
+      headerRight: () => (Platform.OS === 'web' ? <HoliHorizontalRow>{filterButton}</HoliHorizontalRow> : filterButton),
     })
-  }, [navigate, t, title, setScreenOptions, filterModalShown])
+  }, [navigate, t, title, setScreenOptions, filterModalShown, showRemote])
 
   return (
     <ScrollViewRefreshable
@@ -172,7 +197,7 @@ export const EventList = () => {
       </HoliModal>
       <HoliContainer>
         <Stack padding={{ top: 'md' }}>
-          {events && events.length > 0 && (
+          {filteredEvents && filteredEvents.length > 0 && (
             <Stack gap="xs">
               <Text headingLevel="2" size="3xl">
                 {t('act.events.title')}
@@ -204,20 +229,21 @@ export const EventList = () => {
                 i18nPrefix={'act.events.listing.partnerModal'}
               />
               <Text size="lg" color="support">
-                {events.length} {t('act.events.opportunities')}
+                {filteredEvents.length} {t('act.events.opportunities')}
               </Text>
             </Stack>
           )}
           <HoliBox padding={[24, 0, 24, 0]}>
             {/* <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}> */}
             <HoliGridWrapper>
-              {events?.map((event) => {
-                return (
-                  <HoliGridCell key={event.id}>
-                    <EventCard event={event} />
-                  </HoliGridCell>
-                )
-              })}
+              {Array.isArray(filteredEvents) &&
+                filteredEvents.map((event) => {
+                  return (
+                    <HoliGridCell key={event.id}>
+                      <EventCard event={event} />
+                    </HoliGridCell>
+                  )
+                })}
             </HoliGridWrapper>
             {/* </View> */}
           </HoliBox>

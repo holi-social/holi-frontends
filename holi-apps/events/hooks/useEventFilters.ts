@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import createParamHooks, { singleParamConfig, webReplaceQueryConfig } from '@holi/core/navigation/hooks/useParam'
 
@@ -52,9 +52,9 @@ export const useEventFilters = (onSubmit: () => void) => {
     [onSubmit, setFilters]
   )
 
-  useEffect(() => {
-    setFilters({ ...filters })
-  })
+  // useEffect(() => {
+  //   setFilters({ ...filters })
+  // }, [setFilters])
 
   return { setFilters, filters, clearFilters, isFiltering, submit }
 }
