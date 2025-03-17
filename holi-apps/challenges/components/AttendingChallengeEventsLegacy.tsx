@@ -9,7 +9,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { dimensions } from '@holi/ui/styles/globalVars'
 
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
+import { challengeAppBaseUrl } from '@holi/core/helpers/config'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import AttendingChallengeEventsCardLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsCardLegacy'
 

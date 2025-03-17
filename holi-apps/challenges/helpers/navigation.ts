@@ -1,4 +1,4 @@
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
+import { challengeAppBaseUrl } from '@holi/core/helpers/config'
 
 const appRoute = '/apps/challenges'
 

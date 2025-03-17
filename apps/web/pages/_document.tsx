@@ -1,10 +1,10 @@
 import { getApolloContext } from '@apollo/client'
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import type { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import { RenderPromises } from '@apollo/client/react/ssr'
 import 'holi-bricks/libs/init'
-import { AppPropsType } from 'next/dist/shared/lib/utils'
-import Document, { DocumentContext, DocumentProps, Head, Html, Main, NextScript } from 'next/document'
-import { Router } from 'next/router'
+import type { AppPropsType } from 'next/dist/shared/lib/utils'
+import Document, { type DocumentContext, type DocumentProps, Head, Html, Main, NextScript } from 'next/document'
+import type { Router } from 'next/router'
 import React, { Children } from 'react'
 import { AppRegistry } from 'react-native'
 import { flush } from 'react-native-media-query'
@@ -91,6 +91,7 @@ export default class MyDocument extends Document<ApolloDocumentProps> {
             'TYPESENSE_PROTOCOL',
             'TYPESENSE_API_KEY',
             'TYPESENSE_COLLECTION',
+            'HOLI_CHALLENGES_APP',
           ])}
           {/*
               FIXME: This script is needed for Matrix JS SDK version 4.3.*

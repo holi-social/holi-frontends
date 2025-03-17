@@ -1,6 +1,6 @@
 import { calculateCardWidth, ChallengeCard } from '@holi-apps/challenges/components/ChallengeCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
+import { challengeAppBaseUrl } from '@holi/core/helpers/config'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import RecoSlider from '@holi/core/components/RecoSlider'
