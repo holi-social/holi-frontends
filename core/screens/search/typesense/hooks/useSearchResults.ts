@@ -5,6 +5,7 @@ import {
   PAGE_SIZE,
 } from '@holi/core/screens/search/typesense/helpers/createSearchParameters'
 import { createTypesenseClient } from '@holi/core/screens/search/typesense/helpers/createTypesenseClient'
+import { isEmptyFilter } from '@holi/core/screens/search/typesense/helpers/isEmptyFilter'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/typesense/types'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -16,49 +17,67 @@ const isSameFilter = (filter1: SearchFilter, filter2: SearchFilter) => {
   )
 }
 
+const emptyResults: Omit<SearchResults, 'isLoading' | 'filter'> = {
+  hits: [],
+  totalNrOfResults: 0,
+  totalNrOfPages: 0,
+  currentPage: INITIAL_PAGE,
+  canLoadMore: false,
+}
+
 export const useSearchResults = (filter: SearchFilter) => {
   const { displayError } = useErrorHandling()
-  const [isLoading, setIsLoading] = useState(false)
   const [searchResults, setSearchResults] = useState<SearchResults>({
-    hits: [],
-    totalNrOfResults: 0,
-    totalNrOfPages: 0,
-    currentPage: INITIAL_PAGE,
-    canLoadMore: false,
+    ...emptyResults,
+    isLoading: false,
     filter,
   })
 
   const performSearch = useCallback(
     (pageToLoad: number = INITIAL_PAGE) => {
-      if (isLoading && isSameFilter(searchResults.filter, filter)) {
+      const sameFilterAsBefore = isSameFilter(searchResults.filter, filter)
+      if (searchResults.isLoading && sameFilterAsBefore) {
         return
       }
-      setIsLoading(true)
+      const isFilterEmpty = isEmptyFilter(filter)
+      setSearchResults((previousResults) => ({
+        ...(sameFilterAsBefore ? previousResults : emptyResults),
+        isLoading: !isFilterEmpty,
+        filter,
+      }))
+      if (isFilterEmpty) {
+        // Do not peform search with empty results
+        return
+      }
       typesenseClient
         .search(createSearchParameters(filter, pageToLoad))
-        .then((searchResults) => {
+        .then((results) => {
           setSearchResults((previousResults) => {
-            const sameFilter = isSameFilter(previousResults.filter, filter)
-            const previousHits = sameFilter && searchResults.page > INITIAL_PAGE ? previousResults.hits : []
-            const totalNrOfPages = Math.ceil(searchResults.found / PAGE_SIZE)
+            const sameFilterAsBefore = isSameFilter(previousResults.filter, filter)
+            if (!sameFilterAsBefore) {
+              return previousResults
+            }
+            const previousHits = results.page > INITIAL_PAGE ? previousResults.hits : []
+            const totalNrOfPages = Math.ceil(results.found / PAGE_SIZE)
             return {
-              hits: [...previousHits, ...(searchResults.hits ?? [])],
-              totalNrOfResults: searchResults.found,
+              isLoading: false,
+              hits: [...previousHits, ...(results.hits ?? [])],
+              totalNrOfResults: results.found,
               totalNrOfPages,
-              currentPage: searchResults.page,
-              canLoadMore: searchResults.page < totalNrOfPages,
+              currentPage: results.page,
+              canLoadMore: results.page < totalNrOfPages,
               filter,
             }
           })
         })
-        .catch((error) =>
+        .catch((error) => {
           displayError(error, 'Error retrieving search results', {
             location: 'useSearchResults.performSearch',
           })
-        )
-        .finally(() => setIsLoading(false))
+          setSearchResults((results) => ({ ...results, isLoading: false }))
+        })
     },
-    [isLoading, searchResults.filter, filter, displayError]
+    [searchResults.isLoading, searchResults.filter, filter, displayError]
   )
 
   const loadMore = useCallback(() => {
@@ -71,14 +90,11 @@ export const useSearchResults = (filter: SearchFilter) => {
 
   // Reset search on filter changes
   useEffect(() => {
-    // setResults([]) TODO(SF) maybe this helps with pagination issue?
-    // still an issue after geolocation error
     refresh()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter])
 
   return {
-    isLoading,
     searchResults,
     loadMore,
     refresh,

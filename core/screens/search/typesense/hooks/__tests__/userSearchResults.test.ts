@@ -2,7 +2,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { createSearchParameters } from '@holi/core/screens/search/typesense/helpers/createSearchParameters'
 import { useSearchResults } from '@holi/core/screens/search/typesense/hooks/useSearchResults'
 import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
-import { act, renderHook } from '@testing-library/react-native'
+import { act, renderHook, waitFor } from '@testing-library/react-native'
 import type { SearchResponseHit, SearchParams } from 'typesense/lib/Typesense/Documents'
 
 const mockSearch = jest.fn()
@@ -48,14 +48,14 @@ describe('useSearchResults', () => {
   it('should expose the loading state and results', async () => {
     const { result } = renderHook(() => useSearchResults(filter))
 
-    expect(result.current.isLoading).toBeTruthy()
+    expect(result.current.searchResults.isLoading).toBeTruthy()
     expect(result.current.searchResults.hits).toEqual([])
 
     await act(async () => {
       await jest.runAllTimersAsync()
     })
 
-    expect(result.current.isLoading).toBeFalsy()
+    expect(result.current.searchResults.isLoading).toBeFalsy()
     expect(result.current.searchResults.hits).toEqual(hits)
   })
 
@@ -77,6 +77,7 @@ describe('useSearchResults', () => {
     })
 
     expect(result.current.searchResults).toEqual({
+      isLoading: false,
       hits,
       totalNrOfResults: 10,
       totalNrOfPages: 1,
@@ -86,7 +87,7 @@ describe('useSearchResults', () => {
     })
   })
 
-  it('should append results and update searchResultInfo when loading more', async () => {
+  it('should append results and update pagination info when loading more', async () => {
     const allHits = createSearchHits(13)
     mockSearch.mockResolvedValueOnce({ found: 13, page: 1, hits: allHits.slice(0, 10) })
     mockSearch.mockResolvedValue({ found: 13, page: 2, hits: allHits.slice(10, 13) })
@@ -98,6 +99,7 @@ describe('useSearchResults', () => {
 
     expect(mockSearch).toHaveBeenCalledWith(createSearchParameters(filter, 1))
     expect(result.current.searchResults).toEqual({
+      isLoading: false,
       hits,
       totalNrOfResults: 13,
       totalNrOfPages: 2,
@@ -108,11 +110,18 @@ describe('useSearchResults', () => {
 
     await act(async () => {
       result.current.loadMore()
+
+      await waitFor(() => expect(result.current.searchResults.isLoading).toBeTruthy())
+
+      // Expect previous results to be kept while loading
+      expect(result.current.searchResults.hits.length).toBe(hits.length)
+
       await jest.runAllTimersAsync()
     })
 
     expect(mockSearch).toHaveBeenCalledWith(createSearchParameters(filter, 2))
     expect(result.current.searchResults).toEqual({
+      isLoading: false,
       hits: allHits,
       totalNrOfResults: 13,
       totalNrOfPages: 2,
@@ -160,18 +169,23 @@ describe('useSearchResults', () => {
 
     rerender(newFilter)
 
+    // Expect previous results to be cleared when starting the new search
+    expect(result.current.searchResults.isLoading).toBeTruthy()
+    expect(result.current.searchResults.hits.length).toBe(0)
+
     await act(async () => {
       await jest.runAllTimersAsync()
     })
 
     expect(mockSearch).toHaveBeenCalledWith(createSearchParameters(newFilter, 1))
     expect(result.current.searchResults.filter).toEqual(newFilter)
+    expect(result.current.searchResults.hits.length).toBe(hits.length)
   })
 
   it('should not perform search if already loading for same filter', async () => {
     const { result, rerender } = renderHook((props) => useSearchResults(props), { initialProps: filter })
 
-    expect(result.current.isLoading).toBeTruthy()
+    expect(result.current.searchResults.isLoading).toBeTruthy()
     expect(mockSearch).toHaveBeenCalledWith(createSearchParameters(filter, 1))
 
     rerender({ ...filter })
@@ -190,7 +204,7 @@ describe('useSearchResults', () => {
     }
     const { result, rerender } = renderHook((props) => useSearchResults(props), { initialProps: filter })
 
-    expect(result.current.isLoading).toBeTruthy()
+    expect(result.current.searchResults.isLoading).toBeTruthy()
     expect(result.current.searchResults.filter).toEqual(filter)
     expect(mockSearch).toHaveBeenCalledWith(createSearchParameters(filter, 1))
 
@@ -216,7 +230,7 @@ describe('useSearchResults', () => {
       await jest.runAllTimersAsync()
     })
 
-    expect(result.current.isLoading).toBeFalsy()
+    expect(result.current.searchResults.isLoading).toBeFalsy()
     expect(mockUseErrorHandling().displayError).toHaveBeenCalledWith(
       error,
       'Error retrieving search results',
@@ -224,5 +238,17 @@ describe('useSearchResults', () => {
         location: 'useSearchResults.performSearch',
       })
     )
+  })
+
+  it('should not perform request for empty filter', async () => {
+    const emptyFilter = {
+      query: '',
+      facet: 'volunteering',
+    }
+    const { result } = renderHook((props) => useSearchResults(props), { initialProps: emptyFilter })
+
+    expect(result.current.searchResults.isLoading).toBeFalsy()
+    expect(result.current.searchResults.filter).toEqual(emptyFilter)
+    expect(mockSearch).not.toHaveBeenCalled()
   })
 })

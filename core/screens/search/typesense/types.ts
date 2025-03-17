@@ -35,6 +35,7 @@ export interface SearchFilter {
 }
 
 export interface SearchResults {
+  isLoading: boolean
   hits: SearchResponseHit<SearchHitData>[]
   totalNrOfResults: number
   totalNrOfPages: number

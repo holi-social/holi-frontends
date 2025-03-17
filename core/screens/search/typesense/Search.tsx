@@ -17,6 +17,7 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSearchFilter } from '@holi/core/screens/search/typesense/hooks/useSearchFilter'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Spacing } from 'holi-bricks/tokens'
+import { isEmptyFilter } from '@holi/core/screens/search/typesense/helpers/isEmptyFilter'
 
 export type SearchParams = {
   query?: string
@@ -50,7 +51,7 @@ export const Search = () => {
     }
   )
 
-  const { filter, isFilterEmpty, setQuery, setFacet, setLocation } = useSearchFilter(
+  const { filter, setQuery, setFacet, setLocation } = useSearchFilter(
     {
       query: queryParam,
       facet: facetParam,
@@ -102,7 +103,7 @@ export const Search = () => {
       <ErrorBoundary>
         <SearchHitInfiniteList
           filter={filter}
-          emptyFilter={isFilterEmpty || (!filter.query && !!geolocationError)}
+          displayExamples={isEmptyFilter(filter) || (!filter.query && !!geolocationError)}
           loadingParameters={loadingGeolocation || !!geolocationError}
           onQuerySelect={setQuery}
         />

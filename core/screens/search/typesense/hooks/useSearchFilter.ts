@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import type { SearchFilter } from '@holi/core/screens/search/typesense/types'
 
@@ -33,11 +33,8 @@ export const useSearchFilter = (
     [filter, updateFilter]
   )
 
-  const isFilterEmpty = useMemo(() => !filter.query && (!filter.location || filter.facet === 'profile'), [filter])
-
   return {
     filter,
-    isFilterEmpty,
     setQuery,
     setFacet,
     setLocation,

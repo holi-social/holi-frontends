@@ -35,22 +35,20 @@ const resultsToTrackingEventResults = (searchResults: SearchResults) => {
 interface SearchHitInfiniteListProps {
   loadingParameters?: boolean
   filter: SearchFilter
-  emptyFilter?: boolean
+  displayExamples?: boolean
   onQuerySelect: (query: string) => void
 }
 
 export function SearchHitInfiniteList({
   loadingParameters,
   filter,
-  emptyFilter = false,
+  displayExamples = false,
   onQuerySelect,
 }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
   const { styles } = useStyles(stylesheet)
-  const { isLoading: loadingResults, searchResults, loadMore, refresh } = useSearchResults(filter)
-  const displayedFacet = searchResults.filter.facet
-  const oldResults = displayedFacet && displayedFacet !== filter.facet
-  const isLoading = loadingParameters || loadingResults || oldResults
+  const { searchResults, loadMore, refresh } = useSearchResults(filter)
+  const isLoading = loadingParameters || searchResults.isLoading
 
   const fullRefresh = useOnRefresh(refresh)
 
@@ -65,8 +63,6 @@ export function SearchHitInfiniteList({
     trackResultsViewed()
   }, [searchResults.hits, trackResultsViewed])
 
-  // Hide results of empty query or wrong facet
-  const displayedItems = emptyFilter || oldResults ? [] : (searchResults.hits ?? [])
   const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
 
   return (
@@ -74,20 +70,20 @@ export function SearchHitInfiniteList({
       contentContainerStyle={styles.list}
       testID={'search-results-list'}
       estimatedItemSize={itemHeight + Spacing['xs']}
-      data={displayedItems}
+      data={searchResults.hits}
       keyExtractor={(item) => item.document.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        isLoading && !emptyFilter ? (
+        isLoading && !displayExamples ? (
           <HoliLoader style={styles.loader} testID="loader" />
-        ) : emptyFilter ? (
+        ) : displayExamples ? (
           <SearchExamples onQuerySelect={onQuerySelect} currentFacet={filter.facet} />
         ) : (
           <NoSearchResults filter={filter} />
         )
       }
       ListFooterComponent={() => {
-        if (displayedItems.length > 0 && searchResults.canLoadMore) {
+        if (searchResults.hits.length > 0 && searchResults.canLoadMore) {
           return <HoliLoader style={styles.loader} testID="nextPageLoader" />
         }
         return null

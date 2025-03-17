@@ -32,6 +32,7 @@ describe('SearchHitInfiniteList', () => {
     query: 'search terms',
   }
   const searchResults: SearchResults = {
+    isLoading: false,
     hits,
     totalNrOfResults: 4,
     totalNrOfPages: 2,
@@ -39,11 +40,19 @@ describe('SearchHitInfiniteList', () => {
     canLoadMore: true,
     filter,
   }
+  const emptySearchResults: SearchResults = {
+    isLoading: false,
+    hits: [],
+    totalNrOfResults: 0,
+    totalNrOfPages: 0,
+    currentPage: 1,
+    canLoadMore: false,
+    filter,
+  }
 
   beforeEach(() => {
     jest.useFakeTimers()
     mockUseSearchResults.mockReturnValue({
-      isLoading: false,
       searchResults,
       loadMore: jest.fn(),
       refresh: jest.fn(),
@@ -83,16 +92,11 @@ describe('SearchHitInfiniteList', () => {
     expect(screen.getAllByTestId(/search-hit/)).toHaveLength(3)
   })
 
-  it('should render loader while loading and current results are empty', async () => {
+  it('should render loader when results are empty and loading', async () => {
     mockUseSearchResults.mockReturnValue({
-      isLoading: true,
       searchResults: {
-        hits: [],
-        totalNrOfResults: 0,
-        totalNrOfPages: 0,
-        currentPage: 0,
-        canLoadMore: false,
-        filter,
+        ...emptySearchResults,
+        isLoading: true,
       },
       loadMore: jest.fn(),
       refresh: jest.fn(),
@@ -104,43 +108,34 @@ describe('SearchHitInfiniteList', () => {
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
   })
 
-  it('should render search examples for empty query', async () => {
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} emptyFilter />)
+  it('should render loader when results are empty and loading parameters', async () => {
+    mockUseSearchResults.mockReturnValue({
+      searchResults: emptySearchResults,
+      loadMore: jest.fn(),
+      refresh: jest.fn(),
+    })
+
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} loadingParameters />)
+
+    expect(screen.getByTestId('loader')).toBeOnTheScreen()
+    expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
+  })
+
+  it('should render search examples when results are empty and display of examples is requested', async () => {
+    mockUseSearchResults.mockReturnValue({
+      searchResults: emptySearchResults,
+      loadMore: jest.fn(),
+      refresh: jest.fn(),
+    })
+
+    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} displayExamples />)
 
     expect(screen.getByTestId('search-examples')).toBeOnTheScreen()
   })
 
-  it('should render loader while results of an unselected facet are displayed', async () => {
-    mockUseSearchResults.mockReturnValue({
-      isLoading: true,
-      searchResults: {
-        ...searchResults,
-        filter: {
-          query: 'some query',
-          facet: 'profile',
-        },
-      },
-      loadMore: jest.fn(),
-      refresh: jest.fn(),
-    })
-
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} />)
-
-    expect(screen.getByTestId('loader')).toBeOnTheScreen()
-    expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
-  })
-
   it('should display text for empty search results', async () => {
     mockUseSearchResults.mockReturnValue({
-      isLoading: false,
-      searchResults: {
-        hits: [],
-        totalNrOfResults: 0,
-        totalNrOfPages: 0,
-        currentPage: 0,
-        canLoadMore: false,
-        filter,
-      },
+      searchResults: emptySearchResults,
       loadMore: jest.fn(),
       refresh: jest.fn(),
     })
@@ -158,9 +153,9 @@ describe('SearchHitInfiniteList', () => {
 
   it('should not render loader in footer if all pages were loaded', async () => {
     mockUseSearchResults.mockReturnValue({
-      isLoading: true,
       searchResults: {
         ...searchResults,
+        isLoading: true,
         canLoadMore: false,
       },
       loadMore: jest.fn(),
@@ -208,13 +203,11 @@ describe('SearchHitInfiniteList', () => {
 
     // Mock more hits to be returned when scrolling
     mockUseSearchResults.mockReturnValueOnce({
-      isLoading: false,
       searchResults,
       loadMore,
       refresh: jest.fn(),
     })
     mockUseSearchResults.mockReturnValue({
-      isLoading: false,
       searchResults: {
         ...searchResults,
         currentPage: 2,
@@ -262,7 +255,6 @@ describe('SearchHitInfiniteList', () => {
   it('should refresh on pull-to-refresh', () => {
     const refresh = jest.fn()
     mockUseSearchResults.mockReturnValueOnce({
-      isLoading: false,
       searchResults,
       loadMore: jest.fn(),
       refresh,
