@@ -61,4 +61,15 @@ describe('SearchTextInput', () => {
 
     expect(onQueryChange).not.toHaveBeenCalled()
   })
+
+  it('should update input value on param change', () => {
+    const { rerender } = render(<SearchTextInput currentQuery="" onQueryChange={jest.fn()} />)
+
+    const inputField = screen.getByLabelText('search.typesense.input.label')
+    expect(inputField.props.value).toBe('')
+
+    rerender(<SearchTextInput currentQuery="new query" onQueryChange={jest.fn()} />)
+
+    expect(inputField.props.value).toBe('new query')
+  })
 })

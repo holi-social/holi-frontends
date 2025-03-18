@@ -2,7 +2,7 @@ import { CloseCircleFilled, Search } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { useDebounce } from '@holi/ui/helper'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, Pressable } from 'react-native'
 
@@ -16,12 +16,24 @@ export function SearchTextInput({ currentQuery, onQueryChange }: SearchBoxProps)
   const [inputValue, setInputValue] = useState(currentQuery)
   const debouncedQueryUpdate = useDebounce((query) => onQueryChange(query), 300)
 
-  const setQuery = (newQuery: string) => {
-    setInputValue(newQuery)
-    if (newQuery !== currentQuery) {
-      debouncedQueryUpdate(newQuery)
+  const setQuery = useCallback(
+    (newQuery: string) => {
+      setInputValue(newQuery)
+      if (newQuery !== currentQuery) {
+        debouncedQueryUpdate(newQuery)
+      }
+    },
+    [currentQuery, debouncedQueryUpdate]
+  )
+
+  useEffect(() => {
+    if (currentQuery && inputValue !== currentQuery) {
+      setQuery(currentQuery)
     }
-  }
+
+    // Only trigger on changes of currentQuery
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuery])
 
   return (
     <HoliTextInput
