@@ -1,7 +1,10 @@
 {
   "postedOnHoli": "Veröffentlicht auf Holi",
+  "postedVia": "Veröffentlicht via {{source}}",
+  "recommendation.slider.title": "Das könnte dir auch gefallen",
   "privacy.visibility.public": "Öffentlich",
   "privacy.visibility.private": "Mitwirkende",
+  "volunteering.details.cta": "Kontakt auf Partnerseite",
   "task.cta": "Organisation kontaktieren",
   "task.locationType.ONSITE": "Vor Ort",
   "task.locationType.REMOTE": "Remote",

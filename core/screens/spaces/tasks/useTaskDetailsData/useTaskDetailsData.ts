@@ -8,8 +8,8 @@ import { SpaceUserConnectionType, VisibilityType, useTaskByIdQuery } from '@holi
 import { CalendarEvent, MapPin2, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { useRef } from 'react'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
+import { useRateLimit } from '@holi/ui/helper'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -29,7 +29,6 @@ export type UseTaskDetailsData = {
 const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
 
 export const useTaskDetailsData = (): UseTaskDetailsData => {
-  const lastRefetchTime = useRef(0)
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { displayError } = useErrorHandling()
   const { replaceRoute } = useRouting()
@@ -53,11 +52,12 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       })
     },
   })
+  const refetchData = useRateLimit(() => refetch({ id: taskId }))
   const isAdmin = !!data?.taskById?.space?.connectionStatusToMyself?.includes(SpaceUserConnectionType.Administrator)
-  const isOwner = loginState.isLoggedIn && isAdmin && loginState.user.id === data?.taskById?.creator.id
+  const isOwner = loginState.isLoggedIn && isAdmin
 
   const skills =
-    data?.taskById?.skillsV2.map<DetailsScreenChips>((skill) => {
+    data?.taskById?.skillsV2?.map<DetailsScreenChips>((skill) => {
       return {
         title: t(`skill.${skill}`),
         color: 'blue',
@@ -108,11 +108,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
   return {
     spaceName: data?.taskById?.space?.name,
     refetch: async () => {
-      const now = Date.now()
-      if (now - lastRefetchTime.current > 5000) {
-        lastRefetchTime.current = now
-        await refetch({ id: taskId })
-      }
+      await refetchData()
     },
     id: data?.taskById?.id,
     isOwner,

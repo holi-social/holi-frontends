@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { type ReactNode } from 'react'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import type { ImageSource } from '@holi/ui/components/atoms/HoliImage/types'
+import type { ImageSource as LegacyImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import type { ChipColor } from 'holi-bricks/components/chips/ChipLabel'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -31,14 +31,16 @@ export type DetailsScreenAuthor = AuthorBannerProps
 
 export type DetailsScreenData = {
   date?: Date
-  description?: string
+  description?: string | ReactNode
   author?: DetailsScreenAuthor
   chips?: DetailsScreenChips[]
+  seoDescription?: string
   loading?: boolean
   visibility?: 'private' | 'public'
   title: string
   infoList?: DetailsScreenInfoList[]
-  coverImage?: ImageSource
+  coverImage?: LegacyImageSource
+  _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
 }
 
 type DetailsScreenProps = DetailsScreenData
@@ -53,27 +55,25 @@ export const DetailsScreen = ({
   infoList,
   loading,
   author,
+  seoDescription,
+  _footer = null,
 }: DetailsScreenProps) => {
-  // This is here so we track the first load and we don't show skeleton again
-  // If user pulls to refetch the screen
-  const [firstLoad, setFirstLoad] = useState(true)
   const { t } = useTranslation()
+  const hasData = title && description
 
-  useEffect(() => {
-    setFirstLoad(false)
-  }, [])
-
-  if (loading && firstLoad) {
+  if (loading && !hasData) {
     return <DetailsScreenSkeleton />
   }
+
+  const _seoDescription = seoDescription || (typeof description === 'string' ? description : '')
 
   return (
     <>
       <HoliHead
         title={title}
-        description={description}
+        description={_seoDescription}
         ogTitle={title}
-        ogDescription={description}
+        ogDescription={_seoDescription}
         ogImage={coverImage?.uri}
       />
       <Stack direction="column" flex={1} padding={{ bottom: '4xl' }}>
@@ -141,11 +141,12 @@ export const DetailsScreen = ({
                 )
               })}
             </Stack>
-
-            {description && <HoliRichTextOutput text={description as string} />}
+            {description && React.isValidElement(description) ? <Text size="md">{description}</Text> : null}
+            {description && typeof description === 'string' && <HoliRichTextOutput text={description as string} />}
             {author && <AuthorBanner {...author} />}
           </Stack>
         </Stack>
+        {_footer}
       </Stack>
     </>
   )
