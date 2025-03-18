@@ -3,6 +3,7 @@ import type { GestureResponderEvent } from 'react-native'
 
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
 import type { StaticImageData } from '@holi/ui/components/atoms/HoliLocalImage.shared'
+import type { VolunteeringByIdQuery } from '@holi/api/graphql/graphql-codegen'
 
 export type PartnerInfoRowProps = {
   headline?: string
@@ -50,7 +51,7 @@ export type VolunteeringEngagement = {
 }
 
 export type VolunteeringReco = {
-  engagement: VolunteeringEngagement
+  engagement: NonNullable<VolunteeringByIdQuery['appVolunteering_engagement']>
   matchedTopicsV2?: string[]
   matchedSkillsV2?: string[]
 }

@@ -35,7 +35,10 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ recommendation, sty
           </View>
         </View>
       </HoliLink>
-      <HoliLink label={recommendation.engagement.title} href={`/volunteering/${recommendation.engagement.id}`}>
+      <HoliLink
+        label={recommendation.engagement.title as string}
+        href={`/volunteering/${recommendation.engagement.id}`}
+      >
         <View style={styles.content}>
           <ImagePreview currentImage={recommendation.engagement.imageUrl} />
           <View>

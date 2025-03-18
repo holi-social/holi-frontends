@@ -25,9 +25,10 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
-import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
+
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { Button } from 'holi-bricks/components/button'
+import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/useVolunteeringDetailsData'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -131,10 +132,10 @@ export const VolunteeringEngagementList = ({
                 <HoliGridCell key={engagement.id}>
                   <HoliLinkTracked
                     href={`/volunteering/${engagement.id}`}
-                    label={engagement.title}
+                    label={engagement?.title as string}
                     trackingEvent={TrackingEvent.RecommendationPressed(
                       'volunteering_opportunity',
-                      engagement.id,
+                      engagement.id as string,
                       index
                     )}
                   >

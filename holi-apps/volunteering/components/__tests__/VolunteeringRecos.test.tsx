@@ -84,7 +84,7 @@ const setupApolloMocks = (expectedQueryVars: VolunteeringRecosQueryVariables) =>
       query: volunteeringRecosQuery,
       variables: expectedQueryVars,
     },
-    newData: querySpy,
+    newData: querySpy as unknown as never, //TODO Stefano: Remove this after data refactor.
   }
   return { querySpy, mockedResponses: [mockedResponse] }
 }
