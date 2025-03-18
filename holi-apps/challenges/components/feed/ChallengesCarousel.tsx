@@ -55,8 +55,8 @@ const ChallengesCarousel = () => {
 
   useOnRefresh(fetchChallenges)
 
-  // Don't render anything if we're not loading and have no challenges
-  if (!isLoading && (!challenges || challenges.length === 0)) {
+  // Don't render anything if we're loading or have no challenges
+  if (isLoading || !challenges || challenges.length === 0) {
     return null
   }
 
