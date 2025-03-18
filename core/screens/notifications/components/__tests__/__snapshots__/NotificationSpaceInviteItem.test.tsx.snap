@@ -275,6 +275,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           style={
             [
               {
+                "alignSelf": "center",
                 "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 1000,
@@ -378,6 +379,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
           style={
             [
               {
+                "alignSelf": "center",
                 "backgroundColor": "#fdfd80",
                 "borderColor": "#262424",
                 "borderRadius": 1000,
@@ -728,6 +730,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           style={
             [
               {
+                "alignSelf": "center",
                 "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 1000,
@@ -831,6 +834,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
           style={
             [
               {
+                "alignSelf": "center",
                 "backgroundColor": "#fdfd80",
                 "borderColor": "#262424",
                 "borderRadius": 1000,

@@ -22,12 +22,12 @@ jest.mock('@holi/core/screens/act/ActSection', () => {
 })
 
 const cases = [
-  { section: undefined, order: ['VOLUNTEERING', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
-  { section: 'SPACE', order: ['VOLUNTEERING', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
-  { section: 'DONATIONS', order: ['DONATIONS', 'VOLUNTEERING', 'CHALLENGES', 'TASKS'] },
-  { section: 'VOLUNTEERING', order: ['VOLUNTEERING', 'CHALLENGES', 'TASKS', 'DONATIONS'] },
-  { section: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'TASKS', 'DONATIONS'] },
-  { section: 'TASKS', order: ['TASKS', 'VOLUNTEERING', 'CHALLENGES', 'DONATIONS'] },
+  { section: undefined, order: ['VOLUNTEERING', 'CHALLENGES', 'EVENTS', 'TASKS', 'DONATIONS'] },
+  { section: 'SPACE', order: ['VOLUNTEERING', 'CHALLENGES', 'EVENTS', 'TASKS', 'DONATIONS'] },
+  { section: 'DONATIONS', order: ['DONATIONS', 'VOLUNTEERING', 'CHALLENGES', 'EVENTS', 'TASKS'] },
+  { section: 'VOLUNTEERING', order: ['VOLUNTEERING', 'CHALLENGES', 'EVENTS', 'TASKS', 'DONATIONS'] },
+  { section: 'CHALLENGES', order: ['CHALLENGES', 'VOLUNTEERING', 'EVENTS', 'TASKS', 'DONATIONS'] },
+  { section: 'TASKS', order: ['TASKS', 'VOLUNTEERING', 'CHALLENGES', 'EVENTS', 'DONATIONS'] },
 ]
 
 describe('ActHome Section', () => {

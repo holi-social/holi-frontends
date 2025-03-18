@@ -1953,6 +1953,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       style={
         [
           {
+            "alignSelf": "center",
             "backgroundColor": "#fdfd80",
             "borderColor": "#262424",
             "borderRadius": 1000,
