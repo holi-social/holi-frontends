@@ -4,11 +4,11 @@ import {
   type SearchLocationSelectionProps,
 } from '@holi/core/screens/search/typesense/SearchLocationSelection'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
-import { geoPlacesQuery } from '@holi/core/geolocation/queries'
-import { MockedProvider } from '@apollo/client/testing'
+import { geoPlacesQuery, type GeoPlacesResponse } from '@holi/core/geolocation/queries'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import type { UserEventInstance } from '@testing-library/react-native/build/user-event/setup'
 
-const mocks = [
+const mocks: MockedResponse<GeoPlacesResponse>[] = [
   {
     request: {
       query: geoPlacesQuery,

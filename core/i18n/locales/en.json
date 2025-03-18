@@ -829,7 +829,7 @@
   "search.input.users.placeholder": "Search people",
   "search.location.closeSelection": "Close location selection",
   "search.location.filter": "Location selection",
-  "search.location.germanyWide": "Germany wide",
+  "search.location.germanyWide": "Germany-wide",
   "search.location.label": "Location",
   "search.location.notFound": "Location not found",
   "search.location.placeholder": "City, district or ZIP code...",
