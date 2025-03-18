@@ -31,6 +31,10 @@ describe('SearchHitInfiniteList', () => {
     facet: 'volunteering',
     query: 'search terms',
   }
+  const emptyFilter: SearchFilter = {
+    facet: 'volunteering',
+    query: '',
+  }
   const searchResults: SearchResults = {
     isLoading: false,
     hits,
@@ -121,14 +125,14 @@ describe('SearchHitInfiniteList', () => {
     expect(await screen.queryByTestId('nextPageLoader')).not.toBeOnTheScreen()
   })
 
-  it('should render search examples when results are empty and display of examples is requested', async () => {
+  it('should render search examples when results and filter are empty', async () => {
     mockUseSearchResults.mockReturnValue({
-      searchResults: emptySearchResults,
+      searchResults: { ...emptySearchResults, filter: emptyFilter },
       loadMore: jest.fn(),
       refresh: jest.fn(),
     })
 
-    render(<SearchHitInfiniteList filter={filter} onQuerySelect={jest.fn()} displayExamples />)
+    render(<SearchHitInfiniteList filter={emptyFilter} onQuerySelect={jest.fn()} />)
 
     expect(screen.getByTestId('search-examples')).toBeOnTheScreen()
   })

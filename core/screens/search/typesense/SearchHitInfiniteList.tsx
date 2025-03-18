@@ -18,6 +18,7 @@ import { NoSearchResults } from '@holi/core/screens/search/typesense/NoSearchRes
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import { useSearchResults } from '@holi/core/screens/search/typesense/hooks/useSearchResults'
 import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExamples'
+import { isEmptyFilter } from '@holi/core/screens/search/typesense/helpers/isEmptyFilter'
 
 const isWeb = Platform.OS === 'web'
 
@@ -35,16 +36,10 @@ const resultsToTrackingEventResults = (searchResults: SearchResults) => {
 interface SearchHitInfiniteListProps {
   loadingParameters?: boolean
   filter: SearchFilter
-  displayExamples?: boolean
   onQuerySelect: (query: string) => void
 }
 
-export function SearchHitInfiniteList({
-  loadingParameters,
-  filter,
-  displayExamples = false,
-  onQuerySelect,
-}: SearchHitInfiniteListProps) {
+export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
   const { styles } = useStyles(stylesheet)
   const { searchResults, loadMore, refresh } = useSearchResults(filter)
@@ -64,6 +59,7 @@ export function SearchHitInfiniteList({
   }, [searchResults.hits, trackResultsViewed])
 
   const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
+  const emptyFilter = isEmptyFilter(searchResults.filter)
 
   return (
     <FlashList
@@ -74,12 +70,12 @@ export function SearchHitInfiniteList({
       keyExtractor={(item) => item.document.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        isLoading && !displayExamples ? (
+        isLoading && !emptyFilter ? (
           <HoliLoader style={styles.loader} testID="loader" />
-        ) : displayExamples ? (
+        ) : emptyFilter ? (
           <SearchExamples onQuerySelect={onQuerySelect} currentFacet={filter.facet} />
         ) : (
-          <NoSearchResults filter={filter} />
+          <NoSearchResults filter={searchResults.filter} />
         )
       }
       ListFooterComponent={() => {

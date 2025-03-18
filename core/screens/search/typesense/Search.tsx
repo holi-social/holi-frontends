@@ -17,7 +17,6 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSearchFilter } from '@holi/core/screens/search/typesense/hooks/useSearchFilter'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { Spacing } from 'holi-bricks/tokens'
-import { isEmptyFilter } from '@holi/core/screens/search/typesense/helpers/isEmptyFilter'
 
 export type SearchParams = {
   query?: string
@@ -39,17 +38,14 @@ export const Search = () => {
   const updateParams = useUpdateParams({ web: { replace: true } })
 
   // Determine initial geolocation selection from query parameters
-  const { geolocationSuggestion, geolocationError, loadingGeolocation } = useGeolocationDetailsWithSuggestion(
-    geolocationId,
-    (error) => {
-      displayError(error, 'Failed to load geolocation', {
-        displayMessage: t('search.location.notFound'),
-        location: 'Search.useGeolocationCoordinates',
-        geolocationId,
-      })
-      updateParams({ location: undefined })
-    }
-  )
+  const { geolocationSuggestion, loadingGeolocation } = useGeolocationDetailsWithSuggestion(geolocationId, (error) => {
+    updateParams({ location: undefined })
+    displayError(error, 'Failed to load geolocation', {
+      displayMessage: t('search.location.notFound'),
+      location: 'Search.useGeolocationCoordinates',
+      geolocationId,
+    })
+  })
 
   const { filter, setQuery, setFacet, setLocation } = useSearchFilter(
     {
@@ -101,12 +97,7 @@ export const Search = () => {
       }
     >
       <ErrorBoundary>
-        <SearchHitInfiniteList
-          filter={filter}
-          displayExamples={isEmptyFilter(filter) || (!filter.query && !!geolocationError)}
-          loadingParameters={loadingGeolocation || !!geolocationError}
-          onQuerySelect={setQuery}
-        />
+        <SearchHitInfiniteList filter={filter} loadingParameters={loadingGeolocation} onQuerySelect={setQuery} />
       </ErrorBoundary>
     </Screen>
   )

@@ -6,8 +6,15 @@ import { render } from '@testing-library/react-native'
 import { Search } from '@holi/core/screens/search/typesense/Search'
 import { useSearchResults } from '@holi/core/screens/search/typesense/hooks/useSearchResults'
 import type { SearchFilter } from '@holi/core/screens/search/typesense/types'
+import { useErrorHandling } from '@holi/core/errors/hooks'
+import type { ApolloError } from '@apollo/client'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
+
+const mockUseErrorHandling = jest.mocked(useErrorHandling)
+jest.mock('@holi/core/errors/hooks', () => ({
+  useErrorHandling: jest.fn(),
+}))
 
 const mockUseGeolocationDetailsWithSuggestion = jest.mocked(useGeolocationDetailsWithSuggestion)
 jest.mock('@holi/core/geolocation/hooks/useGeolocationDetails', () => ({
@@ -33,6 +40,9 @@ describe('Search', () => {
   }
 
   beforeEach(() => {
+    mockUseErrorHandling.mockReturnValue({
+      displayError: jest.fn(),
+    })
     mockUseGeolocationDetailsWithSuggestion.mockReturnValue({ loadingGeolocation: false })
     mockUseSearchFilter.mockReturnValue({
       filter,
@@ -75,6 +85,28 @@ describe('Search', () => {
     render(<Search />)
 
     expect(mockUseGeolocationDetailsWithSuggestion).toHaveBeenCalledWith('123', expect.any(Function))
+  })
+
+  it('displays an error and clears the location parameter when fetching the locaiton failes', () => {
+    const { mockUseUpdateParams } = mockParameters({ location: '123' })
+    const mockDisplayError = jest.fn()
+    mockUseErrorHandling.mockReturnValue({
+      displayError: mockDisplayError,
+    })
+    const error = { message: 'Test error' } as ApolloError
+
+    render(<Search />)
+
+    // Trigger onError callback of geolocation hook
+    const onError = mockUseGeolocationDetailsWithSuggestion.mock.calls[0][1]
+    onError?.(error)
+
+    expect(mockDisplayError).toHaveBeenCalledWith(error, 'Failed to load geolocation', {
+      displayMessage: 'search.location.notFound',
+      geolocationId: '123',
+      location: 'Search.useGeolocationCoordinates',
+    })
+    expect(mockUseUpdateParams).toHaveBeenCalledWith({ location: undefined })
   })
 
   it('fetches results with filter created by useSearchFilter', () => {
