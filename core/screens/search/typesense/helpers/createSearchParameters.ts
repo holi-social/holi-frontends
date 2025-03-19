@@ -10,19 +10,19 @@ const profileSearchFields = ['user_full_name']
 
 const facetConfigurations: { [key in SearchHitType]: SearchParams } = {
   volunteering: {
-    filter_by: 'type:=[`volunteering`]',
+    filter_by: 'type:=volunteering',
     query_by: searchFields.join(','),
     query_by_weights: '1,1,1,1,100,10',
     vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
   },
   space: {
-    filter_by: 'type:=[`space`]',
+    filter_by: 'type:=space',
     query_by: searchFields.join(','),
     query_by_weights: '10,10,1,1,1,5',
     vector_query: 'embedding:([], k: 150, distance_threshold: 0.5)',
   },
   profile: {
-    filter_by: 'type:=[`profile`]',
+    filter_by: 'type:=profile',
     query_by: profileSearchFields.join(','),
     query_by_weights: '10',
   },

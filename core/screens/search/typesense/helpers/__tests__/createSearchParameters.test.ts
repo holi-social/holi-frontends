@@ -9,7 +9,7 @@ describe('createSearchParameters', () => {
       query_by: 'title_de,title_en,description_de,description_en,location,embedding',
       query_by_weights: '1,1,1,1,100,10',
       vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
-      filter_by: 'type:=[`volunteering`]',
+      filter_by: 'type:=volunteering',
       page: 1,
       per_page: 10,
     })
@@ -23,7 +23,7 @@ describe('createSearchParameters', () => {
       query_by: 'title_de,title_en,description_de,description_en,location,embedding',
       query_by_weights: '10,10,1,1,1,5',
       vector_query: 'embedding:([], k: 150, distance_threshold: 0.5)',
-      filter_by: 'type:=[`space`]',
+      filter_by: 'type:=space',
       page: 1,
       per_page: 10,
     })
@@ -36,7 +36,7 @@ describe('createSearchParameters', () => {
       q: 'Ada Lovelace',
       query_by: 'user_full_name',
       query_by_weights: '10',
-      filter_by: 'type:=[`profile`]',
+      filter_by: 'type:=profile',
       page: 1,
       per_page: 10,
     })
@@ -61,7 +61,7 @@ describe('createSearchParameters', () => {
       query_by: 'title_de,title_en,description_de,description_en,location,embedding',
       query_by_weights: '1,1,1,1,100,10',
       vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
-      filter_by: 'type:=[`volunteering`] && location_lat_lng:(52, 13, 30 km)',
+      filter_by: 'type:=volunteering && location_lat_lng:(52, 13, 30 km)',
       sort_by: 'location_lat_lng(52, 13):asc',
       page: 1,
       per_page: 10,
@@ -87,7 +87,7 @@ describe('createSearchParameters', () => {
       query_by: 'title_de,title_en,description_de,description_en,location,embedding',
       query_by_weights: '1,1,1,1,100,10',
       vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
-      filter_by: 'type:=[`volunteering`] && location_lat_lng:(52, 13, 30 km)',
+      filter_by: 'type:=volunteering && location_lat_lng:(52, 13, 30 km)',
       sort_by: 'location_lat_lng(52, 13):asc',
       page: 1,
       per_page: 10,
@@ -112,7 +112,7 @@ describe('createSearchParameters', () => {
       q: 'Ada Lovelace',
       query_by: 'user_full_name',
       query_by_weights: '10',
-      filter_by: 'type:=[`profile`]',
+      filter_by: 'type:=profile',
       page: 1,
       per_page: 10,
     })
@@ -126,7 +126,7 @@ describe('createSearchParameters', () => {
       query_by: 'title_de,title_en,description_de,description_en,location,embedding',
       query_by_weights: '1,1,1,1,100,10',
       vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
-      filter_by: 'type:=[`volunteering`]',
+      filter_by: 'type:=volunteering',
       page: 3,
       per_page: 10,
     })
