@@ -107,7 +107,6 @@ export enum RouteName {
   Home = 'Home',
   Insights = 'Insights',
   Spaces = 'Spaces',
-  Events = 'Events',
   SpacesStack = 'SpacesStack',
   Chat = 'Chat',
   Auth = 'Auth',
@@ -115,7 +114,6 @@ export enum RouteName {
   ChallengesApp = 'ChallengesApp',
   DonationsApp = 'DonationsApp',
   GoodNewsApp = 'GoodNewsApp',
-  EventList = 'EventList',
   VolunteeringApp = 'VolunteeringApp',
   NotFound = 'NotFound',
   AuthSelection = 'AuthSelection',
@@ -142,6 +140,7 @@ export enum RouteName {
   CreateReport = 'CreateReport',
 
   //Events
+  Events = 'Events',
   EventDetailsScreen = 'EventDetailsScreen',
-  EventsHomeScreen = 'EventsHomeScreen',
+  EventList = 'EventList',
 }

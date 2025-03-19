@@ -3,14 +3,12 @@ import React from 'react'
 import { createNativeStackNavigator, type NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { RouteName } from '@holi/mobile/navigation/routeName'
 import { EventList } from '@holi-apps/events/screens/EventList'
-import { type EventsHomeParams, EventsHomeScreen } from '@holi-apps/events/screens/EventsHome'
 import { type EventDetailsParams, EventDetailsScreen } from '@holi-apps/events/screens/EventDetails'
 import { mono } from 'holi-bricks/tokens'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
 
 export type EventsAppScreens = {
-  [RouteName.EventsHomeScreen]: EventsHomeParams
   [RouteName.EventDetailsScreen]: EventDetailsParams
   [RouteName.EventList]: undefined
 }
@@ -26,7 +24,7 @@ const EventsAppNavigator = () => {
 
   return (
     <EventsAppStack.Navigator
-      initialRouteName={RouteName.EventsHomeScreen}
+      initialRouteName={RouteName.EventList}
       screenOptions={{
         headerShown: true,
         headerTintColor: mono['800'],
@@ -36,12 +34,6 @@ const EventsAppNavigator = () => {
       }}
     >
       <EventsAppStack.Screen name={RouteName.EventList} component={EventList} />
-      <EventsAppStack.Screen
-        name={RouteName.EventsHomeScreen}
-        options={eventsHomeOptions}
-        component={EventsHomeScreen}
-      />
-
       <EventsAppStack.Screen
         name={RouteName.EventDetailsScreen}
         options={eventsHomeOptions}

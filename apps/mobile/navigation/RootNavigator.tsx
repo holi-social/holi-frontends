@@ -75,8 +75,6 @@ export type RootStackScreens = {
   [RouteName.Search]: SearchParams | OldSearchParams
 
   [RouteName.UserProfile]: UserProfileParams
-
-  [RouteName.EventList]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
@@ -180,14 +178,6 @@ const RootNavigator = () => {
       <RootStack.Screen
         name={RouteName.VolunteeringApp}
         component={VolunteeringAppNavigator}
-        options={{
-          animation: 'slide_from_bottom',
-          headerShown: false,
-        }}
-      />
-      <RootStack.Screen
-        name={RouteName.EventList}
-        component={EventsAppNavigator}
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,

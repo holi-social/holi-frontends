@@ -57,7 +57,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     [RouteName.Events]: {
       screens: {
         [RouteName.EventDetailsScreen]: 'events/:eventId',
-        [RouteName.EventsHomeScreen]: 'events',
+        [RouteName.EventList]: 'events',
       },
     },
 
@@ -162,11 +162,6 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
         [RouteName.VolunteeringAppEngagmentDetail]: 'volunteering/:engagementId',
         [RouteName.VolunteeringAppEngagmentDetailOld]: 'apps/volunteering/engagement/:engagementId',
         [RouteName.VolunteeringAppEngagmentDetailDE]: 'ehrenamt/:engagementId',
-      },
-    },
-    [RouteName.EventList]: {
-      screens: {
-        [RouteName.EventList]: 'events',
       },
     },
     [RouteName.CreatePost]: {
