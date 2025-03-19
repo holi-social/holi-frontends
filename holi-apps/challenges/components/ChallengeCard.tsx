@@ -4,15 +4,16 @@ import { StyleSheet, View, useWindowDimensions } from 'react-native'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { User } from '@holi/icons/src/generated'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import { Video } from '@holi/icons/src/generated'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import { SubmissionCard } from '@holi-apps/challenges/components/SubmissionCard'
-import { Challenge } from '@holi-apps/challenges/components/types'
+import type { Challenge } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { Spacing } from 'holi-bricks/tokens'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { Text } from 'holi-bricks/components/text'
 
 interface ChallengeCardProps {
   challenge: Challenge
@@ -42,17 +43,19 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
         href={createInAppChallengesPath(challenge.challengeDetailPath)}
         trackingEvent={trackingEvent}
       >
+        <HoliGap size="xxs" />
         <View style={styles.headline}>
           <View style={styles.title}>
-            <HoliHeading level="3" numberOfLines={1} ellipsizeMode="tail">
+            <Text size="lg" numberOfLines={2} ellipsizeMode="tail">
               {challenge.title}
-            </HoliHeading>
+            </Text>
           </View>
           <View style={styles.participantsContainer}>
-            <HoliText size="extrasmall" color="gray300">
+            <Text size="xs" colorOverride={theme.colors.gray300}>
               {challenge.participants}
-            </HoliText>
-            <HoliIcon icon={User} size={16} color={theme.colors.gray300} style={styles.participantsIcon} />
+            </Text>
+
+            <HoliIcon icon={Video} size={16} color={theme.colors.gray300} style={styles.participantsIcon} />
           </View>
         </View>
 
@@ -76,39 +79,41 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
   StyleSheet.create({
     container: {
       width: cardWidth,
-      marginRight: dimensions.spacingXs,
+      marginRight: Spacing['3xs'],
       flexDirection: 'column',
-      padding: dimensions.spacingXs,
+      padding: Spacing['3xs'],
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: theme.colors.gray200,
       borderRadius: 16,
       backgroundColor: theme.colors.background10,
-      height: '100%',
-      flex: 1,
     },
     headline: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: dimensions.spacingXs,
-      alignItems: 'center',
+      paddingHorizontal: Spacing['3xs'],
+      paddingBottom: Spacing['4xs'],
+      minHeight: 50,
+      alignItems: 'flex-start',
     },
     title: {
       flex: 1,
       flexGrow: 1,
+      maxWidth: '75%',
     },
     participantsContainer: {
       flex: 0,
-      paddingLeft: dimensions.spacingS,
+      paddingLeft: Spacing.xs,
       flexDirection: 'row',
+      alignItems: 'center',
+      paddingTop: Spacing['4xs'],
     },
     participantsIcon: {
       paddingLeft: 2,
     },
     submissionContainer: {
+      paddingTop: Spacing['3xs'],
       flexDirection: 'row',
-      paddingTop: dimensions.spacingXs,
-      gap: 4,
-      flex: 1,
+      gap: Spacing['4xs'],
     },
   })
