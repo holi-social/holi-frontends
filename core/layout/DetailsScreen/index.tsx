@@ -1,4 +1,5 @@
 import React, { type ReactNode } from 'react'
+import { View } from 'react-native'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import type { ImageSource as LegacyImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 import { ChipLabel } from 'holi-bricks/components/chips'
@@ -11,15 +12,18 @@ import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliHead from '@holi/core/components/HoliHead'
 import { CoverImage } from '@holi/core/components/CoverImage'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { DetailsScreenSkeleton } from '@holi-apps/events/components/DetailsScreen/skeleton'
-import { Global, Lock } from '@holi/icons/src/generated'
+
+import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
+import { Spacing } from 'holi-bricks/tokens'
+import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
 
 export type DetailsScreenInfoList = {
   title: string
   icon: HoliIconType
   subtitle?: string
   onPress?(): void
+  showExternalIcon?: boolean
 }
 
 export type DetailsScreenChips = {
@@ -48,7 +52,7 @@ type DetailsScreenProps = DetailsScreenData
 export const DetailsScreen = ({
   description,
   coverImage,
-  chips,
+  chips = [],
   visibility,
   title,
   date,
@@ -77,7 +81,19 @@ export const DetailsScreen = ({
         ogImage={coverImage?.uri}
       />
       <Stack direction="column" flex={1} padding={{ bottom: '4xl' }}>
-        <CoverImage coverImage={coverImage} />
+        <Stack>
+          <CoverImage coverImage={coverImage} />
+          {date && (
+            <View style={{ position: 'absolute', bottom: Spacing['sm'], left: Spacing['xs'] }}>
+              <HoliCalendarIcon
+                day={new Date(date as Date)?.getDate()}
+                month={new Date(date as Date)?.getMonth() + 1}
+                size="medium"
+              />
+            </View>
+          )}
+        </Stack>
+
         <Stack
           margin={{ bottom: '4xl' }}
           padding={{ left: 'xs', right: 'xs', bottom: 'sm' }}
@@ -106,13 +122,6 @@ export const DetailsScreen = ({
             </Stack>
 
             <Stack gap="xs" direction="row">
-              {date && (
-                <HoliCalendarIcon
-                  day={new Date(date as Date)?.getDate()}
-                  month={new Date(date as Date)?.getMonth() + 1}
-                  size="medium"
-                />
-              )}
               <Text size="3xl">{title}</Text>
             </Stack>
 
@@ -121,15 +130,15 @@ export const DetailsScreen = ({
                 const TextComp = detail.onPress ? TextLink : Text
                 return (
                   <Stack
-                    alignItems={detail?.subtitle ? 'flex-start' : 'center'}
-                    justifyContent="flex-start"
+                    alignItems="flex-start"
                     direction="row"
                     gap="3xs"
+                    padding={{ right: 'sm' }}
                     onPress={detail?.onPress}
                     key={`${detail?.title}-${index}`}
                   >
-                    <HoliIcon size={24} icon={detail?.icon} />
-                    <Stack>
+                    <HoliIcon size={Spacing.md} icon={detail?.icon} />
+                    <Stack flex={1}>
                       <TextComp size="md">{detail?.title}</TextComp>
                       {detail?.subtitle && (
                         <Text color="support" size="sm">
@@ -137,6 +146,7 @@ export const DetailsScreen = ({
                         </Text>
                       )}
                     </Stack>
+                    {detail.showExternalIcon ? <HoliIcon icon={ExternalLink} size={Spacing.sm} /> : null}
                   </Stack>
                 )
               })}
