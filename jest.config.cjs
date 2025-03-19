@@ -27,7 +27,7 @@ module.exports = {
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*)',
   ],
   resetMocks: true,
-  coverageReporters: ['text', 'lcov'],
+  coverageReporters: ['text-summary', 'lcov'],
   collectCoverageFrom: [
     'apps/**/*.{js,jsx,ts,tsx}',
     'core/**/*.{js,jsx,ts,tsx}',
