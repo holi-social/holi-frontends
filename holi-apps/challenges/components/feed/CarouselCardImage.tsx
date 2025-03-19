@@ -127,8 +127,6 @@ const getStyles = (width: number) =>
       borderRadius: 16,
       justifyContent: 'center',
       alignItems: 'center',
-      borderWidth: 1,
-      borderColor: mono['100'],
     },
     placeholder: {
       width: width,
