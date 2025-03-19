@@ -102,7 +102,14 @@ lint_compile_test:
     - git fetch origin main:main # needed for 'yarn workspaces foreach ... (lint_all task)'
     - git fetch origin $CI_COMMIT_BRANCH:$CI_COMMIT_BRANCH
     - yarn lint_all
-    - yarn test
+    - yarn test:coverage
+  coverage: '/All files[^|]*|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    name: 'unit test coverage report'
+    expose_as: 'unit test coverage report'
+    expire_in: "30 days"
+    paths:
+      - coverage/
   interruptible: true
   tags:
     - 4cpu-16gb
