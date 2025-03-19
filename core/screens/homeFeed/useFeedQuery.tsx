@@ -10,6 +10,7 @@ import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hook
 import { feedInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/domain/shared/types'
+import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
 
 const PAGE_SIZE_EXTERNAL_DATA = 12
 const PAGE_SIZE_FEED = 12
@@ -74,10 +75,17 @@ export const useFeedQuery = () => {
     }
   }, [loading, loadingInsights])
 
+  // Get the raw engagements data
+  const engagements = useMemo(() => {
+    return dataVolunteering?.appVolunteering_engagementRecosV2?.data || []
+  }, [dataVolunteering?.appVolunteering_engagementRecosV2?.data])
+
+  // Randomize the engagements
+  const randomizedEngagements = useRandomizedRecos(engagements, engagements.length)
+
   const combinedFeedData = useMemo(() => {
     const feedData = data?.feed?.data || []
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
-    const engagements = dataVolunteering?.appVolunteering_engagementRecosV2?.data || []
     const insights = dataInsights?.feedInsights?.data || []
 
     // Pre-calculate total length to avoid array resizing
@@ -107,10 +115,10 @@ export const useFeedQuery = () => {
           resultIndex++
         }
 
-        // Insert volunteering
-        if (engagements[externalIndex]) {
+        // Insert volunteering - use randomizedEngagements
+        if (randomizedEngagements[externalIndex]) {
           result[resultIndex] = {
-            volunteeringReco: engagements[externalIndex],
+            volunteeringReco: randomizedEngagements[externalIndex],
           }
           resultIndex++
         }
@@ -122,8 +130,8 @@ export const useFeedQuery = () => {
   }, [
     data?.feed?.data,
     dataGoodNews?.appGoodNews_articles?.articles,
-    dataVolunteering?.appVolunteering_engagementRecosV2?.data,
     dataInsights?.feedInsights?.data,
+    randomizedEngagements,
   ])
 
   const handleFetchMore = useCallback(async () => {

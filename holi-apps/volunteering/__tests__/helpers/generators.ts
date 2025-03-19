@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker'
-import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { VolunteeringByIdQuery } from '@holi/api/graphql/graphql-codegen'
 
 export const makeEngagement = (
   topics: string[],
   skills: string[],
   { location = true, organizer = true }: { location?: boolean; organizer?: boolean } = {}
-): VolunteeringEngagement & { __typename: 'AppVolunteering_Engagement' } => {
+): VolunteeringByIdQuery['appVolunteering_engagement'] => {
   return {
     id: faker.string.uuid(),
     title: faker.lorem.sentence(10),

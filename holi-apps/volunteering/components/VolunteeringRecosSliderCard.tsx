@@ -7,10 +7,10 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Globe } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 
 import { VolunteeringLabels } from '@holi-apps/volunteering/components/VolunteeringLabels'
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
+import { Text } from 'holi-bricks/components/text'
 
 export type VolunteeringRecosSliderCardProps = {
   item: VolunteeringReco | VolunteeringEngagement
@@ -29,49 +29,49 @@ export const VolunteeringRecosSliderCard = ({
   const isReco = 'engagement' in engagementOrReco
   const engagement = isReco ? engagementOrReco.engagement : engagementOrReco
 
-  const title = engagement.organizer?.name
+  const title = engagement?.organizer?.name
     ? t('volunteering:engagement.title', {
         title: engagement.title,
         organization: engagement.organizer?.name,
         interpolation: { escapeValue: false },
       })
-    : engagement.title
+    : (engagement.title as string)
 
   const hasTopics = isReco
     ? engagementOrReco.matchedTopicsV2 && engagementOrReco.matchedTopicsV2?.length > 0
-    : engagement.topicsV2 && engagement.topicsV2?.length > 0
+    : engagement?.topicsV2 && engagement?.topicsV2?.length > 0
 
   const hasSkills = isReco
     ? engagementOrReco.matchedSkillsV2 && engagementOrReco.matchedSkillsV2?.length > 0
-    : engagement.skillsV2 && engagement.skillsV2?.length > 0
+    : engagement?.skillsV2 && engagement?.skillsV2?.length > 0
 
   return (
     <RecoSliderCard
       name="volunteering"
-      to={`/volunteering/${engagement.id}`}
+      to={`/volunteering/${engagement?.id}`}
       labels={
         (hasTopics || hasSkills) && (
           <>
             <VolunteeringLabels
               displayAll={false}
-              topicSlugs={isReco ? engagementOrReco.matchedTopicsV2 : engagement.topicsV2}
-              skillSlugs={isReco ? engagementOrReco.matchedSkillsV2 : engagement.skillsV2}
+              topicSlugs={isReco ? engagementOrReco.matchedTopicsV2 : engagement?.topicsV2}
+              skillSlugs={isReco ? engagementOrReco.matchedSkillsV2 : engagement?.skillsV2}
             />
             <HoliGap size={'xs'} />
           </>
         )
       }
       title={title}
-      imageSourceUri={engagement.imageUrl}
+      imageSourceUri={engagement?.imageUrl}
       footer={
-        !!engagement.location && (
+        !!engagement?.location && (
           <View style={styles.locationFooter}>
             <HoliIcon icon={Globe} testID={'volunteering-reco-slider-card-location-icon'} />
-            <HoliText size="small">{engagement.location}</HoliText>
+            <Text size="sm">{engagement?.location}</Text>
           </View>
         )
       }
-      trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, index)}
+      trackingEvent={TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement?.id as string, index)}
       cardWidth={cardWidth}
     />
   )

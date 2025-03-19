@@ -140,7 +140,7 @@ const BottomComponentWrapper = ({
 const DEFAULT_VERTICAL_OFFSET = 100
 export const Screen = (props: ScreenProps) => {
   const {
-    preset = 'fixed',
+    preset = 'auto',
     keyboardVerticalOffset = 100,
     statusBarProps,
     keyboardAvoidingViewProps,

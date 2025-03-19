@@ -25,7 +25,7 @@ describe('VolunteeringRecosSliderCard', () => {
   it('renders title without organizer', () => {
     const reco = makeReco(topics, skills, { organizer: false })
     render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={0} />)
-    expect(screen.getByText(reco.engagement.title)).toBeTruthy()
+    expect(screen.getByText(reco.engagement.title as string)).toBeTruthy()
   })
   it('renders image', () => {
     const reco = makeReco(topics, skills, { organizer: false })

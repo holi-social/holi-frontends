@@ -575,7 +575,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         contentFit="cover"
                         onError={[Function]}
                         placeholder=""
-                        role="image"
+                        role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
                         style={
                           [
@@ -711,7 +711,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         contentFit="cover"
                         onError={[Function]}
                         placeholder=""
-                        role="image"
+                        role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
                         style={
                           [
@@ -847,7 +847,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                         contentFit="cover"
                         onError={[Function]}
                         placeholder=""
-                        role="image"
+                        role="img"
                         source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
                         style={
                           [
@@ -1691,7 +1691,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           contentFit="cover"
                           onError={[Function]}
                           placeholder=""
-                          role="image"
+                          role="img"
                           source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
                           style={
                             [
@@ -2141,7 +2141,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           contentFit="cover"
                           onError={[Function]}
                           placeholder=""
-                          role="image"
+                          role="img"
                           source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
                           style={
                             [
@@ -2591,7 +2591,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                           contentFit="cover"
                           onError={[Function]}
                           placeholder=""
-                          role="image"
+                          role="img"
                           source="https://dev-images.holi.social/crop:0:0/resize:fill-down:80:80/ext:webp/quality:80/plain/https%3A%2F%2Fwww.example.com%2Fuser-avatar.jpg"
                           style={
                             [

@@ -1,81 +1,78 @@
-import { render, screen, waitFor } from '@testing-library/react-native'
+import '@holi/core/components/Screen/mock'
+import { act, render, screen, waitFor } from '@testing-library/react-native'
 import React from 'react'
-
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
 import { makeEngagement } from '@holi-apps/volunteering/__tests__/helpers/generators'
+import { VolunteeringEngagementDetail } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 import {
-  type AppVolunteeringEngagementByIdResponse,
-  type AppVolunteeringEngagementByIdVariables,
-  type VolunteeringSimilarRecosQueryResponse,
-  type VolunteeringSimilarRecosQueryVariables,
-  engagementByIdQuery,
-  trackEngagementViewMutation,
-  volunteeringSimilarRecosQuery,
-} from '@holi-apps/volunteering/queries'
-import { ExportedForTesting } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
-import type {
-  AppVolunteering_TrackEngagementViewResponse,
-  MutationAppVolunteering_TrackEngagementViewArgs,
+  SimilarVolunteeringSliderDocument,
+  TrackEngagementViewDocument,
+  VolunteeringByIdDocument,
+  type SimilarVolunteeringSliderQueryVariables,
+  type SimilarVolunteeringSliderQuery,
+  type TrackEngagementViewMutation,
+  type TrackEngagementViewMutationVariables,
+  type VolunteeringByIdQuery,
+  type VolunteeringByIdQueryVariables,
 } from '@holi/api/graphql/graphql-codegen'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
+
+jest.mock('@holi/core/navigation/hooks/useParam')
 
 const mockEngagementId = '123'
 
 const allTopics = ALL_TOPICS.slice(0, 3)
 const allSkills = ALL_SKILLS.slice(0, 2)
 
-const mockEngagementDetailQuery: MockedResponse<
-  AppVolunteeringEngagementByIdResponse,
-  AppVolunteeringEngagementByIdVariables
-> = {
+const mockEngagementDetailQuery: MockedResponse<VolunteeringByIdQuery, VolunteeringByIdQueryVariables> = {
   request: {
-    query: engagementByIdQuery,
+    query: VolunteeringByIdDocument,
     variables: { id: mockEngagementId },
   },
   result: {
     data: {
       appVolunteering_engagement: {
         ...makeEngagement(allTopics, allSkills),
+        id: mockEngagementId,
       },
     },
   },
 }
 
-const mockTrackEngagementView: MockedResponse<
-  AppVolunteering_TrackEngagementViewResponse,
-  MutationAppVolunteering_TrackEngagementViewArgs
-> = {
+const mockTrackEngagementView: MockedResponse<TrackEngagementViewMutation, TrackEngagementViewMutationVariables> = {
   request: {
-    query: trackEngagementViewMutation,
+    query: TrackEngagementViewDocument,
     variables: {
       id: mockEngagementId,
     },
   },
   result: {
     data: {
-      id: mockEngagementId,
+      appVolunteering_trackEngagementView: {
+        id: mockEngagementId,
+      },
     },
   },
 }
 
 const mockNoSimilarRecoQueries: MockedResponse<
-  VolunteeringSimilarRecosQueryResponse,
-  VolunteeringSimilarRecosQueryVariables
+  SimilarVolunteeringSliderQuery,
+  SimilarVolunteeringSliderQueryVariables
 > = {
   request: {
-    query: volunteeringSimilarRecosQuery,
+    query: SimilarVolunteeringSliderDocument,
     variables: {
       offset: 0,
-      limit: 4,
+      limit: 10,
       id: mockEngagementId,
     },
   },
   result: {
     data: {
       appVolunteering_similarRecommendations: {
-        totalResults: 0,
         data: [],
+        totalResults: 0,
       },
     },
   },
@@ -87,30 +84,29 @@ const mockSimilarRecoQueriesEngagements = [
   makeEngagement(allTopics, allSkills),
   makeEngagement(allTopics, allSkills),
   makeEngagement(allTopics, allSkills),
-]
+] as SimilarVolunteeringSliderQuery['appVolunteering_similarRecommendations']['data']
 
-const mockSimilarRecoQueries: MockedResponse<
-  VolunteeringSimilarRecosQueryResponse,
-  VolunteeringSimilarRecosQueryVariables
-> = {
-  request: {
-    query: volunteeringSimilarRecosQuery,
-    variables: {
-      offset: 0,
-      limit: 4,
-      id: mockEngagementId,
-    },
-  },
-  result: {
-    data: {
-      appVolunteering_similarRecommendations: {
-        totalResults: mockSimilarRecoQueriesEngagements.length,
-        data: mockSimilarRecoQueriesEngagements,
+const mockSimilarRecoQueries: MockedResponse<SimilarVolunteeringSliderQuery, SimilarVolunteeringSliderQueryVariables> =
+  {
+    request: {
+      query: SimilarVolunteeringSliderDocument,
+      variables: {
+        offset: 0,
+        limit: 10,
+        id: mockEngagementId,
       },
     },
-  },
-}
-
+    result: {
+      data: {
+        appVolunteering_similarRecommendations: {
+          data: mockSimilarRecoQueriesEngagements,
+          totalResults: 0,
+        },
+      },
+    },
+  }
+// totalResults: mockSimilarRecoQueriesEngagements.length,
+//         data: mockSimilarRecoQueriesEngagements,
 jest.mock('@holi/core/navigation/hooks/useParam')
 
 describe('VolunteeringEngagementDetail', () => {
@@ -120,25 +116,50 @@ describe('VolunteeringEngagementDetail', () => {
       // just check base case that labels are rendered at all
       // more specific tests and assertions on labels: see VolunteeringLabels (test)
       render(
-        <MockedProvider mocks={[mockEngagementDetailQuery, mockNoSimilarRecoQueries, mockTrackEngagementView]}>
-          <ExportedForTesting.UnwrappedVolunteeringEngagementDetail />
+        <MockedProvider
+          addTypename={false}
+          mocks={[mockEngagementDetailQuery, mockNoSimilarRecoQueries, mockTrackEngagementView]}
+          defaultOptions={{
+            watchQuery: { fetchPolicy: 'no-cache' },
+            query: { fetchPolicy: 'no-cache' },
+          }}
+        >
+          <VolunteeringEngagementDetail />
         </MockedProvider>
       )
-      expect(screen.queryByText('engagementDetail.similarRecosHeading')).not.toBeOnTheScreen()
+
+      await act(async () => {
+        await waitFor(() => {
+          expect(screen.queryByText('recommendation.slider.title')).not.toBeOnTheScreen()
+        })
+      })
     })
   })
+
   describe('given similar recommendations', () => {
     it('does display similar recommendations', async () => {
       mockParameters({ engagementId: mockEngagementId })
       // just check base case that labels are rendered at all
       // more specific tests and assertions on labels: see VolunteeringLabels (test)
       render(
-        <MockedProvider mocks={[mockEngagementDetailQuery, mockSimilarRecoQueries, mockTrackEngagementView]}>
-          <ExportedForTesting.UnwrappedVolunteeringEngagementDetail />
+        <MockedProvider
+          mocks={[mockEngagementDetailQuery, mockSimilarRecoQueries, mockTrackEngagementView]}
+          defaultOptions={{
+            watchQuery: { fetchPolicy: 'no-cache' },
+            query: { fetchPolicy: 'no-cache' },
+          }}
+          addTypename={false}
+        >
+          <VolunteeringEngagementDetail />
         </MockedProvider>
       )
-      await waitFor(() => expect(screen.queryByText('engagementDetail.similarRecosHeading')).toBeOnTheScreen())
-      expect(screen.queryAllByTestId('volunteering-reco-slider-card')).not.toHaveLength(0)
+
+      await act(async () => {
+        await waitFor(() => {
+          expect(screen.getByText('recommendation.slider.title')).toBeOnTheScreen()
+          expect(screen.queryAllByTestId('volunteering-reco-slider-card')).not.toHaveLength(0)
+        })
+      })
     })
   })
 })

@@ -44,6 +44,7 @@ jest.mock('@react-navigation/native', () => {
     }),
     useLinkTo: () => global.mockNavigate,
     useFocusEffect: (callback: () => unknown) => callback?.(),
+    useScrollToTop: jest.fn(),
   }
 })
 

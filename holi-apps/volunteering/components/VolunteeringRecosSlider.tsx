@@ -1,13 +1,13 @@
-import React from 'react'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import RecoSlider from '@holi/core/components/RecoSlider'
 import { TrackingEvent } from '@holi/core/tracking'
-import { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
+import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { HeartsFilled } from '@holi/icons/src/generated'
 
 import { VolunteeringRecosSliderCard } from '@holi-apps/volunteering/components/VolunteeringRecosSliderCard'
-import { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 
 type VolunteeringRecosSliderProps = {
   recos: VolunteeringReco[] | VolunteeringEngagement[]
@@ -19,17 +19,16 @@ const VolunteeringRecosSlider: React.FC<VolunteeringRecosSliderProps> = ({ recos
 
   const listItemTrackingEvent: ListItemTrackingEvent<VolunteeringReco | VolunteeringEngagement> = (item) => {
     const engagement = 'engagement' in item ? item.engagement : item
-
     return TrackingEvent.RecommendationViewed('volunteering_opportunity', {
-      title: engagement.title,
-      id: engagement.id,
+      title: engagement?.title as string,
+      id: engagement?.id as string,
     })
   }
 
   const listItemIdentifier: ListItemIdentifier<VolunteeringReco | VolunteeringEngagement> = (item) => {
     const engagement = 'engagement' in item ? item.engagement : item
 
-    return engagement.id
+    return engagement.id as string
   }
 
   return (

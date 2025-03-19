@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
-import { type TextColor, TextLink, type TextLinkSize, type TextLinkVariant } from 'holi-bricks/components/text'
+import { type TextColor, TextLink, type TextLinkSize } from 'holi-bricks/components/text'
 import { lightTheme } from 'holi-bricks/themes/light'
 import React from 'react'
 import { View } from 'react-native'
@@ -74,24 +74,6 @@ export const ByColor: Story = {
         {availableColors.map((color) => (
           <TextLink key={color} {...args} color={color}>
             This is a text link in {color}.
-          </TextLink>
-        ))}
-      </View>
-    )
-  },
-}
-
-const availableVariants: TextLinkVariant[] = ['primary', 'secondary', 'tertiary', 'quaternary', 'special']
-
-export const ByVariant: Story = {
-  argTypes: {},
-  args: {},
-  render: function Render(args) {
-    return (
-      <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {availableVariants.map((variant) => (
-          <TextLink key={variant} {...args} variant={variant}>
-            This is a text link in deprecated variant {variant}.
           </TextLink>
         ))}
       </View>
