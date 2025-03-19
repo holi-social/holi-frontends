@@ -9,7 +9,7 @@ import { holiApiUrl } from '@holi/api/config'
 import { isSSR } from '@holi/core/helpers/isSSR'
 
 import authorizationHeaderLink from './authorizationHeaderLink'
-import { alwaysReplacePolicy, pagedPolicy } from './cachePolicies'
+import { alwaysReplacePolicy, keyArgsWithoutLimitAndOffset, pagedPolicy } from './cachePolicies'
 import createLocaleHeaderLink from './createLocaleHeaderLink'
 import errorLink from './errorLink'
 
@@ -88,6 +88,9 @@ const uploadCapableTerminatingLink: ApolloLink = createUploadLink({
 export const createCache = () =>
   new InMemoryCache({
     typePolicies: {
+      AppEvents_Event: {
+        keyFields: ['id'],
+      },
       User: {
         fields: {
           interests: alwaysReplacePolicy,
@@ -141,6 +144,10 @@ export const createCache = () =>
         fields: {
           // here, we can specify e.g. pagination behavior, depending on the
           // query, see https://www.apollographql.com/docs/react/pagination/overview
+          appEvents_event: alwaysReplacePolicy,
+          appEvents_events: pagedPolicy((args: Record<string, unknown> | null) => {
+            return keyArgsWithoutLimitAndOffset(args)
+          }),
           appointments: pagedPolicy(),
           lastInsights: pagedPolicy(),
           appDonations_projects: pagedPolicy(),
