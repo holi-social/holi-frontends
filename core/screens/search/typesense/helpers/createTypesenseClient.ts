@@ -29,5 +29,5 @@ export const createTypesenseClient = () =>
       ? (params: SearchParams) => qs.stringify(params, { format: 'RFC3986' })
       : undefined,
   })
-    .collections<SearchHitData>(typesenseCollection)
+    .collections<SearchHitData>(typesenseCollection ?? '')
     .documents()
