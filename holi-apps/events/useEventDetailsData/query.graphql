@@ -1,25 +1,36 @@
-query allEvents($limit: Int!, $offset: Int!, $location: String) {
-  appEvents_events(limit: $limit, offset: $offset, location: $location) {
-    totalResults
+query getEventById($id: String!) {
+  appEvents_event(id: $id) {
     data {
-      id
-      title
-      organisationName
-      startDate
-      endDate
-      isRemote
-      imageUrl
-      eventDetails {
-        description
-        meetingLink
-        externalLink
-      }
-      location {
-        street
-        streetNo
-        zipCode
-        city
-      }
+      ...FullEvent
     }
+  }
+}
+
+query allEvents($offset: Int = 0, $limit: Int = 5, $location: String) {
+  appEvents_events(offset: $offset, limit: $limit, location: $location) {
+    data {
+      ...FullEvent
+    }
+  }
+}
+
+fragment FullEvent on AppEvents_Event {
+  id
+  title
+  organisationName
+  startDate
+  endDate
+  location {
+    street
+    streetNo
+    city
+    zipCode
+  }
+  isRemote
+  imageUrl
+  eventDetails {
+    description
+    externalLink
+    meetingLink
   }
 }

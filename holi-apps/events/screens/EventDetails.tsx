@@ -1,15 +1,17 @@
 import React from 'react'
 import { Screen } from '@holi/core/components/Screen'
-import { DetailsScreen } from '@holi-apps/events/components/DetailsScreen'
+import { Linking } from 'react-native'
 import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { Platform } from 'react-native'
 import { white } from 'holi-bricks/tokens'
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import { Button } from 'holi-bricks/components/button'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useEventDetailsData } from '@holi-apps/events/useEventDetailsData/useEventDetailsData'
+import RenderHtml from 'react-native-render-html'
+import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
+import { ExternalLink } from '@holi/icons/src/generated'
+import { useTranslation } from 'react-i18next'
 
 export type EventDetailsParams = {
   eventId: string
@@ -19,12 +21,8 @@ const { useParam } = createParamHooks<EventDetailsParams>()
 
 export const EventDetailsScreen = () => {
   const [eventId] = useParam('eventId')
-  const {
-    data: { loading, title, coverImage, infoList, visibility, chips, author },
-    refetch,
-  } = useEventDetailsData(eventId as string)
-  const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
-
+  const { data, url: eventUrl, refetch } = useEventDetailsData(eventId as string)
+  const { t } = useTranslation()
   return (
     <Screen
       onRefresh={refetch}
@@ -56,22 +54,27 @@ export const EventDetailsScreen = () => {
           alignSelf="center"
           width="100%"
         >
-          {displayCta && <Button label="Contact" />}
+          {eventUrl && (
+            <Button
+              icon={ExternalLink}
+              label={t('eventDetails.cta')}
+              onPress={() => {
+                Linking.openURL(eventUrl)
+              }}
+            />
+          )}
         </Stack>
       }
     >
       <DetailsScreen
-        loading={loading}
-        coverImage={coverImage}
-        title={title}
-        infoList={infoList}
-        visibility={visibility}
-        description="test"
-        // {
-        //   <RenderHtml defaultTextProps={{ selectable: true }} source={{ html: description }} contentWidth={0} />
-        // }
-        author={author}
-        chips={chips}
+        {...data}
+        description={
+          <RenderHtml
+            defaultTextProps={{ selectable: true }}
+            source={{ html: data.description as string }}
+            contentWidth={0}
+          />
+        }
       />
     </Screen>
   )

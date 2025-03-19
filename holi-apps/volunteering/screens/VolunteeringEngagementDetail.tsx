@@ -9,7 +9,7 @@ import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import { Text } from 'holi-bricks/components/text'
-import { DetailsScreen } from '@holi/core/layouts/DetailsScreen'
+
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -24,6 +24,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
+import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 
 export type VolunteeringEngagementDetailParams = {
   engagementId: string

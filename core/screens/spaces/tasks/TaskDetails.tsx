@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import { Screen } from '@holi/core/components/Screen'
-import { DetailsScreen } from '@holi-apps/events/components/DetailsScreen'
+
 import { Stack } from 'holi-bricks/components/stack'
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -10,6 +10,7 @@ import { white } from 'holi-bricks/tokens'
 import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/ContactOrganization'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 
 const isIos = Platform.OS === 'ios'
 
