@@ -1598,6 +1598,7 @@ export type QueryAppEvents_EventsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>
   location?: InputMaybe<Scalars['String']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
+  remoteOnly?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 export type QueryAppGoodNews_ArticlesArgs = {
@@ -2604,6 +2605,94 @@ export type AuthenticatedUserQuery = {
   }
 }
 
+export type GetEventByIdQueryVariables = Exact<{
+  id: Scalars['String']['input']
+}>
+
+export type GetEventByIdQuery = {
+  __typename?: 'Query'
+  appEvents_event: {
+    __typename?: 'AppEvents_EventResponse'
+    data?: {
+      __typename?: 'AppEvents_Event'
+      id: string
+      title: string
+      organisationName: string
+      startDate?: string
+      endDate?: string
+      isRemote: boolean
+      imageUrl: string
+      location?: {
+        __typename?: 'AppEvents_Location'
+        street?: string
+        streetNo?: string
+        city?: string
+        zipCode?: string
+      }
+      eventDetails: {
+        __typename?: 'AppEvents_EventDetails'
+        description: string
+        externalLink: string
+        meetingLink?: string
+      }
+    }
+  }
+}
+
+export type AllEventsQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>
+  limit?: InputMaybe<Scalars['Int']['input']>
+  location?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type AllEventsQuery = {
+  __typename?: 'Query'
+  appEvents_events: {
+    __typename?: 'AppEvents_EventsResponse'
+    data?: Array<{
+      __typename?: 'AppEvents_Event'
+      id: string
+      title: string
+      organisationName: string
+      startDate?: string
+      endDate?: string
+      isRemote: boolean
+      imageUrl: string
+      location?: {
+        __typename?: 'AppEvents_Location'
+        street?: string
+        streetNo?: string
+        city?: string
+        zipCode?: string
+      }
+      eventDetails: {
+        __typename?: 'AppEvents_EventDetails'
+        description: string
+        externalLink: string
+        meetingLink?: string
+      }
+    }>
+  }
+}
+
+export type FullEventFragment = {
+  __typename?: 'AppEvents_Event'
+  id: string
+  title: string
+  organisationName: string
+  startDate?: string
+  endDate?: string
+  isRemote: boolean
+  imageUrl: string
+  location?: { __typename?: 'AppEvents_Location'; street?: string; streetNo?: string; city?: string; zipCode?: string }
+  eventDetails: {
+    __typename?: 'AppEvents_EventDetails'
+    description: string
+    externalLink: string
+    meetingLink?: string
+  }
+}
+
 export type VolunteeringByIdQueryVariables = Exact<{
   id: Scalars['String']['input']
 }>
@@ -2707,6 +2796,28 @@ export const FullUserFragmentDoc = gql`
   }
   skillsV2
   connectionStatusToMyself
+}
+    `
+export const FullEventFragmentDoc = gql`
+    fragment FullEvent on AppEvents_Event {
+  id
+  title
+  organisationName
+  startDate
+  endDate
+  location {
+    street
+    streetNo
+    city
+    zipCode
+  }
+  isRemote
+  imageUrl
+  eventDetails {
+    description
+    externalLink
+    meetingLink
+  }
 }
     `
 export const SpaceRecommendationDocument = gql`
@@ -2934,6 +3045,103 @@ export type AuthenticatedUserQueryHookResult = ReturnType<typeof useAuthenticate
 export type AuthenticatedUserLazyQueryHookResult = ReturnType<typeof useAuthenticatedUserLazyQuery>
 export type AuthenticatedUserSuspenseQueryHookResult = ReturnType<typeof useAuthenticatedUserSuspenseQuery>
 export type AuthenticatedUserQueryResult = Apollo.QueryResult<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>
+export const GetEventByIdDocument = gql`
+    query getEventById($id: String!) {
+  appEvents_event(id: $id) {
+    data {
+      ...FullEvent
+    }
+  }
+}
+    ${FullEventFragmentDoc}`
+
+/**
+ * __useGetEventByIdQuery__
+ *
+ * To run a query within a React component, call `useGetEventByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetEventByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables> &
+    ({ variables: GetEventByIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+}
+export function useGetEventByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+}
+export function useGetEventByIdSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+}
+export type GetEventByIdQueryHookResult = ReturnType<typeof useGetEventByIdQuery>
+export type GetEventByIdLazyQueryHookResult = ReturnType<typeof useGetEventByIdLazyQuery>
+export type GetEventByIdSuspenseQueryHookResult = ReturnType<typeof useGetEventByIdSuspenseQuery>
+export type GetEventByIdQueryResult = Apollo.QueryResult<GetEventByIdQuery, GetEventByIdQueryVariables>
+export const AllEventsDocument = gql`
+    query allEvents($offset: Int = 0, $limit: Int = 5, $location: String) {
+  appEvents_events(offset: $offset, limit: $limit, location: $location) {
+    data {
+      ...FullEvent
+    }
+  }
+}
+    ${FullEventFragmentDoc}`
+
+/**
+ * __useAllEventsQuery__
+ *
+ * To run a query within a React component, call `useAllEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllEventsQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *      location: // value for 'location'
+ *   },
+ * });
+ */
+export function useAllEventsQuery(baseOptions?: Apollo.QueryHookOptions<AllEventsQuery, AllEventsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export function useAllEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export function useAllEventsSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export type AllEventsQueryHookResult = ReturnType<typeof useAllEventsQuery>
+export type AllEventsLazyQueryHookResult = ReturnType<typeof useAllEventsLazyQuery>
+export type AllEventsSuspenseQueryHookResult = ReturnType<typeof useAllEventsSuspenseQuery>
+export type AllEventsQueryResult = Apollo.QueryResult<AllEventsQuery, AllEventsQueryVariables>
 export const VolunteeringByIdDocument = gql`
     query VolunteeringById($id: String!) {
   appVolunteering_engagement(id: $id) {
