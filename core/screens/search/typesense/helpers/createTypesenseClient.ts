@@ -22,7 +22,7 @@ export const createTypesenseClient = () =>
         protocol: typesenseProtocol,
       },
     ],
-    apiKey: typesenseApiKey,
+    apiKey: typesenseApiKey ?? '',
     cacheSearchResultsForSeconds: 2 * 60,
     // Workaround for an open axios issue: https://github.com/axios/axios/issues/6102#issuecomment-2085301397
     paramsSerializer: isIos17OrGreater
