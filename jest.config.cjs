@@ -27,4 +27,15 @@ module.exports = {
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/react-native|native-base|react-native-svg|matrix-js-sdk|matrix-js-sdk/.*)',
   ],
   resetMocks: true,
+  coverageReporters: ['text', 'json', 'lcov'],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/__mocks__/',
+    '/__tests__/',
+    '/generated/',
+    '/coverage/',
+    '/assets/',
+    '/e2e/',
+    '/test-utils/',
+  ],
 }
