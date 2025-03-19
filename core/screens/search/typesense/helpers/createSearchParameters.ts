@@ -13,7 +13,7 @@ const facetConfigurations: { [key in SearchHitType]: SearchParams } = {
     filter_by: 'type:=[`volunteering`]',
     query_by: searchFields.join(','),
     query_by_weights: '1,1,1,1,100,10',
-    vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.1)',
+    vector_query: 'embedding:([], k: 200, alpha:0.9, distance_threshold: 0.9)',
   },
   space: {
     filter_by: 'type:=[`space`]',
