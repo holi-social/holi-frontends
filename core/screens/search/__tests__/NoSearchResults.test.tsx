@@ -1,4 +1,4 @@
-import { NoSearchResults } from '@holi/core/screens/search/typesense/NoSearchResults'
+import { NoSearchResults } from '@holi/core/screens/search/NoSearchResults'
 import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 

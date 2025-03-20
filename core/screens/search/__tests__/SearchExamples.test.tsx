@@ -1,5 +1,5 @@
 import React from 'react'
-import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExamples'
+import { SearchExamples } from '@holi/core/screens/search/SearchExamples'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import { useCurrentRefinements } from 'react-instantsearch-core'
 import type {

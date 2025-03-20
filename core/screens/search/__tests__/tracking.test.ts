@@ -1,5 +1,5 @@
-import { hitToTrackingDoc } from '@holi/core/screens/search/typesense/tracking'
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import { hitToTrackingDoc } from '@holi/core/screens/search/tracking'
+import type { SearchHitData } from '@holi/core/screens/search/types'
 
 describe('Search tracking', () => {
   it('should remove denied props', () => {

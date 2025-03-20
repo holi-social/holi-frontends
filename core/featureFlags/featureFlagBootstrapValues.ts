@@ -27,7 +27,6 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.FEEDBACK_LINK]: 'on',
     [FeatureFlagKey.NEW_HOME_FEED]: 'control',
     [FeatureFlagKey.POST_TRANSLATION]: false,
-    [FeatureFlagKey.TYPESENSE_SEARCH]: false,
     [FeatureFlagKey.TASK_CONTACT_CTA]: false,
   },
   featureFlagPayloads: {
@@ -43,7 +42,6 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.FEEDBACK_LINK]: null,
     [FeatureFlagKey.NEW_HOME_FEED]: null,
     [FeatureFlagKey.POST_TRANSLATION]: null,
-    [FeatureFlagKey.TYPESENSE_SEARCH]: null,
     [FeatureFlagKey.TASK_CONTACT_CTA]: null,
   },
 }

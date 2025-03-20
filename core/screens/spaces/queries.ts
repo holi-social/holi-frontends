@@ -303,19 +303,6 @@ export const spaceByIdWithAllMembersQuery = gql`
   }
 `
 
-export const spacesByNameQuery = gql`
-  ${SpaceOverviewFragment}
-
-  query SpacesByName($substring: String!, $limit: Int!, $offset: Int!) {
-    spacesByName(substring: $substring, limit: $limit, offset: $offset) {
-      data {
-        ...SpaceOverview
-      }
-      totalResults
-    }
-  }
-`
-
 export interface SpacesByMemberIdResponse {
   spaces: MemberSpaces
 }

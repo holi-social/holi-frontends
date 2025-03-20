@@ -27,9 +27,8 @@ import LegalDocumentItem from '@holi/core/screens/userprofile/LegalDocumentItem'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { ArrowDownS } from '@holi/icons/src/generated'
 import Onboarding from '@holi/core/screens/onboarding/Onboarding'
-import SearchScreen from '@holi/core/screens/search/SearchScreen'
-import type { SearchParams } from '@holi/core/screens/search/typesense/Search'
-import type { SearchParams as OldSearchParams } from '@holi/core/screens/search/components/SearchContent'
+import { Search } from '@holi/core/screens/search/Search'
+import type { SearchParams } from '@holi/core/screens/search/Search'
 import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import NotFound from '@holi/core/screens/404/NotFound'
 import { AuthSelection } from '@holi/core/auth/screens/AuthSelection'
@@ -70,7 +69,7 @@ export type RootStackScreens = {
 
   [RouteName.Unsubscribe]: undefined
 
-  [RouteName.Search]: SearchParams | OldSearchParams
+  [RouteName.Search]: SearchParams
 
   [RouteName.UserProfile]: UserProfileParams
 }
@@ -230,7 +229,7 @@ const RootNavigator = () => {
       />
       <RootStack.Screen
         name={RouteName.Search}
-        component={SearchScreen}
+        component={Search}
         options={{
           headerShown: true,
           animation: 'slide_from_bottom',

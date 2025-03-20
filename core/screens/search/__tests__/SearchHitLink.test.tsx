@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, userEvent, screen } from '@testing-library/react-native'
-import { SearchHitLink } from '@holi/core/screens/search/typesense/SearchHitLink'
-import { profileHit, spaceHit, volunteeringHit } from '@holi/core/screens/search/typesense/__tests__/testData'
+import { SearchHitLink } from '@holi/core/screens/search/SearchHitLink'
+import { profileHit, spaceHit, volunteeringHit } from '@holi/core/screens/search/__tests__/testData'
 
 describe('SearchHitLink', () => {
   it('should create correct link for space', async () => {

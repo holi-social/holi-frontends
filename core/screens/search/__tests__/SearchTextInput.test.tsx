@@ -1,5 +1,5 @@
 import React from 'react'
-import { SearchTextInput } from '@holi/core/screens/search/typesense/SearchTextInput'
+import { SearchTextInput } from '@holi/core/screens/search/SearchTextInput'
 import { render, userEvent, screen, act } from '@testing-library/react-native'
 import { useSearchBox } from 'react-instantsearch-core'
 

@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { SearchHit } from '@holi/core/screens/search/typesense/SearchHit'
-import { useUserLanguage } from '@holi/core/screens/search/typesense/hooks'
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import { SearchHit } from '@holi/core/screens/search/SearchHit'
+import { useUserLanguage } from '@holi/core/screens/search/hooks'
+import type { SearchHitData } from '@holi/core/screens/search/types'
 import { render, screen, userEvent } from '@testing-library/react-native'
 import React from 'react'
 import { testTrackingEvent } from '@holi/core/components/__tests__/Trackable.test'
@@ -54,7 +54,7 @@ const makeSpaceHit = (): SearchHitData => {
   }
 }
 
-jest.mock('@holi/core/screens/search/typesense/hooks')
+jest.mock('@holi/core/screens/search/hooks')
 const useUserLanguageMock = jest.mocked(useUserLanguage)
 
 describe('SearchHit', () => {

@@ -1,4 +1,4 @@
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData } from '@holi/core/screens/search/types'
 import type { Hit } from 'instantsearch.js'
 import type { useRefinementList } from 'react-instantsearch-core'
 
