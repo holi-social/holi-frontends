@@ -1,9 +1,9 @@
 import React from 'react'
-import { facets } from '@holi/core/screens/search/typesense/__tests__/testData'
+import { facets } from '@holi/core/screens/search/__tests__/testData'
 
 import { useClearRefinements, useRefinementList } from 'react-instantsearch-core'
 import { render, screen, userEvent } from '@testing-library/react-native'
-import { SearchFacetsTabs } from '@holi/core/screens/search/typesense/SearchFacetsTabs'
+import { SearchFacetsTabs } from '@holi/core/screens/search/SearchFacetsTabs'
 
 const mockUseClearRefinements = useClearRefinements as jest.MockedFunction<typeof useClearRefinements>
 const mockUseRefinementList = useRefinementList as jest.MockedFunction<typeof useRefinementList>

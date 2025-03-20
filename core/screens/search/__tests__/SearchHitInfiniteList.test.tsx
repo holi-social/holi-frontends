@@ -3,11 +3,11 @@ import { act, fireEvent, render, screen, userEvent } from '@testing-library/reac
 import { useInfiniteHits, useInstantSearch } from 'react-instantsearch-core'
 import type { InfiniteHitsRenderState } from 'instantsearch.js/es/connectors/infinite-hits/connectInfiniteHits'
 import type { Hit } from 'instantsearch.js'
-import type { SearchHitData } from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData } from '@holi/core/screens/search/types'
 import type { SearchResults } from 'algoliasearch-helper'
-import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
+import { SearchHitInfiniteList } from '@holi/core/screens/search/SearchHitInfiniteList'
 import type { TrackingEvent } from '@holi/core/tracking'
-import { profileHit, spaceHit, volunteeringHit } from '@holi/core/screens/search/typesense/__tests__/testData'
+import { profileHit, spaceHit, volunteeringHit } from '@holi/core/screens/search/__tests__/testData'
 
 jest.mock('react-instantsearch-core')
 const mockUseInfiniteHits = jest.mocked(useInfiniteHits)

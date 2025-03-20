@@ -1,9 +1,5 @@
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import type {
-  SearchHitData,
-  SearchHitLinkLocatorIdOrSlug,
-  SearchHitType,
-} from '@holi/core/screens/search/typesense/types'
+import type { SearchHitData, SearchHitLinkLocatorIdOrSlug, SearchHitType } from '@holi/core/screens/search/types'
 import type React from 'react'
 import type { PropsWithChildren } from 'react'
 import type { GestureResponderEvent } from 'react-native'

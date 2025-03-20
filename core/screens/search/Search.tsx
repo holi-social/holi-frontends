@@ -7,9 +7,9 @@ import {
   typesenseProtocol,
 } from '@holi/core/helpers/config'
 import createParamHooks, { singleParamConfig } from '@holi/core/navigation/hooks/useParam'
-import { SearchFacetsTabs } from '@holi/core/screens/search/typesense/SearchFacetsTabs'
-import { SearchHitInfiniteList } from '@holi/core/screens/search/typesense/SearchHitInfiniteList'
-import { SearchTextInput } from '@holi/core/screens/search/typesense/SearchTextInput'
+import { SearchFacetsTabs } from '@holi/core/screens/search/SearchFacetsTabs'
+import { SearchHitInfiniteList } from '@holi/core/screens/search/SearchHitInfiniteList'
+import { SearchTextInput } from '@holi/core/screens/search/SearchTextInput'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useStyles } from 'holi-bricks/hooks'
@@ -20,7 +20,7 @@ import { InstantSearch } from 'react-instantsearch-core'
 import { Dimensions, Platform, View } from 'react-native'
 import TypesenseInstantSearchAdapter from 'typesense-instantsearch-adapter'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
-import { SearchExamples } from '@holi/core/screens/search/typesense/SearchExamples'
+import { SearchExamples } from '@holi/core/screens/search/SearchExamples'
 
 export type SearchParams = {
   query?: string

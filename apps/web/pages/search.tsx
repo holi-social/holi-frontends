@@ -1,11 +1,11 @@
 import { NextPage } from 'next'
 import React from 'react'
 
-import SearchScreen from '@holi/core/screens/search/SearchScreen'
+import { Search } from '@holi/core/screens/search/Search'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 export const getServerSideProps = createServerSideProps
 
-const SearchPage: NextPage = () => <SearchScreen />
+const SearchPage: NextPage = () => <Search />
 
 export default SearchPage
