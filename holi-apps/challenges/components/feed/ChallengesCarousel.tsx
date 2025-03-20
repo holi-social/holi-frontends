@@ -84,7 +84,7 @@ const ChallengesCarousel = () => {
       )}
       heading={t('challenges:feed.carousel.title')}
       subline={t('challenges:feed.carousel.subline')}
-      seeAllPath={createInAppChallengesPath('/challenges')}
+      seeAllPath={createInAppChallengesPath('/')}
       labelSeeMore={t('challenges:carousel.seeMore')}
       cardWidth={CARD_WIDTH}
     />
