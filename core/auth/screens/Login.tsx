@@ -25,6 +25,7 @@ import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
+import { Screen } from '@holi/core/components/Screen'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
@@ -110,33 +111,35 @@ const Login = () => {
   }
 
   return (
-    <DefaultLayout headerOverlap={Platform.OS === 'web'} keyboardShouldPersistTaps="always">
-      <HoliContainer>
-        <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
+    <Screen preset="scroll" backgroundColor="container" keyboardShouldPersistTaps="always">
+      <DefaultLayout>
+        <HoliContainer>
+          <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />
 
-        <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
-          <HoliTextLinkTracked
-            label={t('auth.login.link.forgotPassword')}
-            href="/forgotPassword"
-            size="sm"
-            textAlign="center"
-            trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
-          >
-            {t('auth.login.link.forgotPassword')}
-          </HoliTextLinkTracked>
-        </View>
+          <View style={styles.formItemContainer} testID="btn-to-forgot-password-form">
+            <HoliTextLinkTracked
+              label={t('auth.login.link.forgotPassword')}
+              href="/forgotPassword"
+              size="sm"
+              textAlign="center"
+              trackingEvent={TrackingEvent.Auth.ForgotPasswordButtonPressed}
+            >
+              {t('auth.login.link.forgotPassword')}
+            </HoliTextLinkTracked>
+          </View>
 
-        <HoliGap size="l" />
-        <HoliHeading level="2" align="center">
-          {t('auth.login.signUp.link.headline')}
-        </HoliHeading>
+          <HoliGap size="l" />
+          <HoliHeading level="2" align="center">
+            {t('auth.login.signUp.link.headline')}
+          </HoliHeading>
 
-        <View style={styles.formItemContainer}>
-          <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
-        </View>
-      </HoliContainer>
-      {isLoaderShown && <HoliLoader />}
-    </DefaultLayout>
+          <View style={styles.formItemContainer}>
+            <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
+          </View>
+        </HoliContainer>
+        {isLoaderShown && <HoliLoader />}
+      </DefaultLayout>
+    </Screen>
   )
 }
 
