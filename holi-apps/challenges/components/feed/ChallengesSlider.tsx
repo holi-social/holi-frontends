@@ -2,7 +2,7 @@ import { Text, TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, type ListRenderItem, StyleSheet, View } from 'react-native'
+import { FlatList, type ListRenderItem, Pressable, StyleSheet, View } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import TrackableFlatList from '@holi/core/tracking/TrackableFlatList'
@@ -80,24 +80,26 @@ const ChallengesSlider: React.FC<ChallengesSliderProps> = ({
   return (
     <HoliContainer noPadding>
       <View style={styles.container} testID={testID || 'challenges-slider'}>
-        <View style={styles.header} testID="challenges-slider-heading">
+        <Pressable style={styles.header} testID="challenges-slider-heading" onPress={handleHeaderTitlePress}>
           <View style={styles.headerTitle}>
-            <HoliIcon icon={Challenges} size={16} color={colors.black300} />
+            <HoliIcon icon={Challenges} size={20} color={colors.black300} />
             <View style={{ gap: 2 }}>
-              <Text size="lg" headingLevel="3">
+              <Text size="xl" headingLevel="3">
                 {heading}
               </Text>
-              <Text size="xs" color="support">
+              <Text size="sm" color="support" numberOfLines={1}>
                 {subline}
               </Text>
             </View>
           </View>
           {seeAllPath && (
-            <TextLink size="sm" role="none" onPress={handleHeaderTitlePress}>
-              {t('global.seeAll')}
-            </TextLink>
+            <View style={styles.seeAllButton}>
+              <TextLink size="sm" role="none">
+                {t('global.seeAll')}
+              </TextLink>
+            </View>
           )}
-        </View>
+        </Pressable>
         {ListComponent}
       </View>
     </HoliContainer>
@@ -122,8 +124,8 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
     headerTitle: {
       flexDirection: 'row',
       gap: Spacing['3xs'],
+      maxWidth: '75%',
     },
-
     itemsContainer: {
       paddingBottom: 0,
       marginHorizontal: -Spacing.sm,
@@ -134,5 +136,9 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       flex: 1,
       marginRight: 44,
       width: cardWidth,
+    },
+    seeAllButton: {
+      position: 'absolute',
+      right: 0,
     },
   })
