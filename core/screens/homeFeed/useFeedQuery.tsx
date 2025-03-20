@@ -11,6 +11,7 @@ import { feedInsightsQuery } from '@holi/core/screens/insights/queries'
 import type { Insight } from '@holi/core/screens/insights/types'
 import type { User } from '@holi/core/domain/shared/types'
 import { useRandomizedRecos } from '@holi-apps/volunteering/hooks/useRandomizedRecos'
+import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 
 const PAGE_SIZE_EXTERNAL_DATA = 12
 const PAGE_SIZE_FEED = 12
@@ -21,6 +22,7 @@ export const useFeedQuery = () => {
   const [refreshing, setRefreshing] = useState(false)
   const [initialLoading, setInitialLoading] = useState(true)
   const [insightsCreators, setInsightsCreators] = useState<User[]>([])
+  const [storedRandomizedEngagements, setStoredRandomizedEngagements] = useState<VolunteeringReco[]>([])
 
   const { loading, fetchMore, refetch, data } = useQuery(feedQuery, {
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
@@ -80,15 +82,22 @@ export const useFeedQuery = () => {
     return dataVolunteering?.appVolunteering_engagementRecosV2?.data || []
   }, [dataVolunteering?.appVolunteering_engagementRecosV2?.data])
 
-  // Randomize the engagements
+  // Get randomized engagements
   const randomizedEngagements = useRandomizedRecos(engagements, engagements.length)
+
+  // Store randomized engagements when they change
+  useEffect(() => {
+    if (engagements.length > 0) {
+      setStoredRandomizedEngagements(randomizedEngagements)
+    }
+  }, [engagements, randomizedEngagements])
 
   const combinedFeedData = useMemo(() => {
     const feedData = data?.feed?.data || []
     const articles = dataGoodNews?.appGoodNews_articles?.articles || []
     const insights = dataInsights?.feedInsights?.data || []
 
-    // Pre-calculate total length to avoid array resizing
+    // Use storedRandomizedEngagements instead of re-randomizing
     const totalExternalItems = Math.floor(feedData.length / POST_FREQUENCY) * 3
     const resultLength = feedData.length + totalExternalItems
     const result = new Array(resultLength)
@@ -115,10 +124,10 @@ export const useFeedQuery = () => {
           resultIndex++
         }
 
-        // Insert volunteering - use randomizedEngagements
-        if (randomizedEngagements[externalIndex]) {
+        // Insert volunteering - use storedRandomizedEngagements instead
+        if (storedRandomizedEngagements[externalIndex]) {
           result[resultIndex] = {
-            volunteeringReco: randomizedEngagements[externalIndex],
+            volunteeringReco: storedRandomizedEngagements[externalIndex],
           }
           resultIndex++
         }
@@ -131,7 +140,7 @@ export const useFeedQuery = () => {
     data?.feed?.data,
     dataGoodNews?.appGoodNews_articles?.articles,
     dataInsights?.feedInsights?.data,
-    randomizedEngagements,
+    storedRandomizedEngagements,
   ])
 
   const handleFetchMore = useCallback(async () => {
@@ -173,6 +182,7 @@ export const useFeedQuery = () => {
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true)
+    setStoredRandomizedEngagements([]) // Clear stored randomization
     try {
       await Promise.all([refetch(), refetchGoodNews(), refetchVolunteering(), refetchInsights()])
     } finally {

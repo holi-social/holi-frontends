@@ -26,48 +26,46 @@ const ImagePreview = ({ style, image, currentImage, blurhash, aspectRatio = 16 /
 
   return (
     <View>
-      {!imageError && isLoading && (
-        <View style={[styles.image, { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }]}>
-          <HoliSkeleton width={'100%'} height={'100%'} borderRadius={Spacing['3xs']} />
-        </View>
-      )}
-      {(image || currentImage) && (
-        <View style={[styles.container, style]}>
-          {!imageError && image && (
-            <HoliImage
-              label={t('global.imagePreview.image')}
-              source={image}
-              resizeMode="cover"
-              style={styles.image}
-              blurhash={blurhash}
-              onError={() => setImageError(true)}
-              onLoadEnd={() => setIsLoading(false)}
-            />
-          )}
-          {!imageError && !image && currentImage && (
-            <HoliImage
-              label={t('global.imagePreview.image')}
-              source={{ uri: currentImage }}
-              resizeMode="cover"
-              style={styles.image}
-              blurhash={blurhash}
-              onError={() => setImageError(true)}
-              onLoadEnd={() => setIsLoading(false)}
-            />
-          )}
-          {imageError && (
-            <View style={[styles.image, styles.error]}>
-              <HoliLocalImage
-                imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
-                width={72}
-                height={72}
-                label=""
-                isSvg
+      <View style={[styles.container, styles.image, style]}>
+        {!imageError && isLoading && <HoliSkeleton width={'100%'} height={'100%'} borderRadius={Spacing['3xs']} />}
+        {(image || currentImage) && !imageError && (
+          <>
+            {image && (
+              <HoliImage
+                label={t('global.imagePreview.image')}
+                source={image}
+                resizeMode="cover"
+                style={[StyleSheet.absoluteFill, styles.image]}
+                blurhash={blurhash}
+                onError={() => setImageError(true)}
+                onLoadEnd={() => setIsLoading(false)}
               />
-            </View>
-          )}
-        </View>
-      )}
+            )}
+            {!image && currentImage && (
+              <HoliImage
+                label={t('global.imagePreview.image')}
+                source={{ uri: currentImage }}
+                resizeMode="cover"
+                style={[StyleSheet.absoluteFill, styles.image]}
+                blurhash={blurhash}
+                onError={() => setImageError(true)}
+                onLoadEnd={() => setIsLoading(false)}
+              />
+            )}
+          </>
+        )}
+        {imageError && (
+          <View style={[StyleSheet.absoluteFill, styles.error]}>
+            <HoliLocalImage
+              imageSource={require('@holi/ui/assets/img/illustrations/illustration_link_preview_empty.svg')}
+              width={72}
+              height={72}
+              label=""
+              isSvg
+            />
+          </View>
+        )}
+      </View>
     </View>
   )
 }

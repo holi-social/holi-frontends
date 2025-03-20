@@ -22,51 +22,43 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import AttendingChallengeEvents from '@holi-apps/challenges/components/AttendingChallengeEvents'
-import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 
-const HomeFeedHeader: React.FC = () => {
-  const displayNewHomeFeed = useFeatureFlagAB(FeatureFlagKey.NEW_HOME_FEED)
+const HomeFeedHeader: React.FC<{ displayNewHomeFeed?: 'control' | 'test' }> = ({ displayNewHomeFeed }) => {
   const { t } = useTranslation()
   const isFocused = useIsFocused()
-
   const { user, isLoading } = useLoggedInUser()
-
   const bannerShowCutoff = new Date(2024, 3, 12, 0, 0, 0)
-
   const rotation = useSharedValue(0)
+
   const rotationStyle = useAnimatedStyle(
     () => ({
       transform: [{ rotate: `${rotation.value}deg` }],
     }),
-    [rotation]
+    []
   )
+
   useEffect(() => {
-    rotation.value = withRepeat(
-      withSequence(
-        // delay
-        withTiming(0, { duration: 1500 }),
-        // waving
-        withTiming(20, { easing: Easing.inOut(Easing.sin) }),
-        withTiming(-20, { easing: Easing.inOut(Easing.sin) }),
-        withTiming(26, { easing: Easing.inOut(Easing.sin) }),
-        withTiming(-26, { easing: Easing.inOut(Easing.sin) }),
-        withTiming(26, { easing: Easing.inOut(Easing.sin) }),
-        withTiming(-26, { easing: Easing.inOut(Easing.sin) }),
-        withTiming(20, { easing: Easing.inOut(Easing.sin) }),
-        withTiming(-20, { easing: Easing.inOut(Easing.sin) }),
-        withSpring(0, { damping: 8, stiffness: 70 }),
-        // delay
-        withTiming(0, { duration: 15000 })
-      ),
-      3,
-      true
-    )
-  }, [rotation])
+    if (!isLoading && isFocused) {
+      rotation.value = withRepeat(
+        withSequence(
+          withTiming(0, { duration: 1500 }),
+
+          withTiming(20, { easing: Easing.inOut(Easing.sin), duration: 200 }),
+          withTiming(-20, { easing: Easing.inOut(Easing.sin), duration: 200 }),
+          withTiming(26, { easing: Easing.inOut(Easing.sin), duration: 200 }),
+          withTiming(-26, { easing: Easing.inOut(Easing.sin), duration: 200 }),
+          withSpring(0, { damping: 8, stiffness: 70 }),
+          withTiming(0, { duration: 15000 })
+        ),
+        2,
+        true
+      )
+    }
+  }, [isLoading, isFocused, rotation])
 
   return (
-    <View>
+    <View style={styles.headerContainer}>
       {new Date() < bannerShowCutoff && (
         <>
           <HoliGap size="s" />
@@ -112,6 +104,10 @@ const HomeFeedHeader: React.FC = () => {
 export default withProfiler(HomeFeedHeader, { name: 'HomeFeedHeader' })
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    flex: 0,
+    alignSelf: 'stretch',
+  },
   headlineContainer: {
     flexDirection: 'row',
     alignItems: 'center',
