@@ -51,7 +51,7 @@ export namespace TrackingEvent {
     selectedFacets: string[]
     // deliberately untyped to not have to adopt for every document type added. this shall only contain document
     // properties and not Instantsearch.js metadata on docs, see `removeDeniedProps` in
-    // core/screens/search/typesense/tracking.ts
+    // core/screens/search/tracking.ts
     renderedResults: Record<string, any>[] // eslint-disable-line @typescript-eslint/no-explicit-any
   }
 

@@ -47,7 +47,7 @@ const getStyles = (theme: HoliTheme) =>
       flexDirection: 'column',
       justifyContent: 'space-around',
       alignItems: 'stretch',
-      paddingTop: Spacing['3xs'],
+      paddingTop: 10,
     },
     image: {
       display: 'flex',
