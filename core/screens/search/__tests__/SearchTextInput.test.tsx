@@ -1,91 +1,75 @@
 import React from 'react'
 import { SearchTextInput } from '@holi/core/screens/search/SearchTextInput'
 import { render, userEvent, screen, act } from '@testing-library/react-native'
-import { useSearchBox } from 'react-instantsearch-core'
-
-const mockUseSearchBox = useSearchBox as jest.MockedFunction<typeof useSearchBox>
-jest.mock('react-instantsearch-core', () => ({
-  useSearchBox: jest.fn(),
-}))
 
 describe('SearchTextInput', () => {
   beforeEach(() => {
     jest.useFakeTimers()
   })
-  afterEach(async () => {
-    await act(jest.runOnlyPendingTimers)
+  afterEach(() => {
+    act(jest.runOnlyPendingTimers)
     jest.useRealTimers()
-  })
-  const mockRefine = (query = '') => {
-    const refine = jest.fn()
-    mockUseSearchBox.mockReturnValue({
-      query,
-      refine,
-      clear: jest.fn(),
-      isSearchStalled: false,
-    })
-    return refine
-  }
-
-  it('should refine results on input change', async () => {
-    const refine = mockRefine()
-    const user = userEvent.setup()
-
-    render(<SearchTextInput />)
-
-    const inputField = screen.getByLabelText('search.typesense.input.label')
-    await user.type(inputField, 'something in my area')
-
-    expect(refine).toHaveBeenCalledWith('something in my area')
-  })
-
-  it('should clear query input', async () => {
-    const refine = mockRefine('some query')
-    const user = userEvent.setup()
-
-    render(<SearchTextInput />)
-
-    const clearButton = screen.getByLabelText('search.typesense.input.clear')
-    await user.press(clearButton)
-
-    expect(refine).toHaveBeenCalledWith('')
-  })
-
-  it('should search for query from paramters', () => {
-    const refine = mockRefine()
-
-    const { rerender } = render(<SearchTextInput queryParam="some query" />)
-
-    expect(refine).toHaveBeenCalledWith('some query')
-
-    rerender(<SearchTextInput queryParam="another query" />)
-
-    expect(refine).toHaveBeenCalledWith('another query')
   })
 
   it('should call callback on query change', async () => {
     const onQueryChange = jest.fn()
-    mockRefine()
     const user = userEvent.setup()
 
-    render(<SearchTextInput onQueryChange={onQueryChange} />)
+    render(<SearchTextInput currentQuery="" onQueryChange={onQueryChange} />)
 
     const inputField = screen.getByLabelText('search.typesense.input.label')
-    await user.type(inputField, 'some query')
+    await user.type(inputField, 'something in my area')
 
-    expect(onQueryChange).toHaveBeenCalledWith('some query')
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(onQueryChange).toHaveBeenCalledWith('something in my area')
+  })
+
+  it('should prefill input field with initial query', async () => {
+    render(<SearchTextInput currentQuery="some query" onQueryChange={jest.fn()} />)
+
+    const inputField = screen.getByLabelText('search.typesense.input.label')
+    expect(inputField.props.value).toBe('some query')
+  })
+
+  it('should clear query input', async () => {
+    const onQueryChange = jest.fn()
+    const user = userEvent.setup()
+
+    render(<SearchTextInput currentQuery="some query" onQueryChange={onQueryChange} />)
+
+    const clearButton = screen.getByLabelText('search.typesense.input.clear')
+    await user.press(clearButton)
+
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(onQueryChange).toHaveBeenCalledWith('')
   })
 
   it('should not call callback on query change if query is equal to param', async () => {
     const onQueryChange = jest.fn()
-    mockRefine()
     const user = userEvent.setup()
 
-    render(<SearchTextInput onQueryChange={onQueryChange} queryParam="some query" />)
+    render(<SearchTextInput onQueryChange={onQueryChange} currentQuery="some query" />)
 
     const inputField = screen.getByLabelText('search.typesense.input.label')
     await user.paste(inputField, 'some query')
 
     expect(onQueryChange).not.toHaveBeenCalled()
+  })
+
+  it('should update input value on param change', () => {
+    const { rerender } = render(<SearchTextInput currentQuery="" onQueryChange={jest.fn()} />)
+
+    const inputField = screen.getByLabelText('search.typesense.input.label')
+    expect(inputField.props.value).toBe('')
+
+    rerender(<SearchTextInput currentQuery="new query" onQueryChange={jest.fn()} />)
+
+    expect(inputField.props.value).toBe('new query')
   })
 })

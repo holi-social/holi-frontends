@@ -2,90 +2,84 @@ import { FlashList } from '@shopify/flash-list'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/SearchHit'
-import type { SearchHitData } from '@holi/core/screens/search/types'
+import type { SearchFilter, SearchHitData, SearchResults } from '@holi/core/screens/search/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import React, { useEffect } from 'react'
-import { useInfiniteHits, useInstantSearch } from 'react-instantsearch-core'
 import { Platform } from 'react-native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { TrackingEvent } from '@holi/core/tracking'
 import { hitToTrackingDoc } from '@holi/core/screens/search/tracking'
-import type { SearchResults } from 'algoliasearch-helper'
-import type { Hit } from 'instantsearch.js'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useDebounce } from '@holi/ui/helper'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import ErrorBoundary from '@holi/core/errors/components/ErrorBoundary'
 import { Spacing } from 'holi-bricks/tokens'
 import { NoSearchResults } from '@holi/core/screens/search/NoSearchResults'
+import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
+import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
+import { SearchExamples } from '@holi/core/screens/search/SearchExamples'
+import { isEmptyFilter } from '@holi/core/screens/search/helpers/isEmptyFilter'
 
 const isWeb = Platform.OS === 'web'
 
-const resultsToTrackingEventResults = (results: SearchResults<Hit<SearchHitData>>) => {
+const resultsToTrackingEventResults = (searchResults: SearchResults) => {
   return {
-    query: results.query,
-    totalNrOfResults: results.nbHits,
-    totalNrOfPages: results.nbPages,
-    currentPage: results.page,
-    selectedFacets: results.getRefinements().map((refinement) => refinement.name),
-    renderedResults: results.hits.map(hitToTrackingDoc),
+    query: searchResults.filter.query,
+    totalNrOfResults: searchResults.totalNrOfResults,
+    totalNrOfPages: searchResults.totalNrOfPages,
+    currentPage: searchResults.currentPage,
+    selectedFacets: [searchResults.filter.facet],
+    renderedResults: searchResults.hits.map(({ document }) => hitToTrackingDoc(document)),
   }
 }
 
-export function SearchHitInfiniteList() {
-  const { items, isLastPage, showMore, results } = useInfiniteHits<SearchHitData>({
-    escapeHTML: false,
-  })
-  // Debouncing showMore as workaround for a race condition when changing the query (otherwise page 0 might be skipped)
-  const debouncedShowMore = useDebounce(() => showMore?.(), 100)
+interface SearchHitInfiniteListProps {
+  loadingParameters?: boolean
+  filter: SearchFilter
+  onQuerySelect: (query: string) => void
+}
 
+export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect }: SearchHitInfiniteListProps) {
   const { track } = useTracking()
-  const { status, refresh, indexUiState } = useInstantSearch()
-  const selectedFacet = indexUiState?.refinementList?.type?.length && indexUiState.refinementList.type[0]
   const { styles } = useStyles(stylesheet)
-  const displayedFacet = items.length && items[0].type
-  const oldResults = displayedFacet && displayedFacet !== selectedFacet
-  const isLoading = status === 'loading' || status === 'stalled' || oldResults
+  const { searchResults, loadMore, refresh } = useSearchResults(filter)
+  const isLoading = loadingParameters || searchResults.isLoading
 
   const fullRefresh = useOnRefresh(refresh)
 
   // using debounce as the best approximation to "results have been rendered" that we could find. tried alternatives:
   // a) observing items updates (too frequent with in between empty states)
-  // b) hooking into Instantsearch.js internal states (too frequent with in between empty states)
-  // c) observing render state of FlatList (gets complex quickly, tricky to get right)
+  // b) observing render state of FlatList (gets complex quickly, tricky to get right)
   const trackResultsViewed = useDebounce(() => {
-    // practically, results are always defined (just to make type checker happy)
-    if (results) {
-      track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(results)))
-    }
+    track(TrackingEvent.SearchResultsRendered(resultsToTrackingEventResults(searchResults)))
   }, 1000)
 
   useEffect(() => {
     trackResultsViewed()
-  }, [items, trackResultsViewed])
+  }, [searchResults.hits, trackResultsViewed])
 
-  // Hide results of empty query or wrong facet
-  const isEmptyQuery = !results?.query || results?.query === '*'
-  const displayedItems = isEmptyQuery || oldResults ? [] : (items ?? [])
-  const itemHeight = selectedFacet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
+  const itemHeight = filter.facet === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT
+  const emptyFilter = isEmptyFilter(searchResults.filter)
 
   return (
     <FlashList
       contentContainerStyle={styles.list}
       testID={'search-results-list'}
       estimatedItemSize={itemHeight + Spacing['xs']}
-      data={displayedItems}
-      keyExtractor={(item) => item.id}
+      data={searchResults.hits}
+      keyExtractor={(item) => item.document.id}
       ItemSeparatorComponent={() => <HoliGap size={'s'} />}
       ListEmptyComponent={
-        isLoading || isEmptyQuery ? (
+        isLoading && !emptyFilter ? (
           <HoliLoader style={styles.loader} testID="loader" />
+        ) : emptyFilter ? (
+          <SearchExamples onQuerySelect={onQuerySelect} currentFacet={filter.facet} />
         ) : (
-          <NoSearchResults query={results?.query ?? ''} />
+          <NoSearchResults filter={searchResults.filter} />
         )
       }
       ListFooterComponent={() => {
-        if (displayedItems.length > 0 && !isLastPage) {
+        if (searchResults.hits.length > 0 && searchResults.canLoadMore) {
           return <HoliLoader style={styles.loader} testID="nextPageLoader" />
         }
         return null
@@ -93,12 +87,13 @@ export function SearchHitInfiniteList() {
       refreshing={false}
       onRefresh={isWeb ? undefined : fullRefresh}
       onEndReached={() => {
-        if (!isLastPage && !isLoading) {
-          debouncedShowMore()
+        if (searchResults.canLoadMore && !isLoading) {
+          loadMore()
         }
       }}
       onEndReachedThreshold={0.5}
-      renderItem={({ item: hit, index }: { item: SearchHitData; index: number }) => {
+      renderItem={({ item, index }: { item: SearchResponseHit<SearchHitData>; index: number }) => {
+        const hit = item.document
         return (
           <ErrorBoundary>
             <SearchHit
@@ -109,7 +104,7 @@ export function SearchHitInfiniteList() {
                 itemPressedType: hit.type,
                 itemPressedTitleDe: hit.type === 'profile' ? hit.user_full_name : hit.title_de,
                 itemPressedTitleEn: hit.type === 'profile' ? hit.user_full_name : hit.title_en,
-                searchResult: resultsToTrackingEventResults(results!), // eslint-disable-line @typescript-eslint/no-non-null-assertion
+                searchResult: resultsToTrackingEventResults(searchResults),
               })}
             />
           </ErrorBoundary>

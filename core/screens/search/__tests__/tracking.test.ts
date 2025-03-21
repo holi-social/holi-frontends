@@ -9,9 +9,8 @@ describe('Search tracking', () => {
     }
     const searchHitWithDeniedProps = {
       ...searchHit,
-      text_match: 'delete me',
+      image_url: 'https://some.url.com/image.jpg',
       embedding: [1, 2, 3],
-      vector_distance: 42,
     }
 
     const trackedHit = hitToTrackingDoc(searchHitWithDeniedProps)

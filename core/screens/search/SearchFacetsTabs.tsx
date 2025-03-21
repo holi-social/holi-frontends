@@ -1,61 +1,34 @@
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useClearRefinements, useRefinementList } from 'react-instantsearch-core'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { Group, GroupFilled, Hearts, HeartsFilled, Spaces, SpacesFilled } from '@holi/icons/src/generated'
 import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
 import { Spacing } from 'holi-bricks/tokens'
+import { SEARCH_HIT_TYPES_IN_ORDER, type SearchHitType } from '@holi/core/screens/search/types'
 
 interface SearchFacetsTabsProps {
-  initialFacet?: string
-  onFacetChange?: (filter?: string) => void
+  currentFacet: SearchHitType
+  onFacetChange: (facet: SearchHitType) => void
 }
 
-enum Facets {
-  VOLUNTEERING = 'volunteering',
-  SPACE = 'space',
-  PROFILE = 'profile',
-}
-const FACETS_IN_ORDER = [Facets.VOLUNTEERING, Facets.SPACE, Facets.PROFILE]
-const FACET_ICONS: { [key in Facets]: HoliTabItem['tabIcons'] } = {
+const FACET_ICONS: { [key in SearchHitType]: HoliTabItem['tabIcons'] } = {
   volunteering: [Hearts, HeartsFilled],
   space: [Spaces, SpacesFilled],
   profile: [Group, GroupFilled],
 }
 
-export const SearchFacetsTabs = ({ initialFacet, onFacetChange }: SearchFacetsTabsProps) => {
+export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTabsProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
-  const { refine: clearRefinement } = useClearRefinements()
-  const { items, refine } = useRefinementList({
-    attribute: 'type',
-  })
-
-  const refinedItems = items.filter((item) => item.isRefined).map((item) => item.value)
-  const onSelect = (value: string) => {
-    if (refinedItems.includes(value)) {
-      return
-    }
-    clearRefinement()
-    refine(value)
-    onFacetChange?.(value)
-  }
-  const activeFacet = refinedItems.length ? refinedItems[0] : (initialFacet ?? FACETS_IN_ORDER[0])
-
-  useEffect(() => {
-    onSelect(initialFacet ?? FACETS_IN_ORDER[0])
-    // Only trigger on initial render
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <HoliTabs
-      activeTab={activeFacet}
-      onChange={onSelect}
+      activeTab={currentFacet}
+      onChange={(facet) => onFacetChange(facet as SearchHitType)}
       tabBarBackgroundColor={styles.tabs.backgroundColor}
-      data={FACETS_IN_ORDER.map((facet) => ({
+      data={SEARCH_HIT_TYPES_IN_ORDER.map((facet) => ({
         key: facet,
         tabTitle: t(`search.typesense.facets.${facet}`),
         tabIcons: FACET_ICONS[facet],

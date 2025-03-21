@@ -13,7 +13,6 @@ import {
   type TextStyle,
   View,
   type ViewStyle,
-  useWindowDimensions,
 } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -23,6 +22,7 @@ import type { AccessibilityPropsWeb, AccessibilityRoleWeb } from '@holi/ui/@type
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDimensions'
 
 export interface HoliTextInputProps {
   inputLabel?: string
@@ -112,7 +112,7 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
     },
     ref
   ) => {
-    const dimensions = useWindowDimensions()
+    const dimensions = useClientWindowDimensions()
 
     const [inputState, setInputState] = useState<'inactive' | 'focused' | 'hovered'>('inactive')
     const hasValidationErrors = !!props?.validationErrorText
@@ -204,7 +204,12 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
         style={[styles.wrapper, inline ? styles.inline : styles.block, style]}
         {...hoverPropsForWeb}
       >
-        <View style={[{ maxWidth: dimensions.width }, inline ? styles.inline : styles.block]}>
+        <View
+          style={[
+            { maxWidth: dimensions.width > 0 ? dimensions.width : undefined },
+            inline ? styles.inline : styles.block,
+          ]}
+        >
           {!!inputLabel && (
             <View style={[styles.labelWrapper, inline ? styles.inline : styles.block]}>
               <HoliText

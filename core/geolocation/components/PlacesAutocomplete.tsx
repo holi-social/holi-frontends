@@ -1,19 +1,20 @@
 import { useLazyQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleProp, TextInputProps, View, ViewStyle } from 'react-native'
+import { Platform, Pressable, type StyleProp, type TextInputProps, type View, type ViewStyle } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import {
-  GeoPlaceDetailsResponse,
-  GeoPlacesResponse,
+  type GeoPlaceDetailsResponse,
+  type GeoPlacesResponse,
   geoPlaceDetailsQuery,
   geoPlacesQuery,
 } from '@holi/core/geolocation/queries'
-import { GeolocationGeoJSON, GeolocationPoint } from '@holi/core/types'
-import { Search } from '@holi/icons/src/generated'
-import HoliAutocomplete, { Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
+import type { GeolocationGeoJSON, GeolocationPoint } from '@holi/core/types'
+import { CloseCircleFilled, Search } from '@holi/icons/src/generated'
+import HoliAutocomplete, { type Suggestion } from '@holi/ui/components/molecules/HoliAutocomplete'
 import { useDebounce } from '@holi/ui/helper'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 
 const PLACE_SUGGESTION_DEBOUNCE = 500
 const PLACE_SUGGESTION_MAX_COUNT = 3
@@ -42,6 +43,7 @@ export interface PlacesAutocompleteProps {
   suggestionsStyle?: StyleProp<ViewStyle>
   level?: GeolocationLevel
   enhanceWithDetails?: boolean
+  allowClearingInput?: boolean
 }
 
 const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
@@ -61,6 +63,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
       suggestionsStyle,
       level,
       enhanceWithDetails,
+      allowClearingInput,
     },
     ref
   ) => {
@@ -199,6 +202,22 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         : undefined
     }, [t, loading, called, data, placeSuggestions, value])
 
+    const clearInputComponent = useMemo(
+      () => (
+        <Pressable
+          onPress={() => {
+            setValue('')
+            changeSelection(undefined)
+          }}
+          accessibilityLabel={t('location.placesAutocomplete.clear')}
+          accessibilityRole="button"
+        >
+          <HoliIcon icon={CloseCircleFilled} size={22} />
+        </Pressable>
+      ),
+      [changeSelection, t]
+    )
+
     // TODO: fix autofocus
     return (
       <HoliAutocomplete
@@ -210,6 +229,7 @@ const PlacesAutocomplete = React.forwardRef<View, PlacesAutocompleteProps>(
         placeholder={placeholder}
         value={value}
         trailingIcon={Search}
+        clearInputComponent={allowClearingInput ? clearInputComponent : undefined}
         inputProps={inputProps}
         onSubmit={onSubmitHandler}
         onSelect={onChange}

@@ -7,7 +7,6 @@ import { getServerSideProps } from '@holi/web/pages/sitemap/static.xml'
 jest.mock('@holi/core/helpers/isSSR', () => ({
   isSSR: true,
 }))
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const server = setupServer()
 

@@ -1,4 +1,4 @@
-import { Space } from '@holi/core/screens/spaces/types'
+import type { Space } from '@holi/core/screens/spaces/types'
 
 export interface Paged<T> {
   totalResults: number
@@ -26,6 +26,8 @@ export interface GeolocationGeoJSON {
   place_id: string
   properties: {
     formatted: string
+    lat: number
+    lon: number
   }
   geometry: GeolocationGeometry
 }

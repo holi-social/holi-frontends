@@ -72,7 +72,6 @@ jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
   useFeatureFlag: (flag: FeatureFlagKey) => mockUseFeatureFlag(flag),
 }))
 
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 jest.useFakeTimers()
 
 jest.mock('@holi/core/navigation/hooks/useParam')
