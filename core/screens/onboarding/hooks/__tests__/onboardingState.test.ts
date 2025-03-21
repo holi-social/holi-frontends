@@ -2,7 +2,6 @@ import { act, renderHook, waitFor } from '@testing-library/react-native'
 
 import {
   type OnboardingStateValue,
-  cleanUpStoredOnboardingState,
   clearOnboardingState,
   onboardingStateVar,
   storeOnboardingState,
@@ -11,7 +10,7 @@ import {
   useOnboardingState,
 } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { MockedProvider } from '@apollo/client/testing'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
 
 const mockUsePathname = jest.fn()
 jest.mock('@holi/core/navigation/hooks/usePathname', () => ({
@@ -26,25 +25,13 @@ const mockUseVerificationFlowData = jest.fn()
 jest.mock('@holi/core/auth/helpers/useVerificationFlowData', () => ({
   useVerificationFlowData: () => mockUseVerificationFlowData(),
 }))
-const mockDeleteStorage = AsyncStorage.removeItem as jest.Mock
-jest.mock('@react-native-async-storage/async-storage', () => {
-  return {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    removeItem: jest.fn(),
-  }
-})
 const renderOnboardingInitialization = () =>
   renderHook(() => useOnboardingInitialization(), { wrapper: MockedProvider })
 
-describe('cleanUpStoredOnboardingState', () => {
-  it('should remove state from storage', async () => {
-    await cleanUpStoredOnboardingState()
-
-    expect(mockDeleteStorage).toHaveBeenCalledWith('onboarding_state_value')
-    expect(mockDeleteStorage).toHaveBeenCalledWith('first_visit_content_value')
-  })
-})
+const mockUseGuestMode = jest.mocked(useGuestMode)
+jest.mock('@holi/core/screens/onboarding/hooks/useGuestMode', () => ({
+  useGuestMode: jest.fn(),
+}))
 
 describe('useOnboardingState', () => {
   it('should update onboarding state', async () => {
@@ -71,11 +58,26 @@ describe('useOnboardingInitialization', () => {
     mockUseLoggedInUser.mockReturnValue({
       isLoggedIn: false,
     })
+    mockUseGuestMode.mockReturnValue({
+      guestMode: false,
+      isLoading: false,
+    })
   })
 
   it('should do nothing while logged in user is loading', () => {
     mockUseLoggedInUser.mockReturnValue({
       isLoading: true,
+    })
+
+    renderOnboardingInitialization()
+
+    expect(onboardingStateVar()).toBeNull()
+  })
+
+  it('should do nothing while guest mode is loading', () => {
+    mockUseGuestMode.mockReturnValue({
+      isLoading: true,
+      guestMode: false,
     })
 
     renderOnboardingInitialization()
@@ -211,6 +213,75 @@ describe('useOnboardingInitialization', () => {
       expect(onboardingStateVar()).toEqual(expectedState)
     }
   )
+
+  describe('in guest mode', () => {
+    beforeEach(() => {
+      mockUseGuestMode.mockReturnValue({
+        guestMode: true,
+        isLoading: false,
+      })
+    })
+
+    it.each(onboardingStates)(
+      'should ignore guest mode and force account completion if logged in with incomplete profile and state is %s',
+      async (state) => {
+        mockUseLoggedInUser.mockReturnValue({
+          isLoggedIn: true,
+          user: {},
+        })
+        if (state) storeOnboardingState(state)
+
+        renderOnboardingInitialization()
+
+        expect(onboardingStateVar()).toEqual('accountSetup')
+      }
+    )
+
+    it.each(onboardingStates)(
+      'should ignore guest mode and force email verification if logged in with verification flow data and state is %s',
+      async (state) => {
+        mockUseLoggedInUser.mockReturnValue({
+          isLoggedIn: true,
+          user: {},
+        })
+        if (state) storeOnboardingState(state)
+        mockUseVerificationFlowData.mockReturnValue({})
+
+        renderOnboardingInitialization()
+
+        expect(onboardingStateVar()).toEqual('emailVerification')
+      }
+    )
+
+    it.each(onboardingStates)(
+      'should ignore guest mode and force email verification if logged out with verification flow data and state is %s',
+      async (state) => {
+        mockUseLoggedInUser.mockReturnValue({
+          isLoggedIn: false,
+        })
+        if (state) storeOnboardingState(state)
+        mockUseVerificationFlowData.mockReturnValue({})
+
+        renderOnboardingInitialization()
+
+        expect(onboardingStateVar()).toEqual('emailVerification')
+      }
+    )
+
+    it.each(onboardingStates)(
+      'should set state to "finished" for logged out user in guest mode if state is %s',
+      async (state) => {
+        mockUseLoggedInUser.mockReturnValue({
+          isLoggedIn: false,
+        })
+        if (state) storeOnboardingState(state)
+
+        renderOnboardingInitialization()
+
+        expect(onboardingStateVar()).toEqual('finished')
+      }
+    )
+  })
 })
 
 describe('useOnboardingRedirect', () => {

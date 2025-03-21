@@ -12,13 +12,16 @@ import HeaderTitle from '@holi/core/navigation/components/HeaderTitle'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import { TrackingEvent } from '@holi/core/tracking'
-import { FolderLock, Help, IdCard, Information, Sun, SunFilled } from '@holi/icons/src/generated'
+import { FolderLock, Help, IdCard, Information, Refresh, Sun, SunFilled } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
+import { isProduction } from '@holi/core/helpers/environment'
+import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 const AnonymousProfileView = () => {
   const { t } = useTranslation()
@@ -115,6 +118,19 @@ const AnonymousProfileView = () => {
             onPress={() => navigate('/profile/settings/aboutholiapp')}
             style={styles.settingsItem}
             testID="btn-about"
+          />
+        )}
+
+        {Platform.OS !== 'web' && !isProduction && (
+          <MoreOptionItem
+            label={t('profile.settings.resetOnboardingState.title')}
+            icon={Refresh}
+            onPress={async () => {
+              await clearGuestMode()
+              clearOnboardingState()
+              navigate('/')
+            }}
+            style={styles.settingsItem}
           />
         )}
 

@@ -10,6 +10,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { act, render, screen, userEvent, waitFor } from '@testing-library/react-native'
 import React from 'react'
+import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
 
 const mockClearVerificationFlowData = clearVerificationFlowData as jest.Mock
 const mockUseVerificationFlowData = useVerificationFlowData as jest.Mock
@@ -52,6 +53,11 @@ jest.mock('@holi/core/tracking/hooks/useTracking', () => jest.fn())
 const mockStoreOnboardingState = storeOnboardingState as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
   storeOnboardingState: jest.fn(),
+}))
+
+const mockStoreGuestMode = storeGuestMode as jest.Mock
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeAsyncStore', () => ({
+  storeGuestMode: jest.fn(),
 }))
 
 describe('EmailVerification', () => {
@@ -428,6 +434,12 @@ describe('EmailVerification', () => {
       await continueAsGuest()
 
       expect(mockClearVerificationFlowData).toHaveBeenCalled()
+    })
+
+    it('should set guest mode when continuing as guest', async () => {
+      await continueAsGuest()
+
+      expect(mockStoreGuestMode).toHaveBeenCalledWith(true)
     })
 
     it('should call onDismiss callback when continuing as guest', async () => {

@@ -719,6 +719,7 @@
   "profile.settings.notifications.workflow.SPACE_NEW_APPOINTMENT": "New appointments in Spaces you're part of",
   "profile.settings.notifications.workflow.SPACE_NEW_POST": "New posts in Spaces you're part of",
   "profile.settings.overview.title": "Settings",
+  "profile.settings.resetOnboardingState.title": "Reset onboarding state",
   "profile.settings.tracking.dataManagement.description": "You can delete your data from our systems by sending an email to <0>support@holi.social</0>",
   "profile.settings.tracking.dataManagement.title": "Data management",
   "profile.settings.tracking.purpose.all": "Allow all purposes",
