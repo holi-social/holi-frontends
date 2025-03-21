@@ -34,7 +34,9 @@ module.exports = {
     'holi-apps/**/*.{js,jsx,ts,tsx}',
     'holi-bricks/**/*.{js,jsx,ts,tsx}',
     'packages/**/*.{js,jsx,ts,tsx}',
-    '!**/*.config.{js,ts}',
+    '!**/*config*.{js,ts}',
+    '!**/.eslintrc.{cjs,js}',
+    '!apps/mobile/navigation/*Navigator.tsx',
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
@@ -48,5 +50,7 @@ module.exports = {
     '/storybook/',
     '/__stories__/',
     '/.next/',
+    '/ChatDevTools/',
+    '/holi-bricks/ondevice/',
   ],
 }
