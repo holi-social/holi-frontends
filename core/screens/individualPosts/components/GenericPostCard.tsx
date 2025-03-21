@@ -26,6 +26,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete, Edit2, Flag, GlobalFilled, HoliLogoFilled, MoreFilled } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliReadMore from '@holi/ui/components/molecules/HoliReadMore'
@@ -38,7 +39,6 @@ import { colors } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import SpaceFeedFollow from '@holi/core/screens/spaces/details/components/SpaceFeedFollow'
 import HoliTranslate from '@holi/core/components/HoliTranslate'
-import ImagePreview from '@holi/core/screens/individualPosts/components/ImagePreview'
 
 type GenericPostCardProps = {
   post: FeedPost | Post
@@ -341,7 +341,17 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
 
         {!!spacePost.image && (
           <HoliButton transparent label={title} onPress={goToDetailView} style={styles.clickOverlay}>
-            <ImagePreview currentImage={spacePost.image.url} />
+            <View style={styles.imageContainer}>
+              <HoliImage
+                label={title}
+                source={{
+                  uri: spacePost.image.url,
+                }}
+                blurhash={spacePost.image.imageBlurhash}
+                resizeMode="cover"
+                style={styles.image}
+              />
+            </View>
           </HoliButton>
         )}
         {!spacePost.image && !!spacePost.links?.[0] && (
@@ -398,6 +408,13 @@ const getStyles = (theme: HoliTheme) =>
       alignItems: 'center',
       gap: Spacing['3xs'],
       paddingBottom: Spacing.xs,
+    },
+    imageContainer: {
+      borderRadius: Spacing.xxs,
+      width: '100%',
+      aspectRatio: 16 / 9,
+      overflow: 'hidden',
+      marginTop: Spacing.xs,
     },
     image: {
       height: '100%',

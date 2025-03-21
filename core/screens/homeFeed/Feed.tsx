@@ -36,8 +36,6 @@ import { useScrollToTop } from '@react-navigation/native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
-import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
-
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
 const HomeFeed = () => {
@@ -50,7 +48,6 @@ const HomeFeed = () => {
   const updateLastViewedIndex = useCallback((index: number) => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
-  const displayNewHomeFeed = useFeatureFlagAB(FeatureFlagKey.NEW_HOME_FEED)
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing, insightsCreators } =
     useFeedQuery()
@@ -79,11 +76,6 @@ const HomeFeed = () => {
     []
   )
 
-  const MemoizedGenericPostCard = memo(GenericPostCard)
-  const MemoizedInsightCard = memo(InsightCard)
-  const MemoizedGoodNewsCard = memo(GoodNewsCard)
-  const MemoizedVolunteeringCard = memo(VolunteeringCard)
-
   const renderItem = useCallback(
     ({
       item,
@@ -95,18 +87,16 @@ const HomeFeed = () => {
       index: number
     }) => {
       return (
-        <View style={styles.cardContainer}>
-          {item.feedPost && <MemoizedGenericPostCard post={item.feedPost} />}
-          {item.spacePost && <MemoizedGenericPostCard post={item.spacePost} />}
-          {item.insight && insightsCreators && (
-            <MemoizedInsightCard insight={item.insight} creators={insightsCreators} />
-          )}
-          {item.goodNewsArticle && <MemoizedGoodNewsCard article={item.goodNewsArticle} />}
-          {item.volunteeringReco && <MemoizedVolunteeringCard recommendation={item.volunteeringReco} />}
-        </View>
+        <>
+          {item.feedPost && <GenericPostCard post={item.feedPost} />}
+          {item.spacePost && <GenericPostCard post={item.spacePost} />}
+          {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
+          {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
+          {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
+        </>
       )
     },
-    [insightsCreators, MemoizedGenericPostCard, MemoizedInsightCard, MemoizedGoodNewsCard, MemoizedVolunteeringCard]
+    [insightsCreators]
   )
 
   const renderFooter = useCallback(
@@ -125,12 +115,14 @@ const HomeFeed = () => {
 
   const renderHeader = useMemo(
     () => (
-      <View style={styles.listHeader}>
-        <HomeFeedHeader displayNewHomeFeed={displayNewHomeFeed} />
-        <ChallengesCarousel />
-      </View>
+      <HoliTransition.FadeDown visible>
+        <View style={styles.listHeader}>
+          <HomeFeedHeader />
+          <ChallengesCarousel />
+        </View>
+      </HoliTransition.FadeDown>
     ),
-    [displayNewHomeFeed]
+    []
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<FeedItem> = (item) => {
@@ -228,14 +220,16 @@ const HomeFeed = () => {
           <ErrorBoundary>
             <TrackableFlatList
               removeClippedSubviews={true}
-              updateCellsBatchingPeriod={50}
-              onEndReachedThreshold={0.5}
+              windowSize={5}
+              maxToRenderPerBatch={5}
+              initialNumToRender={10}
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refetch} />}
               data={combinedFeedData}
               renderItem={renderItem}
               ListHeaderComponent={renderHeader}
               keyExtractor={keyExtractor}
               onEndReached={fetchMore}
+              onEndReachedThreshold={0.9}
               ListFooterComponent={renderFooter}
               contentContainerStyle={styles.listContent}
               testID="posts-list-results"
@@ -291,9 +285,6 @@ const styles = StyleSheet.create({
   },
   container: {
     marginTop: Spacing.xs,
-  },
-  cardContainer: {
-    overflow: 'hidden',
   },
 })
 
