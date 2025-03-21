@@ -22,7 +22,7 @@ export const testLocation = {
   coordinates: { latitude: 1, longitude: 2 },
   geolocation: {
     place_id: 'location1',
-    properties: { formatted: 'Hamburg, Germany' },
+    properties: { formatted: 'Hamburg, Germany', lat: 1, lon: 2 },
     geometry: { type: '', coordinates: [] },
   },
 }

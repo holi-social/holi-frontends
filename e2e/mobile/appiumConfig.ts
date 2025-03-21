@@ -32,7 +32,7 @@ const appId = 'foundation.holistic.projectholi'
 
 // see https://www.browserstack.com/list-of-browsers-and-platforms/app_automate for list of available real devices
 const android_device = { 'appium:deviceName': 'Google Pixel 6 Pro', 'appium:platformVersion': '13.0' }
-const iphone_device = { 'appium:deviceName': 'iPhone 12 Pro', 'appium:platformVersion': '16' }
+const iphone_device = { 'appium:deviceName': 'iPhone 12 Pro', 'appium:platformVersion': '17' }
 
 const browserStackDevice = platform === 'ios' ? iphone_device : android_device
 

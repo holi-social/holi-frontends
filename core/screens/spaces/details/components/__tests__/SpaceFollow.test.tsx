@@ -24,7 +24,6 @@ jest.mock('@holi/core/errors/hooks/useErrorHandling', () => ({
     displayError: jest.fn(),
   }),
 }))
-jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
 
 const authenticatedUserRequest = {
   request: {

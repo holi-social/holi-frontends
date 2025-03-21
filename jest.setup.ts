@@ -80,6 +80,8 @@ jest.mock('@holi/core/components/ScrollBasedCallbackInvocation')
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 
+jest.mock('react-native-keyboard-controller', () => require('react-native-keyboard-controller/jest'))
+
 jest.mock('@holi/ui/components/molecules/HoliToastProvider', () => {
   const original = jest.requireActual('@holi/ui/components/molecules/HoliToastProvider') as object
   return {

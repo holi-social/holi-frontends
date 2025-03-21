@@ -43,7 +43,7 @@ describe('NamesSelection', () => {
       label: 'Hamburg, Germany',
       geolocation: {
         place_id: '1',
-        properties: { formatted: 'Hamburg, Germany' },
+        properties: { formatted: 'Hamburg, Germany', lat: 1, lon: 2 },
         geometry: { type: 'MultiPolygon', coordinates: [] },
       },
     },

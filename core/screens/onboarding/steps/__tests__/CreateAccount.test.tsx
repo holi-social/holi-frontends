@@ -11,6 +11,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
+import { clearGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
 
 const mockUseErrorHandling = useErrorHandling as jest.Mock
 jest.mock('@holi/core/errors/hooks', () => ({
@@ -42,6 +43,13 @@ jest.mock('@holi/core/auth/helpers/useVerificationFlowData', () => ({
 const mockNewKratosSdk = newKratosSdk as jest.Mock
 jest.mock('@holi/core/auth/helpers/sdk', () => ({
   newKratosSdk: jest.fn(),
+}))
+
+const mockClearGuestMode = clearGuestMode as jest.Mock
+const mockStoreGuestMode = storeGuestMode as jest.Mock
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeAsyncStore', () => ({
+  clearGuestMode: jest.fn(),
+  storeGuestMode: jest.fn(),
 }))
 
 const formValues = { method: 'password', password: 'p455w0rd' }
@@ -149,6 +157,12 @@ describe('CreateAccount', () => {
       expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.RegisterButtonPressed)
     })
 
+    it('should clear guest mode', async () => {
+      await submitForm()
+
+      expect(mockClearGuestMode).toHaveBeenCalled()
+    })
+
     it('should handle misconfiguration', async () => {
       updateRegistrationFlow.mockResolvedValue({ data: {} })
 
@@ -207,6 +221,12 @@ describe('CreateAccount', () => {
       expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.ContinueAsGuestButtonPressed)
     })
 
+    it('should store guest mode', async () => {
+      await continueAsGuest()
+
+      expect(mockStoreGuestMode).toHaveBeenCalledWith(true)
+    })
+
     it('should call onContinueAsGuest callback', async () => {
       const onContinueAsGuest = jest.fn()
 
@@ -225,7 +245,7 @@ describe('CreateAccount', () => {
       await user.press(within(screen.getByTestId('already-have-account-text')).getByRole('link'))
     }
 
-    it('should track request to continue as guest', async () => {
+    it('should track request to login', async () => {
       await login()
 
       expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.LoginButtonPressed)

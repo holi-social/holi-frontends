@@ -45,7 +45,7 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
         </View>
         <View style={styles.headline}>
           <View style={styles.title}>
-            <Text size={'lg'}>{challenge.title}</Text>
+            <Text size="lg">{challenge.title}</Text>
           </View>
         </View>
       </HoliLinkTracked>
@@ -66,6 +66,7 @@ const getStyles = (cardWidth: number) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       paddingVertical: Spacing['3xs'],
+      paddingHorizontal: Spacing['4xs'],
       alignItems: 'center',
     },
     title: {

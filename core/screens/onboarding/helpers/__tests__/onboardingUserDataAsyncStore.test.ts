@@ -31,7 +31,7 @@ describe('onboardingUserDataAsyncStore', () => {
       coordinates: { latitude: 1, longitude: 2 },
       geolocation: {
         place_id: 'location1',
-        properties: { formatted: 'Location name' },
+        properties: { formatted: 'Location name', lat: 1, lon: 2 },
         geometry: { type: '', coordinates: [] },
       },
     },

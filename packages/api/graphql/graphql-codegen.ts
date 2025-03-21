@@ -1555,7 +1555,6 @@ export type Query = {
   skills: SkillPaged
   spaceById?: Maybe<Space>
   spaces: SpacePaged
-  spacesByName: SpacePaged
   taskById?: Maybe<Task>
   tasksBySpaceId: TaskPaged
   /** @deprecated Deprecated since 1.52. Use V2 instead, which is now a static hard coded set of slugs. */
@@ -1828,12 +1827,6 @@ export type QuerySpacesArgs = {
   topicSlug?: InputMaybe<Scalars['String']['input']>
   topicSlugs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>
   topicsV2?: InputMaybe<Array<Scalars['String']['input']>>
-}
-
-export type QuerySpacesByNameArgs = {
-  limit?: Scalars['Int']['input']
-  offset?: Scalars['Int']['input']
-  substring: Scalars['String']['input']
 }
 
 export type QueryTaskByIdArgs = {
