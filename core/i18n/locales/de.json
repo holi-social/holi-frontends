@@ -720,6 +720,7 @@
   "profile.settings.notifications.workflow.SPACE_NEW_APPOINTMENT": "Neue Termine in deinen Spaces",
   "profile.settings.notifications.workflow.SPACE_NEW_POST": "Neue Beiträge in Spaces, an denen du teilnimmst",
   "profile.settings.overview.title": "Einstellungen",
+  "profile.settings.resetOnboardingState.title": "Onboarding-Status zurücksetzen",
   "profile.settings.tracking.dataManagement.description": "Du kannst deine Daten aus unseren Systemen löschen, indem du eine E-Mail an <0>support@holi.social</0> sendest",
   "profile.settings.tracking.dataManagement.title": "Datenmanagement",
   "profile.settings.tracking.purpose.all": "Für alle Zwecke erlauben",

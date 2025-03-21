@@ -19,6 +19,7 @@ import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
 
 const CODE_MAX_COUNT = 6
 
@@ -226,6 +227,7 @@ export const EmailVerification = ({
             if (isLoggedIn) {
               await logout({ skipRedirect: true, showToastAfter: false }).catch(() => null) // ignore logout error
             }
+            await storeGuestMode(true)
             clearVerificationFlowData()
             onDismiss()
           }}

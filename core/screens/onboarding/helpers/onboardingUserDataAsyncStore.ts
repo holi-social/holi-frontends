@@ -1,7 +1,6 @@
 import AsyncStore from '@react-native-async-storage/async-storage'
 import { logError } from '@holi/core/errors/helpers'
-// eslint-disable-next-line no-restricted-imports
-import type { OnboardingUserData } from '../types'
+import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 
 const ONBOARDING_USER_DATA_KEY = 'onboardingUserData'
 export const storeOnboardingUserDataAsyncStore = async (userData: OnboardingUserData): Promise<void> => {

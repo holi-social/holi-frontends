@@ -26,6 +26,7 @@ import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
+import { clearGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
 
 const logger = getLogger('CreateAccount')
 
@@ -105,6 +106,7 @@ export const CreateAccount = ({
         setVerificationFlowData(verificationFlowData)
 
         await client.clearStore()
+        await clearGuestMode()
         await setLoginStateLoggedIn({
           session: data.session,
           session_token: data.session_token,
@@ -153,7 +155,10 @@ export const CreateAccount = ({
         <HoliGap size="s" />
         <ButtonTracked
           label={t('auth.loginProtection.continueAsGuest')}
-          onPress={onContinueAsGuest}
+          onPress={() => {
+            storeGuestMode(true)
+            onContinueAsGuest()
+          }}
           variant="secondary"
           testID={`${testID}-btn-continue-as-guest`}
           trackingEvent={TrackingEvent.Auth.ContinueAsGuestButtonPressed}

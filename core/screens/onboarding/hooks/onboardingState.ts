@@ -1,5 +1,4 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
-import AsyncStore from '@react-native-async-storage/async-storage'
 import { useCallback, useEffect } from 'react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
@@ -7,13 +6,7 @@ import { usePathname } from '@holi/core/navigation/hooks/usePathname'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Platform } from 'react-native'
 import { useVerificationFlowData, type VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
-
-const ONBOARDING_STATE_STORAGE_NAME = 'onboarding_state_value'
-const FIRST_VISIT_STORAGE_NAME = 'first_visit_content_value'
-
-/** @deprecated since v1.43: Clean up local state that is no longer needed */
-export const cleanUpStoredOnboardingState = () =>
-  Promise.all([AsyncStore.removeItem(ONBOARDING_STATE_STORAGE_NAME), AsyncStore.removeItem(FIRST_VISIT_STORAGE_NAME)])
+import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
 
 const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const // eslint-disable-line @typescript-eslint/no-unused-vars
 export type OnboardingStateValue = (typeof onboardingValues)[number]
@@ -36,15 +29,20 @@ const determineTargetState = ({
   isLoggedIn,
   accountCompleted,
   emailVerificationState,
+  guestMode,
   value,
 }: {
   isLoggedIn: boolean
   accountCompleted: boolean
   emailVerificationState: VerificationFlowState
+  guestMode: boolean
   value: OnboardingStateValue | null
 }): OnboardingStateValue | never => {
   if (emailVerificationState) {
     return 'emailVerification'
+  }
+  if (!isLoggedIn && guestMode) {
+    return 'finished'
   }
   if (isLoggedIn && !accountCompleted) {
     return 'accountSetup'
@@ -62,9 +60,10 @@ export const useOnboardingInitialization = () => {
   const loginState = useLoggedInUser()
   const currentOnboardingState = useOnboardingState()
   const emailVerificationState = useVerificationFlowData()
+  const { isLoading: isLoadingGuestMode, guestMode } = useGuestMode()
 
   useEffect(() => {
-    if (loginState.isLoading) return
+    if (loginState.isLoading || isLoadingGuestMode) return
 
     const accountCompleted = /*!!loginState.user?.identity &&*/ !!loginState.user?.firstName
 
@@ -72,6 +71,7 @@ export const useOnboardingInitialization = () => {
       isLoggedIn: loginState.isLoggedIn,
       accountCompleted,
       emailVerificationState,
+      guestMode,
       value: currentOnboardingState,
     })
     if (currentOnboardingState !== targetState) {
@@ -84,6 +84,8 @@ export const useOnboardingInitialization = () => {
     loginState.user?.firstName,
     loginState.user?.identity,
     currentOnboardingState,
+    isLoadingGuestMode,
+    guestMode,
   ])
 }
 
