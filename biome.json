@@ -22,7 +22,8 @@
       "apps/storybook/storybook-static",
       "e2e/web/playwright-report",
       "**/*.json",
-      "**/__mocks__/**"
+      "**/__mocks__/**",
+      "coverage"
     ]
   },
   "organizeImports": { "enabled": true },

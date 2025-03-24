@@ -47,6 +47,7 @@
     "clean": "yarn workspaces foreach -A run clean",
     "clean:all": "yarn workspaces foreach -A run clean:all && npx rimraf node_modules",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:update": "jest -u",
     "test:watch": "jest --watch",
     "test:watchAll": "jest --watchAll",
