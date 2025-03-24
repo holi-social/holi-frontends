@@ -4,7 +4,7 @@
 <p>Wir bitten dich, dich regelm&auml;&szlig;ig &uuml;ber den Inhalt unserer Datenschutzerkl&auml;rung zu informieren. Wir passen die Datenschutzerkl&auml;rung an, sobald die &Auml;nderungen der von uns durchgef&uuml;hrten Datenverarbeitungen dies erforderlich machen. Wir informieren dich, sobald durch die &Auml;nderungen eine Mitwirkungshandlung deinerseits (z.B. Einwilligung) oder eine sonstige individuelle Benachrichtigung erforderlich wird.</p>
 <p>Sofern wir in dieser Datenschutzerkl&auml;rung Adressen und Kontaktinformationen von Unternehmen und Organisationen angeben, bitten wir zu beachten, dass die Adressen sich &uuml;ber die Zeit &auml;ndern k&ouml;nnen und bitten die Angaben vor Kontaktaufnahme zu pr&uuml;fen.</p>
 <p>Die verwendeten Begriffe sind nicht geschlechtsspezifisch.</p>
-<p>Stand: 10. Januar 2025</p>
+<p>Stand: 04. März 2025</p>
 <h2>Inhaltsverzeichnis</h2>
 <ol start="1">
   <li>
@@ -54,7 +54,7 @@
       <li>
         <p>Bereitstellung des Onlineangebotes und Webhosting</p></li>
       <li>
-        <p>Registrierung, Anmeldung und Nutzungsprofile</p></li>
+        <p>Registrierung, Anmeldung und Nutzungprofile sowie Social Login</p></li>
       <li>
         <p>Community-Funktionen und -Beitr&auml;ge</p></li>
       <li>
@@ -71,6 +71,8 @@
         <p>Umfragen und Befragungen</p></li>
       <li>
         <p>Nutzungsanalyse</p></li>
+      <li>
+        <p>Werbepersonalisierung und Einordnung in Zielgruppen S. 36</p></li>
       <li>
         <p>Pr&auml;senzen in sozialen Netzwerken (Social Media)</p></li></ol></li></ol>
 <h1>Verantwortlicher</h1>
@@ -189,7 +191,7 @@
 <p>Aktuell werden folgende unbedingt erforderliche Informationen auf deinem Endger&auml;t gespeichert, die keiner Einwilligung bed&uuml;rfen:</p>
 <ul>
   <li>
-    <p><strong>Cookies (Browser): </strong>Wir verwenden Cookies im Kontext von User-Logins und Single Sign-On f&uuml;r unsere selbst gehosteten Dienste (Session Cookie, Oauth Cookies, CSRF-Cookies). CSRF = Cross-Site Request Forgery (ein Security-Mechanismus der im Kontext des Login-Prozesses verwendet wird). Hierzu z&auml;hlen:</p>
+    <p><strong>Cookies (Browser): </strong>Wir verwenden Cookies im Kontext von User-Logins und Single Sign-On f&uuml;r unsere selbst gehosteten Dienste (Session Cookie, Oauth Cookies, CSRF-Cookies). CSRF = Cross-Site Request Forgery (ein Security-Mechanismus der im Kontext des Login-Prozesses verwendet wird). Weiterhin kommen Cookies bei Besuch <a href="https://holi.social">unserer Webseite</a>  zum Abspielen von Videos und für verwendete Formularfelder zum Einsatz. Hierzu z&auml;hlen:</p>
     <ul>
       <li>
         <p>&bdquo;csrf_token_{ID}&ldquo; (365 Tage): CSRF-Schutz &ndash; Ory;</p></li>
@@ -202,7 +204,14 @@
       <li>
         <p>&bdquo;lastDaySeenSubmissions&rdquo;&nbsp;(1 Tag): Speichern der Information, wann der letzte Report &uuml;ber erfolgreiche Teilnahmen an Challenges &uuml;bermittelt wurde.</p></li>
       <li>
-        <p>&bdquo;SESSION&nbsp;/&nbsp;JSESSIONID&rdquo;&nbsp;(1 Jahr): Speichern der angemeldeten Sitzung im Bereich Challenges, um erneuten Login zu vermeiden.</p></li></ul></li>
+        <p>&bdquo;SESSION&nbsp;/&nbsp;JSESSIONID&rdquo;&nbsp;(1 Jahr): Speichern der angemeldeten Sitzung im Bereich Challenges, um erneuten Login zu vermeiden.</p></li>
+      <li>
+        <p>&bdquo;_cf_bm&ldquo; (1 Tag): Dieser Cookie wird zur Anzeige des eingebundenen Formularfeldes von HubSpot auf unserer Webseite verwendet, um zwischen Menschen und Bots zu unterscheiden.</p></li>
+      <li>
+        <p>&bdquo;_cfuvid&ldquo; (Sitzung): Dieser Cookie wird für die Auslieferung des auf unserer Webseite integrierten Formularfeldes von HubSpot mittels Cloudflare zur Lastverteilung verwendet.</p></li>
+      <li>
+        <p>&bdquo;CookieConsent&ldquo; (1 Jahr): Speichert den Zustimmungsstatus der Nutzenden für Cookies bei Besuch unserer Webseite <a href="https://holi.social" target="_blank">https://holi.social</a> mit Hilfe von Cookiebot (<a href="https://consentcdn.cookiebot.com" target="_blank">https://consentcdn.cookiebot.com</a>)</p></li>
+      </ul></li>
   <li>
     <p><strong>Local Storage (Browser): </strong>Folgende Eintr&auml;ge werden bei Nutzung mittels Webbrowser im Local Storage angelegt:</p>
     <ul>
@@ -251,7 +260,10 @@
       <li>
         <p>&bdquo;ph_&lt;our posthog key&gt;_posthog.$web_vitals_enabled_server_side&ldquo; (unbegrenzt): Nullwert, da das Posthog-Produkt &bdquo;Webanalyse&ldquo; nicht verwendet wird.</p></li>
       <li>
-        <p>&bdquo;ph_&lt;our posthog key&gt;_posthog.distinct_id&ldquo; (unbegrenzt): eine zuf&auml;llig generierte UUID zur Identifizierung der/des Nutzenden, wenn sie/er sich nie angemeldet hat. Wird nur zu Analysezwecken an Posthog gesendet, wenn die/der Nutzende der Analyseverfolgung zustimmt. Entspricht der UUID der/des Nutzenden, wenn diese/r der Analyseverfolgung zugestimmt und sich angemeldet hat.</p></li></ul></li></ul>
+        <p>&bdquo;ph_&lt;our posthog key&gt;_posthog.distinct_id&ldquo; (unbegrenzt): eine zuf&auml;llig generierte UUID zur Identifizierung der/des Nutzenden, wenn sie/er sich nie angemeldet hat. Wird nur zu Analysezwecken an Posthog gesendet, wenn die/der Nutzende der Analyseverfolgung zustimmt. Entspricht der UUID der/des Nutzenden, wenn diese/r der Analyseverfolgung zugestimmt und sich angemeldet hat.</p></li>
+      <li>
+        <p>&bdquo;sync_active&ldquo; (unbegrenzt): Dieser Eintrag wird durch die Einbindung eines Videos auf unserer Webseite von Vimeo angelegt (<a href="https://player.vimeo.com" target="_blank">https://player.vimeo.com</a>).</p></li>
+      </ul></li></ul>
 <p />
 <ul>
   <li>
@@ -296,7 +308,16 @@
 <p>Zur Personalisierung des Angebotes und zur Analyse der Plattformperformance, werden dar&uuml;ber hinaus, nach Einwilligung, die folgenden Informationen auf deinem Endger&auml;t gespeichert. Weiterf&uuml;hrende Informationen dazu sind nachfolgend zu finden.</p>
 <ul>
   <li>
-    <p><strong>Cookies (Browser): </strong>Aktuell werden keine optionalen Cookies gesetzt</p></li>
+    <p><strong>Cookies (Browser): </strong>Folgende Einträge werden als Cookie bei Besuch unserer Webseite <a href="https://holi.social" target="_blank">https://holi.social</a>  in einem Webbrowser durch das MetaPixel (Meta Platforms Ireland Limited) nach vorheriger Zustimmung angelegt:</p>
+    <ul>
+      <li>
+        <p>&bdquo;_fbp&quot;(90 Tage): Nutzungsanalyse und Retargeting.</p>
+      </li>
+      <li>
+        <p>&bdquo;fr&quot;(90 Tage): Ausspielen von Werbeanzeigen, Nutzungsanalyse und Conversion-Tracking.</p>
+      </li>
+    </ul>
+  </li>
   <li>
     <p><strong>Local Storage (Browser):</strong></p></li>
   <li>
@@ -384,6 +405,9 @@
 <p>Wir verarbeiten personenbezogene Daten, um Nutzer:innen f&uuml;r unser Onlineangebot zu registrieren, und f&uuml;r sie ein Nutzungskonto anzulegen, in dem sie sich anmelden k&ouml;nnen. Die Registrierung und Anmeldung ist notwendig, um Angebote wie Spaces zu nutzen, oder an den weiter unten beschriebenen Communityfunktionen teilzunehmen. Zu den verarbeiteten Daten geh&ouml;ren die Login-Informationen (Nutzer:innenname, Passwort sowie eine E-Mail-Adresse). Zur gewinnbringenden Nutzung der weiter unten beschriebenen Communityfunktionen bitten wir Nutzende zudem, ein aussagekr&auml;ftiges Nutzungsprofil anzulegen und einige pers&ouml;nliche Angaben zur Verf&uuml;gung zu stellen, wie die freiwillige Eingabe eines Nachnamens, die Auswahl zutreffender Interessen aus einer Auswahl sozialer und &ouml;kologischer Themen, sowie der passenden SDGs (Sustainable Development Goals/Nachhaltigkeitsziele der UN), die Angabe passender Fertigkeiten, sowie die Angabe des Standortes der Nutzung auf Ebene einer Stadt/eines Ortes.</p>
 <p>Weiterhin kann ein Profilbild angelegt werden, wozu in der App der Zugriff auf die Fotobibliothek erteilt werden muss. Die holi.social-App verwendet Bilder bzw. Fotos aus den Bildbibliotheken der Nutzenden nur dann, wenn Nutzende sich entscheiden, bestimmte Funktionen, wie das Anzeigen ihres Fotos/Avatars auf ihrem Profil, das Festlegen eines Avatars oder Titelbilds f&uuml;r ihren Space, das Ver&ouml;ffentlichen von Beitr&auml;gen oder das Verwalten von Aufgaben und Terminen zu verwenden. Hervorzuheben ist, dass das Bereitstellen von Bildern f&uuml;r diese Funktionen vollst&auml;ndig in der Hand der Nutzenden liegt. Dennoch verbessert dies das Benutzererlebnis und erm&ouml;glicht es, mehr Vorteile aus unseren Diensten zu ziehen, wie eine bessere Sichtbarkeit zur Herstellung von Verbindungen, das Teilen von Beitr&auml;gen, die Teilnahme an Veranstaltungen und das Finden von Freiwilligen und Partnern f&uuml;r Projekte.&nbsp;Wenn Nutzer:innen ihr Nutzungskonto gek&uuml;ndigt haben, werden deren Daten im Hinblick auf das Nutzungskonto, vorbehaltlich einer gesetzlichen Erlaubnis, Pflicht oder Einwilligung der Nutzer:innen, gel&ouml;scht. Hinsichtlich der L&ouml;schung von Beitr&auml;gen siehe &bdquo;Community Funktionen&ldquo;.</p>
 <p>F&uuml;r die Bereitstellung und Registrierung nutzen wir den nachfolgend genannten Dienstleister.</p>
+<p>Wir bieten dir darüber hinaus die Möglichkeit, dich mit einem Konto von Meta, Google oder Apple auf unserem Onlineangebot anzumelden und zu registrieren (Social Login). Wenn du dich für ein Social Login entscheidest, wirst du zur Anmeldeseite des jeweiligen Anbieters weitergeleitet. Dort meldest du dich mit deinen Anmeldedaten an. Von diesen nehmen wir keine Kenntnis. Außerdem gibst du die Freigabe, dass bestimmte Daten an uns übermittelt und dein Konto mit dem unseres Onlineangebots verknüpft werden dürfen. Diese Daten umfassen in der Regel deinen Namen, deine E-Mail-Adresse und dein Profilbild. Sie werden von uns verwendet, um dein Konto zu erstellen und den Zugang zu unserem Onlineangebot zu ermöglichen. Du kannst die Freigabe deiner Daten durch das Social Login jederzeit beim jeweiligen Anbieter entfernen.</p>
+<p>Für die Bereitstellung und Registrierung nutzen wir die nachfolgend genannten Dienstleister.</p>
+<p>Im Rahmen der Nutzung von Social Logins werden technische Authentifizierungscodes, Bestätigungstoken oder andere Zugriffschlüsseln zur Gewährleistung einer sicheren Anmeldung verwendet. Die Datenverarbeitung nach Klick auf den Button für das Social Login erfolgt in eigener Verantwortlichkeit des jeweiligen Anbieters des Social Logins.</p>
 <ul>
   <li>
     <p><strong>Ory.sh: </strong>Verwaltung von Nutzerdaten, Authentifizierung und Autorisierung von Nutzenden</p>
@@ -391,7 +415,28 @@
       <li>
         <p><strong>Anbieter:</strong> Ory Corp 132-A Veterans Lane, Suite 128 Doylestown, PA 18901, USA</p></li>
       <li>
-        <p><strong>Website: </strong><a target="_blank" href="https://www.ory.sh">https://www.ory.sh</a> </p></li></ul></li></ul>
+        <p><strong>Website: </strong><a target="_blank" href="https://www.ory.sh">https://www.ory.sh</a> </p></li></ul>
+      </li>
+
+      <li><p><strong>Im Falle der Anmeldung über Google:</strong> Übermittlung der E-Mail-Adresse, der Google-ID, des Namens und des Profilfotos</p>
+        <ul>
+          <li><p><strong>Anbieter:</strong> Google Ireland Limited, Gordon House, Barrow Street, Bublin 4, Irland</p></li>
+          <li><p><strong>Website:</strong> <a target="_blank" href="https://www.google.de">https://www.google.de</a></p></li>
+        </ul>
+      </li>
+      <li><p><strong>Im Falle der Anmeldung über Facebook:</strong> Übermittlung der E-Mail-Adresse, der öffentlichen Profilinformationen (insbesondere Facebook-ID, Name, Profilbild), ggf. je nach Auswahl weitere Profilinformationen</p>
+        <ul>
+          <li><p><strong>Anbieter:</strong> Meta Platforms Ireland Ltd., Merrion Road, Dublin 4, D04 X2K5, Irland</p></li>
+          <li><p><strong>Website:</strong> <a target="_blank" href="https://www.meta.com/de/">https://www.meta.com/de/</a></p></li>
+        </ul>
+      </li>
+      <li><p><strong>Im Falle der Anmeldung über Apple:</strong> Übermittlung der E-Mail-Adresse und Namen</p>
+        <ul>
+          <li><p><strong>Anbieter:</strong> Apple Distribution International LTD., Hollyhill Industrial Estate, Hollyhill, Cork, Irland</p></li>
+          <li><p><strong>Website:</strong> <a target="_blank" href="https://www.apple.com/">https://www.apple.com/</a></p></li>
+        </ul>
+      </li>
+    </ul>
 <h2>Community-Funktionen und -Beitr&auml;ge</h2>
 <p>Wir verarbeiten personenbezogene Daten, um Nutzer:innen die Community-Funktionen bereitzustellen und Beitr&auml;ge anzuzeigen. Die von uns bereitgestellten Community Funktionen erlauben es Nutzern:innen miteinander in Konversationen oder sonst miteinander in einen Austausch zu treten. Dabei k&ouml;nnen beispielsweise eigene Beitr&auml;ge (Text, Bild, Linkposts) ver&ouml;ffentlich werden, Reaktionen und Kommentare zu Posts oder Artikeln abgegeben werden oder Videobeitr&auml;ge zu sozialen- &amp; &ouml;kologischen Herausforderungen (&bdquo;Challenges&ldquo;) ver&ouml;ffentlicht werden. Die Beitr&auml;ge der Nutzenden sind grunds&auml;tzlich &ouml;ffentlich, d. h. f&uuml;r alle anderen Nutzenden sichtbar und zug&auml;nglich. Die Nutzer:innen k&ouml;nnen aber mittels Einstellungen bestimmen, in welchem Umfang die von ihnen erstellten Beitr&auml;ge und Inhalte f&uuml;r die &Ouml;ffentlichkeit oder nur f&uuml;r bestimmte Personen oder Gruppen sichtbar, bzw. zug&auml;nglich sind.</p>
 <p>Wir bitten stets zu beachten, dass die Nutzung der Communityfunktionen nur unter Beachtung der geltenden Rechtslage, unserer Bedingungen und Richtlinien sowie der Rechte anderer Nutzer:innen und Dritter gestattet ist. Im Fall von rechtswidrigen Beitr&auml;gen (z. B. Beleidigungen, verbotene politische Propaganda etc.) werden diese, sowie technische Daten wie IP-Adresse und Zugriffszeitpunkte zu Beweissicherungszwecken gespeichert. Dies geschieht, um zum Schutz anderer Nutzer:innen und der Community angemessene Ma&szlig;nahmen ergreifen zu k&ouml;nnen. Zudem werden die Beitr&auml;ge f&uuml;r alle anderen Nutzer:innen gel&ouml;scht bzw. der Sichtbarkeit entzogen.</p>
@@ -529,7 +574,18 @@
   <li>
     <p><strong>Analyse Nutzungsaktivit&auml;t</strong>: Wir erfassen deine Nutzung der verschiedenen Bereiche und Objekte der App oder Webseite. Dabei werden eingeblendete und geklickte Seiten, Elemente, Beitr&auml;ge, Aktionen und Reaktionen sowie Filtereinstellungen oder Sucheingaben ausgewertet und erfasst. Auf Basis der gewonnen Informationen verbessern wir das Produkterlebnis, indem beispielsweise Listenelemente (Spenden, ehrenamtliche T&auml;tigkeiten etc.) anhand von Nutzungsinteressen vorsortiert oder individuelle Vorschl&auml;ge f&uuml;r passende Projekte angeboten werden. Weiterhin werden diese Daten verwendet, um die Sichtbarkeit und Benutzung verschiedener Elemente und Platzierungen zu analysieren und ggf. zu optimieren, in dem wir beispielsweise lernen, wie weit Benutzende im Startseitenfeed scrollen oder welche Positionierungen besonders h&auml;ufig gesehen und/oder geklickt werden. Dies hilft uns, mehr Menschen m&ouml;glichst passende Inhalte anzubieten und die Aufmerksamkeit f&uuml;r soziale- oder &ouml;kologische Themen zu erh&ouml;hen. Bei Ablehnung des Trackings zu Analysezwecken entfallen die individualisierten Angebotsinhalte und es werden keine Nutzungsdaten mit Bezug zu deinen personenbezogenen Daten verarbeitet, es entstehen dar&uuml;ber hinaus jedoch keine Nutzungsnachteile. </p></li>
   <li>
-    <p><strong>Erfassung Besuchsquelle:</strong> Falls deine Nutzung unseres Onlineangebots durch ein Werbemittel zustande gekommen ist (beispielsweise eine Werbeanzeige auf anderen Webseiten oder das Einscannen eines QR-Codes von Werbeplakaten), verkn&uuml;pfen wir nach deiner Zustimmung die Information &uuml;ber die Besuchsquelle mit deinem Nutzungsprofil. Ziel dieser Zusammenf&uuml;hrung von Daten ist es zu ermitteln, wie erfolgreich unterschiedliche Werbeplatzierungen sind und zu analysieren, ob sich das Nutzungsverhalten auf Basis der Besuchsquelle unterscheidet. Bei Ablehnung des Trackings zu Marketingzwecken werden Informationen zu deiner Besuchsquelle nicht mit Bezug zu deinen personenbezogenen Daten verarbeitet und damit bei Analysen nicht ber&uuml;cksichtigt, es entstehen jedoch keine Nutzungsnachteile.</p></li></ul>
+    <p><strong>Erfassung Besuchsquelle:</strong> Falls deine Nutzung unseres Onlineangebots durch ein Werbemittel zustande gekommen ist (beispielsweise eine Werbeanzeige auf anderen Webseiten oder das Einscannen eines QR-Codes von Werbeplakaten), verkn&uuml;pfen wir nach deiner Zustimmung die Information &uuml;ber die Besuchsquelle mit deinem Nutzungsprofil. Ziel dieser Zusammenf&uuml;hrung von Daten ist es zu ermitteln, wie erfolgreich unterschiedliche Werbeplatzierungen sind und zu analysieren, ob sich das Nutzungsverhalten auf Basis der Besuchsquelle unterscheidet. Bei Ablehnung des Trackings zu Marketingzwecken werden Informationen zu deiner Besuchsquelle nicht mit Bezug zu deinen personenbezogenen Daten verarbeitet und damit bei Analysen nicht ber&uuml;cksichtigt, es entstehen jedoch keine Nutzungsnachteile.</p></li>
+  
+    <li>
+    <p><strong>Meta Pixel:</strong> Analyse und Auswertung des Nutzungsverhaltens, Erfassung von Events (wie Klicks auf Buttons und Links), Analyse der Wirksamkeit von Werbema0nahmen (Conversion-Trascking) auf unserer Webseite <a target="_blank" href="https://holi.social">https://holi.social</a></p>
+      <ul>
+        <li><strong>Anbieter:</strong> Meta Platforms Ireland Ltd., Merrion Road, Dublin 4, D04 X2K5, Irland</li>
+        <li><strong>Übermittlung in Drittländer:</strong> Meta Platforms Inc., 1601 Willow Road, Menlo Park, California 94025, USA (EU-US Data Privacy Framework)</li>
+        <li><strong>Website:</strong> <a target="_blank" href="https://www.meta.com/de/">https://www.meta.com/de/</a></li>
+      </ul>
+  </li>
+  
+  </ul>
 <p />
 <ul>
   <li>
@@ -561,6 +617,22 @@
       <li>
         <p><strong>Website</strong>: <a target="_blank" href="https://www.qrtrack.de">https://www.qrtrack.de</a> </p></li></ul></li></ul>
 <p>Die in den genannten Verarbeitungsvorg&auml;ngen verarbeiteten personenbezogenen Daten werden zu keinen anderen als den genannten Zwecken weitergegeben und von Empf&auml;ngern auch nicht zu deren eigenen Zwecken verarbeitet.</p>
+<h2>Werbepersonalisierung und Einordnung in Zielgruppen</h2>
+<p>Wir verarbeiten personenbezogene Daten nach vorheriger Zustimmung, um anhand der über dich erfassten Nutzungsdaten (insbesondere über die angesehenen und angeklickten Werbeanzeigen) Nutzungsprofile über deine Interessen anzulegen und dich in Werbekategorien und Zielgruppen (Audiences) einzuordnen. Dies geschieht insbesondere, wenn du über Anzeigen in sozialen Netzwerken auf unsere Plattform kommst. Mithilfe dieser Nutzungsprofile und der Einordnung in Zielgruppen können wir individualisierte und zielgruppenbezogene Werbung auf anderen Seiten, insbesondere in sozialen Netzwerken wie Facebook, ausspielen. Außerdem können wir dich auf anderen Seiten wiedererkennen und dich erneut mit personalisierter Werbung bei anderen Anbietern ansprechen (Retargeting).</p>
+<p>Darüber hinaus analysieren wir die Wirksamkeit und Erfolg von Werbekampagnen (Conversion-Tracking) und optimieren diese.</p>
+<p>In diesem Rahmen werden insbesondere Verbindungs- und Gerätedaten (z.B. HTTP-Header-Informationen einschließlich IP-Adresse, Sprache, Browsertyp, Gerätetyp, Referrer-URL), Nutzungsdaten (z.B. aufgerufene Seiten, Uhrzeit und Dauer des Aufrufs), Eventdaten (z.B. Klicks auf Buttons und Links) und Identifier (z.B. Geräte-ID, Werbe-ID) verarbeitet.
+  Für die genannten Verarbeitungsvorgänge setzen wir die nachfolgend genannten Dienstleister ein:</p>
+  <ul>
+    <li><strong>Meta Pixel:</strong> Analyse der Wirksamkeit von Werbemaßnahmen (Conversion-Tracking), Ausspielen personalisierter und zielgruppenbezogener Werbung in den sozialen Netzwerken Facebook und Instragram auf Basis deiner Interessen, Einorddnung in Zielgruppen (Audiences), Gewährleistung der Sicherheit der eigenen Produkte
+    <ul>
+      <li><strong>Anbieter:</strong> Meta Platforms Ireland Ltd., Merrion Road, Dublin 4, D04 X2K5, Irland</li>
+      <li><strong>Übermittlung in Drittländer:</strong> Meta Platforms Inc., 1601 Willow Road, Menlo Park, California 94025, USA (EU-US Data Privacy Framework)</li>
+      <li><strong>Gemeinsame Verantwortlichkeit:</strong> Für die Verarbeitung von Event-Daten, insbesondere für das Targeting, die Erstellung von Zielgruppen und die Ausspielung von Werbeanzeigen, besteht eine gemeinsame Verantwortlichkeit zwischen uns und Meta Platforms gemäß Art. 26 DSGVO. Die Pflichten der Parteien wurden in einem gemeinsamen Vertrag geregelt, der unter <a href="https://www.facebook.com/legal/controller_addendum" target="_blank">https://www.facebook.com/legal/controller_addendum</a> abrufbar ist.</li>
+      <li><strong>Privatsphäre-Einstellungen:</strong> Wenn du ein Facebook- oder Instagram-Konto besitzt, kann Meta Platforms die beim Besuch erfassten Daten gegebenenfalls mit deinem Mitgliedskonto verknüpfen und für die zielgerichtete Schaltung von Werbung verwenden. Du kannst deine Privatsphäre- und Werbeeinstellungen jederzeit in deinem Profil ändern: <a href="https://www.facebook.com/settings/?tab=ads" target="_blank">https://www.facebook.com/settings/?tab=ads</a> (Facebook) und <a href="https://de-de.facebook.com/help/instagram/2885653514995517?locale=de_DE" target="_blank">https://de-de.facebook.com/help/instagram/2885653514995517?locale=de_DE</a> (Instagram).</li>
+      <li><strong>Website:</strong> <a href="https://www.meta.com/de/" target="_blank">https://www.meta.com/de/</a></li>
+    </ul>
+    </li>
+  </ul>
 <h2>Pr&auml;senzen in sozialen Netzwerken (Social Media)</h2>
 <p>Wir unterhalten Onlinepr&auml;senzen innerhalb sozialer Netzwerke und verarbeiten in diesem Rahmen Daten der Nutzer:innen, um mit den dort aktiven Nutzern:innen zu kommunizieren oder um Informationen &uuml;ber uns anzubieten. Wir weisen darauf hin, dass dabei Daten der Nutzer:innen durch die Betreiber der sozialen Netzwerke au&szlig;erhalb des Raumes der Europ&auml;ischen Union verarbeitet werden k&ouml;nnen. Hierdurch k&ouml;nnen sich f&uuml;r die Nutzer:innen Risiken ergeben, weil so z.B. die Durchsetzung der Rechte der Nutzer:innen erschwert werden k&ouml;nnte.</p>
 <p><strong>Zugriff auf aggregierte Statistiken</strong></p>
