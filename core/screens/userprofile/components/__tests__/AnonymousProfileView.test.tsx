@@ -62,6 +62,6 @@ describe('AnonymousProfileView', () => {
 
     await waitFor(() => expect(mockClearOnboardingState).toHaveBeenCalled())
     expect(mockClearGuestMode).toHaveBeenCalled()
-    expect(mockNavigate).toHaveBeenCalledWith('/')
+    expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
   })
 })

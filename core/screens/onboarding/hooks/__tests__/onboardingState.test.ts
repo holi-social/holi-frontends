@@ -37,7 +37,9 @@ describe('useOnboardingState', () => {
   it('should update onboarding state', async () => {
     const { result } = renderHook(() => useOnboardingState())
 
-    storeOnboardingState('accountSetup')
+    act(() => {
+      storeOnboardingState('accountSetup')
+    })
 
     await waitFor(() => expect(result.current).toEqual('accountSetup'))
   })
@@ -45,7 +47,9 @@ describe('useOnboardingState', () => {
   it('should clear onboarding state', async () => {
     const { result } = renderHook(() => useOnboardingState())
 
-    clearOnboardingState()
+    act(() => {
+      clearOnboardingState()
+    })
 
     await waitFor(() => expect(result.current).toBeNull())
   })
@@ -69,9 +73,10 @@ describe('useOnboardingInitialization', () => {
       isLoading: true,
     })
 
-    renderOnboardingInitialization()
+    const { result } = renderOnboardingInitialization()
 
     expect(onboardingStateVar()).toBeNull()
+    expect(result.current.onboardingState).toBeNull()
   })
 
   it('should do nothing while guest mode is loading', () => {
@@ -80,9 +85,10 @@ describe('useOnboardingInitialization', () => {
       guestMode: false,
     })
 
-    renderOnboardingInitialization()
+    const { result } = renderOnboardingInitialization()
 
     expect(onboardingStateVar()).toBeNull()
+    expect(result.current.onboardingState).toBeNull()
   })
 
   const onboardingStates: (OnboardingStateValue | null)[] = [
@@ -101,9 +107,10 @@ describe('useOnboardingInitialization', () => {
       })
       if (state) storeOnboardingState(state)
 
-      renderOnboardingInitialization()
+      const { result } = renderOnboardingInitialization()
 
       expect(onboardingStateVar()).toEqual('accountSetup')
+      expect(result.current.onboardingState).toEqual('accountSetup')
     }
   )
 
@@ -117,9 +124,10 @@ describe('useOnboardingInitialization', () => {
       if (state) storeOnboardingState(state)
       mockUseVerificationFlowData.mockReturnValue({})
 
-      renderOnboardingInitialization()
+      const { result } = renderOnboardingInitialization()
 
       expect(onboardingStateVar()).toEqual('emailVerification')
+      expect(result.current.onboardingState).toEqual('emailVerification')
     }
   )
 
@@ -132,9 +140,10 @@ describe('useOnboardingInitialization', () => {
       if (state) storeOnboardingState(state)
       mockUseVerificationFlowData.mockReturnValue({})
 
-      renderOnboardingInitialization()
+      const { result } = renderOnboardingInitialization()
 
       expect(onboardingStateVar()).toEqual('emailVerification')
+      expect(result.current.onboardingState).toEqual('emailVerification')
     }
   )
 
@@ -172,9 +181,10 @@ describe('useOnboardingInitialization', () => {
       })
       if (state) storeOnboardingState(state)
 
-      renderOnboardingInitialization()
+      const { result } = renderOnboardingInitialization()
 
       expect(onboardingStateVar()).toEqual(expectedState)
+      expect(result.current.onboardingState).toEqual(expectedState)
     }
   )
 
@@ -208,11 +218,39 @@ describe('useOnboardingInitialization', () => {
       })
       if (state) storeOnboardingState(state)
 
-      renderOnboardingInitialization()
+      const { result } = renderOnboardingInitialization()
 
       expect(onboardingStateVar()).toEqual(expectedState)
+      expect(result.current.onboardingState).toEqual(expectedState)
     }
   )
+
+  it('should return isLoading as true if login state is loading', () => {
+    mockUseLoggedInUser.mockReturnValue({
+      isLoading: true,
+    })
+
+    const { result } = renderOnboardingInitialization()
+
+    expect(result.current.isLoading).toBeTruthy()
+  })
+
+  it('should return isLoading as true if guest mode is loading', () => {
+    mockUseGuestMode.mockReturnValue({
+      isLoading: true,
+      guestMode: false,
+    })
+
+    const { result } = renderOnboardingInitialization()
+
+    expect(result.current.isLoading).toBeTruthy()
+  })
+
+  it('should return isLoading as false if everything is initialized', () => {
+    const { result } = renderOnboardingInitialization()
+
+    expect(result.current.isLoading).toBeFalsy()
+  })
 
   describe('in guest mode', () => {
     beforeEach(() => {
@@ -231,9 +269,10 @@ describe('useOnboardingInitialization', () => {
         })
         if (state) storeOnboardingState(state)
 
-        renderOnboardingInitialization()
+        const { result } = renderOnboardingInitialization()
 
         expect(onboardingStateVar()).toEqual('accountSetup')
+        expect(result.current.onboardingState).toEqual('accountSetup')
       }
     )
 
@@ -247,9 +286,10 @@ describe('useOnboardingInitialization', () => {
         if (state) storeOnboardingState(state)
         mockUseVerificationFlowData.mockReturnValue({})
 
-        renderOnboardingInitialization()
+        const { result } = renderOnboardingInitialization()
 
         expect(onboardingStateVar()).toEqual('emailVerification')
+        expect(result.current.onboardingState).toEqual('emailVerification')
       }
     )
 
@@ -262,9 +302,10 @@ describe('useOnboardingInitialization', () => {
         if (state) storeOnboardingState(state)
         mockUseVerificationFlowData.mockReturnValue({})
 
-        renderOnboardingInitialization()
+        const { result } = renderOnboardingInitialization()
 
         expect(onboardingStateVar()).toEqual('emailVerification')
+        expect(result.current.onboardingState).toEqual('emailVerification')
       }
     )
 
@@ -276,9 +317,10 @@ describe('useOnboardingInitialization', () => {
         })
         if (state) storeOnboardingState(state)
 
-        renderOnboardingInitialization()
+        const { result } = renderOnboardingInitialization()
 
         expect(onboardingStateVar()).toEqual('finished')
+        expect(result.current.onboardingState).toEqual('finished')
       }
     )
   })
@@ -289,6 +331,10 @@ describe('useOnboardingRedirect', () => {
     jest.useFakeTimers()
     mockUseLoggedInUser.mockReturnValue({
       isLoggedIn: false,
+    })
+    mockUseGuestMode.mockReturnValue({
+      isLoading: false,
+      guestMode: false,
     })
   })
   afterEach(async () => {
@@ -318,6 +364,39 @@ describe('useOnboardingRedirect', () => {
     jest.runOnlyPendingTimers()
 
     expect(mockNavigate).toHaveBeenCalledWith(expectedRoute)
+  })
+
+  it.each(testCasesRedirects)('should require onboarding on startup for state $state', ({ state }) => {
+    onboardingStateVar(state)
+    mockUsePathname.mockReturnValue('/')
+
+    const { result } = renderHook(() => useOnboardingRedirect())
+    jest.runOnlyPendingTimers()
+
+    expect(result.current.showOnboardingOnStartup).toBeTruthy()
+  })
+
+  it('should not require onboarding on startup for state "finished"', () => {
+    onboardingStateVar('finished')
+    mockUsePathname.mockReturnValue('/')
+
+    const { result } = renderHook(() => useOnboardingRedirect())
+    jest.runOnlyPendingTimers()
+
+    expect(result.current.showOnboardingOnStartup).toBeFalsy()
+  })
+
+  it('should not navigate if onboarding state is initializing', () => {
+    mockUseLoggedInUser.mockReturnValue({
+      isLoading: true,
+    })
+    onboardingStateVar('onboarding')
+    mockUsePathname.mockReturnValue('/')
+
+    renderHook(() => useOnboardingRedirect())
+    jest.runOnlyPendingTimers()
+
+    expect(mockNavigate).not.toHaveBeenCalled()
   })
 
   it('should not navigate to onboarding if current screen is not home', () => {

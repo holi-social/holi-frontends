@@ -128,7 +128,7 @@ const AnonymousProfileView = () => {
             onPress={async () => {
               await clearGuestMode()
               clearOnboardingState()
-              navigate('/')
+              navigate('/onboarding')
             }}
             style={styles.settingsItem}
           />

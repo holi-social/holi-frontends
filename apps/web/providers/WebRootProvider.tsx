@@ -8,6 +8,7 @@ import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { useApolloWebClient } from '@holi/web/helpers/useApolloWebClient'
 import type { HoliPageProps } from '@holi/web/types'
 import { WebRouteHistoryInitializer } from '@holi/web/providers/WebRouteHistoryInitializer'
+import OnboardingInitializer from '@holi/core/screens/onboarding/OnboardingInitializer'
 interface RootProviderProps {
   pageProps: HoliPageProps
 }
@@ -23,7 +24,7 @@ const WebRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
       <ThemeProvider theme={defaultHoliTheme}>
         <RootProvider apolloClient={apolloClient} posthogBootstrapState={pageProps.posthogBootstrapValues}>
           <WebRouteHistoryInitializer />
-          {children}
+          <OnboardingInitializer>{children}</OnboardingInitializer>
         </RootProvider>
       </ThemeProvider>
     </BricksTheme>
