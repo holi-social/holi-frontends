@@ -103,9 +103,9 @@ const HomeFeed = () => {
     () =>
       canLoadMore ? (
         <View style={styles.loaderFooter}>
-          <HoliSkeleton height={260} width="100%" borderRadius={20} />
-          <HoliSkeleton height={260} width="100%" borderRadius={20} />
-          <HoliSkeleton height={260} width="100%" borderRadius={20} />
+          <HoliSkeleton height={260} width="100%" borderRadius={16} />
+          <HoliSkeleton height={260} width="100%" borderRadius={16} />
+          <HoliSkeleton height={260} width="100%" borderRadius={16} />
         </View>
       ) : (
         <></>
@@ -205,10 +205,10 @@ const HomeFeed = () => {
     return (
       <View style={[styles.wrapper, { backgroundColor: colors.white200 }]}>
         <View style={styles.screenLoader}>
-          <HoliSkeleton height={60} width={220} borderRadius={20} />
-          <HoliSkeleton height={180} width="100%" borderRadius={20} />
-          <HoliSkeleton height={180} width="100%" borderRadius={20} />
-          <HoliSkeleton height={180} width="100%" borderRadius={20} />
+          <HoliSkeleton height={60} width={220} borderRadius={16} />
+          <HoliSkeleton height={180} width="100%" borderRadius={16} />
+          <HoliSkeleton height={180} width="100%" borderRadius={16} />
+          <HoliSkeleton height={180} width="100%" borderRadius={16} />
         </View>
       </View>
     )
