@@ -5,7 +5,7 @@ import {
 } from '@holi/core/screens/onboarding/hooks/useOnboardingCurrentStepKey'
 import { renderHook } from '@testing-library/react-hooks'
 import { waitFor } from '@testing-library/react-native'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect } from '@holi/core/helpers'
 
 const mockUseOnboardingState = useOnboardingState as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => {
@@ -15,8 +15,7 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => {
 })
 
 const mockUseFocusEffect = jest.mocked(useFocusEffect)
-jest.mock('@react-navigation/native', () => ({
-  ...jest.requireActual('@react-navigation/native'),
+jest.mock('@holi/core/helpers', () => ({
   useFocusEffect: jest.fn(),
 }))
 

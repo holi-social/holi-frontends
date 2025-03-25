@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { HoliStepperItem } from '@holi/ui/components/organisms/HoliStepperV2'
 import { type OnboardingStateValue, useOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
-import { useFocusEffect } from '@react-navigation/native'
+import { useFocusEffect } from '@holi/core/helpers'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const OnboardingStepKeys = [
