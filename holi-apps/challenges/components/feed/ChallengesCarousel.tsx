@@ -12,6 +12,9 @@ import { withProfiler } from '@sentry/react'
 import fetch from 'cross-fetch'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
+import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
+import { Stack } from 'holi-bricks/components/stack'
 
 const API_URL = challengeAppBaseUrl + '/api/v1/recommended-challenges'
 const CARD_WIDTH = 130
@@ -55,17 +58,29 @@ const ChallengesCarousel = () => {
 
   useOnRefresh(fetchChallenges)
 
-  // Don't render anything if we're loading or have no challenges
-  if (isLoading || !challenges || challenges.length === 0) {
-    return null
-  }
-
   const listItemTrackingEvent: ListItemTrackingEvent<Challenge> = ({ title, id }) => {
     return TrackingEvent.RecommendationViewed('challenge', { title, id })
   }
 
   const listItemIdentifier: ListItemIdentifier<Challenge> = ({ id }) => {
     return id
+  }
+
+  // show nothing if there are no challenges
+  if (!challenges || challenges.length === 0) {
+    return null
+  }
+
+  // show skeleton while loading
+  if (isLoading) {
+    return (
+      <Stack direction="column" gap="3xs">
+        <HoliSkeleton height={Spacing.xl} width={180} borderRadius={16} />
+        <Stack direction="row" gap="3xs">
+          <HoliSkeleton height={CARD_WIDTH} width={'100%'} borderRadius={16} />
+        </Stack>
+      </Stack>
+    )
   }
 
   return (
