@@ -240,7 +240,7 @@ const getStyles = (theme: HoliTheme) =>
     },
     content: {
       minHeight: '100%',
-      backgroundColor: theme.colors.background20,
+      backgroundColor: theme.colors.background10,
     },
     container: {
       alignItems: 'baseline',
