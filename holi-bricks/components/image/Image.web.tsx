@@ -3,11 +3,7 @@ import type React from 'react'
 import { useState } from 'react'
 import NextImage from 'next/image'
 import { accessibilityProps } from 'holi-bricks/accessibility'
-import { setScalingParams } from 'holi-bricks/components/image/helpers'
-
-export const isRemoteSource = (source: string): source is string => {
-  return /^(https?:)?\/\//i.test(source)
-}
+import { isRemoteSource, setScalingParams } from 'holi-bricks/components/image/helpers'
 
 export const Image: React.FC<ImageProps> = ({
   source,
