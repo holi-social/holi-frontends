@@ -11,11 +11,16 @@ export interface CustomProps {
   urls?: SeoUrls
   blockIndexing?: boolean
   uuidParams?: (string | string[] | undefined)[]
+  redirectIfLoggedIn?: string
+  redirectIfLoggedOut?: string
+  redirectIfNewUser?: string
 }
 
 export interface UserPageProps {
   id?: string
   isLoggedOut: boolean
+  guestMode?: boolean
+  accountCompleted?: boolean
 }
 
 export interface NextJSPageProps extends Ni18nServerState, Record<string, unknown> {
