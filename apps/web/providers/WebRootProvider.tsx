@@ -24,7 +24,8 @@ const WebRootProvider = ({ children, pageProps }: PropsWithChildren<RootProvider
       <ThemeProvider theme={defaultHoliTheme}>
         <RootProvider apolloClient={apolloClient} posthogBootstrapState={pageProps.posthogBootstrapValues}>
           <WebRouteHistoryInitializer />
-          <OnboardingInitializer>{children}</OnboardingInitializer>
+          <OnboardingInitializer />
+          {children}
         </RootProvider>
       </ThemeProvider>
     </BricksTheme>

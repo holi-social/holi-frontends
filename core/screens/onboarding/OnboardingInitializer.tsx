@@ -3,15 +3,11 @@ import { memo } from 'react'
 
 import { useOnboardingInitialization, useOnboardingRedirect } from './hooks/onboardingState'
 
-const OnboardingInitializer = ({ children }: React.PropsWithChildren) => {
-  const { isLoading } = useOnboardingInitialization()
-  const { showOnboardingOnStartup } = useOnboardingRedirect()
+const OnboardingInitializer = () => {
+  useOnboardingInitialization()
+  useOnboardingRedirect()
 
-  if (isLoading || showOnboardingOnStartup) {
-    return null
-  }
-
-  return children
+  return null
 }
 
 export default withProfiler(memo(OnboardingInitializer), { name: 'OnboardingInitializer' })
