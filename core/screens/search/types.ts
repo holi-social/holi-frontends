@@ -28,6 +28,9 @@ export interface SearchHitData {
    * This can then be used to reconstruct the URI path /$lang/spaces/kiezputz/tasks/1c83676f-5197-44c7-bea6-51a7e2f41959
    */
   link_locators?: Partial<Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>>
+  source?: string
+  topics_v2?: Array<string>
+  skills_v2?: Array<string>
 }
 
 export interface SearchFilter {
