@@ -130,8 +130,13 @@ export type AppEvents_Event = {
 export type AppEvents_EventDetails = {
   __typename?: 'AppEvents_EventDetails'
   description: Scalars['String']['output']
-  externalLink: Scalars['String']['output']
+  externalLink?: Maybe<Scalars['String']['output']>
   meetingLink?: Maybe<Scalars['String']['output']>
+}
+
+export type AppEvents_EventResponse = {
+  __typename?: 'AppEvents_EventResponse'
+  data?: Maybe<AppEvents_Event>
 }
 
 export type AppEvents_EventsResponse = {
@@ -146,6 +151,11 @@ export type AppEvents_Location = {
   street?: Maybe<Scalars['String']['output']>
   streetNo?: Maybe<Scalars['String']['output']>
   zipCode?: Maybe<Scalars['String']['output']>
+}
+
+export type AppEvents_NearbyEventsResponse = {
+  __typename?: 'AppEvents_NearbyEventsResponse'
+  data?: Maybe<Array<Maybe<AppEvents_Event>>>
 }
 
 export enum AppGoodNews_Category {
@@ -274,7 +284,7 @@ export type AppVolunteering_TrackEngagementViewResponse = {
   id?: Maybe<Scalars['String']['output']>
 }
 
-/** Appointment(id, title, slug, invite_only, start_date_time, end_date_time, location, geolocation, location_details, video_call_link, description, thumbnail, thumbnail_blurhash, permission, space, creator, created, modified, is_deleted, deleted_at) */
+/** Appointment(id, title, slug, invite_only, start_date_time, end_date_time, location, geolocation, geolocation_geojson, location_details, video_call_link, description, thumbnail, thumbnail_blurhash, permission, space, creator, created, modified, is_deleted, deleted_at) */
 export type Appointment = {
   __typename?: 'Appointment'
   creator?: Maybe<User>
@@ -628,7 +638,7 @@ export type FeedItemPaged = {
   totalResults: Scalars['Int']['output']
 }
 
-/** FeedPost(id, title, slug, description, visibility, topics_v2, category, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, priority_duration) */
+/** FeedPost(id, title, slug, description, visibility, topics_v2, category, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, geolocation_geojson, priority_duration) */
 export type FeedPost = {
   __typename?: 'FeedPost'
   category?: Maybe<FeedPostCategory>
@@ -655,7 +665,7 @@ export type FeedPost = {
   visibility: VisibilityLevel
 }
 
-/** FeedPost(id, title, slug, description, visibility, topics_v2, category, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, priority_duration) */
+/** FeedPost(id, title, slug, description, visibility, topics_v2, category, creator, created_at, image, image_blurhash, link_preview, language_code, location, geolocation, geolocation_geojson, priority_duration) */
 export type FeedPostCommentersArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
@@ -873,7 +883,7 @@ export type LinkPreview = {
   url: Scalars['String']['output']
 }
 
-/** LocationDetails(id, complete_address, geolocation, city, state, country) */
+/** LocationDetails(id, complete_address, geolocation, geolocation_geojson, city, state, country) */
 export type LocationDetails = {
   __typename?: 'LocationDetails'
   city?: Maybe<Scalars['String']['output']>
@@ -1495,7 +1505,9 @@ export type Query = {
   allPosts: GenericPostPaged
   appDonations_project: AppDonations_Project
   appDonations_projects: AppDonations_ProjectsResponse
+  appEvents_event: AppEvents_EventResponse
   appEvents_events: AppEvents_EventsResponse
+  appEvents_nearbyEvents: AppEvents_NearbyEventsResponse
   appGoodNews_articles?: Maybe<AppGoodNews_GoodNewsArticlesQueryResponse>
   appVolunteering_engagement?: Maybe<AppVolunteering_Engagement>
   /**
@@ -1583,9 +1595,19 @@ export type QueryAppDonations_ProjectsArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>
 }
 
+export type QueryAppEvents_EventArgs = {
+  id: Scalars['String']['input']
+}
+
 export type QueryAppEvents_EventsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>
-  location?: InputMaybe<Scalars['String']['input']>
+  localOnly?: InputMaybe<Scalars['Boolean']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+}
+
+export type QueryAppEvents_NearbyEventsArgs = {
+  geolocationId?: InputMaybe<Scalars['ID']['input']>
+  limit?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
 }
 
@@ -1971,7 +1993,7 @@ export type SkillPaged = {
   totalResults: Scalars['Int']['output']
 }
 
-/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, contact_description, contact_email, contact_phone) */
+/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, geolocation_geojson, contact_description, contact_email, contact_phone) */
 export type Space = {
   __typename?: 'Space'
   appointments: AppointmentPaged
@@ -2015,38 +2037,38 @@ export type Space = {
   topicsV2: Array<Scalars['String']['output']>
 }
 
-/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, contact_description, contact_email, contact_phone) */
+/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, geolocation_geojson, contact_description, contact_email, contact_phone) */
 export type SpaceAppointmentsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
-/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, contact_description, contact_email, contact_phone) */
+/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, geolocation_geojson, contact_description, contact_email, contact_phone) */
 export type SpaceChildSpacesArgs = {
   geolocation?: InputMaybe<Scalars['GeoJSON']['input']>
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
-/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, contact_description, contact_email, contact_phone) */
+/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, geolocation_geojson, contact_description, contact_email, contact_phone) */
 export type SpaceInvitesArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
-/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, contact_description, contact_email, contact_phone) */
+/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, geolocation_geojson, contact_description, contact_email, contact_phone) */
 export type SpaceMembersArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
-/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, contact_description, contact_email, contact_phone) */
+/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, geolocation_geojson, contact_description, contact_email, contact_phone) */
 export type SpaceMembershipRequestsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
 }
 
-/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, contact_description, contact_email, contact_phone) */
+/** Community(id, creator, name, title, description, rules, avatar, avatar_blurhash, cover, cover_blurhash, created, type, color, user_adjective, users_adjective, invites_enabled, is_deleted, location, topics_v2, geolocation, geolocation_geojson, contact_description, contact_email, contact_phone) */
 export type SpacePostsArgs = {
   limit?: Scalars['Int']['input']
   offset?: Scalars['Int']['input']
@@ -2127,7 +2149,7 @@ export enum StatusType {
   Upcoming = 'UPCOMING',
 }
 
-/** Task(id, name, description, community, creator, created, slots_available, slots_taken, visibility, location_type, location, geolocation, regularity, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
+/** Task(id, name, description, community, creator, created, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, regularity, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
 export type Task = {
   __typename?: 'Task'
   contactEmail: Scalars['String']['output']
@@ -2587,6 +2609,130 @@ export type AuthenticatedUserQuery = {
   }
 }
 
+export type GetEventByIdQueryVariables = Exact<{
+  id: Scalars['String']['input']
+}>
+
+export type GetEventByIdQuery = {
+  __typename?: 'Query'
+  appEvents_event: {
+    __typename?: 'AppEvents_EventResponse'
+    data?: {
+      __typename?: 'AppEvents_Event'
+      id: string
+      title: string
+      organisationName: string
+      startDate?: string
+      endDate?: string
+      isRemote: boolean
+      imageUrl: string
+      location?: {
+        __typename?: 'AppEvents_Location'
+        street?: string
+        streetNo?: string
+        city?: string
+        zipCode?: string
+      }
+      eventDetails: {
+        __typename?: 'AppEvents_EventDetails'
+        description: string
+        externalLink?: string
+        meetingLink?: string
+      }
+    }
+  }
+}
+
+export type AllEventsQueryVariables = Exact<{
+  offset?: InputMaybe<Scalars['Int']['input']>
+  limit?: InputMaybe<Scalars['Int']['input']>
+  localOnly?: InputMaybe<Scalars['Boolean']['input']>
+}>
+
+export type AllEventsQuery = {
+  __typename?: 'Query'
+  appEvents_events: {
+    __typename?: 'AppEvents_EventsResponse'
+    totalResults: number
+    data?: Array<{
+      __typename?: 'AppEvents_Event'
+      id: string
+      title: string
+      organisationName: string
+      startDate?: string
+      endDate?: string
+      isRemote: boolean
+      imageUrl: string
+      location?: {
+        __typename?: 'AppEvents_Location'
+        street?: string
+        streetNo?: string
+        city?: string
+        zipCode?: string
+      }
+      eventDetails: {
+        __typename?: 'AppEvents_EventDetails'
+        description: string
+        externalLink?: string
+        meetingLink?: string
+      }
+    }>
+  }
+}
+
+export type NearbyEventsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>
+  geolocationId?: InputMaybe<Scalars['ID']['input']>
+}>
+
+export type NearbyEventsQuery = {
+  __typename?: 'Query'
+  appEvents_nearbyEvents: {
+    __typename?: 'AppEvents_NearbyEventsResponse'
+    data?: Array<{
+      __typename?: 'AppEvents_Event'
+      id: string
+      title: string
+      organisationName: string
+      startDate?: string
+      endDate?: string
+      isRemote: boolean
+      imageUrl: string
+      location?: {
+        __typename?: 'AppEvents_Location'
+        street?: string
+        streetNo?: string
+        city?: string
+        zipCode?: string
+      }
+      eventDetails: {
+        __typename?: 'AppEvents_EventDetails'
+        description: string
+        externalLink?: string
+        meetingLink?: string
+      }
+    }>
+  }
+}
+
+export type FullEventFragment = {
+  __typename?: 'AppEvents_Event'
+  id: string
+  title: string
+  organisationName: string
+  startDate?: string
+  endDate?: string
+  isRemote: boolean
+  imageUrl: string
+  location?: { __typename?: 'AppEvents_Location'; street?: string; streetNo?: string; city?: string; zipCode?: string }
+  eventDetails: {
+    __typename?: 'AppEvents_EventDetails'
+    description: string
+    externalLink?: string
+    meetingLink?: string
+  }
+}
+
 export type VolunteeringByIdQueryVariables = Exact<{
   id: Scalars['String']['input']
 }>
@@ -2690,6 +2836,28 @@ export const FullUserFragmentDoc = gql`
   }
   skillsV2
   connectionStatusToMyself
+}
+    `
+export const FullEventFragmentDoc = gql`
+    fragment FullEvent on AppEvents_Event {
+  id
+  title
+  organisationName
+  startDate
+  endDate
+  location {
+    street
+    streetNo
+    city
+    zipCode
+  }
+  isRemote
+  imageUrl
+  eventDetails {
+    description
+    externalLink
+    meetingLink
+  }
 }
     `
 export const SpaceRecommendationDocument = gql`
@@ -2917,6 +3085,153 @@ export type AuthenticatedUserQueryHookResult = ReturnType<typeof useAuthenticate
 export type AuthenticatedUserLazyQueryHookResult = ReturnType<typeof useAuthenticatedUserLazyQuery>
 export type AuthenticatedUserSuspenseQueryHookResult = ReturnType<typeof useAuthenticatedUserSuspenseQuery>
 export type AuthenticatedUserQueryResult = Apollo.QueryResult<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>
+export const GetEventByIdDocument = gql`
+    query getEventById($id: String!) {
+  appEvents_event(id: $id) {
+    data {
+      ...FullEvent
+    }
+  }
+}
+    ${FullEventFragmentDoc}`
+
+/**
+ * __useGetEventByIdQuery__
+ *
+ * To run a query within a React component, call `useGetEventByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetEventByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables> &
+    ({ variables: GetEventByIdQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+}
+export function useGetEventByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+}
+export function useGetEventByIdSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetEventByIdQuery, GetEventByIdQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<GetEventByIdQuery, GetEventByIdQueryVariables>(GetEventByIdDocument, options)
+}
+export type GetEventByIdQueryHookResult = ReturnType<typeof useGetEventByIdQuery>
+export type GetEventByIdLazyQueryHookResult = ReturnType<typeof useGetEventByIdLazyQuery>
+export type GetEventByIdSuspenseQueryHookResult = ReturnType<typeof useGetEventByIdSuspenseQuery>
+export type GetEventByIdQueryResult = Apollo.QueryResult<GetEventByIdQuery, GetEventByIdQueryVariables>
+export const AllEventsDocument = gql`
+    query allEvents($offset: Int = 0, $limit: Int = 5, $localOnly: Boolean) {
+  appEvents_events(offset: $offset, limit: $limit, localOnly: $localOnly) {
+    totalResults
+    data {
+      ...FullEvent
+    }
+  }
+}
+    ${FullEventFragmentDoc}`
+
+/**
+ * __useAllEventsQuery__
+ *
+ * To run a query within a React component, call `useAllEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllEventsQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *      localOnly: // value for 'localOnly'
+ *   },
+ * });
+ */
+export function useAllEventsQuery(baseOptions?: Apollo.QueryHookOptions<AllEventsQuery, AllEventsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export function useAllEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export function useAllEventsSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AllEventsQuery, AllEventsQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<AllEventsQuery, AllEventsQueryVariables>(AllEventsDocument, options)
+}
+export type AllEventsQueryHookResult = ReturnType<typeof useAllEventsQuery>
+export type AllEventsLazyQueryHookResult = ReturnType<typeof useAllEventsLazyQuery>
+export type AllEventsSuspenseQueryHookResult = ReturnType<typeof useAllEventsSuspenseQuery>
+export type AllEventsQueryResult = Apollo.QueryResult<AllEventsQuery, AllEventsQueryVariables>
+export const NearbyEventsDocument = gql`
+    query nearbyEvents($limit: Int = 5, $geolocationId: ID) {
+  appEvents_nearbyEvents(limit: $limit, geolocationId: $geolocationId) {
+    data {
+      ...FullEvent
+    }
+  }
+}
+    ${FullEventFragmentDoc}`
+
+/**
+ * __useNearbyEventsQuery__
+ *
+ * To run a query within a React component, call `useNearbyEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNearbyEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNearbyEventsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      geolocationId: // value for 'geolocationId'
+ *   },
+ * });
+ */
+export function useNearbyEventsQuery(
+  baseOptions?: Apollo.QueryHookOptions<NearbyEventsQuery, NearbyEventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
+}
+export function useNearbyEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<NearbyEventsQuery, NearbyEventsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
+}
+export function useNearbyEventsSuspenseQuery(
+  baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<NearbyEventsQuery, NearbyEventsQueryVariables>
+) {
+  const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<NearbyEventsQuery, NearbyEventsQueryVariables>(NearbyEventsDocument, options)
+}
+export type NearbyEventsQueryHookResult = ReturnType<typeof useNearbyEventsQuery>
+export type NearbyEventsLazyQueryHookResult = ReturnType<typeof useNearbyEventsLazyQuery>
+export type NearbyEventsSuspenseQueryHookResult = ReturnType<typeof useNearbyEventsSuspenseQuery>
+export type NearbyEventsQueryResult = Apollo.QueryResult<NearbyEventsQuery, NearbyEventsQueryVariables>
 export const VolunteeringByIdDocument = gql`
     query VolunteeringById($id: String!) {
   appVolunteering_engagement(id: $id) {

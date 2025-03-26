@@ -281,6 +281,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           style={
             [
               {
+                "alignSelf": "center",
                 "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 1000,
@@ -384,6 +385,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
           style={
             [
               {
+                "alignSelf": "center",
                 "backgroundColor": "#fdfd80",
                 "borderColor": "#262424",
                 "borderRadius": 1000,
@@ -741,6 +743,7 @@ I would like to join!
           style={
             [
               {
+                "alignSelf": "center",
                 "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 1000,
@@ -844,6 +847,7 @@ I would like to join!
           style={
             [
               {
+                "alignSelf": "center",
                 "backgroundColor": "#fdfd80",
                 "borderColor": "#262424",
                 "borderRadius": 1000,

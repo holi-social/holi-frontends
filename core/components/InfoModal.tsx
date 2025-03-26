@@ -57,16 +57,14 @@ const InfoModal: React.FC<InfoModalProps> = ({
       <View style={isMultipleItems ? styles.card : null} key={itemKey}>
         <HoliBox padding={isMultipleItems ? 24 : 0} layout={{ alignItems: 'flex-start' }}>
           {!!item.wordmark && !!item.wordmark?.src && (
-            <HoliBox padding={[18, 0]}>
-              <HoliLocalImage
-                imageSource={item.wordmark.src}
-                isSvg={!!item.wordmark.isSvg}
-                label={''}
-                width={item.wordmark.width || 100}
-                height={item.wordmark.height || 100}
-                resizeMode={'contain'}
-              />
-            </HoliBox>
+            <HoliLocalImage
+              imageSource={item.wordmark.src}
+              isSvg={!!item.wordmark.isSvg}
+              label={''}
+              width={item.wordmark.width || 100}
+              height={item.wordmark.height || 100}
+              resizeMode={'contain'}
+            />
           )}
           <HoliBox padding={[32, 0, 0, 0]}>
             <HoliHeading level="2" size="l">

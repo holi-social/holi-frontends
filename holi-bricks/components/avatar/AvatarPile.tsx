@@ -8,7 +8,7 @@ import { createStyleSheet } from 'holi-bricks/utils'
 // eslint-disable-next-line no-restricted-imports
 import type { User } from '@holi/core/domain/shared/types'
 
-interface AvatarPileProps extends Omit<AvatarProps, 'initials'> {
+interface AvatarPileProps extends Omit<AvatarProps, 'initials' | 'label' | 'imgSrc' | 'initials' | 'imgPlaceholder'> {
   users: User[]
 }
 
@@ -18,6 +18,7 @@ const AvatarPile = ({
   testID = 'holi-user-avatar-pile',
   border,
   shape,
+  icon,
 }: React.PropsWithChildren<AvatarPileProps>) => {
   const { styles } = useStyles(stylesheet)
   return (
@@ -33,8 +34,9 @@ const AvatarPile = ({
               label={user.fullName}
               source={user.avatar}
               initials={user.avatarLabel}
-              testID="pile-avatar"
+              testID={'pile-avatar'}
               imgPlaceholder={user.avatarBlurhash}
+              icon={icon}
             />
           </View>
         )

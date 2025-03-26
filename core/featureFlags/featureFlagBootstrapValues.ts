@@ -28,6 +28,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.NEW_HOME_FEED]: 'control',
     [FeatureFlagKey.POST_TRANSLATION]: false,
     [FeatureFlagKey.TASK_CONTACT_CTA]: false,
+    [FeatureFlagKey.EVENTS]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -43,6 +44,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.NEW_HOME_FEED]: null,
     [FeatureFlagKey.POST_TRANSLATION]: null,
     [FeatureFlagKey.TASK_CONTACT_CTA]: null,
+    [FeatureFlagKey.EVENTS]: null,
   },
 }
 
