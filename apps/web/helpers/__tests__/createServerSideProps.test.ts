@@ -88,7 +88,7 @@ describe('createServerSideProps', () => {
     },
   }
 
-  type UserType = 'loggedIn' | 'incompleteAccount' | 'guest' | 'newUser'
+  type UserType = 'loggedIn' | 'incompleteAccount' | 'guest' | 'newUser' | 'bot'
   const setupAndCreateContextForUser = (userContextType: UserType, requestOverrides = {}): PageContext => {
     const userData =
       userContextType === 'loggedIn'
@@ -102,6 +102,7 @@ describe('createServerSideProps', () => {
       })
     }
     const cookies = userContextType === 'guest' ? { [GUEST_MODE_COOKIE_NAME]: 'true' } : {}
+    const headers = userContextType === 'bot' ? { 'user-agent': 'bot' } : {}
 
     return {
       ...context,
@@ -109,6 +110,7 @@ describe('createServerSideProps', () => {
         ...context.req,
         ...requestOverrides,
         cookies,
+        headers,
       },
     } as unknown as PageContext
   }
@@ -321,6 +323,14 @@ describe('createServerSideProps', () => {
       expect(new HoliPageProps(props).user).toEqual(guestUserProps)
     })
 
+    it('should add guest user props if user is a bot', async () => {
+      const botContext = setupAndCreateContextForUser('bot')
+
+      const props = await createServerSideProps(botContext)
+
+      expect(new HoliPageProps(props).user).toEqual(guestUserProps)
+    })
+
     it('should add logged in user props if user is logged in with complete account', async () => {
       const userId = 'test-user-id'
       const expectedUserProps = {
@@ -353,6 +363,10 @@ describe('createServerSideProps', () => {
         },
         {
           userType: 'guest',
+          expectedRedirect: false,
+        },
+        {
+          userType: 'bot',
           expectedRedirect: false,
         },
       ]
@@ -395,6 +409,10 @@ describe('createServerSideProps', () => {
         },
         {
           userType: 'guest',
+          expectedRedirect: false,
+        },
+        {
+          userType: 'bot',
           expectedRedirect: false,
         },
       ]
@@ -443,6 +461,10 @@ describe('createServerSideProps', () => {
           userType: 'guest',
           expectedRedirect: true,
         },
+        {
+          userType: 'bot',
+          expectedRedirect: true,
+        },
       ]
       it.each(testData)(
         'should correctly handle redirect for logged out users if user is of type $userType',
@@ -487,6 +509,10 @@ describe('createServerSideProps', () => {
         },
         {
           userType: 'guest',
+          expectedRedirect: false,
+        },
+        {
+          userType: 'bot',
           expectedRedirect: false,
         },
       ]

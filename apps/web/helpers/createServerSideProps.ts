@@ -20,9 +20,17 @@ interface SkippableQueryOptions extends QueryOptions {
 }
 
 type Cookies = { [key: string]: string }
-export type PageContext = Omit<NextPageContext, 'req'> & { req: NextPageContext['req'] & { cookies: Cookies } }
+type PageContextRequest = NextPageContext['req'] & { cookies: Cookies }
+export type PageContext = Omit<NextPageContext, 'req'> & { req: PageContextRequest }
 
-const createUserPageProps = (user: User | undefined, cookies: Cookies = {}): UserPageProps => {
+// List of user agents substrings used by search engine crawlers and link preview bots (python-requests is used by Okuna)
+const botUserAgents = ['bot', 'crawl', 'slurp', 'spider', 'facebookexternalhit', 'whatsapp', 'python-requests']
+const isBot = (headers: PageContextRequest['headers'] = {}) =>
+  botUserAgents.some((userAgent) => headers['user-agent']?.toLowerCase().includes(userAgent))
+
+const isGuestUser = (cookies: Cookies = {}) => !!cookies[GUEST_MODE_COOKIE_NAME]
+
+const createUserPageProps = (user: User | undefined, req: PageContextRequest): UserPageProps => {
   if (user?.id) {
     return {
       id: user.id,
@@ -32,7 +40,7 @@ const createUserPageProps = (user: User | undefined, cookies: Cookies = {}): Use
   }
   return {
     isLoggedOut: true,
-    guestMode: !!cookies[GUEST_MODE_COOKIE_NAME],
+    guestMode: isGuestUser(req?.cookies) || isBot(req?.headers),
   }
 }
 
@@ -90,7 +98,7 @@ export const createServerSideProps = async (
   // Ignore failing user request silently
   const userQueryResult = await authenticatedUserPromise.catch()
   const userId = userQueryResult.data?.authenticatedUserV2?.id
-  const user = createUserPageProps(userQueryResult.data?.authenticatedUserV2, req?.cookies)
+  const user = createUserPageProps(userQueryResult.data?.authenticatedUserV2, req)
 
   const redirectDestination = handleLoginStateDependentRedirect(user, customProps)
 
