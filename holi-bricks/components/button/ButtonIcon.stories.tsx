@@ -38,7 +38,7 @@ const meta: Meta<typeof ButtonIcon> = {
 
 type Story = StoryObj<typeof ButtonIcon>
 
-export const Playground: Story = {
+export const Default: Story = {
   argTypes: {
     variant: { control: 'select', options: availableVariants },
     size: { control: 'select', options: availableSizes },

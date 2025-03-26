@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import type React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Check, Close } from '@holi/icons/src/generated'
 import { useTheme } from '@holi/ui/styles/theme'
+import { BorderRadius } from 'holi-bricks/tokens'
 
 export const HoliSwitchSizes = ['small', 'medium', 'large'] as const
 export type HoliSwitchSize = (typeof HoliSwitchSizes)[number]
@@ -26,10 +28,11 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
 }) => {
   const { theme } = useTheme()
   const { colors } = theme
+  const { width, height, circleSize, circlePosXEnd, circlePosXStart } = getSizeStyles(size)
   const styles = getStyles()
 
-  const circlePosXEnd = 44
-  const circlePosXStart = 4
+  // const circlePosXEnd = 44
+  // const circlePosXStart = 4
   const prevSwitchOnRef = useRef<boolean>()
   const prevSwitchOn = !!prevSwitchOnRef.current
   const [animXValue] = useState(new Animated.Value(value ? 1 : 0))
@@ -63,33 +66,20 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
 
   return (
     <TouchableOpacity testID={testID} onPress={handleOnPress} activeOpacity={0.8} disabled={disabled}>
-      <Animated.View
-        style={[
-          styles.container,
-          getSizeStyles(size),
-          {
-            borderWidth: 0,
-            borderColor: 'transparent',
-            backgroundColor: animXValue.interpolate({
-              inputRange: [0, 1],
-              outputRange: [backgroundColor, backgroundColor],
-            }),
-          },
-        ]}
-      >
+      <Animated.View style={[styles.container, { width, height, backgroundColor }]}>
         <Animated.View
           style={[
             styles.circle,
-            getSizeStyles(size),
             {
+              width: circleSize,
+              height: circleSize,
               backgroundColor: circleColor,
-            },
-            {
+              borderRadius: circleSize / 2,
               transform: [
                 {
                   translateX: animXValue.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [circlePosXStart, circlePosXEnd] as string[] | number[],
+                    outputRange: [circlePosXStart, circlePosXEnd] as number[],
                   }),
                 },
               ],
@@ -97,9 +87,9 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
           ]}
         >
           {value ? (
-            <HoliIcon icon={Check} color={colors.brandB300} size={26} />
+            <HoliIcon icon={Check} color={colors.brandB300} size={circleSize} />
           ) : (
-            <HoliIcon icon={Close} color={colors.gray300} size={26} />
+            <HoliIcon icon={Close} color={colors.gray300} size={circleSize} />
           )}
         </Animated.View>
       </Animated.View>
@@ -110,11 +100,11 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
 const getSizeStyles = (size: HoliSwitchSize) => {
   switch (size) {
     case 'large':
-      return { transform: [{ scaleX: 1 }, { scaleY: 1 }] }
+      return { width: 80, height: 40, circleSize: 32, circlePosXEnd: 44, circlePosXStart: 4 }
     case 'small':
-      return { transform: [{ scaleX: 0.5 }, { scaleY: 0.5 }] }
+      return { width: 40, height: 20, circleSize: 16, circlePosXEnd: 22, circlePosXStart: 2 }
     default: // medium
-      return { transform: [{ scaleX: 0.75 }, { scaleY: 0.75 }] }
+      return { width: 60, height: 30, circleSize: 24, circlePosXEnd: 33, circlePosXStart: 3 }
   }
 }
 
@@ -123,9 +113,7 @@ const getStyles = () =>
     container: {
       flexDirection: 'row',
       alignItems: 'center',
-      width: 80,
-      height: 40,
-      borderRadius: 100,
+      borderRadius: BorderRadius.xl,
     },
     circle: {
       alignItems: 'center',

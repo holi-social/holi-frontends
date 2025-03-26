@@ -7,10 +7,10 @@ import type { ChatRoom } from '@holi/chat/src/client/types'
 import { roomAtomsRecordAtom, spaceRoomIdToChildRoomsAtom, spaceRoomIdsAtom } from '@holi/chat/src/store'
 import { isWeb } from '@holi/chat/src/utils'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import BotomLineSeperator from '@holi/ui/components/organisms/HoliTabs/BotomLineSeperator'
+import BottomLineSeperator from '@holi/ui/components/organisms/HoliTabs/BotomLineSeperator'
 import TabButton from '@holi/ui/components/organisms/HoliTabs/TabButton'
 import TabButtonList from '@holi/ui/components/organisms/HoliTabs/TabButtonList'
-import { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
+import type { HoliTabItem } from '@holi/ui/components/organisms/HoliTabs/types'
 import Spacing from '@holi/ui/foundations/Spacing'
 
 export const DEFAULT_TAB_ID = 'all' as const
@@ -62,7 +62,7 @@ const ChatTabBar = ({ selectedTabId }: Props) => {
 
   return (
     <View onLayout={(event) => setComponentWidth(event.nativeEvent.layout.width)} style={{ width: '100%' }}>
-      <BotomLineSeperator />
+      <BottomLineSeperator />
       <TabButtonList
         activeTab={selectedTabId}
         data={tabs}

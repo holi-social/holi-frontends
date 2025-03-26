@@ -36,7 +36,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
   }
 
   return (
-    <HoliContainer testID="spaces-container" gap={Spacing.md} noPaddingOnSmallViewports={true}>
+    <HoliContainer testID="spaces-container" gap={Spacing.md} noPaddingOnSmallViewports noPadding>
       <View style={styles.description(screenWidth)}>
         <View style={styles.text} testID="get-started-view-header">
           <Text headingLevel="2" size="3xl">

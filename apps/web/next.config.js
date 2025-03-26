@@ -142,6 +142,7 @@ const nextConfig = {
     '@holi-apps/donations',
     '@holi-apps/goodnews',
     '@holi-apps/volunteering',
+    '@holi-apps/events',
     '@holi/ui',
     '@holi/icons',
     '@holi/core',

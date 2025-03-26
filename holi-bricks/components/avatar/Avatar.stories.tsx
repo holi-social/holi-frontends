@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Avatar } from 'holi-bricks/components/avatar/Avatar'
-import React from 'react'
 
 import { Chat3 } from '@holi/icons/src/generated'
 
@@ -36,9 +35,6 @@ export const AvatarWithInitials: Story = {
     border: 'strong',
     shape: 'circle',
   },
-  render: function Render(args) {
-    return <Avatar {...args} />
-  },
 }
 
 export const AvatarWithIcon: Story = {
@@ -52,9 +48,6 @@ export const AvatarWithIcon: Story = {
     size: 'md',
     icon: Chat3,
   },
-  render: function Render(args) {
-    return <Avatar {...args} />
-  },
 }
 
 export const AvatarWithImage: Story = {
@@ -67,9 +60,6 @@ export const AvatarWithImage: Story = {
     label: 'Label',
     size: 'md',
     source: 'https://picsum.photos/id/64/100/100',
-  },
-  render: function Render(args) {
-    return <Avatar {...args} />
   },
 }
 

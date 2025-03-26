@@ -46,10 +46,15 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
           style={
             {
               "color": "#262424",
-              "fontFamily": "InstrumentSans-Medium",
+              "fontFamily": "InstrumentSans-Regular",
               "fontSize": 28,
-              "fontWeight": "500",
-              "lineHeight": 39.199999999999996,
+              "fontVariant": [
+                "lining-nums",
+                "tabular-nums",
+              ],
+              "fontWeight": "400",
+              "letterSpacing": -0.896,
+              "lineHeight": 33.6,
               "textAlign": "left",
               "userSelect": "auto",
             }
@@ -1953,6 +1958,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
       style={
         [
           {
+            "alignSelf": "auto",
             "backgroundColor": "#fdfd80",
             "borderColor": "#262424",
             "borderRadius": 1000,
@@ -1961,7 +1967,7 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
             "boxShadow": "0 0 0 0px #262424",
             "display": "flex",
             "paddingHorizontal": 16,
-            "width": "auto",
+            "width": "100%",
           },
         ]
       }

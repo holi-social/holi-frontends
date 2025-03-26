@@ -25,7 +25,7 @@ const GetStartedView: React.FC<GetStartedViewProps> = () => {
   const { styles } = useStyles(stylesheet)
 
   return (
-    <HoliContainer testID="spaces-container" gap={Spacing.md} noPadding={true}>
+    <HoliContainer testID="spaces-container" gap={Spacing.md} noPadding>
       <View style={styles.description}>
         <View style={styles.text} testID="get-started-view-header">
           <Text headingLevel="2" size="3xl">
