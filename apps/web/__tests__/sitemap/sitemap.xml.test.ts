@@ -1,4 +1,4 @@
-import { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 
 import { createPageContextMock } from '@holi/web/__tests__/helpers'
 import { getServerSideProps } from '@holi/web/pages/sitemap.xml'
@@ -37,7 +37,7 @@ describe('Root sitemap', () => {
   it('should set correct content type', async () => {
     const { context, setHeaderMock } = createPageContextMock()
 
-    await getServerSideProps(context as NextPageContext)
+    await getServerSideProps(context as GetServerSidePropsContext)
 
     expect(setHeaderMock).toHaveBeenCalledWith('Content-Type', 'text/xml')
   })

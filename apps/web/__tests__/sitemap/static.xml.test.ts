@@ -1,5 +1,5 @@
 import { setupServer } from 'msw/node'
-import type { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 
 import { createPageContextMock } from '@holi/web/__tests__/helpers'
 import { getServerSideProps } from '@holi/web/pages/sitemap/static.xml'
@@ -130,7 +130,7 @@ describe('Static sitemap index', () => {
   it('should render sitemap index with static urls for german locale', async () => {
     const { context, writeMock } = createPageContextMock({ locale: 'de' })
 
-    await getServerSideProps(context as NextPageContext)
+    await getServerSideProps(context as GetServerSidePropsContext)
 
     const response = writeMock.mock.lastCall[0]
     expect(response).toMatchInlineSnapshot(`
@@ -240,7 +240,7 @@ describe('Static sitemap index', () => {
   it('should set correct content type', async () => {
     const { context, setHeaderMock } = createPageContextMock()
 
-    await getServerSideProps(context as NextPageContext)
+    await getServerSideProps(context as GetServerSidePropsContext)
 
     expect(setHeaderMock).toHaveBeenCalledWith('Content-Type', 'text/xml')
   })

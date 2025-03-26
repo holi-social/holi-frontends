@@ -5,11 +5,11 @@ import type { WebApolloClientOptions } from '@holi/api/graphql/client'
 import {
   createServerSideProps,
   createServerSidePropsWithLoggedInUserGuard,
-  type PageContext,
 } from '@holi/web/helpers/createServerSideProps'
 import { HoliPageProps } from '@holi/web/types'
 import { createUUID } from '@holi/core/helpers'
 import { GUEST_MODE_COOKIE_NAME } from '@holi/core/screens/onboarding/helpers/guestModeStorage.web'
+import type { GetServerSidePropsContext } from 'next'
 
 const mockLoadTranslations = jest.fn()
 jest.mock('ni18n', () => ({
@@ -34,7 +34,7 @@ describe('createServerSideProps', () => {
     accept: 'application/json',
     'accept-encoding': 'gzip',
   }
-  const context = { req: { url: '', headers } } as unknown as PageContext
+  const context = { req: { url: '', headers } } as unknown as GetServerSidePropsContext
   const mockedTranslations = { __ni18n_server__: { resources: {}, ns: [] } }
   const mockPosthogBootstrapValues = {
     featureFlags: { DONATIONS: 'on' },
@@ -89,7 +89,10 @@ describe('createServerSideProps', () => {
   }
 
   type UserType = 'loggedIn' | 'incompleteAccount' | 'guest' | 'newUser' | 'bot'
-  const setupAndCreateContextForUser = (userContextType: UserType, requestOverrides = {}): PageContext => {
+  const setupAndCreateContextForUser = (
+    userContextType: UserType,
+    requestOverrides = {}
+  ): GetServerSidePropsContext => {
     const userData =
       userContextType === 'loggedIn'
         ? { id: 'test-user-id', identity: 'ada', firstName: 'Ada' }
@@ -102,7 +105,7 @@ describe('createServerSideProps', () => {
       })
     }
     const cookies = userContextType === 'guest' ? { [GUEST_MODE_COOKIE_NAME]: 'true' } : {}
-    const headers = userContextType === 'bot' ? { 'user-agent': 'bot' } : {}
+    const headers = userContextType === 'bot' ? { 'user-agent': 'Googlebot/2.1' } : {}
 
     return {
       ...context,
@@ -112,7 +115,7 @@ describe('createServerSideProps', () => {
         cookies,
         headers,
       },
-    } as unknown as PageContext
+    } as unknown as GetServerSidePropsContext
   }
 
   beforeEach(() => {
@@ -133,7 +136,7 @@ describe('createServerSideProps', () => {
     it('should add valid locale to page props', async () => {
       const props = await createServerSideProps({
         req: { url: '', headers: { 'accept-language': 'default' } },
-      } as unknown as PageContext)
+      } as unknown as GetServerSidePropsContext)
 
       expect(new HoliPageProps(props).props.locale).toEqual('en')
     })
@@ -278,7 +281,7 @@ describe('createServerSideProps', () => {
       host: 'localhost:3000',
       'x-forwarded-proto': 'http',
     }
-    const context = { req: { url: '', headers } } as unknown as PageContext
+    const context = { req: { url: '', headers } } as unknown as GetServerSidePropsContext
 
     const props = await createServerSideProps(context)
 

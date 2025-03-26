@@ -1,4 +1,4 @@
-import type { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 
 import { locales } from '@holi/core/i18n/locales.cjs'
 import { getOrigin } from '@holi/web/helpers/getOrigin'
@@ -10,11 +10,11 @@ const SiteMap = () => {
 
 const sitemapIndexUrls = ['/sitemap/static', '/sitemap/insights']
 
-export const getServerSideProps = async ({ req, res }: NextPageContext) => {
+export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext) => {
   const origin = getOrigin(req)
   const sitemap = generateSitemapIndex(
     origin,
-    locales.map((locale) => sitemapIndexUrls.map((url) => `/${locale}${url}`)).flat()
+    locales.flatMap((locale) => sitemapIndexUrls.map((url) => `/${locale}${url}`))
   )
 
   if (res) {

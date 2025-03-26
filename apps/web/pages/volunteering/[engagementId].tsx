@@ -1,5 +1,5 @@
-import type { NextPageContext } from 'next'
-import React, { ReactElement } from 'react'
+import type { GetServerSidePropsContext } from 'next'
+import React, { type ReactElement } from 'react'
 
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { AppLayout } from '@holi/web/layout/NavigationLayoutVolunteeringApp'
@@ -12,7 +12,7 @@ const VolunteeringEngagementDetailPage: NextPageWithLayout = () => <Volunteering
 
 VolunteeringEngagementDetailPage.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { engagementId } = context.query
 
   const queries = [
