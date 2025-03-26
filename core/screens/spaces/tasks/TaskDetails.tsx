@@ -18,15 +18,7 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetailsContainer = () => {
-  const {
-    data: { loading, title, coverImage, infoList, visibility, description, chips, author },
-    isOwner,
-    spaceName,
-    id,
-    refetch,
-    spaceId,
-    spaceTitle,
-  } = useTaskDetailsData()
+  const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
 
   const renderActionDrawer = useCallback(
@@ -67,7 +59,7 @@ const TaskDetailsContainer = () => {
           {displayCta && (
             <ContactOrganization
               spaceIdOrName={spaceName}
-              taskName={title}
+              taskName={data?.title}
               taskId={id}
               spaceTitle={spaceTitle}
               spaceId={spaceId}
@@ -76,16 +68,7 @@ const TaskDetailsContainer = () => {
         </Stack>
       }
     >
-      <DetailsScreen
-        loading={loading}
-        coverImage={coverImage}
-        title={title}
-        infoList={infoList}
-        visibility={visibility}
-        description={description}
-        author={author}
-        chips={chips}
-      />
+      <DetailsScreen {...data} />
     </Screen>
   )
 }

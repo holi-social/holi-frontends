@@ -31,7 +31,7 @@ const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
 export const useTaskDetailsData = (): UseTaskDetailsData => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { displayError } = useErrorHandling()
-  const { replaceRoute } = useRouting()
+  const { replaceRoute, navigate } = useRouting()
   const { t, i18n } = useTranslation()
   const [taskId] = useUUIDParam('taskId')
   const loginState = useLoggedInUser()
@@ -127,6 +127,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.name || data?.taskById?.name || '??',
         subtitle: data?.taskById?.creator?.fullName,
+        onPress: () => navigate('/spaces/' + data?.taskById?.space?.id),
         mainAvatar: {
           source: data?.taskById?.space?.avatar,
           initials: data?.taskById?.space?.name || data?.taskById?.name || '??',
