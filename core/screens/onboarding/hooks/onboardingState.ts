@@ -7,6 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Platform } from 'react-native'
 import { useVerificationFlowData, type VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
+import { isAccountComplete } from '@holi/core/screens/onboarding/helpers/isAccountComplete'
 
 const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const // eslint-disable-line @typescript-eslint/no-unused-vars
 export type OnboardingStateValue = (typeof onboardingValues)[number]
@@ -66,11 +67,9 @@ export const useOnboardingInitialization = () => {
   useEffect(() => {
     if (loginState.isLoading || isLoadingGuestMode) return
 
-    const accountCompleted = !!loginState.user?.identity && !!loginState.user?.firstName
-
     const targetState = determineTargetState({
       isLoggedIn: loginState.isLoggedIn,
-      accountCompleted,
+      accountCompleted: isAccountComplete(loginState.user),
       emailVerificationState,
       guestMode,
       value: currentOnboardingState,
@@ -84,8 +83,7 @@ export const useOnboardingInitialization = () => {
     emailVerificationState,
     loginState.isLoading,
     loginState.isLoggedIn,
-    loginState.user?.firstName,
-    loginState.user?.identity,
+    loginState.user,
     currentOnboardingState,
     isLoadingGuestMode,
     guestMode,
