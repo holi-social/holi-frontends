@@ -1,7 +1,7 @@
 import React from 'react'
 import AnonymousProfileView from '@holi/core/screens/userprofile/components/AnonymousProfileView'
 import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
-import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 

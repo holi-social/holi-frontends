@@ -1,25 +1,25 @@
-import { getGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage.web'
+import { getCookie, setCookie, deleteCookie } from 'cookies-next'
 import { logError } from '@holi/core/errors/helpers'
 
 jest.mock('@holi/core/errors/helpers', () => ({
   logError: jest.fn(),
 }))
 
-const mockGetStorage = AsyncStorage.getItem as jest.Mock
-const mockWriteStorage = AsyncStorage.setItem as jest.Mock
-const mockDeleteStorage = AsyncStorage.removeItem as jest.Mock
-jest.mock('@react-native-async-storage/async-storage', () => {
+const mockGetCookie = jest.mocked(getCookie)
+const mockSetCookie = jest.mocked(setCookie)
+const mockDeleteCookie = jest.mocked(deleteCookie)
+jest.mock('cookies-next', () => {
   return {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    removeItem: jest.fn(),
+    getCookie: jest.fn(),
+    setCookie: jest.fn(),
+    deleteCookie: jest.fn(),
   }
 })
 
-describe('guestModeAsyncStore', () => {
+describe('guestModeStorage', () => {
   it('should return true when guest mode is enabled', async () => {
-    mockGetStorage.mockResolvedValueOnce('true')
+    mockGetCookie.mockReturnValueOnce('true')
 
     const result = await getGuestMode()
 
@@ -27,7 +27,7 @@ describe('guestModeAsyncStore', () => {
   })
 
   it('should return false when guest mode is not set', async () => {
-    mockGetStorage.mockResolvedValueOnce(undefined)
+    mockGetCookie.mockReturnValueOnce(undefined)
 
     const result = await getGuestMode()
 
@@ -36,36 +36,40 @@ describe('guestModeAsyncStore', () => {
 
   it('should return false and log error when reading guest mode fails', async () => {
     const testError = new Error('Test error')
-    mockGetStorage.mockRejectedValueOnce(testError)
+    mockGetCookie.mockImplementationOnce(() => {
+      throw testError
+    })
 
     const result = await getGuestMode()
 
     expect(result).toBeFalsy()
     expect(logError).toHaveBeenCalledWith(testError, 'Failed to get guest mode', {
-      location: 'guestModeAsyncStore.getGuestMode',
+      location: 'guestModeStorage.getGuestMode',
     })
   })
 
   it('should store true when guest mode is enabled', async () => {
     await storeGuestMode(true)
 
-    expect(mockWriteStorage).toHaveBeenCalledWith('guest_mode', 'true')
+    expect(mockSetCookie).toHaveBeenCalledWith('guest_mode', 'true')
   })
 
   it('should remove storage when guest mode is disabled', async () => {
     await storeGuestMode(false)
 
-    expect(mockDeleteStorage).toHaveBeenCalledWith('guest_mode')
+    expect(mockDeleteCookie).toHaveBeenCalledWith('guest_mode')
   })
 
   it('should log error when storing guest mode fails', async () => {
     const testError = new Error('Test error')
-    mockWriteStorage.mockRejectedValueOnce(testError)
+    mockSetCookie.mockImplementationOnce(() => {
+      throw testError
+    })
 
     await storeGuestMode(true)
 
     expect(logError).toHaveBeenCalledWith(testError, 'Failed to store guest mode', {
-      location: 'guestModeAsyncStore.storeGuestMode',
+      location: 'guestModeStorage.storeGuestMode',
     })
   })
 })

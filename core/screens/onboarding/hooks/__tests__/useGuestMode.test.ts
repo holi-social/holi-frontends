@@ -1,4 +1,4 @@
-import { getGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { getGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
 import { act, renderHook } from '@testing-library/react-native'
 

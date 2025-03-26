@@ -26,7 +26,7 @@ import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
-import { clearGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { clearGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 
 const logger = getLogger('CreateAccount')
 

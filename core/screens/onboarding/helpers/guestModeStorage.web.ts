@@ -1,28 +1,28 @@
-import AsyncStore from '@react-native-async-storage/async-storage'
 import { logError } from '@holi/core/errors/helpers'
+import { getCookie, setCookie, deleteCookie } from 'cookies-next'
 
-const GUEST_MODE_STORAGE_KEY = 'guest_mode'
+export const GUEST_MODE_COOKIE_NAME = 'guest_mode'
 
 export const storeGuestMode = async (guestMode?: boolean): Promise<void> => {
   try {
     if (guestMode) {
-      await AsyncStore.setItem(GUEST_MODE_STORAGE_KEY, 'true')
+      setCookie(GUEST_MODE_COOKIE_NAME, 'true')
     } else {
-      await AsyncStore.removeItem(GUEST_MODE_STORAGE_KEY)
+      deleteCookie(GUEST_MODE_COOKIE_NAME)
     }
   } catch (error) {
     logError(error, 'Failed to store guest mode', {
-      location: 'guestModeAsyncStore.storeGuestMode',
+      location: 'guestModeStorage.storeGuestMode',
     })
   }
 }
 export const getGuestMode = async (): Promise<boolean> => {
   try {
-    const userData = await AsyncStore.getItem(GUEST_MODE_STORAGE_KEY)
+    const userData = getCookie(GUEST_MODE_COOKIE_NAME)
     return userData ? true : false
   } catch (error) {
     logError(error, 'Failed to get guest mode', {
-      location: 'guestModeAsyncStore.getGuestMode',
+      location: 'guestModeStorage.getGuestMode',
     })
     return false
   }

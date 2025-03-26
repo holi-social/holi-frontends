@@ -28,7 +28,7 @@ import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { Screen } from '@holi/core/components/Screen'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 
 const Login = () => {
   const { isLoggedOut } = useLoginState()
