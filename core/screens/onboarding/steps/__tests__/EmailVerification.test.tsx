@@ -56,7 +56,7 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
 }))
 
 const mockStoreGuestMode = storeGuestMode as jest.Mock
-jest.mock('@holi/core/screens/onboarding/helpers/guestModeAsyncStore', () => ({
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
   storeGuestMode: jest.fn(),
 }))
 

@@ -3,7 +3,7 @@ import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
 import { act, renderHook } from '@testing-library/react-native'
 
 const mockGetGuestMode = getGuestMode as jest.Mock
-jest.mock('@holi/core/screens/onboarding/helpers/guestModeAsyncStore', () => ({
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
   getGuestMode: jest.fn(),
 }))
 

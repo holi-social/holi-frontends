@@ -47,7 +47,7 @@ jest.mock('@holi/core/auth/helpers/sdk', () => ({
 
 const mockClearGuestMode = clearGuestMode as jest.Mock
 const mockStoreGuestMode = storeGuestMode as jest.Mock
-jest.mock('@holi/core/screens/onboarding/helpers/guestModeAsyncStore', () => ({
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
   clearGuestMode: jest.fn(),
   storeGuestMode: jest.fn(),
 }))
