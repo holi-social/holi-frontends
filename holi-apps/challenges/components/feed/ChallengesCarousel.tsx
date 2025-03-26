@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
 import { Stack } from 'holi-bricks/components/stack'
+import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 
 const API_URL = challengeAppBaseUrl + '/api/v1/recommended-challenges'
 const CARD_WIDTH = 130
@@ -66,21 +67,22 @@ const ChallengesCarousel = () => {
     return id
   }
 
-  // show nothing if there are no challenges
-  if (!challenges || challenges.length === 0) {
-    return null
-  }
-
   // show skeleton while loading
   if (isLoading) {
     return (
       <Stack direction="column" gap="3xs">
         <HoliSkeleton height={Spacing.xl} width={180} borderRadius={16} />
         <Stack direction="row" gap="3xs">
-          <HoliSkeleton height={CARD_WIDTH} width={'100%'} borderRadius={16} />
+          <HoliSkeleton height={172} width={'100%'} borderRadius={16} />
         </Stack>
+        <HoliGap size="l" />
       </Stack>
     )
+  }
+
+  // show nothing if there are no challenges
+  if (!challenges || challenges.length === 0) {
+    return null
   }
 
   return (
