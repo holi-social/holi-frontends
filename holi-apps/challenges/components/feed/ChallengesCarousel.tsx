@@ -1,6 +1,5 @@
 import { ChallengesCarouselCard } from '@holi-apps/challenges/components/feed/ChallengesCarouselCard'
 import type { Challenge, ChallengeTeaser } from '@holi-apps/challenges/components/types'
-import { challengeAppBaseUrl } from '@holi/core/helpers/config'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import ChallengesSlider from '@holi-apps/challenges/components/feed/ChallengesSlider'
@@ -16,7 +15,7 @@ import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
 import { Stack } from 'holi-bricks/components/stack'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 
-const API_URL = challengeAppBaseUrl + '/api/v1/recommended-challenges'
+const API_URL = '/api/challenges/api/v1/recommended-challenges'
 const CARD_WIDTH = 130
 
 interface ChallengesCarouselProps {

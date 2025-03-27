@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
@@ -13,6 +12,7 @@ import { VideoFilled, Lock } from '@holi/icons/src/generated'
 import { Text } from 'holi-bricks/components/text'
 import { Image } from 'holi-bricks/components/image'
 import { mono } from 'holi-bricks/tokens'
+import ChallengeImageLoader from './ChallengeImageLoader'
 
 interface CarouselCardImageProps {
   challenge: ChallengeTeaser
@@ -42,12 +42,7 @@ export const CarouselCardImage = ({ challenge, width, trackingEvent }: CarouselC
 
     return (
       <>
-        <LinearGradient
-          colors={['transparent', 'rgba(0, 0, 0, 0.5)']}
-          style={styles.gradient}
-          start={{ x: 0.5, y: 0.5 }}
-          end={{ x: 0.5, y: 1 }}
-        />
+        <ChallengeImageLoader />
         <View style={styles.avatar}>
           <Text size="sm" colorOverride={mono['100']}>
             {challenge.submissionsCount}

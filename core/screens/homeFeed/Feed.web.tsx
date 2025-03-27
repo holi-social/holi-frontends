@@ -37,6 +37,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
+import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -216,6 +217,7 @@ const HomeFeed = () => {
           <HoliContainer>
             <HoliTransition.FadeDown visible>
               <HomeFeedHeader />
+              <ChallengesCarousel />
             </HoliTransition.FadeDown>
 
             <ErrorBoundary>
