@@ -12,7 +12,7 @@ import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import { Spacing } from 'holi-bricks/tokens'
 
-const API_URL = 'api/challenges/api/v1/events/userAttendingEvents'
+const API_URL = '/api/challenges/api/v1/events/userAttendingEvents'
 
 const CARD_WIDTH = 260
 
