@@ -9,11 +9,10 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 import AttendingChallengeEventsCard from '@holi-apps/challenges/components/AttendingChallengeEventsCard'
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
-import { challengeAppBaseUrl } from '@holi/core/helpers/config'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import { Spacing } from 'holi-bricks/tokens'
 
-const API_URL = challengeAppBaseUrl + '/api/v1/events/userAttendingEvents'
+const API_URL = 'api/challenges/api/v1/events/userAttendingEvents'
 
 const CARD_WIDTH = 260
 
@@ -22,6 +21,7 @@ export const calculateCardWidth = (screenWidth: number) =>
 
 const AttendingChallengeEvents = () => {
   const [events, setEvents] = useState<ChallengeEvent[]>([])
+  const [fetched, setIsFetched] = useState(false)
   const { width: screenWidth } = useWindowDimensions()
   const cardWidth = calculateCardWidth(screenWidth)
   const styles = getStyles(cardWidth)
@@ -30,15 +30,17 @@ const AttendingChallengeEvents = () => {
 
   const fetchAttendingEvents = useCallback(async () => {
     // Events are only available to logged in users
-    if (!isLoggedIn || !headers) {
+    if (fetched || !isLoggedIn || !headers || (!headers.Authorization && Platform.OS !== 'web')) {
       return
     }
 
     try {
+      setIsFetched(true)
       const apiHeaders = new Headers(headers)
       apiHeaders.append('Accept', 'application/json')
       const response = await fetch(API_URL, {
         headers: apiHeaders,
+        credentials: 'include',
       })
 
       if (!response.ok) {
@@ -52,7 +54,7 @@ const AttendingChallengeEvents = () => {
         location: 'AttendingChallengeEvents.fetchAttendingEvents',
       })
     }
-  }, [headers, isLoggedIn])
+  }, [isLoggedIn, headers, fetched])
 
   useEffect(() => {
     fetchAttendingEvents()
