@@ -38,6 +38,12 @@ import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
+const MemoizedChallengesCarousel = memo(({ refreshing }: { refreshing: boolean }) => {
+  return <ChallengesCarousel refreshing={refreshing} />
+})
+
+MemoizedChallengesCarousel.displayName = 'MemoizedChallengesCarousel'
+
 const HomeFeed = () => {
   const { t } = useTranslation()
   const { theme } = useTheme()
@@ -55,6 +61,12 @@ const HomeFeed = () => {
   const { track } = useTracking()
   const navigation = useNavigation()
   const ref = useRef(null)
+  const refreshingRef = useRef(false)
+
+  // Update ref when refreshing changes
+  useEffect(() => {
+    refreshingRef.current = refreshing
+  }, [refreshing])
 
   const keyExtractor = useCallback(
     (
@@ -118,11 +130,11 @@ const HomeFeed = () => {
       <HoliTransition.FadeDown visible>
         <View style={styles.listHeader}>
           <HomeFeedHeader />
-          <ChallengesCarousel />
+          <MemoizedChallengesCarousel refreshing={refreshing} />
         </View>
       </HoliTransition.FadeDown>
     ),
-    []
+    [refreshing]
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<FeedItem> = (item) => {

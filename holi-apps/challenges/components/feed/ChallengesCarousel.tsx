@@ -5,7 +5,6 @@ import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigat
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import ChallengesSlider from '@holi-apps/challenges/components/feed/ChallengesSlider'
 import { logError } from '@holi/core/errors/helpers'
-import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { TrackingEvent } from '@holi/core/tracking'
 import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/tracking/TrackableFlatList.shared'
 import { withProfiler } from '@sentry/react'
@@ -20,44 +19,62 @@ import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 const API_URL = challengeAppBaseUrl + '/api/v1/recommended-challenges'
 const CARD_WIDTH = 130
 
-const ChallengesCarousel = () => {
-  const [isLoading, setIsLoading] = useState(true)
+interface ChallengesCarouselProps {
+  refreshing?: boolean
+}
+
+const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
   const [challenges, setChallenges] = useState<ChallengeTeaser[]>([])
   const { t } = useTranslation()
   const headers = useChallengesHeaders()
 
-  const fetchChallenges = useCallback(async () => {
-    if (!headers) {
-      return
-    }
-
-    try {
-      setIsLoading(true)
-      const apiHeaders = new Headers(headers)
-      apiHeaders.append('Accept', 'application/json')
-      const response = await fetch(API_URL, { headers: apiHeaders })
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch recommended challenges')
+  const fetchChallenges = useCallback(
+    async (showLoading = false) => {
+      if (!headers) {
+        return
       }
 
-      const data = await response.json()
-      setChallenges(data)
-    } catch (error) {
-      logError(error, 'Error fetching challenges', {
-        location: 'RecommendedChallenges.fetchChallenges',
-      })
-      setChallenges([])
-    } finally {
-      setIsLoading(false)
-    }
-  }, [headers])
+      try {
+        if (showLoading) {
+          setIsInitialLoading(true)
+        }
 
+        const apiHeaders = new Headers(headers)
+        apiHeaders.append('Accept', 'application/json')
+        const response = await fetch(API_URL, { headers: apiHeaders })
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch recommended challenges')
+        }
+
+        const data = await response.json()
+        setChallenges(data)
+      } catch (error) {
+        logError(error, 'Error fetching challenges', {
+          location: 'RecommendedChallenges.fetchChallenges',
+        })
+        setChallenges([])
+      } finally {
+        if (showLoading) {
+          setIsInitialLoading(false)
+        }
+      }
+    },
+    [headers]
+  )
+
+  // Initial fetch on mount - show loading state
   useEffect(() => {
-    fetchChallenges()
+    fetchChallenges(true)
   }, [fetchChallenges])
 
-  useOnRefresh(fetchChallenges)
+  // Fetch silently when parent is refreshing
+  useEffect(() => {
+    if (refreshing) {
+      fetchChallenges(false)
+    }
+  }, [refreshing, fetchChallenges])
 
   const listItemTrackingEvent: ListItemTrackingEvent<Challenge> = ({ title, id }) => {
     return TrackingEvent.RecommendationViewed('challenge', { title, id })
@@ -67,8 +84,8 @@ const ChallengesCarousel = () => {
     return id
   }
 
-  // show skeleton while loading
-  if (isLoading) {
+  // Show skeleton only during initial loading
+  if (isInitialLoading) {
     return (
       <Stack direction="column" gap="3xs">
         <HoliSkeleton height={Spacing.xl} width={180} borderRadius={16} />
@@ -80,7 +97,7 @@ const ChallengesCarousel = () => {
     )
   }
 
-  // show nothing if there are no challenges
+  // Show nothing if there are no challenges
   if (!challenges || challenges.length === 0) {
     return null
   }
