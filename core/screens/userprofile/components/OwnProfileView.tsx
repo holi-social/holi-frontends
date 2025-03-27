@@ -13,7 +13,6 @@ import { logError } from '@holi/core/errors/helpers'
 import type { InsightsByUserIdResponse } from '@holi/core/queries'
 import { insightsByUserIdTotalResultsQuery } from '@holi/core/queries'
 import MyPostsTab from '@holi/core/screens/individualPosts/components/MyPostsTab'
-import UserSDGsChipRow from '@holi/core/screens/userprofile/components/UserSDGsChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { Add } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -26,7 +25,7 @@ import OwnConnectionsTab from '@holi/core/screens/userprofile/components/OwnConn
 import { UserTermsRow } from '@holi/core/screens/userprofile/components/UserTermsRow'
 import { UserChipTypes } from '@holi/core/screens/userprofile/types'
 
-export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills' | 'sdgs'
+export type EditModeState = 'profile' | 'engagementLevel' | 'interests' | 'skills'
 
 export enum Tab {
   PROFILE = 'profile',
@@ -105,9 +104,6 @@ const OwnProfileView = ({ user, toggleEditMode, activeTab, onTabChange }: PropsW
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
                   <UserTermsRow termType="topic" onPressEdit={() => toggleEditMode(UserChipTypes.INTERESTS)} />
-                </View>
-                <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
-                  <UserSDGsChipRow user={user} onPressEdit={() => toggleEditMode(UserChipTypes.SDGS)} />
                 </View>
                 <View style={styles.chipRowContainer} key={UserChipTypes.SKILLS}>
                   <UserTermsRow termType="skill" onPressEdit={() => toggleEditMode(UserChipTypes.SKILLS)} />

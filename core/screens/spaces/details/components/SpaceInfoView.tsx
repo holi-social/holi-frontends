@@ -4,8 +4,6 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import InfoModal from '@holi/core/components/InfoModal'
-import { termsBySortNumberComparator } from '@holi/core/domain/shared/types'
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import SpaceAvatar from '@holi/core/screens/spaces/components/SpaceAvatar'
@@ -14,7 +12,6 @@ import SpaceSection from '@holi/core/screens/spaces/components/SpaceSection'
 import SpaceWelcome from '@holi/core/screens/spaces/details/components/SpaceWelcome'
 import SpacesHorizontalSlider from '@holi/core/screens/spaces/discover/components/SpacesHorizontalSlider'
 import SpacesSeeMore from '@holi/core/screens/spaces/discover/components/SpacesSeeMore'
-import { SDG_INFO_MODAL_SOURCES_MAPPING } from '@holi/core/screens/spaces/edit/EditSpace'
 import type { RelatedSpace, Space } from '@holi/core/screens/spaces/types'
 import type { Paged } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -42,11 +39,6 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
   const { navigate } = useRouting()
   const { theme } = useTheme()
   const { colors } = theme
-
-  const { show: showInfoModal, hide: closeInfoModal, visible: infoModalVisible } = useModalState()
-  const partner = SDG_INFO_MODAL_SOURCES_MAPPING['sdg']
-
-  const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
   const links = space.links || []
 
@@ -87,22 +79,6 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
       {space.location && (
         <SpaceSection title={t('spaces.spaceDetails.location')}>
           <HoliText>{space.location}</HoliText>
-        </SpaceSection>
-      )}
-
-      {!!sdgs.length && (
-        <SpaceSection title={t('spaces.spaceDetails.sdgs')} infoIcon onPressInfo={showInfoModal}>
-          <View style={styles.listContainer}>
-            {sdgs.map((sdg, index) => (
-              <ChipLabel key={`sdg_${index}`} color="white">{`${sdg.number}. ${sdg.title}`}</ChipLabel>
-            ))}
-          </View>
-          <InfoModal
-            items={{ sdg: partner }}
-            shown={infoModalVisible}
-            onDismiss={closeInfoModal}
-            i18nPrefix={'spaces.input.sdgs.infoModal'}
-          />
         </SpaceSection>
       )}
 

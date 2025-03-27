@@ -50,7 +50,6 @@ export const user: User & WithTypename = {
   location: '',
   geolocationId: '',
   engagementLevel: 'INTERESTED',
-  sdgs: [],
   skillsV2: ALL_SKILLS.slice(7, 9),
   connectionStatusToMyself: UserConnectionStatus.NOT_CONNECTED,
   __typename: 'User',
@@ -221,7 +220,6 @@ export const space: Space & WithTypename = {
   name: 'space-title',
   membershipRequests: emptyPagedMembershipRequests,
   appointments: emptyPagedAppointments,
-  sdgs: [],
   onboarding: {
     steps: [],
     __typename: 'Onboarding',

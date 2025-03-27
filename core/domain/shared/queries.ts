@@ -4,19 +4,6 @@ import { FullUserFragmentDoc } from '@holi/api/graphql/graphql-codegen'
 import type { AuthenticatedUser, User } from '@holi/core/domain/shared/types'
 import type { Paged } from '@holi/core/types'
 
-export const sdgsQuery = gql`
-  query SDGs {
-    sdgs {
-      data {
-        id
-        title
-        slug
-        number
-      }
-    }
-  }
-`
-
 // This fragment is used in a lot of places throughout the app
 // Do NOT add anymore fields here that are not required for HoliAvatar
 export const UserAvatarFragment = gql`
@@ -64,11 +51,6 @@ export const FullAuthenticatedUserFragment = gql`
     geolocationId
     engagementLevel
     interestsV2
-    sdgs {
-      id
-      title
-      slug
-    }
     skillsV2
     connectionStatusToMyself
     trackingConsentAnalytics

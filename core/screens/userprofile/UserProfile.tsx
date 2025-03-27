@@ -22,7 +22,6 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
-import UserSDGsChipRow from '@holi/core/screens/userprofile/components/UserSDGsChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -143,9 +142,8 @@ const UserProfile = () => {
   }
 
   const hasInterests = !!user.interestsV2?.length
-  const hasSdgs = !!user.sdgs?.length
   const hasSkills = !!user.skillsV2?.length
-  const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
+  const hasInfo = user.engagementLevel || hasInterests || hasSkills
 
   const tabsData = [
     {
@@ -168,11 +166,6 @@ const UserProfile = () => {
           {hasInterests && (
             <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
               <UserTermsRow termType="topic" />
-            </View>
-          )}
-          {hasSdgs && (
-            <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
-              <UserSDGsChipRow user={user} />
             </View>
           )}
           {hasSkills && (

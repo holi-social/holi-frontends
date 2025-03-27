@@ -164,11 +164,6 @@ export const FullSpaceFragment = gql`
       ...FullTask
     }
     topicsV2
-    sdgs {
-      id
-      title
-      number
-    }
     onboarding {
       steps {
         text

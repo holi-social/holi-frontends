@@ -1,4 +1,4 @@
-import type { SDG, User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import type { AppointmentInput } from '@holi/core/screens/appointments/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
@@ -121,7 +121,6 @@ export interface Space {
   avatarBlurhash?: string
   tasks?: Task[]
   topicsV2?: string[]
-  sdgs?: SDG[]
   collaborationTools?: SpaceCollaborationTool[]
   posts?: Paged<Post>
   hasPublicPosts?: boolean
