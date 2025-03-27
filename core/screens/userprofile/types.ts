@@ -18,5 +18,4 @@ export enum UpdateConnectionWithUserActions {
 export enum UserChipTypes {
   INTERESTS = 'interests',
   SKILLS = 'skills',
-  SDGS = 'sdgs',
 }

@@ -58,7 +58,6 @@ const mockUserRequest = (userId?: string) => {
         geolocationId: '',
         engagementLevel: '',
         interestsV2: [],
-        sdgs: [],
         skillsV2: [],
         connectionStatusToMyself: '',
         trackingConsentPersonalization: false,

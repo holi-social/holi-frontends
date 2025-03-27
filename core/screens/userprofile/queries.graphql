@@ -15,11 +15,6 @@ fragment FullUser on User {
   geolocationId
   engagementLevel
   interestsV2
-  sdgs {
-    id
-    title
-    slug
-  }
   skillsV2
   connectionStatusToMyself
 }

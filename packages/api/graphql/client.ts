@@ -92,21 +92,18 @@ export const createCache = () =>
         fields: {
           interests: alwaysReplacePolicy,
           skills: alwaysReplacePolicy,
-          sdgs: alwaysReplacePolicy,
         },
       },
       AuthenticatedUser: {
         fields: {
           interests: alwaysReplacePolicy,
           skills: alwaysReplacePolicy,
-          sdgs: alwaysReplacePolicy,
         },
       },
       Comment: {
         fields: {
           interests: alwaysReplacePolicy,
           skills: alwaysReplacePolicy,
-          sdgs: alwaysReplacePolicy,
         },
       },
       AppGoodNews_GoodNewsArticlesQueryResponse: {
@@ -124,7 +121,6 @@ export const createCache = () =>
       Space: {
         fields: {
           tasks: alwaysReplacePolicy,
-          sdgs: alwaysReplacePolicy,
           links: alwaysReplacePolicy,
           collaborationTools: alwaysReplacePolicy,
           connectionStatusToMyself: alwaysReplacePolicy,

@@ -20,7 +20,6 @@ export const UpdateAuthenticatedUserInputSchema = z.object({
   geolocation: z.instanceof(Object).optional(),
   engagementLevel: z.string().optional(),
   interestsV2: z.array(z.string()).optional(),
-  sdgs: z.array(z.string() /* UUID */).optional(),
   skillsV2: z.array(z.string()).optional(),
   trackingConsentAnalytics: z.boolean().optional().nullable(),
   trackingConsentPersonalization: z.boolean().optional().nullable(),

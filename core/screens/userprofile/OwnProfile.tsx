@@ -14,7 +14,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import CreatePostButton, { ButtonFloatingWrapper } from '@holi/core/screens/individualPosts/components/CreatePostButton'
 import OwnProfileView, { type EditModeState, Tab } from '@holi/core/screens/userprofile/components/OwnProfileView'
-import { UserSDGsChipLoader } from '@holi/core/screens/userprofile/components/UserSDGsChipLoader'
 import UserEngagementLevelForm from '@holi/core/screens/userprofile/components/UserEngagementLevelForm'
 import UserProfileForm from '@holi/core/screens/userprofile/components/UserProfileForm'
 import { Edit2, Settings3, Share } from '@holi/icons/src/generated'
@@ -153,7 +152,6 @@ const OwnProfile = () => {
                   )}
                   {editMode === 'interests' && <UserTermsForm user={user} onSubmit={onSubmit} termType="topic" />}
                   {editMode === 'skills' && <UserTermsForm user={user} onSubmit={onSubmit} termType="skill" />}
-                  {editMode === 'sdgs' && <UserSDGsChipLoader user={user} onSubmit={onSubmit} />}
                 </HoliKeyboardSaveView>
               </HoliModal>
             )}
