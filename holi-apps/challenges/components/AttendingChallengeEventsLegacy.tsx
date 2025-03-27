@@ -11,8 +11,9 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import AttendingChallengeEventsCardLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsCardLegacy'
+import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
 
-const API_URL = '/api/challenges/api/v1/events/userAttendingEvents'
+const API_URL = apiUrl('/api/v1/events/userAttendingEvents')
 
 const CARD_WIDTH = 260
 

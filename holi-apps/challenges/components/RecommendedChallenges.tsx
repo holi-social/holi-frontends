@@ -14,8 +14,9 @@ import fetch from 'cross-fetch'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, useWindowDimensions } from 'react-native'
+import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
 
-const API_URL = '/api/challenges/api/v1/challenge-with-submissions'
+const API_URL = apiUrl('/api/v1/challenge-with-submissions')
 const MAX_ITEMS_TO_DISPLAY = 5
 
 interface RecommendedChallengesResult {

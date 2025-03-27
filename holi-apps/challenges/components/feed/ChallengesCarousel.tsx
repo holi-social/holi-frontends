@@ -14,8 +14,9 @@ import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
 import { Stack } from 'holi-bricks/components/stack'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
 
-const API_URL = '/api/challenges/api/v1/recommended-challenges'
+const API_URL = apiUrl('/api/v1/recommended-challenges')
 const CARD_WIDTH = 130
 
 interface ChallengesCarouselProps {

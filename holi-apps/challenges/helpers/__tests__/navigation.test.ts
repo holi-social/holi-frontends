@@ -1,6 +1,6 @@
 import { createExternalChallengesPath, createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 
-jest.mock('@holi-apps/challenges/config', () => ({
+jest.mock('@holi/core/helpers/config', () => ({
   challengeAppBaseUrl: 'https://challenges.holi.social',
 }))
 

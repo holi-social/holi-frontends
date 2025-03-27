@@ -15,4 +15,4 @@ export const typesensePort = Constants.expoConfig?.extra?.typesense.port
 export const typesenseProtocol = Constants.expoConfig?.extra?.typesense.protocol
 export const typesenseApiKey = Constants.expoConfig?.extra?.typesense.apiKey
 export const typesenseCollection = Constants.expoConfig?.extra?.typesense.collection
-export const challengeAppBaseUrl = Constants.expoConfig?.extra?.challengeAppBaseUrl
+export const challengeAppBaseUrl = Constants.expoConfig?.extra?.challengesApp

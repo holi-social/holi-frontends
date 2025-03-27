@@ -84,7 +84,7 @@ describe('useChallengesHeaders', () => {
       'X-Client-Platform': 'holi',
       'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
       'X-Client-Platform-User-Consent': 'true',
-      'X-Client-Platform-Version': '',
+      'X-Client-Platform-Version': '0.0.0',
     })
   })
 
@@ -96,7 +96,7 @@ describe('useChallengesHeaders', () => {
       'X-Client-Platform-Feature-Flags': 'no-back-app-header, umuted-video-start, versioned-message-from-backend',
       'X-Client-Platform-User-Consent': 'true',
       'X-Client-Platform-Anonymous-Tracking-Id': '1234',
-      'X-Client-Platform-Version': '',
+      'X-Client-Platform-Version': '0.0.0',
     })
   })
 
