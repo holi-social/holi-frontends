@@ -9,11 +9,8 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { Image } from 'holi-bricks/components/image'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
 import { Text } from 'holi-bricks/components/text'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import EventsFilterForm, { type EventFilters } from '@holi-apps/events/components/EventsFilterForm'
 import EventCard from '@holi-apps/events/components/EventCard'
@@ -32,9 +29,9 @@ const PAGE_SIZE_EXTERNAL_DATA = 10
 
 export const EventList = () => {
   const { t } = useTranslation()
-  const { styles } = useStyles(stylesheet)
 
   const [fetchLocalOnlyEvents, setFetchLocalOnlyEvents] = useState(false)
+  const [isFiltering, setIsFiltering] = useState(false)
   const { events, canLoadMore, fetchMoreEvents } = useEventListData(PAGE_SIZE_EXTERNAL_DATA, fetchLocalOnlyEvents)
 
   const partner = EVENTS_SOURCE_MAPPING
@@ -47,6 +44,7 @@ export const EventList = () => {
   const handleFilterChange = useCallback(
     async (filters: EventFilters) => {
       setFetchLocalOnlyEvents(filters.localOnly)
+      setIsFiltering(filters.localOnly)
       closeFilterModal()
     },
     [closeFilterModal]
@@ -59,6 +57,7 @@ export const EventList = () => {
       onPress={showFilterModal}
       testID="btn-to-volunteering-filter-modal"
       trackingEvent={TrackingEvent.Events.filter}
+      showBell={isFiltering}
     />
   )
 
@@ -78,100 +77,75 @@ export const EventList = () => {
         headerTitleAlign: 'center',
       }}
     >
-      <HoliContainer>
-        <Stack padding={{ top: 'md' }}>
-          {events && events.length > 0 && (
-            <Stack gap="xs">
-              <Text headingLevel="2" size="3xl">
-                {t('act.events.title')}
-              </Text>
+      <Stack padding={{ top: 'md' }}>
+        {events && events.length > 0 && (
+          <Stack gap="xs">
+            <Text headingLevel="2" size="3xl">
+              {t('act.events.title')}
+            </Text>
+            <HoliButton transparent onPress={showPartnerModal} label={t('act.events.partnerInfoRowText')}>
               <Stack direction="row" alignItems="center" gap="3xs">
-                <Stack borderRadius="pill">
-                  <View style={styles.imageContainer}>
-                    <Image
-                      source={require('@holi/ui/assets/img/events/gemeinschaftswerk-nachhaltigkeit-logo.png')}
-                      width={33}
-                      height={33}
-                      alt="Logo Gemeinschaftswerk Nachhaltigkeit"
-                    />
-                  </View>
-                </Stack>
-                <HoliButton transparent onPress={showPartnerModal} label={t('act.events.partnerInfoRowText')}>
-                  <View style={{ flex: 3 }}>
-                    <Text size="lg">{t('act.events.partnerInfoRowText')}</Text>
-                  </View>
-                </HoliButton>
-              </Stack>
-
-              <Text size="lg" color="support">
-                {events.length} {t('act.events.opportunities')}
-              </Text>
-
-              {/* info modal */}
-              <InfoModal
-                headline={t('volunteering:listing.partnerModal.headline')}
-                items={partner}
-                shown={partnerModalVisible}
-                onDismiss={closePartnerModal}
-                i18nPrefix={'act.events.listing.partnerModal'}
-              />
-
-              {/* filter modal */}
-              <HoliModal label={'Filter Events'} shown={filterModalVisible} onDismiss={closeFilterModal} autoHeight>
-                <EventsFilterForm
-                  filters={{
-                    localOnly: fetchLocalOnlyEvents,
-                  }}
-                  onSubmit={handleFilterChange}
+                <Image
+                  source={require('@holi/ui/assets/img/events/gemeinschaftswerk-nachhaltigkeit-logo.png')}
+                  width={33}
+                  height={33}
+                  alt="Logo Gemeinschaftswerk Nachhaltigkeit"
                 />
-              </HoliModal>
-            </Stack>
-          )}
-          <HoliBox padding={[24, 0, 24, 0]}>
-            {/* <View testID={isFiltering ? 'volunteering-list-filtered' : 'volunteering-list-unfiltered'}> */}
-            <HoliGridWrapper>
-              {Array.isArray(events) &&
-                events.map((event) => {
-                  return (
-                    <HoliGridCell key={event.id}>
-                      <EventCard event={event} />
-                    </HoliGridCell>
-                  )
-                })}
-            </HoliGridWrapper>
-            {/* </View> */}
-          </HoliBox>
-          {canLoadMore && (
-            <Stack padding={{ bottom: 'md' }}>
-              <ButtonTracked
-                label={t('global.seeMore')}
-                loadingLabel={t('global.loading')}
-                inline
-                onPress={fetchMoreEvents}
-                testID="btn-fetch-more"
-                trackingEvent={TrackingEvent.Events.loadMore}
+                <View style={{ flex: 3 }}>
+                  <Text size="lg">{t('act.events.partnerInfoRowText')}</Text>
+                </View>
+              </Stack>
+            </HoliButton>
+
+            <Text size="lg" color="support">
+              {events.length} {t('act.events.opportunities')}
+            </Text>
+
+            {/* info modal */}
+            <InfoModal
+              headline={t('volunteering:listing.partnerModal.headline')}
+              items={partner}
+              shown={partnerModalVisible}
+              onDismiss={closePartnerModal}
+              i18nPrefix={'act.events.listing.partnerModal'}
+            />
+
+            {/* filter modal */}
+            <HoliModal label={'Filter Events'} shown={filterModalVisible} onDismiss={closeFilterModal} autoHeight>
+              <EventsFilterForm
+                filters={{
+                  localOnly: fetchLocalOnlyEvents,
+                }}
+                onSubmit={handleFilterChange}
               />
-            </Stack>
-          )}
-        </Stack>
-      </HoliContainer>
+            </HoliModal>
+          </Stack>
+        )}
+        <HoliBox padding={[24, 0, 24, 0]}>
+          <HoliGridWrapper gap={8}>
+            {Array.isArray(events) &&
+              events.map((event) => {
+                return (
+                  <HoliGridCell key={event.id}>
+                    <EventCard event={event} />
+                  </HoliGridCell>
+                )
+              })}
+          </HoliGridWrapper>
+        </HoliBox>
+        {canLoadMore && (
+          <Stack padding={{ bottom: 'md' }}>
+            <ButtonTracked
+              label={t('global.seeMore')}
+              loadingLabel={t('global.loading')}
+              inline
+              onPress={fetchMoreEvents}
+              testID="btn-fetch-more"
+              trackingEvent={TrackingEvent.Events.loadMore}
+            />
+          </Stack>
+        )}
+      </Stack>
     </Screen>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  defaultLayout: {
-    backgroundColor: theme.colors.bg.page,
-    paddingBottom: 0,
-  },
-  imageContainer: {
-    borderColor: theme.colors.border.default,
-    overflow: 'hidden',
-    display: 'flex',
-    justifyContent: 'center',
-    justifySelf: 'center',
-    alignContent: 'center',
-    alignSelf: 'center',
-    textAlign: 'center',
-  },
-}))
