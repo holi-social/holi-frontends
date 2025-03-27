@@ -1,6 +1,6 @@
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 
-export interface AuthorizationHeaders {
+export type AuthorizationHeaders = Record<string, string> & {
   Authorization?: string
   'X-Session-Token'?: string
 }

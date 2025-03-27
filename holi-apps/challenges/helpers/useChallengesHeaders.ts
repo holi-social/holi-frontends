@@ -8,14 +8,13 @@ import { useConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { Consent } from '@holi/core/tracking/types'
 
 type ChallengesHeaders =
-  | (Record<string, string> &
-      AuthorizationHeaders & {
-        'X-Client-Platform-Anonymous-Tracking-Id'?: string
-        'X-Client-Platform-User-Consent': string
-        'X-Client-Platform': string
-        'X-Client-Platform-Version': string
-        'X-Client-Platform-Feature-Flags': string
-      })
+  | (AuthorizationHeaders & {
+      'X-Client-Platform-Anonymous-Tracking-Id'?: string
+      'X-Client-Platform-User-Consent': string
+      'X-Client-Platform': string
+      'X-Client-Platform-Version': string
+      'X-Client-Platform-Feature-Flags': string
+    })
   | undefined
 
 export const useChallengesHeaders = (): ChallengesHeaders => {
