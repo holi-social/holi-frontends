@@ -13,4 +13,5 @@ export enum FeatureFlagKey {
   NEW_HOME_FEED = 'NEW_HOME_FEED', // multivariate ('control', 'test') -> FeatureFlagAB
   TASK_CONTACT_CTA = 'TASK_CONTACT_CTA', // boolean
   EVENTS = 'EVENTS', // boolean
+  CHALLENGES_CAROUSEL = 'CHALLENGES_CAROUSEL', // boolean
 }

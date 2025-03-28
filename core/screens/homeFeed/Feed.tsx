@@ -36,6 +36,7 @@ import { useScrollToTop } from '@react-navigation/native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
 import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
 const HomeFeed = () => {
@@ -49,6 +50,8 @@ const HomeFeed = () => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
+  const displayChallengesCarousel = useFeatureFlag(FeatureFlagKey.CHALLENGES_CAROUSEL)
+
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing, insightsCreators } =
     useFeedQuery()
 
@@ -118,11 +121,11 @@ const HomeFeed = () => {
       <HoliTransition.FadeDown visible>
         <View style={styles.listHeader}>
           <HomeFeedHeader />
-          <ChallengesCarousel />
+          {displayChallengesCarousel[0] && <ChallengesCarousel />}
         </View>
       </HoliTransition.FadeDown>
     ),
-    []
+    [displayChallengesCarousel]
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<FeedItem> = (item) => {
