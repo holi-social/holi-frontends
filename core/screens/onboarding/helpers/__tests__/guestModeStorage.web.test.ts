@@ -51,7 +51,9 @@ describe('guestModeStorage', () => {
   it('should store true when guest mode is enabled', async () => {
     await storeGuestMode(true)
 
-    expect(mockSetCookie).toHaveBeenCalledWith('guest_mode', 'true')
+    expect(mockSetCookie).toHaveBeenCalledWith('guest_mode', 'true', {
+      maxAge: 31536000, // 1 year in seconds
+    })
   })
 
   it('should remove storage when guest mode is disabled', async () => {
