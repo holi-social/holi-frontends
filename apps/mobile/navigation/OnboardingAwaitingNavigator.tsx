@@ -22,5 +22,7 @@ export const OnboardingAwaitingNavigator = ({ onReady }: OnboardingAwaitingNavig
     return null
   }
 
-  return <RootNavigator showOnboarding={showOnboardingOnStartup} />
+  // Overrides the "default route" of the app if onboarding should be shown.
+  // This is based on the suggested way to handle authentication by react navigation: https://reactnavigation.org/docs/auth-flow/
+  return <RootNavigator showOnboardingOnStartup={showOnboardingOnStartup} />
 }

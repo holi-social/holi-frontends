@@ -10,16 +10,22 @@ export interface CustomProps {
   seoTitle?: string
   urls?: SeoUrls
   blockIndexing?: boolean
+  /** Name of path patameters that are expected to be UUIDs. Will try to correct invalid UUIDs (and redirect accordingly) if possible. */
   uuidParams?: (string | string[] | undefined)[]
-  redirectIfLoggedIn?: string
-  redirectIfLoggedOut?: string
-  redirectIfNewUser?: string
+  /** Prevents logged in users from seeing the page but redirecting them instead to the specified route. Useful e.g. for login or onboarding screens. */
+  redirectRouteForLoggedInUsers?: string
+  /** Prevents logged out users from seeing the page but redirecting them instead to the specified route. Might be used for screens that should not be visible to logged out users. */
+  redirectRouteForLoggedOutUsers?: string
+  /** Prevents users, that never visited holi before, from seeing the page but redirecting theminstead to the specified route (this excludes guest users). Useful e.g. to enforce onboarding. */
+  redirectRouteForNewUsers?: string
 }
 
 export interface UserPageProps {
   id?: string
   isLoggedOut: boolean
+  /** User chose "continue as guest" (or is a bot) */
   guestMode?: boolean
+  /** User is logged in but the account is not complete yet */
   accountCompleted?: boolean
 }
 

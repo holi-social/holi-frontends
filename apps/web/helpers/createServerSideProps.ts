@@ -99,7 +99,7 @@ export const createServerSideProps = async (
   const userId = userQueryResult.data?.authenticatedUserV2?.id
   const user = createUserPageProps(userQueryResult.data?.authenticatedUserV2, req)
 
-  const redirectDestination = handleLoginStateDependentRedirect(user, customProps)
+  const redirectDestination = handleOnboardingStateDependentRedirect(user, customProps)
 
   if (redirectDestination && req.url !== redirectDestination) {
     return {
@@ -118,18 +118,18 @@ export const createServerSideProps = async (
   })
 }
 
-const handleLoginStateDependentRedirect = (user: UserPageProps, customProps?: Partial<CustomProps>) => {
+const handleOnboardingStateDependentRedirect = (user: UserPageProps, customProps?: Partial<CustomProps>) => {
   if (!user.isLoggedOut && !user.accountCompleted) {
     return '/onboarding'
   }
-  if (customProps?.redirectIfLoggedIn && !user.isLoggedOut) {
-    return customProps.redirectIfLoggedIn
+  if (customProps?.redirectRouteForLoggedInUsers && !user.isLoggedOut) {
+    return customProps.redirectRouteForLoggedInUsers
   }
-  if (customProps?.redirectIfNewUser && user.isLoggedOut && !user.guestMode) {
-    return customProps.redirectIfNewUser
+  if (customProps?.redirectRouteForNewUsers && user.isLoggedOut && !user.guestMode) {
+    return customProps.redirectRouteForNewUsers
   }
-  if (customProps?.redirectIfLoggedOut && user.isLoggedOut) {
-    return customProps.redirectIfLoggedOut
+  if (customProps?.redirectRouteForLoggedOutUsers && user.isLoggedOut) {
+    return customProps.redirectRouteForLoggedOutUsers
   }
   return undefined
 }
@@ -138,4 +138,4 @@ export const createServerSidePropsWithLoggedInUserGuard: typeof createServerSide
   context,
   queries,
   customProps
-) => createServerSideProps(context, queries, { ...customProps, redirectIfLoggedIn: '/' })
+) => createServerSideProps(context, queries, { ...customProps, redirectRouteForLoggedInUsers: '/' })

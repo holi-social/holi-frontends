@@ -9,7 +9,7 @@ const HomeFeedPage: NextPage = () => <HomeFeed />
 export const getServerSideProps = async (context: GetServerSidePropsContext) =>
   createServerSideProps(context, [], {
     seoTitle: 'seo.h1.home',
-    redirectIfNewUser: '/onboarding',
+    redirectRouteForNewUsers: '/onboarding',
   })
 
 export default HomeFeedPage

@@ -348,7 +348,7 @@ describe('createServerSideProps', () => {
     })
   })
 
-  describe('login state dependent redirects', () => {
+  describe('onboarding state-dependent redirects', () => {
     type RedirectTestData = { userType: UserType; expectedRedirect: boolean }
     describe('incomplete account', () => {
       const testData: RedirectTestData[] = [
@@ -424,7 +424,7 @@ describe('createServerSideProps', () => {
         async ({ userType, expectedRedirect }) => {
           const context = setupAndCreateContextForUser(userType)
           const props = await createServerSideProps(context, [], {
-            redirectIfLoggedIn: '/some-page',
+            redirectRouteForLoggedInUsers: '/some-page',
           })
 
           if (expectedRedirect) {
@@ -443,7 +443,7 @@ describe('createServerSideProps', () => {
       it('should not redirect to specified page if already there', async () => {
         const contextOnboarding = setupAndCreateContextForUser('loggedIn', { url: '/some-page' })
         const props = await createServerSideProps(contextOnboarding, [], {
-          redirectIfLoggedIn: '/some-page',
+          redirectRouteForLoggedInUsers: '/some-page',
         })
 
         expect('redirect' in props).toBeFalsy()
@@ -474,7 +474,7 @@ describe('createServerSideProps', () => {
         async ({ userType, expectedRedirect }) => {
           const context = setupAndCreateContextForUser(userType)
           const props = await createServerSideProps(context, [], {
-            redirectIfLoggedOut: '/some-page',
+            redirectRouteForLoggedOutUsers: '/some-page',
           })
 
           if (expectedRedirect) {
@@ -493,7 +493,7 @@ describe('createServerSideProps', () => {
       it('should not redirect to specified page if already there', async () => {
         const contextOnboarding = setupAndCreateContextForUser('newUser', { url: '/some-page' })
         const props = await createServerSideProps(contextOnboarding, [], {
-          redirectIfLoggedOut: '/some-page',
+          redirectRouteForLoggedOutUsers: '/some-page',
         })
 
         expect('redirect' in props).toBeFalsy()
@@ -524,7 +524,7 @@ describe('createServerSideProps', () => {
         async ({ userType, expectedRedirect }) => {
           const context = setupAndCreateContextForUser(userType)
           const props = await createServerSideProps(context, [], {
-            redirectIfNewUser: '/some-page',
+            redirectRouteForNewUsers: '/some-page',
           })
 
           if (expectedRedirect) {
@@ -543,7 +543,7 @@ describe('createServerSideProps', () => {
       it('should not redirect to specified page if already there', async () => {
         const contextOnboarding = setupAndCreateContextForUser('newUser', { url: '/some-page' })
         const props = await createServerSideProps(contextOnboarding, [], {
-          redirectIfNewUser: '/some-page',
+          redirectRouteForNewUsers: '/some-page',
         })
 
         expect('redirect' in props).toBeFalsy()
@@ -570,7 +570,7 @@ describe('createServerSideProps', () => {
       expect(props).toEqual(
         expectedProps.with({
           customProps: {
-            redirectIfLoggedIn: '/',
+            redirectRouteForLoggedInUsers: '/',
           },
         })
       )

@@ -8,7 +8,7 @@ const OnboardingPage: NextPage = () => <Onboarding />
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) =>
   createServerSideProps(context, [], {
-    redirectIfLoggedIn: '/',
+    redirectRouteForLoggedInUsers: '/',
   })
 
 export default OnboardingPage
