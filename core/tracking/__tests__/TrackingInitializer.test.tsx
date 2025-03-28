@@ -46,6 +46,34 @@ const posthogCrossPlatformMock = {
 } as PosthogCrossPlatform
 const usePosthogCrossPlatformMock = usePosthogCrossPlatform as jest.Mock
 
+jest.mock('expo-tracking-transparency', () => ({
+  PermissionStatus: {
+    GRANTED: 'granted',
+  },
+  getTrackingPermissionsAsync: async () => ({
+    granted: true,
+    expires: 'never',
+    canAskAgain: true,
+    status: 'granted',
+  }),
+}))
+
+jest.mock('react-native-fbsdk-next', () => ({
+  Settings: {
+    initializeSDK: jest.fn(),
+    setAdvertiserIDCollectionEnabled: jest.fn(),
+    setAutoLogAppEventsEnabled: jest.fn(),
+    setAdvertiserTrackingEnabled: jest.fn(),
+  },
+  AppEventsLogger: {
+    setUserData: jest.fn(),
+    logEvent: jest.fn(),
+    AppEvents: {
+      CompletedRegistration: 'SomeThing',
+    },
+  },
+}))
+
 jest.mock('next/router', () => ({
   useRouter: () => ({
     events: {
@@ -61,6 +89,7 @@ const mockUser = (consentState: ConsentState): AuthenticatedUser => {
     id: 'some-user-identity-id',
     trackingConsentAnalytics: Consent.toBooleanOrNull(consentState[TrackingPurpose.Analytics]),
     trackingConsentPersonalization: Consent.toBooleanOrNull(consentState[TrackingPurpose.Personalization]),
+    trackingConsentAdPartners: Consent.toBooleanOrNull(consentState[TrackingPurpose.AdPartners]),
     isEmployee: faker.datatype.boolean(),
   } as AuthenticatedUser
 }
@@ -77,22 +106,14 @@ jest.mock('@react-native-async-storage/async-storage', () => {
 })
 
 const mockLocalStorage = (consentState?: ConsentState): void => {
-  const consentToString = (consent: Consent): string => {
-    switch (consent) {
-      case Consent.Given:
-        return 'given'
-      case Consent.Denied:
-        return 'denied'
-      case Consent.Unknown:
-        return 'unknown'
-    }
-  }
   const key = 'HOLI_TRACKING_CONSENT'
-  const value = consentState
-    ? `{"ANALYTICS":"${consentToString(consentState[TrackingPurpose.Analytics])}","PERSONALIZATION":"${consentToString(
-        consentState[TrackingPurpose.Personalization]
-      )}"}`
-    : null
+  const value =
+    consentState &&
+    JSON.stringify({
+      [TrackingPurpose.Analytics]: consentState[TrackingPurpose.Analytics],
+      [TrackingPurpose.Personalization]: consentState[TrackingPurpose.Personalization],
+      [TrackingPurpose.AdPartners]: consentState[TrackingPurpose.AdPartners],
+    })
   mockStorageGetItem.mockImplementation((getKey) => {
     if (getKey === key) {
       return Promise.resolve(value)
@@ -132,6 +153,7 @@ const mockUpdateAuthenticatedUserResponse = (user: AuthenticatedUser, consentSta
         input: {
           trackingConsentAnalytics: Consent.toBooleanOrNull(consentState[TrackingPurpose.Analytics]),
           trackingConsentPersonalization: Consent.toBooleanOrNull(consentState[TrackingPurpose.Personalization]),
+          trackingConsentAdPartners: Consent.toBooleanOrNull(consentState[TrackingPurpose.AdPartners]),
         },
       },
     },
@@ -141,6 +163,7 @@ const mockUpdateAuthenticatedUserResponse = (user: AuthenticatedUser, consentSta
           ...user,
           trackingConsentAnalytics: Consent.toBooleanOrNull(consentState[TrackingPurpose.Analytics]),
           trackingConsentPersonalization: Consent.toBooleanOrNull(consentState[TrackingPurpose.Personalization]),
+          trackingConsentAdPartners: Consent.toBooleanOrNull(consentState[TrackingPurpose.AdPartners]),
           __typename: 'AuthenticatedUser',
         },
       },
@@ -194,10 +217,12 @@ describe('TrackingInitializer', () => {
         mockLocalStorage({
           [TrackingPurpose.Analytics]: Consent.Denied,
           [TrackingPurpose.Personalization]: Consent.Denied,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         })
         const user = mockUser({
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Given,
+          [TrackingPurpose.AdPartners]: Consent.Given,
         })
 
         const onUserLoggedOutCompleted = jest.fn()
@@ -247,6 +272,7 @@ describe('TrackingInitializer', () => {
         const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Denied,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         mockEnv()
         mockLocalStorage(expectedConsentState)
@@ -273,6 +299,7 @@ describe('TrackingInitializer', () => {
         const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Denied,
           [TrackingPurpose.Personalization]: Consent.Given,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         mockEnv()
         mockLocalStorage(expectedConsentState)
@@ -299,6 +326,7 @@ describe('TrackingInitializer', () => {
         const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Given,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         mockEnv()
         mockLocalStorage(expectedConsentState)
@@ -351,6 +379,7 @@ describe('TrackingInitializer', () => {
         const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Denied,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         mockEnv()
         const user = mockUser(expectedConsentState)
@@ -384,6 +413,7 @@ describe('TrackingInitializer', () => {
         const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Denied,
           [TrackingPurpose.Personalization]: Consent.Given,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         mockEnv()
         const user = mockUser(expectedConsentState)
@@ -411,6 +441,7 @@ describe('TrackingInitializer', () => {
         const expectedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Given,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         mockEnv()
         const user = mockUser(expectedConsentState)
@@ -443,10 +474,12 @@ describe('TrackingInitializer', () => {
           const consentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Given,
+            [TrackingPurpose.AdPartners]: Consent.Denied,
           }
           const updatedConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Denied,
+            [TrackingPurpose.AdPartners]: Consent.Denied,
           }
           mockEnv()
           const user = mockUser(consentState)
@@ -494,10 +527,12 @@ describe('TrackingInitializer', () => {
           const consentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Given,
+            [TrackingPurpose.AdPartners]: Consent.Denied,
           }
           const updatedConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Given,
+            [TrackingPurpose.AdPartners]: Consent.Denied,
           }
           mockEnv()
           const user = mockUser(consentState)
@@ -550,10 +585,12 @@ describe('TrackingInitializer', () => {
         const initialConsentState: ConsentState = {
           [TrackingPurpose.Analytics]: Consent.Denied,
           [TrackingPurpose.Personalization]: Consent.Denied,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         const updatedConsentState: ConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Given,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         const user = mockUser(initialConsentState)
 
@@ -604,6 +641,7 @@ describe('TrackingInitializer', () => {
         const loggedInConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Unknown,
+          [TrackingPurpose.AdPartners]: Consent.Denied,
         }
         mockEnv()
         mockLocalStorage()
@@ -652,6 +690,7 @@ describe('TrackingInitializer', () => {
           const localStorageConsentState: ConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Denied,
+            [TrackingPurpose.AdPartners]: Consent.Denied,
           }
           mockLocalStorage(localStorageConsentState)
           const user = mockUser(ConsentState.unknown)
@@ -709,10 +748,12 @@ describe('TrackingInitializer', () => {
           const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Given,
+            [TrackingPurpose.AdPartners]: Consent.Given,
           }
           const userProfileConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Denied,
+            [TrackingPurpose.AdPartners]: Consent.Denied,
           }
           mockEnv()
           mockLocalStorage(localStorageConsentState)
@@ -760,10 +801,12 @@ describe('TrackingInitializer', () => {
           const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Unknown,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           const userProfileConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Unknown,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           mockEnv()
           mockLocalStorage(localStorageConsentState)
@@ -811,10 +854,12 @@ describe('TrackingInitializer', () => {
           const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Unknown,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           const userProfileConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Denied,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           mockEnv()
           mockLocalStorage(localStorageConsentState)
@@ -866,6 +911,7 @@ describe('TrackingInitializer', () => {
         const localStorageConsentState = {
           [TrackingPurpose.Analytics]: Consent.Denied,
           [TrackingPurpose.Personalization]: Consent.Unknown,
+          [TrackingPurpose.AdPartners]: Consent.Unknown,
         }
         mockEnv()
         mockLocalStorage(localStorageConsentState)
@@ -894,6 +940,7 @@ describe('TrackingInitializer', () => {
         const updatedConsentState = {
           [TrackingPurpose.Analytics]: Consent.Given,
           [TrackingPurpose.Personalization]: Consent.Denied,
+          [TrackingPurpose.AdPartners]: Consent.Unknown,
         }
         await act(() => {
           updateConsentState(updatedConsentState)
@@ -904,7 +951,7 @@ describe('TrackingInitializer', () => {
         expect(posthogCrossPlatformMock.identify).not.toHaveBeenCalled()
         expect(mockStorageSetItem).toHaveBeenCalledWith(
           'HOLI_TRACKING_CONSENT',
-          '{"ANALYTICS":"given","PERSONALIZATION":"denied"}'
+          '{"ANALYTICS":"given","PERSONALIZATION":"denied","AD_PARTNERS":"unknown"}'
         )
         const [consentStateAfter] = trackingInitializerTesting.consentStateVar()
         expect(consentStateAfter).toEqual(updatedConsentState)
@@ -917,6 +964,7 @@ describe('TrackingInitializer', () => {
           const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Unknown,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           mockLocalStorage(localStorageConsentState)
           const user = mockUser(ConsentState.unknown)
@@ -969,10 +1017,12 @@ describe('TrackingInitializer', () => {
           const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Unknown,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           const userProfileConsentState = {
             [TrackingPurpose.Analytics]: Consent.Given,
             [TrackingPurpose.Personalization]: Consent.Unknown,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           mockEnv()
           mockLocalStorage(localStorageConsentState)
@@ -1020,10 +1070,12 @@ describe('TrackingInitializer', () => {
           const localStorageConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Unknown,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           const userProfileConsentState = {
             [TrackingPurpose.Analytics]: Consent.Denied,
             [TrackingPurpose.Personalization]: Consent.Denied,
+            [TrackingPurpose.AdPartners]: Consent.Unknown,
           }
           mockEnv()
           mockLocalStorage(localStorageConsentState)

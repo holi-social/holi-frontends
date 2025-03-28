@@ -19,15 +19,23 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import { consentStore } from '@holi/core/tracking/ConsentStore'
 import { usePosthogCrossPlatform } from '@holi/core/tracking/PosthogCrossPlatform'
-import { Consent, ConsentState, type PosthogCrossPlatform, TrackingPurpose } from '@holi/core/tracking/types'
+import {
+  Consent,
+  ConsentState,
+  type FacebookSdkCrossPlatform,
+  type PosthogCrossPlatform,
+  TrackingPurpose,
+} from '@holi/core/tracking/types'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { useFacebookSdkCrossPlatform } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 
 const logger = getLogger('Tracking')
 
 class Tracking {
   constructor(
     private posthog: PosthogCrossPlatform,
+    private facebook: FacebookSdkCrossPlatform,
     private apollo: ApolloClient<object>
   ) {}
 
@@ -53,6 +61,15 @@ class Tracking {
         await this.posthog.optOut()
         break
     }
+
+    if (consentState[TrackingPurpose.AdPartners] !== Consent.Given) {
+      logger.debug('TrackingInitializer.initWithLoggedInUser', 'ad partner consent not given - opting out')
+      await this.facebook.optOut()
+    } else {
+      // the Facebook SDK wrapper's `initialize` method handles consent and permissions internally
+      logger.debug('TrackingInitializer.initWithLoggedInUser', 'initializing facebook sdk')
+      await this.facebook.initialize(user)
+    }
   }
 
   public async initWithLoggedOutUser(consentState: ConsentState): Promise<void> {
@@ -73,6 +90,14 @@ class Tracking {
         await this.posthog.optOut()
         break
     }
+
+    if (consentState[TrackingPurpose.AdPartners] !== Consent.Given) {
+      logger.debug('TrackingInitializer.initWithLoggedOutUser', 'ad partner consent not given - opting out')
+      await this.facebook.optOut()
+    } else {
+      // the Facebook SDK wrapper's `initialize` method handles consent and permissions internally
+      await this.facebook.initialize()
+    }
   }
 
   public async clearConsentAfterUserLoggedOut(): Promise<void> {
@@ -82,6 +107,8 @@ class Tracking {
     } finally {
       this.posthog.reset()
       logger.debug('TrackingInitializer.clearConsentAfterUserLoggedOut', 'posthog reset')
+      await this.facebook.optOut()
+      logger.debug('TrackingInitializer.clearConsentAfterUserLoggedOut', 'facebook opted out')
     }
   }
 
@@ -118,6 +145,7 @@ class Tracking {
         input: {
           trackingConsentAnalytics: Consent.toBooleanOrNull(consentState[TrackingPurpose.Analytics]),
           trackingConsentPersonalization: Consent.toBooleanOrNull(consentState[TrackingPurpose.Personalization]),
+          trackingConsentAdPartners: Consent.toBooleanOrNull(consentState[TrackingPurpose.AdPartners]),
         },
       },
     })
@@ -243,7 +271,8 @@ const TrackingInitializerInner = ({
 }: TrackingInitializerInnerProps) => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
   const apollo: ApolloClient<object> = useApolloClient()
-  const tracking = useMemo(() => new Tracking(posthog, apollo), [posthog, apollo])
+  const facebook: FacebookSdkCrossPlatform = useFacebookSdkCrossPlatform()
+  const tracking = useMemo(() => new Tracking(posthog, facebook, apollo), [posthog, facebook, apollo])
   const state = useReactiveVar(initializerStateVar)
   const { track } = useTracking()
 

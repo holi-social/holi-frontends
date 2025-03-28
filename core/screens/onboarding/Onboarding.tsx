@@ -37,6 +37,7 @@ import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import { clearOnboardingUserDataAsyncStore } from './helpers/onboardingUserDataAsyncStore'
 import { useCallback, useEffect } from 'react'
 import { showOnboardingFinishModal } from '@holi/core/screens/onboarding/hooks/useOnboardingFinishModalState'
+import { useFacebookSdkCrossPlatform } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 
 const Onboarding = () => {
   const { t } = useTranslation()
@@ -44,6 +45,7 @@ const Onboarding = () => {
   const { top: safeAreaTop, bottom: safeAreaBottom } = useSafeAreaInsets()
   const onboardingState = useOnboardingState()
   const { track } = useTracking()
+  const facebook = useFacebookSdkCrossPlatform()
   const { isLoggedIn } = useLoggedInUser()
 
   const [currentStep, setCurrentStep] = useOnboardingCurrentStepKey()
@@ -181,6 +183,7 @@ const Onboarding = () => {
             }}
             onRegister={() => {
               track(SignupStepCompleted({ step: 'emailAndPassword', answer: 'signUp' }))
+              facebook.trackSignUp()
               setCurrentStep('EMAIL_VERIFICATION')
             }}
             testID="onboarding-account-creation"

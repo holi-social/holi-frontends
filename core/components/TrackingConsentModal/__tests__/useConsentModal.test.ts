@@ -24,6 +24,7 @@ const mockUseModalState = jest.mocked(useModalState)
 const randomConsent = () => (Math.random() > 0.5 ? Consent.Given : Consent.Denied)
 const randomKnownConsentState = () => ({
   [TrackingPurpose.Analytics]: randomConsent(),
+  [TrackingPurpose.AdPartners]: randomConsent(),
   [TrackingPurpose.Personalization]: randomConsent(),
 })
 
