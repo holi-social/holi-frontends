@@ -26,8 +26,10 @@ export const TrackingConsentModalDesktop = () => {
   const {
     allowPersonalization,
     allowProductAnalytics,
+    allowAdPartnerAnalytics,
     onTogglePersonalization,
     onToggleProductAnalytics,
+    onToggleAdPartnerAnalytics,
     acceptAll,
     denyAll,
     acceptMyChoices,
@@ -46,6 +48,8 @@ export const TrackingConsentModalDesktop = () => {
             onTogglePersonalization={onTogglePersonalization}
             allowProductAnalytics={allowProductAnalytics}
             onToggleProductAnalytics={onToggleProductAnalytics}
+            allowAdPartnerAnalytics={allowAdPartnerAnalytics}
+            onToggleAdPartnerAnalytics={onToggleAdPartnerAnalytics}
           />
         </HoliBox>
       </ScrollView>

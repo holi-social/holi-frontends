@@ -42,8 +42,10 @@ export const TrackingConsentModalMobile = () => {
   const {
     allowPersonalization,
     allowProductAnalytics,
+    allowAdPartnerAnalytics,
     onTogglePersonalization,
     onToggleProductAnalytics,
+    onToggleAdPartnerAnalytics,
     acceptAll,
     denyAll,
     acceptMyChoices,
@@ -99,6 +101,8 @@ export const TrackingConsentModalMobile = () => {
               onTogglePersonalization={onTogglePersonalization}
               allowProductAnalytics={allowProductAnalytics}
               onToggleProductAnalytics={onToggleProductAnalytics}
+              allowAdPartnerAnalytics={allowAdPartnerAnalytics}
+              onToggleAdPartnerAnalytics={onToggleAdPartnerAnalytics}
             />
 
             <HoliGap size="ml" />

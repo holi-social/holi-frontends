@@ -5,6 +5,7 @@ import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 export const getRandomAuthenticatedUser = (): AuthenticatedUser => ({
   ...getRandomUser(),
+  email: faker.internet.email(),
   isEmployee: faker.datatype.boolean(),
 })
 

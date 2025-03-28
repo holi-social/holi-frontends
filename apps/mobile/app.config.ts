@@ -143,6 +143,7 @@ const config: ExpoConfig = {
     softwareKeyboardLayoutMode: 'pan',
   },
   plugins: [
+    'expo-tracking-transparency',
     'expo-localization',
     'expo-secure-store',
     [
@@ -170,6 +171,18 @@ const config: ExpoConfig = {
       'expo-calendar',
       {
         calendarPermission: 'Allow access to your calendar',
+      },
+    ],
+    [
+      'react-native-fbsdk-next',
+      {
+        appID: requiredEnvVar('FACEBOOK_APP_ID'),
+        displayName: process.env.FACEBOOK_APP_DISPLAY_NAME ?? 'holi',
+        clientToken: requiredEnvVar('FACEBOOK_CLIENT_TOKEN'),
+        scheme: `fb${requiredEnvVar('FACEBOOK_APP_ID')}`,
+        autoLogAppEventsEnabled: false,
+        isAutoInitEnabled: false,
+        advertiserIDCollectionEnabled: false,
       },
     ],
     // HOLI-9792: Create a new development build to bundle fonts

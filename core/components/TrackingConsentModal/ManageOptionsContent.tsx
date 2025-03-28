@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native'
 
 import OptionSection from '@holi/core/components/OptionSection'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
 
 interface Props {
@@ -12,6 +12,8 @@ interface Props {
   onTogglePersonalization: () => void
   allowProductAnalytics: boolean
   onToggleProductAnalytics: () => void
+  allowAdPartnerAnalytics: boolean
+  onToggleAdPartnerAnalytics: () => void
 }
 
 const ManageOptionsContent = ({
@@ -19,6 +21,8 @@ const ManageOptionsContent = ({
   onTogglePersonalization,
   allowProductAnalytics,
   onToggleProductAnalytics,
+  allowAdPartnerAnalytics,
+  onToggleAdPartnerAnalytics,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -44,6 +48,17 @@ const ManageOptionsContent = ({
           description={t('tracking.consentModal.manageOptions.productAnalyticsBox.description')}
           value={allowProductAnalytics}
           onToggle={onToggleProductAnalytics}
+        />
+      </View>
+
+      <HoliGap size="sm" />
+
+      <View style={styles.optionBox}>
+        <OptionSection
+          title={t('tracking.consentModal.manageOptions.adPartnerAnalyticsBox.title')}
+          description={t('tracking.consentModal.manageOptions.adPartnerAnalyticsBox.description')}
+          value={allowAdPartnerAnalytics}
+          onToggle={onToggleAdPartnerAnalytics}
         />
       </View>
 

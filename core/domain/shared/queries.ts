@@ -55,7 +55,9 @@ export const FullAuthenticatedUserFragment = gql`
     connectionStatusToMyself
     trackingConsentAnalytics
     trackingConsentPersonalization
+    trackingConsentAdPartners
     isEmployee
+    email
   }
 `
 export const authenticatedUserV2Query = gql`
