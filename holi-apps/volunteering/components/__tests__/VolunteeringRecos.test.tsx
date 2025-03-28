@@ -33,6 +33,7 @@ const testUser1 = (
   lastName: faker.person.lastName(),
   fullName: faker.person.firstName(),
   avatarDefaultColor: faker.color.rgb(),
+  email: faker.internet.email(),
   avatarLabel: faker.person.jobTitle(),
   interestsV2: interests,
   skillsV2: skills,

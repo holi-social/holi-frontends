@@ -335,6 +335,7 @@ export type AuthenticatedUser = {
   avatarLabel: Scalars['String']['output']
   connectionStatusToMyself?: Maybe<UserConnectionStatus>
   connectionStatusToSpace: Array<Maybe<SpaceUserConnectionType>>
+  email: Scalars['String']['output']
   engagementLevel?: Maybe<Scalars['String']['output']>
   firstName?: Maybe<Scalars['String']['output']>
   /** Can be an empty string */
@@ -359,6 +360,7 @@ export type AuthenticatedUser = {
   /** @deprecated Deprecated since 1.52. Use skills_v2 instead. */
   skills: Array<Maybe<Skill>>
   skillsV2: Array<Maybe<Scalars['String']['output']>>
+  trackingConsentAdPartners?: Maybe<Scalars['Boolean']['output']>
   trackingConsentAnalytics?: Maybe<Scalars['Boolean']['output']>
   trackingConsentPersonalization?: Maybe<Scalars['Boolean']['output']>
 }
@@ -2233,6 +2235,7 @@ export type UpdateAuthenticatedUserInput = {
   sdgs?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
   skills?: InputMaybe<Array<InputMaybe<Scalars['UUID']['input']>>>
   skillsV2?: InputMaybe<Array<Scalars['String']['input']>>
+  trackingConsentAdPartners?: InputMaybe<Scalars['Boolean']['input']>
   trackingConsentAnalytics?: InputMaybe<Scalars['Boolean']['input']>
   trackingConsentPersonalization?: InputMaybe<Scalars['Boolean']['input']>
 }
