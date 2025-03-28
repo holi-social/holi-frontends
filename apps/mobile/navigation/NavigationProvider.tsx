@@ -1,18 +1,19 @@
 import * as Linking from 'expo-linking'
 import * as Notifications from 'expo-notifications'
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import type React from 'react'
 
 import type { LinkingOptions, Theme } from '@react-navigation/native'
 import { DefaultTheme, NavigationContainer, createNavigationContainerRef } from '@react-navigation/native'
 
 import { getLogger } from '@holi/core/helpers/logging'
-import { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
+import type { RootStackScreens } from '@holi/mobile/navigation/RootNavigator'
 import { appendLocaleSubPaths } from '@holi/mobile/navigation/helpers/appendLocaleSubPaths'
 import linkingConfig from '@holi/mobile/navigation/linkingConfig'
 import { screenUrlFromNotificationResponse } from '@holi/mobile/notifications'
 import { navigationIntegration } from '@holi/mobile/tracing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 
 const logger = getLogger('NavigationProvider')
 
@@ -27,6 +28,13 @@ const getNavigationTheme = (currentTheme: HoliTheme): Theme => ({
   },
   dark: currentTheme.dark,
 })
+
+const syncPathname = (url: string) => {
+  const parsedUrl = Linking.parse(url)
+  if (parsedUrl?.path) {
+    setPathname('/' + parsedUrl.path)
+  }
+}
 
 // linking is done to configure deep linking (e.g. to get https://staging.dev.holi.social/profiles/dieter
 // or holi://profiles/dieter to open the corresponding screen on the app). See
@@ -49,6 +57,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
     const url = await Linking.getInitialURL()
     if (url != null) {
       logger.debug('LinkingOptions.getInitialURL', 'opening direct deep link', url)
+      syncPathname(url)
       return url
     }
 
@@ -62,6 +71,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
       const url = screenUrlFromNotificationResponse(response)
       if (url) {
         logger.debug('LinkingOptions.getInitialURL', 'navigate to deep link from push interaction', url)
+        syncPathname(url)
         return url
       }
     }
@@ -70,6 +80,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
     // listen to incoming links from deep linking, while app is active or in background
     const eventListenerSubscription = Linking.addEventListener('url', ({ url }: { url: string }) => {
       logger.debug('LinkingOptions.subscribe', 'received url from deeplinking', url)
+      syncPathname(url)
       listener(url)
     })
 
@@ -79,6 +90,7 @@ export const rootLinkingConfig: LinkingOptions<RootStackScreens> = {
       const url = screenUrlFromNotificationResponse(response)
       if (url) {
         logger.debug('LinkingOptions.subscribe', 'navigate to deep link from push interaction', url)
+        syncPathname(url)
         listener(url)
       }
     })
