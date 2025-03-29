@@ -2,11 +2,18 @@
 import { PixelRatio, Platform } from 'react-native'
 import { isProduction } from '@holi/core/helpers/environment'
 import { isSSR } from '@holi/core/helpers/isSSR'
-import { isRemoteSource } from 'holi-bricks/components/image/Image'
 
 // meant for dev: you see the dimension that would be loaded as a black image
 // useful when determining whether the correct srcSet is loaded
 const debugMode = false
+
+export const isRemoteSource = (source: string | number): source is string => {
+  if (Platform.OS === 'web') {
+    return /^(https?:)?\/\//i.test(source as string)
+  }
+
+  return typeof source === 'string'
+}
 
 /** @description It handles the correct pixel density for native host platforms.
  * It returns the same input value for the web. Different sizes in the web can

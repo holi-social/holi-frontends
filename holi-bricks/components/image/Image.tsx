@@ -5,7 +5,7 @@ import { Image as ExpoImage } from 'expo-image'
 //import { WithLocalSvg } from 'react-native-svg/css'
 import { accessibilityProps } from 'holi-bricks/accessibility'
 import type { ImageProps } from 'holi-bricks/components/image/type'
-import { setScalingParams } from 'holi-bricks/components/image/helpers'
+import { isRemoteSource, setScalingParams } from 'holi-bricks/components/image/helpers'
 
 const isLocalSvg = (source: number) => {
   try {
@@ -16,10 +16,6 @@ const isLocalSvg = (source: number) => {
   } catch {
     return false
   }
-}
-
-export const isRemoteSource = (source: string | number): source is string => {
-  return typeof source === 'string'
 }
 
 export const Image: React.FC<ImageProps> = ({
