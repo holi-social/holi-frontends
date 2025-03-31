@@ -42,7 +42,7 @@ const PrivateRoomView = ({
     const chatPartner = chatPartners?.[0]
     const chatPartnerHoliUser = chatPartnerHoliUsers[0]
 
-    return (
+    return chatPartnerHoliUser ? (
       <ChatRoomHeaderTitle
         href={'/profile/' + chatPartnerHoliUser.id}
         name={room.name}
@@ -51,7 +51,7 @@ const PrivateRoomView = ({
         initials={getChatInitials(chatPartner?.name)}
         defaultColor={getDefaultAvatarColor(chatPartner?.name)}
       />
-    )
+    ) : null
   }
 
   return (

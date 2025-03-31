@@ -71,6 +71,7 @@ export function StartChatButton({ label, doReplaceRoute, user: chatPartnerUser, 
       label={label}
       onPress={handleChat}
       testID="user-profile-open-chat"
+      loading={!isChatInitialized}
       {...rest}
     />
   )
