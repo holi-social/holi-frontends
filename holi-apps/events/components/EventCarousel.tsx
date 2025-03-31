@@ -1,6 +1,6 @@
 import React from 'react'
 import RecoSlider from '@holi/core/components/RecoSlider'
-import { CheckboxFilled } from '@holi/icons/src/generated'
+import { CalendarEventFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import EventCard from '@holi-apps/events/components/EventCard'
 import { Stack } from 'holi-bricks/components/stack'
@@ -37,7 +37,7 @@ const EventCarousel = ({ cardWidth }: EventCarouselProps) => {
       }}
       data={events}
       loading={user.isLoading}
-      icon={CheckboxFilled}
+      icon={CalendarEventFilled}
       heading={t('act.events.title')}
       subline={t('act.events.subline')}
       labelSeeMore={t('act.events.showAll')}

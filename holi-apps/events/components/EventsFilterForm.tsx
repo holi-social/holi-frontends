@@ -47,7 +47,15 @@ const EventsFilterForm = ({ onSubmit, filters }: EventFilterFormProps) => {
       <View style={styles.modalContent}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" gap="3xs">
           <Text size="3xl">{t('act.events.filter.heading')}</Text>
-          <Button label={t('global.reset')} inline onPress={resetForm} variant="secondary" size="sm" icon={Close} />
+          <Button
+            disabled={localOnly}
+            label={t('global.reset')}
+            inline
+            onPress={resetForm}
+            variant="secondary"
+            size="sm"
+            icon={Close}
+          />
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">

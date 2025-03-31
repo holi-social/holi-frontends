@@ -13,4 +13,5 @@ export interface ImageProps extends AccessibilityProps {
   fallbackSource?: string | number
   blurhash?: string
   alt: string
+  whiteOverlay?: boolean
 }

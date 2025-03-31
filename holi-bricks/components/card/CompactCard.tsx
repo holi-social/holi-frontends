@@ -55,7 +55,6 @@ export const CompactCard = ({
     require('@holi/ui/assets/img/events/thumbnail-yellow-full.svg'),
   ]
   const randomPlaceholderImage = useRef(placeholderImages[Math.floor(Math.random() * placeholderImages.length)]).current
-
   return (
     <View style={styles.cardContainer(maxWidth)}>
       <Stack borderWidth={1} borderColor="support" borderStyle="solid" borderRadius="md">
@@ -70,6 +69,7 @@ export const CompactCard = ({
                 width={90}
                 alt={t('act.events.thumbnail.label')}
                 onError={handleImageError}
+                whiteOverlay
               />
             </View>
 
