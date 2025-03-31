@@ -1,6 +1,7 @@
 import { getGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage.web'
 import { getCookie, setCookie, deleteCookie } from 'cookies-next'
 import { logError } from '@holi/core/errors/helpers'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 jest.mock('@holi/core/errors/helpers', () => ({
   logError: jest.fn(),
@@ -17,7 +18,18 @@ jest.mock('cookies-next', () => {
   }
 })
 
+const mockDeleteStorage = AsyncStorage.removeItem as jest.Mock
+jest.mock('@react-native-async-storage/async-storage', () => {
+  return {
+    removeItem: jest.fn(),
+  }
+})
+
 describe('guestModeStorage', () => {
+  beforeEach(() => {
+    mockDeleteStorage.mockResolvedValue({})
+  })
+
   it('should return true when guest mode is enabled', async () => {
     mockGetCookie.mockReturnValueOnce('true')
 
@@ -73,5 +85,16 @@ describe('guestModeStorage', () => {
     expect(logError).toHaveBeenCalledWith(testError, 'Failed to store guest mode', {
       location: 'guestModeStorage.storeGuestMode',
     })
+  })
+
+  it('should clean up old guest mode', async () => {
+    jest.useFakeTimers()
+
+    await getGuestMode()
+    jest.runOnlyPendingTimers()
+
+    expect(mockDeleteStorage).toHaveBeenCalledWith('guest_mode')
+
+    jest.useRealTimers()
   })
 })
