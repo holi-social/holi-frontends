@@ -6,7 +6,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import TabContentVirtualized from '@holi/ui/components/organisms/HoliTabs/TabContentVirtualized'
 import { useTheme } from '@holi/ui/styles/theme'
 
-import BotomLineSeperator from './BotomLineSeperator'
+import BottomLineSeperator from './BotomLineSeperator'
 import TabButtonList from './TabButtonList'
 import TabContentList from './TabContentScrollableList'
 import { renderTabButtonHelper, useHoliTabsMarginHorizontal } from './helpers'
@@ -49,7 +49,7 @@ const HoliTabs = <D extends HoliTabItem>({
   return (
     <View testID={testID} style={{ flex: 1 }}>
       <View style={{ backgroundColor: tabBarBackgroundColor ?? theme.colors.background10 }}>
-        <BotomLineSeperator />
+        <BottomLineSeperator />
 
         <HoliContainer noPadding>
           <View onLayout={(event) => setComponentWidth(event.nativeEvent.layout.width)} />
@@ -59,7 +59,7 @@ const HoliTabs = <D extends HoliTabItem>({
               data,
               keyExtractor,
               centeredTabButtons,
-              marginHorizontal: finalMarginHorizontal,
+              marginHorizontal: useHoliTabsMarginHorizontal(),
               width: componentWidth,
             }}
             renderItem={(options) =>
@@ -90,7 +90,6 @@ const HoliTabs = <D extends HoliTabItem>({
               scrollEventThrottle={100}
               tabsId={testID}
               testID={`${testID}-content-list`}
-              marginHorizontal={marginHorizontal}
             />
           ) : (
             <TabContentVirtualized

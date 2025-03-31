@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import type { PropsWithChildren } from 'react'
 import { type GestureResponderEvent, Pressable, type Role, StyleSheet, View } from 'react-native'
 
-import HoliText from '@holi/ui/components/atoms/HoliText'
+import { Text } from 'holi-bricks/components/text'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import HoliLocalImage from './HoliLocalImage'
@@ -13,9 +13,17 @@ export interface HoliMoreCardProps {
   label?: string
   role: Role
   testID?: string
+  size?: 'sm' | 'md'
 }
 
-const HoliMoreCard = ({ children, onPress, role, testID, label = '' }: PropsWithChildren<HoliMoreCardProps>) => {
+const HoliMoreCard = ({
+  children,
+  onPress,
+  role,
+  testID,
+  label = '',
+  size = 'md',
+}: PropsWithChildren<HoliMoreCardProps>) => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -26,14 +34,12 @@ const HoliMoreCard = ({ children, onPress, role, testID, label = '' }: PropsWith
           label="more"
           imageSource={require('@holi/ui/assets/img/illustrations/plus-circle.svg')}
           isSvg
-          width={96}
-          height={96}
+          width={size === 'sm' ? 48 : 96}
+          height={size === 'sm' ? 48 : 96}
         />
       </View>
       <View style={styles.caption}>
-        <HoliText color="black300" size="small" bold>
-          {children}
-        </HoliText>
+        <Text size="sm">{children}</Text>
       </View>
     </Pressable>
   )

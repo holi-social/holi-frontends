@@ -5,7 +5,7 @@ import { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimate
 import TabContentVirtualized from '@holi/ui/components/organisms/HoliTabs/TabContentVirtualized'
 import { useTheme } from '@holi/ui/styles/theme'
 
-import BotomLineSeperator from './BotomLineSeperator'
+import BottomLineSeperator from './BotomLineSeperator'
 import TabButtonList from './TabButtonList'
 import TabContentList from './TabContentScrollableList'
 import { renderTabButtonHelper, useHoliTabsMarginHorizontal } from './helpers'
@@ -50,7 +50,7 @@ const HoliTabs = <D extends HoliTabItem>({
       testID={testID}
     >
       <View style={{ backgroundColor: tabBarBackgroundColor ?? theme.colors.background10 }}>
-        <BotomLineSeperator />
+        <BottomLineSeperator />
         <TabButtonList
           {...{
             activeTab,

@@ -3,13 +3,13 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layouts/DetailsScreen'
 import { SpaceUserConnectionType, VisibilityType, useTaskByIdQuery } from '@holi/api/graphql/graphql-codegen'
 import { CalendarEvent, MapPin2, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
 import { useRateLimit } from '@holi/ui/helper'
+import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
 
 export type TaskDetailsParams = {
   spaceIdOrName: string
@@ -31,7 +31,7 @@ const { useParam, useUUIDParam } = createParamHooks<TaskDetailsParams>()
 export const useTaskDetailsData = (): UseTaskDetailsData => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const { displayError } = useErrorHandling()
-  const { replaceRoute } = useRouting()
+  const { replaceRoute, navigate } = useRouting()
   const { t, i18n } = useTranslation()
   const [taskId] = useUUIDParam('taskId')
   const loginState = useLoggedInUser()
@@ -127,6 +127,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
         topTitle: `${formattedDate} ∙ ${t('postedOnHoli')}`,
         title: data?.taskById?.space?.name || data?.taskById?.name || '??',
         subtitle: data?.taskById?.creator?.fullName,
+        onPress: () => navigate('/spaces/' + data?.taskById?.space?.id),
         mainAvatar: {
           source: data?.taskById?.space?.avatar,
           initials: data?.taskById?.space?.name || data?.taskById?.name || '??',

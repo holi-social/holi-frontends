@@ -962,6 +962,7 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
       style={
         [
           {
+            "alignSelf": "center",
             "backgroundColor": "#fdfd80",
             "borderColor": "#262424",
             "borderRadius": 1000,
@@ -3014,6 +3015,7 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
       style={
         [
           {
+            "alignSelf": "center",
             "backgroundColor": "#fdfd80",
             "borderColor": "#262424",
             "borderRadius": 1000,

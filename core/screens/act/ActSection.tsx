@@ -9,10 +9,12 @@ import TaskRecommendations from '@holi/core/screens/homeFeed/components/TaskReco
 import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedChallenges'
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
+import EventCarousel from '@holi-apps/events/components/EventCarousel'
 
 export enum ActSectionType {
   VOLUNTEERING = 'VOLUNTEERING',
   CHALLENGES = 'CHALLENGES',
+  EVENTS = 'EVENTS',
   TASKS = 'TASKS',
   DONATIONS = 'DONATIONS',
 }
@@ -21,6 +23,7 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
   const cardWidth = useCardWidth()
   const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
+  const displayEvents = useFeatureFlagWithMaintenance(FeatureFlagKey.EVENTS).isOn
 
   switch (type) {
     case ActSectionType.CHALLENGES:
@@ -35,6 +38,16 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
           {displayVolunteering && (
             <ErrorBoundary>
               <VolunteeringRecos cardWidth={cardWidth} />
+            </ErrorBoundary>
+          )}
+        </>
+      )
+    case ActSectionType.EVENTS:
+      return (
+        <>
+          {displayEvents && (
+            <ErrorBoundary>
+              <EventCarousel cardWidth={cardWidth} />
             </ErrorBoundary>
           )}
         </>

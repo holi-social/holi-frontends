@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from 'holi-bricks/components/button'
+import { Button, ButtonIcon, type ButtonIconProps, type ButtonProps } from 'holi-bricks/components/button'
 import { TextLink, type TextLinkProps } from 'holi-bricks/components/text'
 import type React from 'react'
 import type { GestureResponderEvent } from 'react-native'
@@ -44,3 +44,4 @@ export const HoliLinkTracked = Trackable<React.PropsWithChildren<HoliLinkProps>>
 export const HoliTextLinkTracked = Trackable<React.PropsWithChildren<HoliTextLinkProps>>(HoliTextLink)
 export const TextLinkTracked = Trackable<React.PropsWithChildren<TextLinkProps>>(TextLink)
 export const ButtonTracked = Trackable<ButtonProps>(Button)
+export const ButtonIconTracked = Trackable<ButtonIconProps>(ButtonIcon)

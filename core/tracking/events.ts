@@ -124,6 +124,46 @@ export namespace TrackingEvent {
     },
   }
 
+  export const EventDetails = {
+    shared: (eventId: string) => ({
+      name: 'event_shareButton_pressed',
+      properties: {
+        eventId,
+      },
+      ...versionOne,
+    }),
+    findMore: {
+      name: 'events_findMore_pressed',
+      ...versionOne,
+    },
+    videoCall: {
+      name: 'events_videoCallLink_pressed',
+      ...versionOne,
+    },
+  }
+
+  export const Events = {
+    selected: (eventId: string) => ({
+      name: 'event_selected',
+      properties: {
+        eventId,
+      },
+      ...versionOne,
+    }),
+    seeAll: {
+      name: 'events_seeAll_pressed',
+      ...versionOne,
+    },
+    filter: {
+      name: 'events_filter_pressed',
+      ...versionOne,
+    },
+    loadMore: {
+      name: 'events_loadMore_pressed',
+      ...versionOne,
+    },
+  }
+
   export const Engaging = {
     reacted: (reactableType: string, reactableId: string): TrackingEvent => ({
       name: 'reacted',

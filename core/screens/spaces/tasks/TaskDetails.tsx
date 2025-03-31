@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import { Screen } from '@holi/core/components/Screen'
-import { DetailsScreen } from '@holi/core/layouts/DetailsScreen'
+
 import { Stack } from 'holi-bricks/components/stack'
 import { useTaskDetailsData } from '@holi/core/screens/spaces/tasks/useTaskDetailsData/useTaskDetailsData'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -10,6 +10,7 @@ import { white } from 'holi-bricks/tokens'
 import { ContactOrganization } from '@holi/core/screens/spaces/tasks/components/ContactOrganization'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 
 const isIos = Platform.OS === 'ios'
 
@@ -18,15 +19,7 @@ export type TaskDetailsParams = {
 }
 
 const TaskDetailsContainer = () => {
-  const {
-    data: { loading, title, coverImage, infoList, visibility, description, chips, author },
-    isOwner,
-    spaceName,
-    id,
-    refetch,
-    spaceId,
-    spaceTitle,
-  } = useTaskDetailsData()
+  const { data, isOwner, spaceName, id, refetch, spaceId, spaceTitle } = useTaskDetailsData()
   const displayCta = useFeatureFlag(FeatureFlagKey.TASK_CONTACT_CTA)
 
   const renderActionDrawer = useCallback(
@@ -67,7 +60,7 @@ const TaskDetailsContainer = () => {
           {displayCta && (
             <ContactOrganization
               spaceIdOrName={spaceName}
-              taskName={title}
+              taskName={data?.title}
               taskId={id}
               spaceTitle={spaceTitle}
               spaceId={spaceId}
@@ -76,16 +69,7 @@ const TaskDetailsContainer = () => {
         </Stack>
       }
     >
-      <DetailsScreen
-        loading={loading}
-        coverImage={coverImage}
-        title={title}
-        infoList={infoList}
-        visibility={visibility}
-        description={description}
-        author={author}
-        chips={chips}
-      />
+      <DetailsScreen {...data} />
     </Screen>
   )
 }

@@ -1623,6 +1623,7 @@ exports[`SpaceInvolvement renders correctly for the public 1`] = `
               style={
                 [
                   {
+                    "alignSelf": "center",
                     "backgroundColor": "#ffffff",
                     "borderColor": "#262424",
                     "borderRadius": 1000,

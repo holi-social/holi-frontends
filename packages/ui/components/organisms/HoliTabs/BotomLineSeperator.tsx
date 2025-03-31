@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-const BotomLineSeperator = () => {
+const BottomLineSeperator = () => {
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
   return <View style={styles.botomLineSeperator} />
 }
 
-export default BotomLineSeperator
+export default BottomLineSeperator
 
 const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
