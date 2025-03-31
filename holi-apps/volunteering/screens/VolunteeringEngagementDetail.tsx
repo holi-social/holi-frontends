@@ -98,9 +98,11 @@ export const VolunteeringEngagementDetail = () => {
                 }
               }
             }}
+            testID="volunteering-engagement-get-in-touch-btn"
           />
         </Stack>
       }
+      testID="volunteering-detailview-container"
     >
       <DetailsScreen
         loading={loading}

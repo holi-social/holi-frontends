@@ -113,7 +113,9 @@ export const DetailsScreen = ({
                   size="medium"
                 />
               )}
-              <Text size="3xl">{title}</Text>
+              <Text size="3xl" testID="detailview-title">
+                {title}
+              </Text>
             </Stack>
 
             <Stack direction="column" gap="xxs" shouldRender={!!infoList}>

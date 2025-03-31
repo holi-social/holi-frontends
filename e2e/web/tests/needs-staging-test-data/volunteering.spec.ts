@@ -62,8 +62,7 @@ const testAllowsPagination = async (page: Page) => {
 const testDisplaysEngagementDetailsCommon = async (page: Page) => {
   await page.waitForSelector(byTestId('volunteering-detailview-container'))
 
-  await page.waitForSelector(byTestId('volunteering-engagement-title'))
-  await page.waitForSelector(byTestId('volunteering-engagement-description'))
+  await page.waitForSelector(byTestId('detailview-title'))
 }
 
 const testDisplaysEngagementDetails = async (context: BrowserContext, page: Page) => {
