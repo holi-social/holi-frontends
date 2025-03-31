@@ -10,7 +10,6 @@ import RecommendedChallenges from '@holi-apps/challenges/components/RecommendedC
 import DonationUpdates from '@holi-apps/donations/components/DonationUpdates'
 import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
 import EventCarousel from '@holi-apps/events/components/EventCarousel'
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 export enum ActSectionType {
   VOLUNTEERING = 'VOLUNTEERING',
@@ -24,7 +23,7 @@ export const ActSection = ({ type }: { type: ActSectionType }) => {
   const cardWidth = useCardWidth()
   const displayVolunteering = useFeatureFlagWithMaintenance(FeatureFlagKey.VOLUNTEERING).isOn
   const displayDonations = useFeatureFlagWithMaintenance(FeatureFlagKey.DONATIONS).isOn
-  const displayEvents = useFeatureFlag(FeatureFlagKey.EVENTS)
+  const displayEvents = useFeatureFlagWithMaintenance(FeatureFlagKey.EVENTS).isOn
 
   switch (type) {
     case ActSectionType.CHALLENGES:

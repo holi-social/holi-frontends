@@ -64,6 +64,7 @@ export const EventList = () => {
   return (
     <Screen
       preset="scroll"
+      padding={{ left: 'sm', right: 'sm' }}
       headerOptions={{
         headerTitle: () => (
           <Text headingLevel="2" size="lg">
