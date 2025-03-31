@@ -11,7 +11,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
-import { clearGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { clearGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 
 const mockUseErrorHandling = useErrorHandling as jest.Mock
 jest.mock('@holi/core/errors/hooks', () => ({
@@ -47,7 +47,7 @@ jest.mock('@holi/core/auth/helpers/sdk', () => ({
 
 const mockClearGuestMode = clearGuestMode as jest.Mock
 const mockStoreGuestMode = storeGuestMode as jest.Mock
-jest.mock('@holi/core/screens/onboarding/helpers/guestModeAsyncStore', () => ({
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
   clearGuestMode: jest.fn(),
   storeGuestMode: jest.fn(),
 }))

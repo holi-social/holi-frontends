@@ -1,4 +1,4 @@
-import { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 import React from 'react'
 
 import DiscussionDetailPage from '@holi/core/screens/insights/discussions/DiscussionDetailPage'
@@ -7,7 +7,7 @@ import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const DiscussionPage = () => <DiscussionDetailPage />
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { discussionId } = context.query
 
   const queries = [

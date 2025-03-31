@@ -1,4 +1,4 @@
-import type { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 import React from 'react'
 
 import { insightWithRecommendation } from '@holi/core/screens/insights/queries'
@@ -7,7 +7,7 @@ import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const RecommendationPage = () => <RecommendationDetailPage />
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { insightId, recommendationId } = context.query
 
   const queries = [

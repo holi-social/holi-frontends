@@ -1,5 +1,5 @@
 import type { QueryOptions } from '@apollo/client'
-import type { GetServerSidePropsResult, NextPageContext } from 'next'
+import type { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
 import { authenticatedUserV2Query } from '@holi/core/domain/shared/queries'
@@ -9,25 +9,42 @@ import { createTranslationPageProps } from '@holi/web/helpers/createTranslationP
 import { getOrigin } from '@holi/web/helpers/getOrigin'
 import { getValidLocale } from '@holi/web/helpers/getValidLocale'
 import { createApolloPageProps } from '@holi/web/helpers/useApolloWebClient'
-import { type CustomProps, HoliPageProps, type NextJSPageProps } from '@holi/web/types'
+import { type CustomProps, HoliPageProps, type NextJSPageProps, type UserPageProps } from '@holi/web/types'
 import { coerceUUIDParams } from '@holi/web/helpers/coerceUUIDParams'
+import { GUEST_MODE_COOKIE_NAME } from '@holi/core/screens/onboarding/helpers/guestModeStorage.web'
+import { isAccountComplete } from '@holi/core/screens/onboarding/helpers/isAccountComplete'
+import type { User } from '@holi/core/domain/shared/types'
+import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 
 interface SkippableQueryOptions extends QueryOptions {
   skip?: boolean
 }
 
-const createUserPageProps = (userId?: string) => {
-  if (userId) {
+type PageContextRequest = GetServerSidePropsContext['req']
+
+// List of user agents substrings used by search engine crawlers and link preview bots (python-requests is used by Okuna)
+const botUserAgents = ['bot', 'crawl', 'slurp', 'spider', 'facebookexternalhit', 'whatsapp', 'python-requests']
+const isBot = (headers: PageContextRequest['headers'] = {}) =>
+  botUserAgents.some((userAgent) => headers['user-agent']?.toLowerCase().includes(userAgent))
+
+const isGuestUser = (cookies: NextApiRequestCookies = {}) => !!cookies[GUEST_MODE_COOKIE_NAME]
+
+const createUserPageProps = (user: User | undefined, req: PageContextRequest): UserPageProps => {
+  if (user?.id) {
     return {
-      id: userId,
+      id: user.id,
       isLoggedOut: false,
+      accountCompleted: isAccountComplete(user),
     }
   }
-  return { isLoggedOut: true }
+  return {
+    isLoggedOut: true,
+    guestMode: isGuestUser(req?.cookies) || isBot(req?.headers),
+  }
 }
 
 export const createServerSideProps = async (
-  { req, locale: nextJsLocale }: NextPageContext,
+  { req, locale: nextJsLocale }: GetServerSidePropsContext,
   queries: SkippableQueryOptions[] = [],
   customProps?: Partial<CustomProps>
 ): Promise<GetServerSidePropsResult<Partial<NextJSPageProps>>> => {
@@ -80,30 +97,45 @@ export const createServerSideProps = async (
   // Ignore failing user request silently
   const userQueryResult = await authenticatedUserPromise.catch()
   const userId = userQueryResult.data?.authenticatedUserV2?.id
+  const user = createUserPageProps(userQueryResult.data?.authenticatedUserV2, req)
+
+  const redirectDestination = handleOnboardingStateDependentRedirect(user, customProps)
+
+  if (redirectDestination && req.url !== redirectDestination) {
+    return {
+      redirect: {
+        destination: redirectDestination,
+        permanent: false,
+      },
+    }
+  }
 
   return minimalProps.with({
     translations: await createTranslationPageProps(locale),
     posthogBootstrapValues: await createPosthogPageProps(userId),
     apolloState: createApolloPageProps(client),
-    user: createUserPageProps(userId),
+    user,
   })
 }
 
-export const createServerSidePropsWithLoggedInUserGuard: typeof createServerSideProps = async (...args) => {
-  const result = await createServerSideProps(...args)
-
-  if ('props' in result) {
-    const props = await Promise.resolve(result.props)
-
-    if (props.__USER__?.id) {
-      return {
-        redirect: {
-          destination: '/',
-          permanent: false,
-        },
-      }
-    }
+const handleOnboardingStateDependentRedirect = (user: UserPageProps, customProps?: Partial<CustomProps>) => {
+  if (!user.isLoggedOut && !user.accountCompleted) {
+    return '/onboarding'
   }
-
-  return result
+  if (customProps?.redirectRouteForLoggedInUsers && !user.isLoggedOut) {
+    return customProps.redirectRouteForLoggedInUsers
+  }
+  if (customProps?.redirectRouteForNewUsers && user.isLoggedOut && !user.guestMode) {
+    return customProps.redirectRouteForNewUsers
+  }
+  if (customProps?.redirectRouteForLoggedOutUsers && user.isLoggedOut) {
+    return customProps.redirectRouteForLoggedOutUsers
+  }
+  return undefined
 }
+
+export const createServerSidePropsWithLoggedInUserGuard: typeof createServerSideProps = (
+  context,
+  queries,
+  customProps
+) => createServerSideProps(context, queries, { ...customProps, redirectRouteForLoggedInUsers: '/' })

@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from 'next'
+import type { NextPage, GetServerSidePropsContext } from 'next'
 import React from 'react'
 
 import PostDetailPage from '@holi/core/screens/posts/PostDetailPage'
@@ -7,7 +7,7 @@ import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const PostPage: NextPage = () => <PostDetailPage />
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { postId } = context.query
 
   const queries = [

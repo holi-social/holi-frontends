@@ -1,7 +1,7 @@
 import React from 'react'
 import AnonymousProfileView from '@holi/core/screens/userprofile/components/AnonymousProfileView'
 import { render, screen, userEvent, waitFor } from '@testing-library/react-native'
-import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
@@ -13,7 +13,7 @@ jest.mock('@holi/core/helpers/environment', () => ({
 }))
 
 const mockClearGuestMode = clearGuestMode as jest.Mock
-jest.mock('@holi/core/screens/onboarding/helpers/guestModeAsyncStore', () => ({
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
   clearGuestMode: jest.fn(),
 }))
 
@@ -62,6 +62,6 @@ describe('AnonymousProfileView', () => {
 
     await waitFor(() => expect(mockClearOnboardingState).toHaveBeenCalled())
     expect(mockClearGuestMode).toHaveBeenCalled()
-    expect(mockNavigate).toHaveBeenCalledWith('/')
+    expect(mockNavigate).toHaveBeenCalledWith('/onboarding')
   })
 })

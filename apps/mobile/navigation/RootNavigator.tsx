@@ -80,12 +80,16 @@ export type RootStackScreens = {
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const RootNavigator = () => {
+export interface RootNavigatorProps {
+  showOnboardingOnStartup: boolean
+}
+
+export const RootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) => {
   const { theme } = useTheme()
   const { colors } = theme
   return (
     <RootStack.Navigator
-      initialRouteName={RouteName.BottomTabs}
+      initialRouteName={showOnboardingOnStartup ? RouteName.Onboarding : RouteName.BottomTabs}
       screenOptions={{
         headerShown: false,
         headerShadowVisible: false,
@@ -294,5 +298,3 @@ const RootNavigator = () => {
     </RootStack.Navigator>
   )
 }
-
-export default RootNavigator

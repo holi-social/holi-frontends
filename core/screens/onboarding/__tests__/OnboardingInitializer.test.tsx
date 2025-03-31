@@ -11,6 +11,11 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
 }))
 
 describe('OnboardingInitializer', () => {
+  beforeEach(() => {
+    mockUseOnboardingInitialization.mockReturnValue({ isLoading: false })
+    mockUseOnboardingRedirect.mockReturnValue({ showOnboardingOnStartup: false })
+  })
+
   it('should initialize onboarding', () => {
     render(<OnboardingInitializer />)
 

@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from 'next'
+import type { NextPage, GetServerSidePropsContext } from 'next'
 import React from 'react'
 
 import VideoCall from '@holi/core/screens/videoCall/VideoCall'
@@ -6,7 +6,7 @@ import { getOrigin } from '@holi/web/helpers/getOrigin'
 
 const VideoCallPage: NextPage = () => <VideoCall />
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { roomName } = context.query
   const origin = getOrigin(context.req)
 

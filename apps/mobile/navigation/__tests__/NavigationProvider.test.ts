@@ -1,6 +1,7 @@
-import { NotificationResponse } from 'expo-notifications'
+import type { NotificationResponse } from 'expo-notifications'
 
 import { rootLinkingConfig } from '@holi/mobile/navigation/NavigationProvider'
+import { setPathname } from '@holi/core/navigation/hooks/usePathname'
 
 jest.mock('@holi/mobile/tracing', () => ({}))
 
@@ -14,6 +15,9 @@ jest.mock('expo-linking', () => ({
   createURL: (path: string) => path,
   getInitialURL: () => mockGetInitialURL?.(),
   addEventListener: (type: string, handler: unknown) => mockAddEventListener?.(type, handler),
+  parse: (url: string) => ({
+    path: url.replace('holi://', '').replace('https://app.holi.social/', ''),
+  }),
 }))
 
 let mockGetLastNotificationResponseAsync: jest.Mock | undefined
@@ -24,6 +28,11 @@ jest.mock('expo-notifications', () => ({
   getLastNotificationResponseAsync: () => mockGetLastNotificationResponseAsync?.(),
   addNotificationResponseReceivedListener: (listener: (event: NotificationResponse) => void) =>
     mockAddNotificationResponseReceivedListener?.(listener),
+}))
+
+const mockSetPathname = jest.mocked(setPathname)
+jest.mock('@holi/core/navigation/hooks/usePathname', () => ({
+  setPathname: jest.fn(),
 }))
 
 const notificationResponseForRemoteTriggerAndroidMock: NotificationResponse = {
@@ -201,6 +210,7 @@ describe('rootLinkingConfig', () => {
 
       expect(initialUrl).toEqual('https://app.holi.social/some/link')
       expect(mockGetInitialURL).toHaveBeenCalledTimes(1)
+      expect(mockSetPathname).toHaveBeenCalledWith('/some/link')
     })
 
     describe('Android', () => {
@@ -213,6 +223,7 @@ describe('rootLinkingConfig', () => {
 
         expect(initialUrl).toEqual('holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
+        expect(mockSetPathname).toHaveBeenCalledWith('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
       })
 
       it('should call getLastNotificationResponseAsync and respond correctly on local trigger', async () => {
@@ -222,6 +233,7 @@ describe('rootLinkingConfig', () => {
 
         expect(initialUrl).toEqual('holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
+        expect(mockSetPathname).toHaveBeenCalledWith('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
       })
     })
 
@@ -233,6 +245,7 @@ describe('rootLinkingConfig', () => {
 
         expect(initialUrl).toEqual('holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
+        expect(mockSetPathname).toHaveBeenCalledWith('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
       })
 
       it('should call getLastNotificationResponseAsync and respond correctly on iOS local trigger', async () => {
@@ -242,6 +255,7 @@ describe('rootLinkingConfig', () => {
 
         expect(initialUrl).toEqual('holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
         expect(mockGetLastNotificationResponseAsync).toHaveBeenCalledTimes(1)
+        expect(mockSetPathname).toHaveBeenCalledWith('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
       })
     })
   })
@@ -262,6 +276,7 @@ describe('rootLinkingConfig', () => {
       registeredListener({ url: 'https://app.holi.social/some/link' })
       expect(urlResultCatcher).toHaveBeenCalledTimes(1)
       expect(urlResultCatcher).toHaveBeenCalledWith('https://app.holi.social/some/link')
+      expect(mockSetPathname).toHaveBeenCalledWith('/some/link')
     })
 
     describe('Android', () => {
@@ -279,14 +294,17 @@ describe('rootLinkingConfig', () => {
         expect(urlResultCatcher).toHaveBeenCalledWith(
           'holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
+        expect(mockSetPathname).toHaveBeenCalledWith('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
 
         urlResultCatcher.mockClear()
+        mockSetPathname.mockClear()
 
         registeredListener(notificationResponseForLocalTriggerAndroidMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
           'holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
+        expect(mockSetPathname).toHaveBeenCalledWith('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
       })
     })
 
@@ -305,14 +323,17 @@ describe('rootLinkingConfig', () => {
         expect(urlResultCatcher).toHaveBeenCalledWith(
           'holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
+        expect(mockSetPathname).toHaveBeenCalledWith('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
 
         urlResultCatcher.mockClear()
+        mockSetPathname.mockClear()
 
         registeredListener(notificationResponseForLocalTriggerIosMock)
         expect(urlResultCatcher).toHaveBeenCalledTimes(1)
         expect(urlResultCatcher).toHaveBeenCalledWith(
           'holi://chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social'
         )
+        expect(mockSetPathname).toHaveBeenCalledWith('/chat/rooms/!fefGYdkrNAqHkNfbVh:development-chat.holi.social')
       })
     })
 
@@ -330,6 +351,7 @@ describe('rootLinkingConfig', () => {
 
       expect(removeMockForAddEventListener).toHaveBeenCalledTimes(1)
       expect(removeMockForAddNotificationResponseReceivedListener).toHaveBeenCalledTimes(1)
+      expect(mockSetPathname).not.toHaveBeenCalled()
     })
   })
 })

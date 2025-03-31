@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "richie5um2.vscode-sort-json",
-    "lokalise.i18n-ally"
+    "lokalise.i18n-ally",
+    "biomejs.biome"
   ]
 }

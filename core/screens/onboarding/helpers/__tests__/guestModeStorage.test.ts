@@ -1,4 +1,4 @@
-import { getGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { getGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { logError } from '@holi/core/errors/helpers'
 
@@ -17,7 +17,7 @@ jest.mock('@react-native-async-storage/async-storage', () => {
   }
 })
 
-describe('guestModeAsyncStore', () => {
+describe('guestModeStorage', () => {
   it('should return true when guest mode is enabled', async () => {
     mockGetStorage.mockResolvedValueOnce('true')
 
@@ -42,7 +42,7 @@ describe('guestModeAsyncStore', () => {
 
     expect(result).toBeFalsy()
     expect(logError).toHaveBeenCalledWith(testError, 'Failed to get guest mode', {
-      location: 'guestModeAsyncStore.getGuestMode',
+      location: 'guestModeStorage.getGuestMode',
     })
   })
 
@@ -65,7 +65,7 @@ describe('guestModeAsyncStore', () => {
     await storeGuestMode(true)
 
     expect(logError).toHaveBeenCalledWith(testError, 'Failed to store guest mode', {
-      location: 'guestModeAsyncStore.storeGuestMode',
+      location: 'guestModeStorage.storeGuestMode',
     })
   })
 })

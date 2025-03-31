@@ -1,5 +1,5 @@
 import { makeVar, useReactiveVar } from '@apollo/client'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { usePathname } from '@holi/core/navigation/hooks/usePathname'
@@ -7,6 +7,7 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { Platform } from 'react-native'
 import { useVerificationFlowData, type VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { useGuestMode } from '@holi/core/screens/onboarding/hooks/useGuestMode'
+import { isAccountComplete } from '@holi/core/screens/onboarding/helpers/isAccountComplete'
 
 const onboardingValues = ['onboarding', 'emailVerification', 'accountSetup', 'finished'] as const // eslint-disable-line @typescript-eslint/no-unused-vars
 export type OnboardingStateValue = (typeof onboardingValues)[number]
@@ -61,35 +62,46 @@ export const useOnboardingInitialization = () => {
   const currentOnboardingState = useOnboardingState()
   const emailVerificationState = useVerificationFlowData()
   const { isLoading: isLoadingGuestMode, guestMode } = useGuestMode()
+  const [, forceUpdate] = useState(false)
 
   useEffect(() => {
     if (loginState.isLoading || isLoadingGuestMode) return
 
-    const accountCompleted = /*!!loginState.user?.identity &&*/ !!loginState.user?.firstName
-
     const targetState = determineTargetState({
       isLoggedIn: loginState.isLoggedIn,
-      accountCompleted,
+      accountCompleted: isAccountComplete(loginState.user),
       emailVerificationState,
       guestMode,
       value: currentOnboardingState,
     })
     if (currentOnboardingState !== targetState) {
       storeOnboardingState(targetState)
+      // FIXME Workaround for storeOnboardingState not always triggering a re-render
+      forceUpdate((prev) => !prev)
     }
   }, [
     emailVerificationState,
     loginState.isLoading,
     loginState.isLoggedIn,
-    loginState.user?.firstName,
-    loginState.user?.identity,
+    loginState.user,
     currentOnboardingState,
     isLoadingGuestMode,
     guestMode,
   ])
+
+  const isLoading = useMemo(
+    () => loginState.isLoading || isLoadingGuestMode || !currentOnboardingState,
+    [currentOnboardingState, isLoadingGuestMode, loginState.isLoading]
+  )
+
+  return {
+    isLoading,
+    onboardingState: currentOnboardingState,
+  }
 }
 
 export const useOnboardingRedirect = () => {
+  const { isLoading } = useOnboardingInitialization()
   const onboardingState = useOnboardingState()
   const pathname = usePathname()
   const { navigate } = useRouting()
@@ -102,7 +114,7 @@ export const useOnboardingRedirect = () => {
       if (Platform.OS !== 'web') {
         setTimeout(() => {
           navigate(path)
-        }, 100)
+        }, 200)
       } else {
         navigate(path)
       }
@@ -111,6 +123,10 @@ export const useOnboardingRedirect = () => {
   )
 
   useEffect(() => {
+    if (isLoading) {
+      return
+    }
+
     const isOnboarding = onboardingState === 'onboarding'
     const isEmailVerification = onboardingState === 'emailVerification'
     const isAccountSetup = onboardingState === 'accountSetup'
@@ -120,5 +136,9 @@ export const useOnboardingRedirect = () => {
     } else if (isOnboarding && pathname === '/') {
       navigateWithTimeout('/onboarding')
     }
-  }, [navigateWithTimeout, onboardingState, pathname])
+  }, [isLoading, navigateWithTimeout, onboardingState, pathname])
+
+  return {
+    showOnboardingOnStartup: onboardingState !== 'finished' && pathname === '/',
+  }
 }
