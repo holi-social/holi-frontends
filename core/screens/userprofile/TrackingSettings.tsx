@@ -134,6 +134,18 @@ const TrackingSettings = () => {
             <HoliGap size="sm" />
 
             <Text size="md">
+              <Trans t={t} i18nKey="tracking.consentModal.manageOptions.privacyStatement">
+                <HoliTextLink
+                  href="/profile/settings/legalDocuments/document?type=privacyPolicy"
+                  label={t('profile.settings.legalDocuments.privacyPolicy')}
+                  size="md"
+                />
+              </Trans>
+            </Text>
+
+            <HoliGap size="sm" />
+
+            <Text size="md">
               <Trans t={t} i18nKey={'profile.settings.tracking.dataManagement.description'}>
                 <HoliTextLink
                   label={t('profile.settings.help.support')}
