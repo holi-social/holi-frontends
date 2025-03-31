@@ -1586,6 +1586,7 @@
   "tracking.consentModal.manageOptions.note": "You can change your selection and delete your data at any time.",
   "tracking.consentModal.manageOptions.personalizationBox.description": "You’ll see more content that reflects your interests and preferences, like projects to join and support, posts and much more.",
   "tracking.consentModal.manageOptions.personalizationBox.title": "Allow personalization",
+  "tracking.consentModal.manageOptions.privacyStatement": "Further information, in particular about the recipients of your data, can be found in our <0>privacy policy.</0>",
   "tracking.consentModal.manageOptions.productAnalyticsBox.description": "Your data for more impact – By agreeing to the collection and evaluation of tracking data and the conduct of variation tests, you enable us to improve the product experience for you and others and to make holi more successful.",
   "tracking.consentModal.manageOptions.productAnalyticsBox.title": "Allow product analytics",
   "translation.button.label": "Translate to English",
