@@ -14,7 +14,7 @@ import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import useBlockUser from '@holi/core/hooks/useBlockUser'
+import { useBlockUser } from '@holi/core/hooks/useBlockUser'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -87,9 +87,8 @@ const UserProfile = () => {
 
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
-  const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
 
-  const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
+  const [isBlockingUser, blockUser] = useBlockUser()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -103,14 +102,17 @@ const UserProfile = () => {
           />
           <HoliActionDrawer.Action
             icon={CloseCircle}
-            isLoading={isLoadingBlockUser}
+            isLoading={isBlockingUser}
             title={t('profile.block', { name: userFullName })}
             showConfirmation
           >
             <HoliActionDrawer.Confirmation
               title={t('user.profileView.block.confirmation.title', { name: userFullName })}
               description={t('user.profileView.block.confirmation.description', { name: userFullName })}
-              handleConfirmation={blockUser}
+              handleConfirmation={() => {
+                if (user)
+                  blockUser(user, { successMsg: t('user.profileView.block.successMessage', { name: userFullName }) })
+              }}
               hasDismissBtn
               requireLogin
             />
@@ -119,7 +121,7 @@ const UserProfile = () => {
       ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} fallbackRoute="/" />,
     })
-  }, [isLoadingBlockUser, t, userFullName, blockUser, navigateWithAuth, userId, setScreenOptions])
+  }, [t, userFullName, blockUser, navigateWithAuth, userId, setScreenOptions, user, isBlockingUser])
 
   if (!userId || (loading && !user)) {
     return (

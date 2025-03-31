@@ -1,30 +1,57 @@
 import { useMutation } from '@apollo/client'
-import type { FetchResult, MutationFunctionOptions } from '@apollo/client'
+import { getExistingRoomId, ignoreUser, toMatrixIdentity, useSetRemoveRoomAtom } from '@holi/chat/src/store'
+import type { User } from '@holi/core/domain/shared/types'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { BlockUserMutation } from '@holi/core/queries'
 import type { BlockUserResponse } from '@holi/core/queries'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { useState } from 'react'
 
-export type UseBlockUser = [boolean, (options?: MutationFunctionOptions) => Promise<FetchResult>]
+interface BlockUserOptions {
+  successMsg?: string
+  onHoliUserBlocked?: () => void
+  onChatUserBlocked?: () => void
+}
 
-const useBlockUser = (userId: string, successMsg: string): UseBlockUser => {
+export const useBlockUser = () => {
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
 
-  const [blockUser, { loading: isLoadingBlockUser }] = useMutation<BlockUserResponse>(BlockUserMutation, {
-    variables: { userId },
-    onCompleted: () => {
-      openToast(successMsg, HoliToastType.SUCCESS)
-    },
-    onError: (e) => {
-      displayError(e, 'Failed to block user', {
-        location: 'useBlockUser',
-      })
-    },
-  })
+  const [blockHoliUser] = useMutation<BlockUserResponse>(BlockUserMutation)
 
-  return [isLoadingBlockUser, blockUser]
+  const removeRoom = useSetRemoveRoomAtom()
+  const removeChatsWithBlockedUser = (chatUserId: string) => {
+    const roomId = getExistingRoomId([chatUserId], 'private')
+    if (roomId) removeRoom(roomId)
+  }
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  return [
+    isLoading,
+    async (
+      user: User,
+      { successMsg, onHoliUserBlocked = () => null, onChatUserBlocked = () => null }: BlockUserOptions = {}
+    ) => {
+      setIsLoading(true)
+
+      const chatUserId = toMatrixIdentity(user.identity)
+      try {
+        await Promise.all([
+          blockHoliUser({ variables: { userId: user.id } }).then(onHoliUserBlocked),
+          ignoreUser(chatUserId).then(onChatUserBlocked),
+        ])
+        removeChatsWithBlockedUser(chatUserId)
+
+        if (successMsg) openToast(successMsg, HoliToastType.SUCCESS)
+      } catch (e) {
+        displayError(e, 'Failed to block user', {
+          location: 'useBlockUser',
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    },
+  ] as const
 }
-
-export default useBlockUser
