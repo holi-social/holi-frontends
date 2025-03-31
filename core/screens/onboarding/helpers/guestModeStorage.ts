@@ -12,7 +12,7 @@ export const storeGuestMode = async (guestMode?: boolean): Promise<void> => {
     }
   } catch (error) {
     logError(error, 'Failed to store guest mode', {
-      location: 'guestModeAsyncStore.storeGuestMode',
+      location: 'guestModeStorage.storeGuestMode',
     })
   }
 }
@@ -22,7 +22,7 @@ export const getGuestMode = async (): Promise<boolean> => {
     return userData ? true : false
   } catch (error) {
     logError(error, 'Failed to get guest mode', {
-      location: 'guestModeAsyncStore.getGuestMode',
+      location: 'guestModeStorage.getGuestMode',
     })
     return false
   }

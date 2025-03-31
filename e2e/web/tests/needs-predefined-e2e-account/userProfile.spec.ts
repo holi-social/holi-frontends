@@ -9,10 +9,9 @@ test.describe('@Profile', () => {
     // FIXME: https://holi.atlassian.net/browse/HOLI-9014
     // await loginAsE2EUser(context, page)
     // await clickElementByTestId(page, 'btn-to-profile-view')
-    // fill the interests, skills and sdgs for visiting the profile later
+    // fill the interests and skills for visiting the profile later
     // await checkChipsSelection(page, 'interests')
     // await checkChipsSelection(page, 'skills')
-    // await checkChipsSelection(page, 'sdgs')
 
     // now test with a generated user for not messing too much with the profile of the E2E user
     const { page: otherPage } = await sessions.signUp()

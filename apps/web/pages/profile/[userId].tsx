@@ -1,4 +1,4 @@
-import { NextPage, NextPageContext } from 'next'
+import type { NextPage, GetServerSidePropsContext } from 'next'
 import React from 'react'
 
 import { userByIdQuery } from '@holi/core/domain/shared/queries'
@@ -7,7 +7,7 @@ import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
 const UserProfilePage: NextPage = () => <UserProfile />
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { userId } = context.query
 
   const queries = [

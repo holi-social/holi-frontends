@@ -33,11 +33,13 @@ import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprof
 import NotFound from '@holi/core/screens/404/NotFound'
 import { AuthSelection } from '@holi/core/auth/screens/AuthSelection'
 import Unsubscribe from '@holi/core/screens/mail/Unsubscribe'
+import EventsAppNavigator from '@holi/mobile/navigation/EventsAppNavigator'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
   [RouteName.Notifications]: undefined
   [RouteName.Spaces]: undefined
+  [RouteName.Events]: undefined
   [RouteName.Insights]: undefined
   [RouteName.ActHome]: undefined
   [RouteName.ChatStack]: undefined
@@ -72,16 +74,22 @@ export type RootStackScreens = {
   [RouteName.Search]: SearchParams
 
   [RouteName.UserProfile]: UserProfileParams
+
+  [RouteName.EventList]: undefined
 }
 
 const RootStack = createNativeStackNavigator<RootStackScreens>()
 
-const RootNavigator = () => {
+export interface RootNavigatorProps {
+  showOnboardingOnStartup: boolean
+}
+
+export const RootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) => {
   const { theme } = useTheme()
   const { colors } = theme
   return (
     <RootStack.Navigator
-      initialRouteName={RouteName.BottomTabs}
+      initialRouteName={showOnboardingOnStartup ? RouteName.Onboarding : RouteName.BottomTabs}
       screenOptions={{
         headerShown: false,
         headerShadowVisible: false,
@@ -180,6 +188,14 @@ const RootNavigator = () => {
           headerShown: false,
         }}
       />
+      <RootStack.Screen
+        name={RouteName.EventList}
+        component={EventsAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
       {/* Onboarding */}
       <RootStack.Screen
         name={RouteName.Onboarding}
@@ -270,8 +286,15 @@ const RootNavigator = () => {
       />
 
       <RootStack.Screen name={RouteName.Unsubscribe} component={Unsubscribe} options={{ headerShown: true }} />
+
+      <RootStack.Screen
+        name={RouteName.Events}
+        component={EventsAppNavigator}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: false,
+        }}
+      />
     </RootStack.Navigator>
   )
 }
-
-export default RootNavigator

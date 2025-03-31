@@ -18,6 +18,7 @@ describe('UserTermsRow', () => {
       user: {
         isEmployee: false,
         id: '',
+        email: '',
         identity: '',
         avatarDefaultColor: '',
         avatarLabel: '',

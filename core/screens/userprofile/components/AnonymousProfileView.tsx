@@ -20,7 +20,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { isProduction } from '@holi/core/helpers/environment'
-import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 
 const AnonymousProfileView = () => {
@@ -128,7 +128,7 @@ const AnonymousProfileView = () => {
             onPress={async () => {
               await clearGuestMode()
               clearOnboardingState()
-              navigate('/')
+              navigate('/onboarding')
             }}
             style={styles.settingsItem}
           />

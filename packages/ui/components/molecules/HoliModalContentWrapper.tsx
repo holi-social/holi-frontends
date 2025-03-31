@@ -14,7 +14,7 @@ import {
 import { type EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
+import { Text } from 'holi-bricks/components/text'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useKeyboard, useSoftKeyboard } from '@holi/ui/helper'
 import { dimensions } from '@holi/ui/styles/globalVars'
@@ -65,9 +65,9 @@ const HoliModalContentWrapper = (
     <>
       {!!headlineText?.length && (
         <HoliBox padding={[0, 24, 16, 24]}>
-          <HoliHeading level="2" size="l" align={headlineAlign} testID={`${testID}-heading`}>
+          <Text headingLevel="2" size="3xl" textAlign={headlineAlign} testID={`${testID}-heading`}>
             {headlineText}
-          </HoliHeading>
+          </Text>
         </HoliBox>
       )}
 
@@ -104,7 +104,6 @@ const HoliModalContentWrapper = (
       {showFooter && (
         <View style={styles.button}>
           <Button
-            inline
             label={actionButtonText}
             onPress={onActionButtonPress}
             disabled={actionButtonDisabled}

@@ -1,4 +1,4 @@
-import type { NextPage, NextPageContext } from 'next'
+import type { NextPage, GetServerSidePropsContext } from 'next'
 import React from 'react'
 
 import { challengesPathWithSessionTransfer } from '@holi-apps/challenges/helpers/navigation'
@@ -13,7 +13,7 @@ const getSinglePath = (path: string | string[] | undefined) => {
   return path
 }
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { path } = context.query
   const singlePath = getSinglePath(path)
 

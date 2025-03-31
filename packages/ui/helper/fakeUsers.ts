@@ -5,6 +5,7 @@ import { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
 
 export const getRandomAuthenticatedUser = (): AuthenticatedUser => ({
   ...getRandomUser(),
+  email: faker.internet.email(),
   isEmployee: faker.datatype.boolean(),
 })
 
@@ -27,7 +28,6 @@ export const getRandomUser = (hasAvatar = false): User => {
     geolocationId: 'abc123',
     engagementLevel: 'INTERESTED',
     interestsV2: [],
-    sdgs: [],
     skillsV2: [],
     connectionStatusToMyself: UserConnectionStatus.NOT_CONNECTED,
     connectionStatusToSpace: [],

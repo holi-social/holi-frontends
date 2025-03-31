@@ -2,14 +2,13 @@ import { withProfiler } from '@sentry/react'
 import React, { useRef, memo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, Linking } from 'react-native'
-import RenderHtml from 'react-native-render-html'
 import { logError } from '@holi/core/errors/helpers'
 import PosthogFeatureFlagGuard from '@holi/core/featureFlags/components/PosthogFeatureFlagGuard'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import { Text } from 'holi-bricks/components/text'
-import { DetailsScreen } from '@holi/core/layouts/DetailsScreen'
+
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
@@ -24,6 +23,7 @@ import { useTheme } from '@holi/ui/styles/theme'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
+import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 
 export type VolunteeringEngagementDetailParams = {
   engagementId: string
@@ -98,9 +98,11 @@ export const VolunteeringEngagementDetail = () => {
                 }
               }
             }}
+            testID="volunteering-engagement-get-in-touch-btn"
           />
         </Stack>
       }
+      testID="volunteering-detailview-container"
     >
       <DetailsScreen
         loading={loading}
@@ -108,11 +110,7 @@ export const VolunteeringEngagementDetail = () => {
         title={data?.title}
         infoList={data?.infoList}
         visibility="public"
-        description={
-          data?.description && (
-            <RenderHtml defaultTextProps={{ selectable: true }} source={{ html: data?.description }} contentWidth={0} />
-          )
-        }
+        description={data?.description}
         author={data?.author}
         chips={data?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop

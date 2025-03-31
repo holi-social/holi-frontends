@@ -1,4 +1,4 @@
-import type { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 import { defaultLocale } from '@holi/core/i18n/locales.cjs'
 import { generateSitemapUrlSet, getUrlPrefix } from '@holi/web/helpers/sitemap'
 import { paths as donationPaths } from '@holi/web/pages/donations'
@@ -33,7 +33,7 @@ const StaticSitemapIndex = () => {
   // Content is written to response in getServerSideProps
 }
 
-export const getServerSideProps = async ({ req, res, locale }: NextPageContext) => {
+export const getServerSideProps = async ({ req, res, locale }: GetServerSidePropsContext) => {
   const prefix = getUrlPrefix(req, locale)
   const sitemap = generateSitemapUrlSet(prefix, createSitemapUrls(locale))
 

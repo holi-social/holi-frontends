@@ -26,6 +26,9 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useBreakpointMatcher } from '@holi/core/helpers'
+import { dimensions } from '@holi/ui/styles/globalVars'
+import { Spacing } from 'holi-bricks/tokens'
 
 export enum Tab {
   MINE = 'mine',
@@ -50,6 +53,11 @@ const Spaces = () => {
   const styles = useMemo(() => getStyles(theme), [theme])
   const client = useApolloClient()
   const { navigateWithAuth } = useAuthRequiredNavigation()
+  const marginHorizontal = useBreakpointMatcher([
+    [0, 0],
+    [dimensions.breakpointS, Spacing.lg],
+    [dimensions.breakpointL, Spacing['4xl']],
+  ])
 
   const { onScroll: onScreenScroll } = useThrottledMobileScrollEvents()
 
@@ -125,7 +133,7 @@ const Spaces = () => {
             activeTab={activeTab}
             onChange={onChangeTab}
             backgroundColor={colors.background20}
-            marginHorizontal={0}
+            marginHorizontal={marginHorizontal}
             data={[
               {
                 key: Tab.MINE,

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core'
-import type { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 import pino from 'pino'
 
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
@@ -29,7 +29,7 @@ const InsightsSiteMapIndex = () => {
   // Content is written to response in getServerSideProps
 }
 
-export const getServerSideProps = async ({ req, res, locale }: NextPageContext) => {
+export const getServerSideProps = async ({ req, res, locale }: GetServerSidePropsContext) => {
   const prefix = getUrlPrefix(req, locale)
   const client = initializeWebApolloClient({ locale })
   const totalInsightsCount = await client

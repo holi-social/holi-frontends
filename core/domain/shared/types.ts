@@ -1,6 +1,5 @@
 import type { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { UserConnectionStatus } from '@holi/core/screens/userprofile/types'
-import type { Paged } from '@holi/core/types'
 
 export type TermType = 'topic' | 'skill'
 
@@ -137,17 +136,10 @@ export interface Term {
 
 export type SortedTerm = Term & { number?: number }
 
-export type SDG = Term & {
-  number: number
-}
-
+// TODO(SF) removable?
 export const termsByTitleComparator = (a: Term, b: Term) => a.title.localeCompare(b.title)
 
 export const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.number || 0) - (b.number || 0)
-
-export interface SdgsQueryResult {
-  sdgs: Paged<SDG>
-}
 
 export interface User {
   id: string
@@ -170,14 +162,15 @@ export interface User {
   geolocationId?: string
   engagementLevel?: string
   interestsV2?: string[]
-  sdgs?: SDG[]
   skillsV2?: string[]
   connectionStatusToMyself?: UserConnectionStatus
   connectionStatusToSpace?: SpaceConnectionType[]
 }
 
 export interface AuthenticatedUser extends User {
+  email: string
   trackingConsentAnalytics?: boolean | null
   trackingConsentPersonalization?: boolean | null
+  trackingConsentAdPartners?: boolean | null
   isEmployee: boolean
 }

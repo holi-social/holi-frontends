@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client/core'
-import type { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 import pino from 'pino'
 
 import { initializeWebApolloClient } from '@holi/api/graphql/client'
-import { Insight } from '@holi/api/graphql/graphql-codegen'
+import type { Insight } from '@holi/api/graphql/graphql-codegen'
 import { generateSitemapUrlSet, getUrlPrefix } from '@holi/web/helpers/sitemap'
 import { PAGE_SIZE } from '@holi/web/pages/sitemap/insights.xml'
 
@@ -51,16 +51,16 @@ const asNum = (param: string | string[] | undefined) => {
     return 0
   }
   if (Array.isArray(param)) {
-    return param.length ? parseInt(param[0]) : 0
+    return param.length ? Number.parseInt(param[0]) : 0
   }
-  return parseInt(param)
+  return Number.parseInt(param)
 }
 
 const InsightSiteMap = () => {
   // Content is written to response in getServerSideProps
 }
 
-export const getServerSideProps = async ({ req, res, query, locale }: NextPageContext) => {
+export const getServerSideProps = async ({ req, res, query, locale }: GetServerSidePropsContext) => {
   const { page } = query
   const prefix = getUrlPrefix(req, locale)
   const client = initializeWebApolloClient({ locale })
@@ -77,7 +77,7 @@ export const getServerSideProps = async ({ req, res, query, locale }: NextPageCo
 
   const sitemap = generateSitemapUrlSet(
     prefix,
-    insights.map((insight: Insight) => createEntriesForInsight(insight)).flat()
+    insights.flatMap((insight: Insight) => createEntriesForInsight(insight))
   )
 
   if (res) {

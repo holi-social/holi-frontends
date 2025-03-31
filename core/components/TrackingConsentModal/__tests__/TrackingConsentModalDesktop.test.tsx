@@ -42,10 +42,12 @@ describe('TrackingConsentModalDesktop', () => {
       expect(mockUpdateConsentState).toHaveBeenCalledWith({
         [TrackingPurpose.Analytics]: Consent.Given,
         [TrackingPurpose.Personalization]: Consent.Given,
+        [TrackingPurpose.AdPartners]: Consent.Given,
       })
       expect(mockAnonCount).toHaveBeenCalledWith('tracking_consent_modal_accepted_all')
     })
   })
+
   describe('when denying tracking for all purposes', () => {
     it('updates consent state and calls hooks', async () => {
       const user = userEvent.setup()
@@ -60,12 +62,14 @@ describe('TrackingConsentModalDesktop', () => {
       expect(mockUpdateConsentState).toHaveBeenCalledWith({
         [TrackingPurpose.Analytics]: Consent.Denied,
         [TrackingPurpose.Personalization]: Consent.Denied,
+        [TrackingPurpose.AdPartners]: Consent.Denied,
       })
       expect(mockAnonCount).toHaveBeenCalledWith('tracking_consent_modal_denied_all')
     })
   })
+
   describe('when confirming tracking choices', () => {
-    it('[given personalization + denied analytics] updates consent state and calls hooks', async () => {
+    it('[given personalization + denied analytics + denied ad partners] updates consent state and calls hooks', async () => {
       const user = userEvent.setup()
 
       render(<TrackingConsentModalDesktop />)
@@ -79,10 +83,12 @@ describe('TrackingConsentModalDesktop', () => {
       expect(mockUpdateConsentState).toHaveBeenCalledWith({
         [TrackingPurpose.Analytics]: Consent.Denied,
         [TrackingPurpose.Personalization]: Consent.Given,
+        [TrackingPurpose.AdPartners]: Consent.Denied,
       })
       expect(mockAnonCount).toHaveBeenCalledWith('tracking_consent_modal_options_accepted_personalization')
     })
-    it('[denied personalization + given analytics] updates consent state and calls hooks', async () => {
+
+    it('[denied personalization + given analytics + denied ad partners] updates consent state and calls hooks', async () => {
       const user = userEvent.setup()
 
       render(<TrackingConsentModalDesktop />)
@@ -96,10 +102,12 @@ describe('TrackingConsentModalDesktop', () => {
       expect(mockUpdateConsentState).toHaveBeenCalledWith({
         [TrackingPurpose.Analytics]: Consent.Given,
         [TrackingPurpose.Personalization]: Consent.Denied,
+        [TrackingPurpose.AdPartners]: Consent.Denied,
       })
       expect(mockAnonCount).toHaveBeenCalledWith('tracking_consent_modal_options_accepted_analytics')
     })
-    it('[given personalization + given analytics] updates consent state and calls hooks', async () => {
+
+    it('[given personalization + given analytics + denied ad partners] updates consent state and calls hooks', async () => {
       const user = userEvent.setup()
 
       render(<TrackingConsentModalDesktop />)
@@ -114,10 +122,35 @@ describe('TrackingConsentModalDesktop', () => {
       expect(mockUpdateConsentState).toHaveBeenCalledWith({
         [TrackingPurpose.Analytics]: Consent.Given,
         [TrackingPurpose.Personalization]: Consent.Given,
+        [TrackingPurpose.AdPartners]: Consent.Denied,
       })
       expect(mockAnonCount).toHaveBeenCalledWith('tracking_consent_modal_options_accepted_analytics_personalization')
     })
-    it('[denied personalization + denied analytics] updates consent state and calls hooks', async () => {
+
+    it('[given personalization + given analytics + given ad partners] updates consent state and calls hooks', async () => {
+      const user = userEvent.setup()
+
+      render(<TrackingConsentModalDesktop />)
+      act(jest.runAllTimers)
+
+      expect(mockAnonCount).toHaveBeenCalledWith('tracking_consent_modal_shown')
+
+      await user.press(screen.getByText('tracking.consentModal.manageOptions.personalizationBox.title'))
+      await user.press(screen.getByText('tracking.consentModal.manageOptions.productAnalyticsBox.title'))
+      await user.press(screen.getByText('tracking.consentModal.manageOptions.adPartnerAnalyticsBox.title'))
+      await user.press(screen.getByLabelText('tracking.consentModal.manageOptions.button.confirmMyChoices'))
+
+      expect(mockUpdateConsentState).toHaveBeenCalledWith({
+        [TrackingPurpose.Analytics]: Consent.Given,
+        [TrackingPurpose.Personalization]: Consent.Given,
+        [TrackingPurpose.AdPartners]: Consent.Given,
+      })
+      expect(mockAnonCount).toHaveBeenCalledWith(
+        'tracking_consent_modal_options_accepted_analytics_personalization_ad_partners'
+      )
+    })
+
+    it('[denied personalization + denied analytics + denied ad partners] updates consent state and calls hooks', async () => {
       const user = userEvent.setup()
 
       render(<TrackingConsentModalDesktop />)
@@ -130,6 +163,7 @@ describe('TrackingConsentModalDesktop', () => {
       expect(mockUpdateConsentState).toHaveBeenCalledWith({
         [TrackingPurpose.Analytics]: Consent.Denied,
         [TrackingPurpose.Personalization]: Consent.Denied,
+        [TrackingPurpose.AdPartners]: Consent.Denied,
       })
       expect(mockAnonCount).toHaveBeenCalledWith('tracking_consent_modal_denied_all')
     })

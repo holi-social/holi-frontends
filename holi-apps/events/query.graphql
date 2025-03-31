@@ -1,0 +1,45 @@
+query getEventById($id: String!) {
+  appEvents_event(id: $id) {
+    data {
+      ...FullEvent
+    }
+  }
+}
+
+query allEvents($offset: Int = 0, $limit: Int = 5, $localOnly: Boolean) {
+  appEvents_events(offset: $offset, limit: $limit, localOnly: $localOnly) {
+    totalResults
+    data {
+      ...FullEvent
+    }
+  }
+}
+
+query nearbyEvents($limit: Int = 5, $geolocationId: ID) {
+  appEvents_nearbyEvents(limit: $limit, geolocationId: $geolocationId) {
+    data {
+      ...FullEvent
+    }
+  }
+}
+
+fragment FullEvent on AppEvents_Event {
+  id
+  title
+  organisationName
+  startDate
+  endDate
+  location {
+    street
+    streetNo
+    city
+    zipCode
+  }
+  isRemote
+  imageUrl
+  eventDetails {
+    description
+    externalLink
+    meetingLink
+  }
+}

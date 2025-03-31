@@ -1,4 +1,5 @@
 import React, { type ReactNode } from 'react'
+import { View } from 'react-native'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import type { ImageSource as LegacyImageSource } from '@holi/ui/components/atoms/HoliImage/types'
 import { ChipLabel } from 'holi-bricks/components/chips'
@@ -11,15 +12,23 @@ import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliHead from '@holi/core/components/HoliHead'
 import { CoverImage } from '@holi/core/components/CoverImage'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
-import { DetailsScreenSkeleton } from '@holi/core/layouts/DetailsScreen/skeleton'
-import { Global, Lock } from '@holi/icons/src/generated'
+
+import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
+import { Spacing } from 'holi-bricks/tokens'
+import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
+import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
+import { TextLinkTracked } from '@holi/core/components/Trackable'
+import { TrackingEvent } from '@holi/core/tracking'
+import type { ImageSource } from 'holi-bricks/components/image'
+import { Avatar } from 'holi-bricks/components/avatar'
 
 export type DetailsScreenInfoList = {
   title: string
   icon: HoliIconType
   subtitle?: string
   onPress?(): void
+  showExternalIcon?: boolean
 }
 
 export type DetailsScreenChips = {
@@ -27,11 +36,17 @@ export type DetailsScreenChips = {
   color: ChipColor
 }
 
+export type Partner = {
+  title: string
+  image?: ImageSource
+  onPress?(): void
+}
+
 export type DetailsScreenAuthor = AuthorBannerProps
 
 export type DetailsScreenData = {
-  date?: Date
-  description?: string | ReactNode
+  date?: Date | string
+  description?: string
   author?: DetailsScreenAuthor
   chips?: DetailsScreenChips[]
   seoDescription?: string
@@ -40,15 +55,39 @@ export type DetailsScreenData = {
   title: string
   infoList?: DetailsScreenInfoList[]
   coverImage?: LegacyImageSource
+  partners?: {
+    title: string
+    details: Partner[]
+  }
   _footer?: ReactNode | ReactNode[] // DO NOT USE, is used temporary while we develop a proper solution to manage carousels at the bottom not for main use
 }
 
 type DetailsScreenProps = DetailsScreenData
 
+const isHtml = (str: string) => /<\/?[a-z][\s\S]*>/i.test(str)
+
+const DescriptionRenderer = ({ description }: { description?: string }) => {
+  if (!description) return null
+
+  if (React.isValidElement(description)) {
+    return description
+  }
+
+  if (typeof description === 'string') {
+    return isHtml(description) ? (
+      <HtmlRenderer content={description} />
+    ) : (
+      <HoliRichTextOutput text={description as string} />
+    )
+  }
+
+  return null
+}
+
 export const DetailsScreen = ({
   description,
   coverImage,
-  chips,
+  chips = [],
   visibility,
   title,
   date,
@@ -56,6 +95,7 @@ export const DetailsScreen = ({
   loading,
   author,
   seoDescription,
+  partners,
   _footer = null,
 }: DetailsScreenProps) => {
   const { t } = useTranslation()
@@ -66,7 +106,6 @@ export const DetailsScreen = ({
   }
 
   const _seoDescription = seoDescription || (typeof description === 'string' ? description : '')
-
   return (
     <>
       <HoliHead
@@ -77,7 +116,19 @@ export const DetailsScreen = ({
         ogImage={coverImage?.uri}
       />
       <Stack direction="column" flex={1} padding={{ bottom: '4xl' }}>
-        <CoverImage coverImage={coverImage} />
+        <Stack>
+          <CoverImage coverImage={coverImage} />
+          {date && (
+            <View style={{ position: 'absolute', bottom: Spacing['sm'], left: Spacing['xs'] }}>
+              <HoliCalendarIcon
+                day={new Date(date as Date)?.getDate()}
+                month={new Date(date as Date)?.getMonth() + 1}
+                size="medium"
+              />
+            </View>
+          )}
+        </Stack>
+
         <Stack
           margin={{ bottom: '4xl' }}
           padding={{ left: 'xs', right: 'xs', bottom: 'sm' }}
@@ -106,44 +157,59 @@ export const DetailsScreen = ({
             </Stack>
 
             <Stack gap="xs" direction="row">
-              {date && (
-                <HoliCalendarIcon
-                  day={new Date(date as Date)?.getDate()}
-                  month={new Date(date as Date)?.getMonth() + 1}
-                  size="medium"
-                />
-              )}
               <Text size="3xl">{title}</Text>
             </Stack>
 
             <Stack direction="column" gap="xxs" shouldRender={!!infoList}>
               {infoList?.map((detail, index) => {
-                const TextComp = detail.onPress ? TextLink : Text
+                const TextComp = detail.onPress ? TextLinkTracked : Text
                 return (
                   <Stack
-                    alignItems={detail?.subtitle ? 'flex-start' : 'center'}
-                    justifyContent="flex-start"
+                    alignItems="flex-start"
                     direction="row"
                     gap="3xs"
+                    padding={{ right: 'sm' }}
                     onPress={detail?.onPress}
                     key={`${detail?.title}-${index}`}
                   >
-                    <HoliIcon size={24} icon={detail?.icon} />
-                    <Stack>
-                      <TextComp size="md">{detail?.title}</TextComp>
+                    <HoliIcon size={Spacing.md} icon={detail?.icon} />
+                    <Stack flex={1}>
+                      <TextComp size="md" trackingEvent={TrackingEvent.EventDetails.videoCall}>
+                        {detail?.title}
+                      </TextComp>
                       {detail?.subtitle && (
                         <Text color="support" size="sm">
                           {detail?.subtitle}
                         </Text>
                       )}
                     </Stack>
+                    {detail.showExternalIcon ? <HoliIcon icon={ExternalLink} size={Spacing.sm} /> : null}
                   </Stack>
                 )
               })}
             </Stack>
-            {description && React.isValidElement(description) ? <Text size="md">{description}</Text> : null}
-            {description && typeof description === 'string' && <HoliRichTextOutput text={description as string} />}
+            <DescriptionRenderer description={description} />
             {author && <AuthorBanner {...author} />}
+            {partners && (
+              <Stack direction="column" gap="xxs">
+                <Text size="sm" color="support">
+                  {partners?.title}
+                </Text>
+                {partners.details?.map((partner, index) => {
+                  return (
+                    <Stack key={`partner-block-${partner.title}-${index}`} direction="row" gap="xs">
+                      <Avatar shape="circle" size="xs" source={partner?.image} initials={partner.title} />
+                      <Stack direction="row" flex={1} justifyContent="space-between" alignItems="center">
+                        <TextLink onPress={partner?.onPress} size="md">
+                          {partner.title}
+                        </TextLink>
+                        {partner?.onPress ? <HoliIcon size={20} icon={ExternalLink} /> : null}
+                      </Stack>
+                    </Stack>
+                  )
+                })}
+              </Stack>
+            )}
           </Stack>
         </Stack>
         {_footer}

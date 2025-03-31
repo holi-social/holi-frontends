@@ -6,9 +6,9 @@ require('ts-node/register')
 // see https://docs.expo.dev/build-reference/app-versions/
 // TODO somehow automatically increment version numbers on every release
 const versions = {
-  version: '1.52.0', // user-facing value visible in stores
-  iosBuildNumber: '1.52.0', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
-  androidVersionCode: 146, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
+  version: '1.52.3', // user-facing value visible in stores
+  iosBuildNumber: '1.52.3', // developer-facing build version, see https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion
+  androidVersionCode: 149, // developer-facing build version, see https://developer.android.com/studio/publish/versioning.html#versioningsettings
 }
 
 // - Environment variables are available in the mobile app source code via the expo-constants package.
@@ -143,6 +143,7 @@ const config: ExpoConfig = {
     softwareKeyboardLayoutMode: 'pan',
   },
   plugins: [
+    'expo-tracking-transparency',
     'expo-localization',
     'expo-secure-store',
     [
@@ -170,6 +171,18 @@ const config: ExpoConfig = {
       'expo-calendar',
       {
         calendarPermission: 'Allow access to your calendar',
+      },
+    ],
+    [
+      'react-native-fbsdk-next',
+      {
+        appID: requiredEnvVar('FACEBOOK_APP_ID'),
+        displayName: process.env.FACEBOOK_APP_DISPLAY_NAME ?? 'holi',
+        clientToken: requiredEnvVar('FACEBOOK_CLIENT_TOKEN'),
+        scheme: `fb${requiredEnvVar('FACEBOOK_APP_ID')}`,
+        autoLogAppEventsEnabled: false,
+        isAutoInitEnabled: false,
+        advertiserIDCollectionEnabled: false,
       },
     ],
     // HOLI-9792: Create a new development build to bundle fonts

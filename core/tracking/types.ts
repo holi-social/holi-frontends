@@ -4,6 +4,7 @@ import type { TrackingEvent } from '@holi/core/tracking/events'
 export enum TrackingPurpose {
   Analytics = 'ANALYTICS',
   Personalization = 'PERSONALIZATION',
+  AdPartners = 'AD_PARTNERS',
 }
 
 export enum Consent {
@@ -41,6 +42,7 @@ export namespace Consent {
 export interface ConsentState extends Record<TrackingPurpose, Consent> {
   [TrackingPurpose.Analytics]: Consent
   [TrackingPurpose.Personalization]: Consent
+  [TrackingPurpose.AdPartners]: Consent
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -48,12 +50,14 @@ export namespace ConsentState {
   export const unknown: ConsentState = {
     [TrackingPurpose.Analytics]: Consent.Unknown,
     [TrackingPurpose.Personalization]: Consent.Unknown,
+    [TrackingPurpose.AdPartners]: Consent.Unknown,
   }
   export const isUnknown = (cs: ConsentState): boolean => Object.values(cs).every((value) => value === Consent.Unknown)
 
   export const fromUser = (user: AuthenticatedUser): ConsentState => ({
     [TrackingPurpose.Analytics]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentAnalytics),
     [TrackingPurpose.Personalization]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentPersonalization),
+    [TrackingPurpose.AdPartners]: Consent.fromBooleanOrNullOrUndefined(user.trackingConsentAdPartners),
   })
 
   // can be used to attach the current consent state for every purpose to events sent to PostHog. This way, when
@@ -62,6 +66,7 @@ export namespace ConsentState {
   export const toEventProperties = (cs: ConsentState): Record<string, boolean | null> => ({
     trackingConsentAnalytics: Consent.toBooleanOrNull(cs[TrackingPurpose.Analytics]),
     trackingConsentPersonalization: Consent.toBooleanOrNull(cs[TrackingPurpose.Personalization]),
+    trackingConsentAdPartners: Consent.toBooleanOrNull(cs[TrackingPurpose.AdPartners]),
   })
 }
 
@@ -92,6 +97,14 @@ export interface PosthogCrossPlatform {
   distinctId: () => string
   updatePersonProperties: (properties?: Properties) => void
   flush: () => Promise<void>
+}
+
+export interface FacebookSdkCrossPlatform {
+  initialize(user?: AuthenticatedUser): Promise<void>
+  optIn(user?: AuthenticatedUser): Promise<void>
+  optOut(): Promise<void>
+  enabled(): Promise<boolean>
+  trackSignUp(): Promise<void>
 }
 
 export type SignupModalPressedTrigger =

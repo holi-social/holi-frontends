@@ -225,16 +225,6 @@ const testCreatingEditingSpace = async (page: Page) => {
     await saveAndWaitForModalClosed(page)
   }
 
-  // edit space sdgs
-  await clickElementByTestId(page, 'btn-space-edit-sdgs')
-  await waitForAnimationEnd(page, byTestId('space-chips-modal-animatedview'))
-  await selectSomeTerms(page, numberOfEditedTerms)
-  await saveAndWaitForModalClosed(page)
-
-  // check if the correct number of sdgs have been selected
-  const sdgsChips = page.locator(`${byTestId('space-edit-sdgs-list')} [role="presentation"]`)
-  await expect(sdgsChips.count()).resolves.toBe(numberOfEditedTerms)
-
   await editSpaceContactInfo(page)
 
   await clickElementByTestId(page, 'space-edit-close')

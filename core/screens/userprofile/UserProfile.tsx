@@ -14,7 +14,7 @@ import { isNotFoundError } from '@holi/core/errors/helpers'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-import useBlockUser from '@holi/core/hooks/useBlockUser'
+import { useBlockUser } from '@holi/core/hooks/useBlockUser'
 import useAuthRequiredNavigation from '@holi/core/navigation/hooks/useAuthRequiredNavigation'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -22,7 +22,6 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import { ContentType, ContentType3K } from '@holi/core/queries'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import OtherPostsTab from '@holi/core/screens/individualPosts/components/OtherPostsTab'
-import UserSDGsChipRow from '@holi/core/screens/userprofile/components/UserSDGsChipRow'
 import UserProfileView from '@holi/core/screens/userprofile/components/UserProfileView'
 import { CloseCircle, Flag } from '@holi/icons/src/generated'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
@@ -88,9 +87,8 @@ const UserProfile = () => {
 
   const user = data?.userById
   const userFullName = user?.fullName || t('user.profileView.anonymous')
-  const successMsg = t('user.profileView.block.successMessage', { name: userFullName })
 
-  const [isLoadingBlockUser, blockUser] = useBlockUser(userId, successMsg)
+  const [isBlockingUser, blockUser] = useBlockUser()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -104,14 +102,17 @@ const UserProfile = () => {
           />
           <HoliActionDrawer.Action
             icon={CloseCircle}
-            isLoading={isLoadingBlockUser}
+            isLoading={isBlockingUser}
             title={t('profile.block', { name: userFullName })}
             showConfirmation
           >
             <HoliActionDrawer.Confirmation
               title={t('user.profileView.block.confirmation.title', { name: userFullName })}
               description={t('user.profileView.block.confirmation.description', { name: userFullName })}
-              handleConfirmation={blockUser}
+              handleConfirmation={() => {
+                if (user)
+                  blockUser(user, { successMsg: t('user.profileView.block.successMessage', { name: userFullName }) })
+              }}
               hasDismissBtn
               requireLogin
             />
@@ -120,7 +121,7 @@ const UserProfile = () => {
       ),
       headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} fallbackRoute="/" />,
     })
-  }, [isLoadingBlockUser, t, userFullName, blockUser, navigateWithAuth, userId, setScreenOptions])
+  }, [t, userFullName, blockUser, navigateWithAuth, userId, setScreenOptions, user, isBlockingUser])
 
   if (!userId || (loading && !user)) {
     return (
@@ -143,9 +144,8 @@ const UserProfile = () => {
   }
 
   const hasInterests = !!user.interestsV2?.length
-  const hasSdgs = !!user.sdgs?.length
   const hasSkills = !!user.skillsV2?.length
-  const hasInfo = user.engagementLevel || hasInterests || hasSdgs || hasSkills
+  const hasInfo = user.engagementLevel || hasInterests || hasSkills
 
   const tabsData = [
     {
@@ -168,11 +168,6 @@ const UserProfile = () => {
           {hasInterests && (
             <View style={styles.chipRowContainer} key={UserChipTypes.INTERESTS}>
               <UserTermsRow termType="topic" />
-            </View>
-          )}
-          {hasSdgs && (
-            <View style={styles.chipRowContainer} key={UserChipTypes.SDGS}>
-              <UserSDGsChipRow user={user} />
             </View>
           )}
           {hasSkills && (

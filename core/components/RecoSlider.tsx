@@ -14,6 +14,9 @@ import HoliMoreCard from '@holi/ui/components/atoms/HoliMoreCard'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { TextLinkTracked } from '@holi/core/components/Trackable'
+import type { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 type RecoSliderProps = {
   name: string
@@ -31,6 +34,8 @@ type RecoSliderProps = {
   testID?: string
   cardWidth: number
   viewTrackingParams?: TrackableFlatListParams
+  size?: 'sm' | 'md'
+  seeMoreTrackingEvent?: TrackingEvent
 }
 
 const RecoSlider: React.FC<RecoSliderProps> = ({
@@ -47,10 +52,13 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   testID,
   cardWidth,
   viewTrackingParams,
+  size = 'md',
+  seeMoreTrackingEvent,
 }) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { theme } = useTheme()
+  const { track } = useTracking()
   const { colors } = theme
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
 
@@ -61,6 +69,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
   }
 
   const handleSeeMore = (event: React.SyntheticEvent | GestureResponderEvent) => {
+    if (seeMoreTrackingEvent) track(seeMoreTrackingEvent)
     if (onPressSeeMore) {
       onPressSeeMore(event)
     } else if (seeAllPath) {
@@ -86,6 +95,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
             label={labelSeeMore}
             onPress={handleSeeMore}
             testID={`${name}-reco-slider-load-more-button`}
+            size={size}
           >
             {labelSeeMore}
           </HoliMoreCard>
@@ -127,11 +137,16 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
                 </Text>
               </View>
             </View>
-            {seeAllPath && (
-              <TextLink size="sm" role="none">
-                {t('global.seeAll')}
-              </TextLink>
-            )}
+            {seeAllPath &&
+              (seeMoreTrackingEvent ? (
+                <TextLinkTracked size="sm" role="none" trackingEvent={seeMoreTrackingEvent}>
+                  {t('global.seeAll')}
+                </TextLinkTracked>
+              ) : (
+                <TextLink size="sm" role="none">
+                  {t('global.seeAll')}
+                </TextLink>
+              ))}
           </View>
         </HoliButton>
 

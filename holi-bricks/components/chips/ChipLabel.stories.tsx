@@ -34,7 +34,7 @@ const meta: Meta<typeof ChipLabel> = {
 
 type Story = StoryObj<typeof ChipLabel>
 
-export const Playground: Story = {
+export const Default: Story = {
   argTypes: {
     color: { control: 'select', options: availableColors },
     size: { control: 'select', options: availableSizes },

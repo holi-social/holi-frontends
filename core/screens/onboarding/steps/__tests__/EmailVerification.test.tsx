@@ -10,7 +10,7 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { act, render, screen, userEvent, waitFor } from '@testing-library/react-native'
 import React from 'react'
-import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 
 const mockClearVerificationFlowData = clearVerificationFlowData as jest.Mock
 const mockUseVerificationFlowData = useVerificationFlowData as jest.Mock
@@ -56,7 +56,7 @@ jest.mock('@holi/core/screens/onboarding/hooks/onboardingState', () => ({
 }))
 
 const mockStoreGuestMode = storeGuestMode as jest.Mock
-jest.mock('@holi/core/screens/onboarding/helpers/guestModeAsyncStore', () => ({
+jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
   storeGuestMode: jest.fn(),
 }))
 

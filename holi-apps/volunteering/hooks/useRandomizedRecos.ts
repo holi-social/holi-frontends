@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import { logError } from '@holi/core/errors/helpers'
+import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
 
 const STORAGE_KEY = 'volunteering_recos_randomization'
 const REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000 // 24 hours
 
 // For development debugging only
-const DEBUG = process.env.NODE_ENV === 'development'
+const DEBUG = process.env.NODE_ENV === 'development' && DEBUG_LOG_COMPONENTS.RandomizationState
 
 interface RandomizationState {
   lastRefreshTimestamp: number

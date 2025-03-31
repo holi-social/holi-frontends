@@ -1,10 +1,10 @@
 import type { IncomingMessage, ServerResponse } from 'http'
 import { graphql } from 'msw'
-import type { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 
 export const graphqlLink = graphql.link('http://localhost:3000/api/graphql')
 
-export const createPageContextMock = ({ locale = 'en', ...overrides }: Partial<NextPageContext> = {}) => {
+export const createPageContextMock = ({ locale = 'en', ...overrides }: Partial<GetServerSidePropsContext> = {}) => {
   const writeMock = jest.fn()
   const setHeaderMock = jest.fn()
   // @ts-ignore
@@ -14,7 +14,7 @@ export const createPageContextMock = ({ locale = 'en', ...overrides }: Partial<N
     end: jest.fn(),
   }
 
-  const context = { res, locale, ...overrides } as NextPageContext
+  const context = { res, locale, ...overrides } as GetServerSidePropsContext
 
   return { context, writeMock, setHeaderMock }
 }

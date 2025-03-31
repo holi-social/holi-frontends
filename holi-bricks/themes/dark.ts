@@ -32,6 +32,8 @@ export const darkTheme = {
     decorative: {
       black: mono[800],
       white: mono[100],
+      greyLight: mono[300],
+      greyDark: mono[600],
       yellowLight: yellow[300],
       yellowDefault: yellow[400],
       yellowDark: yellow[600],

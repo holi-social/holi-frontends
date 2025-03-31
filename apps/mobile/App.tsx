@@ -14,10 +14,10 @@ import RootProvider from '@holi/core/providers/RootProvider'
 import { subscribeToDeviceTokenChanges } from '@holi/core/screens/notifications/helpers/useDeviceToken'
 import { config } from '@holi/mobile/config'
 import NavigationProvider from '@holi/mobile/navigation/NavigationProvider'
-import RootNavigator from '@holi/mobile/navigation/RootNavigator'
 import { initNotifications } from '@holi/mobile/notifications/initNotifications'
 import defaultHoliTheme, { ThemeProvider } from '@holi/ui/styles/theme'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
+import { OnboardingAwaitingNavigator } from '@holi/mobile/navigation/OnboardingAwaitingNavigator'
 
 const logger = getLogger('AppInit')
 
@@ -77,7 +77,6 @@ const App = () => {
   useEffect(() => {
     if (fontsLoaded && initDone) {
       setIsReady(true)
-      SplashScreen.hideAsync()
     }
   }, [fontsLoaded, initDone])
 
@@ -89,7 +88,7 @@ const App = () => {
         <NavigationProvider>
           <RootProvider apolloClient={apolloClient}>
             <KeyboardProvider>
-              <RootNavigator />
+              <OnboardingAwaitingNavigator onReady={SplashScreen.hideAsync} />
             </KeyboardProvider>
           </RootProvider>
         </NavigationProvider>

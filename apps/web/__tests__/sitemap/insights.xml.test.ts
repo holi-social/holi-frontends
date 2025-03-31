@@ -1,6 +1,6 @@
 import { HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
-import { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 
 import { createPageContextMock, graphqlLink } from '@holi/web/__tests__/helpers'
 import { getServerSideProps, insightsCountQuery } from '@holi/web/pages/sitemap/insights.xml'
@@ -51,7 +51,7 @@ describe('Insights sitemap index', () => {
   it('should render sitemap index for insights for german locale', async () => {
     const { context, writeMock } = createPageContextMock({ locale: 'de' })
 
-    await getServerSideProps(context as NextPageContext)
+    await getServerSideProps(context as GetServerSidePropsContext)
 
     const response = writeMock.mock.lastCall[0]
     expect(response).toMatchInlineSnapshot(`
@@ -71,7 +71,7 @@ describe('Insights sitemap index', () => {
   it('should set correct content type', async () => {
     const { context, setHeaderMock } = createPageContextMock()
 
-    await getServerSideProps(context as NextPageContext)
+    await getServerSideProps(context as GetServerSidePropsContext)
 
     expect(setHeaderMock).toHaveBeenCalledWith('Content-Type', 'text/xml')
   })

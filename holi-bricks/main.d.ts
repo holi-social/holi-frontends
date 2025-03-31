@@ -22,6 +22,7 @@ declare global {
   }
 
   type BgColors = 'container' | 'page' | 'selected' | 'disabled'
+  type BorderColors = 'main' | 'support' | 'default' | 'quaternary'
 }
 
 type Themes = {

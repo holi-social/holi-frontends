@@ -1,4 +1,4 @@
-import { getGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeAsyncStore'
+import { getGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 import { useEffect, useState } from 'react'
 
 export const useGuestMode = () => {

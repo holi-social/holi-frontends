@@ -1,5 +1,5 @@
-import { NextPageContext } from 'next'
-import React, { ReactElement } from 'react'
+import type { GetServerSidePropsContext } from 'next'
+import React, { type ReactElement } from 'react'
 
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { AppLayout } from '@holi/web/layout/NavigationLayoutVolunteeringApp'
@@ -16,7 +16,7 @@ export const paths = {
   de: '/ehrenamt',
 }
 
-export const getServerSideProps = async (context: NextPageContext) =>
+export const getServerSideProps = async (context: GetServerSidePropsContext) =>
   createServerSideProps(context, [], {
     seoTitle: 'seo.h1.volunteering',
     urls: paths,

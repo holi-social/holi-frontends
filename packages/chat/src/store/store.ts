@@ -736,7 +736,7 @@ _membershipSubscriberAtom.onMount = (setAtom) => {
 const _ignoredUsersAtom = atom<string[]>([])
 
 const _ignoredUsersAtomSubscriber = atom(null, async (_get, set) => {
-  set(_ignoredUsersAtom, getChatClient().getIgnoredUsers)
+  set(_ignoredUsersAtom, () => getChatClient().getIgnoredUsers())
 })
 
 _ignoredUsersAtomSubscriber.onMount = (setAtom) => {

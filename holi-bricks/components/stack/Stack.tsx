@@ -19,6 +19,9 @@ interface StackProps extends React.PropsWithChildren {
   padding?: SizeToEdge
   margin?: SizeToEdge
   borderRadius?: RadiusToEdge
+  borderWidth?: number
+  borderStyle?: 'solid' | 'dotted' | 'dashed'
+  borderColor?: BorderColors
   flex?: number
   shouldRender?: boolean
   onPress?: () => void
@@ -28,9 +31,12 @@ interface StackProps extends React.PropsWithChildren {
   testID?: string
   maxWidth?: BreakpointsSize
   maxHeight?: DimensionValue
+  minWidth?: DimensionValue
+  minHeight?: DimensionValue
   height?: DimensionValue
   width?: DimensionValue
   wrap?: FlexStyle['flexWrap']
+  flexShrink?: FlexStyle['flexShrink']
 }
 
 export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none', ...otherProps }: StackProps) => {
@@ -55,6 +61,7 @@ export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none
 const containerStylesheet = createStyleSheet((theme) => ({
   container: (props: Omit<StackProps, 'children'>) => ({
     backgroundColor: props?.backgroundColor ? theme.colors.bg[props?.backgroundColor] : undefined,
+    borderColor: props?.borderColor ? theme.colors.border[props?.borderColor] : undefined,
     gap: props?.gap ? Spacing[props?.gap] : 0,
     display: 'flex',
     height: props.height,
@@ -64,11 +71,16 @@ const containerStylesheet = createStyleSheet((theme) => ({
     justifyContent: props?.justifyContent || 'flex-start',
     textAlign: props.textAlign || 'left',
     flex: props.flex || undefined,
+    flexShrink: props?.flexShrink,
     alignItems: props?.alignItems || undefined,
     maxWidth: props?.maxWidth ? breakpoints[props?.maxWidth] : undefined,
     maxHeight: props?.maxHeight,
+    minWidth: props?.minWidth,
+    minHeight: props?.minHeight,
     alignSelf: props?.alignSelf,
     flexWrap: props?.wrap,
+    borderWidth: props?.borderWidth,
+    borderStyle: props?.borderStyle,
     ...makePadding(props?.padding),
     ...makeMargin(props?.margin),
     ...makeRadius(props?.borderRadius),

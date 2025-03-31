@@ -1,13 +1,14 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ignoreUser, leaveRoom, useSetRemoveRoomAtom } from '@holi/chat/src/store'
+import { leaveRoom } from '@holi/chat/src/store'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { CloseCircle, Delete } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { useTheme } from '@holi/ui/styles/theme'
 import type { User } from '@holi/core/domain/shared/types'
+import { useBlockUser } from '@holi/core/hooks/useBlockUser'
 
 interface Props {
   chatPartnerFullName: string
@@ -19,15 +20,15 @@ const ChatRoomActionDrawer = ({ chatPartnerFullName, roomId, usersToBlock }: Pro
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { openToast } = useToast()
-  const removeRoom = useSetRemoveRoomAtom()
   const { theme } = useTheme()
   const { colors } = theme
+  const [isBlockingUser, blockUser] = useBlockUser()
 
   const handleBlockConfirmation = async (user: User) => {
-    await ignoreUser(user.id)
-    navigate('/chat')
-    removeRoom(roomId)
-    openToast(t('user.profileView.block.successMessage', { name: user.fullName }), HoliToastType.SUCCESS)
+    blockUser(user, {
+      successMsg: t('user.profileView.block.successMessage', { name: user.fullName }),
+      onChatUserBlocked: () => navigate('/chat'),
+    })
   }
 
   const handleLeaveConfirmation = async () => {
@@ -45,6 +46,7 @@ const ChatRoomActionDrawer = ({ chatPartnerFullName, roomId, usersToBlock }: Pro
           iconColor={colors.error20}
           variant="danger"
           showConfirmation
+          isLoading={isBlockingUser}
           key={user.fullName}
         >
           <HoliActionDrawer.Confirmation

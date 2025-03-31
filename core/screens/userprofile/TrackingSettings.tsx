@@ -23,13 +23,16 @@ const logger = getLogger('Tracking')
 const updateUserConsentState = ({
   personalization = false,
   productAnalytics = false,
+  adPartnerAnalytics = false,
 }: {
   personalization: boolean | null
   productAnalytics: boolean | null
+  adPartnerAnalytics: boolean | null
 }) => {
   updateConsentState({
     [TrackingPurpose.Personalization]: personalization ? Consent.Given : Consent.Denied,
     [TrackingPurpose.Analytics]: productAnalytics ? Consent.Given : Consent.Denied,
+    [TrackingPurpose.AdPartners]: adPartnerAnalytics ? Consent.Given : Consent.Denied,
   })
 }
 
@@ -53,21 +56,27 @@ const TrackingSettings = () => {
   const {
     [TrackingPurpose.Personalization]: personalizationConsent = Consent.Unknown,
     [TrackingPurpose.Analytics]: productAnalyticsConsent = Consent.Unknown,
+    [TrackingPurpose.AdPartners]: adPartnerAnalyticsConsent = Consent.Unknown,
   } = consentState ?? {}
   const personalization = Consent.toBooleanOrNull(personalizationConsent)
   const productAnalytics = Consent.toBooleanOrNull(productAnalyticsConsent)
+  const adPartnerAnalytics = Consent.toBooleanOrNull(adPartnerAnalyticsConsent)
 
   const onAllPurposesChange = (value: boolean) => {
-    updateUserConsentState({ personalization: value, productAnalytics: value })
+    updateUserConsentState({ personalization: value, productAnalytics: value, adPartnerAnalytics: value })
     logger.debug('TrackingSettings', 'updated personalization and analytics consent')
   }
   const onPersonalizationChange = (value: boolean) => {
-    updateUserConsentState({ personalization: value, productAnalytics })
+    updateUserConsentState({ personalization: value, productAnalytics, adPartnerAnalytics })
     logger.debug('TrackingSettings', 'updated personalization consent')
   }
   const onProductAnalyticsChange = (value: boolean) => {
-    updateUserConsentState({ personalization, productAnalytics: value })
+    updateUserConsentState({ personalization, productAnalytics: value, adPartnerAnalytics })
     logger.debug('TrackingSettings', 'updated analytics consent')
+  }
+  const onAdPartnerAnalyticsChange = (value: boolean) => {
+    updateUserConsentState({ personalization, productAnalytics, adPartnerAnalytics: value })
+    logger.debug('TrackingSettings', 'updated ad partner consent')
   }
 
   return (
@@ -92,11 +101,12 @@ const TrackingSettings = () => {
                 [
                   [
                     t('profile.settings.tracking.purpose.all'),
-                    !!(personalization && productAnalytics),
+                    !!(personalization && productAnalytics && adPartnerAnalytics),
                     onAllPurposesChange,
                   ],
                   [t('profile.settings.tracking.purpose.personalization'), !!personalization, onPersonalizationChange],
                   [t('profile.settings.tracking.purpose.analytics'), !!productAnalytics, onProductAnalyticsChange],
+                  [t('profile.settings.tracking.purpose.adPartners'), !!adPartnerAnalytics, onAdPartnerAnalyticsChange],
                 ] as [string, boolean, (value: boolean) => void][]
               ).map(([text, value, onChange], idx) => (
                 <View style={[styles.optionBox, idx !== 0 && styles.underlined]} key={idx}>
@@ -120,6 +130,18 @@ const TrackingSettings = () => {
         <HoliContainer>
           <HoliBox padding={[24, 0]}>
             <HoliHeading level="3">{t('profile.settings.tracking.dataManagement.title')}</HoliHeading>
+
+            <HoliGap size="sm" />
+
+            <Text size="md">
+              <Trans t={t} i18nKey="tracking.consentModal.manageOptions.privacyStatement">
+                <HoliTextLink
+                  href="/profile/settings/legalDocuments/document?type=privacyPolicy"
+                  label={t('profile.settings.legalDocuments.privacyPolicy')}
+                  size="md"
+                />
+              </Trans>
+            </Text>
 
             <HoliGap size="sm" />
 

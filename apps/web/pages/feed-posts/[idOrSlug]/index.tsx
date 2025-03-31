@@ -1,10 +1,10 @@
-import type { NextPageContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 
 import PostDetailsPage from '@holi/core/screens/individualPosts/PostDetailsPage'
 import { postQuery } from '@holi/core/screens/individualPosts/queries'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { idOrSlug } = context.query
 
   const queries = [

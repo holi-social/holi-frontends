@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks'
-import { GraphQLError } from 'graphql'
+import type { GraphQLError } from 'graphql'
 
-import { FieldErrors } from '@holi/core/errors/helpers'
+import type { FieldErrors } from '@holi/core/errors/helpers'
 import { useFieldErrors } from '@holi/core/errors/hooks/useFieldErrors'
 import { HoliToastType } from '@holi/ui/components/molecules/HoliToastProvider'
 

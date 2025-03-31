@@ -6,9 +6,7 @@ import { Platform, ScrollView, StyleSheet, View, useWindowDimensions } from 'rea
 
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import InfoModal, { type InfoModalItemProps } from '@holi/core/components/InfoModal'
 import PermissionsGuard, { PermissionsType } from '@holi/core/components/PermissionsGuard'
-import { termsBySortNumberComparator } from '@holi/core/domain/shared/types'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
@@ -25,7 +23,6 @@ import EditSpaceCoverImage from '@holi/core/screens/spaces/edit/components/EditS
 import EditSpaceLinks from '@holi/core/screens/spaces/edit/components/EditSpaceLinks'
 import EditSpaceLocation from '@holi/core/screens/spaces/edit/components/EditSpaceLocation'
 import EditSpaceNameAndGoal from '@holi/core/screens/spaces/edit/components/EditSpaceNameAndGoal'
-import EditSpaceSDGs from '@holi/core/screens/spaces/edit/components/EditSpaceSDGs'
 import EditSpaceTopics from '@holi/core/screens/spaces/edit/components/EditSpaceTopics'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
@@ -49,7 +46,6 @@ import { Button } from 'holi-bricks/components/button'
 enum EditFields {
   NAME = 'NAME',
   TOPICS = 'TOPICS',
-  SDGS = 'SDGS',
   COVER_IMAGE = 'COVER_IMAGE',
   AVATAR = 'AVATAR',
   LOCATION = 'LOCATION',
@@ -60,7 +56,6 @@ enum EditFields {
 const editTitles: Record<EditFields, string> = {
   [EditFields.NAME]: 'spaces.input.nameAndGoal.title',
   [EditFields.TOPICS]: 'spaces.input.topics.title',
-  [EditFields.SDGS]: 'spaces.input.sdgs.title',
   [EditFields.COVER_IMAGE]: 'spaces.edit.mainImage',
   [EditFields.AVATAR]: 'spaces.edit.avatar',
   [EditFields.LOCATION]: 'spaces.input.location.title',
@@ -106,20 +101,6 @@ const onboardingContentList: Array<OnboardingCard> = [
   },
 ]
 
-export const SDG_INFO_MODAL_SOURCES_MAPPING: {
-  [name: string]: InfoModalItemProps
-} = {
-  sdg: {
-    wordmark: {
-      src: require('@holi/ui/assets/img/misc/sgd-wordmark.svg'),
-      width: 115,
-      height: 60,
-      isSvg: true,
-    },
-    url: 'https://sdgs.un.org/goals',
-  },
-}
-
 const EditSpace: React.FC<ScreenProps> = () => {
   const [spaceIdOrName] = useParam('spaceIdOrName')
   const [isOnboarding] = useParam('onboarding')
@@ -147,9 +128,6 @@ const EditSpace: React.FC<ScreenProps> = () => {
       show()
     }
   }, [show, isOnboarding])
-
-  const { show: showInfoModal, hide: closeInfoModal, visible: infoModalVisible } = useModalState()
-  const partner = SDG_INFO_MODAL_SOURCES_MAPPING['sdg']
 
   const openEditModal = useCallback(
     (type: EditFields) => {
@@ -182,8 +160,6 @@ const EditSpace: React.FC<ScreenProps> = () => {
   if (error || !space) {
     return <></>
   }
-
-  const sdgs = space.sdgs ? [...space.sdgs].sort(termsBySortNumberComparator) : []
 
   const handleModalClose = () => {
     if (isOnboarding) {
@@ -286,27 +262,6 @@ const EditSpace: React.FC<ScreenProps> = () => {
               </SpaceSectionEditable>
 
               <SpaceSectionEditable
-                title={t('spaces.spaceDetails.sdgs')}
-                infoIcon
-                onPressInfo={showInfoModal}
-                onEditPress={() => openEditModal(EditFields.SDGS)}
-                testID="space-edit-sdgs"
-              >
-                {!!space.sdgs?.length && (
-                  <View style={styles.listContainer} testID="space-edit-sdgs-list">
-                    {sdgs.map((sdg, index) => (
-                      <ChipLabel key={`sdg_${index}`} color="white">{`${sdg.number}. ${sdg.title}`}</ChipLabel>
-                    ))}
-                  </View>
-                )}
-                <InfoModal
-                  items={{ sdg: partner }}
-                  shown={!!infoModalVisible}
-                  onDismiss={closeInfoModal}
-                  i18nPrefix={'spaces.input.sdgs.infoModal'}
-                />
-              </SpaceSectionEditable>
-              <SpaceSectionEditable
                 title={t('spaces.spaceDetails.contact')}
                 onEditPress={() => openEditModal(EditFields.CONTACT)}
                 testID="space-edit-contact"
@@ -371,7 +326,6 @@ const EditSpace: React.FC<ScreenProps> = () => {
           <>
             {editField === EditFields.NAME && <EditSpaceNameAndGoal space={space} onDismiss={hide} />}
             {editField === EditFields.TOPICS && <EditSpaceTopics space={space} onDismiss={hide} />}
-            {editField === EditFields.SDGS && <EditSpaceSDGs space={space} onDismiss={hide} />}
             {editField === EditFields.COVER_IMAGE && <EditSpaceCoverImage space={space} onDismiss={hide} />}
             {editField === EditFields.AVATAR && <EditSpaceAvatar space={space} onDismiss={hide} />}
             {editField === EditFields.LOCATION && <EditSpaceLocation space={space} onDismiss={hide} />}

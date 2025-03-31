@@ -2,6 +2,7 @@ export enum FeatureFlagKey {
   DONATIONS = 'DONATIONS', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   GOODNEWS = 'GOODNEWS', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   VOLUNTEERING = 'VOLUNTEERING', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
+  EVENTS = 'EVENTS', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   CHAT = 'CHAT', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   NOTIFICATIONS = 'NOTIFICATIONS', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
   STORAGE = 'STORAGE', // multivariate ('on', 'off', 'maintenance') -> FeatureFlagWithMaintenance
@@ -12,4 +13,5 @@ export enum FeatureFlagKey {
   POST_TRANSLATION = 'POST_TRANSLATION', // boolean
   NEW_HOME_FEED = 'NEW_HOME_FEED', // multivariate ('control', 'test') -> FeatureFlagAB
   TASK_CONTACT_CTA = 'TASK_CONTACT_CTA', // boolean
+  CHALLENGES_CAROUSEL = 'CHALLENGES_CAROUSEL', // boolean
 }
