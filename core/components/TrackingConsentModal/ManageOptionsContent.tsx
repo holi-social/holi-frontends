@@ -1,11 +1,12 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
 import OptionSection from '@holi/core/components/OptionSection'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
+import { HoliTextLink } from '@holi/core/navigation/components/HoliTextLink'
 
 interface Props {
   allowPersonalization: boolean
@@ -61,6 +62,18 @@ const ManageOptionsContent = ({
           onToggle={onToggleAdPartnerAnalytics}
         />
       </View>
+
+      <HoliGap size="m" />
+
+      <Text size="md">
+        <Trans t={t} i18nKey="tracking.consentModal.manageOptions.privacyStatement">
+          <HoliTextLink
+            href="/profile/settings/legalDocuments/document?type=privacyPolicy"
+            label={t('profile.settings.legalDocuments.privacyPolicy')}
+            size="md"
+          />
+        </Trans>
+      </Text>
 
       <HoliGap size="m" />
 
