@@ -1,12 +1,12 @@
 import { EventDetailsScreen } from '@holi-apps/events/screens/EventDetails'
-import { NextPage, NextPageContext } from 'next'
+import type { GetServerSidePropsContext, NextPage } from 'next'
 import React from 'react'
 import { createServerSideProps } from '@holi/web/helpers/createServerSideProps'
 import { GetEventByIdDocument } from '@holi/api/graphql/graphql-codegen'
 
 const EventDetailsPage: NextPage = () => <EventDetailsScreen />
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const { eventId } = context.query
 
   const queries = [
