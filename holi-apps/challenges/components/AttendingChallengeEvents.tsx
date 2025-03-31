@@ -5,7 +5,6 @@ import { FlatList, Platform, StyleSheet, View, useWindowDimensions } from 'react
 import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 import AttendingChallengeEventsCard from '@holi-apps/challenges/components/AttendingChallengeEventsCard'
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
@@ -67,21 +66,17 @@ const AttendingChallengeEvents = () => {
   }
 
   return (
-    <HoliContainer>
-      <View style={styles.container}>
-        <FlatList
-          horizontal
-          style={styles.listContainer}
-          data={events}
-          renderItem={({ item, index }) => (
-            <View style={StyleSheet.flatten([styles.itemContainer, index === events.length - 1 && styles.lastItem])}>
-              <AttendingChallengeEventsCard challengeEvent={item} />
-            </View>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-    </HoliContainer>
+    <FlatList
+      horizontal
+      style={styles.listContainer}
+      data={events}
+      renderItem={({ item, index }) => (
+        <View style={StyleSheet.flatten([styles.itemContainer, index === events.length - 1 && styles.lastItem])}>
+          <AttendingChallengeEventsCard challengeEvent={item} />
+        </View>
+      )}
+      keyExtractor={(item) => item.id}
+    />
   )
 }
 
@@ -91,13 +86,8 @@ export default withProfiler(AttendingChallengeEvents, {
 
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-    },
     listContainer: {
-      flex: 1,
-      padding: Spacing.xs,
-      marginHorizontal: -Spacing.lg,
+      paddingVertical: Spacing.xs,
       gap: Spacing['4xs'],
     },
     itemContainer: {

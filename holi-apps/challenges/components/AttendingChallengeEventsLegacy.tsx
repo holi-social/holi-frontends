@@ -95,7 +95,7 @@ const getStyles = (cardWidth: number) =>
     },
     listContainer: {
       flex: 1,
-      paddingLeft: 20,
+      paddingLeft: 24,
       marginHorizontal: -20,
       gap: dimensions.spacingXs,
     },
