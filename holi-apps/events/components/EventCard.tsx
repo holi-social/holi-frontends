@@ -8,6 +8,9 @@ import { CompactCard } from 'holi-bricks/components/card/CompactCard'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { useFormattedEventDates } from '@holi-apps/events/helpers/useFormattedEventDates'
 import { TrackingEvent } from '@holi/core/tracking'
+import { View } from 'react-native'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 
 export interface EventProps {
   event: HoliEvent
@@ -16,6 +19,7 @@ export interface EventProps {
 
 const EventCard = ({ event, maxCardWidth: cardWidth }: EventProps) => {
   const { t } = useTranslation()
+  const { styles } = useStyles(stylesheet)
 
   const formattedDates = useFormattedEventDates(event.startDate, event.endDate)
 
@@ -44,8 +48,20 @@ const EventCard = ({ event, maxCardWidth: cardWidth }: EventProps) => {
         {...(event.startDate && { chips: [ChipComponent] })}
         maxWidth={cardWidth}
       />
+      <View style={styles.overlay} />
     </HoliLinkTracked>
   )
 }
 
 export default EventCard
+
+const stylesheet = createStyleSheet({
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  },
+})

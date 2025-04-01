@@ -48,5 +48,5 @@ export const useEventListData = (limit: number, localOnly: boolean) => {
     }
   }, [isLoadingMore, fetchMore, events?.length])
 
-  return { events, canLoadMore, fetchMoreEvents }
+  return { events, canLoadMore, fetchMoreEvents, totalResults }
 }

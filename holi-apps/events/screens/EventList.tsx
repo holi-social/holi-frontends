@@ -32,7 +32,10 @@ export const EventList = () => {
 
   const [fetchLocalOnlyEvents, setFetchLocalOnlyEvents] = useState(false)
   const [isFiltering, setIsFiltering] = useState(false)
-  const { events, canLoadMore, fetchMoreEvents } = useEventListData(PAGE_SIZE_EXTERNAL_DATA, fetchLocalOnlyEvents)
+  const { events, canLoadMore, fetchMoreEvents, totalResults } = useEventListData(
+    PAGE_SIZE_EXTERNAL_DATA,
+    fetchLocalOnlyEvents
+  )
 
   const partner = EVENTS_SOURCE_MAPPING
 
@@ -99,7 +102,7 @@ export const EventList = () => {
             </HoliButton>
 
             <Text size="lg" color="support">
-              {events.length} {t('act.events.opportunities')}
+              {totalResults} {t('act.events.opportunities')}
             </Text>
 
             {/* info modal */}

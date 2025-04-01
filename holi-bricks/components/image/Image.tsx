@@ -1,12 +1,10 @@
 import type React from 'react'
 import { useState } from 'react'
-import { Image as RNImage, View } from 'react-native'
+import { Image as RNImage } from 'react-native'
 import { Image as ExpoImage } from 'expo-image'
 //import { WithLocalSvg } from 'react-native-svg/css'
 import { accessibilityProps } from 'holi-bricks/accessibility'
 import type { ImageProps } from 'holi-bricks/components/image/type'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
 import { isRemoteSource, setScalingParams } from 'holi-bricks/components/image/helpers'
 
 const isLocalSvg = (source: number) => {
@@ -30,14 +28,12 @@ export const Image: React.FC<ImageProps> = ({
   fallbackSource,
   blurhash,
   alt,
-  whiteOverlay: overlay,
   ...otherProps
 }) => {
   const [hasError, setHasError] = useState(false)
   const transformedSource = setScalingParams(source, width, height)
   const isRemote = isRemoteSource(source)
   const localSvg = typeof source === 'number' && isLocalSvg(source)
-  const { styles } = useStyles(stylesheet)
 
   if (!source) return null
 
@@ -59,39 +55,25 @@ export const Image: React.FC<ImageProps> = ({
   }
 
   return (
-    <>
-      <ExpoImage
-        source={hasError && fallbackSource ? fallbackSource : transformedSource}
-        alt={alt}
-        role="img"
-        accessibilityLabel={alt}
-        accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
-        accessible={otherProps?.['aria-hidden'] === true}
-        placeholder={isRemote ? blurhash : undefined}
-        style={[{ width, height }]}
-        contentFit={resizeMode}
-        onError={() => {
-          setHasError(true)
-          // eslint-disable-next-line no-console
-          console.warn(`[Image] Failed to load image: ${source}`)
-          if (onError) onError()
-        }}
-        aria-label={alt}
-        onLoadEnd={onLoadEnd}
-        {...accessibilityProps(otherProps)}
-      />
-      {overlay && <View style={styles.overlay} />}
-    </>
+    <ExpoImage
+      source={hasError && fallbackSource ? fallbackSource : transformedSource}
+      alt={alt}
+      role="img"
+      accessibilityLabel={alt}
+      accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
+      accessible={otherProps?.['aria-hidden'] === true}
+      placeholder={isRemote ? blurhash : undefined}
+      style={[{ width, height }]}
+      contentFit={resizeMode}
+      onError={() => {
+        setHasError(true)
+        // eslint-disable-next-line no-console
+        console.warn(`[Image] Failed to load image: ${source}`)
+        if (onError) onError()
+      }}
+      aria-label={alt}
+      onLoadEnd={onLoadEnd}
+      {...accessibilityProps(otherProps)}
+    />
   )
 }
-
-const stylesheet = createStyleSheet({
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-  },
-})

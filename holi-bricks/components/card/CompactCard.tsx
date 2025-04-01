@@ -69,7 +69,6 @@ export const CompactCard = ({
                 width={90}
                 alt={t('act.events.thumbnail.label')}
                 onError={handleImageError}
-                whiteOverlay
               />
             </View>
 
