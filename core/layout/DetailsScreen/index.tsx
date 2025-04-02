@@ -18,8 +18,6 @@ import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/autho
 import { Spacing } from 'holi-bricks/tokens'
 import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
 import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
-import { TextLinkTracked } from '@holi/core/components/Trackable'
-import { TrackingEvent } from '@holi/core/tracking'
 import type { ImageSource } from 'holi-bricks/components/image'
 import { Avatar } from 'holi-bricks/components/avatar'
 
@@ -162,7 +160,7 @@ export const DetailsScreen = ({
 
             <Stack direction="column" gap="xxs" shouldRender={!!infoList}>
               {infoList?.map((detail, index) => {
-                const TextComp = detail.onPress ? TextLinkTracked : Text
+                const TextComp = detail.onPress ? TextLink : Text
                 return (
                   <Stack
                     alignItems="flex-start"
@@ -174,9 +172,7 @@ export const DetailsScreen = ({
                   >
                     <HoliIcon size={Spacing.md} icon={detail?.icon} />
                     <Stack flex={1}>
-                      <TextComp size="md" trackingEvent={TrackingEvent.EventDetails.videoCall}>
-                        {detail?.title}
-                      </TextComp>
+                      <TextComp size="md">{detail?.title}</TextComp>
                       {detail?.subtitle && (
                         <Text color="support" size="sm">
                           {detail?.subtitle}

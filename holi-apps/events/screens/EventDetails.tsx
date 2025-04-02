@@ -13,6 +13,7 @@ import { ExternalLink, Share } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { TrackingEvent } from '@holi/core/tracking'
+import useTrackOnce from '@holi/core/tracking/hooks/useTrackOnce'
 
 export type EventDetailsParams = {
   eventId: string
@@ -24,6 +25,9 @@ export const EventDetailsScreen = () => {
   const [eventId] = useParam('eventId')
   const { data, url: eventUrl, refetch, onShare } = useEventDetailsData(eventId as string)
   const { t } = useTranslation()
+
+  useTrackOnce(TrackingEvent.EventDetails.viewed(eventId as string))
+
   return (
     <Screen
       onRefresh={refetch}
