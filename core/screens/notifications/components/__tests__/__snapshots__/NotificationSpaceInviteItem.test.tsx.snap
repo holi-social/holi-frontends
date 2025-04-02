@@ -65,7 +65,7 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
             style={
               {
                 "alignItems": "center",
-                "backgroundColor": "#abff8b",
+                "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 8,
                 "borderWidth": 1,
@@ -510,7 +510,7 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
             style={
               {
                 "alignItems": "center",
-                "backgroundColor": "#abff8b",
+                "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 8,
                 "borderWidth": 1,

@@ -5,7 +5,7 @@ exports[`React tree renders correctly 1`] = `
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "#8b95ff",
+      "backgroundColor": "#ffffff",
       "borderColor": "#262424",
       "borderRadius": 8,
       "borderWidth": 1,
