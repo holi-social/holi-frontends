@@ -74,7 +74,7 @@ exports[`SpaceInviteItem renders correctly 1`] = `
         style={
           {
             "alignItems": "center",
-            "backgroundColor": "#8b95ff",
+            "backgroundColor": "#ffffff",
             "borderColor": "#262424",
             "borderRadius": 1000,
             "borderWidth": 1,

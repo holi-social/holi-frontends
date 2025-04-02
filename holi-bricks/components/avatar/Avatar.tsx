@@ -5,7 +5,7 @@ import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/accessi
 import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
 import { Text } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
-import { BorderRadius, Spacing } from 'holi-bricks/tokens'
+import { BorderRadius, Spacing, mono } from 'holi-bricks/tokens'
 import { BorderWidth } from 'holi-bricks/tokens/dimensions/borderWidth'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useCallback, useState } from 'react'
@@ -91,7 +91,11 @@ export const Avatar = ({
   }
 
   return (
-    <View {...accessibilityProps(rest)} style={styles.avatar(initials)} testID={testID}>
+    <View
+      {...accessibilityProps(rest)}
+      style={styles.avatar(initials, Boolean(!errorLoading && source))}
+      testID={testID}
+    >
       {renderContent()}
     </View>
   )
@@ -112,9 +116,9 @@ const stylesheet = createStyleSheet((theme) => ({
           aspectRatio: 1,
         }
       : {},
-  avatar: (initials) => {
+  avatar: (initials: string, hasImage: boolean) => {
     const bgs = Object.values(theme.components.avatar.bg)
-    const getBg = getAvatarColorBg(bgs, initials)
+    const getBg = hasImage ? mono['100'] : getAvatarColorBg(bgs, initials)
 
     return {
       position: 'relative',
