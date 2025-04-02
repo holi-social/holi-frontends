@@ -1,13 +1,15 @@
-import { useVolunteeringByIdQuery, useSimilarVolunteeringSliderQuery } from '@holi/api/graphql/graphql-codegen'
-import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
+import { useSimilarVolunteeringSliderQuery } from '@holi/api/graphql/graphql-codegen'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { isSSR } from '@holi/core/helpers/isSSR'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { MapPin2 } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
+import type { TFunction } from 'i18next'
 import type { InfoModalItemProps } from '@holi/core/components/InfoModal'
-import { useRateLimit } from '@holi/ui/helper'
 import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
+import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useSingleTypesenseDocumentQuery'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
   [name: string]: InfoModalItemProps
@@ -92,28 +94,94 @@ export const VOLUNTEERING_IMG_SOURCES_MAPPING: {
   },
 }
 
-export type UseVolunteeringDetailsData = {
-  data: DetailsScreenData
+const getTitle = (language: string, document: TypesenseDocument): string => {
+  if (document.title_en && (language === 'en' || !document.title_de)) {
+    return document.title_en
+  }
+  return document.title_de ?? ''
 }
 
-export const useVolunteeringDetailsData = (volunteeringId?: string) => {
-  const { replaceRoute } = useRouting()
-  const { t } = useTranslation()
-  const { displayError } = useErrorHandling()
-  const { data, loading, refetch } = useVolunteeringByIdQuery({
-    variables: {
-      id: volunteeringId as string,
-    },
-    skip: !volunteeringId,
-    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    onError: (error) => {
-      if (isNotFoundError(error) || isForbiddenError(error)) {
-        return replaceRoute('/404')
+const getDescription = (language: string, document: TypesenseDocument): string => {
+  if (document.description_en && (language === 'en' || !document.description_de)) {
+    return document.description_en
+  }
+  return document.description_de ?? ''
+}
+
+const transformDocument = (
+  t: TFunction,
+  language: string,
+  document: TypesenseDocument
+): DetailsScreenData & { externalUrl?: string } => {
+  const partner = document.source ? VOLUNTEERING_IMG_SOURCES_MAPPING[document.source] : undefined
+
+  const skills =
+    document.skills_v2?.map<DetailsScreenChips>((skill) => {
+      return {
+        title: skill,
+        color: 'blue',
       }
-      displayError(error, 'Failed to load task', {
-        location: 'EventDetails.volunteeringById',
+    }) || []
+
+  const topics =
+    document.topics_v2?.map<DetailsScreenChips>((topic) => {
+      return {
+        title: topic,
+        color: 'green',
+      }
+    }) || []
+
+  const locationType = document.location
+    ? {
+        subtitle: document.location,
+        title: document.location,
+        icon: MapPin2,
+      }
+    : undefined
+
+  const coverImage = document.image_url
+    ? {
+        uri: document.image_url,
+      }
+    : undefined
+
+  const author = {
+    topTitle: `${t('postedVia', { source: document.source })}`,
+    title: document.organizer_name || document.source || '',
+    mainAvatar: {
+      source: document.organizer_image_url ?? (partner?.logo?.src as string),
+      initials: document.organizer_name || '??',
+    },
+  }
+
+  const infoList = [locationType].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
+
+  return {
+    title: getTitle(language, document),
+    description: getDescription(language, document),
+    chips: [...topics, ...skills],
+    visibility: 'public',
+    infoList,
+    coverImage,
+    author,
+    externalUrl: document.external_url,
+  }
+}
+
+export const useVolunteeringDetailsData = (volunteeringId: string) => {
+  const { replaceRoute } = useRouting()
+  const { t, i18n } = useTranslation()
+  const { displayError } = useErrorHandling()
+
+  const { isLoading, document, refresh } = useSingleTypesenseDocumentQuery(volunteeringId, 'volunteering', {
+    onError: (error) => {
+      displayError(error, 'Failed to load volunteering opportunity', {
+        location: 'useVolunteeringDetailsData',
         volunteeringId,
       })
+    },
+    onNotFound: () => {
+      return replaceRoute('/404')
     },
   })
 
@@ -123,75 +191,20 @@ export const useVolunteeringDetailsData = (volunteeringId?: string) => {
     refetch: similarVolunteeringRefetch,
   } = useSimilarVolunteeringSliderQuery({
     variables: {
-      id: volunteeringId as string,
+      id: volunteeringId,
     },
     fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
     skip: !volunteeringId,
   })
 
-  const refetchData = useRateLimit(async () => {
-    if (volunteering?.id) {
-      await refetch({ id: volunteering?.id })
-      similarVolunteeringRefetch({ id: volunteering?.id })
-    }
+  useOnRefresh(() => {
+    Promise.all([refresh(), similarVolunteeringRefetch({ id: volunteeringId })])
   })
 
-  const volunteering = data?.appVolunteering_engagement
-  const partner =
-    volunteering && volunteering?.source ? VOLUNTEERING_IMG_SOURCES_MAPPING[volunteering.source] : undefined
-
-  const skills =
-    volunteering?.skillsV2?.map<DetailsScreenChips>((skill) => {
-      return {
-        title: skill,
-        color: 'blue',
-      }
-    }) || []
-
-  const topics =
-    volunteering?.topicsV2?.map<DetailsScreenChips>((topic) => {
-      return {
-        title: topic,
-        color: 'green',
-      }
-    }) || []
-
-  const locationType = volunteering?.location
-    ? {
-        subtitle: volunteering?.location ? volunteering?.location : undefined,
-        title: volunteering?.location ? volunteering?.location : t('task.locationType.NOT_DECLARED'),
-        icon: MapPin2,
-      }
-    : undefined
-
-  const infoList = [locationType].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
   return {
-    refetch: async () => {
-      await refetchData()
-    },
-    id: volunteering?.id,
-    loading,
-    url: data?.appVolunteering_engagement?.url,
+    isLoading,
+    document: document ? transformDocument(t, i18n.language, document) : undefined,
     recommendations: similarVolunteering?.appVolunteering_similarRecommendations.data || [],
     recommendationsLoading: similarVolunteeringLoading,
-    data: {
-      loading,
-      title: volunteering?.title || '',
-      description: volunteering?.description,
-      chips: [...topics, ...skills],
-      visibility: 'public',
-      infoList,
-      coverImage: {
-        uri: volunteering?.imageUrl,
-      },
-      author: {
-        topTitle: `${t('postedVia', { source: volunteering?.source })}`,
-        title: volunteering?.organizer?.name || volunteering?.source || '',
-        mainAvatar: {
-          source: partner?.logo?.src as string,
-          initials: volunteering?.organizer?.name || '??',
-        },
-      },
-    },
   }
 }

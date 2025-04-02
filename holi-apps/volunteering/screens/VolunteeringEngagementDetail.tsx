@@ -32,11 +32,11 @@ export type VolunteeringEngagementDetailParams = {
 const { useParam } = createParamHooks<VolunteeringEngagementDetailParams>()
 
 export const VolunteeringEngagementDetail = () => {
-  const [engagementId] = useParam('engagementId')
+  const [engagementId = ''] = useParam('engagementId')
   const { t } = useTranslation()
-  const { data, refetch, loading, url, recommendations, id } = useVolunteeringDetailsData(engagementId)
+  const { isLoading, document, recommendations } = useVolunteeringDetailsData(engagementId)
   const cardWidth = useCardWidth()
-  const { theme } = useTheme() // Deprecated,  remove when we  will have a new webview
+  const { theme } = useTheme()
   const { show, props: modalProps } = useModalState()
   const hasTrackedRef = useRef<boolean>(false)
 
@@ -49,16 +49,14 @@ export const VolunteeringEngagementDetail = () => {
   })
 
   useEffect(() => {
-    if (!loading && id && hasTrackedRef.current === false) {
-      trackEngagementView({ variables: { id } })
+    if (document && hasTrackedRef.current === false) {
+      trackEngagementView({ variables: { id: engagementId } })
       hasTrackedRef.current = true
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, loading])
+  }, [document, engagementId, trackEngagementView])
 
   return (
     <Screen
-      onRefresh={refetch}
       preset="auto"
       headerOptions={{
         animation: 'slide_from_left',
@@ -86,13 +84,13 @@ export const VolunteeringEngagementDetail = () => {
           width="100%"
         >
           <ButtonTracked
-            trackingEvent={TrackingEvent.Volunteering.pressed(id as string)}
+            trackingEvent={TrackingEvent.Volunteering.pressed(engagementId)}
             icon={ExternalLink}
-            label={t('volunteering.details.cta')}
+            label={t('volunteering:engagementDetail.getInTouch')}
             onPress={() => {
-              if (url) {
+              if (document?.externalUrl) {
                 if (Platform.OS === 'web') {
-                  Linking.openURL(url)
+                  Linking.openURL(document?.externalUrl)
                 } else {
                   show()
                 }
@@ -105,30 +103,24 @@ export const VolunteeringEngagementDetail = () => {
       testID="volunteering-detailview-container"
     >
       <DetailsScreen
-        loading={loading}
-        coverImage={data?.coverImage}
-        title={data?.title}
-        infoList={data?.infoList}
+        loading={isLoading}
+        coverImage={document?.coverImage}
+        title={document?.title ?? ''}
+        infoList={document?.infoList}
         visibility="public"
-        description={data?.description}
-        author={data?.author}
-        chips={data?.chips}
+        description={document?.description}
+        author={document?.author}
+        chips={document?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop
         _footer={
-          <Stack
-            shouldRender={recommendations?.length > 0}
-            direction="column"
-            gap="sm"
-            padding={{ left: 'sm' }}
-            margin={{ bottom: '3xl' }}
-          >
+          <Stack shouldRender={recommendations?.length > 0} direction="column" gap="sm" margin={{ bottom: '3xl' }}>
             <Text size="xxl">{t('recommendation.slider.title')}</Text>
             <VolunteeringSimilarRecosSlider cardWidth={cardWidth} recos={recommendations as VolunteeringEngagement[]} />
           </Stack>
         }
       />
 
-      {url && Platform.OS !== 'web' && (
+      {document?.externalUrl && Platform.OS !== 'web' && (
         <HoliModal
           label="modal"
           animationType="slide"
@@ -140,7 +132,7 @@ export const VolunteeringEngagementDetail = () => {
           <HoliWebView
             theme={theme}
             style={{ flex: 1, height: '100%', width: '100%' }}
-            webViewProps={{ setSupportMultipleWindows: false, source: { uri: url } }}
+            webViewProps={{ setSupportMultipleWindows: false, source: { uri: document?.externalUrl } }}
           />
         </HoliModal>
       )}
