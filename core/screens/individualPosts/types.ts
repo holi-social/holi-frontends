@@ -1,9 +1,15 @@
-import type { Term, User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
 
 export enum VisibilityLevel {
   PUBLIC = 'PUBLIC',
   REGISTERED_USERS_ONLY = 'REGISTERED_USERS_ONLY',
+}
+
+interface Term {
+  id: string
+  title: string
+  slug: string
 }
 
 export type Category = Term & { idx: number; label?: string }

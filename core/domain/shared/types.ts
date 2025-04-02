@@ -128,19 +128,6 @@ export const slugsToSkillsV2 = (slugs: string[] = []): SkillV2[] => {
   return [...new Set(slugs.map(slugToSkillV2).filter((slug) => !!slug))] as SkillV2[]
 }
 
-export interface Term {
-  id: string
-  title: string
-  slug: string
-}
-
-export type SortedTerm = Term & { number?: number }
-
-// TODO(SF) removable?
-export const termsByTitleComparator = (a: Term, b: Term) => a.title.localeCompare(b.title)
-
-export const termsBySortNumberComparator = (a: SortedTerm, b: SortedTerm) => (a.number || 0) - (b.number || 0)
-
 export interface User {
   id: string
   /**
