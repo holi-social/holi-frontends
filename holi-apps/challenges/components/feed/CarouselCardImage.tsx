@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
-import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
+import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 import type { ChallengeTeaser } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'

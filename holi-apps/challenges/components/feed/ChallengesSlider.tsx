@@ -13,7 +13,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import ExploreMoreCard from '@holi-apps/challenges/components/feed/ExploreMoreCard'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { ChallengeTeaser } from '@holi-apps/challenges/components/types'
-import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
+import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 type ChallengesSliderProps = {
   heading: string

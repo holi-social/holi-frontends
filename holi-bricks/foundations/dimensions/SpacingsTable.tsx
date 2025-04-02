@@ -1,5 +1,5 @@
 import { Colors } from 'holi-bricks/foundations/colors/primitives'
-import { Spacing, type SpacingSize } from 'holi-bricks/tokens/dimensions/spacing'
+import { Spacing, type SpacingSize } from 'holi-bricks/foundations/dimensions/spacing'
 import React from 'react'
 
 export const SpacingsTable = () => {

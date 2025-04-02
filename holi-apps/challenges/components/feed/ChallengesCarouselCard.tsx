@@ -9,7 +9,7 @@ import { Text } from 'holi-bricks/components/text'
 import { CarouselCardImage } from '@holi-apps/challenges/components/feed/CarouselCardImage'
 import type { ChallengeTeaser } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
-import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
+import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 interface ChallengesCarouselCardProps {
   challenge: ChallengeTeaser

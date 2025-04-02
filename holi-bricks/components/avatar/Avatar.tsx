@@ -6,7 +6,7 @@ import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg
 import { Text } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
 import { BorderRadius, Spacing } from 'holi-bricks/tokens'
-import { BorderWidth } from 'holi-bricks/tokens/dimensions/borderWidth'
+import { BorderWidth } from 'holi-bricks/foundations/dimensions/borderWidth'
 import { createStyleSheet } from 'holi-bricks/utils'
 import React, { useCallback, useState } from 'react'
 import { Platform, View } from 'react-native'
