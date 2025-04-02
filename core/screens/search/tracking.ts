@@ -1,4 +1,4 @@
-import type { SearchHitData } from '@holi/core/screens/search/types'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 const deniedProps = ['embedding', 'image_url', 'link_locators']
 
@@ -12,4 +12,4 @@ const removeDeniedProps = (record: Record<string, any>): Record<string, any> => 
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const hitToTrackingDoc = (hit: SearchHitData): Record<string, any> => removeDeniedProps(hit)
+export const hitToTrackingDoc = (hit: TypesenseDocument): Record<string, any> => removeDeniedProps(hit)

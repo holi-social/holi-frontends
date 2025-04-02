@@ -1,12 +1,13 @@
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { createSearchParameters } from '@holi/core/screens/search/helpers/createSearchParameters'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
-import type { SearchFilter, SearchHitData } from '@holi/core/screens/search/types'
+import type { SearchFilter } from '@holi/core/screens/search/types'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
 import type { SearchResponseHit, SearchParams } from 'typesense/lib/Typesense/Documents'
 
 const mockSearch = jest.fn()
-jest.mock('@holi/core/screens/search/helpers/createTypesenseClient', () => ({
+jest.mock('@holi/core/typesense/helpers/createTypesenseClient', () => ({
   createTypesenseClient: () => ({
     search: (parameters: SearchParams) => mockSearch(parameters),
   }),
@@ -16,7 +17,7 @@ jest.mock('@holi/core/errors/hooks', () => ({
   useErrorHandling: jest.fn(),
 }))
 
-const createSearchHit = (id: number): Partial<SearchResponseHit<SearchHitData>> => ({
+const createSearchHit = (id: number): Partial<SearchResponseHit<TypesenseDocument>> => ({
   document: {
     id: id.toString(),
     type: 'volunteering',

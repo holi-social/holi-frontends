@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { HIT_HEIGHT, HIT_HEIGHT_PROFILE, SearchHit } from '@holi/core/screens/search/SearchHit'
-import type { SearchFilter, SearchHitData, SearchResults } from '@holi/core/screens/search/types'
+import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
@@ -19,6 +19,7 @@ import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 import { SearchExamples } from '@holi/core/screens/search/SearchExamples'
 import { isEmptyFilter } from '@holi/core/screens/search/helpers/isEmptyFilter'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 const isWeb = Platform.OS === 'web'
 
@@ -92,7 +93,7 @@ export function SearchHitInfiniteList({ loadingParameters, filter, onQuerySelect
         }
       }}
       onEndReachedThreshold={0.5}
-      renderItem={({ item, index }: { item: SearchResponseHit<SearchHitData>; index: number }) => {
+      renderItem={({ item, index }: { item: SearchResponseHit<TypesenseDocument>; index: number }) => {
         const hit = item.document
         return (
           <ErrorBoundary>

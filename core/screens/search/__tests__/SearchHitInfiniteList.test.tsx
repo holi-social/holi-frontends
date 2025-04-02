@@ -1,6 +1,6 @@
 import React from 'react'
 import { act, fireEvent, render, screen, userEvent } from '@testing-library/react-native'
-import type { SearchFilter, SearchHitData, SearchResults } from '@holi/core/screens/search/types'
+import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { SearchHitInfiniteList } from '@holi/core/screens/search/SearchHitInfiniteList'
 import type { TrackingEvent } from '@holi/core/tracking'
 import {
@@ -12,13 +12,14 @@ import {
 } from '@holi/core/screens/search/__tests__/testData'
 import { useSearchResults } from '@holi/core/screens/search/hooks/useSearchResults'
 import type { SearchResponseHit } from 'typesense/lib/Typesense/Documents'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 const mockUseSearchResults = jest.mocked(useSearchResults)
 jest.mock('@holi/core/screens/search/hooks/useSearchResults', () => ({
   useSearchResults: jest.fn(),
 }))
 
-const removeDeniedProps = (hits: SearchResponseHit<SearchHitData>[]) =>
+const removeDeniedProps = (hits: SearchResponseHit<TypesenseDocument>[]) =>
   hits.map((original) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { link_locators, image_url, ...document } = original.document
@@ -26,7 +27,7 @@ const removeDeniedProps = (hits: SearchResponseHit<SearchHitData>[]) =>
   })
 
 describe('SearchHitInfiniteList', () => {
-  const hits: SearchResponseHit<SearchHitData>[] = [volunteeringHit, profileHit, spaceHit].map(toSearchResponseHit)
+  const hits: SearchResponseHit<TypesenseDocument>[] = [volunteeringHit, profileHit, spaceHit].map(toSearchResponseHit)
   const filter: SearchFilter = {
     facet: 'volunteering',
     query: 'search terms',
