@@ -1,5 +1,5 @@
 import type { Decorator } from '@storybook/react'
-import { useBricks } from 'holi-bricks/hooks/useBricks'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import React, { type ReactNode, useEffect } from 'react'
 import { View } from 'react-native'
 

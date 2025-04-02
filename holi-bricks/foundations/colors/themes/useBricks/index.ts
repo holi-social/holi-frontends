@@ -1,5 +1,5 @@
-import { createBricksManager } from 'holi-bricks/hooks/useBricks/createBricksManager'
 import { UnistylesRuntime } from 'react-native-unistyles'
+import { createBricksManager } from './createBricksManager'
 
 /**
  * Custom hook to manage/read the Holi Bricks component library functionality.

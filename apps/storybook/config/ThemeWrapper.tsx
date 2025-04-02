@@ -1,6 +1,6 @@
 import type { Decorator } from '@storybook/react'
-import { useBricks } from 'holi-bricks/hooks'
-import React, { ReactNode, useEffect } from 'react'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
+import React, { type ReactNode, useEffect } from 'react'
 
 import colorsDark from '@holi/ui/styles/globalVars/colors.dark'
 import colorsLight from '@holi/ui/styles/globalVars/colors.light'

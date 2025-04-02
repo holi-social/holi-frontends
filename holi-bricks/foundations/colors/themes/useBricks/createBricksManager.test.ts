@@ -1,4 +1,4 @@
-import { createBricksManager } from 'holi-bricks/hooks/useBricks/createBricksManager'
+import { createBricksManager } from './createBricksManager'
 
 describe('useBricks', () => {
   let mockLibRuntime: { setTheme: jest.Mock; themeName: string }
