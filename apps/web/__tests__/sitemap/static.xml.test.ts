@@ -10,6 +10,12 @@ jest.mock('@holi/core/helpers/isSSR', () => ({
 
 const server = setupServer()
 
+jest.mock('@holi/core/typesense/helpers/createTypesenseClient', () => ({
+  createTypesenseClient: () => ({
+    search: jest.fn(),
+  }),
+}))
+
 describe('Static sitemap index', () => {
   beforeAll(() => server.listen())
 
