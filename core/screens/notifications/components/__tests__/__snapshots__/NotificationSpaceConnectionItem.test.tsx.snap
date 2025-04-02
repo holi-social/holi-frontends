@@ -71,7 +71,7 @@ exports[`NotificationSpaceConnectionItem with legacy notifications matches snaps
             style={
               {
                 "alignItems": "center",
-                "backgroundColor": "#abff8b",
+                "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 8,
                 "borderWidth": 1,
@@ -522,7 +522,7 @@ exports[`NotificationSpaceConnectionItem with novu notifications notification fo
             style={
               {
                 "alignItems": "center",
-                "backgroundColor": "#abff8b",
+                "backgroundColor": "#ffffff",
                 "borderColor": "#262424",
                 "borderRadius": 8,
                 "borderWidth": 1,

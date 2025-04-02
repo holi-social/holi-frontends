@@ -151,7 +151,7 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#8b95ff",
+              "backgroundColor": "#ffffff",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
@@ -449,7 +449,7 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#8b95ff",
+              "backgroundColor": "#ffffff",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
@@ -747,7 +747,7 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#8b95ff",
+              "backgroundColor": "#ffffff",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
