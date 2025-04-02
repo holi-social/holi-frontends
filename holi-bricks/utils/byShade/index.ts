@@ -1,5 +1,5 @@
+import type { Color, ColorPalette } from 'holi-bricks/foundations/colors/primitives'
 import { palettes } from 'holi-bricks/tokens'
-import type { Color, ColorPalette } from 'holi-bricks/tokens/colors/primitives'
 
 /**
  * Retrieves colors from a color palette by shade.
