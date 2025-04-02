@@ -5,15 +5,14 @@ import { FlatList, Platform, StyleSheet, View, useWindowDimensions } from 'react
 import { useLoginState } from '@holi/core/auth/loginState'
 import { logError } from '@holi/core/errors/helpers'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
-import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 
 import AttendingChallengeEventsCard from '@holi-apps/challenges/components/AttendingChallengeEventsCard'
 import type { ChallengeEvent } from '@holi-apps/challenges/components/types'
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import { Spacing } from 'holi-bricks/tokens'
+import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
 
-const API_URL = challengeAppBaseUrl + '/api/v1/events/userAttendingEvents'
+const API_URL = apiUrl('/api/v1/events/userAttendingEvents')
 
 const CARD_WIDTH = 260
 
@@ -22,6 +21,7 @@ export const calculateCardWidth = (screenWidth: number) =>
 
 const AttendingChallengeEvents = () => {
   const [events, setEvents] = useState<ChallengeEvent[]>([])
+  const [fetched, setIsFetched] = useState(false)
   const { width: screenWidth } = useWindowDimensions()
   const cardWidth = calculateCardWidth(screenWidth)
   const styles = getStyles(cardWidth)
@@ -30,15 +30,17 @@ const AttendingChallengeEvents = () => {
 
   const fetchAttendingEvents = useCallback(async () => {
     // Events are only available to logged in users
-    if (!isLoggedIn || !headers) {
+    if (fetched || !isLoggedIn || !headers || (!headers.Authorization && Platform.OS !== 'web')) {
       return
     }
 
     try {
+      setIsFetched(true)
       const apiHeaders = new Headers(headers)
       apiHeaders.append('Accept', 'application/json')
       const response = await fetch(API_URL, {
         headers: apiHeaders,
+        credentials: 'include',
       })
 
       if (!response.ok) {
@@ -52,7 +54,7 @@ const AttendingChallengeEvents = () => {
         location: 'AttendingChallengeEvents.fetchAttendingEvents',
       })
     }
-  }, [headers, isLoggedIn])
+  }, [isLoggedIn, headers, fetched])
 
   useEffect(() => {
     fetchAttendingEvents()
@@ -64,21 +66,17 @@ const AttendingChallengeEvents = () => {
   }
 
   return (
-    <HoliContainer>
-      <View style={styles.container}>
-        <FlatList
-          horizontal
-          style={styles.listContainer}
-          data={events}
-          renderItem={({ item, index }) => (
-            <View style={StyleSheet.flatten([styles.itemContainer, index === events.length - 1 && styles.lastItem])}>
-              <AttendingChallengeEventsCard challengeEvent={item} />
-            </View>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-    </HoliContainer>
+    <FlatList
+      horizontal
+      style={styles.listContainer}
+      data={events}
+      renderItem={({ item, index }) => (
+        <View style={StyleSheet.flatten([styles.itemContainer, index === events.length - 1 && styles.lastItem])}>
+          <AttendingChallengeEventsCard challengeEvent={item} />
+        </View>
+      )}
+      keyExtractor={(item) => item.id}
+    />
   )
 }
 
@@ -88,13 +86,8 @@ export default withProfiler(AttendingChallengeEvents, {
 
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-    },
     listContainer: {
-      flex: 1,
-      padding: Spacing.xs,
-      marginHorizontal: -Spacing.lg,
+      paddingVertical: Spacing.xs,
       gap: Spacing['4xs'],
     },
     itemContainer: {

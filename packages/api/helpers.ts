@@ -1,7 +1,8 @@
 import { getSessionFromStorage } from '@holi/core/auth/helpers/auth'
 
-export interface AuthorizationHeaders {
-  [key: string]: string
+export type AuthorizationHeaders = Record<string, string> & {
+  Authorization?: string
+  'X-Session-Token'?: string
 }
 
 export const createAuthorizationHeaders = async (): Promise<AuthorizationHeaders> => {

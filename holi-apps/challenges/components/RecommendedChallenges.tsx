@@ -1,6 +1,5 @@
 import { calculateCardWidth, ChallengeCard } from '@holi-apps/challenges/components/ChallengeCard'
 import type { Challenge } from '@holi-apps/challenges/components/types'
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import RecoSlider from '@holi/core/components/RecoSlider'
@@ -14,9 +13,10 @@ import { withProfiler } from '@sentry/react'
 import fetch from 'cross-fetch'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useWindowDimensions } from 'react-native'
+import { Platform, useWindowDimensions } from 'react-native'
+import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
 
-const API_URL = challengeAppBaseUrl + '/api/v1/challenge-with-submissions'
+const API_URL = apiUrl('/api/v1/challenge-with-submissions')
 const MAX_ITEMS_TO_DISPLAY = 5
 
 interface RecommendedChallengesResult {
@@ -31,7 +31,7 @@ const RecommendedChallenges = () => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { width: screenWidth } = useWindowDimensions()
-  const cardWidth = calculateCardWidth(screenWidth)
+  const cardWidth = calculateCardWidth(Platform.OS === 'web' ? 500 : screenWidth)
   const headers = useChallengesHeaders()
 
   const fetchChallenges = useCallback(async () => {
@@ -43,7 +43,7 @@ const RecommendedChallenges = () => {
       setIsLoading(true)
       const apiHeaders = new Headers(headers)
       apiHeaders.append('Accept', 'application/json')
-      const response = await fetch(API_URL, { headers: apiHeaders })
+      const response = await fetch(API_URL, { headers: apiHeaders, credentials: 'include' })
 
       if (!response.ok) {
         throw new Error('Failed to fetch recommended challenges')

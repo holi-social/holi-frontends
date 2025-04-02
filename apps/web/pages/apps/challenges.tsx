@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSidePropsContext } from 'next'
 import React from 'react'
 
-import { createExternalChallengesPath } from '@holi-apps/challenges/helpers/navigation'
+import { challengesPathWithSessionTransfer } from '@holi-apps/challenges/helpers/navigation'
 import ChallengesAppHome from '@holi-apps/challenges/screens/ChallengesAppHome'
 
 const ChallengesAppHomePage: NextPage = () => <ChallengesAppHome />
@@ -17,7 +17,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   const { path } = context.query
   const singlePath = getSinglePath(path)
 
-  const uri = createExternalChallengesPath(singlePath)
+  const uri = challengesPathWithSessionTransfer(singlePath)
 
   return {
     redirect: {

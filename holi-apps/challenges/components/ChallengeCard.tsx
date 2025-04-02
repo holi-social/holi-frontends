@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import { TrackingEvent } from '@holi/core/tracking'
@@ -27,7 +27,7 @@ export const calculateCardWidth = (screenWidth: number) => screenWidth / 1.5 - c
 export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) => {
   const { theme } = useTheme()
   const { width: screenWidth } = useWindowDimensions()
-  const cardWidth = calculateCardWidth(screenWidth)
+  const cardWidth = calculateCardWidth(Platform.OS === 'web' ? 500 : screenWidth)
   const submissionCardWidth = (cardWidth - cardPaddingsSum) / 2
   const styles = useMemo(() => getStyles(theme, cardWidth), [theme, cardWidth])
 
@@ -102,7 +102,6 @@ const getStyles = (theme: HoliTheme, cardWidth: number) =>
       maxWidth: '75%',
     },
     participantsContainer: {
-      flex: 0,
       paddingLeft: Spacing.xs,
       flexDirection: 'row',
       alignItems: 'center',

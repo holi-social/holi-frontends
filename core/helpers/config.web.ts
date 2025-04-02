@@ -44,3 +44,5 @@ export const typesensePort = !isSSR ? window.TYPESENSE_PORT : process.env.TYPESE
 export const typesenseProtocol = !isSSR ? window.TYPESENSE_PROTOCOL : process.env.TYPESENSE_PROTOCOL
 export const typesenseApiKey = !isSSR ? window.TYPESENSE_API_KEY : process.env.TYPESENSE_API_KEY
 export const typesenseCollection = !isSSR ? window.TYPESENSE_COLLECTION : process.env.TYPESENSE_COLLECTION
+
+export const challengeAppBaseUrl = !isSSR ? window.HOLI_CHALLENGES_APP : process.env.HOLI_CHALLENGES_APP

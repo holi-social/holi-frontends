@@ -1,6 +1,5 @@
 import { ChallengesCarouselCard } from '@holi-apps/challenges/components/feed/ChallengesCarouselCard'
 import type { Challenge, ChallengeTeaser } from '@holi-apps/challenges/components/types'
-import { challengeAppBaseUrl } from '@holi-apps/challenges/config'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
 import { useChallengesHeaders } from '@holi-apps/challenges/helpers/useChallengesHeaders'
 import ChallengesSlider from '@holi-apps/challenges/components/feed/ChallengesSlider'
@@ -15,8 +14,9 @@ import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
 import { Stack } from 'holi-bricks/components/stack'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
+import { apiUrl } from '@holi-apps/challenges/helpers/navigation'
 
-const API_URL = challengeAppBaseUrl + '/api/v1/recommended-challenges'
+const API_URL = apiUrl('/api/v1/recommended-challenges')
 const CARD_WIDTH = 130
 
 interface ChallengesCarouselProps {
@@ -42,7 +42,7 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
 
         const apiHeaders = new Headers(headers)
         apiHeaders.append('Accept', 'application/json')
-        const response = await fetch(API_URL, { headers: apiHeaders })
+        const response = await fetch(API_URL, { headers: apiHeaders, credentials: 'include' })
 
         if (!response.ok) {
           throw new Error('Failed to fetch recommended challenges')

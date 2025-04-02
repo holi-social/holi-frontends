@@ -6,4 +6,5 @@ declare interface Window {
   TYPESENSE_PROTOCOL?: string
   TYPESENSE_API_KEY?: string
   TYPESENSE_COLLECTION?: string
+  HOLI_CHALLENGES_APP?: string
 }
