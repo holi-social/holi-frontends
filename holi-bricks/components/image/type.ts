@@ -1,5 +1,5 @@
 import type { ImageContentFit } from 'expo-image'
-import type { AccessibilityProps } from 'holi-bricks/accessibility'
+import type { AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 
 export type ImageSource = string | number
 

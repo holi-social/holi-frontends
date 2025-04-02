@@ -1,7 +1,7 @@
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { Image, type ImageSource } from 'holi-bricks/components/image'
-import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/accessibility'
+import { type AccessibilityProps, accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { getAvatarColorBg } from 'holi-bricks/components/avatar/getAvatarColorBg'
 import { Text } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
