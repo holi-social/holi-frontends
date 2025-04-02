@@ -132,14 +132,24 @@ export namespace TrackingEvent {
       },
       ...versionOne,
     }),
+    viewed: (eventId: string) => ({
+      name: 'event_details_viewed',
+      properties: {
+        eventId,
+      },
+      ...versionOne,
+    }),
     findMore: {
       name: 'events_findMore_pressed',
       ...versionOne,
     },
-    videoCall: {
+    videoCall: (eventId: string) => ({
       name: 'events_videoCallLink_pressed',
+      properties: {
+        eventId,
+      },
       ...versionOne,
-    },
+    }),
   }
 
   export const Events = {

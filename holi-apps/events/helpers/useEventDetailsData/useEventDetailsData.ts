@@ -84,7 +84,10 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
       title: remoteLink,
       icon: VideoChat,
       showExternalIcon: true,
-      onPress: () => Linking.openURL(remoteLink),
+      onPress: () => {
+        track(TrackingEvent.EventDetails.videoCall(event?.id as string))
+        Linking.openURL(remoteLink)
+      },
     })
   }
 

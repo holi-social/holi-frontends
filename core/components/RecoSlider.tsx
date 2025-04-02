@@ -64,6 +64,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
 
   const handleHeaderTitlePress = () => {
     if (seeAllPath) {
+      if (seeMoreTrackingEvent) track(seeMoreTrackingEvent)
       navigate(seeAllPath)
     }
   }
