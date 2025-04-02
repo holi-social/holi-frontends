@@ -1650,9 +1650,6 @@
   "user.skills.form.subline": "Deine Fähigkeiten erlauben es anderen Nutzenden, dich besser kennenzulernen. Wir können außerdem unser Angebot auf dich zuschneiden.",
   "user.visitProfile": "Zum Profil von {{name}}",
   "videocall.webview.heading": "Videoanruf - {{roomName}}",
-  "volunteering.details.cta": "Kontakt auf Partnerseite",
-  "volunteering.navigation.home": "Home",
-  "volunteering.navigation.search": "Search",
   "webview.error": "Laden der Seite ist fehlgeschlagen!",
   "wizard.stepsCount": "Schritt {{current}} von {{total}}",
   "core.act.events.filter.remote": "Zeige nur Vor-Ort-Events"

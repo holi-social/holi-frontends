@@ -52,43 +52,4 @@ describe('VolunteeringLabels', () => {
       expect(screen.queryByText('+2')).toBeTruthy()
     })
   })
-  describe('with displayAll=true', () => {
-    it('renders no label for topics if none given', () => {
-      render(<VolunteeringLabels displayAll={true} topicSlugs={[]} skillSlugs={[]} />)
-      ALL_TOPICS.forEach((topic) => {
-        expect(screen.queryByText(`topic.${topic}`)).toBeFalsy()
-      })
-    })
-    it('renders a label for every given topic', () => {
-      const allTopics = ALL_TOPICS.slice(0, 3)
-      render(<VolunteeringLabels displayAll={true} topicSlugs={allTopics} skillSlugs={[]} />)
-      allTopics.forEach((topic) => {
-        expect(screen.queryByText(`topic.${topic}`)).toBeTruthy()
-      })
-    })
-    it('renders no label for skills if none given', () => {
-      render(<VolunteeringLabels displayAll={true} topicSlugs={[]} skillSlugs={[]} />)
-      ALL_SKILLS.forEach((skill) => {
-        expect(screen.queryByText(`skill.${skill}`)).toBeFalsy()
-      })
-    })
-    it('renders a label for every given skill', () => {
-      const allSkills = ALL_SKILLS.slice(0, 3)
-      render(<VolunteeringLabels displayAll={true} topicSlugs={[]} skillSlugs={allSkills} />)
-      allSkills.forEach((skill) => {
-        expect(screen.queryByText(`skill.${skill}`)).toBeTruthy()
-      })
-    })
-    it('renders labels if both topics and skills present', () => {
-      const allTopics = ALL_TOPICS.slice(0, 2)
-      const allSkills = ALL_SKILLS.slice(0, 3)
-      render(<VolunteeringLabels displayAll={true} topicSlugs={allTopics} skillSlugs={allSkills} />)
-      allTopics.forEach((topic) => {
-        expect(screen.queryByText(`topic.${topic}`)).toBeTruthy()
-      })
-      allSkills.forEach((skill) => {
-        expect(screen.queryByText(`skill.${skill}`)).toBeTruthy()
-      })
-    })
-  })
 })

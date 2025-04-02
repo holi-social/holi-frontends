@@ -57,50 +57,14 @@ const SkillLabelsForListView = ({ skillSlugs }: SkillLabelsProps) => {
   )
 }
 
-const TopicLabelsForDetailView = ({ topicSlugs }: TopicLabelsProps) => {
-  const { t } = useTranslation()
+export const VolunteeringLabels = ({ topicSlugs, skillSlugs }: VolunteeringLabelsProps) => {
   return (
-    <View style={styles.labelRowDetailView}>
-      {topicSlugs?.map((topic) => (
-        <ChipLabel key={topic} size="sm" color="green">
-          {t(`topic.${topic}`)}
-        </ChipLabel>
-      ))}
-    </View>
+    <>
+      {topicSlugs && topicSlugs.length > 0 && <TopicLabelsForListView topicSlugs={topicSlugs} />}
+      {topicSlugs && topicSlugs.length > 0 && skillSlugs && skillSlugs.length > 0 && <HoliGap size={'xxs'} />}
+      {skillSlugs && skillSlugs.length > 0 && <SkillLabelsForListView skillSlugs={skillSlugs} />}
+    </>
   )
-}
-
-const SkillLabelsForDetailView = ({ skillSlugs }: SkillLabelsProps) => {
-  const { t } = useTranslation()
-  return (
-    <View style={styles.labelRowDetailView}>
-      {skillSlugs?.map((skill) => (
-        <ChipLabel key={skill} size="sm" color="blue">
-          {t(`skill.${skill}`)}
-        </ChipLabel>
-      ))}
-    </View>
-  )
-}
-
-export const VolunteeringLabels = ({ topicSlugs, skillSlugs, displayAll }: VolunteeringLabelsProps) => {
-  if (!displayAll) {
-    return (
-      <>
-        {topicSlugs && topicSlugs.length > 0 && <TopicLabelsForListView topicSlugs={topicSlugs} />}
-        {topicSlugs && topicSlugs.length > 0 && skillSlugs && skillSlugs.length > 0 && <HoliGap size={'xxs'} />}
-        {skillSlugs && skillSlugs.length > 0 && <SkillLabelsForListView skillSlugs={skillSlugs} />}
-      </>
-    )
-  } else {
-    return (
-      <>
-        {topicSlugs && topicSlugs.length > 0 && <TopicLabelsForDetailView topicSlugs={topicSlugs} />}
-        {topicSlugs && topicSlugs.length > 0 && skillSlugs && skillSlugs.length > 0 && <HoliGap size={'xs'} />}
-        {skillSlugs && skillSlugs.length > 0 && <SkillLabelsForDetailView skillSlugs={skillSlugs} />}
-      </>
-    )
-  }
 }
 
 const styles = StyleSheet.create({

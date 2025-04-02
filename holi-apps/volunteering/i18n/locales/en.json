@@ -4,13 +4,7 @@
   "discoveryV1.headline": "Opportunities for you",
   "engagement.country": "Germany",
   "engagement.title": "{{title}} by {{organization}}",
-  "engagementDetail.aboutEngagement": "About this volunteering",
-  "engagementDetail.getInTouch": "Get in touch",
-  "engagementDetail.notFound": "Opportunity could not be found",
-  "engagementDetail.organizer": "Organiser",
-  "engagementDetail.provider": "Provided via",
-  "engagementDetail.technicalPartner": "Technical partner",
-  "engagementDetail.similarRecosHeading": "You might also like",
+  "engagementDetail.getInTouch": "Get in touch on partner's page",
   "filter.heading": "Filter opportunities",
   "filter.location.label": "Location",
   "filter.location.placeholder": "Address, district, city or country…",
@@ -47,6 +41,5 @@
   "listing.partnerModal.vostel.de.text": "We envision a world where everyone contributes to a better, more sustainable future according to their abilities and regardless of how much time they have, what language they speak or what skills they bring with them.",
   "listing.subline": "provided by our partners",
   "maintenance.feature": "The volunteering app",
-  "recommended.title": "Recommended Volunteering",
-  "shared.partner.link.title": "Page of {{source}}"
+  "recommended.title": "Recommended Volunteering"
 }
