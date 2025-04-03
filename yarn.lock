@@ -5691,7 +5691,7 @@ __metadata:
     lodash.shuffle: "npm:^4.2.0"
     lottie-ios: "npm:4.5.0"
     lottie-react-native: "npm:7.0.0"
-    posthog-react-native: "npm:^3.12.0"
+    posthog-react-native: "npm:^3.3.9"
     react: "npm:18.2.0"
     react-devtools: "npm:4.14.0"
     react-i18next: "npm:^15.0.2"
@@ -5841,8 +5841,8 @@ __metadata:
     next-http-proxy-middleware: "npm:^1.2.6"
     ni18n: "npm:^1.1.0"
     pino: "npm:^8.8.0"
-    posthog-js: "npm:^1.234.6"
-    posthog-node: "npm:^4.11.1"
+    posthog-js: "npm:^1.160.1"
+    posthog-node: "npm:^4.2.0"
     raf: "npm:^3.4.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -16831,13 +16831,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.38.1":
-  version: 3.41.0
-  resolution: "core-js@npm:3.41.0"
-  checksum: 10c0/a29ed0b7fe81acf49d04ce5c17a1947166b1c15197327a5d12f95bbe84b46d60c3c13de701d808f41da06fa316285f3f55ce5903abc8d5642afc1eac4457afc8
-  languageName: node
-  linkType: hard
-
 "core-util-is@npm:1.0.2":
   version: 1.0.2
   resolution: "core-util-is@npm:1.0.2"
@@ -27680,51 +27673,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.234.6":
-  version: 1.234.6
-  resolution: "posthog-js@npm:1.234.6"
+"posthog-js@npm:^1.160.1":
+  version: 1.161.6
+  resolution: "posthog-js@npm:1.161.6"
   dependencies:
-    core-js: "npm:^3.38.1"
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
-    web-vitals: "npm:^4.2.4"
-  peerDependencies:
-    "@rrweb/types": 2.0.0-alpha.17
-    rrweb-snapshot: 2.0.0-alpha.17
-  peerDependenciesMeta:
-    "@rrweb/types":
-      optional: true
-    rrweb-snapshot:
-      optional: true
-  checksum: 10c0/52d218b6158580808fb5d1fc0a0b6e552bd2ad19e037a38d87f75b61828057a23dc1d706b2454e5d5e061de3cefc3a6e8a0c14920eee2ab2e3f0d868181199a4
+    web-vitals: "npm:^4.0.1"
+  checksum: 10c0/8f5f694cc9d67ff76dc2ab98dccc48f34047ac5d6ea68e5257cb125258b3051c41634fb3367779c28bec2763f67736dc51ab29c53db9d12d8974ea15addd5956
   languageName: node
   linkType: hard
 
-"posthog-node@npm:^4.11.1":
-  version: 4.11.1
-  resolution: "posthog-node@npm:4.11.1"
+"posthog-node@npm:^4.2.0":
+  version: 4.2.1
+  resolution: "posthog-node@npm:4.2.1"
   dependencies:
     axios: "npm:^1.7.4"
-  checksum: 10c0/6ed414ebb6e999dd273c05dfb29e7664c74b088d425ba9c19d7b9625a05554ff3f8aca99d44b206575e227e0084dbff40fbdcadc33d890f401829a79a6bb5469
+    rusha: "npm:^0.8.14"
+  checksum: 10c0/f44c7ab3be782d8d056ae8a284079ae1eb1f4f98adf91ecd3c43f7da5bd2dea1be987bc581378dae5918cab8de4efb30166b7419391ec0a82abc715f1c3ab37b
   languageName: node
   linkType: hard
 
-"posthog-react-native@npm:^3.12.0":
-  version: 3.12.0
-  resolution: "posthog-react-native@npm:3.12.0"
+"posthog-react-native@npm:^3.3.9":
+  version: 3.3.10
+  resolution: "posthog-react-native@npm:3.3.10"
   peerDependencies:
     "@react-native-async-storage/async-storage": ">=1.0.0"
-    "@react-navigation/native": ">= 5.0.0"
+    "@react-navigation/native": ">= 5.0.10"
     expo-application: ">= 4.0.0"
     expo-device: ">= 4.0.0"
     expo-file-system: ">= 13.0.0"
     expo-localization: ">= 11.0.0"
-    posthog-react-native-session-replay: ">= 1.0.0"
+    posthog-react-native-session-replay: ^0.1.6
     react-native-device-info: ">= 10.0.0"
-    react-native-localize: ">= 3.0.0"
-    react-native-navigation: ">= 6.0.0"
-    react-native-safe-area-context: ">= 4.0.0"
-    react-native-svg: ">= 15.0.0"
+    react-native-navigation: ">=6.0.0"
   peerDependenciesMeta:
     "@react-native-async-storage/async-storage":
       optional: true
@@ -27742,13 +27724,9 @@ __metadata:
       optional: true
     react-native-device-info:
       optional: true
-    react-native-localize:
-      optional: true
     react-native-navigation:
       optional: true
-    react-native-safe-area-context:
-      optional: true
-  checksum: 10c0/9aee78f104e749221cf3e81de545d1a25d5c06d484742ffa253e6629aa9d8b61072b101bfb2bedaaadc4aec00e1acd0ef8d08476ad4617348a59b50a1c368952
+  checksum: 10c0/b5186962fce524f280492a71ea874bb5089ac4bc0603254bdcc73b08875c017e165beea9e102984e0bf47197216999539c7983d1db0f6c5d364dc4b7ef08b41f
   languageName: node
   linkType: hard
 
@@ -30187,6 +30165,13 @@ __metadata:
   dependencies:
     queue-microtask: "npm:^1.2.2"
   checksum: 10c0/200b5ab25b5b8b7113f9901bfe3afc347e19bb7475b267d55ad0eb86a62a46d77510cb0f232507c9e5d497ebda569a08a9867d0d14f57a82ad5564d991588b39
+  languageName: node
+  linkType: hard
+
+"rusha@npm:^0.8.14":
+  version: 0.8.14
+  resolution: "rusha@npm:0.8.14"
+  checksum: 10c0/5009ac30a0f8d17886c54b0eaf4f316dbd3ae21c07f9d6827c4d73a2d26f270278a6a40e4e86d22932c4c4a785c0300f2232c3c2404bf670f69647f3a48ae8bc
   languageName: node
   linkType: hard
 
@@ -33716,10 +33701,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^4.2.4":
-  version: 4.2.4
-  resolution: "web-vitals@npm:4.2.4"
-  checksum: 10c0/383c9281d5b556bcd190fde3c823aeb005bb8cf82e62c75b47beb411014a4ed13fa5c5e0489ed0f1b8d501cd66b0bebcb8624c1a75750bd5df13e2a3b1b2d194
+"web-vitals@npm:^4.0.1":
+  version: 4.2.3
+  resolution: "web-vitals@npm:4.2.3"
+  checksum: 10c0/905bdb9434f365435c3c00e5f473ce088980fcd61068906e20a575bae9590e1cc28dab0f90958c66717591e2f4c9b809ec8025cef5796fa4bc1304d50332f125
   languageName: node
   linkType: hard
 

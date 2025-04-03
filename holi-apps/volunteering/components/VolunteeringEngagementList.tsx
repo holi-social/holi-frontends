@@ -28,7 +28,7 @@ import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/Volu
 
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { Button } from 'holi-bricks/components/button'
-import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/useVolunteeringDetailsData'
+import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
