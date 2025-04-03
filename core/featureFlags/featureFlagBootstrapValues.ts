@@ -30,6 +30,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.TASK_CONTACT_CTA]: false,
     [FeatureFlagKey.EVENTS]: false,
     [FeatureFlagKey.CHALLENGES_CAROUSEL]: false,
+    [FeatureFlagKey.TYPESENSE_RECOS]: false,
   },
   featureFlagPayloads: {
     [FeatureFlagKey.DONATIONS]: null,
@@ -47,6 +48,7 @@ export const featureFlagBootstrapValues: FeatureFlagsAndPayloads = {
     [FeatureFlagKey.TASK_CONTACT_CTA]: null,
     [FeatureFlagKey.EVENTS]: null,
     [FeatureFlagKey.CHALLENGES_CAROUSEL]: null,
+    [FeatureFlagKey.TYPESENSE_RECOS]: null,
   },
 }
 
