@@ -92,7 +92,12 @@ const config: PlaywrightTestConfig = {
     storageState: {
       origins: [
         {
-          localStorage: [{ name: 'HOLI_TRACKING_CONSENT', value: '{"ANALYTICS":"denied","PERSONALIZATION":"denied"}' }],
+          localStorage: [
+            {
+              name: 'HOLI_TRACKING_CONSENT',
+              value: '{"ANALYTICS":"denied","PERSONALIZATION":"denied","AD_PARTNERS":"denied"}',
+            },
+          ],
           origin: baseURL,
         },
       ],
