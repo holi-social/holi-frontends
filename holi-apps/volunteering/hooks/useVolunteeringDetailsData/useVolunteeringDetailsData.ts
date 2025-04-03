@@ -118,7 +118,7 @@ const transformDocument = (
   const skills =
     document.skills_v2?.map<DetailsScreenChips>((skill) => {
       return {
-        title: skill,
+        title: t('skill.' + skill),
         color: 'blue',
       }
     }) || []
@@ -126,7 +126,7 @@ const transformDocument = (
   const topics =
     document.topics_v2?.map<DetailsScreenChips>((topic) => {
       return {
-        title: topic,
+        title: t('topic.' + topic),
         color: 'green',
       }
     }) || []
