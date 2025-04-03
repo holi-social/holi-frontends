@@ -14,6 +14,7 @@ import {
 } from '@holi/api/graphql/graphql-codegen'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
 
@@ -98,8 +99,14 @@ jest.mock('@holi/core/typesense/helpers/createTypesenseClient', () => ({
   }),
 }))
 
+const mockUseFeatureFlag = jest.mocked(useFeatureFlag)
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: jest.fn(),
+}))
+
 describe('VolunteeringEngagementDetail', () => {
   beforeEach(() => {
+    mockUseFeatureFlag.mockReturnValue([true, {}])
     mockSearch.mockResolvedValue({ hits: [{}] })
   })
 
