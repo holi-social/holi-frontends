@@ -5490,7 +5490,7 @@ __metadata:
     "@storybook/addon-essentials": "npm:^7.6.10"
     "@storybook/addon-interactions": "npm:^7.6.10"
     "@storybook/addon-links": "npm:^7.6.10"
-    "@storybook/addon-react-native-web": "npm:^0.0.27"
+    "@storybook/addon-react-native-web": "npm:^0.0.29"
     "@storybook/addon-storysource": "npm:^7.6.10"
     "@storybook/jest": "npm:^0.2.3"
     "@storybook/nextjs": "npm:^7.6.10"
@@ -5801,7 +5801,7 @@ __metadata:
     "@storybook/addon-essentials": "npm:^7.6.10"
     "@storybook/addon-interactions": "npm:^7.6.10"
     "@storybook/addon-links": "npm:^7.6.10"
-    "@storybook/addon-react-native-web": "npm:^0.0.27"
+    "@storybook/addon-react-native-web": "npm:^0.0.29"
     "@storybook/addon-storysource": "npm:^7.6.10"
     "@storybook/jest": "npm:^0.2.3"
     "@storybook/nextjs": "npm:^7.6.10"
@@ -10758,16 +10758,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-react-native-web@npm:^0.0.27":
-  version: 0.0.27
-  resolution: "@storybook/addon-react-native-web@npm:0.0.27"
+"@storybook/addon-react-native-web@npm:^0.0.29":
+  version: 0.0.29
+  resolution: "@storybook/addon-react-native-web@npm:0.0.29"
   peerDependencies:
     "@babel/preset-react": "*"
     "@react-native/babel-preset": "*"
     babel-plugin-react-native-web: "*"
     metro-react-native-babel-preset: "*"
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
   peerDependenciesMeta:
     "@react-native/babel-preset":
       optional: true
@@ -10777,7 +10777,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/91aa486b10475b7ebe35ac0b2b097b3d4547e93d36b7fb88736263084b5d62072c06d4d1f55ea5c1d5a3376541119159e0c2499d26d0f0c06b3f289b5fafc18f
+  checksum: 10c0/a9fb4faf594a26241541ecbc4ae812d11b0df2f3fda3b77648850e99d9191b2c963727355220b3556ca41856a72434b7275359f926b03fd131c0c416599d0ba8
   languageName: node
   linkType: hard
 
@@ -21883,7 +21883,7 @@ __metadata:
     "@storybook/addon-ondevice-backgrounds": "npm:^8.5.5"
     "@storybook/addon-ondevice-controls": "npm:^8.5.5"
     "@storybook/addon-ondevice-notes": "npm:^8.5.5"
-    "@storybook/addon-react-native-web": "npm:^0.0.27"
+    "@storybook/addon-react-native-web": "npm:^0.0.29"
     "@storybook/addon-webpack5-compiler-babel": "npm:^3.0.3"
     "@storybook/core": "npm:^8.5.8"
     "@storybook/react": "npm:^8.5.8"
