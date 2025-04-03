@@ -389,7 +389,11 @@ export const withSSR = async (
   url: string,
   actions: (page: Page, options?: { testSSR?: boolean }) => Promise<void>
 ): Promise<void> => {
-  const context = await browser.newContext({ javaScriptEnabled: false })
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    userAgent:
+      'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+  })
   const page = await context.newPage()
   // Retry the navigation if it fails
   await gotoWithRetries(page, url) // Fix: remove quotes around 'url'
