@@ -11,7 +11,6 @@ export const useSingleTypesenseDocumentQuery = (
   documentType: TypesenseDocumentType,
   { onError, onNotFound }: { onError?: (error: Error) => void; onNotFound?: () => void } = {}
 ) => {
-  const [isLoading, setIsLoading] = useState(false)
   const [document, setDocument] = useState<TypesenseDocument>()
   const parameters = useMemo(
     () => ({
@@ -23,7 +22,6 @@ export const useSingleTypesenseDocumentQuery = (
   )
 
   const fetchDocument = useCallback(() => {
-    setIsLoading(true)
     typesenseClient
       .collections<TypesenseDocument>(typesenseCollection ?? '')
       .documents()
@@ -44,9 +42,6 @@ export const useSingleTypesenseDocumentQuery = (
           })
         }
       })
-      .finally(() => {
-        setIsLoading(false)
-      })
   }, [parameters, onError, onNotFound])
 
   useEffect(() => {
@@ -56,7 +51,7 @@ export const useSingleTypesenseDocumentQuery = (
   }, [parameters])
 
   return {
-    isLoading,
+    isLoading: !!document,
     document,
     refresh: fetchDocument,
   }

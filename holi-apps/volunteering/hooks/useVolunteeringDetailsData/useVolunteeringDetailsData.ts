@@ -1,4 +1,4 @@
-import { useVolunteeringByIdQuery, useSimilarVolunteeringSliderQuery } from '@holi/api/graphql/graphql-codegen'
+import { useVolunteeringByIdQuery } from '@holi/api/graphql/graphql-codegen'
 import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { isSSR } from '@holi/core/helpers/isSSR'
@@ -30,19 +30,7 @@ export const useVolunteeringDetailsData = (volunteeringId: string) => {
     },
   })
 
-  const {
-    data: similarVolunteering,
-    loading: similarVolunteeringLoading,
-    refetch: similarVolunteeringRefetch,
-  } = useSimilarVolunteeringSliderQuery({
-    variables: { id: volunteeringId },
-    fetchPolicy: isSSR ? 'cache-first' : 'cache-and-network',
-    skip: !volunteeringId,
-  })
-
-  useOnRefresh(() => {
-    Promise.all([refetch(), similarVolunteeringRefetch({ id: volunteeringId })])
-  })
+  useOnRefresh(refetch)
 
   const volunteering = data?.appVolunteering_engagement
   const partner = volunteering?.source ? VOLUNTEERING_IMG_SOURCES_MAPPING[volunteering.source] : undefined
@@ -90,8 +78,6 @@ export const useVolunteeringDetailsData = (volunteeringId: string) => {
 
   return {
     isLoading: loading,
-    recommendations: similarVolunteering?.appVolunteering_similarRecommendations.data || [],
-    recommendationsLoading: similarVolunteeringLoading,
     document: {
       title: volunteering?.title || '',
       description: volunteering?.description,

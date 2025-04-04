@@ -1,16 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, Linking } from 'react-native'
-import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
-import { Text } from 'holi-bricks/components/text'
 
 import { Screen } from '@holi/core/components/Screen'
 import { Stack } from 'holi-bricks/components/stack'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import { white } from 'holi-bricks/tokens'
-import VolunteeringSimilarRecosSlider from '@holi-apps/volunteering/components/VolunteeringSimilarRecosSlider'
 import { useVolunteeringDetailsData } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
-import type { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 import { ExternalLink } from '@holi/icons/src/generated'
 import HoliWebView from '@holi/core/components/HoliWebView'
 import { useTheme } from '@holi/ui/styles/theme'
@@ -20,11 +16,11 @@ import { TrackingEvent } from '@holi/core/tracking'
 import { DetailsScreen } from '@holi/core/layout/DetailsScreen'
 import { useTrackEngagementViewMutation } from '@holi/api/graphql/graphql-codegen'
 import { logError } from '@holi/core/errors/helpers'
+import { VolunteeringSimilarRecosFooter } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosFooter'
 
 export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: string }) => {
   const { t } = useTranslation()
-  const { isLoading, document, recommendations } = useVolunteeringDetailsData(engagementId)
-  const cardWidth = useCardWidth()
+  const { isLoading, document } = useVolunteeringDetailsData(engagementId)
   const { theme } = useTheme()
   const { show, props: modalProps } = useModalState()
   const hasTrackedRef = useRef<boolean>(false)
@@ -101,18 +97,7 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         author={document?.author}
         chips={document?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop
-        _footer={
-          <Stack
-            shouldRender={recommendations?.length > 0}
-            direction="column"
-            gap="sm"
-            padding={Platform.OS === 'web' ? undefined : { left: 'sm' }}
-            margin={{ bottom: '3xl' }}
-          >
-            <Text size="xxl">{t('recommendation.slider.title')}</Text>
-            <VolunteeringSimilarRecosSlider cardWidth={cardWidth} recos={recommendations as VolunteeringEngagement[]} />
-          </Stack>
-        }
+        _footer={<VolunteeringSimilarRecosFooter engagementId={engagementId} />}
       />
 
       {document?.externalUrl && Platform.OS !== 'web' && (
