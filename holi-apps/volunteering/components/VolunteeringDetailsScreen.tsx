@@ -102,7 +102,13 @@ export const VolunteeringDetailsScreen = ({ engagementId }: { engagementId: stri
         chips={document?.chips}
         // TODO Stefano: Move inside the layout and remove _footer prop
         _footer={
-          <Stack shouldRender={recommendations?.length > 0} direction="column" gap="sm" margin={{ bottom: '3xl' }}>
+          <Stack
+            shouldRender={recommendations?.length > 0}
+            direction="column"
+            gap="sm"
+            padding={Platform.OS === 'web' ? undefined : { left: 'sm' }}
+            margin={{ bottom: '3xl' }}
+          >
             <Text size="xxl">{t('recommendation.slider.title')}</Text>
             <VolunteeringSimilarRecosSlider cardWidth={cardWidth} recos={recommendations as VolunteeringEngagement[]} />
           </Stack>
