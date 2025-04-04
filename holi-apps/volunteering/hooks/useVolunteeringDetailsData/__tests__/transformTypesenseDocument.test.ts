@@ -50,7 +50,6 @@ describe('transformDocument', () => {
       visibility: 'public',
       infoList: [
         {
-          subtitle: 'Berlin, Germany',
           title: 'Berlin, Germany',
           icon: MapPin2,
         },

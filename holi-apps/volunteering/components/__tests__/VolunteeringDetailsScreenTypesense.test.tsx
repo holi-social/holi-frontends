@@ -5,15 +5,17 @@ import type { TypesenseDocument } from '@holi/core/typesense/types'
 import { act, render, screen, userEvent } from '@testing-library/react-native'
 
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
-import { TFunction } from 'i18next'
-import { useTrackEngagementViewOnce } from '@holi-apps/volunteering/components/useTrackEngagementViewOnce'
+import type { TFunction } from 'i18next'
+import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
+import type { SearchParams } from '@holi/core/screens/search/Search'
+import { TrackEngagementViewDocument, SimilarVolunteeringSliderDocument } from '@holi/api/graphql/graphql-codegen'
 
-/*const mockSearch = jest.fn()
+const mockSearch = jest.fn()
 jest.mock('@holi/core/typesense/helpers/createTypesenseClient', () => ({
   createTypesenseClient: () => ({
     search: (parameters: SearchParams) => mockSearch(parameters),
   }),
-}))*/
+}))
 
 const engagementId = 'test-id'
 
@@ -50,28 +52,47 @@ jest.mock('@holi-apps/volunteering/hooks/useVolunteeringDetailsData/useVolunteer
   }
 })
 
-const mockTrackEngagementView = jest.fn()
-jest.mock('@holi/api/graphql/graphql-codegen', () => {
-  const original = jest.requireActual('@holi/api/graphql/graphql-codegen')
-  return {
-    ...original,
-    useTrackEngagementViewMutation: () => {
-      return [mockTrackEngagementView]
-    },
-  }
-})
+jest.mock('@holi/core/components/HoliWebView')
 
-jest.mock('@holi-apps/volunteering/components/useTrackEngagementViewOnce')
-const mockUseTrackEngagementViewOnce = jest.mocked(useTrackEngagementViewOnce)
-mockUseTrackEngagementViewOnce.mockImplementation(() => null)
+const mockTrackEngagementView = jest.fn()
+const mocks: MockedResponse[] = [
+  {
+    request: {
+      query: TrackEngagementViewDocument,
+      variables: { id: engagementId },
+    },
+    newData: mockTrackEngagementView,
+  },
+  {
+    request: {
+      query: SimilarVolunteeringSliderDocument,
+      variables: { offset: 0, limit: 10, id: engagementId },
+    },
+    result: {
+      data: {
+        appVolunteering_similarRecommendations: {
+          totalResults: 0,
+          data: [],
+        },
+      },
+    },
+  },
+]
 
 describe('VolunteeringDetailsScreenTypesense', () => {
   beforeEach(() => {
     jest.useFakeTimers()
+    mockTrackEngagementView.mockReturnValue({
+      data: {
+        appVolunteering_trackEngagementView: {
+          id: engagementId,
+        },
+      },
+    })
   })
 
   afterEach(async () => {
-    await act(jest.runOnlyPendingTimers)
+    await act(jest.runOnlyPendingTimersAsync)
     jest.useRealTimers()
   })
 
@@ -81,11 +102,13 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
       isLoading: false,
       document: data,
-      recommendations: [],
-      recommendationsLoading: false,
     })
 
-    render(<VolunteeringDetailsScreenTypesense engagementId={engagementId} />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+      </MockedProvider>
+    )
     await act(jest.runAllTimersAsync)
 
     expect(screen.getByTestId('holi-image-background').props.source.uri).toBe(document.image_url)
@@ -105,11 +128,13 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
       isLoading: false,
       document: data,
-      recommendations: [],
-      recommendationsLoading: false,
     })
 
-    render(<VolunteeringDetailsScreenTypesense engagementId={engagementId} />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+      </MockedProvider>
+    )
     await act(jest.runAllTimersAsync)
 
     expect(screen.getByText(document.title_de!)).toBeVisible()
@@ -122,14 +147,16 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
       isLoading: false,
       document: data,
-      recommendations: [],
-      recommendationsLoading: false,
     })
 
-    render(<VolunteeringDetailsScreenTypesense engagementId={engagementId} />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+      </MockedProvider>
+    )
     await act(jest.runAllTimersAsync)
 
-    expect(mockUseTrackEngagementViewOnce).toHaveBeenCalledWith(engagementId, true)
+    expect(mockTrackEngagementView).toHaveBeenCalledWith({ id: engagementId })
   })
 
   it('tracks external link clicks (mobile)', async () => {
@@ -138,11 +165,13 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
       isLoading: false,
       document: data,
-      recommendations: [],
-      recommendationsLoading: false,
     })
 
-    render(<VolunteeringDetailsScreenTypesense engagementId={engagementId} />)
+    render(
+      <MockedProvider mocks={mocks}>
+        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+      </MockedProvider>
+    )
 
     await act(jest.runAllTimersAsync)
 
