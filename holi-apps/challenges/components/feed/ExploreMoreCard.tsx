@@ -6,9 +6,9 @@ import { type GestureResponderEvent, Pressable, type Role, StyleSheet, View } fr
 import { Text } from 'holi-bricks/components/text'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import { BorderRadius } from 'holi-bricks/tokens/dimensions/borderRadius'
-import { mono } from 'holi-bricks/tokens/colors/primitives'
-import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
+import { BorderRadius } from 'holi-bricks/tokens'
+import { mono } from 'holi-bricks/tokens'
+import { Spacing } from 'holi-bricks/tokens'
 import { Image } from 'holi-bricks/components/image'
 
 export interface HoliMoreCardProps {

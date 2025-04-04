@@ -1,5 +1,4 @@
-import { black, mono, white } from 'holi-bricks/tokens'
-import { byShade } from 'holi-bricks/utils/byShade'
+import { black, byShade, mono, white } from 'holi-bricks/foundations'
 
 export const darkChipTheme = {
   chipSelect: {

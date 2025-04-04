@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Text, type TextSize, type TextColor } from 'holi-bricks/components/text'
-import { lightTheme } from 'holi-bricks/themes/light'
+import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import React from 'react'
 import { View } from 'react-native'
 

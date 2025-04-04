@@ -1,7 +1,7 @@
-import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/accessibility'
+import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
-import type { lightTheme } from 'holi-bricks/themes/light'
+import type { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import { createStyleSheet } from 'holi-bricks/utils'
 
 import type * as React from 'react'

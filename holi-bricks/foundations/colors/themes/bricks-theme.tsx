@@ -1,4 +1,4 @@
-import { useBricks } from 'holi-bricks/hooks/useBricks'
+import { useBricks } from './useBricks'
 import { useEffect } from 'react'
 import { AppState, type AppStateStatus } from 'react-native'
 

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { View, StatusBar, Platform, type ScrollView, type LayoutChangeEvent } from 'react-native'
-import { useBricks, useStyles } from 'holi-bricks/hooks'
+import { useStyles } from 'holi-bricks/hooks'
+import { useBricks } from 'holi-bricks/foundations/colors/themes/useBricks'
 import { KeyboardAvoidingView, useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
 import { useScrollToTop } from '@react-navigation/native'
 import { useAutoPreset } from '@holi/core/components/Screen/useAutoPreset'

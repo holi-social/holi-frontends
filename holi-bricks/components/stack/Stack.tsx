@@ -3,8 +3,8 @@ import { useStyles } from 'holi-bricks/hooks'
 import { Spacing, breakpoints, type SpacingSize, type BreakpointsSize } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { Pressable, View, type AccessibilityRole, type DimensionValue, type FlexStyle } from 'react-native'
-import type { RadiusToEdge, SizeToEdge } from 'holi-bricks/utils/makeStyleRules'
-import { makePadding, makeMargin, makeRadius } from 'holi-bricks/utils/makeStyleRules'
+import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
+import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
 
 type FlexAlignments = 'flex-end' | 'flex-start' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
 interface StackProps extends React.PropsWithChildren {

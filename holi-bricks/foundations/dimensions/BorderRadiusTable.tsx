@@ -1,6 +1,6 @@
-import { Colors } from 'holi-bricks/tokens/colors/primitives'
-import { BorderRadius } from 'holi-bricks/tokens/dimensions/borderRadius'
-import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
+import { Colors } from 'holi-bricks/foundations/colors/primitives'
+import { BorderRadius } from 'holi-bricks/foundations/dimensions/borderRadius'
+import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 import React from 'react'
 
 export const BorderRadiusTable = () => {

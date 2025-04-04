@@ -21,7 +21,7 @@ import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/s
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Button } from 'holi-bricks/components/button'
-import { Spacing } from 'holi-bricks/tokens/dimensions/spacing'
+import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
 
 const isNotificationInvitationDeclined = ({ notificationType }: NotificationSpaceConnection) =>
   notificationType === NotificationType.COMMUNITY_INVITE_DECLINED
