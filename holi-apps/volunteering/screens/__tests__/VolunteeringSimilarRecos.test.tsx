@@ -6,14 +6,12 @@ import { makeEngagement } from '@holi-apps/volunteering/__tests__/helpers/genera
 import { VolunteeringEngagementDetail } from '@holi-apps/volunteering/screens/VolunteeringEngagementDetail'
 import {
   SimilarVolunteeringSliderDocument,
-  TrackEngagementViewDocument,
-  type SimilarVolunteeringSliderQueryVariables,
   type SimilarVolunteeringSliderQuery,
-  type TrackEngagementViewMutation,
-  type TrackEngagementViewMutationVariables,
+  type SimilarVolunteeringSliderQueryVariables,
 } from '@holi/api/graphql/graphql-codegen'
 import { mockParameters } from '@holi/core/navigation/hooks/useParam/__mocks__/mockParameters'
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
+import { mockTrackEngagementView } from '@holi-apps/volunteering/__tests__/helpers/mocks'
 import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 jest.mock('@holi/core/navigation/hooks/useParam')
@@ -22,22 +20,6 @@ const mockEngagementId = '123'
 
 const allTopics = ALL_TOPICS.slice(0, 3)
 const allSkills = ALL_SKILLS.slice(0, 2)
-
-const mockTrackEngagementView: MockedResponse<TrackEngagementViewMutation, TrackEngagementViewMutationVariables> = {
-  request: {
-    query: TrackEngagementViewDocument,
-    variables: {
-      id: mockEngagementId,
-    },
-  },
-  result: {
-    data: {
-      appVolunteering_trackEngagementView: {
-        id: mockEngagementId,
-      },
-    },
-  },
-}
 
 const mockNoSimilarRecoQueries: MockedResponse<
   SimilarVolunteeringSliderQuery,
@@ -118,7 +100,7 @@ describe('VolunteeringEngagementDetail', () => {
       render(
         <MockedProvider
           addTypename={false}
-          mocks={[mockNoSimilarRecoQueries, mockTrackEngagementView]}
+          mocks={[mockNoSimilarRecoQueries, mockTrackEngagementView(mockEngagementId)]}
           defaultOptions={{
             watchQuery: { fetchPolicy: 'no-cache' },
             query: { fetchPolicy: 'no-cache' },
@@ -143,7 +125,7 @@ describe('VolunteeringEngagementDetail', () => {
       // more specific tests and assertions on labels: see VolunteeringLabels (test)
       render(
         <MockedProvider
-          mocks={[mockSimilarRecoQueries, mockTrackEngagementView]}
+          mocks={[mockSimilarRecoQueries, mockTrackEngagementView(mockEngagementId)]}
           defaultOptions={{
             watchQuery: { fetchPolicy: 'no-cache' },
             query: { fetchPolicy: 'no-cache' },

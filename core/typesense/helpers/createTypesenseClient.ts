@@ -1,12 +1,5 @@
 import Typesense from 'typesense'
-import {
-  typesenseApiKey,
-  typesenseHost,
-  typesensePort,
-  typesenseProtocol,
-  typesenseCollection,
-} from '@holi/core/helpers/config'
-import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { typesenseApiKey, typesenseHost, typesensePort, typesenseProtocol } from '@holi/core/helpers/config'
 import { Platform } from 'react-native'
 import qs from 'qs'
 import type { SearchParams } from 'typesense/lib/Typesense/Documents'
@@ -29,5 +22,3 @@ export const createTypesenseClient = () =>
       ? (params: SearchParams) => qs.stringify(params, { format: 'RFC3986' })
       : undefined,
   })
-    .collections<TypesenseDocument>(typesenseCollection ?? '')
-    .documents()

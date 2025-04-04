@@ -11,7 +11,7 @@ export interface TypesenseDocument {
   location?: string
   location_lat_lng?: [number, number]
   image_url?: string
-  user_full_name?: string
+  user_full_name?: string // only set if type == 'profile'
   /**
    * Used to construct links to the entity on client-side. E.g. for a space task, this would look as follows:
    * {

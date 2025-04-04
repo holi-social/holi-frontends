@@ -8,6 +8,8 @@ import { createTypesenseClient } from '@holi/core/typesense/helpers/createTypese
 import { isEmptyFilter } from '@holi/core/screens/search/helpers/isEmptyFilter'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { useCallback, useEffect, useState } from 'react'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
+import { typesenseCollection } from '@holi/core/helpers/config'
 
 const typesenseClient = createTypesenseClient()
 
@@ -56,6 +58,8 @@ export const useSearchResults = (filter: SearchFilter) => {
         filter,
       }))
       typesenseClient
+        .collections<TypesenseDocument>(typesenseCollection ?? '')
+        .documents()
         .search(createSearchParameters(filter, pageToLoad))
         .then((results) => {
           setSearchResults((previousResults) => {

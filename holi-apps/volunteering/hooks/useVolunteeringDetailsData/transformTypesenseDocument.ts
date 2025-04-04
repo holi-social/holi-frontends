@@ -46,7 +46,7 @@ export const transformTypesenseDocument = (
 
   const locationType = document.location
     ? {
-        subtitle: document.location,
+        subtitle: undefined,
         title: document.location,
         icon: MapPin2,
       }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, Linking } from 'react-native'
+import { Linking, Platform } from 'react-native'
 import { useCardWidth } from '@holi/core/screens/homeFeed/components/Recommendations'
 import { Text } from 'holi-bricks/components/text'
 
@@ -122,7 +122,7 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
           style={{ width: '100%', height: '100%', flex: 1 }}
           shown={modalProps.shown}
           onDismiss={modalProps.onDismiss}
-          testID={'goodnews-partner-modal'}
+          testID={'volunteering-external-url-modal'}
         >
           <HoliWebView
             theme={theme}

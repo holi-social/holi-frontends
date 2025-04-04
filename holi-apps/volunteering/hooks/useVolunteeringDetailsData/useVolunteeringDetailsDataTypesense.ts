@@ -6,10 +6,12 @@ import { useTranslation } from 'react-i18next'
 import { useSingleTypesenseDocumentQuery } from '@holi/core/typesense/hooks/useSingleTypesenseDocumentQuery'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
+import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 
 export const useVolunteeringDetailsDataTypesense = (volunteeringId: string) => {
   const { replaceRoute } = useRouting()
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
+  const userLanguage = useUserLanguage()
   const { displayError } = useErrorHandling()
 
   const { isLoading, document, refresh } = useSingleTypesenseDocumentQuery(volunteeringId, 'volunteering', {
@@ -42,7 +44,7 @@ export const useVolunteeringDetailsDataTypesense = (volunteeringId: string) => {
 
   return {
     isLoading,
-    document: document ? transformTypesenseDocument(t, i18n.language, document) : undefined,
+    document: document ? transformTypesenseDocument(t, userLanguage, document) : undefined,
     recommendations: similarVolunteering?.appVolunteering_similarRecommendations.data || [],
     recommendationsLoading: similarVolunteeringLoading,
   }
