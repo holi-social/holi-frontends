@@ -1,7 +1,7 @@
 import { logError } from '@holi/core/errors/helpers'
 import { createTypesenseClient } from '@holi/core/typesense/helpers/createTypesenseClient'
 import type { TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 const typesenseClient = createTypesenseClient()
 
@@ -12,16 +12,19 @@ export const useSingleTypesenseDocumentQuery = (
 ) => {
   const [isLoading, setIsLoading] = useState(false)
   const [document, setDocument] = useState<TypesenseDocument>()
-
-  const fetchDocument = useCallback(() => {
-    const parameter = {
+  const parameters = useMemo(
+    () => ({
       q: '*',
       filter_by: `id:${documentType}_${id} && type:${documentType}`,
       per_page: 1,
-    }
+    }),
+    [documentType, id]
+  )
+
+  const fetchDocument = useCallback(() => {
     setIsLoading(true)
     typesenseClient
-      .search(parameter)
+      .search(parameters)
       .then((results) => {
         if (!results?.hits?.length) {
           onNotFound?.()
@@ -41,13 +44,13 @@ export const useSingleTypesenseDocumentQuery = (
       .finally(() => {
         setIsLoading(false)
       })
-  }, [documentType, id, onError, onNotFound])
+  }, [parameters, onError, onNotFound])
 
   useEffect(() => {
     fetchDocument()
-    // Only trigger if params change
+    // Only trigger if parameters change
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, documentType])
+  }, [parameters])
 
   return {
     isLoading,
