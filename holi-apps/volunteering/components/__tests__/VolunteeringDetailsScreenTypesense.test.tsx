@@ -7,15 +7,8 @@ import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import type { TFunction } from 'i18next'
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import type { SearchParams } from '@holi/core/screens/search/Search'
 import { TrackEngagementViewDocument, SimilarVolunteeringSliderDocument } from '@holi/api/graphql/graphql-codegen'
-
-const mockSearch = jest.fn()
-jest.mock('@holi/core/typesense/helpers/createTypesenseClient', () => ({
-  createTypesenseClient: () => ({
-    search: (parameters: SearchParams) => mockSearch(parameters),
-  }),
-}))
+import { useVolunteeringDetailsDataTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
 
 const engagementId = 'test-id'
 
@@ -45,12 +38,10 @@ const t: TFunction = ((k: string) => k) as TFunction
 const imageProxyPrefixed = (url: string): string =>
   'https://dev-images.holi.social/crop:0:0/resize:fill-down:96:96/ext:webp/quality:80/plain/' + encodeURIComponent(url)
 
-const mockUseVolunteeringDetailsDataTypesense = jest.fn()
-jest.mock('@holi-apps/volunteering/hooks/useVolunteeringDetailsData/useVolunteeringDetailsDataTypesense', () => {
-  return {
-    useVolunteeringDetailsDataTypesense: (id: string) => mockUseVolunteeringDetailsDataTypesense(id),
-  }
-})
+const mockUseVolunteeringDetailsDataTypesense = jest.mocked(useVolunteeringDetailsDataTypesense)
+jest.mock('@holi-apps/volunteering/hooks/useVolunteeringDetailsData', () => ({
+  useVolunteeringDetailsDataTypesense: jest.fn(),
+}))
 
 jest.mock('@holi/core/components/HoliWebView')
 
@@ -79,9 +70,10 @@ const mocks: MockedResponse[] = [
   },
 ]
 
+jest.useFakeTimers()
+
 describe('VolunteeringDetailsScreenTypesense', () => {
   beforeEach(() => {
-    jest.useFakeTimers()
     mockTrackEngagementView.mockReturnValue({
       data: {
         appVolunteering_trackEngagementView: {
@@ -93,7 +85,6 @@ describe('VolunteeringDetailsScreenTypesense', () => {
 
   afterEach(async () => {
     await act(jest.runOnlyPendingTimersAsync)
-    jest.useRealTimers()
   })
 
   it('should render correctly (en)', async () => {

@@ -2,7 +2,6 @@ import { logError } from '@holi/core/errors/helpers'
 import { createTypesenseClient } from '@holi/core/typesense/helpers/createTypesenseClient'
 import type { TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { typesenseCollection } from '@holi/core/helpers/config'
 
 const typesenseClient = createTypesenseClient()
 
@@ -23,8 +22,6 @@ export const useSingleTypesenseDocumentQuery = (
 
   const fetchDocument = useCallback(() => {
     typesenseClient
-      .collections<TypesenseDocument>(typesenseCollection ?? '')
-      .documents()
       .search(parameters)
       .then((results) => {
         if (!results?.hits?.length) {
@@ -51,7 +48,7 @@ export const useSingleTypesenseDocumentQuery = (
   }, [parameters])
 
   return {
-    isLoading: !!document,
+    isLoading: !document,
     document,
     refresh: fetchDocument,
   }

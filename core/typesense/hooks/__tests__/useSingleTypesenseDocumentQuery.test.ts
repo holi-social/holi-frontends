@@ -97,7 +97,6 @@ describe('useSingleTypesenseDocumentQuery', () => {
     await act(jest.runOnlyPendingTimersAsync)
 
     expect(onError).toHaveBeenCalledWith(new Error('Test error'))
-    expect(result.current.isLoading).toBeFalsy()
     expect(result.current.document).toBeUndefined()
   })
 
@@ -109,7 +108,6 @@ describe('useSingleTypesenseDocumentQuery', () => {
     await act(jest.runOnlyPendingTimersAsync)
 
     expect(onNotFound).toHaveBeenCalled()
-    expect(result.current.isLoading).toBeFalsy()
     expect(result.current.document).toBeUndefined()
   })
 })

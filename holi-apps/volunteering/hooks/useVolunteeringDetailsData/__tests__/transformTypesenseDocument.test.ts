@@ -1,15 +1,7 @@
-import type { SearchParams } from '@holi/core/screens/search/Search'
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
 import { MapPin2 } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
-
-const mockSearch = jest.fn()
-jest.mock('@holi/core/typesense/helpers/createTypesenseClient', () => ({
-  createTypesenseClient: () => ({
-    search: (parameters: SearchParams) => mockSearch(parameters),
-  }),
-}))
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({

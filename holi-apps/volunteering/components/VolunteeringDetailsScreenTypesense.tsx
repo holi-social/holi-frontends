@@ -99,7 +99,6 @@ export const VolunteeringDetailsScreenTypesense = ({ engagementId }: { engagemen
         // TODO Stefano: Move inside the layout and remove _footer prop
         _footer={<VolunteeringSimilarRecosFooter engagementId={engagementId} />}
       />
-
       {document?.externalUrl && Platform.OS !== 'web' && (
         <HoliModal
           label="modal"
