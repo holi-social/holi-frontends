@@ -23,6 +23,8 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { ButtonIcon } from 'holi-bricks/components/button'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const PAGE_SIZE = 20
 
@@ -35,6 +37,7 @@ type SpacePendingRequestsProps = {
 
 const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, membershipRequest, initiallyOpen }) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -70,14 +73,6 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
         spaceId: space.id,
         userId: membershipRequest.user.id,
       },
-      onCompleted() {
-        if (connectionStatus === 'ACCEPTED') {
-          openToast(t('spaces.invite.user.request.accepted', { user: requestorName }), HoliToastType.SUCCESS)
-        }
-        if (connectionStatus === 'DECLINED') {
-          openToast(t('spaces.invite.user.request.declined', { user: requestorName }), HoliToastType.SUCCESS)
-        }
-      },
       onError(error) {
         setConnectionStatus('PENDING')
 
@@ -101,36 +96,44 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
     }
   )
 
-  const approveConnectionRequest = useCallback(() => {
+  const acceptRequestToJoinSpace = useCallback(() => {
     setConnectionStatus('ACCEPTED')
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBER,
       },
+      onCompleted: () => {
+        openToast(t('spaces.invite.user.request.accepted', { user: requestorName }), HoliToastType.SUCCESS)
+        track(TrackingEvent.Spaces.RequestToJoin.accepted(space.id))
+      },
     })
-  }, [updateSpaceUserConnection, setConnectionStatus])
+  }, [updateSpaceUserConnection, openToast, t, requestorName, track, space.id])
 
-  const declineConnectionRequest = useCallback(() => {
+  const rejectRequestToJoinSpace = useCallback(() => {
     setConnectionStatus('DECLINED')
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
       },
+      onCompleted: () => {
+        openToast(t('spaces.invite.user.request.declined', { user: requestorName }), HoliToastType.SUCCESS)
+        track(TrackingEvent.Spaces.RequestToJoin.rejected(space.id))
+      },
     })
-  }, [updateSpaceUserConnection, setConnectionStatus])
+  }, [updateSpaceUserConnection, openToast, t, requestorName, track, space.id])
 
   const handleJoinRequest = useCallback(
     (accept: boolean) => {
       if (accept) {
-        approveConnectionRequest()
+        acceptRequestToJoinSpace()
       } else {
-        declineConnectionRequest()
+        rejectRequestToJoinSpace()
       }
       hidePermissions()
     },
-    [hidePermissions, approveConnectionRequest, declineConnectionRequest]
+    [hidePermissions, acceptRequestToJoinSpace, rejectRequestToJoinSpace]
   )
 
   return (
@@ -169,7 +172,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
             variant="secondary"
             size="sm"
             label={t('notifications.connection.ignore')}
-            onPress={declineConnectionRequest}
+            onPress={rejectRequestToJoinSpace}
             disabled={loading}
             testID="ignore-connection-request-button"
             icon={Close}
@@ -179,7 +182,7 @@ const SpacePendingRequestsItem: React.FC<SpacePendingRequestsProps> = ({ space, 
             variant="primary"
             size="sm"
             label={t('notifications.connection.accept')}
-            onPress={approveConnectionRequest}
+            onPress={acceptRequestToJoinSpace}
             disabled={loading}
             testID="accept-connection-request-button"
             icon={Check}

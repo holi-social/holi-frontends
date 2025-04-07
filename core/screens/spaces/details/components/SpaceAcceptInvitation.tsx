@@ -1,15 +1,17 @@
-import { StoreObject, useMutation } from '@apollo/client'
-import React from 'react'
+import { type StoreObject, useMutation } from '@apollo/client'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
-  UpdateSpaceUserConnectionResponse,
+  type UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
-import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 export type SpaceAcceptInvitationProps = {
   space: Space
@@ -17,16 +19,18 @@ export type SpaceAcceptInvitationProps = {
 
 const SpaceAcceptInvitation: React.FC<SpaceAcceptInvitationProps> = ({ space }) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
 
+  const spaceId = space.id
   const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
 
   const [updateSpaceUserConnection] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       variables: {
-        spaceId: space.id,
+        spaceId,
       },
       // refetchQueries does not work on unmounted components and leads to buggy behavior, consider explicit cache eviction as per https://github.com/apollographql/apollo-client/issues/5419#issuecomment-1242511457
       update: (cache) => {
@@ -39,7 +43,7 @@ const SpaceAcceptInvitation: React.FC<SpaceAcceptInvitationProps> = ({ space }) 
       onError: (error) => {
         displayError(error, 'Failed to accept space invitation', {
           location: 'SpaceAcceptInvitation.updateSpaceUserConnection',
-          spaceId: space.id,
+          spaceId,
         })
       },
     }
@@ -52,6 +56,7 @@ const SpaceAcceptInvitation: React.FC<SpaceAcceptInvitationProps> = ({ space }) 
       },
       onCompleted() {
         openToast(t('spaces.invite.accept.success'), HoliToastType.SUCCESS)
+        track(TrackingEvent.Spaces.RequestToJoin.accepted(spaceId))
       },
     })
 

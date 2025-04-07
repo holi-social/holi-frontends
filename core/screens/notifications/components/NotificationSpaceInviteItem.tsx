@@ -22,6 +22,8 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Button } from 'holi-bricks/components/button'
 import { Spacing } from 'holi-bricks/foundations/dimensions/spacing'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 const isNotificationInvitationDeclined = ({ notificationType }: NotificationSpaceConnection) =>
   notificationType === NotificationType.COMMUNITY_INVITE_DECLINED
@@ -35,6 +37,9 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
   const [inviteAccepted, setInviteAccepted] = useState<boolean>(false)
   const [inviteDeclined, setInviteDeclined] = useState<boolean>(isInvitationDeclinedNotification)
   const { t } = useTranslation()
+  const { track } = useTracking()
+
+  const spaceId = notification.options.space.id
 
   const { displayError } = useErrorHandling()
 
@@ -44,13 +49,13 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
     updateSpaceUserConnectionMutation,
     {
       variables: {
-        spaceId: notification.options.space.id,
+        spaceId,
       },
       onError(error) {
         const context = {
           location: 'NotificationSpaceInviteItem.updateSpaceUserConnection',
           notificationType: notification.notificationType,
-          spaceId: notification.options.space.id,
+          spaceId,
         }
         if (error.message.includes('User did not request membership')) {
           displayError(error, 'Failed to update space user connection as membership was not requested', {
@@ -74,8 +79,11 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
-    }).then(() => setInviteAccepted(true))
-  }, [updateSpaceUserConnection])
+    }).then(() => {
+      setInviteAccepted(true)
+      track(TrackingEvent.Spaces.Invitation.accepted(spaceId))
+    })
+  }, [spaceId, track, updateSpaceUserConnection])
 
   const declineInvite = useCallback(() => {
     updateSpaceUserConnection({
@@ -83,8 +91,11 @@ const NotificationSpaceInviteItem: React.FC<NotificationProps<NotificationSpaceC
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
-    }).then(() => setInviteDeclined(true))
-  }, [updateSpaceUserConnection])
+    }).then(() => {
+      setInviteDeclined(true)
+      track(TrackingEvent.Spaces.Invitation.rejected(spaceId))
+    })
+  }, [spaceId, track, updateSpaceUserConnection])
 
   const showButtons = !inviteDeclined && !inviteAccepted
 

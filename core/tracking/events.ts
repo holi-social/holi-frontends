@@ -239,6 +239,96 @@ export namespace TrackingEvent {
       ...versionOne,
     }),
 
+    User: {
+      followed: (spaceId: string): TrackingEvent => ({
+        name: 'userFollowedSpace',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      unfollowed: (spaceId: string): TrackingEvent => ({
+        name: 'userUnfollowedSpace',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      left: (spaceId: string): TrackingEvent => ({
+        name: 'userLeftSpace',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      gotAdminRights: (spaceId: string) => ({
+        name: 'userGotSpaceAdminRights',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      lostAdminRights: (spaceId: string) => ({
+        name: 'userLostSpaceAdminRights',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      wasRemoved: (spaceId: string) => ({
+        name: 'userWasRemovedFromSpace',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
+
+    Invitation: {
+      sent: (spaceId: string): TrackingEvent => ({
+        name: 'spaceInvitationSent',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      accepted: (spaceId: string): TrackingEvent => ({
+        name: 'spaceInvitationAccepted',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      rejected: (spaceId: string): TrackingEvent => ({
+        name: 'spaceInvitationRejected',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      withdrawn: (spaceId: string): TrackingEvent => ({
+        name: 'spaceInvitationWithdrawn',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
+
+    RequestToJoin: {
+      sent: (spaceId: string): TrackingEvent => ({
+        name: 'spaceRequestToJoinSent',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      accepted: (spaceId: string): TrackingEvent => ({
+        name: 'spaceRequestToJoinAccepted',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      rejected: (spaceId: string): TrackingEvent => ({
+        name: 'spaceRequestToJoinRejected',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+
+      withdrawn: (spaceId: string): TrackingEvent => ({
+        name: 'spaceRequestToJoinWithdrawn',
+        properties: { spaceId },
+        ...versionOne,
+      }),
+    },
+
     FileStorage: {
       accessed: (spaceId: string): TrackingEvent => ({
         name: 'spaceFileStorageAccessed',

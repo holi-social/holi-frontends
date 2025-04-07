@@ -22,6 +22,8 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { ButtonIcon } from 'holi-bricks/components/button'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const PAGE_SIZE = 10
 
@@ -33,6 +35,7 @@ type SpaceInviteProps = {
 
 const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
   const { openToast } = useToast()
   const [withdrawn, setWithdrawn] = useState(false)
   const { theme } = useTheme()
@@ -98,8 +101,9 @@ const SpaceInviteItem: React.FC<SpaceInviteProps> = ({ space, invite }) => {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_INVITEE,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.Invitation.withdrawn(space.id)),
     })
-  }, [updateSpaceUserConnection, setWithdrawn])
+  }, [updateSpaceUserConnection, track, space.id])
 
   const handleWithdrawInvite = useCallback(() => {
     withdrawInvite()

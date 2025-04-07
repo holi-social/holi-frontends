@@ -25,6 +25,8 @@ import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Spacing } from 'holi-bricks/tokens'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 type SpacePermissionsProps = {
   space: Space
@@ -54,6 +56,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   displayMemberActions = true,
 }) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
   const mixins = useStyleMixins()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
@@ -66,17 +69,20 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
   const [showReportMemberConfirmationModal, setShowReportMemberConfirmationModal] = useState(false)
   const { openToast } = useToast()
 
+  const spaceId = space.id
+  const userId = user.id
+
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       variables: {
-        spaceId: space.id,
-        userId: user.id,
+        spaceId,
+        userId,
       },
       onError(error) {
         displayError(error, 'Failed to update space user connection', {
           location: 'SpacePermissions.updateSpaceUserConnection',
-          spaceId: space.id,
+          spaceId,
         })
       },
       onCompleted() {
@@ -114,6 +120,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
         connectAction: SpaceConnectionAction.GRANT_ADMIN_ACCESS,
         connectionType: SpaceConnectionType.ADMINISTRATOR,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.gotAdminRights(spaceId)),
     }).then(() => setShowGrantAdminConfirmationModal(false))
   }
 
@@ -123,6 +130,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
         connectAction: SpaceConnectionAction.REVOKE_ADMIN_ACCESS,
         connectionType: SpaceConnectionType.ADMINISTRATOR,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.lostAdminRights(spaceId)),
     }).then(() => setshowRevokeAdminConfirmationModal(false))
   }
 
@@ -132,6 +140,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
         connectAction: SpaceConnectionAction.REMOVE_MEMBER,
         connectionType: SpaceConnectionType.ADMINISTRATOR,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.wasRemoved(spaceId)),
     }).then(() => setShowRemoveMemberConfirmationModal(false))
   }
 
@@ -256,7 +265,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                 transparent
                 disabled={loading}
                 label={t('spaces.collaborators.permissions.viewProfile')}
-                onPress={() => handleNavigation(user.id)}
+                onPress={() => handleNavigation(userId)}
                 testID={'spaces-collaborators-view-profile-btn'}
               >
                 <HoliIcon icon={UserIcon} color={styles.actionsItemIcon.color} />
@@ -344,7 +353,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
               })}
               onDismiss={() => setShowReportMemberConfirmationModal(false)}
               testID="spaces-collaborators-report-user-confirmation"
-              onPrimary={() => navigateWithAuth(`/report/${user.id}/${ContentType.USER}/${ContentType3K.USER}`)}
+              onPrimary={() => navigateWithAuth(`/report/${userId}/${ContentType.USER}/${ContentType3K.USER}`)}
             />
           </View>
         </ScrollView>

@@ -1,4 +1,4 @@
-import { ApolloError, StoreObject, useMutation } from '@apollo/client'
+import { type StoreObject, useMutation } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
 import { useTranslation } from 'react-i18next'
 
@@ -6,23 +6,12 @@ import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import {
-  UpdateSpaceUserConnectionResponse,
+  type UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
-import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 
-export interface UseSpaceJoinRequestProps {
-  loading?: boolean
-  error?: ApolloError
-  submitJoinRequest: () => void
-  updateSpaceUserConnection: (variables: object) => void
-}
-
-export const useSpaceJoinRequest = (
-  space: Space,
-  showJoinOverlay: () => void,
-  message?: string
-): UseSpaceJoinRequestProps => {
+export const useSpaceJoinRequest = (space: Space, showJoinOverlay: () => void, message?: string) => {
   const { isLoggedIn } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
   const { displayError } = useErrorHandling()
@@ -64,14 +53,14 @@ export const useSpaceJoinRequest = (
     }
   )
 
-  const submitJoinRequest = () => {
+  const submitJoinRequest = async () => {
     if (!isLoggedIn) {
       return openSignupModal({
         description: t('spaces.join.loginRedirect.text', { spaceName: space.title }),
         trackTrigger: 'JOIN_SPACE',
       })
     }
-    updateSpaceUserConnection({
+    return updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,

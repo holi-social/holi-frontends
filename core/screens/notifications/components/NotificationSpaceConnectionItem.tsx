@@ -23,6 +23,8 @@ import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalR
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { Button } from 'holi-bricks/components/button'
 import { Spacing } from 'holi-bricks/tokens'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const isNotificationConnectionAccepted = ({ notificationType }: Notification) =>
   notificationType === NotificationType.COMMUNITY_MEMBERSHIP_APPROVED
@@ -41,6 +43,9 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
   testID,
 }) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
+  const { displayError } = useErrorHandling()
+
   // if 'connectionAccepted' is 'true', user accepted the connection
   // if 'connectionAccepted' is null, it's not accepted and the user did not interact. Is set to false, when the connection is declined.
   const [connectionAccepted, setConnectionAccepted] = useState<boolean | null>(
@@ -49,20 +54,20 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
 
   const connectionRevoked = isNotificationConnectionRevoked(notification)
 
-  const { displayError } = useErrorHandling()
+  const spaceId = notification.options.space.id
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       variables: {
-        spaceId: notification.options.space.id,
+        spaceId,
         userId: notification.options.user.id,
       },
       onError(error) {
         const context = {
           location: 'NotificationSpaceConnectionItem.updateSpaceUserConnection',
           notificationType: notification.notificationType,
-          spaceId: notification.options.space.id,
+          spaceId,
         }
         if (error.message.includes('User did not request membership')) {
           displayError(error, 'Failed to update space user connection as membership was not requested', {
@@ -85,8 +90,11 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.MEMBER,
       },
-    }).then(() => setConnectionAccepted(true))
-  }, [updateSpaceUserConnection])
+    }).then(() => {
+      setConnectionAccepted(true)
+      track(TrackingEvent.Spaces.RequestToJoin.accepted(spaceId))
+    })
+  }, [spaceId, track, updateSpaceUserConnection])
 
   const declineConnectionRequest = useCallback(() => {
     updateSpaceUserConnection({
@@ -94,8 +102,11 @@ const NotificationSpaceConnectionItem: React.FC<NotificationProps<NotificationSp
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
       },
-    }).then(() => setConnectionAccepted(false))
-  }, [updateSpaceUserConnection])
+    }).then(() => {
+      setConnectionAccepted(false)
+      track(TrackingEvent.Spaces.RequestToJoin.rejected(spaceId))
+    })
+  }, [spaceId, track, updateSpaceUserConnection])
 
   const loginState = useLoggedInUser()
 

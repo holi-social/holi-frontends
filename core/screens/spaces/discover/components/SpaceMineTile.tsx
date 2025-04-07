@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
@@ -21,6 +21,8 @@ import HoliBlockItem from '@holi/ui/components/molecules/HoliBlockItem'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
 import { HoliHorizontalRow } from '@holi/ui/components/molecules/HoliHorizontalRow'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 // the accept and decline buttons for space invites under the HoliBlockItem should be aligned to the right of the avatar
 const avatarSize = 'lg'
@@ -31,28 +33,32 @@ interface SpaceMineTileProps {
 }
 
 const SpaceMineTile = ({ space, sectionType }: SpaceMineTileProps) => {
-  const [connectionRequestType, setConnectionRequestType] = useState<'ACCEPT' | 'DECLINE' | undefined>()
   const { t } = useTranslation()
+  const { track } = useTracking()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
+
+  const spaceId = space.id
+
+  const [connectionRequestType, setConnectionRequestType] = useState<'ACCEPT' | 'DECLINE' | undefined>()
 
   const [updateSpaceUserConnection, { loading }] = useMutation<UpdateSpaceUserConnectionResponse>(
     updateSpaceUserConnectionMutation,
     {
       variables: {
-        spaceId: space.id,
+        spaceId,
       },
       onError: (error) => {
         displayError(error, 'Failed to update space user connection', {
           location: 'SpaceMoreActions.updateSpaceUserConnection',
-          spaceId: space.id,
+          spaceId,
         })
       },
       refetchQueries: [mySpaceQuery],
     }
   )
 
-  const acceptConnectionRequest = useCallback(() => {
+  const acceptSpaceInvitation = () => {
     setConnectionRequestType('ACCEPT')
     updateSpaceUserConnection({
       variables: {
@@ -61,11 +67,12 @@ const SpaceMineTile = ({ space, sectionType }: SpaceMineTileProps) => {
       },
       onCompleted() {
         openToast(t('spaces.invite.accept.success'), HoliToastType.SUCCESS)
+        track(TrackingEvent.Spaces.Invitation.accepted(spaceId))
       },
     })
-  }, [openToast, t, updateSpaceUserConnection])
+  }
 
-  const declineConnectionRequest = () => {
+  const rejectSpaceInvitation = () => {
     setConnectionRequestType('DECLINE')
     updateSpaceUserConnection({
       variables: {
@@ -74,6 +81,7 @@ const SpaceMineTile = ({ space, sectionType }: SpaceMineTileProps) => {
       },
       onCompleted() {
         openToast(t('spaces.invite.decline.success'), HoliToastType.SUCCESS)
+        track(TrackingEvent.Spaces.Invitation.rejected(spaceId))
       },
     })
   }
@@ -98,7 +106,7 @@ const SpaceMineTile = ({ space, sectionType }: SpaceMineTileProps) => {
               type="secondary"
               variant="small"
               label={t('notifications.space.invite.ignore')}
-              onPress={declineConnectionRequest}
+              onPress={rejectSpaceInvitation}
               style={styles.button}
               testID="decline-connection-request-button"
               disabled={loading}
@@ -111,7 +119,7 @@ const SpaceMineTile = ({ space, sectionType }: SpaceMineTileProps) => {
               type="primary"
               variant="small"
               label={t('notifications.space.invite.accept')}
-              onPress={acceptConnectionRequest}
+              onPress={acceptSpaceInvitation}
               style={styles.button}
               testID="accept-connection-request-button"
               disabled={loading}
