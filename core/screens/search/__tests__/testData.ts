@@ -1,6 +1,6 @@
-import type { SearchHitData } from '@holi/core/screens/search/types'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
-export const volunteeringHit: SearchHitData = {
+export const volunteeringHit: TypesenseDocument = {
   type: 'volunteering',
   id: 'volunteering_157403',
   title_de: 'Freiwilligenarbeit in Berlin',
@@ -15,7 +15,7 @@ export const volunteeringHit: SearchHitData = {
   },
 }
 
-export const profileHit: SearchHitData = {
+export const profileHit: TypesenseDocument = {
   type: 'profile',
   id: '2',
   user_full_name: 'Max Mustermann',
@@ -25,7 +25,7 @@ export const profileHit: SearchHitData = {
   },
 }
 
-export const spaceHit: SearchHitData = {
+export const spaceHit: TypesenseDocument = {
   type: 'space',
   id: '3',
   title_de: 'Coworking Space in Mitte',
@@ -40,7 +40,7 @@ export const spaceHit: SearchHitData = {
   },
 }
 
-export const hit4: SearchHitData = {
+export const hit4: TypesenseDocument = {
   type: 'space',
   id: '4',
   title_de: 'Neuer Coworking Space',
@@ -55,7 +55,7 @@ export const hit4: SearchHitData = {
   },
 }
 
-export const toSearchResponseHit = (document: SearchHitData) => ({
+export const toSearchResponseHit = (document: TypesenseDocument) => ({
   document,
   highlight: {},
   text_match: 0,

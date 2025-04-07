@@ -1,5 +1,6 @@
 import { isEmptyFilter } from '@holi/core/screens/search/helpers/isEmptyFilter'
-import { SEARCH_HIT_TYPES_IN_ORDER, type SearchHitType } from '@holi/core/screens/search/types'
+import { SEARCH_HIT_TYPES_IN_ORDER } from '@holi/core/screens/search/types'
+import type { TypesenseDocumentType } from '@holi/core/typesense/types'
 
 describe('isEmptyFilter', () => {
   const location = {
@@ -39,7 +40,7 @@ describe('isEmptyFilter', () => {
     expect(isEmptyFilter(filter)).toBeFalsy()
   })
 
-  const expectedEmptyForLocationOnly: { [key in SearchHitType]: boolean } = {
+  const expectedEmptyForLocationOnly: { [key in TypesenseDocumentType]: boolean } = {
     volunteering: false,
     space: false,
     profile: true,

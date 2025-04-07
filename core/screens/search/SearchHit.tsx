@@ -1,7 +1,7 @@
 import { getInitials } from '@holi/core/helpers'
 import { SearchHitLink } from '@holi/core/screens/search/SearchHitLink'
 import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
-import type { SearchHitData, SearchHitType } from '@holi/core/screens/search/types'
+import type { TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { Avatar } from 'holi-bricks/components/avatar'
 import { Text } from 'holi-bricks/components/text'
@@ -16,10 +16,10 @@ export const HIT_HEIGHT = 65
 export const HIT_HEIGHT_PROFILE = 48
 
 export interface SearchHitProps extends TrackableBaseProps {
-  hit: SearchHitData
+  hit: TypesenseDocument
 }
 
-const getTitle = (language: string, hit: SearchHitData): string => {
+const getTitle = (language: string, hit: TypesenseDocument): string => {
   if (hit.type === 'profile' && hit.user_full_name) {
     return hit.user_full_name
   }
@@ -73,7 +73,7 @@ export const SearchHit = Trackable<SearchHitProps>(({ hit, onPress }: SearchHitP
 })
 
 const stylesheet = createStyleSheet(() => ({
-  hitItem: (hitType: SearchHitType) => ({
+  hitItem: (hitType: TypesenseDocumentType) => ({
     flexDirection: 'row',
     columnGap: dimensions.spacingSM,
     height: hitType === 'profile' ? HIT_HEIGHT_PROFILE : HIT_HEIGHT,

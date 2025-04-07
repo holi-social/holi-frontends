@@ -4,7 +4,7 @@ import {
   INITIAL_PAGE,
   PAGE_SIZE,
 } from '@holi/core/screens/search/helpers/createSearchParameters'
-import { createTypesenseClient } from '@holi/core/screens/search/helpers/createTypesenseClient'
+import { createTypesenseClient } from '@holi/core/typesense/helpers/createTypesenseClient'
 import { isEmptyFilter } from '@holi/core/screens/search/helpers/isEmptyFilter'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
 import { useCallback, useEffect, useState } from 'react'

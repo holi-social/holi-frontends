@@ -1,10 +1,14 @@
 import { HoliLink } from '@holi/core/navigation/components/HoliLink'
-import type { SearchHitData, SearchHitLinkLocatorIdOrSlug, SearchHitType } from '@holi/core/screens/search/types'
+import type {
+  TypesenseDocument,
+  TypesenseDocumentLinkLocatorIdOrSlug,
+  TypesenseDocumentType,
+} from '@holi/core/typesense/types'
 import type React from 'react'
 import type { PropsWithChildren } from 'react'
 import type { GestureResponderEvent } from 'react-native'
 
-const toPath = (locs: Partial<Record<SearchHitType, SearchHitLinkLocatorIdOrSlug>>): string => {
+const toPath = (locs: Partial<Record<TypesenseDocumentType, TypesenseDocumentLinkLocatorIdOrSlug>>): string => {
   if ('volunteering' in locs && locs['volunteering'] !== undefined) return `volunteering/${locs['volunteering']}`
   else if ('profile' in locs && locs['profile'] !== undefined) return `profile/${locs['profile']}`
   else if ('space' in locs && locs['space'] !== undefined) return `spaces/${locs['space']}`
@@ -12,7 +16,7 @@ const toPath = (locs: Partial<Record<SearchHitType, SearchHitLinkLocatorIdOrSlug
 }
 
 export type SearchHitLinkProps = {
-  hit: SearchHitData
+  hit: TypesenseDocument
   label: string
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
 } & PropsWithChildren

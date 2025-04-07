@@ -4,13 +4,7 @@
   "discoveryV1.headline": "Freiwilligenarbeit für dich",
   "engagement.country": "Deutschland",
   "engagement.title": "{{title}} bei {{organization}}",
-  "engagementDetail.aboutEngagement": "Über dieses Engagement",
-  "engagementDetail.getInTouch": "Kontakt aufnehmen",
-  "engagementDetail.notFound": "Projekt wurde nicht gefunden",
-  "engagementDetail.organizer": "Organisator",
-  "engagementDetail.provider": "Vermittler",
-  "engagementDetail.technicalPartner": "Technischer Partner",
-  "engagementDetail.similarRecosHeading": "Dich könnte ebenfalls interessieren",
+  "engagementDetail.getInTouch": "Kontakt auf Partnerseite",
   "filter.heading": "Projekte filtern",
   "filter.location.label": "Standort",
   "filter.location.placeholder": "Stadt auswählen",
@@ -47,6 +41,5 @@
   "listing.partnerModal.vostel.de.text": "Wir wünschen uns eine Welt, in der jede*r nach seinen*ihren Möglichkeiten und unabhängig von Zeitbudget, Sprach- oder Vorkenntnissen zu einer besseren und nachhaltigeren Zukunft beiträgt.",
   "listing.subline": "von Partnern bereitgestellt",
   "maintenance.feature": "Die Engagement App",
-  "recommended.title": "Empfohlenes Ehrenamt",
-  "shared.partner.link.title": "Seite von {{source}}"
+  "recommended.title": "Empfohlenes Ehrenamt"
 }

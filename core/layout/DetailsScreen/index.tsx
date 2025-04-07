@@ -155,7 +155,9 @@ export const DetailsScreen = ({
             </Stack>
 
             <Stack gap="xs" direction="row">
-              <Text size="3xl">{title}</Text>
+              <Text size="3xl" testID="detailview-title">
+                {title}
+              </Text>
             </Stack>
 
             <Stack direction="column" gap="xxs" shouldRender={!!infoList}>

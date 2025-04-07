@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import { SEARCH_HIT_TYPES_IN_ORDER, type SearchFilter, type SearchHitType } from '@holi/core/screens/search/types'
+import { SEARCH_HIT_TYPES_IN_ORDER, type SearchFilter } from '@holi/core/screens/search/types'
+import type { TypesenseDocumentType } from '@holi/core/typesense/types'
 
 export const useSearchFilter = (
   initialFilter: Omit<Partial<SearchFilter>, 'facet'> & { facet?: string },
   onFilterChange: (filter: Partial<SearchFilter>) => void
 ) => {
   const validFacet =
-    (SEARCH_HIT_TYPES_IN_ORDER.includes(initialFilter.facet as SearchHitType)
-      ? (initialFilter.facet as SearchHitType)
+    (SEARCH_HIT_TYPES_IN_ORDER.includes(initialFilter.facet as TypesenseDocumentType)
+      ? (initialFilter.facet as TypesenseDocumentType)
       : 'volunteering') ?? 'volunteering'
   const [filter, setFilter] = useState<SearchFilter>({
     ...initialFilter,
@@ -34,7 +35,10 @@ export const useSearchFilter = (
 
   const setQuery = useCallback((query: string) => updateFilter({ ...filter, query }), [filter, updateFilter])
 
-  const setFacet = useCallback((facet: SearchHitType) => updateFilter({ ...filter, facet }), [filter, updateFilter])
+  const setFacet = useCallback(
+    (facet: TypesenseDocumentType) => updateFilter({ ...filter, facet }),
+    [filter, updateFilter]
+  )
 
   const setLocation = useCallback(
     (location?: GeolocationSuggestion) =>

@@ -1,6 +1,6 @@
-import React from 'react'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
-import RenderHtml, { MixedStyleDeclaration, defaultSystemFonts } from 'react-native-render-html'
+import React, { memo } from 'react'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
+import RenderHtml, { type MixedStyleDeclaration, defaultSystemFonts } from 'react-native-render-html'
 
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -36,4 +36,4 @@ const HoliHtmlView = ({ html, style, testID }: HoliHtmlViewProps) => {
   )
 }
 
-export default HoliHtmlView
+export default memo(HoliHtmlView)

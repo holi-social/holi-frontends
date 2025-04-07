@@ -1656,9 +1656,6 @@
   "user.skills.form.subline": "This allows other users to get to know you better and us to tailor our offering to your skills.",
   "user.visitProfile": "Visit profile of {{name}}",
   "videocall.webview.heading": "Video call - {{roomName}}",
-  "volunteering.details.cta": "Get in touch on partner's page",
-  "volunteering.navigation.home": "Home",
-  "volunteering.navigation.search": "Search",
   "webview.error": "Loading the page failed!",
   "wizard.stepsCount": "Step {{current}} of {{total}}",
   "core.act.events.filter.remote": "Only show local events"

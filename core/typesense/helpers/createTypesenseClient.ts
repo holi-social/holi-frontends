@@ -1,15 +1,15 @@
 import Typesense from 'typesense'
 import {
   typesenseApiKey,
+  typesenseCollection,
   typesenseHost,
   typesensePort,
   typesenseProtocol,
-  typesenseCollection,
 } from '@holi/core/helpers/config'
-import type { SearchHitData } from '@holi/core/screens/search/types'
 import { Platform } from 'react-native'
 import qs from 'qs'
 import type { SearchParams } from 'typesense/lib/Typesense/Documents'
+import type { TypesenseDocument } from '@holi/core/typesense/types'
 
 const isIos17OrGreater = Platform.OS === 'ios' && Number.parseInt(Platform.Version, 10) >= 17
 
@@ -29,5 +29,5 @@ export const createTypesenseClient = () =>
       ? (params: SearchParams) => qs.stringify(params, { format: 'RFC3986' })
       : undefined,
   })
-    .collections<SearchHitData>(typesenseCollection ?? '')
+    .collections<TypesenseDocument>(typesenseCollection ?? '')
     .documents()
