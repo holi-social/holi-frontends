@@ -107,6 +107,26 @@ describe('useTypesensePaginationQuery', () => {
     expect(result.current.state.canFetchMore).toBeFalsy()
   })
 
+  it('canFetchMore should be false if fetching more is not possible (0 hits)', async () => {
+    mockSearch.mockResolvedValue({ found: 0, page: 1, hits: [] })
+
+    const { result } = renderHook(() => useTypesensePaginationQuery({ parameters }))
+
+    await act(jest.runOnlyPendingTimersAsync)
+
+    expect(result.current.state.canFetchMore).toBeFalsy()
+  })
+
+  it('canFetchMore should be false if fetching more is not possible (last page)', async () => {
+    mockSearch.mockResolvedValue({ found: 120, page: 12, hits: createHits(10) })
+
+    const { result } = renderHook(() => useTypesensePaginationQuery({ parameters }))
+
+    await act(jest.runOnlyPendingTimersAsync)
+
+    expect(result.current.state.canFetchMore).toBeFalsy()
+  })
+
   it('should expose fetching more status', async () => {
     const { result } = renderHook(() => useTypesensePaginationQuery({ parameters }))
 
