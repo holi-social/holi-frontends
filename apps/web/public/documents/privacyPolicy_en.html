@@ -677,215 +677,44 @@
 <p />
 <ul>
   <li>
-    <p><strong>Local Storage (browser): </strong>The following entries are created in the Local Storage when using the
-      web browser:</p>
-    <ul>
-      <li>
-        <p>&lsquo;i18nextLng&rsquo; (unlimited): Recognise and save language - i18next;</p>
-      </li>
-      <li>
-        <p>&lsquo;onboardingUserData&rsquo; (unlimited): Contains all information about the onboarding data before the
-          user is creating an account (i.e. selected content type, topics, skills and location). It is stored
-          indefinitely, but is removed at the end of the onboarding (i.e. either when the user created an account or
-          “continued as guest”).</p>
-      </li>
-      <li>
-        <p>&lsquo;space_join_is_onboarded&rsquo; (unlimited): Saves the information as to whether users have already
-          seen the initial information required to use Spaces or whether it should be displayed.</p>
-      </li>
-      <li>
-        <p>&lsquo;force_oauth2_logout&rsquo;<strong> </strong>(session, max. 24 hours): Saves the login status after
-          manual logout from the cloud storage within Spaces.</p>
-      </li>
-      <li>
-        <p>&lsquo;EXPO_CONSTANTS_INSTALLATION_ID&rsquo; (unlimited) Random and unique ID of a device or browser profile,
-          which is retained for the entire lifetime of the app installation / browser data. This ID does not allow any
-          conclusions to be drawn about personal data and is not read or otherwise used by holi.</p>
-      </li>
-      <li>
-        <p>&lsquo;user_session&rsquo; (3 months): Login, authentication - Ory.</p>
-      </li>
-      <li>
-        <p>&lsquo;HOLI_TRACKING_CONSENT&rsquo; (unlimited): Saves the consent/refusal status for tracking for various
-          purposes if the user is not logged in.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_opt_in_out_&lt;our posthog key&gt;&rsquo; (unlimited): Posthog-internal opt-in or opt-out status
-        </p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$active_feature_flags&rsquo; (unlimited): Is used to cache on the
-          client side which feature flags are present.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$enabled_feature_flags&rsquo; (unlimited): Is used to temporarily
-          store on the client side which feature flags are enabled.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$feature_flag_payloads&rsquo; (unlimited): Used for client-side
-          caching of feature flag configurations.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$autocapture_disabled_server_side&rsquo; (unlimited): Informs the
-          Posthog client if the &lsquo;automatic capture&rsquo; of e.g. clicks on the server side is activated (only if
-          prior consent to Analytics tracking is granted).</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$device_id&rsquo; (unlimited): randomly generated UUID for the
-          user's device, is only sent to Posthog for analysis purposes if the user consents to product analytics
-          tracking.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$heatmaps_enabled_server_side&rsquo; (unlimited): Informs the
-          Posthog client which Posthog products/features are enabled server-side.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$replay_minimum_duration&rsquo; (unlimited): Set to zero, as the
-          Posthog &lsquo;Replay&rsquo; product is not used</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$replay_sample_rate&rsquo; (unlimited): Set to zero, as the posthog
-          &lsquo;replay&rsquo; product is not used.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$sesid &rsquo; (unlimited): a randomly generated UUID to identify a
-          session. It is only sent to Posthog for analysis purposes if the user consents to product analytics tracking.
-        </p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$session_recording_canvas_recording&rsquo; (unlimited): Set to
-          zero, as Posthog product &lsquo;Session Recording&rsquo; is not used.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$session_recording_enabled_server_side&rsquo; (unlimited): Set to
-          zero, as Posthog product &lsquo;Session Recording&rsquo; is not used.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$session_recording_network_payload_capture&rsquo; (unlimited): Set
-          to zero, as Posthog product &lsquo;Session Recording&rsquo; is not used.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$user_state&rsquo; (unlimited): Contains the UUID of the user if
-          they have given consent to Analytics tracking and are logged in. Is anonymous if the user has never logged in
-          or has refused consent to analytics tracking or has given consent to analytics tracking but is not logged in.
-        </p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$web_vitals_enabled_server_side&rsquo; (unlimited): Set to zero, as
-          the Posthog product &lsquo;Web Analytics&rsquo; is not used.</p>
-      </li>
-      <li>
-        <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.distinct_id&rsquo; (unlimited): a randomly generated UUID to
-          identify the user if he/she has never logged in. Is only sent to Posthog for analysis purposes if the user
-          consents to product analytics tracking. Corresponds to the user's UUID if the user has consented to analytics
-          tracking and has logged in.</p>
-      </li>
-      <li>
-        <p>&lsquo;sync_active&rsquo; (unlimited): This entry is created by embedding a video on our website from Vimeo
-          (<a href="https://player.vimeo.com" target="_blank">https://player.vimeo.com</a>).</p>
-      </li>
-    </ul>
-  </li>
-</ul>
-<p />
-<ul>
-  <li>
-    <p><strong>Async Storage (App):</strong> The following entries are created in the Async Storage when our apps are
-      used:</p>
-    <ul>
-      <li>
-        <p>&lsquo;theme&rsquo; (unlimited): saves which UI design users use (&lsquo;light&rsquo; or &lsquo;dark&rsquo;).
-        </p>
-      </li>
-      <li>
-        <p>&lsquo;onboardingUserData&rsquo; (unlimited): Contains all information about the onboarding data before the
-          user is creating an account (i.e. selected content type, topics, skills and location). It is stored
-          indefinitely, but is removed at the end of the onboarding (i.e. either when the user created an account or
-          “continued as guest”).</p>
-      </li>
-      <li>
-        <p>&lsquo;HOLI_TRACKING_CONSENT&rsquo; (unlimited): Saves the consent/refusal status for tracking for various
-          purposes if the user is not logged in.</p>
-      </li>
-      <li>
-        <p>&lsquo;mx_user_id&rsquo; (unlimited): User ID for the holi chat server to speed up re-authentication.</p>
-      </li>
-      <li>
-        <p>&lsquo;mx_sso_token&rsquo; (unlimited): Current authentication token for the holi chat server.</p>
-      </li>
-      <li>
-        <p>&lsquo;mx_client_login&rsquo; (unlimited): Current login status to the holi chat server to control
-          authentication.</p>
-      </li>
-      <li>
-        <p>&lsquo;mx_device&rsquo; (unlimited): Identifier of the user device at the holi chat server, which is required
-          for parallel support of multiple devices.</p>
-      </li>
-    </ul>
-  </li>
-</ul>
-<p />
-<ul>
-  <li>
-    <p><strong>File system (app): </strong>When the app is used, the following entries are created in the
-      .posthog-rn.json file in the file system of the mobile device until it is uninstalled:</p>
-    <ul>
-      <li>
-        <p>&lsquo;anonymous_id&rsquo;: A randomly generated anonymous UUID that is used for identification as long as
-          the user is not logged in.</p>
-      </li>
-      <li>
-        <p>&lsquo;distinct_id&rsquo;: See local storage for web</p>
-      </li>
-      <li>
-        <p>&lsquo;session_id&rsquo;: See local storage for web</p>
-      </li>
-      <li>
-        <p>&lsquo;session_timestamp&rsquo;: Timestamp when the last active session began</p>
-      </li>
-      <li>
-        <p>&lsquo;installed_app_build&rsquo;: Technical identifier of the app version</p>
-      </li>
-      <li>
-        <p>&lsquo;installed_app_version&rsquo;: Human-readable identifier of the app version</p>
-      </li>
-      <li>
-        <p>&lsquo;opted_out&rsquo;: See local storage for web</p>
-      </li>
-      <li>
-        <p>&lsquo;queue&rsquo; contains tracking events that are to be sent as a &lsquo;packet&rsquo; but have not yet
-          been sent.</p>
-      </li>
-    </ul>
-  </li>
-</ul>
-<h2>Optional data processing</h2>
-<p>To personalise the offer and analyse platform performance, the following information is also stored on your device
-  after you have given your consent. Further information on this can be found below.</p>
-<ul>
-  <li>
-    <p><strong>Cookies (Browser): </strong>With prior consent the following entries are created as cookies in a web
-      browser when you visit our website <a href="https://holi.social" target="_blank">https://holi.social</a> from
-      MetaPixel (Meta Platforms Ireland Limited):</p>
-    <ul>
-      <li>
-        <p>&lsquo;_fbp&rsquo; (90 days): Usage analysis and retargeting.</p>
-      </li>
-      <li>
-        <p>&lsquo;fr&rsquo; (90 days): Serving ads, usage analysis and conversion tracking.</p>
-      </li>
-
-    </ul>
-  </li>
-</ul>
-<p />
-<ul>
-  <li>
     <p><strong>Local Storage (Browser):</strong></p>
     <ul>
       <li>
         <p>&lsquo;ph_&lt;our posthog key&gt;_posthog.$flag_call_reported &rsquo; saves which feature flags have been
           evaluated, for example to control A/B tests.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+<p />
+<ul>
+  <li>
+    <p><strong>File system (app): </strong>If you agree to advertising partner analyses, the SDK from Meta (Facebook,
+      Instagram, WhatsApp) collects and transfers some usage data to Meta Platforms Ireland Limited. The purpose of this
+      data transfer is to address suitable advertising target groups on Meta's platforms with holi advertising and, if
+      necessary, to carry out retargeting measures. For this purpose, the Meta SDK stores the following files in the
+      file system of the mobile phone after consent until the holi app is uninstalled.
+    </p>
+    <ul>
+      <li>
+        <p>'APP_GATEKEEPERS.xml': Contains configuration flags that enable or disable specific features of the Meta SDK
+          within the app.</p>
+      </li>
+      <li>
+        <p>'IAP_CACHE_GPBLV27.xml': Stores information related to in-app purchase activities and subscription status,
+          including timestamps.</p>
+      </li>
+      <li>
+        <p>'USER_SETTINGS.xml': Records user-specific settings and preferences for the Meta SDK, including login
+          behavior and data collection settings.</p>
+      </li>
+      <li>
+        <p>'APP_SETTINGS.xml': Stores app-level preferences related to the integration and operation of the Meta
+          SDK.</p>
+      </li>
+      <li>
+        <p>'appEventPreferences.xml': Records preferences and identifiers associated with event logging and analytics
+          tracking through the Meta SDK.</p>
       </li>
     </ul>
   </li>
@@ -1040,6 +869,15 @@
           </li>
           <li>
             <p><strong>Website: </strong><a target="_blank" href="https://imagekit.io/">https://imagekit.io/</a> </p>
+          </li>
+        </ul>
+        <p><strong>Vimeo:</strong></p>
+        <ul>
+          <li>
+            <p><strong>Anbieter: </strong>Vimeo.com , Inc., 330 West 34th Street, 10th Floor, New York, New York 10001, USA
+              Übermittlung in Drittländer: Angemessenheitsbeschluss für die USA (zertifiziert für das EU-US Data Privacy Framework)
+              Website: https://vimeo.com
+            </p>
           </li>
         </ul>
         <p><strong>Vimeo:</strong></p>
