@@ -35,12 +35,12 @@ describe('useTypesensePaginationQuery', () => {
   it('should expose loading state and data', async () => {
     const { result } = renderHook(() => useTypesensePaginationQuery({ parameters }))
 
-    expect(result.current.isLoading).toBeTruthy()
+    expect(result.current.state.isLoading).toBeTruthy()
     expect(result.current.state.data).toHaveLength(0)
 
     await act(jest.runOnlyPendingTimersAsync)
 
-    expect(result.current.isLoading).toBeFalsy()
+    expect(result.current.state.isLoading).toBeFalsy()
     expect(result.current.state.data).toHaveLength(10)
     expect(result.current.state.currentPage).toBe(1)
     expect(result.current.state.totalResults).toBe(123)
@@ -84,7 +84,7 @@ describe('useTypesensePaginationQuery', () => {
     await act(jest.runOnlyPendingTimersAsync)
 
     expect(onError).toHaveBeenCalledWith(new Error('Test error'))
-    expect(result.current.isLoading).toBeFalsy()
+    expect(result.current.state.isLoading).toBeFalsy()
   })
 
   it('canFetchMore should be true if fetching more is possible', async () => {
