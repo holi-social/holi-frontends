@@ -2,33 +2,26 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
-import InfoModal from '@holi/core/components/InfoModal'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { usePaginationContext } from '@holi/core/pagination/Pagination'
 import { TrackingEvent } from '@holi/core/tracking'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
-import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliGridCell from '@holi/ui/components/atoms/HoliGridCell'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliCard from '@holi/ui/components/molecules/HoliCard'
-import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliNoResults from '@holi/ui/components/molecules/HoliNoResults'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
-import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import VolunteeringCardContent from '@holi-apps/volunteering/components/VolunteeringCardContent'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 
 import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import { Button } from 'holi-bricks/components/button'
-import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
+import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 
 export const ENGAGEMENT_PAGE_SIZE = 10
 
@@ -51,14 +44,9 @@ export const VolunteeringEngagementList = ({
   const mixins = useStyleMixins()
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { colors } = theme
   const styles = useMemo(() => getStyles(theme), [theme])
-  const subtitle = useRecosSubtitle()
 
   const { imageWidth } = useWindowDimensionsWithImageScaling()
-
-  const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
-  const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
 
   const noResults = loadingFailed || engagements.length === 0
 
@@ -69,39 +57,12 @@ export const VolunteeringEngagementList = ({
   return (
     <View style={[mixins.container, styles.list]}>
       {engagements.length > 0 && (
-        <View>
-          <HoliHeading level="2" size="l">
-            {t('volunteering:discoveryV1.headline')}
-          </HoliHeading>
-          <HoliGap size="s" />
-          <PartnerInfoRow
-            rowText={t('volunteering:listing.subline')}
-            showOutlinkIcon={false}
-            partners={allPartners}
-            onPress={showPartnerModal}
-          />
-          <InfoModal
-            headline={t('volunteering:listing.partnerModal.headline')}
-            items={allPartners}
-            shown={partnerModalVisible}
-            onDismiss={closeModal}
-            i18nPrefix={'volunteering:listing.partnerModal'}
-          />
-          {isFiltering ? (
-            <View style={styles.headingRow}>
-              <HoliText bold style={{ color: colors.foreground20 }}>
-                {t('volunteering:filter.result', {
-                  count: totalResults,
-                })}
-              </HoliText>
-            </View>
-          ) : (
-            <>
-              <HoliGap size="ml" />
-              <HoliText size="large">{t(subtitle)}</HoliText>
-            </>
-          )}
-        </View>
+        <VolunteeringListingHeader
+          isFiltering={isFiltering}
+          filterSubtitle={t('volunteering:filter.result', {
+            count: totalResults,
+          })}
+        />
       )}
       <HoliBox padding={[24, 0, 24, 0]}>
         {noResults && (
