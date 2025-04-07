@@ -30,13 +30,13 @@ export const useVolunteeringRecoTypesenseParameters = ({
     // const locationFilter = lat && lon ? ` && location_lat_lng:(${lat}, ${lon}, 30 km)` : ''
     const sort_by = lat && lon ? `location_lat_lng(${lat}, ${lon}):asc` : undefined
 
-    // TODO: switch to post request
     const userEmbedding = buildUserEmbedding({ topics, skills })
 
     return {
       filter_by: 'type:volunteering',
       sort_by,
       per_page: pageSize,
+      // TODO: why are results empty?
       // vector_query: `topics_skills_embedding_v2:(${JSON.stringify(userEmbedding)},k:100,alpha:0.9,distance_threshold:0.1)`,
       // TODO: exclude in search as well
       exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',

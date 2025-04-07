@@ -10,11 +10,12 @@ import { Platform } from 'react-native'
 import qs from 'qs'
 import type { SearchParams } from 'typesense/lib/Typesense/Documents'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
+import type { MultiSearchRequestSchema } from 'typesense/lib/Typesense/MultiSearch'
 
 const isIos17OrGreater = Platform.OS === 'ios' && Number.parseInt(Platform.Version, 10) >= 17
 
-export const createTypesenseClient = () =>
-  new Typesense.Client({
+export const createTypesenseClient = () => {
+  const client = new Typesense.Client({
     nodes: [
       {
         host: typesenseHost,
@@ -29,5 +30,11 @@ export const createTypesenseClient = () =>
       ? (params: SearchParams) => qs.stringify(params, { format: 'RFC3986' })
       : undefined,
   })
-    .collections<TypesenseDocument>(typesenseCollection ?? '')
-    .documents()
+
+  // TODO: clear cache on user logout
+  return {
+    multiSearch: (searches: MultiSearchRequestSchema[]) =>
+      client.multiSearch.perform<TypesenseDocument[]>({ searches }, { collection: typesenseCollection }),
+    search: client.collections<TypesenseDocument>(typesenseCollection ?? '').documents().search,
+  }
+}

@@ -62,18 +62,21 @@ export const useTypesensePaginationQuery = ({
         parameters,
       }))
       return typesenseClient
-        .search({
-          q: '*',
-          per_page: DEFAULT_PAGE_SIZE,
-          ...parameters,
-          page: pageNumber,
-        })
-        .then((results) => {
+        .multiSearch([
+          {
+            q: '*',
+            per_page: DEFAULT_PAGE_SIZE,
+            ...parameters,
+            page: pageNumber,
+          },
+        ])
+        .then((multiSearchResults) => {
           setState((previousResults) => {
             const sameParametersAsBefore = isEqual(previousResults.parameters, parameters)
-            if (!sameParametersAsBefore) {
+            if (!sameParametersAsBefore || !multiSearchResults.results.length) {
               return previousResults
             }
+            const results = multiSearchResults.results[0]
             const previousData = results.page > INITIAL_PAGE ? previousResults.data : []
             return {
               isLoading: false,
@@ -89,8 +92,8 @@ export const useTypesensePaginationQuery = ({
           if (onError) {
             onError(error)
           } else {
-            logError(error, 'Failed to fetch single document', {
-              location: 'useSingleTypesenseDocumentQuery',
+            logError(error, 'Failed to fetch documents', {
+              location: 'useTypesensePaginationQuery',
             })
           }
           setState((previousResults) => ({
