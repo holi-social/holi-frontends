@@ -9,7 +9,7 @@ interface VolunteeringRecosParameters {
   loading?: boolean
 }
 
-const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
+export const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
   const { user, isLoading: userLoading } = useLoggedInUser()
 
   if (!user && userLoading) {
