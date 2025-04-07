@@ -50,7 +50,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
   const isMember = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
   const hasRequestedMembership = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
 
-  const sendFollowRequest = useCallback(() => {
+  const onFollowSpaceButtonPressed = useCallback(() => {
     track(TrackingEvent.Spaces.followSpaceButtonPressed(space.id, isLoggedIn))
 
     if (!isLoggedIn) {
@@ -65,10 +65,11 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
         connectionType: SpaceConnectionType.FOLLOWER,
         spaceId: space.id,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.followed(space.id)),
     })
   }, [isLoggedIn, openSignupModal, t, followSpace, space.id, space.title, track])
 
-  const submitUnfollowRequest = useCallback(() => {
+  const onUnfollowSpaceButtonPressed = useCallback(() => {
     setUnfollowDialogIsOpen(false)
     followSpace({
       variables: {
@@ -76,8 +77,9 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
         connectionType: SpaceConnectionType.FOLLOWER,
         spaceId: space.id,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.unfollowed(space.id)),
     })
-  }, [followSpace, space.id])
+  }, [followSpace, space.id, track])
 
   if (isMember || hasRequestedMembership || isInvited) {
     return null
@@ -91,7 +93,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
           variant="secondary"
           size="sm"
           label={t('spaces.follow.btn.follow')}
-          onPress={sendFollowRequest}
+          onPress={onFollowSpaceButtonPressed}
           loading={isLoadingUser || loading}
           testID="follow-btn"
         />
@@ -117,7 +119,7 @@ const SpaceFollow: React.FC<SpaceFollowProps> = ({ space }) => {
         secondaryText={t('global.dismiss')}
         primaryText={t('global.yes')}
         primaryButtonVariant="danger"
-        onPrimary={submitUnfollowRequest}
+        onPrimary={onUnfollowSpaceButtonPressed}
         onDismiss={() => setUnfollowDialogIsOpen(false)}
         testID="unfollow-confirm"
       />

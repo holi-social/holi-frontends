@@ -1,17 +1,20 @@
-import { StoreObject, useMutation } from '@apollo/client'
-import React, { useCallback } from 'react'
+import { type StoreObject, useMutation } from '@apollo/client'
+import type React from 'react'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import {
-  UpdateSpaceUserConnectionResponse,
+  type UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
-import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { Add, Check, Close } from '@holi/icons/src/generated'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
 import { useTheme } from '@holi/ui/styles/theme'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 export type SpaceMoreActionsProps = {
   space: Space
@@ -19,6 +22,7 @@ export type SpaceMoreActionsProps = {
 
 const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
   const { displayError } = useErrorHandling()
   const { openToast } = useToast()
   const { theme } = useTheme()
@@ -50,25 +54,27 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
     }
   )
 
-  const sendFollowRequest = useCallback(() => {
+  const followSpace = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
         connectionType: SpaceConnectionType.FOLLOWER,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.followed(space.id)),
     })
-  }, [updateSpaceUserConnection])
+  }, [space.id, track, updateSpaceUserConnection])
 
-  const submitUnfollowRequest = useCallback(() => {
+  const unfollowSpace = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
         connectionType: SpaceConnectionType.FOLLOWER,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.unfollowed(space.id)),
     })
-  }, [updateSpaceUserConnection])
+  }, [space.id, track, updateSpaceUserConnection])
 
-  const approveConnectionRequest = useCallback(() => {
+  const acceptSpaceInvitation = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
@@ -76,11 +82,12 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
       },
       onCompleted() {
         openToast(t('spaces.invite.accept.success'), HoliToastType.SUCCESS)
+        track(TrackingEvent.Spaces.Invitation.accepted(space.id))
       },
     })
-  }, [openToast, t, updateSpaceUserConnection])
+  }, [openToast, space.id, t, track, updateSpaceUserConnection])
 
-  const rejectConnectionRequest = useCallback(() => {
+  const rejectSpaceInvitation = useCallback(() => {
     updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.DISCONNECT,
@@ -88,9 +95,10 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
       },
       onCompleted() {
         openToast(t('spaces.invite.decline.success'), HoliToastType.SUCCESS)
+        track(TrackingEvent.Spaces.Invitation.rejected(space.id))
       },
     })
-  }, [openToast, t, updateSpaceUserConnection])
+  }, [openToast, space.id, t, track, updateSpaceUserConnection])
 
   if (!isInvited) {
     return null
@@ -107,14 +115,14 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
         isLoading={loading}
         icon={Check}
         title={t('spaces.invite.btn.accept')}
-        handleAction={approveConnectionRequest}
+        handleAction={acceptSpaceInvitation}
         iconColor={colors.brandColorC30}
       />
       <HoliActionDrawer.Action
         isLoading={loading}
         icon={Close}
         title={t('spaces.invite.btn.decline')}
-        handleAction={rejectConnectionRequest}
+        handleAction={rejectSpaceInvitation}
         iconColor={colors.error20}
       />
       {!isFollowing && (
@@ -122,7 +130,7 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
           isLoading={loading}
           icon={Add}
           title={t('spaces.follow.btn.follow')}
-          handleAction={sendFollowRequest}
+          handleAction={followSpace}
         />
       )}
       {isFollowing && (
@@ -135,7 +143,7 @@ const SpaceMoreActions: React.FC<SpaceMoreActionsProps> = ({ space }) => {
           <HoliActionDrawer.Confirmation
             title={t('spaces.follow.unfollow.confirm.headline', { spaceName: space.title })}
             description={t('spaces.follow.unfollow.confirm.text', { spaceName: space.title })}
-            handleConfirmation={submitUnfollowRequest}
+            handleConfirmation={unfollowSpace}
             hasDismissBtn
           />
         </HoliActionDrawer.Action>

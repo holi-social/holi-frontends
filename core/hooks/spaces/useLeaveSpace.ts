@@ -6,6 +6,8 @@ import useUpdateSpaceUserConnection from '@holi/core/hooks/spaces/useUpdateSpace
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { Space } from '@holi/core/screens/spaces/types'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 interface UseLeaveSpace {
   confirmationTitle: string
@@ -22,6 +24,7 @@ interface UseLeaveSpace {
 export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
+  const { track } = useTracking()
 
   const id = space?.id ?? ''
 
@@ -40,8 +43,8 @@ export const useLeaveSpace = (space?: Space): UseLeaveSpace => {
 
   const leaveAction = useCallback(() => {
     navigate('/spaces')
-    leaveSpace()
-  }, [navigate, leaveSpace])
+    leaveSpace().then(() => track(TrackingEvent.Spaces.User.left(id)))
+  }, [navigate, leaveSpace, track, id])
 
   const noAction = useCallback(() => {
     // Empty action when no actions are needed

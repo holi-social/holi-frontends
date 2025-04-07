@@ -23,15 +23,16 @@ export type SpaceJoinProps = {
 
 const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
+
   const [withdrawDialogIsOpen, setWithdrawDialogIsOpen] = useState(false)
   const { show: showJoinOverlay } = useModalState()
   const { visible: onboardingVisible, show: showOnboarding, hide: hideOnboarding } = useModalState()
   const { loading, updateSpaceUserConnection } = useSpaceJoinRequest(space, showJoinOverlay, message)
   const { isLoggedIn } = useLoggedInUser()
   const { openSignupModal } = useSignupModal()
-  const { track } = useTracking()
 
-  const submitWithdraw = useCallback(() => {
+  const withdrawRequestToJoinSpace = useCallback(() => {
     setWithdrawDialogIsOpen(false)
     updateSpaceUserConnection({
       variables: {
@@ -39,14 +40,14 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
         connectionType: SpaceConnectionType.MEMBERSHIP_REQUESTOR,
         spaceId: space.id,
       },
-    })
-  }, [updateSpaceUserConnection, space.id])
+    }).then(() => track(TrackingEvent.Spaces.RequestToJoin.withdrawn(space.id)))
+  }, [updateSpaceUserConnection, space.id, track])
 
   const isRequestor = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBERSHIP_REQUESTOR)
   const isInvited = space.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBERSHIP_INVITEE)
   const isMember = space.connectionStatusToMyself.includes(SpaceConnectionType.MEMBER)
 
-  const handleRequest = () => {
+  const onCollaborateButtonPressed = () => {
     track(TrackingEvent.Spaces.joinSpaceButtonPressed(space.id, isLoggedIn))
 
     if (!isLoggedIn) {
@@ -68,7 +69,7 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
         <Button
           inline
           label={t('spaces.join.btnRequest')}
-          onPress={handleRequest}
+          onPress={onCollaborateButtonPressed}
           size="sm"
           disabled={loading}
           testID={'space-collaborate-button'}
@@ -95,7 +96,7 @@ const SpaceJoin: React.FC<SpaceJoinProps> = ({ space, message }) => {
         secondaryText={t('global.dismiss')}
         primaryText={t('global.yes')}
         primaryButtonVariant="danger"
-        onPrimary={submitWithdraw}
+        onPrimary={withdrawRequestToJoinSpace}
         onDismiss={() => setWithdrawDialogIsOpen(false)}
       />
       <SpaceCollaboratorOnboarding

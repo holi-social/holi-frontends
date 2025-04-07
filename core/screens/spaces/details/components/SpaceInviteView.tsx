@@ -19,6 +19,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 const isEmail = (input: string) => z.string().email().safeParse(input).success
 
@@ -34,6 +36,7 @@ const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId, idOrName }) 
   const { displayError } = useErrorHandling()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const clearInput = useCallback(() => setSearchValue(''), [])
 
@@ -41,6 +44,7 @@ const SpaceInviteView: React.FC<SpaceInviteViewProps> = ({ spaceId, idOrName }) 
     onCompleted() {
       openToast(t('spaces.invite.success'), HoliToastType.SUCCESS)
       clearInput()
+      track(TrackingEvent.Spaces.Invitation.sent(spaceId))
     },
     onError(error) {
       displayError(error, 'Failed to invite user to space by e-mail', {

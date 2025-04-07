@@ -1,6 +1,7 @@
-import { StoreObject, useMutation } from '@apollo/client'
+import { type StoreObject, useMutation } from '@apollo/client'
 import { useApolloClient } from '@apollo/client'
-import React, { useMemo, useState } from 'react'
+import type React from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -11,10 +12,10 @@ import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSignupModal } from '@holi/core/providers/SignupModalProvider'
 import SpaceCollaboratorOnboardingSteps from '@holi/core/screens/spaces/details/components/SpaceCollaboratorOnboardingSteps'
 import {
-  UpdateSpaceUserConnectionResponse,
+  type UpdateSpaceUserConnectionResponse,
   updateSpaceUserConnectionMutation,
 } from '@holi/core/screens/spaces/details/mutations'
-import { Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { type Space, SpaceConnectionAction, SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
@@ -22,8 +23,10 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
+import { TrackingEvent } from '@holi/core/tracking'
 
 interface SpaceCollaboratorOnboardingProps {
   space: Space
@@ -39,6 +42,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
   onboarding = false,
 }) => {
   const { t } = useTranslation()
+  const { track } = useTracking()
   const mixins = useStyleMixins()
   const { theme } = useTheme()
   const [message, setMessage] = useState<string>('')
@@ -88,6 +92,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         trackTrigger: 'JOIN_SPACE',
       })
     }
+
     return updateSpaceUserConnection({
       variables: {
         connectAction: SpaceConnectionAction.CONNECT,
@@ -95,6 +100,7 @@ const SpaceCollaboratorOnboarding: React.FC<SpaceCollaboratorOnboardingProps> = 
         message: message === '' ? null : message,
         spaceId: space.id,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.RequestToJoin.sent(space.id)),
     })
   }
 

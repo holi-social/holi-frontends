@@ -18,6 +18,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { ButtonIcon } from 'holi-bricks/components/button'
+import { TrackingEvent } from '@holi/core/tracking'
+import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 type SpaceInviteUserSearchProps = {
   user: User
@@ -32,6 +34,7 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   const userName = user.fullName || t('user.profileView.anonymous')
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { track } = useTracking()
 
   const [acceptRequestToJoin, { loading: loadingUserConnectionUpdate }] =
     useMutation<UpdateSpaceUserConnectionResponse>(updateSpaceUserConnectionMutation, {
@@ -44,6 +47,7 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
       onCompleted() {
         openToast(t('spaces.invite.user.request.accepted', { user: userName }), HoliToastType.SUCCESS)
         onInviteHandled()
+        track(TrackingEvent.Spaces.RequestToJoin.accepted(spaceId))
       },
       onError(error) {
         displayError(error, 'Failed to accept space membership request', {
@@ -84,15 +88,16 @@ const SpaceInviteUserButton: React.FC<SpaceInviteUserSearchProps> = ({ user, spa
   )
 
   const inviteUserToSpace = useCallback(
-    () =>
-      inviteToSpaceById({
+    async () =>
+      await inviteToSpaceById({
         variables: { userId: user.id },
         onCompleted() {
           openToast(t('spaces.invite.user.success', { user: userName }), HoliToastType.SUCCESS)
           onInviteHandled()
+          track(TrackingEvent.Spaces.Invitation.sent(spaceId))
         },
       }),
-    [inviteToSpaceById, onInviteHandled, openToast, t, user, userName]
+    [inviteToSpaceById, onInviteHandled, openToast, spaceId, t, track, user.id, userName]
   )
 
   const loading = loadingUserConnectionUpdate || loadingInvite

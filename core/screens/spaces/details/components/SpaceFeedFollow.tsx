@@ -45,7 +45,7 @@ const SpaceFeedFollow: React.FC<SpaceFollowProps> = ({ space }) => {
 
   const isFollowing = space.connectionStatusToMyself?.includes(SpaceConnectionType.FOLLOWER)
 
-  const sendFollowRequest = useCallback(() => {
+  const onFollowSpaceButtonPressed = useCallback(() => {
     track(TrackingEvent.Spaces.followSpaceButtonPressed(space.id, isLoggedIn))
 
     followSpace({
@@ -54,10 +54,11 @@ const SpaceFeedFollow: React.FC<SpaceFollowProps> = ({ space }) => {
         connectionType: SpaceConnectionType.FOLLOWER,
         spaceId: space.id,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.followed(space.id)),
     })
   }, [track, space.id, isLoggedIn, followSpace])
 
-  const submitUnfollowRequest = useCallback(() => {
+  const onUnfollowSpaceButtonPressed = useCallback(() => {
     setUnfollowDialogIsOpen(false)
     followSpace({
       variables: {
@@ -65,8 +66,9 @@ const SpaceFeedFollow: React.FC<SpaceFollowProps> = ({ space }) => {
         connectionType: SpaceConnectionType.FOLLOWER,
         spaceId: space.id,
       },
+      onCompleted: () => track(TrackingEvent.Spaces.User.unfollowed(space.id)),
     })
-  }, [followSpace, space.id])
+  }, [followSpace, space.id, track])
 
   return (
     <>
@@ -76,7 +78,7 @@ const SpaceFeedFollow: React.FC<SpaceFollowProps> = ({ space }) => {
           transparent
           label={isFollowing ? t('spaces.feed.follow.btn.unfollow') : t('spaces.feed.follow.btn.follow')}
           contentStyle={styles.buttonContent}
-          onPress={isFollowing ? () => setUnfollowDialogIsOpen(true) : sendFollowRequest}
+          onPress={isFollowing ? () => setUnfollowDialogIsOpen(true) : onFollowSpaceButtonPressed}
         >
           <HoliBox padding={[0, 13, 0, 0]}>
             <HoliIcon icon={isFollowing ? IndeterminateCircleLine : AddCircleLine} size={18} />
@@ -100,7 +102,7 @@ const SpaceFeedFollow: React.FC<SpaceFollowProps> = ({ space }) => {
         secondaryText={t('global.dismiss')}
         primaryText={t('global.yes')}
         primaryButtonVariant="danger"
-        onPrimary={submitUnfollowRequest}
+        onPrimary={onUnfollowSpaceButtonPressed}
         onDismiss={() => setUnfollowDialogIsOpen(false)}
       />
     </>
