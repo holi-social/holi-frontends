@@ -9,6 +9,15 @@ interface VolunteeringRecosParameters {
   loading?: boolean
 }
 
+const DEFAULT_RECO_TOPICS_V2 = [
+  'democracy-politics',
+  'human-rights',
+  'climate-environment',
+  'literacy-education',
+  'arts-culture',
+  'animal-welfare',
+]
+
 export const useVolunteeringRecosParameters = (): VolunteeringRecosParameters => {
   const { user, isLoading: userLoading } = useLoggedInUser()
 
@@ -21,18 +30,20 @@ export const useVolunteeringRecosParameters = (): VolunteeringRecosParameters =>
     const hasSkills = !!user.skillsV2?.length
     if (hasInterests || hasSkills) {
       return {
-        // TODO(SF) possible to combine?
         topics: user.interestsV2,
         skills: user.skillsV2,
         geolocationId: user.geolocationId,
       }
     } else {
       return {
+        topics: DEFAULT_RECO_TOPICS_V2,
         geolocationId: user.geolocationId,
       }
     }
   } else {
-    return {}
+    return {
+      topics: DEFAULT_RECO_TOPICS_V2,
+    }
   }
 }
 

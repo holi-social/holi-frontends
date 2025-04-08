@@ -4,7 +4,6 @@ import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocati
 import { useMemo } from 'react'
 import type { VolunteeringRecosQueryVariables } from '@holi-apps/volunteering/queries'
 
-// TODO: use default topics if not logged in
 const buildUserEmbedding = ({ skills, topics }: VolunteeringRecosQueryVariables) => {
   const userEmbedding = [
     ...ALL_TOPICS.map((topic) => (topics?.includes(topic) ? 1 : 0)),
@@ -36,8 +35,7 @@ export const useVolunteeringRecoTypesenseParameters = ({
       filter_by: 'type:volunteering',
       sort_by,
       per_page: pageSize,
-      // TODO: why are results empty?
-      // vector_query: `topics_skills_embedding_v2:(${JSON.stringify(userEmbedding)},k:100,alpha:0.9,distance_threshold:0.1)`,
+      vector_query: `topics_skills_embedding_v2:(${JSON.stringify(userEmbedding)},k:100,alpha:0.9,distance_threshold:0.7)`,
       // TODO: exclude in search as well
       exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     }
