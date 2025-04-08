@@ -87,7 +87,6 @@ export default withProfiler(AttendingChallengeEvents, {
 const getStyles = (cardWidth: number) =>
   StyleSheet.create({
     listContainer: {
-      paddingVertical: Spacing.xs,
       gap: Spacing['4xs'],
     },
     itemContainer: {
