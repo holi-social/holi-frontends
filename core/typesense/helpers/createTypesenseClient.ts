@@ -35,6 +35,10 @@ export const createTypesenseClient = () => {
   return {
     multiSearch: (searches: MultiSearchRequestSchema[]) =>
       client.multiSearch.perform<TypesenseDocument[]>({ searches }, { collection: typesenseCollection }),
-    search: client.collections<TypesenseDocument>(typesenseCollection ?? '').documents().search,
+    search: (parameters: SearchParams) =>
+      client
+        .collections<TypesenseDocument>(typesenseCollection ?? '')
+        .documents()
+        .search(parameters),
   }
 }

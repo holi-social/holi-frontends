@@ -29,7 +29,6 @@ const { useParam, useUpdateParams } = createParamHooks<VolunteeringFilterParams>
 const useGeolocation = (locationId?: string) => {
   const { displayError } = useErrorHandling()
   const { t } = useTranslation()
-  // TODO(SF) querying name would suffice for discovery v1
   const { geolocationDetails, geolocationError, loadingGeolocation } = useGeolocationDetails(locationId)
 
   const geolocationSelection = useMemo<GeolocationSuggestion | undefined>(() => {

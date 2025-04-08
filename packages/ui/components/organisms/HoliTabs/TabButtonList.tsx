@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { LayoutChangeEvent, LayoutRectangle } from 'react-native'
+import type { LayoutChangeEvent, LayoutRectangle } from 'react-native'
 import { StyleSheet, View } from 'react-native'
 import Animated, {
-  SharedValue,
+  type SharedValue,
   interpolate,
   scrollTo,
   useAnimatedReaction,
@@ -14,10 +14,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import { HoliTabsProps } from './types'
+import type { HoliTabsProps } from './types'
 
 export interface Tab {
   id?: string | number // ID is optional, if it is not passed tab's `index` in array will be used
