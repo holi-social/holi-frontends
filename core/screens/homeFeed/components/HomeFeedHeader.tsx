@@ -3,7 +3,7 @@ import { Text } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -25,6 +25,7 @@ import AttendingChallengeEvents from '@holi-apps/challenges/components/Attending
 import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB'
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
+import { Stack } from 'holi-bricks/components/stack'
 
 const HomeFeedHeader: React.FC = () => {
   const displayNewHomeFeed = useFeatureFlagAB(FeatureFlagKey.NEW_HOME_FEED)
@@ -66,7 +67,7 @@ const HomeFeedHeader: React.FC = () => {
   }, [rotation])
 
   return (
-    <View>
+    <Stack gap="md" margin={{ bottom: 'md' }}>
       {new Date() < bannerShowCutoff && (
         <>
           <HoliGap size="s" />
@@ -87,7 +88,7 @@ const HomeFeedHeader: React.FC = () => {
       )}
 
       {/*Headline */}
-      <HoliBox padding={[32, 0, 8, 0]} layout={styles.headlineContainer} testID="home-feed-insights-heading">
+      <HoliBox padding={[32, 0, 0, 0]} layout={styles.headlineContainer} testID="home-feed-insights-heading">
         <Text size="3xl" headingLevel="2">
           {user?.firstName ? t('homeFeed.heading.loggedIn', { firstname: user?.firstName }) : t('homeFeed.heading')}
         </Text>
@@ -103,9 +104,9 @@ const HomeFeedHeader: React.FC = () => {
           />
         </Animated.View>
       </HoliBox>
-      <ProfileCompletionCard style={styles.container} page="home_feed" />
+      <ProfileCompletionCard page="home_feed" />
       {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
-    </View>
+    </Stack>
   )
 }
 
@@ -118,8 +119,5 @@ const styles = StyleSheet.create({
   },
   handwaveFilled: {
     paddingLeft: 8,
-  },
-  container: {
-    marginTop: 16,
   },
 })
