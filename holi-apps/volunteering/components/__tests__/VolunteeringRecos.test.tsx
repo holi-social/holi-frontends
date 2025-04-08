@@ -17,6 +17,7 @@ import {
   type VolunteeringRecosQueryVariables,
   volunteeringRecosQuery,
 } from '@holi-apps/volunteering/queries'
+import { DEFAULT_RECO_TOPICS_V2 } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser')
 const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
@@ -103,7 +104,7 @@ describe('VolunteeringRecos', () => {
     it('queries recos for default topics', async () => {
       mockUseLoggedInUser.mockReturnValue(loggedOut)
       const { querySpy, mockedResponses } = setupApolloMocks({
-        topics: undefined,
+        topics: DEFAULT_RECO_TOPICS_V2,
         skills: undefined,
         geolocationId: undefined,
         offset: 0,
@@ -159,7 +160,7 @@ describe('VolunteeringRecos', () => {
         const geolocationId = faker.string.uuid()
         mockUseLoggedInUser.mockReturnValue(loggedInUser(testUser1([], [], geolocationId)))
         const { querySpy, mockedResponses } = setupApolloMocks({
-          topics: undefined,
+          topics: DEFAULT_RECO_TOPICS_V2,
           skills: undefined,
           geolocationId,
           offset: 0,

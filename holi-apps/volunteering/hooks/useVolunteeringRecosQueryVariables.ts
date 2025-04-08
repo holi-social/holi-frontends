@@ -9,7 +9,7 @@ interface VolunteeringRecosParameters {
   loading?: boolean
 }
 
-const DEFAULT_RECO_TOPICS_V2 = [
+export const DEFAULT_RECO_TOPICS_V2 = [
   'democracy-politics',
   'human-rights',
   'climate-environment',
