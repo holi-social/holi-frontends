@@ -22,7 +22,7 @@ export const transformTypesenseDocumentToEngagement = (
 ): VolunteeringEngagement => {
   const document = hit.document
   return {
-    id: document.id,
+    id: document.link_locators?.volunteering?.toString() ?? document.id,
     title: getTitle(language, document),
     description: getDescription(language, document),
     url: document.external_url ?? '',

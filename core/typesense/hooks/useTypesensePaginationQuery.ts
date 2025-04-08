@@ -1,12 +1,9 @@
 import { logError } from '@holi/core/errors/helpers'
-import { createTypesenseClient } from '@holi/core/typesense/helpers/createTypesenseClient'
 import type { TypesenseDocument } from '@holi/core/typesense/types'
 import { useCallback, useEffect, useState } from 'react'
 import type { SearchParams, SearchResponseHit } from 'typesense/lib/Typesense/Documents'
 import isEqual from 'lodash/isEqual'
-
-// TODO create global Typesense client instance
-const typesenseClient = createTypesenseClient()
+import { useTypesenseClient } from '@holi/core/typesense/provider/TypesenseClientProvider'
 
 const INITIAL_PAGE = 1
 const DEFAULT_PAGE_SIZE = 10
@@ -48,6 +45,7 @@ export const useTypesensePaginationQuery = ({
     canFetchMore: false,
     parameters,
   })
+  const { client } = useTypesenseClient()
 
   const fetchPage = useCallback(
     async (pageNumber: number) => {
@@ -61,7 +59,7 @@ export const useTypesensePaginationQuery = ({
         isLoading: true,
         parameters,
       }))
-      return typesenseClient
+      return client
         .multiSearch([
           {
             q: '*',
@@ -102,7 +100,7 @@ export const useTypesensePaginationQuery = ({
           }))
         })
     },
-    [onError, parameters, state.isLoading, state.parameters]
+    [client, onError, parameters, state.isLoading, state.parameters]
   )
   const fetchNextPage = useCallback(async () => {
     setIsFetchingMore(true)

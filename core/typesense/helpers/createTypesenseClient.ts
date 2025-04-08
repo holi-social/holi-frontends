@@ -31,7 +31,6 @@ export const createTypesenseClient = () => {
       : undefined,
   })
 
-  // TODO: clear cache on user logout
   return {
     multiSearch: (searches: MultiSearchRequestSchema[]) =>
       client.multiSearch.perform<TypesenseDocument[]>({ searches }, { collection: typesenseCollection }),
