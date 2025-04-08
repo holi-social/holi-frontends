@@ -1,15 +1,15 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import PartnerInfoRow from '@holi-apps/volunteering/components/PartnerInfoRow'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import InfoModal from '@holi/core/components/InfoModal'
 import { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { VOLUNTEERING_IMG_SOURCES_MAPPING } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformVolunteeringDetails.shared'
-import HoliText from '@holi/ui/components/atoms/HoliText'
-import { useTheme } from '@holi/ui/styles/theme'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
+import { Text } from 'holi-bricks/components/text'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 
 interface VolunteeringListingHeaderProps {
   isFiltering?: boolean
@@ -20,14 +20,11 @@ export const VolunteeringListingHeader = ({ isFiltering, filterSubtitle }: Volun
   const subtitle = useRecosSubtitle()
   const allPartners = VOLUNTEERING_IMG_SOURCES_MAPPING
   const { show: showPartnerModal, hide: closeModal, visible: partnerModalVisible } = useModalState()
-  const { theme } = useTheme()
-  const { colors } = theme
+  const { styles } = useStyles(stylesheet)
 
   return (
     <View>
-      <HoliHeading level="2" size="l">
-        {t('volunteering:discoveryV1.headline')}
-      </HoliHeading>
+      <Text size="3xl">{t('volunteering:discoveryV1.headline')}</Text>
       <HoliGap size="s" />
       <PartnerInfoRow
         rowText={t('volunteering:listing.subline')}
@@ -44,22 +41,21 @@ export const VolunteeringListingHeader = ({ isFiltering, filterSubtitle }: Volun
       />
       {isFiltering ? (
         <View style={styles.headingRow}>
-          <HoliText bold style={{ color: colors.foreground20 }}>
+          <Text size="md" color="support">
             {filterSubtitle}
-          </HoliText>
+          </Text>
         </View>
       ) : (
         <>
           <HoliGap size="ml" />
-          <HoliText size="large">{t(subtitle)}</HoliText>
+          <Text size="xxl">{t(subtitle)}</Text>
         </>
       )}
     </View>
   )
 }
 
-// TODO(SF) use holi bricks
-const styles = StyleSheet.create({
+const stylesheet = createStyleSheet({
   headingRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
