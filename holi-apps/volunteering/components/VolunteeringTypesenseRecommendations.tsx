@@ -71,25 +71,6 @@ export const VolunteeringTypesenseRecommendations = () => {
     <View style={[mixins.container, styles.list]}>
       {engagements.length > 0 && <VolunteeringListingHeader isFiltering={false} filterSubtitle="" />}
       <HoliBox padding={[24, 0, 24, 0]}>
-        {/* {!engagements.length && (
-          <View style={mixins.container}>
-            <HoliNoResults
-              firstText={t('global.noSearchResults')}
-              media={
-                <HoliLocalImage
-                  imageSource={require('@holi/ui/assets/img/illustrations/illustration_settings.svg')}
-                  width={152}
-                  height={152}
-                  label=""
-                  isSvg
-                />
-              }
-              secondText={t('volunteering:filter.notFound.description')}
-            >
-              <Button label={t('search.filter.reset')} onPress={clearFilters} />
-            </HoliNoResults>
-          </View>
-        )} */}
         <View testID={'volunteering-list-unfiltered'}>
           <HoliGridWrapper>
             {engagements.map((engagement, index) => {
