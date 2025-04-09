@@ -51,7 +51,7 @@ export const useTypesensePaginationQuery = ({
     async (pageNumber: number) => {
       const sameParametersAsBefore = isEqual(state.parameters, parameters)
 
-      if (state.isLoading && sameParametersAsBefore) {
+      if ((state.isLoading && sameParametersAsBefore) || skip) {
         return
       }
       setState((previousResults) => ({
@@ -100,7 +100,7 @@ export const useTypesensePaginationQuery = ({
           }))
         })
     },
-    [client, onError, parameters, state.isLoading, state.parameters]
+    [client, onError, parameters, state.isLoading, state.parameters, skip]
   )
   const fetchNextPage = useCallback(async () => {
     setIsFetchingMore(true)
@@ -112,10 +112,8 @@ export const useTypesensePaginationQuery = ({
   }, [fetchPage])
 
   useEffect(() => {
-    if (!skip) {
-      refetch()
-    }
-    // Only trigger if parameters change
+    refetch()
+    // Only trigger if parameters or skip flag change
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parameters, skip])
 

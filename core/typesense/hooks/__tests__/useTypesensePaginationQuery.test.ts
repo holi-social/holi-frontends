@@ -159,6 +159,7 @@ describe('useTypesensePaginationQuery', () => {
   })
 
   it('should allow fetching more pages', async () => {
+    const allHits = createHits(20)
     const { result } = renderHook(() => useTypesensePaginationQuery({ parameters }))
 
     // Await initial fetch
@@ -166,11 +167,12 @@ describe('useTypesensePaginationQuery', () => {
 
     expect(result.current.state.data).toHaveLength(10)
 
-    mockSearchResults({ found: 123, page: 2, hits: createHits(10) })
+    mockSearchResults({ found: 123, page: 2, hits: allHits.slice(10) })
 
     await act(() => result.current.fetchNextPage())
 
     expect(result.current.state.data).toHaveLength(20)
+    expect(result.current.state.data).toEqual(allHits)
     expect(mockSearch).toHaveBeenCalledTimes(2)
     expect(mockSearch).toHaveBeenCalledWith([
       {
@@ -190,7 +192,18 @@ describe('useTypesensePaginationQuery', () => {
 
     expect(result.current.state.data).toHaveLength(10)
 
-    await act(() => result.current.refetch)
+    // Fetch second page
+    mockSearchResults({ found: 123, page: 2, hits: createHits(10) })
+
+    await act(() => result.current.fetchNextPage())
+
+    expect(result.current.state.data).toHaveLength(20)
+
+    mockSearch.mockClear()
+    mockSearchResults({ found: 123, page: 1, hits: createHits(10) })
+
+    // Refetch: List should start with page 1 again
+    await act(() => result.current.refetch())
 
     expect(result.current.state.data).toHaveLength(10)
     expect(mockSearch).toHaveBeenCalledWith([
@@ -206,7 +219,7 @@ describe('useTypesensePaginationQuery', () => {
   it('should refetch on parameter change', async () => {
     const initialProps = { parameters }
 
-    const { rerender } = renderHook((props: typeof initialProps) => useTypesensePaginationQuery(props), {
+    const { result, rerender } = renderHook((props: typeof initialProps) => useTypesensePaginationQuery(props), {
       initialProps,
     })
 
@@ -226,7 +239,11 @@ describe('useTypesensePaginationQuery', () => {
       },
     ])
 
+    expect(result.current.state.isLoading).toBeTruthy()
+
     await act(jest.runOnlyPendingTimersAsync)
+
+    expect(result.current.state.isLoading).toBeFalsy()
   })
 
   it('should not refetch if currently loading and parameters did not change', async () => {
@@ -279,6 +296,14 @@ describe('useTypesensePaginationQuery', () => {
     expect(mockSearch).not.toHaveBeenCalled()
 
     rerender({ parameters: { ...parameters, q: 'new query' } })
+
+    expect(mockSearch).not.toHaveBeenCalled()
+  })
+
+  it('should not perform refetch if skip is set', async () => {
+    const { result } = renderHook(() => useTypesensePaginationQuery({ parameters, skip: true }))
+
+    await act(() => result.current.refetch())
 
     expect(mockSearch).not.toHaveBeenCalled()
   })
