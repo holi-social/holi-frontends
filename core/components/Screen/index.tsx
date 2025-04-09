@@ -145,7 +145,7 @@ export const Screen = (props: ScreenProps) => {
     keyboardVerticalOffset = 100,
     statusBarProps,
     keyboardAvoidingViewProps,
-    backgroundColor = 'page',
+    backgroundColor = 'main',
     safeAreaEdges = [],
     StickyBottomComponent,
     headerOptions,

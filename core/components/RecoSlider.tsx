@@ -127,7 +127,7 @@ const RecoSlider: React.FC<RecoSliderProps> = ({
           <View style={styles.header} testID={`${name}-reco-slider-heading`}>
             <View style={styles.headerTitle}>
               <View style={styles.iconContainer}>
-                <HoliIcon icon={icon} size={20} color={colors.black300} />
+                <HoliIcon icon={icon} size={20} colorOverride={colors.black300} />
               </View>
               <View style={{ gap: 4 }}>
                 <Text size="xxl" headingLevel="3">

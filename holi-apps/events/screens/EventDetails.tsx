@@ -49,7 +49,7 @@ export const EventDetailsScreen = () => {
         headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} />,
         headerRight: ({ tintColor }) => (
           <Pressable onPress={() => onShare()}>
-            <HoliIcon color={tintColor} size={24} icon={Share} />
+            <HoliIcon colorOverride={tintColor} size={24} icon={Share} />
           </Pressable>
         ),
         navigationCustomOptions: {

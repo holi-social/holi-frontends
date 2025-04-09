@@ -1,10 +1,10 @@
-import type React from 'react'
+import { type RadiusToEdge, makeRadius } from 'holi-bricks/foundations/dimensions/borderRadius'
+import { type SizeToEdge, makeMargin, makePadding } from 'holi-bricks/foundations/dimensions/spacing'
 import { useStyles } from 'holi-bricks/hooks'
-import { Spacing, breakpoints, type SpacingSize, type BreakpointsSize } from 'holi-bricks/tokens'
+import { type BreakpointsSize, Spacing, type SpacingSize, breakpoints } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { Pressable, View, type AccessibilityRole, type DimensionValue, type FlexStyle } from 'react-native'
-import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
-import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
+import type React from 'react'
+import { type AccessibilityRole, type DimensionValue, type FlexStyle, Pressable, View } from 'react-native'
 
 type FlexAlignments = 'flex-end' | 'flex-start' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
 interface StackProps extends React.PropsWithChildren {
@@ -37,6 +37,7 @@ interface StackProps extends React.PropsWithChildren {
   width?: DimensionValue
   wrap?: FlexStyle['flexWrap']
   flexShrink?: FlexStyle['flexShrink']
+  overflow?: 'hidden' | 'visible'
 }
 
 export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none', ...otherProps }: StackProps) => {
@@ -84,6 +85,7 @@ const containerStylesheet = createStyleSheet((theme) => ({
     ...makePadding(props?.padding),
     ...makeMargin(props?.margin),
     ...makeRadius(props?.borderRadius),
+    overflow: props?.overflow,
   }),
 }))
 Stack.displayName = 'Stack'

@@ -30,7 +30,6 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { localizeDate } from '@holi/ui/helper/date'
@@ -38,6 +37,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
+import CalendarIcon from 'holi-bricks/components/CalendarIcon/CalendarIcon'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 
@@ -102,7 +102,7 @@ const AppointmentDetails = () => {
           handleDelete={() => navigateBack()}
         >
           <View>
-            <HoliIcon icon={More} color={colors.foreground30} />
+            <HoliIcon icon={More} colorOverride={colors.foreground30} />
           </View>
         </AppointmentDrawer>
       ),
@@ -203,10 +203,10 @@ const AppointmentDetails = () => {
         </View>
         <View style={[styles.card, styles.firstCard]}>
           <View style={styles.titleContainer}>
-            <HoliCalendarIcon
+            <CalendarIcon
               day={new Date(appointment.startDateTime).getDate()}
               month={new Date(appointment.startDateTime).getMonth() + 1}
-              size="medium"
+              size="md"
             />
             <View style={styles.infoText}>
               <HoliHeading ellipsizeMode="tail" level="1" size="m" testID="appointment-title">

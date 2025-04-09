@@ -1,8 +1,9 @@
-import React, { memo, useState } from 'react'
+import type React from 'react'
+import { memo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { Linking, type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 
-import { SpaceLink } from '@holi/core/screens/spaces/types'
+import type { SpaceLink } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Discord, Facebook, Instagram, Linkedin, Links, Twitter, Whatsapp } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
@@ -52,7 +53,7 @@ const SpacePublicLink: React.FC<SpacePublicLinkProps> = ({ link, style }: SpaceP
         contentStyle={styles.button}
         testID="btn-to-social-link"
       >
-        <HoliIcon icon={IconBySpaceLinkType[type]} color={colors.foreground20} />
+        <HoliIcon icon={IconBySpaceLinkType[type]} colorOverride={colors.foreground20} />
         <HoliText size="small" bold style={styles.text}>
           {name}
         </HoliText>

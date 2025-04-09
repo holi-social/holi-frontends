@@ -3,7 +3,7 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { useTranslation } from 'react-i18next'
 import {
   Keyboard,
-  LayoutChangeEvent,
+  type LayoutChangeEvent,
   Platform,
   ScrollView,
   type StyleProp,
@@ -19,7 +19,7 @@ import { ArrowDownS, ArrowUpS, Check, Close } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type HoliSelectOption = {
   id: string
@@ -183,7 +183,7 @@ const HoliSelect = ({
             item.selected && styles.listItemIconContainerSelected,
           ]}
         >
-          {item.selected && <HoliIcon icon={Check} size={20} color={colors.background10} />}
+          {item.selected && <HoliIcon icon={Check} size={20} colorOverride={colors.background10} />}
         </View>
       </HoliButton>
     ),

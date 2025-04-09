@@ -54,7 +54,7 @@ export const OAuthButton = ({ provider, label, onPress, disabled = false, testID
           <HoliIcon
             icon={provider === 'google' ? LogoGoogle : provider === 'facebook' ? LogoFacebook : LogoApple}
             size={24}
-            color={styles.text(disabled, false).color}
+            colorOverride={styles.text(disabled, false).color}
           />
         </View>
         <View style={styles.textContainer}>

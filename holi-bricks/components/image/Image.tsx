@@ -1,13 +1,11 @@
-import type React from 'react'
-import { useState } from 'react'
-import { Image as RNImage, View } from 'react-native'
 import { Image as ExpoImage } from 'expo-image'
+import { isRemoteSource, setScalingParams } from 'holi-bricks/components/image/helpers'
+import type { ImageProps } from 'holi-bricks/components/image/type'
 //import { WithLocalSvg } from 'react-native-svg/css'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import type { ImageProps } from 'holi-bricks/components/image/type'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
-import { isRemoteSource, setScalingParams } from 'holi-bricks/components/image/helpers'
+import type React from 'react'
+import { useState } from 'react'
+import { Image as RNImage } from 'react-native'
 
 const isLocalSvg = (source: number) => {
   try {
@@ -30,14 +28,13 @@ export const Image: React.FC<ImageProps> = ({
   fallbackSource,
   blurhash,
   alt,
-  whiteOverlay: overlay,
   ...otherProps
 }) => {
   const [hasError, setHasError] = useState(false)
-  const transformedSource = setScalingParams(source, width, height)
+  const transformedSource =
+    typeof width === 'number' && typeof height === 'number' ? setScalingParams(source, width, height) : undefined
   const isRemote = isRemoteSource(source)
   const localSvg = typeof source === 'number' && isLocalSvg(source)
-  const { styles } = useStyles(stylesheet)
 
   if (!source) return null
 
@@ -80,18 +77,6 @@ export const Image: React.FC<ImageProps> = ({
         onLoadEnd={onLoadEnd}
         {...accessibilityProps(otherProps)}
       />
-      {overlay && <View style={styles.overlay} />}
     </>
   )
 }
-
-const stylesheet = createStyleSheet({
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-  },
-})

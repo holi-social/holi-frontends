@@ -40,7 +40,7 @@ export const TaskDrawer: React.FunctionComponent<TaskDrawerProps> = ({ tintColor
       renderCustomButton={(onPress, testID) => {
         return (
           <HoliButton label={t('global.moreOptions')} transparent inline onPress={onPress} testID={testID}>
-            <HoliIcon icon={More} color={tintColor || mono['800']} />
+            <HoliIcon icon={More} colorOverride={tintColor || mono['800']} />
           </HoliButton>
         )
       }}

@@ -14,7 +14,7 @@ import { chipSizeToTextSize, type ChipSize } from './size'
 
 export type ChipColor = Color | 'white'
 
-type ChipLabelProps = AccessibilityProps & {
+export type ChipLabelProps = AccessibilityProps & {
   children?: string
   color?: ChipColor
   size?: ChipSize
@@ -37,13 +37,13 @@ export const ChipLabel = ({
 
   return (
     <View {...accessibilityProps(rest)} style={styles.chip(color)} testID={testID}>
-      {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={theme.components.chipLabel.text} />}
+      {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} colorOverride={theme.components.chipLabel.text} />}
       {children && (
         <Text size={chipSizeToTextSize[size]} colorOverride={theme.components.chipLabel.text}>
           {children}
         </Text>
       )}
-      {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} color={theme.components.chipLabel.text} />}
+      {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} colorOverride={theme.components.chipLabel.text} />}
     </View>
   )
 }

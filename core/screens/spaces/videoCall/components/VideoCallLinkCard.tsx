@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo } from 'react'
+import type React from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, Platform, StyleSheet, View } from 'react-native'
 
@@ -7,14 +8,14 @@ import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import i18n from '@holi/core/i18n'
 import { getRelativeDateString } from '@holi/core/i18n/helpers/dateHelper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
-import { VideoCallLink } from '@holi/core/screens/spaces/types'
+import type { VideoCallLink } from '@holi/core/screens/spaces/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowRightUp, More, Share } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliActionDrawer from '@holi/ui/components/organisms/HoliActionDrawer'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface VideoCallLinkCardProps {
   videoCallLink: VideoCallLink
@@ -58,7 +59,7 @@ const VideoCallLinkCard: React.FC<VideoCallLinkCardProps> = ({ videoCallLink }: 
           {videoCallLink.url}
         </HoliText>
       </View>
-      <HoliIcon icon={More} color={colors.foreground20} />
+      <HoliIcon icon={More} colorOverride={colors.foreground20} />
     </View>
   )
   return (

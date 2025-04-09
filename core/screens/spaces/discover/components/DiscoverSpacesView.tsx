@@ -90,7 +90,7 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerStyle: {
-        backgroundColor: theme.colors.bg.page,
+        backgroundColor: theme.colors.bg.main,
       },
       headerTitle: () => (
         <Text headingLevel="1" size="md">
@@ -180,11 +180,11 @@ const DiscoverSpacesView: React.FC<DiscoverSpacesViewProps> = ({ userTopics, use
 const getStyles = createStyleSheet((theme) => ({
   body: {
     paddingTop: Spacing.lg, // + header height
-    backgroundColor: theme.colors.bg.page,
+    backgroundColor: theme.colors.bg.main,
     gap: Spacing.lg,
   },
   header: {
-    backgroundColor: theme.colors.bg.page,
+    backgroundColor: theme.colors.bg.main,
   },
   spacesGroup: {
     marginBottom: 30,

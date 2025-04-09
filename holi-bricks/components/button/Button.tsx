@@ -109,7 +109,7 @@ export const Button = ({
     >
       <View style={styles.content}>
         {iconBefore && !isSpinning && (
-          <HoliIcon icon={iconBefore} size={iconSize} color={styles.text(disabled, selected, variant).color} />
+          <HoliIcon icon={iconBefore} size={iconSize} colorOverride={styles.text(disabled, selected, variant).color} />
         )}
         <View style={styles.textContainer(size)}>
           <Text size={size === 'lg' ? 'md' : 'sm'} colorOverride={styles.text(disabled, selected, variant).color}>
@@ -119,12 +119,12 @@ export const Button = ({
         {isSpinning && (
           <View testID="spinner">
             <SpinningIconContainer spinning={isSpinning}>
-              <HoliIcon icon={Loader} size={iconSize} color={styles.text(disabled, selected, variant).color} />
+              <HoliIcon icon={Loader} size={iconSize} colorOverride={styles.text(disabled, selected, variant).color} />
             </SpinningIconContainer>
           </View>
         )}
         {!isSpinning && icon && (
-          <HoliIcon icon={icon} size={iconSize} color={styles.text(disabled, selected, variant).color} />
+          <HoliIcon icon={icon} size={iconSize} colorOverride={styles.text(disabled, selected, variant).color} />
         )}
       </View>
     </Pressable>

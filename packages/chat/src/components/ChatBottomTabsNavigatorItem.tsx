@@ -18,7 +18,7 @@ const ChatBottomTabsNavigatorItem = ({ focused }: ChatBottomTabsNavigatorItemPro
 
   return (
     <NotificationBellBadge visible={hasUnreadNotifications} testID="bell-badge">
-      <HoliIcon icon={focused ? Chat3Filled : Chat3} color={styles.icon(focused).color} />
+      <HoliIcon icon={focused ? Chat3Filled : Chat3} colorOverride={styles.icon(focused).color} />
     </NotificationBellBadge>
   )
 }

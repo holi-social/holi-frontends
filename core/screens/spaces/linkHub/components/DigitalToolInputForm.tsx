@@ -154,7 +154,7 @@ const DigitalToolInputForm: React.FC<DigitalToolInputFormProps> = ({
           />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeliton]}>
-            <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
+            <HoliIcon icon={LinkM} size={20} colorOverride={colors.brandColorB30} />
           </View>
         )}
         <View style={styles.uploadButtonContainer}>

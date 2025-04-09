@@ -1,4 +1,4 @@
-import { Dispatch, PropsWithChildren, SetStateAction, SyntheticEvent } from 'react'
+import type { Dispatch, PropsWithChildren, SetStateAction, SyntheticEvent } from 'react'
 import React, { createContext, useContext } from 'react'
 import type { GestureResponderEvent } from 'react-native'
 import { StyleSheet } from 'react-native'
@@ -90,7 +90,7 @@ export const Action = ({
           testID={testID}
         >
           <HoliBox padding={[0, 13, 0, 0]}>
-            <HoliIcon icon={icon} size={18} color={iconColor || variantColor} />
+            <HoliIcon icon={icon} size={18} colorOverride={iconColor || variantColor} />
           </HoliBox>
 
           <HoliText color={colorName}>{title}</HoliText>

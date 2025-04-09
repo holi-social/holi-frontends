@@ -59,7 +59,7 @@ const FooterTabBar = () => {
           testID="btn-to-home-view"
           contentStyle={styles.button}
         >
-          <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} color={unistyles.icon(isHome).color} />
+          <HoliIcon icon={isHome ? HomeSmile2Filled : HomeSmile2} colorOverride={unistyles.icon(isHome).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isHome ? 'main' : 'default'} role="none">
             {t('navigation.home')}
@@ -74,7 +74,7 @@ const FooterTabBar = () => {
           testID="btn-to-act"
           contentStyle={styles.button}
         >
-          <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} color={unistyles.icon(isAct).color} />
+          <HoliIcon icon={isAct ? MegaphoneFilled : Megaphone} colorOverride={unistyles.icon(isAct).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isAct ? 'main' : 'default'} role="none">
             {t('navigation.act')}
@@ -89,7 +89,7 @@ const FooterTabBar = () => {
           testID="btn-to-spaces"
           contentStyle={styles.button}
         >
-          <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} color={unistyles.icon(isSpaces).color} />
+          <HoliIcon icon={isSpaces ? SpacesFilled : Spaces} colorOverride={unistyles.icon(isSpaces).color} />
           <HoliGap size="xs" />
           <TextLink size="xs" color={isSpaces ? 'main' : 'default'} role="none">
             {t('navigation.organize')}

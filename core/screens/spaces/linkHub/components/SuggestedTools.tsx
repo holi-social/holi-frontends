@@ -1,14 +1,15 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Linking, StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ChatPoll, Group, Plant, ShareBox } from '@holi/icons/src/generated'
 import HoliLocalImage from '@holi/ui/components/atoms/HoliLocalImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 type Tool = {
   id: string
@@ -63,7 +64,7 @@ const SuggestedTools: React.FC = () => {
       >
         <View style={styles.toolContainer}>
           <View style={styles.iconContainer}>
-            <HoliIcon icon={tool.icon} size={21} color={colors.brandColorB30} />
+            <HoliIcon icon={tool.icon} size={21} colorOverride={colors.brandColorB30} />
           </View>
           <View style={styles.infoContainer}>
             <HoliText style={styles.toolName}>{tool.name}</HoliText>
@@ -72,7 +73,7 @@ const SuggestedTools: React.FC = () => {
             </HoliText>
           </View>
           <View style={styles.shareButtonContainer}>
-            <HoliIcon icon={ShareBox} size={15} color={colors.foreground20} />
+            <HoliIcon icon={ShareBox} size={15} colorOverride={colors.foreground20} />
           </View>
         </View>
       </HoliButton>

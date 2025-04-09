@@ -5,14 +5,14 @@ import { StyleSheet, View } from 'react-native'
 
 import RoomItem from '@holi/chat/src/components/RoomList/RoomItem'
 import { type ChatRoomAtom, type ChatRoomId, isSpaceChildChatRoom } from '@holi/chat/src/store'
-import { User } from '@holi/core/domain/shared/types'
+import type { User } from '@holi/core/domain/shared/types'
 import { useBreakpointMatcher } from '@holi/core/helpers'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Delete } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliSwipeable from '@holi/ui/components/molecules/HoliSwipeable'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface Props {
   roomAtom: ChatRoomAtom
@@ -54,7 +54,7 @@ const RoomItemDeletable = ({ onDelete, ...props }: Props) => {
           primaryText: t('chat.actions.leave.confirmation.leave'),
           secondaryText: t('chat.actions.leave.confirmation.cancel'),
         }}
-        swipeLeftContent={<HoliIcon icon={Delete} color={colors.background10} />}
+        swipeLeftContent={<HoliIcon icon={Delete} colorOverride={colors.background10} />}
       >
         <View style={styles.backgroundWrapper}>
           <HoliBox padding={[0, paddingHorizontal ?? 0]}>

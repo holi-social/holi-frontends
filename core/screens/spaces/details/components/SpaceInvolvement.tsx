@@ -64,7 +64,7 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
         {isAdmin && (
           <HoliLink label={t('spaces.collaborate.onboarding.link')} href={`/spaces/${space.name}/onboarding`}>
             <View style={[styles.card, styles.onboarding]}>
-              <HoliIcon icon={OpenArm} size={24} color={colors.brandColorB30} style={styles.icon} />
+              <HoliIcon icon={OpenArm} size={24} colorOverride={colors.brandColorB30} style={styles.icon} />
               <HoliText>{t('spaces.collaborate.onboarding.link')}</HoliText>
               <HoliIcon icon={ArrowRightS} size={24} style={styles.end} />
             </View>

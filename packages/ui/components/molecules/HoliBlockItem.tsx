@@ -206,7 +206,7 @@ const getStylesSmall = createStyleSheet((theme) => ({
     padding: Spacing['3xs'],
     borderRadius: Spacing['3xs'],
     maxHeight: 36,
-    backgroundColor: theme.colors.bg.container,
+    backgroundColor: theme.colors.bg.support,
   },
 }))
 
@@ -216,7 +216,7 @@ const getStylesLarge = createStyleSheet((theme) => ({
     paddingBottom: Spacing.xs,
     borderRadius: LARGE_OUTER_BORDER_RADIUS,
     borderWidth: 1,
-    backgroundColor: theme.colors.bg.container,
+    backgroundColor: theme.colors.bg.support,
     borderColor: theme.colors.border.default,
     flex: 1,
   },
@@ -241,7 +241,7 @@ const getStylesLarge = createStyleSheet((theme) => ({
     padding: Spacing['4xs'],
     paddingRight: Spacing['3xs'],
     borderRadius: Spacing.md,
-    backgroundColor: theme.colors.bg.container,
+    backgroundColor: theme.colors.bg.support,
   },
   usersPileText: {},
   textContainer: {

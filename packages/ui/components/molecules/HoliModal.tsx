@@ -187,7 +187,7 @@ const HoliModal: React.FC<HoliModalProps> = ({
               testID={`btn-to-close-${testID}`}
             >
               {dismissBtnContent || (
-                <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} color={colors.foreground30} size={24} />
+                <HoliIcon icon={isTouchDevice ? ArrowDownS : Close} colorOverride={colors.foreground30} size={24} />
               )}
             </HoliButton>
           </View>

@@ -1,13 +1,11 @@
 import React from 'react'
 
-import { MapPin2Filled } from '@holi/icons/src/generated'
-import { ChipLabel } from 'holi-bricks/components/chips'
-import { useTranslation } from 'react-i18next'
 import type { HoliEvent } from '@holi-apps/events/types'
-import { CompactCard } from 'holi-bricks/components/card/CompactCard'
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
-import { useFormattedEventDates } from '@holi-apps/events/helpers/useFormattedEventDates'
 import { TrackingEvent } from '@holi/core/tracking'
+import { MapPin2Filled } from '@holi/icons/src/generated'
+import { CompactCard } from 'holi-bricks/components/compactCard'
+import { useTranslation } from 'react-i18next'
 
 export interface EventProps {
   event: HoliEvent
@@ -16,17 +14,8 @@ export interface EventProps {
 
 const EventCard = ({ event, maxCardWidth: cardWidth }: EventProps) => {
   const { t } = useTranslation()
-
-  const formattedDates = useFormattedEventDates(event.startDate, event.endDate)
-
   const location = event.isRemote ? 'Remote' : event.location ? event.location.city : ''
-
   const organisationName = `${t('act.events.createdBy')} ${event.organisationName}`
-  const ChipComponent = () => (
-    <ChipLabel color="mono" size="sm">
-      {event?.startDate && formattedDates}
-    </ChipLabel>
-  )
 
   return (
     <HoliLinkTracked
@@ -40,10 +29,12 @@ const EventCard = ({ event, maxCardWidth: cardWidth }: EventProps) => {
         subtitle={organisationName}
         topLabelIcon={MapPin2Filled}
         imageSrc={event.imageUrl}
-        startDate={event?.startDate}
-        {...(event.startDate && { chips: [ChipComponent] })}
+        date={event?.startDate}
         maxWidth={cardWidth}
-      />
+        minHeight={131}
+      >
+        {event.startDate ? <CompactCard.FooterDate startDate={event.startDate} endDate={event.endDate} /> : undefined}
+      </CompactCard>
     </HoliLinkTracked>
   )
 }

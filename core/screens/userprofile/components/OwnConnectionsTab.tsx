@@ -242,7 +242,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               onPress={() => handleNavigation(selectedConnection?.id || '')}
               testID={'connections-view-profile-btn'}
             >
-              <HoliIcon icon={User} color={styles.actionItemIcon.color} />
+              <HoliIcon icon={User} colorOverride={styles.actionItemIcon.color} />
               <HoliText style={styles.actionItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
             </HoliButton>
             {chatFeatureFlag.isOn && isChatInitialized && (
@@ -254,7 +254,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
                 onPress={handleChat}
                 testID={'connections-send-message-btn'}
               >
-                <HoliIcon icon={Chat3} color={styles.actionItemIcon.color} />
+                <HoliIcon icon={Chat3} colorOverride={styles.actionItemIcon.color} />
                 <HoliText style={styles.actionItemText}>{t('chat.room.sendButton.label')}</HoliText>
               </HoliButton>
             )}
@@ -266,7 +266,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               onPress={revokeConfirmationShow}
               testID={'connections-revoke-connection-btn'}
             >
-              <HoliIcon icon={UserUnfollow} color={styles.actionItemIcon.color} />
+              <HoliIcon icon={UserUnfollow} colorOverride={styles.actionItemIcon.color} />
               <HoliText style={styles.actionItemText}>
                 {t('user.profileView.connection.confirmation.title.CONNECTED')}
               </HoliText>
@@ -279,7 +279,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
               onPress={reportConfirmationShow}
               testID={'connections-report-user-btn'}
             >
-              <HoliIcon icon={Flag} color={styles.actionItemIcon.color} />
+              <HoliIcon icon={Flag} colorOverride={styles.actionItemIcon.color} />
               <HoliText style={styles.actionItemText}>{t('spaces.invite.connections.report')}</HoliText>
             </HoliButton>
           </View>

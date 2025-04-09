@@ -9,7 +9,7 @@ export const DetailsScreenSkeleton = () => {
     <>
       <CoverImageSkeleton />
       <Stack
-        backgroundColor="container"
+        backgroundColor="support"
         borderRadius={{ bottomLeft: 'lg', bottomRight: 'lg' }}
         padding={{ top: 'xl', bottom: 'lg', left: 'md', right: 'md' }}
       >

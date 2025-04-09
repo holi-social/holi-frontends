@@ -5,7 +5,7 @@ import { shortHost } from '@holi/core/helpers/url'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { LinkM } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
-import HoliText, { HoliTextColor } from '@holi/ui/components/atoms/HoliText'
+import HoliText, { type HoliTextColor } from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
 import { colors } from '@holi/ui/styles/globalVars'
 
@@ -28,7 +28,7 @@ const LinkInfo = ({ icon, link, size = 'md', color = 'black300' }: LinkInfoProps
         <HoliImage source={{ uri: icon }} label="" style={{ ...styles.favicon, ...dimension }} />
       ) : (
         <View style={[styles.favicon, dimension, styles.missingFavicon]}>
-          <HoliIcon icon={LinkM} size={missingIconSize} color={colors.brandB300} />
+          <HoliIcon icon={LinkM} size={missingIconSize} colorOverride={colors.brandB300} />
         </View>
       )}
       <HoliText numberOfLines={1} size={textSize} color={color} style={styles.linkText}>

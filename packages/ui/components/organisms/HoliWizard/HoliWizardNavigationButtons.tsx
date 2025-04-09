@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react'
+import type React from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ArrowLeft } from '@holi/icons/src/generated'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliButtonLoading from '@holi/ui/components/molecules/HoliButtonLoading'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface HoliWizardNavigationButtonsProps {
@@ -55,7 +56,7 @@ const HoliWizardNavigationButtons = ({
           testID={testID ? `${testID}-back-btn` : 'holi-wizard-back-btn'}
           style={styles.backButton}
         >
-          <HoliIcon icon={ArrowLeft} color={colors.foreground30} />
+          <HoliIcon icon={ArrowLeft} colorOverride={colors.foreground30} />
         </HoliButton>
       )}
 

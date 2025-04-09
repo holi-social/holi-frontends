@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react'
-import { GestureResponderEvent, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import type React from 'react'
+import { useMemo } from 'react'
+import { type GestureResponderEvent, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Information } from '@holi/icons/src/generated'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface SpaceSectionProps {
   title: string
@@ -38,7 +39,7 @@ const SpaceSection = ({
 
           {infoIcon && (
             <HoliButton label={'infoLabel'} transparent inline onPress={onPressInfo}>
-              <HoliIcon icon={Information} color={theme.colors.foreground10} />
+              <HoliIcon icon={Information} colorOverride={theme.colors.foreground10} />
             </HoliButton>
           )}
         </View>

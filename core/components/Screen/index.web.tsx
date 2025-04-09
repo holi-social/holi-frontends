@@ -10,7 +10,7 @@ import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
 export const Screen = (props: ScreenProps) => {
   const {
     keyboardAvoidingViewProps,
-    backgroundColor = 'page',
+    backgroundColor = 'main',
     StickyBottomComponent,
     StickyTopComponent,
     padding,

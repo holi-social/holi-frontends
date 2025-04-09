@@ -90,7 +90,7 @@ const QuoteDetailPage = () => {
         return (
           <HoliActionDrawer.Drawer
             label={t('global.moreOptions')}
-            buttonElement={<HoliIcon icon={MoreFilled} color={colors.black300} />}
+            buttonElement={<HoliIcon icon={MoreFilled} colorOverride={colors.black300} />}
           >
             <HoliActionDrawer.Action
               icon={Share}

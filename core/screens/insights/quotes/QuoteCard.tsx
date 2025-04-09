@@ -1,11 +1,12 @@
-import React, { memo, useMemo, useState } from 'react'
-import { Platform, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
+import type React from 'react'
+import { memo, useMemo, useState } from 'react'
+import { Platform, Pressable, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import InsightReactions, { ItemType } from '@holi/core/screens/insights/InsightReactions'
 import ExternalContentCategoryBadge from '@holi/core/screens/insights/components/ExternalContentCategoryBadge'
 import LinkInfo from '@holi/core/screens/insights/components/LinkInfo'
-import { Quote } from '@holi/core/screens/insights/types'
+import type { Quote } from '@holi/core/screens/insights/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { QuoteFilledOutlined } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
@@ -13,7 +14,7 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface QuoteCardProps {
   quote: Quote
@@ -41,7 +42,7 @@ const QuoteCard: React.FC<QuoteCardProps> = ({ quote, quoteColor, numberOfLines,
 
   return (
     <View style={[styles.quoteCard, style]} testID={'quote-card-quote'}>
-      <HoliIcon icon={QuoteFilledOutlined} color={quoteColor} testID={'quote-card-quote-icon'} size={26} />
+      <HoliIcon icon={QuoteFilledOutlined} colorOverride={quoteColor} testID={'quote-card-quote-icon'} size={26} />
       <HoliGap size="xs" />
       <HoliText numberOfLines={numberOfLines}>{quote.text}</HoliText>
       <HoliGap size="xs" />

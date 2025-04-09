@@ -57,7 +57,7 @@ const DeleteAccountButton: React.VoidFunctionComponent<DeleteAccountButtonProps>
         onPress={() => setShowConfirmationModal(true)}
         testID="btn-delete-account"
       >
-        <HoliIcon icon={Delete} color={colors.error30} />
+        <HoliIcon icon={Delete} colorOverride={colors.error30} />
         <HoliText style={[styles.text]}>{label}</HoliText>
       </HoliButton>
       <HoliConfirmation

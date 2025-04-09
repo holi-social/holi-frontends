@@ -1,25 +1,25 @@
-import React, { type ReactNode } from 'react'
-import { View } from 'react-native'
+import { CoverImage } from '@holi/core/components/CoverImage'
+import HoliHead from '@holi/core/components/HoliHead'
+import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import type { ImageSource as LegacyImageSource } from '@holi/ui/components/atoms/HoliImage/types'
+import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { ChipLabel } from 'holi-bricks/components/chips'
 import type { ChipColor } from 'holi-bricks/components/chips/ChipLabel'
-import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { Text, TextLink } from 'holi-bricks/components/text'
 import { Stack } from 'holi-bricks/components/stack'
+import { Text, TextLink } from 'holi-bricks/components/text'
+import React, { type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
-import HoliHead from '@holi/core/components/HoliHead'
-import { CoverImage } from '@holi/core/components/CoverImage'
-import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
+import { View } from 'react-native'
 
-import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
-import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
-import { Spacing } from 'holi-bricks/tokens'
 import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
+import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
+import { Avatar } from 'holi-bricks/components/avatar'
+import CalendarIcon from 'holi-bricks/components/CalendarIcon/CalendarIcon'
 import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
 import type { ImageSource } from 'holi-bricks/components/image'
-import { Avatar } from 'holi-bricks/components/avatar'
+import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
+import { Spacing } from 'holi-bricks/tokens'
 
 export type DetailsScreenInfoList = {
   title: string
@@ -118,10 +118,11 @@ export const DetailsScreen = ({
           <CoverImage coverImage={coverImage} />
           {date && (
             <View style={{ position: 'absolute', bottom: Spacing['sm'], left: Spacing['xs'] }}>
-              <HoliCalendarIcon
+              <CalendarIcon
                 day={new Date(date as Date)?.getDate()}
                 month={new Date(date as Date)?.getMonth() + 1}
-                size="medium"
+                size="md"
+                colored={false}
               />
             </View>
           )}
@@ -134,7 +135,7 @@ export const DetailsScreen = ({
             bottomLeft: 'md',
             bottomRight: 'md',
           }}
-          backgroundColor="container"
+          backgroundColor="support"
         >
           <Stack direction="row" shouldRender={!!visibility} gap="xxs" alignItems="center" padding={{ top: 'sm' }}>
             <HoliIcon size={14} icon={visibility == 'public' ? Global : Lock} />

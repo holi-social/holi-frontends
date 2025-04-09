@@ -70,7 +70,7 @@ export const Search = () => {
 
   return (
     <Screen
-      backgroundColor="page"
+      backgroundColor="main"
       preset="fixed"
       contentContainerStyle={{ flex: 1 }} // needed for FlashList initial size calculations
       style={{ maxHeight }}
@@ -109,6 +109,6 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingTop: Spacing.xs,
     gap: Spacing.xs,
     flex: 1,
-    backgroundColor: theme.colors.bg.page,
+    backgroundColor: theme.colors.bg.main,
   },
 }))

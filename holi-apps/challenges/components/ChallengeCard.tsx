@@ -55,7 +55,7 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
               {challenge.participants}
             </Text>
 
-            <HoliIcon icon={Video} size={16} color={theme.colors.gray300} style={styles.participantsIcon} />
+            <HoliIcon icon={Video} size={16} colorOverride={theme.colors.gray300} style={styles.participantsIcon} />
           </View>
         </View>
 

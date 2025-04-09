@@ -48,7 +48,7 @@ const Content = ({
               task.location ? MapPin2Filled : task.locationType === LocationType.HYBRID ? RefreshFilled : GlobalFilled
             }
             size={12}
-            color={colors.foreground20}
+            colorOverride={colors.foreground20}
             style={styles.iconGroupIcon}
           />
           <HoliText color="gray300" style={styles.iconGroupText} size="extrasmall">
@@ -56,7 +56,7 @@ const Content = ({
           </HoliText>
         </View>
         <View style={styles.iconGroupContainer}>
-          <HoliIcon icon={TimeFilled} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+          <HoliIcon icon={TimeFilled} size={12} colorOverride={colors.foreground20} style={styles.iconGroupIcon} />
           <HoliText color="gray300" style={styles.iconGroupText} size="extrasmall">
             {t(`spaces.input.task.regularity.${task.regularity}.title`)}
           </HoliText>
@@ -121,7 +121,7 @@ const Content = ({
           </HoliText>
 
           <View style={styles.contactContainer}>
-            <HoliIcon icon={AtFilled} color={colors.foreground20} />
+            <HoliIcon icon={AtFilled} colorOverride={colors.foreground20} />
             <HoliButton
               inline
               transparent
@@ -134,7 +134,7 @@ const Content = ({
 
           {!!task.contactPhone && (
             <View style={styles.contactContainer}>
-              <HoliIcon icon={PhoneFilled} color={colors.foreground20} />
+              <HoliIcon icon={PhoneFilled} colorOverride={colors.foreground20} />
               <HoliButton
                 inline
                 transparent

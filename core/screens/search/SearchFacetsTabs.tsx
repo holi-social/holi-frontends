@@ -43,6 +43,6 @@ export const SearchFacetsTabs = ({ currentFacet, onFacetChange }: SearchFacetsTa
 
 const stylesheet = createStyleSheet((theme) => ({
   tabs: {
-    backgroundColor: theme.colors.bg.page,
+    backgroundColor: theme.colors.bg.main,
   },
 }))

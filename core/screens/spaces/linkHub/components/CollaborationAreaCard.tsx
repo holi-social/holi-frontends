@@ -1,11 +1,12 @@
-import React, { ReactNode, useMemo } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import type React from 'react'
+import { type ReactNode, useMemo } from 'react'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 interface CollaboratorAreaCardProps {
   headerLeftIcon?: HoliIconType
@@ -53,7 +54,7 @@ const CollaboratorAreaCard: React.FC<CollaboratorAreaCardProps> = ({
               <HoliIcon
                 icon={headerLeftIcon}
                 size={24}
-                color={!disabled ? colors.brandColorB30 : colors.foreground20}
+                colorOverride={!disabled ? colors.brandColorB30 : colors.foreground20}
                 style={{ marginRight: 8 }}
               />
             )}
@@ -69,7 +70,7 @@ const CollaboratorAreaCard: React.FC<CollaboratorAreaCardProps> = ({
               onPress={onPressHeaderRight}
               testID={`btn-right-${testID}`}
             >
-              {headerRightIcon && <HoliIcon icon={headerRightIcon} size={24} color={colors.foreground30} />}
+              {headerRightIcon && <HoliIcon icon={headerRightIcon} size={24} colorOverride={colors.foreground30} />}
             </HoliButton>
           </View>
         )}

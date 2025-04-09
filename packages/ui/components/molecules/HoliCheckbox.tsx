@@ -124,7 +124,9 @@ const HoliCheckbox = ({
               { transform: [{ scale: scaleFactor }] },
             ]}
           >
-            {checked && <HoliIcon icon={checked === 'mixed' ? Subtract : Check} size={20} color={checkMarkColor} />}
+            {checked && (
+              <HoliIcon icon={checked === 'mixed' ? Subtract : Check} size={20} colorOverride={checkMarkColor} />
+            )}
           </Animated.View>
 
           {!children && !!label && (

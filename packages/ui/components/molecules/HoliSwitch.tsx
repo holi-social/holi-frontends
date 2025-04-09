@@ -87,9 +87,9 @@ const HoliSwitch: React.FC<HoliSwitchProps> = ({
           ]}
         >
           {value ? (
-            <HoliIcon icon={Check} color={colors.brandB300} size={circleSize} />
+            <HoliIcon icon={Check} colorOverride={colors.brandB300} size={circleSize} />
           ) : (
-            <HoliIcon icon={Close} color={colors.gray300} size={circleSize} />
+            <HoliIcon icon={Close} colorOverride={colors.gray300} size={circleSize} />
           )}
         </Animated.View>
       </Animated.View>

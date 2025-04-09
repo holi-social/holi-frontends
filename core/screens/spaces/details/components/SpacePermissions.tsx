@@ -186,7 +186,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                   label={t('spaces.collaborators.pending.requests.accept.detailed')}
                   onPress={() => handleJoinRequest(true)}
                 >
-                  <HoliIcon icon={Check} color={styles.acceptRequestIcon.color} />
+                  <HoliIcon icon={Check} colorOverride={styles.acceptRequestIcon.color} />
                   <HoliText style={styles.actionsItemText}>
                     {t('spaces.collaborators.pending.requests.accept.detailed')}{' '}
                   </HoliText>
@@ -202,7 +202,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                   label={t('spaces.collaborators.pending.requests.decline.detailed')}
                   onPress={() => handleJoinRequest(false)}
                 >
-                  <HoliIcon icon={Close} color={styles.declineIcon.color} />
+                  <HoliIcon icon={Close} colorOverride={styles.declineIcon.color} />
                   <HoliText style={styles.actionsItemText}>
                     {t('spaces.collaborators.pending.requests.decline.detailed')}{' '}
                   </HoliText>
@@ -218,7 +218,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                   label={t('spaces.collaborators.pending.invites.withdraw')}
                   onPress={() => handleWithdrawInvite()}
                 >
-                  <HoliIcon icon={Close} color={styles.declineIcon.color} />
+                  <HoliIcon icon={Close} colorOverride={styles.declineIcon.color} />
                   <HoliText style={styles.actionsItemText}>
                     {t('spaces.collaborators.pending.invites.withdraw')}{' '}
                   </HoliText>
@@ -235,7 +235,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                   onPress={() => setshowRevokeAdminConfirmationModal(true)}
                   testID={'spaces-collaborators-revoke-admin-btn'}
                 >
-                  <HoliIcon icon={ShieldMinus} color={styles.actionsItemIcon.color} />
+                  <HoliIcon icon={ShieldMinus} colorOverride={styles.actionsItemIcon.color} />
                   <HoliText style={styles.actionsItemText}>
                     {t('spaces.collaborators.permissions.revokeAdmin.label')}{' '}
                   </HoliText>
@@ -252,7 +252,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                   onPress={() => setShowGrantAdminConfirmationModal(true)}
                   testID={'spaces-collaborators-grant-admin-btn'}
                 >
-                  <HoliIcon icon={ShieldPlus} color={styles.actionsItemIcon.color} />
+                  <HoliIcon icon={ShieldPlus} colorOverride={styles.actionsItemIcon.color} />
                   <HoliText style={styles.actionsItemText}>
                     {t('spaces.collaborators.permissions.grantAdmin.label')}
                   </HoliText>
@@ -268,7 +268,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                 onPress={() => handleNavigation(userId)}
                 testID={'spaces-collaborators-view-profile-btn'}
               >
-                <HoliIcon icon={UserIcon} color={styles.actionsItemIcon.color} />
+                <HoliIcon icon={UserIcon} colorOverride={styles.actionsItemIcon.color} />
                 <HoliText style={styles.actionsItemText}>{t('spaces.collaborators.permissions.viewProfile')}</HoliText>
               </HoliButton>
 
@@ -282,7 +282,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                   onPress={() => setShowRemoveMemberConfirmationModal(true)}
                   testID={'spaces-collaborators-remove-user-btn'}
                 >
-                  <HoliIcon icon={UserUnfollow} color={styles.actionsItemIcon.color} />
+                  <HoliIcon icon={UserUnfollow} colorOverride={styles.actionsItemIcon.color} />
                   <HoliText style={styles.actionsItemText}>
                     {t('spaces.collaborators.permissions.remove.user.label')}
                   </HoliText>
@@ -297,7 +297,7 @@ const SpacePermissions: React.FC<SpacePermissionsProps> = ({
                 onPress={() => setShowReportMemberConfirmationModal(true)}
                 testID="report-user-button"
               >
-                <HoliIcon icon={Flag} color={styles.actionsItemIcon.color} />
+                <HoliIcon icon={Flag} colorOverride={styles.actionsItemIcon.color} />
                 <HoliText style={styles.actionsItemText}>{t('global.report')}</HoliText>
               </HoliButton>
             </View>

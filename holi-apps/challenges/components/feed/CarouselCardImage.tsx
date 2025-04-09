@@ -34,7 +34,7 @@ export const CarouselCardImage = ({ challenge, width, trackingEvent }: CarouselC
 
           {/* Light overlay with lock icon */}
           <View style={styles.lightOverlay}>
-            <HoliIcon icon={Lock} size={32} color={mono['100']} />
+            <HoliIcon icon={Lock} size={32} colorOverride={mono['100']} />
           </View>
         </>
       )
@@ -47,7 +47,7 @@ export const CarouselCardImage = ({ challenge, width, trackingEvent }: CarouselC
           <Text size="sm" colorOverride={mono['100']}>
             {challenge.submissionsCount}
           </Text>
-          <HoliIcon icon={VideoFilled} size={12} color={mono['100']} style={styles.participantsIcon} />
+          <HoliIcon icon={VideoFilled} size={12} colorOverride={mono['100']} style={styles.participantsIcon} />
         </View>
       </>
     )

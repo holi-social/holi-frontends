@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode } from 'react'
+import type { PropsWithChildren, ReactNode } from 'react'
 import type React from 'react'
 import { createContext, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -64,7 +64,7 @@ export const Drawer = ({
       ) : (
         <HoliButton transparent inline label={label} onPress={showModal} testID={testID} {...buttonProps}>
           {buttonElement || (
-            <HoliIcon icon={More} color={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
+            <HoliIcon icon={More} colorOverride={variant === 'dark' ? colors.foreground30 : colors.foreground20} />
           )}
         </HoliButton>
       )}

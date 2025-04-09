@@ -3,6 +3,7 @@ import { memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 
+import type { Appointment } from '@holi/api/graphql/graphql-codegen'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import { SuppressSsrHydrationWarning } from '@holi/core/components/SuppressSsrHydrationWarning'
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
@@ -15,10 +16,9 @@ import { GlobeFilled, LockFilled, MapPin2, More, Time, VideoChat } from '@holi/i
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import HoliCalendarIcon from '@holi/ui/components/molecules/HoliCalendarIcon'
 import { localizeDate } from '@holi/ui/helper/date'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import type { Appointment } from '@holi/api/graphql/graphql-codegen'
+import CalendarIcon from 'holi-bricks/components/CalendarIcon/CalendarIcon'
 
 type AppointmentCardProps = {
   appointment: Appointment
@@ -104,7 +104,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         <View style={styles.header}>
           <AppointmentDrawer appointment={appointment} isAdmin={isAdmin} space={space}>
             <View style={appointment.thumbnail && !imageError ? styles.optionsWithImage : null}>
-              <HoliIcon icon={More} color={colors.foreground30} />
+              <HoliIcon icon={More} colorOverride={colors.foreground30} />
             </View>
           </AppointmentDrawer>
 
@@ -112,7 +112,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
             <View style={[styles.inviteOnly, appointment.thumbnail && !imageError ? styles.tagWithImage : {}]}>
               <HoliIcon
                 icon={appointment.inviteOnly ? LockFilled : GlobeFilled}
-                color={colors.foreground30}
+                colorOverride={colors.foreground30}
                 size={14}
                 style={styles.iconGroupIcon}
               />
@@ -142,10 +142,10 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           style={[styles.clickOverlay, styles.flex1]}
           contentStyle={styles.titleButton}
         >
-          <HoliCalendarIcon
+          <CalendarIcon
             day={new Date(appointment.startDateTime).getDate()}
             month={new Date(appointment.startDateTime).getMonth() + 1}
-            size="small"
+            size="sm"
             disabled={pastAppointments}
           />
           <HoliText ellipsizeMode="tail" bold numberOfLines={2} style={styles.flex1}>
@@ -161,7 +161,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
       >
         <View style={styles.iconsContainer}>
           <View style={styles.iconGroupContainer}>
-            <HoliIcon icon={Time} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+            <HoliIcon icon={Time} size={12} colorOverride={colors.foreground20} style={styles.iconGroupIcon} />
             <HoliText style={styles.iconGroupText} size="extrasmall">
               <SuppressSsrHydrationWarning>
                 {date} ∙ {startTime} {t('global.until')} {endDate !== date ? `${endDate} ∙ ` : ''}
@@ -174,7 +174,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         {!loginState.isLoggedIn && isHybrid && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
-              <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliIcon icon={MapPin2} size={12} colorOverride={colors.foreground20} style={styles.iconGroupIcon} />
               <HoliText style={styles.iconGroupText} size="extrasmall">
                 {t('appointment.card.hybrid.title')}
               </HoliText>
@@ -194,7 +194,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         {!loginState.isLoggedIn && !isHybrid && appointment.hasVideoCallLink && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
-              <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliIcon icon={VideoChat} size={12} colorOverride={colors.foreground20} style={styles.iconGroupIcon} />
               <HoliText style={styles.iconGroupText} size="extrasmall">
                 {t('appointment.card.virtual.title')}
               </HoliText>
@@ -204,7 +204,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         {loginState.isLoggedIn && appointment.locationDetails && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
-              <HoliIcon icon={MapPin2} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliIcon icon={MapPin2} size={12} colorOverride={colors.foreground20} style={styles.iconGroupIcon} />
               <HoliText style={styles.iconGroupText} size="extrasmall">
                 {appointment.locationDetails.completeAddress}
               </HoliText>
@@ -214,7 +214,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         {loginState.isLoggedIn && appointment.videoCallLink?.url && (
           <View style={styles.iconsContainer}>
             <View style={styles.iconGroupContainer}>
-              <HoliIcon icon={VideoChat} size={12} color={colors.foreground20} style={styles.iconGroupIcon} />
+              <HoliIcon icon={VideoChat} size={12} colorOverride={colors.foreground20} style={styles.iconGroupIcon} />
               <HoliText style={styles.iconGroupText} size="extrasmall">
                 {appointment.videoCallLink?.url}
               </HoliText>

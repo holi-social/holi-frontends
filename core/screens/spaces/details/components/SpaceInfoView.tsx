@@ -88,7 +88,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
             {!!space.contactDescription && <HoliText>{space.contactDescription}</HoliText>}
             {!!space.contactEmail && (
               <View style={styles.contactContainer}>
-                <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
+                <HoliIcon icon={At} colorOverride={colors.foreground20} style={styles.contactIcon} />
                 <HoliText size="small" bold>
                   {space.contactEmail}
                 </HoliText>
@@ -96,7 +96,7 @@ const SpaceInfoView: React.FC<SpaceInfoViewProps> = ({ space, style }: SpaceInfo
             )}
             {!!space.contactPhone && (
               <View style={styles.contactContainer}>
-                <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
+                <HoliIcon icon={Phone} colorOverride={colors.foreground20} style={styles.contactIcon} />
                 <HoliText size="small" bold>
                   {space.contactPhone}
                 </HoliText>

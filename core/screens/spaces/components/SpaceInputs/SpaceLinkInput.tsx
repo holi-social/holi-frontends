@@ -54,7 +54,7 @@ const SpaceLinkInput: React.FC<SpaceLinkInputProps> = ({ link, onEdit, onDelete 
     <View style={styles.container}>
       <View style={styles.upper}>
         <View style={styles.header}>
-          <HoliIcon icon={IconBySpaceLinkType[type]} color={colors.foreground20} />
+          <HoliIcon icon={IconBySpaceLinkType[type]} colorOverride={colors.foreground20} />
           <HoliText size="small" bold style={styles.text}>
             {name}
           </HoliText>

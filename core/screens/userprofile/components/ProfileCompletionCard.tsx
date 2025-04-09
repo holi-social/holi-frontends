@@ -140,7 +140,7 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, on
       </View>
       {!isCompleted && (
         <View style={styles.headerRightButton}>
-          <HoliIcon icon={isExpanded ? ArrowUpS : ArrowDownS} size={24} color={colors.foreground30} />
+          <HoliIcon icon={isExpanded ? ArrowUpS : ArrowDownS} size={24} colorOverride={colors.foreground30} />
         </View>
       )}
     </Pressable>
@@ -150,7 +150,11 @@ const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ style, on
     <View style={styles.selectionContainer}>
       {(isExpanded ? selections : selections.slice(0, 2)).map((selection, index) => (
         <View style={styles.selection} key={index}>
-          <HoliIcon icon={selection.icon} size={24} color={selection.select ? colors.gray200 : colors.black300} />
+          <HoliIcon
+            icon={selection.icon}
+            size={24}
+            colorOverride={selection.select ? colors.gray200 : colors.black300}
+          />
           <HoliText color={selection.select ? 'gray200' : 'black300'}>{selection.label}</HoliText>
         </View>
       ))}
