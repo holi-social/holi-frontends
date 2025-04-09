@@ -37,8 +37,6 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
-import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 
 const surveyUrl = 'https://tally.so/r/nrdGxX'
 
@@ -112,7 +110,6 @@ const HomeFeed = () => {
   const { navigate } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
-  const displayChallengesCarousel = useFeatureFlag(FeatureFlagKey.CHALLENGES_CAROUSEL)
 
   const { isLoading, canLoadMore, combinedFeedData, fetchMore, initialLoading, insightsCreators } = useFeedQuery()
   const [lastViewedIndex, setLastViewedIndex] = useState(0)
@@ -220,7 +217,6 @@ const HomeFeed = () => {
           <HoliContainer>
             <HoliTransition.FadeDown visible>
               <HomeFeedHeader />
-              {displayChallengesCarousel[0] && <ChallengesCarousel />}
             </HoliTransition.FadeDown>
 
             <ErrorBoundary>

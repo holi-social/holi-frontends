@@ -35,15 +35,7 @@ import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import { useScrollToTop } from '@react-navigation/native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
-import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
-import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
 const surveyUrl = 'https://tally.so/r/nrdGxX'
-
-const MemoizedChallengesCarousel = memo(({ refreshing }: { refreshing: boolean }) => {
-  return <ChallengesCarousel refreshing={refreshing} />
-})
-
-MemoizedChallengesCarousel.displayName = 'MemoizedChallengesCarousel'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -56,7 +48,6 @@ const HomeFeed = () => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
-  const displayChallengesCarousel = useFeatureFlag(FeatureFlagKey.CHALLENGES_CAROUSEL)
 
   const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing, insightsCreators } =
     useFeedQuery()
@@ -132,12 +123,11 @@ const HomeFeed = () => {
     () => (
       <HoliTransition.FadeDown visible>
         <View style={styles.listHeader}>
-          <HomeFeedHeader />
-          {displayChallengesCarousel[0] && <MemoizedChallengesCarousel refreshing={refreshing} />}
+          <HomeFeedHeader refreshing={refreshing} />
         </View>
       </HoliTransition.FadeDown>
     ),
-    [displayChallengesCarousel, refreshing]
+    [refreshing]
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<FeedItem> = (item) => {
