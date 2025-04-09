@@ -1,10 +1,10 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 
 import { HoliLinkTracked } from '@holi/core/components/Trackable'
 import type { TrackingEvent } from '@holi/core/tracking'
-import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import { colors, dimensions } from '@holi/ui/styles/globalVars'
+import { Image } from 'holi-bricks/components/image'
 
 import type { Submission } from '@holi-apps/challenges/components/types'
 import { createInAppChallengesPath } from '@holi-apps/challenges/helpers/navigation'
@@ -22,6 +22,7 @@ interface SubmissionCardProps {
 export const SubmissionCard = ({ challengeTitle, submission, width, trackingEvent }: SubmissionCardProps) => {
   const label = `${challengeTitle} | ${submission.submitter.username}`
   const initials = submission.submitter.username.slice(0, 2)
+  const imageHeight = Platform.OS === 'web' ? 248 : IMAGE_HEIGHT
 
   return (
     <View style={styles.container}>
@@ -30,11 +31,10 @@ export const SubmissionCard = ({ challengeTitle, submission, width, trackingEven
         href={createInAppChallengesPath(submission.playerPath)}
         trackingEvent={trackingEvent}
       >
-        <HoliImage
-          source={{ uri: submission.imageUrl, width, height: IMAGE_HEIGHT }}
-          label={label}
-          style={styles.image}
-        />
+        <View style={styles.imageContainer}>
+          <Image source={submission.imageUrl} alt={label} width={width} height={imageHeight} />
+        </View>
+
         <View style={styles.avatar}>
           <Avatar
             size="xs"
@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flex: 1,
   },
-  image: {
-    minHeight: IMAGE_HEIGHT,
+  imageContainer: {
     borderRadius: 8,
+    overflow: 'hidden',
   },
   avatar: {
     position: 'absolute',
