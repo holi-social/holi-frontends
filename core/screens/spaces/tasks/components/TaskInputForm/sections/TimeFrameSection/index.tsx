@@ -48,7 +48,7 @@ const TimeFrameSection = ({
         </Stack>
 
         <Stack margin={{ top: 'xl' }}>
-          <HoliIcon icon={ArrowRight} size={Spacing.md} color={colors.foreground30} />
+          <HoliIcon icon={ArrowRight} size={Spacing.md} colorOverride={colors.foreground30} />
         </Stack>
 
         <Stack flex={1}>
