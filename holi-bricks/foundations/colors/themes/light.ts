@@ -2,22 +2,24 @@ import { lightAvatarTheme } from 'holi-bricks/components/avatar/avatar.theme'
 import { lightButtonTheme } from 'holi-bricks/components/button/button.theme'
 import { lightChipTheme } from 'holi-bricks/components/chips/chip.theme'
 import { lightSelectorTheme } from 'holi-bricks/components/selectors/selector.theme'
-import { blue, green, mono, orange, purple, red, yellow } from 'holi-bricks/tokens'
+import { blue, green, mono, orange, purple, red, transparent, yellow } from 'holi-bricks/tokens'
 
 export const lightTheme = {
   colors: {
     focus: `${mono[200]} 0px 0px 0px 1.5px, ${blue[400]} 0px 0px 0px 3px`,
     bg: {
-      container: mono[100],
-      page: mono[200],
+      support: mono[100],
+      main: mono[200],
       selected: mono[800],
-      disabled: mono[400],
+      muted: mono[300],
+      overlay: transparent.mono800.at12,
     },
     fill: {
       main: mono[800],
       support: mono[600],
       default: mono[500],
-      disabled: mono[400],
+      muted: mono[400],
+      selected: mono[100],
       informative: purple[600],
       positive: green[700],
       warning: orange[600],
@@ -27,7 +29,7 @@ export const lightTheme = {
       main: mono[800],
       support: mono[400],
       default: mono[300],
-      quaternary: mono[200],
+      muted: mono[100],
     },
     decorative: {
       black: mono[800],

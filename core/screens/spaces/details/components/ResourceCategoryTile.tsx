@@ -52,7 +52,11 @@ const ResourceCategoryTile: React.FC<ResourceCategoryTileProps> = ({
     >
       <View style={styles.categoryTile}>
         {!!rc.icon && (
-          <HoliIcon icon={rc.icon} size={30} color={!rc.inMaintenance ? colors.foreground30 : colors.foreground10} />
+          <HoliIcon
+            icon={rc.icon}
+            size={30}
+            colorOverride={!rc.inMaintenance ? colors.foreground30 : colors.foreground10}
+          />
         )}
 
         {rc.inMaintenance && (

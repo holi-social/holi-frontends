@@ -74,6 +74,19 @@ export const red = {
   '800': '#8f0007',
 } as const
 
+export const transparent = {
+  mono800: {
+    at12: 'rgba(38, 36, 36, 0.12)',
+    at32: 'rgba(38, 36, 36, 0.32)',
+    at48: 'rgba(38, 36, 36, 0.48)',
+  },
+  mono100: {
+    at8: 'rgba(245, 245, 245, 0.08)',
+    at32: 'rgba(245, 245, 245, 0.32)',
+    at48: 'rgba(245, 245, 245, 0.48)',
+  },
+}
+
 export enum Colors {
   mono = 'mono',
   yellow = 'yellow',
@@ -85,7 +98,7 @@ export enum Colors {
 }
 
 export type Color = keyof typeof Colors
-export type ColorExtended = Color | 'black' | 'white'
+export type ColorExtended = Color | 'black' | 'white' | 'transparent'
 
 type Palettes = Record<Color, ColorPalette>
 

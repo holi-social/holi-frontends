@@ -1,13 +1,14 @@
-import React, { useCallback, useMemo } from 'react'
+import type React from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Add, Pencil } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
-import { PropsWithSkeleton } from '@holi/ui/components/types'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import type { PropsWithSkeleton } from '@holi/ui/components/types'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export type PostSetting = 'visibility' | 'topic' | 'category'
 
@@ -82,7 +83,7 @@ const FeedPostPill: React.FC<PropsWithSkeleton<Props>> = ({
       <HoliText bold numberOfLines={1}>
         {label || t(placeholderSettingPresentationByPostSetting[setting].label)}
       </HoliText>
-      <HoliIcon icon={icon} size={16} color={theme.colors.foreground30} />
+      <HoliIcon icon={icon} size={16} colorOverride={theme.colors.foreground30} />
     </HoliButton>
   )
 }

@@ -51,7 +51,7 @@ const LoginProfileButton = ({
           border="light"
         />
       ) : (
-        <HoliIcon icon={focused ? AccountCircleFilled : AccountCircle} color={unistyles.icon(focused).color} />
+        <HoliIcon icon={focused ? AccountCircleFilled : AccountCircle} colorOverride={unistyles.icon(focused).color} />
       )}
 
       {children}

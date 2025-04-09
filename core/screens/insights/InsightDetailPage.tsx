@@ -108,7 +108,7 @@ const InsightDetailPage = () => {
         return (
           insight && (
             <InsightDrawer insight={insight}>
-              <HoliIcon icon={MoreFilled} color={tintColor} />
+              <HoliIcon icon={MoreFilled} colorOverride={tintColor} />
             </InsightDrawer>
           )
         )

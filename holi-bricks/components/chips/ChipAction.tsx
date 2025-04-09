@@ -55,13 +55,13 @@ export const ChipAction = ({
       style={({ hovered, focused }) => [styles.chip(!!hovered, !disabled && !!focused, color)]}
       testID={testID}
     >
-      {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} color={styles.text.color} />}
+      {iconLeading && <HoliIcon icon={iconLeading} size={iconSize} colorOverride={styles.text.color} />}
       {children && (
         <Text size={chipSizeToTextSize[size]} colorOverride={styles.text.color} selectable={false}>
           {children}
         </Text>
       )}
-      {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} color={styles.text.color} />}
+      {iconTrailing && <HoliIcon icon={iconTrailing} size={iconSize} colorOverride={styles.text.color} />}
     </Pressable>
   )
 }

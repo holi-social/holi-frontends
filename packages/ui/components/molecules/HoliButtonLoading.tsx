@@ -1,13 +1,14 @@
-import React, { useMemo, useState } from 'react'
-import { GestureResponderEvent, StyleSheet, View } from 'react-native'
+import type React from 'react'
+import { useMemo, useState } from 'react'
+import { type GestureResponderEvent, StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { SpinningIconContainer } from '@holi/icons/src/SpinningIconContainer'
 import { Loader } from '@holi/icons/src/generated'
 import HoliText, { type HoliTextColor } from '@holi/ui/components/atoms/HoliText'
-import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import HoliButton, { type HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export interface HoliButtonLoadingProps extends HoliButtonProps {
@@ -62,7 +63,7 @@ const HoliButtonLoading = ({
       {iconToShow && (
         <View style={styles.icon} testID={testID + (isSpinning ? '-processing' : '-idle')}>
           <SpinningIconContainer spinning={isSpinning}>
-            <HoliIcon icon={iconToShow} size={16} color={mixins[color]?.color} />
+            <HoliIcon icon={iconToShow} size={16} colorOverride={mixins[color]?.color} />
           </SpinningIconContainer>
         </View>
       )}

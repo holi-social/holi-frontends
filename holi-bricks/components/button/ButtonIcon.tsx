@@ -87,7 +87,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
               <HoliIcon
                 icon={Loader}
                 size={size === 'lg' ? 24 : size === 'md' ? 20 : 16}
-                color={styles.text(disabled, selected, iconVariant).color}
+                colorOverride={styles.text(disabled, selected, iconVariant).color}
               />
             </SpinningIconContainer>
           </View>
@@ -95,7 +95,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
           <HoliIcon
             icon={icon}
             size={size === 'lg' ? 24 : size === 'md' ? 20 : 16}
-            color={styles.text(disabled, selected, iconVariant).color}
+            colorOverride={styles.text(disabled, selected, iconVariant).color}
           />
         )}
       </View>

@@ -82,7 +82,7 @@ const ChallengesSlider: React.FC<ChallengesSliderProps> = ({
       <View style={styles.container} testID={testID || 'challenges-slider'}>
         <Pressable style={styles.header} testID="challenges-slider-heading" onPress={handleHeaderTitlePress}>
           <View style={styles.headerTitle}>
-            <HoliIcon icon={Challenges} size={20} color={colors.black300} />
+            <HoliIcon icon={Challenges} size={20} colorOverride={colors.black300} />
             <View style={{ gap: 2 }}>
               <Text size="xl" headingLevel="3">
                 {heading}

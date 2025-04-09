@@ -21,6 +21,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.holi.social',
       },
+      {
+        protocol: 'https',
+        hostname: 'gemeinschaftswerk-nachhaltigkeit.de',
+      },
     ],
   },
   reactStrictMode: false,

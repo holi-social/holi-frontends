@@ -21,8 +21,8 @@ declare global {
     'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both'
   }
 
-  type BgColors = 'container' | 'page' | 'selected' | 'disabled'
-  type BorderColors = 'main' | 'support' | 'default' | 'quaternary'
+  type BgColors = 'main' | 'support' | 'muted' | 'selected' | 'overlay'
+  type BorderColors = 'main' | 'support' | 'default' | 'muted'
 }
 
 type Themes = {

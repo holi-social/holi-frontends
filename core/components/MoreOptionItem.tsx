@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowRightS, ShareBox } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import HoliButton, { HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
+import HoliButton, { type HoliButtonProps } from '@holi/ui/components/molecules/HoliButton'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { useTheme } from '@holi/ui/styles/theme'
 
@@ -42,7 +42,7 @@ const MoreOptionItem = ({
         disabled={disabled}
         {...buttonProps}
       >
-        {!!icon && <HoliIcon icon={icon} color={color} style={styles.icon} />}
+        {!!icon && <HoliIcon icon={icon} colorOverride={color} style={styles.icon} />}
 
         <HoliText bold={bold} style={{ color }}>
           {label}
@@ -50,12 +50,12 @@ const MoreOptionItem = ({
 
         {iconRightStyle === 'arrow' && (
           <View style={styles.iconRight}>
-            <HoliIcon icon={ArrowRightS} color={color} />
+            <HoliIcon icon={ArrowRightS} colorOverride={color} />
           </View>
         )}
         {iconRightStyle === 'outlink' && (
           <View style={styles.iconRight}>
-            <HoliIcon icon={ShareBox} color={color} />
+            <HoliIcon icon={ShareBox} colorOverride={color} />
           </View>
         )}
       </HoliButton>

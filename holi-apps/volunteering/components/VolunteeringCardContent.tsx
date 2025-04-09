@@ -67,7 +67,7 @@ const VolunteeringCardContent: React.FC<VolunteeringCardContentProps> = ({ engag
       <HoliGap size={'xxs'} />
       {!!engagement.location && (
         <View style={styles.locationContainer}>
-          <HoliIcon icon={Globe} size={14} color={colors.foreground20} style={styles.locationIcon} />
+          <HoliIcon icon={Globe} size={14} colorOverride={colors.foreground20} style={styles.locationIcon} />
           <HoliText size={'small'} style={styles.locationText}>
             {engagement.location}, {country}
           </HoliText>

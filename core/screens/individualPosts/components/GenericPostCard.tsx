@@ -89,7 +89,7 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
           <View style={styles.badgeContainer}>
             <HoliIcon
               icon={feedPost.visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
-              color={colors.foreground30}
+              colorOverride={colors.foreground30}
               size={14}
             />
             <HoliText>
@@ -222,7 +222,11 @@ const GenericPostCard = ({ post, showVisibilityBadge }: GenericPostCardProps) =>
       <View style={styles.container}>
         {showVisibilityBadge && (
           <View style={styles.badgeContainer}>
-            <HoliIcon icon={spacePost.isPublic ? GlobalFilled : HoliLogoFilled} color={colors.foreground30} size={14} />
+            <HoliIcon
+              icon={spacePost.isPublic ? GlobalFilled : HoliLogoFilled}
+              colorOverride={colors.foreground30}
+              size={14}
+            />
             <HoliText>
               {spacePost.isPublic
                 ? t('individuals.post.card.badge.public')

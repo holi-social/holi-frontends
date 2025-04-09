@@ -1,12 +1,9 @@
 import type { ImageProps } from 'holi-bricks/components/image'
+import { setScalingParams } from 'holi-bricks/components/image/helpers'
+import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
+import NextImage from 'next/image'
 import type React from 'react'
 import { useState } from 'react'
-import NextImage from 'next/image'
-import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
-import { setScalingParams } from 'holi-bricks/components/image/helpers'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
-import { View } from 'react-native'
 
 export const isRemoteSource = (source: string): source is string => {
   return /^(https?:)?\/\//i.test(source)
@@ -22,46 +19,42 @@ export const Image: React.FC<ImageProps> = ({
   onLoadEnd,
   fallbackSource,
   blurhash,
-  whiteOverlay: overlay,
+  stretch,
   ...otherProps
 }) => {
   const [hasError, setHasError] = useState(false)
   const isRemote = isRemoteSource(source as string)
-  const transformedSource = (isRemote ? setScalingParams(source as string, width, height) : source) as string
-  const { styles } = useStyles(stylesheet)
+  const transformedSource = (
+    isRemote && typeof width === 'number' && typeof height === 'number'
+      ? setScalingParams(source as string, width, height)
+      : source
+  ) as string
 
   return (
-    <>
-      <NextImage
-        src={hasError && fallbackSource ? (fallbackSource as string) : transformedSource}
-        alt={alt}
-        role="img"
-        aria-label={alt}
-        blurDataURL={isRemote ? blurhash : undefined}
-        width={width}
-        height={height}
-        style={{ objectFit: resizeMode }}
-        onError={() => {
-          setHasError(true)
-          // eslint-disable-next-line no-console
-          console.warn(`[Image] Failed to load image: ${transformedSource}`)
-          if (onError) onError()
-        }}
-        onLoad={onLoadEnd}
-        {...accessibilityProps(otherProps)}
-      />
-      {overlay && <View style={styles.overlay} />}
-    </>
+    <NextImage
+      src={hasError && fallbackSource ? (fallbackSource as string) : transformedSource}
+      alt={alt}
+      role="img"
+      aria-label={alt}
+      blurDataURL={isRemote ? blurhash : undefined}
+      onError={() => {
+        setHasError(true)
+        // eslint-disable-next-line no-console
+        console.warn(`[Image] Failed to load image: ${transformedSource}`)
+        if (onError) onError()
+      }}
+      onLoad={onLoadEnd}
+      {...(stretch
+        ? {
+            fill: true,
+            style: { objectFit: resizeMode, flex: 1 },
+          }
+        : {
+            width: width as number | undefined,
+            height: height as number | undefined,
+            style: { objectFit: resizeMode },
+          })}
+      {...accessibilityProps(otherProps)}
+    />
   )
 }
-
-const stylesheet = createStyleSheet({
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-  },
-})

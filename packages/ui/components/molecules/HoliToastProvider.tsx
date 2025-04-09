@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import type React from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native'
 
 import { createUUID } from '@holi/core/helpers/strings'
@@ -8,7 +9,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import SafeArea from '@holi/ui/components/atoms/SafeArea'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export enum HoliToastType {
   ERROR = 'ERROR',
@@ -128,7 +129,7 @@ export const HoliToast: React.FC<HoliToastProps> = ({ closeToast, type, text, ti
         <HoliIcon
           icon={type === HoliToastType.SUCCESS ? UserSmile : EmotionUnhappyNoeyes}
           size={20}
-          color={colors.background10}
+          colorOverride={colors.background10}
           style={styles.toastIcon}
         />
       </View>

@@ -50,7 +50,7 @@ const VolunteeringCard: React.FC<VolunteeringCardProps> = ({ recommendation, sty
           </View>
           <Text size="lg">{recommendation.engagement.title}</Text>
           <View style={styles.locationFooter}>
-            <HoliIcon icon={MapPin2} size={16} color={theme.colors.gray300} />
+            <HoliIcon icon={MapPin2} size={16} colorOverride={theme.colors.gray300} />
             <Text size="xs" colorOverride={theme.colors.gray300}>
               {recommendation.engagement.location}
             </Text>

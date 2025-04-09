@@ -5,13 +5,13 @@ export type ImageSource = string | number
 
 export interface ImageProps extends AccessibilityProps {
   source: ImageSource
-  width: number
-  height: number
+  width: number | `${number}%`
+  height?: number | `${number}%`
   resizeMode?: ImageContentFit
   onError?: () => void
   onLoadEnd?: () => void
   fallbackSource?: string | number
   blurhash?: string
   alt: string
-  whiteOverlay?: boolean
+  stretch?: boolean
 }

@@ -113,7 +113,7 @@ const Login = () => {
   }
 
   return (
-    <Screen preset="scroll" backgroundColor="container" keyboardShouldPersistTaps="always">
+    <Screen preset="scroll" backgroundColor="support" keyboardShouldPersistTaps="always">
       <DefaultLayout>
         <HoliContainer>
           <FormBuilder flow={flow} onSubmit={performLogin} style={styles.loginForm} isSignin={true} />

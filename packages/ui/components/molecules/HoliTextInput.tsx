@@ -276,8 +276,10 @@ const HoliTextInput = React.forwardRef<View, HoliTextInputProps>(
                 {(props?.trailingIcon || props?.trailingComponent) &&
                   !hasValidationErrors &&
                   (props?.trailingComponent ||
-                    (props?.trailingIcon && <HoliIcon icon={props.trailingIcon} size={22} color={iconColor} />))}
-                {hasValidationErrors && <HoliIcon icon={ErrorWarningFilled} size={16} color={colors.error30} />}
+                    (props?.trailingIcon && (
+                      <HoliIcon icon={props.trailingIcon} size={22} colorOverride={iconColor} />
+                    )))}
+                {hasValidationErrors && <HoliIcon icon={ErrorWarningFilled} size={16} colorOverride={colors.error30} />}
               </View>
             )}
             {!showCharacterCount && (value?.length ?? 0) > maxNoOfCharacters * 0.8 && (

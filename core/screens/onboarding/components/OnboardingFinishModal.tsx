@@ -68,7 +68,7 @@ export const OnboardingFinishModal = ({ testID = 'community-guidelines-modal' }:
             <View style={styles.descriptionList}>
               {icons.map((icon, index) => (
                 <View key={index} style={styles.descriptionListItem}>
-                  <HoliIcon icon={icon} color={theme.colors.black300} />
+                  <HoliIcon icon={icon} colorOverride={theme.colors.black300} />
                   <Text size="md">{t(`onboarding.communityGuidelines.description.point_${index}`)}</Text>
                 </View>
               ))}

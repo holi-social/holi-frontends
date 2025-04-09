@@ -31,7 +31,7 @@ const EventCarousel = ({ cardWidth }: EventCarouselProps) => {
       renderItem={({ item }) => {
         return (
           <Stack margin={{ right: 'xxs' }}>
-            <EventCard event={item} maxCardWidth={311} />
+            <EventCard event={item} maxCardWidth={cardWidth} />
           </Stack>
         )
       }}

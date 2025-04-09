@@ -40,7 +40,7 @@ const TabButton = ({ id, tabId, tabTitle, tabIcons, isActive, onPress, testID }:
           <HoliIcon
             icon={isActive ? tabIcons[1] : tabIcons[0]}
             size={16}
-            color={styles.tabButtonIcon(isActive).color}
+            colorOverride={styles.tabButtonIcon(isActive).color}
           />
         )}
 

@@ -164,7 +164,6 @@ const FormWrapper = React.forwardRef<KeyboardAvoidingView, FormWrapperProps>(
               )}
               <View style={styles.saveButton}>
                 <Button
-                  inline
                   size="md"
                   disabled={saveButtonDisabled}
                   loading={saveButtonLoading}

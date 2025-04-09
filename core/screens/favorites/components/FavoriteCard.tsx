@@ -72,7 +72,7 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({ item }) => {
                       />
                     </View>
                   ) : (
-                    <HoliIcon style={styles.curatorAvatar} icon={AccountCircleFilled} color={colors.gray200} />
+                    <HoliIcon style={styles.curatorAvatar} icon={AccountCircleFilled} colorOverride={colors.gray200} />
                   )}
                   <HoliText size="small" color="gray300">
                     {insight.creator.fullName}

@@ -48,7 +48,7 @@ const PostCard = ({ post, showVisibilityBadge }: PostCardProps) => {
         <View style={styles.badgeContainer}>
           <HoliIcon
             icon={post.visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
-            color={colors.foreground30}
+            colorOverride={colors.foreground30}
             size={14}
           />
           <HoliText>

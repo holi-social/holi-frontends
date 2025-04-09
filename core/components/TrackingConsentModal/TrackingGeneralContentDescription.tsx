@@ -55,7 +55,7 @@ const TrackingGeneralContentDescription = ({ checkTextCountList = [1, 2, 3] }: P
 
       {checkTextCountList.map((checkNum, idx) => (
         <View key={checkNum} style={[styles.flexRow, idx > 0 && styles.checkSection]}>
-          <HoliIcon icon={Check} color={colors.brandColorB30} />
+          <HoliIcon icon={Check} colorOverride={colors.brandColorB30} />
           <HoliGap size="xs" direction="horizontal" />
           <HoliText style={styles.checkText}>
             {t(`tracking.consentModal.general.description.check_${checkNum}`)}

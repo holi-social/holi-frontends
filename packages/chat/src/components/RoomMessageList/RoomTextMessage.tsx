@@ -102,10 +102,10 @@ export default RoomTextMessage
 
 const stylesheet = createStyleSheet((theme) => ({
   wrapper: (isSender?: boolean) => ({
-    borderColor: isSender ? theme.colors.decorative.purpleLight : theme.colors.bg.container,
+    borderColor: isSender ? theme.colors.decorative.purpleLight : theme.colors.bg.support,
     borderWidth: 1,
     borderRadius: BorderRadius.sm,
-    backgroundColor: isSender ? theme.colors.decorative.purpleLight : theme.colors.bg.container,
+    backgroundColor: isSender ? theme.colors.decorative.purpleLight : theme.colors.bg.support,
     flexShrink: 1,
   }),
   rowWrapper: {

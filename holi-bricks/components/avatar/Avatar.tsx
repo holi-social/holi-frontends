@@ -79,7 +79,7 @@ export const Avatar = ({
       )
     }
     if (icon) {
-      return <HoliIcon accessibilityLabel={label} icon={icon} color={styles.text.color} />
+      return <HoliIcon accessibilityLabel={label} icon={icon} colorOverride={styles.text.color} />
     }
     return (
       <View style={styles.textWrapper}>

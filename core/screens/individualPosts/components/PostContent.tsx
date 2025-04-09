@@ -44,7 +44,7 @@ const PostContent = ({ post, showVisibilityBadge }: PostContentProps) => {
           <View style={styles.badgeContainer}>
             <HoliIcon
               icon={post.visibility === VisibilityLevel.PUBLIC ? GlobalFilled : HoliLogoFilled}
-              color={theme.colors.foreground30}
+              colorOverride={theme.colors.foreground30}
               size={14}
             />
             <HoliText>

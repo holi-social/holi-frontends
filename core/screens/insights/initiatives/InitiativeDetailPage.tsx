@@ -87,7 +87,7 @@ const InitiativeDetailPage = () => {
         return (
           <HoliActionDrawer.Drawer
             label={t('global.moreOptions')}
-            buttonElement={<HoliIcon icon={MoreFilled} color={theme.colors.black300} />}
+            buttonElement={<HoliIcon icon={MoreFilled} colorOverride={theme.colors.black300} />}
           >
             <HoliActionDrawer.Action
               icon={Share}

@@ -70,7 +70,7 @@ export const ChipSelect = ({
           {children}
         </Text>
       )}
-      <HoliIcon icon={icon} size={iconSize} color={theme.components.chipSelect.text} />
+      <HoliIcon icon={icon} size={iconSize} colorOverride={theme.components.chipSelect.text} />
     </Pressable>
   )
 }

@@ -271,7 +271,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                     <HoliText>{space.contactDescription}</HoliText>
                     {space.contactEmail && (
                       <View style={styles.contactContainer}>
-                        <HoliIcon icon={At} color={colors.foreground20} style={styles.contactIcon} />
+                        <HoliIcon icon={At} colorOverride={colors.foreground20} style={styles.contactIcon} />
 
                         <HoliText size="small" bold>
                           {space.contactEmail}
@@ -280,7 +280,7 @@ const EditSpace: React.FC<ScreenProps> = () => {
                     )}
                     {space.contactPhone && (
                       <View style={styles.contactContainer}>
-                        <HoliIcon icon={Phone} color={colors.foreground20} style={styles.contactIcon} />
+                        <HoliIcon icon={Phone} colorOverride={colors.foreground20} style={styles.contactIcon} />
 
                         <HoliText size="small" bold>
                           {space.contactPhone}

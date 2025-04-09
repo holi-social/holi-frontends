@@ -91,7 +91,7 @@ const stylesheet = createStyleSheet((theme) => ({
   container: {
     flexShrink: 1,
     height: '100%',
-    backgroundColor: theme.colors.bg.page,
+    backgroundColor: theme.colors.bg.main,
     ...Platform.select({
       web: {
         minHeight: 400,

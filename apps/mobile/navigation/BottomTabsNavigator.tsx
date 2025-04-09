@@ -78,7 +78,9 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} color={unistyles.icon(focused).color} />
+            return (
+              <HoliIcon icon={focused ? HomeSmile2Filled : HomeSmile2} colorOverride={unistyles.icon(focused).color} />
+            )
           },
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.home')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
@@ -93,7 +95,7 @@ const BottomTabsNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} color={unistyles.icon(focused).color} />
+            <HoliIcon icon={focused ? MegaphoneFilled : Megaphone} colorOverride={unistyles.icon(focused).color} />
           ),
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.act')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',
@@ -110,7 +112,7 @@ const BottomTabsNavigator = () => {
           headerTitle: () => null,
           headerTitleAlign: 'center',
           tabBarIcon: ({ focused }) => {
-            return <HoliIcon icon={focused ? SpacesFilled : Spaces} color={unistyles.icon(focused).color} />
+            return <HoliIcon icon={focused ? SpacesFilled : Spaces} colorOverride={unistyles.icon(focused).color} />
           },
           tabBarLabel: ({ focused }) => <BottomTabLabel label={t('navigation.organize')} focused={focused} />,
           tabBarLabelPosition: 'below-icon',

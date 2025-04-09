@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import type React from 'react'
+import { useMemo } from 'react'
+import { type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
-import { Link } from '@holi/core/screens/posts/types'
+import type { Link } from '@holi/core/screens/posts/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { ShareBox } from '@holi/icons/src/generated'
 import HoliImage from '@holi/ui/components/atoms/HoliImage'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 export interface LinkContentProps extends Link {
   style?: StyleProp<ViewStyle>
@@ -36,7 +37,7 @@ const LinkContent: React.FC<LinkContentProps> = ({ image, title, description, or
           </HoliText>
         </View>
 
-        <HoliIcon icon={ShareBox} color={colors.foreground20} size={18} style={styles.shareIcon} />
+        <HoliIcon icon={ShareBox} colorOverride={colors.foreground20} size={18} style={styles.shareIcon} />
       </View>
     </View>
   )

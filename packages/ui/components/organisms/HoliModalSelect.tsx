@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Platform, ScrollView, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
-import { HoliIconType } from '@holi/icons/src/HoliIconType'
+import type { HoliIconType } from '@holi/icons/src/HoliIconType'
 import { ArrowDownS, ArrowUpS, Global } from '@holi/icons/src/generated'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
@@ -12,7 +12,7 @@ import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 export type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
@@ -105,7 +105,7 @@ const HoliModalSelect = <IDType extends string>({
           <HoliIcon
             icon={option.icon || Global}
             size={22}
-            color={option?.disabled ? colors.foreground10 : colors.foreground30}
+            colorOverride={option?.disabled ? colors.foreground10 : colors.foreground30}
           />
         )}
         <View style={styles.optionTextContainer}>

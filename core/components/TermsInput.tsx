@@ -97,7 +97,7 @@ export const TermsInput = ({
       />
       {!!hint && (
         <View style={styles.hintContainer}>
-          <HoliIcon icon={Information} size={14} color={colors.foreground30} style={styles.infoIcon} />
+          <HoliIcon icon={Information} size={14} colorOverride={colors.foreground30} style={styles.infoIcon} />
           <HoliGap size="xxs" direction="horizontal" />
           <Text size="xs">{hint}</Text>
         </View>

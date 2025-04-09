@@ -17,7 +17,7 @@ const HoliLogo = ({ color }: Props) => {
 
   return (
     <View>
-      <HoliIcon icon={HoliNameLogo} size={{ width: 56, height: 24 }} color={color} />
+      <HoliIcon icon={HoliNameLogo} size={{ width: 56, height: 24 }} colorOverride={color} />
     </View>
   )
 }

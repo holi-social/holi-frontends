@@ -179,7 +179,7 @@ const PermissionsList = ({ permissions }: { permissions: Permission[] }) => {
           <HoliIcon
             icon={permission.allowed ? Check : Close}
             style={styles.icon}
-            color={permission.allowed ? colors.brandColorB30 : colors.warning30}
+            colorOverride={permission.allowed ? colors.brandColorB30 : colors.warning30}
           />
           <HoliText>{t(permission.name)}</HoliText>
         </View>

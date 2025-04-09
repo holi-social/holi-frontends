@@ -2,22 +2,24 @@ import { darkAvatarTheme } from 'holi-bricks/components/avatar/avatar.theme'
 import { darkButtonTheme } from 'holi-bricks/components/button/button.theme'
 import { darkChipTheme } from 'holi-bricks/components/chips/chip.theme'
 import { darkSelectorTheme } from 'holi-bricks/components/selectors/selector.theme'
-import { blue, green, yellow, purple, mono, orange, red } from 'holi-bricks/tokens'
+import { blue, green, yellow, purple, mono, orange, red, transparent } from 'holi-bricks/tokens'
 
 export const darkTheme = {
   colors: {
     focus: `${mono[700]} 0px 0px 0px 1.5px, ${blue[600]} 0px 0px 0px 3px`,
     bg: {
-      container: mono[700],
-      page: mono[800],
+      support: mono[700],
+      main: mono[800],
       selected: mono[100],
-      disabled: mono[600],
+      muted: mono[600],
+      overlay: transparent.mono100.at8,
     },
     fill: {
       main: mono[200],
       support: mono[300],
       default: mono[400],
-      disabled: mono[500],
+      muted: mono[500],
+      selected: mono[800],
       informative: purple[400],
       positive: green[600],
       warning: orange[400],
@@ -27,7 +29,7 @@ export const darkTheme = {
       main: mono[200],
       support: mono[500],
       default: mono[600],
-      quaternary: mono[700],
+      muted: mono[700],
     },
     decorative: {
       black: mono[800],

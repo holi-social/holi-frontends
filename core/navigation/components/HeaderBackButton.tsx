@@ -40,7 +40,7 @@ const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({
       testID={testID}
       {...props}
     >
-      <HoliIcon icon={icon} size={Spacing.md} color={tintColor} />
+      <HoliIcon icon={icon} size={Spacing.md} colorOverride={tintColor} />
     </HoliButton>
   )
 }

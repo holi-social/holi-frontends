@@ -1,4 +1,4 @@
-export const Spacing = {
+export const Spacing: Record<string, number> = {
   '5xs': 2,
   '4xs': 4,
   '3xs': 8,

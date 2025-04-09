@@ -61,7 +61,9 @@ const PartnerInfoRow: React.FC<PartnerInfoRowProps> = ({
             <HoliText>{rowText}</HoliText>
           </View>
         )}
-        {showOutlinkIcon && partners[0]?.url && <HoliIcon icon={ShareBox} size={20} color={colors.foreground30} />}
+        {showOutlinkIcon && partners[0]?.url && (
+          <HoliIcon icon={ShareBox} size={20} colorOverride={colors.foreground30} />
+        )}
       </View>
     </HoliButton>
   )

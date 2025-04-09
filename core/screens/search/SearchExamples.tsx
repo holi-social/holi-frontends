@@ -59,7 +59,7 @@ export const SearchExamples = ({ onQuerySelect, currentFacet }: SearchExamplesPr
             }}
           >
             <View style={styles.example}>
-              <HoliIcon icon={Search} size={16} color={styles.icon.color} style={styles.icon} />
+              <HoliIcon icon={Search} size={16} colorOverride={styles.icon.color} style={styles.icon} />
               <TextLink size="md" color="support" role="presentation">
                 {text}
               </TextLink>

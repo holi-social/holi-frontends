@@ -80,7 +80,7 @@ const DigitalTool = ({
             <HoliLocalImage imageSource={imageSource} width={40} height={40} label={toolName} />
           </View>
         ) : (
-          <HoliIcon icon={LinkM} size={40} color={colors.brandColorB30} />
+          <HoliIcon icon={LinkM} size={40} colorOverride={colors.brandColorB30} />
         )}
       </View>
       <View style={styles.infoContainer}>
@@ -154,7 +154,7 @@ const DigitalTool = ({
                 <HoliLocalImage imageSource={imageSource} width={52} height={52} label={tool.title} />
               </View>
             ) : (
-              <HoliIcon icon={LinkM} size={40} color={colors.brandColorB30} />
+              <HoliIcon icon={LinkM} size={40} colorOverride={colors.brandColorB30} />
             )}
             <Button
               onPress={() => {
@@ -187,7 +187,7 @@ const DigitalTool = ({
                   shouldUnescape={true}
                 />
               </HoliText>
-              <HoliIcon icon={ShareBox} size={20} color={colors.foreground20} style={{ flexShrink: 0 }} />
+              <HoliIcon icon={ShareBox} size={20} colorOverride={colors.foreground20} style={{ flexShrink: 0 }} />
             </View>
           </HoliLink>
         </View>

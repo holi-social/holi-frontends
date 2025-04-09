@@ -65,7 +65,7 @@ export const EmailContent: React.FC<EmailContentProps> = ({
             <Text size="lg" color="informative" textAlign="left">
               {t('email.unsubscribe.button')}
             </Text>
-            <HoliIcon icon={Refresh} size={24} color={theme.colors.brandB300} />
+            <HoliIcon icon={Refresh} size={24} colorOverride={theme.colors.brandB300} />
           </Pressable>
 
           <HoliGap size="ml" />

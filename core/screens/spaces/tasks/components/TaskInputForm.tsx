@@ -187,7 +187,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           <ReactNativeImage source={{ uri: currentThumbnail }} aria-hidden={true} style={styles.thumbnail} />
         ) : (
           <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
-            <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
+            <HoliIcon icon={LinkM} size={20} colorOverride={colors.brandColorB30} />
           </View>
         )}
         <View style={styles.uploadButtonContainer}>

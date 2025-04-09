@@ -317,7 +317,7 @@ const AppointmentInputForm = ({
                 />
               ) : (
                 <View style={[styles.thumbnail, styles.thumbnailSkeleton]}>
-                  <HoliIcon icon={LinkM} size={20} color={colors.brandColorB30} />
+                  <HoliIcon icon={LinkM} size={20} colorOverride={colors.brandColorB30} />
                 </View>
               )}
               <View style={styles.uploadButtonContainer}>
@@ -384,7 +384,7 @@ const getStyles = (theme: HoliTheme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: dimensions.topBarHeight + (constants.statusBarHeight || 0) + 24,
+      paddingTop: Platform.OS === 'web' ? dimensions.topBarHeight + (constants.statusBarHeight || 0) + 24 : 0,
       paddingBottom: dimensions.bottomBarHeight + 24,
     },
     bottomBar: {
