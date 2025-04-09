@@ -216,7 +216,7 @@ const HomeFeed = () => {
     }
   }, [navigation, getFeedStats])
 
-  if (initialLoading)
+  if (initialLoading && !combinedFeedData?.length)
     return (
       <View style={[styles.wrapper, { backgroundColor: colors.white200 }]}>
         <View style={styles.screenLoader}>
