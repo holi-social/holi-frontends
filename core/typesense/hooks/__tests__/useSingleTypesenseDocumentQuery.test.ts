@@ -47,6 +47,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
       q: '*',
       filter_by: 'id:volunteering_123 && type:volunteering',
       per_page: 1,
+      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
 
     await act(jest.runOnlyPendingTimersAsync)
@@ -90,6 +91,7 @@ describe('useSingleTypesenseDocumentQuery', () => {
       q: '*',
       filter_by: 'id:space_456 && type:space',
       per_page: 1,
+      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
 
     await act(jest.runOnlyPendingTimersAsync)

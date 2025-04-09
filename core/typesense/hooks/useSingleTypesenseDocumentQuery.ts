@@ -14,6 +14,7 @@ export const useSingleTypesenseDocumentQuery = (
       q: '*',
       filter_by: `id:${documentType}_${id} && type:${documentType}`,
       per_page: 1,
+      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     }),
     [documentType, id]
   )
