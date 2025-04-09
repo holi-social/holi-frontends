@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
-import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
+import { Calendar, type DateData, LocaleConfig } from 'react-native-calendars'
 
 import { getLocale } from '@holi/core/i18n/helpers/dateHelper'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -9,10 +9,10 @@ import { ArrowLeftS, ArrowRightS } from '@holi/icons/src/generated'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
-import { formatDateToYYYMMDD, getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { formatDateToYYYMMDD, localizeDate } from '@holi/ui/helper/date'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
-import { HoliDatePickerProps } from './types'
+import type { HoliDatePickerProps } from './types'
 
 LocaleConfig.locales['de'] = {
   monthNames: [
@@ -44,6 +44,7 @@ const HoliDatePicker = ({
   minimumDate,
   maximumDate,
   isRequired,
+  dateFormat = 'long',
   testID = 'holi-date-picker',
 }: HoliDatePickerProps) => {
   const { theme } = useTheme()
@@ -56,7 +57,19 @@ const HoliDatePicker = ({
   const { i18n } = useTranslation()
   const currentLanguage = getLocale(i18n.language || '')
 
-  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(formatDateToYYYMMDD(value)), currentLanguage)
+  const displayValue =
+    value &&
+    localizeDate(
+      value,
+      currentLanguage,
+      dateFormat === 'short'
+        ? {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          }
+        : undefined
+    )
 
   const hoverPropsForWeb = Platform.select({
     web: {
