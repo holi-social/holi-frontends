@@ -3,6 +3,7 @@ import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
 import { useGeolocationDetails } from '@holi/core/geolocation/hooks/useGeolocationDetails'
 import { useMemo } from 'react'
 import type { VolunteeringRecosQueryVariables } from '@holi-apps/volunteering/queries'
+import type { SearchParams } from 'typesense/lib/Typesense/Documents'
 
 const buildUserEmbedding = ({ skills, topics }: VolunteeringRecosQueryVariables) => {
   const userEmbedding = [
@@ -17,10 +18,15 @@ interface UseVolunteeringRecoTypesenseParametersOptions {
   onGeolocationError?: (error: Error) => void
 }
 
+interface UseVolunteeringRecoTypesenseParameters {
+  isLoadingParameters: boolean
+  parameters: SearchParams
+}
+
 export const useVolunteeringRecoTypesenseParameters = ({
   pageSize,
   onGeolocationError,
-}: UseVolunteeringRecoTypesenseParametersOptions = {}) => {
+}: UseVolunteeringRecoTypesenseParametersOptions = {}): UseVolunteeringRecoTypesenseParameters => {
   const { loading: loadingQueryVariables = false, skills, topics, geolocationId } = useVolunteeringRecosParameters()
   const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(geolocationId, onGeolocationError)
   const parameters = useMemo(() => {
