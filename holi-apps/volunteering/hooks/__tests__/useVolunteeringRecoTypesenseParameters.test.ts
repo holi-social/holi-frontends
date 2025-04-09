@@ -124,6 +124,6 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
     })
     renderHook(() => useVolunteeringRecoTypesenseParameters({ onGeolocationError }))
 
-    expect(onGeolocationError).toHaveBeenCalledWith()
+    expect(onGeolocationError).toHaveBeenCalledWith(error)
   })
 })
