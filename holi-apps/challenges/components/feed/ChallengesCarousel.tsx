@@ -112,7 +112,7 @@ const ChallengesCarousel = ({ refreshing }: ChallengesCarouselProps) => {
       renderItem={({ item, index }: { item: ChallengeTeaser; index: number }) => (
         <ChallengesCarouselCard
           challenge={item}
-          trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, index)}
+          trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, item.title, index)}
           cardWidth={CARD_WIDTH}
         />
       )}

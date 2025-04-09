@@ -490,9 +490,10 @@ export namespace TrackingEvent {
   }
 
   export namespace ChallengeCard {
-    export const CardPressed = (challengeId: string, index: number): TrackingEvent => ({
+    export const CardPressed = (challengeId: string, title: string, index: number): TrackingEvent => ({
       name: 'challengeCard_pressed',
       properties: {
+        title: title,
         challengeId: challengeId,
         index: index,
       },
@@ -501,12 +502,14 @@ export namespace TrackingEvent {
 
     export const SubmissionPressed = (
       challengeId: string,
+      title: string,
       submissionId: string,
       submissionIndex: number
     ): TrackingEvent => ({
       name: 'challengeCardSubmission_pressed',
       properties: {
         challengeId: challengeId,
+        title: title,
         submissionId: submissionId,
         submissionIndex: submissionIndex,
       },

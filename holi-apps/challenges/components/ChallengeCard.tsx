@@ -66,7 +66,12 @@ export const ChallengeCard = ({ challenge, trackingEvent }: ChallengeCardProps) 
               challengeTitle={challenge.title}
               submission={submission}
               width={submissionCardWidth}
-              trackingEvent={TrackingEvent.ChallengeCard.SubmissionPressed(challenge.id, submission.id, index)}
+              trackingEvent={TrackingEvent.ChallengeCard.SubmissionPressed(
+                challenge.id,
+                challenge.title,
+                submission.id,
+                index
+              )}
             />
           ))}
         </View>
