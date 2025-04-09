@@ -28,6 +28,9 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 
+// TODO TASK TIMING: uncomment the useTimeFrame hook after implementing the Task Timing feature in the BE
+// import { useTimeFrame } from './components/TaskInputForm/sections/TimeFrameSection/useTimeFrame'
+
 export type EditTaskParams = {
   spaceIdOrName: string
   taskId: string
@@ -67,6 +70,9 @@ const EditTask = () => {
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false)
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+
+  // TODO TASK TIMING: uncomment the useTimeFrame hook after implementing the Task Timing feature in the BE
+  // const timeFrameSectionProps = useTimeFrame()
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
@@ -201,25 +207,33 @@ const EditTask = () => {
       setGeolocation(task.geolocation)
       setContactPhone(task.contactPhone)
       setSelectedLocation(task.location ? { label: task.location, id: '', coordinates: task.geolocation } : undefined)
+      // TODO TASK TIMING: set the Time Frame data for the task after implementing the Task Timing feature in the BE
+      // if (task.timeFrame.anytime) {
+      //   timeFrameSectionProps.setAnytime(true)
+      // } else {
+      //   timeFrameSectionProps.setAnytime(false)
+      //   timeFrameSectionProps.setStart(task.timeFrame.start)
+      //   timeFrameSectionProps.setEnd(task.timeFrame.end)
+      // }
     }
   }, [space, task, t])
 
   useIsomorphicLayoutEffect(() => {
-    if (!loadingSpace && isMember) {
-      setScreenOptions({
-        animation: 'slide_from_bottom',
-        headerTitle: () => (
-          <HoliHeading level="1" size="s">
-            {t('spaces.tasks.edit.title')}
-          </HoliHeading>
-        ),
-        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      })
-    }
-  }, [t, loadingSpace, isMember, setScreenOptions])
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      headerTitle: () => (
+        <HoliHeading level="1" size="s">
+          {t('spaces.tasks.edit.title')}
+        </HoliHeading>
+      ),
+      headerTitleAlign: 'center',
+      headerBackVisible: isMember ? false : true,
+      headerLeft: isMember ? () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} /> : undefined,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [t, isMember, setScreenOptions])
 
   useEffect(() => {
     if (
@@ -274,6 +288,8 @@ const EditTask = () => {
           selectedLocation={selectedLocation}
           contactPhone={contactPhone}
           currentThumbnail={currentThumbnail}
+          /* TODO TASK TIMING: pass the timeFrameSectionProps after implementing the Task Timing feature in the BE */
+          // timeFrameSectionProps={timeFrameSectionProps}
           onChangeName={setName}
           onChangeDescription={setDescription}
           onChangeVisibility={setVisibility}

@@ -26,7 +26,9 @@ import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
-import { useTheme } from '@holi/ui/styles/theme'
+
+// TODO TASK TIMING: uncomment the useTimeFrame hook after implementing the Task Timing feature in the BE
+// import { useTimeFrame } from './components/TaskInputForm/sections/TimeFrameSection/useTimeFrame'
 
 export type CreateTaskParams = {
   spaceIdOrName: string
@@ -41,8 +43,6 @@ const CreateTask = () => {
   const { navigateBack } = useRouting()
   const setScreenOptions = useSetScreenOptions()
   const { t } = useTranslation()
-  const { theme } = useTheme()
-  const { colors } = theme
   const { openToast } = useToast()
 
   // input fields
@@ -65,6 +65,9 @@ const CreateTask = () => {
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(true)
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
+
+  // TODO TASK TIMING: uncomment the useTimeFrame hook after implementing the Task Timing feature in the BE
+  // const timeFrameSectionProps = useTimeFrame()
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
@@ -166,23 +169,21 @@ const CreateTask = () => {
   ])
 
   useIsomorphicLayoutEffect(() => {
-    if (!loadingSpace && isMember) {
-      setScreenOptions({
-        animation: 'slide_from_bottom',
-        headerTitle: () => (
-          <HoliHeading level="1" size="s">
-            {t('spaces.tasks.add.title')}
-          </HoliHeading>
-        ),
-        headerBackVisible: false,
-        headerTitleAlign: 'center',
-        headerLeft: () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} />,
-        navigationCustomOptions: {
-          footerShown: false,
-        },
-      })
-    }
-  }, [t, loadingSpace, isMember, setScreenOptions, colors.background10])
+    setScreenOptions({
+      animation: 'slide_from_bottom',
+      headerTitle: () => (
+        <HoliHeading level="1" size="s">
+          {t('spaces.tasks.add.title')}
+        </HoliHeading>
+      ),
+      headerBackVisible: isMember ? false : true,
+      headerTitleAlign: 'center',
+      headerLeft: isMember ? () => <HeaderBackButton onPress={() => setShowConfirmationModal(true)} /> : undefined,
+      navigationCustomOptions: {
+        footerShown: false,
+      },
+    })
+  }, [t, setScreenOptions, isMember])
 
   useEffect(() => {
     if (
@@ -228,6 +229,8 @@ const CreateTask = () => {
           geolocation={geolocation}
           selectedLocation={selectedLocation}
           contactPhone={contactPhone}
+          /* TODO TASK TIMING: pass the timeFrameSectionProps after implementing the Task Timing feature in the BE */
+          // timeFrameSectionProps={timeFrameSectionProps}
           onChangeName={setName}
           onChangeDescription={setDescription}
           onChangeVisibility={setVisibility}

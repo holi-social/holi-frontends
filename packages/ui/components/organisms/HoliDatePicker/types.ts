@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from 'react-native'
+import type { StyleProp, ViewStyle } from 'react-native'
 
 export interface HoliDatePickerBaseProps {
   value: Date
@@ -13,4 +13,5 @@ export interface HoliDatePickerBaseProps {
 
 export interface HoliDatePickerProps extends HoliDatePickerBaseProps {
   title: string
+  dateFormat?: 'long' | 'short'
 }

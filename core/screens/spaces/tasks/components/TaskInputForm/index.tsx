@@ -30,6 +30,9 @@ import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Button } from 'holi-bricks/components/button'
 import { TermsInput } from '@holi/core/components/TermsInput'
 
+import TimeFrameSection from './sections/TimeFrameSection'
+import type { UseTimeFrameReturnValue } from './sections/TimeFrameSection/useTimeFrame'
+
 export interface TaskInputFormProps {
   name: string
   description: string
@@ -45,6 +48,8 @@ export interface TaskInputFormProps {
   contactPhone?: string
   selectedLocation?: GeolocationSuggestion
   currentThumbnail?: string
+  /* TODO TASK TIMING: make the timeFrameSectionProps required after implementing the Task Timing feature in the BE */
+  timeFrameSectionProps?: UseTimeFrameReturnValue
   onChangeName: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeVisibility: (_: HoliModalSelectOption) => void
@@ -74,6 +79,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   contactPhone,
   skills,
   selectedLocation,
+  timeFrameSectionProps,
   onChangeName,
   onChangeDescription,
   onChangeVisibility,
@@ -348,6 +354,13 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         />
       </View>
 
+      {/* TODO TASK TIMING: remove the condition after implementing the Task Timing feature in the BE */}
+      {timeFrameSectionProps && (
+        <View style={styles.sectionWrapper}>
+          <TimeFrameSection {...timeFrameSectionProps} />
+        </View>
+      )}
+
       <View style={styles.sectionWrapper}>
         <HoliText size="large">{t('spaces.input.task.section.contact')}</HoliText>
         <HoliTextInput
@@ -376,6 +389,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
           maxNoOfCharacters={100}
         />
       </View>
+
       <View style={styles.sectionWrapper}>
         <HoliText size="large">{t('spaces.input.task.section.thumbnail')}</HoliText>
         <ThumbnailUploader />

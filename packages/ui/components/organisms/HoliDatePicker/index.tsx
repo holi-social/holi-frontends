@@ -1,4 +1,4 @@
-import DateTimePicker, { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker'
+import DateTimePicker, { DateTimePickerAndroid, type DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, View } from 'react-native'
@@ -8,8 +8,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
-import { formatDateToYYYMMDD, getDateObjFromYYYMMDD, localizeDate } from '@holi/ui/helper/date'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { localizeDate } from '@holi/ui/helper/date'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 
 import type { HoliDatePickerProps } from './types'
 
@@ -22,6 +22,7 @@ const HoliDatePicker = ({
   minimumDate,
   maximumDate,
   isRequired,
+  dateFormat = 'long',
   testID = 'holi-date-picker',
 }: HoliDatePickerProps) => {
   const [showPickerIOS, setShowPickerIOS] = useState(false)
@@ -48,7 +49,19 @@ const HoliDatePicker = ({
     }
   }
 
-  const displayValue = value && localizeDate(getDateObjFromYYYMMDD(formatDateToYYYMMDD(value)), currentLanguage)
+  const displayValue =
+    value &&
+    localizeDate(
+      value,
+      currentLanguage,
+      dateFormat === 'short'
+        ? {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          }
+        : undefined
+    )
 
   return (
     <>
@@ -61,6 +74,7 @@ const HoliDatePicker = ({
             </HoliText>
           </View>
         )}
+
         <HoliButton
           label={title}
           testID={`btn-${testID}`}
@@ -75,6 +89,7 @@ const HoliDatePicker = ({
           </View>
         </HoliButton>
       </View>
+
       {Platform.OS === 'ios' && (
         <HoliModal
           shown={showPickerIOS}
