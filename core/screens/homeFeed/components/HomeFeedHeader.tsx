@@ -26,9 +26,16 @@ import { useFeatureFlagAB } from '@holi/core/featureFlags/hooks/useFeatureFlagAB
 import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
 import ProfileCompletionCard from '@holi/core/screens/userprofile/components/ProfileCompletionCard'
 import { Stack } from 'holi-bricks/components/stack'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import ChallengesCarousel from '@holi-apps/challenges/components/feed/ChallengesCarousel'
 
-const HomeFeedHeader: React.FC = () => {
+interface HomeFeedHeaderProps {
+  refreshing?: boolean
+}
+
+const HomeFeedHeader = ({ refreshing }: HomeFeedHeaderProps) => {
   const displayNewHomeFeed = useFeatureFlagAB(FeatureFlagKey.NEW_HOME_FEED)
+  const displayChallengesCarousel = useFeatureFlag(FeatureFlagKey.CHALLENGES_CAROUSEL)
   const { t } = useTranslation()
   const isFocused = useIsFocused()
 
@@ -67,7 +74,7 @@ const HomeFeedHeader: React.FC = () => {
   }, [rotation])
 
   return (
-    <Stack gap="md" margin={{ bottom: 'md' }}>
+    <Stack gap="md" margin={{ bottom: '3xs' }}>
       {new Date() < bannerShowCutoff && (
         <>
           <HoliGap size="s" />
@@ -104,8 +111,9 @@ const HomeFeedHeader: React.FC = () => {
           />
         </Animated.View>
       </HoliBox>
-      <ProfileCompletionCard page="home_feed" />
+      {displayChallengesCarousel[0] && <ChallengesCarousel refreshing={refreshing} />}
       {displayNewHomeFeed === 'test' && <AttendingChallengeEvents />}
+      <ProfileCompletionCard page="home_feed" />
     </Stack>
   )
 }
