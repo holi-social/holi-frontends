@@ -5,7 +5,7 @@ import { Stack } from 'holi-bricks/components/stack'
 import { Platform, View } from 'react-native'
 import { Image, type ImageSource } from 'holi-bricks/components/image'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useStyles } from 'holi-bricks/hooks'
 import { useTranslation } from 'react-i18next'
 import { createStyleSheet } from 'holi-bricks/utils'
@@ -31,6 +31,10 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
 }: CompactCardImageProps) => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation()
+  const [imageError, setImageError] = useState(false)
+  const handleImageError = () => {
+    setImageError(true)
+  }
 
   const placeholderImages = [
     require('@holi/ui/assets/img/events/thumbnail-green.svg'),
@@ -57,10 +61,11 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
         {...(Platform.OS === 'web' ? { height: '100%' } : {})}
       >
         <Image
-          source={imageSrc ? imageSrc : randomPlaceholderImage}
+          source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
           width={90}
           height={Platform.OS === 'web' ? '100%' : 130}
           alt={t('act.events.thumbnail.label')}
+          onError={handleImageError}
           resizeMode="cover"
           stretch
         />
