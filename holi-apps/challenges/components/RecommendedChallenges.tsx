@@ -86,7 +86,10 @@ const RecommendedChallenges = () => {
         listItemIdentifier,
       }}
       renderItem={({ item, index }: { item: Challenge; index: number }) => (
-        <ChallengeCard challenge={item} trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, index)} />
+        <ChallengeCard
+          challenge={item}
+          trackingEvent={TrackingEvent.ChallengeCard.CardPressed(item.id, item.title, index)}
+        />
       )}
       data={challenges.slice(0, MAX_ITEMS_TO_DISPLAY)}
       icon={StarSmileFilled}

@@ -40,7 +40,12 @@ export const ChallengesCarouselCard = ({ challenge, trackingEvent, cardWidth }: 
             key={challenge.id}
             challenge={challenge}
             width={cardWidth}
-            trackingEvent={TrackingEvent.ChallengeCard.SubmissionPressed(challenge.id, challenge.id, 0)}
+            trackingEvent={TrackingEvent.ChallengeCard.SubmissionPressed(
+              challenge.id,
+              challenge.title,
+              challenge.id,
+              0
+            )}
           />
         </View>
         <View style={styles.headline}>
