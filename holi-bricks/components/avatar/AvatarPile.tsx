@@ -5,37 +5,37 @@ import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
 import { AvatarSizesValues } from 'holi-bricks/components/avatar/Avatar'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
-// eslint-disable-next-line no-restricted-imports
-import type { User } from '@holi/core/domain/shared/types'
 
-interface AvatarPileProps extends Omit<AvatarProps, 'initials' | 'label' | 'imgSrc' | 'initials' | 'imgPlaceholder'> {
-  users: User[]
+type Avatars = Pick<AvatarProps, 'initials' | 'label' | 'source' | 'imgPlaceholder'>
+interface AvatarPileProps extends Omit<AvatarProps, 'initials' | 'label' | 'imgSrc' | 'imgPlaceholder'> {
+  avatars: Avatars[]
 }
 
 const AvatarPile = ({
-  users,
+  avatars,
   size = 'md',
   testID = 'holi-user-avatar-pile',
   border,
   shape,
   icon,
-}: React.PropsWithChildren<AvatarPileProps>) => {
+}: AvatarPileProps) => {
   const { styles } = useStyles(stylesheet)
+  const overlapDistance = AvatarSizesValues[size] / -2.4
+
   return (
     <View style={styles.container} testID={testID}>
-      {users?.map((user, idx) => {
-        const overlapDistance = AvatarSizesValues[size] / -2.4
+      {avatars?.map((avatar, idx) => {
         return (
-          <View style={styles.overlap(idx, overlapDistance)} key={idx}>
+          <View style={styles.overlap(idx, overlapDistance)} key={avatar.source || `avatar-${avatar.initials}-${idx}`}>
             <Avatar
               border={border}
               shape={shape}
               size={size}
-              label={user.fullName}
-              source={user.avatar}
-              initials={user.avatarLabel}
+              label={avatar.label}
+              source={avatar.source}
+              initials={avatar.initials}
               testID={'pile-avatar'}
-              imgPlaceholder={user.avatarBlurhash}
+              imgPlaceholder={avatar.imgPlaceholder}
               icon={icon}
             />
           </View>

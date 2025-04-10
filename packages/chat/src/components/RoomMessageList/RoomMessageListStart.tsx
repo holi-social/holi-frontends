@@ -73,9 +73,16 @@ const RoomMessageListStart = ({
     )
   }
 
+  const avatars = chatPartnerHoliUsers.map((user) => ({
+    label: user.fullName,
+    source: user.avatar,
+    initials: user.avatarLabel,
+    imgPlaceholder: user.avatarBlurhash,
+  }))
+
   return (
     <View>
-      <AvatarPile users={chatPartnerHoliUsers} size="lg" />
+      <AvatarPile avatars={avatars} size="lg" />
       <HoliGap size="xs" />
       <Text headingLevel="2" size="xxl">
         {chatPartnerHoliUsers.map((user) => user.fullName).join(', ')}
