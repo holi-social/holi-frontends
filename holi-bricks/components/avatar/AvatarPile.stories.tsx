@@ -12,28 +12,19 @@ const meta: Meta<typeof AvatarPile> = {
   title: 'Components/Avatar/AvatarPile',
   component: AvatarPile,
   args: {
-    users: [
+    avatars: [
       {
-        id: '1',
-        identity: 'user one',
-        avatarDefaultColor: 'blue',
-        fullName: 'User One',
-        avatar: 'https://picsum.photos/id/64/100/100',
-        avatarLabel: 'User One',
+        label: 'User One',
+        source: 'https://picsum.photos/id/64/100/100',
+        initials: 'U1',
       },
       {
-        id: '2',
-        identity: 'user two',
-        avatarDefaultColor: 'red',
-        fullName: 'User Two',
-        avatarLabel: 'User Two',
+        label: 'User Two',
+        initials: 'U2',
       },
       {
-        id: '3',
-        identity: 'user three',
-        avatarDefaultColor: 'green',
-        fullName: 'User Three',
-        avatarLabel: 'User Three',
+        label: 'User Three',
+        initials: 'U3',
       },
     ],
     size: 'md',
@@ -48,28 +39,19 @@ type Story = StoryObj<typeof AvatarPile>
 export const Default: Story = {
   argTypes: {},
   args: {
-    users: [
+    avatars: [
       {
-        id: '1',
-        identity: 'user one',
-        avatarDefaultColor: 'blue',
-        fullName: 'User One',
-        avatar: 'https://picsum.photos/id/64/100/100',
-        avatarLabel: 'User One',
+        label: 'User One',
+        source: 'https://picsum.photos/id/64/100/100',
+        initials: 'U1',
       },
       {
-        id: '2',
-        identity: 'user two',
-        avatarDefaultColor: 'red',
-        fullName: 'User Two',
-        avatarLabel: 'User Two',
+        label: 'User Two',
+        initials: 'U2',
       },
       {
-        id: '3',
-        identity: 'user three',
-        avatarDefaultColor: 'green',
-        fullName: 'User Three',
-        avatarLabel: 'User Three',
+        label: 'User Three',
+        initials: 'U3',
       },
     ],
     size: 'md',
