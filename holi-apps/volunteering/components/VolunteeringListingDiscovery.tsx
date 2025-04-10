@@ -14,6 +14,9 @@ import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/Volu
 import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 import { filteredVolunteeringEngagementsQuery, volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
 import type { VolunteeringFilters } from '@holi-apps/volunteering/types'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { VolunteeringTypesenseRecommendations } from '@holi-apps/volunteering/components/VolunteeringTypesenseRecommendations'
 
 type VolunteeringListingProps = {
   filters: VolunteeringFilters
@@ -88,10 +91,11 @@ const FilteredVolunteeringEngagements = ({
 }
 
 const VolunteeringListingDiscovery = (props: VolunteeringListingProps) => {
+  const [useTypesense] = useFeatureFlag(FeatureFlagKey.TYPESENSE_RECOS)
   if (props.isFiltering) {
     return <FilteredVolunteeringEngagements {...props} />
   }
-  return <VolunteeringRecommendations />
+  return useTypesense ? <VolunteeringTypesenseRecommendations /> : <VolunteeringRecommendations />
 }
 
 export default withProfiler(VolunteeringListingDiscovery, { name: 'VolunteeringListingDiscovery' })

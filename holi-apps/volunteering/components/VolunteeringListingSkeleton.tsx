@@ -8,7 +8,7 @@ import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliSkeleton from '@holi/ui/components/atoms/HoliSkeleton'
 import HoliText from '@holi/ui/components/atoms/HoliText'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 
 interface Props {
@@ -46,7 +46,7 @@ const VolunteeringListingSkeleton = ({ isFiltering, amount }: Props) => {
   })
 
   return (
-    <View style={[mixins.container, styles.container]}>
+    <View style={[mixins.container, styles.container]} testID="volunteering-list-skeleton">
       <HoliHeading level="2" size="l" loading skeletonOptions={{ width: '60%' }} />
       <View style={styles.partnerInfoRow}>
         {partnerSkeleton}

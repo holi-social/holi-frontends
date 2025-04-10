@@ -4,12 +4,10 @@ import {
   INITIAL_PAGE,
   PAGE_SIZE,
 } from '@holi/core/screens/search/helpers/createSearchParameters'
-import { createTypesenseClient } from '@holi/core/typesense/helpers/createTypesenseClient'
 import { isEmptyFilter } from '@holi/core/screens/search/helpers/isEmptyFilter'
 import type { SearchFilter, SearchResults } from '@holi/core/screens/search/types'
+import { useTypesenseClient } from '@holi/core/typesense/provider/TypesenseClientProvider'
 import { useCallback, useEffect, useState } from 'react'
-
-const typesenseClient = createTypesenseClient()
 
 const isSameFilter = (filter1: SearchFilter, filter2: SearchFilter) => {
   return (
@@ -32,6 +30,7 @@ export const useSearchResults = (filter: SearchFilter) => {
     isLoading: false,
     filter,
   })
+  const { client } = useTypesenseClient()
 
   const performSearch = useCallback(
     (pageToLoad: number = INITIAL_PAGE) => {
@@ -55,7 +54,7 @@ export const useSearchResults = (filter: SearchFilter) => {
         isLoading: true,
         filter,
       }))
-      typesenseClient
+      client
         .search(createSearchParameters(filter, pageToLoad))
         .then((results) => {
           setSearchResults((previousResults) => {
@@ -83,7 +82,7 @@ export const useSearchResults = (filter: SearchFilter) => {
           setSearchResults((results) => ({ ...results, isLoading: false }))
         })
     },
-    [searchResults.isLoading, searchResults.filter, filter, displayError]
+    [searchResults.filter, searchResults.isLoading, filter, client, displayError]
   )
 
   const loadMore = useCallback(() => {

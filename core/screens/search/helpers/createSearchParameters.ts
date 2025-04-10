@@ -52,5 +52,6 @@ export const createSearchParameters = ({ facet, location, query }: SearchFilter,
     sort_by,
     page,
     per_page: PAGE_SIZE,
+    exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
   }
 }

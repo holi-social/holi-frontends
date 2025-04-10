@@ -5708,6 +5708,7 @@ __metadata:
     "@types/lodash.at": "npm:^4.6.7"
     "@types/lodash.debounce": "npm:^4.0.7"
     "@types/lodash.groupby": "npm:^4.6.9"
+    "@types/lodash.isequal": "npm:^4.5.8"
     "@types/lodash.partition": "npm:^4.6.9"
     "@types/lodash.shuffle": "npm:^4.2.9"
     "@types/react": "npm:~18.2.79"
@@ -5747,6 +5748,7 @@ __metadata:
     lodash.at: "npm:^4.6.0"
     lodash.debounce: "npm:^4.0.8"
     lodash.groupby: "npm:^4.6.0"
+    lodash.isequal: "npm:^4.5.0"
     lodash.partition: "npm:^4.6.0"
     lodash.shuffle: "npm:^4.2.0"
     lottie-ios: "npm:4.5.0"
@@ -12884,6 +12886,15 @@ __metadata:
   dependencies:
     "@types/lodash": "npm:*"
   checksum: 10c0/1302531f76da99cc8f1bbd486a8c7048a833352b12c39eb5b2ded01173dd5fff76f2c7ace04f08b51c55840271170f1cfbffe4e454dde8597c3ee996e70d4e11
+  languageName: node
+  linkType: hard
+
+"@types/lodash.isequal@npm:^4.5.8":
+  version: 4.5.8
+  resolution: "@types/lodash.isequal@npm:4.5.8"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10c0/6db28cacf165d55421fbf2970ccfb1682a7b82b743bb7aba4398fa8ab98f1711fca2fe4afa1aa2b7b4afb3eff76c8aca13b22206f5efeb038d99e41300589bca
   languageName: node
   linkType: hard
 
@@ -25004,6 +25015,13 @@ __metadata:
   version: 4.6.0
   resolution: "lodash.groupby@npm:4.6.0"
   checksum: 10c0/3d136cad438ad6c3a078984ef60e057a3498b1312aa3621b00246ecb99e8f2c4d447e2815460db7a0b661a4fe4e2eeee96c84cb661a824bad04b6cf1f7bc6e9b
+  languageName: node
+  linkType: hard
+
+"lodash.isequal@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.isequal@npm:4.5.0"
+  checksum: 10c0/dfdb2356db19631a4b445d5f37868a095e2402292d59539a987f134a8778c62a2810c2452d11ae9e6dcac71fc9de40a6fedcb20e2952a15b431ad8b29e50e28f
   languageName: node
   linkType: hard
 

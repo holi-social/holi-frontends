@@ -11,6 +11,7 @@ import { recommendedTasksQuery } from '@holi/core/screens/homeFeed/queries'
 
 import { donationProjectsQuery } from '@holi-apps/donations/queries'
 import { volunteeringRecosQuery } from '@holi-apps/volunteering/queries'
+import { DEFAULT_RECO_TOPICS_V2 } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 
 export const user: User = {
   id: '123',
@@ -163,7 +164,7 @@ const volunteeringRequest = {
     variables: {
       limit: 5,
       offset: 0,
-      topics: undefined,
+      topics: DEFAULT_RECO_TOPICS_V2,
       skills: undefined,
       geolocationId: undefined,
     },

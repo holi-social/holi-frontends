@@ -1,9 +1,7 @@
 import { logError } from '@holi/core/errors/helpers'
-import { createTypesenseClient } from '@holi/core/typesense/helpers/createTypesenseClient'
+import { useTypesenseClient } from '@holi/core/typesense/provider/TypesenseClientProvider'
 import type { TypesenseDocument, TypesenseDocumentType } from '@holi/core/typesense/types'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
-const typesenseClient = createTypesenseClient()
 
 export const useSingleTypesenseDocumentQuery = (
   id: string,
@@ -16,12 +14,14 @@ export const useSingleTypesenseDocumentQuery = (
       q: '*',
       filter_by: `id:${documentType}_${id} && type:${documentType}`,
       per_page: 1,
+      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     }),
     [documentType, id]
   )
+  const { client } = useTypesenseClient()
 
   const fetchDocument = useCallback(() => {
-    typesenseClient
+    client
       .search(parameters)
       .then((results) => {
         if (!results?.hits?.length) {
@@ -39,7 +39,7 @@ export const useSingleTypesenseDocumentQuery = (
           })
         }
       })
-  }, [parameters, onError, onNotFound])
+  }, [client, parameters, onNotFound, onError])
 
   useEffect(() => {
     fetchDocument()

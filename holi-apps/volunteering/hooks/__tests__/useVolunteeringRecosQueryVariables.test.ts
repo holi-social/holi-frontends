@@ -9,7 +9,10 @@ import {
 import { ALL_SKILLS, ALL_TOPICS, type AuthenticatedUser } from '@holi/core/domain/shared/types'
 import { getRandomAuthenticatedUser } from '@holi/ui/helper/fakeUsers'
 
-import { useVolunteeringRecosQueryVariables } from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
+import {
+  DEFAULT_RECO_TOPICS_V2,
+  useVolunteeringRecosQueryVariables,
+} from '@holi-apps/volunteering/hooks/useVolunteeringRecosQueryVariables'
 
 jest.mock('@holi/core/auth/hooks/useLoggedInUser')
 const mockUseLoggedInUser = jest.mocked(useLoggedInUser)
@@ -31,7 +34,7 @@ describe('useVolunteeringRecosQueryVariables', () => {
     mockUseLoggedInUser.mockReturnValue(loggedOut)
     const { result } = renderHook(() => useVolunteeringRecosQueryVariables())
 
-    expect(result.current.queryVariables).toEqual({ topics: undefined })
+    expect(result.current.queryVariables).toEqual({ topics: DEFAULT_RECO_TOPICS_V2 })
   })
 
   it('should expose loading flag if user is logged in but still loading', () => {
@@ -71,7 +74,7 @@ describe('useVolunteeringRecosQueryVariables', () => {
     const { result } = renderHook(() => useVolunteeringRecosQueryVariables())
 
     expect(result.current.queryVariables).toEqual({
-      topics: undefined,
+      topics: DEFAULT_RECO_TOPICS_V2,
       geolocationId: 'locationId',
     })
   })
