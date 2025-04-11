@@ -1,4 +1,3 @@
-import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
 import 'holi-bricks/libs/init'
@@ -37,7 +36,6 @@ const apolloClient = initializeMobileApolloClient()
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
-  const [initDone, setInitDone] = useState(false)
 
   // Android requires importing Intl polyfills to use APIs such as RelativeTimeFormat
   if (Platform.OS !== 'web') {
@@ -50,21 +48,13 @@ const App = () => {
     require('@formatjs/intl-pluralrules/locale-data/de')
   }
 
-  // HOLI-9792: Remove when moving font to app.config.js
-  const fonts = {
-    ['InstrumentSans-Regular']: require('holi-bricks/components/text/fonts/InstrumentSans-Regular.ttf'),
-    ['InstrumentSans-Medium']: require('holi-bricks/components/text/fonts/InstrumentSans-Medium.ttf'),
-  }
-
-  const [fontsLoaded] = useFonts(fonts)
-
   const init = async () => {
     try {
       await Promise.all([initI18n(), initAuth(), initNotifications()])
     } catch (error) {
       logError(error, 'Error initializing the app', { location: 'App.init' })
     } finally {
-      setInitDone(true)
+      setIsReady(true)
     }
   }
 
@@ -73,12 +63,6 @@ const App = () => {
 
     return subscribeToDeviceTokenChanges()
   }, [])
-
-  useEffect(() => {
-    if (fontsLoaded && initDone) {
-      setIsReady(true)
-    }
-  }, [fontsLoaded, initDone])
 
   if (!isReady) return null
 

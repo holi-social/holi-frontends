@@ -185,18 +185,17 @@ const config: ExpoConfig = {
         advertiserIDCollectionEnabled: false,
       },
     ],
-    // HOLI-9792: Create a new development build to bundle fonts
-    // [
-    //   'expo-font',
-    //   {
-    //     fonts: [
-    //       '../../holi-bricks/components/text/fonts/InstrumentSans-Regular.ttf',
-    //       '../../holi-bricks/components/text/fonts/InstrumentSans-Medium.ttf',
-    //     ],
-    //   },
-    // ],
+    [
+      'expo-font',
+      {
+        fonts: [
+          '../../holi-bricks/components/text/fonts/InstrumentSans-Regular.ttf',
+          '../../holi-bricks/components/text/fonts/InstrumentSans-Medium.ttf',
+        ],
+      },
+    ],
   ],
-  // This doesn't seems to be supported by the expo config.
+  // This doesn't seem to be supported by the expo config.
   // hooks: {
   //   postPublish: [
   //     {
