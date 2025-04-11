@@ -109,7 +109,7 @@ export const VolunteeringTypesenseRecommendations = () => {
 const stylesheet = createStyleSheet((theme) => ({
   list: {
     paddingTop: dimensions.topBarHeight,
-    backgroundColor: theme.colors.bg.page,
+    backgroundColor: theme.colors.bg.main,
   },
   loaderBottom: {
     marginBottom: 24,
