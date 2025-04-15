@@ -13,14 +13,16 @@ import {
 
 import { getValidationErrorText } from '@holi/core/auth/components/FormInputField'
 import {
+  getIdentity,
+  getOidcProvider,
   getSessionFromStorage,
   initReauthFlow,
   initSettingsFlow,
+  isOidcUser,
   submitReauthFlow,
   submitSettingsFlow,
 } from '@holi/core/auth/helpers/auth'
-import { getSettingsFlow } from '@holi/core/auth/helpers/auth/helpers'
-import { syncUserSessionFromOrySession } from '@holi/core/auth/helpers/auth/helpers'
+import { getSettingsFlow, syncUserSessionFromOrySession } from '@holi/core/auth/helpers/auth/helpers'
 import { findInputNodeByNameAndType, handleFormSubmitError } from '@holi/core/auth/helpers/form'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import KeyboardAvoidingViewWrapper from '@holi/core/components/KeyboardAvoidingViewWrapper'
@@ -32,7 +34,6 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
@@ -40,6 +41,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Button } from 'holi-bricks/components/button'
+import { Text } from 'holi-bricks/components/text'
 
 export interface ChangePasswordProps {
   forgotPasswordFlow?: boolean
@@ -74,8 +76,10 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
   const [settingsFlow, setSettingsFlow] = useState<SettingsFlow>()
   const [reauthFlow, setReauthFlow] = useState<LoginFlow>()
   const [sessionToken, setSessionToken] = useState<string>()
+  const [isOidc, setIsOidc] = useState<boolean | undefined>()
   const safeSetSettingsFlow = useSafeDispatch(setSettingsFlow)
   const safeSetReauthFlow = useSafeDispatch(setReauthFlow)
+  const safeSetIsOidc = useSafeDispatch(setIsOidc)
 
   const initForm = useCallback(async () => {
     if (isLoggedIn) {
@@ -86,10 +90,15 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
           // we are in a normale change password dialog, so we start a new reauth flow
           // reauth is needed, because setting sensitive information needs a new reauth
           initReauthFlow(session.session_token)
-            .then(({ data: reauthFlow }) => safeSetReauthFlow(reauthFlow))
+            .then(({ data: reauthFlow }) => {
+              safeSetIsOidc(isOidcUser(reauthFlow))
+              safeSetReauthFlow(reauthFlow)
+            })
             .catch((error: Error) =>
               displayError(error, 'Failed to initialize reauth flow', { location: 'ChangePassword.initReauthFlow' })
             )
+        } else {
+          safeSetIsOidc(false)
         }
         if (forgotPasswordFlow && flow) {
           // we are in a forgot password recovery flow, where the flow Id was passed as parameter
@@ -109,7 +118,7 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
         }
       }
     }
-  }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError, forgotPasswordFlow, flow])
+  }, [isLoggedIn, safeSetReauthFlow, safeSetSettingsFlow, displayError, forgotPasswordFlow, flow, safeSetIsOidc])
 
   useIsomorphicLayoutEffect(() => {
     if (webview)
@@ -216,76 +225,92 @@ const ChangePassword = ({ forgotPasswordFlow = false }: ChangePasswordProps) => 
         <ScrollView keyboardShouldPersistTaps="handled" style={{ backgroundColor: theme.colors.background20, flex: 1 }}>
           <View style={[mixins.container, styles.inner]}>
             <HoliBox padding={[24, 0, 0, 0]}>
-              {!((forgotPasswordFlow || reauthFlow) && settingsFlow) ? (
+              {isOidc == undefined || !((forgotPasswordFlow || reauthFlow) && settingsFlow) ? (
                 <HoliBox padding={16}>
                   <HoliLoader />
                 </HoliBox>
               ) : (
                 <>
-                  <HoliText>
-                    <Trans
-                      t={t}
-                      i18nKey={
-                        forgotPasswordFlow
-                          ? 'auth.changePassword.description-forgotflow'
-                          : 'auth.changePassword.description'
-                      }
-                    />
-                  </HoliText>
-                  <View style={styles.inputFieldsContainer}>
-                    {!forgotPasswordFlow && (
-                      <HoliTextInput
-                        inputLabel={t('auth.changePassword.input.label-OldPassword')}
-                        aria-label={t('auth.changePassword.input.label-OldPassword')}
-                        placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
-                        validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
-                        inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
-                        maxNoOfCharacters={200}
-                        onChange={setOldPwd}
-                        value={oldPwd}
-                        type="password"
-                        testID={'old-password'}
-                      />
-                    )}
-                    <HoliTextInput
-                      inputLabel={t('auth.changePassword.input.label-NewPassword')}
-                      aria-label={t('auth.changePassword.input.label-NewPassword')}
-                      placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
-                      validationErrorText={
-                        retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
-                      }
-                      helperText={t('auth.changePassword.input.helper-NewPassword')}
-                      inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
-                      maxNoOfCharacters={200}
-                      onChange={setNewPwd}
-                      value={newPwd}
-                      type="password"
-                      testID={'new-password'}
-                    />
-                    {!!forgotPasswordFlow && (
-                      <HoliTextInput
-                        inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
-                        aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
-                        placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
-                        validationErrorText={
-                          retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
-                        }
-                        inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
-                        maxNoOfCharacters={200}
-                        onChange={setNewPwdRetype}
-                        value={newPwdRetype}
-                        type="password"
-                        testID={'new-password-retype'}
-                      />
-                    )}
-                  </View>
-                  <View style={styles.button}>
-                    <Button
-                      label={t('auth.changePassword.input.label-Save')}
-                      onPress={performPasswordChange}
-                      testID={'btn-submit-change-password'}
-                    />
-                  </View>
+                  {isOidc && reauthFlow ? (
+                    <HoliBox padding={16}>
+                      <Text size="md" textAlign="center">
+                        <Trans
+                          t={t}
+                          i18nKey="auth.changePassword.oidc"
+                          values={{
+                            provider: getOidcProvider(reauthFlow),
+                            identity: getIdentity(reauthFlow),
+                          }}
+                        >
+                          <Text size="lg" />
+                        </Trans>
+                      </Text>
+                    </HoliBox>
+                  ) : (
+                    <>
+                      <Text size="md">
+                        {t(
+                          forgotPasswordFlow
+                            ? 'auth.changePassword.description-forgotflow'
+                            : 'auth.changePassword.description'
+                        )}
+                      </Text>
+                      <View style={styles.inputFieldsContainer}>
+                        {!forgotPasswordFlow && (
+                          <HoliTextInput
+                            inputLabel={t('auth.changePassword.input.label-OldPassword')}
+                            aria-label={t('auth.changePassword.input.label-OldPassword')}
+                            placeholder={t('auth.changePassword.input.placeholder-OldPassword')}
+                            validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
+                            inputProps={{ onKeyPress: handleKeyDown, autoFocus: true }}
+                            maxNoOfCharacters={200}
+                            onChange={setOldPwd}
+                            value={oldPwd}
+                            type="password"
+                            testID={'old-password'}
+                          />
+                        )}
+                        <HoliTextInput
+                          inputLabel={t('auth.changePassword.input.label-NewPassword')}
+                          aria-label={t('auth.changePassword.input.label-NewPassword')}
+                          placeholder={t('auth.changePassword.input.placeholder-NewPassword')}
+                          validationErrorText={
+                            retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
+                          }
+                          helperText={t('auth.changePassword.input.helper-NewPassword')}
+                          inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
+                          maxNoOfCharacters={200}
+                          onChange={setNewPwd}
+                          value={newPwd}
+                          type="password"
+                          testID={'new-password'}
+                        />
+                        {!!forgotPasswordFlow && (
+                          <HoliTextInput
+                            inputLabel={t('auth.changePassword.input.label-NewPassword-retype')}
+                            aria-label={t('auth.changePassword.input.label-NewPassword-retype')}
+                            placeholder={t('auth.changePassword.input.placeholder-NewPassword-retype')}
+                            validationErrorText={
+                              retypeError ? retypeError : newPwdNode && getValidationErrorText(newPwdNode, i18n)
+                            }
+                            inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'new-password' }}
+                            maxNoOfCharacters={200}
+                            onChange={setNewPwdRetype}
+                            value={newPwdRetype}
+                            type="password"
+                            testID={'new-password-retype'}
+                          />
+                        )}
+                      </View>
+                      <View style={styles.button}>
+                        <Button
+                          label={t('auth.changePassword.input.label-Save')}
+                          onPress={performPasswordChange}
+                          testID={'btn-submit-change-password'}
+                        />
+                      </View>
+                    </>
+                  )}
                 </>
               )}
             </HoliBox>

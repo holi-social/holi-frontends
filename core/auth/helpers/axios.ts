@@ -21,7 +21,10 @@ export const resilience = (axios: AxiosInstance) => {
 
       if (
         error.response &&
-        (error.response.status == 400 || error.response.status == 401 || error.response.status == 403)
+        (error.response.status == 400 ||
+          error.response.status == 401 ||
+          error.response.status == 403 ||
+          error.response.status == 422) // 422 is used by Ory for browser redirects
       ) {
         logger.debug('auth', 'network request failed with response code ' + error.response.status, {
           error,

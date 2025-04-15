@@ -8,6 +8,7 @@ import { getLogger } from '@holi/core/helpers/logging'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { clearOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import { Platform } from 'react-native'
 
 const logger = getLogger('Auth')
 
@@ -38,7 +39,7 @@ export const useLogout = () => {
         skipLogoutFlow = false,
         skipRedirect = false,
         redirectPath = '/profile',
-        redirectTimeout = undefined,
+        redirectTimeout = Platform.OS !== 'web' ? 200 : undefined,
         showToastAfter = true,
       }: LogoutOptions = {}) => {
         const redirect = () => {

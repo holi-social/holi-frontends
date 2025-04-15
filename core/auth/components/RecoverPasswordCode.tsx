@@ -1,5 +1,4 @@
 import type { RecoveryFlow } from '@ory/kratos-client'
-import type { AxiosError } from 'axios'
 import { TextLink } from 'holi-bricks/components/text'
 import React, { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,12 +15,9 @@ import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToast
 import HoliKeyboardSaveView from '@holi/ui/components/organisms/HoliKeyboardSaveView'
 import { useScrollToInputOnFocus } from '@holi/ui/helper/useScrollToInputOnFocus'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 
 const CODE_MAX_COUNT = 6
-
-const isAxiosError = (err: AxiosError | unknown): err is AxiosError => {
-  return !!(err as AxiosError).response
-}
 
 export type RecoverPasswordCodeProps = {
   email: string
@@ -82,21 +78,10 @@ const RecoverPasswordCode = ({ email, flow, webview }: RecoverPasswordCodeProps)
         setCode('')
       }
     } catch (error) {
-      if (isAxiosError(error)) {
-        const responseData = error.response?.data as { error?: { id: string }; redirect_browser_to?: string }
-        if (
-          error.response?.status === 422 &&
-          responseData?.error?.id === 'browser_location_change_required' &&
-          responseData?.redirect_browser_to
-        ) {
-          const url = trimPrefix('/api/.ory', responseData?.redirect_browser_to)
-          navigate(webview ? url + '&webview=true' : url)
-        } else {
-          displayError(error, 'Failed to recover with code for password recovery', {
-            displayMessage: t('auth.forgotPassword.message.submitCode.error'),
-            location: 'RecoverPasswordCode.submitCode.axisError',
-          })
-        }
+      const redirectUrl = getBrowserRedirect(error)
+      if (redirectUrl) {
+        const url = trimPrefix('/api/.ory', redirectUrl)
+        navigate(webview ? url + '&webview=true' : url)
       } else {
         displayError(error, 'Failed to recover with code for password recovery', {
           displayMessage: t('auth.forgotPassword.message.submitCode.error'),

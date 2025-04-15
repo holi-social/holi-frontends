@@ -129,6 +129,7 @@ const linkingConfig: LinkingOptions<RootStackScreens>['config'] = {
     // Modals
     [RouteName.Notifications]: 'notifications',
     [RouteName.Login]: 'login',
+    [RouteName.LoginCallback]: 'login/callback',
     [RouteName.ForgotPassword]: 'forgotPassword',
     [RouteName.VideoCall]: 'video-call/:roomName',
     [RouteName.Search]: 'search',

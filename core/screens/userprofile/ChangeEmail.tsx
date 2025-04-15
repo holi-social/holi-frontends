@@ -12,10 +12,13 @@ import {
 
 import { getValidationErrorText } from '@holi/core/auth/components/FormInputField'
 import {
+  getIdentity,
+  getOidcProvider,
   getSessionFromStorage,
   getVerificationFlowFromRegistration,
   initReauthFlow,
   initSettingsFlow,
+  isOidcUser,
   submitReauthFlow,
   submitSettingsFlowProfile,
 } from '@holi/core/auth/helpers/auth'
@@ -29,16 +32,16 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
-import HoliText from '@holi/ui/components/atoms/HoliText'
 import { Button } from 'holi-bricks/components/button'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
+import type { HoliTheme } from '@holi/ui/styles/theme'
 import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { dimensions } from '@holi/ui/styles/globalVars'
-import type { HoliTheme } from '@holi/ui/styles/theme'
+import { Text } from 'holi-bricks/components/text'
 
 const ChangeEmail = () => {
   const { t, i18n } = useTranslation()
@@ -57,9 +60,11 @@ const ChangeEmail = () => {
 
   const [settingsFlow, setSettingsFlow] = useState<SettingsFlow>()
   const [reauthFlow, setReauthFlow] = useState<LoginFlow>()
+  const [isOidc, setIsOidc] = useState<boolean | undefined>()
   const [sessionToken, setSessionToken] = useState<string>()
   const safeSetSettingsFlow = useSafeDispatch(setSettingsFlow)
   const safeSetReauthFlow = useSafeDispatch(setReauthFlow)
+  const safeSetIsOidc = useSafeDispatch(setIsOidc)
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
 
@@ -76,7 +81,10 @@ const ChangeEmail = () => {
         // we are in a normal change Email dialog, so we start a new reauth flow
         // reauth is needed, because setting sensitive information needs a new reauth
         initReauthFlow(session.session_token)
-          .then(({ data: reauthFlow }) => safeSetReauthFlow(reauthFlow))
+          .then(({ data: reauthFlow }) => {
+            safeSetIsOidc(isOidcUser(reauthFlow))
+            safeSetReauthFlow(reauthFlow)
+          })
           .catch((error: Error) =>
             displayError(error, 'Failed to initialize reauth flow', { location: 'ChangeEmail.initReauthFlow' })
           )
@@ -87,7 +95,7 @@ const ChangeEmail = () => {
           )
       }
     }
-  }, [isLoggedIn, safeSetReauthFlow, displayError, safeSetSettingsFlow])
+  }, [isLoggedIn, safeSetReauthFlow, displayError, safeSetSettingsFlow, safeSetIsOidc])
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -184,66 +192,82 @@ const ChangeEmail = () => {
     <View style={styles.wrapper}>
       <View style={[mixins.container]}>
         <HoliBox padding={[24, 0, 0, 0]}>
-          {!(reauthFlow && settingsFlow) ? (
+          {isOidc == undefined || !reauthFlow || !settingsFlow ? (
             <HoliBox padding={16}>
               <HoliLoader />
             </HoliBox>
           ) : (
             <>
-              <HoliText>
-                <Trans t={t} i18nKey="auth.changeEmail.description" values={{ email }}>
-                  <HoliText bold />
-                </Trans>
-              </HoliText>
-              <KeyboardAwareScrollView style={styles.inputFieldsContainer} keyboardShouldPersistTaps="handled">
-                <HoliTextInput
-                  inputLabel={t('auth.changeEmail.input.label-OldPassword')}
-                  aria-label={t('auth.changeEmail.input.label-OldPassword')}
-                  placeholder={t('auth.changeEmail.input.placeholder-OldPassword')}
-                  validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
-                  inputProps={{ onKeyPress: handleKeyDown, autoFocus: true, autoComplete: 'password' }}
-                  maxNoOfCharacters={200}
-                  onChange={setOldPwd}
-                  type="password"
-                  testID={'old-password'}
-                  value={oldPwd}
-                />
-                <HoliTextInput
-                  inputLabel={t('auth.changeEmail.input.label-NewEmail')}
-                  aria-label={t('auth.changeEmail.input.label-NewEmail')}
-                  placeholder={t('auth.changeEmail.input.placeholder-NewEmail')}
-                  validationErrorText={
-                    retypeError ? retypeError : newEmailNode && getValidationErrorText(newEmailNode, i18n)
-                  }
-                  inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
-                  maxNoOfCharacters={200}
-                  onChange={setNewEmail}
-                  type="email"
-                  testID={'new-email'}
-                  value={newEmail}
-                />
-                <HoliTextInput
-                  inputLabel={t('auth.changeEmail.input.label-NewEmail-retype')}
-                  aria-label={t('auth.changeEmail.input.label-NewEmail-retype')}
-                  placeholder={t('auth.changeEmail.input.placeholder-NewEmail-retype')}
-                  validationErrorText={
-                    retypeError ? retypeError : newEmailNode && getValidationErrorText(newEmailNode, i18n)
-                  }
-                  inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
-                  maxNoOfCharacters={200}
-                  onChange={setNewEmailRetype}
-                  value={newEmailRetype}
-                  type="email"
-                  testID={'new-email-retype'}
-                />
-                <View style={styles.button}>
-                  <Button
-                    label={t('auth.changeEmail.input.label-Save')}
-                    onPress={performEmailChange}
-                    testID={'btn-submit-change-email'}
-                  />
-                </View>
-              </KeyboardAwareScrollView>
+              {isOidc ? (
+                <HoliBox padding={16}>
+                  <Text size="md" textAlign="center">
+                    <Trans
+                      t={t}
+                      i18nKey="auth.changeEmail.oidc"
+                      values={{ provider: getOidcProvider(reauthFlow), identity: getIdentity(reauthFlow) }}
+                    >
+                      <Text size="lg" />
+                    </Trans>
+                  </Text>
+                </HoliBox>
+              ) : (
+                <>
+                  <Text size="md">
+                    <Trans t={t} i18nKey="auth.changeEmail.description" values={{ email }}>
+                      <Text size="lg" />
+                    </Trans>
+                  </Text>
+                  <KeyboardAwareScrollView style={styles.inputFieldsContainer} keyboardShouldPersistTaps="handled">
+                    <HoliTextInput
+                      inputLabel={t('auth.changeEmail.input.label-OldPassword')}
+                      aria-label={t('auth.changeEmail.input.label-OldPassword')}
+                      placeholder={t('auth.changeEmail.input.placeholder-OldPassword')}
+                      validationErrorText={oldPwdNode && getValidationErrorText(oldPwdNode, i18n)}
+                      inputProps={{ onKeyPress: handleKeyDown, autoFocus: true, autoComplete: 'password' }}
+                      maxNoOfCharacters={200}
+                      onChange={setOldPwd}
+                      type="password"
+                      testID={'old-password'}
+                      value={oldPwd}
+                    />
+                    <HoliTextInput
+                      inputLabel={t('auth.changeEmail.input.label-NewEmail')}
+                      aria-label={t('auth.changeEmail.input.label-NewEmail')}
+                      placeholder={t('auth.changeEmail.input.placeholder-NewEmail')}
+                      validationErrorText={
+                        retypeError ? retypeError : newEmailNode && getValidationErrorText(newEmailNode, i18n)
+                      }
+                      inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
+                      maxNoOfCharacters={200}
+                      onChange={setNewEmail}
+                      type="email"
+                      testID={'new-email'}
+                      value={newEmail}
+                    />
+                    <HoliTextInput
+                      inputLabel={t('auth.changeEmail.input.label-NewEmail-retype')}
+                      aria-label={t('auth.changeEmail.input.label-NewEmail-retype')}
+                      placeholder={t('auth.changeEmail.input.placeholder-NewEmail-retype')}
+                      validationErrorText={
+                        retypeError ? retypeError : newEmailNode && getValidationErrorText(newEmailNode, i18n)
+                      }
+                      inputProps={{ onKeyPress: handleKeyDown, autoComplete: 'email' }}
+                      maxNoOfCharacters={200}
+                      onChange={setNewEmailRetype}
+                      value={newEmailRetype}
+                      type="email"
+                      testID={'new-email-retype'}
+                    />
+                    <View style={styles.button}>
+                      <Button
+                        label={t('auth.changeEmail.input.label-Save')}
+                        onPress={performEmailChange}
+                        testID={'btn-submit-change-email'}
+                      />
+                    </View>
+                  </KeyboardAwareScrollView>
+                </>
+              )}
             </>
           )}
         </HoliBox>

@@ -87,6 +87,7 @@ jest.mock('@holi/core/auth/helpers/auth', () => ({
   getOrCreateVerificationFlow: jest.fn(),
   submitVerificationFlow: jest.fn(),
   hasIdentifier: jest.fn(),
+  doLogin: jest.fn(),
 }))
 
 const mockNewKratosSdk = newKratosSdk as jest.Mock

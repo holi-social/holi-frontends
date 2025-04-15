@@ -1,5 +1,5 @@
 import type { GenericError, LoginFlow, SettingsFlow, UiNodeInputAttributes, VerificationFlow } from '@ory/kratos-client'
-import type { AxiosError, AxiosResponse } from 'axios'
+import { type AxiosError, type AxiosResponse, isAxiosError } from 'axios'
 
 import { oryNodeIsInput } from '@holi/core/auth/helpers/form'
 import { logError } from '@holi/core/errors/helpers'
@@ -16,21 +16,15 @@ export const extractValue = (flow: LoginFlow | SettingsFlow | VerificationFlow, 
 export const handleKratosSdkError =
   (method: string) =>
   (error: GenericAxiosError): never => {
-    const response = error?.response
-    if (response?.status === 400) {
-      // Bad user input should be handled by UI
-      throw error
-    }
-    const errorDetails = response?.data?.error
-    return logKratosError(errorDetails, error, response, method)
+    throw handleKratosSdkErrorIgnoringCodes(method)(error)
   }
 
 export const handleKratosSdkErrorIgnoringCodes =
-  (method: string, errorCodesToIgnore: string[] = []) =>
+  (method: string, { errorCodesToIgnore = [] }: { errorCodesToIgnore?: string[] } = {}) =>
   (error: GenericAxiosError) => {
     const response = error?.response
-    if (response?.status === 400) {
-      // Bad user input should be handled by UI
+    if (response?.status === 400 || getBrowserRedirect(error)) {
+      // Bad user input and redirects should be handled by UI
       throw error
     }
     const errorDetails = response?.data?.error
@@ -55,4 +49,14 @@ const logKratosError = (
     ...filteredDetails,
   })
   throw error
+}
+
+export const getBrowserRedirect = (err: unknown) => {
+  if (isAxiosError(err) && err.response?.status === 422) {
+    const responseData = err.response?.data as { error?: { id: string }; redirect_browser_to?: string }
+    if (responseData?.error?.id === 'browser_location_change_required' && responseData?.redirect_browser_to) {
+      return responseData?.redirect_browser_to
+    }
+  }
+  return
 }

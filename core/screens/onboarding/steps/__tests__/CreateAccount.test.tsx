@@ -1,17 +1,23 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { getVerificationFlowFromRegistration, initRegistrationFlow } from '@holi/core/auth/helpers/auth'
+import {
+  doBrowserLogin,
+  doLogin,
+  getVerificationFlowFromRegistration,
+  initRegistrationFlow,
+} from '@holi/core/auth/helpers/auth'
 import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { CreateAccount, type CreateAccountProps } from '@holi/core/screens/onboarding/steps/CreateAccount'
-import { act } from '@testing-library/react-native'
-import { render, screen, userEvent, within } from '@testing-library/react-native'
+import { act, render, screen, userEvent, within } from '@testing-library/react-native'
 import { Button } from 'holi-bricks/components/button'
 import React from 'react'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
-import { clearGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { ApolloClient } from '@apollo/client'
 
 const mockUseErrorHandling = useErrorHandling as jest.Mock
 jest.mock('@holi/core/errors/hooks', () => ({
@@ -20,6 +26,9 @@ jest.mock('@holi/core/errors/hooks', () => ({
 
 const mockUseTracking = useTracking as jest.Mock
 jest.mock('@holi/core/tracking/hooks/useTracking', () => jest.fn())
+
+const mockUseRouting = useRouting as jest.Mock
+jest.mock('@holi/core/navigation/hooks/useRouting', () => jest.fn())
 
 const mockUseLoginState = useLoginState as jest.Mock
 const mockSetLoginStateLoggedIn = setLoginStateLoggedIn as jest.Mock
@@ -30,9 +39,13 @@ jest.mock('@holi/core/auth/loginState', () => ({
 
 const mockInitRegistrationFlow = initRegistrationFlow as jest.Mock
 const mockGetVerificationFlowFromRegistration = getVerificationFlowFromRegistration as jest.Mock
+const mockDoBrowserLogin = doBrowserLogin as jest.Mock
+const mockDoLogin = doLogin as jest.Mock
 jest.mock('@holi/core/auth/helpers/auth', () => ({
   initRegistrationFlow: jest.fn(),
   getVerificationFlowFromRegistration: jest.fn(),
+  doBrowserLogin: jest.fn(),
+  doLogin: jest.fn(),
 }))
 
 const mockSetVerificationFlowData = setVerificationFlowData as unknown as jest.Mock
@@ -45,7 +58,6 @@ jest.mock('@holi/core/auth/helpers/sdk', () => ({
   newKratosSdk: jest.fn(),
 }))
 
-const mockClearGuestMode = clearGuestMode as jest.Mock
 const mockStoreGuestMode = storeGuestMode as jest.Mock
 jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
   clearGuestMode: jest.fn(),
@@ -64,6 +76,7 @@ describe('CreateAccount', () => {
   const registrationFlow = { id: 'test' }
   const displayError = jest.fn()
   const track = jest.fn()
+  const navigate = jest.fn()
   const updateRegistrationFlow = jest.fn()
   const verificationFlowData = { id: 'test' }
   const registrationResponse = { session: { id: 'test' }, session_token: 'some_token' }
@@ -74,10 +87,12 @@ describe('CreateAccount', () => {
     mockInitRegistrationFlow.mockResolvedValue({ data: registrationFlow })
     mockUseErrorHandling.mockReturnValue({ displayError })
     mockUseTracking.mockReturnValue({ track })
+    mockUseRouting.mockReturnValue({ navigate })
     mockNewKratosSdk.mockReturnValue({ updateRegistrationFlow })
     updateRegistrationFlow.mockResolvedValue({ data: registrationResponse })
     mockGetVerificationFlowFromRegistration.mockReturnValue(verificationFlowData)
     mockSetLoginStateLoggedIn.mockResolvedValue({})
+    mockDoBrowserLogin.mockResolvedValue({})
   })
   afterEach(async () => {
     await act(jest.runOnlyPendingTimers)
@@ -160,7 +175,7 @@ describe('CreateAccount', () => {
     it('should clear guest mode', async () => {
       await submitForm()
 
-      expect(mockClearGuestMode).toHaveBeenCalled()
+      expect(mockDoLogin).toHaveBeenCalled()
     })
 
     it('should handle misconfiguration', async () => {
@@ -185,6 +200,45 @@ describe('CreateAccount', () => {
       })
     })
 
+    it('should follow a redirect, when Ory sends a request', async () => {
+      updateRegistrationFlow.mockRejectedValue({
+        isAxiosError: true,
+        response: {
+          status: 422,
+          data: {
+            error: { id: 'browser_location_change_required' },
+            redirect_browser_to: 'someUrl',
+          },
+        },
+      })
+
+      await submitForm()
+
+      expect(mockDoBrowserLogin).toHaveBeenCalledWith('someUrl', registrationFlow)
+    })
+
+    it('should display error when a browser login fails', async () => {
+      updateRegistrationFlow.mockRejectedValue({
+        isAxiosError: true,
+        response: {
+          status: 422,
+          data: {
+            error: { id: 'browser_location_change_required' },
+            redirect_browser_to: 'someUrl',
+          },
+        },
+      })
+      mockDoBrowserLogin.mockRejectedValue('test')
+
+      await submitForm()
+
+      expect(mockDoBrowserLogin).toHaveBeenCalledWith('someUrl', registrationFlow)
+      expect(displayError).toHaveBeenCalledWith('test', 'Failed to login user', {
+        displayMessage: 'auth.login.error.login',
+        location: 'CreateAccount.doBrowserLogin',
+      })
+    })
+
     it('should set verification flow data', async () => {
       await submitForm()
 
@@ -194,7 +248,7 @@ describe('CreateAccount', () => {
     it('should set the login state', async () => {
       await submitForm()
 
-      expect(mockSetLoginStateLoggedIn).toHaveBeenCalledWith(registrationResponse)
+      expect(mockDoLogin).toHaveBeenCalledWith(expect.any(ApolloClient), registrationResponse)
     })
 
     it('should call onRegister callback', async () => {

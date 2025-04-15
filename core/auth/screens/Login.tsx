@@ -6,11 +6,11 @@ import { Platform, StyleSheet, View } from 'react-native'
 
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
 import RegistrationButton from '@holi/core/auth/components/RegistrationButton'
-import { hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
+import { doBrowserLogin, doLogin, hasIdentifier, initLoginFlow, submitLoginFlow } from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/helpers/form'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
-import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
+import { useLoginState } from '@holi/core/auth/loginState'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { HoliTextLinkTracked } from '@holi/core/components/Trackable'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -28,7 +28,8 @@ import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { Screen } from '@holi/core/components/Screen'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
-import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 
 const Login = () => {
   const { isLoggedOut } = useLoginState()
@@ -41,6 +42,7 @@ const Login = () => {
   const client = useApolloClient()
   const { track } = useTracking()
   const redirect = useRedirect('/')
+  const { navigate } = useRouting()
 
   const isWeb = Platform.OS === 'web'
 
@@ -86,26 +88,49 @@ const Login = () => {
 
     try {
       const { data }: { data: OrySessionContext } = await submitLoginFlow(flow, payload, undefined)
-      await client.clearStore()
-      await setLoginStateLoggedIn(data)
-      await clearGuestMode()
+      await doLogin(client, data)
       storeOnboardingState('finished')
       redirect(true)
     } catch (err) {
-      if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
-        setVerificationFlowData(payload)
-        storeOnboardingState('emailVerification')
+      const url = getBrowserRedirect(err)
+      if (url) {
+        if (Platform.OS === 'web') {
+          navigate(url)
+        } else {
+          const data = await doBrowserLogin(url, flow).catch((error) => {
+            handleFormSubmitError(
+              safeSetFlow,
+              initializeFlow,
+              (err) =>
+                displayError(err, 'Failed to login user', {
+                  displayMessage: t('auth.login.error.login'),
+                  location: 'Login.doBrowserLogin',
+                }),
+              error
+            )
+          })
+          if (data) {
+            await doLogin(client, data)
+            storeOnboardingState('finished')
+            redirect(true)
+          }
+        }
       } else {
-        handleFormSubmitError(
-          safeSetFlow,
-          initializeFlow,
-          (err) =>
-            displayError(err, 'Failed to login user', {
-              displayMessage: t('auth.login.error.login'),
-              location: 'Login.performLogin',
-            }),
-          err
-        )
+        if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
+          setVerificationFlowData(payload)
+          storeOnboardingState('emailVerification')
+        } else {
+          handleFormSubmitError(
+            safeSetFlow,
+            initializeFlow,
+            (err) =>
+              displayError(err, 'Failed to login user', {
+                displayMessage: t('auth.login.error.login'),
+                location: 'Login.performLogin',
+              }),
+            err
+          )
+        }
       }
     } finally {
       hideLoader()
