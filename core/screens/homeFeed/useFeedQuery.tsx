@@ -103,15 +103,15 @@ export const useFeedQuery = () => {
       if ((i + 1) % POST_FREQUENCY === 0) {
         const externalIndex = Math.floor(i / POST_FREQUENCY)
 
-        // Insert good news
-        if (articles[externalIndex]) {
-          result[resultIndex] = { goodNewsArticle: articles[externalIndex] }
-          resultIndex++
-        }
-
         // Insert insight
         if (insights[externalIndex]) {
           result[resultIndex] = { insight: insights[externalIndex] }
+          resultIndex++
+        }
+
+        // Insert good news
+        if (articles[externalIndex]) {
+          result[resultIndex] = { goodNewsArticle: articles[externalIndex] }
           resultIndex++
         }
 
@@ -129,8 +129,8 @@ export const useFeedQuery = () => {
     return result.filter(Boolean)
   }, [
     data?.feed?.data,
-    dataGoodNews?.appGoodNews_articles?.articles,
     dataInsights?.feedInsights?.data,
+    dataGoodNews?.appGoodNews_articles?.articles,
     randomizedEngagements,
   ])
 
