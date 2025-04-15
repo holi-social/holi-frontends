@@ -35,7 +35,7 @@ import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import { useScrollToTop } from '@react-navigation/native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
-const surveyUrl = 'https://tally.so/r/nrdGxX'
+import { SURVEY_URL } from '@holi/core/constants/urls'
 
 const HomeFeed = () => {
   const { t } = useTranslation()
@@ -176,7 +176,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeRight visible>
           <View style={styles.headerRight}>
             {displayFeedbackLink && (
-              <HoliLink external href={surveyUrl} label={t('homeFeed.feedback')}>
+              <HoliLink external href={SURVEY_URL} label={t('homeFeed.feedback')}>
                 <Text size="sm">{t('homeFeed.feedback')}</Text>
               </HoliLink>
             )}

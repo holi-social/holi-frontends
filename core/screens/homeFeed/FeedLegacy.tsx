@@ -28,8 +28,7 @@ import { useFeatureFlagWithMaintenance } from '@holi/core/featureFlags/hooks/use
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import AttendingChallengeEventsLegacy from '@holi-apps/challenges/components/AttendingChallengeEventsLegacy'
 import { ScrollViewRefreshable } from '@holi/core/helpers/withRefreshControl'
-
-const surveyUrl = 'https://tally.so/r/nrdGxX'
+import { SURVEY_URL } from '@holi/core/constants/urls'
 
 const HomeFeed = () => {
   const { isLoggedIn } = useLoggedInUser()
@@ -58,7 +57,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeRight visible>
           <View style={styles.headerRight}>
             {displayFeedbackLink && (
-              <HoliLink external href={surveyUrl} label={t('homeFeed.feedback')}>
+              <HoliLink external href={SURVEY_URL} label={t('homeFeed.feedback')}>
                 <HoliText>{t('homeFeed.feedback')}</HoliText>
               </HoliLink>
             )}
