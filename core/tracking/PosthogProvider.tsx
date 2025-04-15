@@ -1,4 +1,4 @@
-import { PostHog, PostHogOptions, PostHogProvider } from 'posthog-react-native'
+import { PostHog, PostHogOptions, PostHogProvider, PostHogSurveyProvider } from 'posthog-react-native'
 import React, { PropsWithChildren } from 'react'
 
 import { featureFlagBootstrapValues } from '@holi/core/featureFlags/featureFlagBootstrapValues'
@@ -19,7 +19,11 @@ const PosthogProvider = ({ children, bootstrapState = {} }: PropsWithChildren<Po
     },
   })
 
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+  return (
+    <PostHogProvider client={posthog}>
+      <PostHogSurveyProvider>{children}</PostHogSurveyProvider>
+    </PostHogProvider>
+  )
 }
 
 export default PosthogProvider
