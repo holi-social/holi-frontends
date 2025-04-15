@@ -37,8 +37,7 @@ import useTracking from '@holi/core/tracking/hooks/useTracking'
 
 import type { User } from '@holi/core/domain/shared/types'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
-
-const surveyUrl = 'https://tally.so/r/nrdGxX'
+import { SURVEY_URL } from '@holi/core/constants/urls'
 
 const FeedListItem = memo(
   ({
@@ -149,7 +148,7 @@ const HomeFeed = () => {
         <HoliTransition.FadeRight visible>
           <View style={styles.headerRight}>
             {displayFeedbackLink && (
-              <HoliLink external href={surveyUrl} label={t('homeFeed.feedback')}>
+              <HoliLink external href={SURVEY_URL} label={t('homeFeed.feedback')}>
                 <Text size="sm">{t('homeFeed.feedback')}</Text>
               </HoliLink>
             )}
