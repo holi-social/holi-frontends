@@ -11,7 +11,9 @@ import type { AxiosPromise } from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
 import { extractValue, handleKratosSdkError } from '@holi/core/auth/helpers/helper'
-import { type OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import * as AuthSession from 'expo-auth-session'
+import * as WebBrowser from 'expo-web-browser'
 
 const userSessionName = 'user_session'
 
@@ -44,11 +46,19 @@ export const setSessionInStorage = async (session: OrySessionContext) => {
 export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
-export const initLoginFlow = async () =>
-  newKratosSdk()
-    .createNativeLoginFlow()
+export const initLoginFlow = async () => {
+  const returnTo = AuthSession.makeRedirectUri({
+    preferLocalhost: true,
+    path: 'login/callback',
+  })
+  return newKratosSdk()
+    .createNativeLoginFlow({
+      returnTo: returnTo,
+      returnSessionTokenExchangeCode: true,
+    })
     .then(({ data }) => data)
     .catch(handleKratosSdkError('createNativeLoginFlow'))
+}
 
 export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowBody, sessionToken?: string) =>
   newKratosSdk()
@@ -57,6 +67,39 @@ export const submitLoginFlow = async (flow: LoginFlow, payload: UpdateLoginFlowB
       { withCredentials: false }
     )
     .catch(handleKratosSdkError('updateLoginFlow'))
+
+/**
+ *
+ * @param url The URL is returned by Ory after submitting the login flow as a 422 error and can be parsed from the error with the {@link getBrowserRedirect()} function
+ * @param flow The initiated and submitted login flow from Ory
+ * @param redirectUrl All redirectUrls passed in here need to be registered in Ory in the Allowed Urls under Branding->Browser redirects
+ */
+export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
+  const redirect = AuthSession.makeRedirectUri({
+    preferLocalhost: true,
+    path: 'login/callback',
+  })
+  const result = await WebBrowser.openAuthSessionAsync(url, redirect)
+  if (result.type === 'success') {
+    const initCode = flow?.session_token_exchange_code
+    const returnToCode = new URL(result.url).searchParams.get('code')
+    if (!initCode || !returnToCode) {
+      return
+    }
+    return newKratosSdk()
+      .exchangeSessionToken({ initCode, returnToCode })
+      .then((res) => {
+        if (res?.data.session_token) {
+          const orySession: OrySessionContext = {
+            session: res.data.session,
+            session_token: res.data.session_token,
+          }
+          setSessionInStorage(orySession)
+          return orySession
+        }
+      })
+  }
+}
 
 // Logout
 export const submitLogoutFlow = async (payload: PerformNativeLogoutBody) => {

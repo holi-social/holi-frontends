@@ -4,9 +4,7 @@ import type {
   RecoveryFlow,
   SettingsFlow,
   UiNode,
-  UiNodeAnchorAttributes,
   UiNodeAttributes,
-  UiNodeImageAttributes,
   UiNodeInputAttributes,
   UiNodeTextAttributes,
   VerificationFlow,
@@ -18,14 +16,6 @@ import { getLogger } from '@holi/core/helpers/logging'
 
 const logger = getLogger('Other')
 const HIDDEN_FIELDS = ['traits.name', 'traits.consent', 'traits.given_name', 'traits.family_name', 'traits.identity']
-
-export const oryNodeIsLink = (pet: UiNodeAttributes | UiNodeAnchorAttributes): pet is UiNodeAnchorAttributes => {
-  return (pet as UiNodeAnchorAttributes).href !== undefined
-}
-
-export const oryNodeIsImage = (pet: UiNodeAttributes | UiNodeImageAttributes): pet is UiNodeImageAttributes => {
-  return (pet as UiNodeImageAttributes).src !== undefined
-}
 
 export const oryNodeIsInput = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
   return 'name' in pet && pet.type !== 'submit'
@@ -43,10 +33,6 @@ export const oryNodeIsButton = (pet: UiNodeAttributes | UiNodeInputAttributes): 
   return (pet as UiNodeInputAttributes).name !== undefined && (pet as UiNodeInputAttributes).type === 'button'
 }
 
-export const oryNodeIsHidden = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
-  return (pet as UiNodeInputAttributes).type === 'hidden'
-}
-
 export const oryNodeIsText = (pet: UiNodeAttributes | UiNodeTextAttributes): pet is UiNodeTextAttributes => {
   return (pet as UiNodeTextAttributes).text !== undefined
 }
@@ -55,19 +41,22 @@ export const oryNodeIsHiddenField = (pet: UiNodeAttributes | UiNodeInputAttribut
   return 'name' in pet && HIDDEN_FIELDS.includes(pet.name)
 }
 
+export const oryNodeIsProvider = (pet: UiNodeAttributes | UiNodeInputAttributes): pet is UiNodeInputAttributes => {
+  return (pet as UiNodeInputAttributes).name === 'provider'
+}
+
 export const getNodeId = ({ attributes }: UiNode) => {
-  if (oryNodeIsInput(attributes) || oryNodeIsButton(attributes) || oryNodeIsCheckbox(attributes)) {
+  if (
+    oryNodeIsInput(attributes) ||
+    oryNodeIsButton(attributes) ||
+    oryNodeIsCheckbox(attributes) ||
+    oryNodeIsProvider(attributes)
+  ) {
     return attributes.name
   } else if (oryNodeIsSubmit(attributes)) {
     return attributes.value
   } else {
     return attributes.id
-  }
-}
-
-export const getNodeValue = ({ attributes }: UiNode) => {
-  if (oryNodeIsInput(attributes) || oryNodeIsSubmit(attributes)) {
-    return attributes.value
   }
 }
 
@@ -80,8 +69,10 @@ const oryFieldMapping: { [key: number]: string } = {
   1070004: 'Email',
   1070007: 'Email',
   1010001: 'SignIn',
+  1010002: 'ProviderSignIn',
   1010022: 'SignIn',
   1040001: 'SignUp',
+  1040002: 'ProviderSignUp',
   1070009: 'ResetPassword',
 }
 
@@ -92,10 +83,6 @@ export const getNodeTranslationKey = ({ meta }: UiNode) => {
   return
 }
 
-export const getNodeById = (nodeName: string, flow: SettingsFlow | RecoveryFlow) => {
-  return flow.ui.nodes.filter((node: UiNode) => getNodeId(node) === nodeName)
-}
-
 export const findInputNodeByNameAndType = (
   nodeName: string,
   nodeType: string,
@@ -104,13 +91,6 @@ export const findInputNodeByNameAndType = (
   return flow?.ui?.nodes?.find(
     (node: UiNode) =>
       oryNodeIsInput(node.attributes) && node.attributes.name === nodeName && node.attributes.type === nodeType
-  )
-}
-
-export const getButtonNodeById = (nodeName: string, flow: SettingsFlow | RecoveryFlow) => {
-  return flow.ui.nodes.filter(
-    (node: UiNode) =>
-      (oryNodeIsSubmit(node.attributes) || oryNodeIsButton(node.attributes)) && getNodeId(node) === nodeName
   )
 }
 

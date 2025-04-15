@@ -9,7 +9,7 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   modulePathIgnorePatterns: ['e2e', 'testData', 'mocks.ts', 'TestBed.tsx', 'testutils.ts'],
-  testPathIgnorePatterns: ['/node_modules/', '__tests__/helpers'],
+  testPathIgnorePatterns: ['/node_modules/', '__tests__/helpers.ts', '__tests__/helpers/.*'],
   moduleNameMapper: {
     '\\.(css|scss)$': '<rootDir>/jest.styleMock.cjs',
     // Force module uuid to resolve with the CJS entry point, because Jest does not support package.json.exports. See https://github.com/uuidjs/uuid/issues/451

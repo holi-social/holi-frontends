@@ -128,6 +128,7 @@ export enum RouteName {
   // Root Stack
   Notifications = 'Notifications',
   Login = 'Login',
+  LoginCallback = 'LoginCallback',
   Logout = 'Logout',
   ForgotPassword = 'ForgotPassword',
 

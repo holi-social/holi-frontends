@@ -17,7 +17,7 @@ const isApolloError = (error: unknown): error is ApolloError => {
     typeof error === 'object' &&
     error !== null &&
     'message' in error &&
-    typeof (error as ApolloError).message === 'string' &&
+    typeof error.message === 'string' &&
     'graphQLErrors' in error
   )
 }

@@ -2,7 +2,7 @@
   "dependencies": {
     "@apollo/client": "3.10.8",
     "@novu/client": "0.20.0",
-    "@ory/kratos-client": "v1.2.1",
+    "@ory/kratos-client": "v1.3.8",
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6",
     "react": "18.2.0",

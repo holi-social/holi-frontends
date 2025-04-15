@@ -19,11 +19,12 @@ apps/mobile/eas.json:generic-api-key:92
 apps/mobile/eas.json:generic-api-key:144
 .env.local:generic-api-key:79
 .env.staging:generic-api-key:51
-.env.staging:generic-api-key:56
+.env.staging:facebook-secret:56
 .env.production:generic-api-key:51
-.env.production:generic-api-key:56
+.env.production:facebook-secret:56
 apps/mobile/eas.json:generic-api-key:41
 apps/mobile/eas.json:generic-api-key:74
 apps/mobile/eas.json:generic-api-key:110
 apps/mobile/eas.json:generic-api-key:141
 apps/mobile/eas.json:generic-api-key:179
+.env.local:facebook-secret:84

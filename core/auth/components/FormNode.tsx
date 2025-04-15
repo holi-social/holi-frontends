@@ -2,7 +2,7 @@
 import type { UiNode, UiNodeAttributes } from '@ory/kratos-client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import FormInputField, { type InputProps } from '@holi/core/auth/components/FormInputField'
 import {
@@ -18,13 +18,16 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import { Button } from 'holi-bricks/components/button'
 import { isWebTouchDevice } from '@holi/ui/helper'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
+import type { UpdateLoginFlowBody } from '@ory/kratos-client/api'
+import { getNodeProviderId, getNodeProviderName } from '@holi/core/auth/helpers/auth'
+import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
+import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
 
 interface Props extends InputProps {
   node: UiNode
   autofocus: boolean
   translationPrefix: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onSubmitPress: () => void
+  onSubmitPress: (overrides?: UpdateLoginFlowBody) => void
   isSignin?: boolean
   scrollToInputWithId?: (id: string) => ScrollToProps
   style?: StyleProp<ViewStyle>
@@ -32,6 +35,7 @@ interface Props extends InputProps {
 
 const FormNode = (props: Props) => {
   const { t } = useTranslation()
+  const showSocialLogin = useFeatureFlagToggle(FeatureFlagKey.SOCIAL_LOGIN)
   const { node, scrollToInputWithId = () => ({}) } = props
 
   const fieldName = getNodeId(node)
@@ -63,13 +67,25 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
-    const fieldLabel = t(`${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`)
+    const providerId = getNodeProviderId(node)
+    if (providerId && !showSocialLogin) {
+      return
+    }
+    const overrides: UpdateLoginFlowBody | undefined = providerId
+      ? {
+          method: 'oidc',
+          provider: providerId,
+          upstream_parameters: providerId.startsWith('google') ? { prompt: 'select_account' } : undefined,
+        }
+      : undefined
+    const translationKey = `${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`
+    const fieldLabel = providerId ? t(translationKey, { provider: getNodeProviderName(node) }) : t(translationKey)
     return (
       <View style={props.style}>
         <Button
           label={fieldLabel}
           disabled={node.attributes.disabled}
-          onPress={props.onSubmitPress}
+          onPress={() => props.onSubmitPress(overrides)}
           testID={`ory-submit-${fieldName}`}
         />
       </View>

@@ -6,11 +6,16 @@ import { Keyboard, Platform, StyleSheet, View } from 'react-native'
 
 import AlreadyHaveAccountText from '@holi/core/auth/components/AlreadyHaveAccountText'
 import FormBuilder from '@holi/core/auth/components/FormBuilder'
-import { getVerificationFlowFromRegistration, initRegistrationFlow } from '@holi/core/auth/helpers/auth'
+import {
+  doBrowserLogin,
+  doLogin,
+  getVerificationFlowFromRegistration,
+  initRegistrationFlow,
+} from '@holi/core/auth/helpers/auth'
 import { handleFormSubmitError } from '@holi/core/auth/helpers/form'
-import { type OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { setVerificationFlowData } from '@holi/core/auth/helpers/useVerificationFlowData'
-import { setLoginStateLoggedIn, useLoginState } from '@holi/core/auth/loginState'
+import { useLoginState } from '@holi/core/auth/loginState'
 import { ButtonTracked } from '@holi/core/components/Trackable'
 import { HoliOnboardingError } from '@holi/core/errors/classes/HoliOnboardingError'
 import { useErrorHandling } from '@holi/core/errors/hooks'
@@ -26,7 +31,9 @@ import HoliLogo from '@holi/ui/components/atoms/HoliLogo'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Text } from 'holi-bricks/components/text'
-import { clearGuestMode, storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import { storeGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
+import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 
 const logger = getLogger('CreateAccount')
 
@@ -45,6 +52,7 @@ export const CreateAccount = ({
   onLogin,
   testID = 'create-account',
 }: CreateAccountProps) => {
+  const { navigate } = useRouting()
   const { isLoggedOut } = useLoginState()
   const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
   const { t } = useTranslation()
@@ -105,25 +113,47 @@ export const CreateAccount = ({
         const verificationFlowData = getVerificationFlowFromRegistration(data)
         setVerificationFlowData(verificationFlowData)
 
-        await client.clearStore()
-        await clearGuestMode()
-        await setLoginStateLoggedIn({
+        await doLogin(client, {
           session: data.session,
           session_token: data.session_token,
         } as OrySessionContext)
 
         onRegister()
       } catch (err) {
-        handleFormSubmitError(
-          setFlow,
-          initializeFlow,
-          (error) =>
-            displayError(error, 'Failed to submit form', {
-              displayMessage: t('auth.registration.error.registration'),
-              location: 'CreateAccount.onSubmit',
-            }),
-          err
-        )
+        const url = getBrowserRedirect(err)
+        if (url) {
+          if (Platform.OS === 'web') {
+            navigate(url)
+          } else {
+            const data = await doBrowserLogin(url, flow).catch((error) => {
+              handleFormSubmitError(
+                safeSetFlow,
+                initializeFlow,
+                (err) =>
+                  displayError(err, 'Failed to login user', {
+                    displayMessage: t('auth.login.error.login'),
+                    location: 'CreateAccount.doBrowserLogin',
+                  }),
+                error
+              )
+            })
+            if (data) {
+              await doLogin(client, data)
+              onRegister()
+            }
+          }
+        } else {
+          handleFormSubmitError(
+            setFlow,
+            initializeFlow,
+            (error) =>
+              displayError(error, 'Failed to submit form', {
+                displayMessage: t('auth.registration.error.registration'),
+                location: 'CreateAccount.onSubmit',
+              }),
+            err
+          )
+        }
       } finally {
         hideLoader()
       }

@@ -5,6 +5,7 @@ import {
   ContinueWithVerificationUiActionEnum,
   type LoginFlow,
   type SuccessfulNativeRegistration,
+  type UiNode,
   type UpdateLoginFlowBody,
   type UpdateLoginFlowWithPasswordMethod,
 } from '@ory/kratos-client'
@@ -18,6 +19,10 @@ import {
 } from '@holi/core/auth/helpers/auth/helpers'
 import type { VerificationFlowData, VerificationFlowState } from '@holi/core/auth/helpers/useVerificationFlowData'
 import { HoliError } from '@holi/core/errors/classes/HoliError'
+import { ApolloClient } from '@apollo/client'
+import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import { setLoginStateLoggedIn } from '@holi/core/auth/loginState'
+import { clearGuestMode } from '@holi/core/screens/onboarding/helpers/guestModeStorage'
 
 export const hasIdentifier = (
   loginFlowBody: VerificationFlowData | UpdateLoginFlowWithPasswordMethod
@@ -27,6 +32,33 @@ export const hasIdentifier = (
 
 const isContinueWithVerificationUi = (continueWith: ContinueWith): continueWith is ContinueWithVerificationUi => {
   return continueWith.action === ContinueWithVerificationUiActionEnum.ShowVerificationUi
+}
+
+export const isOidcUser = (reauthFlow: LoginFlow) => !!reauthFlow.ui.nodes.find((node) => node?.group == 'oidc')
+
+export const getOidcProvider = (reauthFlow: LoginFlow) => {
+  const node = reauthFlow.ui.nodes.find((node) => node?.group == 'oidc')
+  if (node) {
+    return getNodeProviderName(node)
+  }
+  return undefined
+}
+
+export const getIdentity = (loginFlow: LoginFlow) => {
+  const node = loginFlow.ui.nodes.find(
+    (node) => node?.attributes?.node_type == 'input' && node?.attributes?.name == 'identifier'
+  )
+  return node?.attributes?.node_type == 'input' ? node?.attributes?.value : undefined
+}
+
+export const getNodeProviderName = ({ meta }: UiNode): string | undefined => {
+  if (meta?.label?.context && 'provider' in meta.label.context) return meta.label.context.provider as string
+  return undefined
+}
+
+export const getNodeProviderId = ({ attributes }: UiNode): string | undefined => {
+  if (attributes?.node_type === 'input' && attributes.name === 'provider') return attributes.value
+  return undefined
 }
 
 export const getVerificationFlowFromRegistration = ({
@@ -67,6 +99,12 @@ export const login = async ({
   } catch (error) {
     onLoginError(error)
   }
+}
+
+export const doLogin = async (client: ApolloClient<object>, data: OrySessionContext) => {
+  await client.clearStore()
+  await setLoginStateLoggedIn(data)
+  await clearGuestMode()
 }
 
 export const getOrCreateVerificationFlow = async (flowData?: VerificationFlowData) => {

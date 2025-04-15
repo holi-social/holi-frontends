@@ -12,7 +12,8 @@ import AsyncStore from '@react-native-async-storage/async-storage'
 import type { AxiosPromise } from 'axios'
 
 import { extractValue, handleKratosSdkError, handleKratosSdkErrorIgnoringCodes } from '@holi/core/auth/helpers/helper'
-import { OrySessionContext, newKratosSdk } from '@holi/core/auth/helpers/sdk'
+import { newKratosSdk, type OrySessionContext } from '@holi/core/auth/helpers/sdk'
+import { holiNextJSApiUrl } from '@holi/api/config'
 
 const userSessionName = 'user_session'
 
@@ -64,7 +65,10 @@ export const removeSessionFromStorage = (): Promise<void> => {
 
 export const initLoginFlow = () =>
   newKratosSdk()
-    .createBrowserLoginFlow({ refresh: true })
+    .createBrowserLoginFlow({
+      refresh: true,
+      returnTo: holiNextJSApiUrl,
+    })
     .then(({ data }) => data)
     .catch(handleKratosSdkError('createBrowserLoginFlow'))
 
@@ -72,6 +76,10 @@ export const submitLoginFlow = (flow: LoginFlow, payload: UpdateLoginFlowBody): 
   newKratosSdk()
     .updateLoginFlow({ flow: flow.id, updateLoginFlowBody: payload }, { withCredentials: true })
     .catch(handleKratosSdkError('updateLoginFlow'))
+
+// This method is only called on mobile and is only here to satisfy the compiler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const doBrowserLogin = async (url: string) => {}
 
 // Re-Auth
 export const initReauthFlow = (): AxiosPromise<LoginFlow> => {
@@ -96,14 +104,14 @@ export const submitReauthFlow = (flow: LoginFlow, password: string): AxiosPromis
 export const submitLogoutFlow = () =>
   newKratosSdk()
     .createBrowserLogoutFlow()
-    .catch(handleKratosSdkErrorIgnoringCodes('createBrowserLogoutFlow', ['session_inactive']))
+    .catch(handleKratosSdkErrorIgnoringCodes('createBrowserLogoutFlow', { errorCodesToIgnore: ['session_inactive'] }))
     .then((response) => {
       const token = response?.data?.logout_token
       if (token) {
         return newKratosSdk().updateLogoutFlow({ token })
       }
     })
-    .catch(handleKratosSdkErrorIgnoringCodes('updateLogoutFlow', ['session_inactive']))
+    .catch(handleKratosSdkErrorIgnoringCodes('updateLogoutFlow', { errorCodesToIgnore: ['session_inactive'] }))
 
 // Registration
 export const initRegistrationFlow = (): AxiosPromise<RegistrationFlow> =>

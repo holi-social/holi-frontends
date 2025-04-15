@@ -84,6 +84,7 @@ const config: ExpoConfig = {
         'remote-notification', // enables the app to receive push notifications while app is in background
       ],
     },
+    usesAppleSignIn: true,
     privacyManifests: {
       NSPrivacyAccessedAPITypes: [
         {
