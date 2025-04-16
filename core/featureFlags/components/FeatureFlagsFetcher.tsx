@@ -1,13 +1,15 @@
 import { withProfiler } from '@sentry/react'
 import { useEffect } from 'react'
-import { AppState, AppStateStatus } from 'react-native'
+import { AppState, type AppStateStatus } from 'react-native'
 
 import { logError } from '@holi/core/errors/helpers'
 import { useFeatureFlagRefetch } from '@holi/core/featureFlags/hooks/useFeatureFlagRefetch'
 import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+import { useLoginState } from '@holi/core/auth/loginState'
 
 const FeatureFlagsFetcher = () => {
   const refetch = useFeatureFlagRefetch()
+  const { isLoggedIn } = useLoginState()
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
@@ -23,6 +25,10 @@ const FeatureFlagsFetcher = () => {
       appStateListener.remove()
     }
   }, [refetch])
+
+  useEffect(() => {
+    refetch()
+  }, [refetch, isLoggedIn])
 
   useOnRefresh(refetch)
 
