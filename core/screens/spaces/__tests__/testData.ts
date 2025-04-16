@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
 
 import { ALL_SKILLS, ALL_TOPICS, type User } from '@holi/core/domain/shared/types'
 import { type AppointmentInput, PermissionsType } from '@holi/core/screens/appointments/types'
@@ -7,7 +8,6 @@ import type { DiscoverSpacesGroup } from '@holi/core/screens/spaces/discover/que
 import {
   LocationType,
   type Onboarding,
-  Regularity,
   type RelatedSpace,
   type Space,
   type SpaceInvite,
@@ -166,7 +166,7 @@ export const task: Task & WithTypename = {
   slotsTaken: 1,
   location: 'Hamburg, Germany',
   locationType: LocationType.ONSITE,
-  regularity: Regularity.PROJECT_BASED,
+  regularity: Regularity.ProjectBased,
   visibility: VisibilityType.PUBLIC,
   contactEmail: 'test@email.com',
   contactPhone: '',
@@ -175,6 +175,9 @@ export const task: Task & WithTypename = {
   skillsV2: ALL_SKILLS.slice(8, 10),
   geolocation,
   space: {} as Space,
+  duration: Duration.Days_1,
+  timeframe_start_date: '2024-04-12',
+  timeframe_end_date: '2024-04-12',
   __typename: 'Task',
 }
 

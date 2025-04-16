@@ -1,4 +1,5 @@
-import { LocationType, Regularity, VisibilityType } from '@holi/core/screens/spaces/types'
+import { Regularity } from '@holi/api/graphql/graphql-codegen'
+import { LocationType, VisibilityType } from '@holi/core/screens/spaces/types'
 import { Global, Lock } from '@holi/icons/src/generated'
 import { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
 
@@ -54,18 +55,28 @@ export const LOCATION_TYPE_OPTIONS: HoliModalSelectOption[] = [
 
 export const REGULARITY_OPTIONS: HoliModalSelectOption[] = [
   {
-    id: Regularity.ONE_TIME,
-    title: 'One time',
+    id: Regularity.OneTime,
+    title: 'OneTime',
     selected: false,
   },
   {
-    id: Regularity.PROJECT_BASED,
-    title: 'Project based',
+    id: Regularity.OnceWeek,
+    title: 'OnceWeek',
     selected: false,
   },
   {
-    id: Regularity.REGULARLY,
-    title: 'Regularly',
+    id: Regularity.SeveralTimesWeek,
+    title: 'SeveralTimesWeek',
+    selected: false,
+  },
+  {
+    id: Regularity.OnceMonth,
+    title: 'OnceMonth',
+    selected: false,
+  },
+  {
+    id: Regularity.Negotiable,
+    title: 'Negotiable',
     selected: false,
   },
 ]

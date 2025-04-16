@@ -2,6 +2,7 @@ import type { User } from '@holi/core/domain/shared/types'
 import type { AppointmentInput } from '@holi/core/screens/appointments/types'
 import type { Post } from '@holi/core/screens/posts/types'
 import type { GeolocationPoint, Paged } from '@holi/core/types'
+import { Duration, Regularity } from '@holi/api/graphql/graphql-codegen'
 
 export interface SpaceMember {
   data: unknown
@@ -154,6 +155,9 @@ export interface Task {
   location: string
   locationType: LocationType
   regularity: Regularity
+  duration: Duration
+  timeframe_start_date: string
+  timeframe_end_date: string
   skillsV2: string[]
   visibility: VisibilityType
   contactEmail: string
@@ -167,12 +171,6 @@ export interface Task {
 export enum VisibilityType {
   MEMBERS = 'MEMBERS',
   PUBLIC = 'PUBLIC',
-}
-
-export enum Regularity {
-  REGULARLY = 'REGULARLY',
-  PROJECT_BASED = 'PROJECT_BASED',
-  ONE_TIME = 'ONE_TIME',
 }
 
 export enum LocationType {

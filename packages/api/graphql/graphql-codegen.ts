@@ -350,12 +350,14 @@ export type AuthenticatedUser = {
   interestsV2: Array<Maybe<Scalars['String']['output']>>
   /** Designates whether the user is an employee. */
   isEmployee: Scalars['Boolean']['output']
+  isOidc: Scalars['Boolean']['output']
   /** Indicates whether the user's account has been verified. */
   isVerified: Scalars['Boolean']['output']
   lastName?: Maybe<Scalars['String']['output']>
   location?: Maybe<Scalars['String']['output']>
   pronouns?: Maybe<Scalars['String']['output']>
   role?: Maybe<UserRole>
+  /** @deprecated Deprecated since 1.53. */
   sdgs: Array<Maybe<Sdg>>
   /** @deprecated Deprecated since 1.52. Use skills_v2 instead. */
   skills: Array<Maybe<Skill>>
@@ -563,6 +565,7 @@ export type CreateTaskInput = {
   contactEmail: Scalars['String']['input']
   contactPhone?: InputMaybe<Scalars['String']['input']>
   description: Scalars['String']['input']
+  duration: Duration
   geolocation?: InputMaybe<GeolocationPointInput>
   location?: InputMaybe<Scalars['String']['input']>
   locationType: LocationType
@@ -573,6 +576,8 @@ export type CreateTaskInput = {
   slotsAvailable?: InputMaybe<Scalars['Int']['input']>
   spaceId: Scalars['UUID']['input']
   thumbnail?: InputMaybe<Scalars['Upload']['input']>
+  timeframeEndDate?: InputMaybe<Scalars['String']['input']>
+  timeframeStartDate?: InputMaybe<Scalars['String']['input']>
   visibility: VisibilityType
 }
 
@@ -600,6 +605,19 @@ export type Discussion = {
   __typename?: 'Discussion'
   id: Scalars['UUID']['output']
   question: Scalars['String']['output']
+}
+
+export enum Duration {
+  Days_1 = 'DAYS_1',
+  Days_2 = 'DAYS_2',
+  Days_3OrMore = 'DAYS_3_OR_MORE',
+  Hours_1to2 = 'HOURS_1to2',
+  Hours_2to4 = 'HOURS_2to4',
+  Hours_4to6 = 'HOURS_4to6',
+  Indeterminate = 'INDETERMINATE',
+  Minutes_10to15 = 'MINUTES_10to15',
+  Minutes_15to30 = 'MINUTES_15to30',
+  Minutes_30to60 = 'MINUTES_30to60',
 }
 
 /** ExternalLink(id, url, community, type, name) */
@@ -1564,6 +1582,7 @@ export type Query = {
   postsByUserId: FeedPostPaged
   recommendedSpaces: SpacePaged
   recommendedTasks: TaskPaged
+  /** @deprecated Deprecated since 1.53. */
   sdgs: SdgPaged
   /** @deprecated Deprecated since 1.52. Use V2 instead, which is now a static hard coded set of slugs. */
   skills: SkillPaged
@@ -1949,9 +1968,13 @@ export type RegisterDeviceInput = {
 }
 
 export enum Regularity {
+  Negotiable = 'NEGOTIABLE',
+  OnceMonth = 'ONCE_MONTH',
+  OnceWeek = 'ONCE_WEEK',
   OneTime = 'ONE_TIME',
   ProjectBased = 'PROJECT_BASED',
   Regularly = 'REGULARLY',
+  SeveralTimesWeek = 'SEVERAL_TIMES_WEEK',
 }
 
 export type Result = {
@@ -2031,6 +2054,7 @@ export type Space = {
   posts: PostPaged
   /** A list of space members that can be contacted for information. */
   representatives: Array<SpaceMember>
+  /** @deprecated Deprecated since version 1.53. */
   sdgs: Array<Maybe<Sdg>>
   tasks: Array<Task>
   title: Scalars['String']['output']
@@ -2151,7 +2175,7 @@ export enum StatusType {
   Upcoming = 'UPCOMING',
 }
 
-/** Task(id, name, description, community, creator, created, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, regularity, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
+/** Task(id, name, description, community, creator, created, timeframe_start_date, timeframe_end_date, regularity, duration, slots_available, slots_taken, visibility, location_type, location, geolocation, geolocation_geojson, skills_v2, thumbnail, thumbnail_blurhash, contact_email, contact_phone, deleted_at) */
 export type Task = {
   __typename?: 'Task'
   contactEmail: Scalars['String']['output']
@@ -2159,6 +2183,7 @@ export type Task = {
   created: Scalars['DateTime']['output']
   creator: User
   description: Scalars['String']['output']
+  duration: Duration
   geolocation?: Maybe<GeolocationPoint>
   id: Scalars['UUID']['output']
   location?: Maybe<Scalars['String']['output']>
@@ -2173,6 +2198,8 @@ export type Task = {
   space: Space
   thumbnail?: Maybe<Scalars['String']['output']>
   thumbnailBlurhash?: Maybe<Scalars['String']['output']>
+  timeframeEndDate?: Maybe<Scalars['Date']['output']>
+  timeframeStartDate?: Maybe<Scalars['Date']['output']>
   visibility: VisibilityType
 }
 
@@ -2316,6 +2343,7 @@ export type UpdateTaskInput = {
   contactEmail: Scalars['String']['input']
   contactPhone?: InputMaybe<Scalars['String']['input']>
   description: Scalars['String']['input']
+  duration: Duration
   geolocation?: InputMaybe<GeolocationPointInput>
   location?: InputMaybe<Scalars['String']['input']>
   locationType: LocationType
@@ -2327,6 +2355,8 @@ export type UpdateTaskInput = {
   spaceId: Scalars['UUID']['input']
   taskId: Scalars['UUID']['input']
   thumbnail?: InputMaybe<Scalars['Upload']['input']>
+  timeframeEndDate?: InputMaybe<Scalars['String']['input']>
+  timeframeStartDate?: InputMaybe<Scalars['String']['input']>
   visibility: VisibilityType
 }
 
@@ -2355,10 +2385,12 @@ export type User = {
   /** @deprecated Deprecated since 1.52. Use interests_v2 instead. */
   interests: Array<Maybe<Topic>>
   interestsV2: Array<Maybe<Scalars['String']['output']>>
+  isOidc: Scalars['Boolean']['output']
   lastName?: Maybe<Scalars['String']['output']>
   location?: Maybe<Scalars['String']['output']>
   pronouns?: Maybe<Scalars['String']['output']>
   role?: Maybe<UserRole>
+  /** @deprecated Deprecated since 1.53. */
   sdgs: Array<Maybe<Sdg>>
   /** @deprecated Deprecated since 1.52. Use skills_v2 instead. */
   skills: Array<Maybe<Skill>>
@@ -2555,6 +2587,53 @@ export type TaskByIdQuery = {
   }
 }
 
+export type CreateTaskMutationVariables = Exact<{
+  input: CreateTaskInput
+}>
+
+export type CreateTaskMutation = {
+  __typename?: 'Mutation'
+  createTask: {
+    __typename?: 'Task'
+    id: string
+    name: string
+    description: string
+    visibility: VisibilityType
+    regularity: Regularity
+    duration: Duration
+    timeframeStartDate?: any
+    timeframeEndDate?: any
+    locationType: LocationType
+    location?: string
+    contactEmail: string
+    contactPhone?: string
+  }
+}
+
+export type UpdateTaskMutationVariables = Exact<{
+  input: UpdateTaskInput
+}>
+
+export type UpdateTaskMutation = {
+  __typename?: 'Mutation'
+  updateTask: {
+    __typename?: 'Task'
+    id: string
+    name: string
+    description: string
+    visibility: VisibilityType
+    regularity: Regularity
+    duration: Duration
+    timeframeStartDate?: any
+    timeframeEndDate?: any
+    locationType: LocationType
+    location?: string
+    contactEmail: string
+    contactPhone?: string
+    thumbnail?: string
+  }
+}
+
 export type DeleteTaskMutationVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -2581,7 +2660,6 @@ export type FullUserFragment = {
   interestsV2: Array<string>
   skillsV2: Array<string>
   connectionStatusToMyself?: UserConnectionStatus
-  sdgs: Array<{ __typename?: 'SDG'; id: string; title: string; slug: string }>
 }
 
 export type AuthenticatedUserQueryVariables = Exact<{ [key: string]: never }>
@@ -2608,7 +2686,6 @@ export type AuthenticatedUserQuery = {
     interestsV2: Array<string>
     skillsV2: Array<string>
     connectionStatusToMyself?: UserConnectionStatus
-    sdgs: Array<{ __typename?: 'SDG'; id: string; title: string; slug: string }>
   }
 }
 
@@ -2832,11 +2909,6 @@ export const FullUserFragmentDoc = gql`
   geolocationId
   engagementLevel
   interestsV2
-  sdgs {
-    id
-    title
-    slug
-  }
   skillsV2
   connectionStatusToMyself
 }
@@ -3000,8 +3072,101 @@ export type TaskByIdQueryHookResult = ReturnType<typeof useTaskByIdQuery>
 export type TaskByIdLazyQueryHookResult = ReturnType<typeof useTaskByIdLazyQuery>
 export type TaskByIdSuspenseQueryHookResult = ReturnType<typeof useTaskByIdSuspenseQuery>
 export type TaskByIdQueryResult = Apollo.QueryResult<TaskByIdQuery, TaskByIdQueryVariables>
+export const CreateTaskDocument = gql`
+    mutation CreateTask($input: CreateTaskInput!) {
+  createTask(input: $input) {
+    id
+    name
+    description
+    visibility
+    regularity
+    duration
+    timeframeStartDate
+    timeframeEndDate
+    locationType
+    location
+    contactEmail
+    contactPhone
+  }
+}
+    `
+export type CreateTaskMutationFn = Apollo.MutationFunction<CreateTaskMutation, CreateTaskMutationVariables>
+
+/**
+ * __useCreateTaskMutation__
+ *
+ * To run a mutation, you first call `useCreateTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTaskMutation, { data, loading, error }] = useCreateTaskMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateTaskMutation, CreateTaskMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CreateTaskDocument, options)
+}
+export type CreateTaskMutationHookResult = ReturnType<typeof useCreateTaskMutation>
+export type CreateTaskMutationResult = Apollo.MutationResult<CreateTaskMutation>
+export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutation, CreateTaskMutationVariables>
+export const UpdateTaskDocument = gql`
+    mutation UpdateTask($input: UpdateTaskInput!) {
+  updateTask(input: $input) {
+    id
+    name
+    description
+    visibility
+    regularity
+    duration
+    timeframeStartDate
+    timeframeEndDate
+    locationType
+    location
+    contactEmail
+    contactPhone
+    thumbnail
+  }
+}
+    `
+export type UpdateTaskMutationFn = Apollo.MutationFunction<UpdateTaskMutation, UpdateTaskMutationVariables>
+
+/**
+ * __useUpdateTaskMutation__
+ *
+ * To run a mutation, you first call `useUpdateTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTaskMutation, { data, loading, error }] = useUpdateTaskMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateTaskMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateTaskMutation, UpdateTaskMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateTaskMutation, UpdateTaskMutationVariables>(UpdateTaskDocument, options)
+}
+export type UpdateTaskMutationHookResult = ReturnType<typeof useUpdateTaskMutation>
+export type UpdateTaskMutationResult = Apollo.MutationResult<UpdateTaskMutation>
+export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<UpdateTaskMutation, UpdateTaskMutationVariables>
 export const DeleteTaskDocument = gql`
-    mutation deleteTask($id: UUID!) {
+    mutation DeleteTask($id: UUID!) {
   deleteTask(id: $id) {
     success
   }
