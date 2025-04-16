@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react'
 
 import { ENGAGEMENT_PAGE_SIZE } from '@holi-apps/volunteering/components/VolunteeringEngagementList'
-import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
-import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
 import VolunteeringListingSkeleton from '@holi-apps/volunteering/components/VolunteeringListingSkeleton'
 import { View } from 'react-native'
 import HoliGridWrapper from '@holi/ui/components/atoms/HoliGridWrapper'
@@ -16,42 +14,18 @@ import ScrollBasedCallbackInvocation from '@holi/core/components/ScrollBasedCall
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/VolunteeringListingHeader'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
-import { transformTypesenseDocumentToEngagement } from '@holi-apps/volunteering/helpers/transformTypesenseDocumentToEngagement'
-import { useUserLanguage } from '@holi/core/screens/search/hooks/useUserLanguage'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
-import { useVolunteeringRecoTypesenseParameters } from '@holi-apps/volunteering/hooks/useVolunteeringRecoTypesenseParameters'
-import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
+import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
 
 export const VolunteeringTypesenseRecommendations = () => {
   const mixins = useStyleMixins()
-  const { displayError } = useErrorHandling()
   const { styles } = useStyles(stylesheet)
-  const language = useUserLanguage()
   const { imageWidth } = useWindowDimensionsWithImageScaling()
 
-  const { isLoadingParameters, parameters } = useVolunteeringRecoTypesenseParameters({
-    pageSize: ENGAGEMENT_PAGE_SIZE,
-    onGeolocationError: (error) => {
-      displayError(error, 'Error retrieving geolocation', {
-        location: 'VolunteeringTypesenseRecommendations.useVolunteeringRecoTypesenseParameters',
-      })
-    },
-  })
-
-  const { state, fetchNextPage, refetch } = useTypesensePaginationQuery({
-    parameters,
-    skip: isLoadingParameters,
-    onError: (error) => {
-      displayError(error, 'Error retrieving recommendations', {
-        location: 'VolunteeringTypesenseRecommendations.useTypesensePaginationQuery',
-      })
-    },
-  })
-
-  useOnRefresh(refetch)
+  const { isLoading, engagements, canFetchMore, fetchNextPage } = useVolunteeringRecosTypesense({ displayErrors: true })
 
   const loadMoreComponent = useMemo(() => {
     return (
@@ -62,10 +36,9 @@ export const VolunteeringTypesenseRecommendations = () => {
     )
   }, [fetchNextPage, styles.loaderBottom])
 
-  if ((state.isLoading || isLoadingParameters) && !state.data.length) {
+  if (isLoading && !engagements.length) {
     return <VolunteeringListingSkeleton amount={ENGAGEMENT_PAGE_SIZE} />
   }
-  const engagements = state.data.map((engagement) => transformTypesenseDocumentToEngagement(engagement, language))
 
   return (
     <View style={[mixins.container, styles.list]}>
@@ -78,17 +51,17 @@ export const VolunteeringTypesenseRecommendations = () => {
                 <HoliGridCell key={engagement.id}>
                   <HoliLinkTracked
                     href={`/volunteering/${engagement.id}`}
-                    label={engagement?.title as string}
+                    label={engagement.title}
                     trackingEvent={TrackingEvent.RecommendationPressed(
                       'volunteering_opportunity',
-                      engagement.id as string,
+                      engagement.id,
                       index
                     )}
                   >
                     <HoliCard
                       loading={false}
                       imageUri={engagement.imageUrl}
-                      imageLabel={engagement.title ?? ''}
+                      imageLabel={engagement.title}
                       imageWidth={imageWidth}
                       testID="btn-to-volunteering-engagement"
                     >
@@ -101,7 +74,7 @@ export const VolunteeringTypesenseRecommendations = () => {
           </HoliGridWrapper>
         </View>
       </HoliBox>
-      {state.canFetchMore && loadMoreComponent}
+      {canFetchMore && loadMoreComponent}
     </View>
   )
 }

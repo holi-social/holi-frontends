@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import type { VolunteeringReco } from '@holi-apps/volunteering/types'
 import { logError } from '@holi/core/errors/helpers'
 import { DEBUG_LOG_COMPONENTS } from '@holi/core/helpers/logging/constants'
 
@@ -40,8 +39,8 @@ export const clearRandomizationState = async (): Promise<void> => {
  * @param pageSize The number of recommendations to show
  * @returns Randomized recommendations
  */
-export const useRandomizedRecos = (recos: VolunteeringReco[] = [], pageSize = 5): VolunteeringReco[] => {
-  const [randomizedRecos, setRandomizedRecos] = useState<VolunteeringReco[]>([])
+export const useRandomizedRecos = <T>(recos: T[] = [], pageSize = 5): T[] => {
+  const [randomizedRecos, setRandomizedRecos] = useState<T[]>([])
 
   useEffect(() => {
     const loadAndRandomize = async () => {

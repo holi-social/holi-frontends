@@ -11,7 +11,7 @@ import {
 } from '@holi/core/auth/hooks/useLoggedInUser'
 import { ALL_SKILLS, ALL_TOPICS, type AuthenticatedUser } from '@holi/core/domain/shared/types'
 
-import VolunteeringRecos from '@holi-apps/volunteering/components/VolunteeringRecos'
+import VolunteeringRecosLegacy from '@holi-apps/volunteering/components/VolunteeringRecosLegacy'
 import {
   type VolunteeringRecosQueryResponse,
   type VolunteeringRecosQueryVariables,
@@ -99,7 +99,7 @@ const loggedInUser = (user: AuthenticatedUser): LoggedInUser => ({
   user,
 })
 
-describe('VolunteeringRecos', () => {
+describe('VolunteeringRecosLegacy', () => {
   describe('when viewed by a logged out user', () => {
     it('queries recos for default topics', async () => {
       mockUseLoggedInUser.mockReturnValue(loggedOut)
@@ -112,7 +112,7 @@ describe('VolunteeringRecos', () => {
       })
       render(
         <MockedProvider mocks={mockedResponses}>
-          <VolunteeringRecos cardWidth={260} />
+          <VolunteeringRecosLegacy cardWidth={260} />
         </MockedProvider>
       )
       await act(async () => {
@@ -126,7 +126,7 @@ describe('VolunteeringRecos', () => {
         mockUseLoggedInUser.mockReturnValue(loggedInUserLoading)
         const { toJSON } = render(
           <MockedProvider>
-            <VolunteeringRecos cardWidth={260} />
+            <VolunteeringRecosLegacy cardWidth={260} />
           </MockedProvider>
         )
         expect(toJSON()).toBeNull()
@@ -147,7 +147,7 @@ describe('VolunteeringRecos', () => {
         })
         render(
           <MockedProvider mocks={mockedResponses}>
-            <VolunteeringRecos cardWidth={260} />
+            <VolunteeringRecosLegacy cardWidth={260} />
           </MockedProvider>
         )
         await act(async () => {
@@ -168,7 +168,7 @@ describe('VolunteeringRecos', () => {
         })
         render(
           <MockedProvider mocks={mockedResponses}>
-            <VolunteeringRecos cardWidth={260} />
+            <VolunteeringRecosLegacy cardWidth={260} />
           </MockedProvider>
         )
         await act(async () => {
