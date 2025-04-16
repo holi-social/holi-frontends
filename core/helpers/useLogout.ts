@@ -22,7 +22,6 @@ interface LogoutOptions {
 }
 
 const isLoggingOutVar = makeVar(false)
-export let isProcessingLogout = false
 
 export const useLogout = () => {
   const loginState = useLoginState()
@@ -32,68 +31,68 @@ export const useLogout = () => {
   const { openToast } = useToast()
   const client = useApolloClient()
 
-  return {
-    logout: useCallback(
-      async ({
-        message,
-        skipLogoutFlow = false,
-        skipRedirect = false,
-        redirectPath = '/profile',
-        redirectTimeout = Platform.OS !== 'web' ? 200 : undefined,
-        showToastAfter = true,
-      }: LogoutOptions = {}) => {
-        const redirect = () => {
-          if (redirectTimeout) {
-            setTimeout(() => {
-              navigate(redirectPath)
-            }, redirectTimeout)
-          } else {
+  const logout = useCallback(
+    async ({
+      message,
+      skipLogoutFlow = false,
+      skipRedirect = false,
+      redirectPath = '/profile',
+      redirectTimeout = Platform.OS !== 'web' ? 200 : undefined,
+      showToastAfter = true,
+    }: LogoutOptions = {}) => {
+      const redirect = () => {
+        if (redirectTimeout) {
+          setTimeout(() => {
             navigate(redirectPath)
-          }
+          }, redirectTimeout)
+        } else {
+          navigate(redirectPath)
         }
+      }
 
-        if (isProcessingLogout || isLoggingOut || loginState.isLoggedOut) {
-          if (!skipRedirect) {
-            redirect()
-          }
-          return
+      if (isLoggingOut || loginState.isLoggedOut) {
+        if (!skipRedirect) {
+          redirect()
         }
-        isProcessingLogout = true
-        isLoggingOutVar(true)
+        return
+      }
+      isLoggingOutVar(true)
 
+      try {
+        if (!skipLogoutFlow) {
+          const session = await getSessionFromStorage()
+          await submitLogoutFlow({ session_token: session?.session_token || '' })
+        }
+        clearOnboardingState()
+        await setLoginStateLoggedOut()
+        await client.clearStore()
+
+        logger.debug('useLogout', 'logout successful')
+        if (showToastAfter)
+          openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS, { testID: 'logout-success' })
+      } catch (err) {
+        logger.debug('useLogout', 'logout failed, removing session from storage', err)
         try {
-          if (!skipLogoutFlow) {
-            const session = await getSessionFromStorage()
-            await submitLogoutFlow({ session_token: session?.session_token || '' })
-          }
           clearOnboardingState()
           await setLoginStateLoggedOut()
-          await client.clearStore()
-
-          logger.debug('useLogout', 'logout successful')
-          if (showToastAfter)
-            openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS, { testID: 'logout-success' })
-        } catch (err) {
-          logger.debug('useLogout', 'logout failed, removing session from storage', err)
-          try {
-            clearOnboardingState()
-            await setLoginStateLoggedOut()
-          } catch (e) {
-            logger.debug('useLogout', 'cleaning up after logout error failed as well', e)
-            openToast(message || t('auth.logout.error'), HoliToastType.ERROR, { testID: 'logout-failed' })
-          }
-          throw err // will be sent to Sentry so we're aware of it
-          // not displaying any user-facing error messages as with the removal from the storage logout should be done
-        } finally {
-          isLoggingOutVar(false)
-          isProcessingLogout = false
-          if (!skipRedirect) {
-            redirect()
-          }
+        } catch (e) {
+          logger.debug('useLogout', 'cleaning up after logout error failed as well', e)
+          openToast(message || t('auth.logout.error'), HoliToastType.ERROR, { testID: 'logout-failed' })
         }
-      },
-      [isLoggingOut, loginState, navigate, client, openToast, t]
-    ),
+        throw err // will be sent to Sentry so we're aware of it
+        // not displaying any user-facing error messages as with the removal from the storage logout should be done
+      } finally {
+        isLoggingOutVar(false)
+        if (!skipRedirect) {
+          redirect()
+        }
+      }
+    },
+    [isLoggingOut, loginState, navigate, client, openToast, t]
+  )
+
+  return {
+    logout,
     isLoggingOut,
   }
 }

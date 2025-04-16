@@ -1,5 +1,6 @@
 // import NetInfo from '@react-native-community/netinfo'
-import React, { useEffect } from 'react'
+import type React from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 
@@ -8,32 +9,35 @@ import CenteredImageHeadlineDescriptionLayout from '@holi/core/auth/components/C
 import { useLogout } from '@holi/core/helpers'
 import { useIsOnline } from '@holi/core/helpers/useIsOnline'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
+import { makeVar, useReactiveVar } from '@apollo/client'
 
-let isProcessingUnauthorizedLogout = false
+const isProcessingUnauthorizedLogout = makeVar(false)
+
 export const clearProcessingUnauthorizedLogout = () => {
   setUnauthorizedErrorStatus(false)
-  isProcessingUnauthorizedLogout = false
+  isProcessingUnauthorizedLogout(false)
 }
 
 const SessionExpiryProtection = ({ children }: React.PropsWithChildren<unknown>) => {
   const { t } = useTranslation()
   const { navigate } = useRouting()
   const { logout, isLoggingOut } = useLogout()
+  const isProcessingLogout = useReactiveVar(isProcessingUnauthorizedLogout)
 
   const isError = useUnauthorizedErrorStatusVar()
 
   const isOnline = useIsOnline()
 
   useEffect(() => {
-    if (isError && !isLoggingOut && !isProcessingUnauthorizedLogout) {
-      isProcessingUnauthorizedLogout = true
+    if (isError && !isLoggingOut && !isProcessingLogout) {
+      isProcessingUnauthorizedLogout(true)
       if (Platform.OS === 'web') {
         navigate('/forceLogout')
       } else {
         logout({ message: t('auth.loggingOut'), skipLogoutFlow: true }).finally(clearProcessingUnauthorizedLogout)
       }
     }
-  }, [isError, logout, navigate, t, isLoggingOut])
+  }, [isError, logout, navigate, t, isLoggingOut, isProcessingLogout])
 
   return isOnline ? (
     <>{children}</>
