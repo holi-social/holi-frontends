@@ -28,13 +28,14 @@ import type { ListItemIdentifier, ListItemTrackingEvent } from '@holi/core/track
 import { TrackingEvent, Unknown } from '@holi/core/tracking/events'
 import type { GoodNewsArticle } from '@holi-apps/goodnews/types'
 import GoodNewsCard from '@holi-apps/goodnews/components/GoodNewsCard'
-import type { VolunteeringReco } from '@holi-apps/volunteering/types'
+import type { VolunteeringEngagement, VolunteeringReco } from '@holi-apps/volunteering/types'
 import VolunteeringCard from '@holi-apps/volunteering/components/VolunteeringCard'
 import { useFeedQuery } from '@holi/core/screens/homeFeed/useFeedQuery'
 import InsightCard from '@holi/core/screens/insights/components/InsightCard'
 import { useScrollToTop } from '@react-navigation/native'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { useFeedStats } from '@holi/core/screens/homeFeed/helpers/useFeedStats'
+import { useRefreshContext } from '@holi/core/refreshing/hooks/useRefreshContext'
 import { SURVEY_URL } from '@holi/core/constants/urls'
 
 const HomeFeed = () => {
@@ -48,34 +49,32 @@ const HomeFeed = () => {
     setLastViewedIndex((prev) => Math.max(prev, index))
   }, [])
   const displayFeedbackLink = useFeatureFlagWithMaintenance(FeatureFlagKey.FEEDBACK_LINK).isOn
+  const { refreshControlProps } = useRefreshContext()
 
-  const { initialLoading, canLoadMore, combinedFeedData, fetchMore, refetch, refreshing, insightsCreators } =
-    useFeedQuery()
+  const { initialLoading, canLoadMore, combinedFeedData, fetchMore, insightsCreators } = useFeedQuery()
 
   const { track } = useTracking()
   const navigation = useNavigation()
   const ref = useRef(null)
-  const refreshingRef = useRef(false)
-
-  // Update ref when refreshing changes
-  useEffect(() => {
-    refreshingRef.current = refreshing
-  }, [refreshing])
 
   const keyExtractor = useCallback(
     (
       item: FeedItem & {
         goodNewsArticle?: GoodNewsArticle
-        volunteeringReco?: VolunteeringReco
+        volunteeringReco?: VolunteeringReco | VolunteeringEngagement
       },
       index: number
     ) => {
+      const engagement =
+        item.volunteeringReco && 'engagement' in item.volunteeringReco
+          ? item.volunteeringReco.engagement
+          : item.volunteeringReco
       return (
         item.feedPost?.id ||
         item.spacePost?.id ||
         item.insight?.id ||
         item.goodNewsArticle?.id ||
-        item.volunteeringReco?.engagement.id ||
+        engagement?.id ||
         index.toString()
       )
     },
@@ -98,7 +97,7 @@ const HomeFeed = () => {
           {item.spacePost && <GenericPostCard post={item.spacePost} />}
           {item.insight && insightsCreators && <InsightCard insight={item.insight} creators={insightsCreators} />}
           {item.goodNewsArticle && <GoodNewsCard article={item.goodNewsArticle} />}
-          {item.volunteeringReco && <VolunteeringCard recommendation={item.volunteeringReco} />}
+          {item.volunteeringReco && <VolunteeringCard engagementOrReco={item.volunteeringReco} />}
         </>
       )
     },
@@ -123,11 +122,11 @@ const HomeFeed = () => {
     () => (
       <HoliTransition.FadeDown visible>
         <View style={styles.listHeader}>
-          <HomeFeedHeader refreshing={refreshing} />
+          <HomeFeedHeader refreshing={refreshControlProps.refreshing} />
         </View>
       </HoliTransition.FadeDown>
     ),
-    [refreshing]
+    [refreshControlProps.refreshing]
   )
 
   const listItemTrackingEvent: ListItemTrackingEvent<FeedItem> = (item) => {
@@ -147,12 +146,16 @@ const HomeFeed = () => {
       volunteeringReco?: VolunteeringReco
     }
   > = (item) => {
+    const engagement =
+      item.volunteeringReco && 'engagement' in item.volunteeringReco
+        ? item.volunteeringReco.engagement
+        : item.volunteeringReco
     return (
       item.feedPost?.id ||
       item.spacePost?.id ||
       item.insight?.id ||
       item.goodNewsArticle?.id ||
-      item.volunteeringReco?.engagement.id ||
+      engagement?.id ||
       Math.random().toString()
     )
   }
@@ -228,7 +231,7 @@ const HomeFeed = () => {
               windowSize={5}
               maxToRenderPerBatch={5}
               initialNumToRender={10}
-              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refetch} />}
+              refreshControl={<RefreshControl {...refreshControlProps} />}
               data={combinedFeedData}
               renderItem={renderItem}
               ListHeaderComponent={renderHeader}

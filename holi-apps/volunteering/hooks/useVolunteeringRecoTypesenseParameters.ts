@@ -31,13 +31,13 @@ export const useVolunteeringRecoTypesenseParameters = ({
   const { geolocationDetails, loadingGeolocation } = useGeolocationDetails(geolocationId, onGeolocationError)
   const parameters = useMemo(() => {
     const { lat, lon } = geolocationDetails?.geolocation?.properties ?? {}
-    const sort_by = lat && lon ? `location_lat_lng(${lat}, ${lon}):asc,` : ''
+    const sort_by_location = lat && lon ? `location_lat_lng(${lat}, ${lon}):asc,` : ''
 
     const userEmbedding = buildUserEmbedding({ topics, skills })
 
     return {
       filter_by: 'type:volunteering',
-      sort_by: sort_by + '_vector_distance:asc',
+      sort_by: sort_by_location + '_vector_distance:asc',
       per_page: pageSize,
       vector_query: `topics_skills_embedding_v2:(${JSON.stringify(userEmbedding)},k:100,alpha:0.9,distance_threshold:1)`,
       exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
