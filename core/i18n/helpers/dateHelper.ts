@@ -119,3 +119,71 @@ export const getFormattedDateAbs = (date: string | undefined, locale: string) =>
     day: 'numeric',
   }).format(dateObj)
 }
+
+const formatDateParts = (date: Date, language: Intl.LocalesArgument) => ({
+  weekday: date.toLocaleDateString(language, { weekday: 'short' }),
+  day: date.getDate(),
+  month: date.toLocaleDateString(language, { month: 'short' }),
+  year: date.toLocaleDateString(language, { year: 'numeric' }),
+  time: date.toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' }),
+})
+
+/**
+ * Formatting rules for events:
+ *
+ * startDate == undefined => undefined
+ *
+ * endDate == undefined => "Mon, 27 Apr ∙ 12:00"
+ * startDate == endDate => "Mon, 27 Apr ∙ 12:00"
+ * startTime == midnight => "Mon, 27 Apr"
+ *
+ * startDay != endDay => "Mon, 27 Apr - Tue, 28 Apr"
+ *
+ * else => "Mon, 27 Apr ∙ 12:00 - 13:00"
+ *
+ * 12:00 AM respectively
+ */
+export const getFormattedEventDates = (
+  language: Intl.LocalesArgument,
+  startDate?: string,
+  endDate?: string
+): string | undefined => {
+  if (!startDate) return undefined
+
+  const start = new Date(startDate)
+  const end = endDate ? new Date(endDate) : undefined
+
+  const s = formatDateParts(start, language)
+  const e = end ? formatDateParts(end, language) : undefined
+
+  const sameDate = !end || start.getTime() === end.getTime()
+  const isMidnight = s.time === '00:00' || s.time === '12:00 AM'
+
+  if (sameDate) {
+    return isMidnight ? `${s.weekday}, ${s.day} ${s.month}` : `${s.weekday}, ${s.day} ${s.month} ∙ ${s.time}`
+  }
+
+  const differentDay = start.getDate() !== end!.getDate()
+  if (differentDay) {
+    return `${s.weekday}, ${s.day} ${s.month} - ${e!.weekday}, ${e!.day} ${e!.month}`
+  }
+
+  return `${s.weekday}, ${s.day} ${s.month} ∙ ${s.time} - ${e!.time}`
+}
+
+/**
+ * Formatting rules for TaskDetails:
+ *
+ * start == end => "Mon, 7 Apr 2025"
+ * else => "Mon, 7 Apr - Tue, 8 Apr 2025"
+ */
+export const getFormattedTaskDetailsDates = (start: Date, end: Date, language: Intl.LocalesArgument): string => {
+  const s = formatDateParts(start, language)
+  const e = formatDateParts(end, language)
+
+  const sameDay = start.getDate() === end.getDate()
+
+  return sameDay
+    ? `${s.weekday}, ${s.day} ${s.month} ${s.year}`
+    : `${s.weekday}, ${s.day} ${s.month} - ${e.weekday}, ${e.day} ${e.month} ${s.year}`
+}
