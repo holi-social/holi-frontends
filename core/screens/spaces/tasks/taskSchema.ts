@@ -1,7 +1,4 @@
-import { gql } from '@apollo/client/core'
 import { z } from 'zod'
-
-import type { Task } from '@holi/core/screens/spaces/types'
 
 export const CreateTaskSchema = z.object({
   spaceId: z.string() /* UUID */,
@@ -10,6 +7,9 @@ export const CreateTaskSchema = z.object({
   description: z.string().trim().max(1200).optional(),
   locationType: z.string() /* LocationType */,
   regularity: z.string() /* Regularity */,
+  duration: z.string(),
+  timeframeStartDate: z.date().optional(),
+  timeframeEndDate: z.date().optional(),
   contactEmail: z.string().email(),
   location: z.string().optional(),
   geolocation: z
@@ -27,26 +27,6 @@ export const CreateTaskSchema = z.object({
 
 export type CreateTaskInput = z.infer<typeof CreateTaskSchema>
 
-export const createTaskMutation = gql`
-  mutation CreateTask($input: CreateTaskInput!) {
-    createTask(input: $input) {
-      id
-      name
-      description
-      visibility
-      regularity
-      locationType
-      location
-      contactEmail
-      contactPhone
-    }
-  }
-`
-
-export type CreateTaskResponse = {
-  createTask: Task
-}
-
 export const UpdateTaskSchema = z.object({
   taskId: z.string() /* UUID */,
   spaceId: z.string() /* UUID */,
@@ -55,6 +35,9 @@ export const UpdateTaskSchema = z.object({
   description: z.string().trim().max(1200).optional(),
   locationType: z.string() /* LocationType */,
   regularity: z.string() /* Regularity */,
+  duration: z.string(),
+  timeframeStartDate: z.date().optional(),
+  timeframeEndDate: z.date().optional(),
   contactEmail: z.string().email().optional(),
   location: z.string().optional(),
   geolocation: z
@@ -71,36 +54,3 @@ export const UpdateTaskSchema = z.object({
 })
 
 export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>
-
-export const updateTaskMutation = gql`
-  mutation UpdateTask($input: UpdateTaskInput!) {
-    updateTask(input: $input) {
-      id
-      name
-      description
-      visibility
-      regularity
-      locationType
-      location
-      contactEmail
-      contactPhone
-      thumbnail
-    }
-  }
-`
-
-export type UpdateTaskResponse = {
-  updateTask: Task
-}
-
-export interface DeleteTaskResponse {
-  success: boolean
-}
-
-export const deleteTaskMutation = gql`
-  mutation DeleteTask($id: UUID!) {
-    deleteTask(id: $id) {
-      success
-    }
-  }
-`

@@ -33,7 +33,42 @@ query taskById($id: UUID!) {
   }
 }
 
-mutation deleteTask($id: UUID!) {
+mutation CreateTask($input: CreateTaskInput!) {
+  createTask(input: $input) {
+    id
+    name
+    description
+    visibility
+    regularity
+    duration
+    timeframeStartDate
+    timeframeEndDate
+    locationType
+    location
+    contactEmail
+    contactPhone
+  }
+}
+
+mutation UpdateTask($input: UpdateTaskInput!) {
+  updateTask(input: $input) {
+    id
+    name
+    description
+    visibility
+    regularity
+    duration
+    timeframeStartDate
+    timeframeEndDate
+    locationType
+    location
+    contactEmail
+    contactPhone
+    thumbnail
+  }
+}
+
+mutation DeleteTask($id: UUID!) {
   deleteTask(id: $id) {
     success
   }

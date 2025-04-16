@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Platform, ScrollView, type StyleProp, StyleSheet, View, type ViewStyle } from 'react-native'
+import type React from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { Platform, ScrollView, type StyleProp, View, type ViewStyle } from 'react-native'
 
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
@@ -12,8 +13,12 @@ import HoliCheckbox from '@holi/ui/components/molecules/HoliCheckbox'
 import HoliMandatoryFieldStar from '@holi/ui/components/molecules/HoliMandatoryFieldStar'
 import HoliModal from '@holi/ui/components/molecules/HoliModal'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
+import { Stack } from 'holi-bricks/components/stack'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
 
 export type HoliModalSelectVariant = 'normal' | 'dense' // for working code completion in vscode
 export const HoliModalSelectVariants: HoliModalSelectVariant[] = ['normal', 'dense'] // keep in sync with all possible HoliModalSelectVariant values
@@ -29,7 +34,7 @@ export type HoliModalSelectOption<IDType extends string = string> = {
 
 export type HoliModalSelectProps<IDType extends string = string> = {
   options: HoliModalSelectOption<IDType>[]
-  onChange: (option: HoliModalSelectOption<IDType>) => void
+  onChange: (option: HoliModalSelectOption<IDType>) => void | false
   title: string
   label: string
   description?: string
@@ -43,11 +48,12 @@ export type HoliModalSelectProps<IDType extends string = string> = {
   show: () => void
   hide: () => void
   visible: boolean
+  modalFooter?: React.ReactNode
 }
 
 const HoliModalSelect = <IDType extends string>({
   options,
-  onChange = () => null,
+  onChange,
   title,
   label,
   description,
@@ -61,6 +67,7 @@ const HoliModalSelect = <IDType extends string>({
   show,
   hide,
   visible,
+  modalFooter,
 }: HoliModalSelectProps<IDType>) => {
   const [selectedOption, setSelectedOption] = useState<HoliModalSelectOption<IDType> | undefined>()
   const [hovered, setHovered] = useState(false)
@@ -69,7 +76,7 @@ const HoliModalSelect = <IDType extends string>({
   const isDense = variant === 'dense'
   const { theme } = useTheme()
   const { colors } = theme
-  const styles = useMemo(() => getStyles(isDense, theme), [isDense, theme])
+  const { styles } = useStyles(stylesheet)
 
   useEffect(() => setSelectedOption(options.find((option) => option.selected)), [options])
 
@@ -82,8 +89,8 @@ const HoliModalSelect = <IDType extends string>({
 
   const handleOnChange = useCallback(
     async (option: HoliModalSelectOption<IDType>) => {
+      if (onChange(option) === false) return // if onChange returns false, prevent default behavior and don't hide the modal
       await hide()
-      onChange(option)
     },
     [onChange, hide]
   )
@@ -91,7 +98,7 @@ const HoliModalSelect = <IDType extends string>({
   const renderOption = useCallback(
     (option: HoliModalSelectOption<IDType>) => (
       <HoliButton
-        contentStyle={styles.optionCardContent}
+        contentStyle={styles.optionCardContent(!!option.selected, isDense)}
         label={option.title}
         key={option.id}
         transparent
@@ -108,7 +115,7 @@ const HoliModalSelect = <IDType extends string>({
             colorOverride={option?.disabled ? colors.foreground10 : colors.foreground30}
           />
         )}
-        <View style={styles.optionTextContainer}>
+        <View style={styles.optionTextContainer(isDense)}>
           <HoliText bold color={option?.disabled ? 'gray200' : 'black300'}>
             {option.title}
           </HoliText>
@@ -128,15 +135,7 @@ const HoliModalSelect = <IDType extends string>({
         />
       </HoliButton>
     ),
-    [
-      styles.optionCardContent,
-      styles.optionTextContainer,
-      isDense,
-      testID,
-      handleOnChange,
-      colors.foreground10,
-      colors.foreground30,
-    ]
+    [styles, isDense, testID, colors.foreground10, colors.foreground30, handleOnChange]
   )
 
   return (
@@ -176,19 +175,25 @@ const HoliModalSelect = <IDType extends string>({
         shown={visible}
         onDismiss={hide}
         onShow={show}
-        label={label}
+        label={title}
         statusBarTranslucent
-        style={styles.modal}
+        style={styles.modal(isDense)}
         testID={testID}
       >
         <ScrollView style={mixins.container}>
           <HoliBox padding={[0, 0, Spacing.xs, 0]}>
-            <HoliHeading level="2">{label}</HoliHeading>
+            <HoliHeading level="2">{title}</HoliHeading>
           </HoliBox>
           {!!description && <HoliText style={styles.description}>{description}</HoliText>}
           {isDense && <View style={styles.separator} />}
-          <View style={styles.optionsContainer}>{options.map(renderOption)}</View>
+          <View style={styles.optionsContainer(isDense)}>{options.map(renderOption)}</View>
         </ScrollView>
+
+        {modalFooter && (
+          <HoliContainer>
+            <Stack padding={{ bottom: 'xs' }}>{modalFooter}</Stack>
+          </HoliContainer>
+        )}
       </HoliModal>
     </>
   )
@@ -196,72 +201,71 @@ const HoliModalSelect = <IDType extends string>({
 
 export default HoliModalSelect
 
-const getStyles = (isDense: boolean, theme: HoliTheme) =>
-  StyleSheet.create({
-    labelWrapper: {
-      marginBottom: 6,
-      flexDirection: 'row',
-    },
-    label: {
-      color: theme.colors.foreground30,
-    },
-    button: {
-      paddingVertical: Spacing.xs,
-      paddingHorizontal: Spacing.xxs,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      backgroundColor: theme.colors.background10,
-      color: theme.colors.foreground30,
-      borderRadius: 4,
-      borderWidth: 2,
-      borderColor: theme.colors.background30,
-    },
-    buttonHovered: {
-      borderColor: theme.colors.foreground20,
-    },
-    placeholder: {
-      color: theme.colors.foreground20,
-    },
-    modal: {
-      backgroundColor: isDense ? theme.colors.background10 : theme.colors.background30,
-    },
-    optionsContainer: {
-      paddingBottom: 28,
-      gap: isDense ? 0 : Spacing.xs,
-    },
-    optionCardContent: {
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      padding: isDense ? undefined : Spacing.xs,
-      paddingVertical: isDense ? Spacing.xxs : undefined,
-      backgroundColor: theme.colors.background10,
-      borderRadius: Spacing.xs,
-      borderWidth: isDense ? 0 : 1,
-      borderColor: theme.colors.background30,
-    },
-    optionTextContainer: {
-      flex: 1,
-      marginTop: 2,
-      paddingLeft: isDense ? 0 : Spacing['3xs'],
-      paddingRight: Spacing['3xs'],
-    },
-    separator: {
-      borderTopWidth: 1,
-      borderTopColor: theme.colors.background30,
-      marginBottom: Spacing.xs,
-    },
-    description: {
-      color: theme.colors.foreground20,
-      paddingBottom: Spacing.xs,
-    },
-    selectedOptionContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      maxWidth: '90%',
-    },
-    selectedOptionTitle: {
-      marginLeft: Spacing.xxs,
-    },
-  })
+const stylesheet = createStyleSheet((theme) => ({
+  labelWrapper: {
+    marginBottom: 6,
+    flexDirection: 'row',
+  },
+  label: {
+    color: theme.colors.bg.selected,
+  },
+  button: {
+    paddingVertical: Spacing.xs,
+    paddingHorizontal: Spacing.xxs,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: theme.colors.decorative.white,
+    color: theme.colors.fill.selected,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: theme.colors.decorative.greyLight,
+  },
+  buttonHovered: {
+    borderColor: theme.colors.decorative.black,
+  },
+  placeholder: {
+    color: theme.colors.decorative.black,
+  },
+  modal: (isDense: boolean) => ({
+    backgroundColor: isDense ? theme.colors.bg.main : theme.colors.decorative.greyLight,
+  }),
+  optionsContainer: (isDense: boolean) => ({
+    paddingBottom: 28,
+    gap: isDense ? 0 : Spacing.xs,
+  }),
+  optionCardContent: (selected: boolean, isDense: boolean) => ({
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    padding: isDense ? undefined : Spacing.xs,
+    paddingVertical: isDense ? Spacing.xxs : undefined,
+    backgroundColor: theme.colors.bg.main,
+    borderRadius: Spacing.xs,
+    borderWidth: isDense ? 0 : 1,
+    borderColor: selected ? theme.colors.decorative.black : theme.colors.decorative.greyLight,
+  }),
+  optionTextContainer: (isDense: boolean) => ({
+    flex: 1,
+    marginTop: 2,
+    paddingLeft: isDense ? 0 : Spacing['3xs'],
+    paddingRight: Spacing['3xs'],
+  }),
+  separator: {
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.decorative.greyLight,
+    marginBottom: Spacing.xs,
+  },
+  description: {
+    color: theme.colors.decorative.black,
+    paddingBottom: Spacing.xs,
+  },
+  selectedOptionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    maxWidth: '90%',
+  },
+  selectedOptionTitle: {
+    marginLeft: Spacing.xxs,
+  },
+}))

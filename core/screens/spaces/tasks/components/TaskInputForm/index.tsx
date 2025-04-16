@@ -8,11 +8,7 @@ import { Image as ReactNativeImage } from 'react-native'
 import { CONTENT_IMAGE_MAX_WIDTH, IMAGE_MAX_FILE_SIZE_BYTES } from '@holi/core/constants/constants'
 import type { TranslatedFieldErrors } from '@holi/core/errors/hooks'
 import PlacesAutocomplete, { type GeolocationSuggestion } from '@holi/core/geolocation/components/PlacesAutocomplete'
-import {
-  LOCATION_TYPE_OPTIONS,
-  REGULARITY_OPTIONS,
-  VISIBILITY_TYPE_OPTIONS,
-} from '@holi/core/screens/spaces/tasks/consts'
+import { LOCATION_TYPE_OPTIONS, VISIBILITY_TYPE_OPTIONS } from '@holi/core/screens/spaces/tasks/consts'
 import { LocationType, VisibilityType } from '@holi/core/screens/spaces/types'
 import type { GeolocationPoint } from '@holi/core/types'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
@@ -31,7 +27,9 @@ import { Button } from 'holi-bricks/components/button'
 import { TermsInput } from '@holi/core/components/TermsInput'
 
 import TimeFrameSection from './sections/TimeFrameSection'
+import TimingSection from './sections/TimingSection'
 import type { UseTimeFrameReturnValue } from './sections/TimeFrameSection/useTimeFrame'
+import type { UseTimingReturnValue } from '@holi/core/screens/spaces/tasks/components/TaskInputForm/sections/TimingSection/useTiming'
 
 export interface TaskInputFormProps {
   name: string
@@ -41,20 +39,18 @@ export interface TaskInputFormProps {
   slotsAvailable?: number
   visibility?: HoliModalSelectOption
   locationType?: HoliModalSelectOption
-  regularity?: HoliModalSelectOption
   thumbnail?: HoliImageInfo
   thumbnailBlurhash?: string
   geolocation?: GeolocationPoint
   contactPhone?: string
   selectedLocation?: GeolocationSuggestion
   currentThumbnail?: string
-  /* TODO TASK TIMING: make the timeFrameSectionProps required after implementing the Task Timing feature in the BE */
-  timeFrameSectionProps?: UseTimeFrameReturnValue
+  timingSectionProps: UseTimingReturnValue
+  timeFrameSectionProps: UseTimeFrameReturnValue
   onChangeName: (_: string) => void
   onChangeDescription: (_: string) => void
   onChangeVisibility: (_: HoliModalSelectOption) => void
   onChangeLocationType: (_: HoliModalSelectOption) => void
-  onChangeRegularity: (_: HoliModalSelectOption) => void
   onChangeContactEmail: (_: string) => void
   onChangeSlotsAvailable: (_: number) => void
   onChangeThumbnail: (_: HoliImageInfo) => void
@@ -72,7 +68,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   description,
   visibility,
   locationType,
-  regularity,
   contactEmail,
   thumbnail,
   currentThumbnail,
@@ -80,11 +75,11 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   skills,
   selectedLocation,
   timeFrameSectionProps,
+  timingSectionProps,
   onChangeName,
   onChangeDescription,
   onChangeVisibility,
   onChangeLocationType,
-  onChangeRegularity,
   onChangeContactEmail,
   onChangeThumbnail,
   onChangeContactPhone,
@@ -96,7 +91,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
 }: TaskInputFormProps) => {
   const [visibilityOptions, setVisibilityOptions] = useState<HoliModalSelectOption[]>(VISIBILITY_TYPE_OPTIONS)
   const [locationTypeOptions, setLocationTypeOptions] = useState<HoliModalSelectOption[]>(LOCATION_TYPE_OPTIONS)
-  const [regularityOptions, setRegularityOptions] = useState<HoliModalSelectOption[]>(REGULARITY_OPTIONS)
 
   const [nameError, setNameError] = useState<string | undefined>()
   const [descriptionError, setDescriptionError] = useState<string | undefined>()
@@ -104,7 +98,6 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
   const [contactPhoneError, setContactPhoneError] = useState<string | undefined>()
   const [hasInteractedWithEmail, setHasInteractedWithEmail] = useState(false)
 
-  const { show: showRegularity, hide: hideRegularity, visible: visibleRegularity } = useModalState()
   const { show: showVisibility, hide: hideVisibility, visible: visibleVisibility } = useModalState()
   const { show: showLocationType, hide: hideLocationType, visible: visibleLocationType } = useModalState()
 
@@ -135,14 +128,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         title: t(`spaces.input.task.locationType.${option.id}.title`),
       }))
     )
-
-    setRegularityOptions((options) =>
-      options.map((option) => ({
-        ...option,
-        title: t(`spaces.input.task.regularity.${option.id}.title`),
-      }))
-    )
-  }, [t, setVisibilityOptions, setLocationTypeOptions, setRegularityOptions, isAdmin])
+  }, [t, setVisibilityOptions, setLocationTypeOptions, isAdmin])
 
   useEffect(() => {
     setNameError(fieldErrors?.name?.length ? fieldErrors.name[0] : undefined)
@@ -172,16 +158,7 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         )
       )
     }
-    if (regularity) {
-      setRegularityOptions((options) =>
-        options.map((regularityOption) =>
-          regularityOption.title === regularity.title
-            ? { ...regularityOption, selected: true }
-            : { ...regularityOption, selected: false }
-        )
-      )
-    }
-  }, [visibility, locationType, regularity])
+  }, [visibility, locationType])
 
   const ThumbnailUploader = () => {
     return (
@@ -335,31 +312,13 @@ const TaskInputForm: React.FC<TaskInputFormProps> = ({
         )}
       </View>
 
-      <View style={[styles.sectionWrapper, { zIndex: 1 }]}>
-        <HoliText size="large">{t('spaces.input.task.section.involvement')}</HoliText>
-        <HoliModalSelect
-          options={regularityOptions}
-          title={t('spaces.input.task.regularity.label')}
-          label={t('spaces.input.task.regularity.label')}
-          placeholder={t('spaces.input.task.regularity.placeholder')}
-          description={t('spaces.input.task.regularity.placeholder')}
-          style={styles.marginSeparator}
-          onChange={onChangeRegularity}
-          isRequired
-          testID="task-regularity"
-          variant="dense"
-          show={showRegularity}
-          hide={hideRegularity}
-          visible={visibleRegularity}
-        />
+      <View style={styles.sectionWrapper}>
+        <TimingSection {...timingSectionProps} />
       </View>
 
-      {/* TODO TASK TIMING: remove the condition after implementing the Task Timing feature in the BE */}
-      {timeFrameSectionProps && (
-        <View style={styles.sectionWrapper}>
-          <TimeFrameSection {...timeFrameSectionProps} />
-        </View>
-      )}
+      <View style={styles.sectionWrapper}>
+        <TimeFrameSection {...timeFrameSectionProps} />
+      </View>
 
       <View style={styles.sectionWrapper}>
         <HoliText size="large">{t('spaces.input.task.section.contact')}</HoliText>

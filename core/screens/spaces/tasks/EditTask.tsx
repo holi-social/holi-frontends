@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -15,21 +14,18 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import SpaceFormScreenLayout from '@holi/core/screens/spaces/components/SpaceFormScreenLayout'
 import { useSpace } from '@holi/core/screens/spaces/hooks/useSpace'
 import { spaceByIdQuery } from '@holi/core/screens/spaces/queries'
-import TaskInputForm from '@holi/core/screens/spaces/tasks/components/TaskInputForm'
-import {
-  updateTaskMutation,
-  type UpdateTaskResponse,
-  UpdateTaskSchema,
-} from '@holi/core/screens/spaces/tasks/mutations'
-import { LocationType, SpaceConnectionType } from '@holi/core/screens/spaces/types'
+import { SpaceConnectionType } from '@holi/core/screens/spaces/types'
 import type { GeolocationPoint } from '@holi/core/types'
 import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 import type { HoliImageInfo } from '@holi/ui/components/organisms/HoliImagePicker/types'
 import type { HoliModalSelectOption } from '@holi/ui/components/organisms/HoliModalSelect'
+import { LocationType, type Task, useUpdateTaskMutation, type VisibilityType } from '@holi/api/graphql/graphql-codegen'
 
-// TODO TASK TIMING: uncomment the useTimeFrame hook after implementing the Task Timing feature in the BE
-// import { useTimeFrame } from './components/TaskInputForm/sections/TimeFrameSection/useTimeFrame'
+import TaskInputForm from './components/TaskInputForm'
+import { UpdateTaskSchema } from './taskSchema'
+import { useTiming } from './components/TaskInputForm/sections/TimingSection/useTiming'
+import { useTimeFrame } from './components/TaskInputForm/sections/TimeFrameSection/useTimeFrame'
 
 export type EditTaskParams = {
   spaceIdOrName: string
@@ -53,7 +49,6 @@ const EditTask = () => {
   const [description, setDescription] = useState('')
   const [visibility, setVisibility] = useState<HoliModalSelectOption | undefined>()
   const [locationType, setLocationType] = useState<HoliModalSelectOption | undefined>()
-  const [regularity, setRegularity] = useState<HoliModalSelectOption | undefined>()
   const [contactEmail, setContactEmail] = useState('')
   const [slotsAvailable, setSlotsAvailable] = useState(DEFAULT_SLOTS_AVAILABLE)
   const [thumbnail, setThumbnail] = useState<HoliImageInfo | undefined>()
@@ -71,20 +66,22 @@ const EditTask = () => {
   const [inputValid, setInputValid] = useState(true)
   const [fieldErrors, setFieldErrors] = useState<TranslatedFieldErrors>({})
 
-  // TODO TASK TIMING: uncomment the useTimeFrame hook after implementing the Task Timing feature in the BE
-  // const timeFrameSectionProps = useTimeFrame()
+  const timingSectionProps = useTiming()
+  const { onDurationChange, onRegularityChange } = timingSectionProps
+  const timeFrameSectionProps = useTimeFrame()
+  const { onChangeStart, onChangeEnd, onChangeAnytimeToggle } = timeFrameSectionProps
 
   const { loading: loadingSpace, error: errorSpace, space } = useSpace(spaceIdOrName)
 
   const loginState = useLoggedInUser()
   const isAdmin = space?.connectionStatusToMyself?.includes(SpaceConnectionType.ADMINISTRATOR)
   const isMember = space?.connectionStatusToMyself?.includes(SpaceConnectionType.MEMBER)
-  const task = (space?.tasks || []).find((t) => t.id === taskId)
+  const task = (space?.tasks || []).find((t) => t.id === taskId) as Task | undefined
   const isTaskOwner = loginState.isLoggedIn && task?.creator.id === loginState.user.id
 
   const { displayError } = useErrorHandling()
 
-  const [updateTask] = useMutation<UpdateTaskResponse>(updateTaskMutation, {
+  const [updateTask] = useUpdateTaskMutation({
     onCompleted: () => navigateBack(),
     onError: (error) => {
       if (isMaliciousUrlError(error)) {
@@ -99,17 +96,35 @@ const EditTask = () => {
     refetchQueries: [{ query: spaceByIdQuery, variables: { idOrName: spaceIdOrName } }],
   })
 
-  const onSave = () =>
-    updateTask({
+  const onSave = async () => {
+    if (
+      !space?.id ||
+      !task?.id ||
+      !visibility?.id ||
+      !locationType?.id ||
+      !timingSectionProps.regularity ||
+      !timingSectionProps.duration
+    ) {
+      return
+    }
+
+    return updateTask({
       variables: {
         input: {
           taskId: task?.id,
           spaceId: space?.id,
           name,
           description,
-          visibility: visibility?.id,
-          locationType: locationType?.id,
-          regularity: regularity?.id,
+          visibility: visibility?.id as VisibilityType,
+          locationType: locationType?.id as LocationType,
+          regularity: timingSectionProps.regularity,
+          duration: timingSectionProps.duration,
+          timeframeStartDate: timeFrameSectionProps.timeFrame.anytime
+            ? undefined
+            : timeFrameSectionProps.timeFrame.start.toISOString().split('T')[0],
+          timeframeEndDate: timeFrameSectionProps.timeFrame.anytime
+            ? undefined
+            : timeFrameSectionProps.timeFrame.end.toISOString().split('T')[0],
           contactEmail,
           slotsAvailable,
           thumbnail: thumbnail?.blob,
@@ -120,11 +135,12 @@ const EditTask = () => {
         },
       },
     })
+  }
 
   // If locationType is REMOTE, remove location and coordinates
   // Otherwise set their values based on the selectedLocation
   useEffect(() => {
-    if (locationType?.id !== LocationType.REMOTE) {
+    if (locationType?.id !== LocationType.Remote) {
       setGeolocation(
         selectedLocation?.coordinates
           ? {
@@ -135,7 +151,7 @@ const EditTask = () => {
       )
       setLocation(selectedLocation?.label || '')
     }
-    if (locationType?.id === LocationType.REMOTE) {
+    if (locationType?.id === LocationType.Remote) {
       setGeolocation(undefined)
       setLocation(undefined)
     }
@@ -147,7 +163,10 @@ const EditTask = () => {
       spaceId: space?.id,
       visibility: visibility?.id,
       locationType: locationType?.id,
-      regularity: regularity?.id,
+      regularity: timingSectionProps.regularity,
+      duration: timingSectionProps.duration,
+      timeframeStartDate: timeFrameSectionProps.timeFrame.anytime ? undefined : timeFrameSectionProps.timeFrame.start,
+      timeframeEndDate: timeFrameSectionProps.timeFrame.anytime ? undefined : timeFrameSectionProps.timeFrame.end,
       skillsV2: skills,
       name,
       description,
@@ -169,7 +188,6 @@ const EditTask = () => {
     description,
     visibility,
     locationType,
-    regularity,
     contactEmail,
     slotsAvailable,
     thumbnail,
@@ -177,6 +195,11 @@ const EditTask = () => {
     location,
     geolocation,
     contactPhone,
+    timingSectionProps.regularity,
+    timingSectionProps.duration,
+    timeFrameSectionProps.timeFrame.anytime,
+    timeFrameSectionProps.timeFrame.start,
+    timeFrameSectionProps.timeFrame.end,
   ])
 
   useEffect(() => {
@@ -193,11 +216,6 @@ const EditTask = () => {
         title: t(`spaces.input.task.locationType.${task.locationType}.title`),
         description: t(`spaces.input.task.locationType.${task.locationType}.description`),
       })
-      setRegularity({
-        id: task.regularity,
-        title: t(`spaces.input.task.regularity.${task.regularity}.title`),
-        description: t(`spaces.input.task.regularity.${task.regularity}.description`),
-      })
       setContactEmail(task.contactEmail)
       setSlotsAvailable(task.slotsAvailable)
       setCurrentThumbnail(task.thumbnail)
@@ -207,16 +225,16 @@ const EditTask = () => {
       setGeolocation(task.geolocation)
       setContactPhone(task.contactPhone)
       setSelectedLocation(task.location ? { label: task.location, id: '', coordinates: task.geolocation } : undefined)
-      // TODO TASK TIMING: set the Time Frame data for the task after implementing the Task Timing feature in the BE
-      // if (task.timeFrame.anytime) {
-      //   timeFrameSectionProps.setAnytime(true)
-      // } else {
-      //   timeFrameSectionProps.setAnytime(false)
-      //   timeFrameSectionProps.setStart(task.timeFrame.start)
-      //   timeFrameSectionProps.setEnd(task.timeFrame.end)
-      // }
+      onDurationChange(task.duration)
+      onRegularityChange(task.regularity)
+      if (task.timeframeStartDate && task.timeframeEndDate) {
+        onChangeStart(task.timeframeStartDate)
+        onChangeEnd(task.timeframeEndDate)
+      } else {
+        onChangeAnytimeToggle(true)
+      }
     }
-  }, [space, task, t])
+  }, [task, t, onDurationChange, onRegularityChange, onChangeStart, onChangeEnd, onChangeAnytimeToggle])
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({
@@ -241,13 +259,23 @@ const EditTask = () => {
       description.length > 0 &&
       !!visibility &&
       !!locationType &&
-      !!regularity &&
       !!contactEmail &&
+      !!timingSectionProps.duration &&
+      !!timingSectionProps.regularity &&
       inputValid
     ) {
       setSaveButtonDisabled(false)
     }
-  }, [name, description, visibility, locationType, regularity, contactEmail, inputValid])
+  }, [
+    name,
+    description,
+    visibility,
+    locationType,
+    contactEmail,
+    inputValid,
+    timingSectionProps.duration,
+    timingSectionProps.regularity,
+  ])
 
   if (space && !task) {
     replaceRoute('/404')
@@ -278,7 +306,6 @@ const EditTask = () => {
           description={description}
           visibility={visibility}
           locationType={locationType}
-          regularity={regularity}
           contactEmail={contactEmail}
           slotsAvailable={slotsAvailable}
           thumbnail={thumbnail}
@@ -288,13 +315,12 @@ const EditTask = () => {
           selectedLocation={selectedLocation}
           contactPhone={contactPhone}
           currentThumbnail={currentThumbnail}
-          /* TODO TASK TIMING: pass the timeFrameSectionProps after implementing the Task Timing feature in the BE */
-          // timeFrameSectionProps={timeFrameSectionProps}
+          timingSectionProps={timingSectionProps}
+          timeFrameSectionProps={timeFrameSectionProps}
           onChangeName={setName}
           onChangeDescription={setDescription}
           onChangeVisibility={setVisibility}
           onChangeLocationType={setLocationType}
-          onChangeRegularity={setRegularity}
           onChangeContactEmail={setContactEmail}
           onChangeSlotsAvailable={setSlotsAvailable}
           onChangeThumbnail={setThumbnail}

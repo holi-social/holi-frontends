@@ -64,13 +64,16 @@ export const FullTaskFragment = gql`
     slotsAvailable
     slotsTaken
     location
-    regularity
     visibility
     locationType
     contactEmail
     contactPhone
     thumbnail
     thumbnailBlurhash
+    regularity
+    duration
+    timeframeEndDate
+    timeframeStartDate
     creator {
       ...UserAvatar
     }
