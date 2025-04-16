@@ -114,6 +114,7 @@ export const DetailsScreen = ({
         ogImage={coverImage?.uri}
       />
       <Stack direction="column" flex={1} padding={{ bottom: '4xl' }}>
+        {/* image */}
         <Stack>
           <CoverImage coverImage={coverImage} />
           {date && (
@@ -128,6 +129,7 @@ export const DetailsScreen = ({
           )}
         </Stack>
 
+        {/* written content */}
         <Stack
           margin={{ bottom: '4xl' }}
           padding={{ left: 'xs', right: 'xs', bottom: 'sm' }}
@@ -137,6 +139,7 @@ export const DetailsScreen = ({
           }}
           backgroundColor="support"
         >
+          {/* visibility label (public or private) */}
           <Stack direction="row" shouldRender={!!visibility} gap="xxs" alignItems="center" padding={{ top: 'sm' }}>
             <HoliIcon size={14} icon={visibility == 'public' ? Global : Lock} />
             <Text headingLevel="1" size="xs">
@@ -145,6 +148,7 @@ export const DetailsScreen = ({
           </Stack>
 
           <Stack padding={{ top: 'md' }} gap="sm">
+            {/* category chips */}
             <Stack wrap="wrap" flex={1} direction="row" gap="4xs" shouldRender={chips && chips?.length > 0}>
               {chips?.map((chip, index) => {
                 return (
@@ -155,12 +159,14 @@ export const DetailsScreen = ({
               })}
             </Stack>
 
+            {/* title */}
             <Stack gap="xs" direction="row">
               <Text size="3xl" testID="detailview-title">
                 {title}
               </Text>
             </Stack>
 
+            {/* organizational information */}
             <Stack direction="column" gap="xxs" shouldRender={!!infoList}>
               {infoList?.map((detail, index) => {
                 const TextComp = detail.onPress ? TextLink : Text
@@ -187,6 +193,8 @@ export const DetailsScreen = ({
                 )
               })}
             </Stack>
+
+            {/* description */}
             <DescriptionRenderer description={description} />
             {author && <AuthorBanner {...author} />}
             {partners && (

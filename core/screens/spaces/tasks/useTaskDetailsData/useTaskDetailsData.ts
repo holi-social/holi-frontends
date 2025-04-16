@@ -4,10 +4,10 @@ import { isSSR } from '@holi/core/helpers/isSSR'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { SpaceUserConnectionType, VisibilityType, useTaskByIdQuery } from '@holi/api/graphql/graphql-codegen'
-import { CalendarEvent, MapPin2, UserFilled } from '@holi/icons/src/generated'
+import { CalendarEventLine, MapPinLine, Time, UserFilled } from '@holi/icons/src/generated'
 import { useTranslation } from 'react-i18next'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
-import { getFormattedDate } from '@holi/core/i18n/helpers/dateHelper'
+import { getFormattedDate, getFormattedTaskDetailsDates } from '@holi/core/i18n/helpers/dateHelper'
 import { useRateLimit } from '@holi/ui/helper'
 import type { DetailsScreenChips, DetailsScreenData, DetailsScreenInfoList } from '@holi/core/layout/DetailsScreen'
 
@@ -79,7 +79,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
           data?.taskById?.locationType && t(`task.locationType.${data?.taskById?.locationType}`)
             ? t(`task.locationType.${data?.taskById?.locationType}`)
             : t('task.locationType.NOT_DECLARED'),
-        icon: MapPin2,
+        icon: MapPinLine,
       }
     : undefined
 
@@ -93,7 +93,7 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
 
   const regularity = data?.taskById?.regularity
     ? {
-        icon: CalendarEvent,
+        icon: Time,
         title:
           data?.taskById?.regularity && t(`task.commitment.${data?.taskById?.regularity}`)
             ? t(`task.commitment.${data?.taskById?.regularity}`)
@@ -101,7 +101,38 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
       }
     : undefined
 
-  const infoList = [locationType, slots, regularity].filter((detail) => detail !== undefined) as DetailsScreenInfoList[]
+  // TODO TASK TIMING START ---------------------------------------------------------------------------
+  // for testing purposes only, delete the following when real data is provided
+  const normalizeDate = (date: Date): Date => {
+    const newDate = new Date(date)
+    newDate.setHours(23, 59, 59, 0)
+    return newDate
+  }
+  const getOneDayLaterDate = (date: Date) => {
+    const newDate = new Date(date)
+    newDate.setDate(newDate.getDate() + 1)
+    return newDate
+  }
+  const mockTimeFrame = {
+    anytime: false,
+    startDate: normalizeDate(new Date()),
+    endDate: getOneDayLaterDate(normalizeDate(new Date())),
+  }
+  // when backend is implemented: data?.taskById?.timeFrame
+  const dataContainsTimeFrame = false
+  const timeFrame = dataContainsTimeFrame
+    ? {
+        icon: CalendarEventLine,
+        title: mockTimeFrame.anytime
+          ? t('task.timeframe.anytime')
+          : getFormattedTaskDetailsDates(mockTimeFrame.startDate, mockTimeFrame.endDate, i18n.language),
+      }
+    : undefined
+  // TODO TASK TIMING END -----------------------------------------------------------------------------
+
+  const infoList = [locationType, slots, timeFrame, regularity].filter(
+    (detail) => detail !== undefined
+  ) as DetailsScreenInfoList[]
 
   const formattedDate = getFormattedDate(data?.taskById?.created, i18n.language)
 

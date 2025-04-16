@@ -7,13 +7,13 @@ import { isForbiddenError, isNotFoundError } from '@holi/core/errors/helpers'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { Linking } from 'react-native'
-import { useFormattedEventDates } from '@holi-apps/events/helpers/useFormattedEventDates'
 import type { ImageSource } from 'holi-bricks/components/image'
 import { useRateLimit } from '@holi/ui/helper'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { LinkType, useShareLink } from '@holi/core/hooks/useShareLink'
 import { TrackingEvent } from '@holi/core/tracking'
 import { EVENTS_SOURCE_MAPPING } from '@holi-apps/events/helpers/eventsSourceMapping'
+import { getFormattedEventDates } from '@holi/core/i18n/helpers/dateHelper'
 
 export type UseEventDetailsData = {
   data: DetailsScreenData
@@ -48,10 +48,10 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
     },
   })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const event = data?.appEvents_event?.data
-  const formattedDates = useFormattedEventDates(event?.startDate, event?.endDate) as string
+  const formattedDates = getFormattedEventDates(event?.startDate, event?.endDate, i18n.language) as string
   const [, shareLink] = useShareLink({
     link: `/events/${eventId}`,
     linkType: LinkType.UNIVERSAL,
