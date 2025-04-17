@@ -63,14 +63,21 @@ export const removeSessionFromStorage = (): Promise<void> => {
   return AsyncStore.removeItem(userSessionName)
 }
 
-export const initLoginFlow = () =>
-  newKratosSdk()
+export const initLoginFlow = (flowId?: string) => {
+  if (flowId) {
+    return newKratosSdk()
+      .getLoginFlow({ id: flowId })
+      .then(({ data }) => data)
+      .catch(handleKratosSdkError('getLoginFlow'))
+  }
+  return newKratosSdk()
     .createBrowserLoginFlow({
       refresh: true,
       returnTo: holiNextJSApiUrl,
     })
     .then(({ data }) => data)
     .catch(handleKratosSdkError('createBrowserLoginFlow'))
+}
 
 export const submitLoginFlow = (flow: LoginFlow, payload: UpdateLoginFlowBody): AxiosPromise<SuccessfulNativeLogin> =>
   newKratosSdk()
