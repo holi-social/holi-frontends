@@ -51,6 +51,8 @@ const Login = () => {
   const redirect = useRedirect('/')
   const { navigate } = useRouting()
   const [flowId] = useParam('flow')
+  // eslint-disable-next-line no-console
+  console.info({ flowId })
 
   const isWeb = Platform.OS === 'web'
 

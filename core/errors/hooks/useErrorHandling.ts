@@ -53,7 +53,7 @@ export const useErrorHandling = () => {
         })
       } else {
         // eslint-disable-next-line no-console
-        console.error('network or unauthorized error', error)
+        console.info('network or unauthorized error', error)
       }
     },
     [t, openToast]

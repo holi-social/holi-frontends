@@ -23,7 +23,7 @@ export const handleKratosSdkErrorIgnoringCodes =
   (method: string, { errorCodesToIgnore = [] }: { errorCodesToIgnore?: string[] } = {}) =>
   (error: GenericAxiosError) => {
     // eslint-disable-next-line no-console
-    console.error(
+    console.info(
       `Error from kratosSdk: ${JSON.stringify(error)}`,
       error?.response?.status,
       'redirect?',

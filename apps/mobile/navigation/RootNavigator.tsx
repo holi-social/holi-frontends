@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
-import Login from '@holi/core/auth/screens/Login'
+import Login, { type LoginParams } from '@holi/core/auth/screens/Login'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
@@ -47,7 +47,7 @@ export type RootStackScreens = {
   [RouteName.Onboarding]: undefined
   [RouteName.OnboardingLegalDocuments]: undefined
 
-  [RouteName.Login]: undefined
+  [RouteName.Login]: LoginParams
   [RouteName.LoginCallback]: LoginCallbackParams
   [RouteName.ForgotPassword]: undefined
 
