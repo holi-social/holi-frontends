@@ -31,7 +31,6 @@ import { Search } from '@holi/core/screens/search/Search'
 import type { SearchParams } from '@holi/core/screens/search/Search'
 import UserProfile, { type UserProfileParams } from '@holi/core/screens/userprofile/UserProfile'
 import NotFound from '@holi/core/screens/404/NotFound'
-import { AuthSelection } from '@holi/core/auth/screens/AuthSelection'
 import Unsubscribe from '@holi/core/screens/mail/Unsubscribe'
 import EventsAppNavigator from '@holi/mobile/navigation/EventsAppNavigator'
 import { LoginCallback, type LoginCallbackParams } from '@holi/core/auth/screens/LoginCallback'
@@ -68,8 +67,6 @@ export type RootStackScreens = {
 
   [RouteName.CreateSpace]: undefined
   [RouteName.CreateReport]: undefined
-
-  [RouteName.AuthSelection]: undefined
 
   [RouteName.Unsubscribe]: undefined
 
@@ -279,17 +276,6 @@ export const RootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) =
         component={UserProfile}
         options={{
           headerShown: true,
-          headerTitleAlign: 'center',
-          headerLeft: () => <HeaderBackButton />,
-        }}
-      />
-
-      <RootStack.Screen
-        name={RouteName.AuthSelection}
-        component={AuthSelection}
-        options={{
-          headerShown: true,
-          headerBackVisible: false,
           headerTitleAlign: 'center',
           headerLeft: () => <HeaderBackButton />,
         }}
