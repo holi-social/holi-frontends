@@ -25,6 +25,7 @@ describe('UserTermsRow', () => {
         fullName: '',
         interestsV2: ['gender-equality', 'disaster-relief'],
         skillsV2: ['legal-assistance', 'other', 'driving'],
+        isOidc: false,
       },
     }
     mockUseLoggedInUser.mockReturnValue(mockedUser)

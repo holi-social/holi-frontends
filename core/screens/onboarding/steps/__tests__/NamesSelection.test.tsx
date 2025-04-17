@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 import type { User } from '@holi/core/domain/shared/types'
 import { useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'
+import { useOIDCNames } from '@holi/core/screens/onboarding/hooks/useOIDCNames'
 import { NamesSelection } from '@holi/core/screens/onboarding/steps/NamesSelection'
 import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 import { updateAuthenticatedUserV2Mutation } from '@holi/core/screens/userprofile/queries'
@@ -16,6 +17,11 @@ jest.mock('@holi/core/auth/hooks/useLoggedInUser', () => ({
 const mockUseNamesSelection = useNamesSelection as jest.Mock
 jest.mock('@holi/core/screens/onboarding/hooks/useNamesSelection', () => ({
   useNamesSelection: jest.fn(),
+}))
+
+const mockUseOIDCNames = jest.mocked(useOIDCNames)
+jest.mock('@holi/core/screens/onboarding/hooks/useOIDCNames', () => ({
+  useOIDCNames: jest.fn(),
 }))
 
 const labels = {
@@ -229,5 +235,23 @@ describe('NamesSelection', () => {
 
     expect(handleBackendError).toHaveBeenCalledWith(expect.objectContaining({ message: 'Test' }))
     expect(onFinish).not.toHaveBeenCalled()
+  })
+
+  it('should handle OIDC user names', () => {
+    const names = { ...loggedInUser }
+    const onNamesChange = jest.fn()
+    mockUseNamesSelection.mockReturnValue({ names, onNamesChange })
+
+    render(
+      <MockedProvider>
+        <NamesSelection userData={userData} onFinish={jest.fn()} />
+      </MockedProvider>
+    )
+
+    expect(mockUseOIDCNames).toHaveBeenCalledWith({
+      user: loggedInUser,
+      names,
+      onNamesChange,
+    })
   })
 })

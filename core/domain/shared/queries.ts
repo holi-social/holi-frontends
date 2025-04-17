@@ -58,6 +58,7 @@ export const FullAuthenticatedUserFragment = gql`
     trackingConsentAdPartners
     isEmployee
     email
+    isOidc
   }
 `
 export const authenticatedUserV2Query = gql`
