@@ -565,7 +565,7 @@ export type CreateTaskInput = {
   contactEmail: Scalars['String']['input']
   contactPhone?: InputMaybe<Scalars['String']['input']>
   description: Scalars['String']['input']
-  duration: Duration
+  duration?: InputMaybe<Duration>
   geolocation?: InputMaybe<GeolocationPointInput>
   location?: InputMaybe<Scalars['String']['input']>
   locationType: LocationType
@@ -2183,7 +2183,7 @@ export type Task = {
   created: Scalars['DateTime']['output']
   creator: User
   description: Scalars['String']['output']
-  duration: Duration
+  duration?: Maybe<Duration>
   geolocation?: Maybe<GeolocationPoint>
   id: Scalars['UUID']['output']
   location?: Maybe<Scalars['String']['output']>
@@ -2343,7 +2343,7 @@ export type UpdateTaskInput = {
   contactEmail: Scalars['String']['input']
   contactPhone?: InputMaybe<Scalars['String']['input']>
   description: Scalars['String']['input']
-  duration: Duration
+  duration?: InputMaybe<Duration>
   geolocation?: InputMaybe<GeolocationPointInput>
   location?: InputMaybe<Scalars['String']['input']>
   locationType: LocationType
@@ -2565,6 +2565,9 @@ export type TaskByIdQuery = {
     slotsTaken: number
     location?: string
     regularity: Regularity
+    duration?: Duration
+    timeframeStartDate?: any
+    timeframeEndDate?: any
     visibility: VisibilityType
     locationType: LocationType
     contactEmail: string
@@ -2600,7 +2603,7 @@ export type CreateTaskMutation = {
     description: string
     visibility: VisibilityType
     regularity: Regularity
-    duration: Duration
+    duration?: Duration
     timeframeStartDate?: any
     timeframeEndDate?: any
     locationType: LocationType
@@ -2623,7 +2626,7 @@ export type UpdateTaskMutation = {
     description: string
     visibility: VisibilityType
     regularity: Regularity
-    duration: Duration
+    duration?: Duration
     timeframeStartDate?: any
     timeframeEndDate?: any
     locationType: LocationType
@@ -3008,6 +3011,9 @@ export const TaskByIdDocument = gql`
     slotsTaken
     location
     regularity
+    duration
+    timeframeStartDate
+    timeframeEndDate
     visibility
     locationType
     contactEmail

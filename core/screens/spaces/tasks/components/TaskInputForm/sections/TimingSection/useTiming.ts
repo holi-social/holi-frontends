@@ -9,7 +9,7 @@ export const useTiming = () => {
     duration,
     regularity,
     // useCallback needed to use these functions in dependency array of useEffect
-    onDurationChange: useCallback((value: Duration) => setDuration(value), []),
+    onDurationChange: useCallback((value: Duration | undefined) => setDuration(value), []),
     onRegularityChange: useCallback((value: Regularity) => setRegularity(value), []),
   }
 }

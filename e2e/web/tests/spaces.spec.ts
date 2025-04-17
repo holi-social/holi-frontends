@@ -345,12 +345,19 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   const taskContactPhone = await locateElementByTestId(page, 'task-contactPhone-input')
   await taskContactPhone.fill(contactPhone)
 
-  // select commitment level
-  await page.waitForSelector(byTestId('btn-task-regularity'))
-  await clickElementByTestId(page, 'btn-task-regularity')
-  await clickElementByTestId(page, 'item-task-regularity-ONE_TIME')
-  // then regularity is visible
-  page.getByText('One time')
+  // select regularity level
+  await clickElementByTestId(page, 'btn-create-task-regularity-input')
+  await clickElementByTestId(page, 'item-create-task-regularity-input-ONE_TIME')
+  await page.getByTestId('holi-container').getByLabel('Save').click()
+
+  await page.getByText('One time')
+
+  // select duration
+  await clickElementByTestId(page, 'btn-create-task-duration-input')
+  await clickElementByTestId(page, 'item-create-task-duration-input-HOURS_1to2')
+  await page.getByTestId('holi-container').getByLabel('Save').click()
+
+  await page.getByText('1-2 hours')
 
   // add thumbnail image
   await page.setInputFiles('input[type="file"]', 'upload/cover_1.png')
