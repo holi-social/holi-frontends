@@ -9,7 +9,7 @@ import { useLoginState } from '@holi/core/auth/loginState'
 
 const FeatureFlagsFetcher = () => {
   const refetch = useFeatureFlagRefetch()
-  const { isLoggedIn } = useLoginState()
+  const loginState = useLoginState()
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
@@ -28,7 +28,8 @@ const FeatureFlagsFetcher = () => {
 
   useEffect(() => {
     refetch()
-  }, [refetch, isLoggedIn])
+    // Refetch feature flags on all login state changes
+  }, [refetch, loginState])
 
   useOnRefresh(refetch)
 
