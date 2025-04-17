@@ -28,6 +28,8 @@ export const handleKratosSdkErrorIgnoringCodes =
       throw error
     }
     const errorDetails = response?.data?.error
+    // eslint-disable-next-line no-console
+    console.error(`Error from kratosSdk: ${errorDetails}`)
     if (errorDetails?.id && errorCodesToIgnore.includes(errorDetails.id)) {
       return undefined
     }
