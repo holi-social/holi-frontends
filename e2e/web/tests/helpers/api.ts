@@ -4,6 +4,8 @@ import type { APIRequestContext, BrowserContext } from '@playwright/test'
 import { newUserEmail, randomPassword } from './fixtures'
 
 import { readFileSync } from 'fs'
+import { CreateTaskDocument } from '@holi/api/graphql/graphql-codegen'
+import { print } from 'graphql'
 
 export type User = {
   id: string
@@ -180,14 +182,11 @@ export type E2ETestSpaceTaskResponse = {
 }
 
 export const createSpaceTask = async (context: BrowserContext, spaceId: string) => {
-  // todo gregor: use codegen types after generating the create space task types
-  // @ts-ignore
   const createSpaceTaskResponse: { data?: { createTask: E2ETestSpaceTaskResponse }; errors?: object[] } = await (
     await context.request.post(`${baseURL}/api/graphql`, {
       data: {
         operationName: 'CreateTask',
-        query:
-          'mutation CreateTask($input: CreateTaskInput!) {  createTask(input: $input) {    id    name    description    visibility    regularity    locationType    location    contactEmail    contactPhone    __typename  }}',
+        query: print(CreateTaskDocument),
         variables: {
           input: {
             spaceId: spaceId,

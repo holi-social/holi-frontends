@@ -96,39 +96,23 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
         icon: Time,
         title:
           data?.taskById?.regularity && t(`task.commitment.${data?.taskById?.regularity}`)
-            ? t(`task.commitment.${data?.taskById?.regularity}`)
-            : t('task.commitment.NOT_DECLARED'),
+            ? t(`spaces.input.task.section.timing.regularity.value.${data?.taskById?.regularity}`)
+            : t('spaces.input.task.section.timing.regularity.value.NEGOTIABLE'),
       }
     : undefined
 
-  // TODO TASK TIMING START ---------------------------------------------------------------------------
-  // for testing purposes only, delete the following when real data is provided
-  const normalizeDate = (date: Date): Date => {
-    const newDate = new Date(date)
-    newDate.setHours(23, 59, 59, 0)
-    return newDate
-  }
-  const getOneDayLaterDate = (date: Date) => {
-    const newDate = new Date(date)
-    newDate.setDate(newDate.getDate() + 1)
-    return newDate
-  }
-  const mockTimeFrame = {
-    anytime: false,
-    startDate: normalizeDate(new Date()),
-    endDate: getOneDayLaterDate(normalizeDate(new Date())),
-  }
-  // when backend is implemented: data?.taskById?.timeFrame
-  const dataContainsTimeFrame = false
-  const timeFrame = dataContainsTimeFrame
+  const hasTimeFrame = !!(data?.taskById?.timeframeEndDate && data?.taskById?.timeframeStartDate)
+  const timeFrameStartDate = data?.taskById?.timeframeStartDate
+  const timeFrameEndDate = data?.taskById?.timeframeEndDate
+
+  const timeFrame = hasTimeFrame
     ? {
         icon: CalendarEventLine,
-        title: mockTimeFrame.anytime
-          ? t('task.timeframe.anytime')
-          : getFormattedTaskDetailsDates(mockTimeFrame.startDate, mockTimeFrame.endDate, i18n.language),
+        title: hasTimeFrame
+          ? getFormattedTaskDetailsDates(new Date(timeFrameStartDate), new Date(timeFrameEndDate), i18n.language)
+          : t('task.timeframe.anytime'),
       }
     : undefined
-  // TODO TASK TIMING END -----------------------------------------------------------------------------
 
   const infoList = [locationType, slots, timeFrame, regularity].filter(
     (detail) => detail !== undefined
