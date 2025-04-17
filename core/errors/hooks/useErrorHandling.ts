@@ -1,9 +1,9 @@
-import { ApolloError } from '@apollo/client'
+import type { ApolloError } from '@apollo/client'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { isUnauthorizedError, logError, logErrorLocal } from '@holi/core/errors/helpers'
-import { ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
+import { type ErrorContext, isNetworkConnectionError } from '@holi/core/errors/helpers/logError.shared'
 import { HoliToastType, useToast } from '@holi/ui/components/molecules/HoliToastProvider'
 
 interface ToastErrorInfo extends ErrorContext {
@@ -51,6 +51,9 @@ export const useErrorHandling = () => {
           timeout,
           testID: testID || extractTestID(error),
         })
+      } else {
+        // eslint-disable-next-line no-console
+        console.error('network or unauthorized error', error)
       }
     },
     [t, openToast]
