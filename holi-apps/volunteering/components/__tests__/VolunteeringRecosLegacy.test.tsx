@@ -39,6 +39,7 @@ const testUser1 = (
   interestsV2: interests,
   skillsV2: skills,
   geolocationId,
+  isOidc: false,
 })
 
 const allTopics = ALL_TOPICS.slice(0, 3)

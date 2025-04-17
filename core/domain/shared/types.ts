@@ -160,4 +160,5 @@ export interface AuthenticatedUser extends User {
   trackingConsentPersonalization?: boolean | null
   trackingConsentAdPartners?: boolean | null
   isEmployee: boolean
+  isOidc: boolean
 }

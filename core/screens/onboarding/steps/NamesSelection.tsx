@@ -17,6 +17,7 @@ import {
 } from '@holi/core/screens/userprofile/queries'
 import type { OnboardingUserData } from '@holi/core/screens/onboarding/types'
 import { useNamesSelection } from '@holi/core/screens/onboarding/hooks/useNamesSelection'
+import { useOIDCNames } from '@holi/core/screens/onboarding/hooks/useOIDCNames'
 
 export interface NamesSelectionProps {
   userData: OnboardingUserData
@@ -26,14 +27,18 @@ export interface NamesSelectionProps {
 
 export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }: NamesSelectionProps) => {
   const { t } = useTranslation()
-  const { user, isLoading } = useLoggedInUser()
+  const { user, isLoading: isLoadingUser } = useLoggedInUser()
 
   const { names, onNamesChange, namesFieldErrors, nameStepIsValid, handleBackendError } = useNamesSelection({
     user,
   })
   const { firstName, lastName, pronouns } = names
 
-  const [updateUser, { loading }] = useMutation<UpdateAuthenticatedUserV2Response>(updateAuthenticatedUserV2Mutation)
+  const [updateUser, { loading: isUpdatingUser }] = useMutation<UpdateAuthenticatedUserV2Response>(
+    updateAuthenticatedUserV2Mutation
+  )
+
+  useOIDCNames({ user, names, onNamesChange })
 
   const onSubmit = async () => {
     const { location, interests, skills } = userData
@@ -54,7 +59,7 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
     })
   }
 
-  if (isLoading) return <HoliLoader testID="loader" />
+  if (isLoadingUser) return <HoliLoader testID="loader" />
 
   return (
     <View style={{ justifyContent: 'space-between', flex: 1 }} testID={testID}>
@@ -111,7 +116,7 @@ export const NamesSelection = ({ userData, onFinish, testID = 'name-selection' }
         <Button
           label={t('onboarding.accountSetup.continue')}
           onPress={onSubmit}
-          loading={loading}
+          loading={isUpdatingUser}
           disabled={!nameStepIsValid}
           testID={`${testID}-btn-submit`}
         />

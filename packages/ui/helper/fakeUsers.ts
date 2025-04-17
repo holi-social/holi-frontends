@@ -7,6 +7,7 @@ export const getRandomAuthenticatedUser = (): AuthenticatedUser => ({
   ...getRandomUser(),
   email: faker.internet.email(),
   isEmployee: faker.datatype.boolean(),
+  isOidc: false,
 })
 
 export const getRandomUser = (hasAvatar = false): User => {

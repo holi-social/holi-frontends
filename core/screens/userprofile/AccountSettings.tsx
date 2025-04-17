@@ -10,8 +10,9 @@ import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import DeleteAccountButton from '@holi/core/screens/userprofile/components/DeleteAccountButton'
 import { Key2, Mail } from '@holi/icons/src/generated'
-import { HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import { useLoggedInUser } from '@holi/core/auth/hooks/useLoggedInUser'
 
 const AccountSettings = () => {
   const { t } = useTranslation()
@@ -21,6 +22,7 @@ const AccountSettings = () => {
   const setScreenOptions = useSetScreenOptions()
   const { theme } = useTheme()
   const styles = useMemo(() => getStyles(theme), [theme])
+  const { user } = useLoggedInUser()
 
   useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.account.title') })
@@ -31,20 +33,24 @@ const AccountSettings = () => {
       <ScrollView>
         <LoginProtection>
           <View style={[mixins.container, styles.accountSettings]}>
-            <MoreOptionItem
-              label={t('profile.edit.changePassword')}
-              icon={Key2}
-              onPress={() => navigate('/profile/settings/changePassword')}
-              style={styles.settingsItem}
-              testID="btn-change-password"
-            />
-            <MoreOptionItem
-              label={t('profile.edit.changeEmail')}
-              icon={Mail}
-              onPress={() => navigate('/profile/settings/changeEmail')}
-              style={styles.settingsItem}
-              testID="btn-change-email"
-            />
+            {!user?.isOidc && (
+              <MoreOptionItem
+                label={t('profile.edit.changePassword')}
+                icon={Key2}
+                onPress={() => navigate('/profile/settings/changePassword')}
+                style={styles.settingsItem}
+                testID="btn-change-password"
+              />
+            )}
+            {!user?.isOidc && (
+              <MoreOptionItem
+                label={t('profile.edit.changeEmail')}
+                icon={Mail}
+                onPress={() => navigate('/profile/settings/changeEmail')}
+                style={styles.settingsItem}
+                testID="btn-change-email"
+              />
+            )}
           </View>
           <View style={styles.separator} />
           <View style={[mixins.container, styles.accountSettings]}>
