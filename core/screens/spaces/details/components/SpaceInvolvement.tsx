@@ -26,6 +26,7 @@ import { HoliDivider } from '@holi/ui/components/atoms/HoliDivider'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import type { Appointment } from '@holi/api/graphql/graphql-codegen'
+import { Stack } from 'holi-bricks/components/stack'
 
 interface SpaceInvolvementProps {
   style?: StyleProp<ViewStyle>
@@ -79,6 +80,15 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
           />
         )}
 
+        <Stack margin={{ bottom: 'xs' }}>
+          <TaskCollaborationCard
+            isAdmin={isAdmin}
+            space={space}
+            isCollaborator={isCollaborator}
+            showNoResults={!space.onboarding?.steps?.length && !appointmentsResult?.appointments?.data?.length}
+          />
+        </Stack>
+
         {/* include divider if any other block below has content when logged out */}
         {!isCollaborator &&
           space.onboarding?.steps &&
@@ -108,13 +118,6 @@ const SpaceInvolvement: React.FC<SpaceInvolvementProps> = ({ space, style }) => 
 
         {isCollaborator && <LinkHubWidget space={space} style={styles.card} />}
         {isCollaborator && <StorageWidget space={space} style={styles.card} />}
-
-        <TaskCollaborationCard
-          isAdmin={isAdmin}
-          space={space}
-          isCollaborator={isCollaborator}
-          showNoResults={!space.onboarding?.steps?.length && !appointmentsResult?.appointments?.data?.length}
-        />
 
         {isCollaborator && <NewToolsTeaser />}
       </View>
