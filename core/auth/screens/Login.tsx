@@ -108,6 +108,8 @@ const Login = () => {
           navigate(url)
         } else {
           const data = await doBrowserLogin(url, flow).catch((error) => {
+            // eslint-disable-next-line no-console
+            console.info('error after browser login', error)
             handleFormSubmitError(
               safeSetFlow,
               initializeFlow,

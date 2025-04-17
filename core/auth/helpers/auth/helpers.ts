@@ -46,16 +46,26 @@ export const setSessionInStorage = async (session: OrySessionContext) => {
 export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
-export const initLoginFlow = async (flowId?: string) => {
+export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
   const returnTo = AuthSession.makeRedirectUri({
     preferLocalhost: true,
     path: 'login/callback',
   })
   if (flowId) {
-    return newKratosSdk()
+    const flow = await newKratosSdk()
       .getLoginFlow({ id: flowId })
-      .then(({ data }) => data)
+      .then(({ data }) => {
+        // eslint-disable-next-line no-console
+        console.info(data)
+        // eslint-disable-next-line no-console
+        console.info(data?.ui?.messages)
+        // TODO(SF) create new flow if not logged in?
+        return undefined
+      })
       .catch(handleKratosSdkError('getLoginFlow'))
+    if (flow) {
+      return flow
+    }
   }
   return newKratosSdk()
     .createNativeLoginFlow({
@@ -89,6 +99,7 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
   if (result.type === 'success') {
     const initCode = flow?.session_token_exchange_code
     const returnToCode = new URL(result.url).searchParams.get('code')
+    // TODO(SF) handle as error
     if (!initCode || !returnToCode) {
       return
     }
@@ -104,6 +115,10 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
           return orySession
         }
       })
+  } else {
+    // TODO(SF) handle error
+    // eslint-disable-next-line no-console
+    console.info('Login failed', result)
   }
 }
 

@@ -12,6 +12,7 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { Button } from 'holi-bricks/components/button'
+import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 
 const NotFound = () => {
   const { t } = useTranslation()
@@ -37,6 +38,7 @@ const NotFound = () => {
           />
         </HoliButton>
       ),
+      headerLeft: ({ tintColor }) => <HeaderBackButton tintColor={tintColor} fallbackRoute="/" />,
     })
   }, [navigate, setScreenOptions, t, colors.background20])
 

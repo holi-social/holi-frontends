@@ -34,6 +34,7 @@ import NotFound from '@holi/core/screens/404/NotFound'
 import Unsubscribe from '@holi/core/screens/mail/Unsubscribe'
 import EventsAppNavigator from '@holi/mobile/navigation/EventsAppNavigator'
 import { LoginCallback, type LoginCallbackParams } from '@holi/core/auth/screens/LoginCallback'
+import { AuthError, type AuthErrorParams } from '@holi/core/auth/screens/AuthError'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -50,6 +51,7 @@ export type RootStackScreens = {
   [RouteName.Login]: LoginParams
   [RouteName.LoginCallback]: LoginCallbackParams
   [RouteName.ForgotPassword]: undefined
+  [RouteName.AuthError]: AuthErrorParams
 
   [RouteName.ChallengesApp]: undefined
   [RouteName.DonationsApp]: undefined
@@ -144,6 +146,14 @@ export const RootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) =
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.AuthError}
+        component={AuthError}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: true,
         }}
       />
       <RootStack.Screen

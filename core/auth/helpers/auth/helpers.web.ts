@@ -63,12 +63,22 @@ export const removeSessionFromStorage = (): Promise<void> => {
   return AsyncStore.removeItem(userSessionName)
 }
 
-export const initLoginFlow = (flowId?: string) => {
+export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
   if (flowId) {
-    return newKratosSdk()
+    const flow = await newKratosSdk()
       .getLoginFlow({ id: flowId })
-      .then(({ data }) => data)
+      .then(({ data }) => {
+        // eslint-disable-next-line no-console
+        console.info(data)
+        // eslint-disable-next-line no-console
+        console.info(data?.ui?.messages)
+        // TODO(SF) create new flow if not logged in?
+        return undefined
+      })
       .catch(handleKratosSdkError('getLoginFlow'))
+    if (flow) {
+      return flow
+    }
   }
   return newKratosSdk()
     .createBrowserLoginFlow({
