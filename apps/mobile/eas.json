@@ -115,6 +115,9 @@
         "TYPESENSE_PROTOCOL": "https",
         "TYPESENSE_API_KEY": "WAxFP8Gv9RrNvG18RhYgXCNNj39LfAu2",
         "TYPESENSE_COLLECTION": "holi_search_staging"
+      },
+      "ios": {
+        "image": "macos-sonoma-14.6-xcode-16.1"
       }
     },
     "production": {
@@ -148,6 +151,9 @@
         "TYPESENSE_PROTOCOL": "https",
         "TYPESENSE_API_KEY": "jtOdwRfhEFW7UmCpDKjnQaS71uU28YOq",
         "TYPESENSE_COLLECTION": "holi_search_production"
+      },
+      "ios": {
+        "image": "macos-sonoma-14.6-xcode-16.1"
       }
     },
     "production-apk": {
