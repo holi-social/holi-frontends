@@ -46,7 +46,7 @@ test.describe('@Spaces', () => {
     await testDisplaysSpaceDetails(guest)
   })
 
-  test('user can create, edit and share space', async ({ browserName }) => {
+  test.only('user can create, edit and share space', async ({ browserName }) => {
     await testCreatingEditingSpace(user)
     await testShareSpace(user, browserName)
   })
@@ -329,6 +329,21 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   // then location type is visible
   page.getByText('On-site')
 
+  // open regularity dropdown
+  await page.waitForSelector(byTestId('btn-task-regularity-input'))
+  await clickElementByTestId(page, 'btn-task-regularity-input')
+  await clickElementByTestId(page, 'item-task-regularity-input-ONE_TIME')
+  await clickElementByTestId(page, 'task-regularity-input-save-button')
+
+  // open duration dropdown
+  await page.waitForSelector(byTestId('btn-task-duration-input'))
+  await clickElementByTestId(page, 'btn-task-duration-input')
+  await clickElementByTestId(page, 'item-task-duration-input-MINUTES_30to60')
+  await clickElementByTestId(page, 'task-duration-input-save-button')
+
+  // then regularity is visible
+  page.getByText('One time')
+
   // make sure previous modal is closed
   await page.waitForSelector(byTestId('btn-to-close-task-locationType'), { state: 'hidden' })
 
@@ -346,15 +361,15 @@ const inputTaskInfo = async (page: Page, taskTitle: string, taskDescription: str
   await taskContactPhone.fill(contactPhone)
 
   // select regularity level
-  await clickElementByTestId(page, 'btn-create-task-regularity-input')
-  await clickElementByTestId(page, 'item-create-task-regularity-input-ONE_TIME')
+  await clickElementByTestId(page, 'btn-task-regularity-input')
+  await clickElementByTestId(page, 'item-task-regularity-input-ONE_TIME')
   await page.getByTestId('holi-container').getByLabel('Save').click()
 
   await page.getByText('One time')
 
   // select duration
-  await clickElementByTestId(page, 'btn-create-task-duration-input')
-  await clickElementByTestId(page, 'item-create-task-duration-input-HOURS_1to2')
+  await clickElementByTestId(page, 'btn-task-duration-input')
+  await clickElementByTestId(page, 'item-task-duration-input-HOURS_1to2')
   await page.getByTestId('holi-container').getByLabel('Save').click()
 
   await page.getByText('1-2 hours')

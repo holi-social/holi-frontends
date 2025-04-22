@@ -62,6 +62,7 @@ const TimingSection = ({ regularity, onRegularityChange, duration, onDurationCha
             <Button
               onPress={hideRegularityModal}
               label={t('spaces.input.task.section.timing.regularity.modal.saveButtonLabel')}
+              testID="task-regularity-input-save-button"
             />
           }
           variant="dense"
@@ -69,7 +70,7 @@ const TimingSection = ({ regularity, onRegularityChange, duration, onDurationCha
           show={showRegularityModal}
           hide={hideRegularityModal}
           visible={visibleRegularityModal}
-          testID="create-task-regularity-input"
+          testID="task-regularity-input"
         />
       </Stack>
 
@@ -92,6 +93,7 @@ const TimingSection = ({ regularity, onRegularityChange, duration, onDurationCha
             <Button
               onPress={hideDurationModal}
               label={t('spaces.input.task.section.timing.duration.modal.saveButtonLabel')}
+              testID="task-duration-input-save-button"
             />
           }
           variant="dense"
@@ -99,7 +101,7 @@ const TimingSection = ({ regularity, onRegularityChange, duration, onDurationCha
           show={showDurationModal}
           hide={hideDurationModal}
           visible={visibleDurationModal}
-          testID="create-task-duration-input"
+          testID="task-duration-input"
         />
       </Stack>
     </>
