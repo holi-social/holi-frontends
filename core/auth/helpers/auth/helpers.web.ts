@@ -5,6 +5,7 @@ import type {
   RegistrationFlow,
   SettingsFlow,
   SuccessfulNativeLogin,
+  UiText,
   UpdateLoginFlowBody,
   VerificationFlow,
 } from '@ory/kratos-client'
@@ -64,16 +65,18 @@ export const removeSessionFromStorage = (): Promise<void> => {
 }
 
 export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
+  let extraMessages: UiText[] = []
   if (flowId) {
     const flow = await newKratosSdk()
       .getLoginFlow({ id: flowId })
       .then(({ data }) => {
-        // eslint-disable-next-line no-console
-        console.info(data)
-        // eslint-disable-next-line no-console
-        console.info(data?.ui?.messages)
-        // TODO(SF) create new flow if not logged in?
-        return undefined
+        // Treat message "E-mail address already used by another account" as error and recreate the login flow
+        const errorMessages = data?.ui?.messages?.filter((message) => message.id === 1010016)
+        if (errorMessages?.length) {
+          extraMessages = errorMessages
+          return undefined
+        }
+        return data
       })
       .catch(handleKratosSdkError('getLoginFlow'))
     if (flow) {
@@ -85,7 +88,15 @@ export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
       refresh: true,
       returnTo: holiNextJSApiUrl,
     })
-    .then(({ data }) => data)
+    .then(({ data }) => {
+      return {
+        ...data,
+        ui: {
+          ...data.ui,
+          messages: extraMessages.concat(data.ui.messages ?? []),
+        },
+      }
+    })
     .catch(handleKratosSdkError('createBrowserLoginFlow'))
 }
 
