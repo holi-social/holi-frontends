@@ -51,9 +51,6 @@ export const useErrorHandling = () => {
           timeout,
           testID: testID || extractTestID(error),
         })
-      } else {
-        // eslint-disable-next-line no-console
-        console.info('network or unauthorized error', error)
       }
     },
     [t, openToast]

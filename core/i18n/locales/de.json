@@ -68,6 +68,8 @@
   "auth.changePassword.success": "Ist notiert! Bitte benutze ab jetzt das neue Passwort",
   "auth.changePasswordDone.description": "Bitte gehe zurück und logge dich mit deinem neuen Passwort ein",
   "auth.changePasswordDone.heading": "Passwort geändert",
+  "auth.error.backToLogin": "Zurück zum Login",
+  "auth.error.message": "Login fehlgeschlagen",
   "auth.forgotPassword": "Passwort vergessen",
   "auth.forgotPassword.description": "Wir haben dir einen Code per E-Mail geschickt.\nBitte trage diesen unten ein.",
   "auth.forgotPassword.emptyInput": "Bitte gib deine E-Mail-Adresse ein",

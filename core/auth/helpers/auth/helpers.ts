@@ -110,9 +110,8 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
   if (result.type === 'success') {
     const initCode = flow?.session_token_exchange_code
     const returnToCode = new URL(result.url).searchParams.get('code')
-    // TODO(SF) handle as error
     if (!initCode || !returnToCode) {
-      return
+      throw new Error('Could not complete auth session, missing codes')
     }
     return newKratosSdk()
       .exchangeSessionToken({ initCode, returnToCode })
@@ -127,9 +126,7 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
         }
       })
   } else {
-    // TODO(SF) handle error
-    // eslint-disable-next-line no-console
-    console.info('Login failed', result)
+    throw new Error('Failed to complete auth session')
   }
 }
 

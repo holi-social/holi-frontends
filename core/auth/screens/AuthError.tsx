@@ -3,7 +3,7 @@ import { Text } from 'holi-bricks/components/text'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import HoliLoader from '@holi/ui/components/molecules/HoliLoader'
 import { newKratosSdk } from '@holi/core/auth/helpers/sdk'
-import { logError } from '@holi/core/errors/helpers'
+import { logError, logErrorLocal } from '@holi/core/errors/helpers'
 import { useTranslation } from 'react-i18next'
 import HeaderBackButton from '@holi/core/navigation/components/HeaderBackButton'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
@@ -22,26 +22,24 @@ const { useParam } = createParamHooks<AuthErrorParams>()
 export const AuthError = () => {
   const [id] = useParam('id')
   const [isLoading, setIsLoading] = useState(true)
-  const [errorMessage, setErrorMessage] = useState('')
   const { t } = useTranslation()
-  const { navigateBack } = useRouting()
+  const { navigate } = useRouting()
 
   useEffect(() => {
     if (id) {
       setIsLoading(true)
       newKratosSdk()
         .getFlowError({ id })
-        .then((error) => {
-          // TODO(SF) for testing purposes only
-          // eslint-disable-next-line no-console
-          console.log(JSON.stringify(error))
-          setErrorMessage(JSON.stringify(error.data.error))
-        })
-        .catch((e) => {
+        .then((error) =>
+          logErrorLocal(error.data.error, 'Got login flow error', {
+            location: 'AuthError.getFlowError',
+          })
+        )
+        .catch((e) =>
           logError(e, 'Failed to fetch flow error', {
             location: 'AuthError.getFlowError',
           })
-        })
+        )
         .finally(() => setIsLoading(false))
     } else {
       setIsLoading(false)
@@ -49,7 +47,7 @@ export const AuthError = () => {
   }, [id])
 
   if (isLoading) {
-    return <HoliLoader />
+    return <HoliLoader testID="loader" />
   }
   return (
     <Screen
@@ -77,9 +75,9 @@ export const AuthError = () => {
         width="100%"
       >
         <Text size="xl" textAlign="center">
-          {errorMessage || t('global.technicalError')}
+          {t('auth.error.message')}
         </Text>
-        <Button label={t('global.back')} onPress={() => navigateBack('/')} testID="go-back" />
+        <Button label={t('auth.error.backToLogin')} onPress={() => navigate('/login')} />
       </Stack>
     </Screen>
   )

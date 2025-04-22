@@ -144,7 +144,7 @@ export const CreateAccount = ({
           }
         } else {
           handleFormSubmitError(
-            setFlow,
+            safeSetFlow,
             initializeFlow,
             (error) =>
               displayError(error, 'Failed to submit form', {

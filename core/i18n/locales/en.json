@@ -68,6 +68,8 @@
   "auth.changePassword.success": "Noted! Please use the new password from now on",
   "auth.changePasswordDone.description": "Please go back and log in with your new password",
   "auth.changePasswordDone.heading": "Password changed",
+  "auth.error.backToLogin": "Back to login",
+  "auth.error.message": "There was an error during login",
   "auth.forgotPassword": "Forgot Password",
   "auth.forgotPassword.description": "We've just sent you a code via email.\nPlease enter it below to proceed.",
   "auth.forgotPassword.emptyInput": "Please enter your email addres",

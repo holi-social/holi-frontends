@@ -5,6 +5,8 @@ import { View } from 'react-native'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 
+const LOGIN_REDIRECT_TIMEOUT = 2000
+
 export type LoginCallbackParams = {
   code: string
 }
@@ -20,10 +22,15 @@ export const LoginCallback = () => {
       skipRedirectCheck: false,
     })
     if (result.type !== 'success') {
-      displayError(result, 'Failed to complete OIDC auth session', {
-        location: 'LoginCallback.maybeCompleteAuthSession',
-      })
-      navigate('/login')
+      const timer = setTimeout(() => {
+        // Display error and navigate to login if login failed
+        // Awaiting a timeout first, as on android the result might be "failed" in case of success as well..
+        displayError(result, 'Failed to complete OIDC auth session', {
+          location: 'LoginCallback.maybeCompleteAuthSession',
+        })
+        navigate('/login')
+      }, LOGIN_REDIRECT_TIMEOUT)
+      return () => clearTimeout(timer)
     }
   }, [displayError, navigate])
 

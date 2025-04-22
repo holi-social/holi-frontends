@@ -17,7 +17,13 @@ jest.mock('@holi/core/errors/hooks', () => ({
 
 describe('LoginCallback', () => {
   beforeEach(() => {
+    jest.useFakeTimers()
     mockMaybeCompleteAuthSession.mockReturnValue({ type: 'success', message: 'some message' })
+  })
+
+  afterEach(() => {
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers()
   })
 
   it('should render loader', () => {
@@ -34,11 +40,13 @@ describe('LoginCallback', () => {
     })
   })
 
-  it('should display error and navigate to login if completing the auth session failed', () => {
+  it('should display error and navigate to login eventually if completing the auth session failed', () => {
     const response: WebBrowser.WebBrowserCompleteAuthSessionResult = { type: 'failed', message: 'some message' }
     mockMaybeCompleteAuthSession.mockReturnValue(response)
 
     render(<LoginCallback />)
+
+    jest.runOnlyPendingTimers()
 
     expect(mockDisplayError).toHaveBeenCalledWith(response, 'Failed to complete OIDC auth session', {
       location: 'LoginCallback.maybeCompleteAuthSession',

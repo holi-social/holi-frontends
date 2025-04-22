@@ -22,13 +22,6 @@ export const handleKratosSdkError =
 export const handleKratosSdkErrorIgnoringCodes =
   (method: string, { errorCodesToIgnore = [] }: { errorCodesToIgnore?: string[] } = {}) =>
   (error: GenericAxiosError) => {
-    // eslint-disable-next-line no-console
-    console.info(
-      `Error from kratosSdk: ${JSON.stringify(error)}`,
-      error?.response?.status,
-      'redirect?',
-      getBrowserRedirect(error)
-    )
     const response = error?.response
     if (response?.status === 400 || getBrowserRedirect(error)) {
       // Bad user input and redirects should be handled by UI
