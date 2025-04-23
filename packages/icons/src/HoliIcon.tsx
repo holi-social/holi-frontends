@@ -2,15 +2,15 @@ import type React from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import type { TextColor } from 'holi-bricks/components/text'
 import { createStyleSheet } from 'holi-bricks/utils'
 import { useStyles } from 'holi-bricks/hooks'
+import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 
 export type HoliIconProps = {
   icon: HoliIconType
   filled?: boolean
   size?: number | { width: number; height: number }
-  color?: TextColor
+  color?: FillColors
   /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
   colorOverride?: string
   testID?: string
@@ -39,9 +39,10 @@ export const HoliIcon: React.FC<HoliIconProps> = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  icon: (color: TextColor, colorOverride?: string) => {
+  icon: (color: HoliIconProps['color'], colorOverride?: string) => {
+    const iconColor = color ? theme.colors.fill[color] : undefined
     return {
-      color: colorOverride ?? theme.colors.fill[color],
+      color: colorOverride ?? iconColor,
     }
   },
 }))

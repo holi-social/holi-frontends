@@ -24,16 +24,13 @@ export type SizeToEdge =
       right?: SpacingSize
     }
 
-const makeEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge) => {
+const sizeToEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge) => {
   if (!size) return {}
 
   if (typeof size === 'string') {
     const spacingValue = Spacing[size]
     return {
-      [`${type}Top`]: spacingValue,
-      [`${type}Bottom`]: spacingValue,
-      [`${type}Left`]: spacingValue,
-      [`${type}Right`]: spacingValue,
+      [type]: spacingValue,
     }
   }
 
@@ -45,5 +42,5 @@ const makeEdgeSpacing = (type: 'padding' | 'margin', size?: SizeToEdge) => {
   }
 }
 
-export const makePadding = (padding?: SizeToEdge) => makeEdgeSpacing('padding', padding)
-export const makeMargin = (margin?: SizeToEdge) => makeEdgeSpacing('margin', margin)
+export const makePadding = (padding?: SizeToEdge) => sizeToEdgeSpacing('padding', padding)
+export const makeMargin = (margin?: SizeToEdge) => sizeToEdgeSpacing('margin', margin)

@@ -22,32 +22,12 @@ export const Default: Story = {
     subtitle: 'Grzegorz Brzeczyszczykiewicz',
     isExternalLink: false,
     mainAvatar: {
-      initials: 'OO',
+      label: 'Author',
     },
     secondaryAvatar: {
-      initials: 'AA',
+      label: 'Secondary Author',
     },
   },
 }
-
-// type Story = StoryObj<typeof AuthorBanner>
-
-// export const AvatarWithInitials: Story = {
-//   name: 'Avatar with Initials',
-//   argTypes: {
-//     label: { description: 'Label', required: false },
-//     size: { control: 'select', options: availableSizes },
-//   },
-//   args: {
-//     label: 'Label',
-//     size: 'md',
-//     initials: 'NL',
-//     border: 'strong',
-//     shape: 'circle',
-//   },
-//   render: function Render(args) {
-//     return <AuthorBanner {...args} />
-//   },
-// }
 
 export default meta

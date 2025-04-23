@@ -61,7 +61,7 @@ export const CompactCard = (({
         backgroundColor="support"
         borderRadius="md"
         gap="4xs"
-        borderWidth={1}
+        borderWidth="sm"
         borderColor="support"
         borderStyle="solid"
       >

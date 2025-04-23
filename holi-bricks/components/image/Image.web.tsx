@@ -1,6 +1,8 @@
 import type { ImageProps } from 'holi-bricks/components/image'
 import { setScalingParams } from 'holi-bricks/components/image/helpers'
 import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
+import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/utils'
 import NextImage from 'next/image'
 import type React from 'react'
 import { useState } from 'react'
@@ -20,8 +22,10 @@ export const Image: React.FC<ImageProps> = ({
   fallbackSource,
   blurhash,
   stretch,
+  aspectRatio,
   ...otherProps
 }) => {
+  const { styles } = useStyles(stylesheet)
   const [hasError, setHasError] = useState(false)
   const isRemote = isRemoteSource(source as string)
   const transformedSource = (
@@ -32,11 +36,18 @@ export const Image: React.FC<ImageProps> = ({
 
   return (
     <NextImage
-      src={hasError && fallbackSource ? (fallbackSource as string) : transformedSource}
+      src={(hasError || !source) && fallbackSource ? (fallbackSource as string) : transformedSource}
       alt={alt}
       role="img"
       aria-label={alt}
       blurDataURL={isRemote ? blurhash : undefined}
+      width={width}
+      height={height}
+      style={{
+        ...styles.objectFit(resizeMode),
+        ...styles.aspectRatio(aspectRatio),
+        ...styles.stretch(stretch),
+      }}
       onError={() => {
         setHasError(true)
         // eslint-disable-next-line no-console
@@ -44,17 +55,23 @@ export const Image: React.FC<ImageProps> = ({
         if (onError) onError()
       }}
       onLoad={onLoadEnd}
-      {...(stretch
-        ? {
-            fill: true,
-            style: { objectFit: resizeMode, flex: 1 },
-          }
-        : {
-            width: width as number | undefined,
-            height: height as number | undefined,
-            style: { objectFit: resizeMode },
-          })}
       {...accessibilityProps(otherProps)}
     />
   )
 }
+
+const stylesheet = createStyleSheet({
+  objectFit: (resize?: ImageProps['resizeMode']) => ({
+    objectFit: resize,
+  }),
+  aspectRatio: (n?: string | number) => ({
+    aspectRatio: n,
+  }),
+  stretch: (full?: boolean) => {
+    if (!full) return {}
+    return {
+      width: '100%',
+      height: '100%',
+    }
+  },
+})

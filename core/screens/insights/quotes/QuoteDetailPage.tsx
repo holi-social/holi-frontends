@@ -131,10 +131,10 @@ const QuoteDetailPage = () => {
               <View style={{ flexDirection: 'row', gap: Spacing.xxs }}>
                 <Avatar
                   size="xs"
-                  source={insight!.creator?.avatar || undefined} // eslint-disable-line @typescript-eslint/no-non-null-assertion
-                  imgPlaceholder={insight!.creator?.avatarBlurhash || undefined} // eslint-disable-line @typescript-eslint/no-non-null-assertion
-                  label={insight!.creator?.fullName ?? ''} // eslint-disable-line @typescript-eslint/no-non-null-assertion
-                  initials={insight!.creator?.avatarLabel ?? ''} // eslint-disable-line @typescript-eslint/no-non-null-assertion
+                  source={insight!.creator?.avatar || undefined}
+                  imgPlaceholder={insight!.creator?.avatarBlurhash || undefined}
+                  label={insight!.creator?.fullName ?? ''}
+                  initials={insight!.creator?.avatarLabel}
                 />
 
                 <HoliHeading level="3">{t('insights.quotes.detail.subtitle')}</HoliHeading>

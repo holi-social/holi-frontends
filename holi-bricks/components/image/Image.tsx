@@ -1,11 +1,13 @@
-import { Image as ExpoImage } from 'expo-image'
-import { isRemoteSource, setScalingParams } from 'holi-bricks/components/image/helpers'
-import type { ImageProps } from 'holi-bricks/components/image/type'
-//import { WithLocalSvg } from 'react-native-svg/css'
-import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
 import type React from 'react'
 import { useState } from 'react'
 import { Image as RNImage } from 'react-native'
+import { Image as ExpoImage } from 'expo-image'
+import { accessibilityProps } from 'holi-bricks/foundations/accessibility'
+import type { ImageProps } from 'holi-bricks/components/image/type'
+import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/hooks'
+import { isRemoteSource, setScalingParams } from 'holi-bricks/components/image/helpers'
+import { WithLocalSvg } from 'react-native-svg/css'
 
 const isLocalSvg = (source: number) => {
   try {
@@ -25,47 +27,50 @@ export const Image: React.FC<ImageProps> = ({
   resizeMode = 'cover',
   onError,
   onLoadEnd,
+  stretch,
   fallbackSource,
   blurhash,
   alt,
+  aspectRatio,
   ...otherProps
 }) => {
   const [hasError, setHasError] = useState(false)
-  const transformedSource =
-    typeof width === 'number' && typeof height === 'number' ? setScalingParams(source, width, height) : undefined
+  const { styles } = useStyles(stylesheet)
   const isRemote = isRemoteSource(source)
   const localSvg = typeof source === 'number' && isLocalSvg(source)
 
-  if (!source) return null
+  if (!source) return undefined
 
   if (localSvg) {
-    const { WithLocalSvg } = require('react-native-svg/css')
     return (
       <WithLocalSvg
         role="img"
         aria-label={alt}
         asset={source}
         width={width}
+        height={height}
         accessibilityLabel={alt}
         accessible={otherProps?.['aria-hidden'] === true}
         accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
-        height={height}
+        style={[styles.imageSize(width, height), styles.aspectRatio(aspectRatio), styles.stretch(stretch)]}
         {...accessibilityProps(otherProps)}
       />
     )
   }
 
+  const transformedSource =
+    typeof width === 'number' && typeof height === 'number' ? setScalingParams(source, width, height) : undefined
   return (
     <>
       <ExpoImage
-        source={hasError && fallbackSource ? fallbackSource : transformedSource}
+        source={(hasError || !transformedSource) && fallbackSource ? fallbackSource : transformedSource}
         alt={alt}
         role="img"
         accessibilityLabel={alt}
         accessibilityRole={otherProps?.['aria-hidden'] === true ? 'none' : 'image'}
         accessible={otherProps?.['aria-hidden'] === true}
         placeholder={isRemote ? blurhash : undefined}
-        style={[{ width, height }]}
+        style={[styles.imageSize(width, height), styles.aspectRatio(aspectRatio), styles.stretch(stretch)]}
         contentFit={resizeMode}
         onError={() => {
           setHasError(true)
@@ -80,3 +85,22 @@ export const Image: React.FC<ImageProps> = ({
     </>
   )
 }
+
+const stylesheet = createStyleSheet({
+  imageSize: (width: number, height: number) => {
+    return {
+      width,
+      height,
+    }
+  },
+  aspectRatio: (n?: string | number) => ({
+    aspectRatio: n,
+  }),
+  stretch: (stretch?: boolean) => {
+    if (!stretch) return {}
+    return {
+      width: '100%',
+      height: '100%',
+    }
+  },
+})

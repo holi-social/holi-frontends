@@ -225,12 +225,7 @@ const CurationPrinciplesPage: React.FC = () => {
                     style={styles.contributor}
                     onPress={() => navigate(`/profile/${author.id}`)}
                   >
-                    <Avatar
-                      source={author.avatar}
-                      imgPlaceholder={author.avatarBlurhash}
-                      label={author.avatarLabel}
-                      initials={author.avatarLabel}
-                    />
+                    <Avatar source={author.avatar} imgPlaceholder={author.avatarBlurhash} label={author.avatarLabel} />
                     <HoliText size="small" align="center">
                       {author.fullName}
                     </HoliText>

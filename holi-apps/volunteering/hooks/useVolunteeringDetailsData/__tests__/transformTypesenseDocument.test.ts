@@ -52,7 +52,7 @@ describe('transformDocument', () => {
         title: 'Test Organization',
         mainAvatar: {
           source: expect.any(String), // This comes from the VOLUNTEERING_IMG_SOURCES_MAPPING
-          initials: 'Test Organization',
+          label: 'Test Organization',
         },
       },
       externalUrl: 'https://example.com/volunteering',
@@ -103,7 +103,7 @@ describe('transformDocument', () => {
         title: 'GoVolunteer',
         mainAvatar: {
           source: expect.any(String),
-          initials: '??',
+          label: '??',
         },
       },
       externalUrl: undefined,
@@ -159,6 +159,6 @@ describe('transformDocument', () => {
     const { t } = useTranslation()
     const result = transformTypesenseDocument(t, 'en', docWithoutOrgName)
     expect(result.author?.title).toBe('Voltastics')
-    expect(result.author?.mainAvatar?.initials).toBe('??')
+    expect(result.author?.mainAvatar?.label).toBe('??')
   })
 })

@@ -20,11 +20,11 @@ import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import HoliRichTextOutput from '@holi/ui/components/organisms/HoliRichTextOutput'
 import { useTheme } from '@holi/ui/styles/theme'
 import { Avatar } from 'holi-bricks/components/avatar'
-import type { TextColor } from 'holi-bricks/components/text'
+import type { TextProps } from 'holi-bricks/components/text'
 
 export interface Props {
   task: Task
-  richTextOutputColor?: TextColor
+  richTextOutputColor?: TextProps['color']
   descriptionWithDetails?: boolean
   recommendation?: boolean
 }

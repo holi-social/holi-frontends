@@ -181,6 +181,10 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                   "height": 40,
                   "width": 40,
                 },
+                {
+                  "aspectRatio": undefined,
+                },
+                {},
               ]
             }
           />
@@ -631,6 +635,10 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                   "height": 40,
                   "width": 40,
                 },
+                {
+                  "aspectRatio": undefined,
+                },
+                {},
               ]
             }
           />
@@ -1081,6 +1089,10 @@ exports[`SpacePendingRequestsList renders correctly when there are pending reque
                   "height": 40,
                   "width": 40,
                 },
+                {
+                  "aspectRatio": undefined,
+                },
+                {},
               ]
             }
           />

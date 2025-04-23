@@ -4,6 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
+    "eas-build-pre-install": "corepack enable",
     "web": "storybook dev -p 6006 -c storybook --debug-webpack",
     "build": "storybook build -c storybook",
     "storybook-generate": "sb-rn-get-stories --config-path ondevice",

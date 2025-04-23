@@ -18,7 +18,7 @@ export type CalendarIconProps = {
   colored?: boolean
 }
 
-const CalendarIcon = ({
+export const CalendarIcon = ({
   day,
   month,
   disabled = false,
@@ -51,8 +51,6 @@ const CalendarIcon = ({
     </View>
   )
 }
-
-export default CalendarIcon
 
 const stylesheet = createStyleSheet((theme) => ({
   wrapper: (disabled: boolean) => ({

@@ -18,7 +18,7 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliButton from '@holi/ui/components/molecules/HoliButton'
 import { localizeDate } from '@holi/ui/helper/date'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
-import CalendarIcon from 'holi-bricks/components/CalendarIcon/CalendarIcon'
+import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 
 type AppointmentCardProps = {
   appointment: Appointment

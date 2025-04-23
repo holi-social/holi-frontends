@@ -1,6 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
-import type { TextColor } from 'holi-bricks/components/text/Text'
+import type { TextProps } from 'holi-bricks/components/text/Text'
 import { useStyles } from 'holi-bricks/hooks'
 import { createStyleSheet } from 'holi-bricks/utils'
 import type React from 'react'
@@ -10,8 +10,6 @@ import {
   Platform,
   // eslint-disable-next-line no-restricted-imports
   Text,
-  // eslint-disable-next-line no-restricted-imports
-  type TextProps,
   type TextStyle,
 } from 'react-native'
 
@@ -21,7 +19,7 @@ export interface TextLinkProps extends AccessibilityProps, React.PropsWithChildr
   size: TextLinkSize
   numberOfLines?: number
   /** Managed Theme color. */
-  color?: TextColor
+  color?: TextProps['color']
   /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
   colorOverride?: ColorValue
   textAlign?: TextStyle['textAlign']
@@ -62,12 +60,13 @@ export const TextLink = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  text: (color: TextColor, colorOverride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (color: TextProps['color'], colorOverride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+    const textColor = color ? theme.colors.fill[color] : theme.colors.fill.default
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.bold,
       fontWeight: '500',
-      color: colorOverride ?? theme.colors.fill[color],
+      color: colorOverride ?? textColor,
       userSelect: 'auto',
       textAlign: textAlign,
       ...Platform.select({

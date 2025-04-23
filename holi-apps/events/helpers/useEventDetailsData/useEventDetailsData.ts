@@ -132,7 +132,7 @@ export const useEventDetailsData = (eventId?: string): UseEventDetailsData => {
         title: organizationName,
         mainAvatar: {
           source: EVENTS_SOURCE_MAPPING?.['Gemeinschaftswerk Nachhaltigkeit'].logo?.src as ImageSource,
-          initials: organizationName,
+          label: organizationName,
         },
       },
     },

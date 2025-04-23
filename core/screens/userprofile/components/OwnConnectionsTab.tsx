@@ -220,7 +220,7 @@ const ConnectionsTab = ({ emptyText, emptyCallToAction }: ConnectionsTabProps) =
           <Avatar
             source={selectedConnection?.avatar}
             imgPlaceholder={selectedConnection?.avatarBlurhash}
-            label={selectedConnection?.fullName}
+            label={selectedConnection?.fullName || selectedConnection?.avatarLabel || ''}
             initials={selectedConnection?.avatarLabel || ''}
             size="lg"
           />

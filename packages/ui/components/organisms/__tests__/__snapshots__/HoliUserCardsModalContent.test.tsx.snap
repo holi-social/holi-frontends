@@ -211,6 +211,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "height": 128,
                               "width": 128,
                             },
+                            {
+                              "aspectRatio": undefined,
+                            },
+                            {},
                           ]
                         }
                       />
@@ -581,6 +585,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "height": 128,
                               "width": 128,
                             },
+                            {
+                              "aspectRatio": undefined,
+                            },
+                            {},
                           ]
                         }
                       />
@@ -951,6 +959,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "height": 128,
                               "width": 128,
                             },
+                            {
+                              "aspectRatio": undefined,
+                            },
+                            {},
                           ]
                         }
                       />
@@ -1323,6 +1335,10 @@ exports[`HoliUserCardsModalContent renders correct snapshot 1`] = `
                               "height": 128,
                               "width": 128,
                             },
+                            {
+                              "aspectRatio": undefined,
+                            },
+                            {},
                           ]
                         }
                       />
