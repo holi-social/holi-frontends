@@ -90,12 +90,12 @@ export const Text = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  text: (color: TextColor, selectable: boolean, colorOveride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (color: TextColor, selectable: boolean, colorOverride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.regular,
       fontWeight: '400',
-      color: colorOveride ?? theme.colors.fill[color],
+      color: colorOverride ?? theme.colors.fill[color],
       userSelect: selectable ? 'auto' : 'none',
       textAlign: textAlign,
       ...Platform.select({

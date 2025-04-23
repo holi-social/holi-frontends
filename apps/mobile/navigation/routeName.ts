@@ -118,7 +118,6 @@ export enum RouteName {
   EventList = 'EventList',
   VolunteeringApp = 'VolunteeringApp',
   NotFound = 'NotFound',
-  AuthSelection = 'AuthSelection',
   Unsubscribe = 'Unsubscribe',
 
   // Onboarding Stack

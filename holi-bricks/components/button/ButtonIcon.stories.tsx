@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-imports */
 import { useArgs } from '@storybook/preview-api'
 import type { Meta, StoryObj } from '@storybook/react'
 import { ButtonIcon } from 'holi-bricks/components/button'

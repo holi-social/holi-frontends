@@ -1,3 +1,4 @@
+import { Spacing } from 'holi-bricks/tokens'
 import type { UnistylesTheme } from 'react-native-unistyles'
 
 export const buttonBaseStyle = {
@@ -41,7 +42,7 @@ export const getButtonDisabledStyle = (theme: UnistylesTheme) =>
     },
   }) as const
 
-export const getButtonTextVarianStyle = ({
+export const getButtonTextVariantStyle = ({
   variant,
   theme,
   disabled,
@@ -59,5 +60,5 @@ export const buttonContentStyle = {
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: 4,
+  gap: Spacing['4xs'],
 } as const

@@ -19,9 +19,8 @@ import { Button } from 'holi-bricks/components/button'
 import { isWebTouchDevice } from '@holi/ui/helper'
 import type { ScrollToProps } from '@holi/ui/helper/useScrollToInputOnFocus'
 import type { UpdateLoginFlowBody } from '@ory/kratos-client/api'
-import { getNodeProviderId, getNodeProviderName } from '@holi/core/auth/helpers/auth'
-import { FeatureFlagKey } from '@holi/core/featureFlags/constants'
-import { useFeatureFlagToggle } from '@holi/core/featureFlags/hooks/useFeatureFlagToggle'
+import { getNodeProviderId } from '@holi/core/auth/helpers/auth'
+import { FormNodeSocialLogin } from '@holi/core/auth/components/FormNodeSocialLogin'
 
 interface Props extends InputProps {
   node: UiNode
@@ -35,7 +34,6 @@ interface Props extends InputProps {
 
 const FormNode = (props: Props) => {
   const { t } = useTranslation()
-  const showSocialLogin = useFeatureFlagToggle(FeatureFlagKey.SOCIAL_LOGIN)
   const { node, scrollToInputWithId = () => ({}) } = props
 
   const fieldName = getNodeId(node)
@@ -67,25 +65,23 @@ const FormNode = (props: Props) => {
   }
 
   if (oryNodeIsSubmit(node.attributes)) {
-    const providerId = getNodeProviderId(node)
-    if (providerId && !showSocialLogin) {
-      return
+    if (getNodeProviderId(node)) {
+      return (
+        <FormNodeSocialLogin
+          node={node}
+          translationPrefix={props.translationPrefix}
+          style={props.style}
+          onSubmitPress={props.onSubmitPress}
+        />
+      )
     }
-    const overrides: UpdateLoginFlowBody | undefined = providerId
-      ? {
-          method: 'oidc',
-          provider: providerId,
-          upstream_parameters: providerId.startsWith('google') ? { prompt: 'select_account' } : undefined,
-        }
-      : undefined
     const translationKey = `${props.translationPrefix}input.label-${getNodeTranslationKey(node)}`
-    const fieldLabel = providerId ? t(translationKey, { provider: getNodeProviderName(node) }) : t(translationKey)
     return (
       <View style={props.style}>
         <Button
-          label={fieldLabel}
+          label={t(translationKey)}
           disabled={node.attributes.disabled}
-          onPress={() => props.onSubmitPress(overrides)}
+          onPress={() => props.onSubmitPress()}
           testID={`ory-submit-${fieldName}`}
         />
       </View>
