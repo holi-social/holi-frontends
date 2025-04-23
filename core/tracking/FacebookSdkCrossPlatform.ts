@@ -8,7 +8,8 @@ import {
 } from 'expo-tracking-transparency'
 import { getConsentState } from '@holi/core/tracking/TrackingInitializer'
 import { getLogger } from '@holi/core/helpers/logging'
-import { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import type { AuthenticatedUser } from '@holi/core/domain/shared/types'
+import type { MetaStandardEvent } from '@holi/core/tracking/FacebookSdkCrossPlatform.web'
 
 export class FacebookSdkReactNative implements FacebookSdkCrossPlatform {
   private readonly logger = getLogger('FacebookSdk')
@@ -90,8 +91,11 @@ export class FacebookSdkReactNative implements FacebookSdkCrossPlatform {
     this.logger.debug('getTrackingPermissionStatus', 'getting tracking permission status')
     return [await getTrackingPermissionsAsync(), getConsentState()]
   }
+
+  async trackEvent(event: MetaStandardEvent, data?: Record<string, unknown>): Promise<void> {
+    // no-op for mobile, we are using this on web.
+    this.logger.debug('trackEvent', 'Called on mobile, not implemented', event, data)
+  }
 }
 
-export const useFacebookSdkCrossPlatform = (): FacebookSdkCrossPlatform => {
-  return new FacebookSdkReactNative()
-}
+export const metaSdk = new FacebookSdkReactNative()

@@ -99,12 +99,15 @@ export interface PosthogCrossPlatform {
   flush: () => Promise<void>
 }
 
+export type MetaPixelStandardEvent = 'PageView' | 'ViewContent' | 'Search' | 'CompleteRegistration' | 'SignUp'
+
 export interface FacebookSdkCrossPlatform {
   initialize(user?: AuthenticatedUser): Promise<void>
   optIn(user?: AuthenticatedUser): Promise<void>
   optOut(): Promise<void>
   enabled(): Promise<boolean>
   trackSignUp(): Promise<void>
+  trackEvent(event: MetaPixelStandardEvent, data?: Record<string, unknown>): Promise<void>
 }
 
 export type SignupModalPressedTrigger =

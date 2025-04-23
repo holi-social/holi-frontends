@@ -28,7 +28,7 @@ import {
 } from '@holi/core/tracking/types'
 import { TrackingEvent } from '@holi/core/tracking/events'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
-import { useFacebookSdkCrossPlatform } from '@holi/core/tracking/FacebookSdkCrossPlatform'
+import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 
 const logger = getLogger('Tracking')
 
@@ -271,8 +271,7 @@ const TrackingInitializerInner = ({
 }: TrackingInitializerInnerProps) => {
   const posthog: PosthogCrossPlatform = usePosthogCrossPlatform()
   const apollo: ApolloClient<object> = useApolloClient()
-  const facebook: FacebookSdkCrossPlatform = useFacebookSdkCrossPlatform()
-  const tracking = useMemo(() => new Tracking(posthog, facebook, apollo), [posthog, facebook, apollo])
+  const tracking = useMemo(() => new Tracking(posthog, metaSdk, apollo), [posthog, apollo])
   const state = useReactiveVar(initializerStateVar)
   const { track } = useTracking()
 

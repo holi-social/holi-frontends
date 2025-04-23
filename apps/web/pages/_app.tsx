@@ -5,7 +5,7 @@ import { appWithI18Next } from 'ni18n'
 import pino from 'pino'
 // Fixes issue with missing requestAnimationFrame used by react-native-reanimated
 import 'raf/polyfill'
-import React, { ReactElement, ReactNode, useEffect } from 'react'
+import React, { type ReactElement, type ReactNode, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { initAuth } from '@holi/core/auth/helpers/init'
@@ -20,6 +20,8 @@ import NavigationLayoutRoot from '@holi/web/layout/NavigationLayoutRoot'
 import WebRootProvider from '@holi/web/providers/WebRootProvider'
 import '@holi/web/styles/globals.css'
 import { HoliPageProps, type NextJSPageProps } from '@holi/web/types'
+import { useRouter } from 'next/router'
+import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform'
 
 export interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout
@@ -37,11 +39,19 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { defaultProps = {} } = Component
   const { t } = useTranslation()
   const holiPageProps = new HoliPageProps(pageProps)
+  const router = useRouter()
 
   // Synchronize initial login state between server and client
   if (holiPageProps.user?.isLoggedOut && !isSSR) {
     setLoginStateLoggedOut()
   }
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', () => {
+      metaSdk.trackEvent('PageView')
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.events])
 
   useEffect(() => {
     // Init authentication

@@ -12,6 +12,7 @@ import { useConfirmationState } from '@holi/ui/components/molecules/HoliConfirma
 import Spacing from '@holi/ui/foundations/Spacing'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { storeOnboardingState } from '@holi/core/screens/onboarding/hooks/onboardingState'
+import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform.web'
 
 export interface SignupGuardModalProps extends Partial<HoliConfirmationProps> {
   trackTrigger?: SignupModalPressedTrigger
@@ -40,6 +41,7 @@ export const SignupGuardModal = ({
   const styles = useMemo(() => getStyles(theme), [theme])
   const primaryHandler = useCallback(() => {
     if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'signUp'))
+
     enableRedirect()
     // Skip onboarding and start directly with account creation
     storeOnboardingState('finished')
@@ -53,6 +55,7 @@ export const SignupGuardModal = ({
 
   const dismissHandler = useCallback(() => {
     if (trackTrigger) track(TrackingEvent.SignUpModalPressed(trackTrigger, 'x'))
+    metaSdk.trackSignUp()
     const dismissPropagation = onDismiss?.()
     if (dismissPropagation !== false) props.onDismiss?.()
   }, [onDismiss, props, trackTrigger, track])
