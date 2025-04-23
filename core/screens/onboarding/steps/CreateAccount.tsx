@@ -87,8 +87,10 @@ export const CreateAccount = ({
     initializeFlow()
   }, [initializeFlow])
 
-  const onSubmit = async (payload: UpdateRegistrationFlowBody) => {
-    track(TrackingEvent.Auth.RegisterButtonPressed)
+  const onSubmit = async (payload: UpdateRegistrationFlowBody, provider?: string) => {
+    track(
+      provider ? TrackingEvent.Auth.SocialRegisterButtonPressed(provider) : TrackingEvent.Auth.RegisterButtonPressed
+    )
     if (flow) {
       showLoader()
       Keyboard.dismiss()

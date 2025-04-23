@@ -13,7 +13,7 @@ interface FormNodeSocialLoginProps {
   node: UiNode
   translationPrefix: string
   style?: StyleProp<ViewStyle>
-  onSubmitPress: (overrides?: UpdateLoginFlowBody) => void
+  onSubmitPress: (overrides?: UpdateLoginFlowBody, provider?: string) => void
 }
 
 const supportedSocialLoginProviders: SocialLoginButtonProvider[] = ['Google']
@@ -46,7 +46,7 @@ export const FormNodeSocialLogin = ({ node, translationPrefix, style, onSubmitPr
         provider={provider}
         label={t(translationKey, { provider })}
         disabled={disabled}
-        onPress={() => onSubmitPress(overrides)}
+        onPress={() => onSubmitPress(overrides, provider)}
         testID={`ory-submit-${fieldName}`}
       />
     </View>

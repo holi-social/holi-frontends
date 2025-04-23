@@ -395,11 +395,25 @@ export namespace TrackingEvent {
       name: 'registerButtonPressed',
       ...versionOne,
     }
+    export const SocialRegisterButtonPressed = (provider: string): TrackingEvent => ({
+      name: 'socialRegisterButtonPressed',
+      ...versionOne,
+      properties: {
+        provider,
+      },
+    })
 
     export const LoginButtonPressed: TrackingEvent = {
       name: 'loginButtonPressed',
       ...versionOne,
     }
+    export const SocialLoginButtonPressed = (provider: string): TrackingEvent => ({
+      name: 'socialLoginButtonPressed',
+      ...versionOne,
+      properties: {
+        provider,
+      },
+    })
     export const LoginCompleted: TrackingEvent = {
       name: 'loginCompleted',
       ...versionOne,

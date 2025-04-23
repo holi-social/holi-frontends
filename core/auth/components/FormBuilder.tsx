@@ -27,7 +27,7 @@ import { logError } from '@holi/core/errors/helpers'
 type NodeId = string
 
 interface Props<T> {
-  onSubmit: (payload: T) => Promise<void>
+  onSubmit: (payload: T, provider?: string) => Promise<void>
   isSignin?: boolean
   flow?: LoginFlow | RegistrationFlow | SettingsFlow | RecoveryFlow
   only?: 'password' | 'profile' | 'totp' | 'lookup_secret'
@@ -173,7 +173,7 @@ const FormBuilder = <
               value={getValue(name)}
               onChange={onChange(name)}
               node={node}
-              onSubmitPress={(overrides) => onSubmit({ ...values, ...submitType, ...overrides })}
+              onSubmitPress={(overrides, provider) => onSubmit({ ...values, ...submitType, ...overrides }, provider)}
               scrollToInputWithId={scrollToInputWithId}
               autofocus={hasAutofocus(node)}
               style={{ marginTop: Spacing.md }}
