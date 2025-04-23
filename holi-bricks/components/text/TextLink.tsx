@@ -23,7 +23,7 @@ export interface TextLinkProps extends AccessibilityProps, React.PropsWithChildr
   /** Managed Theme color. */
   color?: TextColor
   /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
-  colorOveride?: ColorValue
+  colorOverride?: ColorValue
   textAlign?: TextStyle['textAlign']
   ellipsizeMode?: TextProps['ellipsizeMode']
   onPress?: (event: React.SyntheticEvent | GestureResponderEvent) => unknown | Promise<unknown>
@@ -33,7 +33,7 @@ export const TextLink = ({
   size,
   numberOfLines,
   color = 'main',
-  colorOveride,
+  colorOverride,
   textAlign,
   ellipsizeMode,
   children,
@@ -53,7 +53,7 @@ export const TextLink = ({
       // as TextStyle is required because ts
       // is throwing error cause of this line fontVariant: ['tabular-nums', 'lining-nums'],
       // this might be related to unistyle typings, needs more investigation
-      style={styles.text(color, colorOveride, textAlign) as unknown as TextStyle}
+      style={styles.text(color, colorOverride, textAlign) as unknown as TextStyle}
       onPress={onPress}
     >
       {children}
@@ -62,12 +62,12 @@ export const TextLink = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  text: (color: TextColor, colorOveride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (color: TextColor, colorOverride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.bold,
       fontWeight: '500',
-      color: colorOveride ?? theme.colors.fill[color],
+      color: colorOverride ?? theme.colors.fill[color],
       userSelect: 'auto',
       textAlign: textAlign,
       ...Platform.select({

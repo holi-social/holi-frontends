@@ -16,7 +16,7 @@ import {
   type ButtonVariant,
   getButtonDisabledStyle,
   getButtonSelectedStyle,
-  getButtonTextVarianStyle,
+  getButtonTextVariantStyle,
   getButtonVariantStyle,
 } from './helpers'
 
@@ -140,5 +140,5 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   content: buttonContentStyle,
   text: (disabled: boolean, selected: boolean, variant: ButtonVariant) =>
-    getButtonTextVarianStyle({ variant, theme, disabled, selected }),
+    getButtonTextVariantStyle({ variant, theme, disabled, selected }),
 }))

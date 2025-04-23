@@ -2,7 +2,7 @@ import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundat
 import { useStyles } from 'holi-bricks/hooks'
 import { Spacing } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import { Text } from 'holi-bricks/components/text'
+import { TextLink } from 'holi-bricks/components/text'
 import type React from 'react'
 import { useCallback, useState } from 'react'
 import { type GestureResponderEvent, Pressable, View } from 'react-native'
@@ -18,7 +18,7 @@ import {
   type ButtonVariant as ButtonVariantBaseType,
   getButtonDisabledStyle,
   getButtonSelectedStyle,
-  getButtonTextVarianStyle,
+  getButtonTextVariantStyle,
   getButtonVariantStyle,
 } from './helpers'
 
@@ -37,8 +37,6 @@ export type ButtonProps = AccessibilityProps & {
   transparent?: boolean
   selected?: boolean
   icon?: HoliIconType
-  iconBefore?: HoliIconType
-  scaleIcon?: number
   inline?: boolean
   testID?: string
 }
@@ -54,8 +52,6 @@ export const Button = ({
   transparent = false,
   selected = false,
   icon,
-  iconBefore,
-  scaleIcon = 1,
   inline = false,
   testID,
   ...rest
@@ -71,7 +67,6 @@ export const Button = ({
 
   const isSpinning = loading || isProcessing
   const labelToShow = isSpinning && loadingLabel ? loadingLabel : label
-  const iconSize = 16 * scaleIcon
 
   const handlePress = useCallback(
     async (event: GestureResponderEvent) => {
@@ -108,23 +103,32 @@ export const Button = ({
       {...accessibilityProps(rest)}
     >
       <View style={styles.content}>
-        {iconBefore && !isSpinning && (
-          <HoliIcon icon={iconBefore} size={iconSize} colorOverride={styles.text(disabled, selected, variant).color} />
-        )}
         <View style={styles.textContainer(size)}>
-          <Text size={size === 'lg' ? 'md' : 'sm'} colorOverride={styles.text(disabled, selected, variant).color}>
+          <TextLink
+            size={size === 'lg' ? 'md' : 'sm'}
+            colorOverride={styles.text(disabled, selected, variant).color}
+            role="presentation"
+          >
             {labelToShow}
-          </Text>
+          </TextLink>
         </View>
         {isSpinning && (
           <View testID="spinner">
             <SpinningIconContainer spinning={isSpinning}>
-              <HoliIcon icon={Loader} size={iconSize} colorOverride={styles.text(disabled, selected, variant).color} />
+              <HoliIcon
+                icon={Loader}
+                size={styles.icon.height}
+                colorOverride={styles.text(disabled, selected, variant).color}
+              />
             </SpinningIconContainer>
           </View>
         )}
         {!isSpinning && icon && (
-          <HoliIcon icon={icon} size={iconSize} colorOverride={styles.text(disabled, selected, variant).color} />
+          <HoliIcon
+            icon={icon}
+            size={styles.icon.height}
+            colorOverride={styles.text(disabled, selected, variant).color}
+          />
         )}
       </View>
     </Pressable>
@@ -172,5 +176,8 @@ const stylesheet = createStyleSheet((theme) => ({
     }
   },
   text: (disabled: boolean, selected: boolean, variant: ButtonVariant) =>
-    getButtonTextVarianStyle({ variant, theme, disabled, selected }),
+    getButtonTextVariantStyle({ variant, theme, disabled, selected }),
+  icon: {
+    height: Spacing.xs,
+  },
 }))

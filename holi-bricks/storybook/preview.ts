@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react'
 import 'holi-bricks/libs/init'
 import { storybookThemeConfig, withTheme } from 'holi-bricks/storybook/theme-switcher'
+import 'holi-bricks/components/text/fonts/style.css'
 
 const preview: Preview = {
   parameters: {

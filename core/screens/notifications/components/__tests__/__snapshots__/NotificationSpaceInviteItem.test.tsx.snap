@@ -310,20 +310,19 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               }
             >
               <Text
-                accessible={false}
-                role="none"
-                selectable={true}
+                role="presentation"
+                selectable={false}
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
+                    "fontFamily": "InstrumentSans-Medium",
                     "fontSize": 15,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
-                    "fontWeight": "400",
-                    "letterSpacing": -0.12,
+                    "fontWeight": "500",
+                    "letterSpacing": -0.03,
                     "lineHeight": 21,
                     "textAlign": undefined,
                     "userSelect": "auto",
@@ -414,20 +413,19 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
               }
             >
               <Text
-                accessible={false}
-                role="none"
-                selectable={true}
+                role="presentation"
+                selectable={false}
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
+                    "fontFamily": "InstrumentSans-Medium",
                     "fontSize": 15,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
-                    "fontWeight": "400",
-                    "letterSpacing": -0.12,
+                    "fontWeight": "500",
+                    "letterSpacing": -0.03,
                     "lineHeight": 21,
                     "textAlign": undefined,
                     "userSelect": "auto",
@@ -765,20 +763,19 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               }
             >
               <Text
-                accessible={false}
-                role="none"
-                selectable={true}
+                role="presentation"
+                selectable={false}
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
+                    "fontFamily": "InstrumentSans-Medium",
                     "fontSize": 15,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
-                    "fontWeight": "400",
-                    "letterSpacing": -0.12,
+                    "fontWeight": "500",
+                    "letterSpacing": -0.03,
                     "lineHeight": 21,
                     "textAlign": undefined,
                     "userSelect": "auto",
@@ -869,20 +866,19 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
               }
             >
               <Text
-                accessible={false}
-                role="none"
-                selectable={true}
+                role="presentation"
+                selectable={false}
                 style={
                   {
                     "color": "#262424",
-                    "fontFamily": "InstrumentSans-Regular",
+                    "fontFamily": "InstrumentSans-Medium",
                     "fontSize": 15,
                     "fontVariant": [
                       "lining-nums",
                       "tabular-nums",
                     ],
-                    "fontWeight": "400",
-                    "letterSpacing": -0.12,
+                    "fontWeight": "500",
+                    "letterSpacing": -0.03,
                     "lineHeight": 21,
                     "textAlign": undefined,
                     "userSelect": "auto",

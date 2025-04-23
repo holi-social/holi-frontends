@@ -3,7 +3,9 @@ import { render, screen, userEvent } from '@testing-library/react-native'
 import { ButtonIcon } from 'holi-bricks/components/button'
 import React from 'react'
 
-describe('Button component', () => {
+jest.useFakeTimers()
+
+describe('ButtonIcon component', () => {
   it('renders correctly with the given text', () => {
     const mockFn = jest.fn()
     render(<ButtonIcon label="Click me" onPress={mockFn} icon={Chat3} />)
