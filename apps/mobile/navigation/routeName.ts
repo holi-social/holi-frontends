@@ -130,6 +130,7 @@ export enum RouteName {
   LoginCallback = 'LoginCallback',
   Logout = 'Logout',
   ForgotPassword = 'ForgotPassword',
+  AuthError = 'AuthError',
 
   // Individual Posts
   FeedPosts = 'FeedPosts',

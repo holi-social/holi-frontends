@@ -4,6 +4,7 @@ import type {
   PerformNativeLogoutBody,
   RecoveryFlow,
   SettingsFlow,
+  UiText,
   UpdateLoginFlowBody,
   VerificationFlow,
 } from '@ory/kratos-client'
@@ -46,17 +47,43 @@ export const setSessionInStorage = async (session: OrySessionContext) => {
 export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
-export const initLoginFlow = async () => {
+export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
+  let extraMessages: UiText[] = []
   const returnTo = AuthSession.makeRedirectUri({
     preferLocalhost: true,
     path: 'login/callback',
   })
+  if (flowId) {
+    const flow = await newKratosSdk()
+      .getLoginFlow({ id: flowId })
+      .then(({ data }) => {
+        // Treat message "E-mail address already used by another account" as error and recreate the login flow
+        const errorMessages = data?.ui?.messages?.filter((message) => message.id === 1010016)
+        if (errorMessages?.length) {
+          extraMessages = errorMessages
+          return undefined
+        }
+        return data
+      })
+      .catch(handleKratosSdkError('getLoginFlow'))
+    if (flow) {
+      return flow
+    }
+  }
   return newKratosSdk()
     .createNativeLoginFlow({
       returnTo: returnTo,
       returnSessionTokenExchangeCode: true,
     })
-    .then(({ data }) => data)
+    .then(({ data }) => {
+      return {
+        ...data,
+        ui: {
+          ...data.ui,
+          messages: extraMessages.concat(data.ui.messages ?? []),
+        },
+      }
+    })
     .catch(handleKratosSdkError('createNativeLoginFlow'))
 }
 
@@ -84,7 +111,7 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
     const initCode = flow?.session_token_exchange_code
     const returnToCode = new URL(result.url).searchParams.get('code')
     if (!initCode || !returnToCode) {
-      return
+      throw new Error('Could not complete auth session, missing codes')
     }
     return newKratosSdk()
       .exchangeSessionToken({ initCode, returnToCode })
@@ -98,6 +125,8 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
           return orySession
         }
       })
+  } else {
+    throw new Error('Failed to complete auth session')
   }
 }
 

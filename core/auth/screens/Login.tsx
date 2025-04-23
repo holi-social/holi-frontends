@@ -30,6 +30,13 @@ import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
+import createParamHooks from '@holi/core/navigation/hooks/useParam'
+
+export type LoginParams = {
+  flow?: string
+}
+
+const { useParam } = createParamHooks<LoginParams>()
 
 const Login = () => {
   const { isLoggedOut } = useLoginState()
@@ -43,6 +50,7 @@ const Login = () => {
   const { track } = useTracking()
   const redirect = useRedirect('/')
   const { navigate } = useRouting()
+  const [flowId] = useParam('flow')
 
   const isWeb = Platform.OS === 'web'
 
@@ -64,7 +72,7 @@ const Login = () => {
   }, [isWeb, setScreenOptions, t])
 
   const initializeFlow = useCallback(() => {
-    initLoginFlow()
+    initLoginFlow(flowId)
       .then(safeSetFlow)
       .catch((error) =>
         displayError(error, 'Failed to initialize login flow', {
@@ -72,7 +80,7 @@ const Login = () => {
           location: 'Login.initializeFlow',
         })
       )
-  }, [t, safeSetFlow, displayError])
+  }, [t, safeSetFlow, displayError, flowId])
 
   useEffect(() => {
     if (isLoggedOut && !flow) {

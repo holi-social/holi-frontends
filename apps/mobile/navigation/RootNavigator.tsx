@@ -3,7 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import ForgotPassword from '@holi/core/auth/screens/ForgotPassword'
-import Login from '@holi/core/auth/screens/Login'
+import Login, { type LoginParams } from '@holi/core/auth/screens/Login'
 import CreatePost from '@holi/core/screens/individualPosts/CreatePost'
 import EditPost from '@holi/core/screens/individualPosts/EditPost'
 import Notifications from '@holi/core/screens/notifications/Notifications'
@@ -34,6 +34,7 @@ import NotFound from '@holi/core/screens/404/NotFound'
 import Unsubscribe from '@holi/core/screens/mail/Unsubscribe'
 import EventsAppNavigator from '@holi/mobile/navigation/EventsAppNavigator'
 import { LoginCallback, type LoginCallbackParams } from '@holi/core/auth/screens/LoginCallback'
+import { AuthError, type AuthErrorParams } from '@holi/core/auth/screens/AuthError'
 
 export type RootStackScreens = {
   [RouteName.BottomTabs]: undefined
@@ -47,9 +48,10 @@ export type RootStackScreens = {
   [RouteName.Onboarding]: undefined
   [RouteName.OnboardingLegalDocuments]: undefined
 
-  [RouteName.Login]: undefined
+  [RouteName.Login]: LoginParams
   [RouteName.LoginCallback]: LoginCallbackParams
   [RouteName.ForgotPassword]: undefined
+  [RouteName.AuthError]: AuthErrorParams
 
   [RouteName.ChallengesApp]: undefined
   [RouteName.DonationsApp]: undefined
@@ -144,6 +146,14 @@ export const RootNavigator = ({ showOnboardingOnStartup }: RootNavigatorProps) =
         options={{
           animation: 'slide_from_bottom',
           headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name={RouteName.AuthError}
+        component={AuthError}
+        options={{
+          animation: 'slide_from_bottom',
+          headerShown: true,
         }}
       />
       <RootStack.Screen

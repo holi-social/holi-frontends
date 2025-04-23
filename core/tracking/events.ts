@@ -420,22 +420,6 @@ export namespace TrackingEvent {
       name: 'resendEmailButtonPressed',
       ...versionOne,
     }
-    export const OAuthWithGoogleButtonPressed: TrackingEvent = {
-      name: 'oauthWithGoogleButtonPressed',
-      ...versionOne,
-    }
-    export const OAuthWithFacebookButtonPressed: TrackingEvent = {
-      name: 'oauthWithFacebookButtonPressed',
-      ...versionOne,
-    }
-    export const OAuthWithAppleButtonPressed: TrackingEvent = {
-      name: 'oauthWithAppleButtonPressed',
-      ...versionOne,
-    }
-    export const OAuthWithMailButtonPressed: TrackingEvent = {
-      name: 'oauthWithMailButtonPressed',
-      ...versionOne,
-    }
   }
 
   export const ContentTranslated = (
