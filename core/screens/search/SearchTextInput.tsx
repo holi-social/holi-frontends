@@ -1,3 +1,4 @@
+import { metaSdk } from '@holi/core/tracking/FacebookSdkCrossPlatform.web'
 import { CloseCircleFilled, Search } from '@holi/icons/src/generated'
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import HoliTextInput from '@holi/ui/components/molecules/HoliTextInput'
@@ -15,15 +16,17 @@ export function SearchTextInput({ currentQuery, onQueryChange }: SearchBoxProps)
   const { t } = useTranslation()
   const [inputValue, setInputValue] = useState(currentQuery)
   const debouncedQueryUpdate = useDebounce((query) => onQueryChange(query), 300)
+  const debouncedMetaTracking = useDebounce((query) => metaSdk.trackEvent('Search', { searchParams: query }), 300)
 
   const setQuery = useCallback(
     (newQuery: string) => {
       setInputValue(newQuery)
       if (newQuery !== currentQuery) {
         debouncedQueryUpdate(newQuery)
+        debouncedMetaTracking(newQuery)
       }
     },
-    [currentQuery, debouncedQueryUpdate]
+    [currentQuery, debouncedMetaTracking, debouncedQueryUpdate]
   )
 
   useEffect(() => {
