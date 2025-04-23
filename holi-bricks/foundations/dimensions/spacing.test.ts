@@ -4,10 +4,7 @@ describe('spacing', () => {
   describe('makePadding', () => {
     it('should apply the same padding to all sides when given a single value', () => {
       expect(makePadding('md')).toEqual({
-        paddingTop: Spacing.md,
-        paddingBottom: Spacing.md,
-        paddingLeft: Spacing.md,
-        paddingRight: Spacing.md,
+        padding: Spacing.md,
       })
     })
 
@@ -26,10 +23,7 @@ describe('spacing', () => {
   describe('makeMargin', () => {
     it('should apply the same margin to all sides when given a single value', () => {
       expect(makeMargin('xl')).toEqual({
-        marginTop: Spacing.xl,
-        marginBottom: Spacing.xl,
-        marginLeft: Spacing.xl,
-        marginRight: Spacing.xl,
+        margin: Spacing.xl,
       })
     })
 

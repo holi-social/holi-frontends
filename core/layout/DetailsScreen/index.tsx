@@ -15,7 +15,7 @@ import { View } from 'react-native'
 import { DetailsScreenSkeleton } from '@holi/core/layout/DetailsScreen/skeleton'
 import { ExternalLink, Global, Lock } from '@holi/icons/src/generated'
 import { Avatar } from 'holi-bricks/components/avatar'
-import CalendarIcon from 'holi-bricks/components/CalendarIcon/CalendarIcon'
+import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { HtmlRenderer } from 'holi-bricks/components/html-renderer'
 import type { ImageSource } from 'holi-bricks/components/image'
 import { AuthorBanner, type AuthorBannerProps } from 'holi-bricks/patterns/author-banner'
@@ -205,7 +205,7 @@ export const DetailsScreen = ({
                 {partners.details?.map((partner, index) => {
                   return (
                     <Stack key={`partner-block-${partner.title}-${index}`} direction="row" gap="xs">
-                      <Avatar shape="circle" size="xs" source={partner?.image} initials={partner.title} />
+                      <Avatar shape="circle" size="xs" source={partner?.image} label={partner.title} />
                       <Stack direction="row" flex={1} justifyContent="space-between" alignItems="center">
                         <TextLink onPress={partner?.onPress} size="md">
                           {partner.title}

@@ -36,6 +36,10 @@ exports[`React tree renders correctly 1`] = `
           "height": 64,
           "width": 64,
         },
+        {
+          "aspectRatio": undefined,
+        },
+        {},
       ]
     }
   />
@@ -47,7 +51,7 @@ exports[`React tree renders initials with colored background, when given image p
   style={
     {
       "alignItems": "center",
-      "backgroundColor": "#8b95ff",
+      "backgroundColor": "#abff8b",
       "borderColor": "#262424",
       "borderRadius": 8,
       "borderWidth": 1,

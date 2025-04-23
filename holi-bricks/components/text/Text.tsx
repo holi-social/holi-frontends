@@ -1,7 +1,6 @@
 import { accessibilityProps, type AccessibilityProps } from 'holi-bricks/foundations/accessibility'
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
 import { useStyles } from 'holi-bricks/hooks'
-import type { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import { createStyleSheet } from 'holi-bricks/utils'
 
 import type * as React from 'react'
@@ -12,11 +11,11 @@ import {
   type TextProps as RNTextProps,
   type TextStyle,
 } from 'react-native'
+import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 
 // Change import in HOLI-10369
 export type TextSize = '4xl' | '3xl' | 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'
 export type TextHeadingLevel = '1' | '2' | '3'
-export type TextColor = keyof typeof lightTheme.colors.fill
 
 export interface TextProps extends React.PropsWithChildren {
   size: TextSize
@@ -26,7 +25,7 @@ export interface TextProps extends React.PropsWithChildren {
   selectable?: boolean
   numberOfLines?: number
   /** Managed Theme color. */
-  color?: TextColor
+  color?: FillColors
   /** Use this if you need to provide an explicit color and/or manually manage the color for each theme  */
   colorOverride?: TextStyle['color']
   textAlign?: TextStyle['textAlign']
@@ -90,12 +89,18 @@ export const Text = ({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  text: (color: TextColor, selectable: boolean, colorOverride?: ColorValue, textAlign?: TextStyle['textAlign']) => {
+  text: (
+    color: TextProps['color'],
+    selectable: boolean,
+    colorOverride?: ColorValue,
+    textAlign?: TextStyle['textAlign']
+  ) => {
+    const textColor = color ? theme.colors.fill[color] : theme.colors.fill.default
     return {
       fontVariant: ['lining-nums', 'tabular-nums'],
       fontFamily: fontFamilies.regular,
       fontWeight: '400',
-      color: colorOverride ?? theme.colors.fill[color],
+      color: colorOverride ?? textColor,
       userSelect: selectable ? 'auto' : 'none',
       textAlign: textAlign,
       ...Platform.select({

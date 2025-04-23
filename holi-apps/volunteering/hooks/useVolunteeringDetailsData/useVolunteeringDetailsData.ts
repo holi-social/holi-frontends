@@ -70,7 +70,7 @@ export const useVolunteeringDetailsData = (volunteeringId: string) => {
     title: volunteering?.organizer?.name || volunteering?.source || '',
     mainAvatar: {
       source: volunteering?.organizer?.imageUrl ?? (partner?.logo?.src as string),
-      initials: volunteering?.organizer?.name || '??',
+      label: volunteering?.organizer?.name || '??',
     },
   }
 

@@ -1,6 +1,6 @@
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import { Avatar, type AvatarProps } from 'holi-bricks/components/avatar'
-import CalendarIcon from 'holi-bricks/components/CalendarIcon/CalendarIcon'
+import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 import { Stack } from 'holi-bricks/components/stack'
 import { Platform, View } from 'react-native'
 import { Image, type ImageSource } from 'holi-bricks/components/image'
@@ -54,7 +54,7 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
         borderColor="default"
         borderRadius="xs"
         borderStyle="solid"
-        borderWidth={1}
+        borderWidth="sm"
         overflow="hidden"
         width={90}
         minHeight={minHeight}
@@ -63,7 +63,7 @@ export const CompactCardImage: React.FC<CompactCardImageProps> = ({
         <Image
           source={!imageError && imageSrc ? imageSrc : randomPlaceholderImage}
           width={90}
-          height={Platform.OS === 'web' ? '100%' : 130}
+          height={130}
           alt={t('act.events.thumbnail.label')}
           onError={handleImageError}
           resizeMode="cover"

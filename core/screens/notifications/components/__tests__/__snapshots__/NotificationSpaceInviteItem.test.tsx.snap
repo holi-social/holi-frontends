@@ -95,6 +95,10 @@ exports[`NotificationSpaceInviteItem with legacy notifications matches snapshot 
                     "height": 40,
                     "width": 40,
                   },
+                  {
+                    "aspectRatio": undefined,
+                  },
+                  {},
                 ]
               }
             />
@@ -538,6 +542,10 @@ exports[`NotificationSpaceInviteItem with novu notifications notification for me
                     "height": 40,
                     "width": 40,
                   },
+                  {
+                    "aspectRatio": undefined,
+                  },
+                  {},
                 ]
               }
             />

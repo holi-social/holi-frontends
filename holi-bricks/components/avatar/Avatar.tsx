@@ -32,10 +32,10 @@ export type AvatarProps = {
   border?: AvatarBorder
   shape?: AvatarShape
   size?: AvatarSizes
-  label?: string
+  label: string
   icon?: HoliIconType
   source?: ImageSource
-  initials: string
+  initials?: string
   testID?: string
   imgPlaceholder?: string
 }
@@ -64,6 +64,7 @@ export const Avatar = ({
   const [errorLoading, setErrorLoading] = useState(false)
   const handleImageError = useCallback(() => setErrorLoading(true), [])
   const CDN_IMAGE_DIMENSION = AvatarSizesValues[size]
+  const firstTwoLetters = (initials || label)?.substring(0, 2)?.toUpperCase()
   const renderContent = () => {
     if (!errorLoading && source) {
       return (
@@ -84,7 +85,7 @@ export const Avatar = ({
     return (
       <View style={styles.textWrapper}>
         <Text colorOverride={styles.text.color} size={avatarSizeToTextSize[size]}>
-          {initials?.substring(0, 2)?.toUpperCase()}
+          {firstTwoLetters}
         </Text>
       </View>
     )
@@ -93,7 +94,7 @@ export const Avatar = ({
   return (
     <View
       {...accessibilityProps(rest)}
-      style={styles.avatar(initials, Boolean(!errorLoading && source))}
+      style={styles.avatar(firstTwoLetters, Boolean(!errorLoading && source))}
       testID={testID}
     >
       {renderContent()}

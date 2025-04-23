@@ -145,12 +145,12 @@ export const useTaskDetailsData = (): UseTaskDetailsData => {
         onPress: () => navigate('/spaces/' + data?.taskById?.space?.id),
         mainAvatar: {
           source: data?.taskById?.space?.avatar,
-          initials: data?.taskById?.space?.name || data?.taskById?.name || '??',
+          label: data?.taskById?.space?.name || data?.taskById?.name || '??',
         },
         secondaryAvatar: data?.taskById?.creator?.avatar
           ? {
               source: data?.taskById?.creator?.avatar,
-              initials: data?.taskById?.creator?.fullName || data?.taskById?.name || '??',
+              label: data?.taskById?.creator?.fullName || data?.taskById?.name || '??',
             }
           : undefined,
       },

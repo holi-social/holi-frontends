@@ -37,7 +37,7 @@ import { dimensions } from '@holi/ui/styles/globalVars'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { Avatar } from 'holi-bricks/components/avatar'
-import CalendarIcon from 'holi-bricks/components/CalendarIcon/CalendarIcon'
+import { CalendarIcon } from 'holi-bricks/components/calendarIcon'
 
 const IMAGE_ASPECT_RATIO = 327 / 210
 

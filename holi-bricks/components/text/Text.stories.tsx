@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Text, type TextSize, type TextColor } from 'holi-bricks/components/text'
+import { Text, type TextSize, type TextProps } from 'holi-bricks/components/text'
 import { lightTheme } from 'holi-bricks/foundations/colors/themes/light'
 import React from 'react'
 import { View } from 'react-native'
@@ -11,7 +11,7 @@ const availableHeadingLevels = {
   '2': '2',
   '3': '3',
 }
-const availableColors = Object.keys(lightTheme.colors.fill) as TextColor[]
+const availableColors = Object.keys(lightTheme.colors.fill) as TextProps['color'][]
 
 const meta: Meta<typeof Text> = {
   title: 'Components/Text/Text',

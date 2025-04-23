@@ -16,7 +16,10 @@
       "package": "social.holi.holibricks"
     },
     "ios": {
-      "bundleIdentifier": "social.holi.holibricks"
+      "bundleIdentifier": "social.holi.holibricks",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "extra": {
       "eas": {

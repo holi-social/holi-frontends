@@ -54,6 +54,10 @@ exports[`HoliUserCard renders correctly 1`] = `
             "height": 128,
             "width": 128,
           },
+          {
+            "aspectRatio": undefined,
+          },
+          {},
         ]
       }
     />
@@ -171,6 +175,10 @@ exports[`HoliUserCard renders correctly with small variant 1`] = `
             "height": 128,
             "width": 128,
           },
+          {
+            "aspectRatio": undefined,
+          },
+          {},
         ]
       }
     />

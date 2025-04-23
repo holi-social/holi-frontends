@@ -23,7 +23,7 @@ const disabledProps = [
 const buttonIconVariants = ['primary', 'secondary', 'tertiary'] as const
 
 const meta: Meta<typeof CompactCard> = {
-  title: 'Components/CompactCard',
+  title: 'Patterns/CompactCard',
   component: CompactCard,
   argTypes: {
     ...Object.fromEntries(disabledProps.map((prop) => [prop, { table: { disable: true } }])),

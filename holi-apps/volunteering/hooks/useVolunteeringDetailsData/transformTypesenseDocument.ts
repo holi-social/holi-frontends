@@ -50,7 +50,7 @@ export const transformTypesenseDocument = (
     title: document.organizer_name || document.source || '',
     mainAvatar: {
       source: document.organizer_image_url ?? (partner?.logo?.src as string),
-      initials: document.organizer_name || '??',
+      label: document.organizer_name || '??',
     },
   }
 

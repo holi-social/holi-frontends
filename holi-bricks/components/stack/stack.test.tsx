@@ -52,10 +52,7 @@ describe('Stack Component', () => {
     const container = getByTestId('container')
     expect(container.props.style).toEqual(
       expect.objectContaining({
-        paddingTop: Spacing.md,
-        paddingBottom: Spacing.md,
-        paddingLeft: Spacing.md,
-        paddingRight: Spacing.md,
+        padding: Spacing.md,
       })
     )
   })

@@ -181,6 +181,10 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   "height": 40,
                   "width": 40,
                 },
+                {
+                  "aspectRatio": undefined,
+                },
+                {},
               ]
             }
           />
@@ -479,6 +483,10 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   "height": 40,
                   "width": 40,
                 },
+                {
+                  "aspectRatio": undefined,
+                },
+                {},
               ]
             }
           />
@@ -777,6 +785,10 @@ exports[`SpaceInvitesList renders correctly when there are pending invites 1`] =
                   "height": 40,
                   "width": 40,
                 },
+                {
+                  "aspectRatio": undefined,
+                },
+                {},
               ]
             }
           />

@@ -20,9 +20,6 @@ declare global {
     'aria-haspopup'?: 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog' | true
     'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both'
   }
-
-  type BgColors = 'main' | 'support' | 'muted' | 'selected' | 'overlay'
-  type BorderColors = 'main' | 'support' | 'default' | 'muted'
 }
 
 type Themes = {

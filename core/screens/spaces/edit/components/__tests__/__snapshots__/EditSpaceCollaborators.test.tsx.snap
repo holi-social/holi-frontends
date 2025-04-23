@@ -583,6 +583,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               "height": 40,
                               "width": 40,
                             },
+                            {
+                              "aspectRatio": undefined,
+                            },
+                            {},
                           ]
                         }
                       />
@@ -719,6 +723,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               "height": 40,
                               "width": 40,
                             },
+                            {
+                              "aspectRatio": undefined,
+                            },
+                            {},
                           ]
                         }
                       />
@@ -855,6 +863,10 @@ exports[`EditSpaceCollaborators renders correctly 1`] = `
                               "height": 40,
                               "width": 40,
                             },
+                            {
+                              "aspectRatio": undefined,
+                            },
+                            {},
                           ]
                         }
                       />
@@ -1699,6 +1711,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 "height": 40,
                                 "width": 40,
                               },
+                              {
+                                "aspectRatio": undefined,
+                              },
+                              {},
                             ]
                           }
                         />
@@ -2149,6 +2165,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 "height": 40,
                                 "width": 40,
                               },
+                              {
+                                "aspectRatio": undefined,
+                              },
+                              {},
                             ]
                           }
                         />
@@ -2599,6 +2619,10 @@ exports[`EditSpaceCollaborators renders correctly with pending requests 1`] = `
                                 "height": 40,
                                 "width": 40,
                               },
+                              {
+                                "aspectRatio": undefined,
+                              },
+                              {},
                             ]
                           }
                         />

@@ -1,16 +1,18 @@
-import { type RadiusToEdge, makeRadius } from 'holi-bricks/foundations/dimensions/borderRadius'
-import { type SizeToEdge, makeMargin, makePadding } from 'holi-bricks/foundations/dimensions/spacing'
+import type React from 'react'
 import { useStyles } from 'holi-bricks/hooks'
 import { type BreakpointsSize, Spacing, type SpacingSize, breakpoints } from 'holi-bricks/tokens'
 import { createStyleSheet } from 'holi-bricks/utils'
-import type React from 'react'
-import { type AccessibilityRole, type DimensionValue, type FlexStyle, Pressable, View } from 'react-native'
+import { Pressable, View, type AccessibilityRole, type DimensionValue, type FlexStyle } from 'react-native'
+import { makePadding, makeMargin, type SizeToEdge } from 'holi-bricks/foundations/dimensions/spacing'
+import { makeRadius, type RadiusToEdge } from 'holi-bricks/foundations/dimensions/borderRadius'
+import { makeBorderWidth, type BorderSizeToEdge } from 'holi-bricks/foundations/dimensions/borderWidth'
+import type { BackgroundColors, BorderColors } from 'holi-bricks/foundations/colors/themes/types'
 
 type FlexAlignments = 'flex-end' | 'flex-start' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
 interface StackProps extends React.PropsWithChildren {
   gap?: SpacingSize
   direction?: 'column' | 'row' | 'row-reverse' | 'column-reverse'
-  backgroundColor?: BgColors
+  backgroundColor?: BackgroundColors
   alignContent?: FlexAlignments
   alignItems?: 'flex-end' | 'flex-start' | 'center' | 'stretch' | 'baseline'
   justifyContent?: FlexAlignments
@@ -19,7 +21,7 @@ interface StackProps extends React.PropsWithChildren {
   padding?: SizeToEdge
   margin?: SizeToEdge
   borderRadius?: RadiusToEdge
-  borderWidth?: number
+  borderWidth?: BorderSizeToEdge
   borderStyle?: 'solid' | 'dotted' | 'dashed'
   borderColor?: BorderColors
   flex?: number
@@ -38,6 +40,7 @@ interface StackProps extends React.PropsWithChildren {
   wrap?: FlexStyle['flexWrap']
   flexShrink?: FlexStyle['flexShrink']
   overflow?: 'hidden' | 'visible'
+  aspectRatio?: number | string
 }
 
 export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none', ...otherProps }: StackProps) => {
@@ -61,7 +64,7 @@ export const Stack = ({ children, shouldRender = true, accessibilityRole = 'none
 
 const containerStylesheet = createStyleSheet((theme) => ({
   container: (props: Omit<StackProps, 'children'>) => ({
-    backgroundColor: props?.backgroundColor ? theme.colors.bg[props?.backgroundColor] : undefined,
+    backgroundColor: props?.backgroundColor && theme.colors.bg?.[props?.backgroundColor],
     borderColor: props?.borderColor ? theme.colors.border[props?.borderColor] : undefined,
     gap: props?.gap ? Spacing[props?.gap] : 0,
     display: 'flex',
@@ -80,12 +83,13 @@ const containerStylesheet = createStyleSheet((theme) => ({
     minHeight: props?.minHeight,
     alignSelf: props?.alignSelf,
     flexWrap: props?.wrap,
-    borderWidth: props?.borderWidth,
     borderStyle: props?.borderStyle,
+    aspectRatio: props?.aspectRatio,
+    overflow: props?.overflow,
     ...makePadding(props?.padding),
     ...makeMargin(props?.margin),
     ...makeRadius(props?.borderRadius),
-    overflow: props?.overflow,
+    ...makeBorderWidth(props?.borderWidth),
   }),
 }))
 Stack.displayName = 'Stack'

@@ -211,7 +211,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#90ddff",
+              "backgroundColor": "#abff8b",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
@@ -251,7 +251,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
-            />
+            >
+              NO
+            </Text>
           </View>
         </View>
         <View
@@ -498,7 +500,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#90ddff",
+              "backgroundColor": "#8b95ff",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
@@ -538,7 +540,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
-            />
+            >
+              CO
+            </Text>
           </View>
         </View>
         <View
@@ -808,7 +812,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#90ddff",
+              "backgroundColor": "#8b95ff",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
@@ -848,7 +852,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
-            />
+            >
+              CO
+            </Text>
           </View>
         </View>
         <View
@@ -1034,7 +1040,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#90ddff",
+              "backgroundColor": "#8b95ff",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
@@ -1074,7 +1080,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
-            />
+            >
+              FO
+            </Text>
           </View>
         </View>
         <View
@@ -1344,7 +1352,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#90ddff",
+              "backgroundColor": "#8b95ff",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
@@ -1384,7 +1392,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
-            />
+            >
+              ME
+            </Text>
           </View>
         </View>
         <View
@@ -1526,7 +1536,7 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "#90ddff",
+              "backgroundColor": "#abff8b",
               "borderColor": "#262424",
               "borderRadius": 1000,
               "borderWidth": 1,
@@ -1566,7 +1576,9 @@ exports[`SpaceInviteUserSearchResult displays user with space and user connectio
                   "userSelect": "auto",
                 }
               }
-            />
+            >
+              AD
+            </Text>
           </View>
         </View>
         <View
