@@ -228,8 +228,6 @@ describe('Login', () => {
 
       await submitForm()
 
-      // TODO(SF) re-initialize flow?
-      // TODO(SF) handle form errors
       expect(displayError).toHaveBeenCalledWith('Test', 'Failed to login user', {
         displayMessage: 'auth.login.error.login',
         location: 'Login.performLogin',
@@ -287,8 +285,6 @@ describe('Login', () => {
 
       await submitForm()
 
-      // TODO(SF) re-initialize flow?
-      // TODO(SF) handle form errors
       expect(displayError).toHaveBeenCalledWith('Test', 'Failed to login user', {
         displayMessage: 'auth.login.error.login',
         location: 'Login.doBrowserLogin',
