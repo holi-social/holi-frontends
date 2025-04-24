@@ -1,7 +1,7 @@
 import { useApolloClient } from '@apollo/client'
 import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import type React from 'react'
-import { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -25,6 +25,7 @@ import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Screen } from '@holi/core/components/Screen'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 
 export type OAuth2LoginParams = {
   flow?: string
@@ -51,7 +52,7 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
   const [flowId] = useParam('flow')
   const { track } = useTracking()
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       headerTitle: () => (
         <Text headingLevel="1" size="lg">
@@ -65,7 +66,7 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
     })
   }, [isInWebview, returnTo, setScreenOptions, t])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (isLoggedIn) {
       confirmOAuth2Login()
       window.location.href = returnTo
