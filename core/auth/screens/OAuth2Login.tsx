@@ -1,7 +1,7 @@
 import { useApolloClient } from '@apollo/client'
 import type { LoginFlow, UpdateLoginFlowBody } from '@ory/kratos-client'
 import type React from 'react'
-import { memo, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 
@@ -11,35 +11,27 @@ import { handleFormSubmitError, isUnverifiedUserError } from '@holi/core/auth/he
 import { confirmOAuth2Login, type OAuth2DefaultProps } from '@holi/core/auth/helpers/oauth2'
 import type { OrySessionContext } from '@holi/core/auth/helpers/sdk'
 import { useLoginState } from '@holi/core/auth/loginState'
-import OAuth2Redirect, { type OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
+import { OAuth2Redirect, type OAuth2RedirectProps } from '@holi/core/auth/screens/OAuth2Redirect'
 import DefaultLayout from '@holi/core/components/DefaultLayout'
 import { useErrorHandling } from '@holi/core/errors/hooks'
 import { useSafeDispatch } from '@holi/core/helpers'
 import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOptions'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { Text } from 'holi-bricks/components/text'
-import createParamHooks from '@holi/core/navigation/hooks/useParam'
 import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
-import useRouting from '@holi/core/navigation/hooks/useRouting'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import { Screen } from '@holi/core/components/Screen'
 import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
-
-export type OAuth2LoginParams = {
-  flow?: string
-}
 
 export interface OAuth2LoginProps extends OAuth2DefaultProps, OAuth2RedirectProps {
   returnTo?: string
 }
 
-const { useParam } = createParamHooks<OAuth2LoginParams>()
-
 // Only used for OAuth2 login flow on web, see apps/web/pages/oauth2/login.tsx
 // Performing direct redirects by changing window.location.href
-const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = false, ...redirectProps }) => {
+export const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = false, ...redirectProps }) => {
   const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
@@ -48,8 +40,6 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
   const { isLoaderShown, showLoader, hideLoader } = useLoader()
   const setScreenOptions = useSetScreenOptions()
   const client = useApolloClient()
-  const { navigate } = useRouting()
-  const [flowId] = useParam('flow')
   const { track } = useTracking()
 
   useIsomorphicLayoutEffect(() => {
@@ -74,7 +64,7 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
   }, [returnTo, isLoggedIn])
 
   const initializeFlow = useCallback(() => {
-    initLoginFlow(flowId)
+    initLoginFlow()
       .then(safeSetFlow)
       .catch((error) =>
         displayError(error, 'Failed to initialize login flow', {
@@ -82,7 +72,7 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
           location: 'OAuth2Login.initializeFlow',
         })
       )
-  }, [flowId, safeSetFlow, displayError, t])
+  }, [safeSetFlow, displayError, t])
 
   useEffect(() => {
     if (!isLoggedIn && !flow) {
@@ -105,15 +95,13 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
     } catch (err) {
       const url = getBrowserRedirect(err)
       if (url) {
-        navigate(url)
+        window.location.href = url
       } else if (hasIdentifier(payload) && isUnverifiedUserError(err)) {
         // Let the OAuth2 flow fail if it's not just a form error
         const [returnUrl, queryParams = ''] = returnTo.split('?')
         const searchParams = new URLSearchParams(queryParams)
-        if (err && typeof err === 'object') {
-          searchParams.append('error', err.toString())
-        }
-        window.location.href = returnUrl + searchParams.toString()
+        searchParams.append('error', 'Account not verified yet')
+        window.location.href = returnUrl + '?' + searchParams.toString()
       } else {
         handleFormSubmitError(
           safeSetFlow,
@@ -131,7 +119,7 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
     }
   }
 
-  if (redirectProps.error) {
+  if (isLoggedIn || redirectProps.error) {
     return <OAuth2Redirect {...redirectProps} />
   }
 
@@ -146,8 +134,6 @@ const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = 
     </Screen>
   )
 }
-
-export default memo(OAuth2Login)
 
 const styles = StyleSheet.create({
   loginForm: {

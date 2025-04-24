@@ -2,13 +2,13 @@
 // and https://www.ory.sh/docs/oauth2-oidc/custom-login-consent/flow#login-endpoint-code-example
 import { FrontendApi, OAuth2Api } from '@ory/client'
 import { getCookie } from 'cookies-next'
-import { GetServerSideProps, NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import type { NextApiRequestCookies } from 'next/dist/server/api-utils'
 import pino from 'pino'
 import React from 'react'
 
 import { cookieNameForceLogout, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
-import OAuth2Login, { OAuth2LoginProps } from '@holi/core/auth/screens/OAuth2Login'
+import { OAuth2Login, type OAuth2LoginProps } from '@holi/core/auth/screens/OAuth2Login'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)

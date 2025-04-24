@@ -16,7 +16,7 @@ export interface OAuth2RedirectProps {
   errorContext?: ErrorContext
 }
 
-const OAuth2Redirect: React.FC<OAuth2RedirectProps> = ({ error, errorContext }) => {
+export const OAuth2Redirect = ({ error, errorContext }: OAuth2RedirectProps) => {
   const { t } = useTranslation()
   const mixins = useStyleMixins()
   const { displayError } = useErrorHandling()
@@ -46,5 +46,3 @@ const styles = StyleSheet.create({
     marginTop: dimensions.topBarHeight + 50,
   },
 })
-
-export default OAuth2Redirect
