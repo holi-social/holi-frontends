@@ -88,8 +88,8 @@ const Login = () => {
     }
   }, [isLoggedOut, initializeFlow, flow])
 
-  const performLogin = async (payload: UpdateLoginFlowBody) => {
-    track(TrackingEvent.Auth.LoginButtonPressed)
+  const performLogin = async (payload: UpdateLoginFlowBody, provider?: string) => {
+    track(provider ? TrackingEvent.Auth.SocialLoginButtonPressed(provider) : TrackingEvent.Auth.LoginButtonPressed)
     if (!flow) return
 
     showLoader()

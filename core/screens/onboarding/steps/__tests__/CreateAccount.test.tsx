@@ -66,8 +66,13 @@ jest.mock('@holi/core/screens/onboarding/helpers/guestModeStorage', () => ({
 
 const formValues = { method: 'password', password: 'p455w0rd' }
 
-const RegistrationForm = ({ onSubmit }: { onSubmit: (payload: object) => Promise<void> }) => {
-  return <Button onPress={() => onSubmit(formValues)} label={'submit-button'} />
+const RegistrationForm = ({ onSubmit }: { onSubmit: (payload: object, provider?: string) => Promise<void> }) => {
+  return (
+    <>
+      <Button onPress={() => onSubmit(formValues, 'Google')} label={'social-submit-button'} />
+      <Button onPress={() => onSubmit(formValues)} label={'submit-button'} />
+    </>
+  )
 }
 
 jest.mock('@holi/core/auth/components/FormBuilder', () => RegistrationForm)
@@ -170,6 +175,16 @@ describe('CreateAccount', () => {
       await submitForm()
 
       expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.RegisterButtonPressed)
+    })
+
+    it('should track registration with social sign in', async () => {
+      const user = userEvent.setup()
+
+      await renderScreen()
+
+      await user.press(screen.getByLabelText('social-submit-button'))
+
+      expect(track).toHaveBeenCalledWith(TrackingEvent.Auth.SocialRegisterButtonPressed('Google'))
     })
 
     it('should clear guest mode', async () => {

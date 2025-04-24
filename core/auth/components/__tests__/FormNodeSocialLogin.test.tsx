@@ -118,12 +118,15 @@ describe('FormNodeSocialLogin', () => {
 
     await user.press(screen.getByLabelText('auth.login.input.label-ProviderSignIn'))
 
-    expect(onSubmitPress).toHaveBeenCalledWith({
-      method: 'oidc',
-      provider: 'google_123',
-      upstream_parameters: {
-        prompt: 'select_account',
+    expect(onSubmitPress).toHaveBeenCalledWith(
+      {
+        method: 'oidc',
+        provider: 'google_123',
+        upstream_parameters: {
+          prompt: 'select_account',
+        },
       },
-    })
+      'Google'
+    )
   })
 })

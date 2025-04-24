@@ -26,7 +26,7 @@ interface Props extends InputProps {
   node: UiNode
   autofocus: boolean
   translationPrefix: string
-  onSubmitPress: (overrides?: UpdateLoginFlowBody) => void
+  onSubmitPress: (overrides?: UpdateLoginFlowBody, provider?: string) => void
   isSignin?: boolean
   scrollToInputWithId?: (id: string) => ScrollToProps
   style?: StyleProp<ViewStyle>
