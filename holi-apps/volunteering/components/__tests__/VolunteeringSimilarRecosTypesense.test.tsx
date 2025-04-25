@@ -89,7 +89,7 @@ describe('VolunteeringSimilarRecosTypesense', () => {
     })
   })
 
-  it('should display nothing if there are not recommendations', () => {
+  it('should display nothing if there are no recommendations', () => {
     mockUseTypesensePaginationQuery.mockReturnValue({
       isFetchingMore: false,
       state: emptyState,
