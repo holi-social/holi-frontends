@@ -11,9 +11,6 @@ export const extractQueryParameter = (requestUrl: string, parameterName: string)
   return query[parameterName] && String(query[parameterName])
 }
 
-export const toSingleQueryParameter = (param: undefined | string | string[]) =>
-  Array.isArray(param) ? param[0] : param
-
 export const serverSideRedirect = (destination: string) => {
   return {
     redirect: {

@@ -64,7 +64,7 @@ export const removeSessionFromStorage = (): Promise<void> => {
   return AsyncStore.removeItem(userSessionName)
 }
 
-export const initLoginFlow = async (flowId?: string, returnTo?: string): Promise<LoginFlow> => {
+export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
   let extraMessages: UiText[] = []
   if (flowId) {
     const flow = await newKratosSdk()
@@ -86,7 +86,7 @@ export const initLoginFlow = async (flowId?: string, returnTo?: string): Promise
   return newKratosSdk()
     .createBrowserLoginFlow({
       refresh: true,
-      returnTo: returnTo ?? holiNextJSApiUrl,
+      returnTo: holiNextJSApiUrl,
     })
     .then(({ data }) => {
       return {

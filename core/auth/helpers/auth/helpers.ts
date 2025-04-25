@@ -47,14 +47,12 @@ export const setSessionInStorage = async (session: OrySessionContext) => {
 export const removeSessionFromStorage = () => SecureStore.deleteItemAsync(userSessionName)
 
 // Login
-export const initLoginFlow = async (flowId?: string, returnTo?: string): Promise<LoginFlow> => {
+export const initLoginFlow = async (flowId?: string): Promise<LoginFlow> => {
   let extraMessages: UiText[] = []
-  const returnToUri =
-    returnTo ??
-    AuthSession.makeRedirectUri({
-      preferLocalhost: true,
-      path: 'login/callback',
-    })
+  const returnTo = AuthSession.makeRedirectUri({
+    preferLocalhost: true,
+    path: 'login/callback',
+  })
   if (flowId) {
     const flow = await newKratosSdk()
       .getLoginFlow({ id: flowId })
@@ -74,7 +72,7 @@ export const initLoginFlow = async (flowId?: string, returnTo?: string): Promise
   }
   return newKratosSdk()
     .createNativeLoginFlow({
-      returnTo: returnToUri,
+      returnTo: returnTo,
       returnSessionTokenExchangeCode: true,
     })
     .then(({ data }) => {
