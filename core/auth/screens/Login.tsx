@@ -23,7 +23,6 @@ import { TrackingEvent } from '@holi/core/tracking'
 import useTracking from '@holi/core/tracking/hooks/useTracking'
 import { ArrowDownS, Close } from '@holi/icons/src/generated'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
-import { HoliHeading } from '@holi/ui/components/atoms/HoliHeading'
 import HoliLoader, { useLoader } from '@holi/ui/components/molecules/HoliLoader'
 import { Screen } from '@holi/core/components/Screen'
 import { useRedirect } from '@holi/core/navigation/hooks/useRedirect'
@@ -31,6 +30,7 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import useRouting from '@holi/core/navigation/hooks/useRouting'
 import { getBrowserRedirect } from '@holi/core/auth/helpers/helper'
 import createParamHooks from '@holi/core/navigation/hooks/useParam'
+import { Text } from 'holi-bricks/components/text'
 
 export type LoginParams = {
   flow?: string
@@ -59,9 +59,9 @@ const Login = () => {
       headerBackVisible: false,
       headerTitleAlign: 'center',
       headerTitle: () => (
-        <HoliHeading level="1" size="s">
+        <Text headingLevel="1" size="lg">
           {t('auth.login')}
-        </HoliHeading>
+        </Text>
       ),
       headerLeft: () => (isWeb ? null : <HeaderBackButton icon={ArrowDownS} />),
       headerRight: () => (isWeb ? <HeaderBackButton icon={Close} /> : null),
@@ -85,8 +85,10 @@ const Login = () => {
   useEffect(() => {
     if (isLoggedOut && !flow) {
       initializeFlow()
+    } else if (!isLoggedOut) {
+      navigate('/')
     }
-  }, [isLoggedOut, initializeFlow, flow])
+  }, [isLoggedOut, initializeFlow, flow, navigate])
 
   const performLogin = async (payload: UpdateLoginFlowBody, provider?: string) => {
     track(provider ? TrackingEvent.Auth.SocialLoginButtonPressed(provider) : TrackingEvent.Auth.LoginButtonPressed)
@@ -164,15 +166,15 @@ const Login = () => {
           </View>
 
           <HoliGap size="l" />
-          <HoliHeading level="2" align="center">
+          <Text headingLevel="2" size="xxl" textAlign="center">
             {t('auth.login.signUp.link.headline')}
-          </HoliHeading>
+          </Text>
 
           <View style={styles.formItemContainer}>
             <RegistrationButton trackingEvent={TrackingEvent.Auth.RegisterButtonPressed} />
           </View>
         </HoliContainer>
-        {isLoaderShown && <HoliLoader />}
+        {isLoaderShown && <HoliLoader testID="loader" />}
       </DefaultLayout>
     </Screen>
   )

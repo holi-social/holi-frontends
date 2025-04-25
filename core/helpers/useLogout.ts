@@ -18,10 +18,11 @@ interface LogoutOptions {
   skipRedirect?: boolean
   redirectPath?: string
   redirectTimeout?: number
-  showToastAfter?: boolean
+  skipToast?: boolean
 }
 
-const isLoggingOutVar = makeVar(false)
+// Exported for testing
+export const isLoggingOutVar = makeVar(false)
 
 export const useLogout = () => {
   const loginState = useLoginState()
@@ -38,7 +39,7 @@ export const useLogout = () => {
       skipRedirect = false,
       redirectPath = '/profile',
       redirectTimeout = Platform.OS !== 'web' ? 200 : undefined,
-      showToastAfter = true,
+      skipToast = false,
     }: LogoutOptions = {}) => {
       const redirect = () => {
         if (redirectTimeout) {
@@ -68,7 +69,7 @@ export const useLogout = () => {
         await client.clearStore()
 
         logger.debug('useLogout', 'logout successful')
-        if (showToastAfter)
+        if (!skipToast)
           openToast(message || t('auth.logout.success'), HoliToastType.SUCCESS, { testID: 'logout-success' })
       } catch (err) {
         logger.debug('useLogout', 'logout failed, removing session from storage', err)
