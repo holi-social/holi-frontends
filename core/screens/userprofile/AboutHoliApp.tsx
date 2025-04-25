@@ -1,6 +1,6 @@
 import Constants from 'expo-constants'
 import * as Updates from 'expo-updates'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
@@ -9,6 +9,7 @@ import { useSetScreenOptions } from '@holi/core/navigation/hooks/useScreenOption
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { localizeDate } from '@holi/ui/helper/date'
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 
 /**
  * Screen to display developer information about the current app version running on a users phone. Depending on execution environment
@@ -35,7 +36,7 @@ const AboutHoliApp = () => {
     }
   }, [setUpdateAvailable])
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({ title: t('profile.settings.aboutholiapp.title') })
   }, [setScreenOptions, t])
 

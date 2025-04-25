@@ -1,11 +1,11 @@
 // Based on https://github.com/ory/hydra-login-consent-node/blob/master/src/routes/consent.ts
-import { AcceptOAuth2ConsentRequestSession, IdentityApi, OAuth2Api, OAuth2ConsentRequest } from '@ory/client'
-import { GetServerSideProps, NextPage } from 'next'
+import { type AcceptOAuth2ConsentRequestSession, IdentityApi, OAuth2Api, type OAuth2ConsentRequest } from '@ory/client'
+import type { GetServerSideProps, NextPage } from 'next'
 import pino from 'pino'
 import React from 'react'
 
-import { OAuth2DefaultProps, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
-import OAuth2Consent, { OAuth2ConsentProps } from '@holi/core/auth/screens/OAuth2Consent'
+import { type OAuth2DefaultProps, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
+import { OAuth2Consent, type OAuth2ConsentProps } from '@holi/core/auth/screens/OAuth2Consent'
 import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)

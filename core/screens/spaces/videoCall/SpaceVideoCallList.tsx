@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 
@@ -18,6 +18,7 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliText from '@holi/ui/components/atoms/HoliText'
 import { type HoliTheme, useTheme } from '@holi/ui/styles/theme'
+import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEffect'
 
 export type SpaceVideoCallListParams = {
   spaceIdOrName: string
@@ -36,7 +37,7 @@ const SpaceVideoCallList = () => {
 
   const { loading, error, space } = useSpace(spaceIdOrName)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setScreenOptions({
       title: t('spaces.videocall.header'),
       headerLeft: () => <HeaderBackButton />,
