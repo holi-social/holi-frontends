@@ -78,9 +78,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res, query }
     returnToParams.append('login_challenge', loginChallenge)
     const returnTo = toSingleQueryParameter(query['return_to'])
     if (returnTo) {
-      const url = new URL(req.url ?? '')
-      const returnToOrigin = returnTo.startsWith('/') ? url.origin : ''
-      returnToParams.append('return_to', returnToOrigin + returnTo)
+      returnToParams.append('return_to', returnTo)
     }
 
     const loginFormProps = {
