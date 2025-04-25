@@ -27,11 +27,17 @@ import useIsomorphicLayoutEffect from '@holi/core/helpers/useIsomorphicLayoutEff
 
 export interface OAuth2LoginProps extends OAuth2DefaultProps, OAuth2RedirectProps {
   returnTo?: string
+  flowId?: string
 }
 
 // Only used for OAuth2 login flow on web, see apps/web/pages/oauth2/login.tsx
 // Performing direct redirects by changing window.location.href
-export const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWebview = false, ...redirectProps }) => {
+export const OAuth2Login: React.FC<OAuth2LoginProps> = ({
+  returnTo = '',
+  isInWebview = false,
+  flowId,
+  ...redirectProps
+}) => {
   const { isLoggedIn } = useLoginState()
   const [flow, setFlow] = useState<LoginFlow | undefined>(undefined)
   const safeSetFlow = useSafeDispatch(setFlow)
@@ -64,7 +70,7 @@ export const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWeb
   }, [returnTo, isLoggedIn])
 
   const initializeFlow = useCallback(() => {
-    initLoginFlow()
+    initLoginFlow(flowId, returnTo)
       .then(safeSetFlow)
       .catch((error) =>
         displayError(error, 'Failed to initialize login flow', {
@@ -72,7 +78,7 @@ export const OAuth2Login: React.FC<OAuth2LoginProps> = ({ returnTo = '', isInWeb
           location: 'OAuth2Login.initializeFlow',
         })
       )
-  }, [safeSetFlow, displayError, t])
+  }, [flowId, returnTo, safeSetFlow, displayError, t])
 
   useEffect(() => {
     if (!isLoggedIn && !flow) {

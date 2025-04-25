@@ -9,7 +9,7 @@ import React from 'react'
 
 import { cookieNameForceLogout, createDefaultProps } from '@holi/core/auth/helpers/oauth2'
 import { OAuth2Login, type OAuth2LoginProps } from '@holi/core/auth/screens/OAuth2Login'
-import { extractQueryParameter, oryConfiguration, serverSideRedirect } from '@holi/web/oauth2'
+import { oryConfiguration, serverSideRedirect, toSingleQueryParameter } from '@holi/web/oauth2'
 
 const oauth2Api = new OAuth2Api(oryConfiguration)
 const frontendApi = new FrontendApi(oryConfiguration)
@@ -48,10 +48,11 @@ const acceptLoginRequest = async (loginChallenge: string, subjectId: string) => 
   return serverSideRedirect(acceptResponse.redirect_to)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res, query }) => {
   const defaultProps = createDefaultProps(req.headers)
 
-  const loginChallenge = extractQueryParameter(req.url || '', 'login_challenge')
+  const loginChallenge = toSingleQueryParameter(query['login_challenge'])
+
   // The challenge is used to fetch information about the login request from ORY Hydra.
   if (!loginChallenge) {
     return {
@@ -66,17 +67,24 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   }
 
   try {
-    const error = extractQueryParameter(req.url || '', 'error')
+    const error = toSingleQueryParameter(query['error'])
     if (error) {
       throw new Error(`Error during login: ${error}`)
     }
 
     const { data: loginRequest } = await oauth2Api.getOAuth2LoginRequest({ loginChallenge })
 
+    const returnToParams = new URLSearchParams()
+    returnToParams.append('login_challenge', loginChallenge)
+    const returnTo = toSingleQueryParameter(query['return_to'])
+    if (returnTo) {
+      returnToParams.append('return_to', returnTo)
+    }
+
     const loginFormProps = {
       props: {
         ...defaultProps,
-        returnTo: `/oauth2/login?login_challenge=${loginChallenge}`,
+        returnTo: `/oauth2/login?${returnToParams.toString()}`,
       },
     }
 
