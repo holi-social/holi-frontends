@@ -40,7 +40,6 @@ export const useVolunteeringRecoTypesenseParameters = ({
       sort_by: sort_by_location + '_vector_distance:asc',
       per_page: pageSize,
       vector_query: `topics_skills_embedding_v2:(${JSON.stringify(userEmbedding)},k:100,alpha:0.9,distance_threshold:1)`,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     }
   }, [geolocationDetails?.geolocation?.properties, pageSize, skills, topics])
 
