@@ -125,7 +125,7 @@ export const doBrowserLogin = async (url: string, flow: LoginFlow) => {
           return orySession
         }
       })
-  } else {
+  } else if (!['cancel', 'dismiss'].includes(result.type)) {
     throw new Error('Failed to complete auth session')
   }
 }
