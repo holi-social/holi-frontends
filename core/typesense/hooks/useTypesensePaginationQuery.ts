@@ -64,6 +64,7 @@ export const useTypesensePaginationQuery = ({
           {
             q: '*',
             per_page: DEFAULT_PAGE_SIZE,
+            exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
             ...parameters,
             page: pageNumber,
           },

@@ -7,8 +7,10 @@ import { act, render, screen, userEvent } from '@testing-library/react-native'
 import { transformTypesenseDocument } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData/transformTypesenseDocument'
 import type { TFunction } from 'i18next'
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing'
-import { TrackEngagementViewDocument, SimilarVolunteeringSliderDocument } from '@holi/api/graphql/graphql-codegen'
+import { TrackEngagementViewDocument } from '@holi/api/graphql/graphql-codegen'
 import { useVolunteeringDetailsDataTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringDetailsData'
+import { useFeatureFlag } from '@holi/core/featureFlags/hooks/useFeatureFlag'
+import { useTypesensePaginationQuery } from '@holi/core/typesense/hooks/useTypesensePaginationQuery'
 
 const engagementId = 'test-id'
 
@@ -43,6 +45,16 @@ jest.mock('@holi-apps/volunteering/hooks/useVolunteeringDetailsData', () => ({
   useVolunteeringDetailsDataTypesense: jest.fn(),
 }))
 
+const mockUseFeatureFlag = jest.mocked(useFeatureFlag)
+jest.mock('@holi/core/featureFlags/hooks/useFeatureFlag', () => ({
+  useFeatureFlag: jest.fn(),
+}))
+
+const mockUseTypesensePaginationQuery = jest.mocked(useTypesensePaginationQuery)
+jest.mock('@holi/core/typesense/hooks/useTypesensePaginationQuery', () => ({
+  useTypesensePaginationQuery: jest.fn(),
+}))
+
 jest.mock('@holi/core/components/HoliWebView')
 
 const mockTrackEngagementView = jest.fn()
@@ -53,20 +65,6 @@ const mocks: MockedResponse[] = [
       variables: { id: engagementId },
     },
     newData: mockTrackEngagementView,
-  },
-  {
-    request: {
-      query: SimilarVolunteeringSliderDocument,
-      variables: { offset: 0, limit: 10, id: engagementId },
-    },
-    result: {
-      data: {
-        appVolunteering_similarRecommendations: {
-          totalResults: 0,
-          data: [],
-        },
-      },
-    },
   },
 ]
 
@@ -80,6 +78,29 @@ describe('VolunteeringDetailsScreenTypesense', () => {
           id: engagementId,
         },
       },
+    })
+    mockUseFeatureFlag.mockReturnValue([true, undefined])
+    mockUseTypesensePaginationQuery.mockReturnValue({
+      isFetchingMore: false,
+      state: {
+        isLoading: false,
+        data: [
+          {
+            document: {
+              id: 'reco1',
+              type: 'volunteering',
+            },
+            highlight: {},
+            text_match: 0,
+          },
+        ],
+        totalResults: 5,
+        canFetchMore: false,
+        currentPage: 1,
+        parameters: {},
+      },
+      refetch: jest.fn(),
+      fetchNextPage: jest.fn(),
     })
   })
 
@@ -173,11 +194,22 @@ describe('VolunteeringDetailsScreenTypesense', () => {
     expect(screen.getByTestId('volunteering-external-url-modal')).toBeOnTheScreen()
   })
 
-  it('tracks external link clicks (web)', () => {
-    // TODO implement me
-  })
+  it('renders similarity recommendations', async () => {
+    const document = engagementTypesenseDocument(engagementId)
+    const data = transformTypesenseDocument(t, 'en', document)
+    mockUseVolunteeringDetailsDataTypesense.mockReturnValue({
+      isLoading: false,
+      document: data,
+    })
 
-  it('renders similarity recommendations', () => {
-    // TODO implement after migration of similarity recos to Typesense
+    render(
+      <MockedProvider mocks={mocks}>
+        <VolunteeringDetailsScreenTypesense engagementId={engagementId} />
+      </MockedProvider>
+    )
+
+    await act(jest.runAllTimersAsync)
+
+    expect(screen.getByText('recommendation.slider.title')).toBeOnTheScreen()
   })
 })

@@ -9,7 +9,13 @@ import {
   type SimilarVolunteeringSliderQueryVariables,
 } from '@holi/api/graphql/graphql-codegen'
 import { ALL_SKILLS, ALL_TOPICS } from '@holi/core/domain/shared/types'
-import { VolunteeringSimilarRecosFooter } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosFooter'
+import { VolunteeringSimilarRecosLegacy } from '@holi-apps/volunteering/components/VolunteeringSimilarRecosLegacy'
+import { useOnRefresh } from '@holi/core/refreshing/hooks/useOnRefresh'
+
+const mockUseOnRefresh = jest.mocked(useOnRefresh)
+jest.mock('@holi/core/refreshing/hooks/useOnRefresh', () => ({
+  useOnRefresh: jest.fn(),
+}))
 
 const mockEngagementId = '123'
 
@@ -24,7 +30,7 @@ const mockNoSimilarRecoQueries: MockedResponse<
     query: SimilarVolunteeringSliderDocument,
     variables: {
       offset: 0,
-      limit: 10,
+      limit: 4,
       id: mockEngagementId,
     },
   },
@@ -52,7 +58,7 @@ const mockSimilarRecoQueries: MockedResponse<SimilarVolunteeringSliderQuery, Sim
       query: SimilarVolunteeringSliderDocument,
       variables: {
         offset: 0,
-        limit: 10,
+        limit: 4,
         id: mockEngagementId,
       },
     },
@@ -66,7 +72,7 @@ const mockSimilarRecoQueries: MockedResponse<SimilarVolunteeringSliderQuery, Sim
     },
   }
 
-describe('VolunteeringSimilarRecosFooter', () => {
+describe('VolunteeringSimilarRecosLegacy', () => {
   describe('given no similar recommendations', () => {
     it('does not display similar recommendations', async () => {
       render(
@@ -78,7 +84,7 @@ describe('VolunteeringSimilarRecosFooter', () => {
             query: { fetchPolicy: 'no-cache' },
           }}
         >
-          <VolunteeringSimilarRecosFooter engagementId={mockEngagementId} />
+          <VolunteeringSimilarRecosLegacy engagementId={mockEngagementId} />
         </MockedProvider>
       )
 
@@ -101,16 +107,37 @@ describe('VolunteeringSimilarRecosFooter', () => {
           }}
           addTypename={false}
         >
-          <VolunteeringSimilarRecosFooter engagementId={mockEngagementId} />
+          <VolunteeringSimilarRecosLegacy engagementId={mockEngagementId} />
         </MockedProvider>
       )
 
       await act(async () => {
         await waitFor(() => {
           expect(screen.getByText('recommendation.slider.title')).toBeOnTheScreen()
-          expect(screen.queryAllByTestId('volunteering-reco-slider-card')).not.toHaveLength(0)
+          expect(screen.queryAllByTestId('volunteering-reco-slider-card')).toHaveLength(4)
         })
       })
     })
+  })
+
+  it('should register refetching recos on pull-to-refresh', async () => {
+    jest.useFakeTimers()
+    render(
+      <MockedProvider
+        addTypename={false}
+        mocks={[mockNoSimilarRecoQueries]}
+        defaultOptions={{
+          watchQuery: { fetchPolicy: 'no-cache' },
+          query: { fetchPolicy: 'no-cache' },
+        }}
+      >
+        <VolunteeringSimilarRecosLegacy engagementId={mockEngagementId} />
+      </MockedProvider>
+    )
+
+    await act(() => jest.runOnlyPendingTimersAsync())
+
+    expect(mockUseOnRefresh).toHaveBeenCalledWith(expect.any(Function))
+    jest.useRealTimers()
   })
 })

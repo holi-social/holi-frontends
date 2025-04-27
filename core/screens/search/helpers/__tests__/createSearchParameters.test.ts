@@ -12,7 +12,6 @@ describe('createSearchParameters', () => {
       filter_by: 'type:=volunteering',
       page: 1,
       per_page: 10,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
@@ -27,7 +26,6 @@ describe('createSearchParameters', () => {
       filter_by: 'type:=space',
       page: 1,
       per_page: 10,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
@@ -41,7 +39,6 @@ describe('createSearchParameters', () => {
       filter_by: 'type:=profile',
       page: 1,
       per_page: 10,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
@@ -68,7 +65,6 @@ describe('createSearchParameters', () => {
       sort_by: 'location_lat_lng(52, 13):asc',
       page: 1,
       per_page: 10,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
@@ -95,7 +91,6 @@ describe('createSearchParameters', () => {
       sort_by: 'location_lat_lng(52, 13):asc',
       page: 1,
       per_page: 10,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
@@ -120,7 +115,6 @@ describe('createSearchParameters', () => {
       filter_by: 'type:=profile',
       page: 1,
       per_page: 10,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
@@ -135,7 +129,6 @@ describe('createSearchParameters', () => {
       filter_by: 'type:=volunteering',
       page: 3,
       per_page: 10,
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 })

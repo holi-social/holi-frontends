@@ -59,6 +59,7 @@ describe('useTypesensePaginationQuery', () => {
       q: 'some query',
       filter_by: 'type:volunteering',
       per_page: 5,
+      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     }
     renderHook(() => useTypesensePaginationQuery({ parameters }))
 
@@ -81,6 +82,7 @@ describe('useTypesensePaginationQuery', () => {
         q: '*',
         per_page: 10,
         page: 1,
+        exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
       },
     ])
 
@@ -180,6 +182,7 @@ describe('useTypesensePaginationQuery', () => {
         q: '*',
         per_page: 10,
         page: 2,
+        exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
       },
     ])
   })
@@ -212,6 +215,7 @@ describe('useTypesensePaginationQuery', () => {
         q: '*',
         per_page: 10,
         page: 1,
+        exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
       },
     ])
   })
@@ -236,6 +240,7 @@ describe('useTypesensePaginationQuery', () => {
         per_page: 10,
         page: 1,
         q: 'new query',
+        exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
       },
     ])
 

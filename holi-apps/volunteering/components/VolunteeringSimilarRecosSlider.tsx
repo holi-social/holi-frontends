@@ -1,7 +1,7 @@
 import { VolunteeringRecosSliderCard } from '@holi-apps/volunteering/components/VolunteeringRecosSliderCard'
-import { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import type { VolunteeringEngagement } from '@holi-apps/volunteering/types'
 import { withProfiler } from '@sentry/react'
-import React from 'react'
+import type React from 'react'
 import { FlatList } from 'react-native'
 
 export const MAX_RECOS_COUNT = 4

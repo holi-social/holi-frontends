@@ -54,7 +54,6 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
       sort_by: '_vector_distance:asc',
       vector_query:
         'topics_skills_embedding_v2:([0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],k:100,alpha:0.9,distance_threshold:1)',
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
@@ -86,7 +85,6 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
       sort_by: 'location_lat_lng(1, 2):asc,_vector_distance:asc',
       vector_query:
         'topics_skills_embedding_v2:([0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],k:100,alpha:0.9,distance_threshold:1)',
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
@@ -101,7 +99,6 @@ describe('useVolunteeringRecoTypesenseParameters', () => {
       per_page: 5,
       vector_query:
         'topics_skills_embedding_v2:([0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],k:100,alpha:0.9,distance_threshold:1)',
-      exclude_fields: 'embedding,similarity_embedding,topics_skills_embedding_v2',
     })
   })
 
