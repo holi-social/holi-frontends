@@ -4,7 +4,7 @@ import { render, screen, userEvent } from '@testing-library/react-native'
 import { useRecosSubtitle } from '@holi/core/hooks/useRecosSubtitle'
 import { TrackingEvent } from '@holi/core/tracking'
 import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
-import type { VolunteeringEngagement } from '@holi-apps/volunteering/types'
+import { makeEngagements } from '@holi-apps/volunteering/__tests__/helpers/generators'
 
 const mockUseVolunteeringRecosTypesense = jest.mocked(useVolunteeringRecosTypesense)
 jest.mock('@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense', () => ({
@@ -16,23 +16,10 @@ jest.mock('@holi/core/hooks/useRecosSubtitle', () => ({
   useRecosSubtitle: jest.fn(),
 }))
 
-const createEngagements = (length: number): VolunteeringEngagement[] =>
-  Array.from({ length }, (_, i) => ({
-    id: i.toString(),
-    title: `Titel ${i}`,
-    description: `Beschreibung ${i}`,
-    url: `https://example.com/engagement${i}`,
-    source: 'Aktion Mensch',
-    imageUrl: 'https://example.com/image.jpg',
-    location: 'Hamburg',
-    skillsV2: ['building-handicraft', 'emergency-care'],
-    topicsV2: ['arts-culture', 'disaster-relief'],
-  }))
-
 describe('VolunteeringTypesenseRecommendations', () => {
   const results = {
     isLoading: false,
-    engagements: createEngagements(10),
+    engagements: makeEngagements(10),
     canFetchMore: true,
     fetchNextPage: jest.fn(),
   }
@@ -103,22 +90,26 @@ describe('VolunteeringTypesenseRecommendations', () => {
 
   it('should link to detail pages', async () => {
     const user = userEvent.setup()
+    const engagement = results.engagements[0]
 
     render(<VolunteeringTypesenseRecommendations />)
 
-    await user.press(screen.getByText('Titel 0'))
+    await user.press(screen.getByText(engagement.title))
 
-    expect(mockNavigate).toHaveBeenCalledWith('//volunteering/0')
+    expect(mockNavigate).toHaveBeenCalledWith(`//volunteering/${engagement.id}`)
   })
 
   it('should track pressing cards', async () => {
     const user = userEvent.setup()
+    const engagement = results.engagements[0]
 
     render(<VolunteeringTypesenseRecommendations />)
 
-    await user.press(screen.getByText('Titel 0'))
+    await user.press(screen.getByText(engagement.title))
 
-    expect(mockTrack).toHaveBeenCalledWith(TrackingEvent.RecommendationPressed('volunteering_opportunity', '0', 0))
+    expect(mockTrack).toHaveBeenCalledWith(
+      TrackingEvent.RecommendationPressed('volunteering_opportunity', engagement.id, 0)
+    )
   })
 
   it('should display errors', () => {

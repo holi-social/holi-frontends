@@ -12,35 +12,35 @@ describe('VolunteeringRecosSliderCard', () => {
   it('renders labels', () => {
     // just check base case that labels are rendered at all
     // more specific tests and assertions on labels: see VolunteeringLabels (test)
-    const reco = makeReco(topics, skills)
+    const reco = makeReco({ topics, skills })
     render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={0} />)
     expect(screen.getByText(`topic.${topics[0]}`)).toBeTruthy()
     expect(screen.getByText(`skill.${skills[0]}`)).toBeTruthy()
   })
   it('renders title with organizer', () => {
-    const reco = makeReco(topics, skills, { organizer: true })
+    const reco = makeReco({ organizer: true })
     render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={0} />)
     expect(screen.getByText('engagement.title')).toBeTruthy()
   })
   it('renders title without organizer', () => {
-    const reco = makeReco(topics, skills, { organizer: false })
+    const reco = makeReco({ organizer: false })
     render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={0} />)
     expect(screen.getByText(reco.engagement.title as string)).toBeTruthy()
   })
   it('renders image', () => {
-    const reco = makeReco(topics, skills, { organizer: false })
+    const reco = makeReco({ organizer: false })
     render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={0} />)
     const image = screen.getByTestId('volunteering-reco-slider-card-card-image')
     expect(image).toBeTruthy()
     expect(image.props['aria-label']).toBe(reco.engagement.title)
   })
   it('renders no location if not given', () => {
-    const reco = makeReco(topics, skills, { location: false })
+    const reco = makeReco({ location: false })
     render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={0} />)
     expect(screen.queryByTestId('volunteering-reco-slider-card-location-icon')).toBeFalsy()
   })
   it('renders location with icon if given', () => {
-    const reco = makeReco(topics, skills)
+    const reco = makeReco()
     render(<VolunteeringRecosSliderCard cardWidth={260} item={reco} index={0} />)
     expect(screen.queryByTestId('volunteering-reco-slider-card-location-icon')).toBeTruthy()
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

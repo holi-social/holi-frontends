@@ -21,6 +21,7 @@ export interface InfoModalProps {
   shown: boolean
   onDismiss: () => void
   i18nPrefix: string
+  testID?: string
 }
 
 export type InfoModalItemProps = {
@@ -44,6 +45,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
   items,
   shown = false,
   onDismiss,
+  testID,
   i18nPrefix = '',
 }: InfoModalProps) => {
   const { t } = useTranslation()
@@ -97,7 +99,7 @@ const InfoModal: React.FC<InfoModalProps> = ({
       relativeHeight={isMultipleItems ? 1 : undefined}
       shown={shown}
       onDismiss={onDismiss}
-      testID={'goodnews-partner-modal'}
+      testID={testID ?? 'goodnews-partner-modal'}
     >
       <HoliModalContentWrapper
         actionButtonText={t('global.gotIt')}

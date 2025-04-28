@@ -44,8 +44,8 @@ export type VolunteeringEngagement = {
   imageUrl?: string
   organizer?: Organizer
   location?: string
-  latitude?: number | null
-  longitude?: number | null
+  latitude?: number
+  longitude?: number
   topicsV2?: string[]
   skillsV2?: string[]
 }
