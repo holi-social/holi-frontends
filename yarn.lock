@@ -21952,7 +21952,6 @@ __metadata:
     expo-constants: "npm:^16.0.2"
     expo-dev-client: "npm:~4.0.28"
     expo-image: "npm:~1.13.0"
-    jest: "npm:^29.7.0"
     next: "npm:14.2.26"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
