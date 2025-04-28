@@ -2,8 +2,8 @@ import type React from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 
 import type { HoliIconType } from '@holi/icons/src/HoliIconType'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/styles'
+import { useStyles } from 'holi-bricks/styles'
 import type { FillColors } from 'holi-bricks/foundations/colors/themes/types'
 
 export type HoliIconProps = {

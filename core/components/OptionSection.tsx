@@ -4,8 +4,8 @@ import HoliBox from '@holi/ui/components/atoms/HoliBox'
 import { HoliGap } from '@holi/ui/components/atoms/HoliGap'
 import HoliSwitch from '@holi/ui/components/molecules/HoliSwitch'
 import { Pressable } from 'react-native'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { Text, TextLink } from 'holi-bricks/components/text'
 
 interface Props {

@@ -1,6 +1,6 @@
 import * as SplashScreen from 'expo-splash-screen'
 import { BricksTheme } from 'holi-bricks/foundations/colors/themes/bricks-theme'
-import 'holi-bricks/libs/init'
+import 'holi-bricks/styles/init'
 import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 

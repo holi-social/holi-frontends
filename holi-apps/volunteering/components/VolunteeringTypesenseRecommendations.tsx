@@ -16,8 +16,8 @@ import { VolunteeringListingHeader } from '@holi-apps/volunteering/components/Vo
 import { useStyleMixins } from '@holi/ui/styles/theme/mixins'
 import { dimensions } from '@holi/ui/styles/globalVars'
 import { useWindowDimensionsWithImageScaling } from '@holi/ui/components/atoms/HoliImage/useWindowDimensionsWithImageScaling'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { useVolunteeringRecosTypesense } from '@holi-apps/volunteering/hooks/useVolunteeringRecosTypesense'
 
 export const VolunteeringTypesenseRecommendations = () => {

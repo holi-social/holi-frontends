@@ -5,8 +5,8 @@ import { useClientWindowDimensions } from '@holi/core/helpers/useClientWindowDim
 import { HoliIcon } from '@holi/icons/src/HoliIcon'
 import HoliTabButton from '@holi/ui/components/molecules/HoliTabButton'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 
 import type { HoliTabItem } from './types'
 import { TextLink } from 'holi-bricks/components/text'

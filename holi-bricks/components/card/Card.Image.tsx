@@ -1,11 +1,11 @@
 import type React from 'react'
 import { useMemo } from 'react'
-import { useStyles } from 'holi-bricks/hooks'
+import { useStyles } from 'holi-bricks/styles'
 import type { ImageSource } from 'holi-bricks/components/image'
 import { BorderRadius } from 'holi-bricks/foundations'
 import { Image } from 'holi-bricks/components/image'
 import { View } from 'react-native'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet } from 'holi-bricks/styles'
 
 /*
   Card image, use it if you want to have a cover image in the card, just pass the url or the require.

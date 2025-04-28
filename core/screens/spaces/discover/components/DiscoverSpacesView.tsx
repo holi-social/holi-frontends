@@ -15,9 +15,9 @@ import HoliContainer from '@holi/ui/components/atoms/HoliContainer'
 import HoliModal, { useModalState } from '@holi/ui/components/molecules/HoliModal'
 import { ButtonIcon } from 'holi-bricks/components/button/ButtonIcon'
 import { Text } from 'holi-bricks/components/text'
-import { useStyles } from 'holi-bricks/hooks'
+import { useStyles } from 'holi-bricks/styles'
 import { Spacing } from 'holi-bricks/foundations'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { useTranslation } from 'react-i18next'
 import {
   type DiscoverSpacesDefaultTopicsVResponse,

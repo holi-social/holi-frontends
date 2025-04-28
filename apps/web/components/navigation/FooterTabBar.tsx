@@ -1,6 +1,6 @@
 import { TextLink } from 'holi-bricks/components/text'
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

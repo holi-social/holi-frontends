@@ -11,8 +11,8 @@ import HoliText from '@holi/ui/components/atoms/HoliText'
 import HoliUserAvatarPile from '@holi/ui/components/organisms/HoliUserAvatarPile'
 import type { PropsWithSkeleton } from '@holi/ui/components/types'
 import Spacing from '@holi/ui/foundations/Spacing'
-import { createStyleSheet } from 'holi-bricks/utils'
-import { useStyles } from 'holi-bricks/hooks'
+import { createStyleSheet } from 'holi-bricks/styles'
+import { useStyles } from 'holi-bricks/styles'
 
 interface Props {
   title: string

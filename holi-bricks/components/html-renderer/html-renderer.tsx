@@ -1,5 +1,5 @@
 import { fontFamilies } from 'holi-bricks/components/text/fontFamilies'
-import { useStyles } from 'holi-bricks/hooks'
+import { useStyles } from 'holi-bricks/styles'
 import type React from 'react'
 import { useWindowDimensions } from 'react-native'
 import RenderHTML from 'react-native-render-html'

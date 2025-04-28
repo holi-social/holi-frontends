@@ -1,4 +1,4 @@
-import 'holi-bricks/libs/init'
+import 'holi-bricks/styles/init'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { appWithI18Next } from 'ni18n'

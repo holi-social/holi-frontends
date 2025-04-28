@@ -1,5 +1,5 @@
-import { useStyles } from 'holi-bricks/hooks'
-import { createStyleSheet } from 'holi-bricks/utils'
+import { useStyles } from 'holi-bricks/styles'
+import { createStyleSheet } from 'holi-bricks/styles'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import HoliTabs from '@holi/ui/components/organisms/HoliTabs'
